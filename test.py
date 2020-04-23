@@ -62,3 +62,19 @@ dataC = ['c DATA CARDS',
 
 
 mcnpio.make_inp_DE(cells, surfaces, materials, dataC, 'test_input.i', Ebins, freq)
+
+## read FMESH tally
+
+file_mesh = 'test/meshtal10'
+df_mesh = mcnpio.read_fmesh(file_mesh)
+dfz_mesh = df_mesh[(df_mesh.Z > -1) & (df_mesh.Z < 1)] # central slice
+xx, mat = mcnpio.griddata(dfz_mesh.X, dfz_mesh.Y, dfz_mesh.Result, nbins=100)
+
+plt.rc('font', size=14)
+plt.figure(figsize=(8,8))
+plt.imshow(mat, extent=[0, dfz_mesh.X.max(), dfz_mesh.Y.min(), dfz_mesh.Y.max()], 
+           origin='lower', cmap='inferno')
+plt.xlabel('Distance inside soil [cm]')
+plt.ylabel('Surface [cm]')
+clb = plt.colorbar(orientation='horizontal', shrink=0.8, pad=0.2)
+clb.ax.set_title('n/cm2/s')
