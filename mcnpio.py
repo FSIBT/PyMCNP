@@ -9,6 +9,7 @@ Functions to create and read MCNP io files
 
 import numpy as np
 import pandas as pd
+from scipy.interpolate import griddata as gd
 
 def read_output(file, tally=8, n=1):
     ''' Read non-pulsed standard MCNP ouput file.
@@ -119,8 +120,89 @@ def make_inp_DE(cells, surfaces, materials, dataC, fileName, Ebin, freq):
        f.writelines('%s &\n'%f for f in freq[1:-1])
        f.writelines('%s\n'%freq[-1])
     
+def read_fmesh(file, mesh=False):
+    '''
     
+    Parameters
+    ----------
+    file : string
+        meshtal file.
+    mesh : boolean, optional
+        if mesh points are desired. The default is False.
+
+    Returns
+    -------
+    pandas dataframe
+        dataframe columns: Energy, X, Y, Result, RelError
+
+    '''
+    endbin = 0
+    with open(file, 'r') as myfile:
+        for i,l in enumerate(myfile):
+            if ('X direction') in l:
+                x0 = l.split()
+                x = np.asarray(x0[2:], dtype=float)
+            if ('Y direction') in l:
+                y0 = l.split()
+                y = np.asarray(y0[2:], dtype=float)
+            if ('Z direction') in l:
+                z0 = l.split()
+                z = np.asarray(z0[2:], dtype=float)
+            if ('Energy bin boundaries') in l:
+                endbin = i
     
+    data = np.genfromtxt(file, skip_header=endbin+3)   
+    df = pd.DataFrame(data=data, columns=['Energy', 'X', 'Y', 'Z', 'Result', 'RelError'])  
+    if mesh == True:
+        return x, y, z, df
+    else:
+        return df
+
+
+    
+def griddata(x, y, z, nbins, xrange=None, yrange=None):
+    '''
+    Parameters
+    ----------
+    x : numpy array or dataframe
+        x-values.
+    y : numpy array or dataframe
+        y-values.
+    z : numpy array or dataframe
+        z-values.
+    nbins : integer
+        number of bins.
+    xrange : list, optional
+        with minimum and maximum values for x. The default is None.
+    yrange : list, optional
+        with minimum and maximum values for x. The default is None.
+
+    Returns
+    -------
+    xx : numpy array
+        mesh points.
+    result : numpy array
+        3D matrix better visualized with imshow.
+
+    '''
+    if xrange == None:
+        lowx = x.min()
+        highx = x.max()
+    if yrange == None:
+        lowy = y.min()
+        highy = y.max()
+    else:
+        lowx = xrange[0]
+        highx = xrange[1]
+        lowy = yrange[0]
+        highy = yrange[1]
+        
+    xx = np.linspace(lowx,highx,nbins)
+    yy = np.linspace(lowy,highy,nbins)
+    xg,yg = np.meshgrid(xx,yy)     
+    
+    result = gd((x, y), z, (xg,yg)) #, method='nearest')  
+    return xx, result   
     
     
     
