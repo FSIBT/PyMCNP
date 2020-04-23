@@ -48,6 +48,93 @@ def read_output(file, tally=8, n=1):
     start = [x for x in en if x > lidx[n-1]][0] # begining of data
     end = [x for x in endbin if x > lidx[n-1]][0] # end of data
     binsP = end - start # number of bins
-    Edep = np.genfromtxt(file, delimiter=' ', usecols=(0,3,4), skip_header=start+1, max_rows=binsP) 
+    Edep = np.genfromtxt(file, delimiter=' ', usecols=(0,3,4), skip_header=start+1, max_rows=binsP-1) 
     df = pd.DataFrame(columns=['energy','cts','err'], data=Edep)
     return df
+
+def make_inp(cells, surfaces, materials, dataC, fileName):
+    ''' Create MCNPinput file.
+    
+
+    Parameters
+    ----------
+    cells : List of strings.
+        cell cards
+    surfaces: List of strings.
+        surface cards
+    materials: List of strings.
+        material cards
+    dataC: List of strings.
+        data cards
+        
+
+    Returns
+    -------
+    creates input file'''
+    
+    with open(fileName,'w') as f: 
+       f.writelines(['%s\n' % c  for c in cells])
+       f.writelines('\n')
+       f.writelines('%s\n' % s for s in surfaces)
+       f.writelines('\n')
+       f.writelines(['%s\n' % m  for m in materials])
+       f.writelines(['%s\n' % d for d in dataC])
+       
+       
+def make_inp_DE(cells, surfaces, materials, dataC, fileName, Ebin, freq):
+    '''Create input file with histogram photon source
+    
+    Parameters
+    ----------
+    cells : List of strings.
+        cell cards
+    surfaces: List of strings.
+        surface cards
+    materials: List of strings.
+        material cards
+    dataC: List of strings.
+        data cards
+    Ebin:
+        energy bins
+    freq: 
+        normalized frequency
+        
+
+    Returns
+    -------
+    creates input file'''
+        
+    
+    with open(fileName,'w') as f: 
+       f.writelines(['%s\n' % c  for c in cells])
+       f.writelines('\n')
+       f.writelines(['%s\n' % s for s in surfaces])
+       f.writelines('\n')
+       f.writelines(['%s\n' % m  for m in materials])
+       f.writelines(['%s\n' % d for d in dataC])
+       f.writelines('SI1 ')
+       f.writelines('%s &\n'%b for b in Ebin[:-1])
+       f.writelines('%s\n'%Ebin[-1])
+       f.writelines('SP1 0 &\n')
+       f.writelines('%s &\n'%f for f in freq[1:-1])
+       f.writelines('%s\n'%freq[-1])
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
