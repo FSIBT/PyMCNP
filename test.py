@@ -12,6 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import mcnpio
 
+## Read non-pulsed MCNP output files
 file = 'test/MCNP-GEB-O.o'
 file2 = 'test/MCNP_F4_Al.o'
 
@@ -27,3 +28,37 @@ plt.plot(df3.energy, df3.cts, label='F4')
 plt.yscale('log')
 plt.legend()
 
+## Create input file
+
+Ebins = np.array(df3.energy)
+freq = np.array(df3.cts/df3.cts.sum())
+
+cells = ['Detector response single carbon block',
+             'c first step: create "photon source',
+             'c written by Mauricio Ayllon',
+             'c CELLS',
+             '12 2 -1.75 -112 IMP:P,N=1 $ C-brick',
+             '77 1 -0.00125 112 -999 IMP:P,N=1 $ air everywhere',
+             '99 0 999 IMP:P,N=0  ']
+                
+surfaces = ['c SURFACES ',
+            '112 RPP -7.2 7.2 -16.6 16.6 72 78 $ C-brick',
+            '999 SO 200 $ world']
+          
+materials = ['c MATERIAL DEFINITIONS',
+             'M1 8016 -0.21  7014 -0.78 018040 -0.01 $ air',
+             'M2 6000.24c 0.333333 $ density = -1.75']
+
+dataC = ['c DATA CARDS',
+         'mode n p',
+         'sdef erg=14 x=0 y=0 z=0 par=1 $ isotropic neutron source',
+         'F4:n 12',
+         'F14:P 12',
+         'E14 .1 1000I 10',
+         'VOL 2868.48 2j',
+         'F5:p 0.0 0.0 75 5',
+         'Fm4 52525579.2 2 -5 $ S[n/s]*n[atoms/cm*b]*vol[cm3], mat, reaction type',
+         'nps 1e8 $ number of particles']
+
+
+mcnpio.make_inp_DE(cells, surfaces, materials, dataC, 'test_input.i', Ebins, freq)
