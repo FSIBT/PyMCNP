@@ -67,6 +67,8 @@ def make_inp(cells, surfaces, materials, dataC, fileName):
         material cards
     dataC: List of strings.
         data cards
+    fileName: string or Path object
+        file to write
         
 
     Returns
@@ -204,11 +206,8 @@ def griddata(x, y, z, nbins, xrange=None, yrange=None):
     result = gd((x, y), z, (xg,yg)) #, method='nearest')  
     return xx, result   
     
-    
-    
-    
-    
-    
+        
+        
     
     
     

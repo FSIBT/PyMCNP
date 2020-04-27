@@ -3,11 +3,12 @@
 Created on Sun Mar 29 12:00:34 2020
 
 @author: mauricio
+
+Tools for spectral analysis
 """
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import apipandas as api
 from scipy.stats import gaussian_kde
 
 def create_smooth_energy_spectra(energies, E=None, sigma=0.005):
@@ -54,12 +55,21 @@ def create_smooth_energy_spectra(energies, E=None, sigma=0.005):
 
     return E, values
 
-def cal_spectrum1(channels, energy, hist_edges):
-    a,b = np.polyfit(channels,energy,1)
-    E = a*hist_edges + b
-    return a,b,E
+def moving_avg_smoothing(data, num=8):
+    if isinstance(data, pd.DataFrame):
+        mav = data.cts.rolling(window=num, center=True).mean()
+    elif isinstance(data, (np.ndarray, np.generic)):
+        df = pd.DataFrame(data=data, columns=['cts'])
+        mav = df.cts.rolling(window=num, center=True).mean()
+    return np.array(mav) 
+    
+    
+# def cal_spectrum1(channels, energy, hist_edges):
+#     a,b = np.polyfit(channels,energy,1)
+#     E = a*hist_edges + b
+#     return a,b,E
 
-def cal_spectrum2(channels, energy, hist_edges):
-    a,b,c = np.polyfit(channels,energy,2)
-    E = a*hist_edges**2 + b*hist_edges + c
-    return a,b,c,E
+# def cal_spectrum2(channels, energy, hist_edges):
+#     a,b,c = np.polyfit(channels,energy,2)
+#     E = a*hist_edges**2 + b*hist_edges + c
+#     return a,b,c,E

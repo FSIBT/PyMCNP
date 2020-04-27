@@ -11,10 +11,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import mcnpio
+from pathlib import Path
+import gammaSpect as gs
 
 ## Read non-pulsed MCNP output files
-file = 'test/MCNP-GEB-O.o'
-file2 = 'test/MCNP_F4_Al.o'
+file = Path('test/MCNP-GEB-O.o')
+file2 = Path('test/MCNP_F4_Al.o')
 
 df1 = mcnpio.read_output(file, tally=8, n=1)
 df2 = mcnpio.read_output(file, tally=8, n=2)
@@ -78,3 +80,19 @@ plt.xlabel('Distance inside soil [cm]')
 plt.ylabel('Surface [cm]')
 clb = plt.colorbar(orientation='horizontal', shrink=0.8, pad=0.2)
 clb.ax.set_title('n/cm2/s')
+
+## Smoothing techniques
+# Moving average
+mav = df1.cts.rolling(window=8, center=True).mean()
+plt.figure()
+plt.plot(df1.energy[80:],df1.cts[80:], lw=2, label='original')
+plt.plot(df1.energy[80:],mav[80:], lw=2, alpha=0.8, label='smoothing MAV')
+plt.legend()
+
+
+
+
+
+
+
+
