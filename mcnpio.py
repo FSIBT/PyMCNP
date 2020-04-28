@@ -34,6 +34,7 @@ def read_output(file, tally=8, n=1):
     lidx = []
     endbin = [] 
     en = []
+    surf = []
     print('Reading output file...')
     with open(file, 'r') as myfile:
         for i,l in enumerate(myfile):
@@ -44,6 +45,13 @@ def read_output(file, tally=8, n=1):
                 en.append(i)
             if ('      total      ') in l:
                 endbin.append(i)     
+            if 'surface' in tmp:
+                surf.append(i)
+    first = [x for x in en if x > lidx[0]][0] # begining of data
+    others = [x for x in surf if x > first] # rest of data
+    if len(others) > 0: # this is usually necessary for F1 tally
+        [lidx.append(x) for x in others]
+    
     print(f'Found {len(lidx)} tallies')
     print(f'Output tally {n}') 
     start = [x for x in en if x > lidx[n-1]][0] # begining of data

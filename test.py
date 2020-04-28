@@ -83,13 +83,18 @@ clb.ax.set_title('n/cm2/s')
 
 ## Smoothing techniques
 # Moving average
-mav = df1.cts.rolling(window=8, center=True).mean()
+mav = gs.moving_avg_smoothing(df1, num=8)
 plt.figure()
 plt.plot(df1.energy[80:],df1.cts[80:], lw=2, label='original')
 plt.plot(df1.energy[80:],mav[80:], lw=2, alpha=0.8, label='smoothing MAV')
 plt.legend()
 
+# test F1 tally
 
+f1file = Path('test/test-NASA/F1_Leeloo_run_1_1.o')
+dff1 = mcnpio.read_output(f1file, tally=1, n=1)
+dff2 = mcnpio.read_output(f1file, tally=1, n=2)
+dff3 = mcnpio.read_output(f1file, tally=1, n=3)
 
 
 
