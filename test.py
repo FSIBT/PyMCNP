@@ -96,8 +96,22 @@ dff1 = mcnpio.read_output(f1file, tally=1, n=1)
 dff2 = mcnpio.read_output(f1file, tally=1, n=2)
 dff3 = mcnpio.read_output(f1file, tally=1, n=3)
 
+# test time tally
+file_t = Path('test/test-NASA/png_test.o')
+dftime = mcnpio.read_output(file_t, tally=2, n=1, tally_type='t')
+plt.figure();
+plt.plot(dftime.time, dftime.cts/dftime.cts.max(), label='output')
 
+# test time tally read input source
+file_ti = 'test/test-NASA/png_test.i'
+dft1, dft2 = mcnpio.read_inp_source(file_ti)
+plt.figure()
+plt.plot(dft1.SI, dft1.SP, label='SP1')
+plt.plot(dft2.SI, dft2.SP, label='SP2')
+plt.xlabel('SI (time)')
+plt.ylabel('SP')
+plt.legend()
 
-
+# Test read output with time
 
 

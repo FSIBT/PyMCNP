@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import griddata as gd
 
-def read_output(file, tally=8, n=1):
+def read_output(file, tally=8, n=1, tally_type='e'):
     ''' Read non-pulsed standard MCNP ouput file.
     
 
@@ -31,6 +31,10 @@ def read_output(file, tally=8, n=1):
         dataframe with columns: energy, cts, err
 
     '''
+    if tally_type == 't':
+        key_word = 'time'
+    else:
+        key_word = 'energy'
     lidx = []
     endbin = [] 
     en = []
@@ -41,7 +45,7 @@ def read_output(file, tally=8, n=1):
             tmp = l.split()
             if 'tally' in tmp and 'type' in tmp and str(tally) in tmp:
                 lidx.append(i)
-            if 'energy' in tmp:
+            if key_word in tmp:
                 en.append(i)
             if ('      total      ') in l:
                 endbin.append(i)     
@@ -58,8 +62,37 @@ def read_output(file, tally=8, n=1):
     end = [x for x in endbin if x > lidx[n-1]][0] # end of data
     binsP = end - start # number of bins
     Edep = np.genfromtxt(file, delimiter=' ', usecols=(0,3,4), skip_header=start+1, max_rows=binsP-1) 
-    df = pd.DataFrame(columns=['energy','cts','err'], data=Edep)
+    df = pd.DataFrame(columns=[key_word,'cts','err'], data=Edep)
     return df
+
+def read_inp_source(file, s1 =['SI1','SP1'], s2=['SI2','SP2'] ):
+    data = []
+    SI2 = 0
+    SP2 = 0
+    print('Reading output file...')
+    with open(file, 'r') as myfile:
+        for i,l in enumerate(myfile):
+            tmp = l.split()
+            if s1[0] in tmp and s1[1] in tmp:
+                next
+            try:
+                tmp2 = [float(x) for x in tmp]
+                data.append(tmp2)
+            except ValueError:
+                    pass
+            if s2[0] in tmp:
+                SI2 = [float(x) for x in tmp[1:]]
+            if s2[1] in tmp:
+                SP2 = [float(x) for x in tmp[1:]]
+    source1 = [x for x in data if x != []] # remove empty list
+    source2 = np.array([SI2,SP2])
+    s1 = np.array(source1)
+    s2 = source2.transpose()
+    df1 = pd.DataFrame(columns=['SI','SP'], data=s1)
+    df2 = pd.DataFrame(columns=['SI', 'SP'], data=s2)
+    return df1, df2
+    
+
 
 def make_inp(cells, surfaces, materials, dataC, fileName):
     ''' Create MCNPinput file.
@@ -214,7 +247,28 @@ def griddata(x, y, z, nbins, xrange=None, yrange=None):
     result = gd((x, y), z, (xg,yg)) #, method='nearest')  
     return xx, result   
     
-        
+def make_pulsed_source(B, P, BP, CG, SP):
+    res = np.zeros((2*BP+2,2))
+    res[1::2,1] = 1
+    for i in range(int(res.shape[0]/2)):
+        res[2*i][0] = int(i*P)
+        res[2*i-1][0] = int((i-1)*P + B)
+    res = res[:-1]
+    res[-1][0] = res[-3][0] + CG + P
+    res[:,0] = res[:,0]*1e2 # to shakes
+    # SI2, SP2
+    res2 = np.array([[0,res[-1][0]*SP],[0,1]])
+    return res.astype(int), res2.astype(int)
+
+# def write_inp_pulsed_source(file_to_read, file_to_write,B,P,BP,CG,SP):
+#     with open(file_to_read,'r') as f: 
+#        for i,l in enumerate(f):
+#            tmp = l.split()
+#            if 'SI'
+    
+    
+    
+    
         
     
     
