@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import griddata as gd
 
-def read_output(file, tally=8, n=1, tally_type='e'):
+def read_output(file, tally=8, n=1, tally_type='e', particle='n'):
     ''' Read non-pulsed standard MCNP ouput file.
     
 
@@ -23,6 +23,8 @@ def read_output(file, tally=8, n=1, tally_type='e'):
         tally type based on MCNP manual. Default is 8: pule-height tally
     n: integer.
         tally number to output. Defaul is the first one found.
+    tally_type: string.
+        either energy 'e', time 't', or both 'et'.
         
 
     Returns
@@ -31,12 +33,21 @@ def read_output(file, tally=8, n=1, tally_type='e'):
         dataframe with columns: energy, cts, err
 
     '''
+    flag = False
     if tally_type == 't':
         key_word = 'time'
-    else:
+    elif tally_type == 'e':
         key_word = 'energy'
+    elif tally_type == 'et':
+        flag = True
+        
+    if particle == 'n':
+        particle = 'neutrons'
+    elif particle == 'p':
+        particle = 'photons'
     lidx = []
     endbin = [] 
+    pidx = []
     en = []
     surf = []
     print('Reading output file...')
@@ -45,27 +56,84 @@ def read_output(file, tally=8, n=1, tally_type='e'):
             tmp = l.split()
             if 'tally' in tmp and 'type' in tmp and str(tally) in tmp:
                 lidx.append(i)
+            if 'particle(s):' in tmp and particle in tmp:
+                pidx.append(i)
             if key_word in tmp:
                 en.append(i)
-            if ('      total      ') in l:
+            if ('total') in tmp:
                 endbin.append(i)     
             if 'surface' in tmp:
                 surf.append(i)
-    first = [x for x in en if x > lidx[0]][0] # begining of data
+    first = [x for x in en if x > pidx[0]][0] # begining of data
     others = [x for x in surf if x > first] # rest of data
     if len(others) > 0: # this is usually necessary for F1 tally
         [lidx.append(x) for x in others]
     
     print(f'Found {len(lidx)} tallies')
-    print(f'Output tally {n}') 
-    start = [x for x in en if x > lidx[n-1]][0] # begining of data
-    end = [x for x in endbin if x > lidx[n-1]][0] # end of data
+    print(f'Output tally number {n}') 
+    
+    if flag ==  True: # this is a time and energy tally
+        erg = []
+        cts = []
+        err = []
+        start = [x for x in en if x > pidx[n-1]][0] + 1
+        totals = np.array([x for x in endbin if x > pidx[n-1]][:-1]) + 4
+        idxall = np.append(start, totals)
+        ebins = idxall[1] - idxall[0] - 4
+        energy = np.genfromtxt(file, delimiter=' ', usecols=(0), skip_header=idxall[0],
+                               max_rows=ebins)
+        df = pd.DataFrame(columns=['energy'], data=energy)
+        
+        for ix in idxall:
+            tme0 = np.genfromtxt(file, delimiter=' ', skip_header=ix-2, 
+                                 max_rows=1)
+            tme0 = tme0[~np.isnan(tme0)]
+            cts0 = np.genfromtxt(file, delimiter=' ', usecols=(3,7,11,15,19), skip_header=ix, 
+                                 max_rows=ebins)
+            err0 = np.genfromtxt(file, delimiter=' ', usecols=(4,8,12,16,20), skip_header=ix, 
+                                 max_rows=ebins)
+            df0 = pd.DataFrame(columns=tme0, data=cts0)
+            df = df.join(df0)
+        with open(file, 'r') as f:
+            for i,l in enumerate(f):
+                tmp = l.split()
+                if i == idxall[0]-2:
+                    tme = [float(x) for x in tmp[1:]]
+                if i >= idxall[0] and i < idxall[1]-4:
+                    tmp_erg = float(tmp[0])
+                    tmp_cts = [float(x) for x in tmp[1::2]]
+                    tmp_err = [float(x) for x in tmp[2::2]]
+                    erg.append(tmp_erg)
+                    cts.append(tmp_cts)
+                    err.append(tmp_err)
+                    
+        
+    start = [x for x in en if x > pidx[n-1]][0] # begining of data
+    end = [x for x in endbin if x > pidx[n-1]][0] # end of data
     binsP = end - start # number of bins
     Edep = np.genfromtxt(file, delimiter=' ', usecols=(0,3,4), skip_header=start+1, max_rows=binsP-1) 
     df = pd.DataFrame(columns=[key_word,'cts','err'], data=Edep)
     return df
 
 def read_inp_source(file, s1 =['SI1','SP1'], s2=['SI2','SP2'] ):
+    '''
+    Parameters
+    ----------
+    file : str or file Path
+        MCNP input file to read.
+    s1 : list of strings, optional
+        key words for start of SI1 and SP1. The default is ['SI1','SP1'].
+    s2 : list of strings, optional
+        key words for start of SI2 and SP2. The default is ['SI2','SP2'].
+
+    Returns
+    -------
+    df1 : pandas DataFrame
+        SI1 and SP1.
+    df2 : pandas Data Frame
+        SI2 and SP2.
+
+    '''
     data = []
     SI2 = 0
     SP2 = 0
@@ -147,8 +215,7 @@ def make_inp_DE(cells, surfaces, materials, dataC, fileName, Ebin, freq):
     Returns
     -------
     creates input file'''
-        
-    
+         
     with open(fileName,'w') as f: 
        f.writelines(['%s\n' % c  for c in cells])
        f.writelines('\n')
@@ -165,7 +232,6 @@ def make_inp_DE(cells, surfaces, materials, dataC, fileName, Ebin, freq):
     
 def read_fmesh(file, mesh=False):
     '''
-    
     Parameters
     ----------
     file : string
@@ -248,6 +314,29 @@ def griddata(x, y, z, nbins, xrange=None, yrange=None):
     return xx, result   
     
 def make_pulsed_source(B, P, BP, CG, SP):
+    '''
+    Parameters
+    ----------
+    B : integer
+        burst time in microseconds.
+    P : integer
+        period in microseconds.
+    BP : integer > 0
+        burst packets.
+    CG : integer
+        capture gate in microseconds.
+    SP : integer
+        sigma packets.
+
+    Returns
+    -------
+    numpy array
+        [SI1,SP1], and [SI2,SP2].
+    '''
+    if BP <= 0:
+        print('Burst packets must be greater than 0')
+    if SP <= 0:
+        print('Sigma packets must be greater than 0')
     res = np.zeros((2*BP+2,2))
     res[1::2,1] = 1
     for i in range(int(res.shape[0]/2)):
@@ -258,13 +347,45 @@ def make_pulsed_source(B, P, BP, CG, SP):
     res[:,0] = res[:,0]*1e2 # to shakes
     # SI2, SP2
     res2 = np.array([[0,res[-1][0]*SP],[0,1]])
-    return res.astype(int), res2.astype(int)
+    return res.astype(int), res2.transpose().astype(int)
 
-# def write_inp_pulsed_source(file_to_read, file_to_write,B,P,BP,CG,SP):
-#     with open(file_to_read,'r') as f: 
-#        for i,l in enumerate(f):
-#            tmp = l.split()
-#            if 'SI'
+def write_inp_pulsed_source(file_to_read, file_to_write, tbins, S1, S2):
+    idx_start = 0
+    idx_end = 0
+    # find important indices
+    with open(file_to_read,'r') as rf: 
+        for i,l in enumerate(rf):
+            tmp = l.split()
+            if 'Source' in tmp and 'definition' in tmp:
+                idx_start = i
+            if 'SI2' in tmp or 'SP2' in tmp:
+                idx_end = i
+            if 't0' in tmp:
+                idx_tbin = i
+    if idx_end > idx_tbin:
+        print('ERROR: time bins must come after source definition')            
+    with open(file_to_read, 'r') as rf:
+        with open(file_to_write, 'w') as wf:
+            for i,l in enumerate(rf):
+                if i < idx_start:
+                    wf.write(l)
+                elif i == idx_start:
+                    wf.write(l)
+                    wf.write('sdef par=n erg=14 TME=D1<D2 \n')
+                    wf.write('# SI1 SP1 \n')
+                    wf.writelines(['{} {}\n'.format(s[0], s[1])  for s in S1])
+                    wf.write('# SI2 SP2 \n')
+                    wf.writelines(['{} {}\n'.format(s2[0], s2[1]) for s2 in S2])
+                    str1 = 'c' + ' ' + 60*'=' + '\n'
+                    str2 = 'c \n'
+                    wf.writelines(str1)
+                    wf.writelines(str2)
+                    tstr = 't0 0 {}i {} \n'.format(tbins-1, S2[1,0])
+                    wf.writelines(tstr)
+                    next
+                elif i > idx_tbin:
+                    wf.write(l)
+                    
     
     
     
