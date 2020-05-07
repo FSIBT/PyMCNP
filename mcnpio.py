@@ -12,7 +12,7 @@ import pandas as pd
 from scipy.interpolate import griddata as gd
 
 def read_output(file, tally=8, n=1, tally_type='e', particle='n'):
-    ''' Read non-pulsed standard MCNP ouput file.
+    ''' Read standard MCNP output file.
     
 
     Parameters
@@ -22,7 +22,7 @@ def read_output(file, tally=8, n=1, tally_type='e', particle='n'):
     tally: integer.
         tally type based on MCNP manual. Default is 8: pule-height tally
     n: integer.
-        tally number to output. Defaul is the first one found.
+        tally number to output. Default is the first one found.
     tally_type: string.
         either energy 'e', time 't', or both 'et'.
         
@@ -31,6 +31,8 @@ def read_output(file, tally=8, n=1, tally_type='e', particle='n'):
     -------
     df : pandas dataframe.
         dataframe with columns: energy, cts, err
+        or dataframe with columns: time, cts, err
+        or dataframe with columns: energy, time_bins...
 
     '''
     flag = False
@@ -40,6 +42,7 @@ def read_output(file, tally=8, n=1, tally_type='e', particle='n'):
         key_word = 'energy'
     elif tally_type == 'et':
         flag = True
+        key_word = 'energy'
         
     if particle == 'n':
         particle = 'neutrons'
@@ -84,16 +87,22 @@ def read_output(file, tally=8, n=1, tally_type='e', particle='n'):
                                max_rows=ebins)
         df = pd.DataFrame(columns=['energy'], data=energy)
         
-        for ix in idxall:
+        for ix in idxall[:-1]:
             tme0 = np.genfromtxt(file, delimiter=' ', skip_header=ix-2, 
                                  max_rows=1)
             tme0 = tme0[~np.isnan(tme0)]
-            cts0 = np.genfromtxt(file, delimiter=' ', usecols=(3,7,11,15,19), skip_header=ix, 
+            rows = len(tme0)
+            cols_cts = np.arange(3,rows*4+3,4)
+            cols_err = np.arange(4,rows*4+4,4)
+                
+            cts0 = np.genfromtxt(file, delimiter=' ', usecols=cols_cts, skip_header=ix, 
                                  max_rows=ebins)
-            err0 = np.genfromtxt(file, delimiter=' ', usecols=(4,8,12,16,20), skip_header=ix, 
+            err0 = np.genfromtxt(file, delimiter=' ', usecols=cols_err, skip_header=ix, 
                                  max_rows=ebins)
-            df0 = pd.DataFrame(columns=tme0, data=cts0)
+            df0 = pd.DataFrame(columns=tme0/100, data=cts0)
             df = df.join(df0)
+        return df
+    else:
         with open(file, 'r') as f:
             for i,l in enumerate(f):
                 tmp = l.split()
@@ -108,12 +117,12 @@ def read_output(file, tally=8, n=1, tally_type='e', particle='n'):
                     err.append(tmp_err)
                     
         
-    start = [x for x in en if x > pidx[n-1]][0] # begining of data
-    end = [x for x in endbin if x > pidx[n-1]][0] # end of data
-    binsP = end - start # number of bins
-    Edep = np.genfromtxt(file, delimiter=' ', usecols=(0,3,4), skip_header=start+1, max_rows=binsP-1) 
-    df = pd.DataFrame(columns=[key_word,'cts','err'], data=Edep)
-    return df
+        start = [x for x in en if x > pidx[n-1]][0] # begining of data
+        end = [x for x in endbin if x > pidx[n-1]][0] # end of data
+        binsP = end - start # number of bins
+        Edep = np.genfromtxt(file, delimiter=' ', usecols=(0,3,4), skip_header=start+1, max_rows=binsP-1) 
+        df = pd.DataFrame(columns=[key_word,'cts','err'], data=Edep)
+        return df
 
 def read_inp_source(file, s1 =['SI1','SP1'], s2=['SI2','SP2'] ):
     '''
@@ -134,30 +143,25 @@ def read_inp_source(file, s1 =['SI1','SP1'], s2=['SI2','SP2'] ):
         SI2 and SP2.
 
     '''
-    data = []
-    SI2 = 0
-    SP2 = 0
-    print('Reading output file...')
+    
+    idx1_start = 0
+    idx2_start = 0
+    print('Reading input file...')
     with open(file, 'r') as myfile:
         for i,l in enumerate(myfile):
             tmp = l.split()
             if s1[0] in tmp and s1[1] in tmp:
-                next
-            try:
-                tmp2 = [float(x) for x in tmp]
-                data.append(tmp2)
-            except ValueError:
-                    pass
-            if s2[0] in tmp:
-                SI2 = [float(x) for x in tmp[1:]]
-            if s2[1] in tmp:
-                SP2 = [float(x) for x in tmp[1:]]
-    source1 = [x for x in data if x != []] # remove empty list
-    source2 = np.array([SI2,SP2])
-    s1 = np.array(source1)
-    s2 = source2.transpose()
-    df1 = pd.DataFrame(columns=['SI','SP'], data=s1)
-    df2 = pd.DataFrame(columns=['SI', 'SP'], data=s2)
+                idx1_start = i
+            if s2[0] in tmp and s2[1] in tmp:
+                idx2_start = i
+                
+    bins1 = (idx2_start - idx1_start) - 1
+    bins2 = 2
+    source1 = np.genfromtxt(file, delimiter=' ', skip_header=idx1_start+1, max_rows=bins1 )
+    source2 = np.genfromtxt(file, delimiter=' ', skip_header=idx2_start+1, max_rows=bins2 )
+    
+    df1 = pd.DataFrame(columns=['SI','SP'], data=source1)
+    df2 = pd.DataFrame(columns=['SI', 'SP'], data=source2)
     return df1, df2
     
 
