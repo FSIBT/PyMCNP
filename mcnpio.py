@@ -10,6 +10,10 @@ Functions to create and read MCNP io files
 import numpy as np
 import pandas as pd
 from scipy.interpolate import griddata as gd
+from pathlib import Path
+import re
+from collections import defaultdict
+import time
 
 def read_output(file, tally=8, n=1, tally_type='e', particle='n'):
     ''' Read standard MCNP output file.
@@ -40,9 +44,11 @@ def read_output(file, tally=8, n=1, tally_type='e', particle='n'):
         key_word = 'time'
     elif tally_type == 'e':
         key_word = 'energy'
-    elif tally_type == 'et':
+    elif tally_type == 'et' or tally_type == 'te':
         flag = True
         key_word = 'energy'
+    else:
+        print('ERROR: tally type not recognized')
         
     if particle == 'n':
         particle = 'neutrons'
@@ -76,47 +82,41 @@ def read_output(file, tally=8, n=1, tally_type='e', particle='n'):
     print(f'Output tally number {n}') 
     
     if flag ==  True: # this is a time and energy tally
-        erg = []
-        cts = []
-        err = []
         start = [x for x in en if x > pidx[n-1]][0] + 1
         totals = np.array([x for x in endbin if x > pidx[n-1]][:-1]) + 4
+        diffs = np.diff(totals)
+        stp = totals[1] - totals[0]
+        ix_delete = np.where(diffs != stp)[0] + 1
+        totals = np.delete(totals,ix_delete)
         idxall = np.append(start, totals)
         ebins = idxall[1] - idxall[0] - 4
         energy = np.genfromtxt(file, delimiter=' ', usecols=(0), skip_header=idxall[0],
                                max_rows=ebins)
         df = pd.DataFrame(columns=['energy'], data=energy)
         
-        for ix in idxall[:-1]:
-            tme0 = np.genfromtxt(file, delimiter=' ', skip_header=ix-2, 
-                                 max_rows=1)
-            tme0 = tme0[~np.isnan(tme0)]
-            rows = len(tme0)
-            cols_cts = np.arange(3,rows*4+3,4)
-            cols_err = np.arange(4,rows*4+4,4)
-                
-            cts0 = np.genfromtxt(file, delimiter=' ', usecols=cols_cts, skip_header=ix, 
-                                 max_rows=ebins)
-            err0 = np.genfromtxt(file, delimiter=' ', usecols=cols_err, skip_header=ix, 
-                                 max_rows=ebins)
-            df0 = pd.DataFrame(columns=tme0/100, data=cts0)
+        starttime = time.time()
+        with open(file, 'r') as f:
+            allf = f.readlines()
+        
+        for i in range(len(idxall)):
+            tme0 = allf[idxall[i]-2]
+            tme1 = re.findall('\d.+\d', tme0)
+            tme2 = tme1[0].split()
+            tme = np.array(tme2, dtype='float')
+            data0 = allf[idxall[i]:idxall[i]+ebins]
+            data1 = np.array([x.split() for x in data0], dtype='float')
+            data2 = data1[:,1::2]
+            # need the following if statement because 'Total' printed at the end
+            if i == len(idxall)-1: 
+                data2 = data2[:,0:-1]
+                print('Here')
+            df0 = pd.DataFrame(columns=tme/100, data=data2)
             df = df.join(df0)
+        endtime = time.time()
+        print(f'For loop took {round(endtime-starttime,2)} seconds')
+        
         return df
     else:
-        with open(file, 'r') as f:
-            for i,l in enumerate(f):
-                tmp = l.split()
-                if i == idxall[0]-2:
-                    tme = [float(x) for x in tmp[1:]]
-                if i >= idxall[0] and i < idxall[1]-4:
-                    tmp_erg = float(tmp[0])
-                    tmp_cts = [float(x) for x in tmp[1::2]]
-                    tmp_err = [float(x) for x in tmp[2::2]]
-                    erg.append(tmp_erg)
-                    cts.append(tmp_cts)
-                    err.append(tmp_err)
-                    
-        
         start = [x for x in en if x > pidx[n-1]][0] # begining of data
         end = [x for x in endbin if x > pidx[n-1]][0] # end of data
         binsP = end - start # number of bins
@@ -167,7 +167,7 @@ def read_inp_source(file, s1 =['SI1','SP1'], s2=['SI2','SP2'] ):
 
 
 def make_inp(cells, surfaces, materials, dataC, fileName):
-    ''' Create MCNPinput file.
+    ''' Create MCNPinput file from scratch.
     
 
     Parameters
@@ -317,7 +317,7 @@ def griddata(x, y, z, nbins, xrange=None, yrange=None):
     result = gd((x, y), z, (xg,yg)) #, method='nearest')  
     return xx, result   
     
-def make_pulsed_source(B, P, BP, CG, SP):
+def make_pulsed_source(B, P, BP, LW, SP):
     '''
     Parameters
     ----------
@@ -327,8 +327,8 @@ def make_pulsed_source(B, P, BP, CG, SP):
         period in microseconds.
     BP : integer > 0
         burst packets.
-    CG : integer
-        capture gate in microseconds.
+    LW : integer
+        long wait time in microseconds.
     SP : integer
         sigma packets.
 
@@ -347,7 +347,7 @@ def make_pulsed_source(B, P, BP, CG, SP):
         res[2*i][0] = int(i*P)
         res[2*i-1][0] = int((i-1)*P + B)
     res = res[:-1]
-    res[-1][0] = res[-3][0] + CG + P
+    res[-1][0] = res[-3][0] + LW + P
     res[:,0] = res[:,0]*1e2 # to shakes
     # SI2, SP2
     res2 = np.array([[0,res[-1][0]*SP],[0,1]])
@@ -360,7 +360,7 @@ def write_inp_pulsed_source(file_to_read, file_to_write, tbins, S1, S2):
     with open(file_to_read,'r') as rf: 
         for i,l in enumerate(rf):
             tmp = l.split()
-            if 'Source' in tmp and 'definition' in tmp:
+            if 'source' in tmp and 'definition' in tmp:
                 idx_start = i
             if 'SI2' in tmp or 'SP2' in tmp:
                 idx_end = i
@@ -389,8 +389,80 @@ def write_inp_pulsed_source(file_to_read, file_to_write, tbins, S1, S2):
                     next
                 elif i > idx_tbin:
                     wf.write(l)
-                    
+
+def isotopic_abundance(element):
+    file = Path('Isotopes-NIST-2.txt')
+    # read all lines and store in memory
+    with open(file, 'r') as f:
+        lines = f.readlines()
     
+    result = defaultdict()
+    for i,l in enumerate(lines):
+        tmp = l.split()
+        if element in tmp:
+            Z = re.findall('\d+',lines[i-1])[0]
+            symbol = element
+            isotope = re.findall('\d+',lines[i+1])[0]
+            # account for isotopically pure elements
+            try:
+                tmp2 = lines[i+3].split()
+                comp = [float(tmp2[-1])]
+            except ValueError:
+                comp = re.findall("\d.+(?=\()", lines[i+3])
+            if len(comp) != 0:
+                result[Z + symbol + '-' + isotope] = float(comp[0])
+    return result          
+                
+            
+def make_material(element, percent, cutoff=0.005):
+    elem_dict = isotopic_abundance(element)
+    elem_dict = {key:val for key, val in elem_dict.items() if val > cutoff}
+    lst = list(elem_dict.keys())
+    Z = re.findall('\d+',lst[0])[0]
+    rel_p = np.array(list(elem_dict.values())) * percent
+    A = []
+    for el in lst:
+        a = re.findall('\d+',el)[1]
+        if len(a) == 2:
+            a = '0' + a
+        elif len(a) == 1:
+            a = '00' + a
+        A.append(a)
+    
+    res = []
+    for isot, perc in zip(A, rel_p):
+        val = str(round(perc,10))
+        res.append(Z + isot + 6*' ' + '-' + val + 6*' ' + f' $ {element}-{isot}')              
+    return res           
+        
+def write_inp_materials(file_to_read, file_to_write, mat_list, mat_num):
+    idx_start = 0
+    idx_end = 0
+    # find important indices
+    with open(file_to_read,'r') as rf: 
+        for i,l in enumerate(rf):
+            tmp = l.split()
+            if 'material' in tmp and 'compositions' in tmp:
+                idx_start = i
+            if 'detector' in tmp and 'material' in tmp:
+                idx_end = i
+    with open(file_to_read, 'r') as rf:
+         with open(file_to_write, 'w') as wf:
+             for i,l in enumerate(rf):
+                 if i < idx_start:
+                     wf.write(l)
+                 elif i == idx_start:
+                     wf.write(l)
+                     wf.write('c \n')
+                     wf.write(f'M{str(mat_num)}' + 3*' ')
+                     wf.write(mat_list[0] + '\n')
+                     for el in mat_list[1:]:
+                         length = len(f'M{str(mat_num)}')
+                         wf.write((length+3)*' ' +  el + '\n')
+                     wf.write('c \n')
+                     next
+                 elif i > idx_end:
+                     wf.write(l)
     
     
     
