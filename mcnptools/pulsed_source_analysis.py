@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Thu May  7 12:14:05 2020
-
-@author: mauricio
 preliminary timeseries analysis
 """
 import pandas as pd

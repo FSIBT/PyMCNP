@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Sat May  9 12:58:53 2020
-
-@author: mauricio
-
 Create input file for photon source distribution
 and FAN composition for the surface of the Moon
 """

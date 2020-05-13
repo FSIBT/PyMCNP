@@ -51,9 +51,7 @@ def get_particle(nr):
     if name is not None:
         return name
     else:
-        print(
-            "need to implement particle type {}, see page 166 in the manual".format(nr)
-        )
+        print(f"need to implement particle type {nr}, see page 166 in the manual")
         return ""
 
 
@@ -173,7 +171,7 @@ def lookup_ntyn(idx, neutron=True):
         elif idx > 5:
             return "ENDF Reaction ID"
         else:
-            return "Error ntyn lookup: shouldn't happen {}".format(idx)
+            return f"Error ntyn lookup: shouldn't happen {idx}"
     else:
         if idx == 1:
             return "Incoheren scatter"
@@ -186,7 +184,7 @@ def lookup_ntyn(idx, neutron=True):
         elif idx == 5:
             return "Pair production"
         else:
-            return "Error ntyn lookup: shouldn't happen {}".format(idx)
+            return f"Error ntyn lookup: shouldn't happen {idx}"
 
 
 def lookup_mtp(idx, neutron=True):
@@ -198,7 +196,7 @@ def lookup_mtp(idx, neutron=True):
         elif idx > 0:
             return "Elastic scatter/Inelastic scatter"
         else:
-            return "Error mtp lookup: shouldn't happen: {}".format(idx)
+            return f"Error mtp lookup: shouldn't happen: {idx}"
     else:
         if idx == -1:
             return "Incoheren scatter"
@@ -209,7 +207,7 @@ def lookup_mtp(idx, neutron=True):
         elif idx == -4:
             return "Pair production"
         else:
-            return "Error mtp lookup: shouldn't happen {}".format(idx)
+            return f"Error mtp lookup: shouldn't happen {idx}"
 
 
 def parse_event(event):
@@ -270,7 +268,7 @@ def get_termination_type(idx, particle):
     if particle == "photon":
         return termination_type_photon[idx]
     else:
-        return "need to implement termination type {} for {}".format(idx, particle)
+        return f"need to implement termination type {idx} for {particle}"
 
 
 class Event:
@@ -306,42 +304,42 @@ class Event:
 
     def __repr__(self):
         out = ""
-        out += "  type: {}\n".format(self.event_type)
+        out += f"  type: {self.event_type}\n"
         if self.particle:
-            out += "  particle type: {}\n".format(self.particle)
+            out += f"  particle type: {self.particle}\n"
         if self.ntyn:
-            out += "  ntyn: {}\n".format(self.ntyn)
+            out += f"  ntyn: {self.ntyn}\n"
         if self.nxs:
-            out += "  nxs: {}\n".format(self.nxs)
+            out += f"  nxs: {self.nxs}\n"
         if self.node:
-            out += "  node: {}\n".format(self.node)
+            out += f"  node: {self.node}\n"
         if self.pos:
-            out += "  loc: {} {} {}\n".format(self.pos.x, self.pos.y, self.pos.z)
+            out += f"  loc: {self.pos.x} {self.pos.y} {self.pos.z}\n"
         if self.dir:
-            out += "  dir: {} {} {}\n".format(self.dir.u, self.dir.v, self.dir.w)
+            out += f"  dir: {self.dir.u} {self.dir.v} {self.dir.w}\n"
         if self.energy:
-            out += "  energy: {}\n".format(self.energy)
+            out += f"  energy: {self.energy}\n"
         if self.weight:
-            out += "  weight: {}\n".format(self.weight)
+            out += f"  weight: {self.weight}\n"
         if self.time:
-            out += "  time: {}\n".format(self.time)
+            out += f"  time: {self.time}\n"
         if self.branch_number:
-            out += "  branch number: {}\n".format(self.branch_number)
+            out += f"  branch number: {self.branch_number}\n"
         if self.surface:
-            out += "  surface number: {}\n".format(self.surface)
+            out += f"  surface number: {self.surface}\n"
         if self.angle:
-            out += "  angle with surface normal: {}\n".format(self.angle)
+            out += f"  angle with surface normal: {self.angle}\n"
         if self.cell_number:
-            out += "  cell number: {}\n".format(self.cell_number)
+            out += f"  cell number: {self.cell_number}\n"
         if self.source:
-            out += "  source: {}\n".format(self.source)
+            out += f"  source: {self.source}\n"
         if self.material:
-            out += "  material: {}\n".format(self.material)
+            out += f"  material: {self.material}\n"
         if self.termination_type:
-            out += "  termination type: {}\n".format(self.termination_type)
+            out += f"  termination type: {self.termination_type}\n"
         if self.misc:
             for k, v in self.misc.items():
-                out += "  misc:  {} {}\n".format(k, v)
+                out += f"  misc:  {k} {v}\n"
         return out
 
     def parse(self, hist, line):
@@ -408,7 +406,7 @@ class History:
 
         if line is not None:
             n1 = str(header.N1 - 1)
-            form = FortranRecordReader("(1x,{}i10,e13.5)".format(n1))
+            form = FortranRecordReader(f"(1x,{n1}i10,e13.5)")
             line = form.read(line)  # NPS Line (I line)
             if len(line) == 2:
                 n, next_type_id = line
@@ -439,7 +437,7 @@ class History:
         self.history.append(e)
 
     def __repr__(self):
-        out = "Event for particle {} \n".format(self.n)
+        out = f"Event for particle {self.n} \n"
         for h in self.history:
             out += "  --------\n"
             out += str(h)
@@ -542,7 +540,7 @@ class Header:
                 p = "30"
             else:
                 p = str(need - got)
-            form = FortranRecordReader("(1x,{}i4)".format(p))
+            form = FortranRecordReader(f"(1x,{p}i4)")
             line = form.read(line)
             L = L + line
             got = len(L)
@@ -569,12 +567,12 @@ class Header:
         out += "Program:{} ; Version:({} , {}) ; Current Date:{} {}\n".format(
             self.program, self.version, self.program_date, self.run_date, self.run_time
         )
-        out += "{}\n".format(self.name)
+        out += f"{self.name}\n"
         for k, v in keywords.items():
             if v:
-                out += "  {} {}\n".format(k, v)
+                out += f"  {k} {v}\n"
         for k, v in self.IDS.items():
-            out += "   IDS: {} {}\n".format(k, v)
+            out += f"   IDS: {k} {v}\n"
         return out
 
 
@@ -609,14 +607,14 @@ class alpha:
         self.atime = R / velocity
 
     def __repr__(self):
-        return "{} {} {}".format(self.ax, self.ay, self.atime)
+        return f"{self.ax} {self.ay} {self.atime}"
 
 
 def read_file(filename):
     """ """
     global header
     header = Header()
-    with open(filename, "r") as fin:  # open for read
+    with open(filename) as fin:  # open for read
         header.parse(fin)
         # parse particle histories
         try:

@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Mon May 11 16:31:31 2020
-
-@author: mauricio
-
 step x: read in final output and plot
 """
 

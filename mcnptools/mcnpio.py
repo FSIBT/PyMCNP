@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Thu Apr 23 09:56:29 2020
-
-@author: mauricio
-
 Functions to create and read MCNP io files
 """
 
@@ -18,7 +13,7 @@ import time
 
 def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
     """ Read standard MCNP output file.
-    
+
 
     Parameters
     ----------
@@ -30,7 +25,7 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
         tally number to output. Default is the first one found.
     tally_type: string.
         either energy 'e', time 't', or both 'et'.
-        
+
 
     Returns
     -------
@@ -61,7 +56,7 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
     en = []
     surf = []
     print("Reading output file...")
-    with open(file, "r") as myfile:
+    with open(file) as myfile:
         for i, l in enumerate(myfile):
             tmp = l.split()
             if "tally" in tmp and "type" in tmp and str(tally) in tmp:
@@ -97,12 +92,12 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
         df = pd.DataFrame(columns=["energy"], data=energy)
 
         starttime = time.time()
-        with open(file, "r") as f:
+        with open(file) as f:
             allf = f.readlines()
 
         for i in range(len(idxall)):
             tme0 = allf[idxall[i] - 2]
-            tme1 = re.findall("\d.+\d", tme0)
+            tme1 = re.findall(r"\d.+\d", tme0)
             tme2 = tme1[0].split()
             tme = np.array(tme2, dtype="float")
             data0 = allf[idxall[i] : idxall[i] + ebins]
@@ -156,7 +151,7 @@ def read_inp_source(file, s1=["SI1", "SP1"], s2=["SI2", "SP2"]):
     idx1_start = 0
     idx2_start = 0
     print("Reading input file...")
-    with open(file, "r") as myfile:
+    with open(file) as myfile:
         for i, l in enumerate(myfile):
             tmp = l.split()
             if s1[0] in tmp and s1[1] in tmp:
@@ -263,7 +258,7 @@ def read_fmesh(file, mesh=False):
 
     """
     endbin = 0
-    with open(file, "r") as myfile:
+    with open(file) as myfile:
         for i, l in enumerate(myfile):
             if ("X direction") in l:
                 x0 = l.split()
@@ -373,7 +368,7 @@ def write_inp_pulsed_source(file_to_read, file_to_write, tbins, S1, S2):
     idx_start = 0
     idx_end = 0
     # find important indices
-    with open(file_to_read, "r") as rf:
+    with open(file_to_read) as rf:
         for i, l in enumerate(rf):
             tmp = l.split()
             if "source" in tmp and "definition" in tmp:
@@ -384,7 +379,7 @@ def write_inp_pulsed_source(file_to_read, file_to_write, tbins, S1, S2):
                 idx_tbin = i
     if idx_end > idx_tbin:
         print("ERROR: time bins must come after source definition")
-    with open(file_to_read, "r") as rf:
+    with open(file_to_read) as rf:
         with open(file_to_write, "w") as wf:
             for i, l in enumerate(rf):
                 if i < idx_start:
@@ -410,22 +405,22 @@ def write_inp_pulsed_source(file_to_read, file_to_write, tbins, S1, S2):
 def isotopic_abundance(element):
     file = Path("Isotopes-NIST-2.txt")
     # read all lines and store in memory
-    with open(file, "r") as f:
+    with open(file) as f:
         lines = f.readlines()
 
     result = defaultdict()
     for i, l in enumerate(lines):
         tmp = l.split()
         if element in tmp:
-            Z = re.findall("\d+", lines[i - 1])[0]
+            Z = re.findall(r"\d+", lines[i - 1])[0]
             symbol = element
-            isotope = re.findall("\d+", lines[i + 1])[0]
+            isotope = re.findall(r"\d+", lines[i + 1])[0]
             # account for isotopically pure elements
             try:
                 tmp2 = lines[i + 3].split()
                 comp = [float(tmp2[-1])]
             except ValueError:
-                comp = re.findall("\d.+(?=\()", lines[i + 3])
+                comp = re.findall(r"\d.+(?=\()", lines[i + 3])
             if len(comp) != 0:
                 result[Z + symbol + "-" + isotope] = float(comp[0])
     return result
@@ -435,11 +430,11 @@ def make_material(element, percent, cutoff=0.005):
     elem_dict = isotopic_abundance(element)
     elem_dict = {key: val for key, val in elem_dict.items() if val > cutoff}
     lst = list(elem_dict.keys())
-    Z = re.findall("\d+", lst[0])[0]
+    Z = re.findall(r"\d+", lst[0])[0]
     rel_p = np.array(list(elem_dict.values())) * percent
     A = []
     for el in lst:
-        a = re.findall("\d+", el)[1]
+        a = re.findall(r"\d+", el)[1]
         if len(a) == 2:
             a = "0" + a
         elif len(a) == 1:
@@ -457,14 +452,14 @@ def write_inp_materials(file_to_read, file_to_write, mat_list, mat_num):
     idx_start = 0
     idx_end = 0
     # find important indices
-    with open(file_to_read, "r") as rf:
+    with open(file_to_read) as rf:
         for i, l in enumerate(rf):
             tmp = l.split()
             if "material" in tmp and "compositions" in tmp:
                 idx_start = i
             if "detector" in tmp and "material" in tmp:
                 idx_end = i
-    with open(file_to_read, "r") as rf:
+    with open(file_to_read) as rf:
         with open(file_to_write, "w") as wf:
             for i, l in enumerate(rf):
                 if i < idx_start:

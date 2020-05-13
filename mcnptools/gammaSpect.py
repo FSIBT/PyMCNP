@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Sun Mar 29 12:00:34 2020
-
-@author: mauricio
-
 Tools for spectral analysis
 """
 import pandas as pd

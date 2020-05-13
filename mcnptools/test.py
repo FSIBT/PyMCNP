@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Thu Apr 23 10:13:34 2020
-
-@author: mauricio
-
 Testing script
 """
 
