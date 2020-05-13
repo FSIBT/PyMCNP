@@ -8,4 +8,5 @@ setup(
     author="Mauricio Ayllon Unzueta",
     author_email="mauri.ayllon12@gmail.com",
     packages=["mcnptools"],
+    scripts=["MCNPtools-parse-ptrac"],
 )

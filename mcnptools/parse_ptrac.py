@@ -1,47 +1,19 @@
-#!/usr/bin/env python3
-
 """
-Usage:
-    parse_ptrac list <filename> [options]
-    parse_ptrac filter <filter> <filename> [options]
-
-
-Options:
-   -h  --help                        This information
-   -o <output>  --output=<output>    Output file name
-
-
-filter can be one of:
-  -gammas:     creates several output files, one for each element
-  -neutrons:   creates several output files, one for each element
-  -plot:       produces: [alpha_xyz, alpha_time,  neutron_xyzuvw,
-                              atom/gamma_xyzuvw, detected-gamma_xyz]
-  -data:       produces: (alpha_y,z [cm], alpha_time [s], atom_type,
-                              atom_x,y,z [cm], gamma_time [s], gamma_energy [MeV])
+Parsing ptrac files from MCNP
 """
 
 
 import sys
-from docopt import docopt
 from collections import namedtuple
 from fortranformat import FortranRecordReader
 import numpy as np
 import h5py
 
 Position = namedtuple("Position", "x y z")
-Direction = namedtuple(
-    "Direction", "u v w"
-)  # gives the direction cosines for each axis
 
-commands = docopt(__doc__, version="0.1")
-print(commands)
+# direction cosines for each axis
+Direction = namedtuple("Direction", "u v w")
 
-
-input = commands["<filename>"]
-filter = commands["<filter>"]
-detector = 24
-output = commands["-o"]
-print(input)
 
 PARTICLE = {1: "neutron", 2: "photon"}
 
@@ -50,9 +22,8 @@ def get_particle(nr):
     name = PARTICLE.get(nr, None)
     if name is not None:
         return name
-    else:
-        print(f"need to implement particle type {nr}, see page 166 in the manual")
-        return ""
+    print(f"need to implement particle type {nr}, see page 166 in the manual")
+    return ""
 
 
 KEYWORDS = {
@@ -348,7 +319,7 @@ class Event:
         """
         # convert to array of numbers
         line = [float(i) for i in line]
-        d = {k: v for k, v in zip(header.IDS[hist.current_event], line)}
+        d = {k: v for k, v in zip(self.header.IDS[hist.current_event], line)}
         if hist.current_event == "bank":
             t, e = parse_bank(hist.current_event_id)
             d["type"] = t
@@ -432,6 +403,7 @@ class History:
         self.current_event = next_type
         self.current_event_id = int(next_type_id)
         self.history = []
+        self.header = header
 
     def add(self, e):
         self.history.append(e)
@@ -443,14 +415,6 @@ class History:
             out += str(h)
         out += "+++++++++++++++++++\n"
         return out
-
-
-def handle_history(hist):
-    """default handler for history events
-
-    overwrite this function to sort events
-    """
-    sys.stdout.flush()
 
 
 class Header:
@@ -576,43 +540,8 @@ class Header:
         return out
 
 
-class alpha:
-    """Calcualte and store the position of an alpha particle from a neutron event"""
-
-    def __init__(self, event):
-        """Calculate alpha position and time"""
-
-        # alpha starts same place as neutron
-        xi = event.pos.x
-        yi = event.pos.y
-        zi = event.pos.z
-        # alpha trajectory opposite of neutron
-        ui = -event.dir.u
-        vi = -event.dir.v
-        wi = -event.dir.w
-
-        # energy and velocity calculation
-        MeV = 3.5  # MeV of neutrons
-        energy = MeV * 1.602e-19 * 1e6  # Joules
-        mass = 6.64424e-27  # kg
-        velocity = np.sqrt((2 * energy) / mass) * 100  # cm/s
-
-        # alpha detector
-        az = -6  # distance from neutron source to alpha detector
-        R = abs(az / wi)  # total travel distance
-
-        # location and time of detection
-        self.ay = vi * R
-        self.ax = ui * R
-        self.atime = R / velocity
-
-    def __repr__(self):
-        return f"{self.ax} {self.ay} {self.atime}"
-
-
-def read_file(filename):
+def read_file(filename, handle_history=None):
     """ """
-    global header
     header = Header()
     with open(filename) as fin:  # open for read
         header.parse(fin)
@@ -637,285 +566,9 @@ def read_file(filename):
                     # parse event
                     event = Event(parent=hist, line=event_line, header=header)
                     hist.add(event)
-                handle_history(hist)
+                if handle_history:
+                    handle_history(hist)
                 del hist
         except StopIteration:
             pass
-
-
-if __name__ == "__main__":
-    if output:
-        outfiles = {}
-        outfiles1 = {}
-
-        def handle_history(hist):
-
-            global outfiles
-            if filter == "gammas":
-                for h in hist.history:
-                    if h.event_type == "Photon from Neutron":
-                        element = str(h.nxs)
-                        outf = outfiles.get(element, None)
-                        if not outf:
-                            outf = open(
-                                "{}-output-{}".format(commands["<filename>"], element)
-                                + ".txt",
-                                "w",
-                            )
-                            outfiles[element] = outf
-                        outf.write(
-                            "{} {} {} {} {} {} {} {} {}\n".format(
-                                h.pos.x,
-                                h.pos.y,
-                                h.pos.z,
-                                h.dir.u,
-                                h.dir.v,
-                                h.dir.w,
-                                h.energy,
-                                h.weight,
-                                h.time,
-                            )
-                        )
-
-            elif filter == "plot":
-                filename = "{}-output-plot".format(commands["<filename>"]) + ".txt"
-                if outfiles.get(filename, None) is None:
-                    outf = open(filename, "w")
-                    outfiles[filename] = outf
-                else:
-                    outf = outfiles[filename]
-                condition = True
-                idx = 0
-                for h in hist.history:
-                    idx += 1
-                    if h.event_type == "initial source":
-                        # neutron position and directions
-                        neutron = "{} {} {} {} {} {}".format(
-                            h.pos.x, h.pos.y, h.pos.z, h.dir.u, h.dir.v, h.dir.w
-                        )
-                        a = alpha(h)  # prints ay, az, atime
-                    if h.event_type == "Photon from Neutron":  # get atom info
-                        atom = "{} {} {} {} {} {} {}".format(
-                            h.pos.x, h.pos.y, h.pos.z, h.dir.u, h.dir.v, h.dir.w, h.nxs
-                        )
-                    if condition is True:  # get photon info and print
-                        if (
-                            h.event_type == "surface"
-                            and h.particle == "photon"
-                            and h.surface >= 114.0
-                            and h.surface < 115.0
-                        ):
-                            outf.write(
-                                "{} -6 {} {} {} {} {}\n".format(
-                                    a, neutron, atom, h.pos.x, h.pos.y, h.pos.z
-                                )
-                            )
-                            condition = False
-                    if h.event_type != "surface" or h.surface < 114.0:
-                        condition = True
-
-            elif filter == "data":
-                filename = "{}-output-data".format(commands["<filename>"])
-                global data_array
-                global repeat_gammas
-                if outfiles1.get(filename, None) is None:
-                    # outf = open(filename+".txt", 'w')
-                    # outfiles[filename] = outf
-                    outfiles1[filename] = "placeholder"
-                    data_array = np.empty((0, 12), float)
-                    repeat_gammas = 0
-                    # print(repeat_gammas)
-                    # print('outside',data_array)
-                else:
-                    outf = outfiles1[filename]
-                condition = True
-                check = 0
-                for h in hist.history:
-                    if h.event_type == "initial source":
-                        # neutron position and directions
-                        a = alpha(h)  # prints ay, az, atime
-                        a_num = [a.ax, a.ay, a.atime]
-                    if h.event_type == "Photon from Neutron":  # get atom info
-                        atom = "{} {} {} {}".format(
-                            h.nxs, h.pos.x, h.pos.y, h.pos.z
-                        )  # string for txt file
-                        atom_number = [
-                            h.nxs,
-                            h.pos.x,
-                            h.pos.y,
-                            h.pos.z,
-                        ]  # array for numpy file
-                    if (
-                        condition is True
-                    ):  # skip double detector hits (two sides to detector surface)
-                        # get photon info and print
-                        if (
-                            h.event_type == "surface"
-                            and h.particle == "photon"
-                            and h.surface >= detector
-                            and h.surface < (detector + 1)
-                        ):
-                            gamma_time = h.time * 10 ** (-8)
-                            # outf.write("{} {} {} {}\n".format(a, atom, gamma_time, h.energy))
-                            x = [
-                                a_num[0],
-                                a_num[1],
-                                a_num[2],
-                                atom_number[0],
-                                atom_number[1],
-                                atom_number[2],
-                                atom_number[3],
-                                gamma_time,
-                                h.energy,
-                                h.pos.x,
-                                h.pos.y,
-                                h.pos.z,
-                            ]
-                            data_array = np.append(data_array, [x], axis=0)
-                            with h5py.File(
-                                filename
-                                + "-"
-                                + header.shorthash
-                                + "_numpart-"
-                                + header.num_particles
-                                + ".hdf5",
-                                "w",
-                            ) as f:
-                                # all_data = f.create_dataset('all_data', data=data_array, dtype='f')
-                                alpha_x = f.create_dataset(
-                                    "alpha_x[cm]",
-                                    data=data_array[:, 0],
-                                    dtype="float64",
-                                )
-                                alpha_y = f.create_dataset(
-                                    "alpha_y[cm]",
-                                    data=data_array[:, 1],
-                                    dtype="float64",
-                                )
-                                alpha_t = f.create_dataset(
-                                    "alpha_t[s]", data=data_array[:, 2], dtype="float64"
-                                )
-                                atom_type = f.create_dataset(
-                                    "atom_type", data=data_array[:, 3], dtype="i"
-                                )
-                                atom_x = f.create_dataset(
-                                    "atom_x[cm]", data=data_array[:, 4], dtype="float64"
-                                )
-                                atom_y = f.create_dataset(
-                                    "atom_y[cm]", data=data_array[:, 5], dtype="float64"
-                                )
-                                atom_z = f.create_dataset(
-                                    "atom_z[cm]", data=data_array[:, 6], dtype="float64"
-                                )
-                                gamma_t = f.create_dataset(
-                                    "gamma_t[s]", data=data_array[:, 7], dtype="float64"
-                                )
-                                gamma_e = f.create_dataset(
-                                    "gamma_e[MeV]",
-                                    data=data_array[:, 8],
-                                    dtype="float64",
-                                )
-                                gamma_x = f.create_dataset(
-                                    "gamma_x[cm]",
-                                    data=data_array[:, 9],
-                                    dtype="float64",
-                                )
-                                gamma_y = f.create_dataset(
-                                    "gamma_y[cm]",
-                                    data=data_array[:, 10],
-                                    dtype="float64",
-                                )
-                                gamma_z = f.create_dataset(
-                                    "gamma_z[cm]",
-                                    data=data_array[:, 11],
-                                    dtype="float64",
-                                )
-                            condition = False  # omit consecutive detector events
-                            check += 1  # adds one gamma for this history
-                        if (
-                            check > 1
-                            and h.event_type == "surface"
-                            and h.particle == "photon"
-                            and h.surface >= detector
-                            and h.surface < (detector + 1)
-                        ):
-                            # check for repeat gammas
-                            repeat_gammas += 1
-                            print("number of repeat gamma", repeat_gammas)
-                    if h.event_type != "surface" or h.surface < detector:
-                        condition = True
-
-            elif filter == "neutrons":
-                filename = "{}-output-neutrons".format(commands["<filename>"]) + ".txt"
-                if outfiles.get(filename, None) is None:
-                    outf = open(filename, "w")
-                    outfiles[filename] = outf
-                else:
-                    outf = outfiles[filename]
-                idx = 0
-                for h in hist.history:
-                    if h.event_type == "initial source" and h.particle == "neutron":
-                        outf.write(
-                            "source NA {} {} {} {} {} {} NA\n".format(
-                                h.pos.x,
-                                h.pos.y,
-                                h.pos.z,
-                                h.dir.u,
-                                h.dir.v,
-                                h.dir.w,
-                                h.energy,
-                            )
-                        )
-                    if h.event_type == "Photon from Neutron":
-                        outf.write(
-                            "photon {} {} {} {} {} {} {} {}\n".format(
-                                h.pos.x,
-                                h.pos.y,
-                                h.pos.z,
-                                h.dir.u,
-                                h.dir.v,
-                                h.dir.w,
-                                h.energy,
-                                h.nxs,
-                            )
-                        )
-                    if (
-                        h.event_type == "collision"
-                        and h.energy > 0.001
-                        and h.particle == "neutron"
-                    ):
-                        outf.write(
-                            "collision {} {} {} {} {} {} {} {}\n".format(
-                                h.pos.x,
-                                h.pos.y,
-                                h.pos.z,
-                                h.dir.u,
-                                h.dir.v,
-                                h.dir.w,
-                                h.energy,
-                                h.nxs,
-                            )
-                        )
-                    if not outf:
-                        outf = open(
-                            "{}-output-ncol".format(commands["<filename>"]) + ".txt",
-                            "w",
-                        )
-                        outfiles[element] = outf
-
-            else:
-                outf = outfiles.get("misc", None)
-                if not outf:
-                    outf = open(
-                        "{}-output".format(commands["<filename>"]) + ".txt", "w"
-                    )
-                    outfiles["misc"] = outf
-                outf.write(hist.__repr__())
-
-        read_file(input)
-
-        for k, f in outfiles.items():
-            f.close()
-    else:
-        read_file(input)
-        print(header)
+    return header
