@@ -11,6 +11,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import gaussian_kde
 
+
 def create_smooth_energy_spectra(energies, E=None, sigma=0.005):
     """Takes a list of energies and uses a gaussian_kde to create a smoothed spectra
 
@@ -55,15 +56,16 @@ def create_smooth_energy_spectra(energies, E=None, sigma=0.005):
 
     return E, values
 
+
 def moving_avg_smoothing(data, num=8):
     if isinstance(data, pd.DataFrame):
         mav = data.cts.rolling(window=num, center=True).mean()
     elif isinstance(data, (np.ndarray, np.generic)):
-        df = pd.DataFrame(data=data, columns=['cts'])
+        df = pd.DataFrame(data=data, columns=["cts"])
         mav = df.cts.rolling(window=num, center=True).mean()
-    return np.array(mav) 
-    
-    
+    return np.array(mav)
+
+
 # def cal_spectrum1(channels, energy, hist_edges):
 #     a,b = np.polyfit(channels,energy,1)
 #     E = a*hist_edges + b
