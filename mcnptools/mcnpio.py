@@ -175,7 +175,7 @@ def read_inp_source(file, s1=["SI1", "SP1"], s2=["SI2", "SP2"]):
 
 def make_inp(cells, surfaces, materials, dataC, fileName):
     """ Create MCNPinput file from scratch.
-    
+
 
     Parameters
     ----------
@@ -189,7 +189,7 @@ def make_inp(cells, surfaces, materials, dataC, fileName):
         data cards
     fileName: string or Path object
         file to write
-        
+
 
     Returns
     -------
@@ -206,7 +206,7 @@ def make_inp(cells, surfaces, materials, dataC, fileName):
 
 def make_inp_DE(cells, surfaces, materials, dataC, fileName, Ebin, freq):
     """Create input file with histogram photon source
-    
+
     Parameters
     ----------
     cells : List of strings.
@@ -219,9 +219,9 @@ def make_inp_DE(cells, surfaces, materials, dataC, fileName, Ebin, freq):
         data cards
     Ebin:
         energy bins
-    freq: 
+    freq:
         normalized frequency
-        
+
 
     Returns
     -------
