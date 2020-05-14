@@ -28,11 +28,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install wheel
         pip install flake8 pytest pytest-cov
-<<<<<<< HEAD
-        pip install setuptools setuptools_scm[toml] numpy pandas
-=======
         pip install setuptools setuptools_scm[toml] numpy pandas scipy
->>>>>>> 67fb896c72920255e168230919f6beaf93ceb49b
         pip install hg+https://bitbucket.org/brendanarnold/py-fortranformat
         pip install -e .
     - name: Lint with flake8
