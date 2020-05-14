@@ -39,8 +39,6 @@ KEYWORDS = {
     14: "unknown",
 }
 
-keywords = {v: None for k, v in KEYWORDS.items()}
-
 types = {1: "initial source", 2: "bank", 3: "surface", 4: "collision", 5: "termination"}
 
 IDs = {
@@ -436,6 +434,9 @@ class Header:
         self.N1 = None
         self.shorthash = None
         self.num_particles = None
+        self.name = None
+        self.keywords = {}
+        self.IDS = {}
 
         self.parse(filehandle)
 
@@ -456,7 +457,7 @@ class Header:
         ) = line
         # user defined name of simulations
         line = next(f)
-        self.name = line
+        self.name = line.strip()
         self.shorthash = line.split()[-1]
         self.num_particles = line.split()[-2]
         # 3 lines of keyword values
@@ -482,7 +483,12 @@ class Header:
             j += 1
             idx += 1
             n = int(K[j])
-            keywords[KEYWORDS[idx]] = K[j + 1 : j + 1 + n] or None
+            if n == 1:
+                self.keywords[KEYWORDS[idx]] = K[j + 1 : j + 1 + n][0]
+            elif n == 0:
+                pass
+            else:
+                self.keywords[KEYWORDS[idx]] = K[j + 1 : j + 1 + n]
             j += n
         # list of N values
         line = next(f)
@@ -516,7 +522,6 @@ class Header:
             L = L + line
             got = len(L)
         # parse the ids of the events
-        self.IDS = {}
         self.IDS["nps"] = parse_ID(L[: self.N1])
         self.IDS["initial source"] = parse_ID(L[self.N1 : N_src])
         self.IDS["bank"] = parse_ID(L[N_src:N_bnk])
@@ -527,9 +532,8 @@ class Header:
     def __repr__(self):
         out = f"Program:{self.program} ; Version:({self.version} , {self.program_date}) ; Current Date:{self.run_date} {self.run_time}\n"
         out += f"{self.name}\n"
-        for k, v in keywords.items():
-            if v:
-                out += f"  {k} {v}\n"
+        for k, v in self.keywords.items():
+            out += f"  {k} {v}\n"
         for k, v in self.IDS.items():
             out += f"   IDS: {k} {v}\n"
         return out
@@ -551,6 +555,19 @@ class HistoryHandler:
 
     def close(self):
         self.output_file.close()
+
+
+class HistoryHandlerKeep(HistoryHandler):
+    """An output handler class that can be used in read_file
+
+    This handler can be used to keep the history of all events.
+    """
+
+    def __init__(self):
+        self.histories = []
+
+    def __call__(self, hist):
+        self.histories.append(hist)
 
 
 def read_file(filename, handle_history=None):
