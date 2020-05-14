@@ -1,0 +1,8 @@
+*~
+mcnptools/version.py
+#*
+.#*
+__pycache__
+.mypy_cache/
+*egg-info*
+.coverage
