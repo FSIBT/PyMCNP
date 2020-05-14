@@ -464,6 +464,7 @@ def write_inp_materials(file_to_read, file_to_write, mat_list, mat_num):
                  elif i > idx_end:
                      wf.write(l)
     
+#def get_GEB(energy, resolution):
     
     
         
