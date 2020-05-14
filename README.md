@@ -16,4 +16,8 @@ Also install pre-commit via
 1) pip install pre-commit
 2) pre-commit install
 
+## Running tests
+  Test can be run from the main directory using:
+
+  python -m pytest --cov=mcnptools
 
