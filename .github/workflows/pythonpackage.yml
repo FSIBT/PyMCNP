@@ -30,6 +30,7 @@ jobs:
         pip install flake8 pytest pytest-cov
         pip install setuptools setuptools_scm[toml] numpy
         pip install hg+https://bitbucket.org/brendanarnold/py-fortranformat
+        pip install -e .
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
