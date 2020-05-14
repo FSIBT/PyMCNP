@@ -12,8 +12,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import mcnpio as io
 
-file_delay = 'Moon/test1-F4/png_moon_all_V2_F8_delay_1e8.o'
-file_prompt = 'Moon/test1-F4/png_moon_all_V2_F8_prompt_1e8.o'
+# file_delay = 'Moon/test1-F4/png_moon_all_V2_F8_delay_1e8.o'
+# file_prompt = 'Moon/test1-F4/png_moon_all_V2_F8_prompt_1e8.o'
+
+file_delay = 'Moon/test2-F4/png_moon_all_V3_F8_delay.o'
+file_prompt = 'Moon/test2-F4/png_moon_all_V3_F8_prompt.o'
+
+# file_delay = 'Moon/test2-F4/png_moon_all_V3_F8_delay_1e8.o'
+# file_prompt = 'Moon/test2-F4/png_moon_all_V3_F8_prompt_1e8.o'
 
 dfd = io.read_output(file_delay, tally=8, n=1, tally_type='e', particle='p') # delayed
 dfp = io.read_output(file_prompt, tally=8, n=1, tally_type='e', particle='p') # prompt
