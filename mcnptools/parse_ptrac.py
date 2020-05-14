@@ -2,12 +2,8 @@
 Parsing ptrac files from MCNP
 """
 
-
-import sys
 from collections import namedtuple
 from fortranformat import FortranRecordReader
-import numpy as np
-import h5py
 
 Position = namedtuple("Position", "x y z")
 
@@ -20,9 +16,9 @@ PARTICLE = {1: "neutron", 2: "photon"}
 
 def get_particle(nr):
     name = PARTICLE.get(nr, None)
-    if name is not None:
+    if name:
         return name
-    print(f"need to implement particle type {nr}, see page 166 in the manual")
+    print(f"WARNING: need to implement particle type {nr}, see page 166 in the manual")
     return ""
 
 
@@ -184,8 +180,7 @@ def lookup_mtp(idx, neutron=True):
 def parse_event(event):
     if event in event_type:
         return event_type[event]
-    else:
-        return "bank"
+    return "bank"
 
 
 def parse_bank(event):
@@ -243,7 +238,11 @@ def get_termination_type(idx, particle):
 
 
 class Event:
-    """Save information from a single event in a particles history"""
+    """Save information from a single event in a particles history
+
+
+    For example a single gamma event in a cascade.
+    """
 
     def __init__(self, parent, line=None, header=None):
         self.event_type = parent.current_event
@@ -373,6 +372,11 @@ class Event:
 
 
 class History:
+    """Save information of a whole neutron cascade.
+
+    A History contains multiple Event classes that describe the single particles or collisions
+    """
+
     def __init__(self, line=None, header=None):
 
         if line is not None:
@@ -418,7 +422,10 @@ class History:
 
 
 class Header:
-    def __init__(self):
+    """Parses the header of a ptrace file
+    """
+
+    def __init__(self, filehandle):
         self.IDs = {}
         self.program = None
         self.version = None
@@ -429,6 +436,8 @@ class Header:
         self.N1 = None
         self.shorthash = None
         self.num_particles = None
+
+        self.parse(filehandle)
 
     def parse(self, f):
         # first line is always -1
@@ -445,9 +454,6 @@ class Header:
             self.run_date,
             self.run_time,
         ) = line
-        """self.program, self.version, self.program_date, self.run_date,
-        self.run_time = self.program.strip(), self.version.strip(), self.program_date.strip(),
-        self.run_date.strip(), self.run_time.strip() """
         # user defined name of simulations
         line = next(f)
         self.name = line
@@ -492,7 +498,8 @@ class Header:
         N12 = N[11]
         N13 = N[12]
         # the next block of lines needs to provide this many values
-        need = N_ter  # number of values is N_ter and will fill up necessary number of lines to achieve N_ter entries
+        # number of values is N_ter and will fill up necessary number of lines to achieve N_ter entries
+        need = N_ter
         line = next(f)
         form = FortranRecordReader("(1x,30i4)")
         line = form.read(line)
@@ -508,29 +515,17 @@ class Header:
             line = form.read(line)
             L = L + line
             got = len(L)
+        # parse the ids of the events
         self.IDS = {}
-        self.IDS["nps"] = parse_ID(L[: self.N1])  # list of Variables for the NPS line
-        self.IDS["initial source"] = parse_ID(
-            L[self.N1 : N_src]
-        )  # list of variable IDs for an src event
-        self.IDS["bank"] = parse_ID(
-            L[N_src:N_bnk]
-        )  # list of variable IDs for an bank event
-        self.IDS["surface"] = parse_ID(
-            L[N_bnk:N_sur]
-        )  # list of variable IDs for an sur event
-        self.IDS["collision"] = parse_ID(
-            L[N_sur:N_col]
-        )  # list of variable IDs for an col event
-        self.IDS["termination"] = parse_ID(
-            L[N_col:N_ter]
-        )  # list of variable IDs for an ter event
+        self.IDS["nps"] = parse_ID(L[: self.N1])
+        self.IDS["initial source"] = parse_ID(L[self.N1 : N_src])
+        self.IDS["bank"] = parse_ID(L[N_src:N_bnk])
+        self.IDS["surface"] = parse_ID(L[N_bnk:N_sur])
+        self.IDS["collision"] = parse_ID(L[N_sur:N_col])
+        self.IDS["termination"] = parse_ID(L[N_col:N_ter])
 
     def __repr__(self):
-        out = ""
-        out += "Program:{} ; Version:({} , {}) ; Current Date:{} {}\n".format(
-            self.program, self.version, self.program_date, self.run_date, self.run_time
-        )
+        out = f"Program:{self.program} ; Version:({self.version} , {self.program_date}) ; Current Date:{self.run_date} {self.run_time}\n"
         out += f"{self.name}\n"
         for k, v in keywords.items():
             if v:
@@ -540,17 +535,52 @@ class Header:
         return out
 
 
+class HistoryHandler:
+    """A default output handler class that can be used in read_file
+
+    In principle the handler can be any function. This class with callable instances
+    takes care of opening and closing files, so that the file does not need to be opened
+    every time.
+    """
+
+    def __init__(self, filename):
+        self.output_file = open(filename, "w")
+
+    def __call__(self, hist):
+        self.output_file.write(repr(hist))
+
+    def close(self):
+        self.output_file.close()
+
+
 def read_file(filename, handle_history=None):
-    """ """
-    header = Header()
+    """Parses a whole PTRAC file
+
+    This function reads in and parses all events relating to one neutron. The user can provide a
+    a custom function to create any output from these events. To save memory, the event is not kept
+    in memory, so the user provided function should write any information to disk that is important.
+
+    Parameters
+    ----------
+    filename : str
+        The filename of the ptrac file
+    handle_history :
+        a function that takes a History object as an argument. This hook is provided to
+        have custom code executed for each history in the ptrac file.
+
+    Returns
+    -------
+    header :
+        Returns the heaer of the ptrac file
+
+    """
     with open(filename) as fin:  # open for read
-        header.parse(fin)
+        header = Header(fin)
+
         # parse particle histories
         try:
             while True:
                 line = next(fin)
-                # read first nps entry in history
-                # print("in read_file", line)
                 hist = History(line, header)
                 while hist.current_event != "final":
                     # get two lines and add them together
