@@ -7,7 +7,7 @@ Usage:
 
 Options:
    -h  --help                        This information
-   -n <number>                       how many events to parse
+   -n <number>                       how many events to parse [default: 0]
    -p <prob>                         probability to skip events [default: 1.0]
    -o <output>  --output=<output>    Output file name
 
