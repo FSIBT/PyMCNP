@@ -614,7 +614,9 @@ def read_file(filename, handle_history=None):
                     event = Event(parent=hist, line=event_line, header=header)
                     hist.add(event)
                 if handle_history:
-                    handle_history(hist)
+                    ret = handle_history(hist)
+                    if ret:
+                        raise StopIteration
                 del hist
         except StopIteration:
             pass

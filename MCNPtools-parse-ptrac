@@ -7,22 +7,28 @@ Usage:
 
 Options:
    -h  --help                        This information
+   -n <number>                       how many events to parse
+   -p <prob>                         probability to skip events [default: 1.0]
    -o <output>  --output=<output>    Output file name
 
 
 filter can be one of:
   gammas:     creates several output files, one for each element
   neutrons:   creates several output files, one for each element
-  plot:       produces: [alpha_xyz, alpha_time,  neutron_xyzuvw,
-                              atom/gamma_xyzuvw, detected-gamma_xyz]
+  plot:               3d plot of traces
+  plotsurfaces:       3d plot of traces
+
+The -n and -p option can be used to reduce the plotting output
+
 """
 
 
 from docopt import docopt
-from collections import namedtuple
+from collections import namedtuple, defaultdict
 import numpy as np
-import h5py
 import mcnptools
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 commands = docopt(__doc__)
 # print(commands)
@@ -31,6 +37,8 @@ commands = docopt(__doc__)
 input = commands["<filename>"]
 filter = commands["<filter>"]
 output = commands["-o"]
+probability = float(commands["-p"])
+number = int(commands["-n"])
 
 
 class HistoryHandlerGammas:
@@ -52,6 +60,85 @@ class HistoryHandlerGammas:
     def close(self):
         for f in self.output_files.values():
             f.close()
+
+
+class HistoryHandlerPlot:
+    def __init__(self, plot_surfaces=False):
+        self.plot_surfaces = plot_surfaces
+        self.fig = plt.figure()
+        self.ax = plt.axes(projection="3d")
+        self.node = 1
+        self.colors = {"neutron": "red", "photon": "blue"}
+        self.lineX = []
+        self.lineY = []
+        self.lineZ = []
+        self.scatterX = []
+        self.scatterY = []
+        self.scatterZ = []
+        self.surfaceX = defaultdict(list)
+        self.surfaceY = defaultdict(list)
+        self.surfaceZ = defaultdict(list)
+        self.counter = 0
+
+    def plot(self):
+        self.counter += 1
+        if not self.plot_surfaces:
+            self.ax.plot(
+                self.lineX, self.lineY, self.lineZ, color=self.colors[self.particle]
+            )
+        self.lineX = []
+        self.lineY = []
+        self.lineZ = []
+
+    def __call__(self, hist):
+        if number:
+            if self.counter > number:
+                return True
+        if np.random.random() > probability:
+            # skip this history
+            return
+
+        for h in hist.history:
+            if h.node and (h.node < self.node):
+                self.plot()
+                self.particle = h.particle
+            if h.event_type == "initial source":
+                self.node = h.node
+                self.particle = h.particle
+                self.lineX.append(h.pos.x)
+                self.lineY.append(h.pos.y)
+                self.lineZ.append(h.pos.z)
+            elif h.event_type == "collision":
+                self.node = h.node
+                self.lineX.append(h.pos.x)
+                self.lineY.append(h.pos.y)
+                self.lineZ.append(h.pos.z)
+                self.scatterX.append(h.pos.x)
+                self.scatterY.append(h.pos.y)
+                self.scatterZ.append(h.pos.z)
+            elif h.event_type == "surface":
+                self.node = h.node
+                self.lineX.append(h.pos.x)
+                self.lineY.append(h.pos.y)
+                self.lineZ.append(h.pos.z)
+                s = int(h.surface)
+                self.surfaceX[s].append(h.pos.x)
+                self.surfaceY[s].append(h.pos.y)
+                self.surfaceZ[s].append(h.pos.z)
+            elif h.event_type == "Photon from Neutron":
+                self.node = h.node
+                self.lineX.append(h.pos.x)
+                self.lineY.append(h.pos.y)
+                self.lineZ.append(h.pos.z)
+        self.plot()
+
+    def close(self):
+        if self.plot_surfaces:
+            for s in self.surfaceX:
+                self.ax.scatter(self.surfaceX[s], self.surfaceY[s], self.surfaceZ[s])
+        else:
+            self.ax.scatter(self.scatterX, self.scatterY, self.scatterZ, color="green")
+        plt.show()
 
 
 class HistoryHandlerNeutrons(mcnptools.parse_ptrac.HistoryHandler):
@@ -81,6 +168,10 @@ if __name__ == "__main__":
             handler = HistoryHandlerGammas()
         elif filter == "neutrons":
             handler = HistoryHandlerNeutrons(f"{input}-output-neutrons.txt")
+        elif filter == "plot":
+            handler = HistoryHandlerPlot()
+        elif filter == "plotsurfaces":
+            handler = HistoryHandlerPlot(plot_surfaces=True)
         else:
             handler = mcnptools.parse_ptrac.HistoryHandler(f"{input}-output.txt")
 
