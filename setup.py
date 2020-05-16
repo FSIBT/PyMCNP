@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="mcnptools",
-    version="0.1.0",
+    use_scm_version={'write_to': 'mcnptools/version.py'},
     description="MCNP tools",
     url="https://github.com/mauricioAyllon/MCNP-tools",
     author="Mauricio Ayllon Unzueta",
