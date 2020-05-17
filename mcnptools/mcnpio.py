@@ -14,6 +14,7 @@ from pathlib import Path
 import re
 from collections import defaultdict
 import time
+import pkg_resources
 
 
 def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
@@ -369,48 +370,215 @@ def make_pulsed_source(B, P, BP, LW, SP):
     return res.astype(int), res2.transpose().astype(int)
 
 
-def write_inp_pulsed_source(file_to_read, file_to_write, tbins, S1, S2):
-    idx_start = 0
-    idx_end = 0
-    # find important indices
-    with open(file_to_read, "r") as rf:
+def write_inp_time(file_to_write, tbins, S1, S2, ncutoff=None):
+    """
+    Parameters
+    ----------
+    file_to_write : string or Path object
+        file to write.
+    tbins : integer
+        number of time bins.
+    S1 : numpy array
+        source information and probability 1.
+    S2 : numpy array
+        source information and probability 2.
+    ncutoff : integer, optional
+        neutron cutoff time in seconds. The default is None.
+
+    Raises
+    ------
+    Exception
+        'time information' and 'end file' need to be in the file.
+
+    Returns
+    -------
+    None.
+
+    """
+    with open(file_to_write, "r") as rf:
+        idx_end = 0
+        for i, l in enumerate(rf):
+            tmp = l.split()
+            if "time" in tmp and "information" in tmp:
+                idx_tme = i
+            if "end" in tmp and "file" in tmp:
+                idx_end = i
+    with open(file_to_write, "r") as f:
+        file = f.readlines()
+
+    if idx_tme == 0:
+        raise Exception(
+            "ERROR: Make sure there is a line with the words: 'time information'"
+        )
+    if idx_end == 0:
+        raise Exception(
+            "ERROR: Make sure the last line of the file has the words 'end file' in it"
+        )
+
+    source0 = "sdef par=n erg=14 TME=D1<D2 \n"
+    source1 = "# SI1 SP1 \n"
+    file.insert(idx_tme + 2, source0)
+    file.insert(idx_tme + 3, source1)
+    x = 1
+    for l1 in S1:
+        tmp = "{} {} \n".format(l1[0], l1[1])
+        file.insert(idx_tme + 3 + x, tmp)
+        x += 1
+    source2 = "# SI2 SP2 \n"
+    file.insert(idx_tme + 3 + x, source2)
+    x += 1
+    for l2 in S2:
+        tmp = "{} {} \n".format(l2[0], l2[1])
+        file.insert(idx_tme + 3 + x, tmp)
+        x += 1
+    str1 = "c \n"
+    file.insert(idx_tme + 3 + x, str1)
+    tstr = "t0 0 {}i {} \n".format(tbins - 1, S2[1, 0])
+    file.insert(idx_tme + 4 + x, tstr)
+    if ncutoff != None:
+        cut = "cut:n" + " " + str(int(ncutoff * 1e8)) + " " + "j 0 0 \n"
+        file.insert(idx_tme + 5 + x, cut)
+    with open(file_to_write, "w") as wf:
+        wf.writelines(file)
+
+
+def write_inp_tally(
+    file_to_write, cell, erg=[0.1, 10, 1000], tally_type="F4", particle="n", cutoff=None
+):
+    """
+    Parameters
+    ----------
+    file_to_write : string or Path object
+        file to write.
+    cell : integer
+        cell number.
+    erg : list, optional
+        [energy min, energy max, energy bins]. The default is [0.1,10,1000].
+    tally_type : string, optional
+        type of tally with respective numbering. The default is 'F4'.
+    particle : string, optional
+        photon 'p' or neutron 'n'. The default is 'n'.
+    cutoff : energy cutoff in MeV, optional
+        DESCRIPTION. The default is None.
+
+    Raises
+    ------
+    Exception
+        'tally information' and 'end file' must be in the file.
+
+    Returns
+    -------
+    None.
+
+    """
+    tly = tally_type + ":" + particle + " " + str(cell) + "\n"
+    energy = (
+        "E"
+        + re.findall("\d+", tally_type)[0]
+        + " "
+        + str(erg[0])
+        + " "
+        + str(erg[2] - 1)
+        + "I"
+        + " "
+        + str(erg[1])
+        + "\n"
+    )
+    if cutoff != None:
+        cut = "cut" + ":" + particle + " " + "j" + str(cutoff) + " " + "0"
+        com1 = " $ lower energy threshold, analog simulation \n"
+
+    with open(file_to_write, "r") as rf:
+        idx_end = 0
+        for i, l in enumerate(rf):
+            tmp = l.split()
+            if "tally" in tmp and "information" in tmp:
+                idx_tly = i
+            if "end" in tmp and "file" in tmp:
+                idx_end = i
+    with open(file_to_write, "r") as f:
+        file = f.readlines()
+    if idx_tly == 0:
+        raise Exception(
+            "ERROR: Make sure there is a line with the words: 'tally information'"
+        )
+    if idx_end == 0:
+        raise Exception(
+            "ERROR: Make sure the last line of the file has the words 'end file' in it"
+        )
+
+    file.insert(idx_tly + 2, tly)
+    file.insert(idx_tly + 3, energy)
+    if cutoff != None:
+        file.insert(idx_tly + 4, cut)
+        file.insert(idx_tly + 5, com1)
+
+    with open(file_to_write, "w") as wf:
+        wf.writelines(file)
+
+
+def write_inp_mode_nps(file_to_write, mode="n", nps=1000):
+    """
+    Parameters
+    ----------
+    file_to_write : string or path object
+        file to write.
+    mode : string, optional
+        mcnp mode e.g. 'n', 'n p', etc. The default is "n".
+    nps : integer, optional
+        number of simulated particles. The default is 1000.
+
+    Raises
+    ------
+    Exception
+        'source defintion' and 'end file' must be in file.
+
+    Returns
+    -------
+    None.
+
+    """
+    with open(file_to_write, "r") as rf:
+        idx_end = 0
         for i, l in enumerate(rf):
             tmp = l.split()
             if "source" in tmp and "definition" in tmp:
-                idx_start = i
-            if "SI2" in tmp or "SP2" in tmp:
+                idx_src = i
+            if "end" in tmp and "file" in tmp:
                 idx_end = i
-            if "t0" in tmp:
-                idx_tbin = i
-    if idx_end > idx_tbin:
-        print("ERROR: time bins must come after source definition")
-    with open(file_to_read, "r") as rf:
-        with open(file_to_write, "w") as wf:
-            for i, l in enumerate(rf):
-                if i < idx_start:
-                    wf.write(l)
-                elif i == idx_start:
-                    wf.write(l)
-                    wf.write("sdef par=n erg=14 TME=D1<D2 \n")
-                    wf.write("# SI1 SP1 \n")
-                    wf.writelines(["{} {}\n".format(s[0], s[1]) for s in S1])
-                    wf.write("# SI2 SP2 \n")
-                    wf.writelines(["{} {}\n".format(s2[0], s2[1]) for s2 in S2])
-                    str1 = "c" + " " + 60 * "=" + "\n"
-                    str2 = "c \n"
-                    wf.writelines(str1)
-                    wf.writelines(str2)
-                    tstr = "t0 0 {}i {} \n".format(tbins - 1, S2[1, 0])
-                    wf.writelines(tstr)
-                    next
-                elif i > idx_tbin:
-                    wf.write(l)
+    with open(file_to_write, "r") as f:
+        file = f.readlines()
+
+    if idx_src == 0:
+        raise Exception(
+            "ERROR: Make sure there is a line with the words: 'source definition'"
+        )
+    if idx_end == 0:
+        raise Exception(
+            "ERROR: Make sure the last line of the file has the words 'end file' in it"
+        )
+    mde = "mode" + " " + mode + "\n"
+    npart = "nps" + " " + str(int(nps)) + "\n"
+    file.insert(idx_src + 2, mde)
+    file.insert(idx_src + 3, npart)
+    with open(file_to_write, "w") as wf:
+        wf.writelines(file)
 
 
 def isotopic_abundance(element):
-    file = Path(
-        "C:/Users/mauri/Documents/NASA-GSFC/Technical/MCNP-tools/mcnptools/Isotopes-NIST-2.txt"
-    )
+    """
+    Parameters
+    ----------
+    element : string
+        chemical symbol e.g 'H'.
+
+    Returns
+    -------
+    result : dictionary
+        stable isotopes and their respective natural abundance.
+
+    """
+    file = pkg_resources.resource_filename("mcnptools", "data/Isotopes-NIST-2.txt")
     # read all lines and store in memory
     with open(file, "r") as f:
         lines = f.readlines()
@@ -434,6 +602,22 @@ def isotopic_abundance(element):
 
 
 def make_material(element, percent, cutoff=0.005):
+    """
+    Parameters
+    ----------
+    element : string
+        chemical symbol e.g. 'H'.
+    percent : float
+        percent composition < 1.
+    cutoff : float, optional
+        percent cutoff for negligible abundances. The default is 0.005 (0.5%).
+
+    Returns
+    -------
+    res : list
+        MNCP format for material card.
+
+    """
     elem_dict = isotopic_abundance(element)
     elem_dict = {key: val for key, val in elem_dict.items() if val > cutoff}
     lst = list(elem_dict.keys())
@@ -455,34 +639,184 @@ def make_material(element, percent, cutoff=0.005):
     return res
 
 
-def write_inp_materials(file_to_read, file_to_write, mat_list, mat_num):
-    idx_start = 0
-    idx_end = 0
-    # find important indices
-    with open(file_to_read, "r") as rf:
+def write_inp_material(file_to_write, mat_list, mat_num):
+    """
+    Parameters
+    ----------
+    file_to_write : string or Path object
+        file to write.
+    mat_list : list
+        material list in MCNP format.
+    mat_num : integer
+        material number for MCNP input.
+
+    Raises
+    ------
+    Exception
+        'material compositions' and 'source definition' must be in the file.
+
+    Returns
+    -------
+    None.
+
+    """
+    with open(file_to_write, "r") as rf:
         for i, l in enumerate(rf):
             tmp = l.split()
             if "material" in tmp and "compositions" in tmp:
-                idx_start = i
-            if "detector" in tmp and "material" in tmp:
-                idx_end = i
-    with open(file_to_read, "r") as rf:
-        with open(file_to_write, "w") as wf:
-            for i, l in enumerate(rf):
-                if i < idx_start:
-                    wf.write(l)
-                elif i == idx_start:
-                    wf.write(l)
-                    wf.write("c \n")
-                    wf.write(f"M{str(mat_num)}" + 3 * " ")
-                    wf.write(mat_list[0] + "\n")
-                    for el in mat_list[1:]:
-                        length = len(f"M{str(mat_num)}")
-                        wf.write((length + 3) * " " + el + "\n")
-                    wf.write("c \n")
-                    next
-                elif i > idx_end:
-                    wf.write(l)
+                idx_mat = i
+            if "source" in tmp and "definition" in tmp:
+                idx_src = i
+    with open(file_to_write, "r") as f:
+        file = f.readlines()
+
+    if idx_mat == 0:
+        raise Exception(
+            "ERROR: Make sure there is a line with the words: 'material compositions'"
+        )
+    if idx_src == 0:
+        raise Exception(
+            "ERROR: Make sure there is a line with the words: 'source definition'"
+        )
+
+    mnum1 = "M" + str(mat_num) + 3 * " " + mat_list[0] + "\n"
+    file.insert(idx_src - 1, mnum1)
+    x = 1
+    for mat in mat_list[1:]:
+        length = len(f"M{str(mat_num)}")
+        line = (length + 3) * " " + mat + "\n"
+        file.insert(idx_src - 1 + x, line)
+        x += 1
+    file.insert(idx_src - 1 + x, "c \n")
+    with open(file_to_write, "w") as wf:
+        wf.writelines(file)
 
 
-# def get_GEB(energy, resolution):
+def write_inp_sdef_F8(
+    file_to_write,
+    ebins,
+    freq,
+    SI2,
+    pos,
+    cell,
+    erg="d1",
+    par=2,
+    rad="d2",
+    clear_sdef=True,
+):
+    """
+    Parameters
+    ----------
+    file_to_write : string or Path object
+        file to write.
+    ebins : numpy array
+        energy bins.
+    freq : numpy array
+        frequency or probability (cts).
+    SI2 : list
+        source infrmation 2 e.g. SI2=[0,10].
+    pos : list
+        position of gamma source e.g. [0,0,0].
+    cell : integer
+        cell number.
+    erg : string, optional
+        energy distribution identifier. The default is 'd1'.
+    par : integer, optional
+        particle type. The default is 2 (gammas).
+    rad : string, optional
+        radial distribution for source 2. The default is 'd2'.
+    clear_sdef : boolean, optional
+        clears the source definition. The default is True.
+
+    Returns
+    -------
+    None.
+
+    """
+    with open(file_to_write, "r") as rf:
+        for i, l in enumerate(rf):
+            tmp = l.split()
+            if "source" in tmp and "definition" in tmp:
+                idx_src = i
+
+    with open(file_to_write, "r") as f:
+        file = f.readlines()
+
+    if clear_sdef:
+        file = file[: idx_src + 2]
+    sdef = (
+        "SDEF pos="
+        + f"{pos[0]} {pos[1]} {pos[2]}"
+        + f" CEL={cell}"
+        + f" ERG={erg}"
+        + f" PAR={par}"
+        + f" RAD={rad} \n"
+    )
+    si2 = f"SI2 {SI2[0]} {SI2[1]} \n"
+    si1 = f"# SI1   SP1 \n"
+    file.append(sdef)
+    file.append(si2)
+    file.append(si1)
+    for e, f in zip(ebins, freq):
+        tmp = f"{e}  {f} \n"
+        file.append(tmp)
+    with open(file_to_write, "w") as wf:
+        wf.writelines(file)
+
+
+def write_inp_tally_F8(
+    file_to_write,
+    cell,
+    geb,
+    tally_nb=8,
+    energy=[0.1, 10, 1000],
+    nps=1000,
+    clear_sdef=True,
+):
+    """
+    Parameters
+    ----------
+    file_to_write : string or Path object
+        file to write.
+    cell : integer
+        cell number.
+    geb : list
+        GEB parameters e.g. [-0.020,0.044,0.117].
+    tally_nb : integer, optional
+        tally 8 number e.g. 18. The default is 8.
+    energy : list, optional
+        energy range [min, max, bins]. The default is [0.1,10,1000].
+    nps : integer, optional
+        number of particles. The default is 1000.
+    clear_sdef : boolean, optional
+        clears source definition. The default is True.
+
+    Returns
+    -------
+    None.
+
+    """
+    with open(file_to_write, "r") as rf:
+        for i, l in enumerate(rf):
+            tmp = l.split()
+            if "source" in tmp and "definition" in tmp:
+                idx_src = i
+
+    with open(file_to_write, "r") as f:
+        file = f.readlines()
+
+    if clear_sdef:
+        file = file[: idx_src + 2]
+
+    mode = "mode e p \n"
+    tly = f"F{tally_nb}:p {cell} \n"
+    erg = f"E{tally_nb}: {energy[0]} {energy[2]-1}I {energy[1]} \n"
+    GEB = f"FT{tally_nb} GEB {geb[0]} {geb[1]} {geb[2]} \n"
+    n_part = f"nps {int(nps)} \n"
+    file.insert(idx_src + 2, mode)
+    file.insert(idx_src + 3, tly)
+    file.insert(idx_src + 4, erg)
+    file.insert(idx_src + 5, GEB)
+    file.insert(idx_src + 6, n_part)
+    with open(file_to_write, "w") as wf:
+        wf.writelines(file)
