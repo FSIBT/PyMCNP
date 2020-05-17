@@ -350,12 +350,12 @@ class Event:
         x = d.pop("XXX", None)
         y = d.pop("YYY", None)
         z = d.pop("ZZZ", None)
-        if x is not None:
+        if x is not None and y is not None and z is not None:
             self.pos = Position(float(x), float(y), float(z))
         u = d.pop("UUU", None)
         v = d.pop("VVV", None)
         w = d.pop("WWW", None)
-        if u is not None:
+        if u is not None and v is not None and w is not None:
             self.dir = Direction(float(u), float(v), float(w))
         self.ncp = d.pop("NCP", None)
         self.energy = d.pop("ERG", None)
@@ -424,7 +424,7 @@ class Header:
     """
 
     def __init__(self, filehandle):
-        self.IDs = {}
+        self.IDS = {}
         self.program = None
         self.version = None
         self.program_date = None
@@ -432,13 +432,22 @@ class Header:
         self.run_time = None
         self.N = None
         self.N1 = None
-        self.shorthash = None
-        self.num_particles = None
+        self.shorthash = None  # assumes that the git shorthash is the last word in the name
+        self.num_particles = None  # assumes that the particle numbers is the second to last word in the name
         self.name = None
         self.keywords = {}
-        self.IDS = {}
 
         self.parse(filehandle)
+
+    def to_hdf(self, f):
+        """Saved the information to a writeable hdf file"""
+
+        f.attrs['program'] = self.program
+        f.attrs['version'] = self.version
+        f.attrs['program_date'] = self.program_date
+        f.attrs['run_date'] = self.run_date
+        f.attrs['run_time'] = self.run_time
+        f.attrs['name'] = self.name
 
     def parse(self, f):
         # first line is always -1
