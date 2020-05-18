@@ -39,6 +39,7 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
         dataframe with columns: energy, cts, err
         or dataframe with columns: time, cts, err
         or dataframe with columns: energy, time_bins...
+        time in [us]
 
     """
     flag = False
@@ -79,11 +80,12 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
     others = [x for x in surf if x > first]  # rest of data
     if len(others) > 0:  # this is usually necessary for F1 tally
         [lidx.append(x) for x in others]
+        pidx = lidx
 
     print(f"Found {len(lidx)} tallies")
     print(f"Output tally number {n}")
 
-    if flag == True:  # this is a time and energy tally
+    if flag:  # this is a time and energy tally
         start = [x for x in en if x > pidx[n - 1]][0] + 1
         totals = np.array([x for x in endbin if x > pidx[n - 1]][:-1]) + 4
         diffs = np.diff(totals)
@@ -131,19 +133,24 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
             max_rows=binsP - 1,
         )
         df = pd.DataFrame(columns=[key_word, "cts", "err"], data=Edep)
+        if key_word == "time":
+            df[key_word] = df[key_word] / 100  # output in microseconds
         return df
 
 
-def read_inp_source(file, s1=["SI1", "SP1"], s2=["SI2", "SP2"]):
+def read_inp_source(file, s1=["SI1", "SP1"], s2=["SI2", "SP2"], form="column"):
     """
     Parameters
     ----------
     file : str or file Path
         MCNP input file to read.
     s1 : list of strings, optional
-        key words for start of SI1 and SP1. The default is ['SI1','SP1'].
+        keywords for start of SI1 and SP1. The default is ['SI1','SP1'].
     s2 : list of strings, optional
-        key words for start of SI2 and SP2. The default is ['SI2','SP2'].
+        keywords for start of SI2 and SP2. The default is ['SI2','SP2'].
+    form: string
+        keyword for column format (#) or row format (not yet implemented).
+        The default is 'column'
 
     Returns
     -------
@@ -153,7 +160,7 @@ def read_inp_source(file, s1=["SI1", "SP1"], s2=["SI2", "SP2"]):
         SI2 and SP2.
 
     """
-
+    # need implementation of row format
     idx1_start = 0
     idx2_start = 0
     print("Reading input file...")
@@ -164,22 +171,21 @@ def read_inp_source(file, s1=["SI1", "SP1"], s2=["SI2", "SP2"]):
                 idx1_start = i
             if s2[0] in tmp and s2[1] in tmp:
                 idx2_start = i
+    with open(file, "r") as f:
+        all_lines = f.readlines()
 
-    bins1 = (idx2_start - idx1_start) - 1
-    bins2 = 2
-    source1 = np.genfromtxt(
-        file, delimiter=" ", skip_header=idx1_start + 1, max_rows=bins1
-    )
-    source2 = np.genfromtxt(
-        file, delimiter=" ", skip_header=idx2_start + 1, max_rows=bins2
-    )
-
-    df1 = pd.DataFrame(columns=["SI", "SP"], data=source1)
-    df2 = pd.DataFrame(columns=["SI", "SP"], data=source2)
+    s1_str = all_lines[idx1_start + 1 : idx2_start]
+    s1_str_split = [x.split() for x in s1_str]
+    s1np = np.array(s1_str_split, dtype="float")
+    s2_str = all_lines[idx2_start + 1 : idx2_start + 3]
+    s2_str_split = [x.split() for x in s2_str]
+    s2np = np.array(s2_str_split, dtype="float")
+    df1 = pd.DataFrame(columns=["SI", "SP"], data=s1np)
+    df2 = pd.DataFrame(columns=["SI", "SP"], data=s2np)
     return df1, df2
 
 
-def make_inp(cells, surfaces, materials, dataC, fileName):
+def make_inp(cells, surfaces, materials, dataC, fileName):  # to be deleted
     """ Create MCNPinput file from scratch.
     
 
@@ -210,7 +216,9 @@ def make_inp(cells, surfaces, materials, dataC, fileName):
         f.writelines(["%s\n" % d for d in dataC])
 
 
-def make_inp_DE(cells, surfaces, materials, dataC, fileName, Ebin, freq):
+def make_inp_DE(
+    cells, surfaces, materials, dataC, fileName, Ebin, freq
+):  # to be deleted
     """Create input file with histogram photon source
     
     Parameters
@@ -249,6 +257,7 @@ def make_inp_DE(cells, surfaces, materials, dataC, fileName, Ebin, freq):
 
 
 def read_fmesh(file, mesh=False):
+    # np.genfromtxt too slow
     """
     Parameters
     ----------
@@ -608,7 +617,7 @@ def make_material(element, percent, cutoff=0.005):
     element : string
         chemical symbol e.g. 'H'.
     percent : float
-        percent composition < 1.
+        percent composition <= 1.
     cutoff : float, optional
         percent cutoff for negligible abundances. The default is 0.005 (0.5%).
 
@@ -621,6 +630,10 @@ def make_material(element, percent, cutoff=0.005):
     elem_dict = isotopic_abundance(element)
     elem_dict = {key: val for key, val in elem_dict.items() if val > cutoff}
     lst = list(elem_dict.keys())
+    if lst == []:
+        raise Exception(
+            "ERROR: no isotope found. Double check the symbol or try reducing the cutoff value"
+        )
     Z = re.findall("\d+", lst[0])[0]
     rel_p = np.array(list(elem_dict.values())) * percent
     A = []
@@ -635,7 +648,8 @@ def make_material(element, percent, cutoff=0.005):
     res = []
     for isot, perc in zip(A, rel_p):
         val = str(round(perc, 10))
-        res.append(Z + isot + 6 * " " + "-" + val + 6 * " " + f" $ {element}-{isot}")
+        # res.append(Z + isot + 6 * " " + "-" + val + 6 * " " + f" $ {element}-{isot}")
+        res.append(f"{Z}{isot}      -{val}      $ {element}-{isot}")
     return res
 
 
