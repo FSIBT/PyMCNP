@@ -114,7 +114,6 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
             # need the following if statement because 'Total' printed at the end
             if i == len(idxall) - 1:
                 data2 = data2[:, 0:-1]
-                print("Here")
             df0 = pd.DataFrame(columns=tme / 100, data=data2)
             df = df.join(df0)
         endtime = time.time()
