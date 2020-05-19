@@ -15,6 +15,7 @@ import re
 from collections import defaultdict
 import time
 import pkg_resources
+from datetime import datetime
 
 
 def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
@@ -647,7 +648,6 @@ def make_material(element, percent, cutoff=0.005):
     res = []
     for isot, perc in zip(A, rel_p):
         val = str(round(perc, 10))
-        # res.append(Z + isot + 6 * " " + "-" + val + 6 * " " + f" $ {element}-{isot}")
         res.append(f"{Z}{isot}      -{val}      $ {element}-{isot}")
     return res
 
@@ -833,3 +833,34 @@ def write_inp_tally_F8(
     file.insert(idx_src + 6, n_part)
     with open(file_to_write, "w") as wf:
         wf.writelines(file)
+
+
+def get_runtime(filename):
+    # in development
+    outp = open(filename, "r").read().split("\n")
+
+    time1 = ""
+    time2 = ""
+    for line in outp:
+        if "mcnp" in line and "version 6" in line and "probid" in line:
+            str = line.replace("     ", " ").split(" ")
+            time1 = str[10]
+            time2 = str[19]
+        if "computer" in line and "time" in line:
+            cpt = line
+
+    datetime2 = datetime.strptime(time2, "%H:%M:%S")
+    datetime1 = datetime.strptime(time1, "%H:%M:%S")
+    diff = datetime1 - datetime2
+    real_time = time.strftime("%H:%M:%S", time.gmtime(diff.seconds))
+    computer_time = cpt
+    return real_time, computer_time
+
+
+def display_stats(filename):
+    # add statistical checks
+    rtm, ctm = get_runtime(filename)
+    print(40 * "-")
+    print(f" Real time: {rtm}")
+    print(f"{ctm}")
+    print(40 * "-")
