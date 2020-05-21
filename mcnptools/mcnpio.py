@@ -88,11 +88,11 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
 
     if flag:  # this is a time and energy tally
         start = [x for x in en if x > pidx[n - 1]][0] + 1
-        totals = np.array([x for x in endbin if x > pidx[n - 1]][:-1]) + 4
-        diffs = np.diff(totals)
-        stp = totals[1] - totals[0]
-        ix_delete = np.where(diffs != stp)[0] + 1
-        totals = np.delete(totals, ix_delete)
+        totals0 = np.array([x for x in endbin if x > pidx[n - 1]][:-1]) + 4
+        diffs = np.diff(totals0)
+        # = totals[1] - totals[0]
+        ix_delete = np.where(diffs == 2)[0] + 1
+        totals = np.delete(totals0, ix_delete)
         idxall = np.append(start, totals)
         ebins = idxall[1] - idxall[0] - 4
         energy = np.genfromtxt(
@@ -113,10 +113,15 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
             data1 = np.array([x.split() for x in data0], dtype="float")
             data2 = data1[:, 1::2]
             # need the following if statement because 'Total' printed at the end
-            if i == len(idxall) - 1:
+            if len(tme) == 1:
                 data2 = data2[:, 0:-1]
-            df0 = pd.DataFrame(columns=tme / 100, data=data2)
-            df = df.join(df0)
+                df0 = pd.DataFrame(columns=tme / 100, data=data2)
+                df = df.join(df0)
+                break
+            else:
+                df0 = pd.DataFrame(columns=tme / 100, data=data2)
+                df = df.join(df0)
+
         endtime = time.time()
         print(f"For loop took {round(endtime-starttime,2)} seconds")
 
