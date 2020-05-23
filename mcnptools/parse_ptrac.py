@@ -432,8 +432,10 @@ class Header:
         self.run_time = None
         self.N = None
         self.N1 = None
-        self.shorthash = None  # assumes that the git shorthash is the last word in the name
-        self.num_particles = None  # assumes that the particle numbers is the second to last word in the name
+        # assumes that the git shorthash is the last word in the name
+        self.shorthash = None
+        # assumes that the particle numbers is the second to last word in the namedtuple
+        self.num_particles = None
         self.name = None
         self.keywords = {}
 
@@ -442,12 +444,12 @@ class Header:
     def to_hdf(self, f):
         """Saved the information to a writeable hdf file"""
 
-        f.attrs['program'] = self.program
-        f.attrs['version'] = self.version
-        f.attrs['program_date'] = self.program_date
-        f.attrs['run_date'] = self.run_date
-        f.attrs['run_time'] = self.run_time
-        f.attrs['name'] = self.name
+        f.attrs["program"] = self.program
+        f.attrs["version"] = self.version
+        f.attrs["program_date"] = self.program_date
+        f.attrs["run_date"] = self.run_date
+        f.attrs["run_time"] = self.run_time
+        f.attrs["name"] = self.name
 
     def parse(self, f):
         # first line is always -1
