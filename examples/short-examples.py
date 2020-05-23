@@ -27,7 +27,7 @@ plt.legend()
 
 ## read FMESH tally
 file_mesh = Path("../mcnp_runs/meshtal-example")
-df_mesh = io.read_fmesh(file_mesh)
+dfi, df_mesh = io.read_fmesh(file_mesh, mesh_info=True)
 dfz_mesh = df_mesh[(df_mesh.Z > -1) & (df_mesh.Z < 1)]  # central slice
 xx, mat = io.griddata(dfz_mesh.X, dfz_mesh.Y, dfz_mesh.Result, nbins=100)
 
