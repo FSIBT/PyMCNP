@@ -261,43 +261,78 @@ def make_inp_DE(
         f.writelines("%s\n" % freq[-1])
 
 
-def read_fmesh(file, mesh=False):
+def numpy_fillna(data):
+    # Get lengths of each row of data
+    lens = np.array([len(i) for i in data])
+
+    # Mask of valid places in each row
+    mask = np.arange(lens.max()) < lens[:, None]
+
+    # Setup output array and put elements from data into masked positions
+    out = np.zeros(mask.shape, dtype=data.dtype)
+    out[mask] = np.concatenate(data)
+    return out
+
+
+def read_fmesh(file, mesh_info=False):
     # np.genfromtxt too slow
     """
     Parameters
     ----------
     file : string
         meshtal file.
-    mesh : boolean, optional
+    mesh_info : boolean, optional
         if mesh points are desired. The default is False.
 
     Returns
     -------
     pandas dataframe
         dataframe columns: Energy, X, Y, Result, RelError
-
+        or if mesh_info=True, an additional dataframe is returned
+        containing information regarding bins
     """
-    endbin = 0
+
+    idx0 = 0
+    e0 = np.array([0])
+    t0 = np.array([0])
+    totals = []
     with open(file, "r") as myfile:
         for i, l in enumerate(myfile):
+            tmp = l.split()
             if ("X direction") in l:
-                x0 = l.split()
-                x = np.asarray(x0[2:], dtype=float)
+                x0 = np.asarray(tmp[2:], dtype=float)
             if ("Y direction") in l:
-                y0 = l.split()
-                y = np.asarray(y0[2:], dtype=float)
+                y0 = np.asarray(tmp[2:], dtype=float)
             if ("Z direction") in l:
-                z0 = l.split()
-                z = np.asarray(z0[2:], dtype=float)
+                z0 = np.asarray(tmp[2:], dtype=float)
             if ("Energy bin boundaries") in l:
-                endbin = i
+                e0 = np.asarray(tmp[3:], dtype=float)
+            if ("Time bin boundaries") in l:
+                t0 = np.asarray(tmp[3:], dtype=float)
+            if "Result" in tmp and "Error" in tmp:
+                idx0 = i
+            if "Total" in tmp:
+                totals.append(i)
 
-    data = np.genfromtxt(file, skip_header=endbin + 3)
-    df = pd.DataFrame(
-        data=data, columns=["Energy", "X", "Y", "Z", "Result", "RelError"]
+    with open(file, "r") as f:
+        all_data = f.readlines()
+
+    data0 = all_data[idx0 + 1 :]
+    data1 = np.array(
+        [np.fromstring(x, dtype=float, sep=" ") for x in data0 if "Total" not in x]
     )
-    if mesh == True:
-        return x, y, z, df
+    cols = all_data[idx0].split()
+    cols.remove("Rel")
+    df = pd.DataFrame(data=data1, columns=cols)
+    # info
+    if mesh_info:
+        data_info = [e0, t0, x0, y0, z0]
+        info_np = np.array(data_info)
+        a = numpy_fillna(info_np)
+        df_info = pd.DataFrame(
+            data=a.T, columns=["Ebins", "tbins", "Xbins", "Ybins", "Zbins"]
+        )
+        return df_info, df
     else:
         return df
 
@@ -864,6 +899,8 @@ def get_runtime(filename):
 
 def display_stats(filename):
     # add statistical checks
+    # nps, number of tallies with respective particle name
+    # overall error, average error per bin, etc
     rtm, ctm = get_runtime(filename)
     print(40 * "-")
     print(f" Real time: {rtm}")
