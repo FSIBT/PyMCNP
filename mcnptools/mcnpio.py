@@ -63,6 +63,7 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
     pidx = []
     en = []
     surf = []
+    tagix = []
     print("Reading output file...")
     with open(file, "r") as myfile:
         for i, l in enumerate(myfile):
@@ -77,13 +78,17 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
                 endbin.append(i)
             if "surface" in tmp:
                 surf.append(i)
+            if "user" in tmp and "bin" in tmp:
+                tagix.append(i)
     first = [x for x in en if x > pidx[0]][0]  # begining of data
     others = [x for x in surf if x > first]  # rest of data
     if len(others) > 0:  # this is usually necessary for F1 tally
         [lidx.append(x) for x in others]
         pidx = lidx
+    if len(tagix) > 0:
+        pidx = tagix
 
-    print(f"Found {len(lidx)} tallies")
+    print(f"Found {len(pidx)} tallies")
     print(f"Output tally number {n}")
 
     if flag:  # this is a time and energy tally
@@ -275,7 +280,6 @@ def numpy_fillna(data):
 
 
 def read_fmesh(file, mesh_info=False):
-    # np.genfromtxt too slow
     """
     Parameters
     ----------
