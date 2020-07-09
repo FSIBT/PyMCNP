@@ -64,6 +64,7 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
     en = []
     surf = []
     tagix = []
+    uncol = []
     print("Reading output file...")
     with open(file, "r") as myfile:
         for i, l in enumerate(myfile):
@@ -78,15 +79,20 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
                 endbin.append(i)
             if "surface" in tmp:
                 surf.append(i)
+            if "uncollided" in tmp and "flux" in tmp:
+                uncol.append(i)
             if "user" in tmp and "bin" in tmp:
                 tagix.append(i)
     first = [x for x in en if x > pidx[0]][0]  # begining of data
-    others = [x for x in surf if x > first]  # rest of data
-    if len(others) > 0:  # this is usually necessary for F1 tally
-        [lidx.append(x) for x in others]
+    surfaces = [x for x in surf if x > first]  # rest of data
+    if len(surfaces) > 0:  # this is usually necessary for F1 tally
+        [lidx.append(x) for x in surfaces]
         pidx = lidx
     if len(tagix) > 0:
         pidx = tagix
+    if len(uncol) > 0:
+        [lidx.append(x) for x in uncol]
+        pidx = lidx
 
     print(f"Found {len(pidx)} tallies")
     print(f"Output tally number {n}")
@@ -183,7 +189,7 @@ def read_inp_source(file, s1=["SI1", "SP1"], s2=["SI2", "SP2"], form="column"):
                 idx2_start = i
     with open(file, "r") as f:
         all_lines = f.readlines()
-
+    print("Done")
     s1_str = all_lines[idx1_start + 1 : idx2_start]
     s1_str_split = [x.split() for x in s1_str]
     s1np = np.array(s1_str_split, dtype="float")
@@ -570,6 +576,82 @@ def write_inp_tally(
         wf.writelines(file)
 
 
+def write_inp_tallyF5(
+    file_to_write, pos, r0, erg=[0.1, 10, 1000], particle="n", cutoff=None
+):
+    """
+    Parameters
+    ----------
+    file_to_write : string or Path object
+        file to write.
+    pos : list
+        detector locaion [x,y,z].
+    r0: integer
+        radius of exclusion (positive in cm and negative in mfp)
+    erg : list, optional
+        [energy min, energy max, energy bins]. The default is [0.1,10,1000].
+    particle : string, optional
+        photon 'p' or neutron 'n'. The default is 'n'.
+    cutoff : energy cutoff in MeV, optional
+        DESCRIPTION. The default is None.
+
+    Raises
+    ------
+    Exception
+        'tally information' and 'end file' must be in the file.
+
+    Returns
+    -------
+    None.
+
+    """
+    tally_type = "F5"
+    tly = f"{tally_type}:{particle} {pos[0]} {pos[1]} {pos[2]} {r0} \n"
+    energy = (
+        "E"
+        + re.findall("\d+", tally_type)[0]
+        + " "
+        + str(erg[0])
+        + " "
+        + str(erg[2] - 1)
+        + "I"
+        + " "
+        + str(erg[1])
+        + "\n"
+    )
+    if cutoff != None:
+        cut = "cut" + ":" + particle + " " + "j" + str(cutoff) + " " + "0"
+        com1 = " $ lower energy threshold, analog simulation \n"
+
+    with open(file_to_write, "r") as rf:
+        idx_end = 0
+        for i, l in enumerate(rf):
+            tmp = l.split()
+            if "tally" in tmp and "information" in tmp:
+                idx_tly = i
+            if "end" in tmp and "file" in tmp:
+                idx_end = i
+    with open(file_to_write, "r") as f:
+        file = f.readlines()
+    if idx_tly == 0:
+        raise Exception(
+            "ERROR: Make sure there is a line with the words: 'tally information'"
+        )
+    if idx_end == 0:
+        raise Exception(
+            "ERROR: Make sure the last line of the file has the words 'end file' in it"
+        )
+
+    file.insert(idx_tly + 2, tly)
+    file.insert(idx_tly + 3, energy)
+    if cutoff != None:
+        file.insert(idx_tly + 4, cut)
+        file.insert(idx_tly + 5, com1)
+
+    with open(file_to_write, "w") as wf:
+        wf.writelines(file)
+
+
 def write_inp_mode_nps(file_to_write, mode="n", nps=1000):
     """
     Parameters
@@ -887,9 +969,9 @@ def get_runtime(filename):
     time2 = ""
     for line in outp:
         if "mcnp" in line and "version 6" in line and "probid" in line:
-            str = line.replace("     ", " ").split(" ")
-            time1 = str[10]
-            time2 = str[19]
+            string = line.replace("     ", " ").split(" ")
+            time1 = string[10]
+            time2 = string[19]
         if "computer" in line and "time" in line:
             cpt = line
 
@@ -899,6 +981,49 @@ def get_runtime(filename):
     real_time = time.strftime("%H:%M:%S", time.gmtime(diff.seconds))
     computer_time = cpt
     return real_time, computer_time
+
+
+def get_ntally(filename):
+    # get number of tallies
+    lidx = []
+    pidx = []
+    en = []
+    surf = []
+    tagix = []
+    ttype = []
+    ptype = []
+    surftype = []
+    tagtype = []
+    print("Reading output file...")
+    with open(filename, "r") as myfile:
+        for i, l in enumerate(myfile):
+            tmp = l.split()
+            if "tally" in tmp and "type" in tmp:
+                lidx.append(i)
+                ttype.append(tmp)
+            if "particle(s):" in tmp:
+                pidx.append(i)
+                ptype.append(tmp)
+            if "surface" in tmp:
+                surf.append(i)
+                surftype.append(tmp)
+            if "user" in tmp and "bin" in tmp:
+                tagix.append(i)
+                tagtype.append(tmp)
+    nt = f"Total number of tallies: {len(lidx)}"
+    tt0 = []
+    for t, p in zip(ttype, ptype):
+        tt0.append(f"F{t[2]}, {p[1]}")
+    tt = f"Tally type, particle: {tt0}"
+    # first = [x for x in en if x > pidx[0]][0]  # begining of data
+    # others = [x for x in surf if x > first]  # rest of data
+    # if len(others) > 0:  # this is usually necessary for F1 tally
+    #     [lidx.append(x) for x in others]
+    #     pidx = lidx
+    # if len(tagix) > 0:
+    #     pidx = tagix
+
+    print(f"Found {len(pidx)} tallies")
 
 
 def display_stats(filename):
