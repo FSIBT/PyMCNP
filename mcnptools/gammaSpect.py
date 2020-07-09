@@ -58,6 +58,8 @@ def moving_avg_smoothing(data, num=8):
     elif isinstance(data, (np.ndarray, np.generic)):
         df = pd.DataFrame(data=data, columns=["cts"])
         mav = df.cts.rolling(window=num, center=True).mean()
+    else:
+        mav = data.rolling(window=num, center=True).mean()
     return np.array(mav)
 
 
