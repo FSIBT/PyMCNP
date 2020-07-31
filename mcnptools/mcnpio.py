@@ -388,7 +388,7 @@ def griddata(x, y, z, nbins, xrange=None, yrange=None):
     yy = np.linspace(lowy, highy, nbins)
     xg, yg = np.meshgrid(xx, yy)
 
-    result = gd((x, y), z, (xg, yg))  # , method='nearest')
+    result = gd((x, y), z, (xg, yg))  # , method='cubic')
     return xx, result
 
 
