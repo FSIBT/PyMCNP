@@ -963,8 +963,11 @@ def write_inp_tally_F8(
 
 class display_info:
     # in development
-    # currently supports reading F1, F4, F5, F6, F8 tallies
-    # currently supports reading tag tallies
+    """
+    Display information from output file.
+    Supports tallies: F1, F4, F5, F6, F8
+    Supports subtallies: F5 - uncollided flux, tally tag, F1 - surfaces
+    """
 
     def __init__(self, filename):
         self.filename = filename
@@ -1006,7 +1009,7 @@ class display_info:
                     tally_type.append(l)
                 if "particle(s):" in tmp:
                     pidx.append(i)
-                    particle.append(l)
+                    particle.append(tmp)
                 if "surface" in tmp and len(lidx) > 0 and i >= min(lidx):
                     surf.append(i)
                     surface.append(tmp)
@@ -1017,24 +1020,109 @@ class display_info:
                     tagix.append(i)
                     user_bin.append(l)
         print("Done reading")
-        ttype = tally_type[0].split()
-        decrip_tly = f"Tally description: {' '.join(ttype[3:])} "
         tot_subtly = len(surface) + len(uncollided) + len(user_bin)
-        sur, unc, ub = 0, 0, 0
-        if len(surface) > 0:
-            sur = surface[0][1]
-        if len(uncollided) > 0:
-            unc = uncollided
-        if len(user_bin) > 0:
-            ub = user_bin
-
-        cols = ["tally_type", "description", "surfaces", "uncollided_flux", "user_bin"]
-        df = pd.DataFrame(columns=cols)
-        dat1 = ["F" + ttype[2], " ".join(ttype[3:]), sur, unc, ub]
-        ser1 = pd.Series(dat1, index=df.columns)
-        df = df.append(ser1, ignore_index=True)
         print("--" * 20)
         print(f"Number of tallies: {len(lidx)}")
         print(f"Number of subtallies: {tot_subtly}")
         print("--" * 20)
+        ttype = tally_type[0].split()
+
+        # initialize dataframe
+        cols = [
+            "tally_type",
+            "description",
+            "particle",
+            "surfaces",
+            "uncollided_flux",
+            "user_bin",
+            "line_number",
+        ]
+        df = pd.DataFrame(columns=cols)
+
+        sur, unc, ub = 0, 0, 0
+        if len(surface) > 0:
+            sur = surface
+            for ls, s in zip(surf, sur):
+                dat0 = [
+                    "F" + ttype[2],
+                    " ".join(ttype[3:]),
+                    particle[0][1],
+                    s[1],
+                    unc,
+                    ub,
+                    ls,
+                ]
+                ser0 = pd.Series(dat0, index=df.columns)
+                df = df.append(ser0, ignore_index=True)
+        if len(uncollided) > 0:
+            uncol_idx = uncol
+            unc0 = "collided photon flux"
+            unc = uncollided
+            for l in lidx:
+                dat0 = [
+                    "F" + ttype[2],
+                    " ".join(ttype[3:]),
+                    particle[0][1],
+                    sur,
+                    unc0,
+                    ub,
+                    l,
+                ]
+                ser0 = pd.Series(dat0, index=df.columns)
+                df = df.append(ser0, ignore_index=True)
+            for line, ix in zip(unc, uncol_idx):
+                dat0 = [
+                    "F" + ttype[2],
+                    " ".join(ttype[3:]),
+                    particle[0][1],
+                    sur,
+                    line[1:],
+                    ub,
+                    ix,
+                ]
+                ser0 = pd.Series(dat0, index=df.columns)
+                df = df.append(ser0, ignore_index=True)
+        if len(user_bin) > 0:
+            ub = user_bin
+            for line, ix in zip(ub, tagix):
+                dat0 = [
+                    "F" + ttype[2],
+                    " ".join(ttype[3:]),
+                    particle[0][1],
+                    sur,
+                    unc,
+                    line,
+                    ix,
+                ]
+                ser0 = pd.Series(dat0, index=df.columns)
+                df = df.append(ser0, ignore_index=True)
+
+        if tot_subtly == 0:
+            for l in lidx:
+                dat0 = [
+                    "F" + ttype[2],
+                    " ".join(ttype[3:]),
+                    particle[0][1],
+                    sur,
+                    unc,
+                    ub,
+                    l,
+                ]
+                ser0 = pd.Series(dat0, index=df.columns)
+                df = df.append(ser0, ignore_index=True)
+
+        # drop all zero columns
+        df = df.loc[:, (df != 0).any(axis=0)]
         return df
+
+    def get_nps(self):
+        print("Reading output file...")
+        nps = 0
+        with open(self.filename, "r") as myfile:
+            for i, l in enumerate(myfile):
+                tmp = l.split()
+                if "run" in tmp and "terminated" in tmp:
+                    nps = tmp[3]
+                    break
+        print("Done reading")
+        print(f"Number of simulated particles: {nps}")
