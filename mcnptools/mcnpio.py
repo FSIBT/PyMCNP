@@ -961,77 +961,80 @@ def write_inp_tally_F8(
         wf.writelines(file)
 
 
-def get_runtime(filename):
+class display_info:
     # in development
-    outp = open(filename, "r").read().split("\n")
+    # currently supports reading F1, F4, F5, F6, F8 tallies
+    # currently supports reading tag tallies
 
-    time1 = ""
-    time2 = ""
-    for line in outp:
-        if "mcnp" in line and "version 6" in line and "probid" in line:
-            string = line.replace("     ", " ").split(" ")
-            time1 = string[10]
-            time2 = string[19]
-        if "computer" in line and "time" in line:
-            cpt = line
+    def __init__(self, filename):
+        self.filename = filename
 
-    datetime2 = datetime.strptime(time2, "%H:%M:%S")
-    datetime1 = datetime.strptime(time1, "%H:%M:%S")
-    diff = datetime1 - datetime2
-    real_time = time.strftime("%H:%M:%S", time.gmtime(diff.seconds))
-    computer_time = cpt
-    return real_time, computer_time
+    def get_runtime(self):
+        # in development
+        outp = open(self.filename, "r").read().split("\n")
 
+        time1 = ""
+        time2 = ""
+        for line in outp:
+            if "mcnp" in line and "version 6" in line and "probid" in line:
+                string = line.replace("     ", " ").split(" ")
+                time1 = string[10]
+                time2 = string[19]
+            if "computer" in line and "time" in line:
+                cpt = line
 
-def get_ntally(filename):
-    # get number of tallies
-    lidx = []
-    pidx = []
-    en = []
-    surf = []
-    tagix = []
-    ttype = []
-    ptype = []
-    surftype = []
-    tagtype = []
-    print("Reading output file...")
-    with open(filename, "r") as myfile:
-        for i, l in enumerate(myfile):
-            tmp = l.split()
-            if "tally" in tmp and "type" in tmp:
-                lidx.append(i)
-                ttype.append(tmp)
-            if "particle(s):" in tmp:
-                pidx.append(i)
-                ptype.append(tmp)
-            if "surface" in tmp:
-                surf.append(i)
-                surftype.append(tmp)
-            if "user" in tmp and "bin" in tmp:
-                tagix.append(i)
-                tagtype.append(tmp)
-    nt = f"Total number of tallies: {len(lidx)}"
-    tt0 = []
-    for t, p in zip(ttype, ptype):
-        tt0.append(f"F{t[2]}, {p[1]}")
-    tt = f"Tally type, particle: {tt0}"
-    # first = [x for x in en if x > pidx[0]][0]  # begining of data
-    # others = [x for x in surf if x > first]  # rest of data
-    # if len(others) > 0:  # this is usually necessary for F1 tally
-    #     [lidx.append(x) for x in others]
-    #     pidx = lidx
-    # if len(tagix) > 0:
-    #     pidx = tagix
+        datetime2 = datetime.strptime(time2, "%H:%M:%S")
+        datetime1 = datetime.strptime(time1, "%H:%M:%S")
+        diff = datetime1 - datetime2
+        # real_time = "real time: " + time.strftime("%H:%M:%S", time.gmtime(diff.seconds))
+        real_time = f"real time: {round(diff.seconds/60,1)} minutes"
+        computer_time = cpt[1:]
+        return real_time, computer_time
 
-    print(f"Found {len(pidx)} tallies")
+    def get_tally_info(self):
+        lidx, pidx = [], []
+        surf, tagix, uncol = [], [], []
+        tally_type, particle, surface = [], [], []
+        uncollided, user_bin = [], []
 
+        print("Reading output file...")
+        with open(self.filename, "r") as myfile:
+            for i, l in enumerate(myfile):
+                tmp = l.split()
+                if "tally" in tmp and "type" in tmp:
+                    lidx.append(i)
+                    tally_type.append(l)
+                if "particle(s):" in tmp:
+                    pidx.append(i)
+                    particle.append(l)
+                if "surface" in tmp and len(lidx) > 0 and i >= min(lidx):
+                    surf.append(i)
+                    surface.append(tmp)
+                if "uncollided" in tmp and "flux" in tmp:
+                    uncol.append(i)
+                    uncollided.append(l)
+                if "user" in tmp and "bin" in tmp:
+                    tagix.append(i)
+                    user_bin.append(l)
+        print("Done reading")
+        ttype = tally_type[0].split()
+        decrip_tly = f"Tally description: {' '.join(ttype[3:])} "
+        tot_subtly = len(surface) + len(uncollided) + len(user_bin)
+        sur, unc, ub = 0, 0, 0
+        if len(surface) > 0:
+            sur = surface[0][1]
+        if len(uncollided) > 0:
+            unc = uncollided
+        if len(user_bin) > 0:
+            ub = user_bin
 
-def display_stats(filename):
-    # add statistical checks
-    # nps, number of tallies with respective particle name
-    # overall error, average error per bin, etc
-    rtm, ctm = get_runtime(filename)
-    print(40 * "-")
-    print(f" Real time: {rtm}")
-    print(f"{ctm}")
-    print(40 * "-")
+        cols = ["tally_type", "description", "surfaces", "uncollided_flux", "user_bin"]
+        df = pd.DataFrame(columns=cols)
+        dat1 = ["F" + ttype[2], " ".join(ttype[3:]), sur, unc, ub]
+        ser1 = pd.Series(dat1, index=df.columns)
+        df = df.append(ser1, ignore_index=True)
+        print("--" * 20)
+        print(f"Number of tallies: {len(lidx)}")
+        print(f"Number of subtallies: {tot_subtly}")
+        print("--" * 20)
+        return df
