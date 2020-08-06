@@ -83,6 +83,7 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
                 uncol.append(i)
             if "user" in tmp and "bin" in tmp:
                 tagix.append(i)
+
     first = [x for x in en if x > pidx[0]][0]  # begining of data
     surfaces = [x for x in surf if x > first]  # rest of data
     if len(surfaces) > 0:  # this is usually necessary for F1 tally
@@ -966,7 +967,8 @@ class display_info:
     """
     Display information from output file.
     Supports tallies: F1, F4, F5, F6, F8
-    Supports subtallies: F5 - uncollided flux, tally tag, F1 - surfaces
+    Supports subtallies: F5 - uncollided flux, tally tag, F1 - surfaces,
+    F1 with cosine tallies
     """
 
     def __init__(self, filename):
@@ -995,10 +997,10 @@ class display_info:
         return real_time, computer_time
 
     def get_tally_info(self):
-        lidx, pidx = [], []
+        lidx, pidx, ix_angle = [], [], []
         surf, tagix, uncol = [], [], []
         tally_type, particle, surface = [], [], []
-        uncollided, user_bin = [], []
+        uncollided, user_bin, l_angle = [], [], []
 
         print("Reading output file...")
         with open(self.filename, "r") as myfile:
@@ -1013,6 +1015,9 @@ class display_info:
                 if "surface" in tmp and len(lidx) > 0 and i >= min(lidx):
                     surf.append(i)
                     surface.append(tmp)
+                if "angle" in tmp and "bin:" in tmp:
+                    l_angle.append(tmp)
+                    ix_angle.append(i)
                 if "uncollided" in tmp and "flux" in tmp:
                     uncol.append(i)
                     uncollided.append(l)
@@ -1033,27 +1038,45 @@ class display_info:
             "description",
             "particle",
             "surfaces",
+            "angle_bin",
             "uncollided_flux",
             "user_bin",
             "line_number",
         ]
         df = pd.DataFrame(columns=cols)
-
-        sur, unc, ub = 0, 0, 0
-        if len(surface) > 0:
+        sur, ang, unc, ub = 0, 0, 0, 0
+        if len(surface) > 0 and len(ix_angle) == 0:
             sur = surface
-            for ls, s in zip(surf, sur):
+            for ix, s in zip(surf, sur):
                 dat0 = [
                     "F" + ttype[2],
                     " ".join(ttype[3:]),
                     particle[0][1],
                     s[1],
+                    ang,
                     unc,
                     ub,
-                    ls,
+                    ix,
                 ]
                 ser0 = pd.Series(dat0, index=df.columns)
                 df = df.append(ser0, ignore_index=True)
+        if len(surface) > 0 and len(ix_angle) > 0:
+            ang = l_angle
+            sur = surface
+            for ix, s, a in zip(surf, sur, ang):
+                dat0 = [
+                    "F" + ttype[2],
+                    " ".join(ttype[3:]),
+                    particle[0][1],
+                    s[1],
+                    " ".join(a[2:]),
+                    unc,
+                    ub,
+                    ix,
+                ]
+                ser0 = pd.Series(dat0, index=df.columns)
+                df = df.append(ser0, ignore_index=True)
+
         if len(uncollided) > 0:
             uncol_idx = uncol
             unc0 = "collided photon flux"
@@ -1064,6 +1087,7 @@ class display_info:
                     " ".join(ttype[3:]),
                     particle[0][1],
                     sur,
+                    ang,
                     unc0,
                     ub,
                     l,
@@ -1076,6 +1100,7 @@ class display_info:
                     " ".join(ttype[3:]),
                     particle[0][1],
                     sur,
+                    ang,
                     line[1:],
                     ub,
                     ix,
@@ -1090,6 +1115,7 @@ class display_info:
                     " ".join(ttype[3:]),
                     particle[0][1],
                     sur,
+                    ang,
                     unc,
                     line,
                     ix,
@@ -1104,6 +1130,7 @@ class display_info:
                     " ".join(ttype[3:]),
                     particle[0][1],
                     sur,
+                    ang,
                     unc,
                     ub,
                     l,
