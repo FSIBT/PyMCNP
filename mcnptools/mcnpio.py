@@ -19,8 +19,8 @@ from datetime import datetime
 
 
 def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
-    """ Read standard MCNP output file.
-    
+    """Read standard MCNP output file.
+
 
     Parameters
     ----------
@@ -32,7 +32,7 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
         tally number to output. Default is the first one found.
     tally_type: string.
         either energy 'e', time 't', or both 'et'.
-        
+
 
     Returns
     -------
@@ -191,20 +191,28 @@ def read_inp_source(file, s1=["SI1", "SP1"], s2=["SI2", "SP2"], form="column"):
     with open(file, "r") as f:
         all_lines = f.readlines()
     print("Done")
-    s1_str = all_lines[idx1_start + 1 : idx2_start]
-    s1_str_split = [x.split() for x in s1_str]
-    s1np = np.array(s1_str_split, dtype="float")
-    s2_str = all_lines[idx2_start + 1 : idx2_start + 3]
-    s2_str_split = [x.split() for x in s2_str]
-    s2np = np.array(s2_str_split, dtype="float")
-    df1 = pd.DataFrame(columns=["SI", "SP"], data=s1np)
-    df2 = pd.DataFrame(columns=["SI", "SP"], data=s2np)
-    return df1, df2
+
+    if idx2_start == 0:
+        s1_str = all_lines[idx1_start + 1 :]
+        s1_str_split = [x.split() for x in s1_str]
+        s1np = np.array(s1_str_split, dtype="float")
+        df1 = pd.DataFrame(columns=["SI", "SP"], data=s1np)
+        return df1
+    else:
+        s1_str = all_lines[idx1_start + 1 : idx2_start]
+        s1_str_split = [x.split() for x in s1_str]
+        s1np = np.array(s1_str_split, dtype="float")
+        s2_str = all_lines[idx2_start + 1 : idx2_start + 3]
+        s2_str_split = [x.split() for x in s2_str]
+        s2np = np.array(s2_str_split, dtype="float")
+        df1 = pd.DataFrame(columns=["SI", "SP"], data=s1np)
+        df2 = pd.DataFrame(columns=["SI", "SP"], data=s2np)
+        return df1, df2
 
 
 def make_inp(cells, surfaces, materials, dataC, fileName):  # to be deleted
-    """ Create MCNPinput file from scratch.
-    
+    """Create MCNPinput file from scratch.
+
 
     Parameters
     ----------
@@ -218,7 +226,7 @@ def make_inp(cells, surfaces, materials, dataC, fileName):  # to be deleted
         data cards
     fileName: string or Path object
         file to write
-        
+
 
     Returns
     -------
@@ -237,7 +245,7 @@ def make_inp_DE(
     cells, surfaces, materials, dataC, fileName, Ebin, freq
 ):  # to be deleted
     """Create input file with histogram photon source
-    
+
     Parameters
     ----------
     cells : List of strings.
@@ -250,9 +258,9 @@ def make_inp_DE(
         data cards
     Ebin:
         energy bins
-    freq: 
+    freq:
         normalized frequency
-        
+
 
     Returns
     -------
@@ -1150,6 +1158,7 @@ class display_info:
                 tmp = l.split()
                 if "run" in tmp and "terminated" in tmp:
                     nps = tmp[3]
+                    print(tmp)
                     break
         print("Done reading")
         print(f"Number of simulated particles: {nps}")
