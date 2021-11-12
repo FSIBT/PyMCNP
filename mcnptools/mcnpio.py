@@ -16,6 +16,7 @@ from collections import defaultdict
 import time
 import pkg_resources
 from datetime import datetime
+from molmass import Formula
 
 
 def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
@@ -54,9 +55,9 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
     else:
         print("ERROR: tally type not recognized")
 
-    if particle == "n":
+    if particle == "n" or particle == "neutrons":
         particle = "neutrons"
-    elif particle == "p":
+    elif particle == "p" or particle == "photons":
         particle = "photons"
     lidx = []
     endbin = []
@@ -99,16 +100,18 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
     print(f"Output tally number {n}")
 
     if flag:  # this is a time and energy tally
-        start = [x for x in en if x > pidx[n - 1]][0] + 1
-        totals0 = np.array([x for x in endbin if x > pidx[n - 1]][:-1]) + 4
-        diffs = np.diff(totals0)
-        # = totals[1] - totals[0]
-        ix_delete = np.where(diffs == 2)[0] + 1
-        totals = np.delete(totals0, ix_delete)
-        idxall = np.append(start, totals)
-        ebins = idxall[1] - idxall[0] - 4
+        if len(pidx) == n:  # handle the end case correctly
+            start_erg = [x + 1 for x in en if x > pidx[-1]]
+            total = [x for x in endbin if x > start_erg[0]][0]
+            ebins = total - start_erg[0]
+        else:
+            start_erg = [x + 1 for x in en if (x > pidx[n - 1]) & (x < pidx[n])]
+            totals = [x for x in endbin if (x > pidx[n - 1]) & (x < pidx[n])]
+            # remove "total" bin, which happens at the end of the tally
+            totals.pop(-2)
+            ebins = totals[0] - start_erg[0]
         energy = np.genfromtxt(
-            file, delimiter=" ", usecols=(0), skip_header=idxall[0], max_rows=ebins
+            file, delimiter=" ", usecols=(0), skip_header=start_erg[0], max_rows=ebins
         )
         df = pd.DataFrame(columns=["energy"], data=energy)
 
@@ -116,12 +119,12 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
         with open(file, "r") as f:
             allf = f.readlines()
 
-        for i in range(len(idxall)):
-            tme0 = allf[idxall[i] - 2]
+        for i in range(len(start_erg)):
+            tme0 = allf[start_erg[i] - 2]
             tme1 = re.findall("\d.+\d", tme0)
             tme2 = tme1[0].split()
             tme = np.array(tme2, dtype="float")
-            data0 = allf[idxall[i] : idxall[i] + ebins]
+            data0 = allf[start_erg[i] : start_erg[i] + ebins]
             data1 = np.array([x.split() for x in data0], dtype="float")
             data2 = data1[:, 1::2]
             # need the following if statement because 'Total' printed at the end
@@ -130,6 +133,10 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
                 df0 = pd.DataFrame(columns=tme / 100, data=data2)
                 df = df.join(df0)
                 break
+            elif data2.shape[1] == len(tme) + 1:
+                data2 = data2[:, :-1]
+                df0 = pd.DataFrame(columns=tme / 100, data=data2)
+                df = df.join(df0)
             else:
                 df0 = pd.DataFrame(columns=tme / 100, data=data2)
                 df = df.join(df0)
@@ -208,6 +215,33 @@ def read_inp_source(file, s1=["SI1", "SP1"], s2=["SI2", "SP2"], form="column"):
         df1 = pd.DataFrame(columns=["SI", "SP"], data=s1np)
         df2 = pd.DataFrame(columns=["SI", "SP"], data=s2np)
         return df1, df2
+
+
+def read_inp_TR(file):
+    """
+
+    Parameters
+    ----------
+    file : string or Path object
+        file path.
+
+    Returns
+    -------
+    idx : list
+        list of index values where TR cards are found.
+    num : list
+        Corresponding TR numbers.
+
+    """
+    idx = []
+    num = []
+    with open(file, "r") as myfile:
+        for i, l in enumerate(myfile):
+            ls = re.findall(r"(?<=TR)\d+", l)
+            if len(ls) > 0:
+                idx.append(i)
+                num.append(int(ls[0]))
+    return idx, num
 
 
 def make_inp(cells, surfaces, materials, dataC, fileName):  # to be deleted
@@ -745,7 +779,7 @@ def isotopic_abundance(element):
     return result
 
 
-def make_material(element, percent, cutoff=0.005):
+def make_material(element, percent, cutoff=0.005, return_string=True):
     """
     Parameters
     ----------
@@ -781,10 +815,69 @@ def make_material(element, percent, cutoff=0.005):
         A.append(a)
 
     res = []
+    res_lst = []
     for isot, perc in zip(A, rel_p):
         val = str(round(perc, 10))
         res.append(f"{Z}{isot}      -{val}      $ {element}-{isot}")
-    return res
+        res_lst.append([int(f"{Z}{isot}"), float(val)])
+    if return_string:
+        return res
+    else:
+        return [item for sublist in res_lst for item in sublist]
+
+
+def make_material_from_formula(formula, frac=1, weight_frac=True):
+    # TODO: implement atomic fraction
+    form = Formula(formula)
+    comp = form.composition()
+    mat = []
+    total = 0
+    for c in comp:
+        mat.append(make_material(c[0], frac * c[3], return_string=True))
+        total += c[3]
+    mat_flat = [item for sublist in mat for item in sublist]
+    print(f"Weight fractions for {formula} = {total}")
+    return mat_flat
+
+
+def make_average_composition(elm_dict):
+    # elm_dict = {"X":(rho, frac)}
+    tot = 0
+    rho_avg = 0
+    materials = []
+    for key in elm_dict.keys():
+        tot += elm_dict[key][1]
+        rho_avg += elm_dict[key][1] * elm_dict[key][0]
+        mt1 = make_material_from_formula(key, frac=elm_dict[key][1])
+        materials.append(mt1)
+    mat = [item for sublist in materials for item in sublist]
+
+    frac_isot = 0
+    isot_lst = []
+    comment = []
+    for i, m in enumerate(mat):
+        split = m.split()
+        comment.append(split[-2] + " " + split[-1])
+        isot_lst.append([int(split[0]), float(split[1])])
+        frac_isot += float(split[1])
+
+    # add up duplicates
+    isot_np = np.array(isot_lst)
+    dfx = pd.DataFrame(data=isot_np, columns=["zaid", "frac"], index=comment)
+    dfx_sort = dfx.sort_values(by="zaid")
+    df = dfx_sort.groupby("zaid").sum()
+    str_id = dfx_sort.index.unique()
+
+    res = []
+    for z, ids in zip(df.index, str_id):
+        zaid = str(int(z))
+        val = round(float(-1 * df.loc[z]), 10)
+        res.append(f"{zaid}      -{val}      {ids}")
+
+    print("Total fraction: ", tot)
+    print("Total fraction after isotope splitting: ", frac_isot * -1)
+
+    return rho_avg, res
 
 
 def write_inp_material(file_to_write, mat_list, mat_num):
@@ -1031,9 +1124,12 @@ class display_info:
                     uncollided.append(l)
                 if "user" in tmp and "bin" in tmp:
                     tagix.append(i)
-                    user_bin.append(l)
+                    user_bin.append(l.split()[-1])
         print("Done reading")
-        tot_subtly = len(surface) + len(uncollided) + len(user_bin)
+        if len(surface) > 0 and len(user_bin) > 0:
+            tot_subtly = len(user_bin)
+        else:
+            tot_subtly = len(surface) + len(uncollided) + len(user_bin)
         print("--" * 20)
         print(f"Number of tallies: {len(lidx)}")
         print(f"Number of subtallies: {tot_subtly}")
@@ -1053,37 +1149,38 @@ class display_info:
         ]
         df = pd.DataFrame(columns=cols)
         sur, ang, unc, ub = 0, 0, 0, 0
-        if len(surface) > 0 and len(ix_angle) == 0:
-            sur = surface
-            for ix, s in zip(surf, sur):
-                dat0 = [
-                    "F" + ttype[2],
-                    " ".join(ttype[3:]),
-                    particle[0][1],
-                    s[1],
-                    ang,
-                    unc,
-                    ub,
-                    ix,
-                ]
-                ser0 = pd.Series(dat0, index=df.columns)
-                df = df.append(ser0, ignore_index=True)
-        if len(surface) > 0 and len(ix_angle) > 0:
-            ang = l_angle
-            sur = surface
-            for ix, s, a in zip(surf, sur, ang):
-                dat0 = [
-                    "F" + ttype[2],
-                    " ".join(ttype[3:]),
-                    particle[0][1],
-                    s[1],
-                    " ".join(a[2:]),
-                    unc,
-                    ub,
-                    ix,
-                ]
-                ser0 = pd.Series(dat0, index=df.columns)
-                df = df.append(ser0, ignore_index=True)
+        if len(surface) > 0 and len(user_bin) == 0:
+            if len(ix_angle) == 0:
+                sur = surface
+                for ix, s in zip(surf, sur):
+                    dat0 = [
+                        "F" + ttype[2],
+                        " ".join(ttype[3:]),
+                        particle[0][1],
+                        s[1],
+                        ang,
+                        unc,
+                        ub,
+                        ix,
+                    ]
+                    ser0 = pd.Series(dat0, index=df.columns)
+                    df = df.append(ser0, ignore_index=True)
+            else:
+                ang = l_angle
+                sur = surface
+                for ix, s, a in zip(surf, sur, ang):
+                    dat0 = [
+                        "F" + ttype[2],
+                        " ".join(ttype[3:]),
+                        particle[0][1],
+                        s[1],
+                        " ".join(a[2:]),
+                        unc,
+                        ub,
+                        ix,
+                    ]
+                    ser0 = pd.Series(dat0, index=df.columns)
+                    df = df.append(ser0, ignore_index=True)
 
         if len(uncollided) > 0:
             uncol_idx = uncol
@@ -1115,7 +1212,7 @@ class display_info:
                 ]
                 ser0 = pd.Series(dat0, index=df.columns)
                 df = df.append(ser0, ignore_index=True)
-        if len(user_bin) > 0:
+        if len(user_bin) > 0 and len(surface) == 0:
             ub = user_bin
             for line, ix in zip(ub, tagix):
                 dat0 = [
@@ -1124,6 +1221,25 @@ class display_info:
                     particle[0][1],
                     sur,
                     ang,
+                    unc,
+                    line,
+                    ix,
+                ]
+                ser0 = pd.Series(dat0, index=df.columns)
+                df = df.append(ser0, ignore_index=True)
+
+        # work in progress
+        if len(surface) > 0 and len(ix_angle) > 0 and len(user_bin) > 0:
+            ang = l_angle
+            sur = surface
+            ub = user_bin
+            for ix, s, a, line in zip(surf, sur, ang, ub):
+                dat0 = [
+                    "F" + ttype[2],
+                    " ".join(ttype[3:]),
+                    particle[0][1],
+                    s[1],
+                    " ".join(a[2:]),
                     unc,
                     line,
                     ix,
