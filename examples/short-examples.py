@@ -7,7 +7,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import mcnptools.mcnpio as io
 from pathlib import Path
-import mcnptools.gammaSpect as gs
 
 ## Read non-pulsed MCNP output files (photons)
 file = Path("../mcnp_runs/MCNP-example-F8-GEB.o")
@@ -45,12 +44,6 @@ clb = plt.colorbar(orientation="horizontal", shrink=0.8, pad=0.2)
 clb.ax.set_title("n/cm2/s")
 plt.title("Neutron Flux in Soil")
 
-## Smoothing techniques
-mav = gs.moving_avg_smoothing(df1, num=8)
-plt.figure()
-plt.plot(df1.energy[80:], df1.cts[80:], lw=2, label="original")
-plt.plot(df1.energy[80:], mav[80:], lw=2, alpha=0.8, label="smoothing MAV")
-plt.legend()
 
 # F1 tally - Moon - photons
 f1file = Path("../mcnp_runs/F1-example-moon.o")
