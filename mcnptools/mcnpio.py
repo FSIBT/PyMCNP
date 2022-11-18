@@ -829,12 +829,14 @@ def make_material(element, percent, cutoff=0.005, return_string=True):
 def make_material_from_formula(formula, frac=1, weight_frac=True):
     # TODO: implement atomic fraction
     form = Formula(formula)
-    comp = form.composition()
+    comp = form.composition().dataframe()
     mat = []
     total = 0
-    for c in comp:
-        mat.append(make_material(c[0], frac * c[3], return_string=True))
-        total += c[3]
+    for c in comp.index:
+        #mat.append(make_material(c[0], frac * c[3], return_string=True))
+        fr = comp.loc[c].Fraction
+        mat.append(make_material(c, frac * fr, return_string=True))
+        total += fr
     mat_flat = [item for sublist in mat for item in sublist]
     print(f"Weight fractions for {formula} = {total}")
     return mat_flat
