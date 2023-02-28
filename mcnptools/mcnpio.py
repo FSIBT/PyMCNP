@@ -78,7 +78,7 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
                 en.append(i)
             if ("total") in tmp:
                 endbin.append(i)
-            if "surface" in tmp:
+            if "surface" in tmp and len(tmp) == 2:
                 surf.append(i)
             if "uncollided" in tmp and "flux" in tmp:
                 uncol.append(i)
@@ -376,11 +376,15 @@ def read_fmesh(file, mesh_info=False):
     )
     cols = all_data[idx0].split()
     cols.remove("Rel")
+    if "Volume" in cols:
+        cols.remove("*")
+        cols.remove("Vol")
+        cols = [w.replace("Rslt", "ResVol") for w in cols]
     df = pd.DataFrame(data=data1, columns=cols)
     # info
     if mesh_info:
         data_info = [e0, t0, x0, y0, z0]
-        info_np = np.array(data_info)
+        info_np = np.array(data_info, dtype=object)
         a = numpy_fillna(info_np)
         df_info = pd.DataFrame(
             data=a.T, columns=["Ebins", "tbins", "Xbins", "Ybins", "Zbins"]
@@ -937,12 +941,7 @@ def write_inp_sdef_F8(
     file_to_write,
     ebins,
     freq,
-    SI2,
-    pos,
-    cell,
-    erg="d1",
-    par=2,
-    rad="d2",
+    erg_dist=1,
     clear_sdef=True,
 ):
     """
@@ -954,18 +953,8 @@ def write_inp_sdef_F8(
         energy bins.
     freq : numpy array
         frequency or probability (cts).
-    SI2 : list
-        source infrmation 2 e.g. SI2=[0,10].
-    pos : list
-        position of gamma source e.g. [0,0,0].
-    cell : integer
-        cell number.
-    erg : string, optional
+    erg_dist : string, optional
         energy distribution identifier. The default is 'd1'.
-    par : integer, optional
-        particle type. The default is 2 (gammas).
-    rad : string, optional
-        radial distribution for source 2. The default is 'd2'.
     clear_sdef : boolean, optional
         clears the source definition. The default is True.
 
@@ -985,18 +974,8 @@ def write_inp_sdef_F8(
 
     if clear_sdef:
         file = file[: idx_src + 2]
-    sdef = (
-        "SDEF pos="
-        + f"{pos[0]} {pos[1]} {pos[2]}"
-        + f" CEL={cell}"
-        + f" ERG={erg}"
-        + f" PAR={par}"
-        + f" RAD={rad} \n"
-    )
-    si2 = f"SI2 {SI2[0]} {SI2[1]} \n"
-    si1 = f"# SI1   SP1 \n"
-    file.append(sdef)
-    file.append(si2)
+
+    si1 = f"# SI{erg_dist}   SP{erg_dist} \n"
     file.append(si1)
     for e, f in zip(ebins, freq):
         tmp = f"{e}  {f} \n"
@@ -1113,7 +1092,12 @@ class display_info:
                 if "particle(s):" in tmp:
                     pidx.append(i)
                     particle.append(tmp)
-                if "surface" in tmp and len(lidx) > 0 and i >= min(lidx):
+                if (
+                    "surface" in tmp
+                    and len(tmp) == 2
+                    and len(lidx) > 0
+                    and i >= min(lidx)
+                ):
                     surf.append(i)
                     surface.append(tmp)
                 if "angle" in tmp and "bin:" in tmp:
