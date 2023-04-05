@@ -19,9 +19,242 @@ from datetime import datetime
 from molmass import Formula
 
 
+class ReadOutput:
+    def __init__(self, filename):
+        self.filename = filename
+        self.df_info = 0
+        self.get_tally_info()
+
+    def read_tally(self, n=0, tally_type="e"):
+        if tally_type == "e":
+            key_word = "energy"
+        start_line = list(self.df_info["line_number"])[n]
+        with open(self.filename, "r") as f:
+            allf = f.readlines()
+        for i, line in enumerate(allf[start_line:]):
+            l = line.split()
+            if key_word in l:
+                start = start_line + i
+            if "total" in l:
+                end = start_line + i
+                break
+        corpus = allf[start + 1 : end]
+        corpus_np = np.array([x.split() for x in corpus], dtype=float)
+        df = pd.DataFrame(columns=["energy", "cts", "error"], data=corpus_np)
+        return df
+
+    def get_runtime(self):
+        # in development
+        outp = open(self.filename, "r").read().split("\n")
+
+        time1 = ""
+        time2 = ""
+        for line in outp:
+            if "mcnp" in line and "version 6" in line and "probid" in line:
+                string = line.replace("     ", " ").split(" ")
+                time1 = string[10]
+                time2 = string[19]
+            if "computer" in line and "time" in line:
+                cpt = line
+
+        datetime2 = datetime.strptime(time2, "%H:%M:%S")
+        datetime1 = datetime.strptime(time1, "%H:%M:%S")
+        diff = datetime1 - datetime2
+        # real_time = "real time: " + time.strftime("%H:%M:%S", time.gmtime(diff.seconds))
+        real_time = f"real time: {round(diff.seconds/60,1)} minutes"
+        computer_time = cpt[1:]
+        return real_time, computer_time
+
+    def get_tally_info(self):
+        lidx, pidx, ix_angle = [], [], []
+        surf, tagix, uncol = [], [], []
+        tally_type, particle, surface = [], [], []
+        uncollided, user_bin, l_angle = [], [], []
+
+        print("Reading output file...")
+        with open(self.filename, "r") as myfile:
+            for i, l in enumerate(myfile):
+                tmp = l.split()
+                if "tally" in tmp and "type" in tmp:
+                    lidx.append(i)
+                    tally_type.append(l)
+                if "particle(s):" in tmp:
+                    pidx.append(i)
+                    particle.append(tmp)
+                if (
+                    "surface" in tmp
+                    and len(tmp) == 2
+                    and len(lidx) > 0
+                    and i >= min(lidx)
+                ):
+                    surf.append(i)
+                    surface.append(tmp)
+                if "angle" in tmp and "bin:" in tmp:
+                    l_angle.append(tmp)
+                    ix_angle.append(i)
+                if "uncollided" in tmp and "flux" in tmp:
+                    uncol.append(i)
+                    uncollided.append(l)
+                if "user" in tmp and "bin" in tmp:
+                    tagix.append(i)
+                    user_bin.append(l.split()[-1])
+        print("Done reading")
+        if len(surface) > 0 and len(user_bin) > 0:
+            tot_subtly = len(user_bin)
+        else:
+            tot_subtly = len(surface) + len(uncollided) + len(user_bin)
+        print("--" * 20)
+        print(f"Number of tallies: {len(lidx)}")
+        print(f"Number of subtallies: {tot_subtly}")
+        print("--" * 20)
+        ttype = tally_type[0].split()
+
+        # initialize dataframe
+        cols = [
+            "tally_type",
+            "description",
+            "particle",
+            "surfaces",
+            "angle_bin",
+            "uncollided_flux",
+            "user_bin",
+            "line_number",
+        ]
+        df = pd.DataFrame(columns=cols)
+        sur, ang, unc, ub = 0, 0, 0, 0
+        if len(surface) > 0 and len(user_bin) == 0:
+            if len(ix_angle) == 0:
+                sur = surface
+                for ix, s in zip(surf, sur):
+                    dat0 = [
+                        "F" + ttype[2],
+                        " ".join(ttype[3:]),
+                        particle[0][1],
+                        s[1],
+                        ang,
+                        unc,
+                        ub,
+                        ix,
+                    ]
+                    ser0 = pd.Series(dat0, index=df.columns)
+                    df.loc[len(df)] = ser0
+            else:
+                ang = l_angle
+                sur = surface
+                for ix, s, a in zip(surf, sur, ang):
+                    dat0 = [
+                        "F" + ttype[2],
+                        " ".join(ttype[3:]),
+                        particle[0][1],
+                        s[1],
+                        " ".join(a[2:]),
+                        unc,
+                        ub,
+                        ix,
+                    ]
+                    ser0 = pd.Series(dat0, index=df.columns)
+                    df.loc[len(df)] = ser0
+
+        if len(uncollided) > 0:
+            uncol_idx = uncol
+            unc0 = "collided photon flux"
+            unc = uncollided
+            for l in lidx:
+                dat0 = [
+                    "F" + ttype[2],
+                    " ".join(ttype[3:]),
+                    particle[0][1],
+                    sur,
+                    ang,
+                    unc0,
+                    ub,
+                    l,
+                ]
+                ser0 = pd.Series(dat0, index=df.columns)
+                df.loc[len(df)] = ser0
+            for line, ix in zip(unc, uncol_idx):
+                dat0 = [
+                    "F" + ttype[2],
+                    " ".join(ttype[3:]),
+                    particle[0][1],
+                    sur,
+                    ang,
+                    line[1:],
+                    ub,
+                    ix,
+                ]
+                ser0 = pd.Series(dat0, index=df.columns)
+                df.loc[len(df)] = ser0
+        if len(user_bin) > 0 and len(surface) == 0:
+            ub = user_bin
+            for line, ix in zip(ub, tagix):
+                dat0 = [
+                    "F" + ttype[2],
+                    " ".join(ttype[3:]),
+                    particle[0][1],
+                    sur,
+                    ang,
+                    unc,
+                    line,
+                    ix,
+                ]
+                ser0 = pd.Series(dat0, index=df.columns)
+                df.loc[len(df)] = ser0
+
+        # work in progress
+        if len(surface) > 0 and len(ix_angle) > 0 and len(user_bin) > 0:
+            ang = l_angle
+            sur = surface
+            ub = user_bin
+            for ix, s, a, line in zip(surf, sur, ang, ub):
+                dat0 = [
+                    "F" + ttype[2],
+                    " ".join(ttype[3:]),
+                    particle[0][1],
+                    s[1],
+                    " ".join(a[2:]),
+                    unc,
+                    line,
+                    ix,
+                ]
+                ser0 = pd.Series(dat0, index=df.columns)
+                df.loc[len(df)] = ser0
+
+        if tot_subtly == 0:
+            for l in lidx:
+                dat0 = [
+                    "F" + ttype[2],
+                    " ".join(ttype[3:]),
+                    particle[0][1],
+                    sur,
+                    ang,
+                    unc,
+                    ub,
+                    l,
+                ]
+                ser0 = pd.Series(dat0, index=df.columns)
+                df.loc[len(df)] = ser0
+
+        # drop all zero columns
+        df = df.loc[:, (df != 0).any(axis=0)]
+        self.df_info = df
+
+    def get_nps(self):
+        print("Reading output file...")
+        nps = 0
+        with open(self.filename, "r") as myfile:
+            for i, l in enumerate(myfile):
+                tmp = l.split()
+                if "run" in tmp and "terminated" in tmp:
+                    nps = tmp[3]
+                    print(tmp)
+                    break
+        print("Done reading")
+        print(f"Number of simulated particles: {nps}")
+
+
 def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
     """Read standard MCNP output file.
-
 
     Parameters
     ----------
@@ -54,7 +287,6 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
         key_word = "energy"
     else:
         print("ERROR: tally type not recognized")
-
     if particle == "n" or particle == "neutrons":
         particle = "neutrons"
     elif particle == "p" or particle == "photons":
@@ -837,7 +1069,7 @@ def make_material_from_formula(formula, frac=1, weight_frac=True):
     mat = []
     total = 0
     for c in comp.index:
-        #mat.append(make_material(c[0], frac * c[3], return_string=True))
+        # mat.append(make_material(c[0], frac * c[3], return_string=True))
         fr = comp.loc[c].Fraction
         mat.append(make_material(c, frac * fr, return_string=True))
         total += fr
