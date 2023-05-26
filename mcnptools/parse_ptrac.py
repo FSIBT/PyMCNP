@@ -579,6 +579,20 @@ class HistoryHandlerKeep(HistoryHandler):
         self.histories.append(hist)
 
 
+class HistoryHandlerHeaderOnly(HistoryHandler):
+    """An output handler, that only reads the header information.
+
+    We stop handling events once we receive the first one and don't do anything with
+    the event data.
+    """
+
+    def __init__(self):
+        pass
+
+    def __call__(self, hist):
+        return True
+
+
 def read_file(filename, handle_history=None):
     """Parses a whole PTRAC file
 
