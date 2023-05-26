@@ -353,7 +353,7 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
 
         for i in range(len(start_erg)):
             tme0 = allf[start_erg[i] - 2]
-            tme1 = re.findall("\d.+\d", tme0)
+            tme1 = re.findall(r"\d.+\d", tme0)
             tme2 = tme1[0].split()
             tme = np.array(tme2, dtype="float")
             data0 = allf[start_erg[i] : start_erg[i] + ebins]
@@ -812,7 +812,7 @@ def write_inp_tally(
     tly = tally_type + ":" + particle + " " + str(cell) + "\n"
     energy = (
         "E"
-        + re.findall("\d+", tally_type)[0]
+        + re.findall(r"\d+", tally_type)[0]
         + " "
         + str(erg[0])
         + " "
@@ -888,7 +888,7 @@ def write_inp_tallyF5(
     tly = f"{tally_type}:{particle} {pos[0]} {pos[1]} {pos[2]} {r0} \n"
     energy = (
         "E"
-        + re.findall("\d+", tally_type)[0]
+        + re.findall(r"\d+", tally_type)[0]
         + " "
         + str(erg[0])
         + " "
@@ -1001,15 +1001,15 @@ def isotopic_abundance(element):
     for i, l in enumerate(lines):
         tmp = l.split()
         if element in tmp:
-            Z = re.findall("\d+", lines[i - 1])[0]
+            Z = re.findall(r"\d+", lines[i - 1])[0]
             symbol = element
-            isotope = re.findall("\d+", lines[i + 1])[0]
+            isotope = re.findall(r"\d+", lines[i + 1])[0]
             # account for isotopically pure elements
             try:
                 tmp2 = lines[i + 3].split()
                 comp = [float(tmp2[-1])]
             except ValueError:
-                comp = re.findall("\d.+(?=\()", lines[i + 3])
+                comp = re.findall(r"\d.+(?=\()", lines[i + 3])
             if len(comp) != 0:
                 result[Z + symbol + "-" + isotope] = float(comp[0])
     return result
@@ -1039,11 +1039,11 @@ def make_material(element, percent, cutoff=0.005, return_string=True):
         raise Exception(
             "ERROR: no isotope found. Double check the symbol or try reducing the cutoff value"
         )
-    Z = re.findall("\d+", lst[0])[0]
+    Z = re.findall(r"\d+", lst[0])[0]
     rel_p = np.array(list(elem_dict.values())) * percent
     A = []
     for el in lst:
-        a = re.findall("\d+", el)[1]
+        a = re.findall(r"\d+", el)[1]
         if len(a) == 2:
             a = "0" + a
         elif len(a) == 1:
