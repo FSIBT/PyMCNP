@@ -494,11 +494,20 @@ class Header:
             # remove n_i
             n = int(line[0])
             line = line[1:]
-            self.keywords[KEYWORDS[n_read]] = []
+            if len(line) < n or len(line) == 0:
+                # missing values, need to add next line
+                newline = next(f)
+                newline = form.read(newline)
+                line += newline
+            if n > 1:
+                self.keywords[KEYWORDS[n_read]] = []
             for i in range(n):
                 value = float(line[0])
                 line = line[1:]
-                self.keywords[KEYWORDS[n_read]].append(value)
+                if n > 1:
+                    self.keywords[KEYWORDS[n_read]].append(value)
+                else:
+                    self.keywords[KEYWORDS[n_read]] = value
         # list of N values
         line = next(f)
         form = FortranRecordReader("(1x,20i5)")
