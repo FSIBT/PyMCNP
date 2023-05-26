@@ -376,7 +376,6 @@ class History:
     """
 
     def __init__(self, line=None, header=None):
-
         if line is not None:
             n1 = str(header.N1 - 1)
             form = FortranRecordReader(f"(1x,{n1}i10,e13.5)")
@@ -390,18 +389,20 @@ class History:
             elif len(line) == 4:
                 n, next_type_id, a, b = line
                 next_type = parse_event(int(next_type_id))
+                self.b = b
             elif len(line) == 5:
                 n, next_type_id, a, b, c = line
                 next_type = parse_event(int(next_type_id))
+                self.b = b
                 self.c = c
             elif len(line) == 6:
                 n, next_type_id, a, b, c, d = line
                 next_type = parse_event(int(next_type_id))
+                self.b = b
                 self.c = c
                 self.d = d
         self.n = int(n)  # particle ID
         self.a = a
-        self.b = b
         self.current_event = next_type
         self.current_event_id = int(next_type_id)
         self.history = []
@@ -420,8 +421,7 @@ class History:
 
 
 class Header:
-    """Parses the header of a ptrace file
-    """
+    """Parses the header of a ptrace file"""
 
     def __init__(self, filehandle):
         self.IDS = {}
@@ -471,36 +471,34 @@ class Header:
         self.name = line.strip()
         self.shorthash = line.split()[-1]
         self.num_particles = line.split()[-2]
-        # 3 lines of keyword values
+        # keywords for ptrac.
+        # the first number,m, is the number of entries
+        # followed by n1 V1_1 V1_2....V1_n1 and then repeated entries for n2...n_m
+        # we need to read as many lines of 10 doubles until we reach n_m entries
+        # an entry of n_i=0 means no V values
         line = next(f)
         form = FortranRecordReader("(1x,10e12.4)")
         line = form.read(line)
-        K = line
-        line = next(f)
-        form = FortranRecordReader("(1x,10e12.4)")
-        line = form.read(line)
-        K = K + line
-        line = next(f)
-        form = FortranRecordReader("(1x,10e12.4)")
-        line = form.read(line)
-        K = K + line
-        # K meaning:
-        # [m(number of n_m) n_1 V1_1 V1_2.....V1_n n_2 V2_1 V2_2..... n_m Vn_1 Vn_2.... Vn_m]
-        # n is the index of KEYWORDS
-        # Vn_m is the value
-        j = 0
-        idx = 0
-        while idx < K[0]:
-            j += 1
-            idx += 1
-            n = int(K[j])
-            if n == 1:
-                self.keywords[KEYWORDS[idx]] = K[j + 1 : j + 1 + n][0]
-            elif n == 0:
-                pass
-            else:
-                self.keywords[KEYWORDS[idx]] = K[j + 1 : j + 1 + n]
-            j += n
+        m = int(line[0])
+        line = line[1:]
+        n_read = 0
+        n = int(line[0])
+        while n_read < m:
+            if len(line) < n or len(line) == 0:
+                # missing values, need to add next line
+                newline = next(f)
+                newline = form.read(newline)
+                line += newline
+                continue
+            n_read += 1
+            # remove n_i
+            n = int(line[0])
+            line = line[1:]
+            self.keywords[KEYWORDS[n_read]] = []
+            for i in range(n):
+                value = float(line[0])
+                line = line[1:]
+                self.keywords[KEYWORDS[n_read]].append(value)
         # list of N values
         line = next(f)
         form = FortranRecordReader("(1x,20i5)")
@@ -604,7 +602,6 @@ def read_file(filename, handle_history=None):
     """
     with open(filename) as fin:  # open for read
         header = Header(fin)
-
         # parse particle histories
         try:
             while True:
