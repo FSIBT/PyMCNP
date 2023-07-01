@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """
 Usage:
     MCNPtools-parse_ptrac filter <filter> <filename> [options]
@@ -24,25 +22,15 @@ The -n and -p option can be used to reduce the plotting output
 
 
 from docopt import docopt
-from collections import namedtuple, defaultdict
+from collections import defaultdict
 import numpy as np
 import mcnptools
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-
-commands = docopt(__doc__)
-# print(commands)
-
-
-input = commands["<filename>"]
-filter = commands["<filter>"]
-output = commands["-o"]
-probability = float(commands["-p"])
-number = int(commands["-n"])
 
 
 class HistoryHandlerGammas:
-    def __init__(self):
+    def __init__(self, input):
+        self.input = input
         self.output_files = {}
 
     def __call__(self, hist):
@@ -51,7 +39,7 @@ class HistoryHandlerGammas:
                 element = str(h.nxs)
                 outf = self.output_files.get(element, None)
                 if not outf:
-                    outf = open(f"{input}-output-{element}.txt", "w")
+                    outf = open(f"{self.input}-output-{element}.txt", "w")
                     self.output_files[element] = outf
                 outf.write(
                     f"{h.pos.x} {h.pos.y} {h.pos.z} {h.dir.u} {h.dir.v} {h.dir.w} {h.energy} {h.weight} {h.time}\n"
@@ -63,7 +51,9 @@ class HistoryHandlerGammas:
 
 
 class HistoryHandlerPlot:
-    def __init__(self, plot_surfaces=False):
+    def __init__(self, number, probability, plot_surfaces=False):
+        self.number = number
+        self.probability = probability
         self.plot_surfaces = plot_surfaces
         self.fig = plt.figure()
         self.ax = plt.axes(projection="3d")
@@ -91,10 +81,10 @@ class HistoryHandlerPlot:
         self.lineZ = []
 
     def __call__(self, hist):
-        if number:
-            if self.counter > number:
+        if self.number:
+            if self.counter > self.number:
                 return True
-        if np.random.random() > probability:
+        if np.random.random() > self.probability:
             # skip this history
             return
 
@@ -162,16 +152,25 @@ class HistoryHandlerNeutrons(mcnptools.parse_ptrac.HistoryHandler):
                     )
 
 
-if __name__ == "__main__":
+def main():
+    commands = docopt(__doc__)
+    # print(commands)
+
+    input = commands["<filename>"]
+    filter = commands["<filter>"]
+    output = commands["-o"]
+    probability = float(commands["-p"])
+    number = int(commands["-n"])
+
     if output:
         if filter == "gammas":
-            handler = HistoryHandlerGammas()
+            handler = HistoryHandlerGammas(input)
         elif filter == "neutrons":
             handler = HistoryHandlerNeutrons(f"{input}-output-neutrons.txt")
         elif filter == "plot":
-            handler = HistoryHandlerPlot()
+            handler = HistoryHandlerPlot(number, probability)
         elif filter == "plotsurfaces":
-            handler = HistoryHandlerPlot(plot_surfaces=True)
+            handler = HistoryHandlerPlot(number, probability, plot_surfaces=True)
         else:
             handler = mcnptools.parse_ptrac.HistoryHandler(f"{input}-output.txt")
 
@@ -181,3 +180,7 @@ if __name__ == "__main__":
     else:
         header = mcnptools.parse_ptrac.read_file(input)
         print(header)
+
+
+if __name__ == "__main__":
+    main()

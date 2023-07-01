@@ -3,6 +3,7 @@
 
 from . import mcnpio
 from . import parse_ptrac
+from . import cli
 
 from . import version
 

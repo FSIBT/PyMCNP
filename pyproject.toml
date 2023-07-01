@@ -1,25 +1,46 @@
 [build-system]
-module = "mcnptools"
-author = "Mauricio Ayllon Unzueta"
-author-email = "mauri.ayllon12@gmail.com"
-home-page = "https://github.com/mauricioAyllon/MCNP-tools"
-requires = [
-    "pandas",
-    "numpy",
-    "matplotlib",
-    "scipy",
-    "fortranformat",
-    "h5py",
-    "setuptools>=42",
-    "wheel",
-    "setuptools_scm[toml]>=3.4"
+requires = ["setuptools>=61.0", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcnptools"
+authors = [
+   { name="Mauricio Ayllon Unzueta", email="mauri.ayllon12@gmail.com" },
 ]
-description-file="README.md"
+description = "MCNP tools"
+readme = "README.md"
+requires-python = ">=3.8"
 classifiers=[
     "Programming Language :: Python :: 3",
     "Topic :: Software Development :: Libraries :: Python Modules",
+    "Operating System :: OS Independent",
 ]
-extras_require=['pytest','pytest-cov']
+dependencies = [
+    "pandas",
+    "numpy",
+    "matplotlib",
+    "molmass >= 2021.6.18",
+    "scipy",
+    "fortranformat >= 1.0.1",
+    "h5py",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+test = ['pytest','pytest-cov']
+
+[project.urls]
+"Homepage" = "https://github.com/mauricioAyllon/MCNP-tools"
+
+[project.scripts]
+MCNPtools-parse-ptrac = "mcnptools.cli.MCNPtools_parse_ptrac:main"
+
+
+[tool.setuptools.packages.find]
+where = ["mcnptools", "mcnphelper"]
+
+[tool.setuptools.package-data]
+mypkg = ["*.txt"]
 
 [tool.setuptools_scm]
 write_to = "mcnptools/version.py"
