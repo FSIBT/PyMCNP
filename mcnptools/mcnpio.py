@@ -253,7 +253,7 @@ class ReadOutput:
         print(f"Number of simulated particles: {nps}")
 
 
-def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
+def read_output(file, tally=8, n=1, tally_type="e", particle="n", verbose=True):
     """Read standard MCNP output file.
 
     Parameters
@@ -298,7 +298,8 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
     surf = []
     tagix = []
     uncol = []
-    print("Reading output file...")
+    if verbose:
+        print("Reading output file...")
     with open(file, "r") as myfile:
         for i, l in enumerate(myfile):
             tmp = l.split()
@@ -328,8 +329,9 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n"):
         [lidx.append(x) for x in uncol]
         pidx = lidx
 
-    print(f"Found {len(pidx)} tallies")
-    print(f"Output tally number {n}")
+    if verbose:
+        print(f"Found {len(pidx)} tallies")
+        print(f"Output tally number {n}")
 
     if flag:  # this is a time and energy tally
         if len(pidx) == n:  # handle the end case correctly
