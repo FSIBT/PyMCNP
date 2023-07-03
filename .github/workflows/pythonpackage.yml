@@ -26,10 +26,10 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install wheel
-        pip install flake8 pytest pytest-cov
-        pip install setuptools setuptools_scm[toml] numpy pandas scipy fortranformat
-        pip install -e .
+        python -m pip install wheel
+        python -m pip install flake8 pytest pytest-cov
+        python -m pip install setuptools setuptools_scm[toml] numpy pandas scipy fortranformat
+        python -m pip install .
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
