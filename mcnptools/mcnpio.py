@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Thu Apr 23 09:56:29 2020
-
-@author: mauricio
-
 Functions to create and read MCNP io files
 """
 
@@ -29,7 +24,7 @@ class ReadOutput:
         if tally_type == "e":
             key_word = "energy"
         start_line = list(self.df_info["line_number"])[n]
-        with open(self.filename, "r") as f:
+        with open(self.filename) as f:
             allf = f.readlines()
         for i, line in enumerate(allf[start_line:]):
             l = line.split()
@@ -45,7 +40,7 @@ class ReadOutput:
 
     def get_runtime(self):
         # in development
-        outp = open(self.filename, "r").read().split("\n")
+        outp = open(self.filename).read().split("\n")
 
         time1 = ""
         time2 = ""
@@ -72,7 +67,7 @@ class ReadOutput:
         uncollided, user_bin, l_angle = [], [], []
 
         print("Reading output file...")
-        with open(self.filename, "r") as myfile:
+        with open(self.filename) as myfile:
             for i, l in enumerate(myfile):
                 tmp = l.split()
                 if "tally" in tmp and "type" in tmp:
@@ -242,7 +237,7 @@ class ReadOutput:
     def get_nps(self):
         print("Reading output file...")
         nps = 0
-        with open(self.filename, "r") as myfile:
+        with open(self.filename) as myfile:
             for i, l in enumerate(myfile):
                 tmp = l.split()
                 if "run" in tmp and "terminated" in tmp:
@@ -300,7 +295,7 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n", verbose=True):
     uncol = []
     if verbose:
         print("Reading output file...")
-    with open(file, "r") as myfile:
+    with open(file) as myfile:
         for i, l in enumerate(myfile):
             tmp = l.split()
             if "tally" in tmp and "type" in tmp and str(tally) in tmp:
@@ -350,7 +345,7 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n", verbose=True):
         df = pd.DataFrame(columns=["energy"], data=energy)
 
         starttime = time.time()
-        with open(file, "r") as f:
+        with open(file) as f:
             allf = f.readlines()
 
         for i in range(len(start_erg)):
@@ -422,14 +417,14 @@ def read_inp_source(file, s1=["SI1", "SP1"], s2=["SI2", "SP2"], form="column"):
     idx1_start = 0
     idx2_start = 0
     print("Reading input file...")
-    with open(file, "r") as myfile:
+    with open(file) as myfile:
         for i, l in enumerate(myfile):
             tmp = l.split()
             if s1[0] in tmp and s1[1] in tmp:
                 idx1_start = i
             if s2[0] in tmp and s2[1] in tmp:
                 idx2_start = i
-    with open(file, "r") as f:
+    with open(file) as f:
         all_lines = f.readlines()
     print("Done")
 
@@ -469,7 +464,7 @@ def read_inp_TR(file):
     """
     idx = []
     num = []
-    with open(file, "r") as myfile:
+    with open(file) as myfile:
         for i, l in enumerate(myfile):
             ls = re.findall(r"(?<=TR)\d+", l)
             if len(ls) > 0:
@@ -583,7 +578,7 @@ def read_fmesh(file, mesh_info=False):
     e0 = np.array([0])
     t0 = np.array([0])
     totals = []
-    with open(file, "r") as myfile:
+    with open(file) as myfile:
         for i, l in enumerate(myfile):
             tmp = l.split()
             if ("X direction") in l:
@@ -601,7 +596,7 @@ def read_fmesh(file, mesh_info=False):
             if "Total" in tmp:
                 totals.append(i)
 
-    with open(file, "r") as f:
+    with open(file) as f:
         all_data = f.readlines()
 
     data0 = all_data[idx0 + 1 :]
@@ -735,7 +730,7 @@ def write_inp_time(file_to_write, tbins, S1, S2, ncutoff=None):
     None.
 
     """
-    with open(file_to_write, "r") as rf:
+    with open(file_to_write) as rf:
         idx_end = 0
         for i, l in enumerate(rf):
             tmp = l.split()
@@ -743,7 +738,7 @@ def write_inp_time(file_to_write, tbins, S1, S2, ncutoff=None):
                 idx_tme = i
             if "end" in tmp and "file" in tmp:
                 idx_end = i
-    with open(file_to_write, "r") as f:
+    with open(file_to_write) as f:
         file = f.readlines()
 
     if idx_tme == 0:
@@ -761,19 +756,19 @@ def write_inp_time(file_to_write, tbins, S1, S2, ncutoff=None):
     file.insert(idx_tme + 3, source1)
     x = 1
     for l1 in S1:
-        tmp = "{} {} \n".format(l1[0], l1[1])
+        tmp = f"{l1[0]} {l1[1]} \n"
         file.insert(idx_tme + 3 + x, tmp)
         x += 1
     source2 = "# SI2 SP2 \n"
     file.insert(idx_tme + 3 + x, source2)
     x += 1
     for l2 in S2:
-        tmp = "{} {} \n".format(l2[0], l2[1])
+        tmp = f"{l2[0]} {l2[1]} \n"
         file.insert(idx_tme + 3 + x, tmp)
         x += 1
     str1 = "c \n"
     file.insert(idx_tme + 3 + x, str1)
-    tstr = "t0 0 {}i {} \n".format(tbins - 1, S2[1, 0])
+    tstr = f"t0 0 {tbins - 1}i {S2[1, 0]} \n"
     file.insert(idx_tme + 4 + x, tstr)
     if ncutoff != None:
         cut = "cut:n" + " " + str(int(ncutoff * 1e8)) + " " + "j 0 0 \n"
@@ -828,7 +823,7 @@ def write_inp_tally(
         cut = "cut" + ":" + particle + " " + "j" + str(cutoff) + " " + "0"
         com1 = " $ lower energy threshold, analog simulation \n"
 
-    with open(file_to_write, "r") as rf:
+    with open(file_to_write) as rf:
         idx_end = 0
         for i, l in enumerate(rf):
             tmp = l.split()
@@ -836,7 +831,7 @@ def write_inp_tally(
                 idx_tly = i
             if "end" in tmp and "file" in tmp:
                 idx_end = i
-    with open(file_to_write, "r") as f:
+    with open(file_to_write) as f:
         file = f.readlines()
     if idx_tly == 0:
         raise Exception(
@@ -904,7 +899,7 @@ def write_inp_tallyF5(
         cut = "cut" + ":" + particle + " " + "j" + str(cutoff) + " " + "0"
         com1 = " $ lower energy threshold, analog simulation \n"
 
-    with open(file_to_write, "r") as rf:
+    with open(file_to_write) as rf:
         idx_end = 0
         for i, l in enumerate(rf):
             tmp = l.split()
@@ -912,7 +907,7 @@ def write_inp_tallyF5(
                 idx_tly = i
             if "end" in tmp and "file" in tmp:
                 idx_end = i
-    with open(file_to_write, "r") as f:
+    with open(file_to_write) as f:
         file = f.readlines()
     if idx_tly == 0:
         raise Exception(
@@ -954,7 +949,7 @@ def write_inp_mode_nps(file_to_write, mode="n", nps=1000):
     None.
 
     """
-    with open(file_to_write, "r") as rf:
+    with open(file_to_write) as rf:
         idx_end = 0
         for i, l in enumerate(rf):
             tmp = l.split()
@@ -962,7 +957,7 @@ def write_inp_mode_nps(file_to_write, mode="n", nps=1000):
                 idx_src = i
             if "end" in tmp and "file" in tmp:
                 idx_end = i
-    with open(file_to_write, "r") as f:
+    with open(file_to_write) as f:
         file = f.readlines()
 
     if idx_src == 0:
@@ -996,7 +991,7 @@ def isotopic_abundance(element):
     """
     file = pkg_resources.resource_filename("mcnptools", "data/Isotopes-NIST-2.txt")
     # read all lines and store in memory
-    with open(file, "r") as f:
+    with open(file) as f:
         lines = f.readlines()
 
     result = defaultdict()
@@ -1141,14 +1136,14 @@ def write_inp_material(file_to_write, mat_list, mat_num):
     None.
 
     """
-    with open(file_to_write, "r") as rf:
+    with open(file_to_write) as rf:
         for i, l in enumerate(rf):
             tmp = l.split()
             if "material" in tmp and "compositions" in tmp:
                 idx_mat = i
             if "source" in tmp and "definition" in tmp:
                 idx_src = i
-    with open(file_to_write, "r") as f:
+    with open(file_to_write) as f:
         file = f.readlines()
 
     if idx_mat == 0:
@@ -1199,13 +1194,13 @@ def write_inp_sdef_F8(
     None.
 
     """
-    with open(file_to_write, "r") as rf:
+    with open(file_to_write) as rf:
         for i, l in enumerate(rf):
             tmp = l.split()
             if "source" in tmp and "definition" in tmp:
                 idx_src = i
 
-    with open(file_to_write, "r") as f:
+    with open(file_to_write) as f:
         file = f.readlines()
 
     if clear_sdef:
@@ -1252,13 +1247,13 @@ def write_inp_tally_F8(
     None.
 
     """
-    with open(file_to_write, "r") as rf:
+    with open(file_to_write) as rf:
         for i, l in enumerate(rf):
             tmp = l.split()
             if "source" in tmp and "definition" in tmp:
                 idx_src = i
 
-    with open(file_to_write, "r") as f:
+    with open(file_to_write) as f:
         file = f.readlines()
 
     if clear_sdef:
@@ -1292,7 +1287,7 @@ class display_info:
 
     def get_runtime(self):
         # in development
-        outp = open(self.filename, "r").read().split("\n")
+        outp = open(self.filename).read().split("\n")
 
         time1 = ""
         time2 = ""
@@ -1319,7 +1314,7 @@ class display_info:
         uncollided, user_bin, l_angle = [], [], []
 
         print("Reading output file...")
-        with open(self.filename, "r") as myfile:
+        with open(self.filename) as myfile:
             for i, l in enumerate(myfile):
                 tmp = l.split()
                 if "tally" in tmp and "type" in tmp:
@@ -1489,7 +1484,7 @@ class display_info:
     def get_nps(self):
         print("Reading output file...")
         nps = 0
-        with open(self.filename, "r") as myfile:
+        with open(self.filename) as myfile:
             for i, l in enumerate(myfile):
                 tmp = l.split()
                 if "run" in tmp and "terminated" in tmp:

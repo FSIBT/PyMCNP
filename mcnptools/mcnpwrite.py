@@ -18,7 +18,7 @@ class MCNPwrite:
             open(self.path, "a").close()
             print(f"No filename found. Creating one in {self.path}")
         # load file in memory and remove newline character
-        with open(self.path, "r") as f:
+        with open(self.path) as f:
             file_str = f.readlines()
         self.file_lst = [line.rstrip("\n") for line in file_str]
 

@@ -2,7 +2,7 @@ import mcnptools
 
 
 def test_header():
-    with open("tests/ptrac_testdata.txt", "r") as f:
+    with open("tests/ptrac_testdata.txt") as f:
         header = mcnptools.parse_ptrac.Header(f)
 
     assert header.program == "mcnp"
