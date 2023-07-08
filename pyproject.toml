@@ -37,7 +37,7 @@ MCNPtools-parse-ptrac = "mcnptools.cli.MCNPtools_parse_ptrac:main"
 
 
 [tool.setuptools.packages.find]
-where = ["mcnptools", "mcnphelper"]
+where = ["mcnptools"]
 
 [tool.setuptools.package-data]
 mypkg = ["*.txt"]
