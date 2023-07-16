@@ -2,16 +2,16 @@
 Functions to create and read MCNP io files
 """
 
+from collections import defaultdict
+from datetime import datetime
+import importlib.resources
+import re
+import time
+
+from molmass import Formula
 import numpy as np
 import pandas as pd
 from scipy.interpolate import griddata as gd
-from pathlib import Path
-import re
-from collections import defaultdict
-import time
-import pkg_resources
-from datetime import datetime
-from molmass import Formula
 
 
 class ReadOutput:
@@ -989,10 +989,10 @@ def isotopic_abundance(element):
         stable isotopes and their respective natural abundance.
 
     """
-    file = pkg_resources.resource_filename("mcnptools", "data/Isotopes-NIST-2.txt")
-    # read all lines and store in memory
-    with open(file) as f:
-        lines = f.readlines()
+    ref = importlib.resources.files("mcnptools") / "resource.dat"
+    with importlib.resources.as_file(ref) as path:
+        with path.open() as f:
+            lines = f.readlines()
 
     result = defaultdict()
     for i, l in enumerate(lines):
