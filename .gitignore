@@ -1,5 +1,5 @@
 *~
-mcnptools/version.py
+src/mcnptools/version.py
 #*
 .#*
 __pycache__
