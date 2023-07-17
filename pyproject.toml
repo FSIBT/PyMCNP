@@ -17,13 +17,14 @@ classifiers=[
     "Operating System :: OS Independent",
 ]
 dependencies = [
-    "pandas",
-    "numpy",
-    "matplotlib",
-    "molmass >= 2021.6.18",
-    "scipy",
     "fortranformat >= 1.0.1",
     "h5py",
+    "matplotlib",
+    "molmass >= 2021.6.18",
+    "numpy",
+    "pandas",
+    "rich",
+    "scipy",
 ]
 dynamic = ["version"]
 
