@@ -18,7 +18,7 @@ class Surface:
 
     all_surfaces = []
 
-    TYPES = ["RPP", "RCC"]
+    TYPES = ["RPP", "RCC", "SPH", "SO"]
 
     def __init__(
         self,
@@ -71,6 +71,10 @@ class Surface:
             return RPP(id=id, *parameters)
         elif type == "RCC":
             return RCC(id=id, *parameters)
+        elif type == "SPH":
+            return SPH(id=id, *parameters)
+        elif type == "SO":
+            return SO(id=id, *parameters)
 
         return cls(
             id=id,
@@ -134,6 +138,38 @@ class RCC(Surface):
         vx, vy, vz, hx, hy, hz, r = self.parameters
         out += f"    {vx=} {vy=} {vz=}\n"
         out += f"    {hx=} {hy=} {hz=}\n"
+        out += f"    {r=}\n"
+
+        return out
+
+
+class SPH(Surface):
+    def __init__(self, vx, vy, vz, r, id: Optional[int] = None):
+        super().__init__(id=id, type="SPH", parameters=[vx, vy, vz, r])
+
+        self.center = np.array([vx, vy, vz])
+        self.radius = r
+
+    def __str__(self):
+        name = f" {self.name}" if self.name else ""
+
+        out = f"Surface SPH id={self.id}{name}:\n"
+        vx, vy, vz, r = self.parameters
+        out += f"    {vx=} {vy=} {vz=}\n"
+        out += f"    {r=}\n"
+
+        return out
+
+
+class SO(Surface):
+    def __init__(self, r, id: Optional[int] = None):
+        super().__init__(id=id, type="SO", parameters=[r])
+
+    def __str__(self):
+        name = f" {self.name}" if self.name else ""
+
+        out = f"Surface SO id={self.id}{name}:\n"
+        r = self.parameters[0]
         out += f"    {r=}\n"
 
         return out
