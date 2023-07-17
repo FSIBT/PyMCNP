@@ -7,7 +7,7 @@ TODO:
 
 """
 
-from typing import Optional
+from typing import Optional, List
 
 import numpy as np
 from rich import print
@@ -23,7 +23,7 @@ class Surface:
     def __init__(
         self,
         type: str,
-        parameters: list[float],
+        parameters: List[float],
         id: Optional[int] = None,
         name: Optional[str] = None,
     ):
