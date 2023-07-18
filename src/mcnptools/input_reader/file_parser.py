@@ -119,15 +119,15 @@ def parse_file(filename: Union[str, Path]) -> dict:
                 continue
 
         if state not in [MCNP_FILE_START, MCNP_FILE_MESSAGE, MCNP_FILE_TITLE]:
+            line = remove_inline_comment(line)
+
+        if state not in [MCNP_FILE_START, MCNP_FILE_MESSAGE, MCNP_FILE_TITLE]:
             if line.endswith("&"):
                 current += " " + line[:-1]
                 continue
             if next_line.startswith("     "):
                 current += " " + line.strip()
                 continue
-
-        if state not in [MCNP_FILE_START, MCNP_FILE_MESSAGE, MCNP_FILE_TITLE]:
-            line = remove_inline_comment(line)
 
         if line.lower().startswith("message:") and state == MCNP_FILE_START:
             # start of MESSAGE block
