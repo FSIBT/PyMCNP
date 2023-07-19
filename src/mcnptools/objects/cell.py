@@ -84,7 +84,7 @@ class Cell:
             out += f"{k}={v} "
         if self.name:
             out += f"$ {self.name}"
-        return out.strip()
+        return out.strip() + "\n"
 
     @classmethod
     def from_mcnp(cls, line):

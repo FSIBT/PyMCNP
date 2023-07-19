@@ -26,6 +26,7 @@ TODO:
 
 from typing import Union
 from pathlib import Path
+import re
 
 from rich import print
 
@@ -59,6 +60,10 @@ def remove_continuation_character(line: str) -> str:
 
 def remove_duplicate_whitespace(line: str) -> str:
     return " ".join(line.split())
+
+
+def remove_spaces_around_equal_sign(line: str) -> str:
+    return re.sub(r"\s*=\s*", "=", line)
 
 
 def parse_file(filename: Union[str, Path]) -> dict:
@@ -128,6 +133,8 @@ def parse_file(filename: Union[str, Path]) -> dict:
             if next_line.startswith("     "):
                 current += " " + line.strip()
                 continue
+
+        line = remove_spaces_around_equal_sign(line)
 
         if line.lower().startswith("message:") and state == MCNP_FILE_START:
             # start of MESSAGE block

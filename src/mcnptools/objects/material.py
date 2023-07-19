@@ -15,7 +15,7 @@ class Element:
         self.library = library
 
     def to_mcnp(self):
-        return f"{self.Z}{self.A:03d} {self.fraction}"
+        return f"{self.Z}{self.A:03d} {self.fraction} "
 
     @classmethod
     def from_mcnp(cls, ZZZAAA: str, fraction: str):
@@ -65,7 +65,7 @@ class Material:
         out = f"m{self.id}"
         for e in self.elements:
             out += " " + e.to_mcnp()
-        return out
+        return out.strip() + "\n"
 
     @classmethod
     def from_mcnp(cls, line: str):

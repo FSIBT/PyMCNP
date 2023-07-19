@@ -48,10 +48,10 @@ class Surface:
     def to_mcnp(self):
         """Create a line for and MCNP file."""
         out = f"{self.id} "
-        out += " ".join(self.parameters)
+        out += " ".join(str(x) for x in self.parameters)
         if self.name:
             out += f"$ {self.name}"
-        return out.strip()
+        return out.strip() + "\n"
 
     @classmethod
     def from_mcnp(cls, line):
