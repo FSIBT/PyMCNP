@@ -1,9 +1,11 @@
 from pathlib import Path
 from textwrap import wrap
+from typing import Optional
 
+import numpy as np
 
 from .file_parser import parse_file
-from ..objects import Cell, Surface, Material, Data, Nps
+from ..objects import Cell, Surface, Material, Data, Nps, Random
 
 
 class Input:
@@ -19,7 +21,7 @@ class Input:
 
     def to_mcnp(self, add_comments: bool = True) -> str:
         if self.message:
-            out = self.message.text + "\n"
+            out = self.message.text + "\n\n"
             out += self.title.text + "\n"
         else:
             out = self.title.text + "\n"
@@ -76,6 +78,30 @@ class Input:
         for d in self.data:
             if isinstance(d, Nps):
                 d.number = value
+
+    @property
+    def random_seed(self):
+        """Convenient function to get the random seed."""
+        for d in self.data:
+            if isinstance(d, Random):
+                return d.parameters.get("seed")
+
+    @nps.setter
+    def random_seed(self, value: Optional[int] = None):
+        """Convenient function to set random_seed."""
+        if value is None:
+            value = np.random.randint(0, 1 << 63)
+            # ensure seed is odd <-- MCNP requirement
+            value = value // 2 * 2 + 1
+
+        found = False
+        for d in self.data:
+            if isinstance(d, Random):
+                d.parameters["seed"] = value
+                found = True
+                break
+        if not found:
+            self.data.append(Random({"seed": value}))
 
     def __str__(self):
         out = ""
