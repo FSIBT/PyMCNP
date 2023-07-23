@@ -53,7 +53,7 @@ class Data:
             out += f"{k}={v} "
         out = out.strip()
         if self.comment:
-            out += " $ {self.comment}"
+            out += f" $ {self.comment}"
         return out + "\n"
 
     @classmethod
@@ -102,7 +102,7 @@ class Source(Data):
             out += f"{k}={v} "
         out = out.strip()
         if self.comment:
-            out += " $ {self.comment}"
+            out += f" $ {self.comment}"
         return out + "\n"
 
     @classmethod
@@ -144,7 +144,7 @@ class SourceInformation(Data):
         out = f"{self.name} {self.option} "
         out += " ".join(self.values)
         if self.comment:
-            out += " $ {self.comment}"
+            out += f" $ {self.comment}"
         return out.strip() + "\n"
 
     @classmethod
