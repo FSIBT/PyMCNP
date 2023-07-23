@@ -5,9 +5,17 @@ Define elements and materials made out of elements.
 
 from typing import Optional, List
 
+from ..input_line import InputLine
+
 
 class Element:
-    def __init__(self, Z: int, A: int, fraction: float, library: Optional[str] = None):
+    def __init__(
+        self,
+        Z: int,
+        A: int,
+        fraction: float,
+        library: Optional[str] = None,
+    ):
         self.Z = Z
         self.A = A
         self.fraction = fraction
@@ -50,9 +58,15 @@ class Element:
 class Material:
     all_materials = []
 
-    def __init__(self, elements: List[Element], id=None):
+    def __init__(
+        self,
+        elements: List[Element],
+        id=None,
+        comment: Optional[str] = None,
+    ):
         self.id = id
         self.elements = elements
+        self.comment = comment
 
     def get_new_id(self):
         """Return the smallest unused id"""
@@ -65,13 +79,18 @@ class Material:
         out = f"m{self.id}"
         for e in self.elements:
             out += " " + e.to_mcnp()
-        return out.strip() + "\n"
+        out = out.strip()
+        if self.comment:
+            out += f" $ {self.comment}"
+        return out + "\n"
 
     @classmethod
-    def from_mcnp(cls, line: str):
+    def from_mcnp(cls, line: InputLine):
         # skip m
-        line = line[1:]
-        values = line.split()
+        line.text = line.text[1:]
+        comment = line.comment
+
+        values = line.text.split()
         id = values[0]
         elements = []
         for za, f in zip(values[1::2], values[2::2]):
@@ -80,7 +99,7 @@ class Material:
             e = Element.from_mcnp(za, f)
             elements.append(e)
 
-        return cls(id=id, elements=elements)
+        return cls(id=id, elements=elements, comment=comment)
 
     @classmethod
     def get_all_materials(cls):
@@ -91,7 +110,8 @@ class Material:
         return [x.id for x in cls.all_materialss()]
 
     def __str__(self):
-        out = f"Material {self.id}:\n"
+        comment = f" ({self.comment})" if self.comment else ""
+        out = f"Material {self.id}{comment}:\n"
         for element in self.elements:
             out += f"   {element}"
 

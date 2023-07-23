@@ -20,8 +20,7 @@ See manual 1.3.1: INP files
 TODO:
 * more error checking
 * more special cases, e.g. CONTINUE
-* perhaps leave last $-comment in tact, so that it can be added to any
-  object during parsingq
+
 """
 
 from typing import Union
@@ -29,6 +28,8 @@ from pathlib import Path
 import re
 
 from rich import print
+
+from ..input_line import InputLine
 
 
 def replace_tab(line: str) -> str:
@@ -44,11 +45,13 @@ def replace_tab(line: str) -> str:
     return line
 
 
-def remove_inline_comment(line: str) -> str:
+def split_inline_comment(line: str) -> (str, str):
     idx = line.find("$")
+    comment = ""
     if idx != -1:
+        comment = line[idx + 1 :].strip()
         line = line[:idx]
-    return line
+    return line, comment
 
 
 def remove_continuation_character(line: str) -> str:
@@ -71,6 +74,10 @@ def parse_file(filename: Union[str, Path]) -> dict:
 
     Returns a dictionary that has the lines separated by type,
     e.g. title, cells, etc. Comments removed and continuation lines joined.
+
+    Each line will be representated by a InputLine instance that can
+    keep track of the content and the inline comment (or the last
+    inline commment for multi-line inputs).
 
     We use a statemeachine to keep track in which section of the input file we
     currently are. This is useful, since for example in the message block
@@ -113,9 +120,11 @@ def parse_file(filename: Union[str, Path]) -> dict:
     }
 
     state = MCNP_FILE_START
-    current = ""
+    current = ""  # joined multi-lines if applicable
+    comment = ""  # last inline comment
 
-    # add an empty lines, so that we can easily iterate over two lines at a time
+    # add an empty line to the input, so that we always can iterate
+    # over two lines at a time
     lines.append("")
     for line, next_line in zip(lines[:-1], lines[1:]):
         # ignore comments
@@ -124,7 +133,7 @@ def parse_file(filename: Union[str, Path]) -> dict:
                 continue
 
         if state not in [MCNP_FILE_START, MCNP_FILE_MESSAGE, MCNP_FILE_TITLE]:
-            line = remove_inline_comment(line)
+            line, comment = split_inline_comment(line)
 
         if state not in [MCNP_FILE_START, MCNP_FILE_MESSAGE, MCNP_FILE_TITLE]:
             if line.endswith("&"):
@@ -139,25 +148,26 @@ def parse_file(filename: Union[str, Path]) -> dict:
         if line.lower().startswith("message:") and state == MCNP_FILE_START:
             # start of MESSAGE block
             state = MCNP_FILE_MESSAGE
-            line = remove_inline_comment(line)
+            line, comment = split_inline_comment(line)
             line, _ = remove_continuation_character(line)
             current += line
         elif line != "" and state == MCNP_FILE_MESSAGE:
             # continuation of MESSAGE block
-            line = remove_inline_comment(line)
+            line, comment = split_inline_comment(line)
             line, _ = remove_continuation_character(line)
             current += line
         elif (
             (not line.lower().startswith("message:")) and state == MCNP_FILE_START
         ) or state == MCNP_FILE_TITLE:
             # title line
-            out[MCNP_FILE_TITLE] = line
+            out[MCNP_FILE_TITLE] = InputLine(line)
             state = MCNP_FILE_CELLS
         elif line == "":
             # end of section
             if state in [MCNP_FILE_MESSAGE]:
-                out[state] = current
+                out[state] = InputLine(current, comment)
             current = ""
+            comment = ""
             if state == MCNP_FILE_MESSAGE:
                 state = MCNP_FILE_TITLE
             elif state == MCNP_FILE_CELLS:
@@ -180,10 +190,11 @@ def parse_file(filename: Union[str, Path]) -> dict:
                 and (current.lower()[0] == "m")
                 and (current[1] in "0123456789")
             ):
-                out["materials"].append(current)
+                out["materials"].append(InputLine(current, comment))
             else:
-                out[state].append(current)
+                out[state].append(InputLine(current, comment))
             current = ""
+            comment = ""
         else:
             current += line
 

@@ -12,6 +12,8 @@ from typing import Optional, List
 import numpy as np
 from rich import print
 
+from ..input_line import InputLine
+
 
 class Surface:
     """Represent a MCNP surface."""
@@ -25,7 +27,7 @@ class Surface:
         type: str,
         parameters: List[float],
         id: Optional[int] = None,
-        name: Optional[str] = None,
+        comment: Optional[str] = None,
     ):
         if id is None:
             self.id = self.get_new_id()
@@ -34,7 +36,7 @@ class Surface:
 
         self.type = type
         self.parameters = parameters
-        self.name = name
+        self.comment = comment
 
         self.all_surfaces.append(self)
 
@@ -47,10 +49,10 @@ class Surface:
 
     def to_mcnp(self):
         """Create a line for and MCNP file."""
-        out = f"{self.id} "
+        out = f"{self.id} {self.type} "
         out += " ".join(str(x) for x in self.parameters)
-        if self.name:
-            out += f"$ {self.name}"
+        if self.comment:
+            out += f"$ {self.comment}"
         return out.strip() + "\n"
 
     @classmethod
@@ -60,7 +62,9 @@ class Surface:
         At the moment the line cannot include any comments
 
         """
-        components = line.split()
+        components = line.text.split()
+        comment = line.comment
+
         id = int(components[0])
         type = components[1].upper()
         if type not in cls.TYPES:
@@ -76,11 +80,7 @@ class Surface:
         elif type == "SO":
             return SO(id=id, *parameters)
 
-        return cls(
-            id=id,
-            type=type,
-            parameters=parameters,
-        )
+        return cls(id=id, type=type, parameters=parameters, comment=comment)
 
     @classmethod
     def get_all_surfacess(cls):
@@ -91,9 +91,9 @@ class Surface:
         return [x.id for x in cls.all_surfaces()]
 
     def __str__(self):
-        name = f" {self.name}" if self.name else ""
+        comment = f" {self.comment}" if self.comment else ""
 
-        out = f"Surface id={self.id}{name}:\n"
+        out = f"Surface id={self.id}{comment}:\n"
         out += f"   type = {self.type}\n"
 
         out += "   parameters:\n"
@@ -110,9 +110,9 @@ class RPP(Surface):
         )
 
     def __str__(self):
-        name = f" {self.name}" if self.name else ""
+        comment = f" {self.comment}" if self.comment else ""
 
-        out = f"Surface RPP id={self.id}{name}:\n"
+        out = f"Surface RPP id={self.id}{comment}:\n"
         xmin, xmax, ymin, ymax, zmin, zmax = self.parameters
         out += f"    {xmin=} {xmax=}\n"
         out += f"    {ymin=} {ymax=}\n"
@@ -132,9 +132,9 @@ class RCC(Surface):
         self.radius = r
 
     def __str__(self):
-        name = f" {self.name}" if self.name else ""
+        comment = f" {self.comment}" if self.comment else ""
 
-        out = f"Surface RCC id={self.id}{name}:\n"
+        out = f"Surface RCC id={self.id}{comment}:\n"
         vx, vy, vz, hx, hy, hz, r = self.parameters
         out += f"    {vx=} {vy=} {vz=}\n"
         out += f"    {hx=} {hy=} {hz=}\n"
@@ -151,9 +151,9 @@ class SPH(Surface):
         self.radius = r
 
     def __str__(self):
-        name = f" {self.name}" if self.name else ""
+        comment = f" {self.comment}" if self.comment else ""
 
-        out = f"Surface SPH id={self.id}{name}:\n"
+        out = f"Surface SPH id={self.id}{comment}:\n"
         vx, vy, vz, r = self.parameters
         out += f"    {vx=} {vy=} {vz=}\n"
         out += f"    {r=}\n"
@@ -166,9 +166,9 @@ class SO(Surface):
         super().__init__(id=id, type="SO", parameters=[r])
 
     def __str__(self):
-        name = f" {self.name}" if self.name else ""
+        comment = f" {self.comment}" if self.comment else ""
 
-        out = f"Surface SO id={self.id}{name}:\n"
+        out = f"Surface SO id={self.id}{comment}:\n"
         r = self.parameters[0]
         out += f"    {r=}\n"
 

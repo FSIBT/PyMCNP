@@ -15,6 +15,8 @@ from typing import Optional
 
 from rich import print
 
+from ..input_line import InputLine
+
 
 class Cell:
     """Represent a MCNP cell"""
@@ -49,7 +51,7 @@ class Cell:
         geometry: str,
         id: Optional[int] = None,
         parameters: Optional[dict] = None,
-        name: Optional[str] = None,
+        comment: Optional[str] = None,
     ):
         if id is None:
             self.id = self.get_new_id()
@@ -64,7 +66,7 @@ class Cell:
                     print(f"[red]ERROR[/] Cell parameter {p} not allowed.")
 
         self.parameters = parameters
-        self.name = name
+        self.comment = comment
 
         self.all_cells.append(self)
 
@@ -82,8 +84,8 @@ class Cell:
         out = f"{self.id} {material} {density} {self.geometry} "
         for k, v in self.parameters.items():
             out += f"{k}={v} "
-        if self.name:
-            out += f"$ {self.name}"
+        if self.comment:
+            out += f"$ {self.comment}"
         return out.strip() + "\n"
 
     @classmethod
@@ -95,7 +97,9 @@ class Cell:
         TODO: also parse missing material and density correclty
 
         """
-        components = line.split()
+        components = line.text.split()
+        comment = line.comment
+
         id = int(components[0])
         material = int(components[1])
         density = float(components[2])
@@ -115,6 +119,7 @@ class Cell:
             id=id,
             geometry=geometry,
             parameters=parameters,
+            comment=comment,
         )
 
     @classmethod
@@ -126,9 +131,9 @@ class Cell:
         return [x.id for x in cls.all_cells()]
 
     def __str__(self):
-        name = f" {self.name}" if self.name else ""
+        comment = f" {self.comment}" if self.comment else ""
 
-        out = f"Cell {self.id}{name}:\n"
+        out = f"Cell {self.id}{comment}:\n"
         out += f"   material = {self.material}\n"
 
         if self.density > 0:

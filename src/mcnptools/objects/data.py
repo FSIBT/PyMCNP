@@ -2,6 +2,8 @@ from typing import Dict, List, Optional
 
 from rich import print
 
+from ..input_line import InputLine
+
 
 def parse_generic_parameters(components: List[str]):
     """Parse key-value pairs separated with equal signs."""
@@ -31,9 +33,15 @@ def is_numeric(value):
 class Data:
     all_data = []
 
-    def __init__(self, name: str, parameters: Dict) -> None:
+    def __init__(
+        self,
+        name: str,
+        parameters: Dict,
+        comment: Optional[str] = None,
+    ) -> None:
         self.name = name
         self.parameters = parameters
+        self.comment = comment
 
     @classmethod
     def get_all_data(cls):
@@ -43,16 +51,20 @@ class Data:
         out = f"{self.name} "
         for k, v in self.parameters.items():
             out += f"{k}={v} "
-        return out.strip() + "\n"
+        out = out.strip()
+        if self.comment:
+            out += " $ {self.comment}"
+        return out + "\n"
 
     @classmethod
-    def from_mcnp(cls, line):
+    def from_mcnp(cls, line: InputLine):
         """Most lines in the data part will be parsed in the general class.
 
         For some we have specialized subclasses.
         """
 
-        components = line.split()
+        components = line.text.split()
+        comment = line.comment
         name = components[0].lower()
 
         if name == "ptrac":
@@ -76,58 +88,70 @@ class Data:
 
         parameters = parse_generic_parameters(components[1:])
 
-        return cls(
-            name=name,
-            parameters=parameters,
-        )
+        return cls(name=name, parameters=parameters, comment=comment)
 
 
 class Source(Data):
-    def __init__(self, parameters):
+    def __init__(self, parameters, comment: Optional[str] = None):
         self.parameters = parameters
+        self.comment = comment
 
     def to_mcnp(self):
         out = "sdef "
         for k, v in self.parameters.items():
             out += f"{k}={v} "
-        return out.strip() + "\n"
+        out = out.strip()
+        if self.comment:
+            out += " $ {self.comment}"
+        return out + "\n"
 
     @classmethod
-    def from_mcnp(cls, line):
+    def from_mcnp(cls, line: InputLine):
         """Most lines in the data part will be parsed in the general class.
 
         For some we have specialized subclasses.
         """
 
-        components = line.split()
-        name = components[0].lower()
+        components = line.text.split()
+        comment = line.comment
         parameters = parse_generic_parameters(components[1:])
 
-        return cls(
-            parameters=parameters,
-        )
+        return cls(parameters=parameters, comment=comment)
 
     def __str__(self):
         out = "Source "
+        if self.comment:
+            out += f" ({self.comment}) "
         for k, v in self.parameters.items():
             out += f"{k}={v} "
         return out.strip() + "\n"
 
 
 class SourceInformation(Data):
-    def __init__(self, name: str, values: List[float], option: Optional[str] = None):
+    def __init__(
+        self,
+        name: str,
+        values: List[float],
+        option: Optional[str] = None,
+        comment: Optional[str] = None,
+    ):
         self.name = name
         self.option = option
         self.values = values
+        self.comment = comment
 
     def to_mcnp(self):
         out = f"{self.name} {self.option} "
         out += " ".join(self.values)
+        if self.comment:
+            out += " $ {self.comment}"
         return out.strip() + "\n"
 
     @classmethod
-    def from_mcnp(cls, line):
-        components = line.split()
+    def from_mcnp(cls, line: InputLine):
+        components = line.text.split()
+        comment = line.comment
+
         name = components[0].lower()
         if name.startswith("si"):
             tmp = components[1]
@@ -157,24 +181,30 @@ class SourceInformation(Data):
                     components = components[1:]
             values = components[1:]
 
-        return cls(name, values, option)
+        return cls(name, values, option, comment=comment)
 
     def __str__(self):
-        out = f"Source infornation {self.name} {self.option}: "
+        comment = f" ({self.comment})" if self.comment else ""
+        out = f"Source information {self.name} {self.option}{comment}: "
         out += "     " + " ".join(self.values)
         return out.strip() + "\n"
 
 
 class Nps(Data):
-    def __init__(self, number):
+    def __init__(self, number, comment: Optional[str] = None):
         self.number = number
+        self.comment = comment
 
     def to_mcnp(self):
-        return f"nps {self.number}\n"
+        out = f"nps {self.number}"
+        if self.comment:
+            out += f" $ {self.comment}"
+        return out + "\n"
 
     @classmethod
-    def from_mcnp(cls, line):
-        components = line.split()
+    def from_mcnp(cls, line: InputLine):
+        components = line.text.split()
+        comment = line.comment
 
         number = components[1]
         if is_numeric(number):
@@ -182,59 +212,83 @@ class Nps(Data):
         else:
             print(f"[red]Error[/] Cannot parse {number}")
             return
-        return cls(number)
+        return cls(number, comment)
 
     def __str__(self):
-        return f"Number of particles: {self.number}\n"
+        out = f"Number of particles: {self.number}"
+        if self.comment:
+            out += f" ({self.comment})"
+        return out + "\n"
 
 
 class Print(Data):
-    def __init__(self, values):
+    def __init__(self, values, comment: Optional[str] = None):
         self.values = values
+        self.comment = comment
 
     def to_mcnp(self):
         out = "Print " + " ".join(self.values)
+        if self.comment:
+            out += f" $ {self.comment}"
         return out.strip() + "\n"
 
     @classmethod
-    def from_mcnp(cls, line):
-        components = line.split()
+    def from_mcnp(cls, line: InputLine):
+        components = line.text.split()
+        comment = line.comment
 
         values = components[1:]
-        return cls(values)
+        return cls(values, comment)
 
     def __str__(self):
-        return f"Print: {' '.join(self.values)}\n"
+        out = f"Print: {' '.join(self.values)}"
+        if self.comment:
+            out += f" ({self.comment})"
+        return out + "\n"
 
 
 class Random(Data):
-    def __init__(self, parameters):
+    def __init__(self, parameters, comment: Optional[str] = None):
         self.parameters = parameters
+        self.comment = comment
 
     def to_mcnp(self):
         out = f"RAND "
         out += " ".join(f"{k}={v}" for k, v in self.parameters.items())
-        return out.strip() + "\n"
+        out = out.strip()
+        if self.comment:
+            out += f" $ {self.comment}"
+        return out + "\n"
 
     @classmethod
-    def from_mcnp(cls, line):
-        components = line.split()
+    def from_mcnp(cls, line: InputLine):
+        components = line.text.split()
+        comment = line.comment
 
         parameters = parse_generic_parameters(components[1:])
 
-        return cls(parameters)
+        return cls(parameters, comment)
 
     def __str__(self):
         out = "Random "
         for k, v in self.parameters.items():
             out += f"{k}={v} "
-        return out.strip() + "\n"
+        out = out.strip()
+        if self.comment:
+            out += f" $ {self.comment}"
+        return out + "\n"
 
 
 class Mode(Data):
-    def __init__(self, neutrons: bool = False, photons: bool = False):
+    def __init__(
+        self,
+        neutrons: bool = False,
+        photons: bool = False,
+        comment: Optional[str] = None,
+    ):
         self.neutrons = neutrons
         self.photons = photons
+        self.comment = comment
 
     def to_mcnp(self):
         out = "mode "
@@ -242,75 +296,95 @@ class Mode(Data):
             out += "n "
         if self.photons:
             out += "p "
-        return out.strip() + "\n"
+        out = out.strip()
+        if self.comment:
+            out += f" ${self.comment}"
+        return out + "\n"
 
     @classmethod
-    def from_mcnp(cls, line):
-        components = line.split()[1:]
+    def from_mcnp(cls, line: InputLine):
+        components = line.text.split()[1:]
+        comment = line.comment
 
         photons = "p" in components
         neutrons = "n" in components
 
-        return cls(neutrons, photons)
+        return cls(neutrons, photons, comment)
 
     def __str__(self):
         out = "Mode "
+        if self.comment:
+            out += f"({self.comment}) "
         if self.neutrons:
             out += "neutrons "
         if self.photons:
             out += "photons "
-        return out.strip() + "\n"
+        out = out.strip()
+        return out + "\n"
 
 
 class Ptrac(Data):
-    def __init__(self, parameters):
+    def __init__(self, parameters, comment: Optional[str] = None):
         self.parameters = parameters
+        self.comment = comment
 
     def to_mcnp(self):
         out = "PTRAC "
         for k, v in self.parameters.items():
             out += f"{k}={v} "
-        return out.strip() + "\n"
+        out = out.strip()
+        if self.comment:
+            out += f"$ {self.comment}"
+        return out + "\n"
 
     @classmethod
-    def from_mcnp(cls, line):
+    def from_mcnp(cls, line: InputLine):
         """Most lines in the data part will be parsed in the general class.
 
         For some we have specialized subclasses.
         """
 
-        components = line.split()
+        components = line.text.split()
+        comment = line.comment
 
         parameters = parse_generic_parameters(components[1:])
 
-        return cls(
-            parameters=parameters,
-        )
+        return cls(parameters=parameters, comment=comment)
 
     def __str__(self):
         out = "Ptrac "
         for k, v in self.parameters.items():
             out += f"{k}={v} "
-        return out.strip() + "\n"
+        out = out.strip()
+        if self.comment:
+            out += f" $ {self.comment}"
+        return out + "\n"
 
 
 class Tally(Data):
-    def __init__(self, number, particle, parameters: str):
+    def __init__(
+        self, number, particle, parameters: str, comment: Optional[str] = None
+    ):
         self.number = number
         self.particle = particle
         self.parameters = parameters
+        self.comment = comment
 
     def to_mcnp(self):
-        return f"F{self.number}:{self.particle} {self.parameters}\n"
+        out = f"F{self.number}:{self.particle} {self.parameters}"
+        if self.comment:
+            out += f" $ {self.comment}"
+        return out + "\n"
 
     @classmethod
-    def from_mcnp(cls, line):
+    def from_mcnp(cls, line: InputLine):
         """Most lines in the data part will be parsed in the general class.
 
         For some we have specialized subclasses.
         """
 
-        components = line.split()
+        components = line.text.split()
+        comment = line.comment
 
         name = components[0]
 
@@ -319,10 +393,11 @@ class Tally(Data):
 
         parameters = " ".join(components[1:])
 
-        return cls(number, particle, parameters=parameters)
+        return cls(number, particle, parameters=parameters, comment=comment)
 
     def __str__(self):
-        out = f"Tally number={self.number} particle={self.particle}:\n"
+        comment = f" ({self.comment})" if self.comment else ""
+        out = f"Tally number={self.number} particle={self.particle}{comment}:\n"
         out += f"     {self.parameters}\n"
         return out
 
@@ -334,26 +409,30 @@ class Energy(Data):
         bins,
         nt: Optional[bool] = False,
         cumulative: Optional[bool] = False,
+        comment: Optional[str] = None,
     ):
         self.number = number
         self.bins = bins
         self.nt = nt
         self.cumulative = cumulative
+        self.comment = comment
 
     def to_mcnp(self):
         nt = " NT" if self.nt else ""
         c = " C" if self.cumulative else ""
         bins = " ".join(str(x) for x in self.bins)
-        return f"E{self.number} {bins}{nt}{c}\n"
+        comment = f" $ {self.comment}" if self.comment else ""
+        return f"E{self.number} {bins}{nt}{c}{comment}\n"
 
     @classmethod
-    def from_mcnp(cls, line):
+    def from_mcnp(cls, line: InputLine):
         """Most lines in the data part will be parsed in the general class.
 
         For some we have specialized subclasses.
         """
 
-        components = line.split()
+        components = line.text.split()
+        comment = line.comment
 
         number = int(components[0][1:])
         components = components[1:]
@@ -370,9 +449,13 @@ class Energy(Data):
             nt = True
             components = components[:-1]
 
-        return cls(number, components, nt=nt, cumulative=c)
+        return cls(number, components, nt=nt, cumulative=c, comment=comment)
 
     def __str__(self):
-        out = f"Energy number={self.number} no_total={self.nt} cumulative={self.cumulative}:\n"
+        comment = f" ({self.comment})" if self.comment else ""
+        n = self.number
+        nt = self.nt
+        c = self.cumulative
+        out = f"Energy number={n} no_total={nt} cumulative={c}{comment}:\n"
         out += f"    bins: {self.bins}\n"
         return out

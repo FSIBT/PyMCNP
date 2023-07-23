@@ -19,10 +19,10 @@ class Input:
 
     def to_mcnp(self, add_comments: bool = True) -> str:
         if self.message:
-            out = self.message + "\n"
-            out += self.title + "\n"
+            out = self.message.text + "\n"
+            out += self.title.text + "\n"
         else:
-            out = self.title + "\n"
+            out = self.title.text + "\n"
 
         if add_comments:
             out += self.add_header("cell definitions")
