@@ -91,8 +91,9 @@ class Input:
         """Convenient function to set random_seed."""
         if value is None:
             value = np.random.randint(0, 1 << 63)
-            # ensure seed is odd <-- MCNP requirement
-            value = value // 2 * 2 + 1
+
+        # ensure seed is odd <-- MCNP requirement
+        value = value // 2 * 2 + 1
 
         found = False
         for d in self.data:
