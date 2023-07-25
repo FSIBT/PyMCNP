@@ -43,14 +43,18 @@ def main():
     TOTAL = int(command["<total_run_nr>"])
 
     if not INPUT.is_file():
-        print(f"[red]ERROR[/] Cannot find input file {INPUT}.")
+        print(f"[red]ERROR[/] Cannot find input file '{INPUT.absolute()}'.")
         sys.exit(1)
 
     if not WORKING_DIR.is_dir():
-        print(f"[yellow]INFO[/] Creating '{WORKING_DIR.absolute()}'.")
+        print(
+            f"[yellow]INFO[/] Creating working directory: '{WORKING_DIR.absolute()}'."
+        )
         WORKING_DIR.mkdir(parents=True)
     else:
-        print(f"[yellow]INFO[/] Using existing '{WORKING_DIR.absolute()}'.")
+        print(
+            f"[yellow]INFO[/] Using existing working directory: '{WORKING_DIR.absolute()}'."
+        )
 
     RUN_NAME = f"{PREFIX}{RUN:06d}"
     SIM_DIR = WORKING_DIR / RUN_NAME
@@ -67,9 +71,10 @@ def main():
 
     input_file.random_seed = np.random.randint(0, 1 << 63)
 
-    input_file.message = mt.InputLine(
-        f"message: outp={RUN_NAME}.o ptrac={RUN_NAME}.ptrac", ""
-    )
+    output_files = f"outp={RUN_NAME}.o"
+    if input_file.has_ptrac():
+        output_files += f" ptrac={RUN_NAME}.ptrac"
+    input_file.message = mt.InputLine(f"message: {output_files}", "")
 
     OUTPUT_FILE = SIM_DIR / f"{RUN_NAME}.i"
 

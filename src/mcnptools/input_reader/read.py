@@ -5,7 +5,7 @@ from typing import Optional
 import numpy as np
 
 from .file_parser import parse_file
-from ..objects import Cell, Surface, Material, Data, Nps, Random
+from ..objects import Cell, Surface, Material, Data, Nps, Random, Ptrac
 
 
 class Input:
@@ -109,3 +109,9 @@ class Input:
             for y in x:
                 out += str(y)
         return out
+
+    def has_ptrac(self):
+        for d in self.data:
+            if isinstance(d, Ptrac):
+                return True
+        return False
