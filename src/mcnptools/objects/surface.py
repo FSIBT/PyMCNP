@@ -20,7 +20,7 @@ class Surface:
 
     all_surfaces = []
 
-    TYPES = ["RPP", "RCC", "SPH", "SO"]
+    TYPES = ["RPP", "RCC", "SPH", "SO", "CX", "CY", "CZ", "PX", "PY", "PZ"]
 
     def __init__(
         self,
@@ -68,7 +68,9 @@ class Surface:
         id = int(components[0])
         type = components[1].upper()
         if type not in cls.TYPES:
-            print(f"[orange3]Warning[/] {type} not supported at the moment")
+            print(
+                f"[orange3]Warning[/] Surface {type} not supported at the moment. '{line.text}'"
+            )
         parameters = [float(x) for x in components[2:]]
 
         if type == "RPP":
@@ -79,6 +81,18 @@ class Surface:
             return SPH(id=id, *parameters)
         elif type == "SO":
             return SO(id=id, *parameters)
+        elif type == "CX":
+            return CX(id=id, radius=parameters[0], comment=comment)
+        elif type == "CY":
+            return CY(id=id, radius=parameters[0], comment=comment)
+        elif type == "CZ":
+            return CZ(id=id, radius=parameters[0], comment=comment)
+        elif type == "PX":
+            return PX(id=id, distance=parameters[0], comment=comment)
+        elif type == "PY":
+            return PY(id=id, distance=parameters[0], comment=comment)
+        elif type == "PZ":
+            return PZ(id=id, distance=parameters[0], comment=comment)
 
         return cls(id=id, type=type, parameters=parameters, comment=comment)
 
@@ -119,6 +133,64 @@ class RPP(Surface):
         out += f"    {zmin=} {zmax=}\n"
 
         return out
+
+
+class CX(Surface):
+    def __init__(self, radius, id: Optional[int] = None, comment: Optional[str] = None):
+        self.id = id
+        self.radius = radius
+        self.comment = comment
+        super().__init__(id=id, type="CX", parameters=[radius], comment=comment)
+        self.name = "CX"
+
+    def __str__(self):
+        comment = f" ({self.comment})" if self.comment else ""
+        out = f"{self.name} {comment} radius={self.parameters[0]}"
+        return out
+
+
+class CY(CX):
+    def __init__(self, radius, id: Optional[int] = None, comment: Optional[str] = None):
+        super().__init__(id=id, radius=radius, comment=comment)
+        self.name = "CY"
+
+
+class CZ(CX):
+    def __init__(self, radius, id: Optional[int] = None, comment: Optional[str] = None):
+        super().__init__(id=id, radius=radius, comment=comment)
+        self.name = "CZ"
+
+
+class PX(Surface):
+    def __init__(
+        self, distance, id: Optional[int] = None, comment: Optional[str] = None
+    ):
+        self.id = id
+        self.distance = distance
+        self.comment = comment
+        super().__init__(id=id, type="PX", parameters=[distance], comment=comment)
+        self.name = "PX"
+
+    def __str__(self):
+        comment = f" ({self.comment})" if self.comment else ""
+        out = f"{self.name} {comment} distance={self.parameters[0]}"
+        return out
+
+
+class PY(PX):
+    def __init__(
+        self, distance, id: Optional[int] = None, comment: Optional[str] = None
+    ):
+        super().__init__(id=id, distance=distance, comment=comment)
+        self.name = "PY"
+
+
+class PZ(PX):
+    def __init__(
+        self, distance, id: Optional[int] = None, comment: Optional[str] = None
+    ):
+        super().__init__(id=id, distance=distance, comment=comment)
+        self.name = "PZ"
 
 
 class RCC(Surface):

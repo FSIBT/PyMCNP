@@ -14,8 +14,23 @@ def parse_generic_parameters(components: List[str]):
         if len(tmp) == 2:
             parameters[tmp[0]] = tmp[1]
         else:
-            print(f"[orange3]Warning[/] {c} not implemented.")
+            print(f"[orange3]Warning[/] Data: {c} not implemented (in {components}).")
     return parameters
+
+
+def parse_number(value: str, requested_type=float):
+    value = value.strip()
+    if value == "j":
+        return None
+    else:
+        return requested_type(value)
+
+
+def to_number(value) -> str:
+    if value is None:
+        return "j"
+
+    return str(value)
 
 
 def is_numeric(value):
@@ -79,8 +94,12 @@ class Data:
             return Random.from_mcnp(line)
         elif name == "print":
             return Print.from_mcnp(line)
+        elif name.startswith("cut"):
+            return Cut.from_mcnp(line)
         elif name[0] == "s" and name[1] in "ibp":
             return SourceInformation.from_mcnp(line)
+        elif name.startswith("fm"):
+            return TallyMultiplier.from_mcnp(line)
         elif name[0] == "f":
             return Tally.from_mcnp(line)
         elif name[0] == "e":
@@ -399,6 +418,145 @@ class Tally(Data):
         comment = f" ({self.comment})" if self.comment else ""
         out = f"Tally number={self.number} particle={self.particle}{comment}:\n"
         out += f"     {self.parameters}\n"
+        return out
+
+
+class TallyMultiplier(Data):
+    def __init__(self, number: int, parameters, comment: Optional[str] = None):
+        self.number = number
+        self.parameters = parameters
+        self.comment = comment
+
+    def to_mcnp(self):
+        out = f"FM{self.number} "
+        out += " ".join(self.parameters)
+        out = out.strip()
+        if self.comment:
+            out += f" $ {self.comment}"
+        return out + "\n"
+
+    @classmethod
+    def from_mcnp(cls, line: InputLine):
+        components = line.text.split()
+        comment = line.comment
+
+        number = int(components[0][2:])
+
+        parameters = components[1:]
+
+        return cls(number, parameters, comment)
+
+    def __str__(self):
+        out = "Tally Multiplier {self.number} "
+        if self.comment:
+            out += f" ({self.comment})"
+        out = out.strip() + "\n"
+        for p in self.parameters:
+            out += f"{p} "
+        out = out.strip()
+        return out + "\n"
+
+
+class Cut(Data):
+    def __init__(
+        self,
+        particle,
+        time_cutoff,
+        energy_cutoff,
+        weight_cutoff,
+        weight_min,
+        comment: Optional[str] = None,
+    ):
+        self.particle = particle
+        self.time_cutoff = time_cutoff
+        self.energy_cutoff = energy_cutoff
+        self.weight_cutoff = weight_cutoff
+        self.weight_min = weight_min
+        self.comment = comment
+
+    def to_mcnp(self):
+        # go through reverse order, so that we can skip undefined options at the back
+        if self.weight_min is None:
+            out = " "
+        else:
+            out = f" {self.weight_min}"
+
+        if self.weight_cutoff is None:
+            if out:
+                out = "j j " + out
+        else:
+            out = f"{self.weight_cutoff[0]} {self.weight_cutoff[1]} " + out
+
+        if self.energy_cutoff is None:
+            if out:
+                out = "j " + out
+        else:
+            out = f"{self.energy_cutoff} " + out
+
+        if self.time_cutoff is None:
+            if out:
+                out = "j " + out
+        else:
+            out = f"{self.time_cutoff} " + out
+
+        out = f"cut:{self.particle} " + out
+        return out.strip() + "\n"
+
+    @classmethod
+    def from_mcnp(cls, line: InputLine):
+        components = line.text.split()
+        comment = line.comment
+
+        particle = ""
+        tc = None
+        ec = None
+        wc = None
+        w_min = None
+
+        for i, c in enumerate(components):
+            if i == 0:
+                particle = c[4]
+            elif i == 1:
+                tc = parse_number(c)
+            elif i == 2:
+                ec = parse_number(c)
+            elif i == 3:
+                wc = parse_number(c)
+                if wc is not None:
+                    wc = [wc, None]
+            elif i == 4:
+                tmp = parse_number(c)
+                if wc:
+                    wc[1] = tmp
+            elif i == 5:
+                w_min = parse_number(c)
+
+        if wc is not None:
+            if (wc[0] is None) or (wc[1] is None):
+                print(
+                    f"[orange3]Warning[/] Parsing '{line.text}'. Possible bug: only one weight cutoff given! ... Fixing it."
+                )
+            wc[0] = wc[0] if wc[0] is not None else 0
+            wc[1] = wc[1] if wc[1] is not None else 0
+        return cls(particle, tc, ec, wc, w_min, comment)
+
+    def __str__(self):
+        comment = f" ({self.comment})" if self.comment else ""
+        p = self.particle
+        tc = self.time_cutoff
+        ec = self.energy_cutoff
+        wc = self.weight_cutoff
+        w_min = self.weight_min
+
+        out = f"Cut particle={p}{comment}:\n"
+        if tc:
+            out += f"    time cutoff: {tc}\n"
+        if ec:
+            out += f"    energy cutoff: {ec}\n"
+        if wc:
+            out += f"    weight cutoff: {wc}\n"
+        if w_min:
+            out += f"    weight min: {w_min}\n"
         return out
 
 

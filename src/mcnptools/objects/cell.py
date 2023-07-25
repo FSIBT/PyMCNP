@@ -62,7 +62,7 @@ class Cell:
         self.geometry = geometry
         if parameters is not None:
             for p in parameters:
-                if p not in self.PARAMETERS:
+                if p.upper() not in self.PARAMETERS:
                     print(f"[red]ERROR[/] Cell parameter {p} not allowed.")
 
         self.parameters = parameters
