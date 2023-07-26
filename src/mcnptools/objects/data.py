@@ -160,7 +160,9 @@ class SourceInformation(Data):
         self.comment = comment
 
     def to_mcnp(self):
-        out = f"{self.name} {self.option} "
+        out = f"{self.name} "
+        if self.option is not None:
+            out += f"{self.option} "
         out += " ".join(self.values)
         if self.comment:
             out += f" $ {self.comment}"
@@ -172,33 +174,17 @@ class SourceInformation(Data):
         comment = line.comment
 
         name = components[0].lower()
-        if name.startswith("si"):
-            tmp = components[1]
-            if is_numeric(tmp):
-                option = "H"
+        tmp = components[1]
+        if is_numeric(tmp):
+            option = float(tmp)
+            if option >= 0:
+                option = None
+                values = components[1:]
             else:
-                option = tmp
-                components = components[1:]
-            values = components[1:]
-        elif name.startswith("sp"):
-            tmp = components[1]
-            if not is_numeric(tmp):
-                option = tmp
-            else:
-                option = float(tmp)
-            values = components[1:]
-        elif name.startswith("sb"):
-            tmp = components[1]
-            if not is_numeric(tmp):
-                option = tmp
-                components = components[1:]
-            else:
-                option = float(tmp)
-                if option >= 0:
-                    option = "D"
-                else:
-                    components = components[1:]
-            values = components[1:]
+                values = components[2:]
+        else:
+            option = tmp
+            values = components[2:]
 
         return cls(name, values, option, comment=comment)
 
