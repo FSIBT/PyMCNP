@@ -56,7 +56,8 @@ def main():
             f"[yellow]INFO[/] Using existing working directory: '{WORKING_DIR.absolute()}'."
         )
 
-    RUN_NAME = f"{PREFIX}{RUN:06d}"
+    L = len(str(TOTAL))
+    RUN_NAME = f"{PREFIX}{RUN:0{L}d}"  # needs to be the same as {0#} in gnu-parallel
     SIM_DIR = WORKING_DIR / RUN_NAME
     if SIM_DIR.is_file():
         print(

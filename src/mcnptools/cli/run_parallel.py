@@ -86,7 +86,8 @@ def main():
 
     HOSTS = f"-S {HOSTS}" if HOSTS else ""
     command_to_run = (
-        f"{PARALLEL} {HOSTS}"
+        f"{PARALLEL}  --plus --workdir .parallel/tmp --return {WORKING_DIR}/{PREFIX}{{0#}} {HOSTS}"
+        + f" --basefile {INPUT.absolute().parent}/./{INPUT.name}"
         + f" 'MCNPtools-run-single --prefix={PREFIX} --dir={WORKING_DIR}"
         + f" {INPUT} {{}} {NR_RUN}'"
         + f" ::: {{1..{NR_RUN}}}"
