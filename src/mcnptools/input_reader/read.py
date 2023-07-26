@@ -53,10 +53,23 @@ class Input:
 
         # wrap the text
         out = out.split("\n")
-        out = ["\n".join(wrap(x, width=80, subsequent_indent="     ")) for x in out]
+        out = [self.wrap_with_comment(o) for o in out]
         out = "\n".join(out) + "\n"
 
         return out
+
+    def wrap_with_comment(self, line: str) -> str:
+        tmp = line.split("$")
+        if len(tmp) == 1:
+            text = tmp[0]
+            comment = ""
+        else:
+            text = tmp[0]
+            comment = "$".join(tmp[1:])
+        text = "\n".join(wrap(text, width=80, subsequent_indent="     "))
+        if comment:
+            text += f" $ {comment}"
+        return text
 
     def add_header(self, name: str) -> str:
         out = ""
