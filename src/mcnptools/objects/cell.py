@@ -24,7 +24,10 @@ class Cell:
     all_cells = []
 
     PARAMETERS = [
-        "IMP",
+        "IMP:P",
+        "IMP:N",
+        "IMP:P,N",
+        "IMP:N,P",
         "VOL",
         "PWT",
         "EXT",
@@ -111,7 +114,7 @@ class Cell:
 
         parameters = {}
         for c in components[i:]:
-            k, v = c.split(":")
+            k, v = c.split("=")
             parameters[k] = v
         return cls(
             material=material,
