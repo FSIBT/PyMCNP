@@ -29,26 +29,30 @@ class Input:
         if add_comments:
             out += self.add_header("cell definitions")
         for item in self.cells:
-            out += item.to_mcnp()
+            if item is not None:
+                out += item.to_mcnp()
         out += "\n"
 
         if add_comments:
             out += self.add_header("surface definitions")
         for item in self.surfaces:
-            out += item.to_mcnp()
+            if item is not None:
+                out += item.to_mcnp()
         out += "\n"
 
         if add_comments:
             out += self.add_header("material compositions")
         for item in self.materials:
-            out += item.to_mcnp()
-            if add_comments:
-                out += "C \n"
+            if item is not None:
+                out += item.to_mcnp()
+                if add_comments:
+                    out += "C \n"
 
         if add_comments:
             out += self.add_header("source definition")
         for item in self.data:
-            out += item.to_mcnp()
+            if item is not None:
+                out += item.to_mcnp()
         out += "\n"
 
         # wrap the text

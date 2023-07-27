@@ -1,3 +1,4 @@
+import re
 from typing import Dict, List, Optional
 
 from rich import print
@@ -82,7 +83,11 @@ class Data:
         comment = line.comment
         name = components[0].lower()
 
-        if name == "ptrac":
+        if len(line.text) == 1 and line.text[0].lower() == "c":
+            # this might be a bug in the input files, since comments should be "c "?
+            # this should be resolved in a better way eventually
+            return
+        elif name == "ptrac":
             return Ptrac.from_mcnp(line)
         elif name == "sdef":
             return Source.from_mcnp(line)
@@ -98,12 +103,15 @@ class Data:
             return Cut.from_mcnp(line)
         elif name[0] == "s" and name[1] in "ibp":
             return SourceInformation.from_mcnp(line)
-        elif name.startswith("fm"):
-            return TallyMultiplier.from_mcnp(line)
-        elif name[0] == "f":
+        elif name.startswith("fm") and not name.startswith("fmesh"):
+            return TallyModifier.from_mcnp(line)
+        elif name.startswith("f") or name.startswith("*f"):
             return Tally.from_mcnp(line)
         elif name[0] == "e":
-            return Energy.from_mcnp(line)
+            return TallyModifier.from_mcnp(line)
+        elif name.startswith("c") or name.startswith("*c"):
+            print("debug2", line)
+            return TallyModifier.from_mcnp(line)
 
         parameters = parse_generic_parameters(components[1:])
 
@@ -368,15 +376,16 @@ class Ptrac(Data):
 
 class Tally(Data):
     def __init__(
-        self, number, particle, parameters: str, comment: Optional[str] = None
+        self, name, number, particle, parameters: str, comment: Optional[str] = None
     ):
+        self.name = name  # F, Fmesh, ...
         self.number = number
         self.particle = particle
         self.parameters = parameters
         self.comment = comment
 
     def to_mcnp(self):
-        out = f"F{self.number}:{self.particle} {self.parameters}"
+        out = f"{self.name}{self.number}:{self.particle} {self.parameters}"
         if self.comment:
             out += f" $ {self.comment}"
         return out + "\n"
@@ -393,12 +402,19 @@ class Tally(Data):
 
         name = components[0]
 
-        a, particle = name.split(":")
-        number = int(a[1:])
+        name, particle = name.split(":")
+
+        # Use re.split() to split the string based on the pattern
+        pattern = r"(\D+)(\d+)"
+        matches = re.split(pattern, name)
+
+        # Extract characters and the number from the matches
+        name = matches[1]
+        number = int(matches[2])
 
         parameters = " ".join(components[1:])
 
-        return cls(number, particle, parameters=parameters, comment=comment)
+        return cls(name, number, particle, parameters=parameters, comment=comment)
 
     def __str__(self):
         comment = f" ({self.comment})" if self.comment else ""
@@ -407,14 +423,15 @@ class Tally(Data):
         return out
 
 
-class TallyMultiplier(Data):
-    def __init__(self, number: int, parameters, comment: Optional[str] = None):
+class TallyModifier(Data):
+    def __init__(self, name, number: int, parameters, comment: Optional[str] = None):
+        self.name = name
         self.number = number
         self.parameters = parameters
         self.comment = comment
 
     def to_mcnp(self):
-        out = f"FM{self.number} "
+        out = f"{self.name}{self.number} "
         out += " ".join(self.parameters)
         out = out.strip()
         if self.comment:
@@ -426,11 +443,17 @@ class TallyMultiplier(Data):
         components = line.text.split()
         comment = line.comment
 
-        number = int(components[0][2:])
+        name = components[0]
+        pattern = r"(\D+)(\d+)"
+        matches = re.split(pattern, name)
+
+        # Extract characters and the number from the matches
+        name = matches[1]
+        number = int(matches[2])
 
         parameters = components[1:]
 
-        return cls(number, parameters, comment)
+        return cls(name, number, parameters, comment)
 
     def __str__(self):
         out = "Tally Multiplier {self.number} "
