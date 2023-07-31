@@ -3,7 +3,11 @@ Parsing ptrac files from MCNP
 """
 
 from collections import namedtuple
+from pathlib import Path
+
 from fortranformat import FortranRecordReader
+
+from tqdm import tqdm
 
 Position = namedtuple("Position", "x y z")
 
@@ -601,6 +605,9 @@ class HistoryHandlerHeaderOnly(HistoryHandler):
     def __call__(self, hist):
         return True
 
+    def close(self):
+        pass
+
 
 def read_file(filename, handle_history=None):
     """Parses a whole PTRAC file
@@ -620,35 +627,40 @@ def read_file(filename, handle_history=None):
     Returns
     -------
     header :
-        Returns the heaer of the ptrac file
+        Returns the header of the ptrac file
 
     """
-    with open(filename) as fin:  # open for read
-        header = Header(fin)
-        # parse particle histories
-        try:
-            while True:
-                line = next(fin)
-                hist = History(line, header)
-                while hist.current_event != "final":
-                    # get two lines and add them together
+    size = Path(filename).stat().st_size
+    with tqdm(total=size) as pbar:
+        with open(filename) as fin:  # open for read
+            header = Header(fin)
+            # parse particle histories
+            try:
+                while True:
                     line = next(fin)
-                    form = FortranRecordReader("(1x,8e10.0)")
-                    Jline = form.read(line)
-                    Jline = [i for i in Jline if i is not None]
-                    line = next(fin)
-                    form = FortranRecordReader("(1x,9e13.5)")
-                    Pline = form.read(line)
-                    Pline = [i for i in Pline if i is not None]
-                    event_line = Jline + Pline
-                    # parse event
-                    event = Event(parent=hist, line=event_line, header=header)
-                    hist.add(event)
-                if handle_history:
-                    ret = handle_history(hist)
-                    if ret:
-                        raise StopIteration
-                del hist
-        except StopIteration:
-            pass
+                    hist = History(line, header)
+                    pbar.update(len(line))
+                    while hist.current_event != "final":
+                        # get two lines and add them together
+                        line = next(fin)
+                        pbar.update(len(line))
+                        form = FortranRecordReader("(1x,8e10.0)")
+                        Jline = form.read(line)
+                        Jline = [i for i in Jline if i is not None]
+                        line = next(fin)
+                        pbar.update(len(line))
+                        form = FortranRecordReader("(1x,9e13.5)")
+                        Pline = form.read(line)
+                        Pline = [i for i in Pline if i is not None]
+                        event_line = Jline + Pline
+                        # parse event
+                        event = Event(parent=hist, line=event_line, header=header)
+                        hist.add(event)
+                    if handle_history:
+                        ret = handle_history(hist)
+                        if ret:
+                            raise StopIteration
+                        del hist
+            except StopIteration:
+                pass
     return header

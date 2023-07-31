@@ -25,6 +25,7 @@ dependencies = [
     "pandas",
     "rich",
     "scipy",
+    "tqdm"
 ]
 dynamic = ["version"]
 
