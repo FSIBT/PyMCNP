@@ -2,11 +2,12 @@
    mcnptools-run-single [options] <inputfile> <run_nr> <total_run_nr>
 
 Options:
-  -n --dry-run       just print the commands it would run_dir
-  --prefix=<pre>     prefix for the subdirectories to be used [default: sim].
-                     The simulations will add the run_nr to this prefix [default: sims].
-  --log              Log the random seed in a file, so that runs can be reproduced
-  --dir=<dir>        directory for all simulatinos to run in [default: .].
+  --dry-run             just print the commands it would run_dir.
+  --prefix=<pre>        prefix for the subdirectories to be used [default: sim].
+                        The simulations will add the run_nr to this prefix [default: sims].
+  --log                 Log the random seed in a file, so that runs can be reproduced.
+  --dir=<dir>           directory for all simulatinos to run in [default: .].
+  -n <nps> --nps=<nps>  change the number of particles (good for quick test runs)
 
 Runs the inputfile in mcnp. It will divide the number of particles by <total_run_nr>
 and provide a random seed.
@@ -37,6 +38,10 @@ def main():
     PREFIX = command["--prefix"]
     LOG = command["--log"]
     WORKING_DIR = Path(command["--dir"])
+    if command["--nps"] is not None:
+        NPS = int(command["--nps"])
+    else:
+        NPS = None
 
     INPUT = Path(command["<inputfile>"])
     RUN = int(command["<run_nr>"])
@@ -67,7 +72,7 @@ def main():
     SIM_DIR.mkdir(parents=True, exist_ok=True)
 
     input_file = mt.input_reader.Input(INPUT)
-    nr = input_file.nps
+    nr = input_file.nps if NPS is None else NPS
     input_file.nps = int(nr / TOTAL)
 
     input_file.random_seed = np.random.randint(0, 1 << 63)
