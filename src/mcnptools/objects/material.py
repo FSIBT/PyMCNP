@@ -7,6 +7,10 @@ from typing import Optional, List
 
 from ..input_line import InputLine
 
+import molmass
+
+ELEMENT_NAME = {e.number: e.name for e in molmass.ELEMENTS}
+
 
 class Element:
     def __init__(
@@ -23,10 +27,11 @@ class Element:
         self.library = library
 
     def to_mcnp(self):
+        name = f"{ELEMENT_NAME[self.Z]}"
         if self.library is None:
-            return f"{self.Z}{self.A:03d} {self.fraction} "
+            return f"{self.Z}{self.A:03d} {self.fraction} $ {name}"
 
-        return f"{self.Z}{self.A:03d}.{self.library} {self.fraction} "
+        return f"{self.Z}{self.A:03d}.{self.library} {self.fraction} $ {name}"
 
     @classmethod
     def from_mcnp(cls, ZZZAAA: str, fraction: str):
@@ -90,13 +95,13 @@ class Material:
                 return i
 
     def to_mcnp(self):
-        out = f"m{self.id}"
-        for e in self.elements:
-            out += " " + e.to_mcnp()
-        out = out.strip()
         if self.comment:
-            out += f" $ {self.comment}"
-        return out + "\n"
+            out = f"m{self.id} $ {self.comment}\n"
+        else:
+            out = f"m{self.id} \n"
+        for e in self.elements:
+            out += "      " + e.to_mcnp() + "\n"
+        return out
 
     @classmethod
     def from_mcnp(cls, line: InputLine):
