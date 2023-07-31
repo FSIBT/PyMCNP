@@ -37,7 +37,7 @@ def main():
             a = ""
         if b is None:
             b = ""
-        print(f"{a.rstrip():90s} | {b.rstrip():90s}")
+        print(f"{a.rstrip():<90} | {b.rstrip():<90}")
 
 
 if __name__ == "__main__":
