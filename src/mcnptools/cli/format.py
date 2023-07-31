@@ -26,7 +26,7 @@ import mcnptools as mt
 
 def main():
     command = docopt.docopt(__doc__)
-    print(command)
+    # print(command)
 
     INPUT = Path(command["<inputfile>"])
 

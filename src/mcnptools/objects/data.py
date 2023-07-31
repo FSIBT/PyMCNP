@@ -6,17 +6,21 @@ from rich import print
 from ..input_line import InputLine
 
 
-def parse_generic_parameters(components: List[str]):
+def parse_key_value_pairs(components: List[str]):
     """Parse key-value pairs separated with equal signs."""
 
     parameters = {}
+    left_over = []
     for c in components:
+        if "=" not in c:
+            left_over.append(c)
+            continue
         tmp = c.split("=")
         if len(tmp) == 2:
             parameters[tmp[0]] = tmp[1]
         else:
             print(f"[orange3]Warning[/] Data: {c} not implemented (in {components}).")
-    return parameters
+    return parameters, left_over
 
 
 def parse_number(value: str, requested_type=float):
@@ -53,10 +57,12 @@ class Data:
         self,
         name: str,
         parameters: Dict,
+        args: List,
         comment: Optional[str] = None,
     ) -> None:
         self.name = name
         self.parameters = parameters
+        self.args = args
         self.comment = comment
 
     @classmethod
@@ -67,6 +73,8 @@ class Data:
         out = f"{self.name} "
         for k, v in self.parameters.items():
             out += f"{k}={v} "
+        for v in self.args:
+            out += f"{v} "
         out = out.strip()
         if self.comment:
             out += f" $ {self.comment}"
@@ -78,6 +86,10 @@ class Data:
 
         For some we have specialized subclasses.
         """
+
+        # remove spaces around equal signs, so that we can easier
+        # parse them later
+        line.text = re.sub(r"\s*=\s*", "=", line.text)
 
         components = line.text.split()
         comment = line.comment
@@ -110,23 +122,25 @@ class Data:
         elif name[0] == "e":
             return TallyModifier.from_mcnp(line)
         elif name.startswith("c") or name.startswith("*c"):
-            print("debug2", line)
             return TallyModifier.from_mcnp(line)
 
-        parameters = parse_generic_parameters(components[1:])
+        parameters, args = parse_key_value_pairs(components[1:])
 
-        return cls(name=name, parameters=parameters, comment=comment)
+        return cls(name=name, parameters=parameters, args=args, comment=comment)
 
 
 class Source(Data):
-    def __init__(self, parameters, comment: Optional[str] = None):
+    def __init__(self, parameters, args, comment: Optional[str] = None):
         self.parameters = parameters
         self.comment = comment
+        self.args = args
 
     def to_mcnp(self):
         out = "sdef "
         for k, v in self.parameters.items():
             out += f"{k}={v} "
+        for v in self.args:
+            out += f"{v} "
         out = out.strip()
         if self.comment:
             out += f" $ {self.comment}"
@@ -141,9 +155,9 @@ class Source(Data):
 
         components = line.text.split()
         comment = line.comment
-        parameters = parse_generic_parameters(components[1:])
+        parameters, args = parse_key_value_pairs(components[1:])
 
-        return cls(parameters=parameters, comment=comment)
+        return cls(parameters=parameters, args=args, comment=comment)
 
     def __str__(self):
         out = "Source "
@@ -151,6 +165,8 @@ class Source(Data):
             out += f" ({self.comment}) "
         for k, v in self.parameters.items():
             out += f"{k}={v} "
+        for v in self.args:
+            out += f"{v} "
         return out.strip() + "\n"
 
 
@@ -278,7 +294,9 @@ class Random(Data):
         components = line.text.split()
         comment = line.comment
 
-        parameters = parse_generic_parameters(components[1:])
+        parameters, left_over = parse_key_value_pairs(components[1:])
+        if left_over:
+            print(f"[orange3]Warning[/] Random: left over arguments: {left_over}")
 
         return cls(parameters, comment)
 
@@ -286,6 +304,8 @@ class Random(Data):
         out = "Random "
         for k, v in self.parameters.items():
             out += f"{k}={v} "
+        for v in self.args:
+            out += f"{v} "
         out = out.strip()
         if self.comment:
             out += f" $ {self.comment}"
@@ -317,6 +337,7 @@ class Mode(Data):
     @classmethod
     def from_mcnp(cls, line: InputLine):
         components = line.text.split()[1:]
+        components = [c.lower() for c in components]
         comment = line.comment
 
         photons = "p" in components
@@ -360,7 +381,10 @@ class Ptrac(Data):
         components = line.text.split()
         comment = line.comment
 
-        parameters = parse_generic_parameters(components[1:])
+        parameters, args = parse_key_value_pairs(components[1:])
+
+        if args:
+            print(f"[orange3]Warning[/] Ptrac: left over args: {args}")
 
         return cls(parameters=parameters, comment=comment)
 
@@ -486,7 +510,7 @@ class Cut(Data):
     def to_mcnp(self):
         # go through reverse order, so that we can skip undefined options at the back
         if self.weight_min is None:
-            out = " "
+            out = ""
         else:
             out = f" {self.weight_min}"
 

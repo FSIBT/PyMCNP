@@ -23,7 +23,10 @@ class Element:
         self.library = library
 
     def to_mcnp(self):
-        return f"{self.Z}{self.A:03d} {self.fraction} "
+        if self.library is None:
+            return f"{self.Z}{self.A:03d} {self.fraction} "
+
+        return f"{self.Z}{self.A:03d}.{self.library} {self.fraction} "
 
     @classmethod
     def from_mcnp(cls, ZZZAAA: str, fraction: str):
@@ -38,6 +41,17 @@ class Element:
         A = int(ZA[-3:])
         fraction = float(fraction)
         return cls(Z, A, fraction, library)
+
+    @classmethod
+    def is_element(cls, ZZZAAA: str) -> bool:
+        tmp = ZZZAAA.split(".")
+        ZA = tmp[0]
+        Z = ZA[:-3]
+        A = ZA[-3:]
+
+        if Z.isnumeric() and Z.isnumeric():
+            return True
+        return False
 
     def __str__(self):
         l = self.library
@@ -94,7 +108,7 @@ class Material:
         id = values[0]
         elements = []
         for za, f in zip(values[1::2], values[2::2]):
-            if not za.isnumeric():
+            if not Element.is_element(za):
                 break
             e = Element.from_mcnp(za, f)
             elements.append(e)
