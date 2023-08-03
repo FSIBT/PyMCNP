@@ -136,11 +136,11 @@ class HistoryHandlerNeutrons(mcnptools.parse_ptrac.HistoryHandler):
         for h in hist.history:
             if h.event_type == "initial source" and h.particle == "neutron":
                 self.output_file.write(
-                    "source NA {h.pos.x} {h.pos.y} {h.pos.z} {h.dir.u} {h.dir.v} {h.dir.w} {h.energy} NA\n"
+                    f"source NA {h.pos.x} {h.pos.y} {h.pos.z} {h.dir.u} {h.dir.v} {h.dir.w} {h.energy} NA\n"
                 )
             if h.event_type == "Photon from Neutron":
                 self.output_file.write(
-                    "photon {h.pos.x} {h.pos.y} {h.pos.z} {h.dir.u} {h.dir.v} {h.dir.w} {h.energy} {h.nxs}\n"
+                    f"photon {h.pos.x} {h.pos.y} {h.pos.z} {h.dir.u} {h.dir.v} {h.dir.w} {h.energy} {h.nxs}\n"
                 )
                 if (
                     h.event_type == "collision"
@@ -148,7 +148,7 @@ class HistoryHandlerNeutrons(mcnptools.parse_ptrac.HistoryHandler):
                     and h.particle == "neutron"
                 ):
                     self.output_file.write(
-                        "collision {h.pos.x} {h.pos.y} {h.pos.z} {h.dir.u} {h.dir.v} {h.dir.w} {h.energy} {h.nxs}"
+                        f"collision {h.pos.x} {h.pos.y} {h.pos.z} {h.dir.u} {h.dir.v} {h.dir.w} {h.energy} {h.nxs}"
                     )
 
 
