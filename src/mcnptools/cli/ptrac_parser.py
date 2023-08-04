@@ -31,10 +31,7 @@ The -n and -p option can be used to reduce the plotting output
 
 
 from docopt import docopt
-from collections import defaultdict
-import numpy as np
 import mcnptools as mt
-import matplotlib.pyplot as plt
 
 
 def main():

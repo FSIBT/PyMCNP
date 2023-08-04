@@ -16,6 +16,8 @@ HistoryToFile:      Save every event into an output file
 HistoryHeaderOnly:  Only parse the header and then stop
 """
 
+from collections import defaultdict
+
 from matplotlib import pyplot as plt
 import numpy as np
 
