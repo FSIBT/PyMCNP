@@ -4,10 +4,13 @@ Parsing ptrac files from MCNP
 
 from collections import namedtuple
 from pathlib import Path
+from typing import Optional, Union, Callable
 
 from fortranformat import FortranRecordReader
-
+from rich import print
 from tqdm import tqdm
+
+from .handler import HistoryHandler
 
 Position = namedtuple("Position", "x y z")
 
@@ -140,7 +143,7 @@ def lookup_ntyn(idx, neutron=True):
         elif idx > 5:
             return "ENDF Reaction ID"
         else:
-            return f"Error ntyn lookup: shouldn't happen {idx}"
+            return f"Error ntyn(neutron) lookup: shouldn't happen {idx}"
     else:
         if idx == 1:
             return "Incoheren scatter"
@@ -153,7 +156,7 @@ def lookup_ntyn(idx, neutron=True):
         elif idx == 5:
             return "Pair production"
         else:
-            return f"Error ntyn lookup: shouldn't happen {idx}"
+            return f"Error ntyn(photon) lookup: shouldn't happen {idx}"
 
 
 def lookup_mtp(idx, neutron=True):
@@ -221,7 +224,7 @@ termination_type_neutron = {
 }
 
 termination_type_photon = {
-    11: " Compton scatter",
+    11: "Compton scatter",
     12: "Capture",
     13: "Pair production",
     14: "Photonuclear",
@@ -270,11 +273,12 @@ class Event:
         self.misc = None
         self.parent = parent
         self.header = header
+        self.rejected = False  # can only happen for bank events
 
         if line:
             self.parse(parent, line)
 
-    def __repr__(self):
+    def __str__(self):
         out = ""
         out += f"  type: {self.event_type}\n"
         if self.particle:
@@ -314,6 +318,86 @@ class Event:
                 out += f"  misc:  {k} {v}\n"
         return out
 
+    def to_value_str(self):
+        out = f"{self.event_type}"
+        if self.particle:
+            out += f", {self.particle}"
+        if self.ntyn:
+            out += f", {self.ntyn}"
+        if self.nxs:
+            out += f", {int(self.nxs)}"
+        if self.node:
+            out += f", {self.node}"
+        if self.pos:
+            out += f", {self.pos.x}, {self.pos.y}, {self.pos.z}"
+        if self.dir:
+            out += f", {self.dir.u}, {self.dir.v}, {self.dir.w}"
+        if self.energy:
+            out += f", {self.energy}"
+        if self.weight:
+            out += f", {self.weight}"
+        if self.time:
+            out += f", {self.time}"
+        if self.branch_number:
+            out += f", {self.branch_number}"
+        if self.surface:
+            out += f", {self.surface}"
+        if self.angle:
+            out += f", {self.angle}"
+        if self.cell_number:
+            out += f", {self.cell_number}"
+        if self.source:
+            out += f", {self.source}"
+        if self.material:
+            out += f", {self.material}"
+        if self.termination_type:
+            out += f", {self.termination_type}"
+        if self.misc:
+            for k, v in self.misc.items():
+                out += f" {v}"
+        out += "\n"
+        return out
+
+    def to_header_str(self):
+        out = ""
+        out += f"type"
+        if self.particle:
+            out += f", particle type"
+        if self.ntyn:
+            out += f", ntyn"
+        if self.nxs:
+            out += f", nxs"
+        if self.node:
+            out += f", node"
+        if self.pos:
+            out += f", x, y, z"
+        if self.dir:
+            out += f" vx, vy, vz"
+        if self.energy:
+            out += f", energy"
+        if self.weight:
+            out += f", weight"
+        if self.time:
+            out += f", time"
+        if self.branch_number:
+            out += f", branch number"
+        if self.surface:
+            out += f", surface number"
+        if self.angle:
+            out += f", angle with surface normal"
+        if self.cell_number:
+            out += f", cell number"
+        if self.source:
+            out += f", source"
+        if self.material:
+            out += f", material"
+        if self.termination_type:
+            out += f", termination type"
+        if self.misc:
+            out += ", " + ",".join(self.misc.keys())
+        out += "\n"
+        return out
+
     def parse(self, hist, line):
         """Takes an input line and extracts all the information into
         this class
@@ -321,6 +405,10 @@ class Event:
         # convert to array of numbers
         line = [float(i) for i in line]
         d = {k: v for k, v in zip(self.header.IDS[hist.current_event], line)}
+
+        if hist.current_event_id < 0:
+            self.rejected = True
+
         if hist.current_event == "bank":
             t, e = parse_bank(hist.current_event_id)
             d["type"] = t
@@ -331,15 +419,15 @@ class Event:
         # sort into event class
         self.event_type = d.pop("type", None)
         self.bank_extra = d.pop("bank extra", None)
-        if self.bank_extra or self.event_type == "collision":
-            self.ntyn = lookup_ntyn(int(d.pop("NTYN/MTP")))
-            self.nxs = d.pop("NXS")
         self.particle = d.pop("IPT", None)
+        if self.particle:
+            self.particle = get_particle(int(self.particle))
+        if self.bank_extra or self.event_type == "collision":
+            self.ntyn = lookup_ntyn(int(d.pop("NTYN/MTP")), self.particle == "neutron")
+            self.nxs = d.pop("NXS")
         self.source = d.pop("NSR", None)
         self.node = d.pop("NODE", None)
         self.surface = d.pop("Surface number", None)
-        if self.particle:
-            self.particle = get_particle(int(self.particle))
         self.cell_number = d.pop("NCL", None)
         if self.cell_number:
             self.cell_number = int(self.cell_number)
@@ -551,65 +639,21 @@ class Header:
         self.IDS["collision"] = parse_ID(L[N_sur:N_col])
         self.IDS["termination"] = parse_ID(L[N_col:N_ter])
 
-    def __repr__(self):
-        out = f"Program:{self.program} ; Version:({self.version} , {self.program_date}) ; Current Date:{self.run_date} {self.run_time}\n"
-        out += f"{self.name}\n"
+    def __str__(self):
+        out = f"  Program: {self.program} ; Version:({self.version} , {self.program_date}) ; Current Date:{self.run_date} {self.run_time}\n"
+        out += f"  {self.name}\n"
         for k, v in self.keywords.items():
-            out += f"  {k} {v}\n"
+            out += f"    {k} {v}\n"
         for k, v in self.IDS.items():
-            out += f"   IDS: {k} {v}\n"
+            out += f"     IDS: {k} {v}\n"
         return out
 
 
-class HistoryHandler:
-    """A default output handler class that can be used in read_file
-
-    In principle the handler can be any function. This class with callable instances
-    takes care of opening and closing files, so that the file does not need to be opened
-    every time.
-    """
-
-    def __init__(self, filename):
-        self.output_file = open(filename, "w")
-
-    def __call__(self, hist):
-        self.output_file.write(repr(hist))
-
-    def close(self):
-        self.output_file.close()
-
-
-class HistoryHandlerKeep(HistoryHandler):
-    """An output handler class that can be used in read_file
-
-    This handler can be used to keep the history of all events.
-    """
-
-    def __init__(self):
-        self.histories = []
-
-    def __call__(self, hist):
-        self.histories.append(hist)
-
-
-class HistoryHandlerHeaderOnly(HistoryHandler):
-    """An output handler, that only reads the header information.
-
-    We stop handling events once we receive the first one and don't do anything with
-    the event data.
-    """
-
-    def __init__(self):
-        pass
-
-    def __call__(self, hist):
-        return True
-
-    def close(self):
-        pass
-
-
-def read_file(filename, handle_history=None):
+def read_file(
+    filename: Union[str, Path],
+    handle_history: Optional[Union[Callable, HistoryHandler]] = None,
+    max_number: int = 0,
+) -> (Header, int):
     """Parses a whole PTRAC file
 
     This function reads in and parses all events relating to one neutron. The user can provide a
@@ -618,19 +662,26 @@ def read_file(filename, handle_history=None):
 
     Parameters
     ----------
-    filename : str
+    filename
         The filename of the ptrac file
-    handle_history :
+    handle_history
         a function that takes a History object as an argument. This hook is provided to
         have custom code executed for each history in the ptrac file.
+    max_number
+        Maximal number of events to read. The reader will stop after this number is reached.
 
     Returns
     -------
-    header :
-        Returns the header of the ptrac file
+    header
+        The header of the ptrac file
+    events_parsed
+        The number of events that were read in and parsed.
 
     """
     size = Path(filename).stat().st_size
+    if max_number > 0:
+        size = min(size, max_number)
+    events_parsed = 0
     with tqdm(total=size) as pbar:
         with open(filename) as fin:  # open for read
             header = Header(fin)
@@ -656,6 +707,9 @@ def read_file(filename, handle_history=None):
                         # parse event
                         event = Event(parent=hist, line=event_line, header=header)
                         hist.add(event)
+                        events_parsed += 1
+                        if max_number > 0 and events_parsed > max_number:
+                            raise StopIteration
                     if handle_history:
                         ret = handle_history(hist)
                         if ret:
@@ -663,4 +717,4 @@ def read_file(filename, handle_history=None):
                         del hist
             except StopIteration:
                 pass
-    return header
+    return header, events_parsed
