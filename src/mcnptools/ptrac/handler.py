@@ -17,6 +17,7 @@ HistoryHeaderOnly:  Only parse the header and then stop
 """
 
 from matplotlib import pyplot as plt
+import numpy as np
 
 
 class HistoryHandler:
