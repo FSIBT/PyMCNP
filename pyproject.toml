@@ -36,7 +36,7 @@ test = ['pytest','pytest-cov']
 "Homepage" = "https://github.com/mauricioAyllon/MCNP-tools"
 
 [project.scripts]
-MCNPtools-parse-ptrac = "mcnptools.cli.MCNPtools_parse_ptrac:main"
+MCNPtools-parse-ptrac = "mcnptools.cli.ptrac_parser:main"
 MCNPtools-run-single = "mcnptools.cli.run_single:main"
 MCNPtools-run-parallel = "mcnptools.cli.run_parallel:main"
 MCNPtools-format = "mcnptools.cli.format:main"
