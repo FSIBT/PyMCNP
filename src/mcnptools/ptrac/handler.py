@@ -16,6 +16,8 @@ HistoryToFile:      Save every event into an output file
 HistoryHeaderOnly:  Only parse the header and then stop
 """
 
+from matplotlib import pyplot as plt
+
 
 class HistoryHandler:
     """A default output handler class that can be used in read_file
