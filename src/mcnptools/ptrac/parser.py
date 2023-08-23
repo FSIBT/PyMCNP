@@ -533,8 +533,15 @@ class Header:
         self.num_particles = None
         self.name = None
         self.keywords = {}
+        # size of bytes read in (needed to update progressbars)
+        self.header_length = 0
 
         self.parse(filehandle)
+
+    def get_next_line(self, filehandle):
+        line = next(filehandle)
+        self.header_length += len(line)
+        return line
 
     def to_hdf(self, f):
         """Saved the information to a writeable hdf file"""
@@ -548,9 +555,9 @@ class Header:
 
     def parse(self, f):
         # first line is always -1
-        line = next(f)
+        line = self.get_next_line(f)
         # program version, etc.
-        line = next(f)
+        line = self.get_next_line(f)
         form = FortranRecordReader("(a4,a5,a32,a9,a9)")
         line = form.read(line)
         line = [a.strip() for a in line]
@@ -562,7 +569,7 @@ class Header:
             self.run_time,
         ) = line
         # user defined name of simulations
-        line = next(f)
+        line = self.get_next_line(f)
         self.name = line.strip()
         self.shorthash = line.split()[-1]
         self.num_particles = line.split()[-2]
@@ -571,7 +578,7 @@ class Header:
         # followed by n1 V1_1 V1_2....V1_n1 and then repeated entries for n2...n_m
         # we need to read as many lines of 10 doubles until we reach n_m entries
         # an entry of n_i=0 means no V values
-        line = next(f)
+        line = self.get_next_line(f)
         form = FortranRecordReader("(1x,10e12.4)")
         line = form.read(line)
         m = int(line[0])
@@ -581,7 +588,7 @@ class Header:
         while n_read < m:
             if len(line) < n or len(line) == 0:
                 # missing values, need to add next line
-                newline = next(f)
+                newline = self.get_next_line(f)
                 newline = form.read(newline)
                 line += newline
                 continue
@@ -591,7 +598,7 @@ class Header:
             line = line[1:]
             if len(line) < n or len(line) == 0:
                 # missing values, need to add next line
-                newline = next(f)
+                newline = self.get_next_line(f)
                 newline = form.read(newline)
                 line += newline
             if n > 1:
@@ -604,7 +611,7 @@ class Header:
                 else:
                     self.keywords[KEYWORDS[n_read]] = value
         # list of N values
-        line = next(f)
+        line = self.get_next_line(f)
         form = FortranRecordReader("(1x,20i5)")
         line = form.read(line)
         N = line
@@ -619,13 +626,13 @@ class Header:
         # the next block of lines needs to provide this many values
         # number of values is N_ter and will fill up necessary number of lines to achieve N_ter entries
         need = N_ter
-        line = next(f)
+        line = self.get_next_line(f)
         form = FortranRecordReader("(1x,30i4)")
         line = form.read(line)
         L = line
         got = len(L)  # Current number of values
         while got < need:
-            line = next(f)
+            line = self.get_next_line(f)
             if need - got > 30:
                 p = "30"
             else:
@@ -688,6 +695,7 @@ def read_file(
     with tqdm(total=size) as pbar:
         with open(filename) as fin:  # open for read
             header = Header(fin)
+            pbar.update(header.header_length)
             # parse particle histories
             try:
                 while True:
@@ -720,4 +728,5 @@ def read_file(
                         del hist
             except StopIteration:
                 pass
+
     return header, events_parsed
