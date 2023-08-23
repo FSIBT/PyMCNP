@@ -362,39 +362,39 @@ class Event:
         out = ""
         out += f"type"
         if self.particle:
-            out += f", particle type"
+            out += f",particle type"
         if self.ntyn:
-            out += f", ntyn"
+            out += f",ntyn"
         if self.nxs:
-            out += f", nxs"
+            out += f",nxs"
         if self.node:
-            out += f", node"
+            out += f",node"
         if self.pos:
-            out += f", x, y, z"
+            out += f",x,y,z"
         if self.dir:
-            out += f" vx, vy, vz"
+            out += f",vx,vy,vz"
         if self.energy:
-            out += f", energy"
+            out += f",energy"
         if self.weight:
-            out += f", weight"
+            out += f",weight"
         if self.time:
-            out += f", time"
+            out += f",time"
         if self.branch_number:
-            out += f", branch number"
+            out += f",branch number"
         if self.surface:
-            out += f", surface number"
+            out += f",surface number"
         if self.angle:
-            out += f", angle with surface normal"
+            out += f",angle with surface normal"
         if self.cell_number:
-            out += f", cell number"
+            out += f",cell number"
         if self.source:
-            out += f", source"
+            out += f",source"
         if self.material:
-            out += f", material"
+            out += f",material"
         if self.termination_type:
-            out += f", termination type"
+            out += f",termination type"
         if self.misc:
-            out += ", " + ",".join(self.misc.keys())
+            out += "," + ",".join(self.misc.keys())
         out += "\n"
         return out
 

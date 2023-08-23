@@ -73,6 +73,10 @@ class HistoryGammas(HistoryHandler):
     save them in multiple files, sorted by the element the photon
     originates from.
 
+    The first line in the file will be the header stating what each coloumn
+    means. Adding this makes it also easy to read the file later using
+    `pandas.read_csv`.
+
     """
 
     def __init__(self, input):
