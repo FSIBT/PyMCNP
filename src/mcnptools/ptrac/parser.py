@@ -422,8 +422,11 @@ class Event:
         self.particle = d.pop("IPT", None)
         if self.particle:
             self.particle = get_particle(int(self.particle))
-        if self.bank_extra or self.event_type == "collision":
+        if self.bank_extra:
             self.ntyn = lookup_ntyn(int(d.pop("NTYN/MTP")), self.particle == "neutron")
+            self.nxs = d.pop("NXS")
+        elif self.event_type == "collision":
+            self.ntyn = lookup_mtp(int(d.pop("NTYN/MTP")), self.particle == "neutron")
             self.nxs = d.pop("NXS")
         self.source = d.pop("NSR", None)
         self.node = d.pop("NODE", None)
