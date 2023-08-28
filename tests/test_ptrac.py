@@ -3,7 +3,7 @@ import mcnptools
 
 def test_header():
     with open("tests/ptrac_testdata.txt") as f:
-        header = mcnptools.parse_ptrac.Header(f)
+        header = mcnptools.ptrac.parser.Header(f)
 
     assert header.program == "mcnp"
     assert header.version == "6"
@@ -122,27 +122,27 @@ def test_header():
 
 def test_read_file():
     filename = "tests/ptrac_testdata.txt"
-    data = mcnptools.parse_ptrac.HistoryHandlerKeep()
-    mcnptools.parse_ptrac.read_file(filename, handle_history=data)
+    handler = mcnptools.ptrac.handler.HistoryHandler()
+    mcnptools.ptrac.read_file(filename, handle_history=handler)
 
-    assert data.histories[0].history[0].event_type == "initial source"
-    assert data.histories[0].history[0].particle == "neutron"
-    assert data.histories[0].history[0].node == 1.0
-    assert data.histories[0].history[0].pos.x == -25.5
-    assert data.histories[0].history[0].energy == 14.1
-    assert data.histories[0].history[0].cell_number == 77
+    assert handler.data[0].history[0].event_type == "initial source"
+    assert handler.data[0].history[0].particle == "neutron"
+    assert handler.data[0].history[0].node == 1.0
+    assert handler.data[0].history[0].pos.x == -25.5
+    assert handler.data[0].history[0].energy == 14.1
+    assert handler.data[0].history[0].cell_number == 77
 
-    assert data.histories[0].history[4].event_type == "Photon from Neutron"
-    assert data.histories[0].history[4].particle == "photon"
-    assert data.histories[0].history[4].node == 3.0
-    assert data.histories[0].history[4].pos.x == 9.7205
-    assert data.histories[0].history[4].energy == 4.439
-    assert data.histories[0].history[4].cell_number == 221
-    assert data.histories[0].history[4].time == 0.74153
+    assert handler.data[0].history[4].event_type == "Photon from Neutron"
+    assert handler.data[0].history[4].particle == "photon"
+    assert handler.data[0].history[4].node == 3.0
+    assert handler.data[0].history[4].pos.x == 9.7205
+    assert handler.data[0].history[4].energy == 4.439
+    assert handler.data[0].history[4].cell_number == 221
+    assert handler.data[0].history[4].time == 0.74153
 
-    assert data.histories[1].history[3].event_type == "surface"
-    assert data.histories[1].history[3].node == 4.0
-    assert data.histories[1].history[3].pos.x == 187.23
-    assert data.histories[1].history[3].energy == 13.947
-    assert data.histories[1].history[3].cell_number == 99
-    assert data.histories[1].history[3].time == 7.8563
+    assert handler.data[1].history[3].event_type == "surface"
+    assert handler.data[1].history[3].node == 4.0
+    assert handler.data[1].history[3].pos.x == 187.23
+    assert handler.data[1].history[3].energy == 13.947
+    assert handler.data[1].history[3].cell_number == 99
+    assert handler.data[1].history[3].time == 7.8563
