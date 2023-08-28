@@ -61,7 +61,7 @@ def main():
         print(
             f"[yellow]INFO[/] Creating working directory: '{WORKING_DIR.absolute()}'."
         )
-        WORKING_DIR.mkdir(parents=True)
+        WORKING_DIR.mkdir(parents=True, exist_ok=True)
     else:
         print(
             f"[yellow]INFO[/] Using existing working directory: '{WORKING_DIR.absolute()}'."
