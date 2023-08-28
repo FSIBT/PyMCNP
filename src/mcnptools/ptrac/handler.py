@@ -104,7 +104,7 @@ class HistoryGammas(HistoryHandler):
             f.close()
 
 
-class HistoryHandlerPlot:
+class HistoryHandlerPlot(HistoryHandler):
     def __init__(self, number, probability, plot_surfaces=False):
         self.number = number
         self.probability = probability
@@ -123,6 +123,7 @@ class HistoryHandlerPlot:
         self.surfaceY = defaultdict(list)
         self.surfaceZ = defaultdict(list)
         self.counter = 0
+        self.particle = "neutron"
 
     def plot(self):
         self.counter += 1
@@ -185,22 +186,20 @@ class HistoryHandlerPlot:
         plt.show()
 
 
-class HistoryHandlerNeutrons(HistoryHandler):
+class HistoryHandlerNeutrons(HistoryToFile):
+    """Save neutron and photon from neutrons"""
+
     def __call__(self, hist):
         for h in hist.history:
             if h.event_type == "initial source" and h.particle == "neutron":
-                self.output_file.write(
-                    f"source NA {h.pos.x} {h.pos.y} {h.pos.z} {h.dir.u} {h.dir.v} {h.dir.w} {h.energy} NA\n"
-                )
+                self.output_file.write("#")
+                self.output_file.write(h.to_header_str())
+                self.output_file.write(h.to_value_str())
             if h.event_type == "Photon from Neutron":
-                self.output_file.write(
-                    f"photon {h.pos.x} {h.pos.y} {h.pos.z} {h.dir.u} {h.dir.v} {h.dir.w} {h.energy} {h.nxs}\n"
-                )
-                if (
-                    h.event_type == "collision"
-                    and h.energy > 0.001
-                    and h.particle == "neutron"
-                ):
-                    self.output_file.write(
-                        f"collision {h.pos.x} {h.pos.y} {h.pos.z} {h.dir.u} {h.dir.v} {h.dir.w} {h.energy} {h.nxs}"
-                    )
+                self.output_file.write("#")
+                self.output_file.write(h.to_header_str())
+                self.output_file.write(h.to_value_str())
+            if h.event_type == "collision" and h.particle == "neutron":
+                self.output_file.write("#")
+                self.output_file.write(h.to_header_str())
+                self.output_file.write(h.to_value_str())

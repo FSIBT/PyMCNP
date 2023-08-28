@@ -1,2 +1,9 @@
 from .parser import read_file
-from .handler import HistoryHandler, HistoryToFile, HistoryHeaderOnly, HistoryGammas
+from .handler import (
+    HistoryHandler,
+    HistoryToFile,
+    HistoryHeaderOnly,
+    HistoryGammas,
+    HistoryHandlerPlot,
+    HistoryHandlerNeutrons,
+)
