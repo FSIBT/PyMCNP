@@ -84,10 +84,18 @@ def main():
     if HOSTS is None:
         HOSTS = os.getenv("SLURM_JOB_NODELIST")
 
+    REMOTE_OPTION = ""
+    if HOSTS:
+        # we are doing remote, so add a working dir and also return data
+        REMOTE_OPTION = (
+            f"--workdir $HOME/.parallel/tmp "
+            f"--return {WORKING_DIR}/{PREFIX}{{0#}} "
+            f"--basefile {INPUT.absolute().parent}/./{INPUT.name}"
+        )
+
     HOSTS = f"-S {HOSTS}" if HOSTS else ""
     command_to_run = (
-        f"{PARALLEL}  --plus --workdir .parallel/tmp --return {WORKING_DIR}/{PREFIX}{{0#}} {HOSTS}"
-        + f" --basefile {INPUT.absolute().parent}/./{INPUT.name}"
+        f"{PARALLEL} --plus {REMOTE_OPTION} {HOSTS}"
         + f" 'MCNPtools-run-single --prefix={PREFIX} --dir={WORKING_DIR}"
         + f" {INPUT} {{}} {NR_RUN}'"
         + f" ::: {{1..{NR_RUN}}}"

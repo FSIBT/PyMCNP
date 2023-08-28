@@ -47,6 +47,12 @@ def main():
     RUN = int(command["<run_nr>"])
     TOTAL = int(command["<total_run_nr>"])
 
+    if RUN > TOTAL:
+        print(
+            f"[red]ERROR[/] run_nr numbers should go from 1 - total_run_rn). {RUN=} {TOTAL=}"
+        )
+        sys.exit(1)
+
     if not INPUT.is_file():
         print(f"[red]ERROR[/] Cannot find input file '{INPUT.absolute()}'.")
         sys.exit(1)
@@ -76,6 +82,9 @@ def main():
     input_file.nps = int(nr / TOTAL)
 
     input_file.random_seed = np.random.randint(0, 1 << 63)
+    if LOG:
+        with (WORKING_DIR / "random.log").open("a") as f:
+            f.write(f"run {RUN} random seed {input_file.random_seed}\n")
 
     output_files = f"outp={RUN_NAME}.o"
     if input_file.has_ptrac():
