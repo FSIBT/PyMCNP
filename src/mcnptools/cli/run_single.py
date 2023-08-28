@@ -39,7 +39,7 @@ def main():
     LOG = command["--log"]
     WORKING_DIR = Path(command["--dir"])
     if command["--nps"] is not None:
-        NPS = int(command["--nps"])
+        NPS = int(float(command["--nps"]))
     else:
         NPS = None
 
