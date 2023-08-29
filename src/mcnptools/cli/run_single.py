@@ -107,6 +107,8 @@ def main():
     else:
         subprocess.run(command_to_run, cwd=SIM_DIR, shell=True)
 
+    (SIM_DIR / "runtpe").unlink(missing_ok=True)
+
 
 if __name__ == "__main__":
     main()
