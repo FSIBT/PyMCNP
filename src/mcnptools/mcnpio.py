@@ -5,6 +5,7 @@ Functions to create and read MCNP io files
 from collections import defaultdict
 from datetime import datetime
 import importlib.resources
+import pkg_resources
 import re
 import time
 
@@ -989,10 +990,9 @@ def isotopic_abundance(element):
         stable isotopes and their respective natural abundance.
 
     """
-    ref = importlib.resources.files("mcnptools") / "resource.dat"
-    with importlib.resources.as_file(ref) as path:
-        with path.open() as f:
-            lines = f.readlines()
+    nist_file = pkg_resources.resource_filename("mcnptools", "data/Isotopes-NIST-2.txt")
+    with open(nist_file) as f:
+        lines = f.readlines()
 
     result = defaultdict()
     for i, l in enumerate(lines):
