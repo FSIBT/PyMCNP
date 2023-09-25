@@ -54,7 +54,7 @@ def main():
     elif commands["gammas"]:
         handler = mt.ptrac.HistoryGammas(input)
     elif commands["neutrons"]:
-        handler = mt.ptrac.HistoryHandlerNeutrons(f"{input}-output-neutrons.txt")
+        handler = mt.ptrac.HistoryNeutrons(f"{input}-output-neutrons.txt")
     elif commands["plot"]:
         handler = mt.ptrac.HistoryHandlerPlot(number, probability)
     elif commands["plotsurfaces"]:

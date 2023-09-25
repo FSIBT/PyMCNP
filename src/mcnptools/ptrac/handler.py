@@ -94,7 +94,7 @@ class HistoryGammas(HistoryHandler):
     def get_or_create_output_file(self, element: str, h):
         outf = self.output_files.get(element, None)
         if outf is None:
-            outf = open(f"{self.input}-output-{element}.txt", "w")
+            outf = open(f"{self.input}-gammas-{element}.txt", "w")
             self.output_files[element] = outf
             outf.write(h.to_header_str())
         return outf
@@ -186,7 +186,7 @@ class HistoryHandlerPlot(HistoryHandler):
         plt.show()
 
 
-class HistoryHandlerNeutrons(HistoryToFile):
+class HistoryNeutrons(HistoryToFile):
     """Save neutron and photon from neutrons"""
 
     def __call__(self, hist):

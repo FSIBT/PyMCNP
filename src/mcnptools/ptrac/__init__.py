@@ -5,5 +5,5 @@ from .handler import (
     HistoryHeaderOnly,
     HistoryGammas,
     HistoryHandlerPlot,
-    HistoryHandlerNeutrons,
+    HistoryNeutrons,
 )
