@@ -455,7 +455,7 @@ class Event:
         self.ncp = d.pop("NCP", None)
         self.energy = d.pop("ERG", None)
         self.weight = d.pop("WGT", None)
-        self.time = d.pop("TME", None)
+        self.time = d.pop("TME", None) * 1e-8
         d.pop("next event type", None)
         self.misc = d
 
