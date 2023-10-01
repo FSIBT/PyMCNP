@@ -138,11 +138,11 @@ def test_read_file():
     assert handler.data[0].history[4].pos.x == 9.7205
     assert handler.data[0].history[4].energy == 4.439
     assert handler.data[0].history[4].cell_number == 221
-    assert handler.data[0].history[4].time == 0.74153
+    assert handler.data[0].history[4].time == 0.74153e-8
 
     assert handler.data[1].history[3].event_type == "surface"
     assert handler.data[1].history[3].node == 4.0
     assert handler.data[1].history[3].pos.x == 187.23
     assert handler.data[1].history[3].energy == 13.947
     assert handler.data[1].history[3].cell_number == 99
-    assert handler.data[1].history[3].time == 7.8563
+    assert handler.data[1].history[3].time == 7.8563e-8
