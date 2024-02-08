@@ -19,22 +19,28 @@ class ReadOutput:
     def __init__(self, filename):
         self.filename = filename
         self.df_info = 0
+        self.all_lines = self.read_entire_file()
         self.get_tally_info()
 
+    def read_entire_file(self):
+        with open(self.filename) as f:
+            allf = f.readlines()
+        return allf
+
     def read_tally(self, n=0, tally_type="e"):
+        start = -1
         if tally_type == "e":
             key_word = "energy"
         start_line = list(self.df_info["line_number"])[n]
-        with open(self.filename) as f:
-            allf = f.readlines()
-        for i, line in enumerate(allf[start_line:]):
+
+        for i, line in enumerate(self.all_lines[start_line:]):
             l = line.split()
             if key_word in l:
                 start = start_line + i
-            if "total" in l:
+            if "total" in l and start != -1:
                 end = start_line + i
                 break
-        corpus = allf[start + 1 : end]
+        corpus = self.all_lines[start + 1 : end]
         corpus_np = np.array([x.split() for x in corpus], dtype=float)
         df = pd.DataFrame(columns=["energy", "cts", "error"], data=corpus_np)
         return df
@@ -68,32 +74,26 @@ class ReadOutput:
         uncollided, user_bin, l_angle = [], [], []
 
         print("Reading output file...")
-        with open(self.filename) as myfile:
-            for i, l in enumerate(myfile):
-                tmp = l.split()
-                if "tally" in tmp and "type" in tmp:
-                    lidx.append(i)
-                    tally_type.append(l)
-                if "particle(s):" in tmp:
-                    pidx.append(i)
-                    particle.append(tmp)
-                if (
-                    "surface" in tmp
-                    and len(tmp) == 2
-                    and len(lidx) > 0
-                    and i >= min(lidx)
-                ):
-                    surf.append(i)
-                    surface.append(tmp)
-                if "angle" in tmp and "bin:" in tmp:
-                    l_angle.append(tmp)
-                    ix_angle.append(i)
-                if "uncollided" in tmp and "flux" in tmp:
-                    uncol.append(i)
-                    uncollided.append(l)
-                if "user" in tmp and "bin" in tmp:
-                    tagix.append(i)
-                    user_bin.append(l.split()[-1])
+        for i, l in enumerate(self.all_lines):
+            tmp = l.split()
+            if "tally" in tmp and "type" in tmp:
+                lidx.append(i)
+                tally_type.append(l)
+            if "particle(s):" in tmp:
+                pidx.append(i)
+                particle.append(tmp)
+            if "surface" in tmp and len(tmp) == 2 and len(lidx) > 0 and i >= min(lidx):
+                surf.append(i)
+                surface.append(tmp)
+            if "angle" in tmp and "bin:" in tmp:
+                l_angle.append(tmp)
+                ix_angle.append(i)
+            if "uncollided" in tmp and "flux" in tmp:
+                uncol.append(i)
+                uncollided.append(l)
+            if "user" in tmp and "bin" in tmp:
+                tagix.append(i)
+                user_bin.append(l.split()[-1])
         print("Done reading")
         if len(surface) > 0 and len(user_bin) > 0:
             tot_subtly = len(user_bin)
@@ -112,7 +112,7 @@ class ReadOutput:
             "particle",
             "surfaces",
             "angle_bin",
-            "uncollided_flux",
+            "flux",
             "user_bin",
             "line_number",
         ]
@@ -153,26 +153,26 @@ class ReadOutput:
 
         if len(uncollided) > 0:
             uncol_idx = uncol
-            unc0 = "collided photon flux"
+            flux = "collided flux"
             unc = uncollided
-            for l in lidx:
+            for l, p in zip(lidx, particle):
                 dat0 = [
                     "F" + ttype[2],
                     " ".join(ttype[3:]),
-                    particle[0][1],
+                    p[1],
                     sur,
                     ang,
-                    unc0,
+                    flux,
                     ub,
                     l,
                 ]
                 ser0 = pd.Series(dat0, index=df.columns)
                 df.loc[len(df)] = ser0
-            for line, ix in zip(unc, uncol_idx):
+            for line, ix, p in zip(unc, uncol_idx, particle):
                 dat0 = [
                     "F" + ttype[2],
                     " ".join(ttype[3:]),
-                    particle[0][1],
+                    p[1],
                     sur,
                     ang,
                     line[1:],
@@ -247,6 +247,7 @@ class ReadOutput:
                     break
         print("Done reading")
         print(f"Number of simulated particles: {nps}")
+        return nps
 
 
 def read_output(file, tally=8, n=1, tally_type="e", particle="n", verbose=True):
@@ -390,6 +391,67 @@ def read_output(file, tally=8, n=1, tally_type="e", particle="n", verbose=True):
         if key_word == "time":
             df[key_word] = df[key_word] / 100  # output in microseconds
         return df
+
+
+def read_ptrac_surf(
+    files, surfaces=["5.1", "5.2", "5.3"], event_types=["3000", "9000"]
+):
+    # surface crossing event (3000) and last event for given history (9000)
+    det = []
+    det_info = []
+    for file in files:
+        elem_det = []
+        idx_det = []
+        with open(file) as f:
+            # file = f.readlines()
+            for i, l in enumerate(f):
+                line = l.split()
+                if line[0] in event_types and line[2] in surfaces:
+                    idx_det.append(i)
+                    elem_det.append(line[2])
+
+        with open(file) as f:
+            file = f.readlines()
+
+        for d in idx_det:
+            tmp = np.array(file[d + 1].split(), dtype=float)
+            info = np.array(file[d].split(), dtype=float)
+            if len(info) == 8:
+                det_info.append(info)
+            if len(tmp) == 9:
+                det.append(tmp)
+
+    cols_i = ["event", "node", "ZA", "MTP", "particle", "cell", "material", "ncp"]
+    df_i = pd.DataFrame(data=det_info, columns=cols_i)
+    cols = ["x", "y", "z", "u", "v", "w", "energy", "wgt", "tme"]
+    df = pd.DataFrame(data=det, columns=cols)
+
+    df["tme"] = df["tme"] * 10  # ns
+    return df_i, df
+
+
+def read_table110(output_file):
+    """
+    Reads in Table 110 from MCNP output files. This table is printed only if
+    the keyword 'print' or 'print 110' is explicitly written in the imput file.
+    Table 110 prints the firts 50 starting histories
+    """
+    with open(output_file) as f:
+        allf = f.readlines()
+
+    start = -1
+    for i, line in enumerate(allf):
+        l = line.lower().split()
+        if "print" in l and "table" in l and "110" in l:
+            start = i
+        if "nps" in l and start != -1:
+            col_line = i
+            break
+    col_names = allf[col_line].split()
+    corpus = allf[col_line + 2 : col_line + 2 + 50]
+    corpus_np = np.array([x.split() for x in corpus], dtype=float)
+    df = pd.DataFrame(columns=col_names, data=corpus_np)
+    return df
 
 
 def read_inp_source(file, s1=["SI1", "SP1"], s2=["SI2", "SP2"], form="column"):
