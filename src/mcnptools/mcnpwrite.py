@@ -22,9 +22,13 @@ class MCNPwrite:
             file_str = f.readlines()
         self.file_lst = [line.rstrip("\n") for line in file_str]
 
-    def save_to_file(self):
-        with open(self.path, "w", newline="\n") as f:
-            f.writelines(["%s\n" % line for line in self.file_lst])
+    def save_to_file(self, new_file=None):
+        if new_file is None:  # replace existing file
+            with open(self.path, "w", newline="\n") as f:
+                f.writelines(["%s\n" % line for line in self.file_lst])
+        else:
+            with open(new_file, "w", newline="\n") as f:
+                f.writelines(["%s\n" % line for line in self.file_lst])
 
     def write_mcnp_line(self, line, pos=-1, char_limit=60):
         """
@@ -44,5 +48,13 @@ class MCNPwrite:
                     l.append("&")
                     l_str = " ".join(l)
                     self.file_lst.append(l_str)
+            else:
+                for el in spl:
+                    l = list(el)
+                    l.append("&")
+                    l_str = " ".join(l)
+                    self.file_lst.insert(pos, l_str)
+            # remove last & symbol
+            self.file_lst[-1] = self.file_lst[-1][:-2]
         else:
             self.file_lst.append(line)
