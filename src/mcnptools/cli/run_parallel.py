@@ -72,10 +72,15 @@ def main():
         date = datetime.today().strftime("%Y-%m-%d--%H-%M-%S")
         WORKING_DIR = Path(".") / f"sim-{INPUT.stem}-{date}"
     if not WORKING_DIR.is_dir():
-        print(
-            f"[yellow]INFO[/] Creating working directory: '{WORKING_DIR.absolute()}'."
-        )
-        WORKING_DIR.mkdir(parents=True)
+        if DRY_RUN:
+            print(
+                f"[yellow]INFO[/] Working directory would be: '{WORKING_DIR.absolute()}'."
+            )
+        else:
+            print(
+                f"[yellow]INFO[/] Creating working directory: '{WORKING_DIR.absolute()}'."
+            )
+            WORKING_DIR.mkdir(parents=True)
     else:
         print(
             f"[yellow]INFO[/] Using existing working directory: '{WORKING_DIR.absolute()}'."
