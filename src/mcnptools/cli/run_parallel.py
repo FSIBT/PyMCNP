@@ -41,9 +41,11 @@ import shutil
 import mcnptools as mt
 
 
-def main():
+def main(cmd_to_run=None):
     command = docopt.docopt(__doc__)
     # print(command)
+    if cmd_to_run is None:
+        cmd_to_run = "MCNPtools-run-single"
 
     DRY_RUN = command["--dry-run"]
     PREFIX = command["--prefix"]
@@ -101,7 +103,7 @@ def main():
     HOSTS = f"-S {HOSTS}" if HOSTS else ""
     command_to_run = (
         f"{PARALLEL} --plus {REMOTE_OPTION} {HOSTS}"
-        + f" 'MCNPtools-run-single --prefix={PREFIX} --dir={WORKING_DIR}"
+        + f" '{cmd_to_run}--prefix={PREFIX} --dir={WORKING_DIR}"
         + f" {INPUT} {{}} {NR_RUN}'"
         + f" ::: {{1..{NR_RUN}}}"
     )
@@ -110,3 +112,8 @@ def main():
         print(f"   {command_to_run}")
     else:
         subprocess.run(command_to_run, shell=True)
+    return WORKING_DIR
+
+
+if __name__ == "__main__":
+    main()

@@ -17,7 +17,6 @@ directory, that can be set using --dir.
 
 """
 
-
 from pathlib import Path
 import subprocess
 import sys
@@ -30,7 +29,7 @@ import shutil
 import mcnptools as mt
 
 
-def main():
+def main(postprocess=None):
     command = docopt.docopt(__doc__)
     # print(command)
 
@@ -106,8 +105,10 @@ def main():
         print(f"   {command_to_run}")
     else:
         subprocess.run(command_to_run, cwd=SIM_DIR, shell=True)
-
-    (SIM_DIR / "runtpe").unlink(missing_ok=True)
+    if postprocess is None:
+        (SIM_DIR / "runtpe").unlink(missing_ok=True)
+    else:
+        postprocess(SIM_DIR, OUTPUT_FILE)
 
 
 if __name__ == "__main__":
