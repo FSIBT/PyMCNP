@@ -54,6 +54,7 @@ def is_numeric(value):
 class Data:
     """The base class for all data related entries. """
     all_data = []
+    multi_arg_keys = {}
 
     def __init__(
         self,
@@ -67,7 +68,6 @@ class Data:
         self.args = args
         self.comment = comment
 
-        self.multi_arg_keys = {}
 
     @classmethod
     def get_all_data(cls):
@@ -124,12 +124,16 @@ class Data:
         elif name.startswith("c") or name.startswith("*c"):
             return TallyModifier.from_mcnp(line)
 
-        parameters, args = self.parse_key_value_pairs(components[1:])
+        parameters, args = cls.parse_key_value_pairs(components[1:])
 
         return cls(name=name, parameters=parameters, args=args, comment=comment)
 
-    def parse_key_value_pairs(self, components: List[str]):
-        """Parse key-value pairs separated with equal signs."""
+    @classmethod
+    def parse_key_value_pairs(cls, components: List[str]):
+        """Parse key-value pairs separated with equal signs.
+
+        Note: this gets called before the class is created, so no reference to self available.
+        """
         parameters = {}
         remaining_args = []
         # a int flag, if the next N components belongs to the previous one
@@ -148,10 +152,10 @@ class Data:
             if len(tmp) == 2:
                 key, value = tmp
                 parameters[key] = value
-                if self.multi_arg_keys:
-                    if key in self.multi_args_keys.keys():
+                if cls.multi_arg_keys:
+                    if key in cls.multi_args_keys.keys():
                         # since we already parsed one of the values, we subtract 1 here
-                        add_next_component = self.multi_arg_keys[key] - 1
+                        add_next_component = cls.multi_arg_keys[key] - 1
             else:
                 print(f"[orange3]Warning[/] Data: {c} not implemented (in {components}).")
         return parameters, remaining_args
@@ -163,6 +167,8 @@ class Source(Data):
 
     We currently don't support all possible entries, but try to parse many.
     """
+    multi_arg_keys = {'pos': 3, 'vec': 3}
+
     def __init__(self, parameters, args, comment: Optional[str] = None):
         self.parameters = parameters
         self.comment = comment
@@ -206,10 +212,16 @@ class Source(Data):
             self.direction = self.parameters['dir']
             del self.parameters['dir']
 
-        self.multi_arg_keys = {'pos': 3, 'vec': 3}
 
     def to_mcnp(self):
-        out = "sdef "
+        out = "sdef " + self.parameter_to_str()
+        out = out.strip()
+        if self.comment:
+            out += f" $ {self.comment}"
+        return out + "\n"
+
+    def parameters_to_str(self):
+        out = ""
         if self.energy:
             out += f"erg={self.energy} "
         if self.position:
@@ -232,32 +244,7 @@ class Source(Data):
             out += f"{k}={v} "
         for v in self.args:
             out += f"{v} "
-        out = out.strip()
-        if self.comment:
-            out += f" $ {self.comment}"
-        return out + "\n"
-
-    def parse_key_value_pairs(self, components: List[str]):
-        parameters = {}
-        remaining_args = []
-         # a int flag, if the next N components belongs to the previous one
-        # for example: vec=0 0 0
-        add_next_component = 0
-        for c in components:
-            if add_next_component > 0 :
-                parameters[key] += f" {c}"
-            if "=" not in c:
-                remaining_args.append(c)
-                continue
-            tmp = c.split("=")
-            if len(tmp) == 2:
-                key, value = tmp
-                parameters[key] = value
-                if key in ["vec", "pos"]:
-                    add_next_component = 2
-            else:
-                print(f"[orange3]Warning[/] Data: {c} not implemented (in {components}).")
-        return parameters, remaining_args
+        return out
 
     @classmethod
     def from_mcnp(cls, line: InputLine):
@@ -265,7 +252,7 @@ class Source(Data):
 
         components = line.text.split()
         comment = line.comment
-        parameters, args = self.parse_key_value_pairs(components[1:])
+        parameters, args = cls.parse_key_value_pairs(components[1:])
 
         return cls(parameters=parameters, args=args, comment=comment)
 
@@ -273,10 +260,7 @@ class Source(Data):
         out = "Source "
         if self.comment:
             out += f" ({self.comment}) "
-        for k, v in self.parameters.items():
-            out += f"{k}={v} "
-        for v in self.args:
-            out += f"{v} "
+        out += self.parameters_to_str()
         return out.strip() + "\n"
 
 
@@ -404,7 +388,7 @@ class Random(Data):
         components = line.text.split()
         comment = line.comment
 
-        parameters, left_over = self.parse_key_value_pairs(components[1:])
+        parameters, left_over = cls.parse_key_value_pairs(components[1:])
         if left_over:
             print(f"[orange3]Warning[/] Random: left over arguments: {left_over}")
 
@@ -491,7 +475,7 @@ class Ptrac(Data):
         components = line.text.split()
         comment = line.comment
 
-        parameters, args = self.parse_key_value_pairs(components[1:])
+        parameters, args = cls.parse_key_value_pairs(components[1:])
 
         if args:
             print(f"[orange3]Warning[/] Ptrac: left over args: {args}")
