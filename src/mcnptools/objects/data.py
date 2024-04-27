@@ -136,12 +136,14 @@ class Data:
         """
         parameters = {}
         remaining_args = []
+        key = None  # the current key in a key-value pair
+
         # a int flag, if the next N components belongs to the previous one
         # for example: vec=0 0 0
         add_next_component = 0
         for c in components:
             if add_next_component > 0 :
-                # key will already be defined from below
+                # in this case, key will already be defined from below
                 parameters[key] += f" {c}"
                 add_next_component -= 1
                 continue
