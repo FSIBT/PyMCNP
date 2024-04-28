@@ -16,6 +16,7 @@ class Input:
         self.title = self.lines["title"]
         self.cells = [Cell.from_mcnp(c) for c in self.lines["cells"]]
         self.surfaces = [Surface.from_mcnp(c) for c in self.lines["surfaces"]]
+        self.detectors = self.surfaces[0].all_detectors if self.surfaces else []
         self.materials = [Material.from_mcnp(c) for c in self.lines["materials"]]
         self.data = [Data.from_mcnp(c) for c in self.lines["data"]]
 
