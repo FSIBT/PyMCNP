@@ -16,6 +16,7 @@ Currently we support specialized version of the base class for:
 - Energy
 
 """
+
 import re
 from typing import Dict, List, Optional
 
@@ -52,7 +53,8 @@ def is_numeric(value):
 
 
 class Data:
-    """The base class for all data related entries. """
+    """The base class for all data related entries."""
+
     all_data = []
     multi_arg_keys = {}
 
@@ -67,7 +69,6 @@ class Data:
         self.parameters = parameters
         self.args = args
         self.comment = comment
-
 
     @classmethod
     def get_all_data(cls):
@@ -142,7 +143,7 @@ class Data:
         # for example: vec=0 0 0
         add_next_component = 0
         for c in components:
-            if add_next_component > 0 :
+            if add_next_component > 0:
                 # in this case, key will already be defined from below
                 parameters[key] += f" {c}"
                 add_next_component -= 1
@@ -155,13 +156,14 @@ class Data:
                 key, value = tmp
                 parameters[key] = value
                 if cls.multi_arg_keys:
-                    if key in cls.multi_args_keys.keys():
+                    if key in cls.multi_arg_keys.keys():
                         # since we already parsed one of the values, we subtract 1 here
                         add_next_component = cls.multi_arg_keys[key] - 1
             else:
-                print(f"[orange3]Warning[/] Data: {c} not implemented (in {components}).")
+                print(
+                    f"[orange3]Warning[/] Data: {c} not implemented (in {components})."
+                )
         return parameters, remaining_args
-
 
 
 class Source(Data):
@@ -169,7 +171,8 @@ class Source(Data):
 
     We currently don't support all possible entries, but try to parse many.
     """
-    multi_arg_keys = {'pos': 3, 'vec': 3}
+
+    multi_arg_keys = {"pos": 3, "vec": 3}
 
     def __init__(self, parameters, args, comment: Optional[str] = None):
         self.parameters = parameters
@@ -186,34 +189,33 @@ class Source(Data):
         self.vector = None
 
         # parse our some of the parameters, so that we can modify them more easily in python later
-        if 'x' in self.parameters:
-            self.x = self.parameters['x']
-            del self.parameters['x']
-        if 'y' in self.parameters:
-            self.y = self.parameters['y']
-            del self.parameter['y']
-        if 'z' in self.parameters:
-            self.z = self.parameters['z']
-            del self.parameters['z']
-        if 'pos' in self.parameters:
-            self.position = self.parameters['pos']
-            del self.parameters['pos']
-        if 'vec' in self.parameters:
-            self.vector = self.parameters['vec']
-            del self.parameters['vec']
-        if 'tme' in self.parameters:
-            self.time = self.parameters['tme']
-            del self.parameters['tme']
-        if 'sur' in self.parameters:
-            self.surface = self.parameters['sur']
-            del self.parameters['sur']
-        if 'erg' in self.parameters:
-            self.energy = self.parameters['erg']
-            del self.parameters['erg']
-        if 'dir' in self.parameters:
-            self.direction = self.parameters['dir']
-            del self.parameters['dir']
-
+        if "x" in self.parameters:
+            self.x = self.parameters["x"]
+            del self.parameters["x"]
+        if "y" in self.parameters:
+            self.y = self.parameters["y"]
+            del self.parameters["y"]
+        if "z" in self.parameters:
+            self.z = self.parameters["z"]
+            del self.parameters["z"]
+        if "pos" in self.parameters:
+            self.position = self.parameters["pos"]
+            del self.parameters["pos"]
+        if "vec" in self.parameters:
+            self.vector = self.parameters["vec"]
+            del self.parameters["vec"]
+        if "tme" in self.parameters:
+            self.time = self.parameters["tme"]
+            del self.parameters["tme"]
+        if "sur" in self.parameters:
+            self.surface = self.parameters["sur"]
+            del self.parameters["sur"]
+        if "erg" in self.parameters:
+            self.energy = self.parameters["erg"]
+            del self.parameters["erg"]
+        if "dir" in self.parameters:
+            self.direction = self.parameters["dir"]
+            del self.parameters["dir"]
 
     def to_mcnp(self):
         out = "sdef " + self.parameter_to_str()
@@ -250,7 +252,7 @@ class Source(Data):
 
     @classmethod
     def from_mcnp(cls, line: InputLine):
-        """Identify all key-value pairs and assume the rest are single arguments. """
+        """Identify all key-value pairs and assume the rest are single arguments."""
 
         components = line.text.split()
         comment = line.comment
