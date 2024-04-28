@@ -2,6 +2,16 @@
 
 Surfaces are defined by a unique id, a type and parameters.
 
+For several types, we support specialized classes, for example SO
+(sphere at origin), which gets initialized with a radius instead of a
+generic parameter array.
+
+All surfaces also have a `'is_detector` flag that gets set by having
+the word `detector` in the comment. This can be useful when wanting to
+do parameter scans or access locations of all detectors (which can be
+accessed by the all_detector class variable.
+
+
 TODO:
 * support more types
 
@@ -16,9 +26,14 @@ from ..input_line import InputLine
 
 
 class Surface:
-    """Represent a MCNP surface."""
+    """Represent a MCNP surface.
+
+    This is also a base class for more specialized classes.
+
+    """
 
     all_surfaces = []
+    all_detectors = []
 
     TYPES = ["RPP", "RCC", "SPH", "SO", "CX", "CY", "CZ", "PX", "PY", "PZ"]
 
@@ -37,8 +52,16 @@ class Surface:
         self.type = type
         self.parameters = parameters
         self.comment = comment
+        self.center = None
+
+        # a custom feature defined by us and used when doing, e.g., ptrac parsing
+        self.is_detector: bool = False
+        if self.comment:
+            self.is_detector = "detector" in self.comment
 
         self.all_surfaces.append(self)
+        if self.is_detector:
+            self.all_detectors.append(self)
 
     def get_new_id(self):
         """Return the smallest unused id"""
@@ -56,7 +79,7 @@ class Surface:
         return out.strip() + "\n"
 
     @classmethod
-    def from_mcnp(cls, line):
+    def from_mcnp(cls, line: InputLine):
         """Currently only support lines where all parameters are given.
 
         At the moment the line cannot include any comments
@@ -74,13 +97,13 @@ class Surface:
         parameters = [float(x) for x in components[2:]]
 
         if type == "RPP":
-            return RPP(id=id, *parameters)
+            return RPP(id=id, *parameters, comment=comment)
         elif type == "RCC":
-            return RCC(id=id, *parameters)
+            return RCC(id=id, *parameters, comment=comment)
         elif type == "SPH":
-            return SPH(id=id, *parameters)
+            return SPH(id=id, *parameters, comment=comment)
         elif type == "SO":
-            return SO(id=id, *parameters)
+            return SO(id=id, *parameters, comment=comment)
         elif type == "CX":
             return CX(id=id, radius=parameters[0], comment=comment)
         elif type == "CY":
@@ -110,18 +133,45 @@ class Surface:
         out = f"Surface id={self.id}{comment}:\n"
         out += f"   type = {self.type}\n"
 
-        out += "   parameters:\n"
-        out += "      " + " ".join(str(x) for x in self.parameters)
+        out += "    parameters:\n"
+        out += "       " + " ".join(str(x) for x in self.parameters)
+        out += "    is detector:"
+        if self.is_detector:
+            out += " yes\n"
+        else:
+            out += " no\n"
         return out
 
 
 class RPP(Surface):
-    def __init__(self, xmin, xmax, ymin, ymax, zmin, zmax, id: Optional[int] = None):
+    def __init__(
+        self,
+        xmin,
+        xmax,
+        ymin,
+        ymax,
+        zmin,
+        zmax,
+        id: Optional[int] = None,
+        comment: Optional[str] = None,
+    ):
         super().__init__(
             id=id,
             type="RPP",
             parameters=[xmin, xmax, ymin, ymax, zmin, zmax],
+            comment=comment,
         )
+        self.center = [(xmax - xmin) / 2, (ymax - ymin) / 2, (zmax - zmin) / 2]
+
+    def to_mcnp(self):
+        """Create a line for and MCNP file."""
+        out = f"{self.id} {self.type} "
+        out += f"{self.xmin} {self.xmax} "
+        out += f"{self.ymin} {self.ymax} "
+        out += f"{self.zmin} {self.zmax} "
+        if self.comment:
+            out += f"$ {self.comment}"
+        return out.strip() + "\n"
 
     def __str__(self):
         comment = f" {self.comment}" if self.comment else ""
@@ -131,77 +181,149 @@ class RPP(Surface):
         out += f"    {xmin=} {xmax=}\n"
         out += f"    {ymin=} {ymax=}\n"
         out += f"    {zmin=} {zmax=}\n"
+        out += "    is detector:"
+        if self.is_detector:
+            out += " yes\n"
+        else:
+            out += " no\n"
 
         return out
 
 
 class CX(Surface):
+    """Cylinder along x axis."""
+
     def __init__(self, radius, id: Optional[int] = None, comment: Optional[str] = None):
-        self.id = id
-        self.radius = radius
-        self.comment = comment
         super().__init__(id=id, type="CX", parameters=[radius], comment=comment)
-        self.name = "CX"
+        self.radius = radius
+        self.center = np.array([0, 0, 0])
+
+    def to_mcnp(self):
+        """Create a line for and MCNP file."""
+        out = f"{self.id} {self.type} {self.radius} "
+        if self.comment:
+            out += f"$ {self.comment}"
+        return out.strip() + "\n"
 
     def __str__(self):
         comment = f" ({self.comment})" if self.comment else ""
         out = f"{self.name} {comment} radius={self.parameters[0]}"
+        out += "    is detector:"
+        if self.is_detector:
+            out += " yes\n"
+        else:
+            out += " no\n"
+
         return out
 
 
 class CY(CX):
+    """Cylinder along y axis."""
+
     def __init__(self, radius, id: Optional[int] = None, comment: Optional[str] = None):
         super().__init__(id=id, radius=radius, comment=comment)
-        self.name = "CY"
+        self.type = "CY"
 
 
 class CZ(CX):
+    """Cylinder along z axis."""
+
     def __init__(self, radius, id: Optional[int] = None, comment: Optional[str] = None):
         super().__init__(id=id, radius=radius, comment=comment)
-        self.name = "CZ"
+        self.type = "CZ"
 
 
 class PX(Surface):
+    """Plane normal to x axis."""
+
     def __init__(
         self, distance, id: Optional[int] = None, comment: Optional[str] = None
     ):
-        self.id = id
-        self.distance = distance
-        self.comment = comment
         super().__init__(id=id, type="PX", parameters=[distance], comment=comment)
-        self.name = "PX"
+        self.distance = distance
+        self.center = np.array([distance, 0, 0])
+
+    def to_mcnp(self):
+        """Create a line for and MCNP file."""
+        out = f"{self.id} {self.type} {self.distance} "
+        if self.comment:
+            out += f"$ {self.comment}"
+        return out.strip() + "\n"
 
     def __str__(self):
         comment = f" ({self.comment})" if self.comment else ""
         out = f"{self.name} {comment} distance={self.parameters[0]}"
+        out += "    is detector:"
+        if self.is_detector:
+            out += " yes\n"
+        else:
+            out += " no\n"
+
         return out
 
 
 class PY(PX):
+    """Plane normal to y axis."""
+
     def __init__(
         self, distance, id: Optional[int] = None, comment: Optional[str] = None
     ):
         super().__init__(id=id, distance=distance, comment=comment)
-        self.name = "PY"
+        self.type = "PY"
+        self.center = np.array([0, distance, 0])
 
 
 class PZ(PX):
+    """Plane normal to z axis."""
+
     def __init__(
         self, distance, id: Optional[int] = None, comment: Optional[str] = None
     ):
         super().__init__(id=id, distance=distance, comment=comment)
         self.name = "PZ"
+        self.center = np.array([0, 0, distance])
 
 
 class RCC(Surface):
-    def __init__(self, vx, vy, vz, hx, hy, hz, r, id: Optional[int] = None):
-        super().__init__(id=id, type="RCC", parameters=[vx, vy, vz, hx, hy, hz, r])
+    """Right circular cylinder"""
 
-        self.center = np.array([vx, vy, vz])
+    def __init__(
+        self,
+        vx,
+        vy,
+        vz,
+        hx,
+        hy,
+        hz,
+        r,
+        id: Optional[int] = None,
+        comment: Optional[str] = None,
+    ):
+        super().__init__(
+            id=id,
+            type="RCC",
+            parameters=[vx, vy, vz, hx, hy, hz, r],
+            comment=comment,
+        )
+
+        self.bottom_center = np.array([vx, vy, vz])
         self.direction = np.array([hx, hy, hz])
         self.height = np.linalg.norm(self.direction)
         self.direction = self.direction / self.height
         self.radius = r
+        self.center = self.bottom_center + 0.5 * self.height * self.direction
+
+    def to_mcnp(self):
+        """Create a line for and MCNP file."""
+        out = f"{self.id} {self.type}"
+        for x in self.bottom_center:
+            out += f" {x}"
+        for x in self.height * self.direction:
+            out += f" {x}"
+        out += f" {self.radius} "
+        if self.comment:
+            out += f"$ {self.comment}"
+        return out.strip() + "\n"
 
     def __str__(self):
         comment = f" {self.comment}" if self.comment else ""
@@ -211,16 +333,40 @@ class RCC(Surface):
         out += f"    {vx=} {vy=} {vz=}\n"
         out += f"    {hx=} {hy=} {hz=}\n"
         out += f"    {r=}\n"
+        out += "    is detector:"
+        if self.is_detector:
+            out += " yes\n"
+        else:
+            out += " no\n"
 
         return out
 
 
 class SPH(Surface):
-    def __init__(self, vx, vy, vz, r, id: Optional[int] = None):
-        super().__init__(id=id, type="SPH", parameters=[vx, vy, vz, r])
+    """Sphere."""
+
+    def __init__(
+        self, vx, vy, vz, r, id: Optional[int] = None, comment: Optional[str] = None
+    ):
+        super().__init__(
+            id=id,
+            type="SPH",
+            parameters=[vx, vy, vz, r],
+            comment=comment,
+        )
 
         self.center = np.array([vx, vy, vz])
         self.radius = r
+
+    def to_mcnp(self):
+        """Create a line for and MCNP file."""
+        out = f"{self.id} {self.type} "
+        for x in self.center:
+            out += f" {x}"
+        out += f" {self.radius} "
+        if self.comment:
+            out += f"$ {self.comment}"
+        return out.strip() + "\n"
 
     def __str__(self):
         comment = f" {self.comment}" if self.comment else ""
@@ -229,13 +375,34 @@ class SPH(Surface):
         vx, vy, vz, r = self.parameters
         out += f"    {vx=} {vy=} {vz=}\n"
         out += f"    {r=}\n"
+        out += "    is detector:"
+        if self.is_detector:
+            out += " yes\n"
+        else:
+            out += " no\n"
 
         return out
 
 
 class SO(Surface):
-    def __init__(self, r, id: Optional[int] = None):
-        super().__init__(id=id, type="SO", parameters=[r])
+    """Sphere at origin."""
+
+    def __init__(self, r, id: Optional[int] = None, comment: Optional[str] = None):
+        super().__init__(
+            id=id,
+            type="SO",
+            parameters=[r],
+            comment=comment,
+        )
+        self.center = np.array([0, 0, 0])
+        self.radius = r
+
+    def to_mcnp(self):
+        """Create a line for and MCNP file."""
+        out = f"{self.id} {self.type} {self.radius} "
+        if self.comment:
+            out += f"$ {self.comment}"
+        return out.strip() + "\n"
 
     def __str__(self):
         comment = f" {self.comment}" if self.comment else ""
@@ -243,5 +410,10 @@ class SO(Surface):
         out = f"Surface SO id={self.id}{comment}:\n"
         r = self.parameters[0]
         out += f"    {r=}\n"
+        out += "    is detector:"
+        if self.is_detector:
+            out += " yes\n"
+        else:
+            out += " no\n"
 
         return out
