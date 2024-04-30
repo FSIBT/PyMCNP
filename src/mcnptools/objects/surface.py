@@ -25,6 +25,24 @@ from rich import print
 from ..input_line import InputLine
 
 
+def detector_hook(self):
+    """A custom feature used to identify detector surfaces.
+
+    This hook will add a new property "is_detector" to surfaces that
+    will be true if a surface comment includes the word "detector". It
+    also will keep a list of all detector surfaces in the class.
+
+    """
+    self.is_detector: bool = False
+    if self.comment:
+        self.is_detector = "detector" in self.comment
+
+    if self.is_detector:
+        if "all_detectors" not in self.hook_data:
+            self.data["all_detectors"] = []
+        self.data["all_detectors"].append(self)
+
+
 class Surface:
     """Represent a MCNP surface.
 
@@ -33,7 +51,14 @@ class Surface:
     """
 
     all_surfaces = []
-    all_detectors = []
+    # storage space for hooks
+    data = {}
+
+    # option to register functions to be called after the init of each instance
+    # this can be used to for example scan for custom keywords in the comments
+    # one possible us is to mark surfaces as comments
+    # hook functions should take the instance as an argument
+    _post_init_hooks = []
 
     TYPES = ["RPP", "RCC", "SPH", "SO", "CX", "CY", "CZ", "PX", "PY", "PZ"]
 
@@ -54,14 +79,14 @@ class Surface:
         self.comment = comment
         self.center = None
 
-        # a custom feature defined by us and used when doing, e.g., ptrac parsing
-        self.is_detector: bool = False
-        if self.comment:
-            self.is_detector = "detector" in self.comment
-
         self.all_surfaces.append(self)
-        if self.is_detector:
-            self.all_detectors.append(self)
+
+        for func in self._post_init_hooks:
+            func(self)
+
+    @classmethod
+    def register_post_init_hook(cls, func):
+        cls._post_init_hooks.append(func)
 
     def get_new_id(self):
         """Return the smallest unused id"""
@@ -130,16 +155,11 @@ class Surface:
     def __str__(self):
         comment = f" {self.comment}" if self.comment else ""
 
-        out = f"Surface id={self.id}{comment}:\n"
+        out = f"Surface id={self.id}:\n"
         out += f"   type = {self.type}\n"
 
         out += "    parameters:\n"
         out += "       " + " ".join(str(x) for x in self.parameters)
-        out += "    is detector:"
-        if self.is_detector:
-            out += " yes\n"
-        else:
-            out += " no\n"
         return out
 
 
@@ -181,11 +201,6 @@ class RPP(Surface):
         out += f"    {xmin=} {xmax=}\n"
         out += f"    {ymin=} {ymax=}\n"
         out += f"    {zmin=} {zmax=}\n"
-        out += "    is detector:"
-        if self.is_detector:
-            out += " yes\n"
-        else:
-            out += " no\n"
 
         return out
 
@@ -208,11 +223,6 @@ class CX(Surface):
     def __str__(self):
         comment = f" ({self.comment})" if self.comment else ""
         out = f"{self.name} {comment} radius={self.parameters[0]}"
-        out += "    is detector:"
-        if self.is_detector:
-            out += " yes\n"
-        else:
-            out += " no\n"
 
         return out
 
@@ -253,11 +263,6 @@ class PX(Surface):
     def __str__(self):
         comment = f" ({self.comment})" if self.comment else ""
         out = f"{self.name} {comment} distance={self.parameters[0]}"
-        out += "    is detector:"
-        if self.is_detector:
-            out += " yes\n"
-        else:
-            out += " no\n"
 
         return out
 
@@ -333,11 +338,6 @@ class RCC(Surface):
         out += f"    {vx=} {vy=} {vz=}\n"
         out += f"    {hx=} {hy=} {hz=}\n"
         out += f"    {r=}\n"
-        out += "    is detector:"
-        if self.is_detector:
-            out += " yes\n"
-        else:
-            out += " no\n"
 
         return out
 
@@ -375,11 +375,6 @@ class SPH(Surface):
         vx, vy, vz, r = self.parameters
         out += f"    {vx=} {vy=} {vz=}\n"
         out += f"    {r=}\n"
-        out += "    is detector:"
-        if self.is_detector:
-            out += " yes\n"
-        else:
-            out += " no\n"
 
         return out
 
@@ -410,10 +405,5 @@ class SO(Surface):
         out = f"Surface SO id={self.id}{comment}:\n"
         r = self.parameters[0]
         out += f"    {r=}\n"
-        out += "    is detector:"
-        if self.is_detector:
-            out += " yes\n"
-        else:
-            out += " no\n"
 
         return out
