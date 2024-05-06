@@ -154,6 +154,7 @@ class Data:
             tmp = c.split("=")
             if len(tmp) == 2:
                 key, value = tmp
+                key = key.lower()
                 parameters[key] = value
                 if cls.multi_arg_keys:
                     if key in cls.multi_arg_keys.keys():
