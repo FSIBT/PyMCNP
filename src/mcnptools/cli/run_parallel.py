@@ -103,7 +103,7 @@ def main(cmd_to_run=None):
     HOSTS = f"-S {HOSTS}" if HOSTS else ""
     command_to_run = (
         f"{PARALLEL} --plus {REMOTE_OPTION} {HOSTS}"
-        + f" '{cmd_to_run}--prefix={PREFIX} --dir={WORKING_DIR}"
+        + f" '{cmd_to_run} --prefix={PREFIX} --dir={WORKING_DIR}"
         + f" {INPUT} {{}} {NR_RUN}'"
         + f" ::: {{1..{NR_RUN}}}"
     )
