@@ -218,7 +218,7 @@ class Source(Data):
             del self.parameters["dir"]
 
     def to_mcnp(self):
-        out = "sdef " + self.parameter_to_str()
+        out = "sdef " + self.parameters_to_str()
         out = out.strip()
         if self.comment:
             out += f" $ {self.comment}"
