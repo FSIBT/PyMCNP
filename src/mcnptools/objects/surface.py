@@ -38,7 +38,7 @@ def detector_hook(self):
         self.is_detector = "detector" in self.comment
 
     if self.is_detector:
-        if "all_detectors" not in self.hook_data:
+        if "all_detectors" not in self.data:
             self.data["all_detectors"] = []
         self.data["all_detectors"].append(self)
 
