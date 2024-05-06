@@ -182,6 +182,12 @@ class RPP(Surface):
             comment=comment,
         )
         self.center = [(xmax - xmin) / 2, (ymax - ymin) / 2, (zmax - zmin) / 2]
+        self.xmin = xmin
+        self.xmax = xmax
+        self.ymin = ymin
+        self.ymax = ymax
+        self.zmin = zmin
+        self.zmax = zmax
 
     def to_mcnp(self):
         """Create a line for and MCNP file."""
