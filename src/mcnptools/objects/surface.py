@@ -6,10 +6,12 @@ For several types, we support specialized classes, for example SO
 (sphere at origin), which gets initialized with a radius instead of a
 generic parameter array.
 
-All surfaces also have a `'is_detector` flag that gets set by having
-the word `detector` in the comment. This can be useful when wanting to
-do parameter scans or access locations of all detectors (which can be
-accessed by the all_detector class variable.
+All surfaces, you can also specify a post init hook that can, for
+example, parse comments and assign values from the comments to the
+object. One usecase for this is to assign detector names or ids and
+mark certain surfaces as detectors.
+Some sample hooks are defined in the hooks.py file in this directory.
+
 
 
 TODO:
@@ -23,24 +25,6 @@ import numpy as np
 from rich import print
 
 from ..input_line import InputLine
-
-
-def detector_hook(self):
-    """A custom feature used to identify detector surfaces.
-
-    This hook will add a new property "is_detector" to surfaces that
-    will be true if a surface comment includes the word "detector". It
-    also will keep a list of all detector surfaces in the class.
-
-    """
-    self.is_detector: bool = False
-    if self.comment:
-        self.is_detector = "detector" in self.comment
-
-    if self.is_detector:
-        if "all_detectors" not in self.data:
-            self.data["all_detectors"] = []
-        self.data["all_detectors"].append(self)
 
 
 class Surface:
