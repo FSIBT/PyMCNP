@@ -13,7 +13,7 @@ Functions:
 import sys
 
 from . import *
-from ..inp import inp
+from ..files.inp import inp
 
 
 def list_cells(inpt: inp.Inp) -> str:
@@ -30,7 +30,7 @@ def list_cells(inpt: inp.Inp) -> str:
 	out ="\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^25.25}\x1b[24m\n".format('NUMBER', 'MATERIAL', 'DENSITY', 'GEOMETRY')
 	
 	for cell in inpt.cells.cards.values():
-		out += f"{cell.number:<12} {cell.material:<12} {cell.density if cell.density else '':<12} {cell.geometry}\n"
+		out += f"{cell.number:<12} {cell.material:<12} {cell.density if cell.density else '':<12} {cell.geometry.to_mcnp()}\n"
 	
 	return out
 

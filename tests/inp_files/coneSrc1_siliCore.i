@@ -15,7 +15,7 @@ c 31 7 -2.699  -131 130          IMP:n,p=1 $NaI Casing: Alu
 91 8 -7.874  -191           IMP:n,p=1 $shield
 99 0         999            IMP:n,p=0 $world
 
-c Surface Cards 
+c Surface Cards
 110 RCC 0 -15 -44 0 30 0 2.54 $SOIL CORE 
 111 RCC 0 -15.2 -44 0 30.4 0 2.74 $SOIL CASING
 120 RCC -32 0 -38   0 0 7.62 3.81 $LaBr detector
@@ -81,3 +81,4 @@ F4:P 20 30
 E4 0 1E-5 0.05 493i 10
 ptrac file=asc write=all event=col,bnk,src,sur max=2e6 type=p,n cell=20,30
 c end file
+

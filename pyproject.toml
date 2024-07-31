@@ -7,30 +7,20 @@ name = "pymcnp"
 authors = [
    { name = "Mauricio Ayllon Unzueta", email = "mauri.ayllon12@gmail.com" },
    { name = "Arun Persaud", email = "apersaud@lbl.gov" },
-   { name = "Devin Pease", email = "devinpease@arizona.edu" },
+   { name = "Devin Pease", email = "dmpease@lbl.gov" },
 ]
 description = "Python-based MCNP tools."
-readme = "README.md"
+version = "0.0.0"
 requires-python = ">=3.8"
-classifiers=[
-    "Programming Language :: Python :: 3",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Operating System :: OS Independent",
-]
-dynamic = ["version"]
 
 [project.urls]
 "Homepage" = "https://github.com/mauricioAyllon/MCNP-tools"
 
 [project.scripts]
 pymcnp = "pymcnp.main:main"
-mcnp = "pymcnp.mcnp:main"
 
 [tool.setuptools.packages.find]
 where = ["./src"]
-
-[tool.setuptools.package-data]
-"pymcnp.data" = ["*.txt"]
 
 [tool.setuptools_scm]
 write_to = "./src/pymcnp/version.py"

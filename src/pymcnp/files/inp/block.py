@@ -74,3 +74,11 @@ class Block:
 
 		return self.cards.pop(old_id)
 
+
+	def __getitem__(self, key: str) -> Card:
+		"""
+		'__getitem__'
+		"""
+
+		return self.cards[key]
+

@@ -14,13 +14,13 @@ import shutil
 import datetime
 from typing import *
 
-from ..inp import inp
+from ..files.inp import inp
 from . import *
 
 
 class Run:
 
-	def __init__(self, path, command = 'mcnp6'):
+	def __init__(self, path, command = 'mcnp'):
 		"""
 		'__init__' initalizes 'Run'.
 
@@ -28,8 +28,8 @@ class Run:
 			path: Path to working directory.
 		"""
 
-		if shutil.which(path) is None: raise ValueError
-		if shutil.which(command) is None: raise ValueError
+		#if shutil.which(path) is None: raise ValueError
+		#if shutil.which(command) is None: raise ValueError
 
 		self.path = path
 		self.command = command
@@ -46,11 +46,11 @@ class Run:
 			inpt (Inp): INP object to load.
 		"""
 
-		runner = cls()
+		runner = cls('.')
 
 		runner.inpt = inpt
 		runner.filename = f"mcnp-save-{datetime.datetime.utcnow().timestamp()}.i"
-		inp.Inp().to_mcnp_file(runner.filename)
+		inpt.to_mcnp_file(runner.filename)
 
 		return runner
 
@@ -64,7 +64,7 @@ class Run:
 			filename: INP file to load.
 		"""
 		
-		runner = cls()
+		runner = cls('.')
 
 		if not filename.isfile(): raise ValueError
 		runner.inpt = inp.Inp().from_mcnp_file(filename)
@@ -81,7 +81,7 @@ class Run:
 		run_directory = f"{self.path}/pymcnp-run-{datetime.datetime.utcnow().timestamp()}"
 		os.mkdir(run_directory)
 
-		os.system(f"mcnp6 I={self.filename}")
+		os.system(f"{self.command} I={self.filename}")
 
 		return run_directory
 

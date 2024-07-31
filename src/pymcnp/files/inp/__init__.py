@@ -1,5 +1,4 @@
 import re
-from typing import *
 
 
 def preprocess_mcnp(string: str) -> str:
@@ -13,6 +12,7 @@ def preprocess_mcnp(string: str) -> str:
 	processed_source = re.sub(r"\n ", " ", processed_source)
 
 	return processed_source
+
 
 
 def add_continuation_lines(string: str) -> str:
@@ -31,11 +31,14 @@ def add_continuation_lines(string: str) -> str:
 	return out
 
 
+from typing import *
+import re
+
+
 CELL_PARAMS = ('imp', 'vol', 'pwt', 'ext', 'fcl', 'wwn', 'dxc', 'nonu', 'pd', 'tmp', 'u', 'trcl', '*tral', 'lat', 'fill', '*fill' 'elpt', 'cosy', 'bflcl', 'unc')
 CELL_PARAMS_DESIGNATABLE = ('imp')
 SURFACE_MNEMONICS = ('p', 'px', 'py', 'pz', 'so', 'cx', 'cy', 'cz', 's', 'sx', 'sy', 'sz', 'c/x', 'c/y', 'c/z', 'kx', 'ky', 'kz', 'k/x', 'k/y', 'k/z', 'sq', 'gq', 'tx', 'ty', 'tz', 'x', 'y', 'z', 'box', 'rec', 'rpp', 'sph', 'rcc', 'ell', 'rhp', 'hex', 'trc', 'wed', 'arb')
 DESIGNATORS = ('n', 'p', 'e', 'l', 'q', 'u', 'v', 'f', 'h', 'l', '+', '-', 'x', 'y', 'o', '!', '<', '>', 'g', '/', 'z', 'k', '%', '^', 'b', '_', '~', 'c', 'w', '@', 'd', 't', 's', 'a', '*', '?', '#')
-
 
 def is_integer(string: str, callback: Callable[int, bool] = lambda _ : True):
 	try:
@@ -51,6 +54,7 @@ def is_real(string: str, callback: Callable[float, bool] = lambda _ : True):
 		return False
 
 
+# CELLS
 def is_geometry(string: str):
 	return string[0] in ['+', '(', '#', ':', '-'] or string[0].isnumeric()
 
@@ -82,8 +86,9 @@ def is_params_designator(key: str, designator: str, callback: Callable[str, bool
 
 	return callback(designator)
 
-
+# SURFACES
 def is_mnemonic(string: str):
 	string = string.lower()
 	return string.startswith(SURFACE_MNEMONICS)
 
+from . import inp

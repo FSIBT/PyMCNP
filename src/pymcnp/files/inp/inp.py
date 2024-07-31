@@ -10,12 +10,14 @@ from typing import *
 import collections
 import re
 
+from .errors import *
 from .block import Block
 from .cells import Cells
 from .surfaces import Surfaces
 from .data import Data
 
 from . import *
+from .. import parser
 
 
 class Inp:
@@ -46,12 +48,12 @@ class Inp:
 		'__init__' initializes 'Inp'.
 		"""
 
-		self.message: str = ''
-		self.title: str = ''
+		self.message: str = None
+		self.title: str = None
 		self.cells: Type[Cells] = Cells()
 		self.surfaces: Type[surfaces] = Surfaces()
 		self.data: Type[Data] = Data()
-		self.other: str = ''
+		self.other: str = None
 
 
 	@classmethod
@@ -65,53 +67,45 @@ class Inp:
 		Returns:
 			inp (Input): Input object.
 		"""
-
+		
 		inp = cls()
 
-		lines = collections.deque(preprocess_mcnp(source).split('\n'))
-		if not lines: raise INPSyntaxError # File Empty
-		line = lines.popleft()
+		lines = parser.Parser(preprocess_mcnp(source), '\n', EOFError)
 
 		# Processing Message Block
+		line = lines.peekl()
 		if line[:9] == "message:":
-			inp.message = line[9:]
-			line = lines.popleft()
-			while lines and line != '':
-				inp.message += line
-				line = lines.popleft()
+			inp.message = lines.popl()
 
-			if not lines: raise INPSyntaxError # NOT DONE
-			line = lines.popleft()
+			while lines:
+				inp.message += lines.popl()
+
 
 		# Processing Title
-		if not line: raise INPSyntaxError # No Title Card
-		inp.title = line
+		inp.title = lines.popl()
 
 		# Processing Cell Cards
-		index = list(lines).index('')
-		cell_lines = '\n'.join([lines.popleft() for _ in range(0, index, 1)])
+		index = list(lines.deque).index('')
+		cell_lines = '\n'.join(lines.popl() for _ in range(0, index))
 		inp.cells = Cells.from_mcnp(cell_lines)
 
-		if not lines: raise INPSyntaxError # NOT DONE
-		line = lines.popleft()
+		lines.popl()
 
 		# Processing Surface Cards
-		index = list(lines).index('')
-		surface_lines = '\n'.join([lines.popleft() for _ in range(0, index, 1)])
+		index = list(lines.deque).index('')
+		surface_lines = '\n'.join(lines.popl() for _ in range(0, index))
 		inp.surfaces = Surfaces.from_mcnp(surface_lines)
 		
-		if not lines: raise INPSyntaxError # NOT DONE
-		line = lines.popleft()
+		lines.popl()
 
 		# Processing Datum Cards
-		index = list(lines).index('')
-		datum_lines = '\n'.join([lines.popleft() for _ in range(0, index, 1)])
+		index = list(lines.deque).index('')
+		datum_lines = '\n'.join(lines.popl() for _ in range(0, index))
 		inp.data = Data.from_mcnp(datum_lines)
 
-		line = lines.popleft()
-
+		inp.other = ''
 		while lines:
-			inp.other += lines.popleft() + '\n'
+			inp.other += lines.popl()
 
 		return inp
 
@@ -175,8 +169,8 @@ class Inp:
 		source = self.message + '\n' if self.message else ''
 
 		# Appending Title Block
-		if not self.title: raise INPValueError
-		if len(self.title) > 80: raise INPValueError
+		if not self.title: raise INPValueError(INPValueError.Codes.INVALID_INP_TITLE)
+		if len(self.title) > 80: raise INPValueError(INPValueError.Codes.INVALID_INP_TITLE)
 		source += self.title + '\n'
 
 		# Appending Blocks
@@ -213,4 +207,13 @@ class Inp:
 		"""
 		
 		return {'message': self.message, 'title': self.title, 'cells': self.cells.to_arguments(), 'surfaces': self.surfaces.to_arguments(), 'data': self.data.to_arguments(), 'other': self.other}
+
+
+	def set_title(self, title: str) -> None:
+		"""
+		'set_title'
+		"""
+
+		if title is None or len(self.title) > 80: raise INPValueError(INPValueError.Codes.INVALID_INP_TITLE)
+		self.title = title
 

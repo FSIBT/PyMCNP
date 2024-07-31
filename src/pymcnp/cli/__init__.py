@@ -1,16 +1,16 @@
 import os
 
-from ..inp import inp
+from ..files.inp import inp
 
 
 ERROR_INSUFFICENT_ARGS = "\x1b[1mpymcnp: \x1b[31mERROR:\x1b[0m Insufficent Arguments."
-ERROR_EXCESIVE_ARGS = "\x1b[1mpymcnp: \x1b[31mERROR:\x1b[0m Excesive Arguments."
+ERROR_EXCESSIVE_ARGS = "\x1b[1mpymcnp: \x1b[31mERROR:\x1b[0m Excesive Arguments."
 ERROR_UNRECOGNIZED_ARGS = "\x1b[1mpymcnp: \x1b[31mERROR:\x1b[0m Unrecognized Arguments."
 ERROR_UNRECOGNIZED_OPTION = "\x1b[1mpymcnp: \x1b[31mERROR:\x1b[0m Unrecognized Option."
 ERROR_ALIAS_NOT_FOUND = "\x1b[1mpymcnp: \x1b[31mERROR:\x1b[0m INP Alias Not Found."
 ERROR_FILE_NOT_FOUND = "\x1b[1mpymcnp: \x1b[31mERROR:\x1b[0m File Not Found."
 
-ERROR_INP_VALUE = lambda _: "\x1b[1mpymcnp: \x1b[31mERROR:\x1b[0m INP Syntax Error: " + _ 
+ERROR_INP_VALUE = lambda _: "\x1b[1mpymcnp: \x1b[31mERROR:\x1b[0m INP Syntax Error: " + _
 ERROR_INP_SYNTAX = lambda _: "\x1b[1mpymcnp: \x1b[31mERROR:\x1b[0m INP Value Error: " + _
 
 INFO_RUNNING_CQEDITOR = "\x1b[1mpymcnp: \x1b[31m\x1b[34mINFO:\x1b[0m Launching CQ-Editor."
@@ -25,6 +25,9 @@ INFO_BUILD_OTHER = "\x1b[1mpymcnp: \x1b[31m\x1b[34mINFO:\x1b[0m Built Other."
 
 SAVE_FILE = "pymcnp-save.txt"
 
+import os.path
+if not os.path.isfile(SAVE_FILE):
+	os.system(f"touch ./{SAVE_FILE}")
 
 def error(msg):
 	print(msg)
@@ -57,3 +60,7 @@ def set_save(inpts) -> None:
 	with open(SAVE_FILE, 'w') as file:
 		file.write(output)
 
+from . import cq
+from . import inpt
+from . import ls
+from . import run

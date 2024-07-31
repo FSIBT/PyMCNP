@@ -1,9 +1,10 @@
 """
-'inpt' contains functions for printing PYMCNP object information.
+'input' contains functions for printing PYMCNP object information.
 
 Functions:
 	main:
 """
+
 
 import os
 import re
@@ -11,10 +12,10 @@ import sys
 import datetime
 
 from . import *
-from ..inp import inp
-from ..inp import cell
-from ..inp import surface
-from ..inp import datum
+from ..files.inp import inp
+from ..files.inp import cell
+from ..files.inp import surface
+from ..files.inp import datum
 
 
 def main(argv: list = sys.argv[1:]) -> None:

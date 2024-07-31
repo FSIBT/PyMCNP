@@ -110,16 +110,18 @@ class Surfaces(Block):
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
+		surfaces_line = '\nsurfaces = cq.Workplane()'
 
 		for surface in self.cards.values():
-			surface_cadquery = surface.to_cadquery()
-			if surface_cadquery:
-				cadquery += surface_cadquery
+			if (hasattr(surface, 'to_cadquery')):
+				new_cadquery = surface.to_cadquery(hasHeader = False)
+				surfaces_line += f".add({new_cadquery.split(maxsplit=1)[0]})"
+				cadquery += new_cadquery
 
-		return cadquery + '\n'
+		return cadquery + surfaces_line + '\n\n'
 
 
-	def to_cadquery_file(self, filename: str, hasHeader: Optional[bool] = False) -> int:
+	def to_cadquery_file(self, filename: str) -> int:
 		"""
 		'to_cadquery_file' generates cadquery files from surface block objects.
 
@@ -132,7 +134,7 @@ class Surfaces(Block):
 		"""
 
 		with open(filename, 'w') as file:
-			return file.write(self.to_cadquery(hasHeader))
+			return file.write(self.to_cadquery(hasHeader = True))
 
 		return 0
 

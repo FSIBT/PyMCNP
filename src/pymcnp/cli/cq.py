@@ -14,7 +14,7 @@ import datetime
 from typing import *
 
 from . import *
-from ..inp import inp
+from ..files.inp import inp
 
 
 def run_cadquery_file(filename: str, arguments: Optional[str] = '') -> None:
@@ -27,8 +27,9 @@ def run_cadquery_file(filename: str, arguments: Optional[str] = '') -> None:
 	"""
 
 	inpt = inp.Inp().from_mcnp_file(filename)
-	inpt.surfaces.to_cadquery_file(filename + '.py', hasHeader = True)
-	os.system(f"cq-editor {filename}.py {arguments}")
+	#inpt.surfaces.to_cadquery_file(filename + '.py', hasHeader = True)
+	#os.system(f"cq-editor {filename}.py {arguments}")
+	print(inpt.surfaces.to_cadquery())
 
 
 def run_cadquery_object(inpt: inp.Inp,  arguments: Optional[str] = '') -> None:
@@ -41,8 +42,9 @@ def run_cadquery_object(inpt: inp.Inp,  arguments: Optional[str] = '') -> None:
 	"""
 
 	filename = f"cadquery-run-{datetime.datetime.utcnow().timestamp()}"
-	inpt.surfaces.to_cadquery_file(filename + '.py', hasHeader = True)
-	os.system(f"cq-editor {filename}.py {arguments}")
+	#inpt.surfaces.to_cadquery_file(filename + '.py', hasHeader = True)
+	#os.system(f"cq-editor {filename}.py {arguments}")
+	print(inpt.surfaces.to_cadquery())
 
 
 def main(argv: list = sys.argv[1:]) -> None:
