@@ -1,0 +1,11 @@
+# MCNP Input File Syntax Specification
+
+<initiate-run-file> = (<message-block>)? <title-block> <cell-card-block> '\n' <surface-card-block> '\n' <data-card-block> ('\n' .*)?
+
+<message-block>      = 'message:' <execution-line>
+<title-block         = .*
+<cell-card-block>    = (<cell-card> | <comment-card>)*
+<surface-card-block> = (<surface-card> | <comment-card>)*
+<data-card-block>    = (<data-card> | <comment-card>)*
+
+<cell-card> = <integer> ' ' <integer> ' ' <real> ' ' <cell-geometry> (' ' <cell-parameter>)?
