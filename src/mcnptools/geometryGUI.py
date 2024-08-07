@@ -1,11 +1,12 @@
 """
 GUI program to look at geometry
 """
+
 import matplotlib.pyplot as plt
 from mcnptools import build_geometry as bg
 
 plt.rc("font", size=14)
-plt.style.use("seaborn-darkgrid")
+plt.style.use("seaborn-v0_8-darkgrid")
 fig = plt.figure(constrained_layout=True, figsize=(16, 8))
 gs = fig.add_gridspec(1, 2, width_ratios=[0.7, 0.3], height_ratios=[1])
 ax_3d = fig.add_subplot(gs[0, 0], projection="3d")
