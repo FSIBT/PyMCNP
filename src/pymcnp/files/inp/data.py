@@ -10,6 +10,7 @@ from typing import *
 
 from .block import Block
 from .datum import Datum
+from .._utils import parser
 
 
 class Data(Block):
@@ -47,7 +48,7 @@ class Data(Block):
 
 		block = cls()
 
-		lines = preprocess_mcnp(source).split('\n')
+		lines = parser.Preprocessor.process_inp(source).split('\n')
 		for line in lines:
 			if line == '': break
 			block.append(Datum.from_mcnp(line))

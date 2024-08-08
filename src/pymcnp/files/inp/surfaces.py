@@ -10,6 +10,7 @@ from typing import *
 
 from .block import Block
 from .surface import Surface
+from .._utils import parser
 
 
 class Surfaces(Block):
@@ -49,7 +50,7 @@ class Surfaces(Block):
 
 		block = cls()
 
-		lines = preprocess_mcnp(source).split('\n')
+		lines = parser.Preprocessor.process_inp(source).split('\n')
 		for line in lines:
 			if line == '': break
 			block.append(Surface.from_mcnp(line))

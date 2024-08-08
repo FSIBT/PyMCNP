@@ -55,7 +55,7 @@ def main(argv: list = sys.argv[1:]) -> None:
 		argv (list): Arguments list.
 	"""
 
-	inpts = get_save()
+	inpts = _save.Save.get_save()
 
 	match argv[0] if argv else None:
 		case arg if arg is not None and arg[0] != '-':

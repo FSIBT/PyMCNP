@@ -14,6 +14,7 @@ import shutil
 import datetime
 from typing import *
 
+from . import _save
 from ..files import inp
 
 class Run:
@@ -111,7 +112,7 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
 		case arg if arg is not None and arg[0] != '-':
 			print(INFO_RUNNING_MCNP)
 
-			inpts = get_save()
+			inpts = _save.Save.get_save()
 			run = Run()
 			run.filename = inpts[argv[0]][0]
 			run.inpt = inpts[argv[0]][1]

@@ -14,23 +14,16 @@ class Save:
 	'Save'
 	"""
 
-	def __init__(self, path) -> Self:
-		"""
-		'__init__'
-		"""
+	PYMCNP_DIR = '.pymcnp/'
+	PYMCNP_SAVE_FILE = PYMCNP_DIR + 'pymcnp-save.txt'
 
-		self.path = path
-
-		if not os.path.isfile(path):
-			os.system(f"touch ./{path}")
-
-
-	def get_save(self) -> dict:
+	@staticmethod
+	def get_save() -> dict:
 		"""
 		'get_save'
 		"""
 
-		with open(self.SAVE_FILE, 'r') as file:
+		with open(Save.PYMCNP_SAVE_FILE, 'r') as file:
 			lines = file.readlines()
 
 		inpts = {}
@@ -39,12 +32,13 @@ class Save:
 			alias, path = line.strip().split(' ')
 
 			if not os.path.isfile(path): continue
-			inpts[alias] = (path, inp.Inp().from_mcnp_file(path))
+			inpts[alias] = (path, pymcnp.inp.Inp().from_mcnp_file(path))
 
 		return inpts
 
 
-	def set_save(self, inpts) -> None:
+	@staticmethod
+	def set_save(inpts) -> None:
 		"""
 		'set_save'
 		"""
@@ -54,5 +48,5 @@ class Save:
 			path, inpt = value
 			output += f"{alias} {path}\n"
 
-		with open(self.SAVE_FILE, 'w') as file:
+		with open(Save.PYMCNP_SAVE_FILE, 'w') as file:
 			file.write(output)

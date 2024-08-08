@@ -164,10 +164,10 @@ class Preprocessor:
 		'process_inp'
 		"""
 
-		string = self._process_case(string)
-		string = self._process_continuation(string)
-		string = self._process_continuation(string)
-		string = self._process_whitespace(string)
+		string = Preprocessor._process_case(string)
+		string = Preprocessor._process_continuation(string)
+		string = Preprocessor._process_continuation(string)
+		string = Preprocessor._process_whitespace(string)
 
 		return string
 
@@ -178,8 +178,8 @@ class Preprocessor:
 		'process_ptrac'
 		"""
 
-		string = self._process_case(string)
-		string = self._process_whitespace(string)
+		string = Preprocessor._process_case(string)
+		string = Preprocessor._process_whitespace(string)
 
 		return string
 

@@ -100,7 +100,7 @@ class Inp:
 		inp = cls()
 
 		source = parser.Preprocessor.process_inp(source)
-		lines = parser.Parser(soruce, '\n', EOFError)
+		lines = parser.Parser(EOFError).from_string(source, '\n')
 
 		# Processing Message Block
 		if lines.peekl()[:9] == "message:":
@@ -124,7 +124,7 @@ class Inp:
 		lines.popl()
 
 		# Processing Datum Cards
-		index = list(lines.deque).index('')
+		index = list(lines.deque).index('') if '' in lines.deque else len(lines.deque)
 		datum_lines = '\n'.join(lines.popl() for _ in range(0, index))
 		inp.data = Data.from_mcnp(datum_lines)
 

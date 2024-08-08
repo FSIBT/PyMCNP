@@ -13,13 +13,17 @@ Functions:
 import sys
 
 from . import *
+from . import _save
 from ..files.inp import inp
+
 
 class Ls:
 	"""
 	'Ls'
 	"""
 
+
+	@staticmethod
 	def list_cells(inpt: inp.Inp) -> str:
 		"""
 		'list_cells' outputs strings of INP object cell information.
@@ -39,6 +43,7 @@ class Ls:
 		return out
 
 
+	@staticmethod
 	def list_surfaces(inpt: inp.Inp) -> str:
 		"""
 		'list_surfaces' outputs strings of INP object surface information.
@@ -58,6 +63,7 @@ class Ls:
 		return out
 
 
+	@staticmethod
 	def list_data(inpt: inp.Inp) -> str:
 		"""
 		'list_data' outputs strings of INP object datum information.
@@ -77,6 +83,7 @@ class Ls:
 		return out
 
 
+	@staticmethod
 	def list_inp(inpt: inp.Inp) -> str:
 		"""
 		'list_inp' outputs strings of all INP object information.
@@ -88,7 +95,7 @@ class Ls:
 			out (str): String of all INP object information.
 		"""
 
-		return '\n' + list_cells(inpt) + '\n' + list_surfaces(inpt) + '\n' + list_data(inpt)
+		return '\n' + Ls.list_cells(inpt) + '\n' + Ls.list_surfaces(inpt) + '\n' + Ls.list_data(inpt)
 
 
 def main(argv: list[str] = sys.argv[1:]) -> None:
@@ -99,7 +106,7 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
 		argv (list[str]): Arguments list. 
 	"""
 	
-	inpts = get_save()
+	inpts = _save.Save.get_save()
 
 	match argv[0] if argv else None:
 		case arg if arg is not None and arg[0] != '-':
@@ -108,15 +115,15 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
 			try:
 				match argv[1] if argv[1:] else None:
 					case '-c' | '--cells':
-						print(list_cells(inpts[argv[0]][1]), end='')
+						print(Ls.list_cells(inpts[argv[0]][1]), end='')
 					case '-s' | '--surfaces':
-						print(list_surfaces(inpts[argv[0]][1]), end='')
+						print(Ls.list_surfaces(inpts[argv[0]][1]), end='')
 					case '-d' | '--data':
-						print(list_data(inpts[argv[0]][1]), end='')
+						print(Ls.list_data(inpts[argv[0]][1]), end='')
 					case '-a' | '--arguments':
 						print(inpts[argv[0]][1].to_arguments())
 					case None:
-						print(list_inp(inpts[argv[0]][1]))
+						print(Ls.list_inp(inpts[argv[0]][1]))
 					case _:
 						error(ERROR_UNRECOGNIZED_OPTION)
 			except SyntaxError:
@@ -127,7 +134,7 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
 		case '-a' | '--all':
 			for alias, value in inpts.items():
 				path, inpt = value
-				print(f"\n\x1b[4mOBJECT:\x1b[24m {alias}" + '\n' + list_inp(inpt))
+				print(f"\n\x1b[4mOBJECT:\x1b[24m {alias}" + '\n' + Ls.list_inp(inpt))
 
 		case None:
 			print("\x1b[4m{:^25.25}\x1b[24m \x1b[4m{:^51.51}\x1b[24m \x1b[4m{:^51.51}\x1b[24m".format('NAME', 'TITLE', 'OTHER'))

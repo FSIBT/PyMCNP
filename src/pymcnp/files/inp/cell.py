@@ -1370,7 +1370,7 @@ class Cell(card.Card):
 		# Formatting Parameters
 		parameters_str = ' '.join(param.to_mcnp() for param in self.parameters)
 		
-		return add_continuation_lines(f"{self.number} {self.material}{density_str} {geometry_str} {parameters_str}")
+		return parser.Postprocessor.add_continuation_lines(f"{self.number} {self.material}{density_str} {geometry_str} {parameters_str}")
 
 
 	def to_arguments(self) -> dict:

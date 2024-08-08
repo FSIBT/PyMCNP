@@ -426,13 +426,10 @@ class Surface(Card):
 			source (str): INP for surface card object.
 		"""
 
-		if not is_integer(self.number, lambda i : 1 <= i and i <= 99_999_999): raise ValueError
-		if not is_mnemonic(self.mnemonic): raise SyntaxError
-
 		parameters_str = ' '.join([str(param) for _, param in self.parameters.items()])
 		source = f"{self.number}{' ' + {self.transform} + ' ' if self.transform is not None else ' '}{self.mnemonic} {parameters_str}"
 
-		return add_continuation_lines(source)
+		return parser.Postprocessor.add_continuation_lines(source)
 
 
 	def to_arguments(self) -> dict:
