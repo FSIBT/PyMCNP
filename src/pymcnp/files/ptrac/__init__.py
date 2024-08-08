@@ -1,13 +1,6 @@
 import re
 
 
-def preprocess_ptrac(source: str):
-	processed_source = re.compile(r"(\n\n)").sub("\n", source)
-	processed_source = re.compile(r" \n").sub("\n", processed_source)
-	processed_source = re.compile(r" +").sub(" ", processed_source)
-	return processed_source
-
-
 from enum import Enum
 
 
@@ -28,10 +21,4 @@ class PtracKeywords(Enum):
 	UNKNOWN = 14
 
 
-class PtracEventType(Enum):
-	SOURCE = 1000
-	SURFACE = 3000
-	COLLISIONS = 4000
-	TERMINATION = 5000
-	FINAL = 9000
-
+from . import ptrac

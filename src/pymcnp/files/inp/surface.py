@@ -5,16 +5,19 @@ Classes:
 	Surface: Representation of INP surface cards.
 """
 
+
 import numpy as np
 
+import re
+from enum import StrEnum
 from typing import *
 import collections
 import math
 
 from .card import Card
-from .errors import *
-from . import *
-from ..types import *
+from .._utils import parser
+from .._utils import errors
+from .._utils import types
 
 
 class Surface(Card):
@@ -37,7 +40,73 @@ class Surface(Card):
 	"""
 
 
-	def __init__(self):
+	class SurfaceMnemonic(StrEnum):
+		"""
+		'SurfaceMnemonic'
+		"""
+
+
+		PLANEGENERAL = 'p'
+		PLANENORMALX = 'px'
+		PLANENORMALY = 'py'
+		PLANENORMALZ = 'pz'
+		SPHEREORIGIN = 'so'
+		SPHEREGENERAL = 's'
+		SPHERENORMALX = 'sx'
+		SPHERENORMALY = 'sy'
+		SPHERENORMALZ = 'sz'
+		CYLINDERPARALLELX = 'c/x'
+		CYLINDERPARALLELY = 'c/y'
+		CYLINDERPARALLELZ = 'c/z'
+		CYLINDERONX = 'cx'
+		CYLINDERONY = 'cy'
+		CYLINDERONZ = 'cz'
+		CONEPARALLELX = 'k/x'
+		CONEPARALLELY = 'k/y'
+		CONEPARALLELZ = 'k/z'
+		CONEONX = 'kx'
+		CONEONY = 'ky'
+		CONEONZ = 'kx'
+		QUADRATICSPECIAL = 'sq'
+		QUADRATICGENERAL = 'gq'
+		TORUSPARALLELX = 'tx'
+		TORUSPARALLELY = 'ty'
+		TORUSPARALLELZ = 'tz'
+		SURFACEX = 'x'
+		SURFACEY = 'y'
+		SURFACEZ = 'z'
+		BOX = 'box'
+		PARALLELEPIPED = 'rpp'
+		SPHERE = 'sph'
+		CYLINDERCIRCULAR = 'rcc'
+		HEXAGONALPRISM = 'rhp'
+		CYLINDERELLIPTICAL = 'rec'
+		CONETRUNCATED = 'trc'
+		ELLIPSOID = 'ell'
+		WEDGE = 'wed'
+		POLYHEDRON = 'arb'
+
+		
+		@classmethod
+		def cast_surface_mnemonic(cls, string: str, hook: Callable[Self, bool] = lambda _: True) -> Self:
+			"""
+			'cast_surface_mnemonic'
+			"""
+
+			string = string.lower()
+
+			try:
+				keyword = cls(string)
+
+				if hook(keyword):
+					return keyword
+			except:
+				pass
+
+			return None
+
+
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'Surface'.
 		"""
@@ -50,37 +119,39 @@ class Surface(Card):
 		self.is_reflecting: bool = False
 		self.transform: int = None
 		self.periodic: int = None
-		self.parameters: dict[str, Union[Type[np.ndarray], float]] = {}
+		self.parameters: dict[str, float] = {}
 
 
-	def set_number(self, number):
+	def set_number(self, number: int):
 		"""
 		'set_number'
 		"""
 
-		if not is_integer(number): raise INPValueError
-		number = int(number)
-
-		if 1 > number or number > 99_999_999: raise INPValueError;
+		if number is None or not (1 <= number <= 99_999_999): 
+			raise ValueError
+		
 		self.number = number
+		self.id = number
 
 
-	def set_mnemonic(self, mnemonic):
+	def set_mnemonic(self, mnemonic: SurfaceMnemonic):
 		"""
 		'set_mnemonic'
 		"""
 
-		if not is_mnemonic(mnemonic): raise INPValueError
+		if mnemonic is None: 
+			raise ValueError
+
 		self.mnemonic = mnemonic
 
 
-	def set_transform_periodic(self, transform_periodic):
+	def set_transform_periodic(self, transform_periodic: int):
 		"""
 		'set_transform_periodic'
 		"""
 
-		if not is_integer(transform_periodic): raise INPValueError
-		periodic = int(transform_periodic)
+		if transform_periodic is None or not (-99_999_999 <= transform_periodic <= 999):
+			raise ValueError
 
 		if transform_periodic < 0:
 			self.periodic = transform_periodic
@@ -88,13 +159,15 @@ class Surface(Card):
 		elif transform_periodic > 0:
 			self.periodic = None
 			self.transform = transform_periodic
-		else:
+		elif transform_periodic == 0:
 			self.periodic = None
 			self.transform = None
+		else:
+			assert False
 
 
 	@classmethod
-	def from_mcnp(cls, card: str) -> Self:
+	def from_mcnp(cls, source: str) -> Self:
 		"""
 		'from_mcnp' generates surface card objects from INP.
 
@@ -107,193 +180,195 @@ class Surface(Card):
 
 		surface = cls()
 
-		entries = Deque(card.lower().split(' '))
-		if not entries: raise SyntaxError
-		entry = entries.popleft()
+		processed_source = re.sub(r"&\n     ", '', source)
+		processed_source = re.sub(r"\n     ", ' ', processed_source)
+		tokens = parser.Parser(SyntaxError).from_string(processed_source, ' ')
 		
 		# Processing Reflecting Prefix
-		if entry[0] == '+':
+		if tokens.peekl()[0] == '+':
 			self.is_white_boundary = True
-			entry = entry[1:]
-		elif entry[0] == '*':
+			tokens.pushl(tokens.popl()[1:])
+		elif tokens.peekl()[0] == '*':
 			self.is_reflecting_number = True
-			entry = entry[1:]
+			tokens.pushl(tokens.popl()[1:])
 
 		# Processing Card Number
-		surface.set_number(entry)
-		surface.id = surface.number
-
-		if not entries: raise SyntaxError
-		entry = entries.popleft()
+		value = types.cast_fortran_integer(tokens.popl())
+		surface.set_number(value)
 
 		# Processing Transformation Number
-		if is_integer(entry):
-			surface.set_transfrom_periodic(entry)
-
-			if not entries: raise SyntaxError
-			entry = entries.popleft()
+		value = types.cast_fortran_integer(tokens.peekl())
+		if value is not None:
+			surface.set_transform_periodic(value)
+			tokens.popl()
 
 		# Processing Mnemonic
-		surface.set_mnemonic(entry)
+		value = cls.SurfaceMnemonic.cast_surface_mnemonic(tokens.popl()) 
+		surface.set_mnemonic(value)
 
 		# Processing Parameters
 		match surface.mnemonic:
 			case 'p':
-				if len(entries) != 4: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) not in {4, 9}: raise SyntaxError
 				surface.__class__ = PlaneGeneral
-				surface.set_parameters(*entries)
+				if len(tokens) == 4:
+					surface.set_parameters_equation(*tokens.deque)
+				elif len(tokens) == 9:
+					surface.set_parameters_points(*tokens.deque)
+				else:
+					assert False
 			case 'px':
-				if len(entries) != 1: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 1: raise SyntaxError
 				surface.__class__ = PlaneNormalX
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'py':
-				if len(entries) != 1: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 1: raise SyntaxError
 				surface.__class__ = PlaneNormalY
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'pz':
-				if len(entries) != 1: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 1: raise SyntaxError
 				surface.__class__ = PlaneNormalZ
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'so':
-				if len(entries) != 1: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 1: raise SyntaxError
 				surface.__class__ = SphereOrigin
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 's':
-				if len(entries) != 4: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 4: raise SyntaxError
 				surface.__class__ = SphereGeneral
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'sx':
-				if len(entries) != 2: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 2: raise SyntaxError
 				surface.__class__ = SphereNormalX
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'sy':
-				if len(entries) != 2: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 2: raise SyntaxError
 				surface.__class__ = SphereNormalY
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'sz':
-				if len(entries) != 2: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 2: raise SyntaxError
 				surface.__class__ = SphereNormalZ
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'c/x':
-				if len(entries) != 3: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 3: raise SyntaxError
 				surface.__class__ = CylinderParallelX
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'c/y':
-				if len(entries) != 3: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 3: raise SyntaxError
 				surface.__class__ = CylinderParallelY
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'c/z':
-				if len(entries) != 3: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 3: raise SyntaxError
 				surface.__class__ = CylinderParallelZ
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'cx':
-				if len(entries) != 3: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 1: raise SyntaxError
 				surface.__class__ = CylinderOnX
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'cy':
-				if len(entries) != 3: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 1: raise SyntaxError
 				surface.__class__ = CylinderOnY
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'cz':
-				if len(entries) != 3: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 1: raise SyntaxError
 				surface.__class__ = CylinderOnZ
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'k/x':
-				if len(entries) != 5: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 5: raise SyntaxError
 				surface.__class__ = ConeParallelX
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'k/y':
-				if len(entries) != 5: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 5: raise SyntaxError
 				surface.__class__ = ConeParallelY
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'k/z':
-				if len(entries) != 5: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 5: raise SyntaxError
 				surface.__class__ = ConeParallelZ
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'kx':
-				if len(entries) != 3: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 3: raise SyntaxError
 				surface.__class__ = ConeOnX
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'ky':
-				if len(entries) != 3: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 3: raise SyntaxError
 				surface.__class__ = ConeOnY
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'kx':
-				if len(entries) != 3: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 3: raise SyntaxError
 				surface.__class__ = ConeOnZ
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'sq':
-				if len(entries) != 10: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 10: raise SyntaxError
 				surface.__class__ = QuadraticSpecial
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'gq':
-				if len(entries) != 10: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 10: raise SyntaxError
 				surface.__class__ = QuadraticGeneral
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'tx':
-				if len(entries) != 6: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 6: raise SyntaxError
 				surface.__class__ = TorusParallelX
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'ty':
-				if len(entries) != 6: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 6: raise SyntaxError
 				surface.__class__ = TorusParallelY
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'tz':
-				if len(entries) != 6: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 6: raise SyntaxError
 				surface.__class__ = TorusParallelZ
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'x':
-				if len(entries) != 9: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) not in {2, 4, 6}: raise SyntaxError
 				surface.__class__ = SurfaceX
-				surface.set_parameters(*entries)
+				surface.set_parameters(*(list(tokens.deque) + [None] * (6 - len(tokens))))
 			case 'y':
-				if len(entries) != 9: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) not in {2, 4, 6}: raise SyntaxError
 				surface.__class__ = SurfaceY
-				surface.set_parameters(*entries)
+				surface.set_parameters(*(list(tokens.deque) + [None] * (6 - len(tokens))))
 			case 'z':
-				if len(entries) != 9: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) not in {2, 4, 6}: raise SyntaxError
 				surface.__class__ = SurfaceZ
-				surface.set_parameters(*entries)
+				surface.set_parameters(*(list(tokens.deque) + [None] * (6 - len(tokens))))
 			case 'box':
-				if len(entries) not in {12, 9}: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) not in {12, 9}: raise SyntaxError
 				surface.__class__ = Box
-				surface.set_parameters(*entries)
+				surface.set_parameters(*(list(tokens.deque) + [None] * (12 - len(tokens))))
 			case 'rpp':
-				if len(entries) != 6: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 6: raise SyntaxError
 				surface.__class__ = Parallelepiped
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'sph':
-				if len(entries) != 4: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 4: raise SyntaxError
 				surface.__class__ = Sphere
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'rcc':
-				if len(entries) != 7: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 7: raise SyntaxError
 				surface.__class__ = CylinderCircular
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'rhp' | 'hex':
-				if len(entries) not in {15, 9}: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) not in {15, 9}: raise SyntaxError
 				surface.__class__ = HexagonalPrism
-				surface.set_parameters(*(list(entries) + [None] * (15 - len(entries))))
+				surface.set_parameters(*(list(tokens.deque) + [None] * (15 - len(tokens))))
 			case 'rec':
-				if len(entries) not in {10, 12}: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) not in {10, 12}: raise SyntaxError
 				surface.__class__ = CylinderElliptical
-				surface.set_parameters(*(list(entries) + [None] * (12 - len(entries))))
+				surface.set_parameters(*(list(tokens.deque) + [None] * (12 - len(tokens))))
 			case 'trc':
-				if len(entries) != 8: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 8: raise SyntaxError
 				surface.__class__ = ConeTruncated
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'ell':
-				if len(entries) != 7: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 7: raise SyntaxError
 				surface.__class__ = Ellipsoid
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'wed':
-				if len(entries) != 12: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 12: raise SyntaxError
 				surface.__class__ = Wedge
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			case 'arb':
-				if len(entries) != 30: raise INPSyntaxError(INPSyntaxError.Codes.INCOPMLETE_SURFACE_LIST)
+				if len(tokens) != 30: raise SyntaxError
 				surface.__class__ = Polyhedron
-				surface.set_parameters(*entries)
+				surface.set_parameters(*tokens.deque)
 			
 		return surface
 					
@@ -371,6 +446,28 @@ class Surface(Card):
 		return {'j': self.number, 'n': self.transform, 'A': self.mnemonic, 'list': self.parameters}
 
 
+class PlanePoint(Surface):
+	"""
+	'PlanePoint' represents point-defined planes INP surface cards.
+
+	Methods:
+		__init__: Initializes 'PlanePoint'.
+		set_parameters: Sets general planes parameters.
+	"""
+
+
+	def __init__(self) -> Self:
+		self.x1: float = None
+		self.y1: float = None
+		self.z1: float = None
+		self.x2: float = None
+		self.y2: float = None
+		self.z2: float = None
+		self.x3: float = None
+		self.y3: float = None
+		self.z3: float = None
+
+
 class PlaneGeneral(Surface):
 	"""
 	'PlaneGeneral' represents general planes INP surface cards.
@@ -381,7 +478,7 @@ class PlaneGeneral(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'PlaneGeneral'.
 		"""
@@ -390,11 +487,20 @@ class PlaneGeneral(Surface):
 		self.b: float = None
 		self.c: float = None
 		self.d: float = None
+		self.x1: float = None
+		self.y1: float = None
+		self.z1: float = None
+		self.x2: float = None
+		self.y2: float = None
+		self.z2: float = None
+		self.x3: float = None
+		self.y3: float = None
+		self.z3: float = None
 
 		super().__init__()
 
 
-	def set_parameters(self, a: float, b: float, c: float, d: float) -> None:
+	def set_parameters_equation(self, a: float, b: float, c: float, d: float) -> None:
 		"""
 		'set_parameters' sets general planes parameters.
 
@@ -405,25 +511,87 @@ class PlaneGeneral(Surface):
 			d: PLane equation D coefficent.
 		"""
 
-		value = cast_fortran_real(a)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(a)
+		if value is None: raise ValueError
 		self.a = value
 		self.parameters['a'] = value
 
-		value = cast_fortran_real(b)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(b)
+		if value is None: raise ValueError
 		self.b = value
 		self.parameters['b'] = value
 
-		value = cast_fortran_real(c)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(c)
+		if value is None: raise ValueError
 		self.c = value
 		self.parameters['c'] = value
 
-		value = cast_fortran_real(d)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(d)
+		if value is None: raise ValueError
 		self.d = value
 		self.parameters['d'] = value
+
+
+	def set_parameters_points(self, x1: float, y1: float, z1: float, x2: float, y2: float, z2: float, x3: float, y3: float, z3: float) -> None:
+		"""
+		'set_parameters' sets general planes parameters.
+
+		Parameters:
+			x1: Point #1 x component.
+			y1: Point #1 y component.
+			z1: Point #1 z component.
+			x2: Point #2 x component.
+			y2: Point #2 y component.
+			z2: Point #2 z component.
+			x3: Point #3 x component.
+			y3: Point #3 y component.
+			z3: Point #3 z component.
+		"""
+ 
+		value = types.cast_fortran_real(x1)
+		if value is None: raise ValueError
+		self.x1 = value
+		self.parameters['x1'] = value 
+
+		value = types.cast_fortran_real(y1)
+		if value is None: raise ValueError
+		self.y1 = value
+		self.parameters['y1'] = value 
+
+		value = types.cast_fortran_real(z1)
+		if value is None: raise ValueError
+		self.z1 = value
+		self.parameters['z1'] = value 
+
+		value = types.cast_fortran_real(x2)
+		if value is None: raise ValueError
+		self.x2 = value
+		self.parameters['x2'] = value 
+
+		value = types.cast_fortran_real(y2)
+		if value is None: raise ValueError
+		self.y2 = value
+		self.parameters['y2'] = value 
+
+		value = types.cast_fortran_real(z2)
+		if value is None: raise ValueError
+		self.z2 = value
+		self.parameters['z2'] = value 
+
+		value = types.cast_fortran_real(x3)
+		if value is None: raise ValueError
+		self.x3 = value
+		self.parameters['x3'] = value 
+
+		value = types.cast_fortran_real(y3)
+		if value is None: raise ValueError
+		self.y3 = value
+		self.parameters['y3'] = value 
+
+		value = types.cast_fortran_real(z3)
+		if value is None: raise ValueError
+		self.z3 = value
+		self.parameters['z3'] = value
 
 
 class PlaneNormalX(Surface):
@@ -436,7 +604,7 @@ class PlaneNormalX(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'PlaneNormalX'.
 		"""
@@ -454,8 +622,8 @@ class PlaneNormalX(Surface):
 			d: Plane equation D coefficent.
 		"""
 
-		value = cast_fortran_real(d)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(d)
+		if value is None: raise ValueError
 		self.d = value
 		self.parameters['d'] = value
 
@@ -470,7 +638,7 @@ class PlaneNormalY(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'PlaneNormalY'.
 		"""
@@ -488,8 +656,8 @@ class PlaneNormalY(Surface):
 			d: Plane equation D coefficent.
 		"""
 
-		value = cast_fortran_real(d)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(d)
+		if value is None: raise ValueError
 		self.d = value
 		self.parameters['d'] = value
 
@@ -504,7 +672,7 @@ class PlaneNormalZ(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'PlaneNormalZ'.
 		"""
@@ -522,8 +690,8 @@ class PlaneNormalZ(Surface):
 			d: Plane equation D coefficent.
 		"""
 
-		value = cast_fortran_real(d)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(d)
+		if value is None: raise ValueError
 		self.d = value
 		self.parameters['d'] = value
 
@@ -538,7 +706,7 @@ class SphereOrigin(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'SphereOrigin'.
 		"""
@@ -556,8 +724,8 @@ class SphereOrigin(Surface):
 			r: Sphere radius.
 		"""
 
-		value = cast_fortran_real(r)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r)
+		if value is None: raise ValueError
 		self.r = value
 		self.parameters['r'] = value
 
@@ -590,7 +758,7 @@ class SphereGeneral(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'SphereGeneral'.
 		"""
@@ -614,23 +782,23 @@ class SphereGeneral(Surface):
 			r: Sphere radius.
 		"""
 
-		value = cast_fortran_real(x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x)
+		if value is None: raise ValueError
 		self.x = value
 		self.parameters['x'] = value
 
-		value = cast_fortran_real(y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y)
+		if value is None: raise ValueError
 		self.y = value
 		self.parameters['y'] = value
 
-		value = cast_fortran_real(z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z)
+		if value is None: raise ValueError
 		self.z = value
 		self.parameters['z'] = value
 
-		value = cast_fortran_real(r)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r)
+		if value is None: raise ValueError
 		self.r = value
 		self.parameters['r'] = value
 
@@ -663,7 +831,7 @@ class SphereNormalX(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'SphereNormalX'.
 		"""
@@ -683,13 +851,13 @@ class SphereNormalX(Surface):
 			r: Sphere radius.
 		"""
 
-		value = cast_fortran_real(x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x)
+		if value is None: raise ValueError
 		self.x = value
 		self.parameters['x'] = value
 
-		value = cast_fortran_real(r)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r)
+		if value is None: raise ValueError
 		self.r = value
 		self.parameters['r'] = value
 
@@ -722,7 +890,7 @@ class SphereNormalY(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'SphereNormalY'.
 		"""
@@ -742,13 +910,13 @@ class SphereNormalY(Surface):
 			r: Sphere radius.
 		"""
 
-		value = cast_fortran_real(y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y)
+		if value is None: raise ValueError
 		self.y = value
 		self.parameters['y'] = value
 
-		value = cast_fortran_real(r)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r)
+		if value is None: raise ValueError
 		self.r = value
 		self.parameters['r'] = value
 
@@ -781,7 +949,7 @@ class SphereNormalZ(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'SphereNormalZ'.
 		"""
@@ -801,13 +969,13 @@ class SphereNormalZ(Surface):
 			r: Sphere radius.
 		"""
 
-		value = cast_fortran_real(z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z)
+		if value is None: raise ValueError
 		self.z = value
 		self.parameters['z'] = value
 
-		value = cast_fortran_real(r)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r)
+		if value is None: raise ValueError
 		self.r = value
 		self.parameters['r'] = value
 
@@ -840,7 +1008,7 @@ class CylinderParallelX(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'CylinderParallelX'.
 		"""
@@ -862,18 +1030,18 @@ class CylinderParallelX(Surface):
 			r: Cylinder radius.
 		"""
 
-		value = cast_fortran_real(y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y)
+		if value is None: raise ValueError
 		self.y = value
 		self.parameters['y'] = value
 
-		value = cast_fortran_real(z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z)
+		if value is None: raise ValueError
 		self.z = value
 		self.parameters['z'] = value
 
-		value = cast_fortran_real(r)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r)
+		if value is None: raise ValueError
 		self.r = value
 		self.parameters['r'] = value
 
@@ -888,7 +1056,7 @@ class CylinderParallelY(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'CylinderParallelY'.
 		"""
@@ -910,18 +1078,18 @@ class CylinderParallelY(Surface):
 			r: Cylinder radius.
 		"""
 
-		value = cast_fortran_real(x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x)
+		if value is None: raise ValueError
 		self.x = value
 		self.parameters['x'] = value
 
-		value = cast_fortran_real(z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z)
+		if value is None: raise ValueError
 		self.z = value
 		self.parameters['z'] = value
 
-		value = cast_fortran_real(r)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r)
+		if value is None: raise ValueError
 		self.r = value
 		self.parameters['r'] = value
 
@@ -936,7 +1104,7 @@ class CylinderParallelZ(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'CylinderParallelZ'.
 		"""
@@ -958,18 +1126,18 @@ class CylinderParallelZ(Surface):
 			r: Cylinder radius.
 		"""
 
-		value = cast_fortran_real(x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x)
+		if value is None: raise ValueError
 		self.x = value
 		self.parameters['x'] = value
 
-		value = cast_fortran_real(y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y)
+		if value is None: raise ValueError
 		self.y = value
 		self.parameters['y'] = value
 
-		value = cast_fortran_real(r)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r)
+		if value is None: raise ValueError
 		self.r = value
 		self.parameters['r'] = value
 
@@ -984,33 +1152,26 @@ class CylinderOnX(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'CylinderOnX'.
 		"""
 
-		self.x: float = None
 		self.r: float = None
 
 		super().__init__()
 
 
-	def set_parameters(self, x: float, r: float) -> None:
+	def set_parameters(self, r: float) -> None:
 		"""
 		'set_parameters' sets cylinders on x-axis parameters.
 
 		Parameters:
-			x: Cylinder center x component.
 			r: Cylinder radius.
 		"""
 
-		value = cast_fortran_real(x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.x = value
-		self.parameters['x'] = value
-
-		value = cast_fortran_real(r)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r)
+		if value is None: raise ValueError
 		self.r = value
 		self.parameters['r'] = value
 
@@ -1025,33 +1186,26 @@ class CylinderOnY(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'CylinderOnY'.
 		"""
 
-		self.y: float = None
 		self.r: float = None
 
 		super().__init__()
 
 
-	def set_parameters(self, y: float, r: float) -> None:
+	def set_parameters(self, r: float) -> None:
 		"""
 		'set_parameters' sets cylinders on y-axis parameters.
 
 		Parameters:
-			y: Cylinder center y component.
 			r: Cylinder radius.
 		"""
 
-		value = cast_fortran_real(y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.y = value
-		self.parameters['y'] = value
-
-		value = cast_fortran_real(r)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r)
+		if value is None: raise ValueError
 		self.r = value
 		self.parameters['r'] = value
 
@@ -1066,33 +1220,26 @@ class CylinderOnZ(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'CylinderOnZ'.
 		"""
 
-		self.z: float = None
 		self.r: float = None
 
 		super().__init__()
 
 
-	def set_parameters(self, z: float, r: float) -> None:
+	def set_parameters(self, r: float) -> None:
 		"""
 		'set_parameters' sets cylinders on z-axis parameters.
 
 		Parameters:
-			z: Cylinder center z component.
 			r: Cylinder radius.
 		"""
 
-		value = cast_fortran_real(z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.z = value
-		self.parameters['z'] = value
-
-		value = cast_fortran_real(r)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r)
+		if value is None: raise ValueError
 		self.r = value
 		self.parameters['r'] = value
 
@@ -1107,7 +1254,7 @@ class ConeParallelX(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'ConeParallelX'.
 		"""
@@ -1133,28 +1280,28 @@ class ConeParallelX(Surface):
 			__1: Cone sheet selector.
 		"""
 
-		value = cast_fortran_real(x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x)
+		if value is None: raise ValueError
 		self.x = value
 		self.parameters['x'] = value
 
-		value = cast_fortran_real(y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y)
+		if value is None: raise ValueError
 		self.y = value
 		self.parameters['y'] = value
 
-		value = cast_fortran_real(z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z)
+		if value is None: raise ValueError
 		self.z = value
 		self.parameters['z'] = value
 
-		value = cast_fortran_real(t_2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(t_2)
+		if value is None: raise ValueError
 		self.t_2 = value
 		self.parameters['t_2'] = value
 
-		value = cast_fortran_real(__1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(__1)
+		if value is None: raise ValueError
 		self.__1 = value
 		self.parameters['__1'] = value
 
@@ -1169,7 +1316,7 @@ class ConeParallelY(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'ConeParallelY'.
 		"""
@@ -1195,28 +1342,28 @@ class ConeParallelY(Surface):
 			__1: Cone sheet selector.
 		"""
 
-		value = cast_fortran_real(x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x)
+		if value is None: raise ValueError
 		self.x = value
 		self.parameters['x'] = value
 
-		value = cast_fortran_real(y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y)
+		if value is None: raise ValueError
 		self.y = value
 		self.parameters['y'] = value
 
-		value = cast_fortran_real(z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z)
+		if value is None: raise ValueError
 		self.z = value
 		self.parameters['z'] = value
 
-		value = cast_fortran_real(t_2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(t_2)
+		if value is None: raise ValueError
 		self.t_2 = value
 		self.parameters['t_2'] = value
 
-		value = cast_fortran_real(__1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(__1)
+		if value is None: raise ValueError
 		self.__1 = value
 		self.parameters['__1'] = value
 
@@ -1231,7 +1378,7 @@ class ConeParallelZ(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'ConeParallelZ'.
 		"""
@@ -1257,28 +1404,28 @@ class ConeParallelZ(Surface):
 			__1: Cone sheet selector.
 		"""
 
-		value = cast_fortran_real(x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x)
+		if value is None: raise ValueError
 		self.x = value
 		self.parameters['x'] = value
 
-		value = cast_fortran_real(y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y)
+		if value is None: raise ValueError
 		self.y = value
 		self.parameters['y'] = value
 
-		value = cast_fortran_real(z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z)
+		if value is None: raise ValueError
 		self.z = value
 		self.parameters['z'] = value
 
-		value = cast_fortran_real(t_2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(t_2)
+		if value is None: raise ValueError
 		self.t_2 = value
 		self.parameters['t_2'] = value
 
-		value = cast_fortran_real(__1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(__1)
+		if value is None: raise ValueError
 		self.__1 = value
 		self.parameters['__1'] = value
 
@@ -1293,7 +1440,7 @@ class ConeOnX(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'ConeOnX'.
 		"""
@@ -1315,18 +1462,18 @@ class ConeOnX(Surface):
 			__1: Cone sheet selector.
 		"""
 
-		value = cast_fortran_real(x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x)
+		if value is None: raise ValueError
 		self.x = value
 		self.parameters['x'] = value
 
-		value = cast_fortran_real(t_2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(t_2)
+		if value is None: raise ValueError
 		self.t_2 = value
 		self.parameters['t_2'] = value
 
-		value = cast_fortran_real(__1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(__1)
+		if value is None: raise ValueError
 		self.__1 = value
 		self.parameters['__1'] = value
 
@@ -1341,7 +1488,7 @@ class ConeOnY(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'ConeOnY'.
 		"""
@@ -1363,18 +1510,18 @@ class ConeOnY(Surface):
 			__1: Cone sheet selector.
 		"""
 
-		value = cast_fortran_real(y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y)
+		if value is None: raise ValueError
 		self.y = value
 		self.parameters['y'] = value
 
-		value = cast_fortran_real(t_2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(t_2)
+		if value is None: raise ValueError
 		self.t_2 = value
 		self.parameters['t_2'] = value
 
-		value = cast_fortran_real(__1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(__1)
+		if value is None: raise ValueError
 		self.__1 = value
 		self.parameters['__1'] = value
 
@@ -1389,7 +1536,7 @@ class ConeOnZ(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'ConeOnZ'.
 		"""
@@ -1411,18 +1558,18 @@ class ConeOnZ(Surface):
 			__1: Cone sheet selector.
 		"""
 
-		value = cast_fortran_real(z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z)
+		if value is None: raise ValueError
 		self.z = value
 		self.parameters['z'] = value
 
-		value = cast_fortran_real(t_2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(t_2)
+		if value is None: raise ValueError
 		self.t_2 = value
 		self.parameters['t_2'] = value
 
-		value = cast_fortran_real(__1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(__1)
+		if value is None: raise ValueError
 		self.__1 = value
 		self.parameters['__1'] = value
 
@@ -1437,7 +1584,7 @@ class QuadraticSpecial(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'QuadraticSpecial'.
 		"""
@@ -1473,53 +1620,53 @@ class QuadraticSpecial(Surface):
 			z: Quadratic center z component.
 		"""
 
-		value = cast_fortran_real(a)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(a)
+		if value is None: raise ValueError
 		self.a = value
 		self.parameters['a'] = value
 
-		value = cast_fortran_real(b)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(b)
+		if value is None: raise ValueError
 		self.b = value
 		self.parameters['b'] = value
 
-		value = cast_fortran_real(c)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(c)
+		if value is None: raise ValueError
 		self.c = value
 		self.parameters['c'] = value
 
-		value = cast_fortran_real(d)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(d)
+		if value is None: raise ValueError
 		self.d = value
 		self.parameters['d'] = value
 
-		value = cast_fortran_real(e)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(e)
+		if value is None: raise ValueError
 		self.e = value
 		self.parameters['e'] = value
 
-		value = cast_fortran_real(f)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(f)
+		if value is None: raise ValueError
 		self.f = value
 		self.parameters['f'] = value
 
-		value = cast_fortran_real(g)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(g)
+		if value is None: raise ValueError
 		self.g = value
 		self.parameters['g'] = value
 
-		value = cast_fortran_real(x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x)
+		if value is None: raise ValueError
 		self.x = value
 		self.parameters['x'] = value
 
-		value = cast_fortran_real(y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y)
+		if value is None: raise ValueError
 		self.y = value
 		self.parameters['y'] = value
 
-		value = cast_fortran_real(z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z)
+		if value is None: raise ValueError
 		self.z = value
 		self.parameters['z'] = value
 
@@ -1534,7 +1681,7 @@ class QuadraticGeneral(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'QuadraticGeneral'.
 		"""
@@ -1570,53 +1717,53 @@ class QuadraticGeneral(Surface):
 			k: Quadratic surface equation K coefficent.
 		"""
 
-		value = cast_fortran_real(a)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(a)
+		if value is None: raise ValueError
 		self.a = value
 		self.parameters['a'] = value
 
-		value = cast_fortran_real(b)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(b)
+		if value is None: raise ValueError
 		self.b = value
 		self.parameters['b'] = value
 
-		value = cast_fortran_real(c)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(c)
+		if value is None: raise ValueError
 		self.c = value
 		self.parameters['c'] = value
 
-		value = cast_fortran_real(d)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(d)
+		if value is None: raise ValueError
 		self.d = value
 		self.parameters['d'] = value
 
-		value = cast_fortran_real(e)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(e)
+		if value is None: raise ValueError
 		self.e = value
 		self.parameters['e'] = value
 
-		value = cast_fortran_real(f)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(f)
+		if value is None: raise ValueError
 		self.f = value
 		self.parameters['f'] = value
 
-		value = cast_fortran_real(g)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(g)
+		if value is None: raise ValueError
 		self.g = value
 		self.parameters['g'] = value
 
-		value = cast_fortran_real(h)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(h)
+		if value is None: raise ValueError
 		self.h = value
-		[self.hx, self.hy, self.hz] = value
+		self.parameters['h'] = value
 
-		value = cast_fortran_real(j)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(j)
+		if value is None: raise ValueError
 		self.j = value
 		self.parameters['j'] = value
 
-		value = cast_fortran_real(k)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(k)
+		if value is None: raise ValueError
 		self.k = value
 		self.parameters['k'] = value
 
@@ -1631,7 +1778,7 @@ class TorusParallelX(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'TorusParallelX'.
 		"""
@@ -1659,33 +1806,33 @@ class TorusParallelX(Surface):
 			c: Quadratic surface equation C coefficent.
 		"""
 
-		value = cast_fortran_real(x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x)
+		if value is None: raise ValueError
 		self.x = value
 		self.parameters['x'] = value
 
-		value = cast_fortran_real(y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y)
+		if value is None: raise ValueError
 		self.y = value
 		self.parameters['y'] = value
 
-		value = cast_fortran_real(z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z)
+		if value is None: raise ValueError
 		self.z = value
 		self.parameters['z'] = value
 
-		value = cast_fortran_real(a)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(a)
+		if value is None: raise ValueError
 		self.a = value
 		self.parameters['a'] = value
 
-		value = cast_fortran_real(b)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(b)
+		if value is None: raise ValueError
 		self.b = value
 		self.parameters['b'] = value
 
-		value = cast_fortran_real(c)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(c)
+		if value is None: raise ValueError
 		self.c = value
 		self.parameters['c'] = value
 
@@ -1700,7 +1847,7 @@ class TorusParallelY(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'TorusParallelY'.
 		"""
@@ -1728,33 +1875,33 @@ class TorusParallelY(Surface):
 			c: Quadratic surface equation C coefficent.
 		"""
 
-		value = cast_fortran_real(x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x)
+		if value is None: raise ValueError
 		self.x = value
 		self.parameters['x'] = value
 
-		value = cast_fortran_real(y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y)
+		if value is None: raise ValueError
 		self.y = value
 		self.parameters['y'] = value
 
-		value = cast_fortran_real(z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z)
+		if value is None: raise ValueError
 		self.z = value
 		self.parameters['z'] = value
 
-		value = cast_fortran_real(a)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(a)
+		if value is None: raise ValueError
 		self.a = value
 		self.parameters['a'] = value
 
-		value = cast_fortran_real(b)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(b)
+		if value is None: raise ValueError
 		self.b = value
 		self.parameters['b'] = value
 
-		value = cast_fortran_real(c)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(c)
+		if value is None: raise ValueError
 		self.c = value
 		self.parameters['c'] = value
 
@@ -1769,7 +1916,7 @@ class TorusParallelZ(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'TorusParallelZ'.
 		"""
@@ -1797,33 +1944,33 @@ class TorusParallelZ(Surface):
 			c: Quadratic surface equation C coefficent.
 		"""
 
-		value = cast_fortran_real(x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x)
+		if value is None: raise ValueError
 		self.x = value
 		self.parameters['x'] = value
 
-		value = cast_fortran_real(y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y)
+		if value is None: raise ValueError
 		self.y = value
 		self.parameters['y'] = value
 
-		value = cast_fortran_real(z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z)
+		if value is None: raise ValueError
 		self.z = value
 		self.parameters['z'] = value
 
-		value = cast_fortran_real(a)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(a)
+		if value is None: raise ValueError
 		self.a = value
 		self.parameters['a'] = value
 
-		value = cast_fortran_real(b)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(b)
+		if value is None: raise ValueError
 		self.b = value
 		self.parameters['b'] = value
 
-		value = cast_fortran_real(c)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(c)
+		if value is None: raise ValueError
 		self.c = value
 		self.parameters['c'] = value
 
@@ -1838,7 +1985,7 @@ class SurfaceX(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'SurfaceX'.
 		"""
@@ -1866,35 +2013,37 @@ class SurfaceX(Surface):
 			r3: Point #3 modulus.
 		"""
 
-		value = cast_fortran_real(x1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x1)
+		if value is None: raise ValueError
 		self.x1 = value
 		self.parameters['x1'] = value
 
-		value = cast_fortran_real(r1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r1)
+		if value is None: raise ValueError
 		self.r1 = value
 		self.parameters['r1'] = value
 
-		value = cast_fortran_real(x2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.x2 = value
-		self.parameters['x2'] = value
+		if x2 is not None and r2 is not None:
+			value = types.cast_fortran_real(x2)
+			if value is None: raise ValueError
+			self.x2 = value
+			self.parameters['x2'] = value
 
-		value = cast_fortran_real(r2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.r2 = value
-		self.parameters['r2'] = value
+			value = types.cast_fortran_real(r2)
+			if value is None: raise ValueError
+			self.r2 = value
+			self.parameters['r2'] = value
 
-		value = cast_fortran_real(x3)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.x3 = value
-		self.parameters['x3'] = value
+			if x3 is not None and r3 is not None:
+				value = types.cast_fortran_real(x3)
+				if value is None: raise ValueError
+				self.x3 = value
+				self.parameters['x3'] = value
 
-		value = cast_fortran_real(r3)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.r3 = value
-		self.parameters['r3'] = value
+				value = types.cast_fortran_real(r3)
+				if value is None: raise ValueError
+				self.r3 = value
+				self.parameters['r3'] = value
 
 
 class SurfaceY(Surface):
@@ -1907,7 +2056,7 @@ class SurfaceY(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'SurfaceY'.
 		"""
@@ -1935,35 +2084,37 @@ class SurfaceY(Surface):
 			r3: Point #3 modulus.
 		"""
 
-		value = cast_fortran_real(y1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y1)
+		if value is None: raise ValueError
 		self.y1 = value
 		self.parameters['y1'] = value
 
-		value = cast_fortran_real(r1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r1)
+		if value is None: raise ValueError
 		self.r1 = value
 		self.parameters['r1'] = value
 
-		value = cast_fortran_real(y2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.y2 = value
-		self.parameters['y2'] = value
+		if y2 is not None and r2 is not None:
+			value = types.cast_fortran_real(y2)
+			if value is None: raise ValueError
+			self.y2 = value
+			self.parameters['y2'] = value
 
-		value = cast_fortran_real(r2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.r2 = value
-		self.parameters['r2'] = value
+			value = types.cast_fortran_real(r2)
+			if value is None: raise ValueError
+			self.r2 = value
+			self.parameters['r2'] = value
 
-		value = cast_fortran_real(y3)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.y3 = value
-		self.parameters['y3'] = value
+			if y3 is not None and r3 is not None:
+				value = types.cast_fortran_real(y3)
+				if value is None: raise ValueError
+				self.y3 = value
+				self.parameters['y3'] = value
 
-		value = cast_fortran_real(r3)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.r3 = value
-		self.parameters['r3'] = value
+				value = types.cast_fortran_real(r3)
+				if value is None: raise ValueError
+				self.r3 = value
+				self.parameters['r3'] = value
 
 
 class SurfaceZ(Surface):
@@ -1976,7 +2127,7 @@ class SurfaceZ(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'SurfaceZ'.
 		"""
@@ -2004,50 +2155,52 @@ class SurfaceZ(Surface):
 			r3: Point #3 modulus.
 		"""
 
-		value = cast_fortran_real(z1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z1)
+		if value is None: raise ValueError
 		self.z1 = value
 		self.parameters['z1'] = value
 
-		value = cast_fortran_real(r1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r1)
+		if value is None: raise ValueError
 		self.r1 = value
 		self.parameters['r1'] = value
 
-		value = cast_fortran_real(z2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.z2 = value
-		self.parameters['z2'] = value
+		if z2 is not None and r2 is not None:
+			value = types.cast_fortran_real(z2)
+			if value is None: raise ValueError
+			self.z2 = value
+			self.parameters['z2'] = value
 
-		value = cast_fortran_real(r2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.r2 = value
-		self.parameters['r2'] = value
+			value = types.cast_fortran_real(r2)
+			if value is None: raise ValueError
+			self.r2 = value
+			self.parameters['r2'] = value
 
-		value = cast_fortran_real(z3)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.z3 = value
-		self.parameters['z3'] = value
+			if z3 is not None and r3 is not None:
+				value = types.cast_fortran_real(z3)
+				if value is None: raise ValueError
+				self.z3 = value
+				self.parameters['z3'] = value
 
-		value = cast_fortran_real(r3)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
-		self.r3 = value
-		self.parameters['r3'] = value
+				value = types.cast_fortran_real(r3)
+				if value is None: raise ValueError
+				self.r3 = value
+				self.parameters['r3'] = value
 
 
-class PlanePoints(Surface):
+class PlanePoint(Surface):
 	"""
-	'PlanePoints' represents point-defined plane INP surface cards.
+	'PlanePoint' represents point-defined plane INP surface cards.
 
 	Methods:
-		__init__: Initializes 'PlanePoints'.
+		__init__: Initializes 'PlanePoint'.
 		set_parameters: Sets point-defined plane parameters.
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
-		'__init__' initializes 'PlanePoints'.
+		'__init__' initializes 'PlanePoint'.
 		"""
 
 		self.x1: float = None
@@ -2079,48 +2232,48 @@ class PlanePoints(Surface):
 			z3: Point #3 z component.
 		"""
 
-		value = cast_fortran_real(x1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x1)
+		if value is None: raise ValueError
 		self.x1 = value
 		self.parameters['x1'] = value
 
-		value = cast_fortran_real(y1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y1)
+		if value is None: raise ValueError
 		self.y1 = value
 		self.parameters['y1'] = value
 
-		value = cast_fortran_real(z1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z1)
+		if value is None: raise ValueError
 		self.z1 = value
 		self.parameters['z1'] = value
 
-		value = cast_fortran_real(x2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x2)
+		if value is None: raise ValueError
 		self.x2 = value
 		self.parameters['x2'] = value
 
-		value = cast_fortran_real(y2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y2)
+		if value is None: raise ValueError
 		self.y2 = value
 		self.parameters['y2'] = value
 
-		value = cast_fortran_real(z2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z2)
+		if value is None: raise ValueError
 		self.z2 = value
 		self.parameters['z2'] = value
 
-		value = cast_fortran_real(x3)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(x3)
+		if value is None: raise ValueError
 		self.x3 = value
 		self.parameters['x3'] = value
 
-		value = cast_fortran_real(y3)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(y3)
+		if value is None: raise ValueError
 		self.y3 = value
 		self.parameters['y3'] = value
 
-		value = cast_fortran_real(z3)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(z3)
+		if value is None: raise ValueError
 		self.z3 = value
 		self.parameters['z3'] = value
 
@@ -2135,7 +2288,7 @@ class Box(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'Box'.
 		"""
@@ -2175,64 +2328,64 @@ class Box(Surface):
 			a3z: 3rd side vector from coordinate z compoennt.
 		"""
 
-		value = cast_fortran_real(vx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vx)
+		if value is None: raise ValueError
 		self.vx = value
 		self.parameters['vx'] = value
 
-		value = cast_fortran_real(vy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vy)
+		if value is None: raise ValueError
 		self.vy = value
 		self.parameters['vy'] = value
 
-		value = cast_fortran_real(vz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vz)
+		if value is None: raise ValueError
 		self.vz = value
 		self.parameters['vz'] = value
 
-		value = cast_fortran_real(a1x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(a1x)
+		if value is None: raise ValueError
 		self.a1x = value
 		self.parameters['a1x'] = value
 
-		value = cast_fortran_real(a1y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(a1y)
+		if value is None: raise ValueError
 		self.a1y = value
 		self.parameters['a1y'] = value
 
-		value = cast_fortran_real(a1z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(a1z)
+		if value is None: raise ValueError
 		self.a1z = value
 		self.parameters['a1z'] = value
 
-		value = cast_fortran_real(a2x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(a2x)
+		if value is None: raise ValueError
 		self.a2x = value
 		self.parameters['a2x'] = value
 
-		value = cast_fortran_real(a2y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(a2y)
+		if value is None: raise ValueError
 		self.a2y = value
 		self.parameters['a2y'] = value
 
-		value = cast_fortran_real(a2z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(a2z)
+		if value is None: raise ValueError
 		self.a2z = value
 		self.parameters['a2z'] = value
 
 		if a3x is not None and a3y is not None and a3z is not None:
-			value = cast_fortran_real(a3x)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(a3x)
+			if value is None: raise ValueError
 			self.a3x = value
 			self.parameters['a3x'] = value
 
-			value = cast_fortran_real(a3y)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(a3y)
+			if value is None: raise ValueError
 			self.a3y = value
 			self.parameters['a3y'] = value
 
-			value = cast_fortran_real(a3z)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(a3z)
+			if value is None: raise ValueError
 			self.a3z = value
 			self.parameters['a3z'] = value
 
@@ -2268,7 +2421,7 @@ class Parallelepiped(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'Parallelepiped'.
 		"""
@@ -2296,33 +2449,33 @@ class Parallelepiped(Surface):
 			zmax: Maximum z of locus range.
 		"""
 
-		value = cast_fortran_real(xmin)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(xmin)
+		if value is None: raise ValueError
 		self.xmin = value
 		self.parameters['xmin'] = value
 
-		value = cast_fortran_real(xmax)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(xmax)
+		if value is None: raise ValueError
 		self.xmax = value
 		self.parameters['xmax'] = value
 
-		value = cast_fortran_real(ymin)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(ymin)
+		if value is None: raise ValueError
 		self.ymin = value
 		self.parameters['ymin'] = value
 
-		value = cast_fortran_real(ymax)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(ymax)
+		if value is None: raise ValueError
 		self.ymax = value
 		self.parameters['ymax'] = value
 
-		value = cast_fortran_real(zmin)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(zmin)
+		if value is None: raise ValueError
 		self.zmin = value
 		self.parameters['zmin'] = value
 
-		value = cast_fortran_real(zmax)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(zmax)
+		if value is None: raise ValueError
 		self.zmax = value
 		self.parameters['zmax'] = value
 
@@ -2358,7 +2511,7 @@ class Sphere(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'Sphere'.
 		"""
@@ -2382,23 +2535,23 @@ class Sphere(Surface):
 			r: Sphere radius.
 		"""
 
-		value = cast_fortran_real(vx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vx)
+		if value is None: raise ValueError
 		self.vx = value
 		self.parameters['vx'] = value
 
-		value = cast_fortran_real(vy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vy)
+		if value is None: raise ValueError
 		self.vy = value
 		self.parameters['vy'] = value
 
-		value = cast_fortran_real(vz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vz)
+		if value is None: raise ValueError
 		self.vz = value
 		self.parameters['vz'] = value
 
-		value = cast_fortran_real(r)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r)
+		if value is None: raise ValueError
 		self.r = value
 		self.parameters['r'] = value
 
@@ -2433,7 +2586,7 @@ class CylinderCircular(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'CylinderCircular'.
 		"""
@@ -2463,38 +2616,38 @@ class CylinderCircular(Surface):
 			r: Right circular cylinder radius.
 		"""
 
-		value = cast_fortran_real(vx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vx)
+		if value is None: raise ValueError
 		self.vx = value
 		self.parameters['vx'] = value
 
-		value = cast_fortran_real(vy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vy)
+		if value is None: raise ValueError
 		self.vy = value
 		self.parameters['vy'] = value
 
-		value = cast_fortran_real(vz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vz)
+		if value is None: raise ValueError
 		self.vz = value
 		self.parameters['vz'] = value
 
-		value = cast_fortran_real(hx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(hx)
+		if value is None: raise ValueError
 		self.hx = value
 		self.parameters['hx'] = value
 
-		value = cast_fortran_real(hy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(hy)
+		if value is None: raise ValueError
 		self.hy = value
 		self.parameters['hy'] = value
 
-		value = cast_fortran_real(hz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(hz)
+		if value is None: raise ValueError
 		self.hz = value
 		self.parameters['hz'] = value
 
-		value = cast_fortran_real(r)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r)
+		if value is None: raise ValueError
 		self.r = value
 		self.parameters['r'] = value
 
@@ -2534,7 +2687,7 @@ class HexagonalPrism(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'HexagonalPrism'.
 		"""
@@ -2580,79 +2733,79 @@ class HexagonalPrism(Surface):
 			t3: Vector from center to facet #3.
 		"""
 
-		value = cast_fortran_real(vx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vx)
+		if value is None: raise ValueError
 		self.vx = value
 		self.parameters['vx'] = value
 
-		value = cast_fortran_real(vy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vy)
+		if value is None: raise ValueError
 		self.vy = value
 		self.parameters['vy'] = value
 
-		value = cast_fortran_real(vz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vz)
+		if value is None: raise ValueError
 		self.vz = value
 		self.parameters['vz'] = value
 
-		value = cast_fortran_real(hx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(hx)
+		if value is None: raise ValueError
 		self.hx = value
 		self.parameters['hx'] = value
 
-		value = cast_fortran_real(hy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(hy)
+		if value is None: raise ValueError
 		self.hy = value
 		self.parameters['hy'] = value
 
-		value = cast_fortran_real(hz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(hz)
+		if value is None: raise ValueError
 		self.hz = value
 		self.parameters['hz'] = value
 
-		value = cast_fortran_real(r1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r1)
+		if value is None: raise ValueError
 		self.r1 = value
 		self.parameters['r1'] = value
 
-		value = cast_fortran_real(r2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r2)
+		if value is None: raise ValueError
 		self.r2 = value
 		self.parameters['r2'] = value
 
-		value = cast_fortran_real(r3)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r3)
+		if value is None: raise ValueError
 		self.r3 = value
 		self.parameters['r3'] = value
 
 		if s1 is not None and s2 is not None and s3 is not None and t1 is not None and t2 is not None and t3 is not None:
-			value = cast_fortran_real(s1)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(s1)
+			if value is None: raise ValueError
 			self.s1 = value
 			self.parameters['s1'] = value
 
-			value = cast_fortran_real(s2)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(s2)
+			if value is None: raise ValueError
 			self.s2 = value
 			self.parameters['s2'] = value
 
-			value = cast_fortran_real(s3)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(s3)
+			if value is None: raise ValueError
 			self.s3 = value
 			self.parameters['s3'] = value
 
-			value = cast_fortran_real(t1)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(t1)
+			if value is None: raise ValueError
 			self.t1 = value
 			self.parameters['t1'] = value
 
-			value = cast_fortran_real(t2)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(t2)
+			if value is None: raise ValueError
 			self.t2 = value
 			self.parameters['t2'] = value
 
-			value = cast_fortran_real(t3)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(t3)
+			if value is None: raise ValueError
 			self.t3 = value
 			self.parameters['t3'] = value
 
@@ -2695,7 +2848,7 @@ class CylinderElliptical(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'CylinderElliptical'.
 		"""
@@ -2733,74 +2886,74 @@ class CylinderElliptical(Surface):
 		"""
 
 		if vx is not None:
-			value = cast_fortran_real(vx)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(vx)
+			if value is None: raise ValueError
 			self.vx = value
 			self.parameters['vx'] = value
 
 		if vy is not None:
-			value = cast_fortran_real(vy)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(vy)
+			if value is None: raise ValueError
 			self.vy = value
 			self.parameters['vy'] = value
 
 		if vz is not None:
-			value = cast_fortran_real(vz)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(vz)
+			if value is None: raise ValueError
 			self.vz = value
 			self.parameters['vz'] = value
 
 		if hx is not None:
-			value = cast_fortran_real(hx)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(hx)
+			if value is None: raise ValueError
 			self.hx = value
 			self.parameters['hx'] = value
 
 		if hy is not None:
-			value = cast_fortran_real(hy)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(hy)
+			if value is None: raise ValueError
 			self.hy = value
 			self.parameters['hy'] = value
 
 		if hz is not None:
-			value = cast_fortran_real(hz)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(hz)
+			if value is None: raise ValueError
 			self.hz = value
 			self.parameters['hz'] = value
 
 		if v1x is not None:
-			value = cast_fortran_real(v1x)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(v1x)
+			if value is None: raise ValueError
 			self.v1x = value
 			self.parameters['v1x'] = value
 
 		if v1y is not None:
-			value = cast_fortran_real(v1y)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(v1y)
+			if value is None: raise ValueError
 			self.v1y = value
 			self.parameters['v1y'] = value
 
 		if v1z is not None:
-			value = cast_fortran_real(v1z)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(v1z)
+			if value is None: raise ValueError
 			self.v1z = value
 			self.parameters['v1z'] = value
 
 		if v2x is not None:
-			value = cast_fortran_real(v2x)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(v2x)
+			if value is None: raise ValueError
 			self.v2x = value
 			self.parameters['v2x'] = value
 
 		if v2y is not None:
-			value = cast_fortran_real(v2y)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(v2y)
+			if value is None: raise ValueError
 			self.v2y = value
 			self.parameters['v2y'] = value
 
 		if v2z is not None:
-			value = cast_fortran_real(v2z)
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+			value = types.cast_fortran_real(v2z)
+			if value is None: raise ValueError
 			self.v2z = value
 			self.parameters['v2z'] = value
 
@@ -2844,7 +2997,7 @@ class ConeTruncated(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'ConeTruncated'.
 		"""
@@ -2876,43 +3029,43 @@ class ConeTruncated(Surface):
 			r2: Upper cone base radius.
 		"""
 
-		value = cast_fortran_real(vx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vx)
+		if value is None: raise ValueError
 		self.vx = value
 		self.parameters['vx'] = value
 
-		value = cast_fortran_real(vy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vy)
+		if value is None: raise ValueError
 		self.vy = value
 		self.parameters['vy'] = value
 
-		value = cast_fortran_real(vz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vz)
+		if value is None: raise ValueError
 		self.vz = value
 		self.parameters['vz'] = value
 
-		value = cast_fortran_real(hx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(hx)
+		if value is None: raise ValueError
 		self.hx = value
 		self.parameters['hx'] = value
 
-		value = cast_fortran_real(hy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(hy)
+		if value is None: raise ValueError
 		self.hy = value
 		self.parameters['hy'] = value
 
-		value = cast_fortran_real(hz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(hz)
+		if value is None: raise ValueError
 		self.hz = value
 		self.parameters['hz'] = value
 
-		value = cast_fortran_real(r1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r1)
+		if value is None: raise ValueError
 		self.r1 = value
 		self.parameters['r1'] = value
 
-		value = cast_fortran_real(r2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(r2)
+		if value is None: raise ValueError
 		self.r2 = value
 		self.parameters['r2'] = value
 
@@ -2955,7 +3108,7 @@ class Ellipsoid(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'Ellipsoid'.
 		"""
@@ -2985,38 +3138,38 @@ class Ellipsoid(Surface):
 			rm: Minor/major radius length.
 		"""
 
-		value = cast_fortran_real(v1x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v1x)
+		if value is None: raise ValueError
 		self.v1x = value
 		self.parameters['v1x'] = value
 
-		value = cast_fortran_real(v1y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v1y)
+		if value is None: raise ValueError
 		self.v1y = value
 		self.parameters['v1y'] = value
 
-		value = cast_fortran_real(v1z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v1z)
+		if value is None: raise ValueError
 		self.v1z = value
 		self.parameters['v1z'] = value
 
-		value = cast_fortran_real(v2x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v2x)
+		if value is None: raise ValueError
 		self.v2x = value
 		self.parameters['v2x'] = value
 
-		value = cast_fortran_real(v2y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v2y)
+		if value is None: raise ValueError
 		self.v2y = value
 		self.parameters['v2y'] = value
 
-		value = cast_fortran_real(v2z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v2z)
+		if value is None: raise ValueError
 		self.v2z = value
 		self.parameters['v2z'] = value
 
-		value = cast_fortran_real(rm)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(rm)
+		if value is None: raise ValueError
 		self.rm = value
 		self.parameters['rm'] = value
 
@@ -3062,7 +3215,7 @@ class Wedge(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'Wedge'.
 		"""
@@ -3102,63 +3255,63 @@ class Wedge(Surface):
 			v3z: Macrobody vector #3 z component.
 		"""
 
-		value = cast_fortran_real(vx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vx)
+		if value is None: raise ValueError
 		self.vx = value
 		self.parameters['vx'] = value
 
-		value = cast_fortran_real(vy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vy)
+		if value is None: raise ValueError
 		self.vy = value
 		self.parameters['vy'] = value
 
-		value = cast_fortran_real(vz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(vz)
+		if value is None: raise ValueError
 		self.vz = value
 		self.parameters['vz'] = value
 
-		value = cast_fortran_real(v1x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v1x)
+		if value is None: raise ValueError
 		self.v1x = value
 		self.parameters['v1x'] = value
 
-		value = cast_fortran_real(v1y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v1y)
+		if value is None: raise ValueError
 		self.v1y = value
 		self.parameters['v1y'] = value
 
-		value = cast_fortran_real(v1z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v1z)
+		if value is None: raise ValueError
 		self.v1z = value
 		self.parameters['v1z'] = value
 
-		value = cast_fortran_real(v2x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v2x)
+		if value is None: raise ValueError
 		self.v2x = value
 		self.parameters['v2x'] = value
 
-		value = cast_fortran_real(v2y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v2y)
+		if value is None: raise ValueError
 		self.v2y = value
 		self.parameters['v2y'] = value
 
-		value = cast_fortran_real(v2z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v2z)
+		if value is None: raise ValueError
 		self.v2z = value
 		self.parameters['v2z'] = value
 
-		value = cast_fortran_real(v3x)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v3x)
+		if value is None: raise ValueError
 		self.v3x = value
 		self.parameters['v3x'] = value
 
-		value = cast_fortran_real(v3y)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v3y)
+		if value is None: raise ValueError
 		self.v3y = value
 		self.parameters['v3y'] = value
 
-		value = cast_fortran_real(v3z)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(v3z)
+		if value is None: raise ValueError
 		self.v3z = value
 		self.parameters['v3z'] = value
 
@@ -3196,7 +3349,7 @@ class Polyhedron(Surface):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'Polyhedron'.
 		"""
@@ -3272,153 +3425,153 @@ class Polyhedron(Surface):
 			n6: Corresponding corners specifier #6.
 		"""
 
-		value = cast_fortran_real(ax)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(ax)
+		if value is None: raise ValueError
 		self.ax = value
 		self.parameters['ax'] = value
 
-		value = cast_fortran_real(ay)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(ay)
+		if value is None: raise ValueError
 		self.ay = value
 		self.parameters['ay'] = value
 
-		value = cast_fortran_real(az)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(az)
+		if value is None: raise ValueError
 		self.az = value
 		self.parameters['az'] = value
 
-		value = cast_fortran_real(bx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(bx)
+		if value is None: raise ValueError
 		self.bx = value
 		self.parameters['bx'] = value
 
-		value = cast_fortran_real(by)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(by)
+		if value is None: raise ValueError
 		self.by = value
 		self.parameters['by'] = value
 
-		value = cast_fortran_real(bz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(bz)
+		if value is None: raise ValueError
 		self.bz = value
 		self.parameters['bz'] = value
 
-		value = cast_fortran_real(cx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(cx)
+		if value is None: raise ValueError
 		self.cx = value
 		self.parameters['cx'] = value
 
-		value = cast_fortran_real(cy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(cy)
+		if value is None: raise ValueError
 		self.cy = value
 		self.parameters['cy'] = value
 
-		value = cast_fortran_real(cz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(cz)
+		if value is None: raise ValueError
 		self.cz = value
 		self.parameters['cz'] = value
 
-		value = cast_fortran_real(dx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(dx)
+		if value is None: raise ValueError
 		self.dx = value
 		self.parameters['dx'] = value
 
-		value = cast_fortran_real(dy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(dy)
+		if value is None: raise ValueError
 		self.dy = value
 		self.parameters['dy'] = value
 
-		value = cast_fortran_real(dz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(dz)
+		if value is None: raise ValueError
 		self.dz = value
 		self.parameters['dz'] = value
 
-		value = cast_fortran_real(ex)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(ex)
+		if value is None: raise ValueError
 		self.ex = value
 		self.parameters['ex'] = value
 
-		value = cast_fortran_real(ey)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(ey)
+		if value is None: raise ValueError
 		self.ey = value
 		self.parameters['ey'] = value
 
-		value = cast_fortran_real(ez)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(ez)
+		if value is None: raise ValueError
 		self.ez = value
 		self.parameters['ez'] = value
 
-		value = cast_fortran_real(fx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(fx)
+		if value is None: raise ValueError
 		self.fx = value
 		self.parameters['fx'] = value
 
-		value = cast_fortran_real(fy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(fy)
+		if value is None: raise ValueError
 		self.fy = value
 		self.parameters['fy'] = value
 
-		value = cast_fortran_real(fz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(fz)
+		if value is None: raise ValueError
 		self.fz = value
 		self.parameters['fz'] = value
 
-		value = cast_fortran_real(gx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(gx)
+		if value is None: raise ValueError
 		self.gx = value
 		self.parameters['gx'] = value
 
-		value = cast_fortran_real(gy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(gy)
+		if value is None: raise ValueError
 		self.gy = value
 		self.parameters['gy'] = value
 
-		value = cast_fortran_real(gz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(gz)
+		if value is None: raise ValueError
 		self.gz = value
 		self.parameters['gz'] = value
 
-		value = cast_fortran_real(hx)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(hx)
+		if value is None: raise ValueError
 		self.hx = value
 		self.parameters['hx'] = value
 
-		value = cast_fortran_real(hy)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(hy)
+		if value is None: raise ValueError
 		self.hy = value
 		self.parameters['hy'] = value
 
-		value = cast_fortran_real(hz)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(hz)
+		if value is None: raise ValueError
 		self.hz = value
 		self.parameters['hz'] = value
 
-		value = cast_fortran_real(n1)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(n1)
+		if value is None: raise ValueError
 		self.n1 = value
 		self.parameters['n1'] = value
 
-		value = cast_fortran_real(n2)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(n2)
+		if value is None: raise ValueError
 		self.n2 = value
 		self.parameters['n2'] = value
 
-		value = cast_fortran_real(n3)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(n3)
+		if value is None: raise ValueError
 		self.n3 = value
 		self.parameters['n3'] = value
 
-		value = cast_fortran_real(n4)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(n4)
+		if value is None: raise ValueError
 		self.n4 = value
 		self.parameters['n4'] = value
 
-		value = cast_fortran_real(n5)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(n5)
+		if value is None: raise ValueError
 		self.n5 = value
 		self.parameters['n5'] = value
 
-		value = cast_fortran_real(n6)
-		if value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)
+		value = types.cast_fortran_real(n6)
+		if value is None: raise ValueError
 		self.n6 = value
 		self.parameters['n6'] = value
 

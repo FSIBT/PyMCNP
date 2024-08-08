@@ -6,8 +6,8 @@
 from typing import *
 
 from . import *
-from .. import parser
-from .. import types
+from .._utils import parser
+from .._utils import types
 
 
 class Header:
@@ -16,7 +16,7 @@ class Header:
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__'
 		"""
@@ -43,8 +43,74 @@ class Header:
 			PtracKeywords.WRITE: None, 
 			PtracKeywords.UNKNOWN: None, 
 		}
-		self.numbers: list[int] = None
-		self.ids: list[int] = None
+		self.numbers: tuple[int] = None
+		self.ids: tuple[int] = None
+
+
+	def set_code(self, code: str) -> None:
+		"""
+		'set_code'
+		"""
+
+		if code is None:
+			raise ValueError
+
+		self.code = code
+
+
+	def set_code_date(self, code_date: str) -> None:
+		"""
+		'set_code_date'
+		"""
+
+		if code_date is None:
+			raise ValueError
+
+		self.code_date = code_date
+
+
+	def set_version(self, version: str) -> None:
+		"""
+		'set_version'
+		"""
+
+		if version is None:
+			raise ValueError
+
+		self.version = version
+
+
+	def set_run_date(self, run_date: str) -> None:
+		"""
+		'set_run_date'
+		"""
+
+		if run_date is None:
+			raise ValueError
+
+		self.run_date = run_date
+
+
+	def set_run_time(self, run_time: str) -> None:
+		"""
+		'set_run_time'
+		"""
+
+		if run_time is None:
+			raise ValueError
+
+		self.run_time = run_time
+
+
+	def set_title(self, title: str) -> None:
+		"""
+		'set_title'
+		"""
+
+		if title is None or not (len(title) < 80):
+			raise ValueError
+
+		self.title = title
 
 
 	@classmethod
@@ -58,74 +124,80 @@ class Header:
 		lines = parser.Parser(preprocess_ptrac(source), '\n', EOFError)
 
 		# Processing Magic Number
-		if lines.pop() != '-1': raise SyntaxError
+		if lines.popl() != '-1': raise SyntaxError
 
 		# Processing Header
-		entries = parser.Parser(lines.pop(), ' ', EOFError)
-		if len(entries) != 5: raise SyntaxError
-		header.code, header.code_date, header.version, header.run_date, header.run_time = entries.deque
+		tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+		if len(tokens) != 5: raise SyntaxError
+
+		print(tokens)
+		header.set_code(tokens.popl())
+		header.set_version(tokens.popl())
+		header.set_code_date(tokens.popl())
+		header.set_run_date(tokens.popl())
+		header.set_run_time(tokens.popl())
 
 		# Processing Title
-		line = lines.pop()
-		if len(line) > 80: return SyntaxError
-		header.title = line
+		header.set_title(lines.popl())
 
-		# Processing Input Block
-		entries = parser.Parser(lines.pop(), ' ', EOFError)
-		if len(entries) != 10: raise SyntaxError
+		# Processing Settings Block
+		tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+		if len(tokens) != 10: raise SyntaxError
 
-		m = types.cast_fortran_real(entries.pop(), lambda f: f == 13 or f == 14 and int(f) - f == 0)
-		if m is None: raise SyntaxError
+		m = types.cast_fortran_real(tokens.popl(), lambda f: f == 13 or f == 14)
+		if m is None: raise ValueError
 
 		for i in range(0, int(m)):
-			if not entries:
-				entries = parser.Parser(lines.pop(), ' ', EOFError)
-				if len(entries) != 10: raise SyntaxError
+			if not tokens:
+				tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+				if len(tokens) != 10: raise SyntaxError
 
-			n = types.cast_fortran_real(entries.pop(), lambda f: f >= 0 and int(f) - f == 0)
-			if n is None: raise SyntaxError
+			n = types.cast_fortran_real(tokens.popl(), lambda f: f >= 0)
+			if n is None: raise ValueError
 
 			values = [None] * int(n)
 			for j in range(0, int(n)):
-				if not entries:
-					entries = parser.Parser(lines.pop(), ' ', EOFError)
-					if len(entries) != 10: raise SyntaxError
+				if not tokens:
+					tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+					if len(tokens) != 10: raise SyntaxError
 
-				values[j] = entries.pop()
+				values[j] = tokens.popl()
 
-			header.settings[PtracKeywords(i + 1)] = values
+			header.settings[PtracKeywords(i + 1)] = tuple(values)
 
-		while entries:
-			if types.cast_fortran_real(entries.pop(), lambda f: f == 0) is None: raise ValueError
+		while tokens:
+			if types.cast_fortran_real(tokens.popl(), lambda f: f == 0) is None: raise ValueError
 
 		# Processing Numbers
-		entries = lines.pop().split(' ')
-		if len(entries) != 20: raise SyntaxError
-		header.numbers = [None] * 20
+		tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+		if len(tokens) != 20: raise SyntaxError
 
-		for i, entry in enumerate(entries):
-			n = types.cast_fortran_integer(entry, lambda i: i >= 0)
+		numbers = []
+		while tokens:
+			n = types.cast_fortran_integer(tokens.peekl(), lambda i: i >= 0)
 			if n is None: raise SyntaxError
 
-			header.numbers[i] = n
+			numbers.append(n)
+			tokens.popl()
+
+		header.numbers = tuple(numbers)
+
+		#if numbers[1:12] not in {[5, 3, 6, 3, 6, 3, 6, 3, 6, 3], [6, 3, 7, 3, 7, 3, 7, 3, 7, 3], [6, 9, 7, 9, 7, 9, 7, 9, 7, 9], [7, 9, 8, 9, 8, 9, 8, 9, 8, 9]}:
+			#raise SyntaxError
 
 		# Processing Entry Counts
-		entries = parser.Parser(lines.pop(), ' ', EOFError)
-		if len(entries) > 30: raise SyntaxError
+		tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+		if len(tokens) > 30: raise SyntaxError
 
 		total = sum(header.numbers[:10])
 		header.ids = [None] * total
 
 		for i in range(0, total):
-			if not entries:
-				line = lines.pop()
-				entries = parser.Parser(line, ' ', EOFError)
-				if len(entries) > 30: raise SyntaxError
+			if not tokens:
+				tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+				if len(tokens) > 30: raise SyntaxError
 
-			header.ids[i] = entries.pop()
-
-		while entries:
-			if types.cast_fortran_real(entries.pop(), lambda f: f == 0) is None: raise ValueError
+			header.ids[i] = tokens.popl()
 
 		return header, '\n'.join(list(lines.deque))
 

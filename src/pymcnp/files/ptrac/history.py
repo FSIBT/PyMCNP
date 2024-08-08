@@ -8,8 +8,8 @@ from typing import *
 from . import *
 from .event import Event
 from .header import Header
-from .. import parser
-from .. import types
+from .._utils import parser
+from .._utils import types
 
 
 class History:
@@ -18,18 +18,87 @@ class History:
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__'
 		"""
 
+		self.header: Header = None
+		self.next_type: EventTypes = None
+
 		self.nps: int = None
-		self.type: PtracEventType = None
-		self.cell_number: int = None
-		self.surface_number: int = None
-		self.tally_number: int = None
-		self.tfc: float = None
+		self.ncl: int = None
+		self.nsf: int = None
+		self.jptal: int = None
+		self.tal: int = None
+
 		self.events: list[Event] = None
+
+
+	def set_nps(self, nps: int) -> None:
+		"""
+		'set_nps'
+		"""
+
+		if nps is None:
+			raise ValueError
+
+		self.nps = nps
+
+
+	def set_ncl(self, ncl: int) -> None:
+		"""
+		'set_ncl'
+		"""
+
+		if ncl is None:
+			raise ValueError
+
+		self.ncl = ncl
+
+
+	def set_nfs(self, nfs: int) -> None:
+		"""
+		'set_nfs'
+		"""
+
+		if nfs is None:
+			raise ValueError
+
+		self.nfs = nfs
+
+
+	def set_jptal(self, jptal: int) -> None:
+		"""
+		'set_jptal'
+		"""
+
+		if jptal is None:
+			raise ValueError
+
+		self.jptal = jptal
+
+
+	def set_tal(self, tal: int) -> None:
+		"""
+		'set_tal'
+		"""
+
+		if tal is None:
+			raise ValueError
+
+		self.tal = tal
+
+
+	def set_next_type(self, next_type: Event.EventTypes) -> None:
+		"""
+		'set_next_type'
+		"""
+
+		if next_type is None:
+			return ValueError
+
+		self.next_type = next_type
 
 
 	@classmethod
@@ -39,20 +108,47 @@ class History:
 		"""
 
 		history = cls()
+		history.header = header
 
 		lines = parser.Parser(preprocess_ptrac(source), '\n', EOFError)
 
-		# Processing I Lines
-		entries = lines.pop().split(' ')
-		if len(entries) != header.numbers[0]: raise SyntaxError
-		#history.nps, history.type, history.cell_number, history.surface_number, history.tally_number, history.TFC = entries
+		# Processing I Line
+		tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+		if len(tokens) != header.numbers[0]: raise SyntaxError
+
+		for i in range(0, header.numbers[0]):
+			match header.ids[i]:
+				case '1':
+					value = cast_fortran_integer(tokens.popl())
+					history.set_nps(value)
+				case '2':
+					value = Event.EventTypes.cast_mcnp_event_types(tokens.popl())
+					history.set_next_type(value)
+				case '3':
+					value = cast_fortran_integer(tokens.popl())
+					history.set_ncl(value)
+				case '4':
+					value = cast_fortran_integer(tokens.popl())
+					history.set_nsf(value)
+				case '5':
+					value = cast_fortran_integer(tokens.popl())
+					history.set_jptal(value)
+				case '6':
+					value = cast_fortran_real(tokens.popl())
+					history.set_tal(value)
 
 		# Processing J & P Lines
-		history.events = []
+		events = []
 
-		entries = lines.peek().split(' ')
-		while len(lines) >= 2 and types.cast_fortran_integer(entries[0]) is not None and types.cast_fortran_integer(entries[-1]) is not None:
-			history.events.append(Event().from_mcnp(lines.pop() + '\n' + lines.pop()))
+		tokens = parser.Parser(lines.peekl(), ' ', SyntaxError) 
+
+		next_type = history.next_type
+		while next_type != Event.EventTypes.FLAG:
+			event = Event().from_mcnp(lines.popl() + '\n' + lines.popl(), history.header, next_type)
+			events.append(event)
+			next_type = event.next_type
+
+		history.events = tuple(events)
 
 		return history, '\n'.join(list(lines.deque))
 
@@ -62,5 +158,5 @@ class History:
 		'to_arguments'
 		"""
 
-		return {'nps': self.nps, 'type': self.type, 'cell_number': self.cell_number, 'surface_number': self.surface_number, 'tally_number': self.tally_number, 'tfc': self.tfc, 'events': [event.to_arguments() for event in self.events]}
+		return {'nps': self.nps, 'ncl': self.ncl, 'nsf': self.nsf, 'jptal': self.jptal, 'tal': self.tal, 'events': [event.to_arguments() for event in self.events]}
 

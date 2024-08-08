@@ -318,7 +318,7 @@ def generate_subsurfaces():
 		out += f"\t\"\"\"\n"
 		out += f"\n"
 		out += f"\n"
-		out += f"\tdef __init__(self):\n"
+		out += f"\tdef __init__(self) -> Self:\n"
 		out += f"\t\t\"\"\"\n"
 		out += f"\t\t\'__init__\' initializes \'{className}\'.\n"
 		out += f"\t\t\"\"\"\n"
@@ -351,7 +351,7 @@ def generate_subsurfaces():
 		for paramName, paramComment in parameters:
 			out += f"\n"
 			out += f"\t\tvalue = cast_fortran_real({paramName})\n"
-			out += f"\t\tif value is None: raise INPValueError(INPValueError.Codes.INVALID_SURFACE_PARAMETER)\n"
+			out += f"\t\tif value is None: raise ValueError\n"
 			out += f"\t\tself.{paramName} = value\n"
 			out += f"\t\tself.parameters['{paramName}'] = value\n"
 

@@ -1,27 +1,34 @@
 """
 'card' contains classes representing INP cards.
 
-Classes:
-	Card: Representaion of generic INP cards.
+'card' packages the 'Card' class, providing an importable inferace
+for generic INP cards.
 """
+
+
+from typing import *
 
 
 class Card:
 	""" 
 	'Card' represents generic INP cards.
 
-	Fields:
-		id (Union[id, str]): Card identifier.
+	'Card' abstracts the commonalities of INP cell, surface, and data
+	cards. It represents INP cards as abstract syntax elements.
 
-	Methods:
-		__init__: Initializes 'Card'.
+	Attributes:
+		id: Card identifier.
+		line: Line number.
+		comment: Inline comment.
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initalizes 'Card'.
 		"""
 
-		self.id = None
+		self.id: Union[int, str] = None
+		self.line: int = None
+		self.comment: str = None
 

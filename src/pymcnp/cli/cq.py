@@ -13,7 +13,7 @@ import sys
 import datetime
 from typing import *
 
-from . import *
+from . import _save
 from ..files.inp import inp
 
 

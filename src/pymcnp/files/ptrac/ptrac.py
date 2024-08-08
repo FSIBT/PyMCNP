@@ -7,14 +7,12 @@ from enum import *
 from typing import *
 import tempfile
 import collections
-import multiprocessing
-
-import mcnptools
 
 from . import *
 from .header import Header
 from .history import History
-from .. import parser
+from .._utils import parser
+from .._utils import types
 
 
 class Ptrac:
@@ -22,7 +20,7 @@ class Ptrac:
 	'Ptrac'
 	"""
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__'
 		"""
@@ -43,11 +41,13 @@ class Ptrac:
 		ptrac.header, lines = Header().from_mcnp(source)
 
 		# Processing History
-		ptrac.histories = []
+		histories = []
 
 		while lines:
 			history, lines = History().from_mcnp(lines, ptrac.header)
-			ptrac.histories.append(history)
+			histories.append(history)
+
+		ptrac.histories = tuple(histories)
 
 		return ptrac
 
@@ -59,9 +59,9 @@ class Ptrac:
 		"""
 
 		with open(filename, 'r') as file:
-			source = '\n'.join(file.readlines())
+			source = ''.join(file.readlines())
 
-		return self.from_mcnp(source)
+		return cls.from_mcnp(source)
 
 
 	def to_arguments(self) -> dict:

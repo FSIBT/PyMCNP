@@ -11,8 +11,6 @@ from typing import *
 from .block import Block
 from .datum import Datum
 
-from . import *
-
 
 class Data(Block):
 	"""
@@ -27,7 +25,7 @@ class Data(Block):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initalizes 'Data'.
 		"""
@@ -55,23 +53,6 @@ class Data(Block):
 			block.append(Datum.from_mcnp(line))
 
 		return block
-
-
-	@classmethod
-	def from_arguments(cls, datum_cards: str) -> Self:
-		"""
-		'from_arguments' generates data block objects from arguments.
-
-		Parameters:
-			datum_cards (list): List of datum cards.
-		"""
-
-		data = cls()
-
-		for datum in datum_cards:
-			data.append(datum)
-
-		return data
 
 
 	def to_mcnp(self) -> str:

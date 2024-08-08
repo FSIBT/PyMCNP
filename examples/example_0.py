@@ -9,7 +9,7 @@ display the cadquery result, copy the output into a Jupyter notebook and call
 import pymcnp
 
 # Reading in MCNP INP.
-simulation = pymcnp.files.inp.inp.Inp().from_mcnp_file('examples/inp_files/example_0_input.inp')
+simulation = pymcnp.files.inp.inp.Inp().from_mcnp_file('files/example_0_input.inp')
 
 # Writing Cadquery.
-simulation.surfaces.to_cadquery_file('examples/cadquery_files/example_0_output.py')
+simulation.surfaces.to_cadquery_file('files/example_0_output.py')

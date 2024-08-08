@@ -14,9 +14,7 @@ import shutil
 import datetime
 from typing import *
 
-from ..files.inp import inp
-from . import *
-
+from ..files import inp
 
 class Run:
 
@@ -26,10 +24,8 @@ class Run:
 
 		Parameters:
 			path: Path to working directory.
+			command: Command to execute.
 		"""
-
-		#if shutil.which(path) is None: raise ValueError
-		#if shutil.which(command) is None: raise ValueError
 
 		self.path = path
 		self.command = command
@@ -49,7 +45,7 @@ class Run:
 		runner = cls('.')
 
 		runner.inpt = inpt
-		runner.filename = f"mcnp-save-{datetime.datetime.utcnow().timestamp()}.i"
+		runner.filename = f"mcnp-save-{get_timestamp()}.i"
 		inpt.to_mcnp_file(runner.filename)
 
 		return runner
@@ -66,8 +62,8 @@ class Run:
 		
 		runner = cls('.')
 
-		if not filename.isfile(): raise ValueError
-		runner.inpt = inp.Inp().from_mcnp_file(filename)
+		if not os.path.isfile(filename): raise ValueError
+		runner.inpt = files.inp.Inp().from_mcnp_file(filename)
 		runner.filename = filename
 
 		return runner
@@ -78,7 +74,7 @@ class Run:
 		'run_inp' runs INP files using MCNP.
 		"""
 
-		run_directory = f"{self.path}/pymcnp-run-{datetime.datetime.utcnow().timestamp()}"
+		run_directory = f"{self.path}/pymcnp-run-{get_timestamp()}"
 		os.mkdir(run_directory)
 
 		os.system(f"{self.command} I={self.filename}")
@@ -94,7 +90,7 @@ class Run:
 			count (int): Number of parallel runs.
 		"""
 
-		parallel_directory = f"{self.path}/pymcnp-parallel-{datetime.datetime.utcnow().timestamp()}"
+		parallel_directory = f"{self.path}/pymcnp-parallel-{get_timestamp()}"
 		
 		subrun = Run(parallel_directory)
 		for i in range(0, count):
@@ -130,13 +126,12 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
 
 		case '-f' | '--file':
 			if len(argv) < 2: error(ERROR_INSUFFICENT_ARGS)
-			if argv[2] not in inps: error(ERROR_INP_NOT_FOUND) 
 
 			print(INFO_RUNNING_MCNP)
 
-			run = Run().from_inp_file(argv[2])
+			run = Run('.').from_inp_file(argv[1])
 
-			match argv[3] if argv[3:] else None:
+			match argv[2] if argv[2:] else None:
 				case '-p' | '--parallel':
 					run.run_inp_parallel(10)
 				case None:

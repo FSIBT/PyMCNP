@@ -15,76 +15,80 @@ import sys
 from . import *
 from ..files.inp import inp
 
-
-def list_cells(inpt: inp.Inp) -> str:
+class Ls:
 	"""
-	'list_cells' outputs strings of INP object cell information.
-
-	Parameters:
-		inpt (Inp): INP object.
-
-	Returns:
-		out (str): String of INP object cell information.
+	'Ls'
 	"""
 
-	out ="\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^25.25}\x1b[24m\n".format('NUMBER', 'MATERIAL', 'DENSITY', 'GEOMETRY')
-	
-	for cell in inpt.cells.cards.values():
-		out += f"{cell.number:<12} {cell.material:<12} {cell.density if cell.density else '':<12} {cell.geometry.to_mcnp()}\n"
-	
-	return out
+	def list_cells(inpt: inp.Inp) -> str:
+		"""
+		'list_cells' outputs strings of INP object cell information.
+
+		Parameters:
+			inpt (Inp): INP object.
+
+		Returns:
+			out (str): String of INP object cell information.
+		"""
+
+		out ="\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^25.25}\x1b[24m\n".format('NUMBER', 'MATERIAL', 'DENSITY', 'GEOMETRY')
+		
+		for cell in inpt.cells.cards.values():
+			out += f"{cell.number:<12} {cell.material:<12} {cell.density if cell.density else '':<12} {cell.geometry.to_mcnp()}\n"
+		
+		return out
 
 
-def list_surfaces(inpt: inp.Inp) -> str:
-	"""
-	'list_surfaces' outputs strings of INP object surface information.
+	def list_surfaces(inpt: inp.Inp) -> str:
+		"""
+		'list_surfaces' outputs strings of INP object surface information.
 
-	Parameters:
-		inpt (Inp): INP object.
+		Parameters:
+			inpt (Inp): INP object.
 
-	Returns:
-		out (str): String of INP object surface information.
-	"""
+		Returns:
+			out (str): String of INP object surface information.
+		"""
 
-	out ="\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m\n".format('NUMBER', 'MNEMONIC', 'TRANSFORM')
-	
-	for surface in inpt.surfaces.cards.values():
-		out += f"{surface.number:<12} {surface.mnemonic:<12} {surface.transfrom if surface.transform else '':<12}\n"
-	
-	return out
-
-
-def list_data(inpt: inp.Inp) -> str:
-	"""
-	'list_data' outputs strings of INP object datum information.
-
-	Parameters:
-		inpt (Inp): INP object.
-
-	Returns:
-		out (str): String of INP object datum information.
-	"""
-
-	out = "\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m\n".format('MNEMONIC', 'NUMBER')
-	
-	for datum in inpt.data.cards.values():
-		out += f"{datum.mnemonic:<12.12} {datum.number if datum.number else '':<12.12}\n"
-	
-	return out
+		out ="\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m\n".format('NUMBER', 'MNEMONIC', 'TRANSFORM')
+		
+		for surface in inpt.surfaces.cards.values():
+			out += f"{surface.number:<12} {surface.mnemonic:<12} {surface.transfrom if surface.transform else '':<12}\n"
+		
+		return out
 
 
-def list_inp(inpt: inp.Inp) -> str:
-	"""
-	'list_inp' outputs strings of all INP object information.
+	def list_data(inpt: inp.Inp) -> str:
+		"""
+		'list_data' outputs strings of INP object datum information.
 
-	Parameters:
-		inpt (Inp): INP object.
+		Parameters:
+			inpt (Inp): INP object.
 
-	Returns:
-		out (str): String of all INP object information.
-	"""
+		Returns:
+			out (str): String of INP object datum information.
+		"""
 
-	return '\n' + list_cells(inpt) + '\n' + list_surfaces(inpt) + '\n' + list_data(inpt)
+		out = "\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m\n".format('MNEMONIC', 'NUMBER')
+		
+		for datum in inpt.data.cards.values():
+			out += f"{datum.mnemonic:<12.12} {datum.number if datum.number else '':<12.12}\n"
+		
+		return out
+
+
+	def list_inp(inpt: inp.Inp) -> str:
+		"""
+		'list_inp' outputs strings of all INP object information.
+
+		Parameters:
+			inpt (Inp): INP object.
+
+		Returns:
+			out (str): String of all INP object information.
+		"""
+
+		return '\n' + list_cells(inpt) + '\n' + list_surfaces(inpt) + '\n' + list_data(inpt)
 
 
 def main(argv: list[str] = sys.argv[1:]) -> None:

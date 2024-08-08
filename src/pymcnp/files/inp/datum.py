@@ -11,9 +11,9 @@ import collections
 import re
 
 from .card import Card
-from .errors import *
-from . import *
-
+from .._utils import parser
+from .._utils import errors
+from .._utils import types
 
 class Datum(Card):
 	"""
@@ -43,61 +43,8 @@ class Datum(Card):
 	MNUMONICS_ALL = ('vol', 'area', 'tr', 'trcl', 'u', 'lat', 'fill', 'uran', 'dawwg', 'dm', 'embed', 'embee', 'embeb', 'embem', 'embtb', 'embtm', 'm', 'mt', 'mx', 'mpn', 'otfbd', 'totnu', 'nonu', 'awtab', 'xs', 'void', 'mgopt', 'drxs', 'mode', 'phys', 'act', 'cut', 'elpt', 'tmp', 'thtme', 'mphys', 'lca', 'lcb', 'lcc', 'lea', 'leb', 'fmult', 'tropt', 'unc', 'cosp', 'cosy', 'bfld', 'bflcl', 'field', 'sdef', 'si', 'sp', 'sb', 'ds', 'sc', 'ssw', 'ssr', 'kcode', 'ksrc', 'kopts', 'hsrc', 'burn', 'source', 'srcdx', 'f', 'fip', 'fir', 'fic', 'fc', 'e', 't', 'c', 'fq', 'fm', 'de', 'df', 'em', 'tm', 'cm', 'cf', 'sf', 'fs', 'sd', 'fu', 'tallyx', 'ft', 'tf', 'notrn', 'pert', 'kpert', 'ksen', 'tmesh', 'fmesh', 'spdtl', 'imp', 'var', 'wwe', 'wwt', 'wwn', 'wwp', 'wwg', 'wwge', 'wwgt', 'mesh', 'esplt', 'tsplt', 'ext', 'vect', 'fcl', 'bxt', 'dd', 'pd', 'dxc', 'bbrem', 'pikmt', 'spabi', 'pwt', 'nps', 'ctme', 'stop', 'print', 'talnp', 'prdmp', 'ptrac', 'mplot', 'histp', 'rand', 'dbcn', 'lost', 'idum', 'rdym', 'za', 'zb', 'zc', 'zd', 'files')
 	MNUMONICS_EXTENDED = ('m', 'mt', 'mx')
 
-	CARD_SYNTAX = {
-		'p4': [('a', 'float'), ('B', 'float'), ('C', 'float'), ('D', 'float')],
-		'px': [('D', 'float')],
-		'py': [('D', 'float')],
-		'pz': [('D', 'float')],
-		'so': [('r', 'float')],
-		's': [('x', 'float'), ('y', 'float'), ('z', 'float'), ('r', 'float')],
-		'sx': [('x', 'float'), ('r', 'float')],
-		'sy': [('y', 'float'), ('r', 'float')],
-		'sz': [('z', 'float'), ('r', 'float')],
-		'c/y': [('x', 'float'), ('z', 'float'), ('r', 'float')],
-		'c/z': [('x', 'float'), ('y', 'float'), ('r', 'float')],
-		'cx': [('r', 'float')],
-		'cy': [('r', 'float')],
-		'cz': [('r', 'float')],
-		'k/x': [('x', 'float'), ('y', 'float'), ('z', 'float'), ('t^2', 'float'), ('+-1' , 'float')],
-		'k/y': [('x', 'float'), ('y', 'float'), ('z', 'float'), ('t^2', 'float'), ('+-1' , 'float')],
-		'k/z': [('x', 'float'), ('y', 'float'), ('z', 'float'), ('t^2', 'float'), ('+-1' , 'float')],
-		'kx': [('x', 'float'), ('t^2', 'float'), ('+-1', 'float')],
-		'ky': [('y', 'float'), ('t^2', 'float'), ('+-1', 'float')],
-		'kz': [('z', 'float'), ('t^2', 'float'), ('+-1', 'float')],
-		'sq': [('A', 'float'), ('B', 'float'), ('C', 'float'), ('D', 'float'), ('E', 'float'), ('F', 'float'), ('G', 'float'), ('x', 'float'), ('y', 'float'), ('z', 'float')],
-		'gq': [('A', 'float'), ('B', 'float'), ('C', 'float'), ('D', 'float'), ('E', 'float'), ('F', 'float'), ('G', 'float'), ('H', 'float'), ('J', 'float'), ('K', 'float')],
-		'tx': [('x', 'float'), ('y', 'float'), ('z', 'float'), ('A', 'float'), ('B', 'float'), ('C', 'float')],
-		'ty': [('x', 'float'), ('y', 'float'), ('z', 'float'), ('A', 'float'), ('B', 'float'), ('C', 'float')],
-		'tz': [('x', 'float'), ('y', 'float'), ('z', 'float'), ('A', 'float'), ('B', 'float'), ('C', 'float')],
-		'x2': [('xr1', '2darray')],
-		'y2': [('yr1', '2darray')],
-		'z2': [('zr1', '2darray')],
-		'x4': [('xr1', '2darray'), ('xr2', '2darray')],
-		'y4': [('yr1', '2darray'), ('yr2', '2darray')],
-		'z4': [('zr1', '2darray'), ('zr2', '2darray')],
-		'x6': [('xr1', '2darray'), ('xr2', '2darray'), ('xr3', '2darray')],
-		'y6': [('yr1', '2darray'), ('yr2', '2darray'), ('yr3', '2darray')],
-		'z6': [('zr1', '2darray'), ('zr2', '2darray'), ('zr3', '2darray')],
-		'p9': [('xyz1' '3darray'), ('xyz2', '3darray'), ('xyz3', '3darray')],
-		'box': [('v', '3darray'), ('a1', '3darray'), ('a2', '3darray'), ('a3', '3darray')],
-		'rpp': [('xmin', 'float'), ('xmax', 'float'), ('ymin', 'float'), ('ymax', 'float'), ('zmin', 'float'), ('zmax', 'float')],
-		'sph': [('v', '3darray'), ('r', 'float')],
-		'rcc': [('v', '3darray'), ('h', '3darray'), ('r', 'float')],
-		'rhp9': [('v', '3darray'), ('h', '3darray'), ('r', '3darray')],
-		'hex9': [('v', '3darray'), ('h', '3darray'), ('r', '3darray')],
-		'rhp15': [('v', '3darray'), ('h', '3darray'), ('r', '3darray'), ('s', '3darray'), ('t', '3darray')],
-		'hex15': [('v', '3darray'), ('h', '3darray'), ('r', '3darray'), ('s', '3darray'), ('t', '3darray')],
-		'rec10': [('v', '3darray'), ('h', '3darray'), ('v1', '3darray'), ('r', 'float')],
-		'rec12': [('v', '3darray'), ('h', '3darray'), ('v1', '3darray'), ('v2', '3darray')],
-		'trc': [('v', '3darray'), ('h', '3darray'), ('r1', 'float'), ('r2', 'float')],
-		'ell': [('v1', '3darray'), ('v2', '3darray'), ('rm', 'float')],
-		'wed': [('v', '3darray'), ('v1', '3darray'), ('v2', '3darray'), ('v3', '3darray')],
-		'arb': [('a', '3darray'), ('b', '3darray'), ('c', '3darray'), ('d', '3darray'), ('e', '3darray'), ('f', '3darray'), ('g', '3darray'), ('h', '3darray'), ('n', '6darray')]
-	}
 
-
-
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initalizes 'Datum'
 		"""

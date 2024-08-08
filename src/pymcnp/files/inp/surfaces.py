@@ -11,8 +11,6 @@ from typing import *
 from .block import Block
 from .surface import Surface
 
-from . import *
-
 
 class Surfaces(Block):
 	"""
@@ -29,7 +27,7 @@ class Surfaces(Block):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initalizes 'Surfaces'.
 		"""
@@ -57,23 +55,6 @@ class Surfaces(Block):
 			block.append(Surface.from_mcnp(line))
 
 		return block
-
-
-	@classmethod
-	def from_arguments(cls, cell_cards: list[Surface]) -> Self:
-		"""
-		'from_arguments' generates surface block objects from arguments.
-
-		Parameterrs:
-			surface_cards (list): List of surface cards.
-		"""
-
-		surfaces = cls()
-
-		for surface in surface_cards:
-			surfaces.append(surface)
-
-		return surfaces
 
 
 	def to_mcnp(self) -> str:

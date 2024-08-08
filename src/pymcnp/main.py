@@ -6,7 +6,9 @@ Functions:
 """
 
 
+import os
 import sys
+from typing import *
 
 from . import version
 from .cli import *
@@ -14,7 +16,13 @@ from .cli import run
 from .cli import ls
 from .cli import cq
 from .cli import inpt
-from .files.inp import errors as inp_errors
+from .files._utils import parser
+from .files._utils import errors
+from .files._utils import types
+
+
+PYMCNP_DIR = '.pymcnp/'
+PYMCNP_SAVE_FILE = PYMCNP_DIR + 'pymcnp-save.txt'
 
 
 def main(argv: list[str] = sys.argv[1:]) -> None:
@@ -22,7 +30,14 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
 	'main' runs the PYMCNP command line.
 	"""
 
-	#try:
+	# Initializing PYMCNP Directory
+	if not os.path.isdir(PYMCNP_DIR):
+		os.mkdir(PYMCNP_DIR)
+		os.system(f"touch {PYMCNP_SAVE_FILE}")
+	elif not os.path.isfile(PYMCNP_SAVE_FILE):
+		os.system(f"touch {PYMCNP_SAVE_FILE}")
+
+	# Processing Command
 	match argv[0] if argv else None:
 		case 'ls':
 			ls.main(argv[1:])

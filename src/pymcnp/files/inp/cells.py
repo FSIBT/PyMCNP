@@ -1,8 +1,8 @@
 """
 'cells' contains classes representing INP cell card blocks.
 
-Classes:
-	Cells: Representaion of INP cell card blocks.
+'cells' packages the 'Cells' class, providing an importable interface
+for INP cell card blocks.
 """
 
 
@@ -10,8 +10,6 @@ from typing import *
 
 from .block import Block
 from .cell import Cell
-
-from . import *
 
 
 class Cells(Block):
@@ -27,7 +25,7 @@ class Cells(Block):
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initalizes 'Cells'.
 		"""
@@ -55,23 +53,6 @@ class Cells(Block):
 			block.append(Cell.from_mcnp(line))
 
 		return block
-
-
-	@classmethod
-	def from_arguments(cls, cell_cards: list[Cell]) -> Self:
-		"""
-		'from_arguments' generates cell block objects from arguments.
-
-		Parameterrs:
-			cell_cards (list): List of cell cards.
-		"""
-
-		cells = cls()
-
-		for cell in cell_cards:
-			cells.append(cell)
-
-		return cells
 
 
 	def to_mcnp(self) -> str:

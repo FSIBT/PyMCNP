@@ -9,10 +9,10 @@ from enum import StrEnum
 
 
 Z_PATTERN = re.compile(r"\A[+-]?[0-9]+\Z")
-R_PATTERN = re.compile(r"\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*))([Ee]([+-][0-9]+))?\Z")
+R_PATTERN = re.compile(r"\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([Ee]([+-][0-9]+))?\Z")
 
 DESIGNATORS = {'n', 'q', 'p', 'e', 'f', '|', '!', 'u', '<', 'v', '>', 'h', 'g', 'l', 'b', '+', '_', '-', '~', 'x', 'c', 'y', 'w', 'o', '@', '/', '*', 'z', 'k', '?', '%', '^', 'd', 't', 's', 'a', '#'}
-
+SURFACE_MNEMONICS = {'p', 'px', 'py', 'pz', 'so', 's', 'sx', 'sy', 'sz', 'c/x', 'c/y', 'c/z', 'cx', 'cy', 'cz', 'k/x', 'k/y', 'k/z', 'kx', 'ky', 'kx', 'sq', 'gq', 'tx', 'ty', 'tz', 'x', 'y', 'z', 'box', 'rpp', 'sph', 'rcc', 'rhp', 'hex', 'rec', 'trc', 'ell', 'wed', 'arb'}
 
 def cast_fortran_integer(string: str, hook: Callable[int, bool] = lambda _ : True) -> int:
 	"""

@@ -1,8 +1,8 @@
 """
 'cell' contains the class representing INP cell cards.
 
-Classes:
-	Cell: Representation of INP cell cards.
+'cell' packages the 'Cell' class, providing an importable interface
+for INP cell cards.
 """
 
 
@@ -11,41 +11,45 @@ from typing import *
 import collections
 import re
 
-from . import *
-from .card import Card
-from .errors import *
-from ..types import *
-from ..parser import *
+from . import card
+from .._utils import parser
+from .._utils import errors
+from .._utils import types
 
 
-class Cell(Card):
+class Cell(card.Card):
 	"""
 	'Cell' represents INP cell cards.
 
-	Fields:
-		number (int): Cell card number.
-		material (int): Cell material number.
-		density (int): Cell density value.
-		geometry (str): Cell geometry specification.
-		parameters (dict[float]): Cell parameter table.
-
-	Methods:
-		__init__: Initializes 'Cell'.
-		from_mcnp: Generates cell card objects from INP.
-		from_arguments: Generates cell card objects from arguments.
-		to_mcnp: Generates INP from cell card objects.
-		to_arguments: Generates dictionaries from cell card objects.
+	Attributes:
+		number: Cell card number.
+		material: Cell material number.
+		density: Cell density value.
+		geometry: Cell geometry specification.
+		parameters: Cell parameter table.
 	"""
+
 
 	class CellGeometry:
 		"""
-		'CellGeometry'
+		'CellGeometry' represents INP cell card geometry formulas.
+
+		'CellGeometry' functions as a data type for 'Cell'. It
+		represents INP cell card geometry formulas as abstract
+		syntax elements.
+
+		Attributes:
+			str: String representation.
+			rpn: Postfix representation.
 		"""
 
 
-		def __init__(self):
+		_OPERATIONS_ORDER = {'#': 0, ' ': 1, ':': 2}
+
+
+		def __init__(self) -> Self:
 			"""
-			'__init__'
+			'__init__' initializes 'CellGeometry'
 			"""
 			
 			self.str: str = None
@@ -55,29 +59,40 @@ class Cell(Card):
 		@classmethod
 		def from_mcnp(cls, source: str) -> Self:
 			"""
-			'from_mcnp'
+			'from_mcnp' generates cell geometry objects from INP.
+
+			'from_mcnp' constructs instances of 'CellGeometry' from
+			INP strings, so it functions as a class constructor. It
+			transforms source strings into postfix notation to check
+			for syntax and semantic errors.
+
+			Parameters:
+				source: INP for cell geometry.
+
+			Raises:
+				MCNPSemanticError: Invalid cell geometry.
+				MCNPSyntaxError: Extra tokens in cell geometry.
 			"""
 
 			geometry = cls()
 
 			# Processing Source
-			processed_source = re.sub(r"\n     ", '', source)
+			source = re.sub(r"\n     ", '', source)
 
 			# Running Shunting-Yard Algorithm 
-			ops_stack = Deque([], INPValueError(INPValueError.Codes.INVALID_CELL_GEOMETRY))
-			out_stack = Deque([], INPValueError(INPValueError.Codes.INVALID_CELL_GEOMETRY))
-			inp_stack = re.findall(r"#|:| : |[()]| [()]|[()] | [()] | |[+-]?\d+", processed_source)
-			OPERATIONS_ORDER = {'#': 0, ' ': 1, ':': 2}
+			ops_stack = parser.Parser(errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY))
+			out_stack = parser.Parser(errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY))
+			inp_stack = re.findall(r"#|:| : |[()]| [()]|[()] | [()] | |[+-]?\d+", source)
 
-			if ''.join(inp_stack) != processed_source:
-				raise INPValueError(INPValueError.Codes.INVALID_CELL_GEOMETRY)
+			if ''.join(inp_stack) != source:
+				raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_CELL_GEOMETRY)
 
 			for token in inp_stack:
 				if re.match(r"[+-]?\d+", token):
 					# Processing Surface Number
 
-					value = cast_fortran_integer(token)
-					if value is None or not (value != 0 and -99_999_999 <= value <= 99_999_999): raise INPValueError(INPValueError.Codes.INVALID_CELL_GEOMETRY)
+					value = types.cast_fortran_integer(token)
+					if value is None or not (value != 0 and -99_999_999 <= value <= 99_999_999): raise ValueError
 
 					out_stack.pushr(token)
 
@@ -100,7 +115,7 @@ class Cell(Card):
 					# Processing Binary Operator
 					token = token.strip() if token != ' ' else token
 					
-					while ops_stack and ops_stack.peekr() not in {'(', ')'} and OPERATIONS_ORDER[ops_stack.peekr()] >= OPERATIONS_ORDER[token]:
+					while ops_stack and ops_stack.peekr() not in {'(', ')'} and cls._OPERATIONS_ORDER[ops_stack.peekr()] >= cls._OPERATIONS_ORDER[token]:
 						out_stack.pushr(ops_stack.popr())
 					
 					ops_stack.pushr(token)
@@ -120,7 +135,13 @@ class Cell(Card):
 
 		def to_mcnp(self) -> str:
 			"""
-			'to_mcnp'
+			'to_mcnp' generates INP from cell geometry objects.
+
+			'to_mcnp' provides an MCNP endpoints for writing
+			INP source strings.
+
+			Returns:
+				INP for cell card object.
 			"""
 
 			return self.str
@@ -170,12 +191,12 @@ class Cell(Card):
 					string = string[:1]
 
 				if string.startswith(('wwn', 'dxc')):
-					if len(string) < 4 and cast_fortran_integer(tokens[:3]) is None:
+					if len(string) < 4 and types.cast_fortran_integer(tokens[:3]) is None:
 						return None
 
 					string = string[:3]
 				elif string.startswith(('pd')):
-					if len(string) < 3 and cast_fortran_integer(tokens[:2]) is None:
+					if len(string) < 3 and types.cast_fortran_integer(tokens[:2]) is None:
 						return None
 
 					string = string[:2]
@@ -199,13 +220,13 @@ class Cell(Card):
 				return self.value
 
 
-		def __init__(self):
+		def __init__(self) -> Self:
 			"""
 			'__init__'
 			"""
 
 			self.keyword: CellKeyword = None
-			self.designator: Designator = None
+			self.designator: types.Designator = None
 			self.value: any = None
 
 
@@ -217,11 +238,11 @@ class Cell(Card):
 
 			parameter = cls()
 
-			tokens = Parser(string, r":|=", INPSyntaxError(INPSyntaxError.Codes.INCOMPLETE_CELL_PARAMETER))
+			tokens = parser.Parser(SyntaxError).from_string(string, r":|=")
 
 			# Processing Keyword
 			value = cls.CellKeyword.cast_cell_keyword(tokens.peekl())
-			if value is None: raise INPValueError(INPValueError.Codes.INVALID_CELL_PARAMETER_KEYWORD)
+			if value is None: raise ValueError
 			parameter.set_keyword(value)
 
 			# Processing Value & Designator
@@ -233,11 +254,11 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)
 
 					# Processing Designator
-					designator = Designator.cast_mcnp_designator(tokens.popr())
+					designator = types.Designator.cast_mcnp_designator(tokens.popr())
 					parameter.set_designator(designator)
 
 				case 'vol':
@@ -247,7 +268,7 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_real(tokens.popr())
+					value = types.cast_fortran_real(tokens.popr())
 					parameter.set_value(value)
 
 				case 'pwt':
@@ -257,7 +278,7 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_real(tokens.popr())
+					value = types.cast_fortran_real(tokens.popr())
 					parameter.set_value(value)
 
 				case 'ext':
@@ -267,11 +288,11 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)
 
 					# Processing Designator
-					designator = Designator.cast_mcnp_designator(tokens.popr())
+					designator = types.Designator.cast_mcnp_designator(tokens.popr())
 					parameter.set_designator(designator)
 
 				case 'fcl':
@@ -281,41 +302,41 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)
 
 					# Processing Designator
-					designator = Designator.cast_mcnp_designator(tokens.popr())
+					designator = types.Designator.cast_mcnp_designator(tokens.popr())
 					parameter.set_designator(designator)
 
 				case 'wwn':
 					parameter.__class__ = Cell.WeightWindowBounds
 
 					# Processing Suffix/Keyword
-					suffix = cast_fortran_integer(tokens.popl())[3:]
+					suffix = types.cast_fortran_integer(tokens.popl())[3:]
 					parameter.set_suffix(suffix)
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)
 
 					# Processing Designator
-					designator = Designator.cast_mcnp_designator(tokens.popr())
+					designator = types.Designator.cast_mcnp_designator(tokens.popr())
 					parameter.set_designator(designator)
 
 				case 'dxc':
 					parameter.__class__ = Cell.DxtranContribution
 
 					# Processing Suffix/Keyword
-					suffix = cast_fortran_integer(tokens.popl())[3:]
+					suffix = types.cast_fortran_integer(tokens.popl())[3:]
 					parameter.set_suffix(suffix)
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)
 
 					# Processing Designator
-					designator = Designator.cast_mcnp_designator(tokens.popr())
+					designator = types.Designator.cast_mcnp_designator(tokens.popr())
 					parameter.set_designator(designator)
 
 				case 'nonu':
@@ -325,7 +346,7 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)
 
 				case 'pd':
@@ -335,11 +356,11 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Suffix/Keyword
-					suffix = cast_fortran_integer(tokens.popl())[2:]
+					suffix = types.cast_fortran_integer(tokens.popl())[2:]
 					parameter.set_suffix(suffix)
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)
 
 				case 'tmp':
@@ -349,11 +370,11 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Suffix/Keyword
-					suffix = cast_fortran_integer(tokens.popl())[2:]
+					suffix = types.cast_fortran_integer(tokens.popl())[2:]
 					parameter.set_suffix(suffix)
 
 					# Processing Value
-					value = cast_fortran_real(tokens.popr())
+					value = types.cast_fortran_real(tokens.popr())
 					parameter.set_value(value)
 
 				case 'u':
@@ -363,7 +384,7 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)
 
 				case 'trcl':
@@ -373,7 +394,7 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)
 
 				case 'lat':
@@ -383,7 +404,7 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)				
 				case 'fill':
 					parameter.__class__ = Cell.Fill
@@ -392,12 +413,8 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)
-
-					# Processing Designator
-					designator = Designator.cast_mcnp_designator(tokens.popr())
-					parameter.set_designator(designator)
 
 				case 'elpt':
 					parameter.__class__ = Cell.EnergyCutoff
@@ -406,11 +423,11 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_real(tokens.popr())
+					value = types.cast_fortran_real(tokens.popr())
 					parameter.set_value(value)
 
 					# Processing Designator
-					designator = Designator.cast_mcnp_designator(tokens.popr())
+					designator = types.Designator.cast_mcnp_designator(tokens.popr())
 					parameter.set_designator(designator)
 
 				case 'cosy':
@@ -420,7 +437,7 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)
 
 				case 'bflcl':
@@ -430,7 +447,7 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)
 
 				case 'unc':
@@ -440,15 +457,15 @@ class Cell(Card):
 					tokens.popl()
 
 					# Processing Value
-					value = cast_fortran_integer(tokens.popr())
+					value = types.cast_fortran_integer(tokens.popr())
 					parameter.set_value(value)
 
 					# Processing Designator
-					designator = Designator.cast_mcnp_designator(tokens.popr())
+					designator = types.Designator.cast_mcnp_designator(tokens.popr())
 					parameter.set_designator(designator)
 
 			# Checking for Remaining Tokens
-			if tokens: raise INPSyntaxError(INPSyntaxError.Codes.EXCESSIVE_CELL_PARAMTER)
+			if tokens: raise SyntaxError
 
 			return parameter
 
@@ -459,18 +476,18 @@ class Cell(Card):
 			"""
 
 			if keyword is None:
-				INPValueError(INPValueError.Codes.INVALID_CELL_PARAMETER_KEYWORD)
+				raise ValueError
 
 			self.keyword = keyword
 
 
-		def set_designator(self, designator: Designator) -> None:
+		def set_designator(self, designator: types.Designator) -> None:
 			"""
 			'set_designator'
 			"""
 
 			if designator is None or self.keyword not in {'n', 'q', 'p', 'e', 'f', '|', '!', 'u', '<', 'v', '>', 'h', 'g', 'l', 'b', '+', '_', '-', '~', 'x', 'c', 'y', 'w', 'o', '@', '/', '*', 'z', 'k', '?', '%', '^', 'd', 't', 's', 'a', '#'}:
-				INPValueError(INPValueError.Codes.INVALID_CELL_PARAMETER_DESIGNATOR)
+				ValueError
 
 
 		def to_mcnp(self) -> str:
@@ -495,8 +512,6 @@ class Cell(Card):
 			return {'keyword': self.keyword.to_mcnp(), 'suffix': self.suffix if hasattr(self.__class__, 'suffix') else None, 'designator': self.designator if hasattr(self.__class__, 'designator') else None, 'value': self.value}
 
 
-
-
 	class Importance(CellParameter):
 		"""
 		'Importance' represents INP cell card particle importance parameters.
@@ -515,7 +530,7 @@ class Cell(Card):
 			super().__init__()
 
 			self.importance: any = None
-			self.designator: tuple[Designator] = None
+			self.designator: tuple[types.Designator] = None
 
 
 		def set_value(self, value: any) -> None:
@@ -531,7 +546,7 @@ class Cell(Card):
 				self.value = value
 
 
-		def set_designator(self, designator: tuple[Designator]) -> None:
+		def set_designator(self, designator: tuple[types.Designator]) -> None:
 			"""
 			'set_designator' sets INP cell card particle importance parameter designator.	
 
@@ -626,7 +641,7 @@ class Cell(Card):
 			super().__init__()
 
 			self.stretch: any = None
-			self.designator: Designator = None
+			self.designator: types.Designator = None
 
 
 		def set_value(self, value: any) -> None:
@@ -642,7 +657,7 @@ class Cell(Card):
 				self.value = value
 
 
-		def set_designator(self, designator: Designator) -> None:
+		def set_designator(self, designator: types.Designator) -> None:
 			"""
 			'set_designator' sets INP cell card exponential transformation parameter designator.		
 			Parameters:
@@ -670,7 +685,7 @@ class Cell(Card):
 			super().__init__()
 
 			self.control: any = None
-			self.designator: Designator = None
+			self.designator: types.Designator = None
 
 
 		def set_value(self, value: any) -> None:
@@ -686,7 +701,7 @@ class Cell(Card):
 				self.value = value
 
 
-		def set_designator(self, designator: Designator) -> None:
+		def set_designator(self, designator: types.Designator) -> None:
 			"""
 			'set_designator' sets INP cell card forced-collision parameter designator.		
 			Parameters:
@@ -714,7 +729,7 @@ class Cell(Card):
 			super().__init__()
 
 			self.weight: any = None
-			self.designator: Designator = None
+			self.designator: types.Designator = None
 			self.suffix: int = None
 
 
@@ -731,7 +746,7 @@ class Cell(Card):
 				self.value = value
 
 
-		def set_designator(self, designator: Designator) -> None:
+		def set_designator(self, designator: types.Designator) -> None:
 			"""
 			'set_designator' sets INP cell card space-, time-, and energy-dependent weight window bound parameter designator.		
 			Parameters:
@@ -769,7 +784,7 @@ class Cell(Card):
 			super().__init__()
 
 			self.probability: any = None
-			self.designator: Designator = None
+			self.designator: types.Designator = None
 			self.suffix: int = None
 
 
@@ -786,7 +801,7 @@ class Cell(Card):
 				self.value = value
 
 
-		def set_designator(self, designator: Designator) -> None:
+		def set_designator(self, designator: types.Designator) -> None:
 			"""
 			'set_designator' sets INP cell card DXTRAN sphere contribution parameter designator.		
 			Parameters:
@@ -1044,7 +1059,6 @@ class Cell(Card):
 			super().__init__()
 
 			self.number: any = None
-			self.designator: Designator = None
 
 
 		def set_value(self, value: any) -> None:
@@ -1055,19 +1069,9 @@ class Cell(Card):
 				number (any): Cell filling universe number.
 			"""
 
-			if value is not None and (0 <= number <= 99_999_999):
+			if value is not None and (0 <= value <= 99_999_999):
 				self.number = value
 				self.value = value
-
-
-		def set_designator(self, designator: Designator) -> None:
-			"""
-			'set_designator' sets INP cell card filling universe parameter designator.		
-			Parameters:
-				designator (Designator): INP cell card parameter designator.
-			"""		
-			if designator is not None:
-				self.designator = designator
 
 
 	class EnergyCutoff(CellParameter):
@@ -1088,7 +1092,7 @@ class Cell(Card):
 			super().__init__()
 
 			self.cutoff: any = None
-			self.designator: Designator = None
+			self.designator: types.Designator = None
 
 
 		def set_value(self, value: any) -> None:
@@ -1104,7 +1108,7 @@ class Cell(Card):
 				self.value = value
 
 
-		def set_designator(self, designator: Designator) -> None:
+		def set_designator(self, designator: types.Designator) -> None:
 			"""
 			'set_designator' sets INP cell card lower energy cutoff parameter designator.		
 			Parameters:
@@ -1198,7 +1202,7 @@ class Cell(Card):
 			super().__init__()
 
 			self.setting: any = None
-			self.designator: Designator = None
+			self.designator: types.Designator = None
 
 
 		def set_value(self, value: any) -> None:
@@ -1214,7 +1218,7 @@ class Cell(Card):
 				self.value = value
 
 
-		def set_designator(self, designator: Designator) -> None:
+		def set_designator(self, designator: types.Designator) -> None:
 			"""
 			'set_designator' sets INP cell card uncollided particle secondaries behavior parameter designator.		
 			Parameters:
@@ -1224,7 +1228,7 @@ class Cell(Card):
 				self.designator = designator
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'Cell'.
 		"""
@@ -1244,7 +1248,7 @@ class Cell(Card):
 		"""
 
 		if number is None or not (1 <= number <= 99_999_999): 
-			raise INPValueError(INPValueError.Codes.INVALID_CELL_NUMBER)
+			raise ValueError
 		
 		self.number = number
 		self.id = number
@@ -1256,7 +1260,7 @@ class Cell(Card):
 		"""
 
 		if material is None or not (0 <= material <= 99_999_999): 
-			raise INPValueError(INPValueError.Codes.INVALID_CELL_MATERIAL)
+			raise ValueError
 		
 		self.material = material
 
@@ -1267,7 +1271,7 @@ class Cell(Card):
 		"""
 
 		if density is None or density == 0:
-			raise INPValueError(INPValueError.Codes.INVALID_CELL_DENSITY)
+			raise ValueError
 
 		self.density = density
 
@@ -1278,7 +1282,7 @@ class Cell(Card):
 		"""
 
 		if geometry is None:
-			raise INPValueError(INPValueERROR.Codes.INVALID_CELL_GEOMETRY)
+			raise ValueError
 
 		self.geometry = geometry
 
@@ -1292,7 +1296,7 @@ class Cell(Card):
 
 		for parameter in parameters:
 			if parameter is None:
-				raise INPValueError(INPValueERROR.Codes.INVALID_CELL_PARAMETER)
+				raise errors.MCNPSyntaxError(errors.INPValueERROR.Codes.INVALID_CELL_PARAMETER)
 
 			params.append(parameter)
 
@@ -1313,19 +1317,19 @@ class Cell(Card):
 
 		cell = cls()
 		### MUST GET PREPROCESSED STRING '  ' -> ' ' and strip.
-		tokens = Parser(card, ' ', INPEOFError)
+		tokens = parser.Parser(SyntaxError).from_string(card, ' ')
 
 		# Processing Card Number	
-		value = cast_fortran_integer(tokens.popl())
+		value = types.cast_fortran_integer(tokens.popl())
 		cell.set_number(value)
 
 		# Processing Material Number
-		value = cast_fortran_integer(tokens.popl())
+		value = types.cast_fortran_integer(tokens.popl())
 		cell.set_material(value)
 
 		# Processing Material Density
 		if cell.material != 0:
-			value = cast_fortran_real(tokens.popl())
+			value = types.cast_fortran_real(tokens.popl())
 			cell.set_density(value)
 
 		# Processing Parameters
@@ -1346,33 +1350,6 @@ class Cell(Card):
 		# Processing Geometry
 		cell.geometry = cls.CellGeometry().from_mcnp(' '.join(tokens.deque))
 		
-		return cell
-
-
-	@classmethod
-	def from_arguments(cls, number: int, material: int, geometry: CellGeometry, parameters: tuple[CellParameter] = tuple(), density: int = None) -> Self:
-		"""
-		'from_arguments' generates cell card objects from arguments.
-
-		Parameters:
-			number (int): Cell card number.
-			material (int): Cell card material.
-			density (int): Cell card density.
-			geometry (str): Cell card geometry.
-			parameters (dict[tuple[str, any]]): Cell card parameter table.
-
-		Returns:
-			cell (Cell): Call card object.
-		"""
-
-		cell = cls()
-
-		cell.set_number(number)
-		cell.set_material(material)
-		cell.set_density(density)
-		cell.set_geometry(geometry)
-		cell.set_parameters(parameters)
-
 		return cell
 
 

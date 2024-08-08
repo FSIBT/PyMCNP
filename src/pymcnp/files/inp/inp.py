@@ -10,40 +10,29 @@ from typing import *
 import collections
 import re
 
-from .errors import *
 from .block import Block
 from .cells import Cells
 from .surfaces import Surfaces
 from .data import Data
-
-from . import *
-from .. import parser
-
+from .._utils import parser
+from .._utils import errors
+from .._utils import types
 
 class Inp:
 	"""
 	'Inp' represents INP files.
 
-	Fields:
-		message (str): INP message block.
-		title (str): INP title block.
-		cells (Cells): INP cell card block.
-		surfaces (Surfaces): INP surface card block.
-		data (Data): INP data card block.
-		other (str): INP other block.
-
-	Methods:
-		__init__: Initializes 'Inp'.
-		from_mcnp: Generates input objects from INP.
-		from_mcnp_file: Generates input objects from INP files.
-		from_arguments: Generates input objects from arguments.
-		to_mcnp: Generates INP from input objects.
-		to_mcnp_file: Generates INP files from input objects.
-		to_arguments: Generates list from input objects.
+	Attributes:
+		message: INP message.
+		title: INP title.
+		cells: INP cell card block.
+		surfaces: INP surface card block.
+		data: INP data card block.
+		other: INP other block.
 	"""
 
 
-	def __init__(self):
+	def __init__(self) -> Self:
 		"""
 		'__init__' initializes 'Inp'.
 		"""
@@ -54,6 +43,46 @@ class Inp:
 		self.surfaces: Type[surfaces] = Surfaces()
 		self.data: Type[Data] = Data()
 		self.other: str = None
+
+
+	def set_message(self, message: str) -> None:
+		"""
+		'set_message' sets INP messages.
+
+		'set_message' checks messages have the required "message:"
+		keyword. It sets INP messages to None when given None.
+
+		Parameters:
+			message: INP message.
+
+		Raises:
+			MCNPSyntaxError: Missing keyword in INP message.
+		"""
+
+		if message is not None and not message[:9]:
+			raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_INP_MESSAGE)
+
+		self.message = message
+
+
+	def set_title(self, title: str) -> None:
+		"""
+		'set_title' sets INP titles.
+
+		'set_title' checks given titles pass the 80 character limit.
+		It sets INP titles to None when given None.
+
+		Parmeters:
+			title: INP title.
+
+		Raises:
+			MCNPSemanticError: Invalid INP title.
+		"""
+
+		if message is not None and not len(title) < 80:
+			raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_TITLE)
+
+		self.title = title
 
 
 	@classmethod
@@ -70,16 +99,12 @@ class Inp:
 		
 		inp = cls()
 
-		lines = parser.Parser(preprocess_mcnp(source), '\n', EOFError)
+		source = parser.Preprocessor.process_inp(source)
+		lines = parser.Parser(soruce, '\n', EOFError)
 
 		# Processing Message Block
-		line = lines.peekl()
-		if line[:9] == "message:":
-			inp.message = lines.popl()
-
-			while lines:
-				inp.message += lines.popl()
-
+		if lines.peekl()[:9] == "message:":
+			inp.set_message(lines.popl())
 
 		# Processing Title
 		inp.title = lines.popl()
@@ -127,34 +152,6 @@ class Inp:
 			source = ''.join(file.readlines())
 
 		return cls.from_mcnp(source)
-			
-
-	@classmethod
-	def from_arguments(cls, title: str, cells: Cells, surfaces: Surfaces, data: Data = Data(), message: Optional[str] = '', other: Optional[str] = '') -> str:
-		"""
-		'from_mcnp' generates input objects from INP.
-			
-		Parameters (str): INP to parse.
-			title (str): INP title block.
-			cells (Cells): INP cell block.
-			surface (Surfaces): INP surface block.
-			data (Optional[Data]): INP data block
-			message (Optional[str]): INP message block.
-
-		Returns:
-			inp (Input): Input object.
-		"""
-
-		inp = cls()
-
-		inp.message = message
-		inp.title = title
-		inp.cells = cells
-		inp.surfaces = surfaces
-		inp.data = data
-		inp.other = other
-
-		return inp
 
 
 	def to_mcnp(self) -> str:
@@ -169,8 +166,8 @@ class Inp:
 		source = self.message + '\n' if self.message else ''
 
 		# Appending Title Block
-		if not self.title: raise INPValueError(INPValueError.Codes.INVALID_INP_TITLE)
-		if len(self.title) > 80: raise INPValueError(INPValueError.Codes.INVALID_INP_TITLE)
+		if not self.title: raise ValueError
+		if len(self.title) > 80: raise ValueError
 		source += self.title + '\n'
 
 		# Appending Blocks
@@ -207,13 +204,4 @@ class Inp:
 		"""
 		
 		return {'message': self.message, 'title': self.title, 'cells': self.cells.to_arguments(), 'surfaces': self.surfaces.to_arguments(), 'data': self.data.to_arguments(), 'other': self.other}
-
-
-	def set_title(self, title: str) -> None:
-		"""
-		'set_title'
-		"""
-
-		if title is None or len(self.title) > 80: raise INPValueError(INPValueError.Codes.INVALID_INP_TITLE)
-		self.title = title
 

@@ -258,12 +258,88 @@ Currently, PYMCNP only generates cadquery for bounded surfaces.
 	* Wedge: <b style="color: limegreen;">Full</b>
 	* Arbitrary Polyhedron: <b style="color: limegreen;">Full</b>
 
+## Implementation
+
+Three submodules comprise PYMCNP: `pymcnp.files`, `pymcnp.gui`, and `pymcnp.cli`. `pymcnp.files` contains the entrypoints and endpoints for each MCNP file; `pymcnp.cli` contains MCNP utilities and the CLI program; and `pymcnp.gui` contains the GUI program.
+
+The following list illustrates the public subpackages, module, class, and functions in PYMCNP. Packages are purple, modules are blue, classes are orange, and function are teal.
+
+* <b style="color: plum">pymcnp</b>
+	* <b style="color: plum">files</b>
+		* <b style="color: plum">inp</b>
+			* <b style="color: cornflowerblue;">inp</b>
+				* <b>from_mcnp</b>
+				* <b>from_mcnp_file</b>
+				* <b>to_mcnp</b>
+				* <b>to_mcnp_file</b>
+				* <b>to_arguments</b>
+			* <b style="color: cornflowerblue;">cells</b>
+				* <b>from_mcnp</b>
+				* <b>to_mcnp</b>
+				* <b>to_arguments</b>
+			* <b style="color: cornflowerblue;">data</b>
+				* <b>from_mcnp</b>
+				* <b>to_mcnp</b>
+				* <b>to_arguments</b>
+			* <b style="color: cornflowerblue;">surfaces</b>
+				* <b>from_mcnp</b>
+				* <b>to_mcnp</b>
+				* <b>to_arguments</b>
+				* <b>to_cadquery</b>
+				* <b>to_cadquery_file</b>
+			* <b style="color: cornflowerblue;">cell</b>
+				* <b>from_mcnp</b>
+				* <b>to_mcnp</b>
+				* <b>to_arguments</b>
+			* <b style="color: cornflowerblue;">datum</b>
+				* <b>from_mcnp</b>
+				* <b>to_mcnp</b>
+				* <b>to_arguments</b>
+			* <b style="color: cornflowerblue;">surface</b>
+				* <b>from_mcnp</b>
+				* <b>to_mcnp</b>
+				* <b>to_arguments</b>
+				* <b>to_cadquery</b>
+		* <b style="color: plum">mctal</b>
+			* <b style="color: cornflowerblue;">mctal</b>
+		* <b style="color: plum">meshtal</b>
+			* <b style="color: cornflowerblue;">meshtal</b>
+		* <b style="color: plum">ptrac</b>
+			* <b style="color: cornflowerblue;">ptrac</b>
+			* <b style="color: cornflowerblue;">header</b>
+			* <b style="color: cornflowerblue;">history</b>
+			* <b style="color: cornflowerblue;">event</b>
+	* <b style="color: plum">cli</b>
+		* <b style="color: cornflowerblue;">cq</b>
+		* <b style="color: cornflowerblue;">inpt</b>
+		* <b style="color: cornflowerblue;">ls</b>
+		* <b style="color: cornflowerblue;">run</b>
+	* <b style="color: plum">gui</b>
+
+
 ## Installation
 
 ### PYMCNP
 
-To install PYMCNP (1) download PYMCNP from [Github](https://github.com/mauricioAyllon/MCNP-tools/tree/master/src/mcnptools), and (2) run the following command inside pymcnp.
+To install PYMCNP, (1) download PYMCNP from [Github](https://github.com/mauricioAyllon/MCNP-tools/tree/master/src/mcnptools), and (2) run the following command inside pymcnp.
 
 ```
 pip install -e .
 ```
+
+### Cadquery (Optional)
+
+To run outputs from PYMCNP cadquery endpoints, use the following command to install Cadquery ([ReadTheDocs](https://cadquery.readthedocs.io/en/latest/installation.html)):
+
+```
+pip install cadquery
+```
+
+### Pytest & Hypothesis (Optional)
+ 
+To run the PYMCNP testing suite, use the following commands to install Hypothesis ([ReadTheDocs](https://hypothesis.readthedocs.io/en/latest/quickstart.html#installing])) and Pytest ([Docs](https://docs.pytest.org/en/stable/))
+
+```
+pip install pytest hypothesis
+```
+
