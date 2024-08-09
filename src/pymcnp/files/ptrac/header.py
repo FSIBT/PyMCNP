@@ -121,16 +121,16 @@ class Header:
 
 		header = cls()
 
-		lines = parser.Parser(preprocess_ptrac(source), '\n', EOFError)
+		source = parser.Preprocessor.process_ptrac(source)
+		lines = parser.Parser(SyntaxError).from_string(source, '\n')
 
 		# Processing Magic Number
 		if lines.popl() != '-1': raise SyntaxError
 
 		# Processing Header
-		tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+		tokens = parser.Parser(SyntaxError).from_string(lines.popl(), ' ')
 		if len(tokens) != 5: raise SyntaxError
 
-		print(tokens)
 		header.set_code(tokens.popl())
 		header.set_version(tokens.popl())
 		header.set_code_date(tokens.popl())
@@ -141,7 +141,7 @@ class Header:
 		header.set_title(lines.popl())
 
 		# Processing Settings Block
-		tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+		tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), ' ')
 		if len(tokens) != 10: raise SyntaxError
 
 		m = types.cast_fortran_real(tokens.popl(), lambda f: f == 13 or f == 14)
@@ -149,7 +149,7 @@ class Header:
 
 		for i in range(0, int(m)):
 			if not tokens:
-				tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+				tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), ' ')
 				if len(tokens) != 10: raise SyntaxError
 
 			n = types.cast_fortran_real(tokens.popl(), lambda f: f >= 0)
@@ -158,7 +158,7 @@ class Header:
 			values = [None] * int(n)
 			for j in range(0, int(n)):
 				if not tokens:
-					tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+					tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), ' ')
 					if len(tokens) != 10: raise SyntaxError
 
 				values[j] = tokens.popl()
@@ -169,7 +169,7 @@ class Header:
 			if types.cast_fortran_real(tokens.popl(), lambda f: f == 0) is None: raise ValueError
 
 		# Processing Numbers
-		tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+		tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), ' ')
 		if len(tokens) != 20: raise SyntaxError
 
 		numbers = []
@@ -186,7 +186,7 @@ class Header:
 			#raise SyntaxError
 
 		# Processing Entry Counts
-		tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+		tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), ' ')
 		if len(tokens) > 30: raise SyntaxError
 
 		total = sum(header.numbers[:10])
@@ -194,7 +194,7 @@ class Header:
 
 		for i in range(0, total):
 			if not tokens:
-				tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+				tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), ' ')
 				if len(tokens) > 30: raise SyntaxError
 
 			header.ids[i] = tokens.popl()

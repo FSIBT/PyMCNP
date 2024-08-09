@@ -425,33 +425,32 @@ class Event:
 		if len(lines) != 2: raise SyntaxError
 
 		# Processing J-Line
-		j_line = Parser(lines[0], ' ', SyntaxError)
+		j_line = parser.Parser(SyntaxError).from_string(lines[0], ' ')
 
 		# Processing J2 (Next Event Type: 7)
-		print(j_line.peekl())
 		value = cls.EventTypes.cast_mcnp_event_types(j_line.popl())
 		if value is None: raise ValueError
 		event.next_type = value
 
 		# Processing J2 (Node: 8)
-		value = cast_fortran_integer(j_line.popl())
+		value = types.cast_fortran_integer(j_line.popl())
 		event.set_node(value)
 
 		# Processing J3
 		match event_type:
 			case cls.EventTypes.SOURCE:
 				# (NSR: 9)
-				value = cast_fortran_integer(j_line.popl())
+				value = types.cast_fortran_integer(j_line.popl())
 				event.set_nsr(value)
 
 			case cls.EventTypes.SURFACE:
 				# (NSF: 12)
-				value = cast_fortran_real(j_line.popl())
+				value = types.cast_fortran_real(j_line.popl())
 				event.set_nsf(value)
 
 			case cls.EventTypes.COLLISION:
 				# (NXS: 10)
-				value = cast_fortran_real(j_line.popl())
+				value = types.cast_fortran_real(j_line.popl())
 				event.set_nxs(value)
 
 			case cls.EventTypes.TERMINAL:
@@ -464,7 +463,7 @@ class Event:
 
 			case _:
 				# (NXS: 10)
-				value = cast_fortran_real(j_line.popl())
+				value = types.cast_fortran_real(j_line.popl())
 				event.set_nxs(value)
 
 		# Processing Type Dependent Entries
@@ -473,60 +472,60 @@ class Event:
 				# Type 1
 
 				# Processing J5/J6 (MAT: 18)
-				value = cast_fortran_integer(j_line.popr())
+				value = types.cast_fortran_integer(j_line.popr())
 				event.set_mat(value)
 
 				# Processing J4/J5 (NCL: 17)
-				value = cast_fortran_integer(j_line.popr())
+				value = types.cast_fortran_integer(j_line.popr())
 				event.set_ncl(value)
 
 			case [6, 3, 7, 3, 7, 3, 7, 3, 7, 3]:
 				# Type 2
 
 				# Processing J6/J7 (MAT: 18)
-				value = cast_fortran_integer(j_line.popr())
+				value = types.cast_fortran_integer(j_line.popr())
 				event.set_mat(value)
 
 				# Processing J5/J6 (NCL: 17)
-				value = cast_fortran_integer(j_line.popr())
+				value = types.cast_fortran_integer(j_line.popr())
 				event.set_ncl(value)
 
 				# Processing J4/J5 (IPT: 16)
-				value = cast_fortran_integer(j_line.popr())
+				value = types.cast_fortran_integer(j_line.popr())
 				event.set_ipt(value)
 
 			case [6, 9, 7, 9, 7, 9, 7, 9, 7, 9]:
 				# Type 3
 
 				# Processing J6/J7 (NCP: 19)
-				value = cast_fortran_integer(j_line.popr())
+				value = types.cast_fortran_integer(j_line.popr())
 				event.set_ncp(value)
 
 				# Processing J5/J6 (MAT: 18)
-				value = cast_fortran_integer(j_line.popr())
+				value = types.cast_fortran_integer(j_line.popr())
 				event.set_mat(value)
 
 				# Processing J4/J5 (NCL: 17)
-				value = cast_fortran_integer(j_line.popr())
+				value = types.cast_fortran_integer(j_line.popr())
 				event.set_ncl(value)
 
 			case [7, 9, 8, 9, 8, 9, 8, 9, 8, 9]:
 				# Type 4
 
 				# Processing J7/J8 (NCP: 19)
-				value = cast_fortran_integer(j_line.popr())
+				value = types.cast_fortran_integer(j_line.popr())
 				event.set_ncp(value)
 
 				# Processing J6/J7 (MAT: 18)
-				value = cast_fortran_integer(j_line.popr())
+				value = types.cast_fortran_integer(j_line.popr())
 				event.set_mat(value)
 
 				# Processing J5/J6 (NCL: 17)
-				value = cast_fortran_integer(j_line.popr())
+				value = types.cast_fortran_integer(j_line.popr())
 				event.set_ncl(value)
 
 				# Processing J4/J5 (IPT: 16)
-				value = cast_fortran_integer(j_line.popr())
+				value = types.cast_fortran_integer(j_line.popr())
 				event.set_ipt(value)
 
 		# Processing J4
@@ -536,17 +535,17 @@ class Event:
 
 			case cls.EventTypes.SURFACE:
 				# (Surface Angle: 13)
-				value = cast_fortran_integer(j_line.popl())
+				value = types.cast_fortran_integer(j_line.popl())
 				event.set_surface_angle(value)
 
 			case cls.EventTypes.COLLISION:
 				# (NTYN/MTP: 11)
-				value = cast_fortran_integer(j_line.popl())
+				value = types.cast_fortran_integer(j_line.popl())
 				event.set_ntyn_mtp(value)
 
 			case cls.EventTypes.TERMINAL:
 				# (Branch Number: 15)
-				value = cast_fortran_integer(j_line.popl())
+				value = types.cast_fortran_integer(j_line.popl())
 				event.set_branch_number(value)
 
 			case cls.EventTypes.FLAG:
@@ -554,48 +553,48 @@ class Event:
 
 			case _:
 				# (NTYN/MTP: 11)
-				value = cast_fortran_integer(j_line.popl())
+				value = types.cast_fortran_integer(j_line.popl())
 				event.set_ntyn_mtp(value)
 
 		# Processing P-Line
-		p_line = Parser(lines[1], ' ', SyntaxError)
+		p_line = parser.Parser(SyntaxError).from_string(lines[1], ' ')
 
 		# Processing P1 (xxx: 20)
-		value = cast_fortran_real(p_line.popl())
+		value = types.cast_fortran_real(p_line.popl())
 		event.set_xxx(value)
 
 		# Processing P2 (yyy: 21)
-		value = cast_fortran_real(p_line.popl())
+		value = types.cast_fortran_real(p_line.popl())
 		event.set_yyy(value)
 
 		# Processing P3 (zzz: 22)
-		value = cast_fortran_real(p_line.popl())
+		value = types.cast_fortran_real(p_line.popl())
 		event.set_zzz(value)
 
 		# Processing Type Dependent Entries
 		if header.numbers[1:12] in {(6, 9, 7, 9, 7, 9, 7, 9, 7, 9), (7, 9, 8, 9, 8, 9, 8, 9, 8, 9)}:
 			# Processing P4 (uuu: 23)
-			value = cast_fortran_real(p_line.popl())
+			value = types.cast_fortran_real(p_line.popl())
 			event.set_uuu(value)
 
 			# Processing P5 (vvv: 24)
-			value = cast_fortran_real(p_line.popl())
+			value = types.cast_fortran_real(p_line.popl())
 			event.set_vvv(value)
 
 			# Processing P6 (www: 25)
-			value = cast_fortran_real(p_line.popl())
+			value = types.cast_fortran_real(p_line.popl())
 			event.set_www(value)
 
 			# Processing P7 (erg: 26)
-			value = cast_fortran_real(p_line.popl())
+			value = types.cast_fortran_real(p_line.popl())
 			event.set_erg(value)
 
 			# Processing P8 (wgt: 27)
-			value = cast_fortran_real(p_line.popl())
+			value = types.cast_fortran_real(p_line.popl())
 			event.set_wgt(value)
 
 			# Processing P9 (tme: 28)
-			value = cast_fortran_real(p_line.popl())
+			value = types.cast_fortran_real(p_line.popl())
 			event.set_tme(value)
 
 		return event

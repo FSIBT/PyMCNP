@@ -110,37 +110,38 @@ class History:
 		history = cls()
 		history.header = header
 
-		lines = parser.Parser(preprocess_ptrac(source), '\n', EOFError)
+		source = parser.Preprocessor.process_ptrac(source)
+		lines = parser.Parser(EOFError).from_string(source, '\n')
 
 		# Processing I Line
-		tokens = parser.Parser(lines.popl(), ' ', SyntaxError)
+		tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), ' ')
 		if len(tokens) != header.numbers[0]: raise SyntaxError
 
 		for i in range(0, header.numbers[0]):
 			match header.ids[i]:
 				case '1':
-					value = cast_fortran_integer(tokens.popl())
+					value = types.cast_fortran_integer(tokens.popl())
 					history.set_nps(value)
 				case '2':
 					value = Event.EventTypes.cast_mcnp_event_types(tokens.popl())
 					history.set_next_type(value)
 				case '3':
-					value = cast_fortran_integer(tokens.popl())
+					value = types.cast_fortran_integer(tokens.popl())
 					history.set_ncl(value)
 				case '4':
-					value = cast_fortran_integer(tokens.popl())
+					value = types.cast_fortran_integer(tokens.popl())
 					history.set_nsf(value)
 				case '5':
-					value = cast_fortran_integer(tokens.popl())
+					value = types.cast_fortran_integer(tokens.popl())
 					history.set_jptal(value)
 				case '6':
-					value = cast_fortran_real(tokens.popl())
+					value = types.cast_fortran_real(tokens.popl())
 					history.set_tal(value)
 
 		# Processing J & P Lines
 		events = []
 
-		tokens = parser.Parser(lines.peekl(), ' ', SyntaxError) 
+		tokens = parser.Parser(SyntaxError).from_string(lines.peekl(), ' ')
 
 		next_type = history.next_type
 		while next_type != Event.EventTypes.FLAG:
