@@ -17,12 +17,8 @@ class Cells(Block):
 	"""
 	'Cells' represents MNCP INP cell card blocks.
 
-	Methods:
-		__init__: Initializes 'Cells'
-		from_mcnp: Generates cell block objects from INP.
-		from_arguments: Generates cell block objects from arguments.
-		to_mcnp: Generates INP from cell block objects.
-		to_arguments: Generates dictionaries from cell block objects.
+	'Cells' abstracts the INP cell card syntax element and it
+	encapsulates all functionallity for parsing cell card blocks.
 	"""
 
 
@@ -38,6 +34,9 @@ class Cells(Block):
 	def from_mcnp(cls, source: str) -> Self:
 		"""
 		'from_mcnp' generates cell block objects from INP.
+
+		'from_mcnp' constructs instances of 'Cells' from
+		INP strings, so it functions as a class constructor.
 
 		Parameters:
 			source (str): INP to parse.
@@ -60,6 +59,9 @@ class Cells(Block):
 		"""
 		'to_mcnp' generates INP from cell block objects.
 
+		'to_mcnp' provides an MCNP endpoints for writing
+		INP source strings.
+
 		Returns:
 			source (str): INP for cell block objects.
 		"""
@@ -71,8 +73,11 @@ class Cells(Block):
 		"""
 		'to_arguments' generates lists of cell card objects.
 
+		'to_arguments' creates dictionaries whose keys are 
+		attribute names, and whose values are attribute value.
+
 		Returns:
-			arguments (list): List of cell card objects.
+			arguments: List of cell card objects.
 		"""
 
 		return [card.to_arguments() for card in self.cards.values()]

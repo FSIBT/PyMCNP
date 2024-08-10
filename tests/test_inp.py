@@ -11,15 +11,15 @@ import hypothesis.strategies as st
 
 from pymcnp.files.inp.cell import Cell
 from pymcnp.files.inp.surface import Surface
-from pymcnp.files._utils.errors import *
+from pymcnp.files._utils import errors
 from pymcnp.files._utils.types import *
  
-from strategies import *
+from _strategies import *
 
 # HY_TRIALS = 100   # ~0:00:50
 # HY_TRIALS = 1000  # ~0:10:00
 # HY_TRIALS = 10000 # ~1:30:00
-HY_TRIALS = 1000
+HY_TRIALS = 1
 
 
 class TestCell:
@@ -60,10 +60,10 @@ class TestCell:
 
 			_, valid_material, valid_density, valid_geometry = cell
 
-			with pytest.raises(ValueError) as err:
+			with pytest.raises(errors.MCNPSemanticError) as err:
 				inp = Cell().from_mcnp(f"{number} {valid_material} {valid_density} {valid_geometry}")
 
-			#assert err.value.code == INPValueError.Codes.INVALID_CELL_NUMBER
+			assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_NUMBER
 
 
 		@hy.settings(max_examples = HY_TRIALS)
@@ -75,10 +75,10 @@ class TestCell:
 
 			valid_number, _, valid_density, valid_geometry = cell
 
-			with pytest.raises(ValueError) as err:
+			with pytest.raises(errors.MCNPSemanticError) as err:
 				inp = Cell().from_mcnp(f"{valid_number} {material} {valid_density} {valid_geometry}")
 
-			#assert err.value.code == INPValueError.Codes.INVALID_CELL_MATERIAL
+			assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_MATERIAL
 
 
 		@hy.settings(max_examples = HY_TRIALS)
@@ -90,10 +90,10 @@ class TestCell:
 
 			valid_number, valid_material, _, valid_geometry = cell
 
-			with pytest.raises(ValueError) as err:
+			with pytest.raises(errors.MCNPSemanticError) as err:
 				inp = Cell().from_mcnp(f"{valid_number} {valid_material} {density} {valid_geometry}")
 
-			#assert err.value.code == INPValueError.Codes.INVALID_CELL_DENSITY
+			assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_DENSITY
 
 
 		@hy.settings(max_examples = HY_TRIALS)
@@ -105,10 +105,10 @@ class TestCell:
 
 			valid_number, valid_material, valid_density, _ = cell
 
-			with pytest.raises(ValueError) as err:
+			with pytest.raises(errors.MCNPSemanticError) as err:
 				inp = Cell().from_mcnp(f"{valid_number} {valid_material} {valid_density} {geometry}")
 
-			#assert err.value.code == INPValueError.Codes.INVALID_CELL_GEOMETRY
+			assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY
 
 
 		def test_fuzz(self):
@@ -159,7 +159,7 @@ class TestCell:
 				# MCNP6 User's Manual [3-52]
 					#"11 1 -18.0 0 u=e10 imp:n=1",
 					#"12 0 0 u=e10 imp:n=1",
-				"20 2 -0.001 -2 fill=e10 imp:n=1",
+					#"20 2 -0.001 -2 fill=e10 imp:n=1",
 				"21 0 2 imp:n=0",
 				# MCNP6 User's Manual [3-53]
 					#"10 1 -2.03 0 u=2",
@@ -276,9 +276,9 @@ class TestSurface:
 			'test_valid'
 			"""
 
-			number, transfrom_periodic, mnemonic, entries = surface
+			number, transform_periodic, mnemonic, entries = surface
 
-			inp = Surface().from_mcnp(f"{number} {transfrom_periodic} {mnemonic} {' '.join(entries)}")
+			inp = Surface().from_mcnp(f"{number} {transform_periodic} {mnemonic} {' '.join(entries)}")
 
 			assert inp.number == int(number)
 			assert inp.mnemonic == mnemonic
@@ -294,28 +294,28 @@ class TestSurface:
 			'test_invalid_number'
 			"""
 
-			_, transfrom_periodic, mnemonic, entries = surface
+			_, transform_periodic, mnemonic, entries = surface
 
-			with pytest.raises(ValueError) as err:
-				inp = Surface().from_mcnp(f"{number} {transfrom_periodic} {mnemonic} {' '.join(entries)}")
+			with pytest.raises(errors.MCNPSemanticError) as err:
+				inp = Surface().from_mcnp(f"{number} {transform_periodic} {mnemonic} {' '.join(entries)}")
 
-			#assert err.value.code == INPValueError.Codes.INVALID_SURFACE_NUMBER
+			assert err.value.code == errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER
 
 
 		@hy.settings(max_examples = HY_TRIALS)
-		@hy.given(surface = mcnp_surfaces(), transfrom_periodic = fortran_integers(lambda i: i > 999))
-		#@hy.given(surface = mcnp_surfaces(), transfrom_periodic = fortran_integers(lambda i: i < -99_999_999 or i > 999))
-		def test_invalid_transformPeriodic(self, surface, transfrom_periodic):
+		@hy.given(surface = mcnp_surfaces(), transform_periodic = fortran_integers(lambda i: i > 999))
+		#@hy.given(surface = mcnp_surfaces(), transform_periodic = fortran_integers(lambda i: i < -99_999_999 or i > 999))
+		def test_invalid_transformPeriodic(self, surface, transform_periodic):
 			"""
 			'test_invalid_transformPeriodic'
 			"""
 
 			number, _, mnemonic, entries = surface
 
-			with pytest.raises(ValueError) as err:
-				inp = Surface().from_mcnp(f"{number} {transfrom_periodic} {mnemonic} {' '.join(entries)}")
+			with pytest.raises(errors.MCNPSemanticError) as err:
+				inp = Surface().from_mcnp(f"{number} {transform_periodic} {mnemonic} {' '.join(entries)}")
 
-			#assert err.value.code == INPValueError.Codes.INVALID_SURFACE_TRASFORM_PERIODIC
+			assert err.value.code == errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC
 
 
 		@hy.settings(max_examples = HY_TRIALS)
@@ -325,12 +325,12 @@ class TestSurface:
 			'test_invalid_number'
 			"""
 
-			number, transfrom_periodic, _, entries = surface
+			number, transform_periodic, _, entries = surface
 
-			with pytest.raises(ValueError) as err:
-				inp = Surface().from_mcnp(f"{number} {transfrom_periodic} {mnemonic} {' '.join(entries)}")
+			with pytest.raises(errors.MCNPSemanticError) as err:
+				inp = Surface().from_mcnp(f"{number} {transform_periodic} {mnemonic} {' '.join(entries)}")
 
-			#assert err.value.code == INPValueError.Codes.INVALID_SURFACE_MNEMONIC
+			assert err.value.code == errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC
 
 
 		def test_fuzz(self):

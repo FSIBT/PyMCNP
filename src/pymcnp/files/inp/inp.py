@@ -162,12 +162,10 @@ class Inp:
 			source (str): INP for input object.
 		"""
 
-		# Appending Message Block
+		# Appending Message
 		source = self.message + '\n' if self.message else ''
 
-		# Appending Title Block
-		if not self.title: raise ValueError
-		if len(self.title) > 80: raise ValueError
+		# Appending Title
 		source += self.title + '\n'
 
 		# Appending Blocks
@@ -196,11 +194,11 @@ class Inp:
 		"""
 		'to_arguments' generates dictionaries from input objects.
 
-		Returns:
-			arguments (list): Dictionary of input object data.
+		'to_arguments' creates dictionaries whose keys are 
+		attribute names, and whose values are attribute value.
 
 		Returns:
-			chars_written (int): Number of chars written to file.
+			arguments: Dictionary of input object data.
 		"""
 		
 		return {'message': self.message, 'title': self.title, 'cells': self.cells.to_arguments(), 'surfaces': self.surfaces.to_arguments(), 'data': self.data.to_arguments(), 'other': self.other}

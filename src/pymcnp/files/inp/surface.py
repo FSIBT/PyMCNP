@@ -128,7 +128,7 @@ class Surface(Card):
 		"""
 
 		if number is None or not (1 <= number <= 99_999_999): 
-			raise ValueError
+			raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
 		
 		self.number = number
 		self.id = number
@@ -140,7 +140,7 @@ class Surface(Card):
 		"""
 
 		if mnemonic is None: 
-			raise ValueError
+			raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC)
 
 		self.mnemonic = mnemonic
 
@@ -151,7 +151,7 @@ class Surface(Card):
 		"""
 
 		if transform_periodic is None or not (-99_999_999 <= transform_periodic <= 999):
-			raise ValueError
+			raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
 
 		if transform_periodic < 0:
 			self.periodic = transform_periodic
@@ -371,51 +371,6 @@ class Surface(Card):
 				surface.set_parameters(*tokens.deque)
 			
 		return surface
-					
-		
-	@classmethod
-	def from_arguments(cls, number: int, mnemonic: str, *parameters, transform_periodic: int) -> Self:
-		"""
-		'from_arguments' generates surface card objects from arguments.
-
-		Arguments:
-			number (int): Surface card number.
-			mnemonic (str): Surface card mnemonic.
-			transform (int): Surface card transformation number.
-			parameters (dict[str, Union[Type[np.ndarray], float]]): Surface card parameters.
-
-		Returns:
-			surface (Surface): Surface card object.
-		"""
-
-		surface = cls()
-
-		# Processing Card Number
-		surface.set_number(number)
-		surface.id = surface.number
-
-		# Processing Transformation Number
-		if transform_periodic >= 0:
-			surface.set_transfrom(transform_periodic)
-		else:
-			surface.set_periodic(transform_periodic)
-
-		# Processing Mnemonic
-		surface.set_mnemonic(mnemonic)
-
-		# Processing Parameters
-		if set([spec[0] for spec in surface.PARAMETER_SYNTAX[surface.mnemonic]]) != set(parameters.keys()): raise SyntaxError
-
-		for name, type_literal in surface.PARAMETER_SYNTAX[surface.mnemonic]:
-			match type_literal:
-				case 'float':
-					if not is_real(parameters[name]): raise ValueError
-				case '3darray':
-					if len(parameters[name]) < 3: raise SyntaxError
-
-		surface.parameters = parameters
-
-		return surface
 
 
 	def to_mcnp(self) -> str:
@@ -509,22 +464,22 @@ class PlaneGeneral(Surface):
 		"""
 
 		value = types.cast_fortran_real(a)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.a = value
 		self.parameters['a'] = value
-
+		
 		value = types.cast_fortran_real(b)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.b = value
 		self.parameters['b'] = value
 
 		value = types.cast_fortran_real(c)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.c = value
 		self.parameters['c'] = value
 
 		value = types.cast_fortran_real(d)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.d = value
 		self.parameters['d'] = value
 
@@ -546,47 +501,47 @@ class PlaneGeneral(Surface):
 		"""
  
 		value = types.cast_fortran_real(x1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x1 = value
 		self.parameters['x1'] = value 
 
 		value = types.cast_fortran_real(y1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y1 = value
 		self.parameters['y1'] = value 
 
 		value = types.cast_fortran_real(z1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z1 = value
 		self.parameters['z1'] = value 
 
 		value = types.cast_fortran_real(x2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x2 = value
 		self.parameters['x2'] = value 
 
 		value = types.cast_fortran_real(y2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y2 = value
 		self.parameters['y2'] = value 
 
 		value = types.cast_fortran_real(z2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z2 = value
 		self.parameters['z2'] = value 
 
 		value = types.cast_fortran_real(x3)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x3 = value
 		self.parameters['x3'] = value 
 
 		value = types.cast_fortran_real(y3)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y3 = value
 		self.parameters['y3'] = value 
 
 		value = types.cast_fortran_real(z3)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z3 = value
 		self.parameters['z3'] = value
 
@@ -620,7 +575,7 @@ class PlaneNormalX(Surface):
 		"""
 
 		value = types.cast_fortran_real(d)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.d = value
 		self.parameters['d'] = value
 
@@ -654,7 +609,7 @@ class PlaneNormalY(Surface):
 		"""
 
 		value = types.cast_fortran_real(d)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.d = value
 		self.parameters['d'] = value
 
@@ -688,7 +643,7 @@ class PlaneNormalZ(Surface):
 		"""
 
 		value = types.cast_fortran_real(d)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.d = value
 		self.parameters['d'] = value
 
@@ -722,7 +677,7 @@ class SphereOrigin(Surface):
 		"""
 
 		value = types.cast_fortran_real(r)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r = value
 		self.parameters['r'] = value
 
@@ -780,22 +735,22 @@ class SphereGeneral(Surface):
 		"""
 
 		value = types.cast_fortran_real(x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x = value
 		self.parameters['x'] = value
 
 		value = types.cast_fortran_real(y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y = value
 		self.parameters['y'] = value
 
 		value = types.cast_fortran_real(z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z = value
 		self.parameters['z'] = value
 
 		value = types.cast_fortran_real(r)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r = value
 		self.parameters['r'] = value
 
@@ -849,12 +804,12 @@ class SphereNormalX(Surface):
 		"""
 
 		value = types.cast_fortran_real(x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x = value
 		self.parameters['x'] = value
 
 		value = types.cast_fortran_real(r)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r = value
 		self.parameters['r'] = value
 
@@ -908,12 +863,12 @@ class SphereNormalY(Surface):
 		"""
 
 		value = types.cast_fortran_real(y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y = value
 		self.parameters['y'] = value
 
 		value = types.cast_fortran_real(r)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r = value
 		self.parameters['r'] = value
 
@@ -967,12 +922,12 @@ class SphereNormalZ(Surface):
 		"""
 
 		value = types.cast_fortran_real(z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z = value
 		self.parameters['z'] = value
 
 		value = types.cast_fortran_real(r)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r = value
 		self.parameters['r'] = value
 
@@ -1028,17 +983,17 @@ class CylinderParallelX(Surface):
 		"""
 
 		value = types.cast_fortran_real(y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y = value
 		self.parameters['y'] = value
 
 		value = types.cast_fortran_real(z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z = value
 		self.parameters['z'] = value
 
 		value = types.cast_fortran_real(r)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r = value
 		self.parameters['r'] = value
 
@@ -1076,17 +1031,17 @@ class CylinderParallelY(Surface):
 		"""
 
 		value = types.cast_fortran_real(x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x = value
 		self.parameters['x'] = value
 
 		value = types.cast_fortran_real(z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z = value
 		self.parameters['z'] = value
 
 		value = types.cast_fortran_real(r)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r = value
 		self.parameters['r'] = value
 
@@ -1124,17 +1079,17 @@ class CylinderParallelZ(Surface):
 		"""
 
 		value = types.cast_fortran_real(x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x = value
 		self.parameters['x'] = value
 
 		value = types.cast_fortran_real(y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y = value
 		self.parameters['y'] = value
 
 		value = types.cast_fortran_real(r)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r = value
 		self.parameters['r'] = value
 
@@ -1168,7 +1123,7 @@ class CylinderOnX(Surface):
 		"""
 
 		value = types.cast_fortran_real(r)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r = value
 		self.parameters['r'] = value
 
@@ -1202,7 +1157,7 @@ class CylinderOnY(Surface):
 		"""
 
 		value = types.cast_fortran_real(r)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r = value
 		self.parameters['r'] = value
 
@@ -1236,7 +1191,7 @@ class CylinderOnZ(Surface):
 		"""
 
 		value = types.cast_fortran_real(r)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r = value
 		self.parameters['r'] = value
 
@@ -1278,27 +1233,27 @@ class ConeParallelX(Surface):
 		"""
 
 		value = types.cast_fortran_real(x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x = value
 		self.parameters['x'] = value
 
 		value = types.cast_fortran_real(y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y = value
 		self.parameters['y'] = value
 
 		value = types.cast_fortran_real(z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z = value
 		self.parameters['z'] = value
 
 		value = types.cast_fortran_real(t_2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.t_2 = value
 		self.parameters['t_2'] = value
 
 		value = types.cast_fortran_real(__1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.__1 = value
 		self.parameters['__1'] = value
 
@@ -1340,27 +1295,27 @@ class ConeParallelY(Surface):
 		"""
 
 		value = types.cast_fortran_real(x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x = value
 		self.parameters['x'] = value
 
 		value = types.cast_fortran_real(y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y = value
 		self.parameters['y'] = value
 
 		value = types.cast_fortran_real(z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z = value
 		self.parameters['z'] = value
 
 		value = types.cast_fortran_real(t_2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.t_2 = value
 		self.parameters['t_2'] = value
 
 		value = types.cast_fortran_real(__1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.__1 = value
 		self.parameters['__1'] = value
 
@@ -1402,27 +1357,27 @@ class ConeParallelZ(Surface):
 		"""
 
 		value = types.cast_fortran_real(x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x = value
 		self.parameters['x'] = value
 
 		value = types.cast_fortran_real(y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y = value
 		self.parameters['y'] = value
 
 		value = types.cast_fortran_real(z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z = value
 		self.parameters['z'] = value
 
 		value = types.cast_fortran_real(t_2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.t_2 = value
 		self.parameters['t_2'] = value
 
 		value = types.cast_fortran_real(__1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.__1 = value
 		self.parameters['__1'] = value
 
@@ -1460,17 +1415,17 @@ class ConeOnX(Surface):
 		"""
 
 		value = types.cast_fortran_real(x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x = value
 		self.parameters['x'] = value
 
 		value = types.cast_fortran_real(t_2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.t_2 = value
 		self.parameters['t_2'] = value
 
 		value = types.cast_fortran_real(__1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.__1 = value
 		self.parameters['__1'] = value
 
@@ -1508,17 +1463,17 @@ class ConeOnY(Surface):
 		"""
 
 		value = types.cast_fortran_real(y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y = value
 		self.parameters['y'] = value
 
 		value = types.cast_fortran_real(t_2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.t_2 = value
 		self.parameters['t_2'] = value
 
 		value = types.cast_fortran_real(__1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.__1 = value
 		self.parameters['__1'] = value
 
@@ -1556,17 +1511,17 @@ class ConeOnZ(Surface):
 		"""
 
 		value = types.cast_fortran_real(z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z = value
 		self.parameters['z'] = value
 
 		value = types.cast_fortran_real(t_2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.t_2 = value
 		self.parameters['t_2'] = value
 
 		value = types.cast_fortran_real(__1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.__1 = value
 		self.parameters['__1'] = value
 
@@ -1618,52 +1573,52 @@ class QuadraticSpecial(Surface):
 		"""
 
 		value = types.cast_fortran_real(a)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.a = value
 		self.parameters['a'] = value
 
 		value = types.cast_fortran_real(b)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.b = value
 		self.parameters['b'] = value
 
 		value = types.cast_fortran_real(c)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.c = value
 		self.parameters['c'] = value
 
 		value = types.cast_fortran_real(d)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.d = value
 		self.parameters['d'] = value
 
 		value = types.cast_fortran_real(e)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.e = value
 		self.parameters['e'] = value
 
 		value = types.cast_fortran_real(f)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.f = value
 		self.parameters['f'] = value
 
 		value = types.cast_fortran_real(g)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.g = value
 		self.parameters['g'] = value
 
 		value = types.cast_fortran_real(x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x = value
 		self.parameters['x'] = value
 
 		value = types.cast_fortran_real(y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y = value
 		self.parameters['y'] = value
 
 		value = types.cast_fortran_real(z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z = value
 		self.parameters['z'] = value
 
@@ -1715,52 +1670,52 @@ class QuadraticGeneral(Surface):
 		"""
 
 		value = types.cast_fortran_real(a)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.a = value
 		self.parameters['a'] = value
 
 		value = types.cast_fortran_real(b)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.b = value
 		self.parameters['b'] = value
 
 		value = types.cast_fortran_real(c)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.c = value
 		self.parameters['c'] = value
 
 		value = types.cast_fortran_real(d)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.d = value
 		self.parameters['d'] = value
 
 		value = types.cast_fortran_real(e)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.e = value
 		self.parameters['e'] = value
 
 		value = types.cast_fortran_real(f)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.f = value
 		self.parameters['f'] = value
 
 		value = types.cast_fortran_real(g)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.g = value
 		self.parameters['g'] = value
 
 		value = types.cast_fortran_real(h)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.h = value
 		self.parameters['h'] = value
 
 		value = types.cast_fortran_real(j)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.j = value
 		self.parameters['j'] = value
 
 		value = types.cast_fortran_real(k)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.k = value
 		self.parameters['k'] = value
 
@@ -1804,32 +1759,32 @@ class TorusParallelX(Surface):
 		"""
 
 		value = types.cast_fortran_real(x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x = value
 		self.parameters['x'] = value
 
 		value = types.cast_fortran_real(y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y = value
 		self.parameters['y'] = value
 
 		value = types.cast_fortran_real(z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z = value
 		self.parameters['z'] = value
 
 		value = types.cast_fortran_real(a)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.a = value
 		self.parameters['a'] = value
 
 		value = types.cast_fortran_real(b)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.b = value
 		self.parameters['b'] = value
 
 		value = types.cast_fortran_real(c)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.c = value
 		self.parameters['c'] = value
 
@@ -1873,32 +1828,32 @@ class TorusParallelY(Surface):
 		"""
 
 		value = types.cast_fortran_real(x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x = value
 		self.parameters['x'] = value
 
 		value = types.cast_fortran_real(y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y = value
 		self.parameters['y'] = value
 
 		value = types.cast_fortran_real(z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z = value
 		self.parameters['z'] = value
 
 		value = types.cast_fortran_real(a)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.a = value
 		self.parameters['a'] = value
 
 		value = types.cast_fortran_real(b)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.b = value
 		self.parameters['b'] = value
 
 		value = types.cast_fortran_real(c)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.c = value
 		self.parameters['c'] = value
 
@@ -1942,32 +1897,32 @@ class TorusParallelZ(Surface):
 		"""
 
 		value = types.cast_fortran_real(x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x = value
 		self.parameters['x'] = value
 
 		value = types.cast_fortran_real(y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y = value
 		self.parameters['y'] = value
 
 		value = types.cast_fortran_real(z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z = value
 		self.parameters['z'] = value
 
 		value = types.cast_fortran_real(a)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.a = value
 		self.parameters['a'] = value
 
 		value = types.cast_fortran_real(b)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.b = value
 		self.parameters['b'] = value
 
 		value = types.cast_fortran_real(c)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.c = value
 		self.parameters['c'] = value
 
@@ -2011,34 +1966,34 @@ class SurfaceX(Surface):
 		"""
 
 		value = types.cast_fortran_real(x1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x1 = value
 		self.parameters['x1'] = value
 
 		value = types.cast_fortran_real(r1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r1 = value
 		self.parameters['r1'] = value
 
 		if x2 is not None and r2 is not None:
 			value = types.cast_fortran_real(x2)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.x2 = value
 			self.parameters['x2'] = value
 
 			value = types.cast_fortran_real(r2)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.r2 = value
 			self.parameters['r2'] = value
 
 			if x3 is not None and r3 is not None:
 				value = types.cast_fortran_real(x3)
-				if value is None: raise ValueError
+				if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 				self.x3 = value
 				self.parameters['x3'] = value
 
 				value = types.cast_fortran_real(r3)
-				if value is None: raise ValueError
+				if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 				self.r3 = value
 				self.parameters['r3'] = value
 
@@ -2082,34 +2037,34 @@ class SurfaceY(Surface):
 		"""
 
 		value = types.cast_fortran_real(y1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y1 = value
 		self.parameters['y1'] = value
 
 		value = types.cast_fortran_real(r1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r1 = value
 		self.parameters['r1'] = value
 
 		if y2 is not None and r2 is not None:
 			value = types.cast_fortran_real(y2)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.y2 = value
 			self.parameters['y2'] = value
 
 			value = types.cast_fortran_real(r2)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.r2 = value
 			self.parameters['r2'] = value
 
 			if y3 is not None and r3 is not None:
 				value = types.cast_fortran_real(y3)
-				if value is None: raise ValueError
+				if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 				self.y3 = value
 				self.parameters['y3'] = value
 
 				value = types.cast_fortran_real(r3)
-				if value is None: raise ValueError
+				if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 				self.r3 = value
 				self.parameters['r3'] = value
 
@@ -2153,34 +2108,34 @@ class SurfaceZ(Surface):
 		"""
 
 		value = types.cast_fortran_real(z1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z1 = value
 		self.parameters['z1'] = value
 
 		value = types.cast_fortran_real(r1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r1 = value
 		self.parameters['r1'] = value
 
 		if z2 is not None and r2 is not None:
 			value = types.cast_fortran_real(z2)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.z2 = value
 			self.parameters['z2'] = value
 
 			value = types.cast_fortran_real(r2)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.r2 = value
 			self.parameters['r2'] = value
 
 			if z3 is not None and r3 is not None:
 				value = types.cast_fortran_real(z3)
-				if value is None: raise ValueError
+				if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 				self.z3 = value
 				self.parameters['z3'] = value
 
 				value = types.cast_fortran_real(r3)
-				if value is None: raise ValueError
+				if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 				self.r3 = value
 				self.parameters['r3'] = value
 
@@ -2230,47 +2185,47 @@ class PlanePoint(Surface):
 		"""
 
 		value = types.cast_fortran_real(x1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x1 = value
 		self.parameters['x1'] = value
 
 		value = types.cast_fortran_real(y1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y1 = value
 		self.parameters['y1'] = value
 
 		value = types.cast_fortran_real(z1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z1 = value
 		self.parameters['z1'] = value
 
 		value = types.cast_fortran_real(x2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x2 = value
 		self.parameters['x2'] = value
 
 		value = types.cast_fortran_real(y2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y2 = value
 		self.parameters['y2'] = value
 
 		value = types.cast_fortran_real(z2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z2 = value
 		self.parameters['z2'] = value
 
 		value = types.cast_fortran_real(x3)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.x3 = value
 		self.parameters['x3'] = value
 
 		value = types.cast_fortran_real(y3)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.y3 = value
 		self.parameters['y3'] = value
 
 		value = types.cast_fortran_real(z3)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.z3 = value
 		self.parameters['z3'] = value
 
@@ -2326,63 +2281,63 @@ class Box(Surface):
 		"""
 
 		value = types.cast_fortran_real(vx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vx = value
 		self.parameters['vx'] = value
 
 		value = types.cast_fortran_real(vy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vy = value
 		self.parameters['vy'] = value
 
 		value = types.cast_fortran_real(vz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vz = value
 		self.parameters['vz'] = value
 
 		value = types.cast_fortran_real(a1x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.a1x = value
 		self.parameters['a1x'] = value
 
 		value = types.cast_fortran_real(a1y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.a1y = value
 		self.parameters['a1y'] = value
 
 		value = types.cast_fortran_real(a1z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.a1z = value
 		self.parameters['a1z'] = value
 
 		value = types.cast_fortran_real(a2x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.a2x = value
 		self.parameters['a2x'] = value
 
 		value = types.cast_fortran_real(a2y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.a2y = value
 		self.parameters['a2y'] = value
 
 		value = types.cast_fortran_real(a2z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.a2z = value
 		self.parameters['a2z'] = value
 
 		if a3x is not None and a3y is not None and a3z is not None:
 			value = types.cast_fortran_real(a3x)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.a3x = value
 			self.parameters['a3x'] = value
 
 			value = types.cast_fortran_real(a3y)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.a3y = value
 			self.parameters['a3y'] = value
 
 			value = types.cast_fortran_real(a3z)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.a3z = value
 			self.parameters['a3z'] = value
 
@@ -2447,32 +2402,32 @@ class Parallelepiped(Surface):
 		"""
 
 		value = types.cast_fortran_real(xmin)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.xmin = value
 		self.parameters['xmin'] = value
 
 		value = types.cast_fortran_real(xmax)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.xmax = value
 		self.parameters['xmax'] = value
 
 		value = types.cast_fortran_real(ymin)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.ymin = value
 		self.parameters['ymin'] = value
 
 		value = types.cast_fortran_real(ymax)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.ymax = value
 		self.parameters['ymax'] = value
 
 		value = types.cast_fortran_real(zmin)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.zmin = value
 		self.parameters['zmin'] = value
 
 		value = types.cast_fortran_real(zmax)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.zmax = value
 		self.parameters['zmax'] = value
 
@@ -2533,22 +2488,22 @@ class Sphere(Surface):
 		"""
 
 		value = types.cast_fortran_real(vx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vx = value
 		self.parameters['vx'] = value
 
 		value = types.cast_fortran_real(vy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vy = value
 		self.parameters['vy'] = value
 
 		value = types.cast_fortran_real(vz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vz = value
 		self.parameters['vz'] = value
 
 		value = types.cast_fortran_real(r)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r = value
 		self.parameters['r'] = value
 
@@ -2614,37 +2569,37 @@ class CylinderCircular(Surface):
 		"""
 
 		value = types.cast_fortran_real(vx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vx = value
 		self.parameters['vx'] = value
 
 		value = types.cast_fortran_real(vy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vy = value
 		self.parameters['vy'] = value
 
 		value = types.cast_fortran_real(vz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vz = value
 		self.parameters['vz'] = value
 
 		value = types.cast_fortran_real(hx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.hx = value
 		self.parameters['hx'] = value
 
 		value = types.cast_fortran_real(hy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.hy = value
 		self.parameters['hy'] = value
 
 		value = types.cast_fortran_real(hz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.hz = value
 		self.parameters['hz'] = value
 
 		value = types.cast_fortran_real(r)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r = value
 		self.parameters['r'] = value
 
@@ -2731,78 +2686,78 @@ class HexagonalPrism(Surface):
 		"""
 
 		value = types.cast_fortran_real(vx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vx = value
 		self.parameters['vx'] = value
 
 		value = types.cast_fortran_real(vy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vy = value
 		self.parameters['vy'] = value
 
 		value = types.cast_fortran_real(vz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vz = value
 		self.parameters['vz'] = value
 
 		value = types.cast_fortran_real(hx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.hx = value
 		self.parameters['hx'] = value
 
 		value = types.cast_fortran_real(hy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.hy = value
 		self.parameters['hy'] = value
 
 		value = types.cast_fortran_real(hz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.hz = value
 		self.parameters['hz'] = value
 
 		value = types.cast_fortran_real(r1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r1 = value
 		self.parameters['r1'] = value
 
 		value = types.cast_fortran_real(r2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r2 = value
 		self.parameters['r2'] = value
 
 		value = types.cast_fortran_real(r3)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r3 = value
 		self.parameters['r3'] = value
 
 		if s1 is not None and s2 is not None and s3 is not None and t1 is not None and t2 is not None and t3 is not None:
 			value = types.cast_fortran_real(s1)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.s1 = value
 			self.parameters['s1'] = value
 
 			value = types.cast_fortran_real(s2)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.s2 = value
 			self.parameters['s2'] = value
 
 			value = types.cast_fortran_real(s3)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.s3 = value
 			self.parameters['s3'] = value
 
 			value = types.cast_fortran_real(t1)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.t1 = value
 			self.parameters['t1'] = value
 
 			value = types.cast_fortran_real(t2)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.t2 = value
 			self.parameters['t2'] = value
 
 			value = types.cast_fortran_real(t3)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.t3 = value
 			self.parameters['t3'] = value
 
@@ -2884,73 +2839,73 @@ class CylinderElliptical(Surface):
 
 		if vx is not None:
 			value = types.cast_fortran_real(vx)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.vx = value
 			self.parameters['vx'] = value
 
 		if vy is not None:
 			value = types.cast_fortran_real(vy)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.vy = value
 			self.parameters['vy'] = value
 
 		if vz is not None:
 			value = types.cast_fortran_real(vz)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.vz = value
 			self.parameters['vz'] = value
 
 		if hx is not None:
 			value = types.cast_fortran_real(hx)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.hx = value
 			self.parameters['hx'] = value
 
 		if hy is not None:
 			value = types.cast_fortran_real(hy)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.hy = value
 			self.parameters['hy'] = value
 
 		if hz is not None:
 			value = types.cast_fortran_real(hz)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.hz = value
 			self.parameters['hz'] = value
 
 		if v1x is not None:
 			value = types.cast_fortran_real(v1x)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.v1x = value
 			self.parameters['v1x'] = value
 
 		if v1y is not None:
 			value = types.cast_fortran_real(v1y)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.v1y = value
 			self.parameters['v1y'] = value
 
 		if v1z is not None:
 			value = types.cast_fortran_real(v1z)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.v1z = value
 			self.parameters['v1z'] = value
 
 		if v2x is not None:
 			value = types.cast_fortran_real(v2x)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.v2x = value
 			self.parameters['v2x'] = value
 
 		if v2y is not None:
 			value = types.cast_fortran_real(v2y)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.v2y = value
 			self.parameters['v2y'] = value
 
 		if v2z is not None:
 			value = types.cast_fortran_real(v2z)
-			if value is None: raise ValueError
+			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 			self.v2z = value
 			self.parameters['v2z'] = value
 
@@ -3027,42 +2982,42 @@ class ConeTruncated(Surface):
 		"""
 
 		value = types.cast_fortran_real(vx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vx = value
 		self.parameters['vx'] = value
 
 		value = types.cast_fortran_real(vy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vy = value
 		self.parameters['vy'] = value
 
 		value = types.cast_fortran_real(vz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vz = value
 		self.parameters['vz'] = value
 
 		value = types.cast_fortran_real(hx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.hx = value
 		self.parameters['hx'] = value
 
 		value = types.cast_fortran_real(hy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.hy = value
 		self.parameters['hy'] = value
 
 		value = types.cast_fortran_real(hz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.hz = value
 		self.parameters['hz'] = value
 
 		value = types.cast_fortran_real(r1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r1 = value
 		self.parameters['r1'] = value
 
 		value = types.cast_fortran_real(r2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.r2 = value
 		self.parameters['r2'] = value
 
@@ -3136,37 +3091,37 @@ class Ellipsoid(Surface):
 		"""
 
 		value = types.cast_fortran_real(v1x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v1x = value
 		self.parameters['v1x'] = value
 
 		value = types.cast_fortran_real(v1y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v1y = value
 		self.parameters['v1y'] = value
 
 		value = types.cast_fortran_real(v1z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v1z = value
 		self.parameters['v1z'] = value
 
 		value = types.cast_fortran_real(v2x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v2x = value
 		self.parameters['v2x'] = value
 
 		value = types.cast_fortran_real(v2y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v2y = value
 		self.parameters['v2y'] = value
 
 		value = types.cast_fortran_real(v2z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v2z = value
 		self.parameters['v2z'] = value
 
 		value = types.cast_fortran_real(rm)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.rm = value
 		self.parameters['rm'] = value
 
@@ -3253,62 +3208,62 @@ class Wedge(Surface):
 		"""
 
 		value = types.cast_fortran_real(vx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vx = value
 		self.parameters['vx'] = value
 
 		value = types.cast_fortran_real(vy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vy = value
 		self.parameters['vy'] = value
 
 		value = types.cast_fortran_real(vz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.vz = value
 		self.parameters['vz'] = value
 
 		value = types.cast_fortran_real(v1x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v1x = value
 		self.parameters['v1x'] = value
 
 		value = types.cast_fortran_real(v1y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v1y = value
 		self.parameters['v1y'] = value
 
 		value = types.cast_fortran_real(v1z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v1z = value
 		self.parameters['v1z'] = value
 
 		value = types.cast_fortran_real(v2x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v2x = value
 		self.parameters['v2x'] = value
 
 		value = types.cast_fortran_real(v2y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v2y = value
 		self.parameters['v2y'] = value
 
 		value = types.cast_fortran_real(v2z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v2z = value
 		self.parameters['v2z'] = value
 
 		value = types.cast_fortran_real(v3x)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v3x = value
 		self.parameters['v3x'] = value
 
 		value = types.cast_fortran_real(v3y)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v3y = value
 		self.parameters['v3y'] = value
 
 		value = types.cast_fortran_real(v3z)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.v3z = value
 		self.parameters['v3z'] = value
 
@@ -3423,152 +3378,152 @@ class Polyhedron(Surface):
 		"""
 
 		value = types.cast_fortran_real(ax)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.ax = value
 		self.parameters['ax'] = value
 
 		value = types.cast_fortran_real(ay)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.ay = value
 		self.parameters['ay'] = value
 
 		value = types.cast_fortran_real(az)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.az = value
 		self.parameters['az'] = value
 
 		value = types.cast_fortran_real(bx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.bx = value
 		self.parameters['bx'] = value
 
 		value = types.cast_fortran_real(by)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.by = value
 		self.parameters['by'] = value
 
 		value = types.cast_fortran_real(bz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.bz = value
 		self.parameters['bz'] = value
 
 		value = types.cast_fortran_real(cx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.cx = value
 		self.parameters['cx'] = value
 
 		value = types.cast_fortran_real(cy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.cy = value
 		self.parameters['cy'] = value
 
 		value = types.cast_fortran_real(cz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.cz = value
 		self.parameters['cz'] = value
 
 		value = types.cast_fortran_real(dx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.dx = value
 		self.parameters['dx'] = value
 
 		value = types.cast_fortran_real(dy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.dy = value
 		self.parameters['dy'] = value
 
 		value = types.cast_fortran_real(dz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.dz = value
 		self.parameters['dz'] = value
 
 		value = types.cast_fortran_real(ex)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.ex = value
 		self.parameters['ex'] = value
 
 		value = types.cast_fortran_real(ey)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.ey = value
 		self.parameters['ey'] = value
 
 		value = types.cast_fortran_real(ez)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.ez = value
 		self.parameters['ez'] = value
 
 		value = types.cast_fortran_real(fx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.fx = value
 		self.parameters['fx'] = value
 
 		value = types.cast_fortran_real(fy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.fy = value
 		self.parameters['fy'] = value
 
 		value = types.cast_fortran_real(fz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.fz = value
 		self.parameters['fz'] = value
 
 		value = types.cast_fortran_real(gx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.gx = value
 		self.parameters['gx'] = value
 
 		value = types.cast_fortran_real(gy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.gy = value
 		self.parameters['gy'] = value
 
 		value = types.cast_fortran_real(gz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.gz = value
 		self.parameters['gz'] = value
 
 		value = types.cast_fortran_real(hx)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.hx = value
 		self.parameters['hx'] = value
 
 		value = types.cast_fortran_real(hy)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.hy = value
 		self.parameters['hy'] = value
 
 		value = types.cast_fortran_real(hz)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.hz = value
 		self.parameters['hz'] = value
 
 		value = types.cast_fortran_real(n1)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.n1 = value
 		self.parameters['n1'] = value
 
 		value = types.cast_fortran_real(n2)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.n2 = value
 		self.parameters['n2'] = value
 
 		value = types.cast_fortran_real(n3)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.n3 = value
 		self.parameters['n3'] = value
 
 		value = types.cast_fortran_real(n4)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.n4 = value
 		self.parameters['n4'] = value
 
 		value = types.cast_fortran_real(n5)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.n5 = value
 		self.parameters['n5'] = value
 
 		value = types.cast_fortran_real(n6)
-		if value is None: raise ValueError
+		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 		self.n6 = value
 		self.parameters['n6'] = value
 

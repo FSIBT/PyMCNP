@@ -16,15 +16,6 @@ from .._utils import parser
 class Surfaces(Block):
 	"""
 	'Surfaces' represents MNCP INP surface card blocks.
-
-	Methods:
-		__init__: Initializes 'Surfaces'.
-		from_mcnp: Generates surface block objects from INP.
-		from_arguments: Generates surface block objects from arguments.
-		to_mcnp: Generates INP from surface block objects.
-		to_arguments: Generates lists of surface card objects.
-		to_cadquery: Generates cadquery from surface block objects.
-		to_cadquery_file: Generates cadquery file from surface block objects.
 	"""
 
 

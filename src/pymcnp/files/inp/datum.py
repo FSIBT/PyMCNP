@@ -19,16 +19,8 @@ class Datum(Card):
 	"""
 	'Datum' represents INP data cards.
 
-	Fields:
+	Attributes:
 		mnemonic (str): Data card mnemonic.
-
-	Methods:
-		__init__: Initializes 'Datum'.
-		from_mcnp: Generates data card objects from INP.
-		from_arguments: Generates data card objects from arguments.
-		to_mcnp: Generates INP from data card objects.
-		to_arguments: Generates list from data card objects.
-		to_json: Generates JOSN from data card objects.
 	"""
 
 	
