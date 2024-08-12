@@ -4,51 +4,51 @@
 
 
 import os.path
-from typing import *
 
 import pymcnp
 
 
 class Save:
-	"""
-	'Save'
-	"""
+    """
+    'Save'
+    """
 
-	PYMCNP_DIR = '.pymcnp/'
-	PYMCNP_SAVE_FILE = PYMCNP_DIR + 'pymcnp-save.txt'
+    PYMCNP_DIR = ".pymcnp/"
+    PYMCNP_SAVE_FILE = PYMCNP_DIR + "pymcnp-save.txt"
 
-	@staticmethod
-	def get_save() -> dict:
-		"""
-		'get_save'
-		"""
+    @staticmethod
+    def get_save() -> dict:
+        """
+        'get_save'
+        """
 
-		with open(Save.PYMCNP_SAVE_FILE, 'r') as file:
-			lines = file.readlines()
+        with open(Save.PYMCNP_SAVE_FILE) as file:
+            lines = file.readlines()
 
-		inpts = {}
-		for line in lines:
-			if not line: continue
-			alias, path = line.strip().split(' ')
+        inpts = {}
+        for line in lines:
+            if not line:
+                continue
 
-			if not os.path.isfile(path): continue
-			inpts[alias] = (path, pymcnp.inp.Inp().from_mcnp_file(path))
+            alias, path = line.strip().split(" ")
 
-		return inpts
+            if not os.path.isfile(path):
+                continue
 
+            inpts[alias] = (path, pymcnp.inp.Inp().from_mcnp_file(path))
 
-	@staticmethod
-	def set_save(inpts) -> None:
-		"""
-		'set_save'
-		"""
+        return inpts
 
-		output = ''
-		for alias, value in inpts.items():
-			path, inpt = value
-			output += f"{alias} {path}\n"
+    @staticmethod
+    def set_save(inpts) -> None:
+        """
+        'set_save'
+        """
 
-		with open(Save.PYMCNP_SAVE_FILE, 'w') as file:
-			file.write(output)
+        output = ""
+        for alias, value in inpts.items():
+            path, inpt = value
+            output += f"{alias} {path}\n"
 
-			
+        with open(Save.PYMCNP_SAVE_FILE, "w") as file:
+            file.write(output)

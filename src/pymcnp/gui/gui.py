@@ -4,9 +4,8 @@
 
 
 def main() -> None:
-	"""
-	'main'
-	"""
+    """
+    'main'
+    """
 
-	print("GUI! :)")
-
+    print("GUI! :)")

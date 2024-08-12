@@ -3,209 +3,249 @@
 """
 
 
-from typing import *
+from typing import Self
+from enum import Enum
 
-from . import *
 from .._utils import parser
 from .._utils import types
 
 
+class PtracKeywords(Enum):
+    BUFFER = 1
+    CELL = 2
+    EVENT = 3
+    FILE = 4
+    FILTER = 5
+    MAX = 6
+    MENP = 7
+    NPS = 8
+    SURFACE = 9
+    TALLY = 10
+    TYPE = 11
+    VALUE = 12
+    WRITE = 13
+    UNKNOWN = 14
+
+
 class Header:
-	"""
-	'Header'
-	"""
+    """
+    'Header'
+    """
 
+    def __init__(self) -> Self:
+        """
+        '__init__'
+        """
 
-	def __init__(self) -> Self:
-		"""
-		'__init__'
-		"""
+        self.code: str = None
+        self.code_date: str = None
+        self.version: str = None
+        self.run_date: str = None
+        self.run_time: str = None
+        self.title: str = None
+        self.settings: dict[PtracKeywords, list[float]] = {
+            PtracKeywords.BUFFER: None,
+            PtracKeywords.CELL: None,
+            PtracKeywords.EVENT: None,
+            PtracKeywords.FILE: None,
+            PtracKeywords.FILTER: None,
+            PtracKeywords.MAX: None,
+            PtracKeywords.MENP: None,
+            PtracKeywords.NPS: None,
+            PtracKeywords.SURFACE: None,
+            PtracKeywords.TALLY: None,
+            PtracKeywords.TYPE: None,
+            PtracKeywords.VALUE: None,
+            PtracKeywords.WRITE: None,
+            PtracKeywords.UNKNOWN: None,
+        }
+        self.numbers: tuple[int] = None
+        self.ids: tuple[int] = None
 
-		self.code: str = None
-		self.code_date: str = None
-		self.version: str = None
-		self.run_date: str = None
-		self.run_time: str = None
-		self.title: str = None
-		self.settings: dict[PtracKeywords, list[float]] = {
-			PtracKeywords.BUFFER: None,
-			PtracKeywords.CELL: None,
-			PtracKeywords.EVENT: None,
-			PtracKeywords.FILE: None,
-			PtracKeywords.FILTER: None,
-			PtracKeywords.MAX: None,	
-			PtracKeywords.MENP: None,
-			PtracKeywords.NPS: None,	
-			PtracKeywords.SURFACE: None,
-			PtracKeywords.TALLY: None, 
-			PtracKeywords.TYPE: None, 
-			PtracKeywords.VALUE: None, 
-			PtracKeywords.WRITE: None, 
-			PtracKeywords.UNKNOWN: None, 
-		}
-		self.numbers: tuple[int] = None
-		self.ids: tuple[int] = None
+    def set_code(self, code: str) -> None:
+        """
+        'set_code'
+        """
 
+        if code is None:
+            raise ValueError
 
-	def set_code(self, code: str) -> None:
-		"""
-		'set_code'
-		"""
+        self.code = code
 
-		if code is None:
-			raise ValueError
+    def set_code_date(self, code_date: str) -> None:
+        """
+        'set_code_date'
+        """
 
-		self.code = code
+        if code_date is None:
+            raise ValueError
 
+        self.code_date = code_date
 
-	def set_code_date(self, code_date: str) -> None:
-		"""
-		'set_code_date'
-		"""
+    def set_version(self, version: str) -> None:
+        """
+        'set_version'
+        """
 
-		if code_date is None:
-			raise ValueError
+        if version is None:
+            raise ValueError
 
-		self.code_date = code_date
+        self.version = version
 
+    def set_run_date(self, run_date: str) -> None:
+        """
+        'set_run_date'
+        """
 
-	def set_version(self, version: str) -> None:
-		"""
-		'set_version'
-		"""
+        if run_date is None:
+            raise ValueError
 
-		if version is None:
-			raise ValueError
+        self.run_date = run_date
 
-		self.version = version
+    def set_run_time(self, run_time: str) -> None:
+        """
+        'set_run_time'
+        """
 
+        if run_time is None:
+            raise ValueError
 
-	def set_run_date(self, run_date: str) -> None:
-		"""
-		'set_run_date'
-		"""
+        self.run_time = run_time
 
-		if run_date is None:
-			raise ValueError
+    def set_title(self, title: str) -> None:
+        """
+        'set_title'
+        """
 
-		self.run_date = run_date
+        if title is None or not (len(title) < 80):
+            raise ValueError
 
+        self.title = title
 
-	def set_run_time(self, run_time: str) -> None:
-		"""
-		'set_run_time'
-		"""
+    @classmethod
+    def from_mcnp(cls, source: str) -> tuple[Self, str]:
+        """
+        'from_mcnp'
+        """
 
-		if run_time is None:
-			raise ValueError
+        header = cls()
 
-		self.run_time = run_time
+        source = parser.Preprocessor.process_ptrac(source)
+        lines = parser.Parser(SyntaxError).from_string(source, "\n")
 
+        # Processing Magic Number
+        if lines.popl() != "-1":
+            raise SyntaxError
 
-	def set_title(self, title: str) -> None:
-		"""
-		'set_title'
-		"""
+        # Processing Header
+        tokens = parser.Parser(SyntaxError).from_string(lines.popl(), " ")
+        if len(tokens) != 5:
+            raise SyntaxError
 
-		if title is None or not (len(title) < 80):
-			raise ValueError
+        header.set_code(tokens.popl())
+        header.set_version(tokens.popl())
+        header.set_code_date(tokens.popl())
+        header.set_run_date(tokens.popl())
+        header.set_run_time(tokens.popl())
 
-		self.title = title
+        # Processing Title
+        header.set_title(lines.popl())
 
+        # Processing Settings Block
+        tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), " ")
+        if len(tokens) != 10:
+            raise SyntaxError
 
-	@classmethod
-	def from_mcnp(cls, source: str) -> tuple[Self, str]:
-		"""
-		'from_mcnp'
-		"""
+        m = types.cast_fortran_real(tokens.popl(), lambda f: f == 13 or f == 14)
+        if m is None:
+            raise ValueError
 
-		header = cls()
+        for i in range(0, int(m)):
+            if not tokens:
+                tokens = parser.Parser(SyntaxError).from_string(
+                    lines.popl().strip(), " "
+                )
+                if len(tokens) != 10:
+                    raise SyntaxError
 
-		source = parser.Preprocessor.process_ptrac(source)
-		lines = parser.Parser(SyntaxError).from_string(source, '\n')
+            n = types.cast_fortran_real(tokens.popl(), lambda f: f >= 0)
+            if n is None:
+                raise ValueError
 
-		# Processing Magic Number
-		if lines.popl() != '-1': raise SyntaxError
+            values = [None] * int(n)
+            for j in range(0, int(n)):
+                if not tokens:
+                    tokens = parser.Parser(SyntaxError).from_string(
+                        lines.popl().strip(), " "
+                    )
+                    if len(tokens) != 10:
+                        raise SyntaxError
 
-		# Processing Header
-		tokens = parser.Parser(SyntaxError).from_string(lines.popl(), ' ')
-		if len(tokens) != 5: raise SyntaxError
+                values[j] = tokens.popl()
 
-		header.set_code(tokens.popl())
-		header.set_version(tokens.popl())
-		header.set_code_date(tokens.popl())
-		header.set_run_date(tokens.popl())
-		header.set_run_time(tokens.popl())
+            header.settings[PtracKeywords(i + 1)] = tuple(values)
 
-		# Processing Title
-		header.set_title(lines.popl())
+        while tokens:
+            if types.cast_fortran_real(tokens.popl(), lambda f: f == 0) is None:
+                raise ValueError
 
-		# Processing Settings Block
-		tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), ' ')
-		if len(tokens) != 10: raise SyntaxError
+        # Processing Numbers
+        tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), " ")
+        if len(tokens) != 20:
+            raise SyntaxError
 
-		m = types.cast_fortran_real(tokens.popl(), lambda f: f == 13 or f == 14)
-		if m is None: raise ValueError
+        numbers = []
+        while tokens:
+            n = types.cast_fortran_integer(tokens.peekl(), lambda i: i >= 0)
+            if n is None:
+                raise SyntaxError
 
-		for i in range(0, int(m)):
-			if not tokens:
-				tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), ' ')
-				if len(tokens) != 10: raise SyntaxError
+            numbers.append(n)
+            tokens.popl()
 
-			n = types.cast_fortran_real(tokens.popl(), lambda f: f >= 0)
-			if n is None: raise ValueError
+        header.numbers = tuple(numbers)
 
-			values = [None] * int(n)
-			for j in range(0, int(n)):
-				if not tokens:
-					tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), ' ')
-					if len(tokens) != 10: raise SyntaxError
+        if numbers[1:12] not in {
+            [5, 3, 6, 3, 6, 3, 6, 3, 6, 3],
+            [6, 3, 7, 3, 7, 3, 7, 3, 7, 3],
+            [6, 9, 7, 9, 7, 9, 7, 9, 7, 9],
+            [7, 9, 8, 9, 8, 9, 8, 9, 8, 9],
+        }:
+            raise SyntaxError
 
-				values[j] = tokens.popl()
+        # Processing Entry Counts
+        tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), " ")
+        if len(tokens) > 30:
+            raise SyntaxError
 
-			header.settings[PtracKeywords(i + 1)] = tuple(values)
+        total = sum(header.numbers[:10])
+        header.ids = [None] * total
 
-		while tokens:
-			if types.cast_fortran_real(tokens.popl(), lambda f: f == 0) is None: raise ValueError
+        for i in range(0, total):
+            if not tokens:
+                tokens = parser.Parser(SyntaxError).from_string(
+                    lines.popl().strip(), " "
+                )
+                if len(tokens) > 30:
+                    raise SyntaxError
 
-		# Processing Numbers
-		tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), ' ')
-		if len(tokens) != 20: raise SyntaxError
+            header.ids[i] = tokens.popl()
 
-		numbers = []
-		while tokens:
-			n = types.cast_fortran_integer(tokens.peekl(), lambda i: i >= 0)
-			if n is None: raise SyntaxError
+        return header, "\n".join(list(lines.deque))
 
-			numbers.append(n)
-			tokens.popl()
+    def to_arguments(self):
+        """
+        'to_arguments'
+        """
 
-		header.numbers = tuple(numbers)
-
-		#if numbers[1:12] not in {[5, 3, 6, 3, 6, 3, 6, 3, 6, 3], [6, 3, 7, 3, 7, 3, 7, 3, 7, 3], [6, 9, 7, 9, 7, 9, 7, 9, 7, 9], [7, 9, 8, 9, 8, 9, 8, 9, 8, 9]}:
-			#raise SyntaxError
-
-		# Processing Entry Counts
-		tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), ' ')
-		if len(tokens) > 30: raise SyntaxError
-
-		total = sum(header.numbers[:10])
-		header.ids = [None] * total
-
-		for i in range(0, total):
-			if not tokens:
-				tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), ' ')
-				if len(tokens) > 30: raise SyntaxError
-
-			header.ids[i] = tokens.popl()
-
-		return header, '\n'.join(list(lines.deque))
-
-
-	def to_arguments(self):
-		"""
-		'to_arguments'
-		"""
-
-		return {'code': self.code, 'code_date': self.code_date, 'version': self.version, 'run_date': self.run_date, 'run_time': self.run_time, 'title': self.title, 'settings': self.settings, 'numbers': self.numbers, 'ids': self.ids}
-
+        return {
+            "code": self.code,
+            "code_date": self.code_date,
+            "version": self.version,
+            "run_date": self.run_date,
+            "run_time": self.run_time,
+            "title": self.title,
+            "settings": self.settings,
+            "numbers": self.numbers,
+            "ids": self.ids,
+        }

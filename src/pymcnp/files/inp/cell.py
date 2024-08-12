@@ -5,8 +5,9 @@
 for cell cards.
 """
 
+
 import re
-from typing import *
+from typing import Self, Callable
 from enum import StrEnum
 
 from . import card
@@ -16,1703 +17,1736 @@ from .._utils import types
 
 
 class Cell(card.Card):
-	"""
-	'Cell' represents cell cards.
+    """
+    'Cell' represents cell cards.
+
+    'Cell' abstracts the cell card syntax element and it
+    encapsulates all functionallity for parsing cell cards.
+
+    Attributes:
+        number: Cell card number.
+        material: Cell material number.
+        density: Cell density value.
+        geometry: Cell geometry specification.
+        parameters: Cell parameter table.
+    """
+
+    class CellGeometry:
+        """
+        'CellGeometry' represents cell card geometry formulas.
+
+        'CellGeometry' functions as a data type for 'Cell'. It
+        represents cell card geometry formulas as abstract
+        syntax elements.
+
+        Attributes:
+            string: String representation.
+            postfix: Postfix representation.
+        """
+
+        _OPERATIONS_ORDER = {"#": 0, " ": 1, ":": 2}
+
+        def __init__(self) -> Self:
+            """
+            '__init__' initializes 'CellGeometry'
+            """
+
+            self.string: str = None
+            self.postfix: tuple[str] = None
+
+        @classmethod
+        def from_mcnp(cls, source: str) -> Self:
+            """
+            'from_mcnp' generates cell geometry objects from.
+
+            'from_mcnp' constructs instances of 'CellGeometry' from INP
+            strings, so it functions as a class constructor. It
+            transforms cell parameters into correct subclasses.
+
+            Parameters:
+                source: INP for cell geometry.
+
+            Returns:
+                Cell geometry object.
+
+            Raises:
+                MCNPSemanticError: Invalid cell geometry.
+                MCNPSyntaxError: Extra tokens in cell geometry.
+            """
+
+            geometry = cls()
+
+            source = parser.Preprocessor.process_inp(source)
+
+            # Running Shunting-Yard Algorithm
+            ops_stack = parser.Parser(
+                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY)
+            )
+            out_stack = parser.Parser(
+                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY)
+            )
+            inp_stack = re.findall(
+                r"#|:| : |[()]| [()]|[()] | [()] | |[+-]?\d+", source
+            )
+
+            if "".join(inp_stack) != source:
+                raise errors.MCNPSyntaxError(
+                    errors.MCNPSyntaxCodes.TOOLONG_CELL_GEOMETRY
+                )
+
+            for token in inp_stack:
+                if re.match(r"[+-]?\d+", token):
+                    # Processing Surface Number
+
+                    value = types.cast_fortran_integer(token)
+                    if value is None or not (
+                        value != 0 and -99_999_999 <= value <= 99_999_999
+                    ):
+                        raise errors.MCNPSemanticError(
+                            errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY
+                        )
+
+                    out_stack.pushr(token)
+
+                elif re.match(r"#", token):
+                    # Processing Unary Operator
+                    ops_stack.pushr(token)
+
+                elif re.match(r"([(]| [(]|[(] | [(] )", token):
+                    # Processing Left Parenthesis
+                    ops_stack.pushr("(")
+
+                elif re.match(r"([)]| [)]|[)] | [)] )", token):
+                    # Processing Right Parenthesis
+                    while ops_stack.peekr() != "(":
+                        out_stack.pushr(ops_stack.popr())
+
+                    ops_stack.popr()
+
+                elif re.match(r":| : | |: | :", token):
+                    # Processing Binary Operator
+                    token = token.strip() if token != " " else token
+
+                    while (
+                        ops_stack
+                        and ops_stack.peekr() not in {"(", ")"}
+                        and cls._OPERATIONS_ORDER[ops_stack.peekr()]
+                        >= cls._OPERATIONS_ORDER[token]
+                    ):
+                        out_stack.pushr(ops_stack.popr())
+
+                    ops_stack.pushr(token)
+
+                else:
+                    # Unrecognized Character
+                    assert False
+
+            while ops_stack:
+                out_stack.pushr(ops_stack.popr())
+
+            geometry.postfix = tuple(out_stack.deque)
+            geometry.string = source
+
+            return geometry
+
+        def to_mcnp(self) -> str:
+            """
+            'to_mcnp' generates from cell geometry objects.
+
+            'to_mcnp' provides an MCNP endpoints for writing
+            INP source strings.
+
+            Returns:
+                INP for cell card object.
+            """
+
+            return self.string
+
+    class CellParameter:
+        """
+        'CellParameter' represents cell card parameters.
+
+        'CellParameter' functions as a data type for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+
+        Attributes:
+            keyword: cell card parameter keyword.
+            value: cell card parameter value.
+        """
+
+        class CellKeyword(StrEnum):
+            """
+            'CellKeyword' represents cell card keywords.
+
+            'CellParameter' functions as a data type for 'CellParameter'
+            and 'Cell'. It represents cell card parameter keywords
+            as abstract syntax elements.
+            """
+
+            IMP = "imp"
+            VOL = "vol"
+            PWT = "pwt"
+            EXT = "ext"
+            FCL = "fcl"
+            WWN = "wwn"
+            DXC = "dxc"
+            NONU = "nonu"
+            PD = "pd"
+            TMP = "tmp"
+            U = "u"
+            TRCL = "trcl"
+            LAT = "lat"
+            FILL = "fill"
+            ELPT = "elpt"
+            COSY = "cosy"
+            BFLCL = "bflcl"
+            UNC = "unc"
+
+            @classmethod
+            def cast_cell_keyword(
+                cls, string: str, hook: Callable[Self, bool] = lambda _: True
+            ) -> Self:
+                """
+                'cast_cell_keyword' types casts from strings to cell keywords.
+
+                'cast_cell_keyword' creates cell parameter keywords objects from
+                strings. If the string is invalid or the hook returns false,
+                it returns None.
+
+                Returns:
+                    Cell parameter keyword from string.
+                """
+
+                string = string.lower()
+
+                if string.startswith("*"):
+                    string = string[:1]
+
+                if string.startswith(("wwn", "dxc")):
+                    if (
+                        len(string) < 4
+                        and types.cast_fortran_integer(string[:3]) is None
+                    ):
+                        return None
+
+                    string = string[:3]
+                elif string.startswith("pd"):
+                    if (
+                        len(string) < 3
+                        and types.cast_fortran_integer(string[:2]) is None
+                    ):
+                        return None
+
+                    string = string[:2]
+
+                try:
+                    keyword = cls(string)
+
+                    if hook(keyword):
+                        return keyword
+                except ValueError:
+                    pass
+
+                return None
+
+            def to_mcnp(self) -> str:
+                """
+                'to_mcnp' generates from cell card parameter keyword objects.
+
+                'to_mcnp' provides an MCNP endpoints for writing
+                source strings.
+
+                Returns:
+                    INP for cell card parameter keyword object.
+                """
+
+                return self.value
+
+        def __init__(self) -> Self:
+            """
+            '__init__' initializes 'CellParameter'.
+            """
+
+            self.keyword: self.CellKeyword = None
+            self.value: any = None
+
+        @classmethod
+        def from_mcnp(cls, string: str):
+            """
+            'from_mcnp' generates cell card parameter objects from.
+
+            'from_mcnp' constructs instances of 'CellParameter' from
+            INP strings, so it functions as a class constructor. It
+            transforms cell parameters into their correct subclasses.
+
+            Parameters:
+                card: INP to parse.
+
+            Returns:
+                Cell card parameter object.
+
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter entry.
+                MCNPSyntaxError: Invalid cell card paramter syntax.
+            """
+
+            parameter = cls()
+
+            tokens = parser.Parser(
+                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_PARAMETERS)
+            ).from_string(string, r":|=")
+
+            # Processing Keyword
+            value = cls.CellKeyword.cast_cell_keyword(tokens.peekl())
+            if value is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_KEYWORD
+                )
+            parameter.set_keyword(value)
+
+            # Processing Value & Designator
+            match parameter.keyword:
+                case "imp":
+                    parameter.__class__ = Cell.Importance
 
-	'Cell' abstracts the cell card syntax element and it
-	encapsulates all functionallity for parsing cell cards.
+                    # Processing Keyword
+                    tokens.popl()
 
-	Attributes:
-		number: Cell card number.
-		material: Cell material number.
-		density: Cell density value.
-		geometry: Cell geometry specification.
-		parameters: Cell parameter table.
-	"""
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
+                    # Processing Designator
+                    designator = types.Designator.cast_mcnp_designator(tokens.popr())
+                    parameter.set_designator(designator)
 
-	class CellGeometry:
-		"""
-		'CellGeometry' represents cell card geometry formulas.
+                case "vol":
+                    parameter.__class__ = Cell.Volume
 
-		'CellGeometry' functions as a data type for 'Cell'. It
-		represents cell card geometry formulas as abstract
-		syntax elements.
+                    # Processing Keyword
+                    tokens.popl()
 
-		Attributes:
-			string: String representation.
-			postfix: Postfix representation.
-		"""
+                    # Processing Value
+                    value = types.cast_fortran_real(tokens.popr())
+                    parameter.set_value(value)
 
+                case "pwt":
+                    parameter.__class__ = Cell.ProtonWeight
 
-		_OPERATIONS_ORDER = {'#': 0, ' ': 1, ':': 2}
+                    # Processing Keyword
+                    tokens.popl()
 
+                    # Processing Value
+                    value = types.cast_fortran_real(tokens.popr())
+                    parameter.set_value(value)
 
-		def __init__(self) -> Self:
-			"""
-			'__init__' initializes 'CellGeometry'
-			"""
-	
-			self.string: str = None
-			self.postfix: tuple[str] = None
+                case "ext":
+                    parameter.__class__ = Cell.ExponentialTransform
 
+                    # Processing Keyword
+                    tokens.popl()
 
-		@classmethod
-		def from_mcnp(cls, source: str) -> Self:
-			"""
-			'from_mcnp' generates cell geometry objects from.
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
-			'from_mcnp' constructs instances of 'CellGeometry' from INP
-			strings, so it functions as a class constructor. It
-			transforms cell parameters into correct subclasses.
+                    # Processing Designator
+                    designator = types.Designator.cast_mcnp_designator(tokens.popr())
+                    parameter.set_designator(designator)
 
-			Parameters:
-				source: INP for cell geometry.
+                case "fcl":
+                    parameter.__class__ = Cell.ForcedCollision
 
-			Returns:
-				Cell geometry object.
+                    # Processing Keyword
+                    tokens.popl()
 
-			Raises:
-				MCNPSemanticError: Invalid cell geometry.
-				MCNPSyntaxError: Extra tokens in cell geometry.
-			"""
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
-			geometry = cls()
+                    # Processing Designator
+                    designator = types.Designator.cast_mcnp_designator(tokens.popr())
+                    parameter.set_designator(designator)
 
-			source = parser.Preprocessor.process_inp(source)
+                case "wwn":
+                    parameter.__class__ = Cell.WeightWindowBounds
 
-			# Running Shunting-Yard Algorithm 
-			ops_stack = parser.Parser(errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY))
-			out_stack = parser.Parser(errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY))
-			inp_stack = re.findall(r"#|:| : |[()]| [()]|[()] | [()] | |[+-]?\d+", source)
+                    # Processing Suffix/Keyword
+                    suffix = types.cast_fortran_integer(tokens.popl())[3:]
+                    parameter.set_suffix(suffix)
 
-			if ''.join(inp_stack) != source:
-				raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_CELL_GEOMETRY)
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
-			for token in inp_stack:
-				if re.match(r"[+-]?\d+", token):
-					# Processing Surface Number
+                    # Processing Designator
+                    designator = types.Designator.cast_mcnp_designator(tokens.popr())
+                    parameter.set_designator(designator)
 
-					value = types.cast_fortran_integer(token)
-					if value is None or not (value != 0 and -99_999_999 <= value <= 99_999_999): raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY)
+                case "dxc":
+                    parameter.__class__ = Cell.DxtranContribution
 
-					out_stack.pushr(token)
+                    # Processing Suffix/Keyword
+                    suffix = types.cast_fortran_integer(tokens.popl())[3:]
+                    parameter.set_suffix(suffix)
 
-				elif re.match(r"#", token):
-					# Processing Unary Operator
-					ops_stack.pushr(token)
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
-				elif re.match(r"([(]| [(]|[(] | [(] )", token):
-					# Processing Left Parenthesis
-					ops_stack.pushr('(')
+                    # Processing Designator
+                    designator = types.Designator.cast_mcnp_designator(tokens.popr())
+                    parameter.set_designator(designator)
 
-				elif re.match(r"([)]| [)]|[)] | [)] )", token):
-					# Processing Right Parenthesis
-					while ops_stack.peekr() != '(':
-						out_stack.pushr(ops_stack.popr())
+                case "nonu":
+                    parameter.__class__ = Cell.FissionTurnOff
 
-					ops_stack.popr()
+                    # Processing Keyword
+                    tokens.popl()
 
-				elif re.match(r":| : | |: | :", token):
-					# Processing Binary Operator
-					token = token.strip() if token != ' ' else token
-			
-					while ops_stack and ops_stack.peekr() not in {'(', ')'} and cls._OPERATIONS_ORDER[ops_stack.peekr()] >= cls._OPERATIONS_ORDER[token]:
-						out_stack.pushr(ops_stack.popr())
-			
-					ops_stack.pushr(token)
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
-				else:
-					# Unrecognized Character
-					assert False
+                case "pd":
+                    parameter.__class__ = Cell.DetectorContribution
 
-			while ops_stack:
-				out_stack.pushr(ops_stack.popr())
+                    # Processing Keyword
+                    tokens.popl()
 
-			geometry.postfix = tuple(out_stack.deque)
-			geometry.string = source
+                    # Processing Suffix/Keyword
+                    suffix = types.cast_fortran_integer(tokens.popl())[2:]
+                    parameter.set_suffix(suffix)
 
-			return geometry
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
+                case "tmp":
+                    parameter.__class__ = Cell.GasThermalTemperature
 
-		def to_mcnp(self) -> str:
-			"""
-			'to_mcnp' generates from cell geometry objects.
+                    # Processing Keyword
+                    tokens.popl()
 
-			'to_mcnp' provides an MCNP endpoints for writing 
-			INP source strings.
+                    # Processing Suffix/Keyword
+                    suffix = types.cast_fortran_integer(tokens.popl())[2:]
+                    parameter.set_suffix(suffix)
 
-			Returns:
-				INP for cell card object.
-			"""
+                    # Processing Value
+                    value = types.cast_fortran_real(tokens.popr())
+                    parameter.set_value(value)
 
-			return self.string
+                case "u":
+                    parameter.__class__ = Cell.Universe
 
+                    # Processing Keyword
+                    tokens.popl()
 
-	class CellParameter:
-		"""
-		'CellParameter' represents cell card parameters.
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
-		'CellParameter' functions as a data type for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
+                case "trcl":
+                    parameter.__class__ = Cell.CoordinateTransformation
 
-		Attributes:
-			keyword: cell card parameter keyword.
-			value: cell card parameter value.
-		"""
+                    # Processing Keyword
+                    tokens.popl()
 
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
-		class CellKeyword(StrEnum):
-			"""
-			'CellKeyword' represents cell card keywords.
+                case "lat":
+                    parameter.__class__ = Cell.Lattice
 
-			'CellParameter' functions as a data type for 'CellParameter'
-			and 'Cell'. It represents cell card parameter keywords
-			as abstract syntax elements.
-			"""
+                    # Processing Keyword
+                    tokens.popl()
 
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
-			IMP = 'imp'
-			VOL = 'vol'
-			PWT = 'pwt'
-			EXT = 'ext'
-			FCL = 'fcl'
-			WWN = 'wwn'
-			DXC = 'dxc'
-			NONU = 'nonu'
-			PD = 'pd'
-			TMP = 'tmp'
-			U = 'u'
-			TRCL = 'trcl'
-			LAT = 'lat'
-			FILL = 'fill'
-			ELPT = 'elpt'
-			COSY = 'cosy'
-			BFLCL = 'bflcl'
-			UNC = 'unc'
+                case "fill":
+                    parameter.__class__ = Cell.Fill
 
+                    # Processing Keyword
+                    tokens.popl()
 
-			@classmethod
-			def cast_cell_keyword(cls, string: str, hook: Callable[Self, bool] = lambda _: True) -> Self:
-				"""
-				'cast_cell_keyword' types casts from strings to cell keywords.
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
-				'cast_cell_keyword' creates cell parameter keywords objects from 
-				strings. If the string is invalid or the hook returns false, 
-				it returns None.
+                case "elpt":
+                    parameter.__class__ = Cell.EnergyCutoff
 
-				Returns:
-					Cell parameter keyword from string.
-				"""
+                    # Processing Keyword
+                    tokens.popl()
 
-				string = string.lower()
+                    # Processing Value
+                    value = types.cast_fortran_real(tokens.popr())
+                    parameter.set_value(value)
 
-				if string.startswith("*"):
-					string = string[:1]
+                    # Processing Designator
+                    designator = types.Designator.cast_mcnp_designator(tokens.popr())
+                    parameter.set_designator(designator)
 
-				if string.startswith(('wwn', 'dxc')):
-					if len(string) < 4 and types.cast_fortran_integer(tokens[:3]) is None:
-						return None
+                case "cosy":
+                    parameter.__class__ = Cell.Cosy
 
-					string = string[:3]
-				elif string.startswith(('pd')):
-					if len(string) < 3 and types.cast_fortran_integer(tokens[:2]) is None:
-						return None
+                    # Processing Keyword
+                    tokens.popl()
 
-					string = string[:2]
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
-				try:
-					keyword = cls(string)
+                case "bflcl":
+                    parameter.__class__ = Cell.Bfield
 
-					if hook(keyword):
-						return keyword
-				except:
-					pass
+                    # Processing Keyword
+                    tokens.popl()
 
-				return None
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
+                case "unc":
+                    parameter.__class__ = Cell.UncolidedSecondaries
 
-			def to_mcnp(self) -> str:
-				"""
-				'to_mcnp' generates from cell card parameter keyword objects.
+                    # Processing Keyword
+                    tokens.popl()
 
-				'to_mcnp' provides an MCNP endpoints for writing
-				source strings.
+                    # Processing Value
+                    value = types.cast_fortran_integer(tokens.popr())
+                    parameter.set_value(value)
 
-				Returns:
-					INP for cell card parameter keyword object.
-				"""
+                    # Processing Designator
+                    designator = types.Designator.cast_mcnp_designator(tokens.popr())
+                    parameter.set_designator(designator)
 
-				return self.value
+            # Checking for Remaining Tokens
+            if tokens:
+                raise errors.MCNPSyntaxError(
+                    errors.MCNPSyntaxCodes.TOOLONG_CELL_PARAMETERS
+                )
 
+            return parameter
 
-		def __init__(self) -> Self:
-			"""
-			'__init__' initializes 'CellParameter'.
-			"""
+        def set_keyword(self, keyword: CellKeyword) -> None:
+            """
+            'set_keyword' sets cell parameter keywords.
 
-			self.keyword: CellKeyword = None
-			self.value: any = None
+            'set_keyword' checks keywords are valid. It
+            raises errors if given None.
 
+            Parameters:
+                keyword: Cell parameter keyword.
+            """
 
-		@classmethod
-		def from_mcnp(cls, string: str):
-			"""
-			'from_mcnp' generates cell card parameter objects from.
+            if keyword is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_KEYWORD
+                )
 
-			'from_mcnp' constructs instances of 'CellParameter' from
-			INP strings, so it functions as a class constructor. It
-			transforms cell parameters into their correct subclasses.
+            self.keyword = keyword
 
-			Parameters:
-				card: INP to parse.
+        def to_mcnp(self) -> str:
+            """
+            'to_mcnp' generates from cell card parameter objects.
 
-			Returns:
-				Cell card parameter object.
+            'to_mcnp' provides an MCNP endpoints for writing INP
+            source strings.
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter entry.
-				MCNPSyntaxError: Invalid cell card paramter syntax.
-			"""
+            Returns:
+                INP for cell card parameter object.
+            """
 
-			parameter = cls()
+            # Processing Suffix
+            suffix_str = (
+                self.suffix
+                if hasattr(self, "suffix") and self.suffix is not None
+                else ""
+            )
 
-			tokens = parser.Parser(errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_PARAMETERS)).from_string(string, r":|=")
+            # Processing Designator
+            designator_str = (
+                f":{','.join(self.designator)}"
+                if hasattr(self, "designator") and self.designator is not None
+                else ""
+            )
 
-			# Processing Keyword
-			value = cls.CellKeyword.cast_cell_keyword(tokens.peekl())
-			if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_KEYWORD)
-			parameter.set_keyword(value)
+            return f"{self.keyword}{suffix_str}{designator_str}={self.value}"
 
-			# Processing Value & Designator
-			match parameter.keyword:
-				case 'imp':
-					parameter.__class__ = Cell.Importance
+        def to_arguments(self) -> dict:
+            """
+            'to_arguments' generates dictionary from cell card parameter objects.
 
-					# Processing Keyword
-					tokens.popl()
+            'to_arguments' creates dictionaries whose keys are
+            attribute names, and whose values are attribute value.
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+            Returns:
+                arguments (dict): Dictionary for cell card parameter object.
+            """
 
-					# Processing Designator
-					designator = types.Designator.cast_mcnp_designator(tokens.popr())
-					parameter.set_designator(designator)
+            return {
+                "keyword": self.keyword.to_mcnp(),
+                "suffix": self.suffix if hasattr(self.__class__, "suffix") else None,
+                "designator": self.designator
+                if hasattr(self.__class__, "designator")
+                else None,
+                "value": self.value,
+            }
 
-				case 'vol':
-					parameter.__class__ = Cell.Volume
+    class Importance(CellParameter):
+        """
+        'Importance' represents cell card particle importance parameters.
 
-					# Processing Keyword
-					tokens.popl()
+        'Importance' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-					# Processing Value
-					value = types.cast_fortran_real(tokens.popr())
-					parameter.set_value(value)
+        def __init__(self):
+            """
+            '__init__' initalizes 'Importance'
+            """
 
-				case 'pwt':
-					parameter.__class__ = Cell.ProtonWeight
+            super().__init__()
 
-					# Processing Keyword
-					tokens.popl()
+            self.importance: any = None
+            self.designator: tuple[types.Designator] = None
 
-					# Processing Value
-					value = types.cast_fortran_real(tokens.popr())
-					parameter.set_value(value)
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card particle importance parameter values.
 
-				case 'ext':
-					parameter.__class__ = Cell.ExponentialTransform
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-					# Processing Keyword
-					tokens.popl()
+            Parameters:
+                importance: Cell particle importance.
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-					# Processing Designator
-					designator = types.Designator.cast_mcnp_designator(tokens.popr())
-					parameter.set_designator(designator)
+            if value is None or not (value >= 0):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-				case 'fcl':
-					parameter.__class__ = Cell.ForcedCollision
+            self.importance = value
+            self.value = value
 
-					# Processing Keyword
-					tokens.popl()
+        def set_designator(self, designator: tuple[types.Designator]) -> None:
+            """
+            'set_designator' checks designators are valid.
+            It raises errors if given None.
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+            Parameters:
+                designator: cell card parameter designator.
+            """
 
-					# Processing Designator
-					designator = types.Designator.cast_mcnp_designator(tokens.popr())
-					parameter.set_designator(designator)
+            if designator is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR
+                )
 
-				case 'wwn':
-					parameter.__class__ = Cell.WeightWindowBounds
+            self.designator = designator
 
-					# Processing Suffix/Keyword
-					suffix = types.cast_fortran_integer(tokens.popl())[3:]
-					parameter.set_suffix(suffix)
+    class Volume(CellParameter):
+        """
+        'Volume' represents cell card volume parameters.
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+        'Volume' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-					# Processing Designator
-					designator = types.Designator.cast_mcnp_designator(tokens.popr())
-					parameter.set_designator(designator)
+        def __init__(self):
+            """
+            '__init__' initalizes 'Volume'
+            """
 
-				case 'dxc':
-					parameter.__class__ = Cell.DxtranContribution
+            super().__init__()
 
-					# Processing Suffix/Keyword
-					suffix = types.cast_fortran_integer(tokens.popl())[3:]
-					parameter.set_suffix(suffix)
+            self.volume: any = None
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card volume parameter values.
 
-					# Processing Designator
-					designator = types.Designator.cast_mcnp_designator(tokens.popr())
-					parameter.set_designator(designator)
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-				case 'nonu':
-					parameter.__class__ = Cell.FissionTurnOff
+            Parameters:
+                volume: Cell volume.
 
-					# Processing Keyword
-					tokens.popl()
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+            if value is None or not (value > 0):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-				case 'pd':
-					parameter.__class__ = Cell.DetectorContribution
+            self.volume = value
+            self.value = value
 
-					# Processing Keyword
-					tokens.popl()
+    class ProtonWeight(CellParameter):
+        """
+        'ProtonWeight' represents cell card proton weight parameters.
 
-					# Processing Suffix/Keyword
-					suffix = types.cast_fortran_integer(tokens.popl())[2:]
-					parameter.set_suffix(suffix)
+        'ProtonWeight' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+        def __init__(self):
+            """
+            '__init__' initalizes 'ProtonWeight'
+            """
 
-				case 'tmp':
-					parameter.__class__ = Cell.GasThermalTemperature
+            super().__init__()
 
-					# Processing Keyword
-					tokens.popl()
+            self.weight: any = None
 
-					# Processing Suffix/Keyword
-					suffix = types.cast_fortran_integer(tokens.popl())[2:]
-					parameter.set_suffix(suffix)
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card proton weight parameter values.
 
-					# Processing Value
-					value = types.cast_fortran_real(tokens.popr())
-					parameter.set_value(value)
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-				case 'u':
-					parameter.__class__ = Cell.Universe
+            Parameters:
+                weight: Cell collision-generated proton number/weight.
 
-					# Processing Keyword
-					tokens.popl()
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+            if value is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-				case 'trcl':
-					parameter.__class__ = Cell.CoordinateTransformation
+            self.weight = value
+            self.value = value
 
-					# Processing Keyword
-					tokens.popl()
+    class ExponentialTransform(CellParameter):
+        """
+        'ExponentialTransform' represents cell card exponential transformation parameters.
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+        'ExponentialTransform' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-				case 'lat':
-					parameter.__class__ = Cell.Lattice
+        def __init__(self):
+            """
+            '__init__' initalizes 'ExponentialTransform'
+            """
 
-					# Processing Keyword
-					tokens.popl()
+            super().__init__()
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+            self.stretch: any = None
+            self.designator: types.Designator = None
 
-				case 'fill':
-					parameter.__class__ = Cell.Fill
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card exponential transformation parameter values.
 
-					# Processing Keyword
-					tokens.popl()
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+            Parameters:
+                stretch: Cell stretch specifier.
 
-				case 'elpt':
-					parameter.__class__ = Cell.EnergyCutoff
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-					# Processing Keyword
-					tokens.popl()
+            if value is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-					# Processing Value
-					value = types.cast_fortran_real(tokens.popr())
-					parameter.set_value(value)
+            self.stretch = value
+            self.value = value
 
-					# Processing Designator
-					designator = types.Designator.cast_mcnp_designator(tokens.popr())
-					parameter.set_designator(designator)
+        def set_designator(self, designator: types.Designator) -> None:
+            """
+            'set_designator' sets cell card exponential transformation parameter designator.
 
-				case 'cosy':
-					parameter.__class__ = Cell.Cosy
+            'set_designator' checks designators are valid.
+            It raises errors if given None.
 
-					# Processing Keyword
-					tokens.popl()
+            Parameters:
+                designator: cell card parameter designator.
+            """
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+            if designator is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR
+                )
 
-				case 'bflcl':
-					parameter.__class__ = Cell.Bfield
+            self.designator = designator
 
-					# Processing Keyword
-					tokens.popl()
+    class ForcedCollision(CellParameter):
+        """
+        'ForcedCollision' represents cell card forced-collision parameters.
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+        'ForcedCollision' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-				case 'unc':
-					parameter.__class__ = Cell.UncolidedSecondaries
+        def __init__(self):
+            """
+            '__init__' initalizes 'ForcedCollision'
+            """
 
-					# Processing Keyword
-					tokens.popl()
+            super().__init__()
 
-					# Processing Value
-					value = types.cast_fortran_integer(tokens.popr())
-					parameter.set_value(value)
+            self.control: any = None
+            self.designator: types.Designator = None
 
-					# Processing Designator
-					designator = types.Designator.cast_mcnp_designator(tokens.popr())
-					parameter.set_designator(designator)
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card forced-collision parameter values.
 
-			# Checking for Remaining Tokens
-			if tokens: raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_CELL_PARAMETERS)
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-			return parameter
+            Parameters:
+                control: Cell forced-collision.
 
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-		def set_keyword(self, keyword: CellKeyword) -> None:
-			"""
-			'set_keyword' sets cell parameter keywords.
+            if value is None or not (-1 <= value <= 1):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-			'set_keyword' checks keywords are valid. It
-			raises errors if given None.
+            self.control = value
+            self.value = value
 
-			Parameters:
-				keyword: Cell parameter keyword.
-			"""
+        def set_designator(self, designator: types.Designator) -> None:
+            """
+            'set_designator' sets cell card forced-collision parameter designator.
 
-			if keyword is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_KEYWORD)
+            'set_designator' checks designators are valid.
+            It raises errors if given None.
 
-			self.keyword = keyword
+            Parameters:
+                designator: cell card parameter designator.
+            """
 
+            if designator is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR
+                )
 
-		def to_mcnp(self) -> str:
-			"""
-			'to_mcnp' generates from cell card parameter objects.
+            self.designator = designator
 
-			'to_mcnp' provides an MCNP endpoints for writing INP 
-			source strings.
+    class WeightWindowBounds(CellParameter):
+        """
+        'WeightWindowBounds' represents cell card space-, time-, and energy-dependent weight window bound parameters.
 
-			Returns:
-				INP for cell card parameter object.
-			"""
+        'WeightWindowBounds' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-			# Processing Suffix
-			suffix_str = self.suffix if hasattr(self, 'suffix') and self.suffix is not None else ''
+        def __init__(self):
+            """
+            '__init__' initalizes 'WeightWindowBounds'
+            """
 
-			# Processing Designator
-			designator_str = f":{','.join(self.designator)}" if hasattr(self, 'designator') and self.designator is not None else ''
+            super().__init__()
 
-			return f"{self.keyword}{suffix_str}{designator_str}={self.value}"
+            self.weight: any = None
+            self.designator: types.Designator = None
+            self.suffix: int = None
 
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card space-, time-, and energy-dependent weight window bound parameter values.
 
-		def to_arguments(self) -> dict:
-			"""
-			'to_arguments' generates dictionary from cell card parameter objects.
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-			'to_arguments' creates dictionaries whose keys are 
-			attribute names, and whose values are attribute value.
+            Parameters:
+                weight: Cell weight window bounds.
 
-			Returns:
-				arguments (dict): Dictionary for cell card parameter object.
-			"""
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-			return {'keyword': self.keyword.to_mcnp(), 'suffix': self.suffix if hasattr(self.__class__, 'suffix') else None, 'designator': self.designator if hasattr(self.__class__, 'designator') else None, 'value': self.value}
+            if value is None or not (value == -1 or value >= 0):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
+            self.weight = value
+            self.value = value
 
-	class Importance(CellParameter):
-		"""
-		'Importance' represents cell card particle importance parameters.
+        def set_designator(self, designator: types.Designator) -> None:
+            """
+            'set_designator' sets cell card space-, time-, and energy-dependent weight window bound parameter designator.
 
-		'Importance' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+            'set_designator' checks designators are valid.
+            It raises errors if given None.
 
+            Parameters:
+                designator: cell card parameter designator.
+            """
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'Importance'
-			"""
+            if designator is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR
+                )
 
-			super().__init__()
+            self.designator = designator
 
-			self.importance: any = None
-			self.designator: tuple[types.Designator] = None
+        def set_suffix(self, suffix: int) -> None:
+            """
+            'set_suffix' sets cell card space-, time-, and energy-dependent weight window bound parameter keyword suffix.
 
+            'set_suffix' checks suffixes are valid.
+            It raises errors if given None.
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card particle importance parameter values.
+            Parameters:
+                suffix (int): cell card keyword suffix.
+            """
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+            if suffix is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_SUFFIX
+                )
 
-			Parameters:
-				importance: Cell particle importance.
+            self.suffix = suffix
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+    class DxtranContribution(CellParameter):
+        """
+        'DxtranContribution' represents cell card DXTRAN sphere contribution parameters.
 
-			if value is None or not (value >= 0):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
-	
-			self.importance = value
-			self.value = value
+        'DxtranContribution' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
+        def __init__(self):
+            """
+            '__init__' initalizes 'DxtranContribution'
+            """
 
-		def set_designator(self, designator: tuple[types.Designator]) -> None:
-			"""
-			'set_designator' sets cell card particle importance parameter designator.	
+            super().__init__()
 
-			'set_designator' checks designators are valid. 
-			It raises errors if given None.
+            self.probability: any = None
+            self.designator: types.Designator = None
+            self.suffix: int = None
 
-			Parameters:
-				designator: cell card parameter designator.
-			"""
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card DXTRAN sphere contribution parameter values.
 
-			if designator is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR)
-	
-			self.designator = designator
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
+            Parameters:
+                probability: Cell DXTRAN sphere contribution probability.
 
-	class Volume(CellParameter):
-		"""
-		'Volume' represents cell card volume parameters.
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-		'Volume' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+            if value is None or not (0 <= value <= 1):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
+            self.probability = value
+            self.value = value
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'Volume'
-			"""
+        def set_designator(self, designator: types.Designator) -> None:
+            """
+            'set_designator' sets cell card DXTRAN sphere contribution parameter designator.
 
-			super().__init__()
+            'set_designator' checks designators are valid.
+            It raises errors if given None.
 
-			self.volume: any = None
+            Parameters:
+                designator: cell card parameter designator.
+            """
 
+            if designator is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR
+                )
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card volume parameter values.
+            self.designator = designator
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+        def set_suffix(self, suffix: int) -> None:
+            """
+            'set_suffix' sets cell card DXTRAN sphere contribution parameter keyword suffix.
 
-			Parameters:
-				volume: Cell volume.
+            'set_suffix' checks suffixes are valid.
+            It raises errors if given None.
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+            Parameters:
+                suffix (int): cell card keyword suffix.
+            """
 
-			if value is None or not (value > 0):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
+            if suffix is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_SUFFIX
+                )
 
-			self.volume = value
-			self.value = value
+            self.suffix = suffix
 
+    class FissionTurnOff(CellParameter):
+        """
+        'FissionTurnOff' represents cell card fission on/off parameters.
 
-	class ProtonWeight(CellParameter):
-		"""
-		'ProtonWeight' represents cell card proton weight parameters.
+        'FissionTurnOff' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-		'ProtonWeight' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+        def __init__(self):
+            """
+            '__init__' initalizes 'FissionTurnOff'
+            """
 
+            super().__init__()
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'ProtonWeight'
-			"""
+            self.setting: any = None
 
-			super().__init__()
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card fission on/off parameter values.
 
-			self.weight: any = None
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
+            Parameters:
+                setting: Cell fission on/off setting.
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card proton weight parameter values.
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+            if value is None or not (value in {0, 1, 2}):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-			Parameters:
-				weight: Cell collision-generated proton number/weight.
+            self.setting = value
+            self.value = value
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+    class DetectorContribution(CellParameter):
+        """
+        'DetectorContribution' represents cell card point detector contribution parameters.
 
-			if value is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
+        'DetectorContribution' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-			self.weight = value
-			self.value = value
+        def __init__(self):
+            """
+            '__init__' initalizes 'DetectorContribution'
+            """
 
+            super().__init__()
 
-	class ExponentialTransform(CellParameter):
-		"""
-		'ExponentialTransform' represents cell card exponential transformation parameters.
+            self.probability: any = None
+            self.suffix: int = None
 
-		'ExponentialTransform' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card point detector contribution parameter values.
 
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'ExponentialTransform'
-			"""
+            Parameters:
+                probability: Cell point detector contribution probability.
 
-			super().__init__()
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-			self.stretch: any = None
-			self.designator: types.Designator = None
+            if value is None or not (0 <= value <= 1):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
+            self.probability = value
+            self.value = value
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card exponential transformation parameter values.
+        def set_suffix(self, suffix: int) -> None:
+            """
+            'set_suffix' sets cell card point detector contribution parameter keyword suffix.
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+            'set_suffix' checks suffixes are valid.
+            It raises errors if given None.
 
-			Parameters:
-				stretch: Cell stretch specifier.
+            Parameters:
+                suffix (int): cell card keyword suffix.
+            """
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+            if suffix is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_SUFFIX
+                )
 
-			if value is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
+            self.suffix = suffix
 
-			self.stretch = value
-			self.value = value
+    class GasThermalTemperature(CellParameter):
+        """
+        'GasThermalTemperature' represents cell card time-dependent thermal temperature parameters.
 
+        'GasThermalTemperature' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-		def set_designator(self, designator: types.Designator) -> None:
-			"""
-			'set_designator' sets cell card exponential transformation parameter designator.
-	
-			'set_designator' checks designators are valid. 
-			It raises errors if given None.
+        def __init__(self):
+            """
+            '__init__' initalizes 'GasThermalTemperature'
+            """
 
-			Parameters:
-				designator: cell card parameter designator.
-			"""
-	
-			if designator is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR)
-	
-			self.designator = designator
+            super().__init__()
 
+            self.temperature: any = None
+            self.suffix: int = None
 
-	class ForcedCollision(CellParameter):
-		"""
-		'ForcedCollision' represents cell card forced-collision parameters.
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card time-dependent thermal temperature parameter values.
 
-		'ForcedCollision' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
+            Parameters:
+                temperature: Cell temperature.
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'ForcedCollision'
-			"""
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-			super().__init__()
+            if value is None or not (value >= 0):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-			self.control: any = None
-			self.designator: types.Designator = None
+            self.temperature = value
+            self.value = value
 
+        def set_suffix(self, suffix: int) -> None:
+            """
+            'set_suffix' sets cell card time-dependent thermal temperature parameter keyword suffix.
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card forced-collision parameter values.
+            'set_suffix' checks suffixes are valid.
+            It raises errors if given None.
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+            Parameters:
+                suffix: cell card keyword suffix.
+            """
 
-			Parameters:
-				control: Cell forced-collision.
+            if suffix is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_SUFFIX
+                )
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+            self.suffix = suffix
 
-			if value is None or not (-1 <= value <= 1):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
+    class Universe(CellParameter):
+        """
+        'Universe' represents cell card universe parameters.
 
-			self.control = value
-			self.value = value
+        'Universe' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
+        def __init__(self):
+            """
+            '__init__' initalizes 'Universe'
+            """
 
-		def set_designator(self, designator: types.Designator) -> None:
-			"""
-			'set_designator' sets cell card forced-collision parameter designator.
-	
-			'set_designator' checks designators are valid. 
-			It raises errors if given None.
+            super().__init__()
 
-			Parameters:
-				designator: cell card parameter designator.
-			"""
-	
-			if designator is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR)
-	
-			self.designator = designator
+            self.number: any = None
 
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card universe parameter values.
 
-	class WeightWindowBounds(CellParameter):
-		"""
-		'WeightWindowBounds' represents cell card space-, time-, and energy-dependent weight window bound parameters.
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-		'WeightWindowBounds' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+            Parameters:
+                number: Cell universe number.
 
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'WeightWindowBounds'
-			"""
+            if value is None or not (-99_999_999 <= value <= 99_999_999):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-			super().__init__()
+            self.number = value
+            self.value = value
 
-			self.weight: any = None
-			self.designator: types.Designator = None
-			self.suffix: int = None
+    class CoordinateTransformation(CellParameter):
+        """
+        'CoordinateTransformation' represents cell card transformation parameters.
 
+        'CoordinateTransformation' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card space-, time-, and energy-dependent weight window bound parameter values.
+        def __init__(self):
+            """
+            '__init__' initalizes 'CoordinateTransformation'
+            """
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+            super().__init__()
 
-			Parameters:
-				weight: Cell weight window bounds.
+            self.number: any = None
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card transformation parameter values.
 
-			if value is None or not (value == -1 or value >= 0):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-			self.weight = value
-			self.value = value
+            Parameters:
+                number: Cell transformation number.
 
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-		def set_designator(self, designator: types.Designator) -> None:
-			"""
-			'set_designator' sets cell card space-, time-, and energy-dependent weight window bound parameter designator.
-	
-			'set_designator' checks designators are valid. 
-			It raises errors if given None.
+            if value is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-			Parameters:
-				designator: cell card parameter designator.
-			"""
-	
-			if designator is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR)
-	
-			self.designator = designator
+            self.number = value
+            self.value = value
 
+    class Lattice(CellParameter):
+        """
+        'Lattice' represents cell card lattice shape parameters.
 
-		def set_suffix(self, suffix: int) -> None:
-			"""
-			'set_suffix' sets cell card space-, time-, and energy-dependent weight window bound parameter keyword suffix.
-			
-			'set_suffix' checks suffixes are valid. 
-			It raises errors if given None.
+        'Lattice' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-			Parameters:
-				suffix (int): cell card keyword suffix.
-			"""
-	
-			if suffix is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_SUFFIX)
-	
-			self.suffix = suffix
+        def __init__(self):
+            """
+            '__init__' initalizes 'Lattice'
+            """
 
+            super().__init__()
 
-	class DxtranContribution(CellParameter):
-		"""
-		'DxtranContribution' represents cell card DXTRAN sphere contribution parameters.
+            self.shape: any = None
 
-		'DxtranContribution' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card lattice shape parameter values.
 
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'DxtranContribution'
-			"""
+            Parameters:
+                shape: Cell shape setting.
 
-			super().__init__()
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-			self.probability: any = None
-			self.designator: types.Designator = None
-			self.suffix: int = None
+            if value is None or not (value in {1, 2}):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
+            self.shape = value
+            self.value = value
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card DXTRAN sphere contribution parameter values.
+    class Fill(CellParameter):
+        """
+        'Fill' represents cell card filling universe parameters.
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+        'Fill' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-			Parameters:
-				probability: Cell DXTRAN sphere contribution probability.
+        def __init__(self):
+            """
+            '__init__' initalizes 'Fill'
+            """
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+            super().__init__()
 
-			if value is None or not (0 <= value <= 1):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
+            self.number: any = None
 
-			self.probability = value
-			self.value = value
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card filling universe parameter values.
 
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-		def set_designator(self, designator: types.Designator) -> None:
-			"""
-			'set_designator' sets cell card DXTRAN sphere contribution parameter designator.
-	
-			'set_designator' checks designators are valid. 
-			It raises errors if given None.
+            Parameters:
+                number: Cell filling universe number.
 
-			Parameters:
-				designator: cell card parameter designator.
-			"""
-	
-			if designator is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR)
-	
-			self.designator = designator
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
+            if value is None or not (0 <= value <= 99_999_999):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-		def set_suffix(self, suffix: int) -> None:
-			"""
-			'set_suffix' sets cell card DXTRAN sphere contribution parameter keyword suffix.
-	
-			'set_suffix' checks suffixes are valid. 
-			It raises errors if given None.
+            self.number = value
+            self.value = value
 
-			Parameters:
-				suffix (int): cell card keyword suffix.
-			"""
-	
-			if suffix is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_SUFFIX)
-	
-			self.suffix = suffix
+    class EnergyCutoff(CellParameter):
+        """
+        'EnergyCutoff' represents cell card lower energy cutoff parameters.
 
+        'EnergyCutoff' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-	class FissionTurnOff(CellParameter):
-		"""
-		'FissionTurnOff' represents cell card fission on/off parameters.
+        def __init__(self):
+            """
+            '__init__' initalizes 'EnergyCutoff'
+            """
 
-		'FissionTurnOff' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+            super().__init__()
 
+            self.cutoff: any = None
+            self.designator: types.Designator = None
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'FissionTurnOff'
-			"""
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card lower energy cutoff parameter values.
 
-			super().__init__()
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-			self.setting: any = None
+            Parameters:
+                cutoff: Cell energy cutoff.
 
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card fission on/off parameter values.
+            if value is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+            self.cutoff = value
+            self.value = value
 
-			Parameters:
-				setting: Cell fission on/off setting.
+        def set_designator(self, designator: types.Designator) -> None:
+            """
+            'set_designator' sets cell card lower energy cutoff parameter designator.
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+            'set_designator' checks designators are valid.
+            It raises errors if given None.
 
-			if value is None or not (value in {0, 1, 2}):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
+            Parameters:
+                designator: cell card parameter designator.
+            """
 
-			self.setting = value
-			self.value = value
+            if designator is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR
+                )
 
+            self.designator = designator
 
-	class DetectorContribution(CellParameter):
-		"""
-		'DetectorContribution' represents cell card point detector contribution parameters.
+    class Cosy(CellParameter):
+        """
+        'Cosy' represents cell card cosy map parameters.
 
-		'DetectorContribution' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+        'Cosy' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
+        def __init__(self):
+            """
+            '__init__' initalizes 'Cosy'
+            """
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'DetectorContribution'
-			"""
+            super().__init__()
 
-			super().__init__()
+            self.number: any = None
 
-			self.probability: any = None
-			self.suffix: int = None
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card cosy map parameter values.
 
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card point detector contribution parameter values.
+            Parameters:
+                number: Cell cosy map number.
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-			Parameters:
-				probability: Cell point detector contribution probability.
+            if value is None and (value >= 0):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+            self.number = value
+            self.value = value
 
-			if value is None or not (0 <= value <= 1):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
+    class Bfield(CellParameter):
+        """
+        'Bfield' represents cell card magnetic/B field parameters.
 
-			self.probability = value
-			self.value = value
+        'Bfield' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
+        def __init__(self):
+            """
+            '__init__' initalizes 'Bfield'
+            """
 
-		def set_suffix(self, suffix: int) -> None:
-			"""
-			'set_suffix' sets cell card point detector contribution parameter keyword suffix.
-	
-			'set_suffix' checks suffixes are valid. 
-			It raises errors if given None.
+            super().__init__()
 
-			Parameters:
-				suffix (int): cell card keyword suffix.
-			"""
-	
-			if suffix is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_SUFFIX)
-	
-			self.suffix = suffix
+            self.number: any = None
 
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card magnetic/B field parameter values.
 
-	class GasThermalTemperature(CellParameter):
-		"""
-		'GasThermalTemperature' represents cell card time-dependent thermal temperature parameters.
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-		'GasThermalTemperature' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+            Parameters:
+                number: Cell magnetic field number.
 
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'GasThermalTemperature'
-			"""
+            if value is None or not (value >= 0):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-			super().__init__()
+            self.number = value
+            self.value = value
 
-			self.temperature: any = None
-			self.suffix: int = None
+    class UncolidedSecondaries(CellParameter):
+        """
+        'UncolidedSecondaries' represents cell card uncollided particle secondaries behavior parameters.
 
+        'UncolidedSecondaries' functions as a data subtype for 'Cell'. It
+        represents cell card parameter as abstract syntax
+        elements.
+        """
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card time-dependent thermal temperature parameter values.
+        def __init__(self):
+            """
+            '__init__' initalizes 'UncolidedSecondaries'
+            """
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+            super().__init__()
 
-			Parameters:
-				temperature: Cell temperature.
+            self.setting: any = None
+            self.designator: types.Designator = None
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+        def set_value(self, value: any) -> None:
+            """
+            'set_value' sets cell card uncollided particle secondaries behavior parameter values.
 
-			if value is None or not (value >= 0):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
+            'set_value' checks values are valid. It
+            raises errors if given None.
 
-			self.temperature = value
-			self.value = value
+            Parameters:
+                setting: Cell uncollided secondaries setting.
 
+            Raises:
+                MCNPSemanticError: Invalid cell card parameter value.
+            """
 
-		def set_suffix(self, suffix: int) -> None:
-			"""
-			'set_suffix' sets cell card time-dependent thermal temperature parameter keyword suffix.
-	
-			'set_suffix' checks suffixes are valid. 
-			It raises errors if given None.
+            if value is None or not (value in {0, 1}):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE
+                )
 
-			Parameters:
-				suffix: cell card keyword suffix.
-			"""
-	
-			if suffix is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_SUFFIX)
-	
-			self.suffix = suffix
+            self.setting = value
+            self.value = value
 
+        def set_designator(self, designator: types.Designator) -> None:
+            """
+            'set_designator' sets cell card uncollided particle secondaries behavior parameter designator.
 
-	class Universe(CellParameter):
-		"""
-		'Universe' represents cell card universe parameters.
+            'set_designator' checks designators are valid.
+            It raises errors if given None.
 
-		'Universe' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+            Parameters:
+                designator: cell card parameter designator.
 
+            Raises:
+                MCNPSemanticError: Invalid cell card paramter designators.
+            """
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'Universe'
-			"""
+            if designator is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR
+                )
 
-			super().__init__()
+            self.designator = designator
 
-			self.number: any = None
+    def __init__(self) -> Self:
+        """
+        '__init__' initializes 'Cell'.
+        """
 
+        super().__init__()
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card universe parameter values.
+        self.number: int = None
+        self.mateiral: int = None
+        self.density: float = None
+        self.geometry: str = None
+        self.parameters: tuple[self.CellParameter] = None
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+    def set_number(self, number: int) -> None:
+        """
+        'set_number' sets cell card number.
 
-			Parameters:
-				number: Cell universe number.
+        'set_number' checks numbers are greater than
+        or equal to 1 and less than or equal to 99,999,999.
+        It raises errors if given None.
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+        Parameters:
+            number: cell card number.
 
-			if value is None or not (-99_999_999 <= value <= 99_999_999):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
+        Raises:
+            MCNPSemanticError: Invalid cell card number.
+        """
 
-			self.number = value
-			self.value = value
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_NUMBER)
 
+        self.number = number
+        self.id = number
 
-	class CoordinateTransformation(CellParameter):
-		"""
-		'CoordinateTransformation' represents cell card transformation parameters.
+    def set_material(self, material: int) -> None:
+        """
+        'set_material' sets cell card material.
 
-		'CoordinateTransformation' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+        'set_material' checks numbers are greater than
+        or equal to 0 and less than or equal to 99,999,999.
+        It raises errors if given None.
 
+        Parameters:
+            material: cell card material or void.
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'CoordinateTransformation'
-			"""
+        Raises:
+            MCNPSemanticError: Invalid cell card material.
+        """
 
-			super().__init__()
+        if material is None or not (0 <= material <= 99_999_999):
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_CELL_MATERIAL
+            )
 
-			self.number: any = None
+        self.material = material
 
+    def set_density(self, density: float) -> None:
+        """
+        'set_density' sets cell card densities.
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card transformation parameter values.
+        'set_density' checks numbers are not
+        equal to zero. It raises errors if given None.
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+        Parameters:
+            density: cell card density.
 
-			Parameters:
-				number: Cell transformation number.
+        Raises:
+            MCNPSemanticError: Invalid cell card density.
+        """
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+        if density is None or density == 0:
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_CELL_DENSITY
+            )
 
-			if value is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
+        self.density = density
 
-			self.number = value
-			self.value = value
+    def set_geometry(self, geometry: CellGeometry) -> None:
+        """
+        'set_geometry' sets cell card geometries.
 
+        'set_geometry' checks geometries are valid.
+        It raises errors if given None.
 
-	class Lattice(CellParameter):
-		"""
-		'Lattice' represents cell card lattice shape parameters.
+        Parameters:
+            geometry: cell card geometry.
 
-		'Lattice' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+        Raises:
+            MCNPSemanticError: Invalid cell card geometry.
+        """
 
+        if geometry is None:
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY
+            )
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'Lattice'
-			"""
+        self.geometry = geometry
 
-			super().__init__()
+    def set_parameters(self, parameters: tuple[CellParameter]) -> None:
+        """
+        'set_parameters' sets cell card parameters.
 
-			self.shape: any = None
+        'set_parameters' checks cell parameters are valid.
+        It raises errors if given None.
 
+        Parameters:
+            parameters: Tuple of cell card parameters.
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card lattice shape parameter values.
+        Raises:
+            MCNPSemanticError: Invalid cell card parameters.
+        """
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+        params = []
 
-			Parameters:
-				shape: Cell shape setting.
+        for parameter in parameters:
+            if parameter is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_CELL_PARAMETER
+                )
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+            params.append(parameter)
 
-			if value is None or not (value in {1, 2}):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
+        self.parameters = tuple(params)
 
-			self.shape = value
-			self.value = value
+    @classmethod
+    def from_mcnp(cls, card: str) -> Self:
+        """
+        'from_mcnp' generates cell card objects from.
 
+        'from_mcnp' constructs instances of 'Cell' from INP
+        strings, so it functions as a class constructor.
 
-	class Fill(CellParameter):
-		"""
-		'Fill' represents cell card filling universe parameters.
+        Parameters:
+            card: INP to parse.
 
-		'Fill' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+        Returns:
+            Cell card object.
 
+        Raises:
+            MCNPSemanticError: Invalid cell card values.
+            MCNPSyntaxError: Invalid cell card syntax.
+        """
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'Fill'
-			"""
+        cell = cls()
+        tokens = parser.Parser(
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL)
+        ).from_string(card, " ")
 
-			super().__init__()
+        value = types.cast_fortran_integer(tokens.popl())
+        cell.set_number(value)
 
-			self.number: any = None
+        # Processing Material Number
+        value = types.cast_fortran_integer(tokens.popl())
+        cell.set_material(value)
 
+        # Processing Material Density
+        if cell.material != 0:
+            value = types.cast_fortran_real(tokens.popl())
+            cell.set_density(value)
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card filling universe parameter values.
+        # Processing Parameters
+        parameters = []
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+        entries = re.split(r":|=", tokens.peekr())
+        value = cls.CellParameter.CellKeyword.cast_cell_keyword(entries[0])
 
-			Parameters:
-				number: Cell filling universe number.
+        while value is not None:
+            parameter = cls.CellParameter().from_mcnp(tokens.popr())
+            parameters.append(parameter)
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
+            entries = re.split(r":|=", tokens.peekr())
+            value = cls.CellParameter.CellKeyword.cast_cell_keyword(entries[0])
 
-			if value is None or not (0 <= value <= 99_999_999):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
+        cell.set_parameters(tuple(parameters))
 
-			self.number = value
-			self.value = value
+        # Processing Geometry
+        cell.geometry = cls.CellGeometry().from_mcnp(" ".join(tokens.deque))
 
+        return cell
 
-	class EnergyCutoff(CellParameter):
-		"""
-		'EnergyCutoff' represents cell card lower energy cutoff parameters.
+    def to_mcnp(self) -> str:
+        """
+        'to_mcnp' generates from cell card objects.
 
-		'EnergyCutoff' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
+        'to_mcnp' provides an MCNP endpoints for writing INP
+        source strings.
 
+        Returns:
+            INP for cell card object.
+        """
 
-		def __init__(self):
-			"""
-			'__init__' initalizes 'EnergyCutoff'
-			"""
+        # Formatting Density
+        density_str = f" {self.density}" if self.material else ""
 
-			super().__init__()
+        # Formatting Geometry
+        geometry_str = self.geometry.to_mcnp()
 
-			self.cutoff: any = None
-			self.designator: types.Designator = None
+        # Formatting Parameters
+        parameters_str = " ".join(param.to_mcnp() for param in self.parameters)
 
+        return parser.Postprocessor.add_continuation_lines(
+            f"{self.number} {self.material}{density_str} {geometry_str} {parameters_str}"
+        )
 
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card lower energy cutoff parameter values.
+    def to_arguments(self) -> dict:
+        """
+        'to_arguments' generates dictionary from cell card objects.
 
-			'set_value' checks values are valid. It
-			raises errors if given None.
+        'to_arguments' creates dictionaries whose keys are
+        attribute names, and whose values are attribute value.
 
-			Parameters:
-				cutoff: Cell energy cutoff.
+        Returns:
+            Dictionary for cell card object.
+        """
 
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
-
-			if value is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
-
-			self.cutoff = value
-			self.value = value
-
-
-		def set_designator(self, designator: types.Designator) -> None:
-			"""
-			'set_designator' sets cell card lower energy cutoff parameter designator.
-	
-			'set_designator' checks designators are valid. 
-			It raises errors if given None.
-
-			Parameters:
-				designator: cell card parameter designator.
-			"""
-	
-			if designator is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR)
-	
-			self.designator = designator
-
-
-	class Cosy(CellParameter):
-		"""
-		'Cosy' represents cell card cosy map parameters.
-
-		'Cosy' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
-
-
-		def __init__(self):
-			"""
-			'__init__' initalizes 'Cosy'
-			"""
-
-			super().__init__()
-
-			self.number: any = None
-
-
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card cosy map parameter values.
-
-			'set_value' checks values are valid. It
-			raises errors if given None.
-
-			Parameters:
-				number: Cell cosy map number.
-
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
-
-			if value is None and (value >= 0):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
-
-			self.number = value
-			self.value = value
-
-
-	class Bfield(CellParameter):
-		"""
-		'Bfield' represents cell card magnetic/B field parameters.
-
-		'Bfield' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
-
-
-		def __init__(self):
-			"""
-			'__init__' initalizes 'Bfield'
-			"""
-
-			super().__init__()
-
-			self.number: any = None
-
-
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card magnetic/B field parameter values.
-
-			'set_value' checks values are valid. It
-			raises errors if given None.
-
-			Parameters:
-				number: Cell magnetic field number.
-
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
-
-			if value is None or not (value >= 0):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
-
-			self.number = value
-			self.value = value
-
-
-	class UncolidedSecondaries(CellParameter):
-		"""
-		'UncolidedSecondaries' represents cell card uncollided particle secondaries behavior parameters.
-
-		'UncolidedSecondaries' functions as a data subtype for 'Cell'. It
-		represents cell card parameter as abstract syntax 
-		elements.
-		"""
-
-
-		def __init__(self):
-			"""
-			'__init__' initalizes 'UncolidedSecondaries'
-			"""
-
-			super().__init__()
-
-			self.setting: any = None
-			self.designator: types.Designator = None
-
-
-		def set_value(self, value: any) -> None:
-			"""
-			'set_value' sets cell card uncollided particle secondaries behavior parameter values.
-
-			'set_value' checks values are valid. It
-			raises errors if given None.
-
-			Parameters:
-				setting: Cell uncollided secondaries setting.
-
-			Raises:
-				MCNPSemanticError: Invalid cell card parameter value.
-			"""
-
-			if value is None or not (value in {0, 1}):
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_PARAMETER_VALUE)
-
-			self.setting = value
-			self.value = value
-
-
-		def set_designator(self, designator: types.Designator) -> None:
-			"""
-			'set_designator' sets cell card uncollided particle secondaries behavior parameter designator.
-	
-			'set_designator' checks designators are valid. 
-			It raises errors if given None.
-
-			Parameters:
-				designator: cell card parameter designator.
-
-			Raises:
-				MCNPSemanticError: Invalid cell card paramter designators.
-			"""
-	
-			if designator is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR)
-	
-			self.designator = designator
-
-
-	def __init__(self) -> Self:
-		"""
-		'__init__' initializes 'Cell'.
-		"""
-
-		super().__init__()
-
-		self.number: int = None
-		self.mateiral: int = None
-		self.density: float = None
-		self.geometry: str = None
-		self.parameters: tuple[CellParameter] = None
-
-
-	def set_number(self, number: int) -> None:
-		"""
-		'set_number' sets cell card number.
-
-		'set_number' checks numbers are greater than
-		or equal to 1 and less than or equal to 99,999,999. 
-		It raises errors if given None.
-
-		Parameters:
-			number: cell card number.
-
-		Raises:
-			MCNPSemanticError: Invalid cell card number.
-		"""
-
-		if number is None or not (1 <= number <= 99_999_999): 
-			raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_NUMBER)
-
-		self.number = number
-		self.id = number
-
-
-	def set_material(self, material: int) -> None:
-		"""
-		'set_material' sets cell card material.
-
-		'set_material' checks numbers are greater than
-		or equal to 0 and less than or equal to 99,999,999. 
-		It raises errors if given None.
-
-		Parameters:
-			material: cell card material or void.
-
-		Raises:
-			MCNPSemanticError: Invalid cell card material.
-		"""
-
-		if material is None or not (0 <= material <= 99_999_999): 
-			raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_MATERIAL)
-
-		self.material = material
-
-
-	def set_density(self, density: float) -> None:
-		"""
-		'set_density' sets cell card densities.
-
-		'set_density' checks numbers are not
-		equal to zero. It raises errors if given None.
-
-		Parameters:
-			density: cell card density.
-
-		Raises:
-			MCNPSemanticError: Invalid cell card density.
-		"""
-
-		if density is None or density == 0:
-			raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_DENSITY)
-
-		self.density = density
-
-
-	def set_geometry(self, geometry: CellGeometry) -> None:
-		"""
-		'set_geometry' sets cell card geometries.
-
-		'set_geometry' checks geometries are valid.
-		It raises errors if given None.
-
-		Parameters:
-			geometry: cell card geometry.
-
-		Raises:
-			MCNPSemanticError: Invalid cell card geometry.
-		"""
-
-		if geometry is None:
-			raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY)
-
-		self.geometry = geometry
-
-
-	def set_parameters(self, parameters: tuple[CellParameter]) -> None:
-		"""
-		'set_parameters' sets cell card parameters.
-
-		'set_parameters' checks cell parameters are valid.
-		It raises errors if given None.
-
-		Parameters:
-			parameters: Tuple of cell card parameters.
-
-		Raises:
-			MCNPSemanticError: Invalid cell card parameters.
-		"""
-
-		params = []
-
-		for parameter in parameters:
-			if parameter is None:
-				raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_PARAMETER)
-
-			params.append(parameter)
-
-		self.parameters = tuple(params)
-
-
-	@classmethod
-	def from_mcnp(cls, card: str) -> Self:
-		"""
-		'from_mcnp' generates cell card objects from.
-
-		'from_mcnp' constructs instances of 'Cell' from INP 
-		strings, so it functions as a class constructor.
-
-		Parameters:
-			card: INP to parse.
-
-		Returns:
-			Cell card object.
-
-		Raises:
-			MCNPSemanticError: Invalid cell card values.
-			MCNPSyntaxError: Invalid cell card syntax.
-		"""
-
-		cell = cls()
-		### MUST GET PREPROCESSED STRING '  ' -> ' ' and strip.
-		tokens = parser.Parser(errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL)).from_string(card, ' ')
-
-		# Processing Card Number	
-		value = types.cast_fortran_integer(tokens.popl())
-		cell.set_number(value)
-
-		# Processing Material Number
-		value = types.cast_fortran_integer(tokens.popl())
-		cell.set_material(value)
-
-		# Processing Material Density
-		if cell.material != 0:
-			value = types.cast_fortran_real(tokens.popl())
-			cell.set_density(value)
-
-		# Processing Parameters
-		parameters = []
-
-		entries = re.split(r":|=", tokens.peekr())
-		value = cls.CellParameter.CellKeyword.cast_cell_keyword(entries[0])
-
-		while value is not None:
-			parameter = cls.CellParameter().from_mcnp(tokens.popr())
-			parameters.append(parameter)
-
-			entries = re.split(r":|=", tokens.peekr())
-			value = cls.CellParameter.CellKeyword.cast_cell_keyword(entries[0])
-
-		cell.set_parameters(tuple(parameters))
-
-		# Processing Geometry
-		cell.geometry = cls.CellGeometry().from_mcnp(' '.join(tokens.deque))
-
-		return cell
-
-
-	def to_mcnp(self) -> str:
-		"""
-		'to_mcnp' generates from cell card objects.
-
-		'to_mcnp' provides an MCNP endpoints for writing INP
-		source strings.
-
-		Returns:
-			INP for cell card object.
-		"""
-
-		# Formatting Density
-		density_str = f" {self.density}" if self.material else ''
-
-		# Formatting Geometry
-		geometry_str = self.geometry.to_mcnp()
-
-		# Formatting Parameters
-		parameters_str = ' '.join(param.to_mcnp() for param in self.parameters)
-
-		return parser.Postprocessor.add_continuation_lines(f"{self.number} {self.material}{density_str} {geometry_str} {parameters_str}")
-
-
-	def to_arguments(self) -> dict:
-		"""
-		'to_arguments' generates dictionary from cell card objects.
-
-		'to_arguments' creates dictionaries whose keys are 
-		attribute names, and whose values are attribute value.
-
-		Returns:
-			Dictionary for cell card object.
-		"""
-
-		return {'j': self.number, 'm': self.material, 'd': self.density, 'geom': self.geometry.to_mcnp(), 'params': [param.to_arguments() for param in self.parameters]}
-
+        return {
+            "j": self.number,
+            "m": self.material,
+            "d": self.density,
+            "geom": self.geometry.to_mcnp(),
+            "params": [param.to_arguments() for param in self.parameters],
+        }

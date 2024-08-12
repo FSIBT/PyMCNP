@@ -3,71 +3,64 @@
 """
 
 
-from enum import *
-from typing import *
-import tempfile
-import collections
+from typing import Self
 
-from . import *
 from .header import Header
 from .history import History
-from .._utils import parser
-from .._utils import types
 
 
 class Ptrac:
-	"""
-	'Ptrac'
-	"""
+    """
+    'Ptrac'
+    """
 
-	def __init__(self) -> Self:
-		"""
-		'__init__'
-		"""
+    def __init__(self) -> Self:
+        """
+        '__init__'
+        """
 
-		self.header: Header = None
-		self.histories: list[History] = None
+        self.header: Header = None
+        self.histories: list[History] = None
 
+    @classmethod
+    def from_mcnp(cls, source: str) -> Self:
+        """
+        'from_mcnp'
+        """
 
-	@classmethod
-	def from_mcnp(cls, source: str) -> Self:
-		"""
-		'from_mcnp'
-		"""
+        ptrac = cls()
 
-		ptrac = cls()
+        # Processing Header
+        ptrac.header, lines = Header().from_mcnp(source)
 
-		# Processing Header
-		ptrac.header, lines = Header().from_mcnp(source)
+        # Processing History
+        histories = []
 
-		# Processing History
-		histories = []
+        while lines:
+            history, lines = History().from_mcnp(lines, ptrac.header)
+            histories.append(history)
 
-		while lines:
-			history, lines = History().from_mcnp(lines, ptrac.header)
-			histories.append(history)
+        ptrac.histories = tuple(histories)
 
-		ptrac.histories = tuple(histories)
+        return ptrac
 
-		return ptrac
+    @classmethod
+    def from_mcnp_file(cls, filename: str):
+        """
+        'from_mcnp_file'
+        """
 
+        with open(filename) as file:
+            source = "".join(file.readlines())
 
-	@classmethod
-	def from_mcnp_file(cls, filename: str):
-		"""
-		'from_mcnp_file'
-		"""
+        return cls.from_mcnp(source)
 
-		with open(filename, 'r') as file:
-			source = ''.join(file.readlines())
+    def to_arguments(self) -> dict:
+        """
+        'to_arguments'
+        """
 
-		return cls.from_mcnp(source)
-
-
-	def to_arguments(self) -> dict:
-		"""
-		'to_arguments'
-		"""
-
-		return {'header': self.header.to_arguments(), 'histories': [history.to_arguments() for history in self.histories]}
-
+        return {
+            "header": self.header.to_arguments(),
+            "histories": [history.to_arguments() for history in self.histories],
+        }

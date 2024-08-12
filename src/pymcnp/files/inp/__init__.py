@@ -9,3 +9,15 @@ from .inp import Inp
 from .surface import Surface
 from .surfaces import Surfaces
 
+__all__ = [
+    "Block",
+    "Card",
+    "Cell",
+    "Cells",
+    "Comment",
+    "Data",
+    "Datum",
+    "Inp",
+    "Surface",
+    "Surfaces",
+]

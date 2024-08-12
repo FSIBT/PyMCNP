@@ -6,29 +6,27 @@ for generic INP cards.
 """
 
 
-from typing import *
+from typing import Union, Self
 
 
 class Card:
-	""" 
-	'Card' represents generic INP cards.
+    """
+    'Card' represents generic INP cards.
 
-	'Card' abstracts the commonalities of INP cell, surface, and data
-	cards. It represents INP cards as abstract syntax elements.
+    'Card' abstracts the commonalities of INP cell, surface, and data
+    cards. It represents INP cards as abstract syntax elements.
 
-	Attributes:
-		id: Card identifier.
-		line: Line number.
-		comment: Inline comment.
-	"""
+    Attributes:
+        id: Card identifier.
+        line: Line number.
+        comment: Inline comment.
+    """
 
+    def __init__(self) -> Self:
+        """
+        '__init__' initalizes 'Card'.
+        """
 
-	def __init__(self) -> Self:
-		"""
-		'__init__' initalizes 'Card'.
-		"""
-
-		self.id: Union[int, str] = None
-		self.line: int = None
-		self.comment: str = None
-
+        self.id: Union[int, str] = None
+        self.line: int = None
+        self.comment: str = None

@@ -8,200 +8,191 @@ import collections
 
 
 class Parser:
-	"""
-	'Parser'
-	"""
+    """
+    'Parser'
+    """
 
-	def __init__(self, err: Exception):
-		"""
-		'__init__'
-		"""
+    def __init__(self, err: Exception):
+        """
+        '__init__'
+        """
 
-		self.deque = collections.deque()
-		self.err = err
+        self.deque = collections.deque()
+        self.err = err
 
+    def from_string(self, string: str, delimiter: str):
+        """
+        'from_string'
+        """
 
-	def from_string(self, string: str, delimiter: str):
-		"""
-		'from_string'
-		"""
+        self.deque = collections.deque(re.split(delimiter, string))
 
-		self.deque = collections.deque(re.split(delimiter, string))
+        return self
 
-		return self
+    def pushl(self, item: any) -> None:
+        """
+        'pushl'
+        """
 
+        self.deque.appendleft(item)
 
-	def pushl(self, item: any) -> None:
-		"""
-		'pushl'
-		"""
+    def pushr(self, item: any) -> None:
+        """
+        'pushr'
+        """
 
-		self.deque.appendleft(item)
+        self.deque.append(item)
 
+    def popl(self) -> any:
+        """
+        'popl'
+        """
 
-	def pushr(self, item: any) -> None:
-		"""
-		'pushr'
-		"""
+        if not bool(self):
+            raise self.err
 
-		self.deque.append(item)
+        return self.deque.popleft()
 
+    def peekl(self) -> str:
+        """
+        'peekl'
+        """
 
-	def popl(self) -> any:
-		"""
-		'popl'
-		"""
+        if not bool(self):
+            raise self.err
 
-		if not bool(self): raise self.err
-		return self.deque.popleft()
+        return self.deque[0]
 
+    def popr(self) -> str:
+        """
+        'popr'
+        """
 
-	def peekl(self) -> str:
-		"""
-		'peekl'
-		"""
+        if not bool(self):
+            raise self.err
 
-		if not bool(self): raise self.err
-		return self.deque[0]
+        return self.deque.pop()
 
+    def peekr(self) -> str:
+        """
+        'peekr'
+        """
 
-	def popr(self) -> str:
-		"""
-		'popr'
-		"""
+        if not bool(self):
+            raise self.err
 
-		if not bool(self): raise self.err
-		return self.deque.pop()
+        return self.deque[-1]
 
+    def __len__(self):
+        """
+        '__len__'
+        """
 
-	def peekr(self) -> str:
-		"""
-		'peekr'
-		"""
+        return len(self.deque)
 
-		if not bool(self): raise self.err
-		return self.deque[-1]
+    def __bool__(self):
+        """
+        '__bool__'
+        """
 
+        return len(self.deque) != 0
 
-	def __len__(self):
-		"""
-		'__len__'
-		"""
-		
-		return len(self.deque)
+    def __str__(self):
+        """
+        '__str__'
+        """
 
-
-	def __bool__(self):
-		"""
-		'__bool__'
-		"""
-
-		return len(self.deque) != 0
-
-
-	def __str__(self):
-		"""
-		'__str__'
-		"""
-
-		return str(list(self.deque))
+        return str(list(self.deque))
 
 
 class Preprocessor:
-	"""
-	'Preprocessor'
-	"""
+    """
+    'Preprocessor'
+    """
 
+    @staticmethod
+    def _process_case(string: str) -> str:
+        """
+        '_process_case'
+        """
 
-	@staticmethod
-	def _process_case(string: str) -> str:
-		"""
-		'_process_case'
-		"""
+        string = string.lower()
 
-		string = string.lower()
+        return string
 
-		return string
+    @staticmethod
+    def _process_tabs(string: str) -> str:
+        """
+        '_process_whitespace'
+        """
 
+        string = re.sub(r"\t", "    ", string)
 
-	@staticmethod
-	def _process_tabs(string: str) -> str:
-		"""
-		'_process_whitespace'
-		"""
+        return string
 
-		string = re.sub(r'\t', '    ', string)
+    @staticmethod
+    def _process_continuation(string: str) -> str:
+        """
+        '_process_continuation'
+        """
 
-		return string
+        string = re.sub(r"( &\n)|(\n     )", r" ", string)
 
+        return string
 
-	@staticmethod
-	def _process_continuation(string: str) -> str:
-		"""
-		'_process_continuation'
-		"""
+    @staticmethod
+    def _process_whitespace(string: str) -> str:
+        """
+        '_process_whitespace'
+        """
 
-		string = re.sub(r'( &\n)|(\n     )', r' ', string)
+        string = re.sub(r"( \n)|(\n )", "\n", string)
+        string = re.sub(r" +", " ", string)
 
-		return string
+        return string
 
+    @staticmethod
+    def process_inp(string: str) -> str:
+        """
+        'process_inp'
+        """
 
-	@staticmethod
-	def _process_whitespace(string: str) -> str:
-		"""
-		'_process_whitespace'
-		"""
+        string = Preprocessor._process_case(string)
+        string = Preprocessor._process_continuation(string)
+        string = Preprocessor._process_continuation(string)
+        string = Preprocessor._process_whitespace(string)
 
-		string = re.sub(r'( \n)|(\n )', '\n', string)
-		string = re.sub(r' +', ' ', string)
+        return string
 
-		return string
+    @staticmethod
+    def process_ptrac(string: str) -> str:
+        """
+        'process_ptrac'
+        """
 
+        string = Preprocessor._process_case(string)
+        string = Preprocessor._process_whitespace(string)
 
-	@staticmethod
-	def process_inp(string: str) -> str:
-		"""
-		'process_inp'
-		"""
-
-		string = Preprocessor._process_case(string)
-		string = Preprocessor._process_continuation(string)
-		string = Preprocessor._process_continuation(string)
-		string = Preprocessor._process_whitespace(string)
-
-		return string
-
-
-	@staticmethod
-	def process_ptrac(string: str) -> str:
-		"""
-		'process_ptrac'
-		"""
-
-		string = Preprocessor._process_case(string)
-		string = Preprocessor._process_whitespace(string)
-
-		return string
+        return string
 
 
 class Postprocessor:
-	"""
-	'Postprocessor'
-	"""
+    """
+    'Postprocessor'
+    """
 
+    @staticmethod
+    def add_continuation_lines(string: str) -> str:
+        out = ""
+        line_length = 0
+        words = string.split(" ")
 
-	@staticmethod
-	def add_continuation_lines(string: str) -> str:
-		out = ''
-		line_length = 0
-		words = string.split(' ')
+        for word in words:
+            if len(word) + line_length > 80 or len(word) + line_length > 78 and words:
+                out += " &\n     "
+                line_length = 5
 
-		for word in words:
-			if len(word) + line_length > 80 or len(word) + line_length > 78 and words:
-				out += ' &\n     ' 
-				line_length = 5
+            out += word + " "
+            line_length += len(word) + 1
 
-			out += word + ' '
-			line_length += len(word) + 1
-
-		return out
+        return out

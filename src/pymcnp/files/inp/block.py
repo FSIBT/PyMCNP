@@ -6,77 +6,72 @@ for generic INP card blocks.
 """
 
 
-from typing import *
+from typing import Self
 
 from . import card
-from .._utils import errors
 
 
 class Block:
-	"""
-	'Block' represents generic INP card blocks.
+    """
+    'Block' represents generic INP card blocks.
 
-	'Block' abstracts the common properties of INP cell, surface, and
-	data blocks. It represents INP card blocks as abstract syntax elements.
-	"""
+    'Block' abstracts the common properties of INP cell, surface, and
+    data blocks. It represents INP card blocks as abstract syntax elements.
+    """
 
+    def __init__(self) -> Self:
+        """
+        '__init__' initalizes 'Block'.
+        """
 
-	def __init__(self) -> Self:
-		"""
-		'__init__' initalizes 'Block'.
-		"""
+        self._cards: dict[card.Card] = {}
 
-		self._cards: dict[card.Card] = {}
+    def append(self, new_card: card.Card) -> int:
+        """
+        'append' enqueues cards to card block objects.
 
+        'append' adds cards to the 'cards' dictionary. It stores
+        cards at the index equals to their id attribute, but it
+        raises errors if collisions occur. 'append' wraps the
+        adctionary 'add' method with PYMCNP error handling.
 
-	def append(self, new_card: card.Card) -> int:
-		"""
-		'append' enqueues cards to card block objects.
+        Parameters:
+            new_card: Card to append.
 
-		'append' adds cards to the 'cards' dictionary. It stores
-		cards at the index equals to their id attribute, but it
-		raises errors if collisions occur. 'append' wraps the
-		adctionary 'add' method with PYMCNP error handling.
+        Returns:
+            ID number of the append card.
+        """
 
-		Parameters:
-			new_card: Card to append.
+        if new_card is None or new_card.id is None:
+            return None
 
-		Returns:
-			ID number of the append card.
-		"""
+        if new_card.id in self._cards:
+            raise ValueError
 
-		if new_card is None or new_card.id is None:
-			return None
+        self._cards[new_card.id] = new_card
 
-		if new_card.id in self._cards: 
-			raise ValueError
+        return new_card.id
 
-		self._cards[new_card.id] = new_card
+    def remove(self, old_id: int) -> card.Card:
+        """
+        'remove' dequeues cards from card block objects.
 
-		return new_card.id
+        'remove' removes cards from the 'cards' dictionary given
+        their id number. If no entry exists for the given key,
+        'remove' returns None. 'remove' wraps the dictionary 'pop'
+        method with PYMCNP error handling.
 
+        Parameters:
+            old_id: ID number of card to remove.
 
-	def remove(self, old_id: int) -> card.Card:
-		"""
-		'remove' dequeues cards from card block objects.
+        Returns:
+            Removed card with the given id number.
+        """
 
-		'remove' removes cards from the 'cards' dictionary given
-		their id number. If no entry exists for the given key, 
-		'remove' returns None. 'remove' wraps the dictionary 'pop'
-		method with PYMCNP error handling.
+        if old_id is None:
+            return None
 
-		Parameters:
-			old_id: ID number of card to remove.
-
-		Returns:
-			Removed card with the given id number.
-		"""
-
-		if old_id is None:
-			return None
-
-		try:
-			return self._cards.pop(old_id)
-		except KeyError:
-			return None
-
+        try:
+            return self._cards.pop(old_id)
+        except KeyError:
+            return None

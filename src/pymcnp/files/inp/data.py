@@ -6,7 +6,7 @@ for INP data cards.
 """
 
 
-from typing import *
+from typing import Self
 
 from .block import Block
 from .datum import Datum
@@ -14,62 +14,58 @@ from .._utils import parser
 
 
 class Data(Block):
-	"""
-	'Data' represents MNCP INP data card blocks.
+    """
+    'Data' represents MNCP INP data card blocks.
 
-	'Data' abstracts the INP data card syntax element and it
-	encapsulates all functionallity for parsing data cards.
-	"""
+    'Data' abstracts the INP data card syntax element and it
+    encapsulates all functionallity for parsing data cards.
+    """
 
+    def __init__(self) -> Self:
+        """
+        '__init__' initalizes 'Data'.
+        """
 
-	def __init__(self) -> Self:
-		"""
-		'__init__' initalizes 'Data'.
-		"""
+        super().__init__()
 
-		super().__init__()
+    @classmethod
+    def from_mcnp(cls, source: str) -> Self:
+        """
+        'from_mcnp' generates data block objects from INP.
 
+        Parameters:
+            source : INP to parse.
 
-	@classmethod
-	def from_mcnp(cls, source: str) -> Self:
-		"""
-		'from_mcnp' generates data block objects from INP.
+        Returns:
+            block (Data): Data block object.
+        """
 
-		Parameters:
-			source : INP to parse.
+        block = cls()
 
-		Returns:
-			block (Data): Data block object.
-		"""
+        lines = parser.Preprocessor.process_inp(source).split("\n")
+        for line in lines:
+            if line == "":
+                break
+            block.append(Datum.from_mcnp(line))
 
-		block = cls()
+        return block
 
-		lines = parser.Preprocessor.process_inp(source).split('\n')
-		for line in lines:
-			if line == '': break
-			block.append(Datum.from_mcnp(line))
+    def to_mcnp(self) -> str:
+        """
+        'to_mcnp' generates INP from data block objects.
 
-		return block
+        Returns:
+            source : INP for data block objects.
+        """
 
+        return "\n".join([datum.to_mcnp() for datum in self.cards.values()])
 
-	def to_mcnp(self) -> str:
-		"""
-		'to_mcnp' generates INP from data block objects.
+    def to_arguments(self) -> list:
+        """
+        'to_arguments' generates lists of datum card objects.
 
-		Returns:
-			source : INP for data block objects.
-		"""
+        Returns:
+            arguments (list): List of datum block objects.
+        """
 
-		return '\n'.join([datum.to_mcnp() for datum in self.cards.values()])
-
-
-	def to_arguments(self) -> list:
-		"""
-		'to_arguments' generates lists of datum card objects.
-
-		Returns:
-			arguments (list): List of datum block objects.
-		"""
-
-		return [card.to_arguments() for card in self.cards.values()]
-
+        return [card.to_arguments() for card in self.cards.values()]
