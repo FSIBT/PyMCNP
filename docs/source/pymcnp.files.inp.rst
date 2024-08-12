@@ -52,14 +52,6 @@ pymcnp.files.inp.datum module
    :undoc-members:
    :show-inheritance:
 
-pymcnp.files.inp.errors module
-------------------------------
-
-.. automodule:: pymcnp.files.inp.errors
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 pymcnp.files.inp.inp module
 ---------------------------
 

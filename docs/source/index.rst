@@ -11,8 +11,8 @@ Hi :)
 .. toctree::
    :maxdepth: 1
 
-   pymcnp.files.inp.rst
-   pymcnp.files.ptrac.rst
    pymcnp.cli.rst
    pymcnp.gui.rst
+   pymcnp.files.inp.rst
+   pymcnp.files.ptrac.rst
 
