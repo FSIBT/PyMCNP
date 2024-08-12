@@ -20,7 +20,7 @@ class Datum(Card):
 	'Datum' represents INP data cards.
 
 	Attributes:
-		mnemonic (str): Data card mnemonic.
+		mnemonic : Data card mnemonic.
 	"""
 
 	
@@ -54,7 +54,7 @@ class Datum(Card):
 		'from_mcnp' generates data card objects from INP.
 
 		Parameters:
-			card (str): INP to parse.
+			card : INP to parse.
 
 		Returns:
 			datum (Datum): Data card object.
@@ -92,7 +92,7 @@ class Datum(Card):
 		'from_arguments' generates data card objects from arguments.
 
 		Parameters:
-			mnemonic (str): Data card mnemonic.
+			mnemonic : Data card mnemonic.
 			parameters (list[str]): Data card parameters.
 
 		Returns:
@@ -118,7 +118,7 @@ class Datum(Card):
 		'to_mcnp' generates INP from data card objects.
 
 		Returns:
-			source (str): INP for data card object.
+			source : INP for data card object.
 		"""
 
 		# Formatting Number

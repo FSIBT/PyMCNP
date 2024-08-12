@@ -18,9 +18,6 @@ class Block:
 
 	'Block' abstracts the common properties of INP cell, surface, and
 	data blocks. It represents INP card blocks as abstract syntax elements.
-
-	Attributes:
-		cards: Dictionary of cards in a card block indexed by their id attributes.
 	"""
 
 
@@ -29,7 +26,7 @@ class Block:
 		'__init__' initalizes 'Block'.
 		"""
 
-		self.cards: dict[card.Card] = {}
+		self._cards: dict[card.Card] = {}
 
 
 	def append(self, new_card: card.Card) -> int:
@@ -51,10 +48,10 @@ class Block:
 		if new_card is None or new_card.id is None:
 			return None
 
-		if new_card.id in self.cards: 
+		if new_card.id in self._cards: 
 			raise ValueError
 
-		self.cards[new_card.id] = new_card
+		self._cards[new_card.id] = new_card
 
 		return new_card.id
 
@@ -79,7 +76,7 @@ class Block:
 			return None
 
 		try:
-			return self.cards.pop(old_id)
+			return self._cards.pop(old_id)
 		except KeyError:
 			return None
 

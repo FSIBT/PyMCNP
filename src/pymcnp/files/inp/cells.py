@@ -39,10 +39,10 @@ class Cells(Block):
 		INP strings, so it functions as a class constructor.
 
 		Parameters:
-			source (str): INP to parse.
+			source: INP to parse.
 
 		Returns:
-			block (Cells): Cell block object.
+			Cell block object.
 		"""
 
 		block = cls()
@@ -63,7 +63,7 @@ class Cells(Block):
 		INP source strings.
 
 		Returns:
-			source (str): INP for cell block objects.
+			INP for cell block objects.
 		"""
 
 		return '\n'.join([cell.to_mcnp() for cell in self.cards.values()] + [''])
@@ -77,7 +77,7 @@ class Cells(Block):
 		attribute names, and whose values are attribute value.
 
 		Returns:
-			arguments: List of cell card objects.
+			List of cell card objects.
 		"""
 
 		return [card.to_arguments() for card in self.cards.values()]

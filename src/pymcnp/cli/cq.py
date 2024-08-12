@@ -22,8 +22,8 @@ def run_cadquery_file(filename: str, arguments: Optional[str] = '') -> None:
 	'run_cadquery_file' runs cq-editor on INP file.
 
 	Parameter:
-		filename (str): Cadquery filename.
-		arguments (str): Additional MCNP arguments.
+		filename : Cadquery filename.
+		arguments : Additional MCNP arguments.
 	"""
 
 	inpt = inp.Inp().from_mcnp_file(filename)
@@ -38,7 +38,7 @@ def run_cadquery_object(inpt: inp.Inp,  arguments: Optional[str] = '') -> None:
 
 	Parameter:
 		inpt (Inp): INP object.
-		arguments (str): Additional MCNP arguments.
+		arguments : Additional MCNP arguments.
 	"""
 
 	filename = f"cadquery-run-{datetime.datetime.utcnow().timestamp()}"

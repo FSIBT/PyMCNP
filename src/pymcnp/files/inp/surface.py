@@ -1,18 +1,16 @@
 """
-'surface' contains the class representing INP surface cards.
+'surface' contains the class representing surface cards.
 
-Classes:
-	Surface: Representation of INP surface cards.
+'surface' packages the 'Surface' class, providing an importable interface
+for surface cards.
 """
 
 
 import numpy as np
 
-import re
-from enum import StrEnum
-from typing import *
-import collections
 import math
+from typing import *
+from enum import StrEnum
 
 from .card import Card
 from .._utils import parser
@@ -22,27 +20,27 @@ from .._utils import types
 
 class Surface(Card):
 	"""
-	'Surface' represents INP surface cards.
+	'Surface' represents surface cards.
 
-	Fields:
-		number (int): Surface card number.
-		mnemonic (str): Surface card type identifier.
-		transform (int): Surface card transformation number.
-		periodic (int): Surface card periodic number.
-		parameters (dict[str, Union[float, Type[np.ndarray]]]): Surface parameter list based on mnemonic.
+	'Surface' abstracts the surface card syntax element and it
+	encapsulates all functionallity for parsing surface cards.
 
-	Methods:
-		__init__: Initializes 'Surface'.
-		from_mcnp: Generates surface card objects from INP.
-		from_arguments: Generates surface card objects from arguments.
-		to_mcnp: Generates INP from surface card objects.
-		to_arguments: Generetes lists from surface card objects.
+	Attributes:
+		number: Surface card number.
+		mnemonic: Surface card type identifier.
+		transform: Surface card transformation number.
+		periodic: Surface card periodic number.
+		parameters: Surface parameter list based on mnemonic.
 	"""
 
 
 	class SurfaceMnemonic(StrEnum):
 		"""
-		'SurfaceMnemonic'
+		'SurfaceMnemonic' represents surface card mnemoincs.
+
+		'SurfaceMnemonic' functions as a data types for surface
+		cards. It selects between 'Surface' subclasses. It 
+		represents surface card mnemonics as abstract syntax elements.
 		"""
 
 
@@ -90,7 +88,14 @@ class Surface(Card):
 		@classmethod
 		def cast_surface_mnemonic(cls, string: str, hook: Callable[Self, bool] = lambda _: True) -> Self:
 			"""
-			'cast_surface_mnemonic'
+			'cast_surface_mnemonic' types casts from strings to surface mnemoincs.
+
+			'cast_surface_mnemonic' creates surface mnemonic objects from
+			strings. If the stirng is invalid or the hook returns false, it
+			returns None.
+
+			Returns:
+				Cell parameter keyword from string.
 			"""
 
 			string = string.lower()
@@ -124,7 +129,17 @@ class Surface(Card):
 
 	def set_number(self, number: int):
 		"""
-		'set_number'
+		'set_number' sets surface card number.
+
+		'set_number' checks numbers are greater than
+		or equal to 1 and less than or equal to 99,999,999. 
+		It raises errors if given None.
+
+		Parameters:
+			number: Surface card number.
+
+		Raises:
+			MCNPSemanticError: Invalid surface card number.
 		"""
 
 		if number is None or not (1 <= number <= 99_999_999): 
@@ -136,7 +151,16 @@ class Surface(Card):
 
 	def set_mnemonic(self, mnemonic: SurfaceMnemonic):
 		"""
-		'set_mnemonic'
+		'set_mnemonic' sets surface card mnemoincs.
+
+		'set_mnemonic' checks are valid. It raises errors
+		if given None.
+
+		Parameters:
+			mnemonic: Surface card mnemonic.
+
+		Raises:
+			MCNPSemanticError: Invalid surface card mnemonic.
 		"""
 
 		if mnemonic is None: 
@@ -147,7 +171,16 @@ class Surface(Card):
 
 	def set_transform_periodic(self, transform_periodic: int):
 		"""
-		'set_transform_periodic'
+		'set_transform_periodic' sets surface card transform/periodic numbers.
+
+		'set_transform_periodic' checks are greater than or equal to -99,999,999
+		and less than or equal to 999. It raises errors if given None.
+
+		Parameters:
+			transform_periodic: Surface card transform/periodic numbers.
+
+		Raises:
+			MCNPSemanticError: Invalid surface card transform/periodic numbers.
 		"""
 
 		if transform_periodic is None or not (-99_999_999 <= transform_periodic <= 999):
@@ -171,18 +204,24 @@ class Surface(Card):
 		"""
 		'from_mcnp' generates surface card objects from INP.
 
+		'from_mcnp' constructs instances of 'Surface' from INP 
+		strings, so it functions as a class constructor.
+
 		Parameters:
-			source (str): INP to parse.
+			surface: INP to parse.
 
 		Returns:
-			surface (Surface): Surface card object.
+			Surface card object.
+
+		Raises:
+			MCNPSemanticError: Invalid surface card values.
+			MCNPSyntaxError: Invalid surface card syntax.
 		"""
 
 		surface = cls()
 
-		processed_source = re.sub(r"&\n     ", '', source)
-		processed_source = re.sub(r"\n     ", ' ', processed_source)
-		tokens = parser.Parser(SyntaxError).from_string(processed_source, ' ')
+		source = parser.Preprocessor.process_inp(source)
+		tokens = parser.Parser(SyntaxError).from_string(source, ' ')
 		
 		# Processing Reflecting Prefix
 		if tokens.peekl()[0] == '+':
@@ -375,10 +414,13 @@ class Surface(Card):
 
 	def to_mcnp(self) -> str:
 		"""
-		'to_mcnp' generates INP from surface card objects.
+		'to_mcnp' generates from surface card objects.
+
+		'to_mcnp' provides an MCNP endpoints for writing INP
+		source strings.
 
 		Returns:
-			source (str): INP for surface card object.
+			INP for surface card object.
 		"""
 
 		parameters_str = ' '.join([str(param) for _, param in self.parameters.items()])
@@ -389,44 +431,25 @@ class Surface(Card):
 
 	def to_arguments(self) -> dict:
 		"""
-		'to_arguments' generates dictionaries from surface card objects.
+		'to_arguments' generates dictionary from surface card objects.
+
+		'to_arguments' creates dictionaries whose keys are 
+		attribute names, and whose values are attribute value.
 
 		Returns:
-			arguments (dict): Dictionary for surface card objectd.
+			Dictionary for surface card object.
 		"""
 
 		return {'j': self.number, 'n': self.transform, 'A': self.mnemonic, 'list': self.parameters}
 
 
-class PlanePoint(Surface):
-	"""
-	'PlanePoint' represents point-defined planes INP surface cards.
-
-	Methods:
-		__init__: Initializes 'PlanePoint'.
-		set_parameters: Sets general planes parameters.
-	"""
-
-
-	def __init__(self) -> Self:
-		self.x1: float = None
-		self.y1: float = None
-		self.z1: float = None
-		self.x2: float = None
-		self.y2: float = None
-		self.z2: float = None
-		self.x3: float = None
-		self.y3: float = None
-		self.z3: float = None
-
-
 class PlaneGeneral(Surface):
 	"""
-	'PlaneGeneral' represents general planes INP surface cards.
+	'PlaneGeneral' represents general planes surface cards.
 
-	Methods:
-		__init__: Initializes 'PlaneGeneral'.
-		set_parameters: Sets general planes parameters.
+	'PlaneGeneral' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -454,7 +477,10 @@ class PlaneGeneral(Surface):
 
 	def set_parameters_equation(self, a: float, b: float, c: float, d: float) -> None:
 		"""
-		'set_parameters' sets general planes parameters.
+		'set_parameters_equation' sets general planes parameters.
+
+		'set_parameters_equation' checks parameter entries for the equation
+		definition are valid floating points. It raises errors if given None.
 
 		Parameters:
 			a: Plane equation A coefficent.
@@ -486,7 +512,10 @@ class PlaneGeneral(Surface):
 
 	def set_parameters_points(self, x1: float, y1: float, z1: float, x2: float, y2: float, z2: float, x3: float, y3: float, z3: float) -> None:
 		"""
-		'set_parameters' sets general planes parameters.
+		'set_parameters_points' sets general planes parameters.
+
+		'set_parameters_points' checks parameter entries for the point
+		definition are valid floating points. It raises errors if given None.
 
 		Parameters:
 			x1: Point #1 x component.
@@ -548,11 +577,11 @@ class PlaneGeneral(Surface):
 
 class PlaneNormalX(Surface):
 	"""
-	'PlaneNormalX' represents planes normal to the x-axis INP surface cards.
+	'PlaneNormalX' represents planes normal to the x-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'PlaneNormalX'.
-		set_parameters: Sets planes normal to the x-axis parameters.
+	'PlaneNormalX' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -570,6 +599,15 @@ class PlaneNormalX(Surface):
 		"""
 		'set_parameters' sets planes normal to the x-axis parameters.
 
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+
+		'set_parameters' checks entries are valid floats.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+		It raises None if given None on required entries.
+
 		Parameters:
 			d: Plane equation D coefficent.
 		"""
@@ -582,11 +620,11 @@ class PlaneNormalX(Surface):
 
 class PlaneNormalY(Surface):
 	"""
-	'PlaneNormalY' represents planes normal to the y-axis INP surface cards.
+	'PlaneNormalY' represents planes normal to the y-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'PlaneNormalY'.
-		set_parameters: Sets planes normal to the y-axis parameters.
+	'PlaneNormalY' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -604,6 +642,15 @@ class PlaneNormalY(Surface):
 		"""
 		'set_parameters' sets planes normal to the y-axis parameters.
 
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+
+		'set_parameters' checks entries are valid floats.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+		It raises None if given None on required entries.
+
 		Parameters:
 			d: Plane equation D coefficent.
 		"""
@@ -616,11 +663,11 @@ class PlaneNormalY(Surface):
 
 class PlaneNormalZ(Surface):
 	"""
-	'PlaneNormalZ' represents planes normal to the z-axis INP surface cards.
+	'PlaneNormalZ' represents planes normal to the z-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'PlaneNormalZ'.
-		set_parameters: Sets planes normal to the z-axis parameters.
+	'PlaneNormalZ' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -638,6 +685,15 @@ class PlaneNormalZ(Surface):
 		"""
 		'set_parameters' sets planes normal to the z-axis parameters.
 
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+
+		'set_parameters' checks entries are valid floats.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+		It raises None if given None on required entries.
+
 		Parameters:
 			d: Plane equation D coefficent.
 		"""
@@ -650,11 +706,11 @@ class PlaneNormalZ(Surface):
 
 class SphereOrigin(Surface):
 	"""
-	'SphereOrigin' represents origin-centered spheres INP surface cards.
+	'SphereOrigin' represents origin-centered spheres surface cards.
 
-	Methods:
-		__init__: Initializes 'SphereOrigin'.
-		set_parameters: Sets origin-centered spheres parameters.
+	'SphereOrigin' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -672,6 +728,9 @@ class SphereOrigin(Surface):
 		"""
 		'set_parameters' sets origin-centered spheres parameters.
 
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+
 		Parameters:
 			r: Sphere radius.
 		"""
@@ -686,11 +745,14 @@ class SphereOrigin(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -702,11 +764,11 @@ class SphereOrigin(Surface):
 
 class SphereGeneral(Surface):
 	"""
-	'SphereGeneral' represents general spheres INP surface cards.
+	'SphereGeneral' represents general spheres surface cards.
 
-	Methods:
-		__init__: Initializes 'SphereGeneral'.
-		set_parameters: Sets general spheres parameters.
+	'SphereGeneral' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -727,6 +789,9 @@ class SphereGeneral(Surface):
 		"""
 		'set_parameters' sets general spheres parameters.
 
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+
 		Parameters:
 			x: Sphere center x component.
 			y: Sphere center y component.
@@ -759,11 +824,14 @@ class SphereGeneral(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -775,11 +843,11 @@ class SphereGeneral(Surface):
 
 class SphereNormalX(Surface):
 	"""
-	'SphereNormalX' represents spheres on x-axis INP surface cards.
+	'SphereNormalX' represents spheres on x-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'SphereNormalX'.
-		set_parameters: Sets spheres on x-axis parameters.
+	'SphereNormalX' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -798,6 +866,9 @@ class SphereNormalX(Surface):
 		"""
 		'set_parameters' sets spheres on x-axis parameters.
 
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+
 		Parameters:
 			x: Sphere center x component.
 			r: Sphere radius.
@@ -818,11 +889,14 @@ class SphereNormalX(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -834,11 +908,11 @@ class SphereNormalX(Surface):
 
 class SphereNormalY(Surface):
 	"""
-	'SphereNormalY' represents spheres on y-axis INP surface cards.
+	'SphereNormalY' represents spheres on y-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'SphereNormalY'.
-		set_parameters: Sets spheres on y-axis parameters.
+	'SphereNormalY' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -856,6 +930,9 @@ class SphereNormalY(Surface):
 	def set_parameters(self, y: float, r: float) -> None:
 		"""
 		'set_parameters' sets spheres on y-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			y: Sphere center y component.
@@ -877,11 +954,14 @@ class SphereNormalY(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -893,11 +973,11 @@ class SphereNormalY(Surface):
 
 class SphereNormalZ(Surface):
 	"""
-	'SphereNormalZ' represents spheres on z-axis INP surface cards.
+	'SphereNormalZ' represents spheres on z-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'SphereNormalZ'.
-		set_parameters: Sets spheres on z-axis parameters.
+	'SphereNormalZ' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -915,6 +995,9 @@ class SphereNormalZ(Surface):
 	def set_parameters(self, z: float, r: float) -> None:
 		"""
 		'set_parameters' sets spheres on z-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			z: Sphere center z component.
@@ -936,11 +1019,14 @@ class SphereNormalZ(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -952,11 +1038,11 @@ class SphereNormalZ(Surface):
 
 class CylinderParallelX(Surface):
 	"""
-	'CylinderParallelX' represents cylinders parallel to x-axis INP surface cards.
+	'CylinderParallelX' represents cylinders parallel to x-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'CylinderParallelX'.
-		set_parameters: Sets cylinders parallel to x-axis parameters.
+	'CylinderParallelX' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -975,6 +1061,9 @@ class CylinderParallelX(Surface):
 	def set_parameters(self, y: float, z: float, r: float) -> None:
 		"""
 		'set_parameters' sets cylinders parallel to x-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			y: Cylinder center y component.
@@ -1000,11 +1089,11 @@ class CylinderParallelX(Surface):
 
 class CylinderParallelY(Surface):
 	"""
-	'CylinderParallelY' represents cylinders parallel to y-axis INP surface cards.
+	'CylinderParallelY' represents cylinders parallel to y-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'CylinderParallelY'.
-		set_parameters: Sets cylinders parallel to y-axis parameters.
+	'CylinderParallelY' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1023,6 +1112,9 @@ class CylinderParallelY(Surface):
 	def set_parameters(self, x: float, z: float, r: float) -> None:
 		"""
 		'set_parameters' sets cylinders parallel to y-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			x: Cylinder center x component.
@@ -1048,11 +1140,11 @@ class CylinderParallelY(Surface):
 
 class CylinderParallelZ(Surface):
 	"""
-	'CylinderParallelZ' represents cylinders parallel to z-axis INP surface cards.
+	'CylinderParallelZ' represents cylinders parallel to z-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'CylinderParallelZ'.
-		set_parameters: Sets cylinders parallel to z-axis parameters.
+	'CylinderParallelZ' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1071,6 +1163,9 @@ class CylinderParallelZ(Surface):
 	def set_parameters(self, x: float, y: float, r: float) -> None:
 		"""
 		'set_parameters' sets cylinders parallel to z-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			x: Cylinder center x component.
@@ -1096,11 +1191,11 @@ class CylinderParallelZ(Surface):
 
 class CylinderOnX(Surface):
 	"""
-	'CylinderOnX' represents cylinders on x-axis INP surface cards.
+	'CylinderOnX' represents cylinders on x-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'CylinderOnX'.
-		set_parameters: Sets cylinders on x-axis parameters.
+	'CylinderOnX' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1118,6 +1213,9 @@ class CylinderOnX(Surface):
 		"""
 		'set_parameters' sets cylinders on x-axis parameters.
 
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+
 		Parameters:
 			r: Cylinder radius.
 		"""
@@ -1130,11 +1228,11 @@ class CylinderOnX(Surface):
 
 class CylinderOnY(Surface):
 	"""
-	'CylinderOnY' represents cylinders on y-axis INP surface cards.
+	'CylinderOnY' represents cylinders on y-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'CylinderOnY'.
-		set_parameters: Sets cylinders on y-axis parameters.
+	'CylinderOnY' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1152,6 +1250,9 @@ class CylinderOnY(Surface):
 		"""
 		'set_parameters' sets cylinders on y-axis parameters.
 
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+
 		Parameters:
 			r: Cylinder radius.
 		"""
@@ -1164,11 +1265,11 @@ class CylinderOnY(Surface):
 
 class CylinderOnZ(Surface):
 	"""
-	'CylinderOnZ' represents cylinders on z-axis INP surface cards.
+	'CylinderOnZ' represents cylinders on z-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'CylinderOnZ'.
-		set_parameters: Sets cylinders on z-axis parameters.
+	'CylinderOnZ' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1186,6 +1287,9 @@ class CylinderOnZ(Surface):
 		"""
 		'set_parameters' sets cylinders on z-axis parameters.
 
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+
 		Parameters:
 			r: Cylinder radius.
 		"""
@@ -1198,11 +1302,11 @@ class CylinderOnZ(Surface):
 
 class ConeParallelX(Surface):
 	"""
-	'ConeParallelX' represents cones parallel to x-axis INP surface cards.
+	'ConeParallelX' represents cones parallel to x-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'ConeParallelX'.
-		set_parameters: Sets cones parallel to x-axis parameters.
+	'ConeParallelX' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1214,22 +1318,25 @@ class ConeParallelX(Surface):
 		self.x: float = None
 		self.y: float = None
 		self.z: float = None
-		self.t_2: float = None
-		self.__1: float = None
+		self.t_squared: float = None
+		self.plusminus_1: float = None
 
 		super().__init__()
 
 
-	def set_parameters(self, x: float, y: float, z: float, t_2: float, __1: float) -> None:
+	def set_parameters(self, x: float, y: float, z: float, t_squared: float, plusminus_1: float) -> None:
 		"""
 		'set_parameters' sets cones parallel to x-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			x: Cone center x component.
 			y: Cone center y component.
 			z: Cone center z component.
-			t_2: Cone t_2 coefficnet.
-			__1: Cone sheet selector.
+			t_squared: Cone t_squared coefficnet.
+			plusminus_1: Cone sheet selector.
 		"""
 
 		value = types.cast_fortran_real(x)
@@ -1247,24 +1354,24 @@ class ConeParallelX(Surface):
 		self.z = value
 		self.parameters['z'] = value
 
-		value = types.cast_fortran_real(t_2)
+		value = types.cast_fortran_real(t_squared)
 		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-		self.t_2 = value
-		self.parameters['t_2'] = value
+		self.t_squared = value
+		self.parameters['t_squared'] = value
 
-		value = types.cast_fortran_real(__1)
+		value = types.cast_fortran_real(plusminus_1)
 		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-		self.__1 = value
-		self.parameters['__1'] = value
+		self.plusminus_1 = value
+		self.parameters['plusminus_1'] = value
 
 
 class ConeParallelY(Surface):
 	"""
-	'ConeParallelY' represents cones parallel to y-axis INP surface cards.
+	'ConeParallelY' represents cones parallel to y-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'ConeParallelY'.
-		set_parameters: Sets cones parallel to y-axis parameters.
+	'ConeParallelY' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1276,22 +1383,25 @@ class ConeParallelY(Surface):
 		self.x: float = None
 		self.y: float = None
 		self.z: float = None
-		self.t_2: float = None
-		self.__1: float = None
+		self.t_squared: float = None
+		self.plusminus_1: float = None
 
 		super().__init__()
 
 
-	def set_parameters(self, x: float, y: float, z: float, t_2: float, __1: float) -> None:
+	def set_parameters(self, x: float, y: float, z: float, t_squared: float, plusminus_1: float) -> None:
 		"""
 		'set_parameters' sets cones parallel to y-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			x: Cone center x component.
 			y: Cone center y component.
 			z: Cone center z component.
-			t_2: Cone t_2 coefficnet.
-			__1: Cone sheet selector.
+			t_squared: Cone t_squared coefficnet.
+			plusminus_1: Cone sheet selector.
 		"""
 
 		value = types.cast_fortran_real(x)
@@ -1309,24 +1419,24 @@ class ConeParallelY(Surface):
 		self.z = value
 		self.parameters['z'] = value
 
-		value = types.cast_fortran_real(t_2)
+		value = types.cast_fortran_real(t_squared)
 		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-		self.t_2 = value
-		self.parameters['t_2'] = value
+		self.t_squared = value
+		self.parameters['t_squared'] = value
 
-		value = types.cast_fortran_real(__1)
+		value = types.cast_fortran_real(plusminus_1)
 		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-		self.__1 = value
-		self.parameters['__1'] = value
+		self.plusminus_1 = value
+		self.parameters['plusminus_1'] = value
 
 
 class ConeParallelZ(Surface):
 	"""
-	'ConeParallelZ' represents cones parallel to z-axis INP surface cards.
+	'ConeParallelZ' represents cones parallel to z-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'ConeParallelZ'.
-		set_parameters: Sets cones parallel to z-axis parameters.
+	'ConeParallelZ' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1338,22 +1448,25 @@ class ConeParallelZ(Surface):
 		self.x: float = None
 		self.y: float = None
 		self.z: float = None
-		self.t_2: float = None
-		self.__1: float = None
+		self.t_squared: float = None
+		self.plusminus_1: float = None
 
 		super().__init__()
 
 
-	def set_parameters(self, x: float, y: float, z: float, t_2: float, __1: float) -> None:
+	def set_parameters(self, x: float, y: float, z: float, t_squared: float, plusminus_1: float) -> None:
 		"""
 		'set_parameters' sets cones parallel to z-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			x: Cone center x component.
 			y: Cone center y component.
 			z: Cone center z component.
-			t_2: Cone t_2 coefficnet.
-			__1: Cone sheet selector.
+			t_squared: Cone t_squared coefficnet.
+			plusminus_1: Cone sheet selector.
 		"""
 
 		value = types.cast_fortran_real(x)
@@ -1371,24 +1484,24 @@ class ConeParallelZ(Surface):
 		self.z = value
 		self.parameters['z'] = value
 
-		value = types.cast_fortran_real(t_2)
+		value = types.cast_fortran_real(t_squared)
 		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-		self.t_2 = value
-		self.parameters['t_2'] = value
+		self.t_squared = value
+		self.parameters['t_squared'] = value
 
-		value = types.cast_fortran_real(__1)
+		value = types.cast_fortran_real(plusminus_1)
 		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-		self.__1 = value
-		self.parameters['__1'] = value
+		self.plusminus_1 = value
+		self.parameters['plusminus_1'] = value
 
 
 class ConeOnX(Surface):
 	"""
-	'ConeOnX' represents cones on x-axis INP surface cards.
+	'ConeOnX' represents cones on x-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'ConeOnX'.
-		set_parameters: Sets cones on x-axis parameters.
+	'ConeOnX' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1398,20 +1511,23 @@ class ConeOnX(Surface):
 		"""
 
 		self.x: float = None
-		self.t_2: float = None
-		self.__1: float = None
+		self.t_squared: float = None
+		self.plusminus_1: float = None
 
 		super().__init__()
 
 
-	def set_parameters(self, x: float, t_2: float, __1: float) -> None:
+	def set_parameters(self, x: float, t_squared: float, plusminus_1: float) -> None:
 		"""
 		'set_parameters' sets cones on x-axis parameters.
 
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+
 		Parameters:
 			x: Cone center x component.
-			t_2: Cone t_2 coefficnet.
-			__1: Cone sheet selector.
+			t_squared: Cone t_squared coefficnet.
+			plusminus_1: Cone sheet selector.
 		"""
 
 		value = types.cast_fortran_real(x)
@@ -1419,24 +1535,24 @@ class ConeOnX(Surface):
 		self.x = value
 		self.parameters['x'] = value
 
-		value = types.cast_fortran_real(t_2)
+		value = types.cast_fortran_real(t_squared)
 		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-		self.t_2 = value
-		self.parameters['t_2'] = value
+		self.t_squared = value
+		self.parameters['t_squared'] = value
 
-		value = types.cast_fortran_real(__1)
+		value = types.cast_fortran_real(plusminus_1)
 		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-		self.__1 = value
-		self.parameters['__1'] = value
+		self.plusminus_1 = value
+		self.parameters['plusminus_1'] = value
 
 
 class ConeOnY(Surface):
 	"""
-	'ConeOnY' represents cones on y-axis INP surface cards.
+	'ConeOnY' represents cones on y-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'ConeOnY'.
-		set_parameters: Sets cones on y-axis parameters.
+	'ConeOnY' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1446,20 +1562,23 @@ class ConeOnY(Surface):
 		"""
 
 		self.y: float = None
-		self.t_2: float = None
-		self.__1: float = None
+		self.t_squared: float = None
+		self.plusminus_1: float = None
 
 		super().__init__()
 
 
-	def set_parameters(self, y: float, t_2: float, __1: float) -> None:
+	def set_parameters(self, y: float, t_squared: float, plusminus_1: float) -> None:
 		"""
 		'set_parameters' sets cones on y-axis parameters.
 
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+
 		Parameters:
 			y: Cone center y component.
-			t_2: Cone t_2 coefficnet.
-			__1: Cone sheet selector.
+			t_squared: Cone t_squared coefficnet.
+			plusminus_1: Cone sheet selector.
 		"""
 
 		value = types.cast_fortran_real(y)
@@ -1467,24 +1586,24 @@ class ConeOnY(Surface):
 		self.y = value
 		self.parameters['y'] = value
 
-		value = types.cast_fortran_real(t_2)
+		value = types.cast_fortran_real(t_squared)
 		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-		self.t_2 = value
-		self.parameters['t_2'] = value
+		self.t_squared = value
+		self.parameters['t_squared'] = value
 
-		value = types.cast_fortran_real(__1)
+		value = types.cast_fortran_real(plusminus_1)
 		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-		self.__1 = value
-		self.parameters['__1'] = value
+		self.plusminus_1 = value
+		self.parameters['plusminus_1'] = value
 
 
 class ConeOnZ(Surface):
 	"""
-	'ConeOnZ' represents cones on z-axis INP surface cards.
+	'ConeOnZ' represents cones on z-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'ConeOnZ'.
-		set_parameters: Sets cones on z-axis parameters.
+	'ConeOnZ' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1494,20 +1613,23 @@ class ConeOnZ(Surface):
 		"""
 
 		self.z: float = None
-		self.t_2: float = None
-		self.__1: float = None
+		self.t_squared: float = None
+		self.plusminus_1: float = None
 
 		super().__init__()
 
 
-	def set_parameters(self, z: float, t_2: float, __1: float) -> None:
+	def set_parameters(self, z: float, t_squared: float, plusminus_1: float) -> None:
 		"""
 		'set_parameters' sets cones on z-axis parameters.
 
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
+
 		Parameters:
 			z: Cone center z component.
-			t_2: Cone t_2 coefficnet.
-			__1: Cone sheet selector.
+			t_squared: Cone t_squared coefficnet.
+			plusminus_1: Cone sheet selector.
 		"""
 
 		value = types.cast_fortran_real(z)
@@ -1515,24 +1637,24 @@ class ConeOnZ(Surface):
 		self.z = value
 		self.parameters['z'] = value
 
-		value = types.cast_fortran_real(t_2)
+		value = types.cast_fortran_real(t_squared)
 		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-		self.t_2 = value
-		self.parameters['t_2'] = value
+		self.t_squared = value
+		self.parameters['t_squared'] = value
 
-		value = types.cast_fortran_real(__1)
+		value = types.cast_fortran_real(plusminus_1)
 		if value is None: raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-		self.__1 = value
-		self.parameters['__1'] = value
+		self.plusminus_1 = value
+		self.parameters['plusminus_1'] = value
 
 
 class QuadraticSpecial(Surface):
 	"""
-	'QuadraticSpecial' represents special quadratic not parallel to x-, y-, or z- axis INP surface cards.
+	'QuadraticSpecial' represents special quadratic not parallel to x-, y-, or z- axis surface cards.
 
-	Methods:
-		__init__: Initializes 'QuadraticSpecial'.
-		set_parameters: Sets special quadratic not parallel to x-, y-, or z- axis parameters.
+	'QuadraticSpecial' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1558,6 +1680,9 @@ class QuadraticSpecial(Surface):
 	def set_parameters(self, a: float, b: float, c: float, d: float, e: float, f: float, g: float, x: float, y: float, z: float) -> None:
 		"""
 		'set_parameters' sets special quadratic not parallel to x-, y-, or z- axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			a: Quadratic surface equation A coefficent.
@@ -1625,11 +1750,11 @@ class QuadraticSpecial(Surface):
 
 class QuadraticGeneral(Surface):
 	"""
-	'QuadraticGeneral' represents general quadratic parallel to x-, y-, or z- axis INP surface cards.
+	'QuadraticGeneral' represents general quadratic parallel to x-, y-, or z- axis surface cards.
 
-	Methods:
-		__init__: Initializes 'QuadraticGeneral'.
-		set_parameters: Sets general quadratic parallel to x-, y-, or z- axis parameters.
+	'QuadraticGeneral' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1655,6 +1780,9 @@ class QuadraticGeneral(Surface):
 	def set_parameters(self, a: float, b: float, c: float, d: float, e: float, f: float, g: float, h: float, j: float, k: float) -> None:
 		"""
 		'set_parameters' sets general quadratic parallel to x-, y-, or z- axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			a: Quadratic surface equation A coefficent.
@@ -1722,11 +1850,11 @@ class QuadraticGeneral(Surface):
 
 class TorusParallelX(Surface):
 	"""
-	'TorusParallelX' represents tori parallel to x-axis INP surface cards.
+	'TorusParallelX' represents tori parallel to x-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'TorusParallelX'.
-		set_parameters: Sets tori parallel to x-axis parameters.
+	'TorusParallelX' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1748,6 +1876,9 @@ class TorusParallelX(Surface):
 	def set_parameters(self, x: float, y: float, z: float, a: float, b: float, c: float) -> None:
 		"""
 		'set_parameters' sets tori parallel to x-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			x: Torus center x component.
@@ -1791,11 +1922,11 @@ class TorusParallelX(Surface):
 
 class TorusParallelY(Surface):
 	"""
-	'TorusParallelY' represents tori parallel to y-axis INP surface cards.
+	'TorusParallelY' represents tori parallel to y-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'TorusParallelY'.
-		set_parameters: Sets tori parallel to y-axis parameters.
+	'TorusParallelY' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1817,6 +1948,9 @@ class TorusParallelY(Surface):
 	def set_parameters(self, x: float, y: float, z: float, a: float, b: float, c: float) -> None:
 		"""
 		'set_parameters' sets tori parallel to y-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			x: Torus center x component.
@@ -1860,11 +1994,11 @@ class TorusParallelY(Surface):
 
 class TorusParallelZ(Surface):
 	"""
-	'TorusParallelZ' represents tori parallel to z-axis INP surface cards.
+	'TorusParallelZ' represents tori parallel to z-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'TorusParallelZ'.
-		set_parameters: Sets tori parallel to z-axis parameters.
+	'TorusParallelZ' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1886,6 +2020,9 @@ class TorusParallelZ(Surface):
 	def set_parameters(self, x: float, y: float, z: float, a: float, b: float, c: float) -> None:
 		"""
 		'set_parameters' sets tori parallel to z-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			x: Torus center x component.
@@ -1929,11 +2066,11 @@ class TorusParallelZ(Surface):
 
 class SurfaceX(Surface):
 	"""
-	'SurfaceX' represents point-defined surface symmetric about x-axis INP surface cards.
+	'SurfaceX' represents point-defined surface symmetric about x-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'SurfaceX'.
-		set_parameters: Sets point-defined surface symmetric about x-axis parameters.
+	'SurfaceX' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -1955,6 +2092,9 @@ class SurfaceX(Surface):
 	def set_parameters(self, x1: float, r1: float, x2: float, r2: float, x3: float, r3: float) -> None:
 		"""
 		'set_parameters' sets point-defined surface symmetric about x-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			x1: Point #1 x component.
@@ -2000,11 +2140,11 @@ class SurfaceX(Surface):
 
 class SurfaceY(Surface):
 	"""
-	'SurfaceY' represents point-defined surface symmetric about x-axis INP surface cards.
+	'SurfaceY' represents point-defined surface symmetric about x-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'SurfaceY'.
-		set_parameters: Sets point-defined surface symmetric about x-axis parameters.
+	'SurfaceY' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -2026,6 +2166,9 @@ class SurfaceY(Surface):
 	def set_parameters(self, y1: float, r1: float, y2: float, r2: float, y3: float, r3: float) -> None:
 		"""
 		'set_parameters' sets point-defined surface symmetric about x-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			y1: Point #1 x component.
@@ -2071,11 +2214,11 @@ class SurfaceY(Surface):
 
 class SurfaceZ(Surface):
 	"""
-	'SurfaceZ' represents point-defined surface symmetric about x-axis INP surface cards.
+	'SurfaceZ' represents point-defined surface symmetric about x-axis surface cards.
 
-	Methods:
-		__init__: Initializes 'SurfaceZ'.
-		set_parameters: Sets point-defined surface symmetric about x-axis parameters.
+	'SurfaceZ' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -2097,6 +2240,9 @@ class SurfaceZ(Surface):
 	def set_parameters(self, z1: float, r1: float, z2: float, r2: float, z3: float, r3: float) -> None:
 		"""
 		'set_parameters' sets point-defined surface symmetric about x-axis parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			z1: Point #1 x component.
@@ -2142,11 +2288,11 @@ class SurfaceZ(Surface):
 
 class PlanePoint(Surface):
 	"""
-	'PlanePoint' represents point-defined plane INP surface cards.
+	'PlanePoint' represents point-defined plane surface cards.
 
-	Methods:
-		__init__: Initializes 'PlanePoint'.
-		set_parameters: Sets point-defined plane parameters.
+	'PlanePoint' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -2171,6 +2317,9 @@ class PlanePoint(Surface):
 	def set_parameters(self, x1: float, y1: float, z1: float, x2: float, y2: float, z2: float, x3: float, y3: float, z3: float) -> None:
 		"""
 		'set_parameters' sets point-defined plane parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			x1: Point #1 x component.
@@ -2232,11 +2381,11 @@ class PlanePoint(Surface):
 
 class Box(Surface):
 	"""
-	'Box' represents arbitrarily oriented orthogonal box INP surface cards.
+	'Box'
 
-	Methods:
-		__init__: Initializes 'Box'.
-		set_parameters: Sets arbitrarily oriented orthogonal box parameters.
+	'Box' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -2264,6 +2413,9 @@ class Box(Surface):
 	def set_parameters(self, vx: float, vy: float, vz: float, a1x: float, a1y: float, a1z: float, a2x: float, a2y: float, a2z: float, a3x: float, a3y: float, a3z: float) -> None:
 		"""
 		'set_parameters' sets arbitrarily oriented orthogonal box parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			vx: Macrobody center x component.
@@ -2346,11 +2498,14 @@ class Box(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -2365,11 +2520,11 @@ class Box(Surface):
 
 class Parallelepiped(Surface):
 	"""
-	'Parallelepiped' represents rectangular parallelepiped INP surface cards.
+	'Parallelepiped' represents rectangular parallelepiped surface cards.
 
-	Methods:
-		__init__: Initializes 'Parallelepiped'.
-		set_parameters: Sets rectangular parallelepiped parameters.
+	'Parallelepiped' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -2391,6 +2546,9 @@ class Parallelepiped(Surface):
 	def set_parameters(self, xmin: float, xmax: float, ymin: float, ymax: float, zmin: float, zmax: float) -> None:
 		"""
 		'set_parameters' sets rectangular parallelepiped parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			xmin: Minimum x of locus range.
@@ -2436,11 +2594,14 @@ class Parallelepiped(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -2455,11 +2616,11 @@ class Parallelepiped(Surface):
 
 class Sphere(Surface):
 	"""
-	'Sphere' represents sphere INP surface cards.
+	'Sphere' represents sphere surface cards.
 
-	Methods:
-		__init__: Initializes 'Sphere'.
-		set_parameters: Sets sphere parameters.
+	'Sphere' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -2479,6 +2640,9 @@ class Sphere(Surface):
 	def set_parameters(self, vx: float, vy: float, vz: float, r: float) -> None:
 		"""
 		'set_parameters' sets sphere parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			vx: Macrobody center x component.
@@ -2512,11 +2676,14 @@ class Sphere(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -2530,11 +2697,11 @@ class Sphere(Surface):
 
 class CylinderCircular(Surface):
 	"""
-	'CylinderCircular' represents right circular cylinder INP surface cards.
+	'CylinderCircular' represents right circular cylinder surface cards.
 
-	Methods:
-		__init__: Initializes 'CylinderCircular'.
-		set_parameters: Sets right circular cylinder parameters.
+	'CylinderCircular' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -2557,6 +2724,9 @@ class CylinderCircular(Surface):
 	def set_parameters(self, vx: float, vy: float, vz: float, hx: float, hy: float, hz: float, r: float) -> None:
 		"""
 		'set_parameters' sets right circular cylinder parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			vx: Macrobody center x component.
@@ -2608,11 +2778,14 @@ class CylinderCircular(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -2631,11 +2804,11 @@ class CylinderCircular(Surface):
 
 class HexagonalPrism(Surface):
 	"""
-	'HexagonalPrism' represents right hexagonal prism INP surface cards.
+	'HexagonalPrism' represents right hexagonal prism surface cards.
 
-	Methods:
-		__init__: Initializes 'HexagonalPrism'.
-		set_parameters: Sets right hexagonal prism parameters.
+	'HexagonalPrism' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -2666,6 +2839,9 @@ class HexagonalPrism(Surface):
 	def set_parameters(self, vx: float, vy: float, vz: float, hx: float, hy: float, hz: float, r1: float, r2: float, r3: float, s1: float, s2: float , s3: float, t1: float, t2: float, t3: float) -> None:
 		"""
 		'set_parameters' sets right hexagonal prism parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			vx: Macrobody center x component.
@@ -2766,11 +2942,14 @@ class HexagonalPrism(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -2792,11 +2971,11 @@ class HexagonalPrism(Surface):
 
 class CylinderElliptical(Surface):
 	"""
-	'CylinderElliptical' represents right elliptical cylinder INP surface cards.
+	'CylinderElliptical' represents right elliptical cylinder surface cards.
 
-	Methods:
-		__init__: Initializes 'CylinderElliptical'.
-		set_parameters: Sets right elliptical cylinder parameters.
+	'CylinderElliptical' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -2821,6 +3000,9 @@ class CylinderElliptical(Surface):
 	def set_parameters(self, vx: float, vy: float, vz: float, hx: float, hy: float, hz: float, v1x: float, v1y: float, v1z: float, v2x: float, v2y: float, v2z: float) -> None:
 		"""
 		'set_parameters' sets right elliptical cylinder parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			vx: Macrobody center x component.
@@ -2914,11 +3096,14 @@ class CylinderElliptical(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -2941,11 +3126,11 @@ class CylinderElliptical(Surface):
 
 class ConeTruncated(Surface):
 	"""
-	'ConeTruncated' represents truncated right-angle cone INP surface cards.
+	'ConeTruncated' represents truncated right-angle cone surface cards.
 
-	Methods:
-		__init__: Initializes 'ConeTruncated'.
-		set_parameters: Sets truncated right-angle cone parameters.
+	'ConeTruncated' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -2969,6 +3154,9 @@ class ConeTruncated(Surface):
 	def set_parameters(self, vx: float, vy: float, vz: float, hx: float, hy: float, hz: float, r1: float, r2: float) -> None:
 		"""
 		'set_parameters' sets truncated right-angle cone parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			vx: Macrobody center x component.
@@ -3026,11 +3214,14 @@ class ConeTruncated(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -3052,11 +3243,11 @@ class ConeTruncated(Surface):
 
 class Ellipsoid(Surface):
 	"""
-	'Ellipsoid' represents ellipsoid INP surface cards.
+	'Ellipsoid' represents ellipsoid surface cards.
 
-	Methods:
-		__init__: Initializes 'Ellipsoid'.
-		set_parameters: Sets ellipsoid parameters.
+	'Ellipsoid' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -3079,6 +3270,9 @@ class Ellipsoid(Surface):
 	def set_parameters(self, v1x: float, v1y: float, v1z: float, v2x: float, v2y: float, v2z: float, rm: float) -> None:
 		"""
 		'set_parameters' sets ellipsoid parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			v1x: Macrobody vector #1 x component.
@@ -3130,11 +3324,14 @@ class Ellipsoid(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -3159,11 +3356,11 @@ class Ellipsoid(Surface):
 
 class Wedge(Surface):
 	"""
-	'Wedge' represents wedge INP surface cards.
+	'Wedge' represents wedge surface card.
 
-	Methods:
-		__init__: Initializes 'Wedge'.
-		set_parameters: Sets wedge parameters.
+	'Wedge' functions as a data subtype for 'Cell'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -3191,6 +3388,9 @@ class Wedge(Surface):
 	def set_parameters(self, vx: float, vy: float, vz: float, v1x: float, v1y: float, v1z: float, v2x: float, v2y: float, v2z: float, v3x: float, v3y: float, v3z: float) -> None:
 		"""
 		'set_parameters' sets wedge parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			vx: Macrobody center x component.
@@ -3272,11 +3472,14 @@ class Wedge(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -3293,11 +3496,11 @@ class Wedge(Surface):
 
 class Polyhedron(Surface):
 	"""
-	'Polyhedron' represents arbitrary polyhedron INP surface cards.
+	'Polyhedron' represents arbitrary polyhedron surface cards.
 
-	Methods:
-		__init__: Initializes 'Polyhedron'.
-		set_parameters: Sets arbitrary polyhedron parameters.
+	'Polyhedron' functions as a data subtype for 'Surface'. It
+	represents cell card parameter as abstract syntax 
+	elements.
 	"""
 
 
@@ -3343,6 +3546,9 @@ class Polyhedron(Surface):
 	def set_parameters(self, ax: float, ay: float, az: float, bx: float, by: float, bz: float, cx: float, cy: float, cz: float, dx: float, dy: float, dz: float, ex: float, ey: float, ez: float, fx: float, fy: float, fz: float, gx: float, gy: float, gz: float, hx: float, hy: float, hz: float, n1: float, n2: float, n3: float, n4: float, n5: float, n6: float) -> None:
 		"""
 		'set_parameters' sets arbitrary polyhedron parameters.
+
+		'set_parameters' checks parameter entries are valid 
+		floating points. It raises errors if given None.
 
 		Parameters:
 			ax: Coordnate #1 x component.
@@ -3532,11 +3738,14 @@ class Polyhedron(Surface):
 		"""
 		'to_cadquery' generates cadquery from surface card objects.
 
+		'to_cadquery' provides a Cadquery endpoints for writing Cadquery
+		source strings and later displaying geometries.
+
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface card object.
+			Cadquery for surface card object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''

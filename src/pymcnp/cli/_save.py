@@ -50,3 +50,5 @@ class Save:
 
 		with open(Save.PYMCNP_SAVE_FILE, 'w') as file:
 			file.write(output)
+
+			

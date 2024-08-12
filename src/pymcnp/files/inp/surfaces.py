@@ -1,8 +1,8 @@
 """
 'surfaces' contains classes representing INP surface card blocks.
 
-Classes:
-	Surfaces: Representaion of INP surface card blocks.
+'surfaces' packages the 'Surfaces' class, providing an importable 
+interface for INP surface card blocks.
 """
 
 
@@ -16,6 +16,9 @@ from .._utils import parser
 class Surfaces(Block):
 	"""
 	'Surfaces' represents MNCP INP surface card blocks.
+	
+	'Surfaces' abstracts the INP cell card syntax element and it
+	encapsulates all functionallity for parsing cell card blocks.
 	"""
 
 
@@ -32,11 +35,14 @@ class Surfaces(Block):
 		"""
 		'from_mcnp' generates surface block objects from INP.
 
+		'from_mcnp' constructs instances of 'Surfaces' from
+		INP strings, so it functions as a class constructor.
+
 		Parameters:
-			source (str): INP to parse.
+			source: INP to parse.
 
 		Returns:
-			block (Surfaces): Surface block object.
+			Surface block object.
 		"""
 
 		block = cls()
@@ -53,8 +59,11 @@ class Surfaces(Block):
 		"""
 		'to_mcnp' generates INP from surface block objects.
 
+		'to_mcnp' provides an MCNP endpoints for writing
+		INP source strings.
+
 		Returns:
-			source (str): INP for surface block object.
+			INP for surface block object.
 		"""
 
 		return '\n'.join([surface.to_mcnp() for surface in self.cards.values()] + [''])
@@ -64,8 +73,11 @@ class Surfaces(Block):
 		"""
 		'to_arguments' generates lists of surface card objects.
 
+		'to_arguments' creates dictionaries whose keys are 
+		attribute names, and whose values are attribute value.
+
 		Returns:
-			arugments (list): List of surface blocks object.
+			arugments: List of surface blocks object.
 		"""
 
 		return [card.to_arguments() for card in self.cards.values()]
@@ -76,10 +88,10 @@ class Surfaces(Block):
 		'to_cadquery' generates cadquery from surface block objects.
 
 		Parameters:
-			hasHeader (bool): Boolean to include cadquery header.
+			hasHeader: Boolean to include cadquery header.
 
 		Returns:
-			cadquery (str): Cadquery for surface block object.
+			Cadquery for surface block object.
 		"""
 
 		cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -94,20 +106,16 @@ class Surfaces(Block):
 		return cadquery + surfaces_line + '\n\n'
 
 
-	def to_cadquery_file(self, filename: str) -> int:
+	def to_cadquery_file(self, filename: str, hasHeader: bool = True) -> None:
 		"""
 		'to_cadquery_file' generates cadquery files from surface block objects.
 
 		Parameters:
-			filename (str): Output filename.
-			hasHeader (bool): Boolean to include cadquery header.
-
-		Returns:
-			chars_written (int): Number of chars written to file.
+			filename: Output filename.
+			hasHeader: Boolean to include cadquery header.
 		"""
 
 		with open(filename, 'w') as file:
-			return file.write(self.to_cadquery(hasHeader = True))
+			file.write(self.to_cadquery(hasHeader))
 
-		return 0
 

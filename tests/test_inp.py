@@ -19,7 +19,7 @@ from _strategies import *
 # HY_TRIALS = 100   # ~0:00:50
 # HY_TRIALS = 1000  # ~0:10:00
 # HY_TRIALS = 10000 # ~1:30:00
-HY_TRIALS = 1
+HY_TRIALS = 100
 
 
 class TestCell:

@@ -1,8 +1,8 @@
 """
 'data' contains classes representing INP data card blocks.
 
-Classes:
-	Data: Representaion of INP data card blocks.
+'data' packages the 'Data' class, providing an importable interface
+for INP data cards.
 """
 
 
@@ -17,12 +17,8 @@ class Data(Block):
 	"""
 	'Data' represents MNCP INP data card blocks.
 
-	Methods:
-		__init__: Initializes 'Data'
-		from_mcnp: Generates data block objects from INP.
-		from_arguments: Generates data block objects from arguments.
-		to_mcnp: Generates INP from data block objects.
-		to_arguments: Generates lists of datum card objects.
+	'Data' abstracts the INP data card syntax element and it
+	encapsulates all functionallity for parsing data cards.
 	"""
 
 
@@ -40,7 +36,7 @@ class Data(Block):
 		'from_mcnp' generates data block objects from INP.
 
 		Parameters:
-			source (str): INP to parse.
+			source : INP to parse.
 
 		Returns:
 			block (Data): Data block object.
@@ -61,7 +57,7 @@ class Data(Block):
 		'to_mcnp' generates INP from data block objects.
 
 		Returns:
-			source (str): INP for data block objects.
+			source : INP for data block objects.
 		"""
 
 		return '\n'.join([datum.to_mcnp() for datum in self.cards.values()])

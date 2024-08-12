@@ -7,8 +7,6 @@ Classes:
 
 
 from typing import *
-import collections
-import re
 
 from .block import Block
 from .cells import Cells
@@ -50,7 +48,7 @@ class Inp:
 		'set_message' sets INP messages.
 
 		'set_message' checks messages have the required "message:"
-		keyword. It sets INP messages to None when given None.
+		keyword. It raises errors if given None.
 
 		Parameters:
 			message: INP message.
@@ -59,7 +57,7 @@ class Inp:
 			MCNPSyntaxError: Missing keyword in INP message.
 		"""
 
-		if message is not None and not message[:9]:
+		if message is None or not message[:9] == "message:":
 			raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_INP_MESSAGE)
 
 		self.message = message
@@ -70,7 +68,7 @@ class Inp:
 		'set_title' sets INP titles.
 
 		'set_title' checks given titles pass the 80 character limit.
-		It sets INP titles to None when given None.
+		It raises errors if given None.
 
 		Parmeters:
 			title: INP title.
@@ -79,7 +77,7 @@ class Inp:
 			MCNPSemanticError: Invalid INP title.
 		"""
 
-		if message is not None and not len(title) < 80:
+		if message is None or not len(title) < 80:
 			raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_TITLE)
 
 		self.title = title
@@ -91,16 +89,19 @@ class Inp:
 		'from_mcnp' generates input objects from INP.
 
 		Parameters:
-			source (str): INP to parse.
+			source: INP to parse.
 
 		Returns:
-			inp (Input): Input object.
+			Input object.
+
+		Raises:
+			MCNPSyntaxError: Invalid INP, too few entries.
 		"""
 		
 		inp = cls()
 
 		source = parser.Preprocessor.process_inp(source)
-		lines = parser.Parser(EOFError).from_string(source, '\n')
+		lines = parser.Parser(errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_INP)).from_string(source, '\n')
 
 		# Processing Message Block
 		if lines.peekl()[:9] == "message:":
@@ -141,10 +142,10 @@ class Inp:
 		'from_file' generates input objects from filenames.
 
 		Parameters:
-			filename (str): Name of file to parse.
+			filename: Name of file to parse.
 
 		Returns:
-			inp (Input): Input object.
+			Input object.
 		"""
 
 		source = ''
@@ -159,7 +160,7 @@ class Inp:
 		'to_mcnp' generates INP from input objects.
 
 		Returns:
-			source (str): INP for input object.
+			INP for input object.
 		"""
 
 		# Appending Message
@@ -180,8 +181,8 @@ class Inp:
 		"""
 		'to_mcnp_file' generates INP files from input objects.
 
-		Parameters (str):
-			filename (str): Output filename.
+		Parameters:
+			filename: Output filename.
 		"""
 
 		with open(filename, 'w') as file:
@@ -198,7 +199,7 @@ class Inp:
 		attribute names, and whose values are attribute value.
 
 		Returns:
-			arguments: Dictionary of input object data.
+			Dictionary of input object data.
 		"""
 		
 		return {'message': self.message, 'title': self.title, 'cells': self.cells.to_arguments(), 'surfaces': self.surfaces.to_arguments(), 'data': self.data.to_arguments(), 'other': self.other}

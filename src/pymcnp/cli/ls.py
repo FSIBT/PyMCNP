@@ -32,7 +32,7 @@ class Ls:
 			inpt (Inp): INP object.
 
 		Returns:
-			out (str): String of INP object cell information.
+			out : String of INP object cell information.
 		"""
 
 		out ="\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^25.25}\x1b[24m\n".format('NUMBER', 'MATERIAL', 'DENSITY', 'GEOMETRY')
@@ -52,7 +52,7 @@ class Ls:
 			inpt (Inp): INP object.
 
 		Returns:
-			out (str): String of INP object surface information.
+			out : String of INP object surface information.
 		"""
 
 		out ="\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m\n".format('NUMBER', 'MNEMONIC', 'TRANSFORM')
@@ -72,7 +72,7 @@ class Ls:
 			inpt (Inp): INP object.
 
 		Returns:
-			out (str): String of INP object datum information.
+			out : String of INP object datum information.
 		"""
 
 		out = "\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m\n".format('MNEMONIC', 'NUMBER')
@@ -92,7 +92,7 @@ class Ls:
 			inpt (Inp): INP object.
 
 		Returns:
-			out (str): String of all INP object information.
+			out : String of all INP object information.
 		"""
 
 		return '\n' + Ls.list_cells(inpt) + '\n' + Ls.list_surfaces(inpt) + '\n' + Ls.list_data(inpt)
