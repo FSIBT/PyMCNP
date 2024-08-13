@@ -33,6 +33,9 @@ class MCNPSyntaxCodes(Enum):
 
     KEYWORD_COMMENT_C = 20
 
+    TOOFEW_SURFACE_ENTRIES = -30
+    TOOMANY_SURFACE_ENTRIES = 30
+
 
 class MCNPSemanticCodes(Enum):
     """

@@ -250,7 +250,9 @@ class Surface(Card):
         match surface.mnemonic:
             case "p":
                 if len(tokens) not in {4, 9}:
-                    raise SyntaxError
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = PlaneGeneral
                 if len(tokens) == 4:
@@ -261,183 +263,360 @@ class Surface(Card):
                     assert False
 
             case "px":
-                if len(tokens) != 1:
-                    raise SyntaxError
+                if len(tokens) > 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = PlaneNormalX
                 surface.set_parameters(*tokens.deque)
 
             case "py":
-                if len(tokens) != 1:
-                    raise SyntaxError
+                if len(tokens) > 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = PlaneNormalY
                 surface.set_parameters(*tokens.deque)
 
             case "pz":
-                if len(tokens) != 1:
-                    raise SyntaxError
+                if len(tokens) > 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = PlaneNormalZ
                 surface.set_parameters(*tokens.deque)
 
             case "so":
-                if len(tokens) != 1:
-                    raise SyntaxError
+                if len(tokens) > 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = SphereOrigin
                 surface.set_parameters(*tokens.deque)
 
             case "s":
-                if len(tokens) != 4:
-                    raise SyntaxError
+                if len(tokens) > 4:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 4:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = SphereGeneral
                 surface.set_parameters(*tokens.deque)
 
             case "sx":
-                if len(tokens) != 2:
-                    raise SyntaxError
+                if len(tokens) > 2:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 2:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = SphereNormalX
                 surface.set_parameters(*tokens.deque)
 
             case "sy":
-                if len(tokens) != 2:
-                    raise SyntaxError
+                if len(tokens) > 2:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 2:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = SphereNormalY
                 surface.set_parameters(*tokens.deque)
 
             case "sz":
-                if len(tokens) != 2:
-                    raise SyntaxError
+                if len(tokens) > 2:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 2:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = SphereNormalZ
                 surface.set_parameters(*tokens.deque)
 
             case "c/x":
-                if len(tokens) != 3:
-                    raise SyntaxError
+                if len(tokens) > 3:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 3:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = CylinderParallelX
                 surface.set_parameters(*tokens.deque)
 
             case "c/y":
-                if len(tokens) != 3:
-                    raise SyntaxError
+                if len(tokens) > 3:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 3:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = CylinderParallelY
                 surface.set_parameters(*tokens.deque)
 
             case "c/z":
-                if len(tokens) != 3:
-                    raise SyntaxError
+                if len(tokens) > 3:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 3:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = CylinderParallelZ
                 surface.set_parameters(*tokens.deque)
 
             case "cx":
-                if len(tokens) != 1:
-                    raise SyntaxError
+                if len(tokens) > 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = CylinderOnX
                 surface.set_parameters(*tokens.deque)
 
             case "cy":
-                if len(tokens) != 1:
-                    raise SyntaxError
+                if len(tokens) > 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = CylinderOnY
                 surface.set_parameters(*tokens.deque)
 
             case "cz":
-                if len(tokens) != 1:
-                    raise SyntaxError
+                if len(tokens) > 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 1:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = CylinderOnZ
                 surface.set_parameters(*tokens.deque)
 
             case "k/x":
-                if len(tokens) != 5:
-                    raise SyntaxError
+                if len(tokens) > 5:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 5:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = ConeParallelX
                 surface.set_parameters(*tokens.deque)
 
             case "k/y":
-                if len(tokens) != 5:
-                    raise SyntaxError
+                if len(tokens) > 5:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 5:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = ConeParallelY
                 surface.set_parameters(*tokens.deque)
 
             case "k/z":
-                if len(tokens) != 5:
-                    raise SyntaxError
+                if len(tokens) > 5:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 5:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = ConeParallelZ
                 surface.set_parameters(*tokens.deque)
 
             case "kx":
-                if len(tokens) != 3:
-                    raise SyntaxError
+                if len(tokens) > 3:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 3:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = ConeOnX
                 surface.set_parameters(*tokens.deque)
 
             case "ky":
-                if len(tokens) != 3:
-                    raise SyntaxError
+                if len(tokens) > 3:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 3:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = ConeOnY
                 surface.set_parameters(*tokens.deque)
 
             case "kx":
-                if len(tokens) != 3:
-                    raise SyntaxError
+                if len(tokens) > 3:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 3:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = ConeOnZ
                 surface.set_parameters(*tokens.deque)
 
             case "sq":
-                if len(tokens) != 10:
-                    raise SyntaxError
+                if len(tokens) > 10:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 10:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = QuadraticSpecial
                 surface.set_parameters(*tokens.deque)
 
             case "gq":
-                if len(tokens) != 10:
-                    raise SyntaxError
+                if len(tokens) > 10:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 10:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = QuadraticGeneral
                 surface.set_parameters(*tokens.deque)
 
             case "tx":
-                if len(tokens) != 6:
-                    raise SyntaxError
+                if len(tokens) > 6:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 6:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = TorusParallelX
                 surface.set_parameters(*tokens.deque)
 
             case "ty":
-                if len(tokens) != 6:
-                    raise SyntaxError
+                if len(tokens) > 6:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 6:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = TorusParallelY
                 surface.set_parameters(*tokens.deque)
 
             case "tz":
-                if len(tokens) != 6:
-                    raise SyntaxError
+                if len(tokens) > 6:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 6:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = TorusParallelZ
                 surface.set_parameters(*tokens.deque)
 
             case "x":
                 if len(tokens) not in {2, 4, 6}:
-                    raise SyntaxError
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = SurfaceX
                 surface.set_parameters(
@@ -446,7 +625,9 @@ class Surface(Card):
 
             case "y":
                 if len(tokens) not in {2, 4, 6}:
-                    raise SyntaxError
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = SurfaceY
                 surface.set_parameters(
@@ -455,7 +636,9 @@ class Surface(Card):
 
             case "z":
                 if len(tokens) not in {2, 4, 6}:
-                    raise SyntaxError
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = SurfaceZ
                 surface.set_parameters(
@@ -464,7 +647,9 @@ class Surface(Card):
 
             case "box":
                 if len(tokens) not in {12, 9}:
-                    raise SyntaxError
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = Box
                 surface.set_parameters(
@@ -472,29 +657,52 @@ class Surface(Card):
                 )
 
             case "rpp":
-                if len(tokens) != 6:
-                    raise SyntaxError
+                if len(tokens) > 6:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 6:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = Parallelepiped
                 surface.set_parameters(*tokens.deque)
 
             case "sph":
-                if len(tokens) != 4:
-                    raise SyntaxError
+                if len(tokens) > 4:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 4:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = Sphere
                 surface.set_parameters(*tokens.deque)
 
             case "rcc":
-                if len(tokens) != 7:
-                    raise SyntaxError
+                if len(tokens) > 7:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 7:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = CylinderCircular
                 surface.set_parameters(*tokens.deque)
 
             case "rhp" | "hex":
                 if len(tokens) not in {15, 9}:
-                    raise SyntaxError
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = HexagonalPrism
                 surface.set_parameters(
@@ -503,7 +711,9 @@ class Surface(Card):
 
             case "rec":
                 if len(tokens) not in {10, 12}:
-                    raise SyntaxError
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = CylinderElliptical
                 surface.set_parameters(
@@ -511,29 +721,57 @@ class Surface(Card):
                 )
 
             case "trc":
-                if len(tokens) != 8:
-                    raise SyntaxError
+                if len(tokens) > 8:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 8:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = ConeTruncated
                 surface.set_parameters(*tokens.deque)
 
             case "ell":
-                if len(tokens) != 7:
-                    raise SyntaxError
+                if len(tokens) > 7:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 7:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = Ellipsoid
                 surface.set_parameters(*tokens.deque)
 
             case "wed":
-                if len(tokens) != 12:
-                    raise SyntaxError
+                if len(tokens) > 12:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 12:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = Wedge
                 surface.set_parameters(*tokens.deque)
 
             case "arb":
-                if len(tokens) != 30:
-                    raise SyntaxError
+                if len(tokens) > 30:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES
+                    )
+
+                if len(tokens) < 30:
+                    raise errors.MCNPSyntaxError(
+                        errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES
+                    )
 
                 surface.__class__ = Polyhedron
                 surface.set_parameters(*tokens.deque)
