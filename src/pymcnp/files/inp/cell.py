@@ -223,7 +223,7 @@ class Cell(card.Card):
                 if string.startswith("*"):
                     string = string[:1]
 
-                if string.startswith(("wwn", "dxc")):
+                if string.startswith(("wwn", "dxc", "tmp")):
                     if (
                         len(string) < 4
                         and types.cast_fortran_integer(string[:3]) is None
@@ -373,7 +373,7 @@ class Cell(card.Card):
                     parameter.__class__ = Cell.WeightWindowBounds
 
                     # Processing Suffix/Keyword
-                    suffix = types.cast_fortran_integer(tokens.popl())[3:]
+                    suffix = types.cast_fortran_integer(tokens.popl()[3:])
                     parameter.set_suffix(suffix)
 
                     # Processing Value
@@ -388,7 +388,7 @@ class Cell(card.Card):
                     parameter.__class__ = Cell.DxtranContribution
 
                     # Processing Suffix/Keyword
-                    suffix = types.cast_fortran_integer(tokens.popl())[3:]
+                    suffix = types.cast_fortran_integer(tokens.popl()[3:])
                     parameter.set_suffix(suffix)
 
                     # Processing Value
@@ -412,11 +412,8 @@ class Cell(card.Card):
                 case "pd":
                     parameter.__class__ = Cell.DetectorContribution
 
-                    # Processing Keyword
-                    tokens.popl()
-
                     # Processing Suffix/Keyword
-                    suffix = types.cast_fortran_integer(tokens.popl())[2:]
+                    suffix = types.cast_fortran_integer(tokens.popl()[2:])
                     parameter.set_suffix(suffix)
 
                     # Processing Value
@@ -426,11 +423,8 @@ class Cell(card.Card):
                 case "tmp":
                     parameter.__class__ = Cell.GasThermalTemperature
 
-                    # Processing Keyword
-                    tokens.popl()
-
                     # Processing Suffix/Keyword
-                    suffix = types.cast_fortran_integer(tokens.popl())[2:]
+                    suffix = types.cast_fortran_integer(tokens.popl()[3:])
                     parameter.set_suffix(suffix)
 
                     # Processing Value
@@ -614,10 +608,10 @@ class Cell(card.Card):
 
             super().__init__()
 
-            self.importance: any = None
+            self.importance: int = None
             self.designator: tuple[types.Designator] = None
 
-        def set_value(self, value: any) -> None:
+        def set_value(self, value: int) -> None:
             """
             'set_value' sets cell card particle importance parameter values.
 
@@ -671,9 +665,9 @@ class Cell(card.Card):
 
             super().__init__()
 
-            self.volume: any = None
+            self.volume: float = None
 
-        def set_value(self, value: any) -> None:
+        def set_value(self, value: float) -> None:
             """
             'set_value' sets cell card volume parameter values.
 
@@ -711,9 +705,9 @@ class Cell(card.Card):
 
             super().__init__()
 
-            self.weight: any = None
+            self.weight: float = None
 
-        def set_value(self, value: any) -> None:
+        def set_value(self, value: float) -> None:
             """
             'set_value' sets cell card proton weight parameter values.
 
@@ -1704,6 +1698,7 @@ class Cell(card.Card):
         cell.set_parameters(tuple(parameters))
 
         # Processing Geometry
+        print(tokens)
         cell.geometry = cls.CellGeometry().from_mcnp(" ".join(tokens.deque))
 
         return cell

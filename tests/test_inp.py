@@ -10,14 +10,12 @@ import hypothesis as hy
 from pymcnp.files.inp.cell import Cell
 from pymcnp.files.inp.surface import Surface
 from pymcnp.files._utils import errors
+from pymcnp.files._utils import types
 
 import _strategies as _st
 
 
-# HY_TRIALS = 100   # ~0:00:50
-# HY_TRIALS = 1000  # ~0:10:00
-# HY_TRIALS = 10000 # ~1:30:00
-HY_TRIALS = 1000
+HY_TRIALS = 7500
 
 
 class TestCell:
@@ -30,33 +28,62 @@ class TestCell:
         'TestfromMcnp'
         """
 
-        @hy.settings(max_examples=HY_TRIALS)
-        @hy.given(cell=_st.mcnp_cells(True, True, True, True))
+        @hy.settings(max_examples=math.ceil(HY_TRIALS // 18))
+        @hy.given(cell=_st.mcnp_cells(True, True, True, True, True))
         def test_valid(self, cell):
             """
             'test_valid'
             """
 
-            number, material, density, geometry = cell
+            number, material, density, geometry, parameters = cell
 
-            if material != "0":
-                inp = Cell().from_mcnp(f"{number} {material} {density} {geometry}")
-            else:
-                inp = Cell().from_mcnp(f"{number} {material} {geometry}")
+            for parameter in parameters:
+                keyword, suffix, designator, value = parameter
 
-            assert inp.number == int(number)
-            assert inp.id == int(number)
-            assert inp.material == int(material)
-            assert inp.density == (float(density) if int(material) != 0 else None)
+                parameter_str = keyword
+
+                if suffix is not None:
+                    parameter_str += suffix
+
+                if designator is not None:
+                    parameter_str += ":" + designator
+
+                parameter_str += "=" + value
+
+                if material != "0":
+                    inp = Cell().from_mcnp(
+                        f"{number} {material} {density} {geometry} {parameter_str}"
+                    )
+                else:
+                    inp = Cell().from_mcnp(
+                        f"{number} {material} {geometry} {parameter_str}"
+                    )
+
+                assert inp.number == int(number)
+                assert inp.id == int(number)
+                assert inp.material == int(material)
+                assert inp.density == (float(density) if int(material) != 0 else None)
+                assert inp.parameters[0].keyword == Cell.CellParameter.CellKeyword(
+                    keyword
+                )
+                assert float(inp.parameters[0].value) == float(value)
+
+                if suffix is not None:
+                    assert inp.parameters[0].suffix == int(suffix)
+
+                if designator is not None:
+                    assert inp.parameters[0].designator[0] == types.Designator(
+                        designator
+                    )
 
         @hy.settings(max_examples=HY_TRIALS)
-        @hy.given(cell=_st.mcnp_cells(False, True, True, True))
+        @hy.given(cell=_st.mcnp_cells(False, True, True, True, True))
         def test_invalid_number(self, cell):
             """
             'test_invalid_number'
             """
 
-            number, material, density, geometry = cell
+            number, material, density, geometry, parameters = cell
 
             with pytest.raises(errors.MCNPSemanticError) as err:
                 if material != "0":
@@ -67,13 +94,13 @@ class TestCell:
             assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_NUMBER
 
         @hy.settings(max_examples=HY_TRIALS)
-        @hy.given(cell=_st.mcnp_cells(True, False, True, True))
+        @hy.given(cell=_st.mcnp_cells(True, False, True, True, True))
         def test_invalid_material(self, cell):
             """
             'test_invalid_material'
             """
 
-            number, material, density, geometry = cell
+            number, material, density, geometry, parameters = cell
 
             with pytest.raises(errors.MCNPSemanticError) as err:
                 if material != "0":
@@ -84,13 +111,13 @@ class TestCell:
             assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_MATERIAL
 
         @hy.settings(max_examples=HY_TRIALS)
-        @hy.given(cell=_st.mcnp_cells(True, True, False, True))
+        @hy.given(cell=_st.mcnp_cells(True, True, False, True, True))
         def test_invalid_density(self, cell):
             """
             'test_invalid_density'
             """
 
-            number, material, density, geometry = cell
+            number, material, density, geometry, parameters = cell
 
             # Asserting non-void material
             material = str(min(int(material) + 1, 99_999_999))
@@ -101,13 +128,13 @@ class TestCell:
             assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_DENSITY
 
         @hy.settings(max_examples=HY_TRIALS)
-        @hy.given(cell=_st.mcnp_cells(True, True, True, False))
+        @hy.given(cell=_st.mcnp_cells(True, True, True, False, True))
         def test_invalid_geometry(self, cell):
             """
             'test_invalid_geometry'
             """
 
-            number, material, density, geometry = cell
+            number, material, density, geometry, parameters = cell
 
             with pytest.raises(errors.MCNPSemanticError) as err:
                 if material != "0":
@@ -287,8 +314,6 @@ class TestSurface:
             'test_valid'
             """
 
-            file = open("text.txt", "a")
-
             for surface in surfaces:
                 number, transform, mnemonic, entries = surface
 
@@ -341,7 +366,7 @@ class TestSurface:
         @hy.given(surfaces=_st.mcnp_surfaces(True, True, False))
         def test_invalid_mnemonic(self, surfaces):
             """
-            'test_invalid_number'
+            'test_invalid_mnemonic'
             """
 
             for surface in surfaces:

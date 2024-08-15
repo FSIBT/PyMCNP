@@ -25,6 +25,57 @@ def fortran_reals(draw, condition=lambda _: True):
 
 
 @st.composite
+def mcnp_designators(draw, condition=lambda _: True):
+    """
+    'mcnp_designator'
+    """
+
+    return draw(
+        st.sampled_from(
+            [
+                "n",
+                "p",
+                "e",
+                "|",
+                "q",
+                "y",
+                "v",
+                "f",
+                "h",
+                "l",
+                "+",
+                "-",
+                "x",
+                "y",
+                "o",
+                "!",
+                "<",
+                ">",
+                "g",
+                "/",
+                "z",
+                "k",
+                "%",
+                "^",
+                "b",
+                "_",
+                "~",
+                "c",
+                "w",
+                "@",
+                "d",
+                "t",
+                "s",
+                "a",
+                "*",
+                "?",
+                "#",
+            ]
+        )
+    )
+
+
+@st.composite
 def mcnp_polyhedron_sides(draw, condition=lambda _: True):
     """
     'mcnp_polyhedron_sides'
@@ -67,7 +118,9 @@ def mcnp_geometries(draw, identifiers, depth=None) -> str:
 
 
 @st.composite
-def mcnp_cells(draw, valid_number, valid_material, valid_density, valid_geometry):
+def mcnp_cells(
+    draw, valid_number, valid_material, valid_density, valid_geometry, valid_parameter
+):
     """
     'mcnp_cells'
     """
@@ -102,7 +155,304 @@ def mcnp_cells(draw, valid_number, valid_material, valid_density, valid_geometry
     else:
         geometry = draw(mcnp_geometries(fortran_integers(lambda i: i > 99_999_999)))
 
-    return (number, material, density, geometry)
+    if valid_parameter is None:
+        parameters = None
+    elif valid_parameter:
+        parameters = draw(mcnp_parameters(True))
+    else:
+        parameters = draw(mcnp_parameters(False))
+
+    return (number, material, density, geometry, parameters)
+
+
+@st.composite
+def mcnp_parameters(draw, valid_value):
+    return [
+        draw(mcnp_parameter_importance(valid_value, True)),
+        draw(mcnp_parameter_volume(valid_value)),
+        draw(mcnp_parameter_protonWeight(valid_value)),
+        draw(mcnp_parameter_exponentialTransform(valid_value, True)),
+        draw(mcnp_parameter_forcedCollision(valid_value, True)),
+        draw(mcnp_parameter_weightWindowBounds(valid_value, True, True)),
+        draw(mcnp_parameter_dxtranContribution(valid_value, True, True)),
+        draw(mcnp_parameter_fissionTurnOff(valid_value)),
+        draw(mcnp_parameter_detectorContribution(valid_value, True)),
+        draw(mcnp_parameter_gasThermalTemperature(valid_value, True)),
+        draw(mcnp_parameter_universe(valid_value)),
+        draw(mcnp_parameter_coordinateTransformation(valid_value)),
+        draw(mcnp_parameter_lattice(valid_value)),
+        draw(mcnp_parameter_fill(valid_value)),
+        draw(mcnp_parameter_energyCutoff(valid_value, True)),
+        draw(mcnp_parameter_cosy(valid_value)),
+        draw(mcnp_parameter_bfield(valid_value)),
+        draw(mcnp_parameter_uncolidedSecondaries(valid_value, True)),
+    ]
+
+
+@st.composite
+def mcnp_parameter_importance(draw, valid_value: bool, valid_designator: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_integers(lambda i: i >= 0)))
+    else:
+        value = str(draw(fortran_integers(lambda i: i < 0)))
+
+    designator = draw(mcnp_designators(valid_designator))
+
+    return ("imp", None, designator, value)
+
+
+@st.composite
+def mcnp_parameter_volume(draw, valid_value: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_reals(lambda f: f > 0)))
+    else:
+        value = str(draw(fortran_reals(lambda f: f <= 0)))
+
+    return ("vol", None, None, value)
+
+
+@st.composite
+def mcnp_parameter_protonWeight(draw, valid_value: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_reals()))
+    else:
+        value = "a"
+
+    return ("pwt", None, None, value)
+
+
+@st.composite
+def mcnp_parameter_exponentialTransform(
+    draw, valid_value: bool, valid_designator: bool
+):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_integers()))
+    else:
+        value = "a"
+
+    designator = draw(mcnp_designators(valid_designator))
+
+    return ("ext", None, designator, value)
+
+
+@st.composite
+def mcnp_parameter_forcedCollision(draw, valid_value: bool, valid_designator: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_integers(lambda i: -1 <= i <= 1)))
+    else:
+        value = str(draw(fortran_integers(lambda i: -1 > i or i > 1)))
+
+    designator = draw(mcnp_designators(valid_designator))
+
+    return ("fcl", None, designator, value)
+
+
+@st.composite
+def mcnp_parameter_weightWindowBounds(
+    draw, valid_value: bool, valid_suffix: bool, valid_designator: bool
+):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_integers(lambda i: i == -1 or i >= 0)))
+    else:
+        value = str(draw(fortran_integers(lambda i: i != -1 and i < 0)))
+
+    if valid_suffix is None:
+        suffix = None
+    elif valid_suffix:
+        suffix = str(draw(fortran_integers(lambda i: 1 <= i and i <= 99_999_999)))
+    else:
+        suffix = str(draw(fortran_integers(lambda i: 1 > i or i > 99_999_999)))
+
+    designator = draw(mcnp_designators(valid_designator))
+
+    return ("wwn", suffix, designator, value)
+
+
+@st.composite
+def mcnp_parameter_dxtranContribution(
+    draw, valid_value: bool, valid_suffix: bool, valid_designator: bool
+):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_integers(lambda i: 0 <= i <= 1)))
+    else:
+        value = str(draw(fortran_integers(lambda i: 0 > i or 1 < i)))
+
+    if valid_suffix is None:
+        suffix = None
+    elif valid_suffix:
+        suffix = str(draw(fortran_integers(lambda i: 1 <= i and i <= 99_999_999)))
+    else:
+        suffix = str(draw(fortran_integers(lambda i: 1 > i or i > 99_999_999)))
+
+    designator = draw(mcnp_designators(valid_designator))
+
+    return ("dxc", suffix, designator, value)
+
+
+@st.composite
+def mcnp_parameter_fissionTurnOff(draw, valid_value: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(st.sampled_from([0, 1, 2])))
+    else:
+        value = str(draw(fortran_integers(lambda i: i not in {0, 1, 2})))
+
+    return ("nonu", None, None, value)
+
+
+@st.composite
+def mcnp_parameter_detectorContribution(draw, valid_value: bool, valid_suffix: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_integers(lambda i: 0 <= i <= 1)))
+    else:
+        value = str(draw(fortran_integers(lambda i: 0 > i or 1 < i)))
+
+    if valid_suffix is None:
+        suffix = None
+    elif valid_suffix:
+        suffix = str(draw(fortran_integers(lambda i: 1 <= i and i <= 99_999_999)))
+    else:
+        suffix = str(draw(fortran_integers(lambda i: 1 > i or i > 99_999_999)))
+
+    return ("pd", suffix, None, value)
+
+
+@st.composite
+def mcnp_parameter_gasThermalTemperature(draw, valid_value: bool, valid_suffix: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_reals(lambda i: i >= 0)))
+    else:
+        value = str(draw(fortran_reals(lambda i: i < 0)))
+
+    if valid_suffix is None:
+        suffix = None
+    elif valid_suffix:
+        suffix = str(draw(fortran_integers(lambda i: 1 <= i and i <= 99_999_999)))
+    else:
+        suffix = str(draw(fortran_integers(lambda i: 1 > i or i > 99_999_999)))
+
+    return ("tmp", suffix, None, value)
+
+
+@st.composite
+def mcnp_parameter_universe(draw, valid_value: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_integers(lambda i: 1 <= i <= 99_999_999)))
+    else:
+        value = str(draw(fortran_integers(lambda i: 1 > i or i > 99_999_999)))
+
+    return ("u", None, None, value)
+
+
+@st.composite
+def mcnp_parameter_coordinateTransformation(draw, valid_value: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_integers()))
+    else:
+        value = "a"
+
+    return ("trcl", None, None, value)
+
+
+@st.composite
+def mcnp_parameter_lattice(draw, valid_value: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(st.sampled_from([1, 2])))
+    else:
+        value = str(draw(fortran_integers(lambda i: i not in {1, 2})))
+
+    return ("lat", None, None, value)
+
+
+@st.composite
+def mcnp_parameter_fill(draw, valid_value: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_integers(lambda i: 0 <= i <= 99_999_999)))
+    else:
+        value = str(draw(fortran_integers(lambda i: 0 > i or i > 99_999_999)))
+
+    return ("fill", None, None, value)
+
+
+@st.composite
+def mcnp_parameter_energyCutoff(draw, valid_value: bool, valid_designator: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_reals()))
+    else:
+        value = "a"
+
+    designator = draw(mcnp_designators(valid_designator))
+
+    return ("elpt", None, designator, value)
+
+
+@st.composite
+def mcnp_parameter_cosy(draw, valid_value: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_integers(lambda i: i >= 0)))
+    else:
+        value = str(draw(fortran_integers(lambda i: i < 0)))
+
+    return ("cosy", None, None, value)
+
+
+@st.composite
+def mcnp_parameter_bfield(draw, valid_value: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(fortran_integers(lambda i: i >= 0)))
+    else:
+        value = str(draw(fortran_integers(lambda i: i < 0)))
+
+    return ("bflcl", None, None, value)
+
+
+@st.composite
+def mcnp_parameter_uncolidedSecondaries(
+    draw, valid_value: bool, valid_designator: bool
+):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = str(draw(st.sampled_from([0, 1])))
+    else:
+        value = str(draw(fortran_integers(lambda i: i not in {0, 1})))
+
+    designator = draw(mcnp_designators(valid_designator))
+
+    return ("unc", None, designator, value)
 
 
 @st.composite
