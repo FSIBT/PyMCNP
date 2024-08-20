@@ -179,7 +179,7 @@ class Cell(card.Card):
             """
             'CellKeyword' represents cell card keywords.
 
-            'CellParameter' functions as a data type for 'CellParameter'
+            'CellKeyword' functions as a data type for 'CellParameter'
             and 'Cell'. It represents cell card parameter keywords
             as abstract syntax elements.
             """
@@ -214,19 +214,25 @@ class Cell(card.Card):
                 strings. If the string is invalid or the hook returns false,
                 it returns None.
 
+                Parameters:
+                    string: String to cast.
+                    hook: Postcast check.
+
                 Returns:
                     Cell parameter keyword from string.
                 """
 
                 string = string.lower()
 
-                if string.startswith("*"):
+                # Handling Star Modifier
+                if string == "*trcl":
                     string = string[:1]
 
+                # Handling Suffixes
                 if string.startswith(("wwn", "dxc", "tmp")):
                     if (
                         len(string) < 4
-                        and types.cast_fortran_integer(string[:3]) is None
+                        or types.cast_fortran_integer(string[3:]) is None
                     ):
                         return None
 
@@ -234,12 +240,13 @@ class Cell(card.Card):
                 elif string.startswith("pd"):
                     if (
                         len(string) < 3
-                        and types.cast_fortran_integer(string[:2]) is None
+                        and types.cast_fortran_integer(string[2:]) is None
                     ):
                         return None
 
                     string = string[:2]
 
+                # Attempting Type Cast
                 try:
                     keyword = cls(string)
 
