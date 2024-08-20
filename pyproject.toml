@@ -10,11 +10,25 @@ authors = [
    { name = "Devin Pease", email = "dmpease@lbl.gov" },
 ]
 description = "Python-based MCNP tools."
-version = "0.0.0"
+readme = "README.md"
+license = {file = "LICENSE"}
+dynamic = ["version"]
 requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "License :: OSI Approved :: BSD License",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Physics",
+]
 
 [project.urls]
-"Homepage" = "https://github.com/mauricioAyllon/MCNP-tools"
+homepage = "https://github.com/mauricioAyllon/PyMCNP"
+issues = "https://github.com/mauricioAyllon/PyMCNP/issues"
 
 [project.scripts]
 pymcnp = "pymcnp.main:main"
