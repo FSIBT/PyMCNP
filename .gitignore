@@ -1,4 +1,7 @@
+src/pymcnp/version.py
+
 .DS_Store
+*~
 
 .pymcnp
 
