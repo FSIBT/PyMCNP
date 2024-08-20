@@ -4,6 +4,7 @@
 
 
 import math
+from typing import Self
 
 import numpy as np
 
@@ -33,7 +34,7 @@ class cqVector:
         return np.linalg.norm([self.x, self.y, self.z]) * 2 / math.sqrt(3)
 
     @staticmethod
-    def cross(a: cqVector, b: cqVector) -> cqVector:
+    def cross(a: Self, b: Self) -> Self:
         """
         'cross' computes cross products.
         """
@@ -41,7 +42,7 @@ class cqVector:
         return cqVector(np.cross([a.x, a.y, a.z], [b.x, b.y, b.z]))
 
     @staticmethod
-    def angle(a: cqVector, b: cqVector) -> float:
+    def angle(a: Self, b: Self) -> float:
         """
         'angle' computes angles between vectors.
         """
@@ -49,7 +50,7 @@ class cqVector:
         return np.degrees(np.arccos(np.dot(a, b)))
 
 
-def add_box(a: cqVector, b: cqVector, c: cqVector) -> str:
+def add_box(a: Self, b: Self, c: Self) -> str:
     """
     'add_box' adds boxes to Cadquery workplanes.
     """
@@ -111,7 +112,7 @@ def add_trancatedCone(h: float, r1: float, r2: float) -> str:
     return f".circle({r1})" f".workplane(offset={h})" f"/circle({r2})" f".loft()"
 
 
-def add_ellipse() -> str:
+def add_ellipse(a: float, b: float) -> str:
     """
     'add_ellipse' adds ellipses to Cadquery workplanes.
     """

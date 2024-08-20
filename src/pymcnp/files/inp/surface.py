@@ -13,6 +13,7 @@ from typing import Self, Callable
 from enum import StrEnum
 
 from .card import Card
+from . import _cadquery
 from .._utils import parser
 from .._utils import errors
 from .._utils import types
@@ -94,16 +95,16 @@ class Surface(Card):
             returns None.
 
             Returns:
-                Cell parameter keyword from string.
+                Surface mnemonic from string.
             """
 
             string = string.lower()
 
             try:
-                keyword = cls(string)
+                mnemonic = cls(string)
 
-                if hook(keyword):
-                    return keyword
+                if hook(mnemonic):
+                    return mnemonic
             except ValueError:
                 pass
 
@@ -1196,12 +1197,10 @@ class SphereOrigin(Surface):
         """
 
         cadquery = "import cadquery as cq\n\n" if hasHeader else ""
+        cadquery += f"surface_{self.number} = cq.Workplane()"
+        cadquery += _cadquery.add_sphere(self.r)
 
-        cadquery += (
-            f"surface_{self.number} = cq.Workplane().sphere({self.parameters['r']})\n"
-        )
-
-        return cadquery
+        return cadquery + "\n"
 
 
 class SphereGeneral(Surface):
@@ -3586,9 +3585,9 @@ class Parallelepiped(Surface):
         """
 
         xlen, ylen, zlen = (
-            math.fabs(xmax - xmin),
-            math.fabs(ymax - ymin),
-            math.fabs(zmax - zmin),
+            math.fabs(self.xmax - self.xmin),
+            math.fabs(self.ymax - self.ymin),
+            math.fabs(self.zmax - self.zmin),
         )
 
         x = _cadquery.cqVector(xlen, 0, 0)
@@ -3825,7 +3824,7 @@ class CylinderCircular(Surface):
 
         cadquery = "import cadquery as cq\n\n" if hasHeader else ""
         cadquery += f"surface_{self.number} = cq.Workplane()"
-        cadquery += _cadquery.add_cylinder(h.norm(), r)
+        cadquery += _cadquery.add_cylinder(h.norm(), self.r)
 
         if self.hx != 0 or self.hy != 0 or self.hz / self.hz != 1:
             cadquery += _cadquery.add_rotation(
