@@ -14,8 +14,15 @@ from pymcnp.files._utils import types
 
 import _strategies as _st
 
+# Test Sizes (HH:MM:SS)
+# HY_TRIALS = 1      # 00:00:00
+# HY_TRIALS = 10     # 00:00:01
+# HY_TRIALS = 100    # 00:00:05
+# HY_TRIALS = 1000   # 00:01:00
+# HY_TRIALS = 10000  # 00:15:00
+# HY_TRIALS = 100000 # ??:??:??
 
-HY_TRIALS = 7500
+HY_TRIALS = 1000
 
 
 class TestCell:
@@ -28,7 +35,7 @@ class TestCell:
         'TestfromMcnp'
         """
 
-        @hy.settings(max_examples=math.ceil(HY_TRIALS // 18))
+        @hy.settings(max_examples=math.ceil(HY_TRIALS / 18))
         @hy.given(cell=_st.mcnp_cells(True, True, True, True, True))
         def test_valid(self, cell):
             """
@@ -307,7 +314,7 @@ class TestSurface:
         'TestfromMcnp'
         """
 
-        @hy.settings(max_examples=math.ceil(HY_TRIALS // 78))
+        @hy.settings(max_examples=math.ceil(HY_TRIALS / 78))
         @hy.given(surfaces=_st.mcnp_surfaces(True, True, True))
         def test_valid(self, surfaces):
             """
@@ -325,9 +332,7 @@ class TestSurface:
                 for param, entry in zip(inp.parameters.values(), entries):
                     assert param == pytest.approx(float(entry), 0.0001)
 
-            file.close()
-
-        @hy.settings(max_examples=math.ceil(HY_TRIALS // 78))
+        @hy.settings(max_examples=math.ceil(HY_TRIALS / 78))
         @hy.given(surfaces=_st.mcnp_surfaces(False, True, True))
         def test_invalid_number(self, surfaces):
             """
@@ -342,7 +347,7 @@ class TestSurface:
 
                 assert err.value.code == errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER
 
-        @hy.settings(max_examples=math.ceil(HY_TRIALS // 78))
+        @hy.settings(max_examples=math.ceil(HY_TRIALS / 78))
         @hy.given(surfaces=_st.mcnp_surfaces(True, False, True))
         def test_invalid_transformPeriodic(self, surfaces):
             """
@@ -362,7 +367,7 @@ class TestSurface:
                     == errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC
                 )
 
-        @hy.settings(max_examples=math.ceil(HY_TRIALS // 78))
+        @hy.settings(max_examples=math.ceil(HY_TRIALS / 78))
         @hy.given(surfaces=_st.mcnp_surfaces(True, True, False))
         def test_invalid_mnemonic(self, surfaces):
             """
