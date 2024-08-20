@@ -102,10 +102,10 @@ class History:
         history.header = header
 
         source = parser.Preprocessor.process_ptrac(source)
-        lines = parser.Parser(EOFError).from_string(source, "\n")
+        lines = parser.Parser(source.split("\n"), EOFError)
 
         # Processing I Line
-        tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), " ")
+        tokens = parser.Parser(lines.popl().strip().split(" "), SyntaxError)
         if len(tokens) != header.numbers[0]:
             raise SyntaxError
 
@@ -133,7 +133,7 @@ class History:
         # Processing J & P Lines
         events = []
 
-        tokens = parser.Parser(SyntaxError).from_string(lines.peekl(), " ")
+        tokens = parser.Parser(lines.peekl().split(" "), SyntaxError)
 
         next_type = history.next_type
         while next_type != Event.EventTypes.FLAG:

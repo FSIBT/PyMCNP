@@ -222,7 +222,7 @@ class Surface(Card):
         surface = cls()
 
         source = parser.Preprocessor.process_inp(source)
-        tokens = parser.Parser(SyntaxError).from_string(source, " ")
+        tokens = parser.Parser(source.split(" "), SyntaxError)
 
         # Processing Reflecting Prefix
         if tokens.peekl()[0] == "+":

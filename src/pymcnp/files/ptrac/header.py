@@ -131,14 +131,14 @@ class Header:
         header = cls()
 
         source = parser.Preprocessor.process_ptrac(source)
-        lines = parser.Parser(SyntaxError).from_string(source, "\n")
+        lines = parser.Parser(source.split("\n"), SyntaxError)
 
         # Processing Magic Number
         if lines.popl() != "-1":
             raise SyntaxError
 
         # Processing Header
-        tokens = parser.Parser(SyntaxError).from_string(lines.popl(), " ")
+        tokens = parser.Parser(lines.popl().split(" "), SyntaxError)
         if len(tokens) != 5:
             raise SyntaxError
 
@@ -152,7 +152,7 @@ class Header:
         header.set_title(lines.popl())
 
         # Processing Settings Block
-        tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), " ")
+        tokens = parser.Parser(lines.popl().strip().split(" "), SyntaxError)
         if len(tokens) != 10:
             raise SyntaxError
 
@@ -162,9 +162,8 @@ class Header:
 
         for i in range(0, int(m)):
             if not tokens:
-                tokens = parser.Parser(SyntaxError).from_string(
-                    lines.popl().strip(), " "
-                )
+                tokens = parser.Parser(lines.popl().strip().split(" "), SyntaxError)
+
                 if len(tokens) != 10:
                     raise SyntaxError
 
@@ -175,9 +174,8 @@ class Header:
             values = [None] * int(n)
             for j in range(0, int(n)):
                 if not tokens:
-                    tokens = parser.Parser(SyntaxError).from_string(
-                        lines.popl().strip(), " "
-                    )
+                    tokens = parser.Parser(lines.popl().strip().split(" "), SyntaxError)
+
                     if len(tokens) != 10:
                         raise SyntaxError
 
@@ -190,7 +188,7 @@ class Header:
                 raise ValueError
 
         # Processing Numbers
-        tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), " ")
+        tokens = parser.Parser(lines.popl().strip().split(" "), SyntaxError)
         if len(tokens) != 20:
             raise SyntaxError
 
@@ -214,7 +212,7 @@ class Header:
             raise SyntaxError
 
         # Processing Entry Counts
-        tokens = parser.Parser(SyntaxError).from_string(lines.popl().strip(), " ")
+        tokens = parser.Parser(lines.popl().stirp().split(" "), SyntaxError)
         if len(tokens) > 30:
             raise SyntaxError
 
@@ -223,9 +221,7 @@ class Header:
 
         for i in range(0, total):
             if not tokens:
-                tokens = parser.Parser(SyntaxError).from_string(
-                    lines.popl().strip(), " "
-                )
+                tokens = parser.Parser(lines.popl().strip().split(" "), SyntaxError)
                 if len(tokens) > 30:
                     raise SyntaxError
 

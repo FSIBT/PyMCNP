@@ -400,7 +400,7 @@ class Event:
             raise SyntaxError
 
         # Processing J-Line
-        j_line = parser.Parser(SyntaxError).from_string(lines[0], " ")
+        j_line = parser.Parser(lines[0].split(" "), SyntaxError)
 
         # Processing J2 (Next Event Type: 7)
         value = cls.EventTypes.cast_mcnp_event_types(j_line.popl())
@@ -533,7 +533,7 @@ class Event:
                 event.set_ntyn_mtp(value)
 
         # Processing P-Line
-        p_line = parser.Parser(SyntaxError).from_string(lines[1], " ")
+        p_line = parser.Parser(lines[1].split(" "), SyntaxError)
 
         # Processing P1 (xxx: 20)
         value = types.cast_fortran_real(p_line.popl())

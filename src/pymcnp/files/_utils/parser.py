@@ -12,12 +12,12 @@ class Parser:
     'Parser'
     """
 
-    def __init__(self, err: Exception):
+    def __init__(self, iterable, err: Exception):
         """
         '__init__'
         """
 
-        self.deque = collections.deque()
+        self.deque = collections.deque(iterable)
         self.err = err
 
     def from_string(self, string: str, delimiter: str):

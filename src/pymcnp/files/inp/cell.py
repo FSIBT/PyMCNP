@@ -80,10 +80,10 @@ class Cell(card.Card):
 
             # Running Shunting-Yard Algorithm
             ops_stack = parser.Parser(
-                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY)
+                [], errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY)
             )
             out_stack = parser.Parser(
-                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY)
+                [], errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY)
             )
             inp_stack = re.findall(
                 r"#|:| : |[()]| [()]|[()] | [()] | |[+-]?\d+", source
@@ -294,8 +294,9 @@ class Cell(card.Card):
             parameter = cls()
 
             tokens = parser.Parser(
-                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_PARAMETERS)
-            ).from_string(string, r":|=")
+                re.split(r":|=", string),
+                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_PARAMETERS),
+            )
 
             # Processing Keyword
             value = cls.CellKeyword.cast_cell_keyword(tokens.peekl())
@@ -1667,8 +1668,8 @@ class Cell(card.Card):
 
         cell = cls()
         tokens = parser.Parser(
-            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL)
-        ).from_string(card, " ")
+            card.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL)
+        )
 
         value = types.cast_fortran_integer(tokens.popl())
         cell.set_number(value)
@@ -1698,7 +1699,6 @@ class Cell(card.Card):
         cell.set_parameters(tuple(parameters))
 
         # Processing Geometry
-        print(tokens)
         cell.geometry = cls.CellGeometry().from_mcnp(" ".join(tokens.deque))
 
         return cell

@@ -97,8 +97,9 @@ class Inp:
 
         source = parser.Preprocessor.process_inp(source)
         lines = parser.Parser(
-            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_INP)
-        ).from_string(source, "\n")
+            source.split("\n"),
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_INP),
+        )
 
         # Processing Message Block
         if lines.peekl()[:9] == "message:":
