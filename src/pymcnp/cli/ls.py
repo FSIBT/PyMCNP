@@ -12,9 +12,10 @@ Functions:
 
 import sys
 
+import pymcnp
+
 from . import _save
 from . import _io
-from ..files.inp import inp
 
 
 class Ls:
@@ -23,7 +24,7 @@ class Ls:
     """
 
     @staticmethod
-    def list_cells(inpt: inp.Inp) -> str:
+    def list_cells(inpt: pymcnp.inp.Inp) -> str:
         """
         'list_cells' outputs strings of INP object cell information.
 
@@ -44,7 +45,7 @@ class Ls:
         return out
 
     @staticmethod
-    def list_surfaces(inpt: inp.Inp) -> str:
+    def list_surfaces(inpt: pymcnp.inp.Inp) -> str:
         """
         'list_surfaces' outputs strings of INP object surface information.
 
@@ -64,7 +65,7 @@ class Ls:
         return out
 
     @staticmethod
-    def list_data(inpt: inp.Inp) -> str:
+    def list_data(inpt: pymcnp.inp.Inp) -> str:
         """
         'list_data' outputs strings of INP object datum information.
 
@@ -85,7 +86,7 @@ class Ls:
         return out
 
     @staticmethod
-    def list_inp(inpt: inp.Inp) -> str:
+    def list_inp(inpt: pymcnp.inp.Inp) -> str:
         """
         'list_inp' outputs strings of all INP object information.
 

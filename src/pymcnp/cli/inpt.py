@@ -7,12 +7,10 @@ import os
 import sys
 import datetime
 
+import pymcnp
+
 from . import _io
 from . import _save
-from ..files.inp import inp
-from ..files.inp import cell
-from ..files.inp import surface
-from ..files.inp import datum
 
 
 def main(argv: list = sys.argv[1:]) -> None:
@@ -31,7 +29,7 @@ def main(argv: list = sys.argv[1:]) -> None:
             if not os.path.isfile(argv[2]):
                 _io.error(_io.ERROR_FILE_NOT_FOUND)
 
-            inpt = inp.Inp.from_mcnp_file(argv[2])
+            inpt = pymcnp.inp.Inp.from_mcnp_file(argv[2])
 
             inpts = _save.Save.get_save()
             filename = f"mcnp-save-{datetime.datetime.utcnow().timestamp()}"
@@ -51,7 +49,9 @@ def main(argv: list = sys.argv[1:]) -> None:
                     if argv[2] not in inpts:
                         _io.error(_io.ERROR_ALIAS_NOT_FOUND)
 
-                    inpts[argv[2]][1].cells.append(cell.Cell().from_mcnp(argv[3]))
+                    inpts[argv[2]][1].cells.append(
+                        pymcnp.cell.Cell().from_mcnp(argv[3])
+                    )
 
                     with open(inpts[argv[2]][0], "w") as file:
                         file.write(inpts[argv[2]][1].to_mcnp())

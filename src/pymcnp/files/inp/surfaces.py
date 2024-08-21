@@ -65,7 +65,7 @@ class Surfaces(Block):
             INP for surface block object.
         """
 
-        return "\n".join([surface.to_mcnp() for surface in self.cards.values()] + [""])
+        return "\n".join([surface.to_mcnp() for surface in self._cards.values()] + [""])
 
     def to_arguments(self) -> list:
         """
@@ -78,7 +78,7 @@ class Surfaces(Block):
             arugments: List of surface blocks object.
         """
 
-        return [card.to_arguments() for card in self.cards.values()]
+        return [card.to_arguments() for card in self._cards.values()]
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """

@@ -64,7 +64,7 @@ class Cells(Block):
             INP for cell block objects.
         """
 
-        return "\n".join([cell.to_mcnp() for cell in self.cards.values()] + [""])
+        return "\n".join([cell.to_mcnp() for cell in self._cards.values()] + [""])
 
     def to_arguments(self) -> list:
         """
@@ -77,4 +77,4 @@ class Cells(Block):
             List of cell card objects.
         """
 
-        return [card.to_arguments() for card in self.cards.values()]
+        return [card.to_arguments() for card in self._cards.values()]

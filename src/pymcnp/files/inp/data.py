@@ -58,7 +58,7 @@ class Data(Block):
             source : INP for data block objects.
         """
 
-        return "\n".join([datum.to_mcnp() for datum in self.cards.values()])
+        return "\n".join([datum.to_mcnp() for datum in self._cards.values()])
 
     def to_arguments(self) -> list:
         """
@@ -68,4 +68,4 @@ class Data(Block):
             arguments (list): List of datum block objects.
         """
 
-        return [card.to_arguments() for card in self.cards.values()]
+        return [card.to_arguments() for card in self._cards.values()]

@@ -11,9 +11,10 @@ Functions:
 import os
 import sys
 
+import pymcnp
+
 from . import _io
 from . import _save
-from ..files import inp
 
 
 class Run:
@@ -32,7 +33,7 @@ class Run:
         self.inpt: dict = None
 
     @classmethod
-    def from_inp_object(cls, inpt: inp.Inp):
+    def from_inp_object(cls, inpt: pymcnp.inp.Inp):
         """
         'from_inp_file' populates run objects from INP objects.
 
@@ -62,7 +63,7 @@ class Run:
         if not os.path.isfile(filename):
             raise ValueError
 
-        runner.inpt = inp.Inp().from_mcnp_file(filename)
+        runner.inpt = pymcnp.inp.Inp().from_mcnp_file(filename)
         runner.filename = filename
 
         return runner
