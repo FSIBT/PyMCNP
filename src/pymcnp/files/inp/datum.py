@@ -6101,7 +6101,7 @@ class Material(Datum):
         @classmethod
         def from_mcnp(cls, string: str) -> Self:
             """
-            'from_mcnp' generates stochastic geometry entries.
+            'from_mcnp' generates material value objects.
 
             'from_mcnp' constructs instances of 'MaterialValue'
             from INP strings, so it functions as a class constructor.
@@ -7262,10 +7262,264 @@ class TotalFission(Datum):
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'Volume'
+        '__init__' initalizes 'TotalFission'.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.TOTAL_FISSION
 
         self.has_no: bool = None
+
+
+class FissionTurnoff(Datum):
+    """
+    'FissionTurnoff' represents fission turnoff data cards.
+
+    'FissionTurnoff' functions as a data subtype for 'Datum'.
+    It represents datum cards as an abstract syntax element.
+    """
+
+    def __init__(self) -> Self:
+        """
+        '__init__' initalizes 'FissionTurnoff'.
+        """
+
+        super().__init__()
+        self.mnemonic = Datum.DatumMnemonic.FISSION_TURNOFF
+
+        self.states: tuple[int] = None
+
+    def set_parameters(self, *states: int) -> None:
+        """
+        'set_parameters' sets data card parameters.
+
+        'set_parameters' checks parameter entries are valid, and
+        it raises errors if given None.
+
+        Parameters:
+            *states: Iterable of states.
+        """
+
+        for parameter in states:
+            if parameter is None or parameter not in {0, 1, 2}:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
+                )
+
+        self.parameters = states
+        self.states = states
+
+
+class AtomicWeight(Datum):
+    """
+    'AtomicWeight' represents atomic weight data cards.
+
+    'AtomicWeight' functions as a data subtype for 'Datum'.
+    It represents datum cards as an abstract syntax element.
+    """
+
+    class AtomicWeightValue:
+        """
+        'AtomicWeightValue' represents atomic weight entries.
+
+        'AtomicWeightValue' stores zaid and atomic weight values.
+        """
+
+        def __init__(self) -> Self:
+            """
+            '__init__' initalizes 'AtomicWeightValue'.
+            """
+
+            self.zaid: types.Zaid = None
+            self.ratio: float = None
+
+        @classmethod
+        def from_mcnp(cls, string: str) -> Self:
+            """
+            'from_mcnp' generates atomic weight entries.
+
+            'from_mcnp' constructs instances of 'AtomicWeightValue'
+            from INP strings, so it functions as a class constructor.
+
+            Parameters:
+                string: INP to parse.
+
+            Returns:
+                Atomic weight value object.
+
+            Raises:
+                MCNPSemanticError: Invalid card parameter entry.
+                MCNPSyntaxError: Invalid card paramter syntax.
+            """
+
+            entry = cls()
+
+            tokens = parser.Parser(
+                string.split(" "),
+                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES),
+            )
+
+            # Parsing zzzaaa
+            value = types.Zaid().cast_mcnp_zaid(tokens.popl())
+            if value is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
+                )
+
+            self.zaid = value
+
+            # Parsing atomic weight
+            value = types.cast_fortran_real(tokens.popl())
+            if value is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
+                )
+
+            self.weight = value
+
+    def __init__(self) -> Self:
+        """
+        '__init__' initalizes 'AtomicWeight'.
+        """
+
+        super().__init__()
+        self.mnemonic = Datum.DatumMnemonic.ATOMIC_WEIGHT
+
+        self.weight_ratios: tuple[AtomicWeightValue] = None
+
+    def set_parameters(self, *weight_ratios: AtomicWeightValue) -> None:
+        """
+        'set_parameters' sets data card parameters.
+
+        'set_parameters' checks parameter entries are valid, and
+        it raises errors if given None.
+
+        Parameters:
+            *weight_ratios: Iterable of weight ratios.
+        """
+
+        for parameter in weights:
+            if parameter is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
+                )
+
+        self.parameters = weight_ratios
+        self.weight_ratios = weight_ratios
+
+
+class CrossSectionFile(Datum):
+    """
+    'CrossSectionFile' represents cross-section file data cards.
+
+    'CrossSectionFile' functions as a data subtype for 'Datum'.
+    It represents datum cards as an abstract syntax element.
+    """
+
+    def __init__(self) -> Self:
+        """
+        '__init__' initalizes 'CrossSectionFile'.
+        """
+
+        super().__init__()
+        self.mnemonic = Datum.DatumMnemonic.CROSSSECTION_FILE
+
+        self.zaid: types.Zaid = None
+        self.weight_ratio: float = None
+        self.suffix: int = None
+
+    def set_suffix(self, suffix: int) -> None:
+        """
+        'set_suffix' sets cross-section file
+        data card keyword suffixes.
+
+        'set_suffix' checks suffixes are valid.
+        It raises errors if given None.
+
+        Parameters:
+            suffix: Data card mnemonic suffix.
+        """
+
+        if suffix is None and not (1 <= suffix <= 99_999_999):
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX
+            )
+
+        self.suffix = suffix
+
+    def set_parameters(
+        self, zaid: types.Zaid, weight_ratio: float, *entries: str
+    ) -> None:
+        """
+        'set_parameters' sets data card parameters.
+
+        'set_parameters' checks parameter entries are valid, and
+        it raises errors if given None.
+
+        Parameters:
+            zaid: Nuclide identifier.
+            weight_ratio: Atomic weight ratio.
+            *entries: Iterable of file entries.
+        """
+
+        if zaid is None:
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
+            )
+
+        self.zaid = zaid
+
+        if weight_ratio is None:
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
+            )
+
+        self.weight_ratio = weight_ratio
+
+        for parameter in entries:
+            if parameter is None:
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
+                )
+
+        self.entries = entries
+        self.parameters = tuple([zaid, weight_ratio] + list(entries))
+
+
+class Void(Datum):
+    """
+    'Void' represents material void data cards.
+
+    'Void' functions as a data subtype for 'Datum'.
+    It represents datum cards as an abstract syntax element.
+    """
+
+    def __init__(self) -> Self:
+        """
+        '__init__' initalizes 'Void'
+        """
+
+        super().__init__()
+        self.mnemonic = Datum.DatumMnemonic.AREA
+
+        self.numbers: tuple[int] = None
+
+    def set_parameters(self, *numbers: float) -> None:
+        """
+        'set_parameters' sets data card parameters.
+
+        'set_parameters' checks parameter entries are valid, and
+        it raises errors if given None.
+
+        Parameters:
+            *numbers: Iterable of cell numbers.
+        """
+
+        for parameter in numbers:
+            if parameter is None or not (1 <= parameter <= 99_999_999):
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
+                )
+
+        self.parameters = numbers
+        self.numbers = numbers
