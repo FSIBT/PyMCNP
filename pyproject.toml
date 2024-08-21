@@ -29,6 +29,7 @@ classifiers = [
 [project.urls]
 homepage = "https://github.com/mauricioAyllon/PyMCNP"
 issues = "https://github.com/mauricioAyllon/PyMCNP/issues"
+changelog = "https://github.com/mauricioAyllon/PyMCNP/blob/master/CHANGELOG.md"
 
 [project.scripts]
 pymcnp = "pymcnp.main:main"
