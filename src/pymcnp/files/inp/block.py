@@ -1,8 +1,8 @@
 """
-'block' contains classes representing INP card blocks.
+``block`` contains classes representing INP card blocks.
 
-'block' packages the 'Block' class, providing an importable interface
-for generic INP card blocks.
+``block`` packages the ``Block`` class, providing an object-oriented, 
+importable interface for INP card blocks.
 """
 
 
@@ -13,27 +13,26 @@ from . import card
 
 class Block:
     """
-    'Block' represents generic INP card blocks.
+    ``Block`` represents generic INP card blocks.
 
-    'Block' abstracts the common properties of INP cell, surface, and
-    data blocks. It represents INP card blocks as abstract syntax elements.
+    ``Block`` abstracts the common properties of INP cell, surface, and data
+    blocks. It represents the INP card block syntax element.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'Block'.
+        ``__init__`` initalizes ``Block``.
         """
 
         self._cards: dict[card.Card] = {}
 
     def append(self, new_card: card.Card) -> int:
         """
-        'append' enqueues cards to card block objects.
+        ``append`` enqueues cards to card block objects.
 
-        'append' adds cards to the 'cards' dictionary. It stores
-        cards at the index equals to their id attribute, but it
-        raises errors if collisions occur. 'append' wraps the
-        adctionary 'add' method with PYMCNP error handling.
+        ``append`` adds cards to ``Block`` instances. It stores cards at the
+        index equal to their id attribute or replaces existing entries when
+        collisions occur. ``append`` wraps the dictionary ``add`` method.
 
         Parameters:
             new_card: Card to append.
@@ -45,21 +44,17 @@ class Block:
         if new_card is None or new_card.id is None:
             return None
 
-        if new_card.id in self._cards:
-            raise ValueError
-
         self._cards[new_card.id] = new_card
 
         return new_card.id
 
     def remove(self, old_id: int) -> card.Card:
         """
-        'remove' dequeues cards from card block objects.
+        ``remove`` dequeues cards from ``block``.
 
-        'remove' removes cards from the 'cards' dictionary given
-        their id number. If no entry exists for the given key,
-        'remove' returns None. 'remove' wraps the dictionary 'pop'
-        method with PYMCNP error handling.
+        ``remove`` removes cards from ``Block`` instances given their id
+        numbers. If no entry exists for the given key, ``remove`` returns None.
+        ``remove`` wraps the dictionary ``pop`` method.
 
         Parameters:
             old_id: ID number of card to remove.

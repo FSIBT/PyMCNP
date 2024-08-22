@@ -1,8 +1,8 @@
 """
-'card' contains classes representing INP cards.
+``card`` contains classes representing INP cards.
 
-'card' packages the 'Card' class, providing an importable inferace
-for generic INP cards.
+``card`` packages the ``Card`` class, providing an object-oriented, importable
+interface for INP cards.
 """
 
 
@@ -11,20 +11,20 @@ from typing import Union, Self
 
 class Card:
     """
-    'Card' represents generic INP cards.
+    ``Card`` represents generic INP cards.
 
-    'Card' abstracts the commonalities of INP cell, surface, and data
-    cards. It represents INP cards as abstract syntax elements.
+    ``Card`` abstracts the common properties of INP cell, surface, and data
+    cards. It represents the INP card syntax element.
 
     Attributes:
         id: Card identifier.
-        line: Line number.
-        comment: Inline comment.
+        line: Card line number.
+        comment: Card inline comment.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'Card'.
+        ``__init__`` initalizes ``Card``.
         """
 
         self.id: Union[int, str] = None
