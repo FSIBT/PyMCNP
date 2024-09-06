@@ -9,8 +9,8 @@ Functions:
 import os
 import sys
 
-import pymcnp.cli
-import pymcnp.version as version
+from pymcnp import cli
+from pymcnp import version
 
 
 PYMCNP_DIR = ".pymcnp/"
@@ -36,18 +36,20 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
     # Processing Command
     match argv[0] if argv else None:
         case "ls":
-            pymcnp.cli.ls.main(argv[1:])
+            cli.ls.main(argv[1:])
         case "run":
-            pymcnp.cli.run.main(argv[1:])
+            cli.run.main(argv[1:])
         case "input":
-            pymcnp.cli.inpt.main(argv[1:])
+            cli.inpt.main(argv[1:])
         case "help":
             print("HELP :)")
         case None:
             print(PYMCNP_TITLE)
         case _:
-            pymcnp.cli._io.error(_io.ERROR_UNRECOGNIZED_ARGS)
+            cli._io.error(_io.ERROR_UNRECOGNIZED_ARGS)
 
 
 if __name__ == "__main__":
+    import pymcnp
+
     main()

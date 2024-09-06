@@ -8,17 +8,18 @@ Functions:
 """
 
 
+from typing import Self
 import os
 import sys
 
-import pymcnp
 
+from ..files import inp
 from . import _io
 from . import _save
 
 
 class Run:
-    def __init__(self, path: str, command: str = "mcnp"):
+    def __init__(self, path: str, command: str = "mcnp") -> Self:
         """
         '__init__' initalizes 'Run'.
 
@@ -33,7 +34,7 @@ class Run:
         self.inpt: dict = None
 
     @classmethod
-    def from_inp_object(cls, inpt: pymcnp.inp.Inp):
+    def from_inp_object(cls, inpt: inp.Inp):
         """
         'from_inp_file' populates run objects from INP objects.
 
@@ -63,7 +64,7 @@ class Run:
         if not os.path.isfile(filename):
             raise ValueError
 
-        runner.inpt = pymcnp.inp.Inp().from_mcnp_file(filename)
+        runner.inpt = inp.Inp().from_mcnp_file(filename)
         runner.filename = filename
 
         return runner
