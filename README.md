@@ -6,11 +6,20 @@ Find more information on [ReadTheDocs](https://github.com/mauricioAyllon/PyMCNP)
 
 ## Installation
 
-To download PyMCNP, (1) clone PyMCNP from [Github](https://github.com/mauricioAyllon/PyMCNP) by running the following `git` command, and (2) run the following `pip` command inside a clone of the pymcnp repository:
+PyMCNP requires [Python](https://www.python.org>) (≥ 3.11) and [Numpy](https://numpy.org>) (≥ 2.0). 
+
+PyMCNP is distributed through the [Python Package Index](https://pypi.org/project/pymcnp/>) (PyPi) with the ``pip`` command. The following command installs both ``pymcnp`` and its depenencies:
 
 ```
-git clone https://github.com/mauricioAyllon/PyMCNP
+pip install numpy pymcnp
+```
+
+PyMCNP source code is accessable for contributions, suggestions, and bug reports on [GitHub](https://github.com/FSIBT/PyMCNP) with the ``git`` command. The following command downloads PyMCNP source code and installs ``pymcnp`` and its dependencies in editable mode:
+
+```
+git clone https://github.com/FSIBT/PyMCNP
 cd PyMCNP
+pip install numpy
 pip install -e .
 ```
 

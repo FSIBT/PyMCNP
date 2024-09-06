@@ -1,18 +1,14 @@
-.. pymcnp documentation master file, created by
-   sphinx-quickstart on Tue Aug  6 11:33:36 2024.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-pymcnp documentation
+PyMCNP Documentation
 ====================
 
-Hi :)
+PyMCNP is a Python package and command line interface (CLI) for interacting with `Monte Carlo N-Particle <https://mcnp.lanl.gov>`_ (MCNP). The `Fusion Science & Ion Beam Technology Group <https://atap.lbl.gov/research/scientific-programs-and-centers/fusion-science-ion-beam-technology-program/>`_ (FS&IBT) at `Lawrence Berkeley National Laboratory <https://lbl.gov>`_ (LBNL) developed PyMCNP to enable reserach with MCNP simulations. PyMCNP parsers MCNP input and output files, creates simulation geometry visualizations, and runs MCNP simulations in parallel.
+
+Table of Contents
+-----------------
 
 .. toctree::
    :maxdepth: 1
 
-   pymcnp.cli.rst
-   pymcnp.gui.rst
-   pymcnp.files.inp.rst
-   pymcnp.files.ptrac.rst
-
+   installation.rst
+   pymcnp.rst
+   cli.rst
