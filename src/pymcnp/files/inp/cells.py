@@ -6,8 +6,6 @@ interface for INP cell card blocks.
 """
 
 
-from typing import Self
-
 from .block import Block
 from .cell import Cell
 from .._utils import parser
@@ -22,7 +20,7 @@ class Cells(Block):
     super class.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Cells``.
         """
@@ -30,7 +28,7 @@ class Cells(Block):
         super().__init__()
 
     @classmethod
-    def from_mcnp(cls, source: str) -> Self:
+    def from_mcnp(cls, source: str):
         """
         ``from_mcnp`` generates ``Cells`` objects from INP.
 

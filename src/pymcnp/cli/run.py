@@ -8,7 +8,6 @@ Functions:
 """
 
 
-from typing import Self
 import os
 import sys
 
@@ -19,7 +18,7 @@ from . import _save
 
 
 class Run:
-    def __init__(self, path: str, command: str = "mcnp") -> Self:
+    def __init__(self, path: str, command: str = "mcnp"):
         """
         '__init__' initalizes 'Run'.
 

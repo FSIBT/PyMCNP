@@ -6,7 +6,7 @@ interface for INP cards.
 """
 
 
-from typing import Union, Self
+from typing import Union
 
 
 class Card:
@@ -22,7 +22,7 @@ class Card:
         comment: Card inline comment.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initalizes ``Card``.
         """

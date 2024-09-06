@@ -3,8 +3,6 @@
 """
 
 
-from typing import Self
-
 from .header import Header
 from .history import History
 
@@ -14,7 +12,7 @@ class Ptrac:
     'Ptrac'
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         '__init__'
         """
@@ -23,7 +21,7 @@ class Ptrac:
         self.histories: list[History] = None
 
     @classmethod
-    def from_mcnp(cls, source: str) -> Self:
+    def from_mcnp(cls, source: str):
         """
         'from_mcnp'
         """

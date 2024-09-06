@@ -9,7 +9,7 @@ importable interface for INP surface cards.
 import numpy as np
 
 import math
-from typing import Self, Callable
+from typing import Callable
 from enum import StrEnum
 
 from . import card
@@ -88,7 +88,7 @@ class Surface(card.Card):
         POLYHEDRON = "arb"
 
         @classmethod
-        def from_mcnp(cls, source: str) -> Self:
+        def from_mcnp(cls, source: str):
             """
             ``from_mcnp`` generates ``SurfaceMnemonic`` objects from INP.
 
@@ -114,7 +114,7 @@ class Surface(card.Card):
 
             return cls(source)
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Surface``.
         """
@@ -376,7 +376,7 @@ class Surface(card.Card):
             assert False
 
     @classmethod
-    def from_mcnp(cls, source: str, line: int = None) -> Self:
+    def from_mcnp(cls, source: str, line: int = None):
         """
         ``from_mcnp`` generates ``Surface`` objects from INP.
 
@@ -870,7 +870,7 @@ class PlaneGeneral(Surface):
         z3: Point-defined general plane point #3 z component.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``PlaneGeneral``.
         """
@@ -1066,7 +1066,7 @@ class PlaneNormalX(Surface):
         d: Normal-to-the-x-axis plane D coefficent.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``PlaneNormalX``.
         """
@@ -1109,7 +1109,7 @@ class PlaneNormalY(Surface):
         d: Normal-to-the-y-axis plane D coefficent.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``PlaneNormalY``.
         """
@@ -1152,7 +1152,7 @@ class PlaneNormalZ(Surface):
         d: Normal-to-the-z-axis plane D coefficent.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``PlaneNormalZ``.
         """
@@ -1195,7 +1195,7 @@ class SphereOrigin(Surface):
         r: Origin-centered sphere radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``SphereOrigin``.
         """
@@ -1261,7 +1261,7 @@ class SphereGeneral(Surface):
         r: General sphere radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``SphereGeneral``.
         """
@@ -1353,7 +1353,7 @@ class SphereNormalX(Surface):
         r: On-x-axis sphere radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``SphereNormalX``.
         """
@@ -1427,7 +1427,7 @@ class SphereNormalY(Surface):
         r: On-y-axis sphere radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``SphereNormalY``.
         """
@@ -1501,7 +1501,7 @@ class SphereNormalZ(Surface):
         r: On-z-axis sphere radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``SphereNormalZ``.
         """
@@ -1577,7 +1577,7 @@ class CylinderParallelX(Surface):
         r: Parallel-to-x-axis cylinder radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``CylinderParallelX``.
         """
@@ -1641,7 +1641,7 @@ class CylinderParallelY(Surface):
         r: Parallel-to-y-axis cylinder radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``CylinderParallelY``.
         """
@@ -1705,7 +1705,7 @@ class CylinderParallelZ(Surface):
         r: Parallel-to-z-axis cylinder radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``CylinderParallelZ``.
         """
@@ -1766,7 +1766,7 @@ class CylinderOnX(Surface):
         r: On-x-axis cylinder radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``CylinderOnX``.
         """
@@ -1809,7 +1809,7 @@ class CylinderOnY(Surface):
         r: On-y-axis cylinder radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``CylinderOnY``.
         """
@@ -1852,7 +1852,7 @@ class CylinderOnZ(Surface):
         r: On-z-axis cylinder radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``CylinderOnZ``.
         """
@@ -1899,7 +1899,7 @@ class ConeParallelX(Surface):
         plusminus_1: Parallel-to-x-axis cone sheet selector.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``ConeParallelX``.
         """
@@ -1982,7 +1982,7 @@ class ConeParallelY(Surface):
         plusminus_1: Parallel-to-y-axis cone sheet selector.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``ConeParallelY``.
         """
@@ -2065,7 +2065,7 @@ class ConeParallelZ(Surface):
         plusminus_1: Parallel-to-z-axis cone sheet selector.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``ConeParallelZ``.
         """
@@ -2146,7 +2146,7 @@ class ConeOnX(Surface):
         plusminus_1: On-x-axis cone sheet selector.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``ConeOnX``.
         """
@@ -2206,7 +2206,7 @@ class ConeOnY(Surface):
         plusminus_1: On-y-axis cone sheet selector.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``ConeOnY``.
         """
@@ -2269,7 +2269,7 @@ class ConeOnZ(Surface):
         plusminus_1: On-z-axis cone sheet selector.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``ConeOnZ``.
         """
@@ -2339,7 +2339,7 @@ class QuadraticSpecial(Surface):
         z: Oblique special quadratic center z component.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``QuadraticSpecial``.
         """
@@ -2475,7 +2475,7 @@ class QuadraticGeneral(Surface):
         k: Oblique special quadratic K coefficent.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``QuadraticGeneral``.
         """
@@ -2606,7 +2606,7 @@ class TorusParallelX(Surface):
         c: Parallel-to-x-axis tori C coefficent.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``TorusParallelX``.
         """
@@ -2699,7 +2699,7 @@ class TorusParallelY(Surface):
         c: Parallel-to-y-axis tori C coefficent.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``TorusParallelY``.
         """
@@ -2792,7 +2792,7 @@ class TorusParallelZ(Surface):
         c: Parallel-to-z-axis tori C coefficent.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``TorusParallelZ``.
         """
@@ -2885,7 +2885,7 @@ class SurfaceX(Surface):
         r3: X-axisymmetric point-defined surface point #3 radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``SurfaceX``.
         """
@@ -2980,7 +2980,7 @@ class SurfaceY(Surface):
         r3: Y-axisymmetric point-defined surface point #3 radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``SurfaceY``.
         """
@@ -3075,7 +3075,7 @@ class SurfaceZ(Surface):
         r3: Z-axisymmetric point-defined surface point #3 radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``SurfaceZ``.
         """
@@ -3178,7 +3178,7 @@ class Box(Surface):
         a3z: Box macrobody vector #3 z component.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Box``.
         """
@@ -3368,7 +3368,7 @@ class Parallelepiped(Surface):
         zmax: Parallelepiped z termini maximum.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Parallelepiped``.
         """
@@ -3491,7 +3491,7 @@ class Sphere(Surface):
         r: Sphere macrobody radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Sphere``.
         """
@@ -3589,7 +3589,7 @@ class CylinderCircular(Surface):
         r: Circular cylinder macrobody radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``CylinderCircular``.
         """
@@ -3730,7 +3730,7 @@ class HexagonalPrism(Surface):
         t3: Hexagonal prism facet #3 vector z component.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``HexagonalPrism``.
         """
@@ -3960,7 +3960,7 @@ class CylinderElliptical(Surface):
         v2z: Elliptical cylinder minor axis vector z component.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``CylinderElliptical``.
         """
@@ -4167,7 +4167,7 @@ class ConeTruncated(Surface):
         r2: Truncated cone upper cone radius.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``ConeTruncated``.
         """
@@ -4310,7 +4310,7 @@ class Ellipsoid(Surface):
         rm: Ellipsoid major/minor axis radius length.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Ellipsoid``.
         """
@@ -4473,7 +4473,7 @@ class Wedge(Surface):
         v3z: Wedge height vector z component.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Wedge``.
         """
@@ -4686,7 +4686,7 @@ class Polyhedron(Surface):
         n6: Polyhedron four-digit side specificer #6.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Polyhedron``.
         """

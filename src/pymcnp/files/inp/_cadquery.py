@@ -6,9 +6,8 @@ private helper functions for generating Cadquery by abstracting Cadquery
 patterns.
 """
 
-
+from __future__ import annotations
 import math
-from typing import Self
 
 import numpy as np
 
@@ -26,14 +25,14 @@ class CqVector:
         z: Vector z component.
     """
 
-    def __init__(self, x, y, z):
+    def __init__(self, x: float, y: float, z: float):
         """
         ``__init__`` initializes ``CqVector``.
         """
 
-        self.x = x
-        self.y = y
-        self.z = z
+        self.x: float = x
+        self.y: float = y
+        self.z: float = z
 
     def norm(self) -> float:
         """
@@ -63,7 +62,7 @@ class CqVector:
         return np.linalg.norm([self.x, self.y, self.z]) * 2 / math.sqrt(3)
 
     @staticmethod
-    def cross(a: Self, b: Self) -> Self:
+    def cross(a: CqVector, b: CqVector):
         """
         ``cross`` computes cross products of two vectors.
 
@@ -81,7 +80,7 @@ class CqVector:
         return CqVector(np.cross([a.x, a.y, a.z], [b.x, b.y, b.z]))
 
     @staticmethod
-    def angle(a: Self, b: Self) -> float:
+    def angle(a: CqVector, b: CqVector) -> float:
         """
         ``angle`` computes angles between vectors.
 

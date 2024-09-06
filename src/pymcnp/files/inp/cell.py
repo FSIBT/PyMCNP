@@ -7,7 +7,6 @@ interface for INP cell cards.
 
 
 import re
-from typing import Self
 from enum import StrEnum
 
 from . import card
@@ -51,7 +50,7 @@ class Cell(card.Card):
 
         _OPERATIONS_ORDER = {"#": 0, " ": 1, ":": 2}
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``CellGeometry``.
             """
@@ -60,7 +59,7 @@ class Cell(card.Card):
             self.postfix: tuple[str] = None
 
         @classmethod
-        def from_mcnp(cls, source: str) -> Self:
+        def from_mcnp(cls, source: str):
             """
             ``from_mcnp`` generates ``CellGeometry`` objects from INP.
 
@@ -202,7 +201,7 @@ class Cell(card.Card):
             UNCOLLIDED_SECONDARIES = "unc"
 
             @classmethod
-            def from_mcnp(cls, source: str) -> Self:
+            def from_mcnp(cls, source: str):
                 """
                 ``from_mcnp`` generates ``CellKeyword`` objects from INP.
 
@@ -257,7 +256,7 @@ class Cell(card.Card):
 
                 return self.value
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``CellOption``.
             """
@@ -634,7 +633,7 @@ class Cell(card.Card):
             designator: Cell card option keyword designator.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``CellOption_Designator``.
             """
@@ -675,7 +674,7 @@ class Cell(card.Card):
             suffix: Cell card option keyword suffix.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``CellOption_Suffix``.
             """
@@ -716,7 +715,7 @@ class Cell(card.Card):
             importance: Cell importance.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init_`` initializes ``Importance``.
             """
@@ -1490,7 +1489,7 @@ class Cell(card.Card):
             self.setting = value
             self.value = value
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Cell``.
         """
@@ -1606,7 +1605,7 @@ class Cell(card.Card):
         self.options = options
 
     @classmethod
-    def from_mcnp(cls, source: str, line: int = None) -> Self:
+    def from_mcnp(cls, source: str, line: int = None):
         """
         ``from_mcnp`` generates ``Cell`` objects from INP.
 

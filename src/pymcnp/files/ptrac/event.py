@@ -3,7 +3,7 @@
 """
 
 
-from typing import Self
+from __future__ import annotations
 from enum import Enum
 
 from .._utils import parser
@@ -124,7 +124,7 @@ class Event:
         NTER_17 = 17
 
         @classmethod
-        def cast_mcnp_nter(cls, string: int) -> Self:
+        def cast_mcnp_nter(cls, string: int):
             """
             'cast_mcnp_nter'
             """
@@ -134,7 +134,7 @@ class Event:
             except ValueError:
                 return None
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         '__init__'
         """
@@ -385,9 +385,7 @@ class Event:
         self.tme = tme
 
     @classmethod
-    def from_mcnp(
-        cls, source: str, header: Header, event_type: EventTypes
-    ) -> tuple[Self, str]:
+    def from_mcnp(cls, source: str, header: Header, event_type: EventTypes) -> tuple[Event, str]:
         """
         'from_mcnp'
         """

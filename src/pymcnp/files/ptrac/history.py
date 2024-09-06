@@ -3,7 +3,7 @@
 """
 
 
-from typing import Self
+from __future__ import annotations
 
 from .event import Event
 from .header import Header
@@ -16,7 +16,7 @@ class History:
     'History'
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         '__init__'
         """
@@ -93,7 +93,7 @@ class History:
         self.next_type = next_type
 
     @classmethod
-    def from_mcnp(cls, source: str, header: Header) -> tuple[Self, str]:
+    def from_mcnp(cls, source: str, header: Header) -> tuple[History, str]:
         """
         'from_mcnp'
         """
@@ -137,9 +137,7 @@ class History:
 
         next_type = history.next_type
         while next_type != Event.EventTypes.FLAG:
-            event = Event().from_mcnp(
-                lines.popl() + "\n" + lines.popl(), history.header, next_type
-            )
+            event = Event().from_mcnp(lines.popl() + "\n" + lines.popl(), history.header, next_type)
             events.append(event)
             next_type = event.next_type
 

@@ -7,7 +7,7 @@ importable interface for INP datum cards.
 
 
 import re
-from typing import Self, Callable
+from typing import Callable
 from enum import StrEnum
 
 from .card import Card
@@ -61,7 +61,7 @@ class Datum(Card):
         MATERIAL = "m"
 
         @classmethod
-        def from_mcnp(cls, source: str) -> Self:
+        def from_mcnp(cls, source: str):
             """
             ``from_mcnp`` generates ``DatumMnemonic`` objects from INP.
 
@@ -103,7 +103,7 @@ class Datum(Card):
 
             return cls(source)
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Datum``.
         """
@@ -212,7 +212,7 @@ class Datum(Card):
                     self.__class__ = obj.__class__
 
     @classmethod
-    def from_mcnp(cls, source: str, line: int = None) -> Self:
+    def from_mcnp(cls, source: str, line: int = None):
         """
         ``from_mcnp`` generates ``Datum`` objects from INP.
 
@@ -587,7 +587,7 @@ class Datum_Designator(Datum):
         designator: Data card designator.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Datum_Designator``.
         """
@@ -629,7 +629,7 @@ class Datum_Suffix(Datum):
         suffix: Data card suffix.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Datum_Suffix``.
         """
@@ -671,7 +671,7 @@ class Volume(Datum):
         volumes: Iterable of cell volumes.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Volume``.
         """
@@ -720,7 +720,7 @@ class Area(Datum):
         areas: Iterable of cell areas.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Area``.
         """
@@ -767,7 +767,7 @@ class Transformation(Datum_Suffix):
         system: Transformation coordinate system setting.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Transformation``.
         """
@@ -832,7 +832,7 @@ class Universe(Datum):
         universes: Iterable of cell universe numbers.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Universe``.
         """
@@ -876,7 +876,7 @@ class Lattice(Datum):
         lattices: Iterable of cell lattice numbers.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Lattice``.
         """
@@ -920,7 +920,7 @@ class Fill(Datum):
         fills: Iterable of universe numbers.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Fill``.
         """
@@ -983,7 +983,7 @@ class StochasticGeometry(Datum):
             maximum_z: Stochastic geometry maximum translation in z direction.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``StochasticGeometryValue``.
             """
@@ -994,7 +994,7 @@ class StochasticGeometry(Datum):
             self.maximum_z: float = None
 
         @classmethod
-        def from_mcnp(cls, source: str) -> Self:
+        def from_mcnp(cls, source: str):
             """
             ``from_mcnp`` generates ``StochasticGeometryValue`` objects from
             INP.
@@ -1050,7 +1050,7 @@ class StochasticGeometry(Datum):
 
             return entry
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``StochasticGeometry``.
         """
@@ -1096,7 +1096,7 @@ class DeterministicMaterials(Datum):
         materials: Iterable of Zaids.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``DeterministicMaterials``.
         """
@@ -1245,7 +1245,7 @@ class DeterministicWeightWindow(Datum):
             FLUXONE = "fluxone"
 
             @classmethod
-            def from_mcnp(cls, source: str) -> Self:
+            def from_mcnp(cls, source: str):
                 """
                 ``from_mcnp`` generates ``DeterministicWeightWindowKeyword``
                 objects from INP.
@@ -1275,7 +1275,7 @@ class DeterministicWeightWindow(Datum):
 
                 return cls(source)
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``DeterministicWeightWindowOption``.
             """
@@ -1648,7 +1648,7 @@ class DeterministicWeightWindow(Datum):
             point: Deterministic weight window data card sample point count.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Points``.
             """
@@ -1693,7 +1693,7 @@ class DeterministicWeightWindow(Datum):
             state: PARTISN input file passed value setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Block``.
             """
@@ -1738,7 +1738,7 @@ class DeterministicWeightWindow(Datum):
             energy_group_number: DAWWG energy group count.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Ngroup``.
             """
@@ -1783,7 +1783,7 @@ class DeterministicWeightWindow(Datum):
             sn_order: DAWWG Sn order.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Isn``.
             """
@@ -1828,7 +1828,7 @@ class DeterministicWeightWindow(Datum):
             isotopes_number: DAWWG isotopes number.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Niso``.
             """
@@ -1872,7 +1872,7 @@ class DeterministicWeightWindow(Datum):
             materials_number: DAWWG materials number.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mt``.
             """
@@ -1917,7 +1917,7 @@ class DeterministicWeightWindow(Datum):
             quadrature: DAWWG quadrature.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Iquad``.
             """
@@ -1962,7 +1962,7 @@ class DeterministicWeightWindow(Datum):
             state: DAWWG LNK3DNT reading comprehension toggle.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Fmmix``.
             """
@@ -2007,7 +2007,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress solver module setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Nosolv``.
             """
@@ -2052,7 +2052,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress edit module setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Noedit``.
             """
@@ -2097,7 +2097,7 @@ class DeterministicWeightWindow(Datum):
             state: Supress writing GEODST file setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Nogeod``.
             """
@@ -2142,7 +2142,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress writing mixing file setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Nomix``.
             """
@@ -2187,7 +2187,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress wirting ASGMAT file seting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Noasg``.
             """
@@ -2232,7 +2232,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress writing MACRXS file.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Nomacr``.
             """
@@ -2277,7 +2277,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress writing SOLINP file setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Noslnp``.
             """
@@ -2322,7 +2322,7 @@ class DeterministicWeightWindow(Datum):
             state: Supress writing EDITIT file setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Noedtt``.
             """
@@ -2367,7 +2367,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress writing ADJMAC file setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Noadjm``.
             """
@@ -2411,7 +2411,7 @@ class DeterministicWeightWindow(Datum):
             name: Name/Form of corss-seciotn data file.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Lib``.
             """
@@ -2456,7 +2456,7 @@ class DeterministicWeightWindow(Datum):
             filename: Cross-section file name.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Libname``.
             """
@@ -2501,7 +2501,7 @@ class DeterministicWeightWindow(Datum):
             fission_neutron_flag: Fission neutron flag.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Fissneut``.
             """
@@ -2545,7 +2545,7 @@ class DeterministicWeightWindow(Datum):
             last_neutron_group_number: Number of the last neutron group.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Lng``.
             """
@@ -2590,7 +2590,7 @@ class DeterministicWeightWindow(Datum):
             cross_section_balance_control: Cross-section balance control.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Balxs``.
             """
@@ -2635,7 +2635,7 @@ class DeterministicWeightWindow(Datum):
             mendf_fission_fraction: MENDF fission fraction to use.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Ntichi``.
             """
@@ -2680,7 +2680,7 @@ class DeterministicWeightWindow(Datum):
             calculation_type: Calculation type.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Ievt``.
             """
@@ -2725,7 +2725,7 @@ class DeterministicWeightWindow(Datum):
             legendre_order: Legendre order.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Isct``.
             """
@@ -2769,7 +2769,7 @@ class DeterministicWeightWindow(Datum):
             calculation_state: Direct or adjoint calculation.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Ith``.
             """
@@ -2814,7 +2814,7 @@ class DeterministicWeightWindow(Datum):
             trcor: trcor.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Trcor``.
             """
@@ -2858,7 +2858,7 @@ class DeterministicWeightWindow(Datum):
             left_boundary: Left boundary condition.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Ibl``.
             """
@@ -2902,7 +2902,7 @@ class DeterministicWeightWindow(Datum):
             right_boundary: Right boundary condition.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Ibr``.
             """
@@ -2946,7 +2946,7 @@ class DeterministicWeightWindow(Datum):
             top_boundary: Top boundary condition.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Ibt``.
             """
@@ -2990,7 +2990,7 @@ class DeterministicWeightWindow(Datum):
             bottom_boundary: Bottom boundary condition.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Ibb``.
             """
@@ -3035,7 +3035,7 @@ class DeterministicWeightWindow(Datum):
             front_boundary: Front boundary condition.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Ibfrnt``.
             """
@@ -3080,7 +3080,7 @@ class DeterministicWeightWindow(Datum):
             back_boundary: Back boundary condition.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Ibback``.
             """
@@ -3125,7 +3125,7 @@ class DeterministicWeightWindow(Datum):
             Convergence percision: Convergence percision.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Epsi``.
             """
@@ -3170,7 +3170,7 @@ class DeterministicWeightWindow(Datum):
             maximnum_outer_iteration: Maximum outer iteration count.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Oitm``.
             """
@@ -3215,7 +3215,7 @@ class DeterministicWeightWindow(Datum):
             state: Inhibit fission multiplication setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Nosigf``.
             """
@@ -3260,7 +3260,7 @@ class DeterministicWeightWindow(Datum):
             transport_accelerations: Transport accelerations.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Srcacc``.
             """
@@ -3305,7 +3305,7 @@ class DeterministicWeightWindow(Datum):
             diffusion_operator_solver: Diffusion operator solver.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Diffsol``.
             """
@@ -3350,7 +3350,7 @@ class DeterministicWeightWindow(Datum):
             sn_order: Sn order for low order TSA sweeps.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Tsasn``.
             """
@@ -3395,7 +3395,7 @@ class DeterministicWeightWindow(Datum):
             convergence_criteria: Convergence criteria for TSA sweeps.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Tsaepsi``.
             """
@@ -3440,7 +3440,7 @@ class DeterministicWeightWindow(Datum):
             maximum_tsa_iteration: Maximmum TSA iteration count.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Tsaits``.
             """
@@ -3485,7 +3485,7 @@ class DeterministicWeightWindow(Datum):
             tsa_scattering_corss_section: Scatting cross-section reduction.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Tsabeta``.
             """
@@ -3530,7 +3530,7 @@ class DeterministicWeightWindow(Datum):
             state: Special criticality convergence scheme.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Ptconv``.
             """
@@ -3575,7 +3575,7 @@ class DeterministicWeightWindow(Datum):
             norm: Norm.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Norm``.
             """
@@ -3620,7 +3620,7 @@ class DeterministicWeightWindow(Datum):
             cross_section_print_flag: Corss-section print flag.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Xesctp``.
             """
@@ -3665,7 +3665,7 @@ class DeterministicWeightWindow(Datum):
             state: Print fission source rate.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Fissrp``.
             """
@@ -3710,7 +3710,7 @@ class DeterministicWeightWindow(Datum):
            source_print_flag: Source print flag.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Sourcp``.
             """
@@ -3755,7 +3755,7 @@ class DeterministicWeightWindow(Datum):
             state: Print angular flux setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Angp``.
             """
@@ -3800,7 +3800,7 @@ class DeterministicWeightWindow(Datum):
             state: Print coarse-mesh balance tables setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Balp``.
             """
@@ -3845,7 +3845,7 @@ class DeterministicWeightWindow(Datum):
             state: Prepare angular flux file setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Raflux``.
             """
@@ -3890,7 +3890,7 @@ class DeterministicWeightWindow(Datum):
             state: Prepare flux moments file setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Rmflux``.
             """
@@ -3935,7 +3935,7 @@ class DeterministicWeightWindow(Datum):
             state: Prepare special XMFLUXA file setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Avatar``.
             """
@@ -3980,7 +3980,7 @@ class DeterministicWeightWindow(Datum):
             right_going_flux: Right-going flux at plane i.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Asleft``.
             """
@@ -4025,7 +4025,7 @@ class DeterministicWeightWindow(Datum):
             left_going_flux: Left-going flux at plane i.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Asrite``.
             """
@@ -4070,7 +4070,7 @@ class DeterministicWeightWindow(Datum):
             top_going_flux: Top-going flux at plane j.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Asbott``.
             """
@@ -4115,7 +4115,7 @@ class DeterministicWeightWindow(Datum):
             bottom_going_flux: Bottom-going flux at plane j.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Astop``.
             """
@@ -4160,7 +4160,7 @@ class DeterministicWeightWindow(Datum):
             back_going_flux: Back-going flux at plane k.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Asfrnt``.
             """
@@ -4205,7 +4205,7 @@ class DeterministicWeightWindow(Datum):
             front_going_flux: Front-going flux at plane k.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Asback``.
             """
@@ -4250,7 +4250,7 @@ class DeterministicWeightWindow(Datum):
             state: Mass edits setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Massed``.
             """
@@ -4295,7 +4295,7 @@ class DeterministicWeightWindow(Datum):
             state: Edits by fine mesh setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Pted``.
             """
@@ -4340,7 +4340,7 @@ class DeterministicWeightWindow(Datum):
             state: Edits by zone setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Zned``.
             """
@@ -4385,7 +4385,7 @@ class DeterministicWeightWindow(Datum):
             state: Write a-flux file setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Rzflux``.
             """
@@ -4430,7 +4430,7 @@ class DeterministicWeightWindow(Datum):
             state: Write b-flux file setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Rzmflux``.
             """
@@ -4475,7 +4475,7 @@ class DeterministicWeightWindow(Datum):
             ascii_output_control: ASCII output file control.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Edoutf``.
             """
@@ -4520,7 +4520,7 @@ class DeterministicWeightWindow(Datum):
             state: Printed point reaction rates scaled by mesh volume setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Byvlop``.
             """
@@ -4565,7 +4565,7 @@ class DeterministicWeightWindow(Datum):
             state: Regular and adjoint edit setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Ajed``.
             """
@@ -4610,7 +4610,7 @@ class DeterministicWeightWindow(Datum):
             state: Flux override setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Fluxone``.
             """
@@ -4642,7 +4642,7 @@ class DeterministicWeightWindow(Datum):
             self.value = value
             self.state = value
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``DeterministicWeightWindow``.
         """
@@ -4735,7 +4735,7 @@ class EmbededGeometry(Datum_Suffix):
             OVERLAP = "overlap"
 
             @classmethod
-            def from_mcnp(cls, source: str) -> Self:
+            def from_mcnp(cls, source: str):
                 """
                 ``from_mcnp`` generates ``EmbededGeometryKeyword``
                 objects from INP.
@@ -4765,7 +4765,7 @@ class EmbededGeometry(Datum_Suffix):
 
                 return cls(source)
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``EmbededGeometryOption``.
             """
@@ -4916,7 +4916,7 @@ class EmbededGeometry(Datum_Suffix):
             format: Format specification of the embedded mesh input file.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Meshgeo``.
             """
@@ -4960,7 +4960,7 @@ class EmbededGeometry(Datum_Suffix):
             filename: Name of the input file with mesh description.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mgeoin``.
             """
@@ -5004,7 +5004,7 @@ class EmbededGeometry(Datum_Suffix):
             filename: Name assigned to EEOUT, the elemental edit output file.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Meeout``.
             """
@@ -5047,7 +5047,7 @@ class EmbededGeometry(Datum_Suffix):
             filename: Name of the EEOUT results file to read.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Meein``.
             """
@@ -5091,7 +5091,7 @@ class EmbededGeometry(Datum_Suffix):
             yes_no: Inferred geometry volume and masses calculation setting.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``CalcVols``.
             """
@@ -5134,7 +5134,7 @@ class EmbededGeometry(Datum_Suffix):
             format: Write the embedded geometry parameters to the OUTP file.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Debug``.
             """
@@ -5178,7 +5178,7 @@ class EmbededGeometry(Datum_Suffix):
             type: File tpye for the elemental edit output file.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Filetype``.
             """
@@ -5222,7 +5222,7 @@ class EmbededGeometry(Datum_Suffix):
             filename: Name of the GMV output file.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Gmvfile``.
             """
@@ -5266,7 +5266,7 @@ class EmbededGeometry(Datum_Suffix):
             factor: Multiplicative conversion factor to centimeters from mesh.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Length``.
             """
@@ -5310,7 +5310,7 @@ class EmbededGeometry(Datum_Suffix):
             filename: Name of the MCNPUM output file.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mcnpumfile``.
             """
@@ -5341,7 +5341,7 @@ class EmbededGeometry(Datum_Suffix):
             self.value = value
             self.filename = value
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``EmbededGeometry``.
         """
@@ -5431,7 +5431,7 @@ class EmbededControl(Datum_Suffix, Datum_Designator):
             MTYPE = "mtype"
 
             @classmethod
-            def from_mcnp(cls, source: str) -> Self:
+            def from_mcnp(cls, source: str):
                 """
                 ``from_mcnp`` generates ``EmbededControlKeyword``
                 objects from INP.
@@ -5460,7 +5460,7 @@ class EmbededControl(Datum_Suffix, Datum_Designator):
 
                 return cls(source)
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``EmbededControlOption``.
             """
@@ -5577,7 +5577,7 @@ class EmbededControl(Datum_Suffix, Datum_Designator):
         option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Embed``.
             """
@@ -5619,7 +5619,7 @@ class EmbededControl(Datum_Suffix, Datum_Designator):
         option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Energy``.
             """
@@ -5661,7 +5661,7 @@ class EmbededControl(Datum_Suffix, Datum_Designator):
         option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Time``.
             """
@@ -5703,7 +5703,7 @@ class EmbededControl(Datum_Suffix, Datum_Designator):
         option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Atom``.
             """
@@ -5745,7 +5745,7 @@ class EmbededControl(Datum_Suffix, Datum_Designator):
         option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Factor``.
             """
@@ -5787,7 +5787,7 @@ class EmbededControl(Datum_Suffix, Datum_Designator):
         syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -5829,7 +5829,7 @@ class EmbededControl(Datum_Suffix, Datum_Designator):
         option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mtype``.
             """
@@ -5868,7 +5868,7 @@ class EmbededControl(Datum_Suffix, Datum_Designator):
             self.value = value
             self.type = value
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``EmbededControl``.
         """
@@ -5914,7 +5914,7 @@ class EmbededEnergyBoundaries(Datum_Suffix):
         energies: Iterable of energy lower bounds.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``EmbededEnergyBoundaries``.
         """
@@ -5961,7 +5961,7 @@ class EmbededEnergyMultipliers(Datum_Suffix):
         multipliers: Iterable of energy multipliers.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``EmbededEnergyMultipliers``.
         """
@@ -6008,7 +6008,7 @@ class EmbededTimeBoundaries(Datum_Suffix):
         times: Iterable of time lower bounds.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``EmbededTimeBoundaries``.
         """
@@ -6055,7 +6055,7 @@ class EmbededTimeMultipliers(Datum_Suffix):
         times: Iterable of time multipliers.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``EmbededTimeMultipliers``.
         """
@@ -6102,7 +6102,7 @@ class EmbededDoseBoundaries(Datum_Suffix):
         doses: Iterable of dose lower bounds.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``EmbededDoseBoundaries``.
         """
@@ -6149,7 +6149,7 @@ class EmbededDoseMultipliers(Datum_Suffix):
         doses: Iterable of dose multipliers.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``EmbededDoseMultipliers``.
         """
@@ -6212,7 +6212,7 @@ class Material(Datum_Suffix):
             fraction: Material value fraction.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``MaterialValue``.
             """
@@ -6221,7 +6221,7 @@ class Material(Datum_Suffix):
             self.fraction: float = None
 
         @classmethod
-        def from_mcnp(cls, string: str) -> Self:
+        def from_mcnp(cls, string: str):
             """
             ``from_mcnp`` generates ``MaterialValue`` objects from
             INP.
@@ -6308,7 +6308,7 @@ class Material(Datum_Suffix):
             REFI = "refi"
 
             @classmethod
-            def from_mcnp(cls, string: str) -> Self:
+            def from_mcnp(cls, string: str):
                 """
                 ``from_mcnp`` generates ``MaterialKeyword`` objects from INP.
 
@@ -6336,7 +6336,7 @@ class Material(Datum_Suffix):
 
                 return cls(source)
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``MaterialOption``.
             """
@@ -6480,7 +6480,7 @@ class Material(Datum_Suffix):
         INP Gas material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -6518,7 +6518,7 @@ class Material(Datum_Suffix):
         INP Estep material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -6556,7 +6556,7 @@ class Material(Datum_Suffix):
         INP Hstep material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -6594,7 +6594,7 @@ class Material(Datum_Suffix):
         INP Nlib material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -6632,7 +6632,7 @@ class Material(Datum_Suffix):
         INP Plib material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -6670,7 +6670,7 @@ class Material(Datum_Suffix):
         INP Pnlib material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -6708,7 +6708,7 @@ class Material(Datum_Suffix):
         INP Elib material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -6746,7 +6746,7 @@ class Material(Datum_Suffix):
         INP Hlib material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -6784,7 +6784,7 @@ class Material(Datum_Suffix):
         INP Alib material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -6822,7 +6822,7 @@ class Material(Datum_Suffix):
         INP Slib material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -6860,7 +6860,7 @@ class Material(Datum_Suffix):
         INP Tlib material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -6898,7 +6898,7 @@ class Material(Datum_Suffix):
         INP Dlib material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -6936,7 +6936,7 @@ class Material(Datum_Suffix):
         INP Cond material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -6974,7 +6974,7 @@ class Material(Datum_Suffix):
         INP Refi material data card option syntax element.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``Mat``.
             """
@@ -7004,7 +7004,7 @@ class Material(Datum_Suffix):
             self.value = value
             self.constant_refracive_index = value
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Material``.
         """
@@ -7048,7 +7048,7 @@ class Material(Datum_Suffix):
 
 
 #    @classmethod
-#    def from_formula(cls, formulas: dict[str, float]) -> Self:
+#    def from_formula(cls, formulas: dict[str, float]):
 #        """
 #        'from_formula'
 #        """
@@ -7115,7 +7115,7 @@ class MaterialNeutronScattering(Datum_Suffix):
         identifiers: Iterable of material identifiers.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``MaterialNeutronScattering``.
         """
@@ -7163,7 +7163,7 @@ class MaterialNuclideSubstitution(Datum_Suffix, Datum_Designator):
         Zaids: Iterable of ZAID alias.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``MaterialNuclideSubstitution``.
         """
@@ -7208,7 +7208,7 @@ class OnTheFlyBroadening(Datum):
         zaids: Iterable of ZAID alias.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``OnTheFlyBroadening``.
         """
@@ -7253,7 +7253,7 @@ class TotalFission(Datum):
         has_no: No volume calculation option.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``TotalFission``.
         """
@@ -7296,7 +7296,7 @@ class FissionTurnoff(Datum):
         states: Iterable of fission turnoff settings.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``FissionTurnoff``.
         """
@@ -7355,7 +7355,7 @@ class AtomicWeight(Datum):
             ratio: Atomic weight value wegiht ratio.
         """
 
-        def __init__(self) -> Self:
+        def __init__(self):
             """
             ``__init__`` initializes ``AtomicWeightValue``.
             """
@@ -7364,7 +7364,7 @@ class AtomicWeight(Datum):
             self.ratio: float = None
 
         @classmethod
-        def from_mcnp(cls, string: str) -> Self:
+        def from_mcnp(cls, string: str):
             """
             ``from_mcnp`` generates ``AtomicWeightValue`` objects from INP.
 
@@ -7404,7 +7404,7 @@ class AtomicWeight(Datum):
 
             self.weight = value
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``AtomicWeight``.
         """
@@ -7452,7 +7452,7 @@ class CrossSectionFile(Datum_Suffix):
         entries: Iterable of file entries.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``CrossSectionFile``.
         """
@@ -7510,7 +7510,7 @@ class Void(Datum):
         numbers: Iterable of cell numbers.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Void``.
         """

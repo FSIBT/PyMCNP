@@ -3,7 +3,7 @@
 """
 
 
-from typing import Self
+from __future__ import annotations
 from enum import Enum
 
 from .._utils import parser
@@ -32,7 +32,7 @@ class Header:
     'Header'
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         '__init__'
         """
@@ -123,7 +123,7 @@ class Header:
         self.title = title
 
     @classmethod
-    def from_mcnp(cls, source: str) -> tuple[Self, str]:
+    def from_mcnp(cls, source: str) -> tuple[Header, str]:
         """
         'from_mcnp'
         """

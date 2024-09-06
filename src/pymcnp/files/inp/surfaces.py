@@ -6,8 +6,6 @@ importable interface for INP surface card blocks.
 """
 
 
-from typing import Self
-
 from .block import Block
 from .surface import Surface
 from .._utils import parser
@@ -22,7 +20,7 @@ class Surfaces(Block):
     the ``Block`` super class.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initalizes ``Surfaces``.
         """
@@ -30,7 +28,7 @@ class Surfaces(Block):
         super().__init__()
 
     @classmethod
-    def from_mcnp(cls, source: str) -> Self:
+    def from_mcnp(cls, source: str):
         """
         ``from_mcnp`` generates ``Surfaces`` objects from INP.
 

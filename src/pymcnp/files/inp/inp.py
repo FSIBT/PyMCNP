@@ -6,8 +6,6 @@ interface for INP files.
 """
 
 
-from typing import Self
-
 from . import cells
 from . import surfaces
 from . import data
@@ -32,7 +30,7 @@ class Inp:
         other: INP other block.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         '__init__' initializes 'Inp'.
         """
@@ -165,7 +163,7 @@ class Inp:
         self.other = other
 
     @classmethod
-    def from_mcnp(cls, source: str) -> Self:
+    def from_mcnp(cls, source: str):
         """
         ``from_mcnp`` generates ``Inp`` objects from INP.
 
@@ -219,7 +217,7 @@ class Inp:
         return inp
 
     @classmethod
-    def from_mcnp_file(cls, filename: str) -> Self:
+    def from_mcnp_file(cls, filename: str):
         """
         ``from_mcnp_file`` generates ``Inp`` objects from INP files.
 

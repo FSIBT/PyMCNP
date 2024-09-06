@@ -6,7 +6,7 @@ importable interface for INP card blocks.
 """
 
 
-from typing import Self
+from __future__ import annotations
 
 from . import card
 
@@ -19,7 +19,7 @@ class Block:
     blocks. It represents the INP card block syntax element.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self) -> Block:
         """
         ``__init__`` initalizes ``Block``.
         """

@@ -6,8 +6,6 @@ interface for INP comment cards.
 """
 
 
-from typing import Self
-
 from . import card
 from .._utils import errors
 from .._utils import parser
@@ -26,7 +24,7 @@ class Comment(card.Card):
         content: Comment card text.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Comment``.
         """
@@ -56,7 +54,7 @@ class Comment(card.Card):
         self.content = content
 
     @classmethod
-    def from_mcnp(cls, source: str) -> Self:
+    def from_mcnp(cls, source: str):
         """
         ``from_mcnp`` generates ``Comment`` objects from INP.
 

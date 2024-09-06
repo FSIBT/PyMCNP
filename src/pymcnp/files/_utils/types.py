@@ -3,9 +3,10 @@
 """
 
 
+from __future__ import annotations
 import re
 from enum import StrEnum
-from typing import Self, Callable
+from typing import Callable
 
 ELEMENTS = {
     "H": 1,
@@ -132,14 +133,10 @@ ELEMENTS_PATTERN = re.compile(
     r"\d+|H|He|Li|Be|B|C|N|O|F|Ne|Na|Mg|Al|Si|P|S|Cl|Ar|K|Ca|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr|Rb|Sr|Y|Zr|Nb|Mo|Tc|Ru|Rh|Rd|Ag|Cd|In|Sn|Sb|Te|I|Xe|Cs|Ba|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|Fr|Ra|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv|Ts|Og"
 )
 Z_PATTERN = re.compile(r"\A[+-]?[0-9]+\Z")
-R_PATTERN = re.compile(
-    r"\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([Ee]([+-][0-9]+))?\Z"
-)
+R_PATTERN = re.compile(r"\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([Ee]([+-][0-9]+))?\Z")
 
 
-def cast_fortran_integer(
-    string: str, hook: Callable[int, bool] = lambda _: True
-) -> int:
+def cast_fortran_integer(string: str, hook: Callable[int, bool] = lambda _: True) -> int:
     """
     'cast_fortran_integer'
     """
@@ -152,9 +149,7 @@ def cast_fortran_integer(
     return None
 
 
-def cast_fortran_real(
-    string: str, hook: Callable[float, bool] = lambda _: True
-) -> float:
+def cast_fortran_real(string: str, hook: Callable[float, bool] = lambda _: True) -> float:
     """
     'cast_fortran_real'
     """
@@ -172,7 +167,7 @@ class Zaid:
     'Zaid'
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         '__init__' initializes 'Zaid'.
         """
@@ -182,9 +177,7 @@ class Zaid:
         self.abx: str = None
 
     @classmethod
-    def cast_mcnp_zaid(
-        cls, string: str, hook: Callable[Self, bool] = lambda _: True
-    ) -> Self:
+    def cast_mcnp_zaid(cls, string: str, hook: Callable[Zaid, bool] = lambda _: True):
         """
         'cast_mcnp_zaid'
         """
@@ -252,9 +245,7 @@ class Designator(StrEnum):
     HEAVY_IONS = "#"
 
     @classmethod
-    def cast_mcnp_designator(
-        cls, string: str, hook: Callable[Self, bool] = lambda _: True
-    ) -> tuple[Self]:
+    def cast_mcnp_designator(cls, string: str, hook: Callable[Designator, bool] = lambda _: True) -> tuple[Designator]:
         """
         'cast_mcnp_designator'
         """

@@ -6,8 +6,6 @@ interface for INP data card blocks.
 """
 
 
-from typing import Self
-
 from .block import Block
 from .datum import Datum
 from .._utils import parser
@@ -22,7 +20,7 @@ class Data(Block):
     super class.
     """
 
-    def __init__(self) -> Self:
+    def __init__(self):
         """
         ``__init__`` initializes ``Data``.
         """
@@ -30,7 +28,7 @@ class Data(Block):
         super().__init__()
 
     @classmethod
-    def from_mcnp(cls, source: str) -> Self:
+    def from_mcnp(cls, source: str):
         """
         ``from_mcnp`` generates ``Data`` objects from INP.
 

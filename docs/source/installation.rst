@@ -1,7 +1,7 @@
 Installation
 ============
 
-PyMCNP requires `Python <https://www.python.org>`_ (≥ 3.11) and `Numpy <https://numpy.org>`_ (≥ 2.0).
+PyMCNP requires `Python <https://www.python.org>`_ (≥ 3.10) and `Numpy <https://numpy.org>`_ (≥ 2.0).
 
 PyMCNP is distributed through the `Python Package Index <https://pypi.org/project/pymcnp/>`_ (PyPi) with the ``pip`` command. The following command installs ``pymcnp`` and its depenencies::
 

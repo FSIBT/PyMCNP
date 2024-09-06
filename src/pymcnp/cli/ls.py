@@ -5,9 +5,6 @@
 
 import sys
 
-
-from typing import Self
-
 from ..files import inp
 from . import _save
 from . import _io
@@ -18,7 +15,7 @@ class Ls:
     'Ls'
     """
 
-    def __init__(self, inpt: inp.Inp) -> Self:
+    def __init__(self, inpt: inp.Inp):
         """
         ``__init__`` initializes ``Ls``.
         """

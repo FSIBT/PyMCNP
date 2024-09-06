@@ -6,7 +6,7 @@ custom errors with errors codes. ``errors`` contains the exception
 subclasses and error code enumerations.
 """
 
-from typing import Self
+
 from enum import Enum
 
 
@@ -105,7 +105,7 @@ class MCNPSyntaxError(Exception):
         line: Line number of error.
     """
 
-    def __init__(self, code: MCNPSyntaxCodes, line: int = None) -> Self:
+    def __init__(self, code: MCNPSyntaxCodes, line: int = None):
         """
         ``__init__`` initializes ``MCNPSyntaxError``
 
@@ -174,7 +174,7 @@ class MCNPSemanticError(Exception):
         line: Line number of error.
     """
 
-    def __init__(self, code: MCNPSemanticCodes, line: int = None) -> Self:
+    def __init__(self, code: MCNPSemanticCodes, line: int = None):
         """
         ``__init__`` initializes ``MCNPSemanticError``
 
