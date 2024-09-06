@@ -1,8 +1,8 @@
 """
-'cells' contains classes representing INP cell card blocks.
+``cells`` contains the class representing INP cell card blocks.
 
-'cells' packages the 'Cells' class, providing an importable interface
-for INP cell card blocks.
+``cells`` packages the ``Cells`` class, providing an object-oriented, importable
+interface for INP cell card blocks.
 """
 
 
@@ -15,15 +15,16 @@ from .._utils import parser
 
 class Cells(Block):
     """
-    'Cells' represents MNCP INP cell card blocks.
+    ``Cells`` represents INP cell card blocks.
 
-    'Cells' abstracts the INP cell card syntax element and it
-    encapsulates all functionallity for parsing cell card blocks.
+    ``Cells`` implements INP cell card blocks as a Python class. It represents
+    the INP cell card block syntax element, and it inherits from the ``Block``
+    super class.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'Cells'.
+        ``__init__`` initializes ``Cells``.
         """
 
         super().__init__()
@@ -31,16 +32,17 @@ class Cells(Block):
     @classmethod
     def from_mcnp(cls, source: str) -> Self:
         """
-        'from_mcnp' generates cell block objects from INP.
+        ``from_mcnp`` generates ``Cells`` objects from INP.
 
-        'from_mcnp' constructs instances of 'Cells' from
-        INP strings, so it functions as a class constructor.
+        ``from_mcnp`` constructs instances of ``Cells`` from INP source
+        strings, so it operates as a class constructor method and INP parser
+        helper function.
 
         Parameters:
-            source: INP to parse.
+            source: INP for cell block.
 
         Returns:
-            Cell block object.
+            ``Cells`` object.
         """
 
         block = cls()
@@ -49,32 +51,35 @@ class Cells(Block):
         for line in lines:
             if line == "":
                 break
-            block.append(Cell.from_mcnp(line))
+            elif line.startswith("c "):
+                continue
+            else:
+                block.append(Cell.from_mcnp(line))
 
         return block
 
     def to_mcnp(self) -> str:
         """
-        'to_mcnp' generates INP from cell block objects.
+        ``to_mcnp`` generates INP from ``Cells`` objects.
 
-        'to_mcnp' provides an MCNP endpoints for writing
-        INP source strings.
+        ``to_mcnp`` creates INP source string from ``Cells`` objects, so it
+        provides an MCNP endpoint.
 
         Returns:
-            INP for cell block objects.
+            INP string for ``Cells`` object.
         """
 
         return "\n".join([cell.to_mcnp() for cell in self._cards.values()] + [""])
 
     def to_arguments(self) -> list:
         """
-        'to_arguments' generates lists of cell card objects.
+        ``to_arguments`` makes lists from ``Cells`` objects.
 
-        'to_arguments' creates dictionaries whose keys are
-        attribute names, and whose values are attribute value.
+        ``to_arguments`` creates Python lists from ``Cells`` objects, so
+        it provides an MCNP endpoint. The list entries are ``Cell`` objects.
 
         Returns:
-            List of cell card objects.
+            List for ``Cells`` objects.
         """
 
         return [card.to_arguments() for card in self._cards.values()]

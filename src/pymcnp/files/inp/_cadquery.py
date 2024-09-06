@@ -1,5 +1,9 @@
 """
-'_cadquery'
+``_cadquery`` contains classes and methods for generating Cadquery code.
+
+``_cadquery`` packages the ``CqVector`` class and adder methods, providing
+private helper functions for generating Cadquery by abstracting Cadquery
+patterns.
 """
 
 
@@ -9,10 +13,22 @@ from typing import Self
 import numpy as np
 
 
-class cqVector:
+class CqVector:
+    """
+    ``CqVector`` represents vectors in Cadquery workplanes.
+
+    ``CqVector`` abstracts the vectors used in constructing, translating, and
+    rotating Cadquery workplanes and INP visualizations.
+
+    Attributes:
+        x: Vector x component.
+        y: Vector y component.
+        z: Vector z component.
+    """
+
     def __init__(self, x, y, z):
         """
-        '__init__' initializes 'cqVector'
+        ``__init__`` initializes ``CqVector``.
         """
 
         self.x = x
@@ -21,14 +37,27 @@ class cqVector:
 
     def norm(self) -> float:
         """
-        'norm' computes vectors' norm.
+        ``norm`` computes vector norms.
+
+        ``norm`` calculates the length of``CqVector`` vectors using the
+        ``numpy`` package.
+
+        Returns:
+            Length of the ``CqVector`` vector.
         """
 
         return np.linalg.norm([self.x, self.y, self.z])
 
     def apothem(self) -> float:
         """
-        'apothem' computes vectors' apothem
+        ``apothem`` computes vector apothems.
+
+        ``apothem`` calculates the apothem, i.e. the length of the line
+        from the center of a polygon to its side given the vector points from
+        the center of a polygon to a corner using the ``numpy`` package.
+
+        Returns:
+            Length of the apothem associated with the ``CqVector`` vector.
         """
 
         return np.linalg.norm([self.x, self.y, self.z]) * 2 / math.sqrt(3)
@@ -36,23 +65,59 @@ class cqVector:
     @staticmethod
     def cross(a: Self, b: Self) -> Self:
         """
-        'cross' computes cross products.
+        ``cross`` computes cross products of two vectors.
+
+        ``cross`` calculates the cross products of the given ``CqVector``
+        vectors using the ``numpy`` package.
+
+        Parameters:
+            a: Operand ``CqVector`` vector #1.
+            b: Operand ``CqVector`` vector #2.
+
+        Returns:
+            ``CqVector`` cross product of ``a`` and ``b``.
         """
 
-        return cqVector(np.cross([a.x, a.y, a.z], [b.x, b.y, b.z]))
+        return CqVector(np.cross([a.x, a.y, a.z], [b.x, b.y, b.z]))
 
     @staticmethod
     def angle(a: Self, b: Self) -> float:
         """
-        'angle' computes angles between vectors.
+        ``angle`` computes angles between vectors.
+
+        ``angle`` calculates the angle between the given ``CqVector`` vectors
+        using the ``numpy`` package.
+
+        Parameters:
+            a: Operand ``CqVector`` vector #1.
+            b: Operand ``CqVector`` vector #2.
+
+        Returns:
+            Angle between ``a`` and ``b`` in degrees.
         """
 
         return np.degrees(np.arccos(np.dot(a, b)))
 
 
-def add_box(a: Self, b: Self, c: Self) -> str:
+def add_box(a: CqVector, b: CqVector, c: CqVector) -> str:
     """
-    'add_box' adds boxes to Cadquery workplanes.
+    ``add_box`` adds boxes to Cadquery workplanes.
+
+    ``add_box`` writes Cadquery to represent an arbitrarily oriented
+    othogonal boxs given three orthogonal ``CqVector`` vectors representing
+    a path along the box edges the in order ``a``, ``b``, ``c``. It substitutes
+    vector endpoints into calls of the Cadquery ``polyline`` method which adds
+    squares to the Cadquery workplane. ``add_box`` includes calls to ``loft``
+    and ``close`` in its output to turn the sqaures into surfaces and loft them
+    into boxs.
+
+    Paremeters
+        a: Operand ``CqVector`` vector #1.
+        b: Operand ``CqVector`` vector #2.
+        c: Operand ``CqVector`` vector #3.
+
+    Returns:
+        Cadquery representing an arbitrarily oriented othogonal box.
     """
 
     return (
@@ -74,55 +139,138 @@ def add_box(a: Self, b: Self, c: Self) -> str:
 
 def add_sphere(r: float) -> str:
     """
-    'add_sphere' adds spheres to Cadquery workplanes.
+    ``add_sphere`` adds shperes to Cadquery workplanes.
+
+    ``add_sphere`` writes Cadquery to represent spheres given radii. It
+    substitutes radii values into calls of the Cadquery ``sphere`` method which
+    adds spheres to the Cadquery workplane.
+
+    Paremeters
+        r: Sphere radius.
+
+    Returns:
+        Cadquery representing a sphere.
     """
 
     return f".sphere({r})"
 
 
-def add_cylinderCircle(h: float, r: float) -> str:
+def add_cylinder_circle(h: float, r: float) -> str:
     """
-    'add_cylinder' adds circular cylinders to Cadquery workplanes.
+    ``add_cylinder_circle`` adds circular cylinders to Cadquery workplanes.
+
+    ``add_cylinder_circle`` writes Cadquery to represent circular cylinder given
+    radii and heights. It substitutes the these values into calls of the
+    Cadquery ``cylinder`` method which adds cylidners to the workplane.
+
+    Paremeters
+        r: Circular cylinder radius.
+        h: Circular cylinder height.
+
+    Returns:
+        Cadquery representing a circular cylinder.
     """
 
     return f".cylinder({h}, {r})"
 
 
-def add_cylinderPolygon(h: float, a: float) -> str:
+def add_prism_polygon(h: float, a: float, n: int = 6) -> str:
     """
-    'add_prism' adds ploygonal cylinders to Cadquery workplanes.
-    """
+    ``add_prism_polygon`` adds polygonal prisms to Cadquery workplanes.
 
-    return f".sketch().regularPolygon({a}, 6).finalize().extrude({h})"
+    ``add_prism_polygon`` writes Cadquery to represent n-sided polygonal
+    prisms given apothem lengths and heights. It substitutes the these values
+    into calls of the Cadquery ``regularPolygon`` method which sketches these
+    polygons in the Cadquery workplane. ``add_prism_polygon`` includes calls to
+    ``sketch``, ``finalize``, and ``extrude`` to transform the polygon sketches
+    into surfaces and extend them into polgyonal prisms.
 
+    Paremeters
+        a: n-Sided polygonal prism apothem length.
+        h: n-Sided polygonal prism height.
+        n: Number of sides of the polygon.
 
-def add_cylinderEllipse(h: float, a: float, b: float) -> str:
-    """
-    'add_cylinderEllipse' adds elliptical cylinders to Cadquery workplanes.
-    """
-
-    return f".ellipse({a}, {b}.extrude({h}))"
-
-
-def add_trancatedCone(h: float, r1: float, r2: float) -> str:
-    """
-    'add_trancatedCone' adds trancated cone to Cadquery workplanes.
-    """
-
-    return f".circle({r1})" f".workplane(offset={h})" f"/circle({r2})" f".loft()"
-
-
-def add_ellipse(a: float, b: float) -> str:
-    """
-    'add_ellipse' adds ellipses to Cadquery workplanes.
+    Returns:
+        Cadquery representing a n-polygonal prism.
     """
 
-    return f".ellipseArc({b}, {a}, -90, 90).close().revolve(axisStart=(0, -{a}, 0), axisEnd=(0, {a}, 0))"
+    return f".sketch().regularPolygon({a}, {n}).finalize().extrude({h})"
 
 
-def add_translation(v: cqVector) -> str:
+def add_cylinder_ellipse(h: float, a: float, b: float) -> str:
+    """
+    ``add_cylinder_ellipse`` adds elliptical cylinders to Cadquery workplanes.
+
+    ``add_cylinder_ellipse`` writes Cadquery to represent elliptical cylinder
+    given minor and major axis length and heights. It substitutes these values
+    into calls of the Cadquery ``ellipse`` method which adds ellipses to the
+    Cadquery workplane. ``add_cylinder_ellipse`` includes calls to ``extrude``
+    in its output to extend the ellipses into elliptical cylinders.
+
+    Paremeters
+        a: Elliptical cylinder major axis length.
+        b: Elliptical cylinder minor axis length.
+        h: Elliptical cylinder height.
+
+    Returns:
+        Cadquery representing a elliptical cylinder.
+    """
+
+    return f".ellipse({a}, {b}).extrude({h})"
+
+
+def add_cone_truncated(h: float, r1: float, r2: float) -> str:
+    """
+    ``add_cone_truncated`` adds truncated cones to Cadquery workplanes.
+
+    ``add_cone_truncated`` writes Cadquery to represent truncated cones given
+    two radii and heights. It substitutes these values into calls of the
+    Cadquery ``circle`` method which adds circles to the Cadquery workplane.
+    ``add_cone_truncated`` includes calls to ``loft`` in its output to loft the
+    circles into truncated cones.
+
+    Paremeters
+        h: Truncated cone height.
+        r1: Truncated cone radius #1.
+        r2: Truncated cone radius #2.
+
+    Returns:
+        Cadquery representing a truncated cone.
+    """
+
+    return f".circle({r1}).workplane(offset={h}).circle({r2}).loft()"
+
+
+def add_translation(v: CqVector) -> str:
+    """
+    ``add_translation`` adds translations to Cadquey workplanes.
+
+    ``add_translation`` writes Cadquery to translate Cadquery workplanes given
+    vectors specifiying the trasformation. It substitutes vectors' components
+    into calls of the Cadquery ``translate`` method which moves the workplane
+    based on the given vector.
+
+    Parameters:
+        v: Vector specifying the translation.
+
+    Returns:
+        Cadquery representing a truncated cone.
+    """
+
     return f".translate(({v.x}, {v.y}, {v.z}))"
 
 
-def add_rotation(axis: cqVector, angle: float) -> str:
-    return f".rotate(({-axis.x}, {-axis.y}, {-axis.z}), ({axis.x}, {axis.y}, {axis.z}), {angle})\n"
+def add_rotation(axis: CqVector, angle: float) -> str:
+    """
+    ``add_rotation`` adds rotations to Cadquey workplanes.
+
+    ``add_rotation`` writes Cadquery to rotate Cadquery workplanes given axeses
+    of rotation and angles. It substitutes axes' components and the angles into
+    calls of the Cadquery ``rotate`` method which moves the workplane based
+    on the given axis and angle.
+
+    Parameters:
+        v: Vector specifying the translation.
+    """
+
+    return f".rotate(({-axis.x}, {-axis.y}, {-axis.z}), ({axis.x}, {axis.y}, {axis.z}), {angle})"

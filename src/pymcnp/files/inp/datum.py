@@ -1,8 +1,8 @@
 """
-'datum' contains the class representing data cards.
+``datum`` contains the class representing INP data cards.
 
-'datum' packages the 'Datum' class, providing an importable interface
-for data cards.
+``datum`` packages the ``Datum`` class, providing an object-oriented,
+importable interface for INP datum cards.
 """
 
 
@@ -18,22 +18,27 @@ from .._utils import parser
 
 class Datum(Card):
     """
-    'Datum' represents INP data cards.
+    ``Datum`` represents INP data cards.
 
-    'Datum' abstracts the daua card syntax element and it
-    encapsulates all functionallity for parsing data cards.
+    ``Datum`` implements INP data cards as a Python class. Its attributes store
+    INP data card input parameters, and its methods provide entry points and
+    endpoints for working with MCNP cells. It represents the INP data card
+    syntax element, and it inherits from the ``Card`` super class.
 
     Attributes:
-        mnemonic: Data card mnemonic.
+        mnemonic: Data card mnemonics.
+        parameters: Data card parameters.
     """
 
     class DatumMnemonic(StrEnum):
         """
-        'DatumMnemonic' represents data card mnemoincs.
+        ``DatumMnemonic`` represents INP data card mnemonics
 
-        'DatumMnemonic' functions as a data types for surface
-        cards. It selects between 'Datum' subclasses. It
-        represents data card mnemonics as abstract syntax elements.
+        ``DatumMnemonic`` implements INP data card mnemonics as a Python inner
+        class. It enumerates MCNP mnemonics and provides methods for casting
+        strings to ``DatumMnemonic`` instances. It represents the INP data card
+        mnemonics syntax element, so ``Datum`` depends on ``DatumMnemonic`` as
+        an enum.
         """
 
         VOLUME = "vol"
@@ -56,61 +61,51 @@ class Datum(Card):
         MATERIAL = "m"
 
         @classmethod
-        def cast_datum_mnemonic(
-            cls, string: str, hook: Callable[Self, bool] = lambda _: True
-        ) -> Self:
+        def from_mcnp(cls, source: str) -> Self:
             """
-            'cast_datum_mnemonic' types casts from strings to datum mnemoincs.
+            ``from_mcnp`` generates ``DatumMnemonic`` objects from INP.
 
-            'cast_datum_mnemonic' creates datum mnemonic objects from
-            strings. If the stirng is invalid or the hook returns false, it
-            returns None.
+            ``from_mcnp`` constructs instances of ``DatumMnemonic`` from INP
+            source strings, so it operates as a class constructor method
+            and INP parser helper function.
+
+            Parameters:
+                source: INP for data card mnemonic.
 
             Returns:
-                Datum mnemonic keyword from string.
+                ``DatumMnemonic`` object.
+
+            Raises:
+                MCNPSemanticError: INVALID_DATUM_MNEMONIC.
             """
 
-            string = string.lower()
+            source = parser.Preprocessor.process_inp(source)
 
             # Handling Star Modifier
             if string == "*tr":
                 string = string[:1]
 
             # Handling Suffixes
-            #           if string.startswith(()):
-            #               if (
-            #                   len(string) < 6
-            #                   or types.cast_fortran_integer(string[5:]) is None
-            #               ):
-            #                   return None
-            #
-            #               string = string[:5]
-
             if string.startswith("dm"):
                 if len(string) < 3 or types.cast_fortran_integer(string[2:]) is None:
-                    return None
+                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MNEMONIC)
 
                 string = string[:2]
             elif string.startswith("m"):
                 if len(string) < 2 or types.cast_fortran_integer(string[1:]) is None:
-                    return None
+                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MNEMONIC)
 
                 string = string[:1]
 
-            # Attempting Type Cast
-            try:
-                mnemonic = cls(string)
+            # Processing Keyword
+            if source not in [enum.value for enum in cls]:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MNEMONIC)
 
-                if hook(mnemonic):
-                    return mnemonic
-            except ValueError:
-                pass
-
-            return None
+            return cls(source)
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'Datum'
+        ``__init__`` initializes ``Datum``.
         """
 
         super().__init__()
@@ -120,62 +115,144 @@ class Datum(Card):
 
     def set_mnemonic(self, mnemonic: DatumMnemonic) -> None:
         """
-        'set_mnemonic' sets surface card mnemoincs.
+        ``set_mnemonic`` stores INP data card mnemonic.
 
-        'set_mnemonic' checks are valid. It raises errors
-        if given None.
+        ``set_mnemonic`` checks given arguments before assigning the given
+        value to ``Datum.mnemonic``. If given an unrecognized argument, it
+        raises semantic errors.
+
+        Warnings:
+            ``set_mnemonic`` reinitializes ``Datum`` instances since
+            its attributes depend on the keyword. When the given keyword does
+            not equal ``Datum.mnemonic``, all attributes reset.
 
         Parameters:
-            mnemonic: Data card mnemonic.
+            number: Data card mnemonic.
 
         Raises:
-            MCNPSemanticError: Invalid surface card mnemonic.
+            MCNPSemanticError: INVALID_DATUM_MNEMONIC.
         """
 
         if mnemonic is None:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_MNEMONIC
-            )
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MNEMONIC)
 
-        self.mnemonic = mnemonic
+        if mnemonic != self.mnemonic:
+            match mnemoinc:
+                case cls.DatumMnemonic.VOLUME:
+                    obj = Volume()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.AREA:
+                    obj = Area()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.TRANSFORMATION:
+                    obj = Transformation()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.UNIVERSE:
+                    obj = Universe()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.LATTICE:
+                    obj = Lattice()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.FILL:
+                    obj = Fill()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.STOCHASTIC_GEOMETRY:
+                    obj = StochasticGeometry()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.DETERMINISTIC_MATERIALS:
+                    obj = DeterministicMaterials()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.DETERMINISTIC_WEIGHT_WINDOW:
+                    obj = DeterministicWeightWindow()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.EMBEDED_GEOMETRY:
+                    obj = EmbededGeometry()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.EMBEDED_CONTROL:
+                    obj = EmbededControl()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.EMBEDED_ENERGY_BOUNDARIES:
+                    obj = EmbededEnergyBoundaries()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.EMBEDED_ENERGY_MULTIPLIERS:
+                    obj = EmbededEnergyMultipliers()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.EMBEDED_TIME_BOUNDARIES:
+                    obj = EmbededTimeBoundaries()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.EMBEDED_TIME_MULTIPLIERS:
+                    obj = EmbededTimeMultipliers()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.EMBEDED_DOSE_BOUNDARIES:
+                    obj = EmbededDoseBoundaries
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.EMBEDED_DOSE_MULTIPLIERS:
+                    obj = EmbededDoseMultipliers()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
+                case cls.DatumMnemonic.MATERIAL:
+                    obj = Material()
+                    self.__dict__ = obj.__dict__
+                    self.__class__ = obj.__class__
 
     @classmethod
-    def from_mcnp(cls, card: str) -> Self:
+    def from_mcnp(cls, source: str, line: int = None) -> Self:
         """
-        'from_mcnp' generates data card objects from INP.
+        ``from_mcnp`` generates ``Datum`` objects from INP.
+
+        ``from_mcnp`` constructs instances of ``Datum`` from INP source
+        strings, so it operates as a class constructor method and INP parser
+        helper function.
 
         Parameters:
-            card: INP to parse.
+            source: INP for datum.
+            line: Line number.
 
         Returns:
-            datum (Datum): Data card object.
+            ``Datum`` object.
+
+        Raises:
+            MCNPSyntaxError: TOOFEW_DATUM, TOOLONG_DATUM.
         """
 
         datum = cls()
 
-        tokens = parser.Parser(
-            re.split(r" |:|=", card),
-            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES),
-        )
+        # Processing Line Number
+        datum.line = line
+
+        # Processing Inline Comment
+        if "$" in source:
+            source, comment = source.split("$")
+            datum.comment = comment
+
+        source = parser.Preprocessor.process_inp(source)
+        tokens = parser.Parser(re.split(r" |:|=", card), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES))
 
         # Processing Mnemonic
-        value = cls.DatumMnemonic.cast_datum_mnemonic(tokens.peekl())
-        if value is None:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_MNEMONIC
-            )
-
-        datum.set_mnemonic(value)
+        mnemonic = cls.DatumMnemonic.from_mcnp(tokens.peekl())
+        datum.set_mnemonic(mnemonic)
 
         # Processing Entries
-        match datum.mnemonic:
-            case "vol":
+        match mnemonic:
+            case cls.DatumMnemonic.VOLUME:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = Volume
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Mnemonic
                 tokens.popl()
@@ -191,13 +268,9 @@ class Datum(Card):
 
                 datum.set_parameters(has_no, *volumes)
 
-            case "area":
+            case cls.DatumMnemonic.AREA:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = Area
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Mnemonic
                 tokens.popl()
@@ -209,18 +282,12 @@ class Datum(Card):
 
                 datum.set_parameters(*areas)
 
-            case "tr":
+            case cls.DatumMnemonic.TRANSFORMATION:
                 if len(tokens) > 13:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 if len(tokens) < 13:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = Transformation
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Mnemonic
                 suffix = types.cast_fortran_integer(tokens.popl()[2:])
@@ -237,13 +304,9 @@ class Datum(Card):
                     int(entires[12]),
                 )
 
-            case "u":
+            case cls.DatumMnemonic.UNIVERSE:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = Universe
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Mnemonic
                 tokens.popl()
@@ -255,13 +318,9 @@ class Datum(Card):
 
                 datum.set_parameters(*universes)
 
-            case "lat":
+            case cls.DatumMnemonic.LATTICE:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = Lattice
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Mnemonic
                 tokens.popl()
@@ -273,13 +332,9 @@ class Datum(Card):
 
                 datum.set_parameters(*lattices)
 
-            case "fill":
+            case cls.DatumMnemonic.FILL:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = Fill
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Mnemonic
                 tokens.popl()
@@ -291,13 +346,9 @@ class Datum(Card):
 
                 datum.set_parameters(*fills)
 
-            case "uran":
+            case cls.DatumMnemonic.STOCHASTIC_GEOMETRY:
                 if len(tokens) % 4 != 0:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = StochasticGeometry
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Mnemonic
                 tokens.popl()
@@ -305,22 +356,14 @@ class Datum(Card):
                 # Processing Parameters
                 transformations = []
                 while tokens:
-                    source = " ".join(
-                        [tokens.popl(), tokens.popl(), tokens.popl(), tokens.popl()]
-                    )
-                    transformations.append(
-                        StochasticGeometry.StochasticGeometryValue().from_mcnp(source)
-                    )
+                    source = " ".join([tokens.popl(), tokens.popl(), tokens.popl(), tokens.popl()])
+                    transformations.append(StochasticGeometry.StochasticGeometryValue().from_mcnp(source))
 
                 datum.set_parameters(*transformations)
 
-            case "dm":
+            case cls.DatumMnemonic.DETERMINISTIC_MATERIALS:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = DeterministicMaterials
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[2:])
@@ -333,13 +376,9 @@ class Datum(Card):
 
                 datum.set_parameters(*materials)
 
-            case "dawwg":
+            case cls.DatumMnemonic.DETERMINISTIC_WEIGHT_WINDOW:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = DeterministicWeightWindow
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Mnemoninc
                 tokens.popl()
@@ -347,21 +386,13 @@ class Datum(Card):
                 # Processing Parameters
                 pairs = []
                 while tokens:
-                    paris.append(
-                        DeterministicWeightWindow.DeterministicWeightWindowParameter.from_mcnp(
-                            tokens.popl()
-                        )
-                    )
+                    paris.append(DeterministicWeightWindow.DeterministicWeightWindowOption.from_mcnp(tokens.popl()))
 
                 datum.set_parameters(*pairs)
 
-            case "embed":
+            case cls.DatumMnemonic.EMBEDED_GEOMETRY:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = EmbededGeometry
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -370,21 +401,13 @@ class Datum(Card):
                 # Processing Parameters
                 pairs = []
                 while tokens:
-                    paris.append(
-                        EmbededGeometry.EmbededGeometryParameter.from_mcnp(
-                            tokens.popl()
-                        )
-                    )
+                    paris.append(EmbededGeometry.EmbededGeometryOption.from_mcnp(tokens.popl()))
 
                 datum.set_parameters(*pairs)
 
-            case "embee":
+            case cls.DatumMnemonic.EMBEDED_CONTROL:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = EmbededElementalControl
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -397,21 +420,13 @@ class Datum(Card):
                 # Processing Parameters
                 pairs = []
                 while tokens:
-                    paris.append(
-                        EmbededElementalControl.EmbededElementalControlParameter.from_mcnp(
-                            tokens.popl()
-                        )
-                    )
+                    paris.append(EmbededControl.EmbededControlOption.from_mcnp(tokens.popl()))
 
                 datum.set_parameters(*pairs)
 
-            case "embeb":
+            case cls.DatumMnemonic.EMBEDED_ENERGY_BOUNDARIES:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = EmbededElementalEnergyBoundaries
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -424,13 +439,9 @@ class Datum(Card):
 
                 datum.set_parameters(*energies)
 
-            case "embem":
+            case cls.DatumMnemonic.EMBEDED_ENERGY_MULTIPLIERS:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = EmbededElementalEnergyMultipliers
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -443,13 +454,9 @@ class Datum(Card):
 
                 datum.set_parameters(*multipliers)
 
-            case "embtb":
+            case cls.DatumMnemonic.EMBEDED_TIME_BOUNDARIES:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = EmbededElementalTimeBoundaries
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -462,13 +469,9 @@ class Datum(Card):
 
                 datum.set_parameters(*times)
 
-            case "embtm":
+            case cls.DatumMnemonic.EMBEDED_TIME_MULTIPLIERS:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = EmbededElementalTimeMultipliers
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -481,13 +484,9 @@ class Datum(Card):
 
                 datum.set_parameters(*multipliers)
 
-            case "embde":
+            case cls.DatumMnemonic.EMBEDED_DOSE_BOUNDARIES:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = EmbededElementalDoseBoundaries
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -500,13 +499,9 @@ class Datum(Card):
 
                 datum.set_parameters(*doses)
 
-            case "embdf":
+            case cls.DatumMnemonic.EMBEDED_DOSE_MULTIPLIERS:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = EmbededElementalDoseMultipliers
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -519,13 +514,9 @@ class Datum(Card):
 
                 datum.set_parameters(*multipliers)
 
-            case "m":
+            case cls.DatumMnemonic.MATERIAL:
                 if len(tokens) < 2:
-                    raise errors.MCNPSyntaxError(
-                        errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES
-                    )
-
-                datum.__class__ = Material
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[1:])
@@ -535,12 +526,12 @@ class Datum(Card):
                 substances = []
                 while tokens:
                     source = " ".join([tokens.popl(), tokens.popl()])
-                    paris.append(Material.MaterialParameter().from_mcnp(source))
+                    paris.append(Material.MaterialOption().from_mcnp(source))
 
                 pairs = []
                 while tokens:
                     source = "=".join([tokens.popl(), tokens.popl()])
-                    paris.append(Material.MaterialParameter().from_mcnp(source))
+                    paris.append(Material.MaterialOption().from_mcnp(source))
 
         if tokens:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES)
@@ -549,10 +540,13 @@ class Datum(Card):
 
     def to_mcnp(self) -> str:
         """
-        'to_mcnp' generates INP from data card objects.
+        ``to_mcnp`` generates INP from ``Datum`` objects.
+
+        ``to_mcnp`` creates INP source string from ``Datum``
+        objects, so it provides an MCNP endpoint.
 
         Returns:
-            source : INP for data card object.
+            INP string for ``Datum`` object.
         """
 
         # Formatting Number
@@ -562,29 +556,124 @@ class Datum(Card):
 
     def to_arguments(self) -> list:
         """
-        'to_arguments' generates dictionaries from data card objects.
+        ``to_arguments`` makes dictionaries from ``Datum`` objects.
+
+        ``to_arguments`` creates Python dictionaries from ``Datum`` objects, so
+        it provides an MCNP endpoint. The dictionary keys follow the MCNP
+        manual. Although defined on the superclass, it returns key-value pairs
+        suffixes and designators as required.
 
         Returns:
-            Dictionary of data card object data.
+            Dictionary for ``Datum`` object.
         """
 
         return {
             "mnemoinc": self.mnemonic,
+            "m": self.suffix if hasattr(self.__class__, "suffix") else None,
+            "n": self.designator if hasattr(self.__class__, "designator") else None,
             "parameters": self.parameters,
         }
 
 
-class Volume(Datum):
+class Datum_Designator(Datum):
     """
-    'Volume' represents volume data cards.
+    ``Datum_Designator`` represents INP data card with designators.
 
-    'Volume' functions as a data subtype for 'Datum'. It
-    represents datum cards as an abstract syntax element.
+    ``Datum_Designator`` extends ``Datum`` by adding attributes
+    for storing and methods for parsing data card designators. It represents
+    the generic INP data card syntax element with designators.
+
+    Attributes:
+        designator: Data card designator.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'Volume'
+        ``__init__`` initializes ``Datum_Designator``.
+        """
+
+        super().__init__()
+
+        self.designator: tuple[types.Designator] = None
+
+    def set_designator(self, designator: tuple[types.Designator]) -> None:
+        """
+        ``set_designator`` stores INP data card designators.
+
+        ``set_designator`` checks for valid designators before assigning
+        the given value to ``Datum_Designator.designator``. If given
+        an unrecognized argument, it raises semantic errors.
+
+        Parameters:
+            designators: Data card designator.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_DESIGNATOR.
+        """
+
+        if designator is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DESIGNATOR)
+
+        self.designator = designator
+
+
+class Datum_Suffix(Datum):
+    """
+    ``Datum_Suffix`` represents INP data card with suffixes.
+
+    ``Datum_Suffix`` extends ``Datum`` by adding attributes for
+    storing and methods for parsing data card suffixes. It represents the
+    generic INP cell card option syntax element with suffixes.
+
+    Attributes:
+        suffix: Data card suffix.
+    """
+
+    def __init__(self) -> Self:
+        """
+        ``__init__`` initializes ``Datum_Suffix``.
+        """
+
+        super().__init__()
+
+        self.suffix: int = None
+
+    def set_suffix(self, suffix: int) -> None:
+        """
+        ``set_suffix`` stores INP cell option suffixes.
+
+        ``set_suffix`` checks for valid suffixes before assigning the given
+        value to ``Datum_Suffix.suffix``. If given an unrecognized argument, it
+        raises semantic errors.
+
+        Parameters:
+            suffix: Data card suffix.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_SUFFIX.
+        """
+
+        if suffix is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
+
+        self.suffix = suffix
+
+
+class Volume(Datum):
+    """
+    ``Volume`` represents INP volume data cards.
+
+    ``Volume`` inherits attributes from ``Datum``. It represents the INP volume
+    data card syntax element.
+
+    Attributes:
+        has_no: No volume calculation option.
+        volumes: Iterable of cell volumes.
+    """
+
+    def __init__(self) -> Self:
+        """
+        ``__init__`` initializes ``Volume``.
         """
 
         super().__init__()
@@ -595,23 +684,26 @@ class Volume(Datum):
 
     def set_parameters(self, has_no: bool, *volumes: float) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``Volume.volumes``, ``Volume.has_no``, and
+        ``Volume.parameters``. If given an unrecognized argument, it raises
+        semantic errors.
 
         Parameters:
-            has_no: No option flag.
-            *volumes: Iterable of volumes.
+            has_no: No volume calculation option.
+            *volumes: Iterable of cell volumes.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         self.has_no = has_no
 
         for parameter in volumes:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = volumes
         self.volumes = volumes
@@ -619,15 +711,18 @@ class Volume(Datum):
 
 class Area(Datum):
     """
-    'Area' represents surface area data cards.
+    ``Area`` represents INP area data cards.
 
-    'Area' functions as a data subtype for 'Datum'. It
-    represents datum cards as an abstract syntax element.
+    ``Area`` inherits attributes from ``Datum``. It represents the INP area
+    data card syntax element.
+
+    Attributes:
+        areas: Iterable of cell areas.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'Area'
+        ``__init__`` initializes ``Area``.
         """
 
         super().__init__()
@@ -637,84 +732,75 @@ class Area(Datum):
 
     def set_parameters(self, *areas: float) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``Area.areas`` and ``Area.parameters``. If given an
+        unrecognized argument, it raises semantic errors.
 
         Parameters:
-            *areas: Iterable of areas.
+            *areas: Iterable of cell areas.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in areas:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = areas
         self.areas = areas
 
 
-class Transformation(Datum):
+class Transformation(Datum_Suffix):
     """
-    'Transformation' represents surface transformation data cards.
+    ``Transformation`` represents INP transformation data cards.
 
-    'Transformation' functions as a data subtype for 'Datum'. It
-    represents datum cards as an abstract syntax element.
+    ``Transformation`` inherits attributes from ``Datum_Suffix``, i.e.
+    ``Datum`` with suffix support. It represents the INP transformation data
+    card syntax element.
+
+    Attributes:
+        displacement: Transformation displacement vector.
+        rotation: Transformation rotation matrix.
+        system: Transformation coordinate system setting.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initializes 'Transformation'
+        ``__init__`` initializes ``Transformation``.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.TRANSFORMATION
 
-        self.suffix: tuple[float] = None
         self.displacement: tuple[float] = None
         self.rotation: tuple[tuple[float]] = None
         self.system: int = None
 
-    def set_suffix(self, suffix: int) -> None:
+    def set_parameters(self, displacement: tuple[float], rotation: tuple[tuple[float]], system: int) -> None:
         """
-        'set_suffix' sets trasformation data card
-        keyword suffixes.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_suffix' checks suffixes are valid.
-        It raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``Transformation.displacement``, ``Transformation.rotation``,
+        ``Transformation.system``, and ``Transformation.parameters``. If given
+        an unrecognized argument, it raises semantic errors.
 
         Parameters:
-            suffix: Data card mnemonic suffix.
-        """
+            displacement: Transformation displacement vector.
+            rotation: Transformation rotation matrix.
+            system: Transformation coordinate system setting.
 
-        if suffix is None and not (1 <= suffix <= 999):
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX
-            )
-
-        self.suffix = suffix
-
-    def set_parameters(
-        self, displacement: tuple[float], rotation: tuple[tuple[float]], system: int
-    ) -> None:
-        """
-        'set_parameters' sets data card parameters.
-
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
-
-        Parameters:
-            parameters: Transformation specification.
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         # Processing displacement
         for entry in displacement:
             if entry is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.displacement = displacement
 
@@ -722,17 +808,13 @@ class Transformation(Datum):
         for row in rotation:
             for entry in row:
                 if entry is None:
-                    raise errors.MCNPSemanticError(
-                        errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                    )
+                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.rotation = rotation
 
         # Processing system
         if tokens.peekr() is None or tokens.peekr() not in {-1, 1}:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-            )
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.system = system
 
@@ -741,15 +823,18 @@ class Transformation(Datum):
 
 class Universe(Datum):
     """
-    'Universe' represents universe data cards.
+    ``Universe`` represents INP universe data cards.
 
-    'Universe' functions as a data subtype for 'Datum'. It
-    represents datum cards as an abstract syntax element.
+    ``Universe`` inherits attributes from ``Datum``. It represents the INP
+    universe data card syntax element.
+
+    Attributes:
+        universes: Iterable of cell universe numbers.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'Universe'
+        ``__init__`` initializes ``Universe``.
         """
 
         super().__init__()
@@ -759,20 +844,22 @@ class Universe(Datum):
 
     def set_parameters(self, *unvierses: int) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``Universe.universes`` and ``Universe.parameters``. If given
+        an unrecognized argument, it raises semantic errors.
 
         Parameters:
-            unvierses: Iterable of universe numbers.
+            *universes: Iterable of cell universe numbers.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in unvierses:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = unvierses
         self.universes = unvierses
@@ -780,15 +867,18 @@ class Universe(Datum):
 
 class Lattice(Datum):
     """
-    'Lattice' represents lattice data cards.
+    ``Lattice`` represents INP lattice data cards.
 
-    'Lattice' functions as a data subtype for 'Datum'. It
-    represents datum cards as an abstract syntax element.
+    ``Lattice`` inherits attributes from ``Datum``. It represents the INP
+    lattice data card syntax element.
+
+    Attributes:
+        lattices: Iterable of cell lattice numbers.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'Lattice'
+        ``__init__`` initializes ``Lattice``.
         """
 
         super().__init__()
@@ -798,20 +888,22 @@ class Lattice(Datum):
 
     def set_parameters(self, *lattices: int) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``Lattice.lattices`` and ``Lattice.parameters``. If given
+        an unrecognized argument, it raises semantic errors.
 
         Parameters:
-            lattices: Iterable of lattice specifiers.
+            *lattices: Iterable of cell lattice numbers.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in lattices:
             if parameter is None or parameter not in {1, 2}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = lattices
         self.lattices = lattices
@@ -819,15 +911,18 @@ class Lattice(Datum):
 
 class Fill(Datum):
     """
-    'Fill' represents fill data cards.
+    ``Fill`` represents INP fill data cards.
 
-    'Fill' functions as a data subtype for 'Datum'. It
-    represents datum cards as an abstract syntax element.
+    ``Fill`` inherits attributes from ``Datum``. It represents the INP
+    universe data card syntax element.
+
+    Attributes:
+        fills: Iterable of universe numbers.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'Fill'
+        ``__init__`` initializes ``Fill``.
         """
 
         super().__init__()
@@ -837,20 +932,22 @@ class Fill(Datum):
 
     def set_parameters(self, *fills: int) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``Fill.fills`` and ``Fill.parameters``. If given
+        an unrecognized argument, it raises semantic errors.
 
         Parameters:
-            fills: Iterable of universe numbers.
+            *fills: Iterable of universe numbers.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in fills:
             if parameter is None or not (parameter >= 0 and parameter <= 99_999_999):
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = fills
         self.fills = fills
@@ -858,23 +955,37 @@ class Fill(Datum):
 
 class StochasticGeometry(Datum):
     """
-    'StochasticGeometry' represents stochastic geometry data cards.
+    ``StochasticGeometry`` represents INP stochastic geometry data cards.
 
-    'StochasticGeometry' functions as a data subtype for 'Datum'. It
-    represents datum cards as an abstract syntax element.
+    ``StochasticGeometry`` inherits attributes from ``Datum``. It represents
+    the INP universe data card syntax element.
+
+    Attributes:
+        transformations: Iterable of stochastric geometry transformations.
     """
 
     class StochasticGeometryValue:
         """
-        'StochasticGeometryValue' represents stochastic geometry entry.
+        ``StochasticGeometryValue`` represents INP stochastic geometry data
+        card entries.
 
-        'StochasticGeometryValue' stores universe numbers and maximum
-        translations.
+        ``StochasticGeometryValue`` implements INP stochastic geometry
+        specifications as a Python inner class. Its attributes store different
+        stochastic geometry entries, and its methods provide entry points
+        and endpoints for working with stochastic geometry entries.
+        ``StochasticGeometry`` depends on ``StochasticGeometryValue`` as a data
+        type.
+
+        Attributes:
+            number: Stochastic geometry universe number.
+            maximum_x: Stochastic geometry maximum translation in x direction.
+            maximum_y: Stochastic geometry maximum translation in y direction.
+            maximum_z: Stochastic geometry maximum translation in z direction.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initalizes 'StochasticGeometryValue'
+            ``__init__`` initializes ``StochasticGeometryValue``.
             """
 
             self.number: int = None
@@ -883,96 +994,91 @@ class StochasticGeometry(Datum):
             self.maximum_z: float = None
 
         @classmethod
-        def from_mcnp(cls, string: str) -> Self:
+        def from_mcnp(cls, source: str) -> Self:
             """
-            'from_mcnp' generates stochastic geometry entries.
+            ``from_mcnp`` generates ``StochasticGeometryValue`` objects from
+            INP.
 
-            'from_mcnp' constructs instances of 'StochasticGeometryValue'
-            from INP strings, so it functions as a class constructor.
+            ``from_mcnp`` constructs instances of ``StochasticGeometryValue``
+            from INP source strings, so it operates as a class constructor
+            method and INP parser helper function.
 
             Parameters:
-                string: INP to parse.
+                source: INP for stochastic geometry values.
 
             Returns:
-                Stochastic geometry value object.
+                ``StochasticGeometryValue`` object.
 
             Raises:
-                MCNPSemanticError: Invalid card parameter entry.
-                MCNPSyntaxError: Invalid card paramter syntax.
+                MCNPSemanticError: INVALID_DATUM_PARAMETERS.
+                MCNPSyntaxError: TOOFEW_DATUM, TOOLONG_DATUM.
             """
 
             entry = cls()
 
-            tokens = parser.Parser(
-                string.split(" "),
-                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES),
-            )
+            source = parser.Preprocessor.process_inp(source)
+            tokens = parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES))
 
             # Parsing Universe Number
             value = types.cast_fortran_integer(tokens.popl())
             if value is None or not (1 <= value <= 99_999_999):
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-            self.number = value
+            entry.number = value
 
             # Parsing Maximum Translations
             value = types.cast_fortran_real(tokens.popl())
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-            self.maximum_x = value
+            entry.maximum_x = value
 
             value = types.cast_fortran_real(tokens.popl())
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-            self.maximum_y = value
+            entry.maximum_y = value
 
             value = types.cast_fortran_real(tokens.popl())
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-            self.maximum_z = value
+            entry.maximum_z = value
 
             if tokens:
-                raise errors.MCNPSyntaxError(
-                    errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES
-                )
+                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES)
+
+            return entry
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'StochasticGeometry'
+        ``__init__`` initializes ``StochasticGeometry``.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.STOCHASTIC_GEOMETRY
 
-        self.lattices: tuple[StochasticGeometryValue] = None
+        self.transformations: tuple[StochasticGeometryValue] = None
 
     def set_parameters(self, *transformations: StochasticGeometryValue) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``StochasticGeometry.transformations`` and
+        ``StochasticGeometry.parameters``. If given an unrecognized argument,
+        it raises semantic errors.
 
         Parameters:
-            transformations: Iterable of stochastic geometry values.
+            *transformations: Iterable of stochastric geometry transformations.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in transformations:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = transformations
         self.transformations = transformations
@@ -980,15 +1086,19 @@ class StochasticGeometry(Datum):
 
 class DeterministicMaterials(Datum):
     """
-    'DeterministicMaterials' represents deterministic material  data cards.
+    ``DeterministicMaterials`` represents INP deterministic materials data
+    cards.
 
-    'DeterministicMaterials' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``DeterministicMaterials`` inherits attributes from ``Datum``. It
+    represents the INP deterministic materials data card syntax element.
+
+    Attributes:
+        materials: Iterable of Zaids.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'DeterministicMaterials'
+        ``__init__`` initializes ``DeterministicMaterials``.
         """
 
         super().__init__()
@@ -998,20 +1108,23 @@ class DeterministicMaterials(Datum):
 
     def set_parameters(self, *materials: types.Zaid) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``DeterministicMaterials.matierals`` and
+        ``DeterministicMaterials.parameters``. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
-            materials: Iterable of ZAID aliases.
+            *materials: Iterable of ZAID aliases.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in materials:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = materials
         self.materials = materials
@@ -1019,36 +1132,51 @@ class DeterministicMaterials(Datum):
 
 class DeterministicWeightWindow(Datum):
     """
-    'DeterministicWeightWindow' represents deterministics adjoint weight-window
-    generator data cards.
+    ``DeterministicWeightWindow`` represents INP deterministic weight window
+    data cards.
 
-    'DeterministicWeightWindow' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``DeterministicWeightWindow`` inherits attributes from ``Datum``. It
+    represents the INP deterministic weight window data card syntax element.
+
+    Attributes:
+        pairs: Iterable of key-value pairs.
     """
 
-    class DeterministicWeightWindowParameter:
+    class DeterministicWeightWindowOption:
         """
-        'DeterministicWeightWindowParameter' represents deterministics adjoint weight-window
-        generator data card parameter.
+        ``DeterministicWeightWindowOption`` represents INP deterministic weight
+        window data card options.
 
-        'DeterministicWeightWindowParameter' functions as a data type for
-        'DeterministicWeightWindow'. It represents deterministics adjoint
-        weight-window generator data card parameters as abstract syntax elements.
+        ``DeterministicWeightWindowOption`` implements INP deterministic weight
+        window data card options. Its attributes store keywords and values, and
+        its methods provide entry and endpoints for working with INP
+        deterministic weight window data card options. It represents the
+        generic INP deterministic weight window data card option syntax
+        element, so ``DeterministicWeightWindow`` depends on
+        ``DeterministicWeightWindowOption`` as a generic data structure and
+        superclass.
+
+        Attributes:
+            keyword: Deterministic weight window data card option keyword.
+            value: Deterministic weight window data card option value.
         """
 
         class DeterministicWeightWindowKeyword(StrEnum):
             """
-            'DeterministicWeightWindowKeyword' represents deterministics adjoint weight-window
-            generator data card parameter keywords.
+            ``DeterministicWeightWindowKeyword`` represents INP deterministic
+            weight window data card keywords.
 
-            'DeterministicWeightWindowKeyword' functions as a data type for
-            'DeterministicWeightWindowParameter' and 'DeterministicWeightWindow'. It
-            represents card parameter keywords as abstract syntax elements.
+            ``DeterministicWeightWindowKeyword`` implements INP deterministic
+            weight window data card keywords as a Python inner class. It
+            enumerates MCNP keywords and provides methods for casting strings
+            to ``DeterministicWeightWindowKeyword`` instances. It represents
+            the INP deterministic weight window data card keyword syntax
+            element, so ``DeterministicWeightWindow`` and
+            ``DeterministicWeightWindowOption`` depend on
+            ``DeterministicWeightWindowKeyword`` as an enum.
             """
 
             POINTS = "points"
-            #           XSEC = "xsec"
-            #           TALLY = "tally"
             BLOCK = "block"
             NGROUP = "ngroup"
             ISN = "isn"
@@ -1117,40 +1245,39 @@ class DeterministicWeightWindow(Datum):
             FLUXONE = "fluxone"
 
             @classmethod
-            def cast_dawwg_keyword(
-                cls, string: str, hook: Callable[Self, bool] = lambda _: True
-            ) -> Self:
+            def from_mcnp(cls, source: str) -> Self:
                 """
-                'cast_dawwg_keyword' types casts from strings to Deterministic adjoint
-                weight window parameter keywords.
+                ``from_mcnp`` generates ``DeterministicWeightWindowKeyword``
+                objects from INP.
 
-                'cast_dawwg_keyword' creates deterministic adjoint weight window
-                parameter keywords objects from strings. If the string is invalid
-                or the hook returns false, it returns None.
+                ``from_mcnp`` constructs instances of
+                ``DeterministicWeightWindowKeyword`` from INP source strings,
+                so it operates as a class constructor method and INP parser
+                helper function.
 
                 Parameters:
-                    string: String to cast.
-                    hook: Postcast check.
+                    source: INP for deterministic weight window keyword.
 
                 Returns:
-                    Deterministic adjoint weight window parameter keyword from string.
+                    ``DeterministicWeightWindowKeyword`` object.
+
+                Raises:
+                    MCNPSemanticError: INVALID_DATUM_DAWWG_KEYWORD.
                 """
 
-                string = string.lower()
+                keyword = cls()
 
-                try:
-                    keyword = cls(string)
+                source = parser.Preprocessor.process_inp(source)
 
-                    if hook(keyword):
-                        return keyword
-                except ValueError:
-                    pass
+                # Processing Keyword
+                if source not in [enum.value for enum in cls]:
+                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_KEYWORD)
 
-                return None
+                return cls(source)
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'DeterministicWeightWindowParameter'
+            ``__init__`` initializes ``DeterministicWeightWindowOption``.
             """
 
             self.keyword: self.DeterministicWeightWindowKeyword = None
@@ -1158,3288 +1285,3443 @@ class DeterministicWeightWindow(Datum):
 
         def set_keyword(self, keyword: DeterministicWeightWindowKeyword) -> None:
             """
-            'set_keyword' sets deterministic adjoint weight window
-            parameter keywords.
+            ``set_keyword`` stores INP deterministic weight window option
+            keywords.
 
-            'set_keyword' checks keywords are valid. It
-            raises errors if given None.
+            ``set_keyword`` checks given arguments before assigning the
+            given value to``DeterministicWeightWindowOption.keyword``. If
+            given an unrecognized argument, it raises semantic errors.
+
+            Warnings:
+                ``set_keyword`` reinitializes
+                ``DeterministicWeightWindowOption`` instances sincee its
+                attributes depend on the keyword. When the given keyword does
+                not equal ``DeterministicWeightWindowOption.keyword``, all
+                attributes reset.
 
             Parameters:
-                keyword: Deterministic adjoint weight window parameter keyword.
+                keyword: Deterministic weight window data card option keyword.
+
+            Raises:
+                MCNPSemanticError: INVALID_DATUM_DAWWG_KEYWORD.
             """
 
             if keyword is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_KEYWORD
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_KEYWORD)
 
-            self.keyword = keyword
+            if self.keyword != keyword:
+                match keyword:
+                    case DeterministicWeightWindowKeyword.POINTS:
+                        obj = DeterministicWeightWindow.Points()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.XSEC:
+                        obj = DeterministicWeightWindow.Xsec()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.TALLY:
+                        obj = DeterministicWeightWindow.Tally()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.BLOCK:
+                        obj = DeterministicWeightWindow.Block()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NGROUP:
+                        obj = DeterministicWeightWindow.Ngroup()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.ISN:
+                        obj = DeterministicWeightWindow.Isn()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NISO:
+                        obj = DeterministicWeightWindow.Niso()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.MT:
+                        obj = DeterministicWeightWindow.Mt()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.IQUAD:
+                        obj = DeterministicWeightWindow.Iquad()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.FMMIX:
+                        obj = DeterministicWeightWindow.Fmmix()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NOSOLV:
+                        obj = DeterministicWeightWindow.Nosolv()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NOEDIT:
+                        obj = DeterministicWeightWindow.Noedit()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NOGEOD:
+                        obj = DeterministicWeightWindow.Nogeod()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NOMIX:
+                        obj = DeterministicWeightWindow.Nomix()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NOASG:
+                        obj = DeterministicWeightWindow.Noasg()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NOMACR:
+                        obj = DeterministicWeightWindow.Nomacr()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NOSLNP:
+                        obj = DeterministicWeightWindow.Noslnp()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NOEDTT:
+                        obj = DeterministicWeightWindow.Noedtt()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NOADJM:
+                        obj = DeterministicWeightWindow.Noadjm()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.LIB:
+                        obj = DeterministicWeightWindow.Lib()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.LIBNAME:
+                        obj = DeterministicWeightWindow.Libname()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.FISSNEUT:
+                        obj = DeterministicWeightWindow.Fissneut()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.LNG:
+                        obj = DeterministicWeightWindow.Lng()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.BALXS:
+                        obj = DeterministicWeightWindow.Balxs()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NTICHI:
+                        obj = DeterministicWeightWindow.Ntichi()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.IEVT:
+                        obj = DeterministicWeightWindow.Ievt()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.SCT:
+                        obj = DeterministicWeightWindow.Isct()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.ITH:
+                        obj = DeterministicWeightWindow.Ith()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.TRCOR:
+                        obj = DeterministicWeightWindow.Trcor()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.IBL:
+                        obj = DeterministicWeightWindow.Ibl()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.IBR:
+                        obj = DeterministicWeightWindow.Ibr()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.IBT:
+                        obj = DeterministicWeightWindow.Ibt()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.IBB:
+                        obj = DeterministicWeightWindow.Ibb()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.IBFRNT:
+                        obj = DeterministicWeightWindow.Ibfrnt()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.BIBACK:
+                        obj = DeterministicWeightWindow.Ibback()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.EPSI:
+                        obj = DeterministicWeightWindow.Epsi()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.OITM:
+                        obj = DeterministicWeightWindow.Oitm()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NOSIGF:
+                        obj = DeterministicWeightWindow.Nosigf()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.SRCACC:
+                        obj = DeterministicWeightWindow.Srcacc()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.DIFFSOL:
+                        obj = DeterministicWeightWindow.Diffsol()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.TSASN:
+                        obj = DeterministicWeightWindow.Tsasn()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.TSAEPSI:
+                        obj = DeterministicWeightWindow.Tsaepsi()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.TSAITS:
+                        obj = DeterministicWeightWindow.Tsaits()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.TSABETA:
+                        obj = DeterministicWeightWindow.Tsabeta()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.PTCONV:
+                        obj = DeterministicWeightWindow.Ptconv()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.NORM:
+                        obj = DeterministicWeightWindow.Norm()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.XESCTP:
+                        obj = DeterministicWeightWindow.Xesctp()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.FISSRP:
+                        obj = DeterministicWeightWindow.Fissrp()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.SOURCP:
+                        obj = DeterministicWeightWindow.Sourcp()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.ANGP:
+                        obj = DeterministicWeightWindow.Angp()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.BALP:
+                        obj = DeterministicWeightWindow.Balp()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.RAFLUX:
+                        obj = DeterministicWeightWindow.Raflux()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.RMFLUX:
+                        obj = DeterministicWeightWindow.Rmflux()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.AVATAR:
+                        obj = DeterministicWeightWindow.Avatar()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.ASLEFT:
+                        obj = DeterministicWeightWindow.Asleft()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.ASRITE:
+                        obj = DeterministicWeightWindow.Asrite()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.ASBOTT:
+                        obj = DeterministicWeightWindow.Asbott()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.ASTOP:
+                        obj = DeterministicWeightWindow.Astop()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.ASFRNT:
+                        obj = DeterministicWeightWindow.Asfrnt()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.ASBACK:
+                        obj = DeterministicWeightWindow.Asback()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.MASSED:
+                        obj = DeterministicWeightWindow.Massed()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.PTED:
+                        obj = DeterministicWeightWindow.Pted()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.ZNED:
+                        obj = DeterministicWeightWindow.Zned()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.RZFLUX:
+                        obj = DeterministicWeightWindow.Rzflux()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.RXMFLUX:
+                        obj = DeterministicWeightWindow.Rzmflux()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.EDOUTF:
+                        obj = DeterministicWeightWindow.Edoutf()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.BYVLOP:
+                        obj = DeterministicWeightWindow.Byvlop()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.AJED:
+                        obj = DeterministicWeightWindow.Ajed()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case DeterministicWeightWindowKeyword.FLUXONE:
+                        obj = DeterministicWeightWindow.Fluxone()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
 
         @classmethod
         def from_mcnp(cls, string: str):
             """
-            'from_mcnp' generates deterministic adjoint weight window parameter objects from.
+            ``from_mcnp`` generates ``DeterministicWeightWindowOption`` objects
+            from INP.
 
-            'from_mcnp' constructs instances of 'DeterministicWeightWindowParameter' from
-            INP strings, so it functions as a class constructor. It
-            transforms deterministic adjoint weight window parameter
-            into their correct subclasses.
+            ``from_mcnp`` constructs instances of
+            ``DeterministicWeightWindowOption`` from INP source strings, so it
+            operates as a class constructor method and INP parser helper
+            function. Although defined on the superclass, it returns
+            ``DeterministicWeightWindowOption`` subclasses.
 
             Parameters:
-                card: INP to parse.
+                source: INP for deterministic weight window data card option.
 
             Returns:
-               Deterministic adjoint weight window parameter object.
+                ``DeterministicWeightWindowOption`` object.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic adjoint weight window parameter entry.
-                MCNPSyntaxError: Invalid deterministic adjoint weight window parameter syntax.
+                MCNPSyntaxError: TOOFEW_DATUM_OPTION, TOOLONG_DATUM_OPTION.
             """
 
             parameter = cls()
 
-            tokens = parser.Parser(
-                string.split("="),
-                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES),
-            )
+            source = parser.Preprocessor.process_inp(source)
+            tokens = parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES))
 
             # Processing Keyword
-            value = cls.DeterministicWeightWindowKeyword.cast_keyword(tokens.peekl())
-            parameter.set_keyword(value)
+            keyword = cls.DeterministicWeightWindowKeyword.cast_keyword(tokens.peekl())
+            parameter.set_keyword(keyword)
 
             # Processing Values
             match tokens.popl():
-                case "points":
-                    parameter.__class__ = DeterministicWeightWindow.Points
-
+                case "points" | "block" | "ngroup" | "isn" | "niso" | "mt" | "iquad" | "fmmix" | "nosolv" | "noedit" | "nogeod" | "nomix" | "noasg" | "nomacr" | "noslnp" | "noedtt" | "noadjm" | "fissneut" | "lng" | "balxs" | "ntichi" | "ievt" | "sct" | "ith" | "ibl" | "ibr" | "ibt" | "ibb" | "ibfrnt" | "biback" | "oitm" | "nosigf" | "tsasn" | "tsaits" | "ptconv" | "xesctp" | "fissrp" | "sourcp" | "angp" | "balp" | "raflux" | "rmflux" | "avatar" | "asleft" | "asrite" | "asbott" | "astop" | "asfrnt" | "asback" | "massed" | "pted" | "zned" | "rzflux" | "rxmflux" | "edoutf" | "byvlop" | "ajed" | "fluxone":
                     value = types.cast_fortran_integer(tokens.popl())
                     parameter.set_value(value)
 
-                #                case "xsec":
-                #                    parameter.__class__ = DeterministicWeightWindow.Xsec
-                #
-                #                    value = types.cast_fortran_integer(tokens.popl())
-                #                    parameter.set_value(value)
-
-                #                case "tally":
-                #                    parameter.__class__ = DeterministicWeightWindow.Tally
-                #
-                #                    value = types.cast_fortran_integer(tokens.popl())
-                #                    parameter.set_value(value)
-
-                case "block":
-                    parameter.__class__ = DeterministicWeightWindow.Block
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "ngroup":
-                    parameter.__class__ = DeterministicWeightWindow.Ngroup
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "isn":
-                    parameter.__class__ = DeterministicWeightWindow.Isn
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "niso":
-                    parameter.__class__ = DeterministicWeightWindow.Niso
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "mt":
-                    parameter.__class__ = DeterministicWeightWindow.Mt
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "iquad":
-                    parameter.__class__ = DeterministicWeightWindow.Iquad
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "fmmix":
-                    parameter.__class__ = DeterministicWeightWindow.Fmmix
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "nosolv":
-                    parameter.__class__ = DeterministicWeightWindow.Nosolv
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "noedit":
-                    parameter.__class__ = DeterministicWeightWindow.Noedit
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "nogeod":
-                    parameter.__class__ = DeterministicWeightWindow.Nogeod
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "nomix":
-                    parameter.__class__ = DeterministicWeightWindow.Nomix
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "noasg":
-                    parameter.__class__ = DeterministicWeightWindow.Noasg
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "nomacr":
-                    parameter.__class__ = DeterministicWeightWindow.Nomacr
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "noslnp":
-                    parameter.__class__ = DeterministicWeightWindow.Noslnp
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "noedtt":
-                    parameter.__class__ = DeterministicWeightWindow.Noedtt
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "noadjm":
-                    parameter.__class__ = DeterministicWeightWindow.Noadjm
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "lib":
-                    parameter.__class__ = DeterministicWeightWindow.Lib
-
-                    parameter.set_value(tokens.popl())
-
-                case "libname":
-                    parameter.__class__ = DeterministicWeightWindow.Libname
-
-                    parameter.set_value(tokens.popl())
-
-                case "fissneut":
-                    parameter.__class__ = DeterministicWeightWindow.Fissneut
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "lng":
-                    parameter.__class__ = DeterministicWeightWindow.Lng
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "balxs":
-                    parameter.__class__ = DeterministicWeightWindow.Balxs
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "ntichi":
-                    parameter.__class__ = DeterministicWeightWindow.Ntichi
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "ievt":
-                    parameter.__class__ = DeterministicWeightWindow.Ievt
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "sct":
-                    parameter.__class__ = DeterministicWeightWindow.Isct
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "ith":
-                    parameter.__class__ = DeterministicWeightWindow.Ith
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "trcor":
-                    parameter.__class__ = DeterministicWeightWindow.Trcor
-
-                    parameter.set_value(tokens.popl())
-
-                case "ibl":
-                    parameter.__class__ = DeterministicWeightWindow.Ibl
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "ibr":
-                    parameter.__class__ = DeterministicWeightWindow.Ibr
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "ibt":
-                    parameter.__class__ = DeterministicWeightWindow.Ibt
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "ibb":
-                    parameter.__class__ = DeterministicWeightWindow.Ibb
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "ibfrnt":
-                    parameter.__class__ = DeterministicWeightWindow.Ibfrnt
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "biback":
-                    parameter.__class__ = DeterministicWeightWindow.Ibback
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "epsi":
-                    parameter.__class__ = DeterministicWeightWindow.Epsi
-
+                case "epsi" | "tsaepsi" | "tsabeta" | "norm":
                     value = types.cast_fortran_real(tokens.popl())
                     parameter.set_value(value)
 
-                case "oitm":
-                    parameter.__class__ = DeterministicWeightWindow.Oitm
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "nosigf":
-                    parameter.__class__ = DeterministicWeightWindow.Nosigf
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "srcacc":
-                    parameter.__class__ = DeterministicWeightWindow.Srcacc
-
+                case "lib" | "libname" | "trcor" | "srcacc" | "diffsol":
                     parameter.set_value(tokens.popl())
-
-                case "diffsol":
-                    parameter.__class__ = DeterministicWeightWindow.Diffsol
-
-                    parameter.set_value(tokens.popl())
-
-                case "tsasn":
-                    parameter.__class__ = DeterministicWeightWindow.Tsasn
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "tsaepsi":
-                    parameter.__class__ = DeterministicWeightWindow.Tsaepsi
-
-                    value = types.cast_fortran_real(tokens.popl())
-                    parameter.set_value(value)
-
-                case "tsaits":
-                    parameter.__class__ = DeterministicWeightWindow.Tsaits
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "tsabeta":
-                    parameter.__class__ = DeterministicWeightWindow.Tsabeta
-
-                    value = types.cast_fortran_real(tokens.popl())
-                    parameter.set_value(value)
-
-                case "ptconv":
-                    parameter.__class__ = DeterministicWeightWindow.Ptconv
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "norm":
-                    parameter.__class__ = DeterministicWeightWindow.Norm
-
-                    value = types.cast_fortran_real(tokens.popl())
-                    parameter.set_value(value)
-
-                case "xesctp":
-                    parameter.__class__ = DeterministicWeightWindow.Xesctp
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "fissrp":
-                    parameter.__class__ = DeterministicWeightWindow.Fissrp
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "sourcp":
-                    parameter.__class__ = DeterministicWeightWindow.Sourcp
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "angp":
-                    parameter.__class__ = DeterministicWeightWindow.Angp
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "balp":
-                    parameter.__class__ = DeterministicWeightWindow.Balp
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "raflux":
-                    parameter.__class__ = DeterministicWeightWindow.Raflux
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "rmflux":
-                    parameter.__class__ = DeterministicWeightWindow.Rmflux
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "avatar":
-                    parameter.__class__ = DeterministicWeightWindow.Avatar
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "asleft":
-                    parameter.__class__ = DeterministicWeightWindow.Asleft
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "asrite":
-                    parameter.__class__ = DeterministicWeightWindow.Asrite
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "asbott":
-                    parameter.__class__ = DeterministicWeightWindow.Asbott
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "astop":
-                    parameter.__class__ = DeterministicWeightWindow.Astop
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "asfrnt":
-                    parameter.__class__ = DeterministicWeightWindow.Asfrnt
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "asback":
-                    parameter.__class__ = DeterministicWeightWindow.Asback
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "massed":
-                    parameter.__class__ = DeterministicWeightWindow.Massed
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "pted":
-                    parameter.__class__ = DeterministicWeightWindow.Pted
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "zned":
-                    parameter.__class__ = DeterministicWeightWindow.Zned
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "rzflux":
-                    parameter.__class__ = DeterministicWeightWindow.Rzflux
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "rxmflux":
-                    parameter.__class__ = DeterministicWeightWindow.Rzmflux
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "edoutf":
-                    parameter.__class__ = DeterministicWeightWindow.Edoutf
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "byvlop":
-                    parameter.__class__ = DeterministicWeightWindow.Byvlop
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "ajed":
-                    parameter.__class__ = DeterministicWeightWindow.Ajed
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "fluxone":
-                    parameter.__class__ = DeterministicWeightWindow.Fluxone
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
 
             if tokens:
-                raise errors.MCNPSyntaxError(
-                    errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES
-                )
+                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES)
 
-    class Points(DeterministicWeightWindowParameter):
+    class Points(DeterministicWeightWindowOption):
         """
-        'Points' represents points deterministic weight window parameters.
+        ``Points`` represents INP points deterministic weight window data card
+        options.
 
-        'Points' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Points`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP points
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            point: Deterministic weight window data card sample point count.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Points'.
+            ``__init__`` initializes ``Points``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.POINTS
 
             self.point: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  cpoints deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.point = value
 
-    # class Xsec(DeterministicWeightWindowParameter):
-    #    """
-    #    'Xsec' represents xsec deterministic weight window parameters.
-    #
-    #    'Xsec' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-    #    It represents deterministic weight window parameter as abstract syntax elements.
-    #    """
-    #
-    #    def __init__(self) -> Self:
-    #        """
-    #        '__init__' initializes 'Xsec'.
-    #        """
-    #
-    #        super().__init__()
-    #
-    #        self.name: int = None
-    #
-    #    def set_value(self, value: str) -> None:
-    #        """
-    #        'set_value' sets xsec deterministic weight window
-    #        parameter values.
-    #
-    #        'set_value' checks values are valid. It
-    #        raises errors if given None.
-    #
-    #        Parameters:
-    #            value: Parameter value.
-    #
-    #        Raises:
-    #            MCNPSemanticError: Invalid deterministic weight window parameter value.
-    #        """
-    #
-    #        if value is None:
-    #            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE)
-    #
-    #        self.value = value
-    #        self.name = value
-
-    # class Tally(DeterministicWeightWindowParameter):
-    #    """
-    #    'Tally' represents tally deterministic weight window parameters.
-    #
-    #    'Tally' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-    #    It represents deterministic weight window parameter as abstract syntax elements.
-    #    """
-    #
-    #    def __init__(self) -> Self:
-    #        """
-    #        '__init__' initializes 'Tally'.
-    #        """
-    #
-    #        super().__init__()
-    #
-    #        self._: int = None
-    #
-    #    def set_value(self, value: int) -> None:
-    #        """
-    #        'set_value' sets  tally deterministic weight window
-    #        parameter values.
-    #
-    #        'set_value' checks values are valid. It
-    #        raises errors if given None.
-    #
-    #        Parameters:
-    #            value: Parameter value.
-    #
-    #        Raises:
-    #            MCNPSemanticError: Invalid deterministic weight window parameter value.
-    #        """
-    #
-    #        if value is None:
-    #            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE)
-    #
-    #        self.value = value
-    #        self._ = value
-
-    class Block(DeterministicWeightWindowParameter):
+    class Block(DeterministicWeightWindowOption):
         """
-        'Block' represents block deterministic weight window parameters.
+        ``Block`` represents INP block deterministic weight window data card
+        options.
 
-        'Block' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Block`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP block deterministic weight window data card
+        option syntax element.
+
+        Attributes:
+            state: PARTISN input file passed value setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Block'.
+            ``__init__`` initializes ``Block``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.BLOCK
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  block deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {1, 3, 5, 6}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Ngroup(DeterministicWeightWindowParameter):
+    class Ngroup(DeterministicWeightWindowOption):
         """
-        'Ngroup' represents ngroup deterministic weight window parameters.
+        ``Ngroup`` represents INP ngroup deterministic weight window data card
+        options.
 
-        'Ngroup' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Ngroup`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP ngroup
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            energy_group_number: DAWWG energy group count.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Ngroup'.
+            ``__init__`` initializes ``Ngroup``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NGROUP
 
             self.energy_group_number: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets ngroup deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.energy_group_number = value
 
-    class Isn(DeterministicWeightWindowParameter):
+    class Isn(DeterministicWeightWindowOption):
         """
-        'Isn' represents isn deterministic weight window parameters.
+        ``Isn`` represents INP isn deterministic weight window data card
+        options.
 
-        'Isn' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Isn`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP isn deterministic weight window data option
+        syntax element.
+
+        Attributes:
+            sn_order: DAWWG Sn order.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Isn'.
+            ``__init__`` initializes ``Isn``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.ISN
 
             self.sn_order: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets isn deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.sn_order = value
 
-    class Niso(DeterministicWeightWindowParameter):
+    class Niso(DeterministicWeightWindowOption):
         """
-        'Niso' represents niso deterministic weight window parameters.
+        ``Niso`` represents INP niso deterministic weight window data card
+        options.
 
-        'Niso' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Niso`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP niso deterministic weight window data card option
+        syntax element.
+
+        Attributes:
+            isotopes_number: DAWWG isotopes number.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Niso'.
+            ``__init__`` initializes ``Niso``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NISO
 
             self.isotopes_number: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets niso deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.isotopes_number = value
 
-    class Mt(DeterministicWeightWindowParameter):
+    class Mt(DeterministicWeightWindowOption):
         """
-        'Mt' represents mt deterministic weight window parameters.
+        ``Mt`` represents INP mt deterministic weight window data card options.
 
-        'Mt' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Mt`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP mt deterministic weight window data card option
+        syntax element.
+
+        Attributes:
+            materials_number: DAWWG materials number.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Mt'.
+            ``__init__`` initializes ``Mt``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.MT
 
             self.materials_number: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets mt deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.materials_number = value
 
-    class Iquad(DeterministicWeightWindowParameter):
+    class Iquad(DeterministicWeightWindowOption):
         """
-        'Iquad' represents iquad deterministic weight window parameters.
+        ``Iquad`` represents INP iquad deterministic weight window data card
+        options.
 
-        'Iquad' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Iquad`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP iquad deterministic weight window data card
+        option syntax element.
+
+        Attributes:
+            quadrature: DAWWG quadrature.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Iquad'.
+            ``__init__`` initializes ``Iquad``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.IQUAD
 
             self.quadrature: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets iquad deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {1, 3, 4, 5, 6, 7, 8, 9}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.quadrature = value
 
-    class Fmmix(DeterministicWeightWindowParameter):
+    class Fmmix(DeterministicWeightWindowOption):
         """
-        'Fmmix' represents fmmix deterministic weight window parameters.
+        ``Fmmix`` represents INP fmmix deterministic weight window data card
+        options.
 
-        'Fmmix' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Fmmix`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP fmmix deterministic weight window data card
+        option sytnax element.
+
+        Attributes:
+            state: DAWWG LNK3DNT reading comprehension toggle.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Fmmix'.
+            ``__init__`` initializes ``Fmmix``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.FMMIX
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets fmmix deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Nosolv(DeterministicWeightWindowParameter):
+    class Nosolv(DeterministicWeightWindowOption):
         """
-        'Nosolv' represents nosolv deterministic weight window parameters.
+        ``Nosolv`` represents INP nosolv deterministic weight window data card
+        options.
 
-        'Nosolv' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Nosolv`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP nosolv
+        deterministic weight window data card option syntax element
+
+        Attributes:
+            state: Suppress solver module setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Nosolv'.
+            ``__init__`` initializes ``Nosolv``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NOSOLV
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets nosolv deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Noedit(DeterministicWeightWindowParameter):
+    class Noedit(DeterministicWeightWindowOption):
         """
-        'Noedit' represents noedit deterministic weight window parameters.
+        ``Noedit`` represents INP noedit deterministic weight window data card
+        options.
 
-        'Noedit' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Noedit`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP noedit
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Suppress edit module setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Noedit'.
+            ``__init__`` initializes ``Noedit``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NOEDIT
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets noedit deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Nogeod(DeterministicWeightWindowParameter):
+    class Nogeod(DeterministicWeightWindowOption):
         """
-        'Nogeod' represents nogeod deterministic weight window parameters.
+        ``Nogeod`` represents INP nogeod deterministic weight window data card
+        options.
 
-        'Nogeod' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Nogeod`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP nogeod
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Supress writing GEODST file setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Nogeod'.
+            ``__init__`` initializes ``Nogeod``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NOGEOD
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets nogeod deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Nomix(DeterministicWeightWindowParameter):
+    class Nomix(DeterministicWeightWindowOption):
         """
-        'Nomix' represents nomix deterministic weight window parameters.
+        ``Nomix`` represents INP nomix deterministic weight window data card
+        options.
 
-        'Nomix' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Nomix`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP nomix deterministic weight window data card
+        option syntax element.
+
+        Attributes:
+            state: Suppress writing mixing file setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Nomix'.
+            ``__init__`` initializes ``Nomix``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NOMIX
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets nomix deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Noasg(DeterministicWeightWindowParameter):
+    class Noasg(DeterministicWeightWindowOption):
         """
-        'Noasg' represents noasg deterministic weight window parameters.
+        ``Noasg`` represents INP noasg deterministic weight window data card
+        options.
 
-        'Noasg' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Noasg`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP noasg deterministic weight window data card
+        option syntax element.
+
+        Attributes:
+            state: Suppress wirting ASGMAT file seting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Noasg'.
+            ``__init__`` initializes ``Noasg``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NOASG
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets noasg deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Nomacr(DeterministicWeightWindowParameter):
+    class Nomacr(DeterministicWeightWindowOption):
         """
-        'Nomacr' represents nomacr deterministic weight window parameters.
+        ``Nomacr`` represents INP nomacr deterministic weight window data card
+        options.
 
-        'Nomacr' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Nomacr`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP nomacr
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Suppress writing MACRXS file.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Nomacr'.
+            ``__init__`` initializes ``Nomacr``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NOMACR
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets nomacr deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Noslnp(DeterministicWeightWindowParameter):
+    class Noslnp(DeterministicWeightWindowOption):
         """
-        'Noslnp' represents noslnp deterministic weight window parameters.
+        ``Noslnp`` represents INP noslnp deterministic weight window data card
+        options.
 
-        'Noslnp' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Noslnp`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP noslnp
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Suppress writing SOLINP file setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Noslnp'.
+            ``__init__`` initializes ``Noslnp``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NOSLNP
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets noslnp deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Noedtt(DeterministicWeightWindowParameter):
+    class Noedtt(DeterministicWeightWindowOption):
         """
-        'Noedtt' represents noedtt deterministic weight window parameters.
+        ``Noedtt`` represents INP noedtt deterministic weight window data card
+        options.
 
-        'Noedtt' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Noedtt`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP noedtt
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Supress writing EDITIT file setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Noedtt'.
+            ``__init__`` initializes ``Noedtt``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NOEDTT
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets noedtt deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Noadjm(DeterministicWeightWindowParameter):
+    class Noadjm(DeterministicWeightWindowOption):
         """
-        'Noadjm' represents noadjm deterministic weight window parameters.
+        ``Noadjm`` represents INP noadjm deterministic weight window data card
+        options.
 
-        'Noadjm' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Noadjm`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP noadjm
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Suppress writing ADJMAC file setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Noadjm'.
+            ``__init__`` initializes ``Noadjm``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NOADJM
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets noadjm deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Lib(DeterministicWeightWindowParameter):
+    class Lib(DeterministicWeightWindowOption):
         """
-        'Lib' represents lib deterministic weight window parameters.
+        ``Lib`` represents lib deterministic weight window datacell coptions.
 
-        'Lib' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Lib`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the Libents deterministic weight window data cell option
+        syntax element.
+
+        Attributes:
+            name: Name/Form of corss-seciotn data file.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Lib'.
+            ``__init__`` initializes ``Lib``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.LIB
 
             self.name: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets lib deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.name = value
 
-    class Libname(DeterministicWeightWindowParameter):
+    class Libname(DeterministicWeightWindowOption):
         """
-        'Libname' represents libname deterministic weight window parameters.
+        ``Libname`` represents INP libname deterministic weight window data
+        card options.
 
-        'Libname' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Libname`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP libname
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            filename: Cross-section file name.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Libname'.
+            ``__init__`` initializes ``Libname``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.LIBNAME
 
             self.filename: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets libname deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.filename = value
 
-    class Fissneut(DeterministicWeightWindowParameter):
+    class Fissneut(DeterministicWeightWindowOption):
         """
-        'Fissneut' represents fissneut deterministic weight window parameters.
+        ``Fissneut`` represents INP fissneut deterministic weight window data
+        card options.
 
-        'Fissneut' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Fissneut`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP fissneut
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            fission_neutron_flag: Fission neutron flag.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Fissneut'.
+            ``__init__`` initializes ``Fissneut``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.FISSNEUT
 
             self.fission_neutron_flag: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets carfissneut deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.fission_neutron_flag = value
 
-    class Lng(DeterministicWeightWindowParameter):
+    class Lng(DeterministicWeightWindowOption):
         """
-        'Lng' represents lng deterministic weight window parameters.
+        ``Lng`` represents lng deterministic weight window datacell coptions.
 
-        'Lng' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Lng`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the Lngents deterministic weight window datacell coption
+        syntax element.
+
+        Attributes:
+            last_neutron_group_number: Number of the last neutron group.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Lng'.
+            ``__init__`` initializes ``Lng``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.LNG
 
             self.last_neutron_group_number: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' setslng deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.last_neutron_group_number = value
 
-    class Balxs(DeterministicWeightWindowParameter):
+    class Balxs(DeterministicWeightWindowOption):
         """
-        'Balxs' represents balxs deterministic weight window parameters.
+        ``Balxs`` represents INP balxs deterministic weight window data card
+        options.
 
-        'Balxs' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Balxs`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP balxs deterministic weight window data card
+        option syntax element.
+
+        Attributes:
+            cross_section_balance_control: Cross-section balance control.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Balxs'.
+            ``__init__`` initializes ``Balxs``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.BALXS
 
             self.cross_section_balance_control: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  balxs deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.cross_section_balance_control = value
 
-    class Ntichi(DeterministicWeightWindowParameter):
+    class Ntichi(DeterministicWeightWindowOption):
         """
-        'Ntichi' represents ntichi deterministic weight window parameters.
+        ``Ntichi`` represents INP ntichi deterministic weight window data card
+        options.
 
-        'Ntichi' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Ntichi`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP ntichi
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            mendf_fission_fraction: MENDF fission fraction to use.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Ntichi'.
+            ``__init__`` initializes ``Ntichi``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NTICHI
 
             self.mendf_fission_fraction: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  cntichi deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.mendf_fission_fraction = value
 
-    class Ievt(DeterministicWeightWindowParameter):
+    class Ievt(DeterministicWeightWindowOption):
         """
-        'Ievt' represents ievt deterministic weight window parameters.
+        ``Ievt`` represents INP ievt deterministic weight window data card
+        options.
 
-        'Ievt' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Ievt`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP ievt deterministic weight window data card option
+        syntax element.
+
+        Attributes:
+            calculation_type: Calculation type.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Ievt'.
+            ``__init__`` initializes ``Ievt``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.IEVT
 
             self.calculation_type: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets ievt deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1, 2, 3, 4}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.calculation_type = value
 
-    class Isct(DeterministicWeightWindowParameter):
+    class Isct(DeterministicWeightWindowOption):
         """
-        'Isct' represents sct deterministic weight window parameters.
+        ``Isct`` represents INP isct deterministic weight window data card
+        options.
 
-        'Isct' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Isct`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP isct deterministic weight window data card option
+        syntax element.
+
+        Attributes:
+            legendre_order: Legendre order.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Isct'.
+            ``__init__`` initializes ``Isct``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.SCT
 
             self.legendre_order: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets isct deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.legendre_order = value
 
-    class Ith(DeterministicWeightWindowParameter):
+    class Ith(DeterministicWeightWindowOption):
         """
-        'Ith' represents ith deterministic weight window parameters.
+        ``Ith`` represents ith deterministic weight window datacell coptions.
 
-        'Ith' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Ith`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the Ithents deterministic weight window datacell coption
+        syntax element.
+
+        Attributes:
+            calculation_state: Direct or adjoint calculation.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Ith'.
+            ``__init__`` initializes ``Ith``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.ITH
 
             self.calculation_state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets ith deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.calculation_state = value
 
-    class Trcor(DeterministicWeightWindowParameter):
+    class Trcor(DeterministicWeightWindowOption):
         """
-        'Trcor' represents trcor deterministic weight window parameters.
+        ``Trcor`` represents INP trcor deterministic weight window data card
+        options.
 
-        'Trcor' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Trcor`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP trcor deterministic weight window data card
+        option syntax element.
+
+        Attributes:
+            trcor: trcor.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Trcor'.
+            ``__init__`` initializes ``Trcor``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.TRCOR
 
             self.trcor: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets trcor deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.trcor = value
 
-    class Ibl(DeterministicWeightWindowParameter):
+    class Ibl(DeterministicWeightWindowOption):
         """
-        'Ibl' represents ibl deterministic weight window parameters.
+        ``Ibl`` represents ibl deterministic weight window datacell coptions.
 
-        'Ibl' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Ibl`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the Iblents deterministic weight window datacell coption
+        syntax element.
+
+        Attributes:
+            left_boundary: Left boundary condition.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Ibl'.
+            ``__init__`` initializes ``Ibl``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.IBL
 
             self.left_boundary: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets ibl deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.left_boundary = value
 
-    class Ibr(DeterministicWeightWindowParameter):
+    class Ibr(DeterministicWeightWindowOption):
         """
-        'Ibr' represents ibr deterministic weight window parameters.
+        ``Ibr`` represents ibr deterministic weight window datacell coptions.
 
-        'Ibr' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Ibr`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the Ibrents deterministic weight window datacell coption
+        syntax element.
+
+        Attributes:
+            right_boundary: Right boundary condition.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Ibr'.
+            ``__init__`` initializes ``Ibr``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.IBR
 
             self.right_boundary: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets ibr deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.right_boundary = value
 
-    class Ibt(DeterministicWeightWindowParameter):
+    class Ibt(DeterministicWeightWindowOption):
         """
-        'Ibt' represents ibt deterministic weight window parameters.
+        ``Ibt`` represents ibt deterministic weight window datacell coptions.
 
-        'Ibt' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Ibt`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the Ibtents deterministic weight window datacell coption
+        syntax element.
+
+        Attributes:
+            top_boundary: Top boundary condition.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Ibt'.
+            ``__init__`` initializes ``Ibt``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.IBT
 
             self.top_boundary: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets ibt deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.top_boundary = value
 
-    class Ibb(DeterministicWeightWindowParameter):
+    class Ibb(DeterministicWeightWindowOption):
         """
-        'Ibb' represents ibb deterministic weight window parameters.
+        ``Ibb`` represents ibb deterministic weight window datacell coptions.
 
-        'Ibb' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Ibb`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the Ibbents deterministic weight window datacell coption
+        syntax element.
+
+        Attributes:
+            bottom_boundary: Bottom boundary condition.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Ibb'.
+            ``__init__`` initializes ``Ibb``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.IBB
 
             self.bottom_boundary: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets ibb deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.bottom_boundary = value
 
-    class Ibfrnt(DeterministicWeightWindowParameter):
+    class Ibfrnt(DeterministicWeightWindowOption):
         """
-        'Ibfrnt' represents ibfrnt deterministic weight window parameters.
+        ``Ibfrnt`` represents INP ibfrnt deterministic weight window data card
+        options.
 
-        'Ibfrnt' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Ibfrnt`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP ibfrnt
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            front_boundary: Front boundary condition.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Ibfrnt'.
+            ``__init__`` initializes ``Ibfrnt``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.IBFRNT
 
             self.front_boundary: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets ibfrnt deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.front_boundary = value
 
-    class Ibback(DeterministicWeightWindowParameter):
+    class Ibback(DeterministicWeightWindowOption):
         """
-        'Ibback' represents biback deterministic weight window parameters.
+        ``Ibback`` represents INP ibback deterministic weight window data card
+        options.
 
-        'Ibback' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Ibback`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP ibback
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            back_boundary: Back boundary condition.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Ibback'.
+            ``__init__`` initializes ``Ibback``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.BIBACK
 
             self.back_boundary: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets ibback deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.back_boundary = value
 
-    class Epsi(DeterministicWeightWindowParameter):
+    class Epsi(DeterministicWeightWindowOption):
         """
-        'Epsi' represents epsi deterministic weight window parameters.
+        ``Epsi`` represents INP epsi deterministic weight window data card
+        options.
 
-        'Epsi' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Epsi`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP epsi deterministic weight window data card option
+        syntax element.
+
+        Attributes:
+            Convergence percision: Convergence percision.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Epsi'.
+            ``__init__`` initializes ``Epsi``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.EPSI
 
             self.convergence_percision: float = None
 
         def set_value(self, value: float) -> None:
             """
-            'set_value' sets epsi deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.convergence_percision = value
 
-    class Oitm(DeterministicWeightWindowParameter):
+    class Oitm(DeterministicWeightWindowOption):
         """
-        'Oitm' represents oitm deterministic weight window parameters.
+        ``Oitm`` represents INP oitm deterministic weight window data card
+        options.
 
-        'Oitm' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Oitm`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP oitm deterministic weight window data card option
+        syntax element.
+
+        Attributes:
+            maximnum_outer_iteration: Maximum outer iteration count.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Oitm'.
+            ``__init__`` initializes ``Oitm``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.OITM
 
             self.maximum_outer_iteration: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets oitm deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.maximum_outer_iteration = value
 
-    class Nosigf(DeterministicWeightWindowParameter):
+    class Nosigf(DeterministicWeightWindowOption):
         """
-        'Nosigf' represents nosigf deterministic weight window parameters.
+        ``Nosigf`` represents INP nosigf deterministic weight window data card
+        options.
 
-        'Nosigf' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Nosigf`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP nosigf
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Inhibit fission multiplication setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Nosigf'.
+            ``__init__`` initializes ``Nosigf``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NOSIGF
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets nosigf deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Srcacc(DeterministicWeightWindowParameter):
+    class Srcacc(DeterministicWeightWindowOption):
         """
-        'Srcacc' represents srcacc deterministic weight window parameters.
+        ``Srcacc`` represents INP srcacc deterministic weight window data card
+        options.
 
-        'Srcacc' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Srcacc`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP srcacc
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            transport_accelerations: Transport accelerations.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Srcacc'.
+            ``__init__`` initializes ``Srcacc``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.SRCACC
 
             self.transport_accelerations: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets  csrcacc deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.transport_accelerations = value
 
-    class Diffsol(DeterministicWeightWindowParameter):
+    class Diffsol(DeterministicWeightWindowOption):
         """
-        'Diffsol' represents diffsol deterministic weight window parameters.
+        ``Diffsol`` represents INP diffsol deterministic weight window data
+        card options.
 
-        'Diffsol' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Diffsol`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP diffsol
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            diffusion_operator_solver: Diffusion operator solver.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Diffsol'.
+            ``__init__`` initializes ``Diffsol``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.DIFFSOL
 
             self.diffusion_operator_solver: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets  cadiffsol deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.diffusion_operator_solver = value
 
-    class Tsasn(DeterministicWeightWindowParameter):
+    class Tsasn(DeterministicWeightWindowOption):
         """
-        'Tsasn' represents tsasn deterministic weight window parameters.
+        ``Tsasn`` represents INP tsasn deterministic weight window data card
+        options.
 
-        'Tsasn' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Tsasn`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP tsasn deterministic weight window data card
+        option syntax element.
+
+        Attributes:
+            sn_order: Sn order for low order TSA sweeps.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Tsasn'.
+            ``__init__`` initializes ``Tsasn``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.TSASN
 
             self.sn_order: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  tsasn deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.sn_order = value
 
-    class Tsaepsi(DeterministicWeightWindowParameter):
+    class Tsaepsi(DeterministicWeightWindowOption):
         """
-        'Tsaepsi' represents tsaepsi deterministic weight window parameters.
+        ``Tsaepsi`` represents INP tsaepsi deterministic weight window data
+        card options.
 
-        'Tsaepsi' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Tsaepsi`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP tsaepsi
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            convergence_criteria: Convergence criteria for TSA sweeps.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Tsaepsi'.
+            ``__init__`` initializes ``Tsaepsi``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.TSAEPSI
 
             self.convergence_criteria: float = None
 
         def set_value(self, value: float) -> None:
             """
-            'set_value' sets  catsaepsi deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.convergence_criteria = value
 
-    class Tsaits(DeterministicWeightWindowParameter):
+    class Tsaits(DeterministicWeightWindowOption):
         """
-        'Tsaits' represents tsaits deterministic weight window parameters.
+        ``Tsaits`` represents INP tsaits deterministic weight window data card
+        options.
 
-        'Tsaits' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Tsaits`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP tsaits
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            maximum_tsa_iteration: Maximmum TSA iteration count.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Tsaits'.
+            ``__init__`` initializes ``Tsaits``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.TSAITS
 
             self.maximum_tsa_iteration: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  ctsaits deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.maximum_tsa_iteration = value
 
-    class Tsabeta(DeterministicWeightWindowParameter):
+    class Tsabeta(DeterministicWeightWindowOption):
         """
-        'Tsabeta' represents tsabeta deterministic weight window parameters.
+        ``Tsabeta`` represents INP tsabeta deterministic weight window data
+        card options.
 
-        'Tsabeta' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Tsabeta`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP tsabeta
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            tsa_scattering_corss_section: Scatting cross-section reduction.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Tsabeta'.
+            ``__init__`` initializes ``Tsabeta``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.TSABETA
 
             self.tsa_scattering_cross_section: float = None
 
         def set_value(self, value: float) -> None:
             """
-            'set_value' sets  catsabeta deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.tsa_scattering_cross_section = value
 
-    class Ptconv(DeterministicWeightWindowParameter):
+    class Ptconv(DeterministicWeightWindowOption):
         """
-        'Ptconv' represents ptconv deterministic weight window parameters.
+        ``Ptconv`` represents INP ptconv deterministic weight window data card
+        options.
 
-        'Ptconv' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Ptconv`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP ptconv
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Special criticality convergence scheme.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Ptconv'.
+            ``__init__`` initializes ``Ptconv``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.PTCONV
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  cptconv deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Norm(DeterministicWeightWindowParameter):
+    class Norm(DeterministicWeightWindowOption):
         """
-        'Norm' represents norm deterministic weight window parameters.
+        ``Norm`` represents INP norm deterministic weight window data card
+        options.
 
-        'Norm' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Norm`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP norm deterministic weight window data card option
+        syntax element.
+
+        Attributes:
+            norm: Norm.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Norm'.
+            ``__init__`` initializes ``Norm``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.NORM
 
             self.norm: float = None
 
         def set_value(self, value: float) -> None:
             """
-            'set_value' sets norm deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.norm = value
 
-    class Xesctp(DeterministicWeightWindowParameter):
+    class Xesctp(DeterministicWeightWindowOption):
         """
-        'Xesctp' represents xesctp deterministic weight window parameters.
+        ``Xesctp`` represents INP xesctp deterministic weight window data card
+        options.
 
-        'Xesctp' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Xesctp`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP xesctp
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            cross_section_print_flag: Corss-section print flag.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Xesctp'.
+            ``__init__`` initializes ``Xesctp``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.XESCTP
 
             self.cross_section_print_flag: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  cxesctp deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1, 2}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.cross_section_print_flag = value
 
-    class Fissrp(DeterministicWeightWindowParameter):
+    class Fissrp(DeterministicWeightWindowOption):
         """
-        'Fissrp' represents fissrp deterministic weight window parameters.
+        ``Fissrp`` represents INP fissrp deterministic weight window data card
+        options.
 
-        'Fissrp' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Fissrp`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP fissrp
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Print fission source rate.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Fissrp'.
+            ``__init__`` initializes ``Fissrp``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.FISSRP
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  cfissrp deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Sourcp(DeterministicWeightWindowParameter):
+    class Sourcp(DeterministicWeightWindowOption):
         """
-        'Sourcp' represents sourcp deterministic weight window parameters.
+        ``Sourcp`` represents INP sourcp deterministic weight window data card
+        options.
 
-        'Sourcp' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Sourcp`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP sourcp
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+           source_print_flag: Source print flag.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Sourcp'.
+            ``__init__`` initializes ``Sourcp``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.SOURCP
 
             self.source_print_flag: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  csourcp deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1, 2, 3}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.source_print_flag = value
 
-    class Angp(DeterministicWeightWindowParameter):
+    class Angp(DeterministicWeightWindowOption):
         """
-        'Angp' represents angp deterministic weight window parameters.
+        ``Angp`` represents INP angp deterministic weight window data card
+        options.
 
-        'Angp' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Angp`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP angp deterministic weight window data card option
+        syntax element.
+
+        Attributes:
+            state: Print angular flux setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Angp'.
+            ``__init__`` initializes ``Angp``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.ANGP
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets angp deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Balp(DeterministicWeightWindowParameter):
+    class Balp(DeterministicWeightWindowOption):
         """
-        'Balp' represents balp deterministic weight window parameters.
+        ``Balp`` represents INP balp deterministic weight window data card
+        options.
 
-        'Balp' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Balp`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP balp deterministic weight window data card option
+        syntax element.
+
+        Attributes:
+            state: Print coarse-mesh balance tables setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Balp'.
+            ``__init__`` initializes ``Balp``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.BALP
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets balp deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Raflux(DeterministicWeightWindowParameter):
+    class Raflux(DeterministicWeightWindowOption):
         """
-        'Raflux' represents raflux deterministic weight window parameters.
+        ``Raflux`` represents INP raflux deterministic weight window data card
+        options.
 
-        'Raflux' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Raflux`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP raflux
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Prepare angular flux file setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Raflux'.
+            ``__init__`` initializes ``Raflux``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.RAFLUX
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  craflux deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Rmflux(DeterministicWeightWindowParameter):
+    class Rmflux(DeterministicWeightWindowOption):
         """
-        'Rmflux' represents rmflux deterministic weight window parameters.
+        ``Rmflux`` represents INP rmflux deterministic weight window data card
+        options.
 
-        'Rmflux' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Rmflux`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP rmflux
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Prepare flux moments file setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Rmflux'.
+            ``__init__`` initializes ``Rmflux``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.RMFLUX
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  crmflux deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Avatar(DeterministicWeightWindowParameter):
+    class Avatar(DeterministicWeightWindowOption):
         """
-        'Avatar' represents avatar deterministic weight window parameters.
+        ``Avatar`` represents INP avatar deterministic weight window data card
+        options.
 
-        'Avatar' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Avatar`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP avatar
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Prepare special XMFLUXA file setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Avatar'.
+            ``__init__`` initializes ``Avatar``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.AVATAR
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  cavatar deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Asleft(DeterministicWeightWindowParameter):
+    class Asleft(DeterministicWeightWindowOption):
         """
-        'Asleft' represents asleft deterministic weight window parameters.
+        ``Asleft`` represents INP asleft deterministic weight window data card
+        options.
 
-        'Asleft' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
-        """
+        ``Asleft`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP asleft
+        deterministic weight window data card option syntax element.
 
-        def __init__(self) -> Self:
-            """
-            '__init__' initializes 'Asleft'.
-            """
-
-            super().__init__()
-
-            self.left_going_flux: int = None
-
-        def set_value(self, value: int) -> None:
-            """
-            'set_value' sets asleft deterministic weight window
-            parameter values.
-
-            'set_value' checks values are valid. It
-            raises errors if given None.
-
-            Parameters:
-                value: Parameter value.
-
-            Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
-            """
-
-            if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
-
-            self.value = value
-            self.left_going_flux = value
-
-    class Asrite(DeterministicWeightWindowParameter):
-        """
-        'Asrite' represents asrite deterministic weight window parameters.
-
-        'Asrite' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        Attributes:
+            right_going_flux: Right-going flux at plane i.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Asrite'.
+            ``__init__`` initializes ``Asleft``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.ASLEFT
 
             self.right_going_flux: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets asrite deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.right_going_flux = value
 
-    class Asbott(DeterministicWeightWindowParameter):
+    class Asrite(DeterministicWeightWindowOption):
         """
-        'Asbott' represents asbott deterministic weight window parameters.
+        ``Asrite`` represents INP asrite deterministic weight window data card
+        options.
 
-        'Asbott' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Asrite`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP asrite
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            left_going_flux: Left-going flux at plane i.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Asbott'.
+            ``__init__`` initializes ``Asrite``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.ASRITE
+
+            self.left_going_flux: int = None
+
+        def set_value(self, value: int) -> None:
+            """
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
+
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
+
+            Parameters:
+                value: Deterministic weight window data card option value.
+
+            Raises:
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
+            """
+
+            if value is None:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
+
+            self.value = value
+            self.left_going_flux = value
+
+    class Asbott(DeterministicWeightWindowOption):
+        """
+        ``Asbott`` represents INP asbott deterministic weight window data card
+        options.
+
+        ``Asbott`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP asbott
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            top_going_flux: Top-going flux at plane j.
+        """
+
+        def __init__(self) -> Self:
+            """
+            ``__init__`` initializes ``Asbott``.
+            """
+
+            super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.ASBOTT
+
+            self.top_going_flux: int = None
+
+        def set_value(self, value: int) -> None:
+            """
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
+
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
+
+            Parameters:
+                value: Deterministic weight window data card option value.
+
+            Raises:
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
+            """
+
+            if value is None:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
+
+            self.value = value
+            self.top_going_flux = value
+
+    class Astop(DeterministicWeightWindowOption):
+        """
+        ``Astop`` represents INP astop deterministic weight window data card
+        options.
+
+        ``Astop`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP astop deterministic weight window data card
+        option syntax element.
+
+        Attributes:
+            bottom_going_flux: Bottom-going flux at plane j.
+        """
+
+        def __init__(self) -> Self:
+            """
+            ``__init__`` initializes ``Astop``.
+            """
+
+            super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.ASTOP
 
             self.bottom_going_flux: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets asbott deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.bottom_going_flux = value
 
-    class Astop(DeterministicWeightWindowParameter):
+    class Asfrnt(DeterministicWeightWindowOption):
         """
-        'Astop' represents astop deterministic weight window parameters.
+        ``Asfrnt`` represents INP asfrnt deterministic weight window data card
+        options.
 
-        'Astop' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
-        """
+        ``Asfrnt`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP asfrnt
+        deterministic weight window data card option syntax element.
 
-        def __init__(self) -> Self:
-            """
-            '__init__' initializes 'Astop'.
-            """
-
-            super().__init__()
-
-            self._: int = None
-
-        def set_value(self, value: int) -> None:
-            """
-            'set_value' sets astop deterministic weight window
-            parameter values.
-
-            'set_value' checks values are valid. It
-            raises errors if given None.
-
-            Parameters:
-                value: Parameter value.
-
-            Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
-            """
-
-            if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
-
-            self.value = value
-            self.top_going_flux = value
-
-    class Asfrnt(DeterministicWeightWindowParameter):
-        """
-        'Asfrnt' represents asfrnt deterministic weight window parameters.
-
-        'Asfrnt' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        Attributes:
+            back_going_flux: Back-going flux at plane k.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Asfrnt'.
+            ``__init__`` initializes ``Asfrnt``.
             """
 
             super().__init__()
-
-            self.front_going_flux: int = None
-
-        def set_value(self, value: int) -> None:
-            """
-            'set_value' sets asfrnt deterministic weight window
-            parameter values.
-
-            'set_value' checks values are valid. It
-            raises errors if given None.
-
-            Parameters:
-                value: Parameter value.
-
-            Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
-            """
-
-            if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
-
-            self.value = value
-            self.front_going_flux = value
-
-    class Asback(DeterministicWeightWindowParameter):
-        """
-        'Asback' represents asback deterministic weight window parameters.
-
-        'Asback' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
-        """
-
-        def __init__(self) -> Self:
-            """
-            '__init__' initializes 'Asback'.
-            """
-
-            super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.ASFRNT
 
             self.back_going_flux: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets asback deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.back_going_flux = value
 
-    class Massed(DeterministicWeightWindowParameter):
+    class Asback(DeterministicWeightWindowOption):
         """
-        'Massed' represents massed deterministic weight window parameters.
+        ``Asback`` represents INP asback deterministic weight window data card
+        options.
 
-        'Massed' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
-        """
+        ``Asback`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP asback
+        deterministic weight window data card option syntax element.
 
-        def __init__(self) -> Self:
-            """
-            '__init__' initializes 'Massed'.
-            """
-
-            super().__init__()
-
-            self.state: int = None
-
-        def set_value(self, value: int) -> None:
-            """
-            'set_value' sets massed deterministic weight window
-            parameter values.
-
-            'set_value' checks values are valid. It
-            raises errors if given None.
-
-            Parameters:
-                value: Parameter value.
-
-            Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
-            """
-
-            if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
-
-            self.value = value
-            self.state = value
-
-    class Pted(DeterministicWeightWindowParameter):
-        """
-        'Pted' represents pted deterministic weight window parameters.
-
-        'Pted' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        Attributes:
+            front_going_flux: Front-going flux at plane k.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Pted'.
+            ``__init__`` initializes ``Asback``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.ASBACK
 
-            self.state: int = None
-
-        def set_value(self, value: int) -> None:
-            """
-            'set_value' sets pted deterministic weight window
-            parameter values.
-
-            'set_value' checks values are valid. It
-            raises errors if given None.
-
-            Parameters:
-                value: Parameter value.
-
-            Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
-            """
-
-            if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
-
-            self.value = value
-            self.state = value
-
-    class Zned(DeterministicWeightWindowParameter):
-        """
-        'Zned' represents zned deterministic weight window parameters.
-
-        'Zned' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
-        """
-
-        def __init__(self) -> Self:
-            """
-            '__init__' initializes 'Zned'.
-            """
-
-            super().__init__()
-
-            self.state: int = None
+            self.front_going_flux: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets zned deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
-
-            Parameters:
-                value: Parameter value.
-
-            Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
-            """
-
-            if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
-
-            self.value = value
-            self.state = value
-
-    class Rzflux(DeterministicWeightWindowParameter):
-        """
-        'Rzflux' represents rzflux deterministic weight window parameters.
-
-        'Rzflux' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
-        """
-
-        def __init__(self) -> Self:
-            """
-            '__init__' initializes 'Rzflux'.
-            """
-
-            super().__init__()
-
-            self.state: int = None
-
-        def set_value(self, value: int) -> None:
-            """
-            'set_value' sets rzflux deterministic weight window
-            parameter values.
-
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
-            """
-
-            if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
-
-            self.value = value
-            self.state = value
-
-    class Rzmflux(DeterministicWeightWindowParameter):
-        """
-        'Rzmflux' represents rzmflux deterministic weight window parameters.
-
-        'Rzmflux' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
-        """
-
-        def __init__(self) -> Self:
-            """
-            '__init__' initializes 'Rzmflux'.
-            """
-
-            super().__init__()
-
-            self._: int = None
-
-        def set_value(self, value: int) -> None:
-            """
-            'set_value' sets rxmflux deterministic weight window
-            parameter values.
-
-            'set_value' checks values are valid. It
-            raises errors if given None.
-
-            Parameters:
-                value: Parameter value.
-
-            Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
-            self._ = value
+            self.front_going_flux = value
 
-    class Edoutf(DeterministicWeightWindowParameter):
+    class Massed(DeterministicWeightWindowOption):
         """
-        'Edoutf' represents edoutf deterministic weight window parameters.
+        ``Massed`` represents INP massed deterministic weight window data card
+        options.
 
-        'Edoutf' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Massed`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP massed
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Mass edits setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Edoutf'.
+            ``__init__`` initializes ``Massed``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.MASSED
+
+            self.state: int = None
+
+        def set_value(self, value: int) -> None:
+            """
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
+
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
+
+            Parameters:
+                value: Deterministic weight window data card option value.
+
+            Raises:
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
+            """
+
+            if value is None or value not in {0, 1}:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
+
+            self.value = value
+            self.state = value
+
+    class Pted(DeterministicWeightWindowOption):
+        """
+        ``Pted`` represents INP pted deterministic weight window data card
+        options.
+
+        ``Pted`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP pted deterministic weight window data card option
+        syntax element.
+
+        Attributes:
+            state: Edits by fine mesh setting.
+        """
+
+        def __init__(self) -> Self:
+            """
+            ``__init__`` initializes ``Pted``.
+            """
+
+            super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.PTED
+
+            self.state: int = None
+
+        def set_value(self, value: int) -> None:
+            """
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
+
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
+
+            Parameters:
+                value: Deterministic weight window data card option value.
+
+            Raises:
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
+            """
+
+            if value is None or value not in {0, 1}:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
+
+            self.value = value
+            self.state = value
+
+    class Zned(DeterministicWeightWindowOption):
+        """
+        ``Zned`` represents INP zned deterministic weight window data card
+        options.
+
+        ``Zned`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP zned deterministic weight window data card option
+        syntax element.
+
+        Attributes:
+            state: Edits by zone setting.
+        """
+
+        def __init__(self) -> Self:
+            """
+            ``__init__`` initializes ``Zned``.
+            """
+
+            super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.ZNED
+
+            self.state: int = None
+
+        def set_value(self, value: int) -> None:
+            """
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
+
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
+
+            Parameters:
+                value: Deterministic weight window data card option value.
+
+            Raises:
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
+            """
+
+            if value is None or value not in {0, 1}:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
+
+            self.value = value
+            self.state = value
+
+    class Rzflux(DeterministicWeightWindowOption):
+        """
+        ``Rzflux`` represents INP rzflux deterministic weight window data card
+        options.
+
+        ``Rzflux`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP rzflux
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Write a-flux file setting.
+        """
+
+        def __init__(self) -> Self:
+            """
+            ``__init__`` initializes ``Rzflux``.
+            """
+
+            super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.RZFLUX
+
+            self.state: int = None
+
+        def set_value(self, value: int) -> None:
+            """
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
+
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
+
+            Parameters:
+                value: Deterministic weight window data card option value.
+
+            Raises:
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
+            """
+
+            if value is None or value not in {0, 1}:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
+
+            self.value = value
+            self.state = value
+
+    class Rzmflux(DeterministicWeightWindowOption):
+        """
+        ``Rzmflux`` represents INP rzmflux deterministic weight window data
+        card options.
+
+        ``Rzmflux`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP rzmflux
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Write b-flux file setting.
+        """
+
+        def __init__(self) -> Self:
+            """
+            ``__init__`` initializes ``Rzmflux``.
+            """
+
+            super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.RXMFLUX
+
+            self.state: int = None
+
+        def set_value(self, value: int) -> None:
+            """
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
+
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
+
+            Parameters:
+                value: Deterministic weight window data card option value.
+
+            Raises:
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
+            """
+
+            if value is None:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
+
+            self.value = value
+            self.state = value
+
+    class Edoutf(DeterministicWeightWindowOption):
+        """
+        ``Edoutf`` represents INP edoutf deterministic weight window data card
+        options.
+
+        ``Edoutf`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP edoutf
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            ascii_output_control: ASCII output file control.
+        """
+
+        def __init__(self) -> Self:
+            """
+            ``__init__`` initializes ``Edoutf``.
+            """
+
+            super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.EDOUTF
 
             self.ascii_output_control: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  cedoutf deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or not (-3 <= value <= 3):
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.ascii_output_control = value
 
-    class Byvlop(DeterministicWeightWindowParameter):
+    class Byvlop(DeterministicWeightWindowOption):
         """
-        'Byvlop' represents byvlop deterministic weight window parameters.
+        ``Byvlop`` represents INP byvlop deterministic weight window data card
+        options.
 
-        'Byvlop' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Byvlop`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP byvlop
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Printed point reaction rates scaled by mesh volume setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Byvlop'.
+            ``__init__`` initializes ``Byvlop``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.BYVLOP
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets  cbyvlop deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Ajed(DeterministicWeightWindowParameter):
+    class Ajed(DeterministicWeightWindowOption):
         """
-        'Ajed' represents ajed deterministic weight window parameters.
+        ``Ajed`` represents INP ajed deterministic weight window data card
+        options.
 
-        'Ajed' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Ajed`` inherits attributes from ``DeterministicWeightWindowOption``.
+        It represents the INP ajed deterministic weight window data card option
+        syntax element.
+
+        Attributes:
+            state: Regular and adjoint edit setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Ajed'.
+            ``__init__`` initializes ``Ajed``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.AJED
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets ajed deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
-    class Fluxone(DeterministicWeightWindowParameter):
+    class Fluxone(DeterministicWeightWindowOption):
         """
-        'Fluxone' represents fluxone deterministic weight window parameters.
+        ``Fluxone`` represents INP fluxone deterministic weight window data
+        card options.
 
-        'Fluxone' functions as a data subtype for 'DeterministicWeightWindowParameter'.
-        It represents deterministic weight window parameter as abstract syntax elements.
+        ``Fluxone`` inherits attributes from
+        ``DeterministicWeightWindowOption``. It represents the INP fluxone
+        deterministic weight window data card option syntax element.
+
+        Attributes:
+            state: Flux override setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Fluxone'.
+            ``__init__`` initializes ``Fluxone``.
             """
 
             super().__init__()
+            self.keyword = DeterministicWeightWindowKeyword.FLUXONE
 
             self.state: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets fluxone deterministic weight window
-            parameter values.
+            ``set_value`` stores INP deterministic weight window data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``DeterministicWeightWindowOption.value``. If given an
+            unrecognized arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Deterministic weight window data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid deterministic weight window parameter value.
+                MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DAWWG_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
             self.value = value
             self.state = value
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'DeterministicWeightWindow'
+        ``__init__`` initializes ``DeterministicWeightWindow``.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.DETERMINISTIC_WEIGHT_WINDOW
 
-        self.pairs: tuple[self.DeterministicWeightWindowParameter] = None
+        self.pairs: tuple[self.DeterministicWeightWindowOption] = None
 
-    def set_parameters(self, *pairs: DeterministicWeightWindowParameter) -> None:
+    def set_parameters(self, *pairs: DeterministicWeightWindowOption) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``DeterministicWeightWindow.pairs`` and
+        ``DeterministicWeightWindow.parameters``. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
-            pairs: Iterable of dawwg key-value pairs.
+            *pairs: Iterable of key-value pairs.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in pairs:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.pairs = pairs
         self.parameters = pairs
 
 
-class EmbededGeometry(Datum):
+class EmbededGeometry(Datum_Suffix):
     """
-    'EmbededGeometry' represents embeded geometry specification
-    data cards.
+    ``EmbededGeometry`` represents INP deterministic embeded geometry data
+    cards.
 
-    'DeterministicMaterials' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``EmbededGeometry`` inherits attributes from ``Datum_Suffix``, i.e.
+    ``Datum`` with suffix support. It represents the INP embeded geometry data
+    card syntax element.
+
+    Attributes:
+        pairs: Iterable of key-value pairs.
     """
 
-    class EmbededGeometryParameter:
+    class EmbededGeometryOption:
         """
-        'EmbededGeometryParameter' represents embeded geometry
-        specification data card parameter.
+        ``EmbededGeometryOption`` represents INP embeded geometry specification
+        data card options.
 
-        'EmbededGeometryParameter' functions as a data type for
-        'EmbededGeometry'. It represents embded geometry
-        speciifcation data card parameters as abstract syntax elements.
+        ``EmbededGeometryOption`` implements INP embeded geometry specification
+        data card options. Its attributes store keywords and values, and its
+        methods provide entry and endpoints for working with INP embeded
+        geometry specification data card options. It represents the generic INP
+        embeded geometry specification data card option syntax element, so
+        ``EmbededGeometry`` depends on ``EmbededGeometryOption`` as a genric
+        data structre and superclass.
+
+        Attributes:
+            keyword: INP embeded geometry specification option keyword.
+            value: INP embeded geometry specification option value.
         """
 
         class EmbededGeometryKeyword(StrEnum):
             """
-             'EmbededGeometryKeyword' represents embeded
-            geometry specification data card parameter keywords.
+            ``EmbededGeometryKeyword`` represents INP embeded geometry
+            specification data card option keywords.
 
-             'EmbededGeometryKeyword' functions as a data type for
-             'EmbededGeometryParameter' and 'EmbededGeometry'. It
-             represents card parameter keywords as abstract syntax elements.
+            ``EmbededGeometryKeyword`` implements INP embeded geometry
+            specification data card option keywords as a Python inner class. It
+            enumerates MCNP keywords and provides methods for casting strings
+            to ``EmbededGeometryKeyword`` instances. It represents the INP
+            embeded geometry specification data card option keyword syntax
+            element, so ``EmbededGeometry`` and ``EmbededGeometryOption``
+            depend on ``EmbededGeometryKeyword`` as an enum.
             """
 
-            #           MATCELL = "matcell"
+            MATCELL = "matcell"
             MESHOGEO = "meshgeo"
             MGEOIN = "mgeoin"
             MEEOUT = "meeout"
@@ -4450,43 +4732,42 @@ class EmbededGeometry(Datum):
             GMVFILE = "gmvfile"
             LENGTH = "length"
             MCNPUMFILE = "mcnpumfile"
-            #           OVERLAP = "overlap"
+            OVERLAP = "overlap"
 
             @classmethod
-            def cast_embed_keyword(
-                cls, string: str, hook: Callable[Self, bool] = lambda: True
-            ):
+            def from_mcnp(cls, source: str) -> Self:
                 """
-                'cast_embed_keyword' types casts from strings to embeded geometry
-                specification data card parameter keywords.
+                ``from_mcnp`` generates ``EmbededGeometryKeyword``
+                objects from INP.
 
-                'cast_embed_keyword' creates embeded geometry specification data card
-                parameter keywords objects from strings. If the string is invalid
-                or the hook returns false, it returns None.
+                ``from_mcnp`` constructs instances of
+                ``EmbededGeometryKeyword`` from INP source strings,
+                so it operates as a class constructor method and INP parser
+                helper function.
 
                 Parameters:
-                    string: String to cast.
-                    hook: Postcast check.
+                    source: INP for embeded geometry option keyword.
 
                 Returns:
-                    Embeded geometry specification parameter keyword from string.
+                    ``EmbededGeometryKeyword`` object.
+
+                Raises:
+                    MCNPSemanticError: INVALID_DATUM_EMBED_KEYWORD.
                 """
 
-                string = string.lower()
+                keyword = cls()
 
-                try:
-                    keyword = cls(string)
+                source = parser.Preprocessor.process_inp(source)
 
-                    if hook(keyword):
-                        return keyword
-                except ValueError:
-                    pass
+                # Processing Keyword
+                if source not in [enum.value for enum in cls]:
+                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_KEYWORD)
 
-                return None
+                return cls(source)
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'EmbededGeometryParameter'
+            ``__init__`` initializes ``EmbededGeometryOption``.
             """
 
             self.keyword: self.EmbededGeometryKeyword = None
@@ -4494,99 +4775,116 @@ class EmbededGeometry(Datum):
 
         def set_keyword(self, keyword: EmbededGeometryKeyword) -> None:
             """
-            'set_keyword' sets deterministic embeded geometry specification
-            parameter keywords.
+            ``set_keyword`` stores INP embeded geometry option keywords.
 
-            'set_keyword' checks keywords are valid. It
-            raises errors if given None.
+            ``set_keyword`` checks given arguments before assigning the
+            given value to``EmbededGeometryOption.keyword``. If given an
+            unrecognized argument, it raises semantic errors.
+
+            Warnings:
+                ``set_keyword`` reinitializes
+                ``EmbededGeometryKeyword`` instances sincee its attributes
+                depend on the keyword. When the given keyword does not equal
+                ``EmbededGeometryOption.keyword``, all attributes reset.
 
             Parameters:
-                keyword: Embeded geometry specification parameter keywords.
+                keyword: Embeded geometry data card option keyword.
+
+            Raises:
+                MCNPSemanticError: INVALID_DATUM_EMBED_KEYWORD.
             """
 
             if keyword is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBED_KEYWORD
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_KEYWORD)
 
-            self.keyword = keyword
+            if self.keyword != keyword:
+                match keyword:
+                    case EmbededGeometryKeyword.MATCELL:
+                        obj = EmbededGeometryOption.Matcell()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case EmbededGeometryKeyword.MESHOGEO:
+                        obj = EmbededGeometryOption.Meshgeo()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case EmbededGeometryKeyword.MGEOIN:
+                        obj = EmbededGeometryOption.Mgeoin()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case EmbededGeometryKeyword.MEEOUT:
+                        obj = EmbededGeometryOption.Meeout()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case EmbededGeometryKeyword.MEEIN:
+                        obj = EmbededGeometryOption.Meein()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case EmbededGeometryKeyword.CALC_VOLS:
+                        obj = EmbededGeometryOption.CalcVols()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case EmbededGeometryKeyword.DEBUG:
+                        obj = EmbededGeometryOption.Debug()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case EmbededGeometryKeyword.FILETYPE:
+                        obj = EmbededGeometryOption.Filetype()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case EmbededGeometryKeyword.GMVFILE:
+                        obj = EmbededGeometryOption.Gmvfile()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case EmbededGeometryKeyword.LENGTH:
+                        obj = EmbededGeometryOption.Length()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case EmbededGeometryKeyword.MCNPUMFILE:
+                        obj = EmbededGeometryOption.Mcnpumfile()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case EmbededGeometryKeyword.OVERLAP:
+                        obj = EmbededGeometryOption.Overlap()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
 
         @classmethod
         def from_mcnp(cls, string: str):
             """
-            'from_mcnp' generates embeded geometry specification parameter objects.
+            ``from_mcnp`` generates ``EmbededGeometryOption`` objects from INP.
 
-            'from_mcnp' constructs instances of 'EmbededGeometryParameter'
-            from INP strings, so it functions as a class constructor. It
-            transforms embeded geometry specification parameter into their
-            correct subclasses.
+            ``from_mcnp`` constructs instances of ``EmbededGeometryOption``
+            from INP source strings, so it operates as a class constructor
+            method and INP parser helper function. Although defined on the
+            superclass, it returns ``EmbededGeometryOption`` subclasses.
 
             Parameters:
-                card: INP to parse.
+                source: INP for embeded geometry specification option.
 
             Returns:
-               Embeded gemoetry specification parameter object.
+                ``EmbededGeometryOption`` object.
 
             Raises:
-                MCNPSemanticError: Invalid embeded geometry specification parameter entry.
-                MCNPSyntaxError: Invalid embeded geometry specification parameter syntax.
+                MCNPSyntaxError: TOOFEW_DATUM_OPTION, TOOLONG_DATUM_OPTION.
             """
 
             parameter = cls()
 
-            tokens = parser.Parser(
-                string.split("="),
-                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES),
-            )
+            source = parser.Preprocessor.process_inp(source)
+            tokens = parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES))
 
             # Processing Keyword
-            value = cls.EmbededGeometryKeyword.cast_keyword(tokens.peekl())
-            parameter.set_keyword(value)
+            keyword = cls.EmbededGeometryKeyword.from_mcnp(tokens.peekl())
+            parameter.set_keyword(keyword)
 
             # Processing Values
             match tokens.popl():
-                #                case "matcell":
-                #                    parameter.__class__ = EmbededGeometry.Matcell
-                #
-                #                    value =
-                #                    parameter.set_parameter(value)
-
-                case "meshgeo":
-                    parameter.__class__ = EmbededGeometry.Meshgeo
+                case "matcell":
+                    parameter.__class__ = EmbededGeometry.Matcell
 
                     parameter.set_parameter(tokens.popl())
 
-                case "mgeoin":
-                    parameter.__class__ = EmbededGeometry.Mgeoin
-
-                    parameter.set_parameter(tokens.popl())
-
-                case "meeout":
-                    parameter.__class__ = EmbededGeometry.Meeout
-
-                    parameter.set_parameter(tokens.popl())
-
-                case "meein":
-                    parameter.__class__ = EmbededGeometry.Meein
-
-                    parameter.set_parameter(tokens.popl())
-
-                case "calc_vols":
-                    parameter.__class__ = EmbededGeometry.CalcVols
-
-                    parameter.set_parameter(tokens.popl())
-
-                case "debug":
-                    parameter.__class__ = EmbededGeometry.Debug
-
-                    parameter.set_parameter(tokens.popl())
-
-                case "filetype":
-                    parameter.__class__ = EmbededGeometry.Filetype
-
-                    parameter.set_parameter(tokens.popl())
-
-                case "gmvfile":
+                case "meshgeo" | "mgeoin" | "meeout" | "meein" | "calc_vols" | "debug" | "filetype" | "gmvfile" | "mcnpumfile":
                     parameter.__class__ = EmbededGeometry.Gmvfile
 
                     parameter.set_parameter(tokens.popl())
@@ -4597,576 +4895,530 @@ class EmbededGeometry(Datum):
                     value = types.cast_fortran_real(tokens.popl())
                     parameter.set_parameter(value)
 
-                case "mcnpumfile":
-                    parameter.__class__ = EmbededGeometry.Mcnpumfile
+                case "overlap":
+                    parameter.__class__ = EmbededGeometry.Overlap
 
                     parameter.set_parameter(tokens.popl())
 
-            #                case "overlap":
-            #                    parameter.__class__ = EmbededGeometry.Overlap
-            #
-            #                    value =
-            #                    parameter.set_parameter(value)
-
             if tokens:
-                raise errors.MCNPSyntaxError(
-                    errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES
-                )
+                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES)
 
-    #    class Matcell(EmbededGeometryParameter):
-    #        """
-    #        'Matcell' represents matcell embeded geometry specification parameters.
-    #
-    #        'Matcell' functions as a data subtype for 'EmbededGeometryParameter'.
-    #        It represents embeded geometry specification parameters as abstract syntax elements.
-    #        """
-    #
-    #        def __init__(self) -> Self:
-    #            """
-    #            '__init__' initializes 'Matcell'.
-    #            """
-    #
-    #            super().__init__()
-    #
-    #            self._: any = None
-    #
-    #        def set_value(self, value: int) -> None:
-    #            """
-    #            'set_value' sets matcell embeded geometry specification
-    #            parameter values.
-    #
-    #            'set_value' checks values are valid. It
-    #            raises errors if given None.
-    #
-    #            Parameters:
-    #                value: Parameter value.
-    #
-    #            Raises:
-    #                MCNPSemanticError: Invalid embeded geometry specification parameter value.
-    #            """
-    #
-    #            if value is None:
-    #                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EMBED_VALUE)
-    #
-    #            self.value = value
-    #            self._ = value
-
-    class Meshgeo(EmbededGeometryParameter):
+    class Meshgeo(EmbededGeometryOption):
         """
-        'Meshgeo' represents meshgeo embeded geometry specification parameters.
+        ``Meshgeo`` represents INP meshgeo embeded geometry specification
+        options.
 
-        'Meshgeo' functions as a data subtype for 'EmbededGeometryParameter'.
-        It represents embeded geometry specification parameters as abstract syntax elements.
+        ``Meshgeo`` inherits attributes from ``EmbededGeometryOption``. It
+        represents the INP meshgeo embeded geometry data card option sytnax
+        element.
+
+        Attributes:
+            format: Format specification of the embedded mesh input file.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Meshgeo'.
+            ``__init__`` initializes ``Meshgeo``.
             """
 
             super().__init__()
+            self.keyword = EmbededGeometryKeyword.MESHOGEO
 
             self.format: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets meshgeo embeded geometry specification
-            parameter values.
+            ``set_value`` stores INP embeded geometry data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededGeometryOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded geomtry data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded geometry specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBED_VALUE.
             """
 
             if value is None or value not in {"lnk3dnt", "abaqus", "mcnpum"}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBED_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
             self.value = value
             self.format = value
 
-    class Mgeoin(EmbededGeometryParameter):
+    class Mgeoin(EmbededGeometryOption):
         """
-        'Mgeoin' represents mgeoin embeded geometry specification parameters.
+        ``Mgeoin`` represents INP mgeoin embeded geometry specification
+        options.
 
-        'Mgeoin' functions as a data subtype for 'EmbededGeometryParameter'.
-        It represents embeded geometry specification parameters as abstract syntax elements.
+        ``Mgeoin`` inherits attributes from ``EmbededGeometryOption``. It
+        represents the INP mgeoin embeded geometry data card option sytnax
+        element.
+
+        Attributes:
+            filename: Name of the input file with mesh description.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Mgeoin'.
+            ``__init__`` initializes ``Mgeoin``.
             """
 
             super().__init__()
+            self.keyword = EmbededGeometryKeyword.MGEOIN
 
             self.filename: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets mgeoin embeded geometry specification
-            parameter values.
+            ``set_value`` stores INP embeded geometry data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededGeometryOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded geomtry data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded geometry specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBED_VALUE.
             """
 
             if value is None or not value:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBED_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
             self.value = value
             self.filename = value
 
-    class Meeout(EmbededGeometryParameter):
+    class Meeout(EmbededGeometryOption):
         """
-        'Meeout' represents meeout embeded geometry specification parameters.
+        ``Meeout`` represents INP meeout embeded geometry specification
+        options.
 
-        'Meeout' functions as a data subtype for 'EmbededGeometryParameter'.
-        It represents embeded geometry specification parameters as abstract syntax elements.
+        ``Meeout`` inherits attributes from ``EmbededGeometryOption``. It
+        represents the INP meeout embeded geometry data card option sytnax
+        element.
+
+        Attributes:
+            filename: Name assigned to EEOUT, the elemental edit output file.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Meeout'.
+            ``__init__`` initializes ``Meeout``.
             """
 
             super().__init__()
+            self.keyword = EmbededGeometryKeyword.MEEOUT
 
             self.filename: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets meeout embeded geometry specification
-            parameter values.
+            ``set_value`` stores INP embeded geometry data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededGeometryOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded geomtry data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded geometry specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBED_VALUE.
             """
 
             if value is None or not value:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBED_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
             self.value = value
             self.filename = value
 
-    class Meein(EmbededGeometryParameter):
+    class Meein(EmbededGeometryOption):
         """
-        'Meein' represents meein embeded geometry specification parameters.
+        ``Meein`` represents INP meein embeded geometry specification options.
 
-        'Meein' functions as a data subtype for 'EmbededGeometryParameter'.
-        It represents embeded geometry specification parameters as abstract syntax elements.
+        ``Meein`` inherits attributes from ``EmbededGeometryOption``. It
+        represents the INP meein embeded geometry data card option sytnax
+        element.
+
+        Attributes:
+            filename: Name of the EEOUT results file to read.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Meein'.
+            ``__init__`` initializes ``Meein``.
             """
 
             super().__init__()
+            self.keyword = EmbededGeometryKeyword.MEEIN
 
             self.filename: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets meein embeded geometry specification
-            parameter values.
+            ``set_value`` stores INP embeded geometry data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededGeometryOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded geomtry data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded geometry specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBED_VALUE.
             """
 
             if value is None or not value:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBED_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
             self.value = value
             self.filename = value
 
-    class CalcVols(EmbededGeometryParameter):
+    class CalcVols(EmbededGeometryOption):
         """
-        'CalcVols' represents calc_vols embeded geometry specification parameters.
+        ``CalcVols`` represents INP calc_vols embeded geometry specification
+        options.
 
-        'CalcVols' functions as a data subtype for 'EmbededGeometryParameter'.
-        It represents embeded geometry specification parameters as abstract syntax elements.
+        ``CalcVols`` inherits attributes from ``EmbededGeometryOption``. It
+        represents the INP calc_vols embeded geometry data card option sytnax
+        element.
+
+        Attributes:
+            yes_no: Inferred geometry volume and masses calculation setting.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'CalcVols'.
+            ``__init__`` initializes ``CalcVols``.
             """
 
             super().__init__()
+            self.keyword = EmbededGeometryKeyword.CALC_VOLS
 
             self.yes_no: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets calc_vols embeded geometry specification
-            parameter values.
+            ``set_value`` stores INP embeded geometry data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededGeometryOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded geomtry data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded geometry specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBED_VALUE.
             """
 
             if value is None or value not in {"yes", "no"}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBED_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
             self.value = value
             self.yes_no = value
 
-    class Debug(EmbededGeometryParameter):
+    class Debug(EmbededGeometryOption):
         """
-        'Debug' represents debug embeded geometry specification parameters.
+        ``Debug`` represents INP debug embeded geometry specification options.
 
-        'Debug' functions as a data subtype for 'EmbededGeometryParameter'.
-        It represents embeded geometry specification parameters as abstract syntax elements.
+        ``Debug`` inherits attributes from ``EmbededGeometryOption``. It
+        represents the INP debug embeded geometry data card option sytnax
+        element.
+
+        Attributes:
+            format: Write the embedded geometry parameters to the OUTP file.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Debug'.
+            ``__init__`` initializes ``Debug``.
             """
 
             super().__init__()
+            self.keyword = EmbededGeometryKeyword.DEBUG
 
             self.format: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets debug embeded geometry specification
-            parameter values.
+            ``set_value`` stores INP embeded geometry data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededGeometryOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded geomtry data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded geometry specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBED_VALUE.
             """
 
             if value is None or value not in {"echomesh"}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBED_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
             self.value = value
             self.format = value
 
-    class Filetype(EmbededGeometryParameter):
+    class Filetype(EmbededGeometryOption):
         """
-        'Filetype' represents filetype embeded geometry specification parameters.
+        ``Filetype`` represents INP filetype embeded geometry specification
+        options.
 
-        'Filetype' functions as a data subtype for 'EmbededGeometryParameter'.
-        It represents embeded geometry specification parameters as abstract syntax elements.
+        ``Filetype`` inherits attributes from ``EmbededGeometryOption``. It
+        represents the INP filetype embeded geometry data card option sytnax
+        element.
+
+        Attributes:
+            type: File tpye for the elemental edit output file.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Filetype'.
+            ``__init__`` initializes ``Filetype``.
             """
 
             super().__init__()
+            self.keyword = EmbededGeometryKeyword.FILETYPE
 
             self.type: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets filetype embeded geometry specification
-            parameter values.
+            ``set_value`` stores INP embeded geometry data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededGeometryOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded geomtry data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded geometry specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBED_VALUE.
             """
 
             if value is None or value not in {"ascii", "binary"}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBED_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
             self.value = value
             self._ = value
 
-    class Gmvfile(EmbededGeometryParameter):
+    class Gmvfile(EmbededGeometryOption):
         """
-        'Gmvfile' represents gmvfile embeded geometry specification parameters.
+        ``Gmvfile`` represents INP gmvfile embeded geometry specification
+        options.
 
-        'Gmvfile' functions as a data subtype for 'EmbededGeometryParameter'.
-        It represents embeded geometry specification parameters as abstract syntax elements.
+        ``Gmvfile`` inherits attributes from ``EmbededGeometryOption``. It
+        represents the INP gmvfile embeded geometry data card option sytnax
+        element.
+
+        Attributes:
+            filename: Name of the GMV output file.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Gmvfile'.
+            ``__init__`` initializes ``Gmvfile``.
             """
 
             super().__init__()
+            self.keyword = EmbededGeometryKeyword.GMVFILE
 
             self.filename: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets gmvfile embeded geometry specification
-            parameter values.
+            ``set_value`` stores INP embeded geometry data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededGeometryOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded geomtry data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded geometry specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBED_VALUE.
             """
 
             if value is None or not value:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBED_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
             self.value = value
             self.filename = value
 
-    class Length(EmbededGeometryParameter):
+    class Length(EmbededGeometryOption):
         """
-        'Length' represents length embeded geometry specification parameters.
+        ``Length`` represents INP length embeded geometry specification
+        options.
 
-        'Length' functions as a data subtype for 'EmbededGeometryParameter'.
-        It represents embeded geometry specification parameters as abstract syntax elements.
+        ``Length`` inherits attributes from ``EmbededGeometryOption``. It
+        represents the INP length embeded geometry data card option sytnax
+        element.
+
+        Attributes:
+            factor: Multiplicative conversion factor to centimeters from mesh.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Length'.
+            ``__init__`` initializes ``Length``.
             """
 
             super().__init__()
+            self.keyword = EmbededGeometryKeyword.LENGTH
 
             self.factor: float = None
 
         def set_value(self, value: float) -> None:
             """
-            'set_value' sets length embeded geometry specification
-            parameter values.
+            ``set_value`` stores INP embeded geometry data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededGeometryOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded geomtry data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded geometry specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBED_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBED_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
             self.value = value
             self.factor = value
 
-    class Mcnpumfile(EmbededGeometryParameter):
+    class Mcnpumfile(EmbededGeometryOption):
         """
-        'Mcnpumfile' represents mcnpumfile embeded geometry specification parameters.
+        ``Mcnpumfile `` represents INP mcnpumfile embeded geometry
+        specification options.
 
-        'Mcnpumfile' functions as a data subtype for 'EmbededGeometryParameter'.
-        It represents embeded geometry specification parameters as abstract syntax elements.
+        ``Mcnpumfile`` inherits attributes from ``EmbededGeometryOption``. It
+        represents the INP mcnpumfile embeded geometry data card option sytnax
+        element.
+
+        Attributes:
+            filename: Name of the MCNPUM output file.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'Mcnpumfile'.
+            ``__init__`` initializes ``Mcnpumfile``.
             """
 
             super().__init__()
+            self.keyword = EmbededGeometryKeyword.MCNPUMFILE
 
             self.filename: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets mcnpumfile embeded geometry specification
-            parameter values.
+            ``set_value`` stores INP embeded geometry data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededGeometryOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded geomtry data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded geometry specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBED_VALUE.
             """
 
             if value is None or not value:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBED_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
             self.value = value
             self.filename = value
 
-    #    class Overlap(EmbededGeometryParameter):
-    #        """
-    #        'Overlap' represents overlap embeded geometry specification parameters.
-    #
-    #        'Overlap' functions as a data subtype for 'EmbededGeometryParameter'.
-    #        It represents embeded geometry specification parameters as abstract syntax elements.
-    #        """
-    #
-    #        def __init__(self) -> Self:
-    #            """
-    #            '__init__' initializes 'Overlap'.
-    #            """
-    #
-    #            super().__init__()
-    #
-    #            self._: any = None
-    #
-    #        def set_value(self, value: int) -> None:
-    #            """
-    #            'set_value' sets overlap embeded geometry specification
-    #            parameter values.
-    #
-    #            'set_value' checks values are valid. It
-    #            raises errors if given None.
-    #
-    #            Parameters:
-    #                value: Parameter value.
-    #
-    #            Raises:
-    #                MCNPSemanticError: Invalid embeded geometry specification parameter value.
-    #            """
-    #
-    #            if value is None:
-    #                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EMBED_VALUE)
-    #
-    #            self.value = value
-    #            self._ = value
-
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'EmbededGeometry'
+        ``__init__`` initializes ``EmbededGeometry``.
         """
 
         super().__init__()
+        self.keyword = EmbededGeometryKeyword.OVERLAP
         self.mnemonic = Datum.DatumMnemonic.EMBEDED_GEOMETRY
 
-        self.suffix: int = None
         self.pairs: tuple[types.Zaid] = None
 
-    def set_suffix(self, suffix: int) -> None:
+    def set_parameters(self, *pairs: EmbededGeometryOption) -> None:
         """
-        'set_suffix' sets embeded geometry specification
-        data card keyword suffixes.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_suffix' checks suffixes are valid.
-        It raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``EmbededGeometry.pairs`` and ``EmbededGeometry.parameters``.
+        If given an unrecognized argument, it raises semantic errors.
 
         Parameters:
-            suffix: Data card mnemonic suffix.
-        """
+            *pairs: Iterable of key-value pairs.
 
-        if suffix is None and not (1 <= suffix <= 999):
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX
-            )
-
-        self.suffix = suffix
-
-    def set_parameters(self, *pairs: EmbededGeometryParameter) -> None:
-        """
-        'set_parameters' sets data card parameters.
-
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
-
-        Parameters:
-            pairs: Iterable of embed key-value pairs.
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in pairs:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.pairs = pairs
         self.parameters = pairs
 
 
-class EmbededElementalControl(Datum):
+class EmbededControl(Datum_Suffix, Datum_Designator):
     """
-    'EmbededElementalControl' represents embeded elemental edits
-    control data cards.
+    ``EmbededControl`` represents INP embeded elemental edits control
+    data cards.
 
-    'DeterministicMaterials' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``EmbededGeometry`` inherits attributes from ``Datum_Suffix``, i.e.
+    ``Datum`` with suffix support, and ``Datum_Designator`` with designator
+    support. It represents the INP embeded elemental edits control data card
+    syntax element.
+
+    Attributes:
+        pairs: Iterable of key-value pairs.
     """
 
-    class EmbededElementalControlParameter:
+    class EmbededControlOption:
         """
-        'EmbededElementalControlParameter' represents embeded elemental edits
-        control data card parameter.
+        ``EmbededControlOption`` represents INP embeded elemental
+        edits control data card options.
 
-        'EmbededElementalControlParameter' functions as a data type for
-        'EmbededElementalControl'. It represents embded geometry
-        speciifcation data card parameters as abstract syntax elements.
+        ``EmbededControlOption`` implements INP embeded elemental
+        edits control data card options. Its attributes store keywords and
+        values, and its methods provide entry and endpoints for working wit
+        INP embeded elemental edits control data card options. It represents
+        the generic INP embeded elemental edits control data card option syntax
+        element, so ``EmbededControl`` depends on ``EmbededControlOptoin`` as a
+        genric data structre and superclass.
+
+        Attributes:
+            keyword: INP embeded elemental control  option keyword.
+            value: INP embeded elemental control option value.
         """
 
-        class EmbededElementalControlKeyword(StrEnum):
+        class EmbededControlKeyword(StrEnum):
             """
-            'EmbededElementalControlKeyword' represents embeded
-            elemental edits control data card parameter keywords.
+            ``EmbededControlKeyword`` represents INP embeded elemental
+            edits control data card option keywords.
 
-            'EmbededElementalControlKeyword' functions as a data type for
-            'EmbededElementalControlParameter' and 'EmbededElementalControl'. It
-            represents card parameter keywords as abstract syntax elements.
+            ``EmbededControlKeyword`` implements INP embeded elemental
+            edits control data card option keywords as a Python inner class. It
+            enumerates MCNP keywords and provides methods for casting strings
+            to ``EmbededControlKeyword`` instances. It represents the
+            INP embeded elemental edits control data card option keyword syntax
+            element, so ``EmbededControl`` and ``EmbededControlOption`` depend
+            on ``EmbededControlKeyword`` as an enum.
             """
 
             EMBED = "embed"
@@ -5174,462 +5426,433 @@ class EmbededElementalControl(Datum):
             TIME = "time"
             ATOM = "atom"
             FACTOR = "factor"
-            #           REACTION_LIST = "list"
+            REACTION_LIST = "list"
             MAT = "mat"
             MTYPE = "mtype"
 
             @classmethod
-            def cast_embed_keyword(
-                cls, string: str, hook: Callable[Self, bool] = lambda: True
-            ):
+            def from_mcnp(cls, source: str) -> Self:
                 """
-                'cast_embed_keyword' types casts from strings to embeded elemental
-                edits control data card parameter keywords.
+                ``from_mcnp`` generates ``EmbededControlKeyword``
+                objects from INP.
 
-                'cast_embed_keyword' creates embeded elemental edits control data card
-                parameter keywords objects from strings. If the string is invalid
-                or the hook returns false, it returns None.
+                ``from_mcnp`` constructs instances of ``EmbededControlKeyword``
+                from INP source strings, so it operates as a class constructor
+                method and INP parser helper function.
 
                 Parameters:
-                    string: String to cast.
-                    hook: Postcast check.
+                    source: INP for embeded edits control option keyword.
 
                 Returns:
-                    Embeded elemental edits control parameter keyword from string.
+                    ``EmbededControlKeyword`` object.
+
+                Raises:
+                    MCNPSemanticError: INVALID_DATUM_EMBEE_KEYWORD.
                 """
 
-                string = string.lower()
+                keyword = cls()
 
-                try:
-                    keyword = cls(string)
+                source = parser.Preprocessor.process_inp(source)
 
-                    if hook(keyword):
-                        return keyword
-                except ValueError:
-                    pass
+                # Processing Keyword
+                if source not in [enum.value for enum in cls]:
+                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_KEYWORD)
 
-                return None
+                return cls(source)
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'EmbededElementalControlParameter'
+            ``__init__`` initializes ``EmbededControlOption``.
             """
 
-            self.keyword: self.EmbededElementalControlKeyword = None
+            self.keyword: self.EmbededControlKeyword = None
             self.value: any = None
 
-        def set_keyword(self, keyword: EmbededElementalControlKeyword) -> None:
+        def set_keyword(self, keyword: EmbededControlKeyword) -> None:
             """
-            'set_keyword' sets deterministic embeded elemental
-            edits control parameter keywords.
+            ``set_keyword`` stores INP embeded elemental edits control data
+            card option keywords.
 
-            'set_keyword' checks keywords are valid. It
-            raises errors if given None.
+            ``set_keyword`` checks given arguments before assigning the
+            given value to``EmbededControlOption.keyword``. If given an
+            unrecognized argument, it raises semantic errors.
+
+            Warnings:
+                ``set_keyword`` reinitializes
+                ``EmbededControlKeyword`` instances sincee its attributes
+                depend on the keyword. When the given keyword does not equal
+                ``EmbededControlOption.keyword``, all attributes reset.
 
             Parameters:
-                keyword: Embeded elemental edits parameter keywords.
+                keyword: Embeded edits control data card option keyword.
+
+            Raises:
+                MCNPSemanticError: INVALID_DATUM_EMBEE_KEYWORD.
             """
 
             if keyword is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBEE_KEYWORD
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_KEYWORD)
 
-            self.keyword = keyword
+            if mnemonic != self.mnemonic:
+                match mnemoinc:
+                    case cls.EmbededControlKeyword.EMBED:
+                        obj = EmbededControlOption.Embed()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case cls.EmbededControlKeyword.ENERGY:
+                        obj = EmbededControlOption.Energy()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case cls.EmbededControlKeyword.TIME:
+                        obj = EmbededControlOption.Time()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case cls.EmbededControlKeyword.ATOM:
+                        obj = EmbededControlOption.Atom()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case cls.EmbededControlKeyword.FACTOR:
+                        obj = EmbededControlOption.Factor()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case cls.EmbededControlKeyword.MAT:
+                        obj = EmbededControlOption.Mat()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case cls.EmbededControlKeyword.MTYPE:
+                        obj = EmbededControlOption.Mtype()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
 
         @classmethod
         def from_mcnp(cls, string: str):
             """
-            'from_mcnp' generates embeded elemental edits control parameter objects.
+            ``from_mcnp`` generates ``EmbededGeometryOption`` objects from INP.
 
-            'from_mcnp' constructs instances of 'EmbededElementalControlParameter'
-            from INP strings, so it functions as a class constructor. It
-            transforms embeded elemental edits control parameter into their
-            correct subclasses.
+            ``from_mcnp`` constructs instances of ``EmbededGeometryOption``
+            from INP source strings, so it operates as a class constructor
+            method and INP parser helper function. Although defined on the
+            superclass, it returns ``EmbededGeometryOption`` subclasses.
 
             Parameters:
-                card: INP to parse.
+                source: INP for embeded geometry specification option.
 
             Returns:
-               Embeded gemoetry specification parameter object.
+                ``EmbededGeometryOption`` object.
 
             Raises:
-                MCNPSemanticError: Invalid embeded geometry specification parameter entry.
-                MCNPSyntaxError: Invalid embeded geometry specification parameter syntax.
+                MCNPSyntaxError: TOOFEW_DATUM_OPTION, TOOLONG_DATUM_OPTION.
             """
 
             parameter = cls()
 
-            tokens = parser.Parser(
-                string.split("="),
-                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES),
-            )
+            source = parser.Preprocessor.process_inp(source)
+            tokens = parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES))
 
             # Processing Keyword
-            value = cls.EmbededElementalKeyword.cast_keyword(tokens.peekl())
-            parameter.set_keyword(value)
+            keyword = cls.EmbededGeometryKeyword.from_mcnp(tokens.peekl())
+            parameter.set_keyword(keyword)
 
             # Processing Values
             match tokens.popl():
-                case "embed":
-                    parameter.__class__ = EmbededElementalControl.Embed
-
+                case "embded" | "mat":
                     value = types.cast_fortran_integer(tokens.popl())
                     parameter.set_value(value)
-
-                case "energy":
-                    parameter.__class__ = EmbededElementalControl.Energy
-
+                case "engery" | "time" | "factor":
                     value = types.cast_fortran_real(tokens.popl())
                     parameter.set_value(value)
-
-                case "time":
-                    parameter.__class__ = EmbededElementalControl.Time
-
-                    value = types.cast_fortran_real(tokens.popl())
-                    parameter.set_value(value)
-
-                case "atom":
-                    parameter.__class__ = EmbededElementalControl.Atom
-
-                    parameter.set_value(tokens.popl())
-
-                case "factor":
-                    parameter.__class__ = EmbededElementalControl.Factor
-
-                    value = types.cast_fortran_real(tokens.popl())
-                    parameter.set_value(value)
-
-                #                case "list":
-                #                    parameter.__class__ = EmbededElementalControl.ReactionList
-                #
-                #                    value =
-                #                    parameter.set_value(value)
-
-                case "mat":
-                    parameter.__class__ = EmbededElementalControl.Mat
-
-                    value = types.cast_fortran_integer(tokens.popl())
-                    parameter.set_value(value)
-
-                case "mtype":
-                    parameter.__class__ = EmbededElementalControl.Mtype
-
-                    parameter.set_value(tokens.popl())
+                case "atom" | "mtype":
+                    parameter.set_valie(tokens.popL())
 
             if tokens:
-                raise errors.MCNPSyntaxError(
-                    errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES
-                )
+                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES)
 
-    class Embed(EmbededElementalControlParameter):
+    class Embed(EmbededControlOption):
         """
-        'Embed' represents Embed embeded elemental edits control parameters.
+        ``Embed`` represents INP Embed embeded elemental edits control data
+        card options.
 
-        'Embed' functions as a data subtype for 'EmbededElementalControlParameter'.
-        It represents embeded elemental edits control parameters as abstract syntax elements.
+        ``Embed`` inherits attributes from ``EmbededControlOption``. It
+        represents the INP Embed embeded elemental edits control data card
+        option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Embed'.
+            ``__init__`` initializes ``Embed``.
             """
 
             super().__init__()
+            self.keyword = EmbededControlKeyword.EMBED
 
             self.number: any = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets Embed embeded elemental edits control
-            parameter values.
+            ``set_value`` stores INP embeded elemental edits control data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededControlOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded elemental edits control data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded elemental edits control parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBEE_VALUE.
             """
 
             if value is None or not (1 <= value <= 99_999_999):
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBEE_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
             self.value = value
             self.number = value
 
-    class Energy(EmbededElementalControlParameter):
+    class Energy(EmbededControlOption):
         """
-        'Energy' represents Energy embeded elemental edits control parameters.
+        ``Energy`` represents INP Energy embeded elemental edits control data
+        card options.
 
-        'Energy' functions as a data subtype for 'EmbededElementalControlParameter'.
-        It represents embeded elemental edits control parameters as abstract syntax elements.
+        ``Energy`` inherits attributes from ``EmbededControlOption``. It
+        represents the INP Energy embeded elemental edits control data card
+        option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Energy'.
+            ``__init__`` initializes ``Energy``.
             """
 
             super().__init__()
+            self.keyword = EmbededControlKeyword.ENERGY
 
             self.factor: float = None
 
         def set_value(self, value: float) -> None:
             """
-            'set_value' sets Energy embeded elemental edits control
-            parameter values.
+            ``set_value`` stores INP embeded elemental edits control data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededControlOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded elemental edits control data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded elemental edits control parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBEE_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBEE_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
             self.value = value
             self.factor = value
 
-    class Time(EmbededElementalControlParameter):
+    class Time(EmbededControlOption):
         """
-        'Time' represents Time embeded elemental edits control parameters.
+        ``Time`` represents INP Time embeded elemental edits control data card
+        options.
 
-        'Time' functions as a data subtype for 'EmbededElementalControlParameter'.
-        It represents embeded elemental edits control parameters as abstract syntax elements.
+        ``Time`` inherits attributes from ``EmbededControlOption``. It
+        represents the INP Time embeded elemental edits control data card
+        option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Time'.
+            ``__init__`` initializes ``Time``.
             """
 
             super().__init__()
+            self.keyword = EmbededControlKeyword.TIME
 
             self.factor: float = None
 
         def set_value(self, value: float) -> None:
             """
-            'set_value' sets Time embeded elemental edits control
-            parameter values.
+            ``set_value`` stores INP embeded elemental edits control data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededControlOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded elemental edits control data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded elemental edits control parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBEE_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBEE_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
             self.value = value
             self.factor = value
 
-    class Atom(EmbededElementalControlParameter):
+    class Atom(EmbededControlOption):
         """
-        'Atom' represents Atom embeded elemental edits control parameters.
+        ``Atom`` represents INP Atom embeded elemental edits control data card
+        options.
 
-        'Atom' functions as a data subtype for 'EmbededElementalControlParameter'.
-        It represents embeded elemental edits control parameters as abstract syntax elements.
+        ``Atom`` inherits attributes from ``EmbededControlOption``. It
+        represents the INP Atom embeded elemental edits control data card
+        option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Atom'.
+            ``__init__`` initializes ``Atom``.
             """
 
             super().__init__()
+            self.keyword = EmbededControlKeyword.ATOM
 
             self.yes_no: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets Atom embeded elemental edits control
-            parameter values.
+            ``set_value`` stores INP embeded elemental edits control data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededControlOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded elemental edits control data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded elemental edits control parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBEE_VALUE.
             """
 
             if value is None or value not in {"yes", "no"}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBEE_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
             self.value = value
             self.yes_no = value
 
-    class Factor(EmbededElementalControlParameter):
+    class Factor(EmbededControlOption):
         """
-        'Factor' represents Factor embeded elemental edits control parameters.
+        ``Factor`` represents INP Factor embeded elemental edits control data
+        card options.
 
-        'Factor' functions as a data subtype for 'EmbededElementalControlParameter'.
-        It represents embeded elemental edits control parameters as abstract syntax elements.
+        ``Factor`` inherits attributes from ``EmbededControlOption``. It
+        represents the INP Factor embeded elemental edits control data card
+        option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Factor'.
+            ``__init__`` initializes ``Factor``.
             """
 
             super().__init__()
+            self.keyword = EmbededControlKeyword.FACTOR
 
             self.factor: float = None
 
         def set_value(self, value: float) -> None:
             """
-            'set_value' sets Factor embeded elemental edits control
-            parameter values.
+            ``set_value`` stores INP embeded elemental edits control data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededControlOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded elemental edits control data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded elemental edits control parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBEE_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBEE_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
             self.value = value
             self.factor = value
 
-    #    class ReactionList(EmbededElementalControlParameter):
-    #        """
-    #        'ReactionList' represents ReactionList embeded elemental edits control parameters.
-    #
-    #        'ReactionList' functions as a data subtype for 'EmbededElementalControlParameter'.
-    #        It represents embeded elemental edits control parameters as abstract syntax elements.
-    #        """
-    #
-    #        def __init__(self) -> Self:
-    #            """
-    #            '__init__' initialzies 'ReactionList'.
-    #            """
-    #
-    #            super().__init__()
-    #
-    #            self._: any = None
-    #
-    #        def set_value(self, value: int) -> None:
-    #            """
-    #            'set_value' sets ReactionList embeded elemental edits control
-    #            parameter values.
-    #
-    #            'set_value' checks values are valid. It
-    #            raises errors if given None.
-    #
-    #            Parameters:
-    #                value: Parameter value.
-    #
-    #            Raises:
-    #                MCNPSemanticError: Invalid embeded elemental edits control  windeter value.
-    #            """
-    #
-    #            if value is None:
-    #                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EMBEE_VALUE)
-    #
-    #            self.value = value
-    #            self._ = value
-
-    class Mat(EmbededElementalControlParameter):
+    class Mat(EmbededControlOption):
         """
-        'Mat' represents Mat embeded elemental edits control parameters.
+        ``Mat`` represents INP Mat embeded elemental edits control data card
+        options.
 
-        'Mat' functions as a data subtype for 'EmbededElementalControlParameter'.
-        It represents embeded elemental edits control parameters as abstract syntax elements.
+        ``Mat`` inherits attributes from ``EmbededControlOption``. It
+        represents the INP Mat embeded elemental edits control data card option
+        syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
+            self.keyword = EmbededControlKeyword.MAT
 
             self.number: int = None
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets Mat embeded elemental edits control
-            parameter values.
+            ``set_value`` stores INP embeded elemental edits control data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededControlOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded elemental edits control data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded elemental edits control parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBEE_VALUE.
             """
 
             if value is None or not (0 <= value <= 99_999_999):
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBEE_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
             self.value = value
             self.number = value
 
-    class Mtype(EmbededElementalControlParameter):
+    class Mtype(EmbededControlOption):
         """
-        'Mtype' represents Mtype embeded elemental edits control parameters.
+        ``Mtype`` represents INP Mtype embeded elemental edits control data
+        card options.
 
-        'Mtype' functions as a data subtype for 'EmbededElementalControlParameter'.
-        It represents embeded elemental edits control parameters as abstract syntax elements.
+        ``Mtype`` inherits attributes from ``EmbededControlOption``. It
+        represents the INP Mtype embeded elemental edits control data card
+        option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mtype'.
+            ``__init__`` initializes ``Mtype``.
             """
 
             super().__init__()
+            self.keyword = EmbededControlKeyword.MTYPE
 
             self.type: str = None
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets Mtype embeded elemental edits control
-            parameter values.
+            ``set_value`` stores INP embeded elemental edits control data card
+            option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``EmbededControlOptoin.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Embeded elemental edits control data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid embeded elemental edits control parameter value.
+                MCNPSemanticError: INVALID_DATUM_EMBEE_VALUE.
             """
 
             if value is None or value not in {
@@ -5640,459 +5863,358 @@ class EmbededElementalControl(Datum):
                 "source",
                 "tracks",
             }:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_EMBEE_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
             self.value = value
             self.type = value
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'EmbededElementalControl'
+        ``__init__`` initializes ``EmbededControl``.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.EMBEDED_CONTROL
 
-        self.suffix: int = None
         self.pairs: tuple[types.Zaid] = None
-        self.designator: tuple[types.Designator] = None
 
-    def set_suffix(self, suffix: int) -> None:
+    def set_parameters(self, *pairs: EmbededControlOption) -> None:
         """
-        'set_suffix' sets embeded elemental edits control
-        data card keyword suffixes.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_suffix' checks suffixes are valid.
-        It raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``EmbededControl.pairs`` and ``EmbededControl.parameters``.
+        If given an unrecognized argument, it raises semantic errors.
 
         Parameters:
-            suffix: Data card mnemonic suffix.
-        """
+            *pairs: Iterable of key-value pairs.
 
-        if suffix is None and not (1 <= suffix <= 999):
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX
-            )
-
-        self.suffix = suffix
-
-    def set_designator(self, designator: tuple[types.Designator]) -> None:
-        """
-        'set_designator' checks designators are valid.
-        It raises errors if given None.
-
-        Parameters:
-            designator: cell card parameter designator.
-        """
-
-        if designator is None:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR
-            )
-
-        self.designator = designator
-
-    def set_parameters(self, *pairs: EmbededElementalControlParameter) -> None:
-        """
-        'set_parameters' sets data card parameters.
-
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
-
-        Parameters:
-            pairs: Iterable of embee key-value pairs.
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in pairs:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.pairs = pairs
         self.parameters = pairs
 
 
-class EmbededElementalEnergyBoundaries(Datum):
+class EmbededEnergyBoundaries(Datum_Suffix):
     """
-    'EmbededElementalEnergyBoundaries' represents embeded elemental edits energy bin
-    boundaries data cards.
+    ``EmbededEnergyBoundaries`` represents INP embeded elemental
+    edits energy boundaries.
 
-    'EmbededElementalEnergyBoundaries' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``EmbededEnergyBoundaries`` inherits attributes from
+    ``Datum_Suffix``, i.e. ``Datum`` with suffix support. It represents the INP
+    embeded embeded elemental edits energy boundaries data card syntax element.
+
+    Attributes:
+        energies: Iterable of energy lower bounds.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'EmbededElementalEnergyBoundaries'
+        ``__init__`` initializes ``EmbededEnergyBoundaries``.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.EMBEDED_ENERGY_BOUNDARIES
 
         self.energies: tuple[float] = None
-        self.suffix: int = None
-
-    def set_suffix(self, suffix: int) -> None:
-        """
-        'set_suffix' sets embeded elemental edits energy bin boundaries
-        data card keyword suffixes.
-
-        'set_suffix' checks suffixes are valid.
-        It raises errors if given None.
-
-        Parameters:
-            suffix: Data card mnemonic suffix.
-        """
-
-        if suffix is None and not (1 <= suffix <= 999):
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX
-            )
-
-        self.suffix = suffix
 
     def set_parameters(self, *energies: float) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``EmbededEnergyBoundaries.pairs`` and
+        ``EmbededEnergyBoundaries.parameters``. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
-            *energies: Iterable of energies.
+            *energies: Iterable of energy lower bounds.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in energies:
             if parameter is None or not (parameter >= 0):
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = energies
         self.energies = energies
 
 
-class EmbededElementalEnergyMultipliers(Datum):
+class EmbededEnergyMultipliers(Datum_Suffix):
     """
-    'EmbededElementalEnergyMultipliers' represents embeded elemental edits energy bin
-    multipliers data cards.
+    ``EmbededEnergyMultipliers`` represents INP embeded elemental
+    edits energy multipliers.
 
-    'EmbededElementalEnergyMultipliers' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``EmbededEnergyMultipliers`` inherits attributes from ``Datum_Suffix``,
+    i.e. ``Datum`` with suffix support. It represents the INP embeded elemental
+    edits energy multipliers data card syntax element.
+
+    Attributes:
+        multipliers: Iterable of energy multipliers.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'EmbededElementalEnergyMultipliers'
+        ``__init__`` initializes ``EmbededEnergyMultipliers``.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.EMBEDED_ENERGY_MULTIPLIERS
 
         self.multipliers: tuple[float] = None
-        self.suffix: int = None
-
-    def set_suffix(self, suffix: int) -> None:
-        """
-        'set_suffix' sets embeded elemental edits energy bin
-        multiplier data card keyword suffixes.
-
-        'set_suffix' checks suffixes are valid.
-        It raises errors if given None.
-
-        Parameters:
-            suffix: Data card mnemonic suffix.
-        """
-
-        if suffix is None and not (1 <= suffix <= 999):
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX
-            )
-
-        self.suffix = suffix
 
     def set_parameters(self, *multipliers: float) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``EmbededEnergyMultipliers.pairs`` and
+        ``EmbededEnergyMultipliers.parameters``. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
-            *multipliers: Iterable of multipliers.
+            *multipliers: Iterable of energy multipliers.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in multipliers:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = multipliers
         self.multipliers = multipliers
 
 
-class EmbededElementalTimeBoundaries(Datum):
+class EmbededTimeBoundaries(Datum_Suffix):
     """
-    'EmbededElementalTimeBoundaries' represents embeded elemental edits time bin
-    boundaries data cards.
+    ``EmbededTimeBoundaries`` represents INP embeded elemental edits
+    time boundaries.
 
-    'EmbededElementalTimeBoundaries' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``EmbededTimeBoundaries`` inherits attributes from
+    ``Datum_Suffix``, i.e. ``Datum`` with suffix support. It represents the INP
+    embeded embeded elemental edits time boundaries data card syntax element.
+
+    Attributes:
+        times: Iterable of time lower bounds.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'EmbededElementalTimeBoundaries'
+        ``__init__`` initializes ``EmbededTimeBoundaries``.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.EMBEDED_TIME_BOUNDARIES
 
-        self.energies: tuple[float] = None
-        self.suffix: int = None
-
-    def set_suffix(self, suffix: int) -> None:
-        """
-        'set_suffix' sets embeded elemental edits time bin boundaries
-        data card keyword suffixes.
-
-        'set_suffix' checks suffixes are valid.
-        It raises errors if given None.
-
-        Parameters:
-            suffix: Data card mnemonic suffix.
-        """
-
-        if suffix is None and not (1 <= suffix <= 999):
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX
-            )
-
-        self.suffix = suffix
+        self.times: tuple[float] = None
 
     def set_parameters(self, *times: float) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``EmbededTimeBoundaries.pairs`` and
+        ``EmbededTimeBoundaries.parameters``. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
-            *times: Iterable of times.
+            *times: Iterable of time lower bounds.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in times:
             if parameter is None or not (parameter >= 0):
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = times
         self.times = times
 
 
-class EmbededElementalTimeMultipliers(Datum):
+class EmbededTimeMultipliers(Datum_Suffix):
     """
-    'EmbededElementalTimeMultipliers' represents embeded elemental edits time bin
-    multipliers data cards.
+    ``EmbededTimeMultipliers`` represents INP embeded elemental
+    edits time multipliers.
 
-    'EmbededElementalTimeMultipliers' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``EmbededTimeMultipliers`` inherits attributes from
+    ``Datum_Suffix``, i.e. ``Datum`` with suffix support. It represents the INP
+    embeded embeded elemental edits time multipliers data card syntax element.
+
+    Attributes:
+        times: Iterable of time multipliers.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'EmbededElementalTimeMultipliers'
+        ``__init__`` initializes ``EmbededTimeMultipliers``.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.EMBEDED_TIME_MULTIPLIERS
 
         self.multipliers: tuple[float] = None
-        self.suffix: int = None
-
-    def set_suffix(self, suffix: int) -> None:
-        """
-        'set_suffix' sets embeded elemental edits time bin
-        multiplier data card keyword suffixes.
-
-        'set_suffix' checks suffixes are valid.
-        It raises errors if given None.
-
-        Parameters:
-            suffix: Data card mnemonic suffix.
-        """
-
-        if suffix is None and not (1 <= suffix <= 999):
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX
-            )
-
-        self.suffix = suffix
 
     def set_parameters(self, *multipliers: float) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``EmbededTimeMultipliers.pairs`` and
+        ``EmbededTimeMultipliers.parameters``. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
-            *multipliers: Iterable of multipliers.
+            *multipliers: Iterable of time multipliers.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in multipliers:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = multipliers
         self.multipliers = multipliers
 
 
-class EmbededElementalDoseBoundaries(Datum):
+class EmbededDoseBoundaries(Datum_Suffix):
     """
-    'EmbededElementalDoseBoundaries' represents embeded elemental edits dose bin
-    boundaries data cards.
+    ``EmbededDoseBoundaries`` represents INP embeded elemental edits
+    dose boundaries.
 
-    'EmbededElementalDoseBoundaries' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``EmbededDoseBoundaries`` inherits attributes from
+    ``Datum_Suffix``, i.e. ``Datum`` with suffix support. It represents the INP
+    embeded embeded elemental edits dose boundaries data card syntax element.
+
+    Attributes:
+        doses: Iterable of dose lower bounds.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'EmbededElementalDoseBoundaries'
+        ``__init__`` initializes ``EmbededDoseBoundaries``.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.EMBEDED_DOSE_BOUNDARIES
 
-        self.energies: tuple[float] = None
-        self.suffix: int = None
-
-    def set_suffix(self, suffix: int) -> None:
-        """
-        'set_suffix' sets embeded elemental edits dose bin boundaries
-        data card keyword suffixes.
-
-        'set_suffix' checks suffixes are valid.
-        It raises errors if given None.
-
-        Parameters:
-            suffix: Data card mnemonic suffix.
-        """
-
-        if suffix is None and not (1 <= suffix <= 999):
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX
-            )
-
-        self.suffix = suffix
+        self.doses: tuple[float] = None
 
     def set_parameters(self, *doses: float) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``EmbededDoseBoundaries.pairs`` and
+        ``EmbededDoseBoundaries.parameters``. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
-            *doses: Iterable of doses.
+            *doses: Iterable of dose lower bounds.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in doses:
             if parameter is None or not (parameter >= 0):
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = doses
         self.doses = doses
 
 
-class EmbededElementalDoseMultipliers(Datum):
+class EmbededDoseMultipliers(Datum_Suffix):
     """
-    'EmbededElementalDoseMultipliers' represents embeded elemental edits dose bin
-    multipliers data cards.
+    ``EmbededDoseMultipliers`` represents INP embeded elemental
+    edits dose multipliers.
 
-    'EmbededElementalDoseMultipliers' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``EmbededDoseMultipliers`` inherits attributes from
+    ``Datum_Suffix``, i.e. ``Datum`` with suffix support. It represents the INP
+    embeded embeded elemental edits dose multipliers data card syntax element.
+
+    Attributes:
+        doses: Iterable of dose multipliers.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'EmbededElementalDoseMultipliers'
+        ``__init__`` initializes ``EmbededDoseMultipliers``.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.EMBEDED_DOSE_MULTIPLIERS
 
         self.multipliers: tuple[float] = None
-        self.suffix: int = None
-
-    def set_suffix(self, suffix: int) -> None:
-        """
-        'set_suffix' sets embeded elemental edits dose bin
-        multiplier data card keyword suffixes.
-
-        'set_suffix' checks suffixes are valid.
-        It raises errors if given None.
-
-        Parameters:
-            suffix: Data card mnemonic suffix.
-        """
-
-        if suffix is None and not (1 <= suffix <= 999):
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX
-            )
-
-        self.suffix = suffix
 
     def set_parameters(self, *multipliers: float) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``EmbededDoseMultipliers.pairs`` and
+        ``EmbededDoseMultipliers.parameters``. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
-            *multipliers: Iterable of multipliers.
+            *multipliers: Iterable of dose multipliers.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in multipliers:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = multipliers
         self.multipliers = multipliers
 
 
-class Material(Datum):
+class Material(Datum_Suffix):
     """
-    'Material' represents material specification data cards.
+    ``Material`` represents INP matieral specification data cards.
 
-    'Material' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``Material`` inherits attributes from ``Datum_Suffix``, i.e. ``Datum`` with
+    suffix support. It represents the INP material data card
+    syntax element.
+
+    Attributes:
+        substances: Iterable of substance specification.
+        paris: Iterable of key-value pairs.
     """
 
     class MaterialValue:
         """
-        'MaterialValue' represents material specification entries.
+        ``MaterialValue`` represents INP material data card
+        entries.
 
-        'MaterialValue' stores zaid and fraction values.
+        ``MaterialValue`` implements INP material specifications
+        as a Python inner class. Its attributes store different mateiral
+        entries, and its methods provide entry points and endpoints for working
+        with material entries. ``Material`` depends on ``MateiralValue`` as a
+        data type.
+
+        Attributes:
+            zaid: Material value Zaid specifier.
+            fraction: Material value fraction.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initalizes 'MaterialValue'
+            ``__init__`` initializes ``MaterialValue``.
             """
 
             self.zaid: types.Zaid = None
@@ -6101,20 +6223,22 @@ class Material(Datum):
         @classmethod
         def from_mcnp(cls, string: str) -> Self:
             """
-            'from_mcnp' generates material value objects.
+            ``from_mcnp`` generates ``MaterialValue`` objects from
+            INP.
 
-            'from_mcnp' constructs instances of 'MaterialValue'
-            from INP strings, so it functions as a class constructor.
+            ``from_mcnp`` constructs instances of ``MaterialValue`` from INP
+            source strings, so it operates as a class constructor method and
+            INP parser helper function.
 
             Parameters:
-                string: INP to parse.
+                source: INP for mateiral values.
 
             Returns:
-                Material specification value object.
+                ``MaterialValue`` object.
 
             Raises:
-                MCNPSemanticError: Invalid card parameter entry.
-                MCNPSyntaxError: Invalid card paramter syntax.
+                MCNPSemanticError: INVALID_DATUM_PARAMETERS.
+                MCNPSyntaxError: TOOFEW_DATUM, TOOLONG_DATUM.
             """
 
             entry = cls()
@@ -6127,37 +6251,45 @@ class Material(Datum):
             # Parsing zzzaaa
             value = types.Zaid().cast_mcnp_zaid(tokens.popl())
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
             self.zaid = value
 
             # Parsing fraction
             value = types.cast_fortran_real(tokens.popl())
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
             self.fraction = value
 
-    class MaterialParameter:
+    class MaterialOption:
         """
-        'MaterialParameter' represents material specification parameters.
+        ``MaterialOption`` represents INP material data card
+        options.
 
-        'MaterialParameter' functions as a data type for
-        'Matieral'. It represents material specification data card
-        parameters as abstract syntax elements.
+        ``MaterialOption`` implements INP material data card
+        options. Its attributes store keywords and values, and its methods
+        provide entry and endpoints for working with INP mateiral data card
+        options. It represents the generic INP material data card option syntax
+        element, so ``Material`` depends on ``MaterialOptino`` as a genric data
+        structre and superclass.
+
+        Attributes:
+            keyword: INP material option keyword.
+            value: INP material option value.
         """
 
         class MaterialKeyword(StrEnum):
             """
-            'MaterialKeyword' represents material specification keywords.
+            ``MaterialKeyword`` represents INP material data card option
+            keywords.
 
-            'MaterialKeyword' functions as a data type for 'MaterialParameter'
-            and 'Material'. It represents card parameter keywords as abstract
-            syntax elements.
+            ``MaterialKeyword`` implements INP material data card option
+            keywords as a Python inner class. It enumerates MCNP keywords and
+            provides methods for casting strings to ``MaterialKeyword``
+            instances. It represents the INP material data card option keyword
+            syntax element, so ``Material`` and ``MaterialOption`` depend on
+            ``MaterialKeyword`` as an enum.
             """
 
             GAS = "gas"
@@ -6174,44 +6306,39 @@ class Material(Datum):
             DLIB = "dlib"
             COND = "cond"
             REFI = "refi"
-            #           REFC = "refc"
-            #           REFS = "refs"
 
             @classmethod
-            def cast_material_keyword(
-                cls, string: str, hook: Callable[Self, bool]
-            ) -> Self:
+            def from_mcnp(cls, string: str) -> Self:
                 """
-                'cast_material_keyword' types casts from strings to material specification
-                parameter keywords.
+                ``from_mcnp`` generates ``MaterialKeyword`` objects from INP.
 
-                'cast_material_keyword' creates material specification data card
-                parameter keywords objects from strings. If the string is invalid
-                or the hook returns false, it returns None.
+                ``from_mcnp`` constructs instances of ``MaterialKeyword`` from
+                INP source strings, so it operates as a class constructor
+                method and INP parser helper function.
 
                 Parameters:
-                    string: String to cast.
-                    hook: Postcast check.
+                    source: INP for material option keyword.
 
                 Returns:
-                    Material specification parameter keyword from string.
+                    ``MaterialKeyword`` object.
+
+                Raises:
+                    MCNPSemanticError: INVALID_DATUM_MATERIAL_KEYWORD.
                 """
 
-                string = string.lower()
+                keyword = cls()
 
-                try:
-                    keyword = cls(string)
+                source = parser.Preprocessor.process_inp(source)
 
-                    if hook(keyword):
-                        return keyword
-                except ValueError:
-                    pass
+                # Processing Keyword
+                if source not in [enum.value for enum in cls]:
+                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_KEYWORD)
 
-                return None
+                return cls(source)
 
         def __init__(self) -> Self:
             """
-            '__init__' initializes 'MaterialParameter'
+            ``__init__`` initializes ``MaterialOption``.
             """
 
             self.keyword: MaterialKeyword = None
@@ -6219,50 +6346,114 @@ class Material(Datum):
 
         def set_keyword(self, keyword: MaterialKeyword) -> None:
             """
-            'set_keyword' sets deterministic embeded elemental
-            edits control parameter keywords.
+            ``set_keyword`` stores INP material data card option
+            keywords.
 
-            'set_keyword' checks keywords are valid. It
-            raises errors if given None.
+            ``set_keyword`` checks given arguments before assigning the
+            given value to``MaterialOption.keyword``. If given an unrecognized
+            argument, it raises semantic errors.
+
+            Warnings:
+                ``set_keyword`` reinitializes
+                ``MaterialKeyword`` instances sincee its attributes depend on
+                the keyword. When the given keyword does not equal
+                ``MaterialOption.keyword``, all attributes reset.
 
             Parameters:
-                keyword: Material specification parameter keywords.
+                keyword: Material specification data card option keyword.
+
+            Raises:
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_KEYWORD.
             """
 
             if keyword is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_KEYWORD
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_KEYWORD)
 
             self.keyword = keyword
+
+            if keyword != self.keyword:
+                match keyword:
+                    case MaterialKeyword.GAS:
+                        obj = MaterialOption.Gas()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case MaterialKeyword.ESTEP:
+                        obj = MaterialOption.Estep()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case MaterialKeyword.HSTEP:
+                        obj = MaterialOption.Hstep()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case MaterialKeyword.NLIB:
+                        obj = MaterialOption.Nlib()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case MaterialKeyword.PLIB:
+                        obj = MaterialOption.Plib()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case MaterialKeyword.PNLIB:
+                        obj = MaterialOption.Pnlib()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case MaterialKeyword.ELIB:
+                        obj = MaterialOption.Elib()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case MaterialKeyword.HLIB:
+                        obj = MaterialOption.Hlib()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case MaterialKeyword.ALIB:
+                        obj = MaterialOption.Alib()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case MaterialKeyword.SLIB:
+                        obj = MaterialOption.Slib()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case MaterialKeyword.TLIB:
+                        obj = MaterialOption.Tlib()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case MaterialKeyword.DLIB:
+                        obj = MaterialOption.Dlib()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case MaterialKeyword.COND:
+                        obj = MaterialOption.Cond()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
+                    case MaterialKeyword.REFI:
+                        obj = MaterialOption.Refi()
+                        self.__dict__ = obj.__dict__
+                        self.__class__ = obj.__class__
 
         @classmethod
         def from_mcnp(cls, string: str):
             """
-            'from_mcnp' generates material specification parameter objects.
+            ``from_mcnp`` generates ``MaterialOption`` objects from INP.
 
-            'from_mcnp' constructs instances of 'MaterialParameter'
-            from INP strings, so it functions as a class constructor. It
-            transforms embeded geometry specification parameter into their
-            correct subclasses.
+            ``from_mcnp`` constructs instances of ``MaterialOption`` from INP
+            source strings, so it operates as a class constructor method and
+            INP parser helper function. Although defined on the superclass, it
+            returns ``MaterialOption`` subclasses.
 
             Parameters:
-                card: INP to parse.
+                source: INP for material option.
 
             Returns:
-               Material specification parameter object.
+                ``MaterialOption`` object.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter entry.
-                MCNPSyntaxError: Invalid material specification parameter syntax.
+                MCNPSyntaxError: TOOFEW_DATUM_OPTION, TOOLONG_DATUM_OPTION.
             """
 
             parameter = cls()
 
-            tokens = parser.Parser(
-                string.split(" "),
-                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES),
-            )
+            source = parser.Preprocessor.process_inp(source)
+            tokens = parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES))
 
             # Processing Keyword
             value = cls.EmbededGeometryKeyword.cast_keyword(tokens.peekl())
@@ -6271,103 +6462,27 @@ class Material(Datum):
             # Processing Values
             match tokens.popl():
                 case "gas":
-                    parameter.__class__ = Gas
-
                     value = types.cast_fortran_integer(tokens.popl())
                     parameter.set_value(value)
 
-                case "estep":
-                    parameter.__class__ = Estep
-
+                case "estep" | "hstep" | "cond" | "refi":
                     value = types.cast_fortran_real(tokens.popl())
                     parameter.set_value(value)
 
-                case "hstep":
-                    parameter.__class__ = Hstep
-
-                    value = types.cast_fortran_real(tokens.popl())
-                    parameter.set_value(value)
-
-                case "nlib":
-                    parameter.__class__ = Nlib
-
+                case "nlib" | "plib" | "pnlib" | "elib" | "hlib" | "alib" | "slib" | "tlib" | "dlib":
                     parameter.set_value(tokens.popl())
 
-                case "plib":
-                    parameter.__class__ = Plib
-
-                    parameter.set_value(tokens.popl())
-
-                case "pnlib":
-                    parameter.__class__ = Pnlib
-
-                    parameter.set_value(tokens.popl())
-
-                case "elib":
-                    parameter.__class__ = Elib
-
-                    parameter.set_value(tokens.popl())
-
-                case "hlib":
-                    parameter.__class__ = Hlib
-
-                    parameter.set_value(tokens.popl())
-
-                case "alib":
-                    parameter.__class__ = Alib
-
-                    parameter.set_value(tokens.popl())
-
-                case "slib":
-                    parameter.__class__ = Slib
-
-                    parameter.set_value(tokens.popl())
-
-                case "tlib":
-                    parameter.__class__ = Tlib
-
-                    parameter.set_value(tokens.popl())
-
-                case "dlib":
-                    parameter.__class__ = Dlib
-
-                    parameter.set_value(tokens.popl())
-
-                case "cond":
-                    parameter.__class__ = Cond
-
-                    value = types.cast_fortran_real(tokens.popl())
-                    parameter.set_value(value)
-
-                case "refi":
-                    parameter.__class__ = Refi
-
-                    value = types.cast_fortran_real(tokens.popl())
-                    parameter.set_value(value)
-
-    #                case "refc":
-    #                    parameter.__class__ = Refc
-    #
-    #                    value =
-    #                    parameter.set_value(value)
-    #
-    #                case "refs":
-    #                    parameter.__class__ = Refs
-    #
-    #                    value =
-    #                    parameter.set_value(value)
-
-    class Gas(MaterialParameter):
+    class Gas(MaterialOption):
         """
-        'Gas' represents gas material specification parameters.
+        ``Gas`` represents INP Gas material data card options.
 
-        'Gas' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Gas`` inherits attributes from ``MaterialOption``. It represents the
+        INP Gas material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6376,37 +6491,36 @@ class Material(Datum):
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets gas material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None or value not in {0, 1}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self.state = value
 
-    class Estep(MaterialParameter):
+    class Estep(MaterialOption):
         """
-        'Estep' represents estep material specification parameters.
+        ``Estep`` represents INP Estep material data card options.
 
-        'Estep' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Estep`` inherits attributes from ``MaterialOption``. It represents the
+        INP Estep material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6415,37 +6529,36 @@ class Material(Datum):
 
         def set_value(self, value: float) -> None:
             """
-            'set_value' sets estep material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self.step = value
 
-    class Hstep(MaterialParameter):
+    class Hstep(MaterialOption):
         """
-        'Hstep' represents hstep material specification parameters.
+        ``Hstep`` represents INP Hstep material data card options.
 
-        'Hstep' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Hstep`` inherits attributes from ``MaterialOption``. It represents the
+        INP Hstep material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6454,37 +6567,36 @@ class Material(Datum):
 
         def set_value(self, value: float) -> None:
             """
-            'set_value' sets hstep material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self.step = value
 
-    class Nlib(MaterialParameter):
+    class Nlib(MaterialOption):
         """
-        'Nlib' represents nlib material specification parameters.
+        ``Nlib`` represents INP Nlib material data card options.
 
-        'Nlib' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Nlib`` inherits attributes from ``MaterialOption``. It represents the
+        INP Nlib material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6493,37 +6605,36 @@ class Material(Datum):
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets nlib material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self.abx = value
 
-    class Plib(MaterialParameter):
+    class Plib(MaterialOption):
         """
-        'Plib' represents plib material specification parameters.
+        ``Plib`` represents INP Plib material data card options.
 
-        'Plib' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Plib`` inherits attributes from ``MaterialOption``. It represents the
+        INP Plib material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6532,37 +6643,36 @@ class Material(Datum):
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets plib material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self._ = value
 
-    class Pnlib(MaterialParameter):
+    class Pnlib(MaterialOption):
         """
-        'Pnlib' represents pnlib material specification parameters.
+        ``Pnlib`` represents INP Pnlib material data card options.
 
-        'Pnlib' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Pnlib`` inherits attributes from ``MaterialOption``. It represents the
+        INP Pnlib material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6571,37 +6681,36 @@ class Material(Datum):
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets pnlib material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self.abx = value
 
-    class Elib(MaterialParameter):
+    class Elib(MaterialOption):
         """
-        'Elib' represents elib material specification parameters.
+        ``Elib`` represents INP Elib material data card options.
 
-        'Elib' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Elib`` inherits attributes from ``MaterialOption``. It represents the
+        INP Elib material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6610,37 +6719,36 @@ class Material(Datum):
 
         def set_value(self, value: int) -> None:
             """
-            'set_value' sets elib material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self.abx = value
 
-    class Hlib(MaterialParameter):
+    class Hlib(MaterialOption):
         """
-        'Hlib' represents hlib material specification parameters.
+        ``Hlib`` represents INP Hlib material data card options.
 
-        'Hlib' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Hlib`` inherits attributes from ``MaterialOption``. It represents the
+        INP Hlib material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6649,37 +6757,36 @@ class Material(Datum):
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets hlib material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self.abx = value
 
-    class Alib(MaterialParameter):
+    class Alib(MaterialOption):
         """
-        'Alib' represents alib material specification parameters.
+        ``Alib`` represents INP Alib material data card options.
 
-        'Alib' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Alib`` inherits attributes from ``MaterialOption``. It represents the
+        INP Alib material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6688,37 +6795,36 @@ class Material(Datum):
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets alib material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self.abx = value
 
-    class Slib(MaterialParameter):
+    class Slib(MaterialOption):
         """
-        'Slib' represents slib material specification parameters.
+        ``Slib`` represents INP Slib material data card options.
 
-        'Slib' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Slib`` inherits attributes from ``MaterialOption``. It represents the
+        INP Slib material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6727,37 +6833,36 @@ class Material(Datum):
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets slib material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self.abx = value
 
-    class Tlib(MaterialParameter):
+    class Tlib(MaterialOption):
         """
-        'Tlib' represents tlib material specification parameters.
+        ``Tlib`` represents INP Tlib material data card options.
 
-        'Tlib' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Tlib`` inherits attributes from ``MaterialOption``. It represents the
+        INP Tlib material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6766,37 +6871,36 @@ class Material(Datum):
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets tlib material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self.abx = value
 
-    class Dlib(MaterialParameter):
+    class Dlib(MaterialOption):
         """
-        'Dlib' represents dlib material specification parameters.
+        ``Dlib`` represents INP Dlib material data card options.
 
-        'Dlib' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Dlib`` inherits attributes from ``MaterialOption``. It represents the
+        INP Dlib material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6805,37 +6909,36 @@ class Material(Datum):
 
         def set_value(self, value: str) -> None:
             """
-            'set_value' sets dlib material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self.abx = value
 
-    class Cond(MaterialParameter):
+    class Cond(MaterialOption):
         """
-        'Cond' represents cond material specification parameters.
+        ``Cond`` represents INP Cond material data card options.
 
-        'Cond' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Cond`` inherits attributes from ``MaterialOption``. It represents the
+        INP Cond material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6844,37 +6947,36 @@ class Material(Datum):
 
         def set_value(self, value: float) -> None:
             """
-            'set_value' sets cond material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self.conducation_state = value
 
-    class Refi(MaterialParameter):
+    class Refi(MaterialOption):
         """
-        'Refi' represents refi material specification parameters.
+        ``Refi`` represents INP Refi material data card options.
 
-        'Refi' functions as a data subtype for 'MaterialParameter'.
-        It represents material specification parameters as abstract syntax elements.
+        ``Refi`` inherits attributes from ``MaterialOption``. It represents the
+        INP Refi material data card option syntax element.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initialzies 'Mat'.
+            ``__init__`` initializes ``Mat``.
             """
 
             super().__init__()
@@ -6883,331 +6985,213 @@ class Material(Datum):
 
         def set_value(self, value: float) -> None:
             """
-            'set_value' sets refi material specification parameter values.
+            ``set_value`` stores INP material data card option values.
 
-            'set_value' checks values are valid. It
-            raises errors if given None.
+            ``set_value`` checks given arguments before assigning the given
+            value to ``MaterialOption.value``. If given an unrecognized
+            arguments, it raises semantic errors.
 
             Parameters:
-                value: Parameter value.
+                value: Material data card option value.
 
             Raises:
-                MCNPSemanticError: Invalid material specification parameter value.
+                MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
 
             self.value = value
             self.constant_refracive_index = value
 
-    #    class Refc(MaterialParameter):
-    #        """
-    #        'Refc' represents refc material specification parameters.
-    #
-    #        'Refc' functions as a data subtype for 'MaterialParameter'.
-    #        It represents material specification parameters as abstract syntax elements.
-    #        """
-    #
-    #        def __init__(self) -> Self:
-    #            """
-    #            '__init__' initialzies 'Mat'.
-    #            """
-    #
-    #            super().__init__()
-    #
-    #            self._: int = None
-    #
-    #        def set_value(self, value: int) -> None:
-    #            """
-    #            'set_value' sets refc material specification parameter values.
-    #
-    #            'set_value' checks values are valid. It
-    #            raises errors if given None.
-    #
-    #            Parameters:
-    #                value: Parameter value.
-    #
-    #            Raises:
-    #                MCNPSemanticError: Invalid material specification parameter value.
-    #            """
-    #
-    #            if value is None:
-    #                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
-    #
-    #            self.value = value
-    #            self._ = value
-
-    #    class Refs(MaterialParameter):
-    #        """
-    #        'Refs' represents refs material specification parameters.
-    #
-    #        'Refs' functions as a data subtype for 'MaterialParameter'.
-    #        It represents material specification parameters as abstract syntax elements.
-    #        """
-    #
-    #        def __init__(self) -> Self:
-    #            """
-    #            '__init__' initialzies 'Mat'.
-    #            """
-    #
-    #            super().__init__()
-    #
-    #            self._: int = None
-    #
-    #        def set_value(self, value: int) -> None:
-    #            """
-    #            'set_value' sets refs material specification parameter values.
-    #
-    #            'set_value' checks values are valid. It
-    #            raises errors if given None.
-    #
-    #            Parameters:
-    #                value: Parameter value.
-    #
-    #            Raises:
-    #                MCNPSemanticError: Invalid material specification parameter value.
-    #            """
-    #
-    #            if value is None:
-    #                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
-    #
-    #            self.value = value
-    #            self._ = value
-
     def __init__(self) -> Self:
         """
-        '__init__' initialzies 'Material'.
+        ``__init__`` initializes ``Material``.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.MATERIAL
 
-        self.suffix: int = None
         self.substances: tuple[MaterialValue] = None
-        self.paris: tuple[MaterialParameter] = None
+        self.paris: tuple[MaterialOption] = None
 
-    def set_parameters(
-        self, substances: tuple[MaterialValue], pairs: tuple[MaterialParameter]
-    ) -> None:
+    def set_parameters(self, substances: tuple[MaterialValue], pairs: tuple[MaterialOption]) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``Material.pairs``, ``Mateiral.substances``, and
+        ``Material.parameters``. If given an unrecognized argument, it raises
+        semantic errors.
 
         Parameters:
-            substances: Iterable of material values.
+            substances: Iterable of substance specification.
             paris: Iterable of key-value pairs.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in substances:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.substances = substances
 
         for parameter in pairs:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.paris = pairs
 
         self.parameters = tuple(list(substances) + list(pairs))
 
-    @classmethod
-    def from_formula(cls, formulas: dict[str, float]) -> Self:
-        """
-        'from_formula'
-        """
 
-        material = cls()
+#    @classmethod
+#    def from_formula(cls, formulas: dict[str, float]) -> Self:
+#        """
+#        'from_formula'
+#        """
+#
+#        material = cls()
+#
+#        elements = {}
+#        for formula, fraction in formulas.items():
+#            tokens = parser.Parser(types.ELEMENTS_PATTERN.findall(formula), SyntaxError)
+#
+#            atoms = {}
+#            while tokens:
+#                # Checking first token is not numeric.
+#                if tokens.peekl() not in types.ELEMENTS:
+#                    raise SyntaxError
+#
+#                element = tokens.popl()
+#
+#                if not tokens or tokens.peekl() in types.ELEMENTS:
+#                    # Adding symbol without subscript
+#                    atoms[element] = 1
+#                elif types.cast_fortran_integer(tokens.peekl()) is not None:
+#                    # Adding symbol with subscript
+#                    atoms[element] = types.cast_fortran_integer(tokens.popl())
+#                else:
+#                    raise SyntaxError
+#
+#            total = sum(atoms.values())
+#
+#            # Adding current forumla elements to dictionary.
+#            for atom, count in atoms.items():
+#                if atom not in elements:
+#                    elements[atom] = fraction * (count / total)
+#                else:
+#                    elements[atom] += fraction * (count / total)
+#
+#        substances = []
+#        for element, fraction in elements.items():
+#            zaid = types.Zaid()
+#            zaid.z = types.ELEMENTS[element]
+#            zaid.a = 0
+#
+#            substance = cls.MaterialValue()
+#            substance.zaid = zaid
+#            substance.fraction = fraction
+#
+#            substances.append(substance)
+#
+#        material.set_parameters(tuple(substances), ())
+#
+#        return material
 
-        elements = {}
-        for formula, fraction in formulas.items():
-            tokens = parser.Parser(types.ELEMENTS_PATTERN.findall(formula), SyntaxError)
 
-            atoms = {}
-            while tokens:
-                # Checking first token is not numeric.
-                if tokens.peekl() not in types.ELEMENTS:
-                    raise SyntaxError
-
-                element = tokens.popl()
-
-                if not tokens or tokens.peekl() in types.ELEMENTS:
-                    # Adding symbol without subscript
-                    atoms[element] = 1
-                elif types.cast_fortran_integer(tokens.peekl()) is not None:
-                    # Adding symbol with subscript
-                    atoms[element] = types.cast_fortran_integer(tokens.popl())
-                else:
-                    raise SyntaxError
-
-            total = sum(atoms.values())
-
-            # Adding current forumla elements to dictionary.
-            for atom, count in atoms.items():
-                if atom not in elements:
-                    elements[atom] = fraction * (count / total)
-                else:
-                    elements[atom] += fraction * (count / total)
-
-        substances = []
-        for element, fraction in elements.items():
-            zaid = types.Zaid()
-            zaid.z = types.ELEMENTS[element]
-            zaid.a = 0
-
-            substance = cls.MaterialValue()
-            substance.zaid = zaid
-            substance.fraction = fraction
-
-            substances.append(substance)
-
-        material.set_parameters(tuple(substances), ())
-
-        return material
-
-
-class MaterialNeutronScattering(Datum):
+class MaterialNeutronScattering(Datum_Suffix):
     """
-    'MaterialNeutronScattering' represents thermal neutron
-    scattering data cards.
+    ``MaterialNeutronScattering`` represents INP thermal neutron scattering
+    data cards.
 
-    'MaterialNeutronScattering' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``MaterialNeutronScattering`` inherits attributes from ``Datum_Suffix``,
+    i.e. ``Datum`` with suffix support. It represents the INP thermal neturon
+    scattering data card syntax element.
+
+    Attributes:
+        identifiers: Iterable of material identifiers.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'MaterialNeutronScattering'
+        ``__init__`` initializes ``MaterialNeutronScattering``.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.THERMAL_NETURON_SCATTERING
 
         self.identifiers: tuple[str] = None
-        self.suffix: int = None
-
-    def set_suffix(self, suffix: int) -> None:
-        """
-        'set_suffix' sets thermal neutron scattering
-        data card keyword suffixes.
-
-        'set_suffix' checks suffixes are valid.
-        It raises errors if given None.
-
-        Parameters:
-            suffix: Data card mnemonic suffix.
-        """
-
-        if suffix is None and not (1 <= suffix <= 999):
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX
-            )
-
-        self.suffix = suffix
 
     def set_parameters(self, *identifiers: str) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``MaterialNeutronScattering.identifiers`` and
+        ``MaterialNeutronScattering.parameters``. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
-            *identifiers: Iterable of identifiers.
+            *identifiers: Iterable of material identifiers.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in identifiers:
             if parameter is None or not parmeter:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = identifiers
         self.identifiers = identifiers
 
 
-class MaterialNuclideSubstitution(Datum):
+class MaterialNuclideSubstitution(Datum_Suffix, Datum_Designator):
     """
-    'MaterialNuclideSubstitution' represents thermal neutron
-    scattering data cards.
+    ``MaterialNuclideSubstitution`` represents INP material nuclide
+    substitution data cards.
 
-    'MaterialNuclideSubstitution' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``MaterialNuclideSubstitution`` inherits attributes from ``Datum_Suffix``,
+    i.e. ``Datum`` with suffix support, and ``Datum_Designator`` with
+    designator support. It represents the INP material nuclide substitution
+    data card syntax element.
+
+    Attributes:
+        Zaids: Iterable of ZAID alias.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'MaterialNuclideSubstitution'
+        ``__init__`` initializes ``MaterialNuclideSubstitution``.
         """
 
         super().__init__()
         self.mnemonic = Datum.DatumMnemonic.THERMAL_NETURON_SCATTERING
 
         self.zaids: tuple[types.Zaid] = None
-        self.suffix: int = None
-        self.designator: tuple[types.Designator] = None
-
-    def set_suffix(self, suffix: int) -> None:
-        """
-        'set_suffix' sets thermal neutron scattering
-        data card keyword suffixes.
-
-        'set_suffix' checks suffixes are valid.
-        It raises errors if given None.
-
-        Parameters:
-            suffix: Data card mnemonic suffix.
-        """
-
-        if suffix is None and not (1 <= suffix <= 999):
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX
-            )
-
-        self.suffix = suffix
-
-    def set_designator(self, designator: tuple[types.Designator]) -> None:
-        """
-        'set_designator' checks designators are valid.
-        It raises errors if given None.
-
-        Parameters:
-            designator: cell card parameter designator.
-        """
-
-        if designator is None:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR
-            )
-
-        self.designator = designator
 
     def set_parameters(self, *zaids: types.Zaid) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``MaterialNuclideSubstitution.zaids`` and
+        ``MaterialNuclideSubstitution.parameters``. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
-            *zaids: Iterable of zaids.
+            *zaids: Iterable of ZAID alias.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in zaids:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = zaids
         self.zaids = zaids
@@ -7215,15 +7199,18 @@ class MaterialNuclideSubstitution(Datum):
 
 class OnTheFlyBroadening(Datum):
     """
-    'OnTheFlyBroadening' represents on-the-fly broadening data cards.
+    ``OnTheFlyBroadening`` represents INP on-the-fly broadening data cards.
 
-    'OnTheFlyBroadening' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``OnTheFlyBroadening`` inherits attributes from ``Datum``. It represents
+    the INP on-the-fly boradening data card syntax element.
+
+    Attributes:
+        zaids: Iterable of ZAID alias.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'OnTheFlyBroadening'
+        ``__init__`` initializes ``OnTheFlyBroadening``.
         """
 
         super().__init__()
@@ -7233,20 +7220,23 @@ class OnTheFlyBroadening(Datum):
 
     def set_parameters(self, *zaids: types.Zaid) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``OnTheFlyBroadening.zaids`` and
+        ``OnTheFlyBroadening.parameters``. If given an unrecognized argument,
+        it raises semantic errors.
 
         Parameters:
-            *zaids: Iterable of zaids.
+            *zaids: Iterable of ZAID alias.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in zaids:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = zaids
         self.zaids = zaids
@@ -7254,15 +7244,18 @@ class OnTheFlyBroadening(Datum):
 
 class TotalFission(Datum):
     """
-    'TotalFission' represents the total fission card.
+    ``OnTheFlyBroadening`` represents INP total fission data cards.
 
-    'TotalFission' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``OnTheFlyBroadening`` inherits attributes from ``Datum``. It represents
+    the INP on-the-fly boradening data card syntax element.
+
+    Attributes:
+        has_no: No volume calculation option.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'TotalFission'.
+        ``__init__`` initializes ``TotalFission``.
         """
 
         super().__init__()
@@ -7270,18 +7263,42 @@ class TotalFission(Datum):
 
         self.has_no: bool = None
 
+    def set_parameters(self, has_no: bool) -> None:
+        """
+        ``set_parameters`` stores INP data card parameters.
+
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``TotalFission.has_no`` and ``TotalFission.parameters``. If
+        given an unrecognized argument, it raises semantic errors.
+
+        Parameters:
+           has_no: No volume calculation option.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
+        """
+
+        if has_no is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+        self.parameters = tuple(has_no)
+        self.states = has_no
+
 
 class FissionTurnoff(Datum):
     """
-    'FissionTurnoff' represents fission turnoff data cards.
+    ``FissionTurnoff`` represents INP fission turnoff data cards.
 
-    'FissionTurnoff' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``FissionTurnoff`` inherits attributes from ``Datum``. It represents
+    the INP fission turnoff data card syntax element.
+
+    Attributes:
+        states: Iterable of fission turnoff settings.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'FissionTurnoff'.
+        ``__init__`` initializes ``FissionTurnoff``.
         """
 
         super().__init__()
@@ -7291,20 +7308,22 @@ class FissionTurnoff(Datum):
 
     def set_parameters(self, *states: int) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``FissionTurnoff.states`` and ``FissionTurnoff.parameters``.
+        If given an unrecognized argument, it raises semantic errors.
 
         Parameters:
-            *states: Iterable of states.
+            *states: Iterable of fission turnoff settings.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in states:
             if parameter is None or parameter not in {0, 1, 2}:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = states
         self.states = states
@@ -7312,22 +7331,33 @@ class FissionTurnoff(Datum):
 
 class AtomicWeight(Datum):
     """
-    'AtomicWeight' represents atomic weight data cards.
+    ``AtomicWeight`` represents INP atomic weight data cards.
 
-    'AtomicWeight' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``AtomicWeight`` inherits attributes from ``Datum``. It represents
+    the INP atomic weight data card syntax element.
+
+    Attributes:
+        weight_ratios: Iterable of weight ratios.
     """
 
     class AtomicWeightValue:
         """
-        'AtomicWeightValue' represents atomic weight entries.
+        ``AtomicWeightValue`` represents INP atomic weight data card entries.
 
-        'AtomicWeightValue' stores zaid and atomic weight values.
+        ``AtomicWeightValue`` implements INP material specifications as a
+        Python inner class. Its attributes store different mateiral entries,
+        and its methods provide entry points and endpoints for working with
+        atomic weight entries. ``AtomicWeight`` depends on
+        ``AtomicWeightValue`` as a data type.
+
+        Attributes:
+            zaid: Atomic weight value Zaid specifier.
+            ratio: Atomic weight value wegiht ratio.
         """
 
         def __init__(self) -> Self:
             """
-            '__init__' initalizes 'AtomicWeightValue'.
+            ``__init__`` initializes ``AtomicWeightValue``.
             """
 
             self.zaid: types.Zaid = None
@@ -7336,20 +7366,21 @@ class AtomicWeight(Datum):
         @classmethod
         def from_mcnp(cls, string: str) -> Self:
             """
-            'from_mcnp' generates atomic weight entries.
+            ``from_mcnp`` generates ``AtomicWeightValue`` objects from INP.
 
-            'from_mcnp' constructs instances of 'AtomicWeightValue'
-            from INP strings, so it functions as a class constructor.
+            ``from_mcnp`` constructs instances of ``AtomicWeightValue`` from
+            INP source strings, so it operates as a class constructor method
+            and INP parser helper function.
 
             Parameters:
-                string: INP to parse.
+                source: INP for atomic weight values.
 
             Returns:
-                Atomic weight value object.
+                ``AtomicWeightValue`` object.
 
             Raises:
-                MCNPSemanticError: Invalid card parameter entry.
-                MCNPSyntaxError: Invalid card paramter syntax.
+                MCNPSemanticError: INVALID_DATUM_PARAMETERS.
+                MCNPSyntaxError: TOOFEW_DATUM, TOOLONG_DATUM.
             """
 
             entry = cls()
@@ -7362,24 +7393,20 @@ class AtomicWeight(Datum):
             # Parsing zzzaaa
             value = types.Zaid().cast_mcnp_zaid(tokens.popl())
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
             self.zaid = value
 
             # Parsing atomic weight
             value = types.cast_fortran_real(tokens.popl())
             if value is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
             self.weight = value
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'AtomicWeight'.
+        ``__init__`` initializes ``AtomicWeight``.
         """
 
         super().__init__()
@@ -7389,36 +7416,45 @@ class AtomicWeight(Datum):
 
     def set_parameters(self, *weight_ratios: AtomicWeightValue) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``AtomicWeight.weight_ratios`` and
+        ``AtomicWeight.parameters``. If given an unrecognized argument, it
+        raises semantic errors.
 
         Parameters:
             *weight_ratios: Iterable of weight ratios.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in weights:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = weight_ratios
         self.weight_ratios = weight_ratios
 
 
-class CrossSectionFile(Datum):
+class CrossSectionFile(Datum_Suffix):
     """
-    'CrossSectionFile' represents cross-section file data cards.
+    ``CrossSectionFile`` represents INP cross-section file data cards.
 
-    'CrossSectionFile' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``CrossSectionFile`` inherits attributes from ``Datum_Suffix``, i.e.
+    ``Datum`` with suffix support. It represents the INP cross-section file
+    data card syntax element.
+
+    Attributes:
+        zaid: Cross-section file zaid.
+        weight_ratio: Cross-section atomic weight ratio.
+        entries: Iterable of file entries.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'CrossSectionFile'.
+        ``__init__`` initializes ``CrossSectionFile``.
         """
 
         super().__init__()
@@ -7426,61 +7462,38 @@ class CrossSectionFile(Datum):
 
         self.zaid: types.Zaid = None
         self.weight_ratio: float = None
-        self.suffix: int = None
 
-    def set_suffix(self, suffix: int) -> None:
+    def set_parameters(self, zaid: types.Zaid, weight_ratio: float, *entries: str) -> None:
         """
-        'set_suffix' sets cross-section file
-        data card keyword suffixes.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_suffix' checks suffixes are valid.
-        It raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``CrossSectionFile.zaid``, ``CrossSectionFile.weight_ratio``,
+        ``CrossSectionFile.entries``, and ``CrossSectionFile.parameters``. If
+        given an unrecognized argument, it raises semantic errors.
 
         Parameters:
-            suffix: Data card mnemonic suffix.
-        """
-
-        if suffix is None and not (1 <= suffix <= 99_999_999):
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX
-            )
-
-        self.suffix = suffix
-
-    def set_parameters(
-        self, zaid: types.Zaid, weight_ratio: float, *entries: str
-    ) -> None:
-        """
-        'set_parameters' sets data card parameters.
-
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
-
-        Parameters:
-            zaid: Nuclide identifier.
-            weight_ratio: Atomic weight ratio.
+            zaid: Cross-section file zaid.
+            weight_ratio: Cross-section atomic weight ratio.
             *entries: Iterable of file entries.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         if zaid is None:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-            )
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.zaid = zaid
 
         if weight_ratio is None:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-            )
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.weight_ratio = weight_ratio
 
         for parameter in entries:
             if parameter is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.entries = entries
         self.parameters = tuple([zaid, weight_ratio] + list(entries))
@@ -7488,38 +7501,43 @@ class CrossSectionFile(Datum):
 
 class Void(Datum):
     """
-    'Void' represents material void data cards.
+    ``Void`` represents INP material void data cards.
 
-    'Void' functions as a data subtype for 'Datum'.
-    It represents datum cards as an abstract syntax element.
+    ``Void`` inherits attributes from ``Datum``. It represents the INP material
+    void data card syntax element.
+
+    Attributes:
+        numbers: Iterable of cell numbers.
     """
 
     def __init__(self) -> Self:
         """
-        '__init__' initalizes 'Void'
+        ``__init__`` initializes ``Void``.
         """
 
         super().__init__()
-        self.mnemonic = Datum.DatumMnemonic.AREA
+        self.mnemonic = Datum.DatumMnemonic.VOID
 
         self.numbers: tuple[int] = None
 
     def set_parameters(self, *numbers: float) -> None:
         """
-        'set_parameters' sets data card parameters.
+        ``set_parameters`` stores INP data card parameters.
 
-        'set_parameters' checks parameter entries are valid, and
-        it raises errors if given None.
+        ``set_parameters`` checks given arguments before assigning the given
+        value to ``Void.numbers`` and ``Void.parameters``. If given an
+        unrecognized argument, it raises semantic errors.
 
         Parameters:
             *numbers: Iterable of cell numbers.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
         for parameter in numbers:
             if parameter is None or not (1 <= parameter <= 99_999_999):
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETER
-                )
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.parameters = numbers
         self.numbers = numbers

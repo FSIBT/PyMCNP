@@ -8,6 +8,7 @@ from .datum import Datum
 from .inp import Inp
 from .surface import Surface
 from .surfaces import Surfaces
+from .datum import Material
 
 __all__ = [
     "Block",
@@ -17,6 +18,7 @@ __all__ = [
     "Comment",
     "Data",
     "Datum",
+    "Material",
     "Inp",
     "Surface",
     "Surfaces",

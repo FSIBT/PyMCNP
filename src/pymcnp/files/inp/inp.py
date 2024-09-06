@@ -1,23 +1,27 @@
 """
-'inp' contains the class representing INP files.
+``inp`` contains the class representing INP files.
 
-Classes:
-    Inp: Representation of INP files.
+``inp`` packages the ``Inp`` class, providing an object-oriented, importable
+interface for INP files.
 """
 
 
 from typing import Self
 
-from .cells import Cells
-from .surfaces import Surfaces
-from .data import Data
+from . import cells
+from . import surfaces
+from . import data
 from .._utils import parser
 from .._utils import errors
 
 
 class Inp:
     """
-    'Inp' represents INP files.
+    ``Inp`` represents INP files.
+
+    ``Inp`` implements INP files as a Python class. Its attributes store
+    INP blocks, and its methods provide entry points and endpoints for working
+    with INP. It represents the INP file syntax element.
 
     Attributes:
         message: INP message.
@@ -35,42 +39,44 @@ class Inp:
 
         self.message: str = None
         self.title: str = None
-        self.cells: Cells = Cells()
-        self.surfaces: Surfaces = Surfaces()
-        self.data: Data = Data()
+        self.cells: cells.Cells = Cells()
+        self.surfaces: surfaces.Surfaces = Surfaces()
+        self.data: data.Data = Data()
         self.other: str = None
 
     def set_message(self, message: str) -> None:
         """
-        'set_message' sets INP messages.
+        ``set_message`` stores INP message blocks.
 
-        'set_message' checks messages have the required "message:"
-        keyword. It raises errors if given None.
+        ``set_message`` checks given arguments before assigning the given
+        value to ``Inp.message``. If given an unrecognized argument, it
+        raises semantic errors.
 
         Parameters:
-            message: INP message.
+            message: INP message block.
 
         Raises:
-            MCNPSyntaxError: Missing keyword in INP message.
+            MCNPSemanticError: INVALID_INP_MESSAGE.
         """
 
         if message is None or not message[:9] == "message:":
-            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_INP_MESSAGE)
+            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.INVALID_INP_MESSAGE)
 
         self.message = message
 
     def set_title(self, title: str) -> None:
         """
-        'set_title' sets INP titles.
+        ``set_title`` stores INP titles.
 
-        'set_title' checks given titles pass the 80 character limit.
-        It raises errors if given None.
+        ``set_title`` checks given arguments before assigning the given
+        value to ``Inp.title``. If given an unrecognized argument, it
+        raises semantic errors.
 
-        Parmeters:
+        Parameters:
             title: INP title.
 
         Raises:
-            MCNPSemanticError: Invalid INP title.
+            MCNPSemanticError: INVALID_INP_TITLE.
         """
 
         if title is None or not len(title) < 80:
@@ -78,71 +84,153 @@ class Inp:
 
         self.title = title
 
+    def set_cells(self, cells: cells.Cells) -> None:
+        """
+        ``set_cells`` stores INP cell card blocks.
+
+        ``set_cells`` checks given arguments before assigning the given
+        value to ``Inp.cells``. If given an unrecognized argument, it
+        raises semantic errors.
+
+        Parameters:
+            cells: INP cell card block.
+
+        Raises:
+            MCNPSemanticError: INVALID_INP_CELLS.
+        """
+
+        if cells is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_CELLS)
+
+        self.cells = cells
+
+    def set_surfaces(self, surfaces: surfaces.Surfaces) -> None:
+        """
+        ``set_surfaces`` stores INP surface card blocks.
+
+        ``set_surfaces`` checks given arguments before assigning the given
+        value to ``Inp.surfaces``. If given an unrecognized argument, it
+        raises semantic errors.
+
+        Parameters:
+            surfaces: INP surface card block.
+
+        Raises:
+            MCNPSemanticError: INVALID_INP_SURFACES.
+        """
+
+        if surfaces is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_SURFACES)
+
+        self.surfaces = surfaces
+
+    def set_data(self, data: data.Data) -> None:
+        """
+        ``set_data`` stores INP data card blocks.
+
+        ``set_data`` checks given arguments before assigning the given
+        value to ``Inp.data``. If given an unrecognized argument, it
+        raises semantic errors.
+
+        Parameters:
+            data: INP data card block.
+
+        Raises:
+            MCNPSemanticError: INVALID_INP_DATA.
+        """
+
+        if data is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+
+        self.data = data
+
+    def set_other(self, other: str) -> None:
+        """
+        ``set_other`` stores INP other blocks.
+
+        ``set_other`` checks given arguments before assigning the given
+        value to ``Inp.other``. If given an unrecognized argument, it
+        raises semantic errors.
+
+        Parameters:
+            data: INP other block.
+
+        Raises:
+            MCNPSemanticError: INVALID_INP_OTHER.
+        """
+
+        if other is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_OTHER)
+
+        self.other = other
+
     @classmethod
     def from_mcnp(cls, source: str) -> Self:
         """
-        'from_mcnp' generates input objects from INP.
+        ``from_mcnp`` generates ``Inp`` objects from INP.
+
+        ``from_mcnp`` constructs instances of ``Inp`` from INP source strings,
+        so it operates as a class constructor method and INP parser.
 
         Parameters:
-            source: INP to parse.
+            source: Complete INP source string.
 
         Returns:
-            Input object.
-
-        Raises:
-            MCNPSyntaxError: Invalid INP, too few entries.
+            ``Inp`` object.
         """
 
         inp = cls()
 
         source = parser.Preprocessor.process_inp(source)
-        lines = parser.Parser(
-            source.split("\n"),
-            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_INP),
-        )
+        lines = parser.Parser(source.split("\n"), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_INP))
 
         # Processing Message Block
         if lines.peekl()[:9] == "message:":
             inp.set_message(lines.popl())
 
         # Processing Title
-        inp.title = lines.popl()
+        inp.set_title(lines.popl())
 
         # Processing Cell Cards
         index = list(lines.deque).index("")
         cell_lines = "\n".join(lines.popl() for _ in range(0, index))
-        inp.cells = Cells.from_mcnp(cell_lines)
+        inp.set_cells(cells.Cells.from_mcnp(cell_lines))
 
         lines.popl()
 
         # Processing Surface Cards
         index = list(lines.deque).index("")
         surface_lines = "\n".join(lines.popl() for _ in range(0, index))
-        inp.surfaces = Surfaces.from_mcnp(surface_lines)
+        inp.set_surfaces(surfaces.Surfaces.from_mcnp(surface_lines))
 
         lines.popl()
 
         # Processing Datum Cards
         index = list(lines.deque).index("") if "" in lines.deque else len(lines.deque)
         datum_lines = "\n".join(lines.popl() for _ in range(0, index))
-        inp.data = Data.from_mcnp(datum_lines)
+        inp.set_data(data.Data.from_mcnp(datum_lines))
 
-        inp.other = ""
+        other = ""
         while lines:
-            inp.other += lines.popl()
+            other += lines.popl()
+
+        inp.set_other(other)
 
         return inp
 
     @classmethod
     def from_mcnp_file(cls, filename: str) -> Self:
         """
-        'from_file' generates input objects from filenames.
+        ``from_mcnp_file`` generates ``Inp`` objects from INP files.
+
+        ``from_mcnp_file`` constructs instances of ``Inp`` from INP files,
+        so it operates as a class constructor method and INP parser.
 
         Parameters:
             filename: Name of file to parse.
 
         Returns:
-            Input object.
+            ``Inp`` object.
         """
 
         source = ""
@@ -153,10 +241,13 @@ class Inp:
 
     def to_mcnp(self) -> str:
         """
-        'to_mcnp' generates INP from input objects.
+        ``to_mcnp`` generates INP from ``Inp`` objects.
+
+        ``to_mcnp`` creates INP source string from ``INp`` objects, so it
+        provides an MCNP endpoint.
 
         Returns:
-            INP for input object.
+            INP string for ``Inp`` object.
         """
 
         # Appending Message
@@ -174,10 +265,16 @@ class Inp:
 
     def to_mcnp_file(self, filename: str) -> int:
         """
-        'to_mcnp_file' generates INP files from input objects.
+        ``to_mcnp`` generates INP from ``Inp`` objects.
+
+        ``to_mcnp`` creates INP source string from ``INp`` objects, so it
+        provides an MCNP endpoint.
 
         Parameters:
-            filename: Output filename.
+            filename: Name of file to write INP string for ``Inp`` object.
+
+        Returns:
+            Number of bytes written.
         """
 
         with open(filename, "w") as file:
@@ -187,13 +284,14 @@ class Inp:
 
     def to_arguments(self) -> dict:
         """
-        'to_arguments' generates dictionaries from input objects.
+        ``to_arguments`` makes dictionaries from ``Inp`` objects.
 
-        'to_arguments' creates dictionaries whose keys are
-        attribute names, and whose values are attribute value.
+        ``to_arguments`` creates Python dictionaries from ``Inp`` objects, so
+        it provides an MCNP endpoint. The dictionary keys follow the MCNP
+        manual.
 
         Returns:
-            Dictionary of input object data.
+            Dictionary for ``Inp`` object.
         """
 
         return {

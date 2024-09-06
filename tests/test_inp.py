@@ -22,7 +22,7 @@ import _strategies as _st
 # HY_TRIALS = 10000  # 00:15:00
 # HY_TRIALS = 100000 # ??:??:??
 
-HY_TRIALS = 1000
+HY_TRIALS = 2000
 
 
 class TestCell:
@@ -58,30 +58,22 @@ class TestCell:
                 parameter_str += "=" + value
 
                 if material != "0":
-                    inp = Cell().from_mcnp(
-                        f"{number} {material} {density} {geometry} {parameter_str}"
-                    )
+                    inp = Cell().from_mcnp(f"{number} {material} {density} {geometry} {parameter_str}")
                 else:
-                    inp = Cell().from_mcnp(
-                        f"{number} {material} {geometry} {parameter_str}"
-                    )
+                    inp = Cell().from_mcnp(f"{number} {material} {geometry} {parameter_str}")
 
                 assert inp.number == int(number)
                 assert inp.id == int(number)
                 assert inp.material == int(material)
                 assert inp.density == (float(density) if int(material) != 0 else None)
-                assert inp.parameters[0].keyword == Cell.CellParameter.CellKeyword(
-                    keyword
-                )
-                assert float(inp.parameters[0].value) == float(value)
+                assert inp.options[0].keyword == Cell.CellOption.CellKeyword(keyword)
+                assert float(inp.options[0].value) == float(value)
 
                 if suffix is not None:
-                    assert inp.parameters[0].suffix == int(suffix)
+                    assert inp.options[0].suffix == int(suffix)
 
                 if designator is not None:
-                    assert inp.parameters[0].designator[0] == types.Designator(
-                        designator
-                    )
+                    assert inp.options[0].designator[0] == types.Designator(designator)
 
         @hy.settings(max_examples=HY_TRIALS)
         @hy.given(cell=_st.mcnp_cells(False, True, True, True, True))
@@ -270,8 +262,7 @@ class TestCell:
                 "1 0 1 2 -3 (-4 : -5) -6 7",
                 "2 0 -1 : -2 : 3 : 4 5 : 6 : -7",
                 "2 0 #1",
-                "1 0 -1 2 3 (-4 : -16) 5 -6 (12 : 13 : -14)\n"
-                "     (10 : -9 : -11 : -7 : 8) 15",
+                "1 0 -1 2 3 (-4 : -16) 5 -6 (12 : 13 : -14)\n" "     (10 : -9 : -11 : -7 : 8) 15",
                 "2 0 -10 9 11 7 -8 -1 : 2 -12 14 -6 -13 3",
                 "3 0 -17 (1 : -2 : -5 : 6 : -3 : -15 : 16 4)",
                 "4 0 17",
@@ -358,14 +349,9 @@ class TestSurface:
                 number, transform, mnemonic, entries = surface
 
                 with pytest.raises(errors.MCNPSemanticError) as err:
-                    Surface().from_mcnp(
-                        f"{number} {transform} {mnemonic} {' '.join(entries)}"
-                    )
+                    Surface().from_mcnp(f"{number} {transform} {mnemonic} {' '.join(entries)}")
 
-                assert (
-                    err.value.code
-                    == errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC
-                )
+                assert err.value.code == errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC
 
         @hy.settings(max_examples=math.ceil(HY_TRIALS / 78))
         @hy.given(surfaces=_st.mcnp_surfaces(True, True, False))
@@ -380,9 +366,7 @@ class TestSurface:
                 with pytest.raises(errors.MCNPSemanticError) as err:
                     Surface().from_mcnp(f"{number} {mnemonic} {' '.join(entries)}")
 
-                assert (
-                    err.value.code == errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC
-                )
+                assert err.value.code == errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC
 
         def test_fuzz(self):
             """

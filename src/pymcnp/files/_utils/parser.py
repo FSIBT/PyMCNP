@@ -20,15 +20,6 @@ class Parser:
         self.deque = collections.deque(iterable)
         self.err = err
 
-    def from_string(self, string: str, delimiter: str):
-        """
-        'from_string'
-        """
-
-        self.deque = collections.deque(re.split(delimiter, string))
-
-        return self
-
     def pushl(self, item: any) -> None:
         """
         'pushl'
@@ -159,8 +150,8 @@ class Preprocessor:
 
         string = Preprocessor._process_case(string)
         string = Preprocessor._process_continuation(string)
-        string = Preprocessor._process_continuation(string)
         string = Preprocessor._process_whitespace(string)
+        string = string.strip(" ")
 
         return string
 
