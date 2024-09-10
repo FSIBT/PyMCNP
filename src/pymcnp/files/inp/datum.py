@@ -805,20 +805,22 @@ class Transformation(Datum_Suffix):
         self.displacement = displacement
 
         # Processing rotation
+        parameters = []
         for row in rotation:
             for entry in row:
                 if entry is None:
+                    parameters.append(entry)
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.rotation = rotation
 
         # Processing system
-        if tokens.peekr() is None or tokens.peekr() not in {-1, 1}:
+        if system is None or system not in {-1, 1}:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.system = system
 
-        self.parameters = tuple(list(displacement) + list(*rotation) + [system])
+        self.parameters = tuple([number] + list(displacement) + parameters + [system])
 
 
 class Universe(Datum):

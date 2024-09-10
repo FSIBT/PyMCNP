@@ -82,6 +82,8 @@ class Cell(card.Card):
 
             geometry = cls()
 
+            if not source:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY)
             source = _parser.Preprocessor.process_inp(source)
 
             # Running Shunting-Yard Algorithm
@@ -383,16 +385,16 @@ class Cell(card.Card):
                 MCNPSyntaxError: TOOFEW_CELL_OPTION, TOOLONG_CELL_OPTION.
             """
 
-            parameter = cls()
+            option = cls()
 
             source = _parser.Preprocessor.process_inp(source)
             tokens = _parser.Parser(
-                re.split(r":|=", source), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_OPTION)
+                re.split(r":|=| ", source), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_OPTION)
             )
 
             # Processing Keyword
             keyword = cls.CellKeyword.from_mcnp(tokens.peekl())
-            parameter.set_keyword(keyword)
+            option.set_keyword(keyword)
 
             # Processing Values, Suffixes, & Designators
             match keyword:
@@ -400,15 +402,13 @@ class Cell(card.Card):
                     # Processing Keyword
                     tokens.popl()
 
-                    print(parameter.__class__)
-
                     # Processing Value
                     entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                     # Processing Designator
                     designator = types.Designator.cast_mcnp_designator(tokens.popr())
-                    parameter.set_designator(designator)
+                    option.set_designator(designator)
 
                 case cls.CellKeyword.VOLUME:
                     # Processing Keyword
@@ -416,7 +416,7 @@ class Cell(card.Card):
 
                     # Processing Value
                     entry = types.cast_fortran_real(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                 case cls.CellKeyword.PHOTON_WEIGHT:
                     # Processing Keyword
@@ -424,7 +424,7 @@ class Cell(card.Card):
 
                     # Processing Value
                     entry = types.cast_fortran_real(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                 case cls.CellKeyword.EXPONENTIAL_TRANSFORM:
                     # Processing Keyword
@@ -432,11 +432,11 @@ class Cell(card.Card):
 
                     # Processing Value
                     entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                     # Processing Designator
                     designator = types.Designator.cast_mcnp_designator(tokens.popr())
-                    parameter.set_designator(designator)
+                    option.set_designator(designator)
 
                 case cls.CellKeyword.FORCED_COLLISION:
                     # Processing Keyword
@@ -444,37 +444,37 @@ class Cell(card.Card):
 
                     # Processing Value
                     entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                     # Processing Designator
                     designator = types.Designator.cast_mcnp_designator(tokens.popr())
-                    parameter.set_designator(designator)
+                    option.set_designator(designator)
 
                 case cls.CellKeyword.WEIGHT_WINDOW_BOUNDS:
                     # Processing Suffix/Keyword
                     suffix = types.cast_fortran_integer(tokens.popl()[3:])
-                    parameter.set_suffix(suffix)
+                    option.set_suffix(suffix)
 
                     # Processing Value
                     entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                     # Processing Designator
                     designator = types.Designator.cast_mcnp_designator(tokens.popr())
-                    parameter.set_designator(designator)
+                    option.set_designator(designator)
 
                 case cls.CellKeyword.DXTRAN_CONTRIBUTION:
                     # Processing Suffix/Keyword
                     suffix = types.cast_fortran_integer(tokens.popl()[3:])
-                    parameter.set_suffix(suffix)
+                    option.set_suffix(suffix)
 
                     # Processing Value
                     entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                     # Processing Designator
                     designator = types.Designator.cast_mcnp_designator(tokens.popr())
-                    parameter.set_designator(designator)
+                    option.set_designator(designator)
 
                 case cls.CellKeyword.FISSION_TURNOFF:
                     # Processing Keyword
@@ -482,25 +482,25 @@ class Cell(card.Card):
 
                     # Processing Value
                     entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                 case cls.CellKeyword.DETECTOR_CONTRIBUTION:
                     # Processing Suffix/Keyword
                     suffix = types.cast_fortran_integer(tokens.popl()[2:])
-                    parameter.set_suffix(suffix)
+                    option.set_suffix(suffix)
 
                     # Processing Value
                     entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                 case cls.CellKeyword.GAS_THERMAL_TEMPERATURE:
                     # Processing Suffix/Keyword
                     suffix = types.cast_fortran_integer(tokens.popl()[3:])
-                    parameter.set_suffix(suffix)
+                    option.set_suffix(suffix)
 
                     # Processing Value
                     entry = types.cast_fortran_real(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                 case cls.CellKeyword.UNIVERSE:
                     # Processing Keyword
@@ -508,15 +508,25 @@ class Cell(card.Card):
 
                     # Processing Value
                     entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                 case cls.CellKeyword.COORDINATE_TRANSFORMATION:
                     # Processing Keyword
                     tokens.popl()
 
+                    entries = []
+                    while tokens:
+                        entries.append(types.cast_fortran_integer(tokens.popl()))
+
                     # Processing Value
-                    entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    if len(entries) == 13:
+                        displacement = tuple(entries[0:3])
+                        rotation = (tuple(entries[3:6]), tuple(entries[6:9]), tuple(entries[9:12]))
+                        system = entries[12]
+
+                        option.set_value_form2(displacement, rotation, system)
+                    else:
+                        option.set_value_form1(entries[0])
 
                 case cls.CellKeyword.LATTICE:
                     # Processing Keyword
@@ -524,15 +534,37 @@ class Cell(card.Card):
 
                     # Processing Value
                     entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                 case cls.CellKeyword.FILL:
                     # Processing Keyword
                     tokens.popl()
 
+                    entries = []
+                    while tokens:
+                        entries.append(types.cast_fortran_integer(tokens.popl()))
+
                     # Processing Value
-                    entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    if len(entries) == 1:
+                        number = entries[0]
+                        transform = None
+                        option.set_value_form1A(number, transform=transform)
+                    elif len(entries) == 2:
+                        number = entries[0]
+                        transform = entries[1]
+                        option.set_value_form1A(number, transform=transform)
+                    elif entries == 13:
+                        number = entries[0]
+                        displacement = tuple(entries[1:4])
+                        rotation = tuple(tuple(entries[4:7]), tuple(entries[7:10]), tuple(entries[10:13]))
+                        system = entries[13]
+                        option.set_value_form1B(number, displacement, rotation, system)
+                    else:
+                        i_bounds = tuple(entries[0:2])
+                        j_bounds = tuple(entries[2:4])
+                        k_bounds = tuple(entries[4:6])
+                        numbers = tuple(entries[6:])
+                        option.set_value_form2(i_bounds, j_bounds, k_bounds, numbers)
 
                 case cls.CellKeyword.ENERGY_CUTOFF:
                     # Processing Keyword
@@ -540,11 +572,11 @@ class Cell(card.Card):
 
                     # Processing Value
                     entry = types.cast_fortran_real(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                     # Processing Designator
                     designator = types.Designator.cast_mcnp_designator(tokens.popr())
-                    parameter.set_designator(designator)
+                    option.set_designator(designator)
 
                 case cls.CellKeyword.COSY:
                     # Processing Keyword
@@ -552,7 +584,7 @@ class Cell(card.Card):
 
                     # Processing Value
                     entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                 case cls.CellKeyword.BFIELD:
                     # Processing Keyword
@@ -560,7 +592,7 @@ class Cell(card.Card):
 
                     # Processing Value
                     entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                 case cls.CellKeyword.UNCOLLIDED_SECONDARIES:
                     # Processing Keyword
@@ -568,17 +600,17 @@ class Cell(card.Card):
 
                     # Processing Value
                     entry = types.cast_fortran_integer(tokens.popr())
-                    parameter.set_value(entry)
+                    option.set_value(entry)
 
                     # Processing Designator
                     designator = types.Designator.cast_mcnp_designator(tokens.popr())
-                    parameter.set_designator(designator)
+                    option.set_designator(designator)
 
             # Checking for Remaining Tokens
             if tokens:
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_CELL_OPTION)
 
-            return parameter
+            return option
 
         def to_mcnp(self) -> str:
             """
@@ -600,7 +632,13 @@ class Cell(card.Card):
                 f":{','.join(self.designator)}" if hasattr(self, "designator") and self.designator is not None else ""
             )
 
-            return f"{self.keyword}{suffix_str}{designator_str}={self.value}"
+            value_str = ""
+            if isinstance(self.value, tuple):
+                value_str = " ".join([str(param) for param in self.value])
+            else:
+                value_str = self.value
+
+            return f"{self.keyword}{suffix_str}{designator_str}={value_str}"
 
         def to_arguments(self) -> dict:
             """
@@ -1200,6 +1238,9 @@ class Cell(card.Card):
 
         Attributes:
             number: Cell coordinate transformation number.
+            displacement: Cell coordinate transformation displacement vector.
+            rotation: Cell coordinate transformation rotation matrix.
+            system: Cell coordinate transformation coordinate system setting.
         """
 
         def __init__(self):
@@ -1212,12 +1253,16 @@ class Cell(card.Card):
 
             self.number: int = None
 
-        def set_value(self, number: int) -> None:
-            """
-            ``set_value`` stores INP cell card option values.
+            self.displacement: tuple[float] = None
+            self.rotation: tuple[tuple[float]] = None
+            self.system: int = None
 
-            ``set_value`` checks given arguments before assigning the given
-            value to ``CoordinateTransformation.number`` and
+        def set_value_form1(self, number: int) -> None:
+            """
+            ``set_value_form1`` stores INP cell card option values.
+
+            ``set_value_form1`` checks given arguments before assigning the
+            given value to ``CoordinateTransformation.number`` and
             ``CoordinateTransformation.value``. If given an unrecognized
             argument, it raises semantic errors.
 
@@ -1233,6 +1278,53 @@ class Cell(card.Card):
 
             self.number = number
             self.value = number
+
+            self.displacement = None
+            self.rotation = None
+            self.system = None
+
+        def set_value_form2(self, displacement: tuple[float], rotation: tuple[tuple[float]], system: int) -> None:
+            """
+            ``set_value_form2`` stores INP cell card option values.
+
+            ``set_value_form2`` checks given arguments before assigning the
+            given value to ``CoordinateTransformation`` parameters and
+            ``CoordinateTransformation.value``. If given an unrecognized
+            argument, it raises semantic errors.
+
+            Parameters:
+                displacement: Cell transformation displacement vector.
+                rotation: Cell transformation rotation matrix.
+                system: Cell transformation coordinate system setting.
+
+            Raises:
+                MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
+            """
+
+            # Processing displacement
+            for entry in displacement:
+                if entry is None:
+                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+            # Processing rotation
+            parameters = []
+            for row in rotation:
+                for entry in row:
+                    parameters.append(entry)
+                    if entry is None:
+                        raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+            # Processing system
+            if system is None or system not in {-1, 1}:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+            self.displacement = displacement
+            self.rotation = rotation
+            self.system = system
+
+            self.value = tuple(list(displacement) + parameters + [system])
+
+            self.number = None
 
     class Lattice(CellOption):
         """
@@ -1285,6 +1377,8 @@ class Cell(card.Card):
 
         Attributes:
             number: Cell arbitrary universe number for fill.
+            transform: Cell optional transformation number.
+
         """
 
         def __init__(self):
@@ -1295,28 +1389,170 @@ class Cell(card.Card):
             super().__init__()
             self.keyword = Cell.CellOption.CellKeyword.FILL
 
-            self.number: any = None
+            self.number: int = None
+            self.transform: int = None
+            self.displacement: tuple[float] = None
+            self.rotation: tuple[tuple[float]] = None
+            self.system: int = None
+            self.ibounds: tuple[int] = None
+            self.jbounds: tuple[int] = None
+            self.kbounds: tuple[int] = None
+            self.numbers: tuple[int] = None
 
-        def set_value(self, value: any) -> None:
+        def set_value_form1A(self, number: int, transform: int = None) -> None:
             """
-            ``set_value`` stores INP cell card option values.
+            ``set_value_form1A`` stores INP cell card option values.
 
-            ``set_value`` checks given arguments before assigning the given
-            value to ``Fill.number`` and ``Fill.value``. If given an
+            ``set_value_form1A`` checks given arguments before assigning the
+            given value to ``Fill.number`` and ``Fill.value``. If given an
             unrecognized arguments, it raises semantic errors.
 
             Parameters:
                 number: Cell arbitrary universe number for fill.
+                transform: Cell optional transformation number.
 
             Raises:
                 MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
             """
 
-            if value is None or not (0 <= value <= 99_999_999):
+            if number is None or not (0 <= number <= 99_999_999):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-            self.number = value
-            self.value = value
+            if transform is not None and not (0 <= transform <= 999):
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
+
+            self.number = number
+            self.transform = transform
+            self.value = (number, transform) if transform is not None else number
+
+            self.displacement = None
+            self.rotation = None
+            self.system = None
+            self.ibounds = None
+            self.jbounds = None
+            self.kbounds = None
+            self.numbers = None
+
+        def set_value_form1B(
+            self, number: int, displacement: tuple[float], rotation: tuple[tuple[float]], system: int
+        ) -> None:
+            """
+            ``set_value_form1B`` stores INP cell card option values.
+
+            ``set_value_form1B`` checks given arguments before assigning the
+            given value to ``Fill.number`` and ``Fill.value``. If given an
+            unrecognized arguments, it raises semantic errors.
+
+            Parameters:
+                number: Cell arbitrary universe number for fill.
+                displacement: Cell optional tranformation displacement vector.
+                rotation: Cell optional tranformation rotation matrix.
+                system: Cell optional tranformation coordinate system.
+
+            Raises:
+                MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
+            """
+
+            if number is None or not (0 <= number <= 99_999_999):
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
+
+            for entry in displacement:
+                if entry is None:
+                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+            parameters = []
+            for row in rotation:
+                for entry in row:
+                    parameters.append(entry)
+                    if entry is None:
+                        raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+            if system is None or system not in {-1, 1}:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+            self.number = number
+            self.displacement = displacement
+            self.rotation = rotation
+            self.system = system
+            self.value = tuple([number] + list(displacement) + parameters + [system])
+
+            self.transform = None
+            self.ibounds = None
+            self.jbounds = None
+            self.kbounds = None
+            self.numbers = None
+
+        def set_value_form2(self, ibounds: tuple[int], jbounds: tuple[int], kbounds: tuple[int], numbers: tuple[int]) -> None:
+            """
+            ``set_value_form2`` stores INP cell card option values.
+
+            ``set_value_form2`` checks given arguments before assigning the
+            given values to ``Fill`` attributes. If given an unrecognized
+            arguments, it raises semantic errors.
+
+            Parameters:
+                ibounds: i direction upper and lower bounds.
+                jbounds: j direction upper and lower bounds.
+                kbounds: k direction upper and lower bounds.
+                numbers: List of universe numbers to fill.
+
+            Raises:
+                MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
+            """
+
+            if (
+                ibounds is None
+                or len(ibounds) != 2
+                or ibounds[0] is None
+                or ibounds[1] is None
+                or not (0 < ibounds[0])
+                or not (0 < ibounds[1])
+                or not (ibounds[0] < ibounds[1])
+            ):
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
+
+            if (
+                jbounds is None
+                or len(jbounds) != 2
+                or jbounds[0] is None
+                or jbounds[1] is None
+                or not (0 < jbounds[0])
+                or not (0 < jbounds[1])
+                or not (jbounds[0] < jbounds[1])
+            ):
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
+
+            if (
+                kbounds is None
+                or len(kbounds) != 2
+                or kbounds[0] is None
+                or kbounds[1] is None
+                or not (0 < kbounds[0])
+                or not (0 < kbounds[1])
+                or not (kbounds[0] < kbounds[1])
+            ):
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
+
+            if numbers is None or len(numbers) != (ibounds[1] - ibounds[0]) * (jbounds[1] - jbounds[0]) * (
+                kbounds[1] - kbounds[0]
+            ):
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
+
+            for number in numbers:
+                if number is None or not (0 <= number <= 99_999_999):
+                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
+
+            self.ibounds = ibounds
+            self.jbounds = jbounds
+            self.kbounds = kbounds
+            self.numbers = numbers
+            self.value = (*ibounds, *jbounds, *kbounds, *numbers)
+
+            self.number = None
+            self.transform = None
+            self.displacement = None
+            self.rotation = None
+            self.system = None
 
     class EnergyCutoff(CellOption_Designator):
         """
@@ -1637,7 +1873,7 @@ class Cell(card.Card):
             cell.comment = comment
 
         source = _parser.Preprocessor.process_inp(source)
-        tokens = _parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL))
+        tokens = _parser.Parser(re.split(r" |:|=", source), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL))
 
         # Processing Number
         entry = types.cast_fortran_integer(tokens.popl())
@@ -1655,11 +1891,9 @@ class Cell(card.Card):
         # Processing Geometry
         geometry = []
         while tokens:
-            keyword, *_ = re.split(r":|=", tokens.peekl())
-
             # Adding geometries to list until option keyword found.
             try:
-                cls.CellOption.CellKeyword.from_mcnp(keyword)
+                cls.CellOption.CellKeyword.from_mcnp(tokens.peekl())
                 break
             except errors.MCNPSemanticError as err:
                 geometry.append(tokens.popl())
@@ -1671,20 +1905,19 @@ class Cell(card.Card):
         # Processing Options
         entries = []
         while tokens:
-            # Adding values to list until option keyword found.
-            values = []
-            while tokens:
-                keyword, *_ = re.split(r":|=", tokens.peekl())
+            values = [tokens.popl()]
 
-                # Adding values to list until option keyword found.
+            while tokens:
+                keyword = tokens.peekl()
+
                 try:
-                    cls.CellOption.CellKeyword.from_mcnp(keyword)
+                    cls.CellOption.CellKeyword(keyword)
                     break
-                except errors.MCNPSemanticError as err:
+                except:
                     values.append(tokens.popl())
                     pass
 
-            entry = cls.CellOption().from_mcnp(tokens.popl() + " " + " ".join(values))
+            entry = cls.CellOption().from_mcnp(values[0] + "=" + " ".join(values[1:]))
             entries.append(entry)
 
         cell.set_options(tuple(entries))

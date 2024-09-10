@@ -118,9 +118,7 @@ def mcnp_geometries(draw, identifiers, depth=None) -> str:
 
 
 @st.composite
-def mcnp_cells(
-    draw, valid_number, valid_material, valid_density, valid_geometry, valid_parameter
-):
+def mcnp_cells(draw, valid_number, valid_material, valid_density, valid_geometry, valid_parameter):
     """
     'mcnp_cells'
     """
@@ -149,9 +147,7 @@ def mcnp_cells(
     if valid_geometry is None:
         geometry = None
     elif valid_geometry:
-        geometry = draw(
-            mcnp_geometries(fortran_integers(lambda i: 1 <= i <= 99_999_999))
-        )
+        geometry = draw(mcnp_geometries(fortran_integers(lambda i: 1 <= i <= 99_999_999)))
     else:
         geometry = draw(mcnp_geometries(fortran_integers(lambda i: i > 99_999_999)))
 
@@ -179,9 +175,12 @@ def mcnp_parameters(draw, valid_value):
         draw(mcnp_parameter_detectorContribution(valid_value, True)),
         draw(mcnp_parameter_gasThermalTemperature(valid_value, True)),
         draw(mcnp_parameter_universe(valid_value)),
-        draw(mcnp_parameter_coordinateTransformation(valid_value)),
+        draw(mcnp_parameter_coordinateTransformation_form1(valid_value)),
+        draw(mcnp_parameter_coordinateTransformation_form2(valid_value)),
         draw(mcnp_parameter_lattice(valid_value)),
-        draw(mcnp_parameter_fill(valid_value)),
+        draw(mcnp_parameter_fill_form1A(valid_value)),
+        draw(mcnp_parameter_fill_form1B(valid_value)),
+        draw(mcnp_parameter_fill_form2(valid_value)),
         draw(mcnp_parameter_energyCutoff(valid_value, True)),
         draw(mcnp_parameter_cosy(valid_value)),
         draw(mcnp_parameter_bfield(valid_value)),
@@ -228,9 +227,7 @@ def mcnp_parameter_protonWeight(draw, valid_value: bool):
 
 
 @st.composite
-def mcnp_parameter_exponentialTransform(
-    draw, valid_value: bool, valid_designator: bool
-):
+def mcnp_parameter_exponentialTransform(draw, valid_value: bool, valid_designator: bool):
     if valid_value is None:
         value = None
     elif valid_value:
@@ -258,9 +255,7 @@ def mcnp_parameter_forcedCollision(draw, valid_value: bool, valid_designator: bo
 
 
 @st.composite
-def mcnp_parameter_weightWindowBounds(
-    draw, valid_value: bool, valid_suffix: bool, valid_designator: bool
-):
+def mcnp_parameter_weightWindowBounds(draw, valid_value: bool, valid_suffix: bool, valid_designator: bool):
     if valid_value is None:
         value = None
     elif valid_value:
@@ -281,9 +276,7 @@ def mcnp_parameter_weightWindowBounds(
 
 
 @st.composite
-def mcnp_parameter_dxtranContribution(
-    draw, valid_value: bool, valid_suffix: bool, valid_designator: bool
-):
+def mcnp_parameter_dxtranContribution(draw, valid_value: bool, valid_suffix: bool, valid_designator: bool):
     if valid_value is None:
         value = None
     elif valid_value:
@@ -366,11 +359,23 @@ def mcnp_parameter_universe(draw, valid_value: bool):
 
 
 @st.composite
-def mcnp_parameter_coordinateTransformation(draw, valid_value: bool):
+def mcnp_parameter_coordinateTransformation_form1(draw, valid_value: bool):
     if valid_value is None:
         value = None
     elif valid_value:
         value = str(draw(fortran_integers()))
+    else:
+        value = "a"
+
+    return ("trcl", None, None, value)
+
+
+@st.composite
+def mcnp_parameter_coordinateTransformation_form2(draw, valid_value: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = " ".join([draw(fortran_integers())] * 12 + [str(draw(st.sampled_from([-1, 1])))])
     else:
         value = "a"
 
@@ -390,13 +395,55 @@ def mcnp_parameter_lattice(draw, valid_value: bool):
 
 
 @st.composite
-def mcnp_parameter_fill(draw, valid_value: bool):
+def mcnp_parameter_fill_form1A(draw, valid_value: bool):
     if valid_value is None:
         value = None
     elif valid_value:
         value = str(draw(fortran_integers(lambda i: 0 <= i <= 99_999_999)))
     else:
         value = str(draw(fortran_integers(lambda i: 0 > i or i > 99_999_999)))
+
+    return ("fill", None, None, value)
+
+
+@st.composite
+def mcnp_parameter_fill_form1B(draw, valid_value: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        value = (
+            str(draw(fortran_integers(lambda i: 0 <= i <= 99_999_999)))
+            + " "
+            + str(draw(fortran_integers(lambda i: 1 <= i <= 999)))
+        )
+    else:
+        value = (
+            str(draw(fortran_integers(lambda i: 0 > i or i > 99_999_999)))
+            + " "
+            + str(draw(fortran_integers(lambda i: i > 999)))
+        )
+
+    return ("fill", None, None, value)
+
+
+@st.composite
+def mcnp_parameter_fill_form2(draw, valid_value: bool):
+    if valid_value is None:
+        value = None
+    elif valid_value:
+        i_lower = int(draw(fortran_integers(lambda i: 1 <= i < 3)))
+        j_lower = int(draw(fortran_integers(lambda i: 1 <= i < 3)))
+        k_lower = int(draw(fortran_integers(lambda i: 1 <= i < 3)))
+        i_upper = int(draw(fortran_integers(lambda i: 3 <= i < 5)))
+        j_upper = int(draw(fortran_integers(lambda i: 3 <= i < 5)))
+        k_upper = int(draw(fortran_integers(lambda i: 3 <= i < 5)))
+        count = (i_upper - i_lower) * (j_upper - j_lower) * (k_upper - k_lower)
+        value = (
+            f"{i_lower}:{i_upper} {j_lower}:{j_upper} {k_lower}:{k_upper} "
+            + f"{draw(fortran_integers(lambda i: 0 <= i <= 99_999_999))} " * count
+        )
+    else:
+        value = "2:1 4:3 5:2 14 6 2 58 0 1"
 
     return ("fill", None, None, value)
 
@@ -440,9 +487,7 @@ def mcnp_parameter_bfield(draw, valid_value: bool):
 
 
 @st.composite
-def mcnp_parameter_uncolidedSecondaries(
-    draw, valid_value: bool, valid_designator: bool
-):
+def mcnp_parameter_uncolidedSecondaries(draw, valid_value: bool, valid_designator: bool):
     if valid_value is None:
         value = None
     elif valid_value:
@@ -463,91 +508,37 @@ def mcnp_surfaces(draw, valid_number, valid_transform, valid_mnemonic):
         draw(mcnp_surface_planeNormalYs(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_planeNormalZs(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_sphereOrigins(valid_number, valid_transform, valid_mnemonic)),
-        draw(
-            mcnp_surface_sphereGenerals(valid_number, valid_transform, valid_mnemonic)
-        ),
-        draw(
-            mcnp_surface_sphereNormalXs(valid_number, valid_transform, valid_mnemonic)
-        ),
-        draw(
-            mcnp_surface_sphereNormalYs(valid_number, valid_transform, valid_mnemonic)
-        ),
-        draw(
-            mcnp_surface_sphereNormalZs(valid_number, valid_transform, valid_mnemonic)
-        ),
-        draw(
-            mcnp_surface_cylinderParallelXs(
-                valid_number, valid_transform, valid_mnemonic
-            )
-        ),
-        draw(
-            mcnp_surface_cylinderParallelYs(
-                valid_number, valid_transform, valid_mnemonic
-            )
-        ),
-        draw(
-            mcnp_surface_cylinderParallelZs(
-                valid_number, valid_transform, valid_mnemonic
-            )
-        ),
+        draw(mcnp_surface_sphereGenerals(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_sphereNormalXs(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_sphereNormalYs(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_sphereNormalZs(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_cylinderParallelXs(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_cylinderParallelYs(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_cylinderParallelZs(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_cylinderOnXs(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_cylinderOnYs(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_cylinderOnZs(valid_number, valid_transform, valid_mnemonic)),
-        draw(
-            mcnp_surface_coneParallelXs(valid_number, valid_transform, valid_mnemonic)
-        ),
-        draw(
-            mcnp_surface_coneParallelYs(valid_number, valid_transform, valid_mnemonic)
-        ),
-        draw(
-            mcnp_surface_coneParallelZs(valid_number, valid_transform, valid_mnemonic)
-        ),
+        draw(mcnp_surface_coneParallelXs(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_coneParallelYs(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_coneParallelZs(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_coneOnXs(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_coneOnYs(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_coneOnZs(valid_number, valid_transform, valid_mnemonic)),
-        draw(
-            mcnp_surface_quadraticSpecials(
-                valid_number, valid_transform, valid_mnemonic
-            )
-        ),
-        draw(
-            mcnp_surface_quadraticGenerals(
-                valid_number, valid_transform, valid_mnemonic
-            )
-        ),
-        draw(
-            mcnp_surface_torusParallelXs(valid_number, valid_transform, valid_mnemonic)
-        ),
-        draw(
-            mcnp_surface_torusParallelYs(valid_number, valid_transform, valid_mnemonic)
-        ),
-        draw(
-            mcnp_surface_torusParallelZs(valid_number, valid_transform, valid_mnemonic)
-        ),
+        draw(mcnp_surface_quadraticSpecials(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_quadraticGenerals(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_torusParallelXs(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_torusParallelYs(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_torusParallelZs(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_surfaceXs(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_surfaceYs(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_surfaceZs(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_boxs(valid_number, valid_transform, valid_mnemonic)),
-        draw(
-            mcnp_surface_parallelepipeds(valid_number, valid_transform, valid_mnemonic)
-        ),
+        draw(mcnp_surface_parallelepipeds(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_spheres(valid_number, valid_transform, valid_mnemonic)),
-        draw(
-            mcnp_surface_cylinderCirculars(
-                valid_number, valid_transform, valid_mnemonic
-            )
-        ),
-        draw(
-            mcnp_surface_hexagonalPrisms(valid_number, valid_transform, valid_mnemonic)
-        ),
-        draw(
-            mcnp_surface_cylinderEllipticals(
-                valid_number, valid_transform, valid_mnemonic
-            )
-        ),
-        draw(
-            mcnp_surface_coneTruncateds(valid_number, valid_transform, valid_mnemonic)
-        ),
+        draw(mcnp_surface_cylinderCirculars(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_hexagonalPrisms(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_cylinderEllipticals(valid_number, valid_transform, valid_mnemonic)),
+        draw(mcnp_surface_coneTruncateds(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_ellipsoids(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_wedges(valid_number, valid_transform, valid_mnemonic)),
         draw(mcnp_surface_polyhedrons(valid_number, valid_transform, valid_mnemonic)),
@@ -807,9 +798,7 @@ def mcnp_surface_sphereNormalZs(draw, valid_number, valid_transform, valid_mnemo
 
 
 @st.composite
-def mcnp_surface_cylinderParallelXs(
-    draw, valid_number, valid_transform, valid_mnemonic
-):
+def mcnp_surface_cylinderParallelXs(draw, valid_number, valid_transform, valid_mnemonic):
     """
     mcnp_surface_cylinderParallelXs
     """
@@ -834,9 +823,7 @@ def mcnp_surface_cylinderParallelXs(
 
 
 @st.composite
-def mcnp_surface_cylinderParallelYs(
-    draw, valid_number, valid_transform, valid_mnemonic
-):
+def mcnp_surface_cylinderParallelYs(draw, valid_number, valid_transform, valid_mnemonic):
     """
     mcnp_surface_cylinderParallelYs
     """
@@ -861,9 +848,7 @@ def mcnp_surface_cylinderParallelYs(
 
 
 @st.composite
-def mcnp_surface_cylinderParallelZs(
-    draw, valid_number, valid_transform, valid_mnemonic
-):
+def mcnp_surface_cylinderParallelZs(draw, valid_number, valid_transform, valid_mnemonic):
     """
     mcnp_surface_cylinderParallelZs
     """
@@ -1664,9 +1649,7 @@ def mcnp_surface_hexagonalPrisms(draw, valid_number, valid_transform, valid_mnem
 
 
 @st.composite
-def mcnp_surface_cylinderEllipticals(
-    draw, valid_number, valid_transform, valid_mnemonic
-):
+def mcnp_surface_cylinderEllipticals(draw, valid_number, valid_transform, valid_mnemonic):
     """
     mcnp_surface_cylinderEllipticals
     """

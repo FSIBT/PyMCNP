@@ -2,6 +2,7 @@
 'test_inp' tests the INP subpackage.
 """
 
+import re
 import math
 
 import pytest
@@ -67,7 +68,14 @@ class TestCell:
                 assert inp.material == int(material)
                 assert inp.density == (float(density) if int(material) != 0 else None)
                 assert inp.options[0].keyword == Cell.CellOption.CellKeyword(keyword)
-                assert float(inp.options[0].value) == float(value)
+
+                value_entries = re.split(r":| ", value)
+
+                if len(value_entries) == 1:
+                    assert float(inp.options[0].value) == float(value)
+                else:
+                    for entry1, entry2 in zip(inp.options[0].value, value_entries):
+                        assert float(entry1) == float(entry2)
 
                 if suffix is not None:
                     assert inp.options[0].suffix == int(suffix)

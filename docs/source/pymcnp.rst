@@ -58,9 +58,9 @@ INP.Cell.Option.Fission Turnoff                                       Full
 INP.Cell.Option.Detector Contribution                                 Full
 INP.Cell.Option.Gas Thermal Temperature                               Full
 INP.Cell.Option.Universe                                              Full
-INP.Cell.Option.Coordinate Transformation                             Partial
+INP.Cell.Option.Coordinate Transformation                             Full
 INP.Cell.Option.Lattice                                               Full
-INP.Cell.Option.Fill                                                  Partial
+INP.Cell.Option.Fill                                                  Full
 INP.Cell.Option.EnergyCutoff                                          Full
 INP.Cell.Option.Cosy                                                  Full
 INP.Cell.Option.Bfield                                                Full
