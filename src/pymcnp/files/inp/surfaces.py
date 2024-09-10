@@ -8,7 +8,7 @@ importable interface for INP surface card blocks.
 
 from .block import Block
 from .surface import Surface
-from .._utils import parser
+from ..utils import _parser
 
 
 class Surfaces(Block):
@@ -45,7 +45,7 @@ class Surfaces(Block):
 
         block = cls()
 
-        lines = parser.Preprocessor.process_inp(source).split("\n")
+        lines = _parser.Preprocessor.process_inp(source).split("\n")
         for line in lines:
             if line == "":
                 break

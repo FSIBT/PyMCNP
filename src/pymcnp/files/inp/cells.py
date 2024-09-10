@@ -8,7 +8,7 @@ interface for INP cell card blocks.
 
 from .block import Block
 from .cell import Cell
-from .._utils import parser
+from ..utils import _parser
 
 
 class Cells(Block):
@@ -45,7 +45,7 @@ class Cells(Block):
 
         block = cls()
 
-        lines = parser.Preprocessor.process_inp(source).split("\n")
+        lines = _parser.Preprocessor.process_inp(source).split("\n")
         for line in lines:
             if line == "":
                 break

@@ -14,9 +14,9 @@ from enum import StrEnum
 
 from . import card
 from . import _cadquery
-from .._utils import parser
-from .._utils import errors
-from .._utils import types
+from ..utils import _parser
+from ..utils import errors
+from ..utils import types
 
 
 class Surface(card.Card):
@@ -106,9 +106,9 @@ class Surface(card.Card):
                 MCNPSemanticError: INVALID_SURFACE_MNEMONIC.
             """
 
-            source = parser.Preprocessor.process_inp(source)
+            source = _parser.Preprocessor.process_inp(source)
 
-            # Processing Keyword
+            # Processing Mnemonic
             if source not in [enum.value for enum in cls]:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC)
 
@@ -405,8 +405,8 @@ class Surface(card.Card):
             source, comment = source.split("$")
             surface.comment = comment
 
-        source = parser.Preprocessor.process_inp(source)
-        tokens = parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE))
+        source = _parser.Preprocessor.process_inp(source)
+        tokens = _parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE))
 
         # Processing Reflecting Prefix
         if tokens.peekl()[0] == "+":
@@ -825,7 +825,7 @@ class Surface(card.Card):
             f"{self.mnemonic} {parameters_str}"
         )
 
-        return parser.Postprocessor.add_continuation_lines(source)
+        return _parser.Postprocessor.add_continuation_lines(source)
 
     def to_arguments(self) -> dict:
         """

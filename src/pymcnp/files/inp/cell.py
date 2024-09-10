@@ -10,9 +10,9 @@ import re
 from enum import StrEnum
 
 from . import card
-from .._utils import parser
-from .._utils import errors
-from .._utils import types
+from ..utils import _parser
+from ..utils import errors
+from ..utils import types
 
 
 class Cell(card.Card):
@@ -82,11 +82,11 @@ class Cell(card.Card):
 
             geometry = cls()
 
-            source = parser.Preprocessor.process_inp(source)
+            source = _parser.Preprocessor.process_inp(source)
 
             # Running Shunting-Yard Algorithm
-            ops_stack = parser.Parser([], errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY))
-            out_stack = parser.Parser([], errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY))
+            ops_stack = _parser.Parser([], errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY))
+            out_stack = _parser.Parser([], errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY))
             inp_stack = re.findall(r"#|:| : |[()]| [()]|[()] | [()] | |[+-]?\d+", source)
 
             if "".join(inp_stack) != source:
@@ -219,7 +219,7 @@ class Cell(card.Card):
                     MCNPSemanticError: INVALID_CELL_OPTION_KEYWORD.
                 """
 
-                source = parser.Preprocessor.process_inp(source)
+                source = _parser.Preprocessor.process_inp(source)
 
                 # Handling Star Modifier
                 if source == "*trcl":
@@ -385,8 +385,10 @@ class Cell(card.Card):
 
             parameter = cls()
 
-            source = parser.Preprocessor.process_inp(source)
-            tokens = parser.Parser(re.split(r":|=", source), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_OPTION))
+            source = _parser.Preprocessor.process_inp(source)
+            tokens = _parser.Parser(
+                re.split(r":|=", source), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_OPTION)
+            )
 
             # Processing Keyword
             keyword = cls.CellKeyword.from_mcnp(tokens.peekl())
@@ -1634,8 +1636,8 @@ class Cell(card.Card):
             source, comment = source.split("$")
             cell.comment = comment
 
-        source = parser.Preprocessor.process_inp(source)
-        tokens = parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL))
+        source = _parser.Preprocessor.process_inp(source)
+        tokens = _parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL))
 
         # Processing Number
         entry = types.cast_fortran_integer(tokens.popl())
@@ -1709,7 +1711,7 @@ class Cell(card.Card):
         # Formatting Parameters
         options_str = " ".join(param.to_mcnp() for param in self.options)
 
-        return parser.Postprocessor.add_continuation_lines(
+        return _parser.Postprocessor.add_continuation_lines(
             f"{self.number} {self.material}{density_str} {geometry_str} {options_str}"
         )
 

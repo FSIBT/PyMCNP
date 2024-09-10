@@ -8,7 +8,7 @@ interface for INP data card blocks.
 
 from .block import Block
 from .datum import Datum
-from .._utils import parser
+from ..utils import _parser
 
 
 class Data(Block):
@@ -45,7 +45,7 @@ class Data(Block):
 
         block = cls()
 
-        lines = parser.Preprocessor.process_inp(source).split("\n")
+        lines = _parser.Preprocessor.process_inp(source).split("\n")
         for line in lines:
             if line == "":
                 break

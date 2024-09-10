@@ -7,8 +7,8 @@ interface for INP comment cards.
 
 
 from . import card
-from .._utils import errors
-from .._utils import parser
+from ..utils import errors
+from ..utils import _parser
 
 
 class Comment(card.Card):
@@ -74,7 +74,7 @@ class Comment(card.Card):
 
         comment = cls()
 
-        source = parser.Preprocessor.process_inp(source)
+        source = _parser.Preprocessor.process_inp(source)
 
         if not source.startswith("c "):
             raise MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_COMMENT_C)

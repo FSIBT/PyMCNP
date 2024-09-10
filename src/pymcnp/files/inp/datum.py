@@ -11,9 +11,9 @@ from typing import Callable
 from enum import StrEnum
 
 from .card import Card
-from .._utils import types
-from .._utils import errors
-from .._utils import parser
+from ..utils import types
+from ..utils import errors
+from ..utils import _parser
 
 
 class Datum(Card):
@@ -79,7 +79,7 @@ class Datum(Card):
                 MCNPSemanticError: INVALID_DATUM_MNEMONIC.
             """
 
-            source = parser.Preprocessor.process_inp(source)
+            source = _parser.Preprocessor.process_inp(source)
 
             # Handling Star Modifier
             if string == "*tr":
@@ -241,8 +241,8 @@ class Datum(Card):
             source, comment = source.split("$")
             datum.comment = comment
 
-        source = parser.Preprocessor.process_inp(source)
-        tokens = parser.Parser(re.split(r" |:|=", card), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES))
+        source = _parser.Preprocessor.process_inp(source)
+        tokens = _parser.Parser(re.split(r" |:|=", card), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM))
 
         # Processing Mnemonic
         mnemonic = cls.DatumMnemonic.from_mcnp(tokens.peekl())
@@ -252,7 +252,7 @@ class Datum(Card):
         match mnemonic:
             case cls.DatumMnemonic.VOLUME:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Mnemonic
                 tokens.popl()
@@ -270,7 +270,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.AREA:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Mnemonic
                 tokens.popl()
@@ -284,10 +284,10 @@ class Datum(Card):
 
             case cls.DatumMnemonic.TRANSFORMATION:
                 if len(tokens) > 13:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 if len(tokens) < 13:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Mnemonic
                 suffix = types.cast_fortran_integer(tokens.popl()[2:])
@@ -306,7 +306,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.UNIVERSE:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Mnemonic
                 tokens.popl()
@@ -320,7 +320,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.LATTICE:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Mnemonic
                 tokens.popl()
@@ -334,7 +334,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.FILL:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Mnemonic
                 tokens.popl()
@@ -348,7 +348,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.STOCHASTIC_GEOMETRY:
                 if len(tokens) % 4 != 0:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Mnemonic
                 tokens.popl()
@@ -363,7 +363,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.DETERMINISTIC_MATERIALS:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[2:])
@@ -378,7 +378,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.DETERMINISTIC_WEIGHT_WINDOW:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Mnemoninc
                 tokens.popl()
@@ -392,7 +392,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.EMBEDED_GEOMETRY:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -407,7 +407,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.EMBEDED_CONTROL:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -426,7 +426,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.EMBEDED_ENERGY_BOUNDARIES:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -441,7 +441,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.EMBEDED_ENERGY_MULTIPLIERS:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -456,7 +456,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.EMBEDED_TIME_BOUNDARIES:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -471,7 +471,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.EMBEDED_TIME_MULTIPLIERS:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -486,7 +486,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.EMBEDED_DOSE_BOUNDARIES:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -501,7 +501,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.EMBEDED_DOSE_MULTIPLIERS:
                 if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
@@ -516,7 +516,7 @@ class Datum(Card):
 
             case cls.DatumMnemonic.MATERIAL:
                 if len(tokens) < 2:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES)
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 # Processing Suffix
                 suffix = types.cast_fortran_integer(tokens.popl()[1:])
@@ -534,7 +534,7 @@ class Datum(Card):
                     paris.append(Material.MaterialOption().from_mcnp(source))
 
         if tokens:
-            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES)
+            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM)
 
         return datum
 
@@ -1011,13 +1011,13 @@ class StochasticGeometry(Datum):
 
             Raises:
                 MCNPSemanticError: INVALID_DATUM_PARAMETERS.
-                MCNPSyntaxError: TOOFEW_DATUM, TOOLONG_DATUM.
+                MCNPSyntaxError: TOOFEW_DATUM_URAN, TOOLONG_DATUM_URAN.
             """
 
             entry = cls()
 
-            source = parser.Preprocessor.process_inp(source)
-            tokens = parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES))
+            source = _parser.Preprocessor.process_inp(source)
+            tokens = _parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_URAN))
 
             # Parsing Universe Number
             value = types.cast_fortran_integer(tokens.popl())
@@ -1046,7 +1046,7 @@ class StochasticGeometry(Datum):
             entry.maximum_z = value
 
             if tokens:
-                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES)
+                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_URAN)
 
             return entry
 
@@ -1267,7 +1267,7 @@ class DeterministicWeightWindow(Datum):
 
                 keyword = cls()
 
-                source = parser.Preprocessor.process_inp(source)
+                source = _parser.Preprocessor.process_inp(source)
 
                 # Processing Keyword
                 if source not in [enum.value for enum in cls]:
@@ -1607,13 +1607,13 @@ class DeterministicWeightWindow(Datum):
                 ``DeterministicWeightWindowOption`` object.
 
             Raises:
-                MCNPSyntaxError: TOOFEW_DATUM_OPTION, TOOLONG_DATUM_OPTION.
+                MCNPSyntaxError: TOOFEW_DATUM_DAWWG, TOOLONG_DATUM_DAWWG.
             """
 
             parameter = cls()
 
-            source = parser.Preprocessor.process_inp(source)
-            tokens = parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES))
+            source = _parser.Preprocessor.process_inp(source)
+            tokens = _parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_DAWWG))
 
             # Processing Keyword
             keyword = cls.DeterministicWeightWindowKeyword.cast_keyword(tokens.peekl())
@@ -1633,7 +1633,7 @@ class DeterministicWeightWindow(Datum):
                     parameter.set_value(tokens.popl())
 
             if tokens:
-                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES)
+                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_DAWWG)
 
     class Points(DeterministicWeightWindowOption):
         """
@@ -4757,7 +4757,7 @@ class EmbededGeometry(Datum_Suffix):
 
                 keyword = cls()
 
-                source = parser.Preprocessor.process_inp(source)
+                source = _parser.Preprocessor.process_inp(source)
 
                 # Processing Keyword
                 if source not in [enum.value for enum in cls]:
@@ -4865,13 +4865,13 @@ class EmbededGeometry(Datum_Suffix):
                 ``EmbededGeometryOption`` object.
 
             Raises:
-                MCNPSyntaxError: TOOFEW_DATUM_OPTION, TOOLONG_DATUM_OPTION.
+                MCNPSyntaxError: TOOFEW_DATUM_EMBED, TOOLONG_DATUM_EMBED.
             """
 
             parameter = cls()
 
-            source = parser.Preprocessor.process_inp(source)
-            tokens = parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES))
+            source = _parser.Preprocessor.process_inp(source)
+            tokens = _parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_EMBED))
 
             # Processing Keyword
             keyword = cls.EmbededGeometryKeyword.from_mcnp(tokens.peekl())
@@ -4901,7 +4901,7 @@ class EmbededGeometry(Datum_Suffix):
                     parameter.set_parameter(tokens.popl())
 
             if tokens:
-                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES)
+                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_EMBED)
 
     class Meshgeo(EmbededGeometryOption):
         """
@@ -5452,7 +5452,7 @@ class EmbededControl(Datum_Suffix, Datum_Designator):
 
                 keyword = cls()
 
-                source = parser.Preprocessor.process_inp(source)
+                source = _parser.Preprocessor.process_inp(source)
 
                 # Processing Keyword
                 if source not in [enum.value for enum in cls]:
@@ -5527,27 +5527,27 @@ class EmbededControl(Datum_Suffix, Datum_Designator):
         @classmethod
         def from_mcnp(cls, string: str):
             """
-            ``from_mcnp`` generates ``EmbededGeometryOption`` objects from INP.
+            ``from_mcnp`` generates ``EmbededControlOption`` objects from INP.
 
-            ``from_mcnp`` constructs instances of ``EmbededGeometryOption``
+            ``from_mcnp`` constructs instances of ``EmbededControlOption``
             from INP source strings, so it operates as a class constructor
             method and INP parser helper function. Although defined on the
-            superclass, it returns ``EmbededGeometryOption`` subclasses.
+            superclass, it returns ``EmbededControlOption`` subclasses.
 
             Parameters:
-                source: INP for embeded geometry specification option.
+                source: INP for embeded elemental edits control option.
 
             Returns:
-                ``EmbededGeometryOption`` object.
+                ``EmbededControlOption`` object.
 
             Raises:
-                MCNPSyntaxError: TOOFEW_DATUM_OPTION, TOOLONG_DATUM_OPTION.
+                MCNPSyntaxError: TOOFEW_DATUM_EMBEE, TOOLONG_DATUM_EMBEE.
             """
 
             parameter = cls()
 
-            source = parser.Preprocessor.process_inp(source)
-            tokens = parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES))
+            source = _parser.Preprocessor.process_inp(source)
+            tokens = _parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_EMBEE))
 
             # Processing Keyword
             keyword = cls.EmbededGeometryKeyword.from_mcnp(tokens.peekl())
@@ -5565,7 +5565,7 @@ class EmbededControl(Datum_Suffix, Datum_Designator):
                     parameter.set_valie(tokens.popL())
 
             if tokens:
-                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_DATUM_ENTRIES)
+                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_EMBEE)
 
     class Embed(EmbededControlOption):
         """
@@ -6238,17 +6238,15 @@ class Material(Datum_Suffix):
 
             Raises:
                 MCNPSemanticError: INVALID_DATUM_PARAMETERS.
-                MCNPSyntaxError: TOOFEW_DATUM, TOOLONG_DATUM.
+                MCNPSyntaxError: TOOFEW_DATUM_MATERIAL, TOOLONG_DATUM_MATERIAL.
             """
 
             entry = cls()
 
-            tokens = parser.Parser(
-                string.split(" "),
-                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES),
-            )
+            source = _parser.Preprocessor.process_inp(source)
+            tokens = _parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_MATERIAL))
 
-            # Parsing zzzaaa
+            # Parsing zaid
             value = types.Zaid().cast_mcnp_zaid(tokens.popl())
             if value is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
@@ -6261,6 +6259,9 @@ class Material(Datum_Suffix):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
             self.fraction = value
+
+            if tokens:
+                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_MATERIAL)
 
     class MaterialOption:
         """
@@ -6328,7 +6329,7 @@ class Material(Datum_Suffix):
 
                 keyword = cls()
 
-                source = parser.Preprocessor.process_inp(source)
+                source = _parser.Preprocessor.process_inp(source)
 
                 # Processing Keyword
                 if source not in [enum.value for enum in cls]:
@@ -6447,13 +6448,13 @@ class Material(Datum_Suffix):
                 ``MaterialOption`` object.
 
             Raises:
-                MCNPSyntaxError: TOOFEW_DATUM_OPTION, TOOLONG_DATUM_OPTION.
+                MCNPSyntaxError: TOOFEW_DATUM_MATERIAL, TOOLONG_DATUM_MATERIAL.
             """
 
             parameter = cls()
 
-            source = parser.Preprocessor.process_inp(source)
-            tokens = parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES))
+            source = _parser.Preprocessor.process_inp(source)
+            tokens = _parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_MATERIAL))
 
             # Processing Keyword
             value = cls.EmbededGeometryKeyword.cast_keyword(tokens.peekl())
@@ -6471,6 +6472,9 @@ class Material(Datum_Suffix):
 
                 case "nlib" | "plib" | "pnlib" | "elib" | "hlib" | "alib" | "slib" | "tlib" | "dlib":
                     parameter.set_value(tokens.popl())
+
+            if tokens:
+                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_MATERIAL)
 
     class Gas(MaterialOption):
         """
@@ -7057,7 +7061,7 @@ class Material(Datum_Suffix):
 #
 #        elements = {}
 #        for formula, fraction in formulas.items():
-#            tokens = parser.Parser(types.ELEMENTS_PATTERN.findall(formula), SyntaxError)
+#            tokens = _parser.Parser(types.ELEMENTS_PATTERN.findall(formula), SyntaxError)
 #
 #            atoms = {}
 #            while tokens:
@@ -7352,7 +7356,7 @@ class AtomicWeight(Datum):
 
         Attributes:
             zaid: Atomic weight value Zaid specifier.
-            ratio: Atomic weight value wegiht ratio.
+            ratio: Atomic weight value weight ratio.
         """
 
         def __init__(self):
@@ -7380,15 +7384,13 @@ class AtomicWeight(Datum):
 
             Raises:
                 MCNPSemanticError: INVALID_DATUM_PARAMETERS.
-                MCNPSyntaxError: TOOFEW_DATUM, TOOLONG_DATUM.
+                MCNPSyntaxError: TOOFEW_DATUM_WEIGHT, TOOLONG_DATUM_WEIGHT.
             """
 
             entry = cls()
 
-            tokens = parser.Parser(
-                string.split(" "),
-                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ENTRIES),
-            )
+            source = _parser.Preprocessor.process_inp(source)
+            tokens = _parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_WEIGHT))
 
             # Parsing zzzaaa
             value = types.Zaid().cast_mcnp_zaid(tokens.popl())
@@ -7403,6 +7405,9 @@ class AtomicWeight(Datum):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
             self.weight = value
+
+            if tokens:
+                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_WEIGHT)
 
     def __init__(self):
         """

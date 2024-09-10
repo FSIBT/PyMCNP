@@ -9,8 +9,8 @@ import hypothesis as hy
 
 from pymcnp.files.inp.cell import Cell
 from pymcnp.files.inp.surface import Surface
-from pymcnp.files._utils import errors
-from pymcnp.files._utils import types
+from pymcnp.files.utils import errors
+from pymcnp.files.utils import types
 
 import _strategies as _st
 

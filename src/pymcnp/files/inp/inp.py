@@ -9,8 +9,8 @@ interface for INP files.
 from . import cells
 from . import surfaces
 from . import data
-from .._utils import parser
-from .._utils import errors
+from ..utils import _parser
+from ..utils import errors
 
 
 class Inp:
@@ -179,8 +179,8 @@ class Inp:
 
         inp = cls()
 
-        source = parser.Preprocessor.process_inp(source)
-        lines = parser.Parser(source.split("\n"), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_INP))
+        source = _parser.Preprocessor.process_inp(source)
+        lines = _parser.Parser(source.split("\n"), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_INP))
 
         # Processing Message Block
         if lines.peekl()[:9] == "message:":
@@ -241,7 +241,7 @@ class Inp:
         """
         ``to_mcnp`` generates INP from ``Inp`` objects.
 
-        ``to_mcnp`` creates INP source string from ``INp`` objects, so it
+        ``to_mcnp`` creates INP source string from ``INP`` objects, so it
         provides an MCNP endpoint.
 
         Returns:

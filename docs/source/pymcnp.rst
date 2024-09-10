@@ -32,6 +32,7 @@ Table of Contents
 
    pymcnp-inp.rst
    pymcnp-ptrac.rst
+   pymcnp-utils.rst
 
 Support
 -------
