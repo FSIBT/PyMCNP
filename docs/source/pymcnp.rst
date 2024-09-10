@@ -44,9 +44,9 @@ Parsing Support
 Syntax Element                                                        Support
 ===================================================================   =======
 INP                                                                   Partial
-INP.Cell                                                              Partial
+INP.Cell                                                              Full
 INP.Cell.Geometry                                                     Partial
-INP.Cell.Option                                                       Partial                    
+INP.Cell.Option                                                       Full                    
 INP.Cell.Option.Importance                                            Full
 INP.Cell.Option.Volume                                                Full
 INP.Cell.Option.Proton Weight                                         Full
@@ -110,33 +110,33 @@ INP.Surface.Truncated Right-Angle Cone                                Full
 INP.Surface.Ellipsoid                                                 Full
 INP.Surface.Wedge                                                     Full
 INP.Surface.Arbitrary Polyhedron                                      Full
-INP.Data                                                              None
-INP.Data.Cell Volume                                                  None
-INP.Data.Cell Area                                                    None
-INP.Data.Surface Coordinate Transformation                            None
-INP.Data.Cell Coordinate Transormation                                None
-INP.Data.Universe                                                     None
-INP.Data.Lattice                                                      None
-INP.Data.Fill                                                         None
-INP.Data.Stochastic Geometry                                          None
-INP.Data.ZAID Aliases for Deterministic Materials                     None
-INP.Data.Deterministic Adjoint Weight.Window Generator                None
-INP.Data.Embedded Geometry Specification                              None
-INP.Data.Embedded Elemental Edits Control                             None
-INP.Data.Embedded Elemental Edit Energy Bin Boundaries                None
-INP.Data.Embedded Elemental Edit Energy Bin Multipliers               None
-INP.Data.Embedded Elemental Edit Time Bin Boundaries                  None
-INP.Data.Embedded Elemental Edit Time Bin Multiplies                  None
-INP.Data.Material                                                     None
-INP.Data.Material Thermal Neutron Scattering                          None
-INP.Data.Material Nuclide Substitution                                None
-INP.Data.Photonuclear Nuclide Selector                                None
-INP.Data.On.The.Fly Doppler Broadening                                None
-INP.Data.Total Fission                                                None
-INP.Data.Fission Turnoff                                              None
-INP.Data.Atomic Weight                                                None
-INP.Data.Cross-Section File                                           None
-INP.Data.Material Void                                                None
+INP.Data                                                              Full
+INP.Data.Cell Volume                                                  Full
+INP.Data.Cell Area                                                    Full
+INP.Data.Surface Coordinate Transformation                            Full
+INP.Data.Cell Coordinate Transormation                                Full
+INP.Data.Universe                                                     Full
+INP.Data.Lattice                                                      Full
+INP.Data.Fill                                                         Full
+INP.Data.Stochastic Geometry                                          Full
+INP.Data.ZAID Aliases for Deterministic Materials                     Full
+INP.Data.Deterministic Adjoint Weight.Window Generator                Full
+INP.Data.Embedded Geometry Specification                              Full
+INP.Data.Embedded Elemental Edits Control                             Full
+INP.Data.Embedded Elemental Edit Energy Bin Boundaries                Full
+INP.Data.Embedded Elemental Edit Energy Bin Multipliers               Full
+INP.Data.Embedded Elemental Edit Time Bin Boundaries                  Full
+INP.Data.Embedded Elemental Edit Time Bin Multiplies                  Full
+INP.Data.Material                                                     Full
+INP.Data.Material Thermal Neutron Scattering                          Full
+INP.Data.Material Nuclide Substitution                                Full
+INP.Data.Photonuclear Nuclide Selector                                Full
+INP.Data.On.The.Fly Doppler Broadening                                Full
+INP.Data.Total Fission                                                Full
+INP.Data.Fission Turnoff                                              Full
+INP.Data.Atomic Weight                                                Full
+INP.Data.Cross-Section File                                           Full
+INP.Data.Material Void                                                Full
 INP.Data.Multigroup Adjoint Transport Option                          None
 INP.Data.Discrete.Reaction Cross Section                              None
 INP.Data.Physics Options                                              None
