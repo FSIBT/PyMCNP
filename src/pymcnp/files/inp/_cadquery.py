@@ -6,6 +6,7 @@ private helper functions for generating Cadquery by abstracting Cadquery
 patterns.
 """
 
+
 from __future__ import annotations
 import math
 
