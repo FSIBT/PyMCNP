@@ -10,6 +10,7 @@ from __future__ import annotations
 from enum import Enum
 
 from ..utils import _parser
+from ..utils import errors
 from ..utils import types
 
 
@@ -74,20 +75,20 @@ class Header:
         self.run_time: str = None
         self.title: str = None
         self.settings: dict[self.PtracKeywords, list[float]] = {
-            PtracKeywords.BUFFER: None,
-            PtracKeywords.CELL: None,
-            PtracKeywords.EVENT: None,
-            PtracKeywords.FILE: None,
-            PtracKeywords.FILTER: None,
-            PtracKeywords.MAX: None,
-            PtracKeywords.MENP: None,
-            PtracKeywords.NPS: None,
-            PtracKeywords.SURFACE: None,
-            PtracKeywords.TALLY: None,
-            PtracKeywords.TYPE: None,
-            PtracKeywords.VALUE: None,
-            PtracKeywords.WRITE: None,
-            PtracKeywords.UNKNOWN: None,
+            self.PtracKeywords.BUFFER: None,
+            self.PtracKeywords.CELL: None,
+            self.PtracKeywords.EVENT: None,
+            self.PtracKeywords.FILE: None,
+            self.PtracKeywords.FILTER: None,
+            self.PtracKeywords.MAX: None,
+            self.PtracKeywords.MENP: None,
+            self.PtracKeywords.NPS: None,
+            self.PtracKeywords.SURFACE: None,
+            self.PtracKeywords.TALLY: None,
+            self.PtracKeywords.TYPE: None,
+            self.PtracKeywords.VALUE: None,
+            self.PtracKeywords.WRITE: None,
+            self.PtracKeywords.UNKNOWN: None,
         }
         self.numbers: tuple[int] = None
         self.ids: tuple[int] = None
@@ -285,7 +286,7 @@ class Header:
 
                 values[j] = tokens.popl()
 
-            header.settings[PtracKeywords(i + 1)] = tuple(values)
+            header.settings[Header.PtracKeywords(i + 1)] = tuple(values)
 
         while tokens:
             if types.cast_fortran_real(tokens.popl(), lambda f: f == 0) is None:
@@ -307,16 +308,16 @@ class Header:
 
         header.numbers = tuple(numbers)
 
-        if numbers[1:12] not in {
+        if numbers[1:11] not in [
             [5, 3, 6, 3, 6, 3, 6, 3, 6, 3],
             [6, 3, 7, 3, 7, 3, 7, 3, 7, 3],
             [6, 9, 7, 9, 7, 9, 7, 9, 7, 9],
             [7, 9, 8, 9, 8, 9, 8, 9, 8, 9],
-        }:
+        ]:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_NUMBERS)
 
         # Processing Entry Counts
-        tokens = _parser.Parser(lines.popl().stirp().split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER))
+        tokens = _parser.Parser(lines.popl().strip().split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER))
         if len(tokens) > 30:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_HEADER)
 

@@ -11,6 +11,7 @@ from __future__ import annotations
 from .event import Event
 from .header import Header
 from ..utils import _parser
+from ..utils import errors
 from ..utils import types
 
 
@@ -40,7 +41,7 @@ class History:
         """
 
         self.header: Header = None
-        self.next_type: Event.EventTypes = None
+        self.next_type: Event.EventType = None
         self.nps: int = None
         self.ncl: int = None
         self.nsf: int = None
@@ -65,7 +66,7 @@ class History:
         """
 
         if nps is None:
-            raise error.MCNPSemanticError(error.MCNPSemanticCodes.INVALID_HISTORY_NPS)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HISTORY_NPS)
 
         self.nps = nps
 
@@ -85,7 +86,7 @@ class History:
         """
 
         if ncl is None:
-            raise error.MCNPSemanticError(error.MCNPSemanticCodes.INVALID_HISTORY_NCL)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HISTORY_NCL)
 
         self.ncl = ncl
 
@@ -105,7 +106,7 @@ class History:
         """
 
         if nfs is None:
-            raise error.MCNPSemanticError(error.MCNPSemanticCodes.INVALID_HISTORY_NSF)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HISTORY_NSF)
 
         self.nsf = nsf
 
@@ -125,7 +126,7 @@ class History:
         """
 
         if jptal is None:
-            raise error.MCNPSemanticError(error.MCNPSemanticCodes.INVALID_HISTORY_JPTAL)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HISTORY_JPTAL)
 
         self.jptal = jptal
 
@@ -145,11 +146,11 @@ class History:
         """
 
         if tal is None:
-            raise error.MCNPSemanticError(error.MCNPSemanticCodes.INVALID_HISTORY_TAL)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HISTORY_TAL)
 
         self.tal = tal
 
-    def set_next_type(self, next_type: Event.EventTypes) -> None:
+    def set_next_type(self, next_type: Event.EventType) -> None:
         """
         ``set_next_type`` stores PTRAC history first event type variable.
 
@@ -165,7 +166,7 @@ class History:
         """
 
         if next_type is None:
-            return error.MCNPSemanticError(error.MCNPSemanticCodes.INVALID_HISTORY_NEXTTYPE)
+            return errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HISTORY_NEXTTYPE)
 
         self.next_type = next_type
 
@@ -193,10 +194,10 @@ class History:
         history.header = header
 
         source = _parser.Preprocessor.process_ptrac(source)
-        lines = _parser.Parser(source.split("\n"), error.MCNPSyntaxError(MCNPSyntaxError.TOFEW_HISTORY))
+        lines = _parser.Parser(source.split("\n"), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY))
 
         # Processing I Line
-        tokens = _parser.Parser(lines.popl().strip().split(" "), error.MCNPSyntaxError(error.MCNPSyntaxCode.TOFEW_HISTORY))
+        tokens = _parser.Parser(lines.popl().strip().split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY))
         if len(tokens) != header.numbers[0]:
             raise SyntaxError
 
@@ -206,7 +207,7 @@ class History:
                     value = types.cast_fortran_integer(tokens.popl())
                     history.set_nps(value)
                 case "2":
-                    value = Event.EventTypes.cast_mcnp_event_types(tokens.popl())
+                    value = Event.EventType.from_mcnp(tokens.popl())
                     history.set_next_type(value)
                 case "3":
                     value = types.cast_fortran_integer(tokens.popl())
@@ -224,10 +225,10 @@ class History:
         # Processing J & P Lines
         events = []
 
-        tokens = _parser.Parser(lines.peekl().split(" "), error.MCNPSyntaxError(error.MCNPSyntaxCode.TOFEW_HISTORY))
+        tokens = _parser.Parser(lines.peekl().split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY))
 
         next_type = history.next_type
-        while next_type != Event.EventTypes.FLAG:
+        while next_type != Event.EventType.FLAG:
             event = Event().from_mcnp(lines.popl() + "\n" + lines.popl(), history.header, next_type)
             events.append(event)
             next_type = event.next_type

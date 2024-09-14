@@ -12,6 +12,7 @@ import re
 
 from ..utils import _parser
 from ..utils import types
+from ..utils import errors
 from .header import Header
 
 
@@ -715,7 +716,7 @@ class Event:
         event.set_type(event_type)
 
         # Processing Line Number
-        datum.line = line
+        event.line = line
 
         source = _parser.Preprocessor.process_ptrac(source)
         lines = source.split("\n")
@@ -726,7 +727,7 @@ class Event:
         j_line = _parser.Parser(lines[0].split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_EVENT))
 
         # Processing J2 (Next Event Type: 7)
-        value = cls.EventType.cast_mcnp_event_types(j_line.popl())
+        value = cls.EventType.from_mcnp(j_line.popl())
         if value is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NSR)
         event.next_type = value
