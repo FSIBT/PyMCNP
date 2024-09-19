@@ -27,7 +27,7 @@ class Data(Block):
 
         super().__init__()
 
-    @classmethod
+    @staticmethod
     def from_mcnp(cls, source: str):
         """
         ``from_mcnp`` generates ``Data`` objects from INP.
@@ -43,7 +43,7 @@ class Data(Block):
             ``Data`` object.
         """
 
-        block = cls()
+        block = Data()
 
         lines = _parser.Preprocessor.process_inp(source).split("\n")
         for line in lines:

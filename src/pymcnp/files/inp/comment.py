@@ -24,37 +24,25 @@ class Comment(card.Card):
         content: Comment card text.
     """
 
-    def __init__(self):
+    def __init__(self, content: str):
         """
         ``__init__`` initializes ``Comment``.
-        """
 
-        super().__init__()
-
-        self.content: str = None
-
-    def set_content(self, content: str) -> None:
-        """
-        ``set_content`` stores INP comment card content.
-
-        ``set_content`` checks for values before assigning the given value to
-        ``self.material``. If given an unrecognized arguments, it raises
-        semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
-            content: Comment card content.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_MATERIAL.
+            content: Comment card text.
         """
 
         if content is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_COMMENT_CONTENT)
 
-        self.content = content
+        self.content: final[str] = content
 
-    @classmethod
-    def from_mcnp(cls, source: str):
+    @staticmethod
+    def from_mcnp(source: str):
         """
         ``from_mcnp`` generates ``Comment`` objects from INP.
 
@@ -72,16 +60,12 @@ class Comment(card.Card):
             MCNPSyntaxError: KEYWORD_COMMENT_C.
         """
 
-        comment = cls()
-
         source = _parser.Preprocessor.process_inp(source)
 
         if not source.startswith("c "):
             raise MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_COMMENT_C)
 
-        comment.set_content(source[1:].strip(" "))
-
-        return comment
+        return Comment(source[1:].strip(" "))
 
     def to_mcnp(self) -> str:
         """

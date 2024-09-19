@@ -22,11 +22,11 @@ class Card:
         comment: Card inline comment.
     """
 
-    def __init__(self):
+    def __init__(self, ident):
         """
         ``__init__`` initalizes ``Card``.
         """
 
-        self.id: Union[int, str] = None
-        self.line: int = None
-        self.comment: str = None
+        self.id: final[Union[int, str]] = ident
+        self.line: final[int] = None
+        self.comment: final[str] = None

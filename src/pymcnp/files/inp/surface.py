@@ -87,8 +87,8 @@ class Surface(card.Card):
         WEDGE = "wed"
         POLYHEDRON = "arb"
 
-        @classmethod
-        def from_mcnp(cls, source: str):
+        @staticmethod
+        def from_mcnp(source: str):
             """
             ``from_mcnp`` generates ``SurfaceMnemonic`` objects from INP.
 
@@ -109,274 +109,369 @@ class Surface(card.Card):
             source = _parser.Preprocessor.process_inp(source)
 
             # Processing Mnemonic
-            if source not in [enum.value for enum in cls]:
+            if source not in [enum.value for enum in Surface.SurfaceMnemonic]:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC)
 
-            return cls(source)
+            return Surface.SurfaceMnemonic(source)
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        mnemonic: SurfaceMnemonic,
+        transform_periodic: int,
+        parameters: tuple[float],
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``Surface``.
+
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
         """
 
-        super().__init__()
-
-        self.number: int = None
-        self.mnemonic: str = None
-        self.is_white_boundary: bool = False
-        self.is_reflecting: bool = False
-        self.transform: int = None
-        self.periodic: int = None
-        self.parameters: dict[str, float] = {}
-
-    def set_number(self, number: int):
-        """
-        ``set_number`` stores INP surface card number.
-
-        ``set_number`` checks given arguments before assigning the given value
-        to ``Surface.number``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
-            number: Surface card number.
-
-        Raises:
-            MCNPSemanticError: INVALID_SURFACE_NUMBER.
-        """
-
-        if number is None or not (1 <= number <= 99_999_999):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
-
-        self.number = number
-        self.id = number
-
-    def set_mnemonic(self, mnemonic: SurfaceMnemonic):
-        """
-        ``set_mnemonic`` stores INP surface card mnemonics.
-
-        ``set_mnemonic`` checks given arguments before assigning the given
-        value to ``Surface.mnemoinc``. If given an unrecognized argument, it
-        raises semantic errors.
-
-        Warnings:
-            ``set_mnemonic`` reinitializes ``Surface`` instances since
-            its attributes depend on the keyword. When the given keyword does
-            not equal ``Surface.mnemonic``, all attributes reset.
-
-        Parameters:
-            mnemonic: Surface card mnemonic.
-
-        Raises:
-            MCNPSemanticError: INVALID_SURFACE_MNEMONIC.
-        """
+        super().__init__(number)
 
         if mnemonic is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC)
 
-        if mnemonic != self.mnemonic:
-            is_white_boundary = self.is_white_boundary
-            is_reflecting = self.is_reflecting
-            transform = self.transform
-            periodic = self.periodic
-            number = self.number
+        match mnemonic:
+            case Surface.SurfaceMnemonic.PLANEGENERAL:
+                if len(parameters) not in {4, 9}:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) == 4:
+                    obj = PlaneGeneralEquation(
+                        number,
+                        transform_periodic,
+                        *parameters,
+                        is_white_boundary=is_white_boundary,
+                        is_reflecting=is_reflecting,
+                    )
+                else:
+                    obj = PlaneGeneralPoint(
+                        number,
+                        transform_periodic,
+                        *parameters,
+                        is_white_boundary=is_white_boundary,
+                        is_reflecting=is_reflecting,
+                    )
+            case Surface.SurfaceMnemonic.PLANENORMALX:
+                if len(parameters) > 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = PlaneNormalX(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.PLANENORMALY:
+                if len(parameters) > 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = PlaneNormalY(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.PLANENORMALZ:
+                if len(parameters) > 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = PlaneNormalZ(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.SPHEREORIGIN:
+                if len(parameters) > 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = SphereOrigin(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.SPHEREGENERAL:
+                if len(parameters) > 4:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 4:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = SphereGeneral(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.SPHERENORMALX:
+                if len(parameters) > 2:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 2:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = SphereNormalX(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.SPHERENORMALY:
+                if len(parameters) > 2:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 2:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = SphereNormalY(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.SPHERENORMALZ:
+                if len(parameters) > 2:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 2:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = SphereNormalZ(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CYLINDERPARALLELX:
+                if len(parameters) > 3:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 3:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = CylinderParallelX(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CYLINDERPARALLELY:
+                if len(parameters) > 3:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 3:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = CylinderParallelY(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CYLINDERPARALLELZ:
+                if len(parameters) > 3:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 3:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = CylinderParallelZ(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CYLINDERONX:
+                if len(parameters) > 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = CylinderOnX(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CYLINDERONY:
+                if len(parameters) > 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = CylinderOnY(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CYLINDERONZ:
+                if len(parameters) > 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = CylinderOnZ(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CONEPARALLELX:
+                if len(parameters) > 5:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 5:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = ConeParallelX(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CONEPARALLELY:
+                if len(parameters) > 5:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 5:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = ConeParallelY(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CONEPARALLELZ:
+                if len(parameters) > 5:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 5:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = ConeParallelZ(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CONEONX:
+                if len(parameters) > 3:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 3:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = ConeOnX(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CONEONY:
+                if len(parameters) > 3:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 3:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = ConeOnY(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CONEONZ:
+                if len(parameters) > 3:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 3:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = ConeOnZ(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.QUADRATICSPECIAL:
+                if len(parameters) > 10:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 10:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = QuadraticSpecial(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.QUADRATICGENERAL:
+                if len(parameters) > 10:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 10:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = QuadraticGeneral(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.TORUSPARALLELX:
+                if len(parameters) > 6:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 6:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = TorusParallelX(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.TORUSPARALLELY:
+                if len(parameters) > 6:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 6:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = TorusParallelY(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.TORUSPARALLELZ:
+                if len(parameters) > 6:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 6:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = TorusParallelZ(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.SURFACEX:
+                if len(parameters) not in {2, 4, 6}:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) == 2:
+                    parameters = (*parameters, None, None, None, None)
+                elif len(parameters) == 4:
+                    parameters = (*parameters, None, None)
+                obj = SurfaceX(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.SURFACEY:
+                if len(parameters) not in {2, 4, 6}:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) == 2:
+                    parameters = (*parameters, None, None, None, None)
+                elif len(parameters) == 4:
+                    parameters = (*parameters, None, None)
+                obj = SurfaceY(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.SURFACEZ:
+                if len(parameters) not in {2, 4, 6}:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) == 2:
+                    parameters = (*parameters, None, None, None, None)
+                elif len(parameters) == 4:
+                    parameters = (*parameters, None, None)
+                obj = SurfaceZ(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.BOX:
+                if len(parameters) not in {12, 9}:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) == 9:
+                    parameters = (*parameters, None, None, None)
+                obj = Box(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.PARALLELEPIPED:
+                if len(parameters) > 6:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 6:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = Parallelepiped(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.SPHERE:
+                if len(parameters) > 4:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 4:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = Sphere(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CYLINDERCIRCULAR:
+                if len(parameters) > 7:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 7:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = CylinderCircular(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.HEXAGONALPRISM:
+                if len(parameters) not in {15, 9}:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) == 9:
+                    parameters = (*parameters, None, None, None, None, None, None)
+                obj = HexagonalPrism(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CYLINDERELLIPTICAL:
+                if len(parameters) not in {10, 12}:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) == 10:
+                    parameters = (*parameters, None, None)
+                obj = CylinderElliptical(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.CONETRUNCATED:
+                if len(parameters) > 8:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 8:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = ConeTruncated(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.ELLIPSOID:
+                if len(parameters) > 7:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 7:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = Ellipsoid(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.WEDGE:
+                if len(parameters) > 12:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 12:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = Wedge(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
+            case Surface.SurfaceMnemonic.POLYHEDRON:
+                if len(parameters) > 30:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
+                if len(parameters) < 30:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
+                obj = Polyhedron(
+                    number, transform_periodic, *parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+                )
 
-            match mnemonic:
-                case self.SurfaceMnemonic.PLANEGENERAL:
-                    obj = PlaneGeneral()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.PLANENORMALX:
-                    obj = PlaneNormalX()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.PLANENORMALY:
-                    obj = PlaneNormalY()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.PLANENORMALZ:
-                    obj = PlaneNormalZ()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.SPHEREORIGIN:
-                    obj = SphereOrigin()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.SPHEREGENERAL:
-                    obj = SphereGeneral()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.SPHERENORMALX:
-                    obj = SphereNormalX()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.SPHERENORMALY:
-                    obj = SphereNormalY()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.SPHERENORMALZ:
-                    obj = SphereNormalZ()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CYLINDERPARALLELX:
-                    obj = CylinderParallelX()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CYLINDERPARALLELY:
-                    obj = CylinderParallelY()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CYLINDERPARALLELZ:
-                    obj = CylinderParallelZ()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CYLINDERONX:
-                    obj = CylinderOnX()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CYLINDERONY:
-                    obj = CylinderOnY()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CYLINDERONZ:
-                    obj = CylinderOnZ()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CONEPARALLELX:
-                    obj = ConeParallelX()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CONEPARALLELY:
-                    obj = ConeParallelY()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CONEPARALLELZ:
-                    obj = ConeParallelZ()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CONEONX:
-                    obj = ConeOnX()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CONEONY:
-                    obj = ConeOnY()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CONEONZ:
-                    obj = ConeOnZ()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.QUADRATICSPECIAL:
-                    obj = QuadraticSpecial()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.QUADRATICGENERAL:
-                    obj = QuadraticGeneral()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.TORUSPARALLELX:
-                    obj = TorusParallelX()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.TORUSPARALLELY:
-                    obj = TorusParallelY()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.TORUSPARALLELZ:
-                    obj = TorusParallelZ()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.SURFACEX:
-                    obj = SurfaceX()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.SURFACEY:
-                    obj = SurfaceY()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.SURFACEZ:
-                    obj = SurfaceZ()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.BOX:
-                    obj = Box()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.PARALLELEPIPED:
-                    obj = Parallelepiped()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.SPHERE:
-                    obj = Sphere()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CYLINDERCIRCULAR:
-                    obj = CylinderCircular()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.HEXAGONALPRISM:
-                    obj = HexagonalPrism()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CYLINDERELLIPTICAL:
-                    obj = CylinderElliptical()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.CONETRUNCATED:
-                    obj = ConeTruncated()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.ELLIPSOID:
-                    obj = Ellipsoid()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.WEDGE:
-                    obj = Wedge()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
-                case self.SurfaceMnemonic.POLYHEDRON:
-                    obj = Polyhedron()
-                    self.__dict__ = obj.__dict__
-                    self.__class__ = obj.__class__
+        self.__dict__ = obj.__dict__
+        self.__class__ = obj.__class__
 
-            self.is_white_boundary = is_white_boundary
-            self.is_reflecting = is_reflecting
-            self.transform = transform
-            self.periodic = periodic
-            self.number = number
-
-    def set_transform_periodic(self, transform_periodic: int):
-        """
-        ``set_transform_periodic`` stores INP surface card transform/periodic
-        numbers.
-
-        ``set_transform_periodic`` checks given arguments before assigning the
-        given value to ``Surface.periodic`` and ``Surface.transform``. If given
-        an unrecognized argument, it raises semantic errors.
-
-        Parameters:
-            transform_peridoic: Surface card transform/periodic number.
-
-        Raises:
-            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
-        """
-
-        if transform_periodic is None or not (-99_999_999 <= transform_periodic <= 999):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
-
-        if transform_periodic < 0:
-            self.periodic = transform_periodic
-            self.transform = None
-        elif transform_periodic > 0:
-            self.periodic = None
-            self.transform = transform_periodic
-        elif transform_periodic == 0:
-            self.periodic = None
-            self.transform = None
-        else:
-            assert False
-
-    @classmethod
-    def from_mcnp(cls, source: str, line: int = None):
+    @staticmethod
+    def from_mcnp(source: str, line: int = None):
         """
         ``from_mcnp`` generates ``Surface`` objects from INP.
 
@@ -395,416 +490,41 @@ class Surface(card.Card):
             MCNPSyntaxError: TOOFEW_SURFACE, TOOLONG_SURFACE.
         """
 
-        surface = cls()
-
-        # Processing Line Number
-        surface.line = line
-
         # Processing Inline Comment
+        comment = None
         if "$" in source:
             source, comment = source.split("$")
-            surface.comment = comment
 
         source = _parser.Preprocessor.process_inp(source)
         tokens = _parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE))
 
         # Processing Reflecting Prefix
         if tokens.peekl()[0] == "+":
-            surface.is_white_boundary = True
+            is_white_boundary = True
+            is_reflecting = False
             tokens.pushl(tokens.popl()[1:])
         elif tokens.peekl()[0] == "*":
-            surface.is_reflecting_number = True
+            is_white_boundary = False
+            is_reflecting = True
             tokens.pushl(tokens.popl()[1:])
-
-        # Processing Card Number
-        value = types.cast_fortran_integer(tokens.popl())
-        surface.set_number(value)
-
-        # Processing Transformation Number
-        value = types.cast_fortran_integer(tokens.peekl())
-        if value is not None:
-            surface.set_transform_periodic(value)
-            tokens.popl()
-
-        # Processing Mnemonic
-        value = cls.SurfaceMnemonic.from_mcnp(tokens.popl())
-        surface.set_mnemonic(value)
-
-        # Processing Parameters
-        match surface.mnemonic:
-            case "p":
-                if len(tokens) not in {4, 9}:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                surface.__class__ = PlaneGeneral
-                if len(tokens) == 4:
-                    surface.set_parameters_equation(*tokens.deque)
-                elif len(tokens) == 9:
-                    surface.set_parameters_points(*tokens.deque)
-                else:
-                    assert False
-
-            case "px":
-                if len(tokens) > 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = PlaneNormalX
-                surface.set_parameters(*tokens.deque)
-
-            case "py":
-                if len(tokens) > 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = PlaneNormalY
-                surface.set_parameters(*tokens.deque)
-
-            case "pz":
-                if len(tokens) > 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = PlaneNormalZ
-                surface.set_parameters(*tokens.deque)
-
-            case "so":
-                if len(tokens) > 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES).with_traceback(None) from None
-
-                surface.__class__ = SphereOrigin
-                surface.set_parameters(*tokens.deque)
-
-            case "s":
-                if len(tokens) > 4:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 4:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = SphereGeneral
-                surface.set_parameters(*tokens.deque)
-
-            case "sx":
-                if len(tokens) > 2:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 2:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = SphereNormalX
-                surface.set_parameters(*tokens.deque)
-
-            case "sy":
-                if len(tokens) > 2:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 2:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = SphereNormalY
-                surface.set_parameters(*tokens.deque)
-
-            case "sz":
-                if len(tokens) > 2:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 2:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = SphereNormalZ
-                surface.set_parameters(*tokens.deque)
-
-            case "c/x":
-                if len(tokens) > 3:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 3:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = CylinderParallelX
-                surface.set_parameters(*tokens.deque)
-
-            case "c/y":
-                if len(tokens) > 3:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 3:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = CylinderParallelY
-                surface.set_parameters(*tokens.deque)
-
-            case "c/z":
-                if len(tokens) > 3:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 3:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = CylinderParallelZ
-                surface.set_parameters(*tokens.deque)
-
-            case "cx":
-                if len(tokens) > 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = CylinderOnX
-                surface.set_parameters(*tokens.deque)
-
-            case "cy":
-                if len(tokens) > 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = CylinderOnY
-                surface.set_parameters(*tokens.deque)
-
-            case "cz":
-                if len(tokens) > 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = CylinderOnZ
-                surface.set_parameters(*tokens.deque)
-
-            case "k/x":
-                if len(tokens) > 5:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 5:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = ConeParallelX
-                surface.set_parameters(*tokens.deque)
-
-            case "k/y":
-                if len(tokens) > 5:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 5:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = ConeParallelY
-                surface.set_parameters(*tokens.deque)
-
-            case "k/z":
-                if len(tokens) > 5:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 5:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = ConeParallelZ
-                surface.set_parameters(*tokens.deque)
-
-            case "kx":
-                if len(tokens) > 3:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 3:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = ConeOnX
-                surface.set_parameters(*tokens.deque)
-
-            case "ky":
-                if len(tokens) > 3:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 3:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = ConeOnY
-                surface.set_parameters(*tokens.deque)
-
-            case "kx":
-                if len(tokens) > 3:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 3:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = ConeOnZ
-                surface.set_parameters(*tokens.deque)
-
-            case "sq":
-                if len(tokens) > 10:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 10:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = QuadraticSpecial
-                surface.set_parameters(*tokens.deque)
-
-            case "gq":
-                if len(tokens) > 10:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 10:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = QuadraticGeneral
-                surface.set_parameters(*tokens.deque)
-
-            case "tx":
-                if len(tokens) > 6:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 6:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = TorusParallelX
-                surface.set_parameters(*tokens.deque)
-
-            case "ty":
-                if len(tokens) > 6:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 6:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = TorusParallelY
-                surface.set_parameters(*tokens.deque)
-
-            case "tz":
-                if len(tokens) > 6:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 6:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = TorusParallelZ
-                surface.set_parameters(*tokens.deque)
-
-            case "x":
-                if len(tokens) not in {2, 4, 6}:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                surface.__class__ = SurfaceX
-                surface.set_parameters(*(list(tokens.deque) + [None] * (6 - len(tokens))))
-
-            case "y":
-                if len(tokens) not in {2, 4, 6}:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                surface.__class__ = SurfaceY
-                surface.set_parameters(*(list(tokens.deque) + [None] * (6 - len(tokens))))
-
-            case "z":
-                if len(tokens) not in {2, 4, 6}:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                surface.__class__ = SurfaceZ
-                surface.set_parameters(*(list(tokens.deque) + [None] * (6 - len(tokens))))
-
-            case "box":
-                if len(tokens) not in {12, 9}:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                surface.__class__ = Box
-                surface.set_parameters(*(list(tokens.deque) + [None] * (12 - len(tokens))))
-
-            case "rpp":
-                if len(tokens) > 6:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 6:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = Parallelepiped
-                surface.set_parameters(*tokens.deque)
-
-            case "sph":
-                if len(tokens) > 4:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 4:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = Sphere
-                surface.set_parameters(*tokens.deque)
-
-            case "rcc":
-                if len(tokens) > 7:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 7:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = CylinderCircular
-                surface.set_parameters(*tokens.deque)
-
-            case "rhp" | "hex":
-                if len(tokens) not in {15, 9}:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                surface.__class__ = HexagonalPrism
-                surface.set_parameters(*(list(tokens.deque) + [None] * (15 - len(tokens))))
-
-            case "rec":
-                if len(tokens) not in {10, 12}:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                surface.__class__ = CylinderElliptical
-                surface.set_parameters(*(list(tokens.deque) + [None] * (12 - len(tokens))))
-
-            case "trc":
-                if len(tokens) > 8:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 8:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = ConeTruncated
-                surface.set_parameters(*tokens.deque)
-
-            case "ell":
-                if len(tokens) > 7:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 7:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = Ellipsoid
-                surface.set_parameters(*tokens.deque)
-
-            case "wed":
-                if len(tokens) > 12:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 12:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = Wedge
-                surface.set_parameters(*tokens.deque)
-
-            case "arb":
-                if len(tokens) > 30:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES)
-
-                if len(tokens) < 30:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
-
-                surface.__class__ = Polyhedron
-                surface.set_parameters(*tokens.deque)
+        else:
+            is_white_boundary = False
+            is_reflecting = False
+
+        # Processing Number, Transform/Periodic, Mnemonic, Parameters
+        number = types.cast_fortran_integer(tokens.popl())
+        if types.cast_fortran_integer(tokens.peekl()) is not None:
+            transform_periodic = types.cast_fortran_integer(tokens.popl())
+        else:
+            transform_periodic = None
+        mnemonic = Surface.SurfaceMnemonic.from_mcnp(tokens.popl())
+        parameters = tuple([types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens))])
+
+        surface = Surface(
+            number, mnemonic, transform_periodic, parameters, is_white_boundary=is_white_boundary, is_reflecting=is_reflecting
+        )
+        surface.line = line
+        surface.comment = comment
 
         return surface
 
@@ -819,7 +539,7 @@ class Surface(card.Card):
             INP string for ``Surface`` object.
         """
 
-        parameters_str = " ".join([str(param) for _, param in self.parameters.items()])
+        # parameters_str = " ".join([str(param) for _ in,
         source = (
             f"{self.number}{' ' + {self.transform} + ' ' if self.transform is not None else ' '}"
             f"{self.mnemonic} {parameters_str}"
@@ -841,24 +561,22 @@ class Surface(card.Card):
 
         return {
             "j": self.number,
+            "+": self.is_reflecting,
+            "*": self.is_white_boundary,
             "n": self.transform,
             "A": self.mnemonic,
             "list": self.parameters,
         }
 
 
-class PlaneGeneral(Surface):
+class PlaneGeneralPoint(Surface):
     """
-    ``PlaneGeneral`` represents INP general planes surface cards.
+    ``PlaneGeneralPoint`` represents INP general planes surface cards.
 
-    ``PlaneGeneral`` inherits attributes from ``Surface``. It represents the
-    INP general planes surface card syntax element.
+    ``PlaneGeneralPoint`` inherits attributes from ``Surface``. It
+    represents the INP general planes surface card syntax element.
 
     Attributes:
-        a: Equation-defined general plane A coefficent.
-        b: Equation-defined general plane B coefficent.
-        c: Equation-defined general plane C coefficent.
-        d: Equation-defined general plane D coefficent.
         x1: Point-defined general plane point #1 x component.
         y1: Point-defined general plane point #1 y component.
         z1: Point-defined general plane point #1 z component.
@@ -870,88 +588,10 @@ class PlaneGeneral(Surface):
         z3: Point-defined general plane point #3 z component.
     """
 
-    def __init__(self):
-        """
-        ``__init__`` initializes ``PlaneGeneral``.
-        """
-
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.PLANEGENERAL
-
-        self.a: float = None
-        self.b: float = None
-        self.c: float = None
-        self.d: float = None
-        self.x1: float = None
-        self.y1: float = None
-        self.z1: float = None
-        self.x2: float = None
-        self.y2: float = None
-        self.z2: float = None
-        self.x3: float = None
-        self.y3: float = None
-        self.z3: float = None
-
-    def set_parameters_equation(self, a: float, b: float, c: float, d: float) -> None:
-        """
-        ``set_parameters_equation`` stores INP equation-defined general plane
-        surface card parameters.
-
-        ``set_parameters_equation`` checks given arguments before assigning the
-        given values. If given an unrecognized argument, it raises semantic
-        errors.
-
-        Parameters:
-            a: Equation-defined general plane A coefficent.
-            b: Equation-defined general plane B coefficent.
-            c: Equation-defined general plane C coefficent.
-            d: Equation-defined general plane D coefficent.
-
-        Raises:
-            MCNPSemanticError: INVALID_SURFACE_PARAMAETER.
-        """
-
-        value = types.cast_fortran_real(a)
-        if value is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-        self.a = value
-        self.parameters["a"] = value
-
-        value = types.cast_fortran_real(b)
-        if value is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-        self.b = value
-        self.parameters["b"] = value
-
-        value = types.cast_fortran_real(c)
-        if value is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-        self.c = value
-        self.parameters["c"] = value
-
-        value = types.cast_fortran_real(d)
-        if value is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-        self.d = value
-        self.parameters["d"] = value
-
-        # Resetting point-defined parameters.
-        self.x1 = None
-        self.y1 = None
-        self.z1 = None
-        self.x2 = None
-        self.y2 = None
-        self.z2 = None
-        self.x3 = None
-        self.y3 = None
-        self.z3 = None
-
-    def set_parameters_points(
+    def __init__(
         self,
+        number: int,
+        transform_periodic: int,
         x1: float,
         y1: float,
         z1: float,
@@ -961,14 +601,15 @@ class PlaneGeneral(Surface):
         x3: float,
         y3: float,
         z3: float,
-    ) -> None:
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
-        ``set_parameters_points`` stores INP point-defined general plane
-        surface card parameters.
+        ``__init__`` initializes ``PlaneGeneral``.
 
-        ``set_parameters_points`` checks given arguments before assigning the
-        given values. If given an unrecognized argument, it raises semantic
-        errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             x1: Point-defined general plane point #1 x component.
@@ -982,206 +623,332 @@ class PlaneGeneral(Surface):
             z3: Point-defined general plane point #3 z component.
 
         Raises:
-            MCNPSemanticError: INVALID_SURFACE_PARAMAETER.
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
+            MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(x1)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANEGENERAL
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if x1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x1 = value
-        self.parameters["x1"] = value
-
-        value = types.cast_fortran_real(y1)
-        if value is None:
+        if y1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y1 = value
-        self.parameters["y1"] = value
-
-        value = types.cast_fortran_real(z1)
-        if value is None:
+        if z1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z1 = value
-        self.parameters["z1"] = value
-
-        value = types.cast_fortran_real(x2)
-        if value is None:
+        if x2 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x2 = value
-        self.parameters["x2"] = value
-
-        value = types.cast_fortran_real(y2)
-        if value is None:
+        if y2 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y2 = value
-        self.parameters["y2"] = value
-
-        value = types.cast_fortran_real(z2)
-        if value is None:
+        if z2 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z2 = value
-        self.parameters["z2"] = value
-
-        value = types.cast_fortran_real(x3)
-        if value is None:
+        if x3 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x3 = value
-        self.parameters["x3"] = value
-
-        value = types.cast_fortran_real(y3)
-        if value is None:
+        if y3 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y3 = value
-        self.parameters["y3"] = value
-
-        value = types.cast_fortran_real(z3)
-        if value is None:
+        if z3 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z3 = value
-        self.parameters["z3"] = value
+        self.x1: final[float] = x1
+        self.y1: final[float] = y1
+        self.z1: final[float] = z1
+        self.x2: final[float] = x2
+        self.y2: final[float] = y2
+        self.z2: final[float] = z2
+        self.x3: final[float] = x3
+        self.y3: final[float] = y3
+        self.z3: final[float] = z3
 
-        # Resetting equation-defined parameters.
-        self.a = None
-        self.b = None
-        self.c = None
-        self.d = None
+        self.parameters: final[tuple[float]] = (x1, y1, z1, x2, y2, z2, x3, y3, z3)
+
+
+class PlaneGeneralEquation(Surface):
+    """
+    ``PlaneGeneralEquation`` represents INP general planes surface cards.
+
+    ``PlaneGeneralEquation`` inherits attributes from ``Surface``. It
+    represents the INP general planes surface card syntax element.
+
+    Attributes:
+        a: Equation-defined general plane A coefficent.
+        b: Equation-defined general plane B coefficent.
+        c: Equation-defined general plane C coefficent.
+        d: Equation-defined general plane D coefficent.
+    """
+
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        a: float,
+        b: float,
+        c: float,
+        d: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
+        """
+        ``__init__`` initializes ``PlaneGeneral``.
+
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
+
+        Parameters:
+            a: Equation-defined general plane A coefficent.
+            b: Equation-defined general plane B coefficent.
+            c: Equation-defined general plane C coefficent.
+            d: Equation-defined general plane D coefficent.
+
+        Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
+            MCNPSemanticError: INVALID_SURFACE_PARAMETER.
+        """
+
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANEGENERAL
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if a is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        if b is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        if c is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        if d is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        self.a: final[float] = a
+        self.b: final[float] = b
+        self.c: final[float] = c
+        self.d: final[float] = d
+
+        self.parameters: final[tuple[float]] = (a, b, c, d)
 
 
 class PlaneNormalX(Surface):
     """
     ``PlaneNormalX`` represents INP normal-to-the-x-axis surface cards.
 
-    ``PlaneGeneral`` inherits attributes from ``Surface``. It represents the
+    ``PlaneNormalX`` inherits attributes from ``Surface``. It represents the
     INP normal-to-the-x-axis surface card syntax element.
 
     Attributes:
         d: Normal-to-the-x-axis plane D coefficent.
     """
 
-    def __init__(self):
+    def __init__(
+        self, number: int, transform_periodic: int, d: float, is_white_boundary: bool = False, is_reflecting: bool = False
+    ):
         """
         ``__init__`` initializes ``PlaneNormalX``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.PLANENORMALX
-
-        self.d: float = None
-
-    def set_parameters(self, d: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             d: Normal-to-the-x-axis plane D coefficent.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(d)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALX
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if d is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.d = value
-        self.parameters["d"] = value
+        self.d: final[float] = d
+
+        self.parameters: final[tuple[float]] = (d,)
 
 
 class PlaneNormalY(Surface):
     """
-    ``PlaneNormalX`` represents INP normal-to-the-y-axis surface cards.
+    ``PlaneNormalY`` represents INP normal-to-the-y-axis surface cards.
 
-    ``PlaneGeneral`` inherits attributes from ``Surface``. It represents the
+    ``PlaneNormalY`` inherits attributes from ``Surface``. It represents the
     INP normal-to-the-y-axis surface card syntax element.
 
     Attributes:
         d: Normal-to-the-y-axis plane D coefficent.
     """
 
-    def __init__(self):
+    def __init__(
+        self, number: int, transform_periodic: int, d: float, is_white_boundary: bool = False, is_reflecting: bool = False
+    ):
         """
         ``__init__`` initializes ``PlaneNormalY``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.PLANENORMALY
-
-        self.d: float = None
-
-    def set_parameters(self, d: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             d: Normal-to-the-y-axis plane D coefficent.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(d)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALY
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if d is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.d = value
-        self.parameters["d"] = value
+        self.d: final[float] = d
+
+        self.parameters: final[tuple[float]] = (d,)
 
 
 class PlaneNormalZ(Surface):
     """
-    ``PlaneNormalX`` represents INP normal-to-the-z-axis surface cards.
+    ``PlaneNormalZ`` represents INP normal-to-the-z-axis surface cards.
 
-    ``PlaneGeneral`` inherits attributes from ``Surface``. It represents the
+    ``PlaneNormalZ`` inherits attributes from ``Surface``. It represents the
     INP normal-to-the-z-axis surface card syntax element.
 
     Attributes:
         d: Normal-to-the-z-axis plane D coefficent.
     """
 
-    def __init__(self):
+    def __init__(
+        self, number: int, transform_periodic: int, d: float, is_white_boundary: bool = False, is_reflecting: bool = False
+    ):
         """
         ``__init__`` initializes ``PlaneNormalZ``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.PLANENORMALZ
-
-        self.d: float = None
-
-    def set_parameters(self, d: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             d: Normal-to-the-z-axis plane D coefficent.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(d)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALZ
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if d is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.d = value
-        self.parameters["d"] = value
+        self.d: final[float] = d
+
+        self.parameters: final[tuple[float]] = (d,)
 
 
 class SphereOrigin(Surface):
@@ -1195,36 +962,52 @@ class SphereOrigin(Surface):
         r: Origin-centered sphere radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self, number: int, transform_periodic: int, r: float, is_white_boundary: bool = False, is_reflecting: bool = False
+    ):
         """
         ``__init__`` initializes ``SphereOrigin``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.SPHEREORIGIN
-
-        self.r: float = None
-
-    def set_parameters(self, r: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             r: Origin-centered sphere radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(r)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHEREORIGIN
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r = value
-        self.parameters["r"] = value
+        self.r: final[float] = r
+
+        self.parameters: final[tuple[float]] = (r,)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -1261,25 +1044,23 @@ class SphereGeneral(Surface):
         r: General sphere radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        x: float,
+        y: float,
+        z: float,
+        r: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``SphereGeneral``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.SPHEREGENERAL
-
-        self.x: float = None
-        self.y: float = None
-        self.z: float = None
-        self.r: float = None
-
-    def set_parameters(self, x: float, y: float, z: float, r: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             x: General sphere center x component.
@@ -1288,36 +1069,50 @@ class SphereGeneral(Surface):
             r: General sphere radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(x)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHEREGENERAL
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x = value
-        self.parameters["x"] = value
-
-        value = types.cast_fortran_real(y)
-        if value is None:
+        if y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y = value
-        self.parameters["y"] = value
-
-        value = types.cast_fortran_real(z)
-        if value is None:
+        if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z = value
-        self.parameters["z"] = value
-
-        value = types.cast_fortran_real(r)
-        if value is None:
+        if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r = value
-        self.parameters["r"] = value
+        self.x: final[float] = x
+        self.y: final[float] = y
+        self.z: final[float] = z
+        self.r: final[float] = r
+
+        self.parameters: final[tuple[float]] = (x, y, z, r)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -1353,45 +1148,63 @@ class SphereNormalX(Surface):
         r: On-x-axis sphere radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        x: float,
+        r: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``SphereNormalX``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.SPHERENORMALX
-
-        self.x: float = None
-        self.r: float = None
-
-    def set_parameters(self, x: float, r: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             x: On-x-axis sphere center x component.
             r: On-x-axis sphere radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(x)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALX
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x = value
-        self.parameters["x"] = value
-
-        value = types.cast_fortran_real(r)
-        if value is None:
+        if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r = value
-        self.parameters["r"] = value
+        self.x: final[float] = x
+        self.r: final[float] = r
+
+        self.parameters: final[tuple[float]] = (x, r)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -1427,45 +1240,63 @@ class SphereNormalY(Surface):
         r: On-y-axis sphere radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        y: float,
+        r: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``SphereNormalY``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.SPHERENORMALY
-
-        self.y: float = None
-        self.r: float = None
-
-    def set_parameters(self, y: float, r: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             y: On-y-axis sphere center y component.
             r: On-y-axis sphere radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(y)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALY
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y = value
-        self.parameters["y"] = value
-
-        value = types.cast_fortran_real(r)
-        if value is None:
+        if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r = value
-        self.parameters["r"] = value
+        self.y: final[float] = y
+        self.r: final[float] = r
+
+        self.parameters: final[tuple[float]] = (y, r)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -1501,45 +1332,63 @@ class SphereNormalZ(Surface):
         r: On-z-axis sphere radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        z: float,
+        r: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``SphereNormalZ``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.SPHERENORMALZ
-
-        self.z: float = None
-        self.r: float = None
-
-    def set_parameters(self, z: float, r: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             z: On-z-axis sphere center z component.
             r: On-z-axis sphere radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(z)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALZ
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z = value
-        self.parameters["z"] = value
-
-        value = types.cast_fortran_real(r)
-        if value is None:
+        if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r = value
-        self.parameters["r"] = value
+        self.z: final[float] = z
+        self.r: final[float] = r
+
+        self.parameters: final[tuple[float]] = (z, r)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -1577,24 +1426,22 @@ class CylinderParallelX(Surface):
         r: Parallel-to-x-axis cylinder radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        y: float,
+        z: float,
+        r: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``CylinderParallelX``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CYLINDERPARALLELX
-
-        self.y: float = None
-        self.z: float = None
-        self.r: float = None
-
-    def set_parameters(self, y: float, z: float, r: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             y: Parallel-to-x-axis cylinder center y component.
@@ -1602,29 +1449,46 @@ class CylinderParallelX(Surface):
             r: Parallel-to-x-axis cylinder radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(y)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELX
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y = value
-        self.parameters["y"] = value
-
-        value = types.cast_fortran_real(z)
-        if value is None:
+        if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z = value
-        self.parameters["z"] = value
-
-        value = types.cast_fortran_real(r)
-        if value is None:
+        if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r = value
-        self.parameters["r"] = value
+        self.y: final[float] = y
+        self.z: final[float] = z
+        self.r: final[float] = r
+
+        self.parameters: final[tuple[float]] = (y, z, r)
 
 
 class CylinderParallelY(Surface):
@@ -1653,12 +1517,22 @@ class CylinderParallelY(Surface):
         self.z: float = None
         self.r: float = None
 
-    def set_parameters(self, x: float, z: float, r: float) -> None:
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        x: float,
+        z: float,
+        r: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
-        ``set_parameters`` stores INP surface card parameters.
+        ``__init__`` initializes ``CylinderParallelY``.
 
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             x: Parallel-to-y-axis cylinder center x component.
@@ -1666,29 +1540,46 @@ class CylinderParallelY(Surface):
             r: Parallel-to-y-axis cylinder radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(x)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELY
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x = value
-        self.parameters["x"] = value
-
-        value = types.cast_fortran_real(z)
-        if value is None:
+        if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z = value
-        self.parameters["z"] = value
-
-        value = types.cast_fortran_real(r)
-        if value is None:
+        if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r = value
-        self.parameters["r"] = value
+        self.x: final[float] = x
+        self.z: final[float] = z
+        self.r: final[float] = r
+
+        self.parameters: final[tuple[float]] = (x, z, r)
 
 
 class CylinderParallelZ(Surface):
@@ -1705,24 +1596,22 @@ class CylinderParallelZ(Surface):
         r: Parallel-to-z-axis cylinder radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        x: float,
+        y: float,
+        r: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``CylinderParallelZ``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CYLINDERPARALLELZ
-
-        self.x: float = None
-        self.y: float = None
-        self.r: float = None
-
-    def set_parameters(self, x: float, y: float, r: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             x: Parallel-to-z-axis cylinder center x component.
@@ -1730,29 +1619,46 @@ class CylinderParallelZ(Surface):
             r: Parallel-to-z-axis cylinder radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(x)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELZ
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x = value
-        self.parameters["x"] = value
-
-        value = types.cast_fortran_real(y)
-        if value is None:
+        if y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y = value
-        self.parameters["y"] = value
-
-        value = types.cast_fortran_real(r)
-        if value is None:
+        if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r = value
-        self.parameters["r"] = value
+        self.x: final[float] = x
+        self.y: final[float] = y
+        self.r: final[float] = r
+
+        self.parameters: final[tuple[float]] = (x, y, r)
 
 
 class CylinderOnX(Surface):
@@ -1766,36 +1672,52 @@ class CylinderOnX(Surface):
         r: On-x-axis cylinder radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self, number: int, transform_periodic: int, r: float, is_white_boundary: bool = False, is_reflecting: bool = False
+    ):
         """
         ``__init__`` initializes ``CylinderOnX``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CYLINDERONX
-
-        self.r: float = None
-
-    def set_parameters(self, r: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             r: On-x-axis cylinder radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(r)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONX
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r = value
-        self.parameters["r"] = value
+        self.r: final[float] = r
+
+        self.parameters: final[tuple[float]] = (r,)
 
 
 class CylinderOnY(Surface):
@@ -1809,36 +1731,52 @@ class CylinderOnY(Surface):
         r: On-y-axis cylinder radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self, number: int, transform_periodic: int, r: float, is_white_boundary: bool = False, is_reflecting: bool = False
+    ):
         """
         ``__init__`` initializes ``CylinderOnY``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CYLINDERONY
-
-        self.r: float = None
-
-    def set_parameters(self, r: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             r: On-y-axis cylinder radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(r)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONY
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r = value
-        self.parameters["r"] = value
+        self.r: final[float] = r
+
+        self.parameters: final[tuple[float]] = (r,)
 
 
 class CylinderOnZ(Surface):
@@ -1852,36 +1790,52 @@ class CylinderOnZ(Surface):
         r: On-z-axis cylinder radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self, number: int, transform_periodic: int, r: float, is_white_boundary: bool = False, is_reflecting: bool = False
+    ):
         """
         ``__init__`` initializes ``CylinderOnZ``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CYLINDERONZ
-
-        self.r: float = None
-
-    def set_parameters(self, r: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             r: On-z-axis cylinder radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(r)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONZ
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r = value
-        self.parameters["r"] = value
+        self.r: final[float] = r
+
+        self.parameters: final[tuple[float]] = (r,)
 
 
 class ConeParallelX(Surface):
@@ -1899,26 +1853,24 @@ class ConeParallelX(Surface):
         plusminus_1: Parallel-to-x-axis cone sheet selector.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        x: float,
+        y: float,
+        z: float,
+        t_squared: float,
+        plusminus_1: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``ConeParallelX``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CONEPARALLELX
-
-        self.x: float = None
-        self.y: float = None
-        self.z: float = None
-        self.t_squared: float = None
-        self.plusminus_1: float = None
-
-    def set_parameters(self, x: float, y: float, z: float, t_squared: float, plusminus_1: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             x: Parallel-to-x-axis cone center x component.
@@ -1928,43 +1880,54 @@ class ConeParallelX(Surface):
             plusminus_1: Parallel-to-x-axis cone sheet selector.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(x)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELX
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x = value
-        self.parameters["x"] = value
-
-        value = types.cast_fortran_real(y)
-        if value is None:
+        if y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y = value
-        self.parameters["y"] = value
+        self.x: final[float] = x
+        self.y: final[float] = y
+        self.z: final[float] = z
+        self.t_squared: final[float] = t_squared
+        self.plusminus_1: final[float] = plusminus_1
 
-        value = types.cast_fortran_real(z)
-        if value is None:
+        if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z = value
-        self.parameters["z"] = value
-
-        value = types.cast_fortran_real(t_squared)
-        if value is None:
+        if t_squared is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.t_squared = value
-        self.parameters["t_squared"] = value
-
-        value = types.cast_fortran_real(plusminus_1)
-        if value is None:
+        if plusminus_1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.plusminus_1 = value
-        self.parameters["plusminus_1"] = value
+        self.parameters: final[tuple[float]] = (x, y, z, t_squared, plusminus_1)
 
 
 class ConeParallelY(Surface):
@@ -1982,26 +1945,24 @@ class ConeParallelY(Surface):
         plusminus_1: Parallel-to-y-axis cone sheet selector.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        x: float,
+        y: float,
+        z: float,
+        t_squared: float,
+        plusminus_1: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``ConeParallelY``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CONEPARALLELY
-
-        self.x: float = None
-        self.y: float = None
-        self.z: float = None
-        self.t_squared: float = None
-        self.plusminus_1: float = None
-
-    def set_parameters(self, x: float, y: float, z: float, t_squared: float, plusminus_1: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             x: Parallel-to-y-axis cone center x component.
@@ -2011,43 +1972,54 @@ class ConeParallelY(Surface):
             plusminus_1: Parallel-to-y-axis cone sheet selector.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(x)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELY
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x = value
-        self.parameters["x"] = value
-
-        value = types.cast_fortran_real(y)
-        if value is None:
+        if y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y = value
-        self.parameters["y"] = value
-
-        value = types.cast_fortran_real(z)
-        if value is None:
+        if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z = value
-        self.parameters["z"] = value
-
-        value = types.cast_fortran_real(t_squared)
-        if value is None:
+        if t_squared is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.t_squared = value
-        self.parameters["t_squared"] = value
-
-        value = types.cast_fortran_real(plusminus_1)
-        if value is None:
+        if plusminus_1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.plusminus_1 = value
-        self.parameters["plusminus_1"] = value
+        self.x: final[float] = x
+        self.y: final[float] = y
+        self.z: final[float] = z
+        self.t_squared: final[float] = t_squared
+        self.plusminus_1: final[float] = plusminus_1
+
+        self.parameters: final[tuple[float]] = (x, y, z, t_squared, plusminus_1)
 
 
 class ConeParallelZ(Surface):
@@ -2065,26 +2037,24 @@ class ConeParallelZ(Surface):
         plusminus_1: Parallel-to-z-axis cone sheet selector.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        x: float,
+        y: float,
+        z: float,
+        t_squared: float,
+        plusminus_1: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``ConeParallelZ``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CONEPARALLELZ
-
-        self.x: float = None
-        self.y: float = None
-        self.z: float = None
-        self.t_squared: float = None
-        self.plusminus_1: float = None
-
-    def set_parameters(self, x: float, y: float, z: float, t_squared: float, plusminus_1: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             x: Parallel-to-z-axis cone center x component.
@@ -2094,43 +2064,54 @@ class ConeParallelZ(Surface):
             plusminus_1: Parallel-to-z-axis cone sheet selector.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(x)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELZ
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x = value
-        self.parameters["x"] = value
-
-        value = types.cast_fortran_real(y)
-        if value is None:
+        if y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y = value
-        self.parameters["y"] = value
-
-        value = types.cast_fortran_real(z)
-        if value is None:
+        if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z = value
-        self.parameters["z"] = value
-
-        value = types.cast_fortran_real(t_squared)
-        if value is None:
+        if t_squared is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.t_squared = value
-        self.parameters["t_squared"] = value
-
-        value = types.cast_fortran_real(plusminus_1)
-        if value is None:
+        if plusminus_1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.plusminus_1 = value
-        self.parameters["plusminus_1"] = value
+        self.x: final[float] = x
+        self.y: final[float] = y
+        self.z: final[float] = z
+        self.t_squared: final[float] = t_squared
+        self.plusminus_1: final[float] = plusminus_1
+
+        self.parameters: final[tuple[float]] = (x, y, z, t_squared, plusminus_1)
 
 
 class ConeOnX(Surface):
@@ -2146,51 +2127,69 @@ class ConeOnX(Surface):
         plusminus_1: On-x-axis cone sheet selector.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        x: float,
+        t_squared: float,
+        plusminus_1: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``ConeOnX``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CONEONX
-
-        self.x: float = None
-        self.t_squared: float = None
-        self.plusminus_1: float = None
-
-    def set_parameters(self, x: float, t_squared: float, plusminus_1: float) -> None:
-        """
-        'set_parameters' sets cones on x-axis parameters.
-
-        'set_parameters' checks parameter entries are valid
-        floating points. It raises errors if given None.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             x: On-x-axis cone center x component.
             t_squared: On-x-axis cone t^2 coefficent.
             plusminus_1: On-x-axis cone sheet selector.
+
+        Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
+            MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(x)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONX
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x = value
-        self.parameters["x"] = value
-
-        value = types.cast_fortran_real(t_squared)
-        if value is None:
+        if t_squared is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.t_squared = value
-        self.parameters["t_squared"] = value
-
-        value = types.cast_fortran_real(plusminus_1)
-        if value is None:
+        if plusminus_1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.plusminus_1 = value
-        self.parameters["plusminus_1"] = value
+        self.x: final[float] = x
+        self.t_squared: final[float] = t_squared
+        self.plusminus_1: final[float] = plusminus_1
+
+        self.parameters: final[tuple[float]] = (x, t_squared, plusminus_1)
 
 
 class ConeOnY(Surface):
@@ -2206,24 +2205,22 @@ class ConeOnY(Surface):
         plusminus_1: On-y-axis cone sheet selector.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        y: float,
+        t_squared: float,
+        plusminus_1: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``ConeOnY``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CONEONY
-
-        self.y: float = None
-        self.t_squared: float = None
-        self.plusminus_1: float = None
-
-    def set_parameters(self, y: float, t_squared: float, plusminus_1: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             y: On-y-axis cone center y component.
@@ -2231,29 +2228,46 @@ class ConeOnY(Surface):
             plusminus_1: On-y-axis cone sheet selector.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(y)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONY
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y = value
-        self.parameters["y"] = value
-
-        value = types.cast_fortran_real(t_squared)
-        if value is None:
+        if t_squared is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.t_squared = value
-        self.parameters["t_squared"] = value
-
-        value = types.cast_fortran_real(plusminus_1)
-        if value is None:
+        if plusminus_1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.plusminus_1 = value
-        self.parameters["plusminus_1"] = value
+        self.y: final[float] = y
+        self.t_squared: final[float] = t_squared
+        self.plusminus_1: final[float] = plusminus_1
+
+        self.parameters: final[tuple[float]] = (y, t_squared, plusminus_1)
 
 
 class ConeOnZ(Surface):
@@ -2269,24 +2283,22 @@ class ConeOnZ(Surface):
         plusminus_1: On-z-axis cone sheet selector.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        z: float,
+        t_squared: float,
+        plusminus_1: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``ConeOnZ``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CONEONZ
-
-        self.z: float = None
-        self.t_squared: float = None
-        self.plusminus_1: float = None
-
-    def set_parameters(self, z: float, t_squared: float, plusminus_1: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             z: On-z-axis cone center z component.
@@ -2294,29 +2306,46 @@ class ConeOnZ(Surface):
             plusminus_1: On-z-axis cone sheet selector.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(z)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONZ
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z = value
-        self.parameters["z"] = value
-
-        value = types.cast_fortran_real(t_squared)
-        if value is None:
+        if t_squared is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.t_squared = value
-        self.parameters["t_squared"] = value
-
-        value = types.cast_fortran_real(plusminus_1)
-        if value is None:
+        if plusminus_1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.plusminus_1 = value
-        self.parameters["plusminus_1"] = value
+        self.z: final[float] = z
+        self.t_squared: final[float] = t_squared
+        self.plusminus_1: final[float] = plusminus_1
+
+        self.parameters: final[tuple[float]] = (z, t_squared, plusminus_1)
 
 
 class QuadraticSpecial(Surface):
@@ -2339,33 +2368,29 @@ class QuadraticSpecial(Surface):
         z: Oblique special quadratic center z component.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        a: float,
+        b: float,
+        c: float,
+        d: float,
+        e: float,
+        f: float,
+        g: float,
+        x: float,
+        y: float,
+        z: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``QuadraticSpecial``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.QUADRATICSPECIAL
-
-        self.a: float = None
-        self.b: float = None
-        self.c: float = None
-        self.d: float = None
-        self.e: float = None
-        self.f: float = None
-        self.g: float = None
-        self.x: float = None
-        self.y: float = None
-        self.z: float = None
-
-    def set_parameters(
-        self, a: float, b: float, c: float, d: float, e: float, f: float, g: float, x: float, y: float, z: float
-    ) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             a: Oblique special quadratic A coefficent.
@@ -2380,78 +2405,74 @@ class QuadraticSpecial(Surface):
             z: Oblique special quadratic center z component.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(a)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.QUADRATICSPECIAL
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if a is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a = value
-        self.parameters["a"] = value
-
-        value = types.cast_fortran_real(b)
-        if value is None:
+        if b is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.b = value
-        self.parameters["b"] = value
-
-        value = types.cast_fortran_real(c)
-        if value is None:
+        if c is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.c = value
-        self.parameters["c"] = value
-
-        value = types.cast_fortran_real(d)
-        if value is None:
+        if d is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.d = value
-        self.parameters["d"] = value
-
-        value = types.cast_fortran_real(e)
-        if value is None:
+        if e is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.e = value
-        self.parameters["e"] = value
-
-        value = types.cast_fortran_real(f)
-        if value is None:
+        if f is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.f = value
-        self.parameters["f"] = value
-
-        value = types.cast_fortran_real(g)
-        if value is None:
+        if g is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.g = value
-        self.parameters["g"] = value
-
-        value = types.cast_fortran_real(x)
-        if value is None:
+        if x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x = value
-        self.parameters["x"] = value
-
-        value = types.cast_fortran_real(y)
-        if value is None:
+        if y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y = value
-        self.parameters["y"] = value
-
-        value = types.cast_fortran_real(z)
-        if value is None:
+        if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z = value
-        self.parameters["z"] = value
+        self.a: final[float] = a
+        self.b: final[float] = b
+        self.c: final[float] = c
+        self.d: final[float] = d
+        self.e: final[float] = e
+        self.f: final[float] = f
+        self.g: final[float] = g
+        self.x: final[float] = x
+        self.y: final[float] = y
+        self.z: final[float] = z
+
+        self.parameters: final[tuple[float]] = (a, b, c, d, e, f, g, x, y, z)
 
 
 class QuadraticGeneral(Surface):
@@ -2475,33 +2496,29 @@ class QuadraticGeneral(Surface):
         k: Oblique special quadratic K coefficent.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        a: float,
+        b: float,
+        c: float,
+        d: float,
+        e: float,
+        f: float,
+        g: float,
+        h: float,
+        j: float,
+        k: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``QuadraticGeneral``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.QUADRATICGENERAL
-
-        self.a: float = None
-        self.b: float = None
-        self.c: float = None
-        self.d: float = None
-        self.e: float = None
-        self.f: float = None
-        self.g: float = None
-        self.h: float = None
-        self.j: float = None
-        self.k: float = None
-
-    def set_parameters(
-        self, a: float, b: float, c: float, d: float, e: float, f: float, g: float, h: float, j: float, k: float
-    ) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             a: Oblique special quadratic A coefficent.
@@ -2516,78 +2533,74 @@ class QuadraticGeneral(Surface):
             k: Oblique special quadratic K coefficent.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(a)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.QUADRATICGENERAL
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if a is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a = value
-        self.parameters["a"] = value
-
-        value = types.cast_fortran_real(b)
-        if value is None:
+        if b is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.b = value
-        self.parameters["b"] = value
-
-        value = types.cast_fortran_real(c)
-        if value is None:
+        if c is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.c = value
-        self.parameters["c"] = value
-
-        value = types.cast_fortran_real(d)
-        if value is None:
+        if d is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.d = value
-        self.parameters["d"] = value
-
-        value = types.cast_fortran_real(e)
-        if value is None:
+        if e is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.e = value
-        self.parameters["e"] = value
-
-        value = types.cast_fortran_real(f)
-        if value is None:
+        if f is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.f = value
-        self.parameters["f"] = value
-
-        value = types.cast_fortran_real(g)
-        if value is None:
+        if g is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.g = value
-        self.parameters["g"] = value
-
-        value = types.cast_fortran_real(h)
-        if value is None:
+        if h is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.h = value
-        self.parameters["h"] = value
-
-        value = types.cast_fortran_real(j)
-        if value is None:
+        if j is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.j = value
-        self.parameters["j"] = value
-
-        value = types.cast_fortran_real(k)
-        if value is None:
+        if k is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.k = value
-        self.parameters["k"] = value
+        self.a: final[float] = a
+        self.b: final[float] = b
+        self.c: final[float] = c
+        self.d: final[float] = d
+        self.e: final[float] = e
+        self.f: final[float] = f
+        self.g: final[float] = g
+        self.h: final[float] = h
+        self.j: final[float] = j
+        self.k: final[float] = k
+
+        self.parameters: final[tuple[float]] = (a, b, c, d, e, f, g, h, j, k)
 
 
 class TorusParallelX(Surface):
@@ -2606,27 +2619,25 @@ class TorusParallelX(Surface):
         c: Parallel-to-x-axis tori C coefficent.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        x: float,
+        y: float,
+        z: float,
+        a: float,
+        b: float,
+        c: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``TorusParallelX``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.TORUSPARALLELX
-
-        self.x: float = None
-        self.y: float = None
-        self.z: float = None
-        self.a: float = None
-        self.b: float = None
-        self.c: float = None
-
-    def set_parameters(self, x: float, y: float, z: float, a: float, b: float, c: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             x: Parallel-to-x-axis tori center x component.
@@ -2637,50 +2648,58 @@ class TorusParallelX(Surface):
             c: Parallel-to-x-axis tori C coefficent.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(x)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELX
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x = value
-        self.parameters["x"] = value
-
-        value = types.cast_fortran_real(y)
-        if value is None:
+        if y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y = value
-        self.parameters["y"] = value
-
-        value = types.cast_fortran_real(z)
-        if value is None:
+        if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z = value
-        self.parameters["z"] = value
-
-        value = types.cast_fortran_real(a)
-        if value is None:
+        if a is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a = value
-        self.parameters["a"] = value
-
-        value = types.cast_fortran_real(b)
-        if value is None:
+        if b is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.b = value
-        self.parameters["b"] = value
-
-        value = types.cast_fortran_real(c)
-        if value is None:
+        if c is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.c = value
-        self.parameters["c"] = value
+        self.x: final[float] = x
+        self.y: final[float] = y
+        self.z: final[float] = z
+        self.a: final[float] = a
+        self.b: final[float] = b
+        self.c: final[float] = c
+
+        self.parameters: final[tuple[float]] = (x, y, z, a, b, c)
 
 
 class TorusParallelY(Surface):
@@ -2699,27 +2718,25 @@ class TorusParallelY(Surface):
         c: Parallel-to-y-axis tori C coefficent.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        x: float,
+        y: float,
+        z: float,
+        a: float,
+        b: float,
+        c: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``TorusParallelY``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.TORUSPARALLELY
-
-        self.x: float = None
-        self.y: float = None
-        self.z: float = None
-        self.a: float = None
-        self.b: float = None
-        self.c: float = None
-
-    def set_parameters(self, x: float, y: float, z: float, a: float, b: float, c: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             x: Parallel-to-y-axis tori center x component.
@@ -2730,50 +2747,58 @@ class TorusParallelY(Surface):
             c: Parallel-to-y-axis tori C coefficent.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(x)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELY
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x = value
-        self.parameters["x"] = value
-
-        value = types.cast_fortran_real(y)
-        if value is None:
+        if y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y = value
-        self.parameters["y"] = value
-
-        value = types.cast_fortran_real(z)
-        if value is None:
+        if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z = value
-        self.parameters["z"] = value
-
-        value = types.cast_fortran_real(a)
-        if value is None:
+        if a is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a = value
-        self.parameters["a"] = value
-
-        value = types.cast_fortran_real(b)
-        if value is None:
+        if b is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.b = value
-        self.parameters["b"] = value
-
-        value = types.cast_fortran_real(c)
-        if value is None:
+        if c is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.c = value
-        self.parameters["c"] = value
+        self.x: final[float] = x
+        self.y: final[float] = y
+        self.z: final[float] = z
+        self.a: final[float] = a
+        self.b: final[float] = b
+        self.c: final[float] = c
+
+        self.parameters: final[tuple[float]] = (x, y, z, a, b, c)
 
 
 class TorusParallelZ(Surface):
@@ -2792,27 +2817,25 @@ class TorusParallelZ(Surface):
         c: Parallel-to-z-axis tori C coefficent.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        x: float,
+        y: float,
+        z: float,
+        a: float,
+        b: float,
+        c: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``TorusParallelZ``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.TORUSPARALLELZ
-
-        self.x: float = None
-        self.y: float = None
-        self.z: float = None
-        self.a: float = None
-        self.b: float = None
-        self.c: float = None
-
-    def set_parameters(self, x: float, y: float, z: float, a: float, b: float, c: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             x: Parallel-to-z-axis tori center x component.
@@ -2823,50 +2846,58 @@ class TorusParallelZ(Surface):
             c: Parallel-to-z-axis tori C coefficent.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(x)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELZ
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x = value
-        self.parameters["x"] = value
-
-        value = types.cast_fortran_real(y)
-        if value is None:
+        if y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y = value
-        self.parameters["y"] = value
-
-        value = types.cast_fortran_real(z)
-        if value is None:
+        if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z = value
-        self.parameters["z"] = value
-
-        value = types.cast_fortran_real(a)
-        if value is None:
+        if a is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a = value
-        self.parameters["a"] = value
-
-        value = types.cast_fortran_real(b)
-        if value is None:
+        if b is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.b = value
-        self.parameters["b"] = value
-
-        value = types.cast_fortran_real(c)
-        if value is None:
+        if c is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.c = value
-        self.parameters["c"] = value
+        self.x: final[float] = x
+        self.y: final[float] = y
+        self.z: final[float] = z
+        self.a: final[float] = a
+        self.b: final[float] = b
+        self.c: final[float] = c
+
+        self.parameters: final[tuple[float]] = (x, y, z, a, b, c)
 
 
 class SurfaceX(Surface):
@@ -2885,27 +2916,25 @@ class SurfaceX(Surface):
         r3: X-axisymmetric point-defined surface point #3 radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        x1: float,
+        r1: float,
+        x2: float,
+        r2: float,
+        x3: float,
+        r3: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``SurfaceX``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.SURFACEX
-
-        self.x1: float = None
-        self.r1: float = None
-        self.x2: float = None
-        self.r2: float = None
-        self.x3: float = None
-        self.r3: float = None
-
-    def set_parameters(self, x1: float, r1: float, x2: float, r2: float, x3: float, r3: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             x1: X-axisymmetric point-defined surface point #1 x component.
@@ -2916,52 +2945,60 @@ class SurfaceX(Surface):
             r3: X-axisymmetric point-defined surface point #3 radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(x1)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEX
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if x1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x1 = value
-        self.parameters["x1"] = value
-
-        value = types.cast_fortran_real(r1)
-        if value is None:
+        if r1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-        self.r1 = value
-        self.parameters["r1"] = value
 
         if x2 is not None and r2 is not None:
-            value = types.cast_fortran_real(x2)
-            if value is None:
+            if x2 is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.x2 = value
-            self.parameters["x2"] = value
-
-            value = types.cast_fortran_real(r2)
-            if value is None:
+            if r2 is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-            self.r2 = value
-            self.parameters["r2"] = value
 
             if x3 is not None and r3 is not None:
-                value = types.cast_fortran_real(x3)
-                if value is None:
+                if x3 is None:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-                self.x3 = value
-                self.parameters["x3"] = value
-
-                value = types.cast_fortran_real(r3)
-                if value is None:
+                if r3 is None:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-                self.r3 = value
-                self.parameters["r3"] = value
+        self.x1: final[float] = x1
+        self.r1: final[float] = r1
+        self.x2: final[float] = x2 if x2 is not None else None
+        self.r2: final[float] = r2 if r2 is not None else None
+        self.x3: final[float] = x3 if x3 is not None else None
+        self.r3: final[float] = r3 if r3 is not None else None
+
+        self.parameters = (x1, r1, x2, r2, x3, r3)
 
 
 class SurfaceY(Surface):
@@ -2980,27 +3017,25 @@ class SurfaceY(Surface):
         r3: Y-axisymmetric point-defined surface point #3 radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        y1: float,
+        r1: float,
+        y2: float,
+        r2: float,
+        y3: float,
+        r3: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``SurfaceY``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.SURFACEY
-
-        self.y1: float = None
-        self.r1: float = None
-        self.y2: float = None
-        self.r2: float = None
-        self.y3: float = None
-        self.r3: float = None
-
-    def set_parameters(self, y1: float, r1: float, y2: float, r2: float, y3: float, r3: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             y1: Y-axisymmetric point-defined surface point #1 y component.
@@ -3011,52 +3046,60 @@ class SurfaceY(Surface):
             r3: Y-axisymmetric point-defined surface point #3 radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(y1)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEY
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if y1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y1 = value
-        self.parameters["y1"] = value
-
-        value = types.cast_fortran_real(r1)
-        if value is None:
+        if r1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-        self.r1 = value
-        self.parameters["r1"] = value
 
         if y2 is not None and r2 is not None:
-            value = types.cast_fortran_real(y2)
-            if value is None:
+            if y2 is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.y2 = value
-            self.parameters["y2"] = value
-
-            value = types.cast_fortran_real(r2)
-            if value is None:
+            if r2 is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-            self.r2 = value
-            self.parameters["r2"] = value
 
             if y3 is not None and r3 is not None:
-                value = types.cast_fortran_real(y3)
-                if value is None:
+                if y3 is None:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-                self.y3 = value
-                self.parameters["y3"] = value
-
-                value = types.cast_fortran_real(r3)
-                if value is None:
+                if r3 is None:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-                self.r3 = value
-                self.parameters["r3"] = value
+        self.y1: final[float] = y1
+        self.r1: final[float] = r1
+        self.y2: final[float] = y2 if y2 is not None else None
+        self.r2: final[float] = r2 if r2 is not None else None
+        self.y3: final[float] = y3 if y3 is not None else None
+        self.r3: final[float] = r3 if r3 is not None else None
+
+        self.parameters: final[tuple[float]] = (y1, r1, y2, r2, y3, r3)
 
 
 class SurfaceZ(Surface):
@@ -3075,27 +3118,21 @@ class SurfaceZ(Surface):
         r3: Z-axisymmetric point-defined surface point #3 radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        z1: float,
+        r1: float,
+        z2: float,
+        r2: float,
+        z3: float,
+        r3: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``SurfaceZ``.
-        """
-
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.SURFACEZ
-
-        self.z1: float = None
-        self.r1: float = None
-        self.z2: float = None
-        self.r2: float = None
-        self.z3: float = None
-        self.r3: float = None
-
-    def set_parameters(self, z1: float, r1: float, z2: float, r2: float, z3: float, r3: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
 
         Parameters:
             z1: Z-axisymmetric point-defined surface point #1 z component.
@@ -3106,52 +3143,60 @@ class SurfaceZ(Surface):
             r3: Z-axisymmetric point-defined surface point #3 radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(z1)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEZ
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if z1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z1 = value
-        self.parameters["z1"] = value
-
-        value = types.cast_fortran_real(r1)
-        if value is None:
+        if r1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-        self.r1 = value
-        self.parameters["r1"] = value
 
         if z2 is not None and r2 is not None:
-            value = types.cast_fortran_real(z2)
-            if value is None:
+            if z2 is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.z2 = value
-            self.parameters["z2"] = value
-
-            value = types.cast_fortran_real(r2)
-            if value is None:
+            if r2 is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-            self.r2 = value
-            self.parameters["r2"] = value
 
             if z3 is not None and r3 is not None:
-                value = types.cast_fortran_real(z3)
-                if value is None:
+                if z3 is None:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-                self.z3 = value
-                self.parameters["z3"] = value
-
-                value = types.cast_fortran_real(r3)
-                if value is None:
+                if r3 is None:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-                self.r3 = value
-                self.parameters["r3"] = value
+        self.z1: final[float] = z1
+        self.r1: final[float] = r1
+        self.z2: final[float] = z2 if z2 is not None else None
+        self.r2: final[float] = r2 if r2 is not None else None
+        self.z3: final[float] = z3 if z3 is not None else None
+        self.r3: final[float] = r3 if r3 is not None else None
+
+        self.parameters: final[tuple[float]] = (z1, r1, z2, r2, z3, r3)
 
 
 class Box(Surface):
@@ -3178,29 +3223,10 @@ class Box(Surface):
         a3z: Box macrobody vector #3 z component.
     """
 
-    def __init__(self):
-        """
-        ``__init__`` initializes ``Box``.
-        """
-
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.BOX
-
-        self.vx: float = None
-        self.vy: float = None
-        self.vz: float = None
-        self.a1x: float = None
-        self.a1y: float = None
-        self.a1z: float = None
-        self.a2x: float = None
-        self.a2y: float = None
-        self.a2z: float = None
-        self.a3x: float = None
-        self.a3y: float = None
-        self.a3z: float = None
-
-    def set_parameters(
+    def __init__(
         self,
+        number: int,
+        transform_periodic: int,
         vx: float,
         vy: float,
         vz: float,
@@ -3213,12 +3239,15 @@ class Box(Surface):
         a3x: float,
         a3y: float,
         a3z: float,
-    ) -> None:
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
-        ``set_parameters`` stores INP surface card parameters.
+        ``__init__`` initializes ``Box``.
 
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             vx: Box macrobody position vector x component.
@@ -3235,93 +3264,83 @@ class Box(Surface):
             a3z: Box macrobody vector #3 z component.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(vx)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.BOX
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if vx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vx = value
-        self.parameters["vx"] = value
-
-        value = types.cast_fortran_real(vy)
-        if value is None:
+        if vy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vy = value
-        self.parameters["vy"] = value
-
-        value = types.cast_fortran_real(vz)
-        if value is None:
+        if vz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vz = value
-        self.parameters["vz"] = value
-
-        value = types.cast_fortran_real(a1x)
-        if value is None:
+        if a1x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a1x = value
-        self.parameters["a1x"] = value
-
-        value = types.cast_fortran_real(a1y)
-        if value is None:
+        if a1y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a1y = value
-        self.parameters["a1y"] = value
-
-        value = types.cast_fortran_real(a1z)
-        if value is None:
+        if a1z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a1z = value
-        self.parameters["a1z"] = value
-
-        value = types.cast_fortran_real(a2x)
-        if value is None:
+        if a2x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a2x = value
-        self.parameters["a2x"] = value
-
-        value = types.cast_fortran_real(a2y)
-        if value is None:
+        if a2y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a2y = value
-        self.parameters["a2y"] = value
-
-        value = types.cast_fortran_real(a2z)
-        if value is None:
+        if a2z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a2z = value
-        self.parameters["a2z"] = value
-
-        if a3x is not None and a3y is not None and a3z is not None:
-            value = types.cast_fortran_real(a3x)
-            if value is None:
+        if a3x is not None or a3y is not None or a3z is not None:
+            if a3x is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.a3x = value
-            self.parameters["a3x"] = value
-
-            value = types.cast_fortran_real(a3y)
-            if value is None:
+            if a3y is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.a3y = value
-            self.parameters["a3y"] = value
-
-            value = types.cast_fortran_real(a3z)
-            if value is None:
+            if a3z is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.a3z = value
-            self.parameters["a3z"] = value
+        self.vx: final[float] = vx
+        self.vy: final[float] = vy
+        self.vz: final[float] = vz
+        self.a1x: final[float] = a1x
+        self.a1y: final[float] = a1y
+        self.a1z: final[float] = a1z
+        self.a2x: final[float] = a2x
+        self.a2y: final[float] = a2y
+        self.a2z: final[float] = a2z
+        self.a3x: final[float] = a3x if a3x is not None else None
+        self.a3y: final[float] = a3y if a3y is not None else None
+        self.a3z: final[float] = a3z if a3z is not None else None
+
+        self.parameters: final[tuple[float]] = (vx, vy, vz, a1x, a1y, a1z, a2x, a2y, a2z, a3x, a3y, a3z)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -3337,16 +3356,15 @@ class Box(Surface):
             Cadquery for surface card object.
         """
 
-        if len(self.parameters) == 12:
-            v = _cadquery.cqVector(self.vx, self.vy, self.vz)
-            a1 = _cadquery.cqVector(self.a1x, self.a1y, self.a1z)
-            a2 = _cadquery.cqVector(self.a2x, self.a2y, self.a2z)
-            a3 = _cadquery.cqVector(self.a3x, self.a3y, self.a3z)
+        v = _cadquery.CqVector(self.vx, self.vy, self.vz)
+        a1 = _cadquery.CqVector(self.a1x, self.a1y, self.a1z)
+        a2 = _cadquery.CqVector(self.a2x, self.a2y, self.a2z)
+        a3 = _cadquery.CqVector(self.a3x, self.a3y, self.a3z)
 
-            cadquery = "import cadquery as cq\n\n" if hasHeader else ""
-            cadquery += f"surface_{self.number} = cq.Workplane()"
-            cadquery += _cadquery.add_box(a1, a2, a3)
-            cadquery += _cadquery.add_translation(v)
+        cadquery = "import cadquery as cq\n\n" if hasHeader else ""
+        cadquery += f"surface_{self.number} = cq.Workplane()"
+        cadquery += _cadquery.add_box(a1, a2, a3)
+        cadquery += _cadquery.add_translation(v)
 
         return cadquery + "\n"
 
@@ -3368,27 +3386,21 @@ class Parallelepiped(Surface):
         zmax: Parallelepiped z termini maximum.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        xmin: float,
+        xmax: float,
+        ymin: float,
+        ymax: float,
+        zmin: float,
+        zmax: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``Parallelepiped``.
-        """
-
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.PARALLELEPIPED
-
-        self.xmin: float = None
-        self.xmax: float = None
-        self.ymin: float = None
-        self.ymax: float = None
-        self.zmin: float = None
-        self.zmax: float = None
-
-    def set_parameters(self, xmin: float, xmax: float, ymin: float, ymax: float, zmin: float, zmax: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
 
         Parameters:
             xmin: Parallelepiped x termini minimum.
@@ -3399,50 +3411,58 @@ class Parallelepiped(Surface):
             zmax: Parallelepiped z termini maximum.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(xmin)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PARALLELEPIPED
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if xmin is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.xmin = value
-        self.parameters["xmin"] = value
-
-        value = types.cast_fortran_real(xmax)
-        if value is None:
+        if xmax is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.xmax = value
-        self.parameters["xmax"] = value
-
-        value = types.cast_fortran_real(ymin)
-        if value is None:
+        if ymin is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.ymin = value
-        self.parameters["ymin"] = value
-
-        value = types.cast_fortran_real(ymax)
-        if value is None:
+        if ymax is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.ymax = value
-        self.parameters["ymax"] = value
-
-        value = types.cast_fortran_real(zmin)
-        if value is None:
+        if zmin is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.zmin = value
-        self.parameters["zmin"] = value
-
-        value = types.cast_fortran_real(zmax)
-        if value is None:
+        if zmax is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.zmax = value
-        self.parameters["zmax"] = value
+        self.xmin: final[float] = xmin
+        self.xmax: final[float] = xmax
+        self.ymin: final[float] = ymin
+        self.ymax: final[float] = ymax
+        self.zmin: final[float] = zmin
+        self.zmax: final[float] = zmax
+
+        self.parameters: final[tuple[float]] = (xmin, xmax, ymin, ymax, zmin, zmax)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -3464,10 +3484,10 @@ class Parallelepiped(Surface):
             math.fabs(self.zmax - self.zmin),
         )
 
-        x = _cadquery.cqVector(xlen, 0, 0)
-        y = _cadquery.cqVector(0, ylen, 0)
-        z = _cadquery.cqVector(0, 0, zlen)
-        v = _cadquery.cqVector(self.xmin + xlen / 2, self.ymin + ylen / 2, self.zmin + zlen / 2)
+        x = _cadquery.CqVector(xlen, 0, 0)
+        y = _cadquery.CqVector(0, ylen, 0)
+        z = _cadquery.CqVector(0, 0, zlen)
+        v = _cadquery.CqVector(self.xmin + xlen / 2, self.ymin + ylen / 2, self.zmin + zlen / 2)
 
         cadquery = "import cadquery as cq\n\n" if hasHeader else ""
         cadquery += f"surface_{self.number} = cq.Workplane()"
@@ -3491,25 +3511,23 @@ class Sphere(Surface):
         r: Sphere macrobody radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        vx: float,
+        vy: float,
+        vz: float,
+        r: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``Sphere``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.SPHERE
-
-        self.vx: float = None
-        self.vy: float = None
-        self.vz: float = None
-        self.r: float = None
-
-    def set_parameters(self, vx: float, vy: float, vz: float, r: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             vx: Sphere macrobody position vector x component.
@@ -3518,36 +3536,50 @@ class Sphere(Surface):
             r: Sphere macrobody radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(vx)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERE
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if vx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vx = value
-        self.parameters["vx"] = value
-
-        value = types.cast_fortran_real(vy)
-        if value is None:
+        if vy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vy = value
-        self.parameters["vy"] = value
-
-        value = types.cast_fortran_real(vz)
-        if value is None:
+        if vz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vz = value
-        self.parameters["vz"] = value
-
-        value = types.cast_fortran_real(r)
-        if value is None:
+        if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r = value
-        self.parameters["r"] = value
+        self.vx: final[float] = vx
+        self.vy: final[float] = vy
+        self.vz: final[float] = vz
+        self.r: final[float] = r
+
+        self.parameters: final[tuple[float]] = (vx, vy, vz, r)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -3589,28 +3621,26 @@ class CylinderCircular(Surface):
         r: Circular cylinder macrobody radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        vx: float,
+        vy: float,
+        vz: float,
+        hx: float,
+        hy: float,
+        hz: float,
+        r: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``CylinderCircular``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CYLINDERCIRCULAR
-
-        self.vx: float = None
-        self.vy: float = None
-        self.vz: float = None
-        self.hx: float = None
-        self.hy: float = None
-        self.hz: float = None
-        self.r: float = None
-
-    def set_parameters(self, vx: float, vy: float, vz: float, hx: float, hy: float, hz: float, r: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             vx: Circular cylinder macrobody position vector x component.
@@ -3622,57 +3652,62 @@ class CylinderCircular(Surface):
             r: Circular cylinder macrobody radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(vx)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERCIRCULAR
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if vx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vx = value
-        self.parameters["vx"] = value
-
-        value = types.cast_fortran_real(vy)
-        if value is None:
+        if vy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vy = value
-        self.parameters["vy"] = value
-
-        value = types.cast_fortran_real(vz)
-        if value is None:
+        if vz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vz = value
-        self.parameters["vz"] = value
-
-        value = types.cast_fortran_real(hx)
-        if value is None:
+        if hx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.hx = value
-        self.parameters["hx"] = value
-
-        value = types.cast_fortran_real(hy)
-        if value is None:
+        if hy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.hy = value
-        self.parameters["hy"] = value
-
-        value = types.cast_fortran_real(hz)
-        if value is None:
+        if hz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.hz = value
-        self.parameters["hz"] = value
-
-        value = types.cast_fortran_real(r)
-        if value is None:
+        if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r = value
-        self.parameters["r"] = value
+        self.vx: final[float] = vx
+        self.vy: final[float] = vy
+        self.vz: final[float] = vz
+        self.hx: final[float] = hx
+        self.hy: final[float] = hy
+        self.hz: final[float] = hz
+        self.r: final[float] = r
+
+        self.parameters: final[tuple[float]] = (vx, vy, vz, hx, hy, hz, r)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -3688,16 +3723,16 @@ class CylinderCircular(Surface):
             Cadquery for surface card object.
         """
 
-        h = _cadquery.cqVector(self.hx, self.hy, self.hz)
-        v = _cadquery.cqVector(self.vx, self.vy, self.vz / 2)
-        k = _cadquery.cqVector(0, 0, 1)
+        h = _cadquery.CqVector(self.hx, self.hy, self.hz)
+        v = _cadquery.CqVector(self.vx, self.vy, self.vz / 2)
+        k = _cadquery.CqVector(0, 0, 1)
 
         cadquery = "import cadquery as cq\n\n" if hasHeader else ""
         cadquery += f"surface_{self.number} = cq.Workplane()"
         cadquery += _cadquery.add_cylinder_circle(h.norm(), self.r)
 
         if self.hx != 0 or self.hy != 0 or self.hz / self.hz != 1:
-            cadquery += _cadquery.add_rotation(_cadquery.cqVector.cross(k, h), _cadquery.cqVector.angle(k, h))
+            cadquery += _cadquery.add_rotation(_cadquery.CqVector.cross(k, h), _cadquery.CqVector.angle(k, h))
 
         cadquery += _cadquery.add_translation(v)
 
@@ -3730,32 +3765,10 @@ class HexagonalPrism(Surface):
         t3: Hexagonal prism facet #3 vector z component.
     """
 
-    def __init__(self):
-        """
-        ``__init__`` initializes ``HexagonalPrism``.
-        """
-
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.HEXAGONALPRISM
-
-        self.vx: float = None
-        self.vy: float = None
-        self.vz: float = None
-        self.hx: float = None
-        self.hy: float = None
-        self.hz: float = None
-        self.r1: float = None
-        self.r2: float = None
-        self.r3: float = None
-        self.s1: float = None
-        self.s2: float = None
-        self.s3: float = None
-        self.t1: float = None
-        self.t2: float = None
-        self.t3: float = None
-
-    def set_parameters(
+    def __init__(
         self,
+        number: int,
+        transform_periodic: int,
         vx: float,
         vy: float,
         vz: float,
@@ -3771,12 +3784,15 @@ class HexagonalPrism(Surface):
         t1: float,
         t2: float,
         t3: float,
-    ) -> None:
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
-        ``set_parameters`` stores INP surface card parameters.
+        ``__init__`` initializes ``HexagonalPrism``.
 
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             vx: Hexagonal prism position vector x component.
@@ -3796,114 +3812,95 @@ class HexagonalPrism(Surface):
             t3: Hexagonal prism facet #3 vector z component.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(vx)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.HEXAGONALPRISM
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if vx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vx = value
-        self.parameters["vx"] = value
-
-        value = types.cast_fortran_real(vy)
-        if value is None:
+        if vy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vy = value
-        self.parameters["vy"] = value
-
-        value = types.cast_fortran_real(vz)
-        if value is None:
+        if vz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vz = value
-        self.parameters["vz"] = value
-
-        value = types.cast_fortran_real(hx)
-        if value is None:
+        if hx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.hx = value
-        self.parameters["hx"] = value
-
-        value = types.cast_fortran_real(hy)
-        if value is None:
+        if hy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.hy = value
-        self.parameters["hy"] = value
-
-        value = types.cast_fortran_real(hz)
-        if value is None:
+        if hz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.hz = value
-        self.parameters["hz"] = value
-
-        value = types.cast_fortran_real(r1)
-        if value is None:
+        if r1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r1 = value
-        self.parameters["r1"] = value
-
-        value = types.cast_fortran_real(r2)
-        if value is None:
+        if r2 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r2 = value
-        self.parameters["r2"] = value
-
-        value = types.cast_fortran_real(r3)
-        if value is None:
+        if r3 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r3 = value
-        self.parameters["r3"] = value
-
-        if s1 is not None and s2 is not None and s3 is not None and t1 is not None and t2 is not None and t3 is not None:
-            value = types.cast_fortran_real(s1)
-            if value is None:
+        if s1 is not None or s2 is not None or s3 is not None or t1 is not None or t2 is not None or t3 is not None:
+            if s1 is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.s1 = value
-            self.parameters["s1"] = value
-
-            value = types.cast_fortran_real(s2)
-            if value is None:
+            if s2 is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.s2 = value
-            self.parameters["s2"] = value
-
-            value = types.cast_fortran_real(s3)
-            if value is None:
+            if s3 is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.s3 = value
-            self.parameters["s3"] = value
-
-            value = types.cast_fortran_real(t1)
-            if value is None:
+            if t1 is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.t1 = value
-            self.parameters["t1"] = value
-
-            value = types.cast_fortran_real(t2)
-            if value is None:
+            if t2 is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.t2 = value
-            self.parameters["t2"] = value
-
-            value = types.cast_fortran_real(t3)
-            if value is None:
+            if t3 is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.t3 = value
-            self.parameters["t3"] = value
+        self.vx: final[float] = vx
+        self.vy: final[float] = vy
+        self.vz: final[float] = vz
+        self.hx: final[float] = hx
+        self.hy: final[float] = hy
+        self.hz: final[float] = hz
+        self.r1: final[float] = r1
+        self.r2: final[float] = r2
+        self.r3: final[float] = r3
+        self.s1: final[float] = s1 if s1 is not None else None
+        self.s2: final[float] = s2 if s2 is not None else None
+        self.s3: final[float] = s3 if s3 is not None else None
+        self.t1: final[float] = t1 if t1 is not None else None
+        self.t2: final[float] = t2 if t2 is not None else None
+        self.t3: final[float] = t3 if t3 is not None else None
+
+        self.parameters: final[tuple[float]] = (vx, vy, vz, hx, hy, hz, r1, r2, r3, s1, s2, s3, t1, t2, t3)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -3919,20 +3916,18 @@ class HexagonalPrism(Surface):
             Cadquery for surface card object.
         """
 
-        if len(self.parameters.items()) == 9:
-            v = _cadquery.cqVector(self.vx, self.vy, self.vz)
-            h = _cadquery.cqVector(self.hx, self.hy, self.hz)
-            r = _cadquery.cqVector(self.r1, self.r2, self.r3)
-            k = _cadquery.cqVector(0, 0, 1)
+        v = _cadquery.CqVector(self.vx, self.vy, self.vz)
+        h = _cadquery.CqVector(self.hx, self.hy, self.hz)
+        r = _cadquery.CqVector(self.r1, self.r2, self.r3)
+        k = _cadquery.CqVector(0, 0, 1)
+        cadquery = "import cadquery as cq\n\n" if hasHeader else ""
+        cadquery += f"surface_{self.number} = cq.Workplane()"
+        cadquery += _cadquery.add_prism_polygon(h.norm(), r.apothem())
 
-            cadquery = "import cadquery as cq\n\n" if hasHeader else ""
-            cadquery += f"surface_{self.number} = cq.Workplane()"
-            cadquery += _cadquery.add_prism_polygon(h.norm(), r.apothem())
+        if self.hx != 0 or self.hy != 0 or self.hz / self.hz != 1:
+            cadquery += _cadquery.add_rotation(_cadquery.CqVector.cross(k, h), _cadquery.CqVector.angle(k, h))
 
-            if self.hx != 0 or self.hy != 0 or self.hz / self.hz != 1:
-                cadquery += _cadquery.add_rotation(_cadquery.cqVector.cross(k, h), _cadquery.cqVector.angle(k, h))
-
-            cadquery += _cadquery.add_translation(v)
+        cadquery += _cadquery.add_translation(v)
 
         return cadquery
 
@@ -3960,29 +3955,10 @@ class CylinderElliptical(Surface):
         v2z: Elliptical cylinder minor axis vector z component.
     """
 
-    def __init__(self):
-        """
-        ``__init__`` initializes ``CylinderElliptical``.
-        """
-
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CYLINDERELLIPTICAL
-
-        self.vx: float = None
-        self.vy: float = None
-        self.vz: float = None
-        self.hx: float = None
-        self.hy: float = None
-        self.hz: float = None
-        self.v1x: float = None
-        self.v1y: float = None
-        self.v1z: float = None
-        self.v2x: float = None
-        self.v2y: float = None
-        self.v2z: float = None
-
-    def set_parameters(
+    def __init__(
         self,
+        number: int,
+        transform_periodic: int,
         vx: float,
         vy: float,
         vz: float,
@@ -3995,12 +3971,15 @@ class CylinderElliptical(Surface):
         v2x: float,
         v2y: float,
         v2z: float,
-    ) -> None:
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
-        ``set_parameters`` stores INP surface card parameters.
+        ``__init__`` initializes ``CylinderElliptical``.
 
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             vx: Elliptical cylinder position vector x component.
@@ -4017,104 +3996,84 @@ class CylinderElliptical(Surface):
             v2z: Elliptical cylinder minor axis vector z component.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        if vx is not None:
-            value = types.cast_fortran_real(vx)
-            if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERELLIPTICAL
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if vx is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        if vy is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        if vz is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        if hx is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        if hy is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        if hz is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        if v1x is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        if v1y is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        if v1z is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        if v2x is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+
+        if v2y is not None or v2z is not None:
+            if v2y is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.vx = value
-            self.parameters["vx"] = value
-
-        if vy is not None:
-            value = types.cast_fortran_real(vy)
-            if value is None:
+            if v2z is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-            self.vy = value
-            self.parameters["vy"] = value
+        self.vx: final[float] = vx
+        self.vy: final[float] = vy
+        self.vz: final[float] = vz
+        self.hx: final[float] = hx
+        self.hy: final[float] = hy
+        self.hz: final[float] = hz
+        self.v1x: final[float] = v1x
+        self.v1y: final[float] = v1y
+        self.v1z: final[float] = v1z
+        self.v2x: final[float] = v2x
 
-        if vz is not None:
-            value = types.cast_fortran_real(vz)
-            if value is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
+        self.v2y: final[float] = v2y
+        self.v2z: final[float] = v2z
 
-            self.vz = value
-            self.parameters["vz"] = value
-
-        if hx is not None:
-            value = types.cast_fortran_real(hx)
-            if value is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-            self.hx = value
-            self.parameters["hx"] = value
-
-        if hy is not None:
-            value = types.cast_fortran_real(hy)
-            if value is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-            self.hy = value
-            self.parameters["hy"] = value
-
-        if hz is not None:
-            value = types.cast_fortran_real(hz)
-            if value is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-            self.hz = value
-            self.parameters["hz"] = value
-
-        if v1x is not None:
-            value = types.cast_fortran_real(v1x)
-            if value is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-            self.v1x = value
-            self.parameters["v1x"] = value
-
-        if v1y is not None:
-            value = types.cast_fortran_real(v1y)
-            if value is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-            self.v1y = value
-            self.parameters["v1y"] = value
-
-        if v1z is not None:
-            value = types.cast_fortran_real(v1z)
-            if value is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-            self.v1z = value
-            self.parameters["v1z"] = value
-
-        if v2x is not None:
-            value = types.cast_fortran_real(v2x)
-            if value is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-            self.v2x = value
-            self.parameters["v2x"] = value
-
-        if v2y is not None:
-            value = types.cast_fortran_real(v2y)
-            if value is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-            self.v2y = value
-            self.parameters["v2y"] = value
-
-        if v2z is not None:
-            value = types.cast_fortran_real(v2z)
-            if value is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
-
-            self.v2z = value
-            self.parameters["v2z"] = value
+        self.parameters: final[tuple[float]] = (vx, vy, vz, hx, hy, hz, v1x, v1y, v1z, v2x, v2y, v2z)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -4130,18 +4089,18 @@ class CylinderElliptical(Surface):
             Cadquery for surface card object.
         """
 
-        k = _cadquery.cqVector(0, 0, 1)
-        v = _cadquery.cqVector(self.vx, self.vy, self.vz)
-        h = _cadquery.cqVector(self.hx, self.hy, self.hz)
-        v1 = _cadquery.cqVector(self.v1x, self.v1y, self.v1z)
-        v2 = _cadquery.cqVector(self.v2x, self.v2y, self.v2z)
+        k = _cadquery.CqVector(0, 0, 1)
+        v = _cadquery.CqVector(self.vx, self.vy, self.vz)
+        h = _cadquery.CqVector(self.hx, self.hy, self.hz)
+        v1 = _cadquery.CqVector(self.v1x, self.v1y, self.v1z)
+        v2 = _cadquery.CqVector(self.v2x, self.v2y, self.v2z)
 
         cadquery = "import cadquery as cq\n\n" if hasHeader else ""
         cadquery += f"surface_{self.number} = cq.Workplane()."
         cadquery += _cadquery.add_cylinder_ellipse(h.norm(), v1.norm(), v2.norm())
 
         if self.hx != 0 or self.hy != 0 or self.hz / self.hz != 1:
-            cadquery += _cadquery.add_rotation(_cadquery.cqVector.cross(k, h), _cadquery.cqVector.angle(k, h))
+            cadquery += _cadquery.add_rotation(_cadquery.CqVector.cross(k, h), _cadquery.CqVector.angle(k, h))
 
         cadquery += _cadquery.add_translation(v)
 
@@ -4167,29 +4126,27 @@ class ConeTruncated(Surface):
         r2: Truncated cone upper cone radius.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        vx: float,
+        vy: float,
+        vz: float,
+        hx: float,
+        hy: float,
+        hz: float,
+        r1: float,
+        r2: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``ConeTruncated``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CONETRUNCATED
-
-        self.vx: float = None
-        self.vy: float = None
-        self.vz: float = None
-        self.hx: float = None
-        self.hy: float = None
-        self.hz: float = None
-        self.r1: float = None
-        self.r2: float = None
-
-    def set_parameters(self, vx: float, vy: float, vz: float, hx: float, hy: float, hz: float, r1: float, r2: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             vx: Truncated cone position vector x component.
@@ -4202,64 +4159,66 @@ class ConeTruncated(Surface):
             r2: Truncated cone upper cone radius.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(vx)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONETRUNCATED
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if vx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vx = value
-        self.parameters["vx"] = value
-
-        value = types.cast_fortran_real(vy)
-        if value is None:
+        if vy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vy = value
-        self.parameters["vy"] = value
-
-        value = types.cast_fortran_real(vz)
-        if value is None:
+        if vz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vz = value
-        self.parameters["vz"] = value
-
-        value = types.cast_fortran_real(hx)
-        if value is None:
+        if hx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.hx = value
-        self.parameters["hx"] = value
-
-        value = types.cast_fortran_real(hy)
-        if value is None:
+        if hy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.hy = value
-        self.parameters["hy"] = value
-
-        value = types.cast_fortran_real(hz)
-        if value is None:
+        if hz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.hz = value
-        self.parameters["hz"] = value
-
-        value = types.cast_fortran_real(r1)
-        if value is None:
+        if r1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r1 = value
-        self.parameters["r1"] = value
-
-        value = types.cast_fortran_real(r2)
-        if value is None:
+        if r2 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r2 = value
-        self.parameters["r2"] = value
+        self.vx: final[float] = vx
+        self.vy: final[float] = vy
+        self.vz: final[float] = vz
+        self.hx: final[float] = hx
+        self.hy: final[float] = hy
+        self.hz: final[float] = hz
+        self.r1: final[float] = r1
+        self.r2: final[float] = r2
+
+        self.parameters: final[tuple[float]] = (vx, vy, vz, hx, hy, hz, r1, r2)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -4275,18 +4234,18 @@ class ConeTruncated(Surface):
             Cadquery for surface card object.
         """
 
-        k = _cadquery.cqVector(0, 0, 1)
-        v = _cadquery.cqVector(self.vx, self.vy, self.vz)
-        h = _cadquery.cqVector(self.hx, self.hy, self.hz)
-        v1 = _cadquery.cqVector(self.v1x, self.v1y, self.v1z)
-        v2 = _cadquery.cqVector(self.v2x, self.v2y, self.v2z)
+        k = _cadquery.CqVector(0, 0, 1)
+        v = _cadquery.CqVector(self.vx, self.vy, self.vz)
+        h = _cadquery.CqVector(self.hx, self.hy, self.hz)
+        v1 = _cadquery.CqVector(self.v1x, self.v1y, self.v1z)
+        v2 = _cadquery.CqVector(self.v2x, self.v2y, self.v2z)
 
         cadquery = "import cadquery as cq\n\n" if hasHeader else ""
         cadquery += f"surface_{self.number} = cq.Workplane()"
         cadquery += _cadquery.add_cone_truncated(h.norm(), v1.norm(), v2.norm())
 
         if self.hx != 0 or self.hy != 0 or self.hz / self.hz != 1:
-            cadquery += _cadquery.add_rotation(_cadquery.cqVector.cross(k, h), _cadquery.cqVector.angle(k, h))
+            cadquery += _cadquery.add_rotation(_cadquery.CqVector.cross(k, h), _cadquery.CqVector.angle(k, h))
 
         cadquery += _cadquery.add_translation(v)
 
@@ -4310,28 +4269,26 @@ class Ellipsoid(Surface):
         rm: Ellipsoid major/minor axis radius length.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        number: int,
+        transform_periodic: int,
+        v1x: float,
+        v1y: float,
+        v1z: float,
+        v2x: float,
+        v2y: float,
+        v2z: float,
+        rm: float,
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
         ``__init__`` initializes ``Ellipsoid``.
-        """
 
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.ELLIPSOID
-
-        self.v1x: float = None
-        self.v1y: float = None
-        self.v1z: float = None
-        self.v2x: float = None
-        self.v2y: float = None
-        self.v2z: float = None
-        self.rm: float = None
-
-    def set_parameters(self, v1x: float, v1y: float, v1z: float, v2x: float, v2y: float, v2z: float, rm: float) -> None:
-        """
-        ``set_parameters`` stores INP surface card parameters.
-
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             v1x: Ellipsoid focus #1 or center x component.
@@ -4343,57 +4300,62 @@ class Ellipsoid(Surface):
             rm: Ellipsoid major/minor axis radius length.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(v1x)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.ELLIPSOID
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if v1x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v1x = value
-        self.parameters["v1x"] = value
-
-        value = types.cast_fortran_real(v1y)
-        if value is None:
+        if v1y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v1y = value
-        self.parameters["v1y"] = value
-
-        value = types.cast_fortran_real(v1z)
-        if value is None:
+        if v1z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v1z = value
-        self.parameters["v1z"] = value
-
-        value = types.cast_fortran_real(v2x)
-        if value is None:
+        if v2x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v2x = value
-        self.parameters["v2x"] = value
-
-        value = types.cast_fortran_real(v2y)
-        if value is None:
+        if v2y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v2y = value
-        self.parameters["v2y"] = value
-
-        value = types.cast_fortran_real(v2z)
-        if value is None:
+        if v2z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v2z = value
-        self.parameters["v2z"] = value
-
-        value = types.cast_fortran_real(rm)
-        if value is None:
+        if rm is None or (rm == 0):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.rm = value
-        self.parameters["rm"] = value
+        self.v1x: final[float] = v1x
+        self.v1y: final[float] = v1y
+        self.v1z: final[float] = v1z
+        self.v2x: final[float] = v2x
+        self.v2y: final[float] = v2y
+        self.v2z: final[float] = v2z
+        self.rm: final[float] = rm
+
+        self.parameters: final[tuple[float]] = (v1x, v1y, v1z, v2x, v2y, v2z, rm)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -4409,44 +4371,24 @@ class Ellipsoid(Surface):
             Cadquery for surface card object.
         """
 
+        j = _cadquery.CqVector(0, 1, 0)
+        v1 = _cadquery.CqVector(self.v1x, self.v1y, self.v1z)
+        v2 = _cadquery.CqVector(self.v2x, self.v2y, self.v2z)
+
+        if self.rm > 0:
+            a = _cadquery.CqVector.cross(j, v2 - v1)
+            angle = _cadquery.CqVector.angle(j, v2 - v1)
+            v = _cadquery.CqVector((self.v2x - self.v1x) / 2, (self.v2y - self.v1y) / 2 - a, (self.v2z - self.v1z) / 2) + v1
+        else:
+            a = _cadquery.CqVector.cross(j, v2)
+            angle = _cadquery.CqVector.angle(j, v2)
+            v = _cadquery.CqVector(v1.x, v1.y - a.y, v1.z)
+
         cadquery = "import cadquery as cq\n\n" if hasHeader else ""
-
-        if self.parameters["rm"] > 0:
-            v2 = [self.v2x, self.v2y, self.v2z]
-
-            a = self.parameters["rm"]
-            b = math.sqrt(self.parameters["rm"] ** 2 - (np.linalg.norm(v2 - [self.v1x, self.v1y, self.v1z]) / 2) ** 2)
-
-            vx, vy, vz = (v2 - [self.v1x, self.v1y, self.v1z]) / 2 + [
-                self.v1x,
-                self.v1y,
-                self.v1z,
-            ]
-            ax, ay, az = np.cross(
-                [0, 1, 0],
-                [self.v2x, self.v2y, self.v2z] - [self.v1x, self.v1y, self.v1z],
-            )
-            angle = (
-                np.arccos([self.v2x, self.v2y, self.v2z][1] / np.linalg.norm([self.v2x, self.v2y, self.v2z])) * 180 / math.pi
-            )
-            cadquery += (
-                f"surface_{self.number} = cq.Workplane().ellipseArc({b}, {a}, -90, 90).close()"
-                f".revolve(axisStart=(0, -{a}, 0), axisEnd=(0, {a}, 0)).translate(({vx}, {vy - a}, {vz}))"
-                f".rotate(({vx - ax}, {vy - ay}, {vz - az}), ({vx + ax}, {vy + ay}, {vz + az}), {angle})\n"
-            )
-        elif self.parameters["rm"] < 0:
-            a = np.linalg.norm([self.v2x, self.v2y, self.v2z])
-            b = math.fabs(self.parameters["rm"])
-            vx, vy, vz = [self.v1x, self.v1y, self.v1z]
-            ax, ay, az = np.cross([0, 1, 0], [self.v2x, self.v2y, self.v2z])
-            angle = (
-                np.arccos([self.v2x, self.v2y, self.v2z][1] / np.linalg.norm([self.v2x, self.v2y, self.v2z])) * 180 / math.pi
-            )
-            cadquery += (
-                f"surface_{self.number} = cq.Workplane().ellipseArc({b}, {a}, -90, 90).close()"
-                f".revolve(axisStart=(0, -{a}, 0), axisEnd=(0, {a}, 0)).translate(({vx}, {vy - a}, {vz}))"
-                f".rotate(({vx - ax}, {vy - ay}, {vz - az}), ({vx + ax}, {vy + ay}, {vz + az}), {angle})\n"
-            )
+        cadquery += f"surface_{self.number} = cq.Workplane()"
+        cadquery += _cadquery.add_ellipsoid(a.norm(), self.rm)
+        cadquery += _cadquery.add_rotation(a, angle)
+        cadquery += _cadquery.add_translation(v)
 
         return cadquery
 
@@ -4473,29 +4415,10 @@ class Wedge(Surface):
         v3z: Wedge height vector z component.
     """
 
-    def __init__(self):
-        """
-        ``__init__`` initializes ``Wedge``.
-        """
-
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.WEDGE
-
-        self.vx: float = None
-        self.vy: float = None
-        self.vz: float = None
-        self.v1x: float = None
-        self.v1y: float = None
-        self.v1z: float = None
-        self.v2x: float = None
-        self.v2y: float = None
-        self.v2z: float = None
-        self.v3x: float = None
-        self.v3y: float = None
-        self.v3z: float = None
-
-    def set_parameters(
+    def __init__(
         self,
+        number: int,
+        transform_periodic: int,
         vx: float,
         vy: float,
         vz: float,
@@ -4508,12 +4431,15 @@ class Wedge(Surface):
         v3x: float,
         v3y: float,
         v3z: float,
-    ) -> None:
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
-        ``set_parameters`` stores INP surface card parameters.
+        ``__init__`` initializes ``Wedge``.
 
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             vx: Wedge position vector x component.
@@ -4530,92 +4456,82 @@ class Wedge(Surface):
             v3z: Wedge height vector z component.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(vx)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.WEDGE
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if vx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vx = value
-        self.parameters["vx"] = value
-
-        value = types.cast_fortran_real(vy)
-        if value is None:
+        if vy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vy = value
-        self.parameters["vy"] = value
-
-        value = types.cast_fortran_real(vz)
-        if value is None:
+        if vz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vz = value
-        self.parameters["vz"] = value
-
-        value = types.cast_fortran_real(v1x)
-        if value is None:
+        if v1x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v1x = value
-        self.parameters["v1x"] = value
-
-        value = types.cast_fortran_real(v1y)
-        if value is None:
+        if v1y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v1y = value
-        self.parameters["v1y"] = value
-
-        value = types.cast_fortran_real(v1z)
-        if value is None:
+        if v1z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v1z = value
-        self.parameters["v1z"] = value
-
-        value = types.cast_fortran_real(v2x)
-        if value is None:
+        if v2x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v2x = value
-        self.parameters["v2x"] = value
-
-        value = types.cast_fortran_real(v2y)
-        if value is None:
+        if v2y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v2y = value
-        self.parameters["v2y"] = value
-
-        value = types.cast_fortran_real(v2z)
-        if value is None:
+        if v2z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v2z = value
-        self.parameters["v2z"] = value
-
-        value = types.cast_fortran_real(v3x)
-        if value is None:
+        if v3x is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v3x = value
-        self.parameters["v3x"] = value
-
-        value = types.cast_fortran_real(v3y)
-        if value is None:
+        if v3y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v3y = value
-        self.parameters["v3y"] = value
-
-        value = types.cast_fortran_real(v3z)
-        if value is None:
+        if v3z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v3z = value
-        self.parameters["v3z"] = value
+        self.vx: final[float] = vx
+        self.vy: final[float] = vy
+        self.vz: final[float] = vz
+        self.v1x: final[float] = v1x
+        self.v1y: final[float] = v1y
+        self.v1z: final[float] = v1z
+        self.v2x: final[float] = v2x
+        self.v2y: final[float] = v2y
+        self.v2z: final[float] = v2z
+        self.v3x: final[float] = v3x
+        self.v3y: final[float] = v3y
+        self.v3z: final[float] = v3z
+
+        self.parameters: final[tuple[float]] = (vx, vy, vz, v1x, v1y, v1z, v2x, v2y, v2z, v3x, v3y, v3z)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -4631,17 +4547,14 @@ class Wedge(Surface):
             Cadquery for surface card object.
         """
 
-        cadquery = "import cadquery as cq\n\n" if hasHeader else ""
+        v = _caddquery.CqVectro(self.vx, self.vy, self.vz)
+        v1 = _cadquery.CqVector(self.v1x, self.v1y, self.v1z)
+        v2 = _cadquery.CqVector(self.v2x, self.v2y, self.v2z)
+        v3 = _cadquery.CqVector(self.v3x, self.v3y, self.v3z)
 
-        # cadquery += f"surface_{self.number} = cq.Workplane().polyline(["
-        #     f"({self.v1x}, {self.v1y}, {self.v1z}), "
-        #     f"(0, 0, 0), "
-        #     f"({self.v2x}, {self.v2y}, {self.v2z})]).close()"
-        #     f".polyline(["
-        #     f"({self.v1x + self.v3x}, {self.v1y + self.v3y}, {self.v1z + self.v3z}), "
-        #     f"({self.v3x}, {self.v3y}, {self.v3z}), "
-        #     f"({self.v2x + self.v3x}, {self.v2y + self.v3y}, {self.v2z + self.v3z})]).close()"
-        #     f".loft().translate(({vx}, {vy}, {vz}))\n"
+        cadquery = "import cadquery as cq\n\n" if hasHeader else ""
+        cadquery += add_wedge(v1, v2, v3)
+        cadquery += add_translation(v)
 
         return cadquery
 
@@ -4686,47 +4599,10 @@ class Polyhedron(Surface):
         n6: Polyhedron four-digit side specificer #6.
     """
 
-    def __init__(self):
-        """
-        ``__init__`` initializes ``Polyhedron``.
-        """
-
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.POLYHEDRON
-
-        self.ax: float = None
-        self.ay: float = None
-        self.az: float = None
-        self.bx: float = None
-        self.by: float = None
-        self.bz: float = None
-        self.cx: float = None
-        self.cy: float = None
-        self.cz: float = None
-        self.dx: float = None
-        self.dy: float = None
-        self.dz: float = None
-        self.ex: float = None
-        self.ey: float = None
-        self.ez: float = None
-        self.fx: float = None
-        self.fy: float = None
-        self.fz: float = None
-        self.gx: float = None
-        self.gy: float = None
-        self.gz: float = None
-        self.hx: float = None
-        self.hy: float = None
-        self.hz: float = None
-        self.n1: float = None
-        self.n2: float = None
-        self.n3: float = None
-        self.n4: float = None
-        self.n5: float = None
-        self.n6: float = None
-
-    def set_parameters(
+    def __init__(
         self,
+        number: int,
+        transform_periodic: int,
         ax: float,
         ay: float,
         az: float,
@@ -4757,12 +4633,15 @@ class Polyhedron(Surface):
         n4: float,
         n5: float,
         n6: float,
-    ) -> None:
+        is_white_boundary: bool = False,
+        is_reflecting: bool = False,
+    ):
         """
-        ``set_parameters`` stores INP surface card parameters.
+        ``__init__`` initializes ``Polyhedron``.
 
-        ``set_parameters`` checks given arguments before assigning the given
-        value. If given an unrecognized argument, it raises semantic errors.
+        ``__init__`` checks given arguments before assigning the given
+        value to their cooresponding attributes. If given an unrecognized
+        argument, it raises semantic errors.
 
         Parameters:
             ax: Polyhedron corner #1 x component.
@@ -4797,233 +4676,182 @@ class Polyhedron(Surface):
             n6: Polyhedron four-digit side specificer #6.
 
         Raises:
+            MCNPSemanticError: INVALID_SURFACE_NUMBER.
+            MCNPSemanticError: INVALID_SURFACE_TRANSFORMPERIODIC.
+            MCNPSemanticError: INVALID_SURFACE_WHITEBOUNDARY.
+            MCNPSemanticError: INVALID_SURFACE_REFLECTING.
             MCNPSemanticError: INVALID_SURFACE_PARAMETER.
         """
 
-        value = types.cast_fortran_real(ax)
-        if value is None:
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER)
+
+        if transform_periodic is not None and not (-99_999_999 <= transform_periodic <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC)
+
+        if is_white_boundary is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_WHITEBOUNDARY)
+
+        if is_reflecting is None or (is_reflecting and is_white_boundary):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
+
+        self.number: final[int] = number
+        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.POLYHEDRON
+        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.is_reflecting: final[bool] = is_reflecting
+        self.is_white_boundary: final[bool] = is_white_boundary
+
+        if ax is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.ax = value
-        self.parameters["ax"] = value
-
-        value = types.cast_fortran_real(ay)
-        if value is None:
+        if ay is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.ay = value
-        self.parameters["ay"] = value
-
-        value = types.cast_fortran_real(az)
-        if value is None:
+        if az is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.az = value
-        self.parameters["az"] = value
-
-        value = types.cast_fortran_real(bx)
-        if value is None:
+        if bx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.bx = value
-        self.parameters["bx"] = value
-
-        value = types.cast_fortran_real(by)
-        if value is None:
+        if by is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.by = value
-        self.parameters["by"] = value
-
-        value = types.cast_fortran_real(bz)
-        if value is None:
+        if bz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.bz = value
-        self.parameters["bz"] = value
-
-        value = types.cast_fortran_real(cx)
-        if value is None:
+        if cx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.cx = value
-        self.parameters["cx"] = value
-
-        value = types.cast_fortran_real(cy)
-        if value is None:
+        if cy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.cy = value
-        self.parameters["cy"] = value
-
-        value = types.cast_fortran_real(cz)
-        if value is None:
+        if cz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.cz = value
-        self.parameters["cz"] = value
-
-        value = types.cast_fortran_real(dx)
-        if value is None:
+        if dx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.dx = value
-        self.parameters["dx"] = value
-
-        value = types.cast_fortran_real(dy)
-        if value is None:
+        if dy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.dy = value
-        self.parameters["dy"] = value
-
-        value = types.cast_fortran_real(dz)
-        if value is None:
+        if dz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.dz = value
-        self.parameters["dz"] = value
-
-        value = types.cast_fortran_real(ex)
-        if value is None:
+        if ex is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.ex = value
-        self.parameters["ex"] = value
-
-        value = types.cast_fortran_real(ey)
-        if value is None:
+        if ey is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.ey = value
-        self.parameters["ey"] = value
-
-        value = types.cast_fortran_real(ez)
-        if value is None:
+        if ez is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.ez = value
-        self.parameters["ez"] = value
-
-        value = types.cast_fortran_real(fx)
-        if value is None:
+        if fx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.fx = value
-        self.parameters["fx"] = value
-
-        value = types.cast_fortran_real(fy)
-        if value is None:
+        if fy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.fy = value
-        self.parameters["fy"] = value
-
-        value = types.cast_fortran_real(fz)
-        if value is None:
+        if fz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.fz = value
-        self.parameters["fz"] = value
-
-        value = types.cast_fortran_real(gx)
-        if value is None:
+        if gx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.gx = value
-        self.parameters["gx"] = value
-
-        value = types.cast_fortran_real(gy)
-        if value is None:
+        if gy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.gy = value
-        self.parameters["gy"] = value
-
-        value = types.cast_fortran_real(gz)
-        if value is None:
+        if gz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.gz = value
-        self.parameters["gz"] = value
-
-        value = types.cast_fortran_real(hx)
-        if value is None:
+        if hx is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.hx = value
-        self.parameters["hx"] = value
-
-        value = types.cast_fortran_real(hy)
-        if value is None:
+        if hy is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.hy = value
-        self.parameters["hy"] = value
-
-        value = types.cast_fortran_real(hz)
-        if value is None:
+        if hz is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.hz = value
-        self.parameters["hz"] = value
-
-        value = types.cast_fortran_real(n1)
-        if value is None:
+        if n1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.n1 = value
-        self.parameters["n1"] = value
-
-        value = types.cast_fortran_real(n2)
-        if value is None:
+        if n2 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.n2 = value
-        self.parameters["n2"] = value
-
-        value = types.cast_fortran_real(n3)
-        if value is None:
+        if n3 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.n3 = value
-        self.parameters["n3"] = value
-
-        value = types.cast_fortran_real(n4)
-        if value is None:
+        if n4 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.n4 = value
-        self.parameters["n4"] = value
-
-        value = types.cast_fortran_real(n5)
-        if value is None:
+        if n5 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.n5 = value
-        self.parameters["n5"] = value
-
-        value = types.cast_fortran_real(n6)
-        if value is None:
+        if n6 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.n6 = value
-        self.parameters["n6"] = value
+        self.ax: final[float] = ax
+        self.ay: final[float] = ay
+        self.az: final[float] = az
+        self.bx: final[float] = bx
+        self.by: final[float] = by
+        self.bz: final[float] = bz
+        self.cx: final[float] = cx
+        self.cy: final[float] = cy
+        self.cz: final[float] = cz
+        self.dx: final[float] = dx
+        self.dy: final[float] = dy
+        self.dz: final[float] = dz
+        self.ex: final[float] = ex
+        self.ey: final[float] = ey
+        self.ez: final[float] = ez
+        self.fx: final[float] = fx
+        self.fy: final[float] = fy
+        self.fz: final[float] = fz
+        self.gx: final[float] = gx
+        self.gy: final[float] = gy
+        self.gz: final[float] = gz
+        self.hx: final[float] = hx
+        self.hy: final[float] = hy
+        self.hz: final[float] = hz
+        self.n1: final[float] = n1
+        self.n2: final[float] = n2
+        self.n3: final[float] = n3
+        self.n4: final[float] = n4
+        self.n5: final[float] = n5
+        self.n6: final[float] = n6
 
-    def to_cadquery(self, hasHeader: bool = False) -> str:
-        """
-        ``to_cadquery`` generates cadquery from INP surface card objects.
-
-        ``to_cadquery`` provides a Cadquery endpoints for writing Cadquery
-        source strings and later displaying geometries.
-
-        Parameters:
-            hasHeader: Boolean to include cadquery header.
-
-        Returns:
-            Cadquery for surface card object.
-        """
-
-        cadquery = "import cadquery as cq\n\n" if hasHeader else ""
-
-        return cadquery
+        self.parameters: final[tuple[float]] = (
+            ax,
+            ay,
+            az,
+            bx,
+            by,
+            bz,
+            cx,
+            cy,
+            cz,
+            dx,
+            dy,
+            dz,
+            ex,
+            ey,
+            ez,
+            fx,
+            fy,
+            fz,
+            gx,
+            gy,
+            gz,
+            hx,
+            hy,
+            hz,
+            n1,
+            n2,
+            n3,
+            n4,
+            n5,
+            n6,
+        )

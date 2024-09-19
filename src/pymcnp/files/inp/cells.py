@@ -27,8 +27,8 @@ class Cells(Block):
 
         super().__init__()
 
-    @classmethod
-    def from_mcnp(cls, source: str):
+    @staticmethod
+    def from_mcnp(source: str):
         """
         ``from_mcnp`` generates ``Cells`` objects from INP.
 
@@ -43,7 +43,7 @@ class Cells(Block):
             ``Cells`` object.
         """
 
-        block = cls()
+        block = Cells()
 
         lines = _parser.Preprocessor.process_inp(source).split("\n")
         for line in lines:

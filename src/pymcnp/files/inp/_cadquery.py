@@ -78,7 +78,7 @@ class CqVector:
             ``CqVector`` cross product of ``a`` and ``b``.
         """
 
-        return CqVector(np.cross([a.x, a.y, a.z], [b.x, b.y, b.z]))
+        return CqVector(*np.cross([a.x, a.y, a.z], [b.x, b.y, b.z]))
 
     @staticmethod
     def angle(a: CqVector, b: CqVector) -> float:
@@ -96,7 +96,7 @@ class CqVector:
             Angle between ``a`` and ``b`` in degrees.
         """
 
-        return np.degrees(np.arccos(np.dot(a, b)))
+        return np.degrees(np.arccos(np.dot([a.x, a.y, a.z], [b.x, b.y, b.z])))
 
 
 def add_box(a: CqVector, b: CqVector, c: CqVector) -> str:
@@ -213,7 +213,7 @@ def add_cylinder_ellipse(h: float, a: float, b: float) -> str:
         h: Elliptical cylinder height.
 
     Returns:
-        Cadquery representing a elliptical cylinder.
+        Cadquery representing an elliptical cylinder.
     """
 
     return f".ellipse({a}, {b}).extrude({h})"
@@ -239,6 +239,48 @@ def add_cone_truncated(h: float, r1: float, r2: float) -> str:
     """
 
     return f".circle({r1}).workplane(offset={h}).circle({r2}).loft()"
+
+
+def add_ellipsoid(a: float, b: float) -> str:
+    """
+    ``add_ellipsoid`` adds ellipsoids to Cadquery workplanes.
+
+    ``add_ellipsoid`` writes Cadquery to represent ellipsoids given minor and
+    major axis length. It substitutes these values into calls of the Cadquery
+    ``ellipseArc`` method which adds ellipsoids to the Cadquery workplane.
+    ``add_cylinder_ellipse`` includes calls to ``revolove`` in its output to
+    build a complete ellipsoid from an ellipse.
+
+    Paremeters
+        a: Ellipsoid major axis length.
+        b: Ellipsoid minor axis length.
+
+    Returns:
+        Cadquery representing an ellispoid.
+    """
+
+    return f".ellipseArc({a}, {b}, -90, 90).close().revolve(axisStart=(0, -{a}, 0), axisEnd=(0, {a}, 0))"
+
+
+def add_wedge(a: CqVector, b: CqVector, c: CqVector) -> str:
+    """
+    ``add_wedge`` adds wedges to Cadquery workplanes.
+
+    ``add_wedge`` writes Cadquery to represent wedges given three vectors. It
+    substitutes these values into calls of the Cadquery ``polyline`` method
+    which adds a sketchs wedges to the Cadquery workplane. ``add_wedge``
+    includes calls to ``loft`` in its output to loft the polylines in to shape.
+
+    Paremeters
+        a: Wedge vector #1.
+        b: Wedge vector #2.
+        c: Wedge vector #3.
+
+    Returns:
+        Cadquery representing a wedge.
+    """
+
+    return f".polyline([({a.x}, {a.y}, {a.z}), (0, 0, 0), ({b.x}, {b.y}, {b.z})]).close().polyline([({a.x + c.x}, {a.y + c.y}, {a.z + c.z}), ({c.x}, {c.y}, {c.z}), ({b.x + c.x}, {b.y + c.y}, {b.z + c.z})]).close().loft()"
 
 
 def add_translation(v: CqVector) -> str:

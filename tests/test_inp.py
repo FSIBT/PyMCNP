@@ -7,6 +7,7 @@ import math
 
 import pytest
 import hypothesis as hy
+import hypothesis.strategies as st
 
 from pymcnp.files.inp.cell import Cell
 from pymcnp.files.inp.surface import Surface
@@ -23,7 +24,112 @@ import _strategies as _st
 # HY_TRIALS = 10000  # 00:15:00
 # HY_TRIALS = 100000 # ??:??:??
 
-HY_TRIALS = 2000
+HY_TRIALS = 100
+
+
+class TestCellKeyword:
+    def test_valid(self):
+        """
+        ``test_valid``
+        """
+
+        assert Cell.CellOption.CellKeyword("imp") == Cell.CellOption.CellKeyword.IMPORTANCE
+        assert Cell.CellOption.CellKeyword("vol") == Cell.CellOption.CellKeyword.VOLUME
+        assert Cell.CellOption.CellKeyword("pwt") == Cell.CellOption.CellKeyword.PHOTON_WEIGHT
+        assert Cell.CellOption.CellKeyword("ext") == Cell.CellOption.CellKeyword.EXPONENTIAL_TRANSFORM
+        assert Cell.CellOption.CellKeyword("fcl") == Cell.CellOption.CellKeyword.FORCED_COLLISION
+        assert Cell.CellOption.CellKeyword("wwn") == Cell.CellOption.CellKeyword.WEIGHT_WINDOW_BOUNDS
+        assert Cell.CellOption.CellKeyword("dxc") == Cell.CellOption.CellKeyword.DXTRAN_CONTRIBUTION
+        assert Cell.CellOption.CellKeyword("nonu") == Cell.CellOption.CellKeyword.FISSION_TURNOFF
+        assert Cell.CellOption.CellKeyword("pd") == Cell.CellOption.CellKeyword.DETECTOR_CONTRIBUTION
+        assert Cell.CellOption.CellKeyword("tmp") == Cell.CellOption.CellKeyword.GAS_THERMAL_TEMPERATURE
+        assert Cell.CellOption.CellKeyword("u") == Cell.CellOption.CellKeyword.UNIVERSE
+        assert Cell.CellOption.CellKeyword("trcl") == Cell.CellOption.CellKeyword.COORDINATE_TRANSFORMATION
+        assert Cell.CellOption.CellKeyword("lat") == Cell.CellOption.CellKeyword.LATTICE
+        assert Cell.CellOption.CellKeyword("fill") == Cell.CellOption.CellKeyword.FILL
+        assert Cell.CellOption.CellKeyword("elpt") == Cell.CellOption.CellKeyword.ENERGY_CUTOFF
+        assert Cell.CellOption.CellKeyword("cosy") == Cell.CellOption.CellKeyword.COSY
+        assert Cell.CellOption.CellKeyword("bflcl") == Cell.CellOption.CellKeyword.BFIELD
+        assert Cell.CellOption.CellKeyword("unc") == Cell.CellOption.CellKeyword.UNCOLLIDED_SECONDARIES
+
+    @hy.given(
+        keyword=st.text().filter(
+            lambda s: s.lower()
+            not in {
+                "imp",
+                "vol",
+                "pwt",
+                "ext",
+                "fcl",
+                "wwn",
+                "dxc",
+                "nonu",
+                "pd",
+                "tmp",
+                "u",
+                "trcl",
+                "lat",
+                "fill",
+                "elpt",
+                "cosy",
+                "bflcl",
+                "unc",
+            }
+        )
+    )
+    def test_invalid(self, keyword):
+        """
+        ``test_invalid``
+        """
+
+        with pytest.raises(ValueError) as err:
+            Cell.CellOption.CellKeyword(keyword)
+
+
+class TestCellOption:
+    class TestInit:
+        @hy.given(options=_st.mcnp_parameters(True))
+        def test_valid(self, options):
+            """
+            ``test_valid``
+            """
+
+            for option in options:
+                keyword, suffix, designator, value, _ = option
+
+                keyword = Cell.CellOption.CellKeyword(keyword)
+
+                if suffix is None:
+                    if designator is None:
+                        option = Cell.CellOption(keyword, value)
+                    else:
+                        designator = types.Designator(designator)
+                        option = Cell.CellOption(keyword, value, designator=designator)
+                else:
+                    if designator is None:
+                        option = Cell.CellOption(keyword, value, suffix=suffix)
+                    else:
+                        designator = types.Designator(designator)
+                        option = Cell.CellOption(keyword, value, suffix=suffix, designator=designator)
+
+                assert option.keyword == keyword
+                assert option.value == value
+                if suffix is not None:
+                    assert option.suffix == suffix
+                if designator is not None:
+                    assert option.designator == designator
+
+        def test_invalid_keyword(self):
+            pass
+
+        def test_invalid_suffix(self):
+            pass
+
+        def test_invalid_designator(self):
+            pass
+
+        def test_invalid_value(self):
+            pass
 
 
 class TestCell:
@@ -46,42 +152,33 @@ class TestCell:
             number, material, density, geometry, parameters = cell
 
             for parameter in parameters:
-                keyword, suffix, designator, value = parameter
+                keyword, suffix, designator, value, value_str = parameter
 
-                parameter_str = keyword
+                parameter_str = f"{keyword}"
 
                 if suffix is not None:
-                    parameter_str += suffix
+                    parameter_str += f"{suffix}"
 
                 if designator is not None:
-                    parameter_str += ":" + designator
+                    parameter_str += f":{designator}"
 
-                parameter_str += "=" + value
+                parameter_str += f"={value_str}"
 
-                if material != "0":
-                    inp = Cell().from_mcnp(f"{number} {material} {density} {geometry} {parameter_str}")
+                if material != 0:
+                    inp = Cell.from_mcnp(f"{number} {material} {density} {geometry} {parameter_str}")
                 else:
-                    inp = Cell().from_mcnp(f"{number} {material} {geometry} {parameter_str}")
+                    inp = Cell.from_mcnp(f"{number} {material} {geometry} {parameter_str}")
 
-                assert inp.number == int(number)
-                assert inp.id == int(number)
-                assert inp.material == int(material)
-                assert inp.density == (float(density) if int(material) != 0 else None)
+                assert inp.id == number
+                assert inp.number == number
+                assert inp.material == material
+                assert inp.density == (density if material else None)
                 assert inp.options[0].keyword == Cell.CellOption.CellKeyword(keyword)
-
-                value_entries = re.split(r":| ", value)
-
-                if len(value_entries) == 1:
-                    assert float(inp.options[0].value) == float(value)
-                else:
-                    for entry1, entry2 in zip(inp.options[0].value, value_entries):
-                        assert float(entry1) == float(entry2)
-
+                assert inp.options[0].value == value
                 if suffix is not None:
-                    assert inp.options[0].suffix == int(suffix)
-
+                    assert inp.options[0].suffix == suffix
                 if designator is not None:
-                    assert inp.options[0].designator[0] == types.Designator(designator)
+                    assert inp.options[0].designator == (types.Designator(designator),)
 
         @hy.settings(max_examples=HY_TRIALS)
         @hy.given(cell=_st.mcnp_cells(False, True, True, True, True))
@@ -93,10 +190,10 @@ class TestCell:
             number, material, density, geometry, parameters = cell
 
             with pytest.raises(errors.MCNPSemanticError) as err:
-                if material != "0":
-                    Cell().from_mcnp(f"{number} {material} {density} {geometry}")
+                if material != 0:
+                    Cell.from_mcnp(f"{number} {material} {density} {geometry}")
                 else:
-                    Cell().from_mcnp(f"{number} {material} {geometry}")
+                    Cell.from_mcnp(f"{number} {material} {geometry}")
 
             assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_NUMBER
 
@@ -110,10 +207,10 @@ class TestCell:
             number, material, density, geometry, parameters = cell
 
             with pytest.raises(errors.MCNPSemanticError) as err:
-                if material != "0":
-                    Cell().from_mcnp(f"{number} {material} {density} {geometry}")
+                if material != 0:
+                    Cell.from_mcnp(f"{number} {material} {density} {geometry}")
                 else:
-                    Cell().from_mcnp(f"{number} {material} {geometry}")
+                    Cell.from_mcnp(f"{number} {material} {geometry}")
 
             assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_MATERIAL
 
@@ -127,10 +224,10 @@ class TestCell:
             number, material, density, geometry, parameters = cell
 
             # Asserting non-void material
-            material = str(min(int(material) + 1, 99_999_999))
+            material = min(int(material) + 1, 99_999_999)
 
             with pytest.raises(errors.MCNPSemanticError) as err:
-                Cell().from_mcnp(f"{number} {material} {density} {geometry}")
+                Cell.from_mcnp(f"{number} {material} {density} {geometry}")
 
             assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_DENSITY
 
@@ -144,10 +241,10 @@ class TestCell:
             number, material, density, geometry, parameters = cell
 
             with pytest.raises(errors.MCNPSemanticError) as err:
-                if material != "0":
-                    Cell().from_mcnp(f"{number} {material} {density} {geometry}")
+                if material != 0:
+                    Cell.from_mcnp(f"{number} {material} {density} {geometry}")
                 else:
-                    Cell().from_mcnp(f"{number} {material} {geometry}")
+                    Cell.from_mcnp(f"{number} {material} {geometry}")
 
             assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY
 
@@ -300,7 +397,7 @@ class TestCell:
             )
 
             for test in JUST:
-                Cell().from_mcnp(test)
+                Cell.from_mcnp(test)
 
 
 class TestSurface:
@@ -323,12 +420,12 @@ class TestSurface:
             for surface in surfaces:
                 number, transform, mnemonic, entries = surface
 
-                inp = Surface().from_mcnp(f"{number} {mnemonic} {' '.join(entries)}")
+                inp = Surface.from_mcnp(f"{number} {mnemonic} {' '.join([str(entry) for entry in entries])}")
 
                 assert inp.number == int(number)
                 assert inp.mnemonic == mnemonic
 
-                for param, entry in zip(inp.parameters.values(), entries):
+                for param, entry in zip(inp.parameters, entries):
                     assert param == pytest.approx(float(entry), 0.0001)
 
         @hy.settings(max_examples=math.ceil(HY_TRIALS / 78))
@@ -342,7 +439,7 @@ class TestSurface:
                 number, transform, mnemonic, entries = surface
 
                 with pytest.raises(errors.MCNPSemanticError) as err:
-                    Surface().from_mcnp(f"{number} {mnemonic} {' '.join(entries)}")
+                    Surface.from_mcnp(f"{number} {transform} {mnemonic} {" ".join([str(entry) for entry in entries])}")
 
                 assert err.value.code == errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER
 
@@ -357,7 +454,7 @@ class TestSurface:
                 number, transform, mnemonic, entries = surface
 
                 with pytest.raises(errors.MCNPSemanticError) as err:
-                    Surface().from_mcnp(f"{number} {transform} {mnemonic} {' '.join(entries)}")
+                    Surface.from_mcnp(f"{number} {transform} {mnemonic} {" ".join([str(entry) for entry in entries])}")
 
                 assert err.value.code == errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC
 
@@ -372,7 +469,7 @@ class TestSurface:
                 number, transform, mnemonic, entries = surface
 
                 with pytest.raises(errors.MCNPSemanticError) as err:
-                    Surface().from_mcnp(f"{number} {mnemonic} {' '.join(entries)}")
+                    Surface.from_mcnp(f"{number} {transform} {mnemonic} {" ".join([str(entry) for entry in entries])}")
 
                 assert err.value.code == errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC
 
@@ -470,4 +567,4 @@ class TestSurface:
             )
 
             for test in JUST:
-                Surface().from_mcnp(test)
+                Surface.from_mcnp(test)

@@ -1,14 +1,6 @@
 pymcnp.inp Subpackage
 =====================
 
-Generic Card
-------------
-
-.. autoclass:: pymcnp.inp.Card
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Comment Card
 ------------
 
@@ -37,14 +29,6 @@ Data Cards
 ----------
 
 .. autoclass:: pymcnp.inp.Datum
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Generic Card Block
-------------------
-
-.. autoclass:: pymcnp.inp.Block
    :members:
    :undoc-members:
    :show-inheritance:

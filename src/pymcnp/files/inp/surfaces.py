@@ -27,8 +27,8 @@ class Surfaces(Block):
 
         super().__init__()
 
-    @classmethod
-    def from_mcnp(cls, source: str):
+    @staticmethod
+    def from_mcnp(source: str):
         """
         ``from_mcnp`` generates ``Surfaces`` objects from INP.
 
@@ -43,7 +43,7 @@ class Surfaces(Block):
             ``Surfaces`` object.
         """
 
-        block = cls()
+        block = Surfaces()
 
         lines = _parser.Preprocessor.process_inp(source).split("\n")
         for line in lines:
