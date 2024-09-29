@@ -1451,9 +1451,9 @@ class Cell(card.Card):
                     pass
 
             if designator is not None:
-                option_str = f"{keyword_suffix}:{designator}={" ".join(values)}"
+                option_str = f"{keyword_suffix}:{designator}={' '.join(values)}"
             else:
-                option_str = f"{keyword_suffix}={" ".join(values)}"
+                option_str = f"{keyword_suffix}={' '.join(values)}"
 
             option = Cell.CellOption.from_mcnp(option_str)
             options.append(option)
