@@ -110,7 +110,7 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
             print(_io.INFO_RUNNING_MCNP)
 
             inpts = _save.Save.get_save()
-            run = Run()
+            run = Run(".")
             run.filename = inpts[argv[0]][0]
             run.inpt = inpts[argv[0]][1]
 
