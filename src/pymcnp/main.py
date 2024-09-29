@@ -46,7 +46,7 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
         case None:
             print(PYMCNP_TITLE)
         case _:
-            cli._io.error(_io.ERROR_UNRECOGNIZED_ARGS)
+            cli._io.error(cli._io.ERROR_UNRECOGNIZED_ARGS)
 
 
 if __name__ == "__main__":

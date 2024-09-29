@@ -37,9 +37,9 @@ class Inp:
 
         self.message: str = None
         self.title: str = None
-        self.cells: cells.Cells = Cells()
-        self.surfaces: surfaces.Surfaces = Surfaces()
-        self.data: data.Data = Data()
+        self.cells: cells.Cells = cells.Cells()
+        self.surfaces: surfaces.Surfaces = surfaces.Surfaces()
+        self.data: data.Data = data.Data()
         self.other: str = None
 
     def set_message(self, message: str) -> None:
