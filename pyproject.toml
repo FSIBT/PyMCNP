@@ -25,6 +25,14 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering :: Physics",
 ]
+dependencies = [
+    "hypothesis",
+    "matplotlib",
+    "numpy",
+    "pytest",
+    "Sphinx",
+    "sphinx_rtd_theme",
+]
 
 [project.urls]
 homepage = "https://github.com/mauricioAyllon/PyMCNP"
