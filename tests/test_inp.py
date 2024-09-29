@@ -439,7 +439,7 @@ class TestSurface:
                 number, transform, mnemonic, entries = surface
 
                 with pytest.raises(errors.MCNPSemanticError) as err:
-                    Surface.from_mcnp(f"{number} {transform} {mnemonic} {" ".join([str(entry) for entry in entries])}")
+                    Surface.from_mcnp(f"{number} {transform} {mnemonic} {' '.join([str(entry) for entry in entries])}")
 
                 assert err.value.code == errors.MCNPSemanticCodes.INVALID_SURFACE_NUMBER
 
@@ -454,7 +454,7 @@ class TestSurface:
                 number, transform, mnemonic, entries = surface
 
                 with pytest.raises(errors.MCNPSemanticError) as err:
-                    Surface.from_mcnp(f"{number} {transform} {mnemonic} {" ".join([str(entry) for entry in entries])}")
+                    Surface.from_mcnp(f"{number} {transform} {mnemonic} {' '.join([str(entry) for entry in entries])}")
 
                 assert err.value.code == errors.MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC
 
@@ -469,7 +469,7 @@ class TestSurface:
                 number, transform, mnemonic, entries = surface
 
                 with pytest.raises(errors.MCNPSemanticError) as err:
-                    Surface.from_mcnp(f"{number} {transform} {mnemonic} {" ".join([str(entry) for entry in entries])}")
+                    Surface.from_mcnp(f"{number} {transform} {mnemonic} {' '.join([str(entry) for entry in entries])}")
 
                 assert err.value.code == errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC
 
