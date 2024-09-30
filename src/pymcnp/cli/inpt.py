@@ -49,9 +49,7 @@ def main(argv: list = sys.argv[1:]) -> None:
                     if argv[2] not in inpts:
                         _io.error(_io.ERROR_ALIAS_NOT_FOUND)
 
-                    inpts[argv[2]][1].cells.append(
-                        pymcnp.cell.Cell().from_mcnp(argv[3])
-                    )
+                    inpts[argv[2]][1].cells.append(pymcnp.cell.Cell().from_mcnp(argv[3]))
 
                     with open(inpts[argv[2]][0], "w") as file:
                         file.write(inpts[argv[2]][1].to_mcnp())
@@ -66,9 +64,7 @@ def main(argv: list = sys.argv[1:]) -> None:
                     if argv[2] not in inpts:
                         _io.error(_io.ERROR_ALIAS_NOT_FOUND)
 
-                    inpts[argv[2]][1].surfaces.append(
-                        surface.Surface().from_mcnp(argv[3])
-                    )
+                    inpts[argv[2]][1].surfaces.append(surface.Surface().from_mcnp(argv[3]))
 
                     with open(inpts[argv[2]][0], "w") as file:
                         file.write(inpts[argv[2]][1].to_mcnp())
@@ -94,9 +90,7 @@ def main(argv: list = sys.argv[1:]) -> None:
                     if len(argv) < 4:
                         _io.error(_io.ERROR_INSUFFICENT_ARGS)
 
-                    inpt = inp.Inp.from_arguments(
-                        argv[3], inp.Cells(), inp.Surfaces(), inp.Data()
-                    )
+                    inpt = inp.Inp.from_arguments(argv[3], inp.Cells(), inp.Surfaces(), inp.Data())
                     filename = f"mcnp-save-{datetime.datetime.utcnow().timestamp()}"
 
                     inpts = _save.Save.get_save()

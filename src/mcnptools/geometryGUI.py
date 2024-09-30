@@ -28,9 +28,7 @@ soil = bg.Geometry(
 )
 soil.make_object(x0=0, y0=0, z0=-200, height=150, radius=200, axis="z")
 
-png = bg.Geometry(
-    color="green", name="PNG (TR1)", h_menu=0.89, fig=fig, ax_3d=ax_3d, ax_menu=ax_menu
-)
+png = bg.Geometry(color="green", name="PNG (TR1)", h_menu=0.89, fig=fig, ax_3d=ax_3d, ax_menu=ax_menu)
 png.make_object(x0=0, y0=-30, z0=0, height=30, radius=10, axis="y")
 
 rover = bg.Geometry(

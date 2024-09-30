@@ -10,23 +10,24 @@ from contextlib import contextmanager
 import os
 from pathlib import Path
 
+
 def set_mcnp_environment(DATAPATH, ISCDATA, MCNPPATH, force=False):
-    
-    if force or 'DATAPATH' not in os.environ:
-        os.environ['DATAPATH'] = DATAPATH
+    if force or "DATAPATH" not in os.environ:
+        os.environ["DATAPATH"] = DATAPATH
 
-    if force or 'ISCDATA' not in os.environ:
-        os.environ['ISCDATA'] = ISCDATA
+    if force or "ISCDATA" not in os.environ:
+        os.environ["ISCDATA"] = ISCDATA
 
-    if force or 'MCNPPATH' not in os.environ:
-        os.environ['MCNPPATH'] = MCNPPATH
-        os.environ['PATH'] += os.pathsep + str(os.environ['MCNPPATH'])
+    if force or "MCNPPATH" not in os.environ:
+        os.environ["MCNPPATH"] = MCNPPATH
+        os.environ["PATH"] += os.pathsep + str(os.environ["MCNPPATH"])
+
 
 def create_directory(directory):
     """
     If directory already exists, append 1 to the name and create a new one.
     If directory does not exist, create it.
-    
+
     Parameters:
     directory (Path object): Directory path to check/create.
     """
@@ -41,14 +42,15 @@ def create_directory(directory):
         new_dir.mkdir()
         print(f"Directory '{new_dir}' created successfully.")
     return new_dir
-        
+
+
 def clean_directory(clean_dir):
     shutil.rmtree(clean_dir)
 
 
-DATAPATH=r'C:\MCNP62\MCNP_DATA'
-ISCDATA=r'C:\MCNP62\MCNP_CODE\MCNP620\Utilities\ISC\data'
-MCNPPATH=r'C:\MCNP62\MCNP_CODE\bin'
+DATAPATH = r"C:\MCNP62\MCNP_DATA"
+ISCDATA = r"C:\MCNP62\MCNP_CODE\MCNP620\Utilities\ISC\data"
+MCNPPATH = r"C:\MCNP62\MCNP_CODE\bin"
 
 set_mcnp_environment(DATAPATH, ISCDATA, MCNPPATH)
 
@@ -57,8 +59,9 @@ input_file = "C:/Users/mayll/Documents/MCNP-tools/examples/Data/proton-dist.i"
 
 # args = f"i={input_file} o=testout.o"
 
-#run = subprocess.run("mcnp6.exe " + args, shell=True, cwd=test_dir, capture_output=True)
-#print(run)
+# run = subprocess.run("mcnp6.exe " + args, shell=True, cwd=test_dir, capture_output=True)
+# print(run)
+
 
 def run_mcnp(input_file, out_dir=None, out_name=None, cores=1, clean=False):
     """
@@ -97,14 +100,14 @@ def run_mcnp(input_file, out_dir=None, out_name=None, cores=1, clean=False):
         args = f"i={input_file} o={new_name}.o"
     else:
         args = f"i={input_file} o={new_name}.o tasks {cores}"
-    
-    
+
     args = f"i={input_file} o={new_name}.o"
     run = subprocess.run("mcnp6.exe " + args, shell=True, cwd=new_out_dir, capture_output=True)
     return run
 
+
 out_dir = "C:/Users/mayll/Documents/MCNP-tools/examples/Data/test-folder"
-run = run_mcnp(input_file=input_file)    
+run = run_mcnp(input_file=input_file)
 
 # @contextmanager
 # def run_mcnp(card, extra_args=None, params=None, cores=1, clean=True):
@@ -135,20 +138,20 @@ run = run_mcnp(input_file=input_file)
 #     if extra_args:
 #         for (arg, val) in extra_args:
 #                 args.append('{}={}'.format(arg, val))
-    
+
 #     args.append('tasks {}'.format(cores))
-    
+
 #     # create temp folder
 #     output_dir = tempfile.mkdtemp()
 #     with open(output_dir + '\\input.i', 'w') as f:
 #         f.write(card)
-    
+
 #     args.append('i=input.i')
 
 #     # mcnp doesn't use errorcodes or stderr, so Popen doesnt add features
 #     # stick with simpler check_output and parse stdout
 #     run = subprocess.run(['mcnp6.exe'] + args, shell=True, cwd=output_dir, capture_output=True)
-    
+
 #     # check for errors in stdout
 #     stdout_str = str(run.stdout)
 #     if 'bad trouble' in stdout_str or 'fatal error' in stdout_str:
@@ -158,7 +161,7 @@ run = run_mcnp(input_file=input_file)
 #         status = False
 #     else:
 #         status = True
-    
+
 #     try:
 #         yield (run, output_dir)
 #     finally:
@@ -172,14 +175,14 @@ run = run_mcnp(input_file=input_file)
 #   MCNPPATH=r'C:\MCNP62\MCNP_CODE\bin'
 
 #   set_mcnp_environment(DATAPATH, ISCDATA, MCNPPATH)
-  
-  
+
+
 #   input_card = \
 #   r"""PUT YOUR MCNP INPUT CARD HERE
 #   IT CAN HAVE {} for formatting the card with values filled in by params arg in run_mcnp
 #   """
-  
+
 #   # use run_mcnp in the following way as a context manager
-#   with run_mcnp(input_card, cores=4, clean=False) as (run, out_dir): 
+#   with run_mcnp(input_card, cores=4, clean=False) as (run, out_dir):
 #   print(run.stdout)
 #   print(out_dir)

@@ -22,9 +22,7 @@ def ERROR_INP_SYNTAX(msg: str) -> str:
     return "\x1b[1mpymcnp: \x1b[31mERROR:\x1b[0m INP Value Error: " + msg
 
 
-INFO_RUNNING_CQEDITOR = (
-    "\x1b[1mpymcnp: \x1b[31m\x1b[34mINFO:\x1b[0m Launching CQ-Editor."
-)
+INFO_RUNNING_CQEDITOR = "\x1b[1mpymcnp: \x1b[31m\x1b[34mINFO:\x1b[0m Launching CQ-Editor."
 INFO_RUNNING_MCNP = "\x1b[1mpymcnp: \x1b[31m\x1b[34mINFO:\x1b[0m Launching MCNP."
 INFO_BUILD_INP = "\x1b[1mpymcnp: \x1b[31m\x1b[34mINFO:\x1b[0m Built INP."
 INFO_BUILD_CELL = "\x1b[1mpymcnp: \x1b[31m\x1b[34mINFO:\x1b[0m Built Cell."
