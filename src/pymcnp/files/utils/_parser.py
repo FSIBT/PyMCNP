@@ -243,6 +243,7 @@ class Preprocessor:
         string = Preprocessor._process_continuation(string)
         string = Preprocessor._process_whitespace(string)
         string = string.strip(" ")
+        string = string.strip("\n")
 
         return string
 

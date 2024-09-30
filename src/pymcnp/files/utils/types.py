@@ -6,6 +6,7 @@ from __future__ import annotations
 import re
 from enum import StrEnum
 from typing import Callable
+from . import _parser
 
 ELEMENTS = {
     "H": 1,
@@ -166,38 +167,39 @@ class Zaid:
     'Zaid'
     """
 
-    def __init__(self):
+    def __init__(self, a: int, z: int, abx: str = None):
         """
         '__init__' initializes 'Zaid'.
         """
 
-        self.z: int = None
-        self.a: int = None
-        self.abx: str = None
+        self.a: int = a
+        self.z: int = z
+        self.abx: str = abx
 
-    @classmethod
-    def cast_mcnp_zaid(cls, string: str, hook: Callable[Zaid, bool] = lambda _: True):
+    @staticmethod
+    def cast_mcnp_zaid(source: str):
         """
         'cast_mcnp_zaid'
         """
 
-        string = string.lower()
+        source = _parser.Preprocessor.process_inp(source)
+        tokens = _parser.Parser(source.split("."), Exception)
 
-        try:
-            if "." in string:
-                zaid.abx = string[-3:]
-                string = string[:-4]
+        az = tokens.popl()
+        if len(az) < 4 or len(az) > 6:
+            raise Exception
 
-            zaid.a = int(string[-3:-1])
-            zaid.z = int(string[:-3])
+        a = int(az[:-3])
+        z = int(az[-3:])
+        abx = tokens.popl() if tokens else None
 
-            if hook(zaid):
-                return zaid
+        return Zaid(a, z, abx)
 
-        except IndexError:
-            pass
-
-        return None
+    def to_mcnp(self):
+        if self.abx is None:
+            return f"{self.a:03d}{self.z:03d}"
+        else:
+            return f"{self.a:03d}{self.z:03d}.{self.abx}"
 
 
 class Designator(StrEnum):
