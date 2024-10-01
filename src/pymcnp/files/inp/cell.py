@@ -66,10 +66,10 @@ class Cell(card.Card):
                 MCNPSyntaxError: TOOFEW_CELL_GEOMETRY, TOOLONG_CELL_GEOMETRY.
             """
 
-            formula = _parser.Preprocessor.process_inp(formula)
+            formula = _parser.Preprocessor.process_inp(formula, hasColumnarData=False)
 
             if not formula:
-                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOSHORT_CELL_GEOMETRY)
+                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY)
 
             # Running Shunting-Yard Algorithm
             ops_stack = _parser.Parser([], errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY))
@@ -141,8 +141,6 @@ class Cell(card.Card):
             Returns:
                 ``CellGeometry`` object.
             """
-
-            source = _parser.Preprocessor.process_inp(source)
 
             return Cell.CellGeometry(source)
 

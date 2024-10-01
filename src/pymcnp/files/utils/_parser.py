@@ -203,7 +203,7 @@ class Preprocessor:
             MCNP string without continuation lines.
         """
 
-        string = re.sub(r"( &\n)|(\n     )", r" ", string)
+        string = re.sub(r"( &\n)|(\n     )|(\n    )|(\n   )|(\n  )|(\n )", r" ", string)
 
         return string
 
@@ -225,7 +225,61 @@ class Preprocessor:
         return string
 
     @staticmethod
-    def process_inp(string: str) -> str:
+    def _process_equals(string: str) -> str:
+        """
+        ``_process_equals`` removes extra whitespace around equal signs from strings.
+
+        Parameters:
+            string: String to preprocess.
+
+        Returns:
+            MCNP string without extra whitespace around equal signs.
+        """
+
+        string = re.sub(r" = ", "=", string)
+
+        return string
+
+    @staticmethod
+    def _process_comments(string: str) -> str:
+        """
+        ``_process_equals`` removes inline comments from strings.
+
+        Parameters:
+            string: String to preprocess.
+
+        Returns:
+            MCNP string without inline comments.
+        """
+
+        string = re.sub(r"[$].+(\n|\Z)", "\n", string)
+
+        return string
+
+    @staticmethod
+    def _process_verticalformat(string: str) -> str:
+        table = []
+        output = ""
+        for line in string.split("\n"):
+            if line.startswith("#", 0, 5):
+                output += "\n".join(table)
+                table = line.split(" ")[1:]
+            elif table != [] and not re.match(
+                r"(vol|area|tr|[*]tr|u|lat|fill|[*]fill|uran|dm|dawwg|embed|embee|embeb|embem|embtb|embtm|embde|embdf|m|mt|mx|otfdb|totnu|nonu|awtab|xs|void|mgopt|drxs|mode|phys|act|cut|elpt|tmp|thtme|mphys|lca|lcb|lcc|lea|leb|fmult|tropt|unc|cosyp|cosy|bfld|bflcl|field|sdef|si|sp|sb|ds|sc|ssw|ssr|kcode|ksrc|kopts|hsrc|burn|source|srdx|f|[*]f|fip|fir|fic|fc|e|t|c|[*]c|fq|em|de|df|em|tm|cm|cf|sf|fs|sd|fu|tallyx|ft|tf|notrn|pert|kpert|ksen|tmesh|fmesh|spdtl|imp|var|wwe|wwt|wwn|wwp|wwg|wwge|wwgt|mesh|esplt|tsplt|ext|vect|fcl|dxt|dd|pd|dxc|bbrem|pikmt|spabi|pwt|nps|ctme|stop|print|talnp|prdmp|ptrac|mplot|histp|rand|dbcn|lost|idum|rdum|za|zb|zc|zd|file).+",
+                line,
+            ):
+                for i, token in enumerate(line.split(" ")):
+                    table[i] += f" {token}"
+            else:
+                output += "\n".join(table + [line]) + "\n"
+                table = []
+
+        output += "\n".join(table)
+
+        return output
+
+    @staticmethod
+    def process_inp(string: str, hasComments=True, hasColumnarData=True) -> str:
         """
         ``process_inp`` preprocesses INP strings.
 
@@ -234,14 +288,25 @@ class Preprocessor:
 
         Parameter:
             string: String to preprocess.
+            hasComments: Comment processing setting.
 
         Returns:
             Preprocessed INP.
         """
 
+        if not hasComments:
+            string = Preprocessor._process_comments(string)
+
         string = Preprocessor._process_case(string)
+        string = Preprocessor._process_tabs(string)
+
+        if hasColumnarData:
+            string = Preprocessor._process_whitespace(string)
+            string = Preprocessor._process_verticalformat(string)
+
         string = Preprocessor._process_continuation(string)
         string = Preprocessor._process_whitespace(string)
+        string = Preprocessor._process_equals(string)
         string = string.strip(" ")
         string = string.strip("\n")
 
