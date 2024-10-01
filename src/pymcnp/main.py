@@ -29,9 +29,11 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
     # Initializing PYMCNP Directory
     if not os.path.isdir(PYMCNP_DIR):
         os.mkdir(PYMCNP_DIR)
-        os.system(f"touch {PYMCNP_SAVE_FILE}")
+        file = open(PYMCNP_SAVE_FILE, "x")
+        flie.close()
     elif not os.path.isfile(PYMCNP_SAVE_FILE):
-        os.system(f"touch {PYMCNP_SAVE_FILE}")
+        file = open(PYMCNP_SAVE_FILE, "x")
+        file.close()
 
     # Processing Command
     match argv[0] if argv else None:

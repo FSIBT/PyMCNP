@@ -35,7 +35,7 @@ class Save:
             if not os.path.isfile(path):
                 continue
 
-            inpts[alias] = (path, pymcnp.inp.Inp().from_mcnp_file(path))
+            inpts[alias] = (path, pymcnp.inp.Inp.from_mcnp_file(path))
 
         return inpts
 

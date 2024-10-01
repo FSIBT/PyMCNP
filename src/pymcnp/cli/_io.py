@@ -34,7 +34,7 @@ INFO_BUILD_OTHER = "\x1b[1mpymcnp: \x1b[31m\x1b[34mINFO:\x1b[0m Built Other."
 
 
 def get_timestamp() -> str:
-    return datetime.today().strftime("%Y-%m-%d--%H-%M-%S")
+    return datetime.date.today().strftime("%Y-%m-%d--%H-%M-%S")
 
 
 def error(msg):

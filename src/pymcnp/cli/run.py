@@ -63,7 +63,7 @@ class Run:
         if not os.path.isfile(filename):
             raise ValueError
 
-        runner.inpt = inp.Inp().from_mcnp_file(filename)
+        runner.inpt = inp.Inp.from_mcnp_file(filename)
         runner.filename = filename
 
         return runner
