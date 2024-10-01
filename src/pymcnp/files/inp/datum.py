@@ -44,9 +44,11 @@ class Datum(Card):
         VOLUME = "vol"
         AREA = "area"
         TRANSFORMATION = "tr"
+        TRANSFORMATION_ANGLE = "*tr"
         UNIVERSE = "u"
         LATTICE = "lat"
         FILL = "fill"
+        FILL_ANGLE = "*fill"
         STOCHASTIC_GEOMETRY = "uran"
         DETERMINISTIC_MATERIALS = "dm"
         DETERMINISTIC_WEIGHT_WINDOW = "dawwg"
@@ -69,6 +71,116 @@ class Datum(Card):
         VOID = "void"
         MULTIGROUP_ADJOINT_TRANSPORT = "mgopt"
         DISCRETE_REACTION_CROSS_SECTION = "drxs"
+        PROBLEM_TYPE = "mode"
+        PARTICLE_PHYSICS_OPTIONS = "phys"
+        ACTIVATION_CONTROL = "act"
+        TIME_ENERGY_WEIGHT_CUTOFFS = "cut"
+        CELL_ENERGY_CUTOFFS = "elpt"
+        FREE_GAS_THERMAL_TEMPERATURE = "tmp"
+        THERMAL_TIMES = "thtme"
+        MODEL_PHYSICS_CONTROL = "mphys"
+        LCA = "lca"
+        LCB = "lcb"
+        LCC = "lcc"
+        LEA = "lea"
+        LEB = "leb"
+        MULTIPLICITY_CONSTANTS = "fmult"
+        TRANSPORT_OPTIONS = "tropt"
+        UNCOLLIDED_SECONDARIES = "unc"
+        COSYP = "cosyp"
+        COSY = "cosy"
+        BFLD = "bfld"
+        BFLCL = "bflcl"
+        GRAVITATIONAL_FIELD = "field"
+        GENERAL_SOURCE_DEFINITION = "sdef"
+        SOURCE_INFORMATION = "si"
+        SOURCE_PROBABILITY = "sp"
+        SOURCE_BIAS = "sb"
+        DEPENDENT_SOURCE_DISTRIBUTION = "ds"
+        SOURCE_COMMENT = "sc"
+        SURFACE_SOURCE_WRITE = "ssw"
+        SURFACE_SOURCE_READ = "ssr"
+        CRITICALITY_SOURCE = "kcode"
+        CRITICALITY_SOURCE_POINTS = "ksrc"
+        CRITICALITY_CALCULIATION_OPTIONS = "kopts"
+        ENTROPY_SOURCE_DISTRIBUTION = "hsrc"
+        DEPLETION_BURNUP = "burn"
+        SOURCE = "source"
+        SRCDX = "srdx"
+        STANDARD_TALLIES = "f"
+        STANDARD_TALLIES_ANGLE = "*f"
+        FIP = "fip"
+        FIR = "fir"
+        FIC = "fic"
+        TALLY_COMMENT = "fc"
+        TALLY_ENERGY = "e"
+        TALLY_TIME = "t"
+        TALLY_COSINE = "c"
+        TALLY_COSINE_ANGLE = "*c"
+        PRINT_HIERARCHY = "fq"
+        TALLY_MULTIPLIER = "em"
+        DOSE_ENERGY = "de"
+        DOSE_FUNCTION = "df"
+        ENERGY_MULTIPLIER = "em"
+        TIME_MULTIPLIER = "tm"
+        COSINE_MULTIPLIER = "cm"
+        CELL_FLAGGING = "cf"
+        SURFACE_FLAGGING = "sf"
+        TALLY_SEGMENT = "fs"
+        SEGMENT_DIVISOR = "sd"
+        SPECIAL_TALLY = "fu"
+        TALLYX_SUBROUTINE = "tallyx"
+        SPECIAL_TREATMENTS_TALLIES = "ft"
+        TALLY_FLUCTUATION = "tf"
+        DIRECT_ONLY_CONTRIBUTIONS = "notrn"
+        TALLY_PERTUBATION = "pert"
+        REACTIVITY_PERTUBATIONS = "kpert"
+        SENSITIVITY_COEFFICENTS = "ksen"
+        SUPERIMPOSED_MESH_TALLY_A = "tmesh"
+        SUPERIMPOSED_MESH_TALLY_B = "fmesh"
+        LATTICE_SPEED_TALLY_ENHANCEMENT = "spdtl"
+        IMPORTANCE = "imp"
+        VARIANCE_REDUCATION_CONTROL = "var"
+        WEIGHT_WINDOW_ENERGIES = "wwe"
+        WEIGHT_WINDOW_TIMES = "wwt"
+        WEIGHT_WINDOW_BOUNDS = "wwn"
+        WEIGHT_WINDOW_PARAMETER = "wwp"
+        WEIGHT_WINDOW_GENERATION = "wwg"
+        WEIGHT_WINDOW_GENERATION_ENERGIES = "wwge"
+        WEIGHT_WINDOW_GENERATION_TIMES = "wwgt"
+        SUPERIMPOSED_IMPORTANCE_MESH = "mesh"
+        ENERGY_SPLITTING = "esplt"
+        TIME_SPLITTING = "tsplt"
+        EXPONENTIAL_TRANSFORM = "ext"
+        VECTOR_INPUT = "vect"
+        FORCED_COLLISION = "fcl"
+        DXTRAN_SPHERE = "dxt"
+        DETECTOR_DIAGNOSTICS = "dd"
+        DETECTOR_CONTRIBUTION = "pd"
+        DXTRAN_CONTRIBUTION = "dxc"
+        BREMSSTRAHLUNG_BIASING = "bbrem"
+        PHOTON_PRODUDCTION_BIASING = "pikmt"
+        SECONDARY_PARTICLE_BIASING = "spabi"
+        PHOTON_WEIGHT = "pwt"
+        HISTORY_CUTOFF = "nps"
+        COMPUTER_TIME_CUTOFF = "ctme"
+        PERCISION_CUTOFF = "stop"
+        OUPUT_PRINT_TABLES = "print"
+        NEGATE_PRINTING_TALLIES = "talnp"
+        PRINT_DUMP_CYCLES = "prdmp"
+        PARTICLE_TRACK_OUTPUT = "ptrac"
+        PLOT_TALLIES_WHITE_RUNNING = "mplot"
+        CREATE_LAHET = "histp"
+        RANDOM = "rand"
+        DEBUG_INFORMATION = "dbcn"
+        LOST_PARTICLE_CONTROL = "lost"
+        INTEGER_ARRAY = "idum"
+        FLOATINGPOINT_ARRAY = "rdum"
+        ZA = "za"
+        ZB = "zb"
+        ZC = "zc"
+        ZD = "zd"
+        FILE = "files"
 
         @staticmethod
         def from_mcnp(source: str):
@@ -90,22 +202,6 @@ class Datum(Card):
             """
 
             source = _parser.Preprocessor.process_inp(source)
-
-            # Handling Star Modifier
-            if source == "*tr":
-                source = source[:1]
-
-            # Handling Suffixes
-            if source.startswith("dm"):
-                if len(source) < 3 or types.cast_fortran_integer(source[2:]) is None:
-                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MNEMONIC)
-
-                source = source[:2]
-            elif source.startswith("m"):
-                if len(source) < 2 or types.cast_fortran_integer(source[1:]) is None:
-                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MNEMONIC)
-
-                source = source[:1]
 
             # Processing Keyword
             if source not in [enum.value for enum in Datum.DatumMnemonic]:
@@ -131,19 +227,23 @@ class Datum(Card):
         if mnemonic is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MNEMONIC)
 
-        match mnemoinc:
+        match mnemonic:
             case Datum.DatumMnemonic.VOLUME:
                 obj = Volume(*parameters)
             case Datum.DatumMnemonic.AREA:
                 obj = Area(*parameters)
             case Datum.DatumMnemonic.TRANSFORMATION:
-                obj = Transformation(*parameters, suffix)
+                obj = Transformation(*parameters, suffix, is_angle=False)
+            case Datum.DatumMnemonic.TRANSFORMATION_ANGLE:
+                obj = Transformation(*parameters, suffix, is_angle=True)
             case Datum.DatumMnemonic.UNIVERSE:
                 obj = Universe(*parameters)
             case Datum.DatumMnemonic.LATTICE:
                 obj = Lattice(*parameters)
             case Datum.DatumMnemonic.FILL:
-                obj = Fill(*parameters)
+                obj = Fill(*parameters, is_angle=False)
+            case Datum.DatumMnemonic.FILL_ANGLE:
+                obj = Fill(*parameters, is_angle=True)
             case Datum.DatumMnemonic.STOCHASTIC_GEOMETRY:
                 obj = StochasticGeometry(*parameters)
             case Datum.DatumMnemonic.DETERMINISTIC_MATERIALS:
@@ -188,6 +288,32 @@ class Datum(Card):
                 obj = MultigroupAdjointTransport(*parameters)
             case Datum.DatumMnemonic.DISCRETE_REACTION_CROSS_SECTION:
                 obj = DiscreteReactionCrossSection(*parameters)
+            case Datum.DatumMnemonic.PROBLEM_TYPE:
+                obj = ProblemType(*parameters)
+            case Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS:
+                obj = ParticlePhysicsOptions(*parameters)
+            case Datum.DatumMnemonic.ACTIVATION_CONTROL:
+                obj = ActivationControl(*parameters)
+            case Datum.DatumMnemonic.TIME_ENERGY_WEIGHT_CUTOFFS:
+                obj = TimeEnergyWeightCutoffs(*parameters)
+            case Datum.DatumMnemonic.CELL_ENERGY_CUTOFF:
+                obj = CellEnergyCutoff(*parameters)
+            case Datum.DatumMnemonic.FREE_GAS_THERMAL_TEMPERATURE:
+                obj = FreeGasThermalTemperature(*parameters)
+            case Datum.DatumMnemonic.THERMAL_TIMES:
+                obj = ThermalTimes(*parameters)
+            case Datum.DatumMnemonic.MODEL_PHYSICS_CONTROL:
+                obj = ModelPhysicsControl(*parameters)
+            case Datum.DatumMnemonic.LCA:
+                obj = Lca(*parameters)
+            case Datum.DatumMnemonic.LCB:
+                obj = Lcb(*parameters)
+            case Datum.DatumMnemonic.LCC:
+                obj = Lcc(*parameters)
+            case Datum.DatumMnemonic.LEA:
+                obj = Lea(*parameters)
+            case _:
+                obj = _Placeholder(mnemonic, parameters)
 
         self.__dict__ = obj.__dict__
         self.__class__ = obj.__class__
@@ -212,11 +338,13 @@ class Datum(Card):
             MCNPSyntaxError: TOOFEW_DATUM, TOOLONG_DATUM.
         """
 
-        source = _parser.Preprocessor.process_inp(source)
+        source = _parser.Preprocessor.process_inp(source, hasComments=False)
         tokens = _parser.Parser(re.split(r" |:|=", source), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM))
 
         # Processing Mnemonic
-        mnemonic = Datum.DatumMnemonic.from_mcnp(tokens.peekl())
+        mnemonic = re.search(r"^[a-zA-z*]+", tokens.peekl())
+        mnemonic = mnemonic.group() if mnemonic else ""
+        mnemonic = Datum.DatumMnemonic.from_mcnp(mnemonic)
 
         # Processing Suffix & Parameters
         suffix = None
@@ -287,14 +415,36 @@ class Datum(Card):
 
             case Datum.DatumMnemonic.EMBEDDED_GEOMETRY:
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
-                pairs = (
-                    tuple([EmbeddedGeometry.EmbeddedGeometryOption.from_mcnp(tokens.popl()) for _ in range(0, len(tokens))]),
-                )
+                pairs = []
+                while tokens:
+                    keyword = tokens.popl()
+                    values = []
+                    while tokens:
+                        try:
+                            EmbeddedGeometry.EmbeddedGeometryOption.from_mcnp(tokens.peekl())
+                            break
+                        except:
+                            values.append(tokens.popl())
+                            pass
+                    pairs.append(EmbeddedGeometry.EmbeddedGeometryOption.from_mcnp(f"{keyword}={" ".join(values)}"))
+
+                datum = EmbeddedGeometry(pairs, suffix)
 
             case Datum.DatumMnemonic.EMBEDDED_CONTROL:
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
                 designator = types.Designator.cast_mcnp_designator(tokens.popl())
-                pairs = [EmbeddedControl.EmbeddedControlOption.from_mcnp(tokens.popl()) for _ in range(0, len(tokens))]
+                pairs = []
+                while tokens:
+                    keyword = tokens.popl()
+                    values = []
+                    while tokens:
+                        try:
+                            EmbeddedControl.EmbeddedControlOption.from_mcnp(tokens.peekl())
+                            break
+                        except:
+                            values.append(tokens.popl())
+                            pass
+                    pairs.append(EmbeddedControl.EmbeddedControlOption.from_mcnp(f"{keyword}={" ".join(values)}"))
 
                 datum = EmbeddedControl(pairs, suffix, designator)
 
@@ -326,36 +476,24 @@ class Datum(Card):
                 datum = EmbeddedTimeBoundaries(times, suffix)
 
             case Datum.DatumMnemonic.EMBEDDED_TIME_MULTIPLIERS:
-                if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
-
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
                 multipliers = tuple([types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens))])
 
                 datum = EmbeddedTimeMultipliers(multipliers, suffix)
 
             case Datum.DatumMnemonic.EMBEDDED_DOSE_BOUNDARIES:
-                if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
-
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
                 doses = [types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens))]
 
                 datum = EmbeddedDoseBoundaries(doses, suffix)
 
             case Datum.DatumMnemonic.EMBEDDED_DOSE_MULTIPLIERS:
-                if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
-
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
                 multipliers = tuple([types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens))])
 
                 datum = EmbeddedDoseMultipliers(multipliers, suffix)
 
             case Datum.DatumMnemonic.MATERIAL:
-                if len(tokens) < 2:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
-
                 suffix = types.cast_fortran_integer(tokens.popl()[1:])
 
                 substances = []
@@ -387,40 +525,331 @@ class Datum(Card):
                 datum = Material(substances, options, suffix)
 
             case Datum.DatumMnemonic.MATERIAL_NEUTRON_SCATTERING:
-                if len(tokens) < 1:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
-
                 suffix = types.cast_fortran_integer(tokens.popl()[2:])
                 identifiers = [tokens.popl() for _ in range(0, len(tokens))]
 
                 datum = MaterialNeutronScattering(identifiers, suffix)
 
             case Datum.DatumMnemonic.MATERIAL_NUCLIDE_SUBSTITUTION:
-                pass
+                suffix = types.cast_fortran_integer(tokens.popl()[2:])
+                designator = types.Designator.cast_mcnp_designator(tokens.popl())
+                zaids = [types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens))]
+
+                datum = MaterialNuclideSubstitution(zaids, suffix, designator)
 
             case Datum.DatumMnemonic.ON_THE_FLY_BROADENING:
-                pass
+                tokens.popl()
+                zaids = [types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens))]
+
+                datum = OnTheFlyBroadening(zaids)
 
             case Datum.DatumMnemonic.TOTAL_FISSION:
-                pass
+                tokens.popl()
+
+                if tokens:
+                    if tokens.popl() != "no":
+                        raise errors.MCNPSyntaxError(errors.MCNPSytnaxCodes.KEYWORD_DATUM_TOTNU_NO)
+
+                    datum = TotalFission(True)
+                else:
+                    datum = TotalFission(False)
 
             case Datum.DatumMnemonic.FISSION_TURNOFF:
-                pass
+                tokens.popl()
+                states = [types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens))]
+
+                datum = FissionTurnoff(states)
 
             case Datum.DatumMnemonic.ATOMIC_WEIGHT:
-                pass
+                tokens.popl()
+                weight_ratios = [AtomicWeight.AtomicWeightValue.from_mcnp(f"{tokens.popl()} {tokens.popl()}")]
+
+                datum = AtomicWeight(weight_ratios)
 
             case Datum.DatumMnemonic.CROSS_SECTION_FILE:
-                pass
+                suffix = types.cast_fortran_integer(tokens.popl()[2:])
+                weight_ratios = [CrossSectionFile.CrossSectionFileValue.from_mcnp(f"{tokens.popl()} {tokens.popl()}")]
+
+                datum = CrossSectionFile(weight_ratios, suffix)
 
             case Datum.DatumMnemonic.VOID:
-                pass
+                tokens.popl()
+                numbers = [types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens))]
+
+                datum = Void(numbers)
 
             case Datum.DatumMnemonic.MULTIGROUP_ADJOINT_TRANSPORT:
-                pass
+                tokens.popl()
+                mcal = tokens.popl()
+                igm = types.cast_fortran_integer(tokens.popl())
+                iplt = types.cast_fortran_integer(tokens.popl())
+                isb = types.cast_fortran_integer(tokens.popl())
+                icw = types.cast_fortran_integer(tokens.popl())
+                fnw = types.cast_fortran_integer(tokens.popl())
+                rim = types.cast_fortran_integer(tokens.popl())
+
+                datum = MultigroupAdjointTransport(mcal, igm, iplt, isb, icw, fnw, rim)
 
             case Datum.DatumMnemonic.DISCRETE_REACTION_CROSS_SECTION:
-                pass
+                tokens.popl()
+                zaids = [types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens))]
+
+                datum = DiscreteReactionCrossSection(zaids)
+
+            case Datum.DatumMnemonic.PROBLEM_TYPE:
+                tokens.popl()
+                particles = [types.Designator.cast_mcnp_designator(tokens.popl()) for _ in range(0, len(tokens))]
+
+                datum = ProblemType(particles)
+
+            case Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS:
+                tokens.popl()
+                designator = types.Designator.cast_mcnp_designator(tokens.popl())
+
+                match designator:
+                    case types.Designator.NEUTRON:
+                        emax = types.cast_fortran_real(tokens.popl())
+                        emcnf = types.cast_fortran_real(tokens.popl())
+                        iunr = types.cast_fortran_integer(tokens.popl())
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        colif = types.cast_fortran_real(tokens.popl())
+                        cutn = types.cast_fortran_real(tokens.popl())
+                        ngam = types.cast_fortran_integer(tokens.popl())
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        i_int_model = types.cast_fortran_integer(tokens.popl())
+                        i_els_model = types.cast_fortran_integer(tokens.popl())
+
+                        parameters = (emax, emcnf, iunr, colif, cutn, ngam, i_int_model, i_els_model)
+
+                    case types.Designator.PHOTON:
+                        emcpf = types.cast_fortran_real(tokens.popl())
+                        ides = types.cast_fortran_integer(tokens.popl())
+                        nocoh = types.cast_fortran_integer(tokens.popl())
+                        ispn = types.cast_fortran_integer(tokens.popl())
+                        nodop = types.cast_fortran_integer(tokens.popl())
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        fism = types.cast_fortran_integer(tokens.popl())
+
+                        parameters = (emcpf, ides, nocoh, ispn, nodop, fism)
+
+                    case types.Designator.ELECTRON:
+                        emax = types.cast_fortran_real(tokens.popl())
+                        ides = types.cast_fortran_integer(tokens.popl())
+                        ibad = types.cast_fortran_integer(tokens.popl())
+                        istrg = types.cast_fortran_integer(tokens.popl())
+                        bnum = types.cast_fortran_real(tokens.popl())
+                        xnum = types.cast_fortran_real(tokens.popl())
+                        rnok = types.cast_fortran_real(tokens.popl())
+                        enum = types.cast_fortran_real(tokens.popl())
+                        numb = types.cast_fortran_real(tokens.popl())
+                        i_mcs_model = types.cast_fortran_integer(tokens.popl())
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        efac = types.cast_fortran_real(tokens.popl())
+                        electron_method_boundary = types.cast_fortran_real(tokens.popl())
+                        ckvnum = types.cast_fortran_real(tokens.popl())
+
+                        parameters = (
+                            emax,
+                            ides,
+                            ibad,
+                            istrg,
+                            bnum,
+                            xnum,
+                            rnok,
+                            enum,
+                            numb,
+                            i_mcs_model,
+                            efac,
+                            electron_method_boundary,
+                            ckvnum,
+                        )
+
+                    case types.Designator.PROTON:
+                        emax = types.cast_fortran_real(tokens.popl())
+                        ean = types.cast_fortran_real(tokens.popl())
+                        tabl = types.cast_fortran_real(tokens.popl())
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        istrg = types.cast_fortran_integer(tokens.popl())
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        recl = types.cast_fortran_real(tokens.popl())
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        i_mcs_model = types.cast_fortran_integer(tokens.popl())
+                        i_int_model = types.cast_fortran_integer(tokens.popl())
+                        i_els_model = types.cast_fortran_integer(tokens.popl())
+                        efac = types.cast_fortran_real(tokens.popl())
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        ckvnum = types.cast_fortran_real(tokens.popl())
+                        drp = types.cast_fortran_real(tokens.popl())
+
+                        parameters = (emax, ean, tabl, istrg, recl, i_mcs_model, i_int_model, i_els_model, efac, ckvnum, drp)
+
+                    case _:
+                        emax = types.cast_fortran_real(tokens.popl())
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        istrg = types.cast_fortran_integer(tokens.popl())
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        xmunum = types.cast_fortran_integer(tokens.popl())
+                        xmugam = types.cast_fortran_real(tokens.popl())
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        i_mcs_model = types.cast_fortran_integer(tokens.popl())
+                        i_int_model = types.cast_fortran_integer(tokens.popl())
+                        i_els_model = types.cast_fortran_integer(tokens.popl())
+                        efac = types.cast_fortran_real(tokens.popl())
+                        if tokens.popl() != "j":
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                        ckvnum = types.cast_fortran_real(tokens.popl())
+                        drp = types.cast_fortran_real(tokens.popl())
+
+                        parameters = (emax, istrg, xmunum, xmugam, i_mcs_model, i_int_model, i_els_model, efac, ckvnum, drp)
+
+                datum = ParticlePhysicsOptions(designator, parameters)
+
+            case Datum.DatumMnemonic.ACTIVATION_CONTROL:
+                tokens.popl()
+                pairs = []
+                while tokens:
+                    keyword = tokens.popl()
+                    values = []
+                    while tokens:
+                        try:
+                            ActivationControl.ActivationControlOption.from_mcnp(tokens.peekl())
+                            break
+                        except:
+                            values.append(tokens.popl())
+                            pass
+                    pairs.append(ActivationControl.ActivationControlOption.from_mcnp(f"{keyword}={" ".join(values)}"))
+
+                datum = ActivationControl(pairs)
+
+            case Datum.DatumMnemonic.TIME_ENERGY_WEIGHT_CUTOFFS:
+                tokens.popl()
+                designator = types.Designator.cast_mcnp_designator(tokens.popl())
+
+                t = types.cast_fortran_real(tokens.popl())
+                e = types.cast_fortran_real(tokens.popl())
+                weight1 = types.cast_fortran_real(tokens.popl())
+                weight2 = types.cast_fortran_real(tokens.popl())
+                source = types.cast_fortran_real(tokens.popl())
+
+                datum = TimeEnergyWeightCutoffs(t, e, weight1, weight2, source)
+
+            case Datum.DatumMnemonic.CELL_ENERGY_CUTOFFS:
+                tokens.popl()
+                designator = types.Designator.cast_mcnp_designator(tokens.popl())
+                cutoffs = types.cast_fortran_real(tokens.popl())
+
+                datum = CellEnergyCutoffs(designator, cutoffs)
+
+            case Datum.DatumMnemonic.FREE_GAS_THERMAL_TEMPERATURE:
+                suffix = types.cast_fortran_integer(tokens.popl()[3:])
+                temperatures = [types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens))]
+
+                datum = FreeGasThermalTemperature(suffix, temperatures)
+
+            case Datum.DatumMnemonic.THERMAL_TIMES:
+                tokens.popl()
+                times = [types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens))]
+
+                datum = ThermalTimes(times)
+
+            case Datum.DatumMnemonic.MODEL_PHYSICS_CONTROL:
+                tokens.popl()
+
+                if tokens:
+                    ModelPhysicsControl(tokens.popl())
+                else:
+                    datum = ModelPhysicsControl("no")
+
+            case Datum.DatumMnemonic.LCA:
+                tokens.popl()
+                ielas = types.cast_fortran_integer(tokens.popl())
+                ipreq = types.cast_fortran_integer(tokens.popl())
+                iexisa = types.cast_fortran_integer(tokens.popl())
+                ichoic = tokens.popl()
+                jcoul = types.cast_fortran_integer(tokens.popl())
+                nexite = types.cast_fortran_integer(tokens.popl())
+                npidk = types.cast_fortran_integer(tokens.popl())
+                noact = types.cast_fortran_integer(tokens.popl())
+                icem = types.cast_fortran_integer(tokens.popl())
+                ilaq = types.cast_fortran_integer(tokens.popl())
+                nevtype = types.cast_fortran_real(tokens.popl())
+
+                datum = Lca(ielas, ipreq, iexisa, ichoic, jcoul, nexite, npidk, noact, icem, ilaq, nevtype)
+
+            case Datum.DatumMnemonic.LCB:
+                tokens.popl()
+                lebn1 = types.cast_fortran_real(tokens.popl())
+                flebn2 = types.cast_fortran_real(tokens.popl())
+                flebn3 = types.cast_fortran_real(tokens.popl())
+                flebn4 = types.cast_fortran_real(tokens.popl())
+                flebn5 = types.cast_fortran_real(tokens.popl())
+                flebn6 = types.cast_fortran_real(tokens.popl())
+                ctofe = types.cast_fortran_real(tokens.popl())
+                flim0 = types.cast_fortran_real(tokens.popl())
+
+                datum = Lcb(lebn1, flebn2, flebn3, flebn4, flebn5, flebn6, ctofe, flim0)
+
+            case Datum.DatumMnemonic.LCC:
+                tokens.popl()
+                atincl = types.cast_fortran_real(tokens.popl())
+                v0incl = types.cast_fortran_real(tokens.popl())
+                xfoisaincl = types.cast_fortran_real(tokens.popl())
+                npaulincl = types.cast_fortran_real(tokens.popl())
+                nosurfincl = types.cast_fortran_real(tokens.popl())
+                if tokens.popl() != "j":
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                if tokens.popl() != "j":
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
+                ecutincl = types.cast_fortran_real(tokens.popl())
+                ebankincl = types.cast_fortran_real(tokens.popl())
+                ebankabla = types.cast_fortran_real(tokens.popl())
+
+                datum = Lcc(atincl, v0incl, xfoisaincl, npaulincl, nosurfincl, ecutincl, ebankincl, ebankabla)
+
+            case Datum.DatumMnemonic.LEA:
+                tokens.popl()
+                ipht = types.cast_fortran_integer(tokens.popl())
+                icc = types.cast_fortran_integer(tokens.popl())
+                nobalc = types.cast_fortran_integer(tokens.popl())
+                nobale = types.cast_fortran_integer(tokens.popl())
+                ifbrk = types.cast_fortran_integer(tokens.popl())
+                ilvden = types.cast_fortran_integer(tokens.popl())
+                ievap = types.cast_fortran_integer(tokens.popl())
+                nofis = types.cast_fortran_integer(tokens.popl())
+
+                datum = Lea(ipht, icc, nobalc, nobale, ifbrk, ilvden, ievap, nofis)
+
+            case _:
+                datum = _Placeholder(tokens.popl(), [tokens.popl() for _ in range(0, len(tokens))])
 
         if tokens:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM)
@@ -470,7 +899,9 @@ class Datum(Card):
             "mnemonic": self.mnemonic,
             "m": self.suffix if hasattr(self, "suffix") else None,
             "n": self.designator if hasattr(self, "designator") else None,
-            "parameters": self.parameters,
+            "parameters": tuple(
+                [parameter.to_mcnp() if hasattr(parameter, "to_mcnp") else parameter for parameter in self.parameters]
+            ),
         }
 
 
@@ -498,8 +929,6 @@ class Volume(Datum):
             MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
-        super().__init__()
-
         for entry in volumes:
             if entry is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
@@ -507,6 +936,7 @@ class Volume(Datum):
         if has_no is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"vol"
         self.mnemonic = Datum.DatumMnemonic.VOLUME
         self.parameters = (has_no, volumes)
 
@@ -540,6 +970,7 @@ class Area(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"area"
         self.mnemonic: final[DatumMnemonic] = Datum.DatumMnemonic.AREA
         self.parameters: final[[tuple[float]]] = areas
 
@@ -560,7 +991,7 @@ class Transformation(Datum):
         suffix: Data card suffix.
     """
 
-    def __init__(self, displacement: tuple[float], rotation: tuple[float], system: int, suffix: int):
+    def __init__(self, displacement: tuple[float], rotation: tuple[float], system: int, suffix: int, is_angle: bool):
         """
         ``__init__`` initializes ``Transformation``.
 
@@ -569,6 +1000,7 @@ class Transformation(Datum):
             rotation: Transformation rotation matrix.
             system: Transformation coordinate system setting.
             suffix: Data card suffix.
+            is_angle: Angle units modifier.
 
         Raises:
             MCNPSemanticError: INVALID_DATUM_SUFFIX.
@@ -590,13 +1022,15 @@ class Transformation(Datum):
         if system is None or system not in {-1, 1}:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.suffix = suffix
+        self.id: final[str] = f"tr{suffix}"
         self.mnemonic = Datum.DatumMnemonic.TRANSFORMATION
         self.parameters = tuple(displacement, rotation, system)
+        self.suffix = suffix
 
         self.displacement = displacement
         self.rotation = rotation
         self.system = system
+        self.is_angle = is_anlge
 
 
 class Universe(Datum):
@@ -625,6 +1059,7 @@ class Universe(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"u"
         self.mnemonic = Datum.DatumMnemonic.UNIVERSE
         self.universes = unvierses
 
@@ -657,6 +1092,7 @@ class Lattice(Datum):
             if parameter is None or parameter not in {1, 2}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"lat"
         self.mnemonic = Datum.DatumMnemonic.LATTICE
         self.lattices = lattices
 
@@ -672,14 +1108,16 @@ class Fill(Datum):
 
     Attributes:
         fills: Tuple of universe numbers.
+        is_angle: Angle unit setting.
     """
 
-    def __init__(self, fills: tuple[int]):
+    def __init__(self, fills: tuple[int], is_angle: bool = False):
         """
         ``__init__`` initializes ``Fill``.
 
         Parameters:
-            *fills: Tuple of universe numbers.
+            fills: Tuple of universe numbers.
+            is_angle: Angle unit setting.
 
         Raises:
             MCNPSemanticError: INVALID_DATUM_PARAMETERS.
@@ -689,10 +1127,12 @@ class Fill(Datum):
             if parameter is None or not (parameter >= 0 and parameter <= 99_999_999):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"fill"
         self.mnemonic = Datum.DatumMnemonic.FILL
         self.parameters = fills
 
         self.fills = fills
+        self.is_angle = is_angle
 
 
 class StochasticGeometry(Datum):
@@ -804,6 +1244,7 @@ class StochasticGeometry(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"uran"
         self.mnemonic = Datum.DatumMnemonic.STOCHASTIC_GEOMETRY
         self.parameters = transformations
 
@@ -842,6 +1283,7 @@ class DeterministicMaterials(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
+        self.id: final[str] = f"dm{suffix}"
         self.mnemonic = Datum.DatumMnemonic.DETERMINISTIC_MATERIALS
         self.parameters = materials
         self.suffix = suffix
@@ -3279,6 +3721,7 @@ class DeterministicWeightWindow(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"dawwg"
         self.mnemonic = Datum.DatumMnemonic.DETERMINISTIC_WEIGHT_WINDOW
         self.parameters = pairs
 
@@ -3784,6 +4227,7 @@ class EmbeddedGeometry(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
+        self.id: final[str] = f"embed{suffix}"
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_GEOMETRY
         self.parameters = pairs
         self.suffix: final[int] = suffix
@@ -4196,6 +4640,7 @@ class EmbeddedControl(Datum):
             if particle is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DESIGNATOR)
 
+        self.id: final[str] = f"embee{suffix}:{designator.to_mcnp()}"
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_CONTROL
         self.parameters = pairs
         self.suffix = suffix
@@ -4238,6 +4683,7 @@ class EmbeddedEnergyBoundaries(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
+        self.id: final[str] = f"embeb{suffix}"
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_ENERGY_BOUNDARIES
         self.parameters = energies
         self.suffix = suffix
@@ -4278,6 +4724,7 @@ class EmbeddedEnergyMultipliers(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
+        self.id: final[str] = f"embem{suffix}"
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_ENERGY_MULTIPLIERS
         self.parameters = multipliers
         self.suffix = suffix
@@ -4318,6 +4765,7 @@ class EmbeddedTimeBoundaries(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
+        self.id: final[str] = f"embtb{suffix}"
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_TIME_BOUNDARIES
         self.parameters = times
         self.suffix = suffix
@@ -4358,6 +4806,7 @@ class EmbeddedTimeMultipliers(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
+        self.id: final[str] = f"embtm{suffix}"
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_TIME_MULTIPLIERS
         self.parameters = multipliers
         self.suffix = suffix
@@ -4398,6 +4847,7 @@ class EmbeddedDoseBoundaries(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
+        self.id: final[str] = f"embde{suffix}"
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_DOSE_BOUNDARIES
         self.parameters = doses
         self.suffix = suffix
@@ -4435,6 +4885,7 @@ class EmbeddedDoseMultipliers(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"embdf{suffix}"
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_DOSE_MULTIPLIERS
         self.parameters = multipliers
         self.suffix = suffix
@@ -5139,6 +5590,7 @@ class Material(Datum):
         self.paris = pairs
         self.substances = substances
 
+        self.id: final[str] = f"m{suffix}"
         self.mnemonic = Datum.DatumMnemonic.MATERIAL
         self.parameters = tuple(list(substances) + list(pairs))
         self.suffix = suffix
@@ -5176,11 +5628,10 @@ class MaterialNeutronScattering(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
+        self.id: final[str] = f"mt{suffix}"
         self.mnemonic = Datum.DatumMnemonic.THERMAL_NETURON_SCATTERING
         self.parameters = identifiers
         self.suffix = suffix
-
-        self.identifiers = identifiers
 
 
 class MaterialNuclideSubstitution(Datum):
@@ -5221,7 +5672,8 @@ class MaterialNuclideSubstitution(Datum):
             if particle is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DESIGNATOR)
 
-        self.mnemonic = Datum.DatumMnemonic.THERMAL_NETURON_SCATTERING
+        self.id: final[str] = f"mx{suffix}:{designator.to_mcnp()}"
+        self.mnemonic = Datum.DatumMnemonic.MATERIAL_NUCLIDE_SUBSTITUTION
         self.parameters = zaids
         self.suffix = suffix
         self.designator = designator
@@ -5255,6 +5707,7 @@ class OnTheFlyBroadening(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"otfdb"
         self.mnemonic = Datum.DatumMnemonic.ONTHEFLY_BROADENING
         self.parameters = zaids
 
@@ -5286,6 +5739,7 @@ class TotalFission(Datum):
         if has_no is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"totnu"
         self.mnemonic = Datum.DatumMnemonic.TOTAL_FISSION
         self.parameters = (has_no,)
 
@@ -5318,6 +5772,7 @@ class FissionTurnoff(Datum):
             if parameter is None or parameter not in {0, 1, 2}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"nonu"
         self.mnemonic = Datum.DatumMnemonic.FISSION_TURNOFF
         self.parameters = states
 
@@ -5410,6 +5865,7 @@ class AtomicWeight(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"awtab"
         self.mnemonic = Datum.DatumMnemonic.ATOMIC_WEIGHT
         self.parameters = weight_ratios
 
@@ -5424,46 +5880,95 @@ class CrossSectionFile(Datum):
     INP cross-section file data card syntax element.
 
     Attributes:
-        zaid: Cross-section file zaid.
-        weight_ratio: Cross-section atomic weight ratio.
-        entries: Tuple of file entries.
+        weight_ratios: Tuple of weight ratios.
         suffix: Data card suffix.
     """
 
-    def __init__(self):
+    class CrossSectionFileValue:
+        """
+        ``CrossSectionFileValue`` represents INP cross-section file data card
+        entries.
+
+        ``CrossSectionFileValue`` implements INP material specifications as a
+        Python inner class. Its attributes store different mateiral entries,
+        and its methods provide entry points and endpoints for working with
+        cross-section file entries. ``CrossSectionFile`` depends on
+        ``CrossSectionFileValue`` as a data type.
+
+        Attributes:
+            weight_ratios: Tuple of weight ratios.
+        """
+
+        def __init__(self, zaid: types.Zaid, ratio: float):
+            """
+            ``__init__`` initializes ``CrossSectionFile``.
+            """
+
+            if zaid is None:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+            if ratio is None:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+            self.zaid: types.Zaid = zaid
+            self.ratio: float = ratio
+
+        @staticmethod
+        def from_mcnp(source: str):
+            """
+            ``from_mcnp`` generates ``CrossSectionFileValue`` objects from INP.
+
+            ``from_mcnp`` constructs instances of ``CrossSectionFileValue``
+            from INP source strings, so it operates as a class constructor
+            method and INP parser helper function.
+
+            Parameters:
+                source: INP for cross-section file values.
+
+            Returns:
+                ``CrossSectionFileValue`` object.
+
+            Raises:
+                MCNPSemanticError: INVALID_DATUM_PARAMETERS.
+                MCNPSyntaxError: TOOFEW_DATUM_WEIGHT, TOOLONG_DATUM_WEIGHT.
+            """
+
+            source = _parser.Preprocessor.process_inp(source)
+            tokens = _parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_WEIGHT))
+
+            zaid = types.Zaid().cast_mcnp_zaid(tokens.popl())
+            ratio = types.cast_fortran_real(tokens.popl())
+
+            if tokens:
+                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_WEIGHT)
+
+            return AtomicWeightValue(zaid, ratio)
+
+    def __init__(self, weight_ratios: tuple[CrossSectionFileValue], suffix: int):
         """
         ``__init__`` initializes ``CrossSectionFile``.
 
         Parameters:
-            zaid: Cross-section file zaid.
-            weight_ratio: Cross-section atomic weight ratio.
-            entries: Tuple of file entries.
+            weight_ratios: Tuple of weight ratios.
             suffix: Data card suffix.
 
         Raises:
             MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
-        if zaid is None:
+        if weight_ratios is None or not weight_ratios:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        if weight_ratio is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
-
-        for parameter in entries:
-            if parameter is None:
+        for weight_ratio in weight_ratios:
+            if weight_ratio is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        if suffix is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCOdes.INVALID_DATUM_SUFFIX)
-
-        self.mnemonic = Datum.DatumMnemonic.CROSSSECTION_FILE
-        self.parameters = (zaid, weight_ratio, entries)
+        self.id: final[str] = f"xs{suffix}"
+        self.mnemonic = Datum.DatumMnemonic.CROSS_SECTION_FILE
+        self.parameters = weight_ratios
         self.suffix = suffix
 
-        self.zaid = zaid
-        self.weight_ratio = weight_ratio
-        self.entries = entries
+        self.weight_ratios = weight_ratios
 
 
 class Void(Datum):
@@ -5477,7 +5982,7 @@ class Void(Datum):
         numbers: Tuple of cell numbers.
     """
 
-    def __init__(self):
+    def __init__(self, numbers: tuple[int]):
         """
         ``__init__`` initializes ``Void``.
 
@@ -5492,6 +5997,7 @@ class Void(Datum):
             if parameter is None or not (1 <= parameter <= 99_999_999):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"void"
         self.mnemonic = Datum.DatumMnemonic.VOID
         self.parameters = numbers
 
@@ -5555,6 +6061,10 @@ class MultigroupAdjointTransport(Datum):
         if rim is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"mgopt"
+        self.mnemonic = Datum.DatumMnemonic.MULTIGROUP_ADJOINT_TRANSPORT
+        self.parameters = (mcal, igm, iplt, isb, icw, fnw, rim)
+
         self.mcal = mcal
         self.igm = igm
         self.iplt = iplt
@@ -5592,6 +6102,10 @@ class DiscreteReactionCrossSection(Datum):
             if zaid is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"drxs"
+        self.mnemonic = Datum.DatumMnemonic.DISCRETE_REACTIONC_CROSS_SECTION
+        self.parameters = zaids
+
         self.zaids = zaids
 
 
@@ -5623,6 +6137,10 @@ class ProblemType(Datum):
         for particle in particles:
             if particle is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+        self.id: final[str] = f"mode"
+        self.mnemonic = Datum.DatumMnemonic.PROBLEM_TYPE
+        self.parameters = particles
 
         self.particles = particles
 
@@ -5740,7 +6258,11 @@ class ParticlePhysicsOptionsNeutron(ParticlePhysicsOptions):
         if i_els_model is None or not (i_els_model in {-1, 0}):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"phys:n"
+        self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
+        self.parameters = (emax, emcnf, iunr, colif, cutn, ngam, i_int_model, i_els_model)
         self.designator = types.Designator.NEUTRON
+
         self.emax = emax
         self.emcnf = emcnf
         self.iunr = iunr
@@ -5771,7 +6293,7 @@ class ParticlePhysicsOptionsPhoton(ParticlePhysicsOptions):
 
     def __init__(self, emcpf: float, ides: int, nocoh: int, ispn: int, nodop: int, fism: int):
         """
-        ``__init__`` initializes ``ParticlePhysicsOptionsNeutron``.
+        ``__init__`` initializes ``ParticlePhysicsOptionsPhoton``.
 
         Parameters:
             emcpf: Energy limit for photon physics treatment.
@@ -5803,7 +6325,11 @@ class ParticlePhysicsOptionsPhoton(ParticlePhysicsOptions):
         if fism is None or not (fism in {0, 1}):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"phys:p"
+        self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
+        self.parameters = (emcpf, ides, nocoh, ispn, nodop, fism)
         self.designator = types.Designator.PHOTON
+
         self.emcpf = emcpf
         self.ides = ides
         self.nocoh = nocoh
@@ -5855,7 +6381,7 @@ class ParticlePhysicsOptionsElectron(ParticlePhysicsOptions):
         ckvnum: float,
     ):
         """
-        ``__init__`` initializes ``ParticlePhysicsOptionsNeutron``.
+        ``__init__`` initializes ``ParticlePhysicsOptionsElectron``.
 
         Parameters:
             emax: Limit for electron energy.
@@ -5916,7 +6442,26 @@ class ParticlePhysicsOptionsElectron(ParticlePhysicsOptions):
         if ckvnum is None or not (0 <= ckvnum < 1):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"phys:e"
+        self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
+        self.parameters = (
+            emax,
+            ides,
+            iphot,
+            ibad,
+            istrg,
+            bnum,
+            xnum,
+            rnok,
+            enum,
+            numb,
+            i_mcs_model,
+            efac,
+            electron_method_boundary,
+            ckvnum,
+        )
         self.designator = types.Designator.ELECTRON
+
         self.emax = emax
         self.ides = ides
         self.iphot = iphot
@@ -5956,7 +6501,20 @@ class ParticlePhysicsOptionsProton(ParticlePhysicsOptions):
         drp: Lower energy delta-ray cutoff.
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        emax: float,
+        ean: float,
+        tabl: float,
+        istrg: int,
+        recl: float,
+        i_mcs_model: int,
+        i_int_model: int,
+        i_els_model: int,
+        efac: float,
+        ckvnum: float,
+        drp: float,
+    ):
         """
         ``__init__`` initializes ``ParticlePhysicsOptionsProton``.
 
@@ -6010,7 +6568,11 @@ class ParticlePhysicsOptionsProton(ParticlePhysicsOptions):
         if drp is None or not (drp == -1 or drp >= 0):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"phys:h"
+        self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
+        self.parameters = (emax, ean, tabl, istrg, recl, i_mcs_model, i_int_model, i_els_model, efac, ckvnum, drp)
         self.designator = types.Designator.PROTON
+
         self.emax = emax
         self.ean = ean
         self.tabl = tabl
@@ -6047,7 +6609,20 @@ class ParticlePhysicsOptionsOther(ParticlePhysicsOptions):
         drp: Lower energy delta-ray cutoff.
     """
 
-    def __init__(self, designator: types.Designator):
+    def __init__(
+        self,
+        designator: types.Designator,
+        emax: float,
+        istrg: int,
+        xmunum: int,
+        xmugam: float,
+        i_mcs_model: int,
+        i_int_model: int,
+        i_els_model: int,
+        efac: float,
+        ckvnum: float,
+        drp: float,
+    ):
         """
         ``__init__`` initializes ``ParticlePhysicsOptionsOther``.
 
@@ -6102,7 +6677,11 @@ class ParticlePhysicsOptionsOther(ParticlePhysicsOptions):
         if drp is None or not (drp == -1 or drp >= 0):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id = f"phys:{designator.to_mcnp()}"
+        self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
+        self.parameters = (emax, istrg, xmunum, xmugam, i_mcs_model, i_int_model, i_els_model, efac, ckvnum, drp)
         self.designator = designator
+
         self.emax = emax
         self.istrg = istrg
         self.xmunum = xmunum
@@ -6598,6 +7177,30 @@ class ActivationControl(Datum):
             self.value = state
             self.state = state
 
+    def __init__(self, pairs: tuple[ActivationControlOption]):
+        """
+        ``__init__`` initializes ``ActivationControl``.
+
+        Parameters:
+            pairs: Tuple of key-value pairs.
+
+        Raises:
+            MCNPSemanticError: INVALID_DATUM_PARAMETERS.
+        """
+
+        if pairs is None or not pairs:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+        for pair in pairs:
+            if pair is None:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+        self.id: final[str] = f"act"
+        self.mnemonic = Datum.DatumMnemonic.ACTIVATION_CONTROL
+        self.parameters = pairs
+
+        self.paris = pairs
+
 
 class TimeEnergyWeightCutoffs(Datum):
     """
@@ -6654,7 +7257,11 @@ class TimeEnergyWeightCutoffs(Datum):
         if source is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"cut:{designator.to_mcnp()}"
+        self.mnemonic = Datum.DatumMnemonic.TIME_ENERGY_WEIGHT_CUTOFFS
+        self.parameters = (time, energy, weight1, weight2, source)
         self.designator = designator
+
         self.time = time
         self.energy = energy
         self.weight1 = weight1
@@ -6693,7 +7300,11 @@ class CellEnergyCutoff(Datum):
             if cutoff is None or not (cutoff > 0):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"elpt:{designator.to_mcnp()}"
+        self.mnemonic = Datum.DatumMnemonic.CELL_ENERGY_CUTOFF
+        self.parameters = cutoffs
         self.designator = designator
+
         self.cutoffs = cutoffs
 
 
@@ -6729,7 +7340,11 @@ class FreeGasThermalTemperature(Datum):
             if temperature is None or not (temperature > 0):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"tmp{suffix}"
+        self.mnemonic = Datum.DatumMnemonic.FREE_GAS_THERMAL_TEMPERATURE
+        self.parameters = temperatures
         self.suffix = suffix
+
         self.temperatures = temperatures
 
 
@@ -6759,6 +7374,10 @@ class ThermalTimes(Datum):
             if time is None or not (0 <= i <= 99):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"thtme"
+        self.mnemonic = Datum.DatumMnemonic.THERMAL_TIMES
+        self.parameters = times
+
         self.times = times
 
 
@@ -6783,6 +7402,10 @@ class ModelPhysicsControl(Datum):
 
         if setting is None or not (setting in {"yes", "no"}):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+        self.id: final[str] = f"mphys"
+        self.mnemonic = Datum.DatumMnemonic.MODEL_PHYSICS_CONTROL
+        self.parameters = (setting,)
 
         self.setting = setting
 
@@ -6813,7 +7436,7 @@ class Lca(Datum):
         ielas: int,
         ipreq: int,
         iexisa: int,
-        ichoic: tuple[Union[int, float]],
+        ichoic: str,
         jcoul: int,
         nexite: int,
         npidk: int,
@@ -6848,9 +7471,7 @@ class Lca(Datum):
         if iexisa is None or not (iexisa in {0, 1, 2}):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        if ichoic is None or not (
-            ichoic[0] in {0, 1, -2} and ichoic[1] >= 0 and ichoic[2] in {0, 1, 2, 3, 4, 5} and ichoic[3] in {1, 2, 3, 4, 5, 6}
-        ):
+        if ichoic is None or not (re.match(r"(0|1|-2)([0-9])([0-5])([1-6])".ichoic)):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         if jcoul is None or not (jcoul in {0, 1}):
@@ -6873,6 +7494,10 @@ class Lca(Datum):
 
         if nevtype is None or not (nevtype >= 0):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+        self.id: final[str] = f"lca"
+        self.mnemonic = Datum.DatumMnemonic.LCA
+        self.parameters = (ielas, ipreq, iexisa, ichoic, jcoul, nexite, npidk, noact, icem, ilaq, nevtype)
 
         self.ielas = ielas
         self.ipreq = ipreq
@@ -6954,6 +7579,10 @@ class Lcb(Datum):
         if flim0 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"lcb"
+        self.mnemonic = Datum.DatumMnemonic.LCB
+        self.parameters = (flebn1, flebn2, flebn3, flebn4, flebn5, flebn6, ctofe, flim0)
+
         self.flebn1 = flebn1
         self.flebn2 = flebn2
         self.flebn3 = flebn3
@@ -7031,6 +7660,10 @@ class Lcc(Datum):
         if ebankabla is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"lcc"
+        self.mnemonic = Datum.DatumMnemonic.LCB
+        self.parameters = (atincl, v0incl, xfoisaincl, npaulincl, nosurfincl, ecutincl, ebankincl, ebankabla)
+
         self.atincl = atincl
         self.v0incl = v0incl
         self.xfoisaincl = xfoisaincl
@@ -7061,6 +7694,14 @@ class Lea(Datum):
 
     def __init__(
         self,
+        ipht: int,
+        icc: int,
+        nobalc: int,
+        nobale: int,
+        ifbrk: int,
+        ilvden: int,
+        ievap: int,
+        nofis: int,
     ):
         """
         ``__init__`` initializes ``Lea``.
@@ -7100,6 +7741,10 @@ class Lea(Datum):
         if nofis is None or not (nofis in {1, 0}):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
+        self.id: final[str] = f"lea"
+        self.mnemonic = Datum.DatumMnemonic.LEA
+        self.parameters = (ipht, icc, nobalc, nobale, ifbrk, ilvden, ievap, nofis)
+
         self.ipht = ipht
         self.icc = icc
         self.nobalc = nobalc
@@ -7108,3 +7753,10 @@ class Lea(Datum):
         self.ilvden = ilvden
         self.ievap = ievap
         self.nofis = nofis
+
+
+class _Placeholder(Datum):
+    def __init__(self, mnemonic: Datum.DatumMnemonic, parameters: tuple[any]):
+        self.id = mnemonic
+        self.mnemonic = mnemonic
+        self.parameters = parameters

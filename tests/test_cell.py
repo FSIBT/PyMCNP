@@ -858,7 +858,7 @@ def format_cell_option(keyword: str, value: any, suffix: int, designator: tuple[
     designator_str = f":{", ".join(designator)}" if designator is not None else ""
 
     if (keyword == "fill" or keyword == "*fill") and isinstance(value, tuple) and value and isinstance(value[0], tuple):
-        value_str = f"{value[0][0]}:{value[0][1]} {value[1][0]}:{value[1][1]} {value[2][0]}:{value[2][1]}" + " ".join(
+        value_str = f"{value[0][0]}:{value[0][1]} {value[1][0]}:{value[1][1]} {value[2][0]}:{value[2][1]} " + " ".join(
             [str(val) for val in value[3]]
         )
     else:
@@ -879,7 +879,7 @@ class Test_CellOption:
 
         @hy.settings(
             max_examples=max(1, _config.HY_TRIALS // 22),
-            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow),
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(options=cell_option(True, True, True, True))
         def test_valid(self, options: tuple[tuple]):
@@ -902,7 +902,7 @@ class Test_CellOption:
 
         @hy.settings(
             max_examples=max(1, _config.HY_TRIALS // 22),
-            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow),
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(options=cell_option(False, True, True, True))
         def test_invalid_keyword(self, options: tuple[tuple]):
@@ -921,7 +921,7 @@ class Test_CellOption:
 
         @hy.settings(
             max_examples=max(1, _config.HY_TRIALS // 22),
-            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow),
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(options=cell_option(True, False, True, True))
         def test_invalid_value(self, options: tuple[tuple]):
@@ -940,7 +940,7 @@ class Test_CellOption:
 
         @hy.settings(
             max_examples=max(1, _config.HY_TRIALS // 22),
-            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow),
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(options=cell_option(True, True, False, True))
         def test_invalid_suffix(self, options: tuple[tuple]):
@@ -960,7 +960,7 @@ class Test_CellOption:
 
         @hy.settings(
             max_examples=max(1, _config.HY_TRIALS // 22),
-            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow),
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(options=cell_option(True, True, True, False))
         def test_invalid_designator(self, options: tuple[tuple]):
@@ -985,7 +985,7 @@ class Test_CellOption:
 
         @hy.settings(
             max_examples=max(1, _config.HY_TRIALS // 22),
-            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow),
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(options=cell_option(True, True, True, True))
         def test_valid(self, options: tuple[tuple]):
@@ -1006,7 +1006,7 @@ class Test_CellOption:
 
         @hy.settings(
             max_examples=max(1, _config.HY_TRIALS // 22),
-            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow),
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(options=cell_option(False, True, True, True))
         def test_invalid_keyword(self, options: tuple[tuple]):
@@ -1023,7 +1023,7 @@ class Test_CellOption:
 
         @hy.settings(
             max_examples=max(1, _config.HY_TRIALS // 22),
-            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow),
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(options=cell_option(True, False, True, True))
         def test_invalid_value(self, options: tuple[tuple]):
@@ -1040,7 +1040,7 @@ class Test_CellOption:
 
         @hy.settings(
             max_examples=max(1, _config.HY_TRIALS // 22),
-            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow),
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(options=cell_option(True, True, False, True))
         def test_invalid_suffix(self, options: tuple[tuple]):
@@ -1058,7 +1058,7 @@ class Test_CellOption:
 
         @hy.settings(
             max_examples=max(1, _config.HY_TRIALS // 22),
-            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow),
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(options=cell_option(True, True, True, False))
         def test_invalid_designator(self, options: tuple[tuple]):
@@ -1144,7 +1144,8 @@ class Test_Cell:
         """
 
         @hy.settings(
-            max_examples=_config.HY_TRIALS, suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow)
+            max_examples=_config.HY_TRIALS,
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(cell=cell(True, True, True, True, True))
         def test_valid(self, cell: tuple):
@@ -1171,7 +1172,8 @@ class Test_Cell:
                     assert obj_option.designator[0] == types.Designator(option.designator)
 
         @hy.settings(
-            max_examples=_config.HY_TRIALS, suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow)
+            max_examples=_config.HY_TRIALS,
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(cell=cell(False, True, True, True, True))
         def test_invalid_number(self, cell: tuple):
@@ -1189,7 +1191,8 @@ class Test_Cell:
             assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_NUMBER
 
         @hy.settings(
-            max_examples=_config.HY_TRIALS, suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow)
+            max_examples=_config.HY_TRIALS,
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(cell=cell(True, False, True, True, True))
         def test_invalid_material(self, cell: tuple):
@@ -1207,7 +1210,8 @@ class Test_Cell:
             assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_MATERIAL
 
         @hy.settings(
-            max_examples=_config.HY_TRIALS, suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow)
+            max_examples=_config.HY_TRIALS,
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(cell=cell(True, True, False, True, True))
         def test_invalid_density(self, cell: tuple):
@@ -1226,7 +1230,8 @@ class Test_Cell:
                 assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_DENSITY
 
         @hy.settings(
-            max_examples=_config.HY_TRIALS, suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow)
+            max_examples=_config.HY_TRIALS,
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(cell=cell(True, True, True, False, True))
         def test_invalid_geometry(self, cell: tuple):
@@ -1244,7 +1249,8 @@ class Test_Cell:
             assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY
 
         @hy.settings(
-            max_examples=_config.HY_TRIALS, suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow)
+            max_examples=_config.HY_TRIALS,
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(cell=cell(True, True, True, True, False))
         def test_invalid_option(self, cell: tuple):
@@ -1267,7 +1273,8 @@ class Test_Cell:
         """
 
         @hy.settings(
-            max_examples=_config.HY_TRIALS, suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow)
+            max_examples=_config.HY_TRIALS,
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(cell=cell(True, True, True, True, True))
         def test_valid(self, cell: tuple):
@@ -1295,7 +1302,8 @@ class Test_Cell:
                     assert obj_option.designator[0] == types.Designator(option.designator)
 
         @hy.settings(
-            max_examples=_config.HY_TRIALS, suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow)
+            max_examples=_config.HY_TRIALS,
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(cell=cell(False, True, True, True, True))
         def test_invalid_number(self, cell: tuple):
@@ -1312,7 +1320,8 @@ class Test_Cell:
             assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_NUMBER
 
         @hy.settings(
-            max_examples=_config.HY_TRIALS, suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow)
+            max_examples=_config.HY_TRIALS,
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(cell=cell(True, False, True, True, True))
         def test_invalid_material(self, cell: tuple):
@@ -1329,7 +1338,8 @@ class Test_Cell:
             assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_MATERIAL
 
         @hy.settings(
-            max_examples=_config.HY_TRIALS, suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow)
+            max_examples=_config.HY_TRIALS,
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(cell=cell(True, True, False, True, True))
         def test_invalid_density(self, cell: tuple):
@@ -1347,7 +1357,8 @@ class Test_Cell:
                 assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_DENSITY
 
         @hy.settings(
-            max_examples=_config.HY_TRIALS, suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow)
+            max_examples=_config.HY_TRIALS,
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(cell=cell(True, True, True, False, True))
         def test_invalid_geometry(self, cell: tuple):
@@ -1364,7 +1375,8 @@ class Test_Cell:
             assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY
 
         @hy.settings(
-            max_examples=_config.HY_TRIALS, suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow)
+            max_examples=_config.HY_TRIALS,
+            suppress_health_check=(hy.HealthCheck.filter_too_much, hy.HealthCheck.too_slow, hy.HealthCheck.data_too_large),
         )
         @hy.given(cell=cell(True, True, True, True, False))
         def test_invalid_option(self, cell: tuple):

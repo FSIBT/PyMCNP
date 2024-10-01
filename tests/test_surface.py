@@ -89,7 +89,7 @@ class Test_SurfaceMnemonic:
 
     class Test_Init:
         """
-        ``Test_Init`` tests ``CellKeyword.__init__``.
+        ``Test_Init`` tests ``SurfaceMnemonic.__init__``.
         """
 
         def test_valid(self):
