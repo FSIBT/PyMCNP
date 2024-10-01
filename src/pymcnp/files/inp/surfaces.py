@@ -49,7 +49,7 @@ class Surfaces(Block):
         for line in lines:
             if line == "":
                 break
-            elif line.startswith("c "):
+            elif line.startswith("c ") or line == "c":
                 continue
             else:
                 block.append(Surface.from_mcnp(line))

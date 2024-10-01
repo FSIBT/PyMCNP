@@ -30,140 +30,40 @@ class Inp:
         other: INP other block.
     """
 
-    def __init__(self):
+    def __init__(
+        self, title: str, cells: cells.Cells, surfaces: surfaces.Surfaces, data: data.Data, message: str = "", other: str = ""
+    ):
         """
-        '__init__' initializes 'Inp'.
-        """
-
-        self.message: str = None
-        self.title: str = None
-        self.cells: cells.Cells = cells.Cells()
-        self.surfaces: surfaces.Surfaces = surfaces.Surfaces()
-        self.data: data.Data = data.Data()
-        self.other: str = None
-
-    def set_message(self, message: str) -> None:
-        """
-        ``set_message`` stores INP message blocks.
-
-        ``set_message`` checks given arguments before assigning the given
-        value to ``Inp.message``. If given an unrecognized argument, it
-        raises semantic errors.
-
-        Parameters:
-            message: INP message block.
-
-        Raises:
-            MCNPSemanticError: INVALID_INP_MESSAGE.
+        ``__init__`` initializes ``Inp``.
         """
 
-        if message is None or not message[:9] == "message:":
+        if message is None:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.INVALID_INP_MESSAGE)
-
-        self.message = message
-
-    def set_title(self, title: str) -> None:
-        """
-        ``set_title`` stores INP titles.
-
-        ``set_title`` checks given arguments before assigning the given
-        value to ``Inp.title``. If given an unrecognized argument, it
-        raises semantic errors.
-
-        Parameters:
-            title: INP title.
-
-        Raises:
-            MCNPSemanticError: INVALID_INP_TITLE.
-        """
 
         if title is None or not len(title) < 80:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_TITLE)
 
-        self.title = title
-
-    def set_cells(self, cells: cells.Cells) -> None:
-        """
-        ``set_cells`` stores INP cell card blocks.
-
-        ``set_cells`` checks given arguments before assigning the given
-        value to ``Inp.cells``. If given an unrecognized argument, it
-        raises semantic errors.
-
-        Parameters:
-            cells: INP cell card block.
-
-        Raises:
-            MCNPSemanticError: INVALID_INP_CELLS.
-        """
-
         if cells is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_CELLS)
-
-        self.cells = cells
-
-    def set_surfaces(self, surfaces: surfaces.Surfaces) -> None:
-        """
-        ``set_surfaces`` stores INP surface card blocks.
-
-        ``set_surfaces`` checks given arguments before assigning the given
-        value to ``Inp.surfaces``. If given an unrecognized argument, it
-        raises semantic errors.
-
-        Parameters:
-            surfaces: INP surface card block.
-
-        Raises:
-            MCNPSemanticError: INVALID_INP_SURFACES.
-        """
 
         if surfaces is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_SURFACES)
 
-        self.surfaces = surfaces
-
-    def set_data(self, data: data.Data) -> None:
-        """
-        ``set_data`` stores INP data card blocks.
-
-        ``set_data`` checks given arguments before assigning the given
-        value to ``Inp.data``. If given an unrecognized argument, it
-        raises semantic errors.
-
-        Parameters:
-            data: INP data card block.
-
-        Raises:
-            MCNPSemanticError: INVALID_INP_DATA.
-        """
-
         if data is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
-
-        self.data = data
-
-    def set_other(self, other: str) -> None:
-        """
-        ``set_other`` stores INP other blocks.
-
-        ``set_other`` checks given arguments before assigning the given
-        value to ``Inp.other``. If given an unrecognized argument, it
-        raises semantic errors.
-
-        Parameters:
-            data: INP other block.
-
-        Raises:
-            MCNPSemanticError: INVALID_INP_OTHER.
-        """
 
         if other is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_OTHER)
 
-        self.other = other
+        self.message: final[str] = message
+        self.title: final[str] = title
+        self.cells: final[cells.Cells] = cells
+        self.surfaces: final[surfaces.Surfaces] = surfaces
+        self.data: final[data.Data] = data
+        self.other: final[str] = other
 
-    @classmethod
-    def from_mcnp(cls, source: str):
+    @staticmethod
+    def from_mcnp(source: str):
         """
         ``from_mcnp`` generates ``Inp`` objects from INP.
 
@@ -177,44 +77,37 @@ class Inp:
             ``Inp`` object.
         """
 
-        inp = cls()
-
-        source = _parser.Preprocessor.process_inp(source)
+        source = _parser.Preprocessor.process_inp(source, hasComments=False)
         lines = _parser.Parser(source.split("\n"), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_INP))
 
-        # Processing Message Block
-        if lines.peekl()[:9] == "message:":
-            inp.set_message(lines.popl())
-
-        # Processing Title
-        inp.set_title(lines.popl())
+        # Processing Message & Title
+        message = lines.popl()[:9] if lines.peekl()[:9] == "message:" else ""
+        title = lines.popl()
 
         # Processing Cell Cards
         index = list(lines.deque).index("")
-        cell_lines = "\n".join(lines.popl() for _ in range(0, index))
-        inp.set_cells(cells.Cells.from_mcnp(cell_lines))
+        cell_source = "\n".join(lines.popl() for _ in range(0, index))
+        cell_block = cells.Cells.from_mcnp(cell_source)
 
         lines.popl()
 
         # Processing Surface Cards
         index = list(lines.deque).index("")
-        surface_lines = "\n".join(lines.popl() for _ in range(0, index))
-        inp.set_surfaces(surfaces.Surfaces.from_mcnp(surface_lines))
+        surface_source = "\n".join(lines.popl() for _ in range(0, index))
+        surface_block = surfaces.Surfaces.from_mcnp(surface_source)
 
         lines.popl()
 
         # Processing Datum Cards
         index = list(lines.deque).index("") if "" in lines.deque else len(lines.deque)
-        datum_lines = "\n".join(lines.popl() for _ in range(0, index))
-        inp.set_data(data.Data.from_mcnp(datum_lines))
+        datum_source = "\n".join(lines.popl() for _ in range(0, index))
+        datum_block = data.Data.from_mcnp(datum_source)
 
         other = ""
         while lines:
             other += lines.popl()
 
-        inp.set_other(other)
-
-        return inp
+        return Inp(title, cell_block, surface_block, datum_block, message=message, other=other)
 
     @classmethod
     def from_mcnp_file(cls, filename: str):

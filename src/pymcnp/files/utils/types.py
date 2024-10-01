@@ -264,3 +264,6 @@ class Designator(StrEnum):
                 pass
 
         return None
+
+    def to_mcnp(self):
+        return self.value

@@ -28,7 +28,7 @@ class Data(Block):
         super().__init__()
 
     @staticmethod
-    def from_mcnp(cls, source: str):
+    def from_mcnp(source: str):
         """
         ``from_mcnp`` generates ``Data`` objects from INP.
 
@@ -49,7 +49,7 @@ class Data(Block):
         for line in lines:
             if line == "":
                 break
-            elif line.startswith("c "):
+            elif line.startswith("c ") or line == "c":
                 continue
             else:
                 block.append(Datum.from_mcnp(line))

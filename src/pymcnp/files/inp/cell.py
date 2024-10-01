@@ -336,10 +336,8 @@ class Cell(card.Card):
 
             # Processing Keyword
             keyword = re.search(r"^[a-zA-z*]+", tokens.peekl())
-            if not keyword:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_KEYWORD)
-
-            keyword = Cell.CellOption.CellKeyword.from_mcnp(keyword.group())
+            keyword = keyword.group() if keyword else ""
+            keyword = Cell.CellOption.CellKeyword.from_mcnp(keyword)
 
             # Processing Values, Suffixes, & Designators
             suffix = None
@@ -1181,8 +1179,8 @@ class Cell(card.Card):
                 ):
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-                if value[3] is None or len(value[3]) != (value[0][1] - value[0][0] + 1) * (value[1][1] - value[1][0] + 1) * (
-                    value[2][1] - value[2][0] + 1
+                if value[3] is None or len(value[3]) != (
+                    (value[0][1] - value[0][0] + 1) * (value[1][1] - value[1][0] + 1) * (value[2][1] - value[2][0] + 1)
                 ):
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
