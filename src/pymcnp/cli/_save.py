@@ -5,7 +5,7 @@
 
 import os.path
 
-import pymcnp
+from ..files import inp
 
 
 class Save:
@@ -35,7 +35,7 @@ class Save:
             if not os.path.isfile(path):
                 continue
 
-            inpts[alias] = (path, pymcnp.inp.Inp.from_mcnp_file(path))
+            inpts[alias] = (path, inp.Inp.from_mcnp_file(path))
 
         return inpts
 
@@ -46,8 +46,7 @@ class Save:
         """
 
         output = ""
-        for alias, value in inpts.items():
-            path, inpt = value
+        for alias, (path, inpt) in inpts.items():
             output += f"{alias} {path}\n"
 
         with open(Save.PYMCNP_SAVE_FILE, "w") as file:

@@ -30,6 +30,7 @@ from .datum import FissionTurnoff
 from .datum import AtomicWeight
 from .datum import CrossSectionFile
 from .datum import Void
+from .datum import Nps
 from .surface import Surface
 from .surface import PlaneGeneralEquation
 from .surface import PlaneGeneralPoint

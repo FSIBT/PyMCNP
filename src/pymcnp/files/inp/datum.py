@@ -7,7 +7,7 @@ importable interface for INP datum cards.
 
 
 import re
-from typing import Callable, Union
+from typing import Callable, Union, override
 from enum import StrEnum
 
 from .card import Card
@@ -352,73 +352,79 @@ class Datum(Card):
         match mnemonic:
             case Datum.DatumMnemonic.VOLUME:
                 tokens.popl()
-                parameters = (
-                    True if tokens.peekl() == "no" else False,
-                    tuple([types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens))]),
-                )
+                has_no = True if tokens.peekl() == "no" else False
+                volumes = tuple(types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens)))
+
+                datum = Volume(volumes, has_no=has_no)
 
             case Datum.DatumMnemonic.AREA:
                 tokens.popl()
-                parameters = (tuple([types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens))]),)
+                areas = tuple(types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens)))
+
+                datum = Area(areas)
 
             case Datum.DatumMnemonic.TRANSFORMATION:
                 suffix = types.cast_fortran_integer(tokens.popl()[2:])
-                entries = [types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens))]
-                parameters = (
-                    tuple(entries[:3]),
-                    (tuple(entries[3:6]), tuple(entries[6:9]), tuple(entries[9:12])),
-                    int(entires[12]),
-                )
+                entries = tuple(types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens)))
+                displacement = tuple(entries[:3])
+                rotation = (tuple(entries[3:6]), tuple(entries[6:9]), tuple(entries[9:12]))
+                system = int(entires[12])
+
+                datum = Transformation(displacement, rotation, system)
 
             case Datum.DatumMnemonic.UNIVERSE:
                 tokens.popl()
-                parameters = (tuple([types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens))]),)
+                unvierses = tuple(types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens)))
+
+                datum = Universe(universes)
 
             case Datum.DatumMnemonic.LATTICE:
                 tokens.popl()
-                parameters = (tuple([types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens))]),)
+                lattices = tuple(types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens)))
+
+                datum = Lattice(lattices)
 
             case Datum.DatumMnemonic.FILL:
                 tokens.popl()
-                parameters = (tuple([types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens))]),)
+                fills = tuple(types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens)))
+
+                datum = Fill(fills)
 
             case Datum.DatumMnemonic.STOCHASTIC_GEOMETRY:
                 tokens.popl()
-                parameters = (
-                    tuple(
-                        [
-                            StochasticGeometry.StochasticGeometryValue(
-                                types.fortran_integer(tokens.popl()),
-                                typesf(tokens.popl()),
-                                typesf(tokens.popl()),
-                                typesf(tokens.popl()),
-                            )
-                            for _ in range(0, len(tokens), 4)
-                        ]
-                    ),
+                transformations = tuple(
+                    StochasticGeometry.StochasticGeometryValue(
+                        types.fortran_integer(tokens.popl()),
+                        typesf(tokens.popl()),
+                        typesf(tokens.popl()),
+                        typesf(tokens.popl()),
+                    )
+                    for _ in range(0, len(tokens), 4)
                 )
+
+                datum = StochasticGeometry(transformations)
 
             case Datum.DatumMnemonic.DETERMINISTIC_MATERIALS:
                 suffix = types.cast_fortran_integer(tokens.popl()[2:])
-                parameters = (tuple([types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens))]),)
+                zaids = tuple(types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens)))
+
+                datum = DeterministicMaterials(zaids)
 
             case Datum.DatumMnemonic.DETERMINISTIC_WEIGHT_WINDOW:
                 tokens.popl()
-                parameters = (
-                    tuple(
-                        [
-                            DeterministicWeightWindow.DeterministicWeightWindowOption.from_mcnp(tokens.popl())
-                            for _ in range(0, len(tokens))
-                        ]
-                    ),
+                pairs = tuple(
+                    DeterministicWeightWindow.DeterministicWeightWindowOption.from_mcnp(tokens.popl())
+                    for _ in range(0, len(tokens))
                 )
+
+                datum = DeterministicWeightWindow(pairs)
 
             case Datum.DatumMnemonic.EMBEDDED_GEOMETRY:
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
-                pairs = []
+                pairs = tuple()
                 while tokens:
                     keyword = tokens.popl()
-                    values = []
+                    values = tuple()
                     while tokens:
                         try:
                             EmbeddedGeometry.EmbeddedGeometryOption.from_mcnp(tokens.peekl())
@@ -433,10 +439,10 @@ class Datum(Card):
             case Datum.DatumMnemonic.EMBEDDED_CONTROL:
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
                 designator = types.Designator.cast_mcnp_designator(tokens.popl())
-                pairs = []
+                pairs = tuple()
                 while tokens:
                     keyword = tokens.popl()
-                    values = []
+                    values = tuple()
                     while tokens:
                         try:
                             EmbeddedControl.EmbeddedControlOption.from_mcnp(tokens.peekl())
@@ -453,7 +459,7 @@ class Datum(Card):
                     raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
-                energies = [types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens))]
+                energies = tuple(types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = EmbeddedEnergyBoundaries(energies, suffix)
 
@@ -471,7 +477,7 @@ class Datum(Card):
                     raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
-                times = [types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens))]
+                times = tuple(types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = EmbeddedTimeBoundaries(times, suffix)
 
@@ -483,7 +489,7 @@ class Datum(Card):
 
             case Datum.DatumMnemonic.EMBEDDED_DOSE_BOUNDARIES:
                 suffix = types.cast_fortran_integer(tokens.popl()[5:])
-                doses = [types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens))]
+                doses = tuple(types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = EmbeddedDoseBoundaries(doses, suffix)
 
@@ -496,7 +502,7 @@ class Datum(Card):
             case Datum.DatumMnemonic.MATERIAL:
                 suffix = types.cast_fortran_integer(tokens.popl()[1:])
 
-                substances = []
+                substances = tuple()
                 while tokens:
                     try:
                         Material.MaterialOption.MaterialKeyword.from_mcnp(tokens.peekl())
@@ -509,10 +515,10 @@ class Datum(Card):
                         )
                         pass
 
-                options = []
+                options = tuple()
                 while tokens:
                     keyword = tokens.popl()
-                    values = []
+                    values = tuple()
                     while tokens:
                         try:
                             Material.MaterialOption.MaterialKeyword.from_mcnp(tokens.peekl())
@@ -526,20 +532,20 @@ class Datum(Card):
 
             case Datum.DatumMnemonic.MATERIAL_NEUTRON_SCATTERING:
                 suffix = types.cast_fortran_integer(tokens.popl()[2:])
-                identifiers = [tokens.popl() for _ in range(0, len(tokens))]
+                identifiers = tuple(tokens.popl() for _ in range(0, len(tokens)))
 
                 datum = MaterialNeutronScattering(identifiers, suffix)
 
             case Datum.DatumMnemonic.MATERIAL_NUCLIDE_SUBSTITUTION:
                 suffix = types.cast_fortran_integer(tokens.popl()[2:])
                 designator = types.Designator.cast_mcnp_designator(tokens.popl())
-                zaids = [types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens))]
+                zaids = tuple(types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = MaterialNuclideSubstitution(zaids, suffix, designator)
 
             case Datum.DatumMnemonic.ON_THE_FLY_BROADENING:
                 tokens.popl()
-                zaids = [types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens))]
+                zaids = tuple(types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = OnTheFlyBroadening(zaids)
 
@@ -556,25 +562,25 @@ class Datum(Card):
 
             case Datum.DatumMnemonic.FISSION_TURNOFF:
                 tokens.popl()
-                states = [types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens))]
+                states = tuple(types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = FissionTurnoff(states)
 
             case Datum.DatumMnemonic.ATOMIC_WEIGHT:
                 tokens.popl()
-                weight_ratios = [AtomicWeight.AtomicWeightValue.from_mcnp(f"{tokens.popl()} {tokens.popl()}")]
+                weight_ratios = tuple(AtomicWeight.AtomicWeightValue.from_mcnp(f"{tokens.popl()} {tokens.popl()}"))
 
                 datum = AtomicWeight(weight_ratios)
 
             case Datum.DatumMnemonic.CROSS_SECTION_FILE:
                 suffix = types.cast_fortran_integer(tokens.popl()[2:])
-                weight_ratios = [CrossSectionFile.CrossSectionFileValue.from_mcnp(f"{tokens.popl()} {tokens.popl()}")]
+                weight_ratios = tuple(CrossSectionFile.CrossSectionFileValue.from_mcnp(f"{tokens.popl()} {tokens.popl()}"))
 
                 datum = CrossSectionFile(weight_ratios, suffix)
 
             case Datum.DatumMnemonic.VOID:
                 tokens.popl()
-                numbers = [types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens))]
+                numbers = tuple(types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = Void(numbers)
 
@@ -592,13 +598,13 @@ class Datum(Card):
 
             case Datum.DatumMnemonic.DISCRETE_REACTION_CROSS_SECTION:
                 tokens.popl()
-                zaids = [types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens))]
+                zaids = tuple(types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = DiscreteReactionCrossSection(zaids)
 
             case Datum.DatumMnemonic.PROBLEM_TYPE:
                 tokens.popl()
-                particles = [types.Designator.cast_mcnp_designator(tokens.popl()) for _ in range(0, len(tokens))]
+                particles = tuple(types.Designator.cast_mcnp_designator(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = ProblemType(particles)
 
@@ -735,10 +741,10 @@ class Datum(Card):
 
             case Datum.DatumMnemonic.ACTIVATION_CONTROL:
                 tokens.popl()
-                pairs = []
+                pairs = tuple()
                 while tokens:
                     keyword = tokens.popl()
-                    values = []
+                    values = tuple()
                     while tokens:
                         try:
                             ActivationControl.ActivationControlOption.from_mcnp(tokens.peekl())
@@ -771,13 +777,13 @@ class Datum(Card):
 
             case Datum.DatumMnemonic.FREE_GAS_THERMAL_TEMPERATURE:
                 suffix = types.cast_fortran_integer(tokens.popl()[3:])
-                temperatures = [types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens))]
+                temperatures = tuple(types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = FreeGasThermalTemperature(suffix, temperatures)
 
             case Datum.DatumMnemonic.THERMAL_TIMES:
                 tokens.popl()
-                times = [types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens))]
+                times = tuple(types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = ThermalTimes(times)
 
@@ -867,16 +873,15 @@ class Datum(Card):
             INP string for ``Datum`` object.
         """
 
-        # Formatting Number
         suffix_str = f"{self.suffix}" if hasattr(self, "suffix") else ""
         designator_str = f":{self.designator}" if hasattr(self, "designator") else ""
 
         parameters_str = ""
         for parameter in self.parameters:
             if isinstance(parameter, tuple):
-                parameters_str += f" {" ".join(parameter)}"
-            elif isinstance(parameter, str) or isinstance(parameter, int) or isinstance(parameter, float):
-                parameters_str += f" {parameter}"
+                parameters_str += f" {' '.join([str(entry) for entry in parameter])}"
+            elif not hasattr(parameter, "to_mcnp"):
+                parameters_str += f" {str(parameter)}"
             else:
                 parameters_str += f" {parameter.to_mcnp()}"
 
@@ -942,6 +947,13 @@ class Volume(Datum):
 
         self.has_no = has_no
         self.volumes = volumes
+
+    @override
+    def to_mcnp(self) -> str:
+        if self.has_no:
+            return f"vol no {" ".join(str(volume) for volume in self.volumes)}"
+        else:
+            return f"vol {" ".join(str(volume) for volume in self.volumes)}"
 
 
 class Area(Datum):
@@ -7760,3 +7772,38 @@ class _Placeholder(Datum):
         self.id = mnemonic
         self.mnemonic = mnemonic
         self.parameters = parameters
+
+
+class Nps(Datum):
+    """
+    ``Nps`` represents INP nps data cards.
+
+    ``Nps`` inherits attributes from ``Datum``. It represents the INP model
+    physics nps data card syntax element.
+
+    Attributes:
+        npp: Total number of histories to run.
+        npsmg: Number of histroy with direct source contributions.
+    """
+
+    def __init__(self, npp: int, npsmg: int):
+        """
+        ``__init__`` initializes ``Nps``.
+
+        Parameters:
+            npp: Total number of histories to run.
+            npsmg: Number of histroy with direct source contributions.
+        """
+
+        if npp is None or not (npp > 0):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+        if npsmg is None or not (npsmg > 0):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+        self.id: final[str] = "nps"
+        self.mnemonic: final[Datum.DatumMnemonic] = Datum.DatumMnemonic.HISTORY_CUTOFF
+        self.parameters: final[tuple] = (npp, npsmg)
+
+        self.npp: final[int] = npp
+        self.npsmg: final[int] = npsmg

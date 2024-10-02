@@ -148,9 +148,9 @@ class Inp:
         source += self.title + "\n"
 
         # Appending Blocks
-        source += Cells.to_mcnp(self.cells) + "\n"
-        source += Surfaces.to_mcnp(self.surfaces) + "\n"
-        source += Data.to_mcnp(self.data) + "\n"
+        source += self.cells.to_mcnp() + "\n"
+        source += self.surfaces.to_mcnp() + "\n"
+        source += self.data.to_mcnp() + "\n"
 
         return source
 

@@ -1,54 +1,74 @@
 """
-'main' contains functions for the PYMCNP command line.
+``main`` the PYMCNP command line entrypoint.
 
-Functions:
-    main: Runs the PYMCNP command line.
+``main`` runs the PyMCNP command line using ``docopt``. This module implemented
+PyMCNP as a script (``python3 main.py``) and command (``pymcnp``).
 """
 
 
-import os
 import sys
 
-from pymcnp import cli
-from pymcnp import version
+import docopt
+
+import pymcnp
 
 
 PYMCNP_DIR = ".pymcnp/"
-PYMCNP_SAVE_FILE = PYMCNP_DIR + "pymcnp-save.txt"
-PYMCNP_TITLE = (
-    f"\n\t\x1b[1mPYMCNP\x1b[0m\n\tVersion {version.__version__}\n\n"
-    f"\tMauricio Ayllon Unzueta\n\tArun Persaud\n\tDevin Pease\n"
-)
+PYMCNP_SAVE_FILE = f"{PYMCNP_DIR}pymcnp-save.txt"
+
+PYMCNP_TITLE = f"""    
+    \x1b[1mPyMCNP\x1b[0m
+    Version {pymcnp.version.__version__}
+
+    Mauricio Ayllon Unzueta
+    Arun Persaud
+    Devin Pease
+"""
+
+PYMCNP_DOC = """
+\x1b[1mpymcnp\x1b[0m - Python interface for MCNP.
+
+Usage: 
+    pymcnp [<command> [<args>...]]
+
+Commands:
+    ls      List aliases or alias content.
+    run     Run MCNP.
+    inp     Edit INP files.
+    ptrac   Edit PTRAC files.
+    help    Show help.
+"""
 
 
 def main(argv: list[str] = sys.argv[1:]) -> None:
     """
-    'main' runs the PYMCNP command line.
+    ``main`` executes the ``pymcnp`` command.
+
+    ``main`` processes the given command line arguments, and selects the
+    corresponding subcommand.
+
+    Parameters:
+        argv: Tokenized list of CLI arguments.
     """
 
-    # Initializing PYMCNP Directory
-    if not os.path.isdir(PYMCNP_DIR):
-        os.mkdir(PYMCNP_DIR)
-        file = open(PYMCNP_SAVE_FILE, "x")
-        flie.close()
-    elif not os.path.isfile(PYMCNP_SAVE_FILE):
-        file = open(PYMCNP_SAVE_FILE, "x")
-        file.close()
+    args = docopt.docopt(PYMCNP_DOC, argv=argv, version=pymcnp.version.__version__)
+    command = args.pop("<command>")
 
-    # Processing Command
-    match argv[0] if argv else None:
+    match command:
         case "ls":
-            cli.ls.main(argv[1:])
+            pymcnp.cli.ls.main(argv=argv)
         case "run":
-            cli.run.main(argv[1:])
-        case "input":
-            cli.inpt.main(argv[1:])
+            pymcnp.cli.run.main(argv=argv)
+        case "inp":
+            pymcnp.cli.inp.main(argv=argv)
+        case "ptrac":
+            pymcnp.cli.ptrac.main(argv=argv)
         case "help":
-            print("HELP :)")
+            print(PYMCNP_DOC)
         case None:
             print(PYMCNP_TITLE)
         case _:
-            cli._io.error(cli._io.ERROR_UNRECOGNIZED_ARGS)
+            print(PYMCNP_DOC)
 
 
 if __name__ == "__main__":

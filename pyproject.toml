@@ -32,6 +32,7 @@ dependencies = [
     "pytest",
     "Sphinx",
     "sphinx_rtd_theme",
+    "docopt",
 ]
 
 [project.urls]

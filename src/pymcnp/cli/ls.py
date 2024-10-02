@@ -1,132 +1,137 @@
 """
-'ls' contains functions for printing INP object information.
+``ls`` provides utilities for listing MCNP information.
+
+``ls`` contains the procedures for executing the ``pymcnp ls`` command and
+utilities for listing MCNP information.
 """
 
 
 import sys
 
-from ..files import inp
+import docopt
+
+from .. import files
 from . import _save
 from . import _io
 
 
 class Ls:
     """
-    'Ls'
+    ``Ls``
     """
 
-    def __init__(self, inpt: inp.Inp):
+    def __init__(self, inp: files.inp.Inp):
         """
         ``__init__`` initializes ``Ls``.
         """
 
-        self.inpt = inpt
+        if inp is None:
+            raise ValueError
 
-    @staticmethod
+        self.inp: final[files.inp.Inp] = inp
+
     def list_cells(self) -> str:
         """
-        'list_cells' outputs strings of INP object cell information.
+        ``list_cells`` tabulates INP object cell card information.
 
         Returns:
-            out : String of INP object cell information.
+            String of INP object cell information.
         """
 
         out = "\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^25.25}\x1b[24m\n"
         out = out.format("NUMBER", "MATERIAL", "DENSITY", "GEOMETRY")
 
-        for cell in inpt.cells._cards.values():
-            out += f"{cell.number:<12} {cell.material:<12} {cell.density if cell.density else '':<12} "
-            out += f"{cell.geometry.to_mcnp()}\n"
+        for cell in self.inp.cells._cards.values():
+            out += f"{cell.number:<12} {cell.material:<12} {cell.density if cell.density else '':<12} {cell.geometry.to_mcnp():<25}\n"
 
         return out
 
-    @staticmethod
     def list_surfaces(self) -> str:
         """
-        'list_surfaces' outputs strings of INP object surface information.
+        ``list_surfaces`` tabulates INP object surface card information.
 
         Returns:
-            out : String of INP object surface information.
+            String of INP object surface information.
         """
 
         out = "\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m\n"
         out = out.format("NUMBER", "MNEMONIC", "TRANSFORM")
 
-        for surface in inpt.surfaces._cards.values():
+        for surface in self.inp.surfaces._cards.values():
             out += f"{surface.number:<12} {surface.mnemonic:<12} {surface.transfrom if surface.transform else '':<12}\n"
 
         return out
 
-    @staticmethod
     def list_data(self) -> str:
         """
-        'list_data' outputs strings of INP object datum information.
+        ``list_data`` tabulates INP object data card information.
 
         Returns:
-            out : String of INP object datum information.
+            String of INP object data information.
         """
 
-        out = "\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m\n".format("MNEMONIC", "NUMBER")
+        out = "\x1b[4m{:^12.12}\x1b[24m\n".format("MNEMONIC")
 
-        for datum in inpt.data._cards.values():
-            out += f"{datum.mnemonic:<12.12} {datum.number if datum.number else '':<12.12}\n"
+        for datum in self.inp.data._cards.values():
+            out += f"{datum.mnemonic:<12.12}\n"
 
         return out
 
     @staticmethod
-    def list_inp(self) -> str:
+    def list_inps(inps: tuple[str, files.inp.Inp]) -> str:
         """
-        'list_inp' outputs strings of all INP object information.
+        ``list_inps`` tabulates INP objects.
 
         Returns:
-            out : String of all INP object information.
+            String of INP object inp information.
         """
 
-        return "\n" + Ls.list_cells() + "\n" + Ls.list_surfaces() + "\n" + Ls.list_data()
+        out = "\x1b[4m{:^25.25}\x1b[24m \x1b[4m{:^51.51}\x1b[24m \x1b[4m{:^51.51}\x1b[24m".format("NAME", "TITLE", "OTHER")
+        for alias, inp in list(inps):
+            out += f"{alias:<25.25} {inp.title:<51.51} {repr(inp.other):<51.51}"
+
+        return out
+
+
+PYMCNP_LS_DOC = f"""
+Usage:
+    pymcnp ls [(<alias> (--cells|--surfaces|--data)...)]
+
+Options:
+    -f --file      List from INP file.
+    -c --cells     List aliased INP cell cards.
+    -s --surfaces  List aliased INP surface cards.
+    -d --data      List aliased INP data cards.
+"""
 
 
 def main(argv: list[str] = sys.argv[1:]) -> None:
     """
-    'main' runs the command line for printing INP object information.
+    ``main`` executes the ``pymcnp ls`` command.
+
+    ``main`` processes the given command line arguments, and it lists, prints,
+    and tabulates PyMCNP object contents.
 
     Parameters:
-        argv (list[str]): Arguments list.
+        argv: Tokenized list of CLI arguments.
     """
 
-    inpts = _save.Save.get_save()
+    args = docopt.docopt(PYMCNP_LS_DOC, argv=argv)
+    aliases = _save.Save.get_save()
 
-    match argv[0] if argv else None:
-        case arg if arg is not None and arg[0] != "-":
-            if argv[0] not in inpts:
-                _io.error(_io.ERROR_ALIAS_NOT_FOUND)
+    if args["<alias>"]:
+        inp = aliases[args["<alias>"]][1]
 
-            try:
-                match argv[1] if argv[1:] else None:
-                    case "-c" | "--cells":
-                        print(Ls.list_cells(inpts[argv[0]][1]), end="")
-                    case "-s" | "--surfaces":
-                        print(Ls.list_surfaces(inpts[argv[0]][1]), end="")
-                    case "-d" | "--data":
-                        print(Ls.list_data(inpts[argv[0]][1]), end="")
-                    case "-a" | "--arguments":
-                        print(inpts[argv[0]][1].to_arguments())
-                    case None:
-                        print(Ls.list_inp(inpts[argv[0]][1]))
-                    case _:
-                        _io.error(_io.ERROR_UNRECOGNIZED_OPTION)
-            except SyntaxError:
-                _io.error("INP SyntaxError")
-            except ValueError:
-                _io.error("INP ValueError")
+    if args["<alias>"]:
+        # Listing aliased PyMCNP object content.
+        ls = Ls(inp)
 
-        case "-a" | "--all":
-            for alias, value in inpts.items():
-                path, inpt = value
-                print(f"\n\x1b[4mOBJECT:\x1b[24m {alias}" + "\n" + Ls.list_inp(inpt))
-
-        case None:
-            out = "\x1b[4m{:^25.25}\x1b[24m \x1b[4m{:^51.51}\x1b[24m \x1b[4m{:^51.51}\x1b[24m"
-            print(out.format("NAME", "TITLE", "OTHER"))
-            for name, value in inpts.items():
-                path, inpt = value
-                print(f"{name:<25.25} {inpt.title:<51.51} {repr(inpt.other):<51.51}")
+        if args["--cells"]:
+            print(ls.list_cells())
+        if args["--surfaces"]:
+            print(ls.list_surfaces())
+        if args["--data"]:
+            print(ls.list_data())
+    else:
+        # Listing all aliased PyMCNP objects.
+        print(Ls.list_inps((alias, inp) for alias, (_, inp) in aliases))

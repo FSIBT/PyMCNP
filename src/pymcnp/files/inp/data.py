@@ -81,3 +81,12 @@ class Data(Block):
         """
 
         return [card.to_arguments() for card in self._cards.values()]
+
+    def __getitem__(self, index: str) -> Datum:
+        try:
+            return self._cards[index]
+        except KeyError as err:
+            raise KeyError
+
+    def __contains__(self, item: str) -> Datum:
+        return item in self._cards
