@@ -1485,7 +1485,7 @@ class Cell(card.Card):
 
         density_str = self.density if self.material else " "
         geometry_str = self.geometry.to_mcnp()
-        options_str = " ".join(param.to_mcnp() for param in self.options)
+        options_str = " ".join(option.to_mcnp() for option in self.options)
 
         return _parser.Postprocessor.add_continuation_lines(
             f"{self.number} {self.material} {density_str} {geometry_str} {options_str}"

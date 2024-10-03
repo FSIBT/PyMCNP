@@ -51,10 +51,9 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
         argv: Tokenized list of CLI arguments.
     """
 
-    args = docopt.docopt(PYMCNP_DOC, argv=argv, version=pymcnp.version.__version__)
-    command = args.pop("<command>")
+    args = docopt.docopt(PYMCNP_DOC, argv=argv, version=pymcnp.version.__version__, options_first=True)
 
-    match command:
+    match args["<command>"]:
         case "ls":
             pymcnp.cli.ls.main(argv=argv)
         case "run":

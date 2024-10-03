@@ -502,7 +502,7 @@ class Datum(Card):
             case Datum.DatumMnemonic.MATERIAL:
                 suffix = types.cast_fortran_integer(tokens.popl()[1:])
 
-                substances = tuple()
+                substances = []
                 while tokens:
                     try:
                         Material.MaterialOption.MaterialKeyword.from_mcnp(tokens.peekl())
@@ -515,10 +515,10 @@ class Datum(Card):
                         )
                         pass
 
-                options = tuple()
+                options = []
                 while tokens:
                     keyword = tokens.popl()
-                    values = tuple()
+                    values = []
                     while tokens:
                         try:
                             Material.MaterialOption.MaterialKeyword.from_mcnp(tokens.peekl())

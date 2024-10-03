@@ -4,6 +4,7 @@ src/pymcnp/version.py
 *~
 
 .pymcnp
+version.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
