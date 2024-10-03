@@ -86,9 +86,9 @@ class Ls:
             String of INP object inp information.
         """
 
-        out = "\x1b[4m{:^25.25}\x1b[24m \x1b[4m{:^51.51}\x1b[24m \x1b[4m{:^51.51}\x1b[24m".format("NAME", "TITLE", "OTHER")
+        out = "\x1b[4m{:^25.25}\x1b[24m \x1b[4m{:^51.51}\x1b[24m \x1b[4m{:^51.51}\x1b[24m\n".format("NAME", "TITLE", "OTHER")
         for alias, inp in list(inps):
-            out += f"{alias:<25.25} {inp.title:<51.51} {repr(inp.other):<51.51}"
+            out += f"{alias:<25.25} {inp.title:<51.51} {repr(inp.other):<51.51}\n"
 
         return out
 
@@ -134,4 +134,4 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
             print(ls.list_data())
     else:
         # Listing all aliased PyMCNP objects.
-        print(Ls.list_inps((alias, inp) for alias, (_, inp) in aliases))
+        print(Ls.list_inps([(alias, inp) for alias, (path, inp) in aliases.items()]))
