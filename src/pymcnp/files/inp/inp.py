@@ -85,23 +85,26 @@ class Inp:
         title = lines.popl()
 
         # Processing Cell Cards
-        index = list(lines.deque).index("")
-        cell_source = "\n".join(lines.popl() for _ in range(0, index))
+        cell_source = ""
+        while lines.peekl() != "":
+            cell_source += lines.popl() + "\n"
         cell_block = cells.Cells.from_mcnp(cell_source)
 
         lines.popl()
 
         # Processing Surface Cards
-        index = list(lines.deque).index("")
-        surface_source = "\n".join(lines.popl() for _ in range(0, index))
+        surface_source = ""
+        while lines and lines.peekl() != "":
+            surface_source += lines.popl() + "\n"
         surface_block = surfaces.Surfaces.from_mcnp(surface_source)
 
         lines.popl()
 
         # Processing Datum Cards
-        index = list(lines.deque).index("") if "" in lines.deque else len(lines.deque)
-        datum_source = "\n".join(lines.popl() for _ in range(0, index))
-        datum_block = data.Data.from_mcnp(datum_source)
+        data_source = ""
+        while lines and lines.peekl() != "":
+            data_source += lines.popl() + "\n"
+        datum_block = data.Data.from_mcnp(data_source)
 
         other = ""
         while lines:
