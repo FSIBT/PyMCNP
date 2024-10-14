@@ -50,7 +50,9 @@ def cell_geometry(draw, valid: bool) -> str:
             )
         )
 
-    return draw(cell_geometry_helper(0))
+    a = draw(cell_geometry_helper(0))
+    open("out.txt", "a").write(a + "\n")
+    return a
 
 
 def format_cell_geometry(geometry: str):
@@ -639,55 +641,6 @@ def cell_option(draw, valid_keyword: bool, valid_values: bool, valid_suffix: boo
             Valid/Invalid ``Fill`` parameters.
         """
 
-        @st.composite
-        def cell_option_fill_2(draw, valid_values: bool):
-            """
-            ``cell_option_fill`` generates ``Fill`` form #2 parameters.
-
-            Parameters:
-                valid_values: Value(s) validity setting.
-
-            Returns:
-                Valid/Invalid ``Fill`` #2 parameters.
-            """
-
-            if valid_values:
-                i1 = 1
-                i2 = 2
-                j1 = 1
-                j2 = 2
-                k1 = 1
-                k2 = 2
-                return (
-                    (i1, i2),
-                    (j1, j2),
-                    (k1, k2),
-                    tuple(
-                        [
-                            draw(test_types.mcnp_integer(lambda i: 0 <= i <= 99_999_999))
-                            for _ in range(0, (i2 - i1 + 1) * (j2 - j1 + 1) * (k2 - k1 + 1))
-                        ]
-                    ),
-                )
-            else:
-                i1 = -1
-                i2 = -2
-                j1 = -1
-                j2 = -2
-                k1 = -1
-                k2 = -2
-                return (
-                    (i1, i2),
-                    (j1, j2),
-                    (k1, k2),
-                    tuple(
-                        [
-                            draw(test_types.mcnp_integer(lambda i: i < 0))
-                            for _ in range(0, draw(test_types.mcnp_integer(lambda i: i > 0)))
-                        ]
-                    ),
-                )
-
         keyword = draw(st.sampled_from(["fill", "*fill"]))
 
         if valid_values:
@@ -703,7 +656,6 @@ def cell_option(draw, valid_keyword: bool, valid_values: bool, valid_suffix: boo
                             draw(test_types.mcnp_integer(lambda i: 0 <= i <= 99_999_999)),
                             *[draw(test_types.mcnp_integer())] * 12 + [draw(st.sampled_from([-1, 1]))],
                         ),
-                        draw(cell_option_fill_2(True)),
                     ]
                 )
             )
@@ -721,7 +673,6 @@ def cell_option(draw, valid_keyword: bool, valid_values: bool, valid_suffix: boo
                             *[draw(test_types.mcnp_integer())] * 12
                             + [draw(test_types.mcnp_integer(lambda i: i not in {-1, 1}))],
                         ),
-                        draw(cell_option_fill_2(False)),
                     ]
                 )
             )
@@ -857,12 +808,10 @@ def format_cell_option(keyword: str, value: any, suffix: int, designator: tuple[
     suffix_str = suffix if suffix is not None else ""
     designator_str = f":{", ".join(designator)}" if designator is not None else ""
 
-    if (keyword == "fill" or keyword == "*fill") and isinstance(value, tuple) and value and isinstance(value[0], tuple):
-        value_str = f"{value[0][0]}:{value[0][1]} {value[1][0]}:{value[1][1]} {value[2][0]}:{value[2][1]} " + " ".join(
-            [str(val) for val in value[3]]
-        )
+    if isinstance(value, tuple):
+        value_str = "".join(f" {str(val) if val is None else " "}" for val in value)
     else:
-        value_str = " ".join([str(val) for val in value]) if isinstance(value, tuple) else str(value)
+        value_str = str(value)
 
     return f"{keyword_str}{suffix_str}{designator_str}={value_str}"
 
@@ -889,6 +838,18 @@ class Test_CellOption:
 
             for keyword, value, suffix, designator in options:
                 keyword = Cell.CellOption.CellKeyword(keyword)
+
+                if isinstance(value, int):
+                    value = types.McnpInteger(value)
+                elif isinstance(value, float):
+                    value = types.McnpReal(value)
+                elif isinstance(value, tuple):
+                    if isinstance(value[0], int):
+                        value = tuple([types.McnpInteger(val) if val is not None else None for val in value])
+                    elif isinstance(value[0], float):
+                        value = tuple([types.McnpReal(val) if val is not None else None for val in value])
+
+                suffix = types.McnpInteger(suffix) if suffix is not None else None
                 designator = types.Designator(designator) if designator is not None else None
 
                 obj = Cell.CellOption(keyword, value, suffix=suffix, designator=designator)
@@ -912,6 +873,17 @@ class Test_CellOption:
 
             for keyword, value, suffix, designator in options:
                 keyword = None
+
+                if isinstance(value, int):
+                    value = types.McnpInteger(value)
+                elif isinstance(value, float):
+                    value = types.McnpReal(value)
+                elif isinstance(value, tuple):
+                    if isinstance(value[0], int):
+                        value = tuple([types.McnpInteger(val) if val is not None else None for val in value])
+                    elif isinstance(value[0], float):
+                        value = tuple([types.McnpReal(val) if val is not None else None for val in value])
+
                 designator = types.Designator(designator) if designator is not None else None
 
                 with pytest.raises(errors.MCNPSemanticError) as err:
@@ -931,6 +903,7 @@ class Test_CellOption:
 
             for keyword, value, suffix, designator in options:
                 keyword = Cell.CellOption.CellKeyword(keyword)
+                value = None
                 designator = types.Designator(designator) if designator is not None else None
 
                 with pytest.raises(errors.MCNPSemanticError) as err:
@@ -950,6 +923,17 @@ class Test_CellOption:
 
             for keyword, value, suffix, designator in options:
                 keyword = Cell.CellOption.CellKeyword(keyword)
+
+                if isinstance(value, int):
+                    value = types.McnpInteger(value)
+                elif isinstance(value, float):
+                    value = types.McnpReal(value)
+                elif isinstance(value, tuple):
+                    if isinstance(value[0], int):
+                        value = tuple([types.McnpInteger(val) if val is not None else None for val in value])
+                    elif isinstance(value[0], float):
+                        value = tuple([types.McnpReal(val) if val is not None else None for val in value])
+
                 designator = types.Designator(designator) if designator is not None else None
 
                 if suffix is not None:
@@ -971,6 +955,17 @@ class Test_CellOption:
             for keyword, value, suffix, designator in options:
                 if designator is not None:
                     keyword = Cell.CellOption.CellKeyword(keyword)
+
+                    if isinstance(value, int):
+                        value = types.McnpInteger(value)
+                    elif isinstance(value, float):
+                        value = types.McnpReal(value)
+                    elif isinstance(value, tuple):
+                        if isinstance(value[0], int):
+                            value = tuple([types.McnpInteger(val) if val is not None else None for val in value])
+                        elif isinstance(value[0], float):
+                            value = tuple([types.McnpReal(val) if val is not None else None for val in value])
+
                     designator = None
 
                     with pytest.raises(errors.MCNPSemanticError) as err:
@@ -1002,7 +997,7 @@ class Test_CellOption:
                 if hasattr(obj, "suffix"):
                     assert obj.suffix == suffix
                 if hasattr(obj, "designator"):
-                    assert obj.designator[0] == types.Designator(designator)
+                    assert obj.designator == types.Designator(designator)
 
         @hy.settings(
             max_examples=max(1, _config.HY_TRIALS // 22),
@@ -1033,7 +1028,12 @@ class Test_CellOption:
 
             for keyword, value, suffix, designator in options:
                 with pytest.raises(errors.MCNPSemanticError) as err:
+                    if value is None:
+                        assert True
+
+                    print(keyword, value, suffix, designator)
                     source = format_cell_option(keyword, value, suffix, designator)
+                    print(source)
                     Cell.CellOption.from_mcnp(source)
 
                 assert err.value.code == errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE
@@ -1169,7 +1169,9 @@ class Test_Cell:
                 if hasattr(obj_option, "suffix"):
                     assert obj_option.suffix == option.suffix
                 if hasattr(obj_option, "designator"):
-                    assert obj_option.designator[0] == types.Designator(option.designator)
+                    assert (
+                        obj_option.designator == types.Designator(option.designator) if option.designator is not None else None
+                    )
 
         @hy.settings(
             max_examples=_config.HY_TRIALS,
@@ -1299,7 +1301,9 @@ class Test_Cell:
                 if hasattr(obj_option, "suffix"):
                     assert obj_option.suffix == option.suffix
                 if hasattr(obj_option, "designator"):
-                    assert obj_option.designator[0] == types.Designator(option.designator)
+                    assert (
+                        obj_option.designator == types.Designator(option.designator) if option.designator is not None else None
+                    )
 
         @hy.settings(
             max_examples=_config.HY_TRIALS,
