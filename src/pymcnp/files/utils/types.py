@@ -33,7 +33,7 @@ class DistributionNumber:
         """
 
         if n is None or not (1 <= n <= 999):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DN)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DN, info=str(n))
 
         self.n: final[int] = n
 
@@ -57,7 +57,7 @@ class DistributionNumber:
 
         match = re.match(r"\A[dD](\d|\d\d|\d\d\d)\Z", source)
         if match is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DN)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DN, info=source)
 
         return DistributionNumber(int(match[1]))
 
@@ -83,13 +83,13 @@ class Zaid:
         """
 
         if z is None or not (000 <= z <= 999):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_Z)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_Z, info=str(z))
 
         if a is None or not (000 <= a <= 999):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_A)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_A, info=str(a))
 
         # if abx is None:
-        #    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_ABX)
+        #    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_ABX, info = str(abx))
 
         self.z: final[int] = z
         self.a: final[int] = a
@@ -116,17 +116,17 @@ class Zaid:
 
         zzzaaa = tokens.popl()
         if len(zzzaaa) < 4:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_Z)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_Z, info=source)
 
         try:
             a = int(zzzaaa[-3:])
         except:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_A)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_A, info=source)
 
         try:
             z = int(zzzaaa[:-3])
         except:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_Z)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_Z, info=source)
 
         abx = None
         if tokens:
@@ -214,11 +214,11 @@ class Designator:
         """
 
         if particles is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=str(particles))
 
         for particle in particles:
             if particle is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=str(particles))
 
         self.particles: final[tuple[Particle]] = particles
 
@@ -241,7 +241,7 @@ class Designator:
         try:
             particles = tuple([Designator.Particle(token) for token in source.split(",")])
         except ValueError:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=source)
 
         return Designator(particles)
 
@@ -282,14 +282,14 @@ class McnpInteger:
         """
 
         if integer is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(integer))
 
         if isinstance(integer, int):
             value = integer
         elif integer == "j":
             value = "j"
         else:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(integer))
 
         self.value: final[int | Literal["j"]] = value
 
@@ -374,14 +374,14 @@ class McnpReal:
         """
 
         if real is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_REAL)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(real))
 
         if isinstance(real, float) or isinstance(real, int):
             value = float(real)
         elif real == "j":
             value = "j"
         else:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_REAL)
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(real))
 
         self.value: final[float | Literal["j"]] = value
 
