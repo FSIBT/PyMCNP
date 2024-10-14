@@ -49,7 +49,7 @@ class Cells(Block):
         for line in lines:
             if line == "":
                 break
-            elif line.startswith("c ") or line == "c":
+            elif line == "c" or line[0] == "c" and not line[1].isalpha():
                 continue
             else:
                 block.append(Cell.from_mcnp(line))

@@ -49,6 +49,9 @@ class MCNPSyntaxCodes(Enum):
     TOOLONG_DATUM_WEIGHT = 36
     TOOFEW_DATUM_ACTIVATION = -37
     TOOLONG_DATUM_ACTIVATION = 37
+    TOOFEW_DATUM_SOURCE = -38
+    TOOLONG_DATUM_SOURCE = 38
+
     KEYWORD_DATUM_TOTNU_NO = 41
     KEYWORD_COMMENT_C = 50
 
@@ -60,6 +63,9 @@ class MCNPSyntaxCodes(Enum):
     TOFEW_HISTORY = -103
     TOLONG_HISTORY = 103
 
+    TOOFEW_ZAID = -200
+    TOOLONG_ZAID = 200
+
 
 class MCNPSemanticCodes(Enum):
     """
@@ -70,7 +76,13 @@ class MCNPSemanticCodes(Enum):
     and syntax element.
     """
 
-    INVALID_MCNP_DESIGNATOR = 0
+    INVALID_MCNP_INTEGER = 200
+    INVALID_MCNP_REAL = 201
+    INVALID_MCNP_DESIGNATOR = 210
+    INVALID_MCNP_ZAID = 220
+    INVALID_ZAID_Z = 221
+    INVALID_ZAID_A = 222
+    INVALID_ZAID_ABX = 223
 
     INVALID_INP_MESSAGE = 1
     INVALID_INP_TITLE = 2
@@ -105,6 +117,8 @@ class MCNPSemanticCodes(Enum):
     INVALID_DATUM_MATERIAL_VALUE = 41
     INVALID_DATUM_ACTIVATION_KEYWORD = 42
     INVALID_DATUM_ACTIVATION_VALUE = 43
+    INVALID_DATUM_SOURCE_KEYWORD = 44
+    INVALID_DATUM_SOURCE_VALUE = 45
 
     INVALID_COMMENT_CONTENT = 90
 
@@ -177,75 +191,75 @@ class MCNPSyntaxError(Exception):
 
         match self.code:
             case MCNPSyntaxCodes.KEYWORD_INP_MESSAGE:
-                return f"Missing `message:` keyword in INP message block, line {line}."
+                return f"Missing `message:` keyword in INP message block, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_INP:
-                return f"Incomplete INP file, line {line}."
+                return f"Incomplete INP file, line {self.line}."
             case MCNPSyntaxCodes.TOOLONG_INP:
-                return f"Unexpected tokens in INP file, line {line}."
+                return f"Unexpected tokens in INP file, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_CELL:
-                return f"Incomplete INP cell card, line {line}."
+                return f"Incomplete INP cell card, line {self.line}."
             case MCNPSyntaxCodes.TOOLONG_CELL:
-                return f"Unexpected tokens in INP cell card, line {line}."
+                return f"Unexpected tokens in INP cell card, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY:
-                return f"Incomplete INP cell card geometry, line {line}."
+                return f"Incomplete INP cell card geometry, line {self.line}."
             case MCNPSyntaxCodes.TOOLONG_CELL_GEOMETRY:
-                return f"Unexpected tokens in INP cell card geometry, line {line}."
+                return f"Unexpected tokens in INP cell card geometry, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_CELL_OPTION:
-                return f"Incomplete INP cell card option, line {line}."
+                return f"Incomplete INP cell card option, line {self.line}."
             case MCNPSyntaxCodes.TOOLONG_CELL_OPTION:
-                return f"Unexpected tokens in INP cell card option, line {line}."
+                return f"Unexpected tokens in INP cell card option, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_SURFACE:
-                return f"Incomplete INP surface car, line {line}."
+                return f"Incomplete INP surface car, line {self.line}."
             case MCNPSyntaxCodes.TOOLONG_SURFACE:
-                return f"Unexpected tokens in INP surface car, line {line}."
+                return f"Unexpected tokens in INP surface car, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES:
-                return f"Incomplete INP surface card entries, line {line}."
+                return f"Incomplete INP surface card entries, line {self.line}."
             case MCNPSyntaxCodes.TOOMANY_SURFACE_ENTRIES:
-                return f"Unexpected tokens in INP surface card entries, line {line}."
+                return f"Unexpected tokens in INP surface card entries, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_DATUM:
-                return f"Incomplete INP data card, line {line}."
+                return f"Incomplete INP data card, line {self.line}."
             case MCNPSyntaxCodes.TOOLONG_DATUM:
-                return f"Unexpected tokens in INP data card, line {line}."
+                return f"Unexpected tokens in INP data card, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_DATUM_URAN:
-                return f"Incomplete INP URAN card, line {line}."
+                return f"Incomplete INP URAN card, line {self.line}."
             case MCNPSyntaxCodes.TOOLONG_DATUM_URAN:
-                return f"Unexpected tokens in INP URAN card, line {line}."
+                return f"Unexpected tokens in INP URAN card, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_DATUM_DAWWG:
-                return f"Incomplete INP DAWWG card, line {line}."
+                return f"Incomplete INP DAWWG card, line {self.line}."
             case MCNPSyntaxCodes.TOOLONG_DATUM_DAWWG:
-                return f"Unexpected tokens in INP DAWWG card, line {line}."
+                return f"Unexpected tokens in INP DAWWG card, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_DATUM_EMBED:
-                return f"Incomplete INP EMBED card, line {line}."
+                return f"Incomplete INP EMBED card, line {self.line}."
             case MCNPSyntaxCodes.TOOLONG_DATUM_EMBED:
-                return f"Unexpected tokens in INP EMBED card, line {line}."
+                return f"Unexpected tokens in INP EMBED card, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_DATUM_EMBEE:
-                return f"Incomplete INP EMBEE card, line {line}."
+                return f"Incomplete INP EMBEE card, line {self.line}."
             case MCNPSyntaxCodes.TOOLONG_DATUM_EMBEE:
-                return f"Unexpected tokens in INP EMBEE card, line {line}."
+                return f"Unexpected tokens in INP EMBEE card, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_DATUM_MATERIAL:
-                return f"Incomplete INP material data card, line {line}."
+                return f"Incomplete INP material data card, line {self.line}."
             case MCNPSyntaxCodes.TOOLONG_DATUM_MATERIAL:
-                return f"Unexpected tokens in INP material data card, line {line}."
+                return f"Unexpected tokens in INP material data card, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_DATUM_WEIGHT:
-                return f"Incomplete INP atomic weight data card, line {line}."
+                return f"Incomplete INP atomic weight data card, line {self.line}."
             case MCNPSyntaxCodes.TOOLONG_DATUM_WEIGHT:
-                return f"Unexpected tokens in INP atomic weight data card, line {line}."
+                return f"Unexpected tokens in INP atomic weight data card, line {self.line}."
             case MCNPSyntaxCodes.KEYWORD_COMMENT_C:
-                return f"Missing `c ` keyword in INP comment, line {line}."
+                return f"Missing `c ` keyword in INP comment, line {self.line}."
             case MCNPSyntaxCodes.KEYWORD_HEADER_MINUS1:
-                return f"Missing `=1` keyword in PTRAC header, line {line}."
+                return f"Missing `=1` keyword in PTRAC header, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_HEADER:
-                return f"Incomplete PTRAC header, line {line}."
+                return f"Incomplete PTRAC header, line {self.line}."
             case MCNPSyntaxCodes.TOOMANY_HEADER:
-                return f"Unexpected tokens in PTRAC header, line {line}."
+                return f"Unexpected tokens in PTRAC header, line {self.line}."
             case MCNPSyntaxCodes.TOOFEW_EVENT:
-                return f"Incomplete PTRAC event, line {line}."
+                return f"Incomplete PTRAC event, line {self.line}."
             case MCNPSyntaxCodes.TOOLONG_EVENT:
-                return f"Unexpected tokens in PTRAC event, line {line}."
+                return f"Unexpected tokens in PTRAC event, line {self.line}."
             case MCNPSyntaxCodes.TOFEW_HISTORY:
-                return f"Incomplete PTRAC history, line {line}."
+                return f"Incomplete PTRAC history, line {self.line}."
             case MCNPSyntaxCodes.TOLONG_HISTORY:
-                return f"Unexpected tokens in PTRAC history, line {line}."
+                return f"Unexpected tokens in PTRAC history, line {self.line}."
 
 
 class MCNPSemanticError(Exception):
@@ -276,142 +290,142 @@ class MCNPSemanticError(Exception):
     def __str__(self) -> str:
         match self.code:
             case MCNPSemanticCodes.INVALID_INP_MESSAGE:
-                return f"Invalid INP message, line {line}."
+                return f"Invalid INP message, line {self.line}."
             case MCNPSemanticCodes.INVALID_INP_TITLE:
-                return f"Invalid INP title, line {line}."
+                return f"Invalid INP title, line {self.line}."
             case MCNPSemanticCodes.INVALID_INP_CELLS:
-                return f"Invalid INP cell card block, line {line}."
+                return f"Invalid INP cell card block, line {self.line}."
             case MCNPSemanticCodes.INVALID_INP_SURFACES:
-                return f"Invalid INP surface card block, line {line}."
+                return f"Invalid INP surface card block, line {self.line}."
             case MCNPSemanticCodes.INVALID_INP_DATA:
-                return f"Invalid INP data card block, line {line}."
+                return f"Invalid INP data card block, line {self.line}."
             case MCNPSemanticCodes.INVALID_INP_OTHER:
-                return f"Invalid INP other block, line {line}."
+                return f"Invalid INP other block, line {self.line}."
             case MCNPSemanticCodes.INVALID_CELL_NUMBER:
-                return f"Invalid INP cell number, line {line}."
+                return f"Invalid INP cell number, line {self.line}."
             case MCNPSemanticCodes.INVALID_CELL_MATERIAL:
-                return f"Invalid INP cell material, line {line}."
+                return f"Invalid INP cell material, line {self.line}."
             case MCNPSemanticCodes.INVALID_CELL_DENSITY:
-                return f"Invalid INP cell density, line {line}."
+                return f"Invalid INP cell density, line {self.line}."
             case MCNPSemanticCodes.INVALID_CELL_GEOMETRY:
-                return f"Invalid INP cell geometry, line {line}."
+                return f"Invalid INP cell geometry, line {self.line}."
             case MCNPSemanticCodes.INVALID_CELL_OPTION:
-                return f"Invalid INP cell option, line {line}."
+                return f"Invalid INP cell option, line {self.line}."
             case MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR:
-                return f"Invalid INP cell option designator, line {line}."
+                return f"Invalid INP cell option designator, line {self.line}."
             case MCNPSemanticCodes.INVALID_CELL_OPTION_SUFFIX:
-                return f"Invalid INP cell option suffix, line {line}."
+                return f"Invalid INP cell option suffix, line {self.line}."
             case MCNPSemanticCodes.INVALID_CELL_OPTION_KEYWORD:
-                return f"Invalid INP cell option keyword, line {line}."
+                return f"Invalid INP cell option keyword, line {self.line}."
             case MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE:
-                return f"Invalid INP cell option value, line {line}."
+                return f"Invalid INP cell option value, line {self.line}."
             case MCNPSemanticCodes.INVALID_SURFACE_NUMBER:
-                return f"Invalid INP surface name, line {line}."
+                return f"Invalid INP surface name, line {self.line}."
             case MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC:
-                return f"Invalid INP surface mnemonic, line {line}."
+                return f"Invalid INP surface mnemonic, line {self.line}."
             case MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC:
-                return f"Invalid INP surface transform/periodic number, line {line}."
+                return f"Invalid INP surface transform/periodic number, line {self.line}."
             case MCNPSemanticCodes.INVALID_SURFACE_PARAMETER:
-                return f"Invalid INP surface parameter, line {line}."
+                return f"Invalid INP surface parameter, line {self.line}."
             case MCNPSemanticCodes.INVALID_DATUM_MNEMONIC:
-                return f"Invalid INP data card mnemonic, line {line}."
+                return f"Invalid INP data card mnemonic, line {self.line}."
             case MCNPSemanticCodes.INVALID_DATUM_DESIGNATOR:
-                return f"Invalid INP data card designator, line {line}."
+                return f"Invalid INP data card designator, line {self.line}."
             case MCNPSemanticCodes.INVALID_DATUM_SUFFIX:
-                return f"Invalid INP data card suffix, line {line}."
+                return f"Invalid INP data card suffix, line {self.line}."
             case MCNPSemanticCodes.INVALID_DATUM_PARAMETERS:
-                return f"Invalid INP data card parameter, line {line}."
+                return f"Invalid INP data card parameter, line {self.line}."
             case MCNPSemanticCodes.INVALID_DATUM_DAWWG_KEYWORD:
-                return f"Invalid INP data card DAWWG keyword, line {line}."
+                return f"Invalid INP data card DAWWG keyword, line {self.line}."
             case MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE:
-                return f"Invalid INP data card DAWWG value, line {line}."
+                return f"Invalid INP data card DAWWG value, line {self.line}."
             case MCNPSemanticCodes.INVALID_DATUM_EMBED_KEYWORD:
-                return f"Invalid INP data card EMBED keyword, line {line}."
+                return f"Invalid INP data card EMBED keyword, line {self.line}."
             case MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE:
-                return f"Invalid INP data card EMBED value, line {line}."
+                return f"Invalid INP data card EMBED value, line {self.line}."
             case MCNPSemanticCodes.INVALID_DATUM_EMBEE_KEYWORD:
-                return f"Invalid INP data card EMBEE keyword, line {line}."
+                return f"Invalid INP data card EMBEE keyword, line {self.line}."
             case MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE:
-                return f"Invalid INP data card EMBEE value, line {line}."
+                return f"Invalid INP data card EMBEE value, line {self.line}."
             case MCNPSemanticCodes.INVALID_DATUM_MATERIAL_KEYWORD:
-                return f"Invalid INP data card material keyword, line {line}."
+                return f"Invalid INP data card material keyword, line {self.line}."
             case MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE:
-                return f"Invalid INP data card meterial value, line {line}."
+                return f"Invalid INP data card meterial value, line {self.line}."
             case MCNPSemanticCodes.INVALID_COMMENT_CONTENT:
-                return f"Invalid INP comment content, line {line}."
+                return f"Invalid INP comment content, line {self.line}."
             case MCNPSemanticCodes.INVALID_HEADER_CODE:
-                return f"Invalid PTRAC header code, line {line}."
+                return f"Invalid PTRAC header code, line {self.line}."
             case MCNPSemanticCodes.INVALID_HEADER_CODEDATE:
-                return f"Invalid PTRAC header code date, line {line}."
+                return f"Invalid PTRAC header code date, line {self.line}."
             case MCNPSemanticCodes.INVALID_HEADER_VERSION:
-                return f"Invalid PTRAC header version, line {line}."
+                return f"Invalid PTRAC header version, line {self.line}."
             case MCNPSemanticCodes.INVALID_HEADER_RUNDATE:
-                return f"Invalid PTRAC header run date, line {line}."
+                return f"Invalid PTRAC header run date, line {self.line}."
             case MCNPSemanticCodes.INVALID_HEADER_RUNTIME:
-                return f"Invalid PTRAC header run time, line {line}."
+                return f"Invalid PTRAC header run time, line {self.line}."
             case MCNPSemanticCodes.INVALID_HEADER_TITLE:
-                return f"Invalid PTRAC header title, line {line}."
+                return f"Invalid PTRAC header title, line {self.line}."
             case MCNPSemanticCodes.INVALID_HEADER_SETTINGS:
-                return f"Invalid PTRAC header settings, line {line}."
+                return f"Invalid PTRAC header settings, line {self.line}."
             case MCNPSemanticCodes.INVALID_HEADER_NUMBERS:
-                return f"Invalid PTRAC header numbers, line {line}."
+                return f"Invalid PTRAC header numbers, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_TYPE:
-                return f"Invalid PTRAC event type variable, line {line}."
+                return f"Invalid PTRAC event type variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_NTER:
-                return f"Invalid PTRAC event nter variable, line {line}."
+                return f"Invalid PTRAC event nter variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_NODE:
-                return f"Invalid PTRAC event node variable, line {line}."
+                return f"Invalid PTRAC event node variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_NSR:
-                return f"Invalid PTRAC event nsr variable, line {line}."
+                return f"Invalid PTRAC event nsr variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_NXS:
-                return f"Invalid PTRAC event nxs variable, line {line}."
+                return f"Invalid PTRAC event nxs variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_NTYNMTP:
-                return f"Invalid PTRAC event ntynmtp variable, line {line}."
+                return f"Invalid PTRAC event ntynmtp variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_NSF:
-                return f"Invalid PTRAC event nsf variable, line {line}."
+                return f"Invalid PTRAC event nsf variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_ANGLE:
-                return f"Invalid PTRAC event angle variable, line {line}."
+                return f"Invalid PTRAC event angle variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_NTER:
-                return f"Invalid PTRAC event nter variable, line {line}."
+                return f"Invalid PTRAC event nter variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_BRANCH:
-                return f"Invalid PTRAC event branch variable, line {line}."
+                return f"Invalid PTRAC event branch variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_IPT:
-                return f"Invalid PTRAC event ipt variable, line {line}."
+                return f"Invalid PTRAC event ipt variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_NCL:
-                return f"Invalid PTRAC event ncl variable, line {line}."
+                return f"Invalid PTRAC event ncl variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_MAT:
-                return f"Invalid PTRAC event mat variable, line {line}."
+                return f"Invalid PTRAC event mat variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_NCP:
-                return f"Invalid PTRAC event ncp variable, line {line}."
+                return f"Invalid PTRAC event ncp variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_XXX:
-                return f"Invalid PTRAC event xxx variable, line {line}."
+                return f"Invalid PTRAC event xxx variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_YYY:
-                return f"Invalid PTRAC event yyy variable, line {line}."
+                return f"Invalid PTRAC event yyy variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_ZZZ:
-                return f"Invalid PTRAC event zzz variable, line {line}."
+                return f"Invalid PTRAC event zzz variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_UUU:
-                return f"Invalid PTRAC event uuu variable, line {line}."
+                return f"Invalid PTRAC event uuu variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_VVV:
-                return f"Invalid PTRAC event vvv variable, line {line}."
+                return f"Invalid PTRAC event vvv variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_WWW:
-                return f"Invalid PTRAC event www variable, line {line}."
+                return f"Invalid PTRAC event www variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_ERG:
-                return f"Invalid PTRAC event erg variable, line {line}."
+                return f"Invalid PTRAC event erg variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_WGT:
-                return f"Invalid PTRAC event wgt variable, line {line}."
+                return f"Invalid PTRAC event wgt variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_TME:
-                return f"Invalid PTRAC event tme variable, line {line}."
+                return f"Invalid PTRAC event tme variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_EVENT_NSR:
-                return f"Invalid PTRAC event nsr variable, line {line}."
+                return f"Invalid PTRAC event nsr variable, line {self.line}."
             case MCNPSemanticCodes.INVALID_HISTORY_NPS:
-                return f"Invalid PTRAC history nps, line {line}."
+                return f"Invalid PTRAC history nps, line {self.line}."
             case MCNPSemanticCodes.INVALID_HISTORY_NCL:
-                return f"Invalid PTRAC history ncl, line {line}."
+                return f"Invalid PTRAC history ncl, line {self.line}."
             case MCNPSemanticCodes.INVALID_HISTORY_NSF:
-                return f"Invalid PTRAC history nsf, line {line}."
+                return f"Invalid PTRAC history nsf, line {self.line}."
             case MCNPSemanticCodes.INVALID_HISTORY_JPTAL:
-                return f"Invalid PTRAC history jptal, line {line}."
+                return f"Invalid PTRAC history jptal, line {self.line}."
             case MCNPSemanticCodes.INVALID_HISTORY_TAL:
-                return f"Invalid PTRAC history tal, line {line}."
+                return f"Invalid PTRAC history tal, line {self.line}."
             case MCNPSemanticCodes.INVALID_HISTORY_NEXTTYPE:
-                return f"Invalid PTRAC history event type, line {line}."
+                return f"Invalid PTRAC history event type, line {self.line}."

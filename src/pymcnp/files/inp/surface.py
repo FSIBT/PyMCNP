@@ -129,10 +129,10 @@ class Surface(card.Card):
 
     def __init__(
         self,
-        number: int,
+        number: types.McnpInteger,
         mnemonic: SurfaceMnemonic,
-        transform_periodic: int,
-        parameters: tuple[float],
+        transform_periodic: types.McnpInteger,
+        parameters: tuple[types.McnpReal],
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -144,7 +144,7 @@ class Surface(card.Card):
         argument, it raises semantic errors.
         """
 
-        super().__init__(number)
+        super().__init__(number.value)
 
         if mnemonic is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC)
@@ -374,13 +374,15 @@ class Surface(card.Card):
             is_reflecting = False
 
         # Processing Number, Transform/Periodic, Mnemonic, Parameters
-        number = types.cast_fortran_integer(tokens.popl())
-        if types.cast_fortran_integer(tokens.peekl()) is not None:
-            transform_periodic = types.cast_fortran_integer(tokens.popl())
-        else:
+        number = types.McnpInteger.from_mcnp(tokens.popl())
+
+        try:
+            transform_periodic = types.McnpInteger.from_mcnp(tokens.peekl())
+        except:
             transform_periodic = None
+
         mnemonic = Surface.SurfaceMnemonic.from_mcnp(tokens.popl())
-        parameters = tuple([types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens))])
+        parameters = tuple([types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens))])
 
         surface = Surface(
             number, mnemonic, transform_periodic, parameters, is_whiteboundary=is_whiteboundary, is_reflecting=is_reflecting
@@ -422,12 +424,14 @@ class Surface(card.Card):
         """
 
         return {
-            "j": self.number,
+            "j": self.number.to_mcnp(),
             "+": self.is_reflecting,
             "*": self.is_whiteboundary,
-            "n": self.transform,
-            "A": self.mnemonic,
-            "list": self.parameters,
+            "n": self.transform.to_mcnp() if self.transform is not None else None,
+            "A": self.mnemonic.to_mcnp(),
+            "list": tuple(
+                [parameter.to_mcnp() if hasattr(parameter, "to_mcnp") else parameter for parameter in self.parameters]
+            ),
         }
 
 
@@ -452,17 +456,17 @@ class PlaneGeneralPoint(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        x1: float,
-        y1: float,
-        z1: float,
-        x2: float,
-        y2: float,
-        z2: float,
-        x3: float,
-        y3: float,
-        z3: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        x1: types.McnpReal,
+        y1: types.McnpReal,
+        z1: types.McnpReal,
+        x2: types.McnpReal,
+        y2: types.McnpReal,
+        z2: types.McnpReal,
+        x3: types.McnpReal,
+        y3: types.McnpReal,
+        z3: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -504,11 +508,15 @@ class PlaneGeneralPoint(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANEGENERAL
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -539,17 +547,17 @@ class PlaneGeneralPoint(Surface):
         if z3 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x1: final[float] = x1
-        self.y1: final[float] = y1
-        self.z1: final[float] = z1
-        self.x2: final[float] = x2
-        self.y2: final[float] = y2
-        self.z2: final[float] = z2
-        self.x3: final[float] = x3
-        self.y3: final[float] = y3
-        self.z3: final[float] = z3
+        self.x1: final[types.McnpReal] = x1
+        self.y1: final[types.McnpReal] = y1
+        self.z1: final[types.McnpReal] = z1
+        self.x2: final[types.McnpReal] = x2
+        self.y2: final[types.McnpReal] = y2
+        self.z2: final[types.McnpReal] = z2
+        self.x3: final[types.McnpReal] = x3
+        self.y3: final[types.McnpReal] = y3
+        self.z3: final[types.McnpReal] = z3
 
-        self.parameters: final[tuple[float]] = (x1, y1, z1, x2, y2, z2, x3, y3, z3)
+        self.parameters: final[tuple[types.McnpReal]] = (x1, y1, z1, x2, y2, z2, x3, y3, z3)
 
 
 class PlaneGeneralEquation(Surface):
@@ -568,12 +576,12 @@ class PlaneGeneralEquation(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        a: float,
-        b: float,
-        c: float,
-        d: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        a: types.McnpReal,
+        b: types.McnpReal,
+        c: types.McnpReal,
+        d: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -610,11 +618,15 @@ class PlaneGeneralEquation(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANEGENERAL
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -630,12 +642,12 @@ class PlaneGeneralEquation(Surface):
         if d is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a: final[float] = a
-        self.b: final[float] = b
-        self.c: final[float] = c
-        self.d: final[float] = d
+        self.a: final[types.McnpReal] = a
+        self.b: final[types.McnpReal] = b
+        self.c: final[types.McnpReal] = c
+        self.d: final[types.McnpReal] = d
 
-        self.parameters: final[tuple[float]] = (a, b, c, d)
+        self.parameters: final[tuple[types.McnpReal]] = (a, b, c, d)
 
 
 class PlaneNormalX(Surface):
@@ -650,7 +662,12 @@ class PlaneNormalX(Surface):
     """
 
     def __init__(
-        self, number: int, transform_periodic: int, d: float, is_whiteboundary: bool = False, is_reflecting: bool = False
+        self,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        d: types.McnpReal,
+        is_whiteboundary: bool = False,
+        is_reflecting: bool = False,
     ):
         """
         ``__init__`` initializes ``PlaneNormalX``.
@@ -682,20 +699,24 @@ class PlaneNormalX(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALX
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
         if d is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.d: final[float] = d
+        self.d: final[types.McnpReal] = d
 
-        self.parameters: final[tuple[float]] = (d,)
+        self.parameters: final[tuple[types.McnpReal]] = (d,)
 
 
 class PlaneNormalY(Surface):
@@ -710,7 +731,12 @@ class PlaneNormalY(Surface):
     """
 
     def __init__(
-        self, number: int, transform_periodic: int, d: float, is_whiteboundary: bool = False, is_reflecting: bool = False
+        self,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        d: types.McnpReal,
+        is_whiteboundary: bool = False,
+        is_reflecting: bool = False,
     ):
         """
         ``__init__`` initializes ``PlaneNormalY``.
@@ -742,20 +768,24 @@ class PlaneNormalY(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALY
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
         if d is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.d: final[float] = d
+        self.d: final[types.McnpReal] = d
 
-        self.parameters: final[tuple[float]] = (d,)
+        self.parameters: final[tuple[types.McnpReal]] = (d,)
 
 
 class PlaneNormalZ(Surface):
@@ -770,7 +800,12 @@ class PlaneNormalZ(Surface):
     """
 
     def __init__(
-        self, number: int, transform_periodic: int, d: float, is_whiteboundary: bool = False, is_reflecting: bool = False
+        self,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        d: types.McnpReal,
+        is_whiteboundary: bool = False,
+        is_reflecting: bool = False,
     ):
         """
         ``__init__`` initializes ``PlaneNormalZ``.
@@ -802,20 +837,24 @@ class PlaneNormalZ(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALZ
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
         if d is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.d: final[float] = d
+        self.d: final[types.McnpReal] = d
 
-        self.parameters: final[tuple[float]] = (d,)
+        self.parameters: final[tuple[types.McnpReal]] = (d,)
 
 
 class SphereOrigin(Surface):
@@ -830,7 +869,12 @@ class SphereOrigin(Surface):
     """
 
     def __init__(
-        self, number: int, transform_periodic: int, r: float, is_whiteboundary: bool = False, is_reflecting: bool = False
+        self,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        r: types.McnpReal,
+        is_whiteboundary: bool = False,
+        is_reflecting: bool = False,
     ):
         """
         ``__init__`` initializes ``SphereOrigin``.
@@ -862,20 +906,24 @@ class SphereOrigin(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHEREORIGIN
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
         if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r: final[float] = r
+        self.r: final[types.McnpReal] = r
 
-        self.parameters: final[tuple[float]] = (r,)
+        self.parameters: final[tuple[types.McnpReal]] = (r,)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -914,12 +962,12 @@ class SphereGeneral(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        x: float,
-        y: float,
-        z: float,
-        r: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        x: types.McnpReal,
+        y: types.McnpReal,
+        z: types.McnpReal,
+        r: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -956,11 +1004,15 @@ class SphereGeneral(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHEREGENERAL
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -976,12 +1028,12 @@ class SphereGeneral(Surface):
         if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x: final[float] = x
-        self.y: final[float] = y
-        self.z: final[float] = z
-        self.r: final[float] = r
+        self.x: final[types.McnpReal] = x
+        self.y: final[types.McnpReal] = y
+        self.z: final[types.McnpReal] = z
+        self.r: final[types.McnpReal] = r
 
-        self.parameters: final[tuple[float]] = (x, y, z, r)
+        self.parameters: final[tuple[types.McnpReal]] = (x, y, z, r)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -1019,10 +1071,10 @@ class SphereNormalX(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        x: float,
-        r: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        x: types.McnpReal,
+        r: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -1057,11 +1109,15 @@ class SphereNormalX(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALX
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -1071,10 +1127,10 @@ class SphereNormalX(Surface):
         if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x: final[float] = x
-        self.r: final[float] = r
+        self.x: final[types.McnpReal] = x
+        self.r: final[types.McnpReal] = r
 
-        self.parameters: final[tuple[float]] = (x, r)
+        self.parameters: final[tuple[types.McnpReal]] = (x, r)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -1112,10 +1168,10 @@ class SphereNormalY(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        y: float,
-        r: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        y: types.McnpReal,
+        r: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -1150,11 +1206,15 @@ class SphereNormalY(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALY
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -1164,10 +1224,10 @@ class SphereNormalY(Surface):
         if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y: final[float] = y
-        self.r: final[float] = r
+        self.y: final[types.McnpReal] = y
+        self.r: final[types.McnpReal] = r
 
-        self.parameters: final[tuple[float]] = (y, r)
+        self.parameters: final[tuple[types.McnpReal]] = (y, r)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -1205,10 +1265,10 @@ class SphereNormalZ(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        z: float,
-        r: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        z: types.McnpReal,
+        r: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -1243,11 +1303,15 @@ class SphereNormalZ(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALZ
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -1257,10 +1321,10 @@ class SphereNormalZ(Surface):
         if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z: final[float] = z
-        self.r: final[float] = r
+        self.z: final[types.McnpReal] = z
+        self.r: final[types.McnpReal] = r
 
-        self.parameters: final[tuple[float]] = (z, r)
+        self.parameters: final[tuple[types.McnpReal]] = (z, r)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -1300,11 +1364,11 @@ class CylinderParallelX(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        y: float,
-        z: float,
-        r: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        y: types.McnpReal,
+        z: types.McnpReal,
+        r: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -1340,11 +1404,15 @@ class CylinderParallelX(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELX
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -1357,11 +1425,11 @@ class CylinderParallelX(Surface):
         if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y: final[float] = y
-        self.z: final[float] = z
-        self.r: final[float] = r
+        self.y: final[types.McnpReal] = y
+        self.z: final[types.McnpReal] = z
+        self.r: final[types.McnpReal] = r
 
-        self.parameters: final[tuple[float]] = (y, z, r)
+        self.parameters: final[tuple[types.McnpReal]] = (y, z, r)
 
 
 class CylinderParallelY(Surface):
@@ -1386,17 +1454,17 @@ class CylinderParallelY(Surface):
         super().__init__()
         self.mnemonic = Surface.SurfaceMnemonic.CYLINDERPARALLELY
 
-        self.x: float = None
-        self.z: float = None
-        self.r: float = None
+        self.x: types.McnpReal = None
+        self.z: types.McnpReal = None
+        self.r: types.McnpReal = None
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        x: float,
-        z: float,
-        r: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        x: types.McnpReal,
+        z: types.McnpReal,
+        r: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -1432,11 +1500,15 @@ class CylinderParallelY(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELY
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -1449,11 +1521,11 @@ class CylinderParallelY(Surface):
         if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x: final[float] = x
-        self.z: final[float] = z
-        self.r: final[float] = r
+        self.x: final[types.McnpReal] = x
+        self.z: final[types.McnpReal] = z
+        self.r: final[types.McnpReal] = r
 
-        self.parameters: final[tuple[float]] = (x, z, r)
+        self.parameters: final[tuple[types.McnpReal]] = (x, z, r)
 
 
 class CylinderParallelZ(Surface):
@@ -1472,11 +1544,11 @@ class CylinderParallelZ(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        x: float,
-        y: float,
-        r: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        x: types.McnpReal,
+        y: types.McnpReal,
+        r: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -1512,11 +1584,15 @@ class CylinderParallelZ(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELZ
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -1529,11 +1605,11 @@ class CylinderParallelZ(Surface):
         if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x: final[float] = x
-        self.y: final[float] = y
-        self.r: final[float] = r
+        self.x: final[types.McnpReal] = x
+        self.y: final[types.McnpReal] = y
+        self.r: final[types.McnpReal] = r
 
-        self.parameters: final[tuple[float]] = (x, y, r)
+        self.parameters: final[tuple[types.McnpReal]] = (x, y, r)
 
 
 class CylinderOnX(Surface):
@@ -1548,7 +1624,12 @@ class CylinderOnX(Surface):
     """
 
     def __init__(
-        self, number: int, transform_periodic: int, r: float, is_whiteboundary: bool = False, is_reflecting: bool = False
+        self,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        r: types.McnpReal,
+        is_whiteboundary: bool = False,
+        is_reflecting: bool = False,
     ):
         """
         ``__init__`` initializes ``CylinderOnX``.
@@ -1580,20 +1661,24 @@ class CylinderOnX(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONX
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
         if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r: final[float] = r
+        self.r: final[types.McnpReal] = r
 
-        self.parameters: final[tuple[float]] = (r,)
+        self.parameters: final[tuple[types.McnpReal]] = (r,)
 
 
 class CylinderOnY(Surface):
@@ -1608,7 +1693,12 @@ class CylinderOnY(Surface):
     """
 
     def __init__(
-        self, number: int, transform_periodic: int, r: float, is_whiteboundary: bool = False, is_reflecting: bool = False
+        self,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        r: types.McnpReal,
+        is_whiteboundary: bool = False,
+        is_reflecting: bool = False,
     ):
         """
         ``__init__`` initializes ``CylinderOnY``.
@@ -1640,20 +1730,24 @@ class CylinderOnY(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONY
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
         if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r: final[float] = r
+        self.r: final[types.McnpReal] = r
 
-        self.parameters: final[tuple[float]] = (r,)
+        self.parameters: final[tuple[types.McnpReal]] = (r,)
 
 
 class CylinderOnZ(Surface):
@@ -1668,7 +1762,12 @@ class CylinderOnZ(Surface):
     """
 
     def __init__(
-        self, number: int, transform_periodic: int, r: float, is_whiteboundary: bool = False, is_reflecting: bool = False
+        self,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        r: types.McnpReal,
+        is_whiteboundary: bool = False,
+        is_reflecting: bool = False,
     ):
         """
         ``__init__`` initializes ``CylinderOnZ``.
@@ -1700,20 +1799,24 @@ class CylinderOnZ(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONZ
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
         if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.r: final[float] = r
+        self.r: final[types.McnpReal] = r
 
-        self.parameters: final[tuple[float]] = (r,)
+        self.parameters: final[tuple[types.McnpReal]] = (r,)
 
 
 class ConeParallelX(Surface):
@@ -1733,13 +1836,13 @@ class ConeParallelX(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        x: float,
-        y: float,
-        z: float,
-        t_squared: float,
-        plusminus_1: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        x: types.McnpReal,
+        y: types.McnpReal,
+        z: types.McnpReal,
+        t_squared: types.McnpReal,
+        plusminus_1: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -1777,11 +1880,15 @@ class ConeParallelX(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELX
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -1791,11 +1898,11 @@ class ConeParallelX(Surface):
         if y is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x: final[float] = x
-        self.y: final[float] = y
-        self.z: final[float] = z
-        self.t_squared: final[float] = t_squared
-        self.plusminus_1: final[float] = plusminus_1
+        self.x: final[types.McnpReal] = x
+        self.y: final[types.McnpReal] = y
+        self.z: final[types.McnpReal] = z
+        self.t_squared: final[types.McnpReal] = t_squared
+        self.plusminus_1: final[types.McnpReal] = plusminus_1
 
         if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
@@ -1806,7 +1913,7 @@ class ConeParallelX(Surface):
         if plusminus_1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.parameters: final[tuple[float]] = (x, y, z, t_squared, plusminus_1)
+        self.parameters: final[tuple[types.McnpReal]] = (x, y, z, t_squared, plusminus_1)
 
 
 class ConeParallelY(Surface):
@@ -1826,13 +1933,13 @@ class ConeParallelY(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        x: float,
-        y: float,
-        z: float,
-        t_squared: float,
-        plusminus_1: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        x: types.McnpReal,
+        y: types.McnpReal,
+        z: types.McnpReal,
+        t_squared: types.McnpReal,
+        plusminus_1: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -1870,11 +1977,15 @@ class ConeParallelY(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELY
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -1893,13 +2004,13 @@ class ConeParallelY(Surface):
         if plusminus_1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x: final[float] = x
-        self.y: final[float] = y
-        self.z: final[float] = z
-        self.t_squared: final[float] = t_squared
-        self.plusminus_1: final[float] = plusminus_1
+        self.x: final[types.McnpReal] = x
+        self.y: final[types.McnpReal] = y
+        self.z: final[types.McnpReal] = z
+        self.t_squared: final[types.McnpReal] = t_squared
+        self.plusminus_1: final[types.McnpReal] = plusminus_1
 
-        self.parameters: final[tuple[float]] = (x, y, z, t_squared, plusminus_1)
+        self.parameters: final[tuple[types.McnpReal]] = (x, y, z, t_squared, plusminus_1)
 
 
 class ConeParallelZ(Surface):
@@ -1919,13 +2030,13 @@ class ConeParallelZ(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        x: float,
-        y: float,
-        z: float,
-        t_squared: float,
-        plusminus_1: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        x: types.McnpReal,
+        y: types.McnpReal,
+        z: types.McnpReal,
+        t_squared: types.McnpReal,
+        plusminus_1: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -1963,11 +2074,15 @@ class ConeParallelZ(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELZ
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -1986,13 +2101,13 @@ class ConeParallelZ(Surface):
         if plusminus_1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x: final[float] = x
-        self.y: final[float] = y
-        self.z: final[float] = z
-        self.t_squared: final[float] = t_squared
-        self.plusminus_1: final[float] = plusminus_1
+        self.x: final[types.McnpReal] = x
+        self.y: final[types.McnpReal] = y
+        self.z: final[types.McnpReal] = z
+        self.t_squared: final[types.McnpReal] = t_squared
+        self.plusminus_1: final[types.McnpReal] = plusminus_1
 
-        self.parameters: final[tuple[float]] = (x, y, z, t_squared, plusminus_1)
+        self.parameters: final[tuple[types.McnpReal]] = (x, y, z, t_squared, plusminus_1)
 
 
 class ConeOnX(Surface):
@@ -2010,11 +2125,11 @@ class ConeOnX(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        x: float,
-        t_squared: float,
-        plusminus_1: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        x: types.McnpReal,
+        t_squared: types.McnpReal,
+        plusminus_1: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -2050,11 +2165,15 @@ class ConeOnX(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONX
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -2067,11 +2186,11 @@ class ConeOnX(Surface):
         if plusminus_1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x: final[float] = x
-        self.t_squared: final[float] = t_squared
-        self.plusminus_1: final[float] = plusminus_1
+        self.x: final[types.McnpReal] = x
+        self.t_squared: final[types.McnpReal] = t_squared
+        self.plusminus_1: final[types.McnpReal] = plusminus_1
 
-        self.parameters: final[tuple[float]] = (x, t_squared, plusminus_1)
+        self.parameters: final[tuple[types.McnpReal]] = (x, t_squared, plusminus_1)
 
 
 class ConeOnY(Surface):
@@ -2089,11 +2208,11 @@ class ConeOnY(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        y: float,
-        t_squared: float,
-        plusminus_1: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        y: types.McnpReal,
+        t_squared: types.McnpReal,
+        plusminus_1: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -2129,11 +2248,15 @@ class ConeOnY(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONY
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -2146,11 +2269,11 @@ class ConeOnY(Surface):
         if plusminus_1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y: final[float] = y
-        self.t_squared: final[float] = t_squared
-        self.plusminus_1: final[float] = plusminus_1
+        self.y: final[types.McnpReal] = y
+        self.t_squared: final[types.McnpReal] = t_squared
+        self.plusminus_1: final[types.McnpReal] = plusminus_1
 
-        self.parameters: final[tuple[float]] = (y, t_squared, plusminus_1)
+        self.parameters: final[tuple[types.McnpReal]] = (y, t_squared, plusminus_1)
 
 
 class ConeOnZ(Surface):
@@ -2168,11 +2291,11 @@ class ConeOnZ(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        z: float,
-        t_squared: float,
-        plusminus_1: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        z: types.McnpReal,
+        t_squared: types.McnpReal,
+        plusminus_1: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -2208,11 +2331,15 @@ class ConeOnZ(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONZ
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -2225,11 +2352,11 @@ class ConeOnZ(Surface):
         if plusminus_1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z: final[float] = z
-        self.t_squared: final[float] = t_squared
-        self.plusminus_1: final[float] = plusminus_1
+        self.z: final[types.McnpReal] = z
+        self.t_squared: final[types.McnpReal] = t_squared
+        self.plusminus_1: final[types.McnpReal] = plusminus_1
 
-        self.parameters: final[tuple[float]] = (z, t_squared, plusminus_1)
+        self.parameters: final[tuple[types.McnpReal]] = (z, t_squared, plusminus_1)
 
 
 class QuadraticSpecial(Surface):
@@ -2254,18 +2381,18 @@ class QuadraticSpecial(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        a: float,
-        b: float,
-        c: float,
-        d: float,
-        e: float,
-        f: float,
-        g: float,
-        x: float,
-        y: float,
-        z: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        a: types.McnpReal,
+        b: types.McnpReal,
+        c: types.McnpReal,
+        d: types.McnpReal,
+        e: types.McnpReal,
+        f: types.McnpReal,
+        g: types.McnpReal,
+        x: types.McnpReal,
+        y: types.McnpReal,
+        z: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -2308,11 +2435,15 @@ class QuadraticSpecial(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.QUADRATICSPECIAL
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -2346,18 +2477,18 @@ class QuadraticSpecial(Surface):
         if z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a: final[float] = a
-        self.b: final[float] = b
-        self.c: final[float] = c
-        self.d: final[float] = d
-        self.e: final[float] = e
-        self.f: final[float] = f
-        self.g: final[float] = g
-        self.x: final[float] = x
-        self.y: final[float] = y
-        self.z: final[float] = z
+        self.a: final[types.McnpReal] = a
+        self.b: final[types.McnpReal] = b
+        self.c: final[types.McnpReal] = c
+        self.d: final[types.McnpReal] = d
+        self.e: final[types.McnpReal] = e
+        self.f: final[types.McnpReal] = f
+        self.g: final[types.McnpReal] = g
+        self.x: final[types.McnpReal] = x
+        self.y: final[types.McnpReal] = y
+        self.z: final[types.McnpReal] = z
 
-        self.parameters: final[tuple[float]] = (a, b, c, d, e, f, g, x, y, z)
+        self.parameters: final[tuple[types.McnpReal]] = (a, b, c, d, e, f, g, x, y, z)
 
 
 class QuadraticGeneral(Surface):
@@ -2383,18 +2514,18 @@ class QuadraticGeneral(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        a: float,
-        b: float,
-        c: float,
-        d: float,
-        e: float,
-        f: float,
-        g: float,
-        h: float,
-        j: float,
-        k: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        a: types.McnpReal,
+        b: types.McnpReal,
+        c: types.McnpReal,
+        d: types.McnpReal,
+        e: types.McnpReal,
+        f: types.McnpReal,
+        g: types.McnpReal,
+        h: types.McnpReal,
+        j: types.McnpReal,
+        k: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -2437,11 +2568,15 @@ class QuadraticGeneral(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.QUADRATICGENERAL
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -2475,18 +2610,18 @@ class QuadraticGeneral(Surface):
         if k is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.a: final[float] = a
-        self.b: final[float] = b
-        self.c: final[float] = c
-        self.d: final[float] = d
-        self.e: final[float] = e
-        self.f: final[float] = f
-        self.g: final[float] = g
-        self.h: final[float] = h
-        self.j: final[float] = j
-        self.k: final[float] = k
+        self.a: final[types.McnpReal] = a
+        self.b: final[types.McnpReal] = b
+        self.c: final[types.McnpReal] = c
+        self.d: final[types.McnpReal] = d
+        self.e: final[types.McnpReal] = e
+        self.f: final[types.McnpReal] = f
+        self.g: final[types.McnpReal] = g
+        self.h: final[types.McnpReal] = h
+        self.j: final[types.McnpReal] = j
+        self.k: final[types.McnpReal] = k
 
-        self.parameters: final[tuple[float]] = (a, b, c, d, e, f, g, h, j, k)
+        self.parameters: final[tuple[types.McnpReal]] = (a, b, c, d, e, f, g, h, j, k)
 
 
 class TorusParallelX(Surface):
@@ -2507,14 +2642,14 @@ class TorusParallelX(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        x: float,
-        y: float,
-        z: float,
-        a: float,
-        b: float,
-        c: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        x: types.McnpReal,
+        y: types.McnpReal,
+        z: types.McnpReal,
+        a: types.McnpReal,
+        b: types.McnpReal,
+        c: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -2553,11 +2688,15 @@ class TorusParallelX(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELX
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -2579,14 +2718,14 @@ class TorusParallelX(Surface):
         if c is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x: final[float] = x
-        self.y: final[float] = y
-        self.z: final[float] = z
-        self.a: final[float] = a
-        self.b: final[float] = b
-        self.c: final[float] = c
+        self.x: final[types.McnpReal] = x
+        self.y: final[types.McnpReal] = y
+        self.z: final[types.McnpReal] = z
+        self.a: final[types.McnpReal] = a
+        self.b: final[types.McnpReal] = b
+        self.c: final[types.McnpReal] = c
 
-        self.parameters: final[tuple[float]] = (x, y, z, a, b, c)
+        self.parameters: final[tuple[types.McnpReal]] = (x, y, z, a, b, c)
 
 
 class TorusParallelY(Surface):
@@ -2607,14 +2746,14 @@ class TorusParallelY(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        x: float,
-        y: float,
-        z: float,
-        a: float,
-        b: float,
-        c: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        x: types.McnpReal,
+        y: types.McnpReal,
+        z: types.McnpReal,
+        a: types.McnpReal,
+        b: types.McnpReal,
+        c: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -2653,11 +2792,15 @@ class TorusParallelY(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELY
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -2679,14 +2822,14 @@ class TorusParallelY(Surface):
         if c is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x: final[float] = x
-        self.y: final[float] = y
-        self.z: final[float] = z
-        self.a: final[float] = a
-        self.b: final[float] = b
-        self.c: final[float] = c
+        self.x: final[types.McnpReal] = x
+        self.y: final[types.McnpReal] = y
+        self.z: final[types.McnpReal] = z
+        self.a: final[types.McnpReal] = a
+        self.b: final[types.McnpReal] = b
+        self.c: final[types.McnpReal] = c
 
-        self.parameters: final[tuple[float]] = (x, y, z, a, b, c)
+        self.parameters: final[tuple[types.McnpReal]] = (x, y, z, a, b, c)
 
 
 class TorusParallelZ(Surface):
@@ -2707,14 +2850,14 @@ class TorusParallelZ(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        x: float,
-        y: float,
-        z: float,
-        a: float,
-        b: float,
-        c: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        x: types.McnpReal,
+        y: types.McnpReal,
+        z: types.McnpReal,
+        a: types.McnpReal,
+        b: types.McnpReal,
+        c: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -2753,11 +2896,15 @@ class TorusParallelZ(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELZ
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -2779,14 +2926,14 @@ class TorusParallelZ(Surface):
         if c is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x: final[float] = x
-        self.y: final[float] = y
-        self.z: final[float] = z
-        self.a: final[float] = a
-        self.b: final[float] = b
-        self.c: final[float] = c
+        self.x: final[types.McnpReal] = x
+        self.y: final[types.McnpReal] = y
+        self.z: final[types.McnpReal] = z
+        self.a: final[types.McnpReal] = a
+        self.b: final[types.McnpReal] = b
+        self.c: final[types.McnpReal] = c
 
-        self.parameters: final[tuple[float]] = (x, y, z, a, b, c)
+        self.parameters: final[tuple[types.McnpReal]] = (x, y, z, a, b, c)
 
 
 class SurfaceX(Surface):
@@ -2807,14 +2954,14 @@ class SurfaceX(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        x1: float,
-        r1: float,
-        x2: float = None,
-        r2: float = None,
-        x3: float = None,
-        r3: float = None,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        x1: types.McnpReal,
+        r1: types.McnpReal,
+        x2: types.McnpReal = None,
+        r2: types.McnpReal = None,
+        x3: types.McnpReal = None,
+        r3: types.McnpReal = None,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -2853,11 +3000,15 @@ class SurfaceX(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEX
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -2881,12 +3032,12 @@ class SurfaceX(Surface):
                 if r3 is None:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.x1: final[float] = x1
-        self.r1: final[float] = r1
-        self.x2: final[float] = x2 if x2 is not None else None
-        self.r2: final[float] = r2 if r2 is not None else None
-        self.x3: final[float] = x3 if x3 is not None else None
-        self.r3: final[float] = r3 if r3 is not None else None
+        self.x1: final[types.McnpReal] = x1
+        self.r1: final[types.McnpReal] = r1
+        self.x2: final[types.McnpReal] = x2 if x2 is not None else None
+        self.r2: final[types.McnpReal] = r2 if r2 is not None else None
+        self.x3: final[types.McnpReal] = x3 if x3 is not None else None
+        self.r3: final[types.McnpReal] = r3 if r3 is not None else None
 
         self.parameters = (x1, r1, x2, r2, x3, r3)
 
@@ -2909,14 +3060,14 @@ class SurfaceY(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        y1: float,
-        r1: float,
-        y2: float = None,
-        r2: float = None,
-        y3: float = None,
-        r3: float = None,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        y1: types.McnpReal,
+        r1: types.McnpReal,
+        y2: types.McnpReal = None,
+        r2: types.McnpReal = None,
+        y3: types.McnpReal = None,
+        r3: types.McnpReal = None,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -2955,11 +3106,15 @@ class SurfaceY(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEY
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -2983,14 +3138,14 @@ class SurfaceY(Surface):
                 if r3 is None:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.y1: final[float] = y1
-        self.r1: final[float] = r1
-        self.y2: final[float] = y2 if y2 is not None else None
-        self.r2: final[float] = r2 if r2 is not None else None
-        self.y3: final[float] = y3 if y3 is not None else None
-        self.r3: final[float] = r3 if r3 is not None else None
+        self.y1: final[types.McnpReal] = y1
+        self.r1: final[types.McnpReal] = r1
+        self.y2: final[types.McnpReal] = y2 if y2 is not None else None
+        self.r2: final[types.McnpReal] = r2 if r2 is not None else None
+        self.y3: final[types.McnpReal] = y3 if y3 is not None else None
+        self.r3: final[types.McnpReal] = r3 if r3 is not None else None
 
-        self.parameters: final[tuple[float]] = (y1, r1, y2, r2, y3, r3)
+        self.parameters: final[tuple[types.McnpReal]] = (y1, r1, y2, r2, y3, r3)
 
 
 class SurfaceZ(Surface):
@@ -3011,14 +3166,14 @@ class SurfaceZ(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        z1: float,
-        r1: float,
-        z2: float = None,
-        r2: float = None,
-        z3: float = None,
-        r3: float = None,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        z1: types.McnpReal,
+        r1: types.McnpReal,
+        z2: types.McnpReal = None,
+        r2: types.McnpReal = None,
+        z3: types.McnpReal = None,
+        r3: types.McnpReal = None,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -3053,11 +3208,15 @@ class SurfaceZ(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEZ
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -3081,14 +3240,14 @@ class SurfaceZ(Surface):
                 if r3 is None:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.z1: final[float] = z1
-        self.r1: final[float] = r1
-        self.z2: final[float] = z2 if z2 is not None else None
-        self.r2: final[float] = r2 if r2 is not None else None
-        self.z3: final[float] = z3 if z3 is not None else None
-        self.r3: final[float] = r3 if r3 is not None else None
+        self.z1: final[types.McnpReal] = z1
+        self.r1: final[types.McnpReal] = r1
+        self.z2: final[types.McnpReal] = z2 if z2 is not None else None
+        self.r2: final[types.McnpReal] = r2 if r2 is not None else None
+        self.z3: final[types.McnpReal] = z3 if z3 is not None else None
+        self.r3: final[types.McnpReal] = r3 if r3 is not None else None
 
-        self.parameters: final[tuple[float]] = (z1, r1, z2, r2, z3, r3)
+        self.parameters: final[tuple[types.McnpReal]] = (z1, r1, z2, r2, z3, r3)
 
 
 class Box(Surface):
@@ -3117,20 +3276,20 @@ class Box(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        vx: float,
-        vy: float,
-        vz: float,
-        a1x: float,
-        a1y: float,
-        a1z: float,
-        a2x: float,
-        a2y: float,
-        a2z: float,
-        a3x: float = None,
-        a3y: float = None,
-        a3z: float = None,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        vx: types.McnpReal,
+        vy: types.McnpReal,
+        vz: types.McnpReal,
+        a1x: types.McnpReal,
+        a1y: types.McnpReal,
+        a1z: types.McnpReal,
+        a2x: types.McnpReal,
+        a2y: types.McnpReal,
+        a2z: types.McnpReal,
+        a3x: types.McnpReal = None,
+        a3y: types.McnpReal = None,
+        a3z: types.McnpReal = None,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -3175,11 +3334,15 @@ class Box(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.BOX
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -3220,20 +3383,20 @@ class Box(Surface):
             if a3z is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vx: final[float] = vx
-        self.vy: final[float] = vy
-        self.vz: final[float] = vz
-        self.a1x: final[float] = a1x
-        self.a1y: final[float] = a1y
-        self.a1z: final[float] = a1z
-        self.a2x: final[float] = a2x
-        self.a2y: final[float] = a2y
-        self.a2z: final[float] = a2z
-        self.a3x: final[float] = a3x if a3x is not None else None
-        self.a3y: final[float] = a3y if a3y is not None else None
-        self.a3z: final[float] = a3z if a3z is not None else None
+        self.vx: final[types.McnpReal] = vx
+        self.vy: final[types.McnpReal] = vy
+        self.vz: final[types.McnpReal] = vz
+        self.a1x: final[types.McnpReal] = a1x
+        self.a1y: final[types.McnpReal] = a1y
+        self.a1z: final[types.McnpReal] = a1z
+        self.a2x: final[types.McnpReal] = a2x
+        self.a2y: final[types.McnpReal] = a2y
+        self.a2z: final[types.McnpReal] = a2z
+        self.a3x: final[types.McnpReal] = a3x if a3x is not None else None
+        self.a3y: final[types.McnpReal] = a3y if a3y is not None else None
+        self.a3z: final[types.McnpReal] = a3z if a3z is not None else None
 
-        self.parameters: final[tuple[float]] = (vx, vy, vz, a1x, a1y, a1z, a2x, a2y, a2z, a3x, a3y, a3z)
+        self.parameters: final[tuple[types.McnpReal]] = (vx, vy, vz, a1x, a1y, a1z, a2x, a2y, a2z, a3x, a3y, a3z)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -3281,14 +3444,14 @@ class Parallelepiped(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        xmin: float,
-        xmax: float,
-        ymin: float,
-        ymax: float,
-        zmin: float,
-        zmax: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        xmin: types.McnpReal,
+        xmax: types.McnpReal,
+        ymin: types.McnpReal,
+        ymax: types.McnpReal,
+        zmin: types.McnpReal,
+        zmax: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -3323,11 +3486,15 @@ class Parallelepiped(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PARALLELEPIPED
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -3349,14 +3516,14 @@ class Parallelepiped(Surface):
         if zmax is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.xmin: final[float] = xmin
-        self.xmax: final[float] = xmax
-        self.ymin: final[float] = ymin
-        self.ymax: final[float] = ymax
-        self.zmin: final[float] = zmin
-        self.zmax: final[float] = zmax
+        self.xmin: final[types.McnpReal] = xmin
+        self.xmax: final[types.McnpReal] = xmax
+        self.ymin: final[types.McnpReal] = ymin
+        self.ymax: final[types.McnpReal] = ymax
+        self.zmin: final[types.McnpReal] = zmin
+        self.zmax: final[types.McnpReal] = zmax
 
-        self.parameters: final[tuple[float]] = (xmin, xmax, ymin, ymax, zmin, zmax)
+        self.parameters: final[tuple[types.McnpReal]] = (xmin, xmax, ymin, ymax, zmin, zmax)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -3407,12 +3574,12 @@ class Sphere(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        vx: float,
-        vy: float,
-        vz: float,
-        r: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        vx: types.McnpReal,
+        vy: types.McnpReal,
+        vz: types.McnpReal,
+        r: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -3449,11 +3616,15 @@ class Sphere(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERE
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -3469,12 +3640,12 @@ class Sphere(Surface):
         if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vx: final[float] = vx
-        self.vy: final[float] = vy
-        self.vz: final[float] = vz
-        self.r: final[float] = r
+        self.vx: final[types.McnpReal] = vx
+        self.vy: final[types.McnpReal] = vy
+        self.vz: final[types.McnpReal] = vz
+        self.r: final[types.McnpReal] = r
 
-        self.parameters: final[tuple[float]] = (vx, vy, vz, r)
+        self.parameters: final[tuple[types.McnpReal]] = (vx, vy, vz, r)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -3518,15 +3689,15 @@ class CylinderCircular(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        vx: float,
-        vy: float,
-        vz: float,
-        hx: float,
-        hy: float,
-        hz: float,
-        r: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        vx: types.McnpReal,
+        vy: types.McnpReal,
+        vz: types.McnpReal,
+        hx: types.McnpReal,
+        hy: types.McnpReal,
+        hz: types.McnpReal,
+        r: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -3566,11 +3737,15 @@ class CylinderCircular(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERCIRCULAR
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -3595,15 +3770,15 @@ class CylinderCircular(Surface):
         if r is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vx: final[float] = vx
-        self.vy: final[float] = vy
-        self.vz: final[float] = vz
-        self.hx: final[float] = hx
-        self.hy: final[float] = hy
-        self.hz: final[float] = hz
-        self.r: final[float] = r
+        self.vx: final[types.McnpReal] = vx
+        self.vy: final[types.McnpReal] = vy
+        self.vz: final[types.McnpReal] = vz
+        self.hx: final[types.McnpReal] = hx
+        self.hy: final[types.McnpReal] = hy
+        self.hz: final[types.McnpReal] = hz
+        self.r: final[types.McnpReal] = r
 
-        self.parameters: final[tuple[float]] = (vx, vy, vz, hx, hy, hz, r)
+        self.parameters: final[tuple[types.McnpReal]] = (vx, vy, vz, hx, hy, hz, r)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -3663,23 +3838,23 @@ class HexagonalPrism(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        vx: float,
-        vy: float,
-        vz: float,
-        hx: float,
-        hy: float,
-        hz: float,
-        r1: float,
-        r2: float,
-        r3: float,
-        s1: float = None,
-        s2: float = None,
-        s3: float = None,
-        t1: float = None,
-        t2: float = None,
-        t3: float = None,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        vx: types.McnpReal,
+        vy: types.McnpReal,
+        vz: types.McnpReal,
+        hx: types.McnpReal,
+        hy: types.McnpReal,
+        hz: types.McnpReal,
+        r1: types.McnpReal,
+        r2: types.McnpReal,
+        r3: types.McnpReal,
+        s1: types.McnpReal = None,
+        s2: types.McnpReal = None,
+        s3: types.McnpReal = None,
+        t1: types.McnpReal = None,
+        t2: types.McnpReal = None,
+        t3: types.McnpReal = None,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -3727,11 +3902,15 @@ class HexagonalPrism(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.HEXAGONALPRISM
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -3781,23 +3960,23 @@ class HexagonalPrism(Surface):
             if t3 is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vx: final[float] = vx
-        self.vy: final[float] = vy
-        self.vz: final[float] = vz
-        self.hx: final[float] = hx
-        self.hy: final[float] = hy
-        self.hz: final[float] = hz
-        self.r1: final[float] = r1
-        self.r2: final[float] = r2
-        self.r3: final[float] = r3
-        self.s1: final[float] = s1 if s1 is not None else None
-        self.s2: final[float] = s2 if s2 is not None else None
-        self.s3: final[float] = s3 if s3 is not None else None
-        self.t1: final[float] = t1 if t1 is not None else None
-        self.t2: final[float] = t2 if t2 is not None else None
-        self.t3: final[float] = t3 if t3 is not None else None
+        self.vx: final[types.McnpReal] = vx
+        self.vy: final[types.McnpReal] = vy
+        self.vz: final[types.McnpReal] = vz
+        self.hx: final[types.McnpReal] = hx
+        self.hy: final[types.McnpReal] = hy
+        self.hz: final[types.McnpReal] = hz
+        self.r1: final[types.McnpReal] = r1
+        self.r2: final[types.McnpReal] = r2
+        self.r3: final[types.McnpReal] = r3
+        self.s1: final[types.McnpReal] = s1 if s1 is not None else None
+        self.s2: final[types.McnpReal] = s2 if s2 is not None else None
+        self.s3: final[types.McnpReal] = s3 if s3 is not None else None
+        self.t1: final[types.McnpReal] = t1 if t1 is not None else None
+        self.t2: final[types.McnpReal] = t2 if t2 is not None else None
+        self.t3: final[types.McnpReal] = t3 if t3 is not None else None
 
-        self.parameters: final[tuple[float]] = (vx, vy, vz, hx, hy, hz, r1, r2, r3, s1, s2, s3, t1, t2, t3)
+        self.parameters: final[tuple[types.McnpReal]] = (vx, vy, vz, hx, hy, hz, r1, r2, r3, s1, s2, s3, t1, t2, t3)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -3854,20 +4033,20 @@ class CylinderElliptical(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        vx: float,
-        vy: float,
-        vz: float,
-        hx: float,
-        hy: float,
-        hz: float,
-        v1x: float,
-        v1y: float,
-        v1z: float,
-        v2x: float,
-        v2y: float = None,
-        v2z: float = None,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        vx: types.McnpReal,
+        vy: types.McnpReal,
+        vz: types.McnpReal,
+        hx: types.McnpReal,
+        hy: types.McnpReal,
+        hz: types.McnpReal,
+        v1x: types.McnpReal,
+        v1y: types.McnpReal,
+        v1z: types.McnpReal,
+        v2x: types.McnpReal,
+        v2y: types.McnpReal = None,
+        v2z: types.McnpReal = None,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -3912,11 +4091,15 @@ class CylinderElliptical(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERELLIPTICAL
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -3957,21 +4140,21 @@ class CylinderElliptical(Surface):
             if v2z is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vx: final[float] = vx
-        self.vy: final[float] = vy
-        self.vz: final[float] = vz
-        self.hx: final[float] = hx
-        self.hy: final[float] = hy
-        self.hz: final[float] = hz
-        self.v1x: final[float] = v1x
-        self.v1y: final[float] = v1y
-        self.v1z: final[float] = v1z
-        self.v2x: final[float] = v2x
+        self.vx: final[types.McnpReal] = vx
+        self.vy: final[types.McnpReal] = vy
+        self.vz: final[types.McnpReal] = vz
+        self.hx: final[types.McnpReal] = hx
+        self.hy: final[types.McnpReal] = hy
+        self.hz: final[types.McnpReal] = hz
+        self.v1x: final[types.McnpReal] = v1x
+        self.v1y: final[types.McnpReal] = v1y
+        self.v1z: final[types.McnpReal] = v1z
+        self.v2x: final[types.McnpReal] = v2x
 
-        self.v2y: final[float] = v2y
-        self.v2z: final[float] = v2z
+        self.v2y: final[types.McnpReal] = v2y
+        self.v2z: final[types.McnpReal] = v2z
 
-        self.parameters: final[tuple[float]] = (vx, vy, vz, hx, hy, hz, v1x, v1y, v1z, v2x, v2y, v2z)
+        self.parameters: final[tuple[types.McnpReal]] = (vx, vy, vz, hx, hy, hz, v1x, v1y, v1z, v2x, v2y, v2z)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -4026,16 +4209,16 @@ class ConeTruncated(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        vx: float,
-        vy: float,
-        vz: float,
-        hx: float,
-        hy: float,
-        hz: float,
-        r1: float,
-        r2: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        vx: types.McnpReal,
+        vy: types.McnpReal,
+        vz: types.McnpReal,
+        hx: types.McnpReal,
+        hy: types.McnpReal,
+        hz: types.McnpReal,
+        r1: types.McnpReal,
+        r2: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -4076,11 +4259,15 @@ class ConeTruncated(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONETRUNCATED
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -4108,16 +4295,16 @@ class ConeTruncated(Surface):
         if r2 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vx: final[float] = vx
-        self.vy: final[float] = vy
-        self.vz: final[float] = vz
-        self.hx: final[float] = hx
-        self.hy: final[float] = hy
-        self.hz: final[float] = hz
-        self.r1: final[float] = r1
-        self.r2: final[float] = r2
+        self.vx: final[types.McnpReal] = vx
+        self.vy: final[types.McnpReal] = vy
+        self.vz: final[types.McnpReal] = vz
+        self.hx: final[types.McnpReal] = hx
+        self.hy: final[types.McnpReal] = hy
+        self.hz: final[types.McnpReal] = hz
+        self.r1: final[types.McnpReal] = r1
+        self.r2: final[types.McnpReal] = r2
 
-        self.parameters: final[tuple[float]] = (vx, vy, vz, hx, hy, hz, r1, r2)
+        self.parameters: final[tuple[types.McnpReal]] = (vx, vy, vz, hx, hy, hz, r1, r2)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -4170,15 +4357,15 @@ class Ellipsoid(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        v1x: float,
-        v1y: float,
-        v1z: float,
-        v2x: float,
-        v2y: float,
-        v2z: float,
-        rm: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        v1x: types.McnpReal,
+        v1y: types.McnpReal,
+        v1z: types.McnpReal,
+        v2x: types.McnpReal,
+        v2y: types.McnpReal,
+        v2z: types.McnpReal,
+        rm: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -4218,11 +4405,15 @@ class Ellipsoid(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.ELLIPSOID
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -4247,15 +4438,15 @@ class Ellipsoid(Surface):
         if rm is None or (rm == 0):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.v1x: final[float] = v1x
-        self.v1y: final[float] = v1y
-        self.v1z: final[float] = v1z
-        self.v2x: final[float] = v2x
-        self.v2y: final[float] = v2y
-        self.v2z: final[float] = v2z
-        self.rm: final[float] = rm
+        self.v1x: final[types.McnpReal] = v1x
+        self.v1y: final[types.McnpReal] = v1y
+        self.v1z: final[types.McnpReal] = v1z
+        self.v2x: final[types.McnpReal] = v2x
+        self.v2y: final[types.McnpReal] = v2y
+        self.v2z: final[types.McnpReal] = v2z
+        self.rm: final[types.McnpReal] = rm
 
-        self.parameters: final[tuple[float]] = (v1x, v1y, v1z, v2x, v2y, v2z, rm)
+        self.parameters: final[tuple[types.McnpReal]] = (v1x, v1y, v1z, v2x, v2y, v2z, rm)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -4317,20 +4508,20 @@ class Wedge(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        vx: float,
-        vy: float,
-        vz: float,
-        v1x: float,
-        v1y: float,
-        v1z: float,
-        v2x: float,
-        v2y: float,
-        v2z: float,
-        v3x: float,
-        v3y: float,
-        v3z: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        vx: types.McnpReal,
+        vy: types.McnpReal,
+        vz: types.McnpReal,
+        v1x: types.McnpReal,
+        v1y: types.McnpReal,
+        v1z: types.McnpReal,
+        v2x: types.McnpReal,
+        v2y: types.McnpReal,
+        v2z: types.McnpReal,
+        v3x: types.McnpReal,
+        v3y: types.McnpReal,
+        v3z: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -4375,11 +4566,15 @@ class Wedge(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.WEDGE
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -4419,20 +4614,20 @@ class Wedge(Surface):
         if v3z is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.vx: final[float] = vx
-        self.vy: final[float] = vy
-        self.vz: final[float] = vz
-        self.v1x: final[float] = v1x
-        self.v1y: final[float] = v1y
-        self.v1z: final[float] = v1z
-        self.v2x: final[float] = v2x
-        self.v2y: final[float] = v2y
-        self.v2z: final[float] = v2z
-        self.v3x: final[float] = v3x
-        self.v3y: final[float] = v3y
-        self.v3z: final[float] = v3z
+        self.vx: final[types.McnpReal] = vx
+        self.vy: final[types.McnpReal] = vy
+        self.vz: final[types.McnpReal] = vz
+        self.v1x: final[types.McnpReal] = v1x
+        self.v1y: final[types.McnpReal] = v1y
+        self.v1z: final[types.McnpReal] = v1z
+        self.v2x: final[types.McnpReal] = v2x
+        self.v2y: final[types.McnpReal] = v2y
+        self.v2z: final[types.McnpReal] = v2z
+        self.v3x: final[types.McnpReal] = v3x
+        self.v3y: final[types.McnpReal] = v3y
+        self.v3z: final[types.McnpReal] = v3z
 
-        self.parameters: final[tuple[float]] = (vx, vy, vz, v1x, v1y, v1z, v2x, v2y, v2z, v3x, v3y, v3z)
+        self.parameters: final[tuple[types.McnpReal]] = (vx, vy, vz, v1x, v1y, v1z, v2x, v2y, v2z, v3x, v3y, v3z)
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -4502,38 +4697,38 @@ class Polyhedron(Surface):
 
     def __init__(
         self,
-        number: int,
-        transform_periodic: int,
-        ax: float,
-        ay: float,
-        az: float,
-        bx: float,
-        by: float,
-        bz: float,
-        cx: float,
-        cy: float,
-        cz: float,
-        dx: float,
-        dy: float,
-        dz: float,
-        ex: float,
-        ey: float,
-        ez: float,
-        fx: float,
-        fy: float,
-        fz: float,
-        gx: float,
-        gy: float,
-        gz: float,
-        hx: float,
-        hy: float,
-        hz: float,
-        n1: float,
-        n2: float,
-        n3: float,
-        n4: float,
-        n5: float,
-        n6: float,
+        number: types.McnpInteger,
+        transform_periodic: types.McnpInteger,
+        ax: types.McnpReal,
+        ay: types.McnpReal,
+        az: types.McnpReal,
+        bx: types.McnpReal,
+        by: types.McnpReal,
+        bz: types.McnpReal,
+        cx: types.McnpReal,
+        cy: types.McnpReal,
+        cz: types.McnpReal,
+        dx: types.McnpReal,
+        dy: types.McnpReal,
+        dz: types.McnpReal,
+        ex: types.McnpReal,
+        ey: types.McnpReal,
+        ez: types.McnpReal,
+        fx: types.McnpReal,
+        fy: types.McnpReal,
+        fz: types.McnpReal,
+        gx: types.McnpReal,
+        gy: types.McnpReal,
+        gz: types.McnpReal,
+        hx: types.McnpReal,
+        hy: types.McnpReal,
+        hz: types.McnpReal,
+        n1: types.McnpReal,
+        n2: types.McnpReal,
+        n3: types.McnpReal,
+        n4: types.McnpReal,
+        n5: types.McnpReal,
+        n6: types.McnpReal,
         is_whiteboundary: bool = False,
         is_reflecting: bool = False,
     ):
@@ -4596,11 +4791,15 @@ class Polyhedron(Surface):
         if is_reflecting is None or (is_reflecting and is_whiteboundary):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_REFLECTING)
 
-        self.id: final[int] = number
-        self.number: final[int] = number
+        self.id: final[types.McnpInteger] = number.value
+        self.number: final[types.McnpInteger] = number
         self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.POLYHEDRON
-        self.transform: final[int] = transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
-        self.periodic: final[int] = transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        self.transform: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
+        )
+        self.periodic: final[types.McnpInteger] = (
+            transform_periodic if transform_periodic is not None and transform_periodic < 0 else None
+        )
         self.is_reflecting: final[bool] = is_reflecting
         self.is_whiteboundary: final[bool] = is_whiteboundary
 
@@ -4694,38 +4893,38 @@ class Polyhedron(Surface):
         if n6 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.ax: final[float] = ax
-        self.ay: final[float] = ay
-        self.az: final[float] = az
-        self.bx: final[float] = bx
-        self.by: final[float] = by
-        self.bz: final[float] = bz
-        self.cx: final[float] = cx
-        self.cy: final[float] = cy
-        self.cz: final[float] = cz
-        self.dx: final[float] = dx
-        self.dy: final[float] = dy
-        self.dz: final[float] = dz
-        self.ex: final[float] = ex
-        self.ey: final[float] = ey
-        self.ez: final[float] = ez
-        self.fx: final[float] = fx
-        self.fy: final[float] = fy
-        self.fz: final[float] = fz
-        self.gx: final[float] = gx
-        self.gy: final[float] = gy
-        self.gz: final[float] = gz
-        self.hx: final[float] = hx
-        self.hy: final[float] = hy
-        self.hz: final[float] = hz
-        self.n1: final[float] = n1
-        self.n2: final[float] = n2
-        self.n3: final[float] = n3
-        self.n4: final[float] = n4
-        self.n5: final[float] = n5
-        self.n6: final[float] = n6
+        self.ax: final[types.McnpReal] = ax
+        self.ay: final[types.McnpReal] = ay
+        self.az: final[types.McnpReal] = az
+        self.bx: final[types.McnpReal] = bx
+        self.by: final[types.McnpReal] = by
+        self.bz: final[types.McnpReal] = bz
+        self.cx: final[types.McnpReal] = cx
+        self.cy: final[types.McnpReal] = cy
+        self.cz: final[types.McnpReal] = cz
+        self.dx: final[types.McnpReal] = dx
+        self.dy: final[types.McnpReal] = dy
+        self.dz: final[types.McnpReal] = dz
+        self.ex: final[types.McnpReal] = ex
+        self.ey: final[types.McnpReal] = ey
+        self.ez: final[types.McnpReal] = ez
+        self.fx: final[types.McnpReal] = fx
+        self.fy: final[types.McnpReal] = fy
+        self.fz: final[types.McnpReal] = fz
+        self.gx: final[types.McnpReal] = gx
+        self.gy: final[types.McnpReal] = gy
+        self.gz: final[types.McnpReal] = gz
+        self.hx: final[types.McnpReal] = hx
+        self.hy: final[types.McnpReal] = hy
+        self.hz: final[types.McnpReal] = hz
+        self.n1: final[types.McnpReal] = n1
+        self.n2: final[types.McnpReal] = n2
+        self.n3: final[types.McnpReal] = n3
+        self.n4: final[types.McnpReal] = n4
+        self.n5: final[types.McnpReal] = n5
+        self.n6: final[types.McnpReal] = n6
 
-        self.parameters: final[tuple[float]] = (
+        self.parameters: final[tuple[types.McnpReal]] = (
             ax,
             ay,
             az,

@@ -157,6 +157,13 @@ class Preprocessor:
     """
 
     @staticmethod
+    def _process_jump(string: str) -> str:
+        for match in re.finditer(r"\s(\d+)j\s", string):
+            string = string[: match.start(0)] + " j " * int(match[1]) + string[match.end(0) :]
+
+        return string
+
+    @staticmethod
     def _process_case(string: str) -> str:
         """
         ``_process_case`` replaces upper case with lower case from strings.
@@ -203,7 +210,8 @@ class Preprocessor:
             MCNP string without continuation lines.
         """
 
-        string = re.sub(r"( &\n)|(\n     )|(\n    )|(\n   )|(\n  )|(\n )", r" ", string)
+        string = re.sub(r"\n +\n", "\n\n", string)
+        string = re.sub(r"( & *\n)|(\n     )|(\n    )|(\n   )|(\n  )|(\n )", r" ", string)
 
         return string
 
@@ -219,8 +227,8 @@ class Preprocessor:
             MCNP string without extra whitespace.
         """
 
-        string = re.sub(r"( \n)|(\n )", "\n", string)
         string = re.sub(r" +", " ", string)
+        string = re.sub(r"( \n)|(\n )", "\n", string)
 
         return string
 
@@ -236,7 +244,7 @@ class Preprocessor:
             MCNP string without extra whitespace around equal signs.
         """
 
-        string = re.sub(r" = ", "=", string)
+        string = re.sub(r" = | =|= ", "=", string)
 
         return string
 
@@ -299,12 +307,13 @@ class Preprocessor:
 
         string = Preprocessor._process_case(string)
         string = Preprocessor._process_tabs(string)
+        string = Preprocessor._process_jump(string)
+        string = Preprocessor._process_continuation(string)
 
         if hasColumnarData:
             string = Preprocessor._process_whitespace(string)
             string = Preprocessor._process_verticalformat(string)
 
-        string = Preprocessor._process_continuation(string)
         string = Preprocessor._process_whitespace(string)
         string = Preprocessor._process_equals(string)
         string = string.strip(" ")

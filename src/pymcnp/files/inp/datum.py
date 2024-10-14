@@ -118,7 +118,7 @@ class Datum(Card):
         TALLY_COSINE = "c"
         TALLY_COSINE_ANGLE = "*c"
         PRINT_HIERARCHY = "fq"
-        TALLY_MULTIPLIER = "em"
+        TALLY_MULTIPLIER = "fm"
         DOSE_ENERGY = "de"
         DOSE_FUNCTION = "df"
         ENERGY_MULTIPLIER = "em"
@@ -209,8 +209,25 @@ class Datum(Card):
 
             return Datum.DatumMnemonic(source)
 
+        def to_mcnp(self):
+            """
+            ``to_mcnp`` generates INP from ``DatumMnemonic`` objects.
+
+            ``to_mcnp`` creates INP source string from ``DatumMnemonic`` objects,
+            so it provides an MCNP endpoint.
+
+            Returns:
+                INP string for ``DatumMnemonic`` object.
+            """
+
+            return str(self)
+
     def __init__(
-        self, mnemonic: DatumMnemonic, parameters: tuple[any], suffix: int = None, designator: types.Designator = None
+        self,
+        mnemonic: DatumMnemonic,
+        parameters: tuple[any],
+        suffix: types.McnpInteger = None,
+        designator: types.Designator = None,
     ):
         """
         ``__init__`` initializes ``Datum``.
@@ -312,6 +329,12 @@ class Datum(Card):
                 obj = Lcc(*parameters)
             case Datum.DatumMnemonic.LEA:
                 obj = Lea(*parameters)
+
+            case Datum.DatumMnemonic.HISTORY_CUTOFF:
+                obj = HistroyCutoff(*parameters)
+            case Datum.DatumMnemonic.GENERAL_SOURCE_DEFINITION:
+                obj = SourceDefinition(*parameters)
+
             case _:
                 obj = _Placeholder(mnemonic, parameters)
 
@@ -319,7 +342,7 @@ class Datum(Card):
         self.__class__ = obj.__class__
 
     @staticmethod
-    def from_mcnp(source: str, line: int = None):
+    def from_mcnp(source: str, line: types.McnpInteger = None):
         """
         ``from_mcnp`` generates ``Datum`` objects from INP.
 
@@ -353,19 +376,19 @@ class Datum(Card):
             case Datum.DatumMnemonic.VOLUME:
                 tokens.popl()
                 has_no = True if tokens.peekl() == "no" else False
-                volumes = tuple(types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens)))
+                volumes = tuple(types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = Volume(volumes, has_no=has_no)
 
             case Datum.DatumMnemonic.AREA:
                 tokens.popl()
-                areas = tuple(types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens)))
+                areas = tuple(types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = Area(areas)
 
             case Datum.DatumMnemonic.TRANSFORMATION:
-                suffix = types.cast_fortran_integer(tokens.popl()[2:])
-                entries = tuple(types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens)))
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[2:])
+                entries = tuple(types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
                 displacement = tuple(entries[:3])
                 rotation = (tuple(entries[3:6]), tuple(entries[6:9]), tuple(entries[9:12]))
                 system = int(entires[12])
@@ -374,19 +397,19 @@ class Datum(Card):
 
             case Datum.DatumMnemonic.UNIVERSE:
                 tokens.popl()
-                unvierses = tuple(types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens)))
+                unvierses = tuple(types.McnpInteger.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = Universe(universes)
 
             case Datum.DatumMnemonic.LATTICE:
                 tokens.popl()
-                lattices = tuple(types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens)))
+                lattices = tuple(types.McnpInteger.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = Lattice(lattices)
 
             case Datum.DatumMnemonic.FILL:
                 tokens.popl()
-                fills = tuple(types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens)))
+                fills = tuple(types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = Fill(fills)
 
@@ -405,8 +428,8 @@ class Datum(Card):
                 datum = StochasticGeometry(transformations)
 
             case Datum.DatumMnemonic.DETERMINISTIC_MATERIALS:
-                suffix = types.cast_fortran_integer(tokens.popl()[2:])
-                zaids = tuple(types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens)))
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[2:])
+                zaids = tuple(types.Zaid.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = DeterministicMaterials(zaids)
 
@@ -420,7 +443,7 @@ class Datum(Card):
                 datum = DeterministicWeightWindow(pairs)
 
             case Datum.DatumMnemonic.EMBEDDED_GEOMETRY:
-                suffix = types.cast_fortran_integer(tokens.popl()[5:])
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[5:])
                 pairs = tuple()
                 while tokens:
                     keyword = tokens.popl()
@@ -437,8 +460,8 @@ class Datum(Card):
                 datum = EmbeddedGeometry(pairs, suffix)
 
             case Datum.DatumMnemonic.EMBEDDED_CONTROL:
-                suffix = types.cast_fortran_integer(tokens.popl()[5:])
-                designator = types.Designator.cast_mcnp_designator(tokens.popl())
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[5:])
+                designator = types.Designator.from_mcnp(tokens.popl())
                 pairs = tuple()
                 while tokens:
                     keyword = tokens.popl()
@@ -458,8 +481,8 @@ class Datum(Card):
                 if len(tokens) < 1:
                     raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
-                suffix = types.cast_fortran_integer(tokens.popl()[5:])
-                energies = tuple(types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens)))
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[5:])
+                energies = tuple(types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = EmbeddedEnergyBoundaries(energies, suffix)
 
@@ -467,8 +490,8 @@ class Datum(Card):
                 if len(tokens) < 1:
                     raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
-                suffix = types.cast_fortran_integer(tokens.popl()[5:])
-                multipliers = tuple([types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens))])
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[5:])
+                multipliers = tuple([types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens))])
 
                 datum = EmbeddedEnergyMultipliers(multipliers, suffix)
 
@@ -476,31 +499,31 @@ class Datum(Card):
                 if len(tokens) < 1:
                     raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM)
 
-                suffix = types.cast_fortran_integer(tokens.popl()[5:])
-                times = tuple(types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens)))
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[5:])
+                times = tuple(types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = EmbeddedTimeBoundaries(times, suffix)
 
             case Datum.DatumMnemonic.EMBEDDED_TIME_MULTIPLIERS:
-                suffix = types.cast_fortran_integer(tokens.popl()[5:])
-                multipliers = tuple([types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens))])
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[5:])
+                multipliers = tuple([types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens))])
 
                 datum = EmbeddedTimeMultipliers(multipliers, suffix)
 
             case Datum.DatumMnemonic.EMBEDDED_DOSE_BOUNDARIES:
-                suffix = types.cast_fortran_integer(tokens.popl()[5:])
-                doses = tuple(types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens)))
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[5:])
+                doses = tuple(types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = EmbeddedDoseBoundaries(doses, suffix)
 
             case Datum.DatumMnemonic.EMBEDDED_DOSE_MULTIPLIERS:
-                suffix = types.cast_fortran_integer(tokens.popl()[5:])
-                multipliers = tuple([types.cast_fortran_reals(tokens.popl()) for _ in range(0, len(tokens))])
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[5:])
+                multipliers = tuple([types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens))])
 
                 datum = EmbeddedDoseMultipliers(multipliers, suffix)
 
             case Datum.DatumMnemonic.MATERIAL:
-                suffix = types.cast_fortran_integer(tokens.popl()[1:])
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[1:])
 
                 substances = []
                 while tokens:
@@ -510,7 +533,7 @@ class Datum(Card):
                     except:
                         substances.append(
                             Material.MaterialValue(
-                                types.Zaid.cast_mcnp_zaid(tokens.popl()), types.cast_fortran_real(tokens.popl())
+                                types.Zaid.from_mcnp(tokens.popl()), types.McnpReal.from_mcnp(tokens.popl())
                             )
                         )
                         pass
@@ -531,21 +554,21 @@ class Datum(Card):
                 datum = Material(substances, options, suffix)
 
             case Datum.DatumMnemonic.MATERIAL_NEUTRON_SCATTERING:
-                suffix = types.cast_fortran_integer(tokens.popl()[2:])
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[2:])
                 identifiers = tuple(tokens.popl() for _ in range(0, len(tokens)))
 
                 datum = MaterialNeutronScattering(identifiers, suffix)
 
             case Datum.DatumMnemonic.MATERIAL_NUCLIDE_SUBSTITUTION:
-                suffix = types.cast_fortran_integer(tokens.popl()[2:])
-                designator = types.Designator.cast_mcnp_designator(tokens.popl())
-                zaids = tuple(types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens)))
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[2:])
+                designator = types.Designator.from_mcnp(tokens.popl())
+                zaids = tuple(types.Zaid.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = MaterialNuclideSubstitution(zaids, suffix, designator)
 
             case Datum.DatumMnemonic.ON_THE_FLY_BROADENING:
                 tokens.popl()
-                zaids = tuple(types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens)))
+                zaids = tuple(types.Zaid.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = OnTheFlyBroadening(zaids)
 
@@ -562,7 +585,7 @@ class Datum(Card):
 
             case Datum.DatumMnemonic.FISSION_TURNOFF:
                 tokens.popl()
-                states = tuple(types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens)))
+                states = tuple(types.McnpInteger.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = FissionTurnoff(states)
 
@@ -573,98 +596,98 @@ class Datum(Card):
                 datum = AtomicWeight(weight_ratios)
 
             case Datum.DatumMnemonic.CROSS_SECTION_FILE:
-                suffix = types.cast_fortran_integer(tokens.popl()[2:])
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[2:])
                 weight_ratios = tuple(CrossSectionFile.CrossSectionFileValue.from_mcnp(f"{tokens.popl()} {tokens.popl()}"))
 
                 datum = CrossSectionFile(weight_ratios, suffix)
 
             case Datum.DatumMnemonic.VOID:
                 tokens.popl()
-                numbers = tuple(types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens)))
+                numbers = tuple(types.McnpInteger.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = Void(numbers)
 
             case Datum.DatumMnemonic.MULTIGROUP_ADJOINT_TRANSPORT:
                 tokens.popl()
                 mcal = tokens.popl()
-                igm = types.cast_fortran_integer(tokens.popl())
-                iplt = types.cast_fortran_integer(tokens.popl())
-                isb = types.cast_fortran_integer(tokens.popl())
-                icw = types.cast_fortran_integer(tokens.popl())
-                fnw = types.cast_fortran_integer(tokens.popl())
-                rim = types.cast_fortran_integer(tokens.popl())
+                igm = types.McnpInteger.from_mcnp(tokens.popl())
+                iplt = types.McnpInteger.from_mcnp(tokens.popl())
+                isb = types.McnpInteger.from_mcnp(tokens.popl())
+                icw = types.McnpInteger.from_mcnp(tokens.popl())
+                fnw = types.McnpInteger.from_mcnp(tokens.popl())
+                rim = types.McnpInteger.from_mcnp(tokens.popl())
 
                 datum = MultigroupAdjointTransport(mcal, igm, iplt, isb, icw, fnw, rim)
 
             case Datum.DatumMnemonic.DISCRETE_REACTION_CROSS_SECTION:
                 tokens.popl()
-                zaids = tuple(types.Zaid.cast_mcnp_zaid(tokens.popl()) for _ in range(0, len(tokens)))
+                zaids = tuple(types.Zaid.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = DiscreteReactionCrossSection(zaids)
 
             case Datum.DatumMnemonic.PROBLEM_TYPE:
                 tokens.popl()
-                particles = tuple(types.Designator.cast_mcnp_designator(tokens.popl()) for _ in range(0, len(tokens)))
+                particles = tuple(types.Designator.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = ProblemType(particles)
 
             case Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS:
                 tokens.popl()
-                designator = types.Designator.cast_mcnp_designator(tokens.popl())
+                designator = types.Designator.from_mcnp(tokens.popl())
 
                 match designator:
                     case types.Designator.NEUTRON:
-                        emax = types.cast_fortran_real(tokens.popl())
-                        emcnf = types.cast_fortran_real(tokens.popl())
-                        iunr = types.cast_fortran_integer(tokens.popl())
+                        emax = types.McnpReal.from_mcnp(tokens.popl())
+                        emcnf = types.McnpReal.from_mcnp(tokens.popl())
+                        iunr = types.McnpInteger.from_mcnp(tokens.popl())
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
-                        colif = types.cast_fortran_real(tokens.popl())
-                        cutn = types.cast_fortran_real(tokens.popl())
-                        ngam = types.cast_fortran_integer(tokens.popl())
+                        colif = types.McnpReal.from_mcnp(tokens.popl())
+                        cutn = types.McnpReal.from_mcnp(tokens.popl())
+                        ngam = types.McnpInteger.from_mcnp(tokens.popl())
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
-                        i_int_model = types.cast_fortran_integer(tokens.popl())
-                        i_els_model = types.cast_fortran_integer(tokens.popl())
+                        i_int_model = types.McnpInteger.from_mcnp(tokens.popl())
+                        i_els_model = types.McnpInteger.from_mcnp(tokens.popl())
 
                         parameters = (emax, emcnf, iunr, colif, cutn, ngam, i_int_model, i_els_model)
 
                     case types.Designator.PHOTON:
-                        emcpf = types.cast_fortran_real(tokens.popl())
-                        ides = types.cast_fortran_integer(tokens.popl())
-                        nocoh = types.cast_fortran_integer(tokens.popl())
-                        ispn = types.cast_fortran_integer(tokens.popl())
-                        nodop = types.cast_fortran_integer(tokens.popl())
+                        emcpf = types.McnpReal.from_mcnp(tokens.popl())
+                        ides = types.McnpInteger.from_mcnp(tokens.popl())
+                        nocoh = types.McnpInteger.from_mcnp(tokens.popl())
+                        ispn = types.McnpInteger.from_mcnp(tokens.popl())
+                        nodop = types.McnpInteger.from_mcnp(tokens.popl())
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
-                        fism = types.cast_fortran_integer(tokens.popl())
+                        fism = types.McnpInteger.from_mcnp(tokens.popl())
 
                         parameters = (emcpf, ides, nocoh, ispn, nodop, fism)
 
                     case types.Designator.ELECTRON:
-                        emax = types.cast_fortran_real(tokens.popl())
-                        ides = types.cast_fortran_integer(tokens.popl())
-                        ibad = types.cast_fortran_integer(tokens.popl())
-                        istrg = types.cast_fortran_integer(tokens.popl())
-                        bnum = types.cast_fortran_real(tokens.popl())
-                        xnum = types.cast_fortran_real(tokens.popl())
-                        rnok = types.cast_fortran_real(tokens.popl())
-                        enum = types.cast_fortran_real(tokens.popl())
-                        numb = types.cast_fortran_real(tokens.popl())
-                        i_mcs_model = types.cast_fortran_integer(tokens.popl())
+                        emax = types.McnpReal.from_mcnp(tokens.popl())
+                        ides = types.McnpInteger.from_mcnp(tokens.popl())
+                        ibad = types.McnpInteger.from_mcnp(tokens.popl())
+                        istrg = types.McnpInteger.from_mcnp(tokens.popl())
+                        bnum = types.McnpReal.from_mcnp(tokens.popl())
+                        xnum = types.McnpReal.from_mcnp(tokens.popl())
+                        rnok = types.McnpReal.from_mcnp(tokens.popl())
+                        enum = types.McnpReal.from_mcnp(tokens.popl())
+                        numb = types.McnpReal.from_mcnp(tokens.popl())
+                        i_mcs_model = types.McnpInteger.from_mcnp(tokens.popl())
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
-                        efac = types.cast_fortran_real(tokens.popl())
-                        electron_method_boundary = types.cast_fortran_real(tokens.popl())
-                        ckvnum = types.cast_fortran_real(tokens.popl())
+                        efac = types.McnpReal.from_mcnp(tokens.popl())
+                        electron_method_boundary = types.McnpReal.from_mcnp(tokens.popl())
+                        ckvnum = types.McnpReal.from_mcnp(tokens.popl())
 
                         parameters = (
                             emax,
@@ -683,57 +706,57 @@ class Datum(Card):
                         )
 
                     case types.Designator.PROTON:
-                        emax = types.cast_fortran_real(tokens.popl())
-                        ean = types.cast_fortran_real(tokens.popl())
-                        tabl = types.cast_fortran_real(tokens.popl())
+                        emax = types.McnpReal.from_mcnp(tokens.popl())
+                        ean = types.McnpReal.from_mcnp(tokens.popl())
+                        tabl = types.McnpReal.from_mcnp(tokens.popl())
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
-                        istrg = types.cast_fortran_integer(tokens.popl())
+                        istrg = types.McnpInteger.from_mcnp(tokens.popl())
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
-                        recl = types.cast_fortran_real(tokens.popl())
+                        recl = types.McnpReal.from_mcnp(tokens.popl())
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
-                        i_mcs_model = types.cast_fortran_integer(tokens.popl())
-                        i_int_model = types.cast_fortran_integer(tokens.popl())
-                        i_els_model = types.cast_fortran_integer(tokens.popl())
-                        efac = types.cast_fortran_real(tokens.popl())
+                        i_mcs_model = types.McnpInteger.from_mcnp(tokens.popl())
+                        i_int_model = types.McnpInteger.from_mcnp(tokens.popl())
+                        i_els_model = types.McnpInteger.from_mcnp(tokens.popl())
+                        efac = types.McnpReal.from_mcnp(tokens.popl())
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
-                        ckvnum = types.cast_fortran_real(tokens.popl())
-                        drp = types.cast_fortran_real(tokens.popl())
+                        ckvnum = types.McnpReal.from_mcnp(tokens.popl())
+                        drp = types.McnpReal.from_mcnp(tokens.popl())
 
                         parameters = (emax, ean, tabl, istrg, recl, i_mcs_model, i_int_model, i_els_model, efac, ckvnum, drp)
 
                     case _:
-                        emax = types.cast_fortran_real(tokens.popl())
+                        emax = types.McnpReal.from_mcnp(tokens.popl())
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
-                        istrg = types.cast_fortran_integer(tokens.popl())
+                        istrg = types.McnpInteger.from_mcnp(tokens.popl())
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
-                        xmunum = types.cast_fortran_integer(tokens.popl())
-                        xmugam = types.cast_fortran_real(tokens.popl())
+                        xmunum = types.McnpInteger.from_mcnp(tokens.popl())
+                        xmugam = types.McnpReal.from_mcnp(tokens.popl())
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
-                        i_mcs_model = types.cast_fortran_integer(tokens.popl())
-                        i_int_model = types.cast_fortran_integer(tokens.popl())
-                        i_els_model = types.cast_fortran_integer(tokens.popl())
-                        efac = types.cast_fortran_real(tokens.popl())
+                        i_mcs_model = types.McnpInteger.from_mcnp(tokens.popl())
+                        i_int_model = types.McnpInteger.from_mcnp(tokens.popl())
+                        i_els_model = types.McnpInteger.from_mcnp(tokens.popl())
+                        efac = types.McnpReal.from_mcnp(tokens.popl())
                         if tokens.popl() != "j":
                             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
-                        ckvnum = types.cast_fortran_real(tokens.popl())
-                        drp = types.cast_fortran_real(tokens.popl())
+                        ckvnum = types.McnpReal.from_mcnp(tokens.popl())
+                        drp = types.McnpReal.from_mcnp(tokens.popl())
 
                         parameters = (emax, istrg, xmunum, xmugam, i_mcs_model, i_int_model, i_els_model, efac, ckvnum, drp)
 
@@ -758,32 +781,32 @@ class Datum(Card):
 
             case Datum.DatumMnemonic.TIME_ENERGY_WEIGHT_CUTOFFS:
                 tokens.popl()
-                designator = types.Designator.cast_mcnp_designator(tokens.popl())
+                designator = types.Designator.from_mcnp(tokens.popl())
 
-                t = types.cast_fortran_real(tokens.popl())
-                e = types.cast_fortran_real(tokens.popl())
-                weight1 = types.cast_fortran_real(tokens.popl())
-                weight2 = types.cast_fortran_real(tokens.popl())
-                source = types.cast_fortran_real(tokens.popl())
+                t = types.McnpReal.from_mcnp(tokens.popl())
+                e = types.McnpReal.from_mcnp(tokens.popl()) if tokens else None
+                weight1 = types.McnpReal.from_mcnp(tokens.popl()) if tokens else None
+                weight2 = types.McnpReal.from_mcnp(tokens.popl()) if tokens else None
+                source = types.McnpReal.from_mcnp(tokens.popl()) if tokens else None
 
-                datum = TimeEnergyWeightCutoffs(t, e, weight1, weight2, source)
+                datum = TimeEnergyWeightCutoffs(designator, t, e, weight1, weight2, source)
 
             case Datum.DatumMnemonic.CELL_ENERGY_CUTOFFS:
                 tokens.popl()
-                designator = types.Designator.cast_mcnp_designator(tokens.popl())
-                cutoffs = types.cast_fortran_real(tokens.popl())
+                designator = types.Designator.from_mcnp(tokens.popl())
+                cutoffs = types.McnpReal.from_mcnp(tokens.popl())
 
                 datum = CellEnergyCutoffs(designator, cutoffs)
 
             case Datum.DatumMnemonic.FREE_GAS_THERMAL_TEMPERATURE:
-                suffix = types.cast_fortran_integer(tokens.popl()[3:])
-                temperatures = tuple(types.cast_fortran_real(tokens.popl()) for _ in range(0, len(tokens)))
+                suffix = types.McnpInteger.from_mcnp(tokens.popl()[3:])
+                temperatures = tuple(types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = FreeGasThermalTemperature(suffix, temperatures)
 
             case Datum.DatumMnemonic.THERMAL_TIMES:
                 tokens.popl()
-                times = tuple(types.cast_fortran_integer(tokens.popl()) for _ in range(0, len(tokens)))
+                times = tuple(types.McnpInteger.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = ThermalTimes(times)
 
@@ -797,62 +820,90 @@ class Datum(Card):
 
             case Datum.DatumMnemonic.LCA:
                 tokens.popl()
-                ielas = types.cast_fortran_integer(tokens.popl())
-                ipreq = types.cast_fortran_integer(tokens.popl())
-                iexisa = types.cast_fortran_integer(tokens.popl())
+                ielas = types.McnpInteger.from_mcnp(tokens.popl())
+                ipreq = types.McnpInteger.from_mcnp(tokens.popl())
+                iexisa = types.McnpInteger.from_mcnp(tokens.popl())
                 ichoic = tokens.popl()
-                jcoul = types.cast_fortran_integer(tokens.popl())
-                nexite = types.cast_fortran_integer(tokens.popl())
-                npidk = types.cast_fortran_integer(tokens.popl())
-                noact = types.cast_fortran_integer(tokens.popl())
-                icem = types.cast_fortran_integer(tokens.popl())
-                ilaq = types.cast_fortran_integer(tokens.popl())
-                nevtype = types.cast_fortran_real(tokens.popl())
+                jcoul = types.McnpInteger.from_mcnp(tokens.popl())
+                nexite = types.McnpInteger.from_mcnp(tokens.popl())
+                npidk = types.McnpInteger.from_mcnp(tokens.popl())
+                noact = types.McnpInteger.from_mcnp(tokens.popl())
+                icem = types.McnpInteger.from_mcnp(tokens.popl())
+                ilaq = types.McnpInteger.from_mcnp(tokens.popl())
+                nevtype = types.McnpReal.from_mcnp(tokens.popl())
 
                 datum = Lca(ielas, ipreq, iexisa, ichoic, jcoul, nexite, npidk, noact, icem, ilaq, nevtype)
 
             case Datum.DatumMnemonic.LCB:
                 tokens.popl()
-                lebn1 = types.cast_fortran_real(tokens.popl())
-                flebn2 = types.cast_fortran_real(tokens.popl())
-                flebn3 = types.cast_fortran_real(tokens.popl())
-                flebn4 = types.cast_fortran_real(tokens.popl())
-                flebn5 = types.cast_fortran_real(tokens.popl())
-                flebn6 = types.cast_fortran_real(tokens.popl())
-                ctofe = types.cast_fortran_real(tokens.popl())
-                flim0 = types.cast_fortran_real(tokens.popl())
+                lebn1 = types.McnpReal.from_mcnp(tokens.popl())
+                flebn2 = types.McnpReal.from_mcnp(tokens.popl())
+                flebn3 = types.McnpReal.from_mcnp(tokens.popl())
+                flebn4 = types.McnpReal.from_mcnp(tokens.popl())
+                flebn5 = types.McnpReal.from_mcnp(tokens.popl())
+                flebn6 = types.McnpReal.from_mcnp(tokens.popl())
+                ctofe = types.McnpReal.from_mcnp(tokens.popl())
+                flim0 = types.McnpReal.from_mcnp(tokens.popl())
 
                 datum = Lcb(lebn1, flebn2, flebn3, flebn4, flebn5, flebn6, ctofe, flim0)
 
             case Datum.DatumMnemonic.LCC:
                 tokens.popl()
-                atincl = types.cast_fortran_real(tokens.popl())
-                v0incl = types.cast_fortran_real(tokens.popl())
-                xfoisaincl = types.cast_fortran_real(tokens.popl())
-                npaulincl = types.cast_fortran_real(tokens.popl())
-                nosurfincl = types.cast_fortran_real(tokens.popl())
+                atincl = types.McnpReal.from_mcnp(tokens.popl())
+                v0incl = types.McnpReal.from_mcnp(tokens.popl())
+                xfoisaincl = types.McnpReal.from_mcnp(tokens.popl())
+                npaulincl = types.McnpReal.from_mcnp(tokens.popl())
+                nosurfincl = types.McnpReal.from_mcnp(tokens.popl())
                 if tokens.popl() != "j":
                     raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
                 if tokens.popl() != "j":
                     raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_DATUM_PHYS_J)
-                ecutincl = types.cast_fortran_real(tokens.popl())
-                ebankincl = types.cast_fortran_real(tokens.popl())
-                ebankabla = types.cast_fortran_real(tokens.popl())
+                ecutincl = types.McnpReal.from_mcnp(tokens.popl())
+                ebankincl = types.McnpReal.from_mcnp(tokens.popl())
+                ebankabla = types.McnpReal.from_mcnp(tokens.popl())
 
                 datum = Lcc(atincl, v0incl, xfoisaincl, npaulincl, nosurfincl, ecutincl, ebankincl, ebankabla)
 
             case Datum.DatumMnemonic.LEA:
                 tokens.popl()
-                ipht = types.cast_fortran_integer(tokens.popl())
-                icc = types.cast_fortran_integer(tokens.popl())
-                nobalc = types.cast_fortran_integer(tokens.popl())
-                nobale = types.cast_fortran_integer(tokens.popl())
-                ifbrk = types.cast_fortran_integer(tokens.popl())
-                ilvden = types.cast_fortran_integer(tokens.popl())
-                ievap = types.cast_fortran_integer(tokens.popl())
-                nofis = types.cast_fortran_integer(tokens.popl())
+                ipht = types.McnpInteger.from_mcnp(tokens.popl())
+                icc = types.McnpInteger.from_mcnp(tokens.popl())
+                nobalc = types.McnpInteger.from_mcnp(tokens.popl())
+                nobale = types.McnpInteger.from_mcnp(tokens.popl())
+                ifbrk = types.McnpInteger.from_mcnp(tokens.popl())
+                ilvden = types.McnpInteger.from_mcnp(tokens.popl())
+                ievap = types.McnpInteger.from_mcnp(tokens.popl())
+                nofis = types.McnpInteger.from_mcnp(tokens.popl())
 
                 datum = Lea(ipht, icc, nobalc, nobale, ifbrk, ilvden, ievap, nofis)
+
+            case Datum.DatumMnemonic.HISTORY_CUTOFF:
+                tokens.popl()
+                npp = types.McnpInteger.from_mcnp(tokens.popl())
+                npsmg = types.McnpInteger.from_mcnp(tokens.popl()) if tokens else None
+
+                datum = HistroyCutoff(npp, npsmg)
+
+            case Datum.DatumMnemonic.GENERAL_SOURCE_DEFINITION:
+                tokens.popl()
+                pairs = []
+                while tokens:
+                    keyword = tokens.popl()
+                    values = []
+                    while tokens:
+                        try:
+                            try_keyword = re.search(r"([*]?[A-Za-z]+)", tokens.peekl()).group()
+                            SourceDefinition.SourceDefinitionOption.SourceDefinitionKeyword.from_mcnp(try_keyword)
+                            break
+                        except:
+                            values.append(tokens.popl())
+                            pass
+
+                    option = SourceDefinition.SourceDefinitionOption.from_mcnp(f"{keyword}={" ".join(values)}")
+                    pairs.append(option)
+                pairs = tuple(pairs)
+
+                datum = SourceDefinition(pairs)
 
             case _:
                 datum = _Placeholder(tokens.popl(), [tokens.popl() for _ in range(0, len(tokens))])
@@ -901,9 +952,9 @@ class Datum(Card):
         """
 
         return {
-            "mnemonic": self.mnemonic,
-            "m": self.suffix if hasattr(self, "suffix") else None,
-            "n": self.designator if hasattr(self, "designator") else None,
+            "mnemonic": self.mnemonic.to_mcnp() if hasattr(self.mnemonic, "to_mcnp") else self.mnemonic,
+            "m": self.suffix.to_mcnp() if hasattr(self, "suffix") else None,
+            "n": self.designator.to_mcnp() if hasattr(self, "designator") else None,
             "parameters": tuple(
                 [parameter.to_mcnp() if hasattr(parameter, "to_mcnp") else parameter for parameter in self.parameters]
             ),
@@ -943,7 +994,7 @@ class Volume(Datum):
 
         self.id: final[str] = f"vol"
         self.mnemonic = Datum.DatumMnemonic.VOLUME
-        self.parameters = (has_no, volumes)
+        self.parameters = (has_no, *volumes)
 
         self.has_no = has_no
         self.volumes = volumes
@@ -1003,7 +1054,14 @@ class Transformation(Datum):
         suffix: Data card suffix.
     """
 
-    def __init__(self, displacement: tuple[float], rotation: tuple[float], system: int, suffix: int, is_angle: bool):
+    def __init__(
+        self,
+        displacement: tuple[float],
+        rotation: tuple[float],
+        system: types.McnpInteger,
+        suffix: types.McnpInteger,
+        is_angle: bool,
+    ):
         """
         ``__init__`` initializes ``Transformation``.
 
@@ -1177,7 +1235,9 @@ class StochasticGeometry(Datum):
             maximum_z: Stochastic geometry maximum translation in z direction.
         """
 
-        def __init__(self, number: int, maximum_x: float, maximum_y: float, maximum_z: float):
+        def __init__(
+            self, number: types.McnpInteger, maximum_x: types.McnpReal, maximum_y: types.McnpReal, maximum_z: types.McnpReal
+        ):
             """
             ``__init__`` initializes ``StochasticGeometryValue``.
 
@@ -1276,7 +1336,7 @@ class DeterministicMaterials(Datum):
         suffix: Data card suffix.
     """
 
-    def __init__(self, materials: tuple[types.Zaid], suffix: int):
+    def __init__(self, materials: tuple[types.Zaid], suffix: types.McnpInteger):
         """
         ``__init__`` initializes ``DeterministicMaterials``.
 
@@ -1636,9 +1696,9 @@ class DeterministicWeightWindow(Datum):
             # Processing Values
             match keyword:
                 case DeterministicWeightWindowKeyword.POINTS | DeterministicWeightWindowKeyword.BLOCK | DeterministicWeightWindowKeyword.NGROUP | DeterministicWeightWindowKeyword.ISN | DeterministicWeightWindowKeyword.NISO | DeterministicWeightWindowKeyword.MT | DeterministicWeightWindowKeyword.IQUAD | DeterministicWeightWindowKeyword.FMMIX | DeterministicWeightWindowKeyword.NOSOLV | DeterministicWeightWindowKeyword.NOEDIT | DeterministicWeightWindowKeyword.NOGEOD | DeterministicWeightWindowKeyword.NOMIX | DeterministicWeightWindowKeyword.NOASG | DeterministicWeightWindowKeyword.NOMACR | DeterministicWeightWindowKeyword.NOSLNP | DeterministicWeightWindowKeyword.NOEDTT | DeterministicWeightWindowKeyword.NOADJM | DeterministicWeightWindowKeyword.FISSNEUT | DeterministicWeightWindowKeyword.LNG | DeterministicWeightWindowKeyword.BALXS | DeterministicWeightWindowKeyword.NTICHI | DeterministicWeightWindowKeyword.IEVT | DeterministicWeightWindowKeyword.SCT | DeterministicWeightWindowKeyword.ITH | DeterministicWeightWindowKeyword.TRCOR | DeterministicWeightWindowKeyword.IBL | DeterministicWeightWindowKeyword.IBR | DeterministicWeightWindowKeyword.IBT | DeterministicWeightWindowKeyword.IBB | DeterministicWeightWindowKeyword.IBFRNT | DeterministicWeightWindowKeyword.BIBACK | DeterministicWeightWindowKeyword.OITM | DeterministicWeightWindowKeyword.NOSIGF | DeterministicWeightWindowKeyword.TSASN | DeterministicWeightWindowKeyword.TSAEPSI | DeterministicWeightWindowKeyword.PTCONV | DeterministicWeightWindowKeyword.XESCTP | DeterministicWeightWindowKeyword.FISSRP | DeterministicWeightWindowKeyword.SOURCP | DeterministicWeightWindowKeyword.ANGP | DeterministicWeightWindowKeyword.BALP | DeterministicWeightWindowKeyword.RAFLUX | DeterministicWeightWindowKeyword.RMFLUX | DeterministicWeightWindowKeyword.AVATAR | DeterministicWeightWindowKeyword.ASLEFT | DeterministicWeightWindowKeyword.ASRITE | DeterministicWeightWindowKeyword.ASBOTT | DeterministicWeightWindowKeyword.ASTOP | DeterministicWeightWindowKeyword.ASFRNT | DeterministicWeightWindowKeyword.ASBACK | DeterministicWeightWindowKeyword.MASSED | DeterministicWeightWindowKeyword.PTED | DeterministicWeightWindowKeyword.ZNED | DeterministicWeightWindowKeyword.RZFLUX | DeterministicWeightWindowKeyword.RXMFLUX | DeterministicWeightWindowKeyword.EDOUTF | DeterministicWeightWindowKeyword.BYVLOP | DeterministicWeightWindowKeyword.AJED | DeterministicWeightWindowKeyword.FLUXONE:
-                    value = types.cast_fortran_integer(tokens.popl())
+                    value = types.McnpInteger.from_mcnp(tokens.popl())
                 case DeterministicWeightWindowKeyword.LIB | DeterministicWeightWindowKeyword.LIBNAME | DeterministicWeightWindowKeyword.TRCOR | DeterministicWeightWindowKeyword.SRCACC | DeterministicWeightWindowKeyword.DIFFSOL:
-                    value = types.cast_fortran_real(tokens.popl())
+                    value = types.McnpReal.from_mcnp(tokens.popl())
                 case DeterministicWeightWindowKeyword.EPSI | DeterministicWeightWindowKeyword.TSAEPSI | DeterministicWeightWindowKeyword.TSAITS | DeterministicWeightWindowKeyword.TSABETA:
                     value = tokens.popl()
                 case _:
@@ -1662,7 +1722,7 @@ class DeterministicWeightWindow(Datum):
             point: Deterministic weight window data card sample point count.
         """
 
-        def __init__(self, point: int):
+        def __init__(self, point: types.McnpInteger):
             """
             ``__init__`` initializes ``Points``.
 
@@ -1693,7 +1753,7 @@ class DeterministicWeightWindow(Datum):
             state: PARTISN input file passed value setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Block``.
 
@@ -1724,7 +1784,7 @@ class DeterministicWeightWindow(Datum):
             energy_group_number: DAWWG energy group count.
         """
 
-        def __init__(self, energy_group_number: int):
+        def __init__(self, energy_group_number: types.McnpInteger):
             """
             ``__init__`` initializes ``Ngroup``.
 
@@ -1755,7 +1815,7 @@ class DeterministicWeightWindow(Datum):
             sn_order: DAWWG Sn order.
         """
 
-        def __init__(self, sn_order: int):
+        def __init__(self, sn_order: types.McnpInteger):
             """
             ``__init__`` initializes ``Isn``.
 
@@ -1786,7 +1846,7 @@ class DeterministicWeightWindow(Datum):
             isotopes_number: DAWWG isotopes number.
         """
 
-        def __init__(self, isotopes_number: int):
+        def __init__(self, isotopes_number: types.McnpInteger):
             """
             ``__init__`` initializes ``Niso``.
 
@@ -1816,7 +1876,7 @@ class DeterministicWeightWindow(Datum):
             materials_number: DAWWG materials number.
         """
 
-        def __init__(self, materials_number: int):
+        def __init__(self, materials_number: types.McnpInteger):
             """
             ``__init__`` initializes ``Mt``.
 
@@ -1847,7 +1907,7 @@ class DeterministicWeightWindow(Datum):
             quadrature: DAWWG quadrature.
         """
 
-        def __init__(self, quadrature: int):
+        def __init__(self, quadrature: types.McnpInteger):
             """
             ``__init__`` initializes ``Iquad``.
 
@@ -1878,7 +1938,7 @@ class DeterministicWeightWindow(Datum):
             state: DAWWG LNK3DNT reading comprehension toggle.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Fmmix``.
 
@@ -1909,7 +1969,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress solver module setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Nosolv``.
 
@@ -1940,7 +2000,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress edit module setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Noedit``.
 
@@ -1971,7 +2031,7 @@ class DeterministicWeightWindow(Datum):
             state: Supress writing GEODST file setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Nogeod``.
 
@@ -2002,7 +2062,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress writing mixing file setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Nomix``.
 
@@ -2033,7 +2093,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress wirting ASGMAT file seting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Noasg``.
 
@@ -2064,7 +2124,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress writing MACRXS file.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Nomacr``.
 
@@ -2095,7 +2155,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress writing SOLINP file setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Noslnp``.
 
@@ -2126,7 +2186,7 @@ class DeterministicWeightWindow(Datum):
             state: Supress writing EDITIT file setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Noedtt``.
 
@@ -2157,7 +2217,7 @@ class DeterministicWeightWindow(Datum):
             state: Suppress writing ADJMAC file setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Noadjm``.
 
@@ -2249,7 +2309,7 @@ class DeterministicWeightWindow(Datum):
             fission_neutron_flag: Fission neutron flag.
         """
 
-        def __init__(self, fission_neutron_flag: int):
+        def __init__(self, fission_neutron_flag: types.McnpInteger):
             """
             ``__init__`` initializes ``Fissneut``.
 
@@ -2279,7 +2339,7 @@ class DeterministicWeightWindow(Datum):
             last_neutron_group_number: Number of the last neutron group.
         """
 
-        def __init__(self, last_neutron_group_number: int):
+        def __init__(self, last_neutron_group_number: types.McnpInteger):
             """
             ``__init__`` initializes ``Lng``.
 
@@ -2310,7 +2370,7 @@ class DeterministicWeightWindow(Datum):
             cross_section_balance_control: Cross-section balance control.
         """
 
-        def __init__(self, cross_section_balance_control: int):
+        def __init__(self, cross_section_balance_control: types.McnpInteger):
             """
             ``__init__`` initializes ``Balxs``.
 
@@ -2341,7 +2401,7 @@ class DeterministicWeightWindow(Datum):
             mendf_fission_fraction: MENDF fission fraction to use.
         """
 
-        def __init__(self, mendf_fission_fraction: int):
+        def __init__(self, mendf_fission_fraction: types.McnpInteger):
             """
             ``__init__`` initializes ``Ntichi``.
 
@@ -2372,7 +2432,7 @@ class DeterministicWeightWindow(Datum):
             calculation_type: Calculation type.
         """
 
-        def __init__(self, calculation_type: int):
+        def __init__(self, calculation_type: types.McnpInteger):
             """
             ``__init__`` initializes ``Ievt``.
 
@@ -2403,7 +2463,7 @@ class DeterministicWeightWindow(Datum):
             legendre_order: Legendre order.
         """
 
-        def __init__(self, legendre_order: int):
+        def __init__(self, legendre_order: types.McnpInteger):
             """
             ``__init__`` initializes ``Isct``.
 
@@ -2433,7 +2493,7 @@ class DeterministicWeightWindow(Datum):
             calculation_state: Direct or adjoint calculation.
         """
 
-        def __init__(self, calculation_state: int):
+        def __init__(self, calculation_state: types.McnpInteger):
             """
             ``__init__`` initializes ``Ith``.
 
@@ -2494,7 +2554,7 @@ class DeterministicWeightWindow(Datum):
             left_boundary: Left boundary condition.
         """
 
-        def __init__(self, left_boundary: int):
+        def __init__(self, left_boundary: types.McnpInteger):
             """
             ``__init__`` initializes ``Ibl``.
 
@@ -2524,7 +2584,7 @@ class DeterministicWeightWindow(Datum):
             right_boundary: Right boundary condition.
         """
 
-        def __init__(self, right_boundary: int):
+        def __init__(self, right_boundary: types.McnpInteger):
             """
             ``__init__`` initializes ``Ibr``.
 
@@ -2554,7 +2614,7 @@ class DeterministicWeightWindow(Datum):
             top_boundary: Top boundary condition.
         """
 
-        def __init__(self, top_boundary: int):
+        def __init__(self, top_boundary: types.McnpInteger):
             """
             ``__init__`` initializes ``Ibt``.
 
@@ -2584,7 +2644,7 @@ class DeterministicWeightWindow(Datum):
             bottom_boundary: Bottom boundary condition.
         """
 
-        def __init__(self, bottom_boundary: int):
+        def __init__(self, bottom_boundary: types.McnpInteger):
             """
             ``__init__`` initializes ``Ibb``.
 
@@ -2615,7 +2675,7 @@ class DeterministicWeightWindow(Datum):
             front_boundary: Front boundary condition.
         """
 
-        def __init__(self, front_boundary: int):
+        def __init__(self, front_boundary: types.McnpInteger):
             """
             ``__init__`` initializes ``Ibfrnt``.
 
@@ -2646,7 +2706,7 @@ class DeterministicWeightWindow(Datum):
             back_boundary: Back boundary condition.
         """
 
-        def __init__(self, back_boundary: int):
+        def __init__(self, back_boundary: types.McnpInteger):
             """
             ``__init__`` initializes ``Ibback``.
 
@@ -2677,7 +2737,7 @@ class DeterministicWeightWindow(Datum):
             Convergence percision: Convergence percision.
         """
 
-        def __init__(self, convergence_percision: float):
+        def __init__(self, convergence_percision: types.McnpReal):
             """
             ``__init__`` initializes ``Epsi``.
 
@@ -2708,7 +2768,7 @@ class DeterministicWeightWindow(Datum):
             maximnum_outer_iteration: Maximum outer iteration count.
         """
 
-        def __init__(self, maximum_outer_iteration: int):
+        def __init__(self, maximum_outer_iteration: types.McnpInteger):
             """
             ``__init__`` initializes ``Oitm``.
 
@@ -2739,7 +2799,7 @@ class DeterministicWeightWindow(Datum):
             state: Inhibit fission multiplication setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Nosigf``.
 
@@ -2832,7 +2892,7 @@ class DeterministicWeightWindow(Datum):
             sn_order: Sn order for low order TSA sweeps.
         """
 
-        def __init__(self, sn_order: int):
+        def __init__(self, sn_order: types.McnpInteger):
             """
             ``__init__`` initializes ``Tsasn``.
 
@@ -2863,7 +2923,7 @@ class DeterministicWeightWindow(Datum):
             convergence_criteria: Convergence criteria for TSA sweeps.
         """
 
-        def __init__(self, convergence_criteria: float):
+        def __init__(self, convergence_criteria: types.McnpReal):
             """
             ``__init__`` initializes ``Tsaepsi``.
 
@@ -2894,7 +2954,7 @@ class DeterministicWeightWindow(Datum):
             maximum_tsa_iteration: Maximmum TSA iteration count.
         """
 
-        def __init__(self, maximum_tsa_iteration: int):
+        def __init__(self, maximum_tsa_iteration: types.McnpInteger):
             """
             ``__init__`` initializes ``Tsaits``.
 
@@ -2925,7 +2985,7 @@ class DeterministicWeightWindow(Datum):
             tsa_scattering_corss_section: Scatting cross-section reduction.
         """
 
-        def __init__(self, tsa_scattering_cross_section: float):
+        def __init__(self, tsa_scattering_cross_section: types.McnpReal):
             """
             ``__init__`` initializes ``Tsabeta``.
 
@@ -2956,7 +3016,7 @@ class DeterministicWeightWindow(Datum):
             state: Special criticality convergence scheme.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Ptconv``.
 
@@ -2987,7 +3047,7 @@ class DeterministicWeightWindow(Datum):
             norm: Norm.
         """
 
-        def __init__(self, norm: float):
+        def __init__(self, norm: types.McnpReal):
             """
             ``__init__`` initializes ``Norm``.
 
@@ -3018,7 +3078,7 @@ class DeterministicWeightWindow(Datum):
             cross_section_print_flag: Corss-section print flag.
         """
 
-        def __init__(self, cross_section_print_flag: int):
+        def __init__(self, cross_section_print_flag: types.McnpInteger):
             """
             ``__init__`` initializes ``Xesctp``.
 
@@ -3049,7 +3109,7 @@ class DeterministicWeightWindow(Datum):
             state: Print fission source rate.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Fissrp``.
 
@@ -3080,7 +3140,7 @@ class DeterministicWeightWindow(Datum):
            source_print_flag: Source print flag.
         """
 
-        def __init__(self, source_print_flag: int):
+        def __init__(self, source_print_flag: types.McnpInteger):
             """
             ``__init__`` initializes ``Sourcp``.
 
@@ -3111,7 +3171,7 @@ class DeterministicWeightWindow(Datum):
             state: Print angular flux setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Angp``.
 
@@ -3142,7 +3202,7 @@ class DeterministicWeightWindow(Datum):
             state: Print coarse-mesh balance tables setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Balp``.
 
@@ -3173,7 +3233,7 @@ class DeterministicWeightWindow(Datum):
             state: Prepare angular flux file setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Raflux``.
 
@@ -3204,7 +3264,7 @@ class DeterministicWeightWindow(Datum):
             state: Prepare flux moments file setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Rmflux``.
 
@@ -3235,7 +3295,7 @@ class DeterministicWeightWindow(Datum):
             state: Prepare special XMFLUXA file setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Avatar``.
 
@@ -3266,7 +3326,7 @@ class DeterministicWeightWindow(Datum):
             right_going_flux: Right-going flux at plane i.
         """
 
-        def __init__(self, right_going_flux: int):
+        def __init__(self, right_going_flux: types.McnpInteger):
             """
             ``__init__`` initializes ``Asleft``.
 
@@ -3297,7 +3357,7 @@ class DeterministicWeightWindow(Datum):
             left_going_flux: Left-going flux at plane i.
         """
 
-        def __init__(self, left_going_flux: int):
+        def __init__(self, left_going_flux: types.McnpInteger):
             """
             ``__init__`` initializes ``Asrite``.
 
@@ -3328,7 +3388,7 @@ class DeterministicWeightWindow(Datum):
             top_going_flux: Top-going flux at plane j.
         """
 
-        def __init__(self, top_going_flux: int):
+        def __init__(self, top_going_flux: types.McnpInteger):
             """
             ``__init__`` initializes ``Asbott``.
 
@@ -3359,7 +3419,7 @@ class DeterministicWeightWindow(Datum):
             bottom_going_flux: Bottom-going flux at plane j.
         """
 
-        def __init__(self, bottom_going_flux: int):
+        def __init__(self, bottom_going_flux: types.McnpInteger):
             """
             ``__init__`` initializes ``Astop``.
 
@@ -3390,7 +3450,7 @@ class DeterministicWeightWindow(Datum):
             back_going_flux: Back-going flux at plane k.
         """
 
-        def __init__(self, back_going_flux: int):
+        def __init__(self, back_going_flux: types.McnpInteger):
             """
             ``__init__`` initializes ``Asfrnt``.
 
@@ -3421,7 +3481,7 @@ class DeterministicWeightWindow(Datum):
             front_going_flux: Front-going flux at plane k.
         """
 
-        def __init__(self, front_going_flux: int):
+        def __init__(self, front_going_flux: types.McnpInteger):
             """
             ``__init__`` initializes ``Asback``.
 
@@ -3452,7 +3512,7 @@ class DeterministicWeightWindow(Datum):
             state: Mass edits setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Massed``.
 
@@ -3483,7 +3543,7 @@ class DeterministicWeightWindow(Datum):
             state: Edits by fine mesh setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Pted``.
 
@@ -3514,7 +3574,7 @@ class DeterministicWeightWindow(Datum):
             state: Edits by zone setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Zned``.
 
@@ -3545,7 +3605,7 @@ class DeterministicWeightWindow(Datum):
             state: Write a-flux file setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Rzflux``.
 
@@ -3576,7 +3636,7 @@ class DeterministicWeightWindow(Datum):
             state: Write b-flux file setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Rzmflux``.
 
@@ -3607,7 +3667,7 @@ class DeterministicWeightWindow(Datum):
             ascii_output_control: ASCII output file control.
         """
 
-        def __init__(self, ascii_output_control: int):
+        def __init__(self, ascii_output_control: types.McnpInteger):
             """
             ``__init__`` initializes ``Edoutf``.
 
@@ -3638,7 +3698,7 @@ class DeterministicWeightWindow(Datum):
             state: Printed point reaction rates scaled by mesh volume setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Byvlop``.
 
@@ -3669,7 +3729,7 @@ class DeterministicWeightWindow(Datum):
             state: Regular and adjoint edit setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Ajed``.
 
@@ -3700,7 +3760,7 @@ class DeterministicWeightWindow(Datum):
             state: Flux override setting.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Fluxone``.
 
@@ -3902,7 +3962,7 @@ class EmbeddedGeometry(Datum):
                 case EmbeddedGeometryKeyword.MESHOGEO | EmbeddedGeometryKeyword.MGEOIN | EmbeddedGeometryKeyword.MEEOUT | EmbeddedGeometryKeyword.MEEIN | EmbeddedGeometryKeyword.CALC_VOLS | EmbeddedGeometryKeyword.DEBUG | EmbeddedGeometryKeyword.FILETYPE | EmbeddedGeometryKeyword.GMVFILE | EmbeddedGeometryKeyword.MCNPUMFILE:
                     value = tokens.popl()
                 case EmbeddedGeometryKeyword.LENGTH:
-                    value = types.cast_fortran_real(tokens.popl())
+                    value = types.McnpReal.from_mcnp(tokens.popl())
                 case EmbeddedGeometryKeyword.OVERLAP:
                     assert False, "Unimplemented"
                 case _:
@@ -4170,7 +4230,7 @@ class EmbeddedGeometry(Datum):
             factor: Multiplicative conversion factor to centimeters from mesh.
         """
 
-        def __init__(self, factor: float):
+        def __init__(self, factor: types.McnpReal):
             """
             ``__init__`` initializes ``Length``.
 
@@ -4219,7 +4279,7 @@ class EmbeddedGeometry(Datum):
             self.value = filename
             self.filename = filename
 
-    def __init__(self, pairs: tuple[EmbeddedGeometryOption], suffix: int):
+    def __init__(self, pairs: tuple[EmbeddedGeometryOption], suffix: types.McnpInteger):
         """
         ``__init__`` initializes ``EmbeddedGeometry``.
 
@@ -4396,9 +4456,9 @@ class EmbeddedControl(Datum):
             # Processing Values
             match keyword:
                 case EmbeddedGeometryKeyword.EMBED:
-                    value = types.cast_fortran_integer(tokens.popl())
+                    value = types.McnpInteger.from_mcnp(tokens.popl())
                 case EmbeddedGeometryKeyword.ENERGY | EmbeddedGeometryKeyword.TIME | EmbeddedGeometryKeyword.FRACTOR:
-                    value = types.cast_fortran_real(tokens.popl())
+                    value = types.McnpReal.from_mcnp(tokens.popl())
                 case EmbeddedGeometryKeyword.ATOM | EmbeddedGeometryKeyword.MTYPE:
                     value = tokens.popl()
                 case _:
@@ -4422,7 +4482,7 @@ class EmbeddedControl(Datum):
             number: Embedded mesh universe number.
         """
 
-        def __init__(self, number: int):
+        def __init__(self, number: types.McnpInteger):
             """
             ``__init__`` initializes ``Embed``.
 
@@ -4453,7 +4513,7 @@ class EmbeddedControl(Datum):
             factor: Conversion factor for all energy outputs.
         """
 
-        def __init__(self, factor: float):
+        def __init__(self, factor: types.McnpReal):
             """
             ``__init__`` initializes ``Energy``.
 
@@ -4484,7 +4544,7 @@ class EmbeddedControl(Datum):
             factor: Conversion factor for all time-related outputs.
         """
 
-        def __init__(self, factor: float):
+        def __init__(self, factor: types.McnpReal):
             """
             ``__init__`` initializes ``Time``.
 
@@ -4546,7 +4606,7 @@ class EmbeddedControl(Datum):
             factor: Multiplicative constant.
         """
 
-        def __init__(self, factor: float):
+        def __init__(self, factor: types.McnpReal):
             """
             ``__init__`` initializes ``Factor``.
 
@@ -4577,7 +4637,7 @@ class EmbeddedControl(Datum):
             number: Material number.
         """
 
-        def __init__(self, number: int):
+        def __init__(self, number: types.McnpInteger):
             """
             ``__init__`` initializes ``Mat``.
 
@@ -4626,7 +4686,7 @@ class EmbeddedControl(Datum):
             self.value = mtype
             self.mtype = mtype
 
-    def __init__(self, pairs: tuple[EmbeddedControlOption], suffix: int, designator: tuple[types.Designator]):
+    def __init__(self, pairs: tuple[EmbeddedControlOption], suffix: types.McnpInteger, designator: tuple[types.Designator]):
         """
         ``__init__`` initializes ``EmbeddedControl``.
 
@@ -4675,7 +4735,7 @@ class EmbeddedEnergyBoundaries(Datum):
         suffix: Data card suffix.
     """
 
-    def __init__(self, energies: tuple[float], suffix: int):
+    def __init__(self, energies: tuple[float], suffix: types.McnpInteger):
         """
         ``__init__`` initializes ``EmbeddedEnergyBoundaries``.
 
@@ -4716,7 +4776,7 @@ class EmbeddedEnergyMultipliers(Datum):
         multipliers: Tuple of energy multipliers.
     """
 
-    def __init__(self, multipliers: tuple[float], suffix: int):
+    def __init__(self, multipliers: tuple[float], suffix: types.McnpInteger):
         """
         ``__init__`` initializes ``EmbeddedEnergyMultipliers``.
 
@@ -4757,7 +4817,7 @@ class EmbeddedTimeBoundaries(Datum):
         times: Tuple of time lower bounds.
     """
 
-    def __init__(self, times: tuple[float], suffix: int):
+    def __init__(self, times: tuple[float], suffix: types.McnpInteger):
         """
         ``__init__`` initializes ``EmbeddedTimeBoundaries``.
 
@@ -4798,7 +4858,7 @@ class EmbeddedTimeMultipliers(Datum):
         multipliers: Tuple of time multipliers.
     """
 
-    def __init__(self, multipliers: tuple[float], suffix: int):
+    def __init__(self, multipliers: tuple[float], suffix: types.McnpInteger):
         """
         ``__init__`` initializes ``EmbeddedTimeMultipliers``.
 
@@ -4839,7 +4899,7 @@ class EmbeddedDoseBoundaries(Datum):
         doses: Tuple of dose lower bounds.
     """
 
-    def __init__(self, doses: tuple[float], suffix: int):
+    def __init__(self, doses: tuple[float], suffix: types.McnpInteger):
         """
         ``__init__`` initializes ``EmbeddedDoseBoundaries``.
 
@@ -4880,7 +4940,7 @@ class EmbeddedDoseMultipliers(Datum):
         doses: Tuple of dose multipliers.
     """
 
-    def __init__(self, multipliers: tuple[float], suffix: int):
+    def __init__(self, multipliers: tuple[float], suffix: types.McnpInteger):
         """
         ``__init__`` initializes ``EmbeddedDoseMultipliers``.
 
@@ -4933,7 +4993,7 @@ class Material(Datum):
             fraction: Material value fraction.
         """
 
-        def __init__(self, zaid: types.Zaid, fraction: float):
+        def __init__(self, zaid: types.Zaid, fraction: types.McnpReal):
             """
             ``__init__`` initializes ``MaterialValue``.
 
@@ -4946,7 +5006,7 @@ class Material(Datum):
             """
 
             self.zaid: types.Zaid = zaid
-            self.fraction: float = fraction
+            self.fraction: types.McnpReal = fraction
 
         @staticmethod
         def from_mcnp(source: str):
@@ -4970,8 +5030,8 @@ class Material(Datum):
             source = _parser.Preprocessor.process_inp(source)
             tokens = _parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_MATERIAL))
 
-            zaid = types.Zaid().cast_mcnp_zaid(tokens.popl())
-            fraction = types.cast_fortran_real(tokens.popl())
+            zaid = types.Zaid.from_mcnp(tokens.popl())
+            fraction = types.McnpReal.from_mcnp(tokens.popl())
 
             if tokens:
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_MATERIAL)
@@ -4989,7 +5049,7 @@ class Material(Datum):
                 INP string for ``MaterialValue`` object.
             """
 
-            return f"{self.zaid.to_mcnp()} {self.fraction}"
+            return f"{self.zaid.to_mcnp()} {self.fraction.to_mcnp()}"
 
     class MaterialOption:
         """
@@ -5146,10 +5206,10 @@ class Material(Datum):
             # Processing Values
             match keyword:
                 case Material.MaterialOption.MaterialKeyword.GAS:
-                    value = types.cast_fortran_integer(tokens.popl())
+                    value = types.McnpInteger.from_mcnp(tokens.popl())
 
                 case Material.MaterialOption.MaterialKeyword.ESTEP | Material.MaterialOption.MaterialKeyword.HSTEP | Material.MaterialOption.MaterialKeyword.COND | Material.MaterialOption.MaterialKeyword.REFI:
-                    value = types.cast_fortran_real(tokens.popl())
+                    value = types.McnpReal.from_mcnp(tokens.popl())
 
                 case Material.MaterialOption.MaterialKeyword.NLIB | Material.MaterialOption.MaterialKeyword.PLIB | Material.MaterialOption.MaterialKeyword.PNLIB | Material.MaterialOption.MaterialKeyword.ELIB | Material.MaterialOption.MaterialKeyword.HLIB | Material.MaterialOption.MaterialKeyword.ALIB | Material.MaterialOption.MaterialKeyword.SLIB | Material.MaterialOption.MaterialKeyword.TLIB | Material.MaterialOption.MaterialKeyword.DLIB:
                     value = tokens.popl()
@@ -5183,7 +5243,7 @@ class Material(Datum):
             state: Flag for density-effect corection.
         """
 
-        def __init__(self, state: int):
+        def __init__(self, state: types.McnpInteger):
             """
             ``__init__`` initializes ``Mat``.
 
@@ -5195,7 +5255,7 @@ class Material(Datum):
             """
 
             if state is None or state not in {0, 1}:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.GAS
             self.value = state
@@ -5212,7 +5272,7 @@ class Material(Datum):
             step: Energy step increment.
         """
 
-        def __init__(self, step: float):
+        def __init__(self, step: types.McnpReal):
             """
             ``__init__`` initializes ``Mat``.
 
@@ -5224,7 +5284,7 @@ class Material(Datum):
             """
 
             if step is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.ESTEP
             self.value = step
@@ -5241,7 +5301,7 @@ class Material(Datum):
             step: Energy step increment.
         """
 
-        def __init__(self, step: float):
+        def __init__(self, step: types.McnpReal):
             """
             ``__init__`` initializes ``Mat``.
 
@@ -5253,7 +5313,7 @@ class Material(Datum):
             """
 
             if step is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.HSTEP
             self.value = step
@@ -5282,7 +5342,7 @@ class Material(Datum):
             """
 
             if step is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.NLIB
             self.value = step
@@ -5311,7 +5371,7 @@ class Material(Datum):
             """
 
             if abx is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.PLIB
             self.value = abx
@@ -5340,7 +5400,7 @@ class Material(Datum):
             """
 
             if abx is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.PNLIB
             self.value = abx
@@ -5369,7 +5429,7 @@ class Material(Datum):
             """
 
             if abx is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.ELIB
             self.value = abx
@@ -5398,7 +5458,7 @@ class Material(Datum):
             """
 
             if abx is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.HLIB
             self.value = abx
@@ -5427,7 +5487,7 @@ class Material(Datum):
             """
 
             if abx is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.ALIB
             self.value = abx
@@ -5456,7 +5516,7 @@ class Material(Datum):
             """
 
             if abx is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.SLIB
             self.value = abx
@@ -5485,7 +5545,7 @@ class Material(Datum):
             """
 
             if abx is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.TLIB
             self.value = abx
@@ -5514,7 +5574,7 @@ class Material(Datum):
             """
 
             if abx is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.DLIB
             self.value = abx
@@ -5531,7 +5591,7 @@ class Material(Datum):
             conducation_state: Conduction state of material for ELO3.
         """
 
-        def __init__(self, conducation_state: float):
+        def __init__(self, conducation_state: types.McnpReal):
             """
             ``__init__`` initializes ``Mat``.
 
@@ -5543,7 +5603,7 @@ class Material(Datum):
             """
 
             if conducation_state is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.COND
             self.value = conducation_state
@@ -5560,7 +5620,7 @@ class Material(Datum):
             index: Constant refractive index.
         """
 
-        def __init__(self, index: float):
+        def __init__(self, index: types.McnpReal):
             """
             ``__init__`` initializes ``Mat``.
 
@@ -5572,13 +5632,13 @@ class Material(Datum):
             """
 
             if value is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MATERIAL_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.REFI
             self.value = value
             self.index = value
 
-    def __init__(self, substances: tuple[types.Zaid], pairs: tuple[MaterialOption], suffix: int):
+    def __init__(self, substances: tuple[types.Zaid], pairs: tuple[MaterialOption], suffix: types.McnpInteger):
         """
         ``__init__`` initializes ``Material``.
 
@@ -5621,7 +5681,7 @@ class MaterialNeutronScattering(Datum):
         suffix: Data card suffix.
     """
 
-    def __init__(self, identifiers: tuple[str], suffix: int):
+    def __init__(self, identifiers: tuple[str], suffix: types.McnpInteger):
         """
         ``__init__`` initializes ``MaterialNeutronScattering``.
 
@@ -5634,14 +5694,14 @@ class MaterialNeutronScattering(Datum):
         """
 
         for parameter in identifiers:
-            if parameter is None or not parmeter:
+            if parameter is None or not parameter:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
         self.id: final[str] = f"mt{suffix}"
-        self.mnemonic = Datum.DatumMnemonic.THERMAL_NETURON_SCATTERING
+        self.mnemonic = Datum.DatumMnemonic.MATERIAL_NEUTRON_SCATTERING
         self.parameters = identifiers
         self.suffix = suffix
 
@@ -5660,7 +5720,7 @@ class MaterialNuclideSubstitution(Datum):
         designator: Data card designator.
     """
 
-    def __init__(self, zaids: tuple[types.Zaid], suffix: int, designator: tuple[types.Designator]):
+    def __init__(self, zaids: tuple[types.Zaid], suffix: types.McnpInteger, designator: tuple[types.Designator]):
         """
         ``__init__`` initializes ``MaterialNuclideSubstitution``.
 
@@ -5769,7 +5829,7 @@ class FissionTurnoff(Datum):
         states: Tuple of fission turnoff settings.
     """
 
-    def __init__(self, states: int):
+    def __init__(self, states: types.McnpInteger):
         """
         ``__init__`` initializes ``FissionTurnoff``.
 
@@ -5817,7 +5877,7 @@ class AtomicWeight(Datum):
             ratio: Atomic weight value weight ratio.
         """
 
-        def __init__(self, zaid: types.Zaid, ratio: float):
+        def __init__(self, zaid: types.Zaid, ratio: types.McnpReal):
             """
             ``__init__`` initializes ``AtomicWeightValue``.
             """
@@ -5829,7 +5889,7 @@ class AtomicWeight(Datum):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
             self.zaid: types.Zaid = zaid
-            self.ratio: float = ratio
+            self.ratio: types.McnpReal = ratio
 
         @staticmethod
         def from_mcnp(source: str):
@@ -5854,8 +5914,8 @@ class AtomicWeight(Datum):
             source = _parser.Preprocessor.process_inp(source)
             tokens = _parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_WEIGHT))
 
-            zaid = types.Zaid().cast_mcnp_zaid(tokens.popl())
-            ratio = types.cast_fortran_real(tokens.popl())
+            zaid = types.Zaid.from_mcnp(tokens.popl())
+            ratio = types.McnpReal.from_mcnp(tokens.popl())
 
             if tokens:
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_WEIGHT)
@@ -5911,7 +5971,7 @@ class CrossSectionFile(Datum):
             weight_ratios: Tuple of weight ratios.
         """
 
-        def __init__(self, zaid: types.Zaid, ratio: float):
+        def __init__(self, zaid: types.Zaid, ratio: types.McnpReal):
             """
             ``__init__`` initializes ``CrossSectionFile``.
             """
@@ -5923,7 +5983,7 @@ class CrossSectionFile(Datum):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
             self.zaid: types.Zaid = zaid
-            self.ratio: float = ratio
+            self.ratio: types.McnpReal = ratio
 
         @staticmethod
         def from_mcnp(source: str):
@@ -5948,15 +6008,15 @@ class CrossSectionFile(Datum):
             source = _parser.Preprocessor.process_inp(source)
             tokens = _parser.Parser(source.split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_WEIGHT))
 
-            zaid = types.Zaid().cast_mcnp_zaid(tokens.popl())
-            ratio = types.cast_fortran_real(tokens.popl())
+            zaid = types.Zaid.from_mcnp(tokens.popl())
+            ratio = types.McnpReal.from_mcnp(tokens.popl())
 
             if tokens:
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_WEIGHT)
 
             return AtomicWeightValue(zaid, ratio)
 
-    def __init__(self, weight_ratios: tuple[CrossSectionFileValue], suffix: int):
+    def __init__(self, weight_ratios: tuple[CrossSectionFileValue], suffix: types.McnpInteger):
         """
         ``__init__`` initializes ``CrossSectionFile``.
 
@@ -6035,7 +6095,16 @@ class MultigroupAdjointTransport(Datum):
         rim: Compression limit for gerneted weight windows.
     """
 
-    def __init__(self, mcal: str, igm: int, iplt: int, isb: int, icw: int, fnw: int, rim: int):
+    def __init__(
+        self,
+        mcal: str,
+        igm: types.McnpInteger,
+        iplt: types.McnpInteger,
+        isb: types.McnpInteger,
+        icw: types.McnpInteger,
+        fnw: types.McnpInteger,
+        rim: types.McnpInteger,
+    ):
         """
         ``__init__`` initializes ``MultigroupAdjointTransport``.
 
@@ -6225,7 +6294,15 @@ class ParticlePhysicsOptionsNeutron(ParticlePhysicsOptions):
     """
 
     def __init__(
-        self, emax: float, emcnf: float, iunr: int, colif: float, cutn: float, ngam: int, i_int_model: int, i_els_model: int
+        self,
+        emax: types.McnpReal,
+        emcnf: types.McnpReal,
+        iunr: types.McnpInteger,
+        colif: types.McnpReal,
+        cutn: types.McnpReal,
+        ngam: types.McnpInteger,
+        i_int_model: types.McnpInteger,
+        i_els_model: types.McnpInteger,
     ):
         """
         ``__init__`` initializes ``ParticlePhysicsOptionsNeutron``.
@@ -6303,7 +6380,15 @@ class ParticlePhysicsOptionsPhoton(ParticlePhysicsOptions):
         fism: Slection of photofission method controls.
     """
 
-    def __init__(self, emcpf: float, ides: int, nocoh: int, ispn: int, nodop: int, fism: int):
+    def __init__(
+        self,
+        emcpf: types.McnpReal,
+        ides: types.McnpInteger,
+        nocoh: types.McnpInteger,
+        ispn: types.McnpInteger,
+        nodop: types.McnpInteger,
+        fism: types.McnpInteger,
+    ):
         """
         ``__init__`` initializes ``ParticlePhysicsOptionsPhoton``.
 
@@ -6378,19 +6463,19 @@ class ParticlePhysicsOptionsElectron(ParticlePhysicsOptions):
 
     def __init__(
         self,
-        emax: float,
-        ides: int,
-        ibad: int,
-        istrg: int,
-        bnum: float,
-        xnum: float,
-        rnok: float,
-        enum: float,
-        numb: float,
-        i_mcs_model: int,
-        efac: float,
-        electron_method_boundary: float,
-        ckvnum: float,
+        emax: types.McnpReal,
+        ides: types.McnpInteger,
+        ibad: types.McnpInteger,
+        istrg: types.McnpInteger,
+        bnum: types.McnpReal,
+        xnum: types.McnpReal,
+        rnok: types.McnpReal,
+        enum: types.McnpReal,
+        numb: types.McnpReal,
+        i_mcs_model: types.McnpInteger,
+        efac: types.McnpReal,
+        electron_method_boundary: types.McnpReal,
+        ckvnum: types.McnpReal,
     ):
         """
         ``__init__`` initializes ``ParticlePhysicsOptionsElectron``.
@@ -6515,17 +6600,17 @@ class ParticlePhysicsOptionsProton(ParticlePhysicsOptions):
 
     def __init__(
         self,
-        emax: float,
-        ean: float,
-        tabl: float,
-        istrg: int,
-        recl: float,
-        i_mcs_model: int,
-        i_int_model: int,
-        i_els_model: int,
-        efac: float,
-        ckvnum: float,
-        drp: float,
+        emax: types.McnpReal,
+        ean: types.McnpReal,
+        tabl: types.McnpReal,
+        istrg: types.McnpInteger,
+        recl: types.McnpReal,
+        i_mcs_model: types.McnpInteger,
+        i_int_model: types.McnpInteger,
+        i_els_model: types.McnpInteger,
+        efac: types.McnpReal,
+        ckvnum: types.McnpReal,
+        drp: types.McnpReal,
     ):
         """
         ``__init__`` initializes ``ParticlePhysicsOptionsProton``.
@@ -6624,16 +6709,16 @@ class ParticlePhysicsOptionsOther(ParticlePhysicsOptions):
     def __init__(
         self,
         designator: types.Designator,
-        emax: float,
-        istrg: int,
-        xmunum: int,
-        xmugam: float,
-        i_mcs_model: int,
-        i_int_model: int,
-        i_els_model: int,
-        efac: float,
-        ckvnum: float,
-        drp: float,
+        emax: types.McnpReal,
+        istrg: types.McnpInteger,
+        xmunum: types.McnpInteger,
+        xmugam: types.McnpReal,
+        i_mcs_model: types.McnpInteger,
+        i_int_model: types.McnpInteger,
+        i_els_model: types.McnpInteger,
+        efac: types.McnpReal,
+        ckvnum: types.McnpReal,
+        drp: types.McnpReal,
     ):
         """
         ``__init__`` initializes ``ParticlePhysicsOptionsOther``.
@@ -6856,7 +6941,7 @@ class ActivationControl(Datum):
             """
 
             source = _parser.Preprocessor.process_inp(source)
-            tokens = _parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_MATERIAL))
+            tokens = _parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_ACTIVATION))
 
             # Processing Keyword
             keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.from_mcnp(tokens.popl())
@@ -6867,10 +6952,10 @@ class ActivationControl(Datum):
                     value = tokens.popl()
 
                 case ActivationControl.ActivationControlOption.ActivationControlKeyword.THRESH | ActivationControl.ActivationControlOption.ActivationControlKeyword.PECUT:
-                    value = types.cast_fortran_real(tokens.popl())
+                    value = types.McnpReal.from_mcnp(tokens.popl())
 
                 case ActivationControl.ActivationControlOption.ActivationControlKeyword.DNABIS | ActivationControl.ActivationControlOption.ActivationControlKeyword.NAP | ActivationControl.ActivationControlOption.ActivationControlKeyword.HLCUT:
-                    value = types.cast_fortran_integer(tokens.popl())
+                    value = types.McnpInteger.from_mcnp(tokens.popl())
 
                 case ActivationControl.ActivationControlOption.ActivationControlKeyword.DNEB | ActivationControl.ActivationControlOption.ActivationControlKeyword.DGEB:
                     assert False, "Unimplemented"
@@ -6899,7 +6984,7 @@ class ActivationControl(Datum):
         options.
 
         ``Fission`` inherits attributes from ``ActivationControlOption``. It
-        represents the INP Fission material data card option syntax element.
+        represents the INP Fission activation control data card option syntax element.
 
         Attributes:
             particle: Type of delayed particles to be produced.
@@ -6917,7 +7002,7 @@ class ActivationControl(Datum):
             """
 
             if particle is None or not (particles in {"none", "n,p,e,f,a", "all"}):
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ACTIVATION_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.FISSION
             self.value = particle
@@ -6929,7 +7014,7 @@ class ActivationControl(Datum):
         options.
 
         ``NonFission`` inherits attributes from ``ActivationControlOption``. It
-        represents the INP NonFission material data card option syntax element.
+        represents the INP NonFission activation control data card option syntax element.
 
         Attributes:
             particle: Type of delayed particles to be produced.
@@ -6947,7 +7032,7 @@ class ActivationControl(Datum):
             """
 
             if particle is None or not (particles in {"none", "n,p,e,f,a", "all"}):
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ACTIVATION_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.NON_FISSION
             self.value = particle
@@ -6960,7 +7045,7 @@ class ActivationControl(Datum):
 
         ``DelayedNeutron`` inherits attributes from
         ``ActivationControlOption``. It represents the INP DelayedNeutron
-        material data card option syntax element.
+        activation control data card option syntax element.
 
         Attributes:
             source: Delayed neutron data source.
@@ -6978,7 +7063,7 @@ class ActivationControl(Datum):
             """
 
             if state is None or not (state in {"model", "library", "both", "prompt"}):
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ACTIVATION_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.DELAYED_NEUTRON
             self.value = source
@@ -6990,7 +7075,7 @@ class ActivationControl(Datum):
         card options.
 
         ``DelayedGamma`` inherits attributes from ``ActivationControlOption``.
-        It represents the INP DelayedGamma material data card option syntax
+        It represents the INP DelayedGamma activation control data card option syntax
         element.
 
         Attributes:
@@ -7009,7 +7094,7 @@ class ActivationControl(Datum):
             """
 
             if source is None or not (source in {"lines", "mg", "none"}):
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ACTIVATION_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.DELAYED_GAMMA
             self.value = source
@@ -7020,13 +7105,13 @@ class ActivationControl(Datum):
         ``Thresh`` represents INP Thresh activation control data card options.
 
         ``Thresh`` inherits attributes from ``ActivationControlOption``. It
-        represents the INP Thresh material data card option syntax element.
+        represents the INP Thresh activation control data card option syntax element.
 
         Attributes:
             fraction: Fraction of highest-amplitude discrete delayed-gamma.
         """
 
-        def __init__(self, fraction: float):
+        def __init__(self, fraction: types.McnpReal):
             """
             ``__init__`` initializes ``Thresh``.
 
@@ -7038,7 +7123,7 @@ class ActivationControl(Datum):
             """
 
             if fraction is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ACTIVATION_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.THRESH
             self.value = fraction
@@ -7049,13 +7134,13 @@ class ActivationControl(Datum):
         ``Dnbais`` represents INP Dnbais activation control data card options.
 
         ``Dnbais`` inherits attributes from ``ActivationControlOption``. It
-        represents the INP Dnbais material data card option syntax element.
+        represents the INP Dnbais activation control data card option syntax element.
 
         Attributes:
             count: Maximum number of delayed neutron per interaction.
         """
 
-        def __init__(self, count: int):
+        def __init__(self, count: types.McnpInteger):
             """
             ``__init__`` initializes ``Dnbais``.
 
@@ -7067,7 +7152,7 @@ class ActivationControl(Datum):
             """
 
             if count is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ACTIVATION_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.DNBAIS
             self.value = count
@@ -7078,13 +7163,13 @@ class ActivationControl(Datum):
         ``Nap`` represents INP Nap activation control data card options.
 
         ``Nap`` inherits attributes from ``ActivationControlOption``. It
-        represents the INP Nap material data card option syntax element.
+        represents the INP Nap activation control data card option syntax element.
 
         Attributes:
             count: Number of acitvation product for distributions.
         """
 
-        def __init__(self, count: int):
+        def __init__(self, count: types.McnpInteger):
             """
             ``__init__`` initializes ``Nap``.
 
@@ -7096,7 +7181,7 @@ class ActivationControl(Datum):
             """
 
             if count is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ACTIVATION_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.NAP
             self.value = count
@@ -7107,13 +7192,13 @@ class ActivationControl(Datum):
         ``Pecut`` represents INP Pecut activation control data card options.
 
         ``Pecut`` inherits attributes from ``ActivationControlOption``. It
-        represents the INP Pecut material data card option syntax element.
+        represents the INP Pecut activation control data card option syntax element.
 
         Attributes:
             cutoff: Delayed-gamma energy cutoff.
         """
 
-        def __init__(self, cutoff: float):
+        def __init__(self, cutoff: types.McnpReal):
             """
             ``__init__`` initializes ``Pecut``.
 
@@ -7125,7 +7210,7 @@ class ActivationControl(Datum):
             """
 
             if state is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ACTIVATION_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.PECUT
             self.value = cutoff
@@ -7136,13 +7221,13 @@ class ActivationControl(Datum):
         ``Hlcut`` represents INP Hlcut activation control data card options.
 
         ``Hlcut`` inherits attributes from ``ActivationControlOption``. It
-        represents the INP Hlcut material data card option syntax element.
+        represents the INP Hlcut activation control data card option syntax element.
 
         Attributes:
             threshold: Spontaneous-decay half-life threshold.
         """
 
-        def __init__(self, threshold: int):
+        def __init__(self, threshold: types.McnpInteger):
             """
             ``__init__`` initializes ``Hlcut``.
 
@@ -7154,7 +7239,7 @@ class ActivationControl(Datum):
             """
 
             if threshold is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ACTIVATION_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.HLCUT
             self.value = threshold
@@ -7165,7 +7250,7 @@ class ActivationControl(Datum):
         ``Sample`` represents INP Sample activation control data card options.
 
         ``Sample`` inherits attributes from ``ActivationControlOption``. It
-        represents the INP Sample material data card option syntax element.
+        represents the INP Sample activation control data card option syntax element.
 
         Attributes:
             state: Flag for correlated or uncorrelated.
@@ -7183,7 +7268,7 @@ class ActivationControl(Datum):
             """
 
             if state is None or not (state in {"correlate", "nonfiss_cor"}):
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ACTIVATION_VALUE)
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.SAMPLE
             self.value = state
@@ -7233,7 +7318,13 @@ class TimeEnergyWeightCutoffs(Datum):
     """
 
     def __init__(
-        self, designator: types.Designator, time: float, energy: float, weight1: float, weight2: float, source: float
+        self,
+        designator: types.Designator,
+        time: types.McnpReal,
+        energy: types.McnpReal,
+        weight1: types.McnpReal,
+        weight2: types.McnpReal,
+        source: types.McnpReal,
     ):
         """
         ``__init__`` initializes ``TimeEnergyWeightCutoffs``.
@@ -7254,20 +7345,20 @@ class TimeEnergyWeightCutoffs(Datum):
         if designator is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DESIGNATOR)
 
-        if time is None or not (time > 0):
+        if time is None or not (time == "j" or time > 0):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        if energy is None or not (energy > 0):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+        # if energy is None or not (energy == 'j' or energy > 0):
+        # raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        if weight1 is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+        # if weight1 is None:
+        # raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        if weight2 is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+        # if weight2 is None:
+        # raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        if source is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+        # if source is None:
+        # raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.id: final[str] = f"cut:{designator.to_mcnp()}"
         self.mnemonic = Datum.DatumMnemonic.TIME_ENERGY_WEIGHT_CUTOFFS
@@ -7333,7 +7424,7 @@ class FreeGasThermalTemperature(Datum):
         temperatures: Temperatures of cells at given time indexes.
     """
 
-    def __init__(self, suffix: int, temperatures: float):
+    def __init__(self, suffix: types.McnpInteger, temperatures: types.McnpReal):
         """
         ``__init__`` initializes ``FreeGasThermalTemperature``.
 
@@ -7445,17 +7536,17 @@ class Lca(Datum):
 
     def __init__(
         self,
-        ielas: int,
-        ipreq: int,
-        iexisa: int,
+        ielas: types.McnpInteger,
+        ipreq: types.McnpInteger,
+        iexisa: types.McnpInteger,
         ichoic: str,
-        jcoul: int,
-        nexite: int,
-        npidk: int,
-        noact: int,
-        icem: int,
-        ilaq: int,
-        nevtype: float,
+        jcoul: types.McnpInteger,
+        nexite: types.McnpInteger,
+        npidk: types.McnpInteger,
+        noact: types.McnpInteger,
+        icem: types.McnpInteger,
+        ilaq: types.McnpInteger,
+        nevtype: types.McnpReal,
     ):
         """
         ``__init__`` initializes ``Lca``.
@@ -7544,14 +7635,14 @@ class Lcb(Datum):
 
     def __init__(
         self,
-        flebn1: float,
-        flebn2: float,
-        flebn3: float,
-        flebn4: float,
-        flebn5: float,
-        flebn6: float,
-        ctofe: float,
-        flim0: float,
+        flebn1: types.McnpReal,
+        flebn2: types.McnpReal,
+        flebn3: types.McnpReal,
+        flebn4: types.McnpReal,
+        flebn5: types.McnpReal,
+        flebn6: types.McnpReal,
+        ctofe: types.McnpReal,
+        flim0: types.McnpReal,
     ):
         """
         ``__init__`` initializes ``Lcb``.
@@ -7625,14 +7716,14 @@ class Lcc(Datum):
 
     def __init__(
         self,
-        atincl: float,
-        v0incl: float,
-        xfoisaincl: float,
-        npaulincl: int,
-        nosurfincl: int,
-        ecutincl: float,
-        ebankincl: float,
-        ebankabla: float,
+        atincl: types.McnpReal,
+        v0incl: types.McnpReal,
+        xfoisaincl: types.McnpReal,
+        npaulincl: types.McnpInteger,
+        nosurfincl: types.McnpInteger,
+        ecutincl: types.McnpReal,
+        ebankincl: types.McnpReal,
+        ebankabla: types.McnpReal,
     ):
         """
         ``__init__`` initializes ``Lcc``.
@@ -7706,14 +7797,14 @@ class Lea(Datum):
 
     def __init__(
         self,
-        ipht: int,
-        icc: int,
-        nobalc: int,
-        nobale: int,
-        ifbrk: int,
-        ilvden: int,
-        ievap: int,
-        nofis: int,
+        ipht: types.McnpInteger,
+        icc: types.McnpInteger,
+        nobalc: types.McnpInteger,
+        nobale: types.McnpInteger,
+        ifbrk: types.McnpInteger,
+        ilvden: types.McnpInteger,
+        ievap: types.McnpInteger,
+        nofis: types.McnpInteger,
     ):
         """
         ``__init__`` initializes ``Lea``.
@@ -7769,16 +7860,17 @@ class Lea(Datum):
 
 class _Placeholder(Datum):
     def __init__(self, mnemonic: Datum.DatumMnemonic, parameters: tuple[any]):
+        # print(f"[WARNING] Placeholder used for {mnemonic}")
         self.id = mnemonic
         self.mnemonic = mnemonic
         self.parameters = parameters
 
 
-class Nps(Datum):
+class HistroyCutoff(Datum):
     """
-    ``Nps`` represents INP nps data cards.
+    ``HistroyCutoff`` represents INP nps data cards.
 
-    ``Nps`` inherits attributes from ``Datum``. It represents the INP model
+    ``HistroyCutoff`` inherits attributes from ``Datum``. It represents the INP model
     physics nps data card syntax element.
 
     Attributes:
@@ -7786,9 +7878,9 @@ class Nps(Datum):
         npsmg: Number of histroy with direct source contributions.
     """
 
-    def __init__(self, npp: int, npsmg: int):
+    def __init__(self, npp: types.McnpInteger, npsmg: types.McnpInteger):
         """
-        ``__init__`` initializes ``Nps``.
+        ``__init__`` initializes ``HistroyCutoff``.
 
         Parameters:
             npp: Total number of histories to run.
@@ -7798,8 +7890,8 @@ class Nps(Datum):
         if npp is None or not (npp > 0):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        if npsmg is None or not (npsmg > 0):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+        # if npsmg is None or not (npsmg > 0):
+        # raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         self.id: final[str] = "nps"
         self.mnemonic: final[Datum.DatumMnemonic] = Datum.DatumMnemonic.HISTORY_CUTOFF

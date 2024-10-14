@@ -1,269 +1,442 @@
 """
-'types'
+``types`` contains class representing basic MCNP types.
+
+``types`` packages the ``McnpInteger``, ``McnpReal``, ``Zaid``, and
+``Designator`` classes, providing an object-oriented, importable interface for
+MCNP types.
 """
+
 
 from __future__ import annotations
 import re
-from enum import StrEnum
-from typing import Callable
+import enum
+from typing import Union, Literal
+
 from . import _parser
-
-ELEMENTS = {
-    "H": 1,
-    "He": 2,
-    "Li": 3,
-    "Be": 4,
-    "B": 5,
-    "C": 6,
-    "N": 7,
-    "O": 8,
-    "F": 9,
-    "Ne": 10,
-    "Na": 11,
-    "Mg": 12,
-    "Al": 13,
-    "Si": 14,
-    "P": 15,
-    "S": 16,
-    "Cl": 17,
-    "Ar": 18,
-    "K": 19,
-    "Ca": 20,
-    "Sc": 21,
-    "Ti": 22,
-    "V": 23,
-    "Cr": 24,
-    "Mn": 25,
-    "Fe": 26,
-    "Co": 27,
-    "Ni": 28,
-    "Cu": 29,
-    "Zn": 30,
-    "Ga": 31,
-    "Ge": 32,
-    "As": 33,
-    "Se": 34,
-    "Br": 35,
-    "Kr": 36,
-    "Rb": 37,
-    "Sr": 38,
-    "Y": 39,
-    "Zr": 40,
-    "Nb": 41,
-    "Mo": 42,
-    "Tc": 43,
-    "Ru": 44,
-    "Rh": 45,
-    "Rd": 46,
-    "Ag": 47,
-    "Cd": 48,
-    "In": 49,
-    "Sn": 50,
-    "Sb": 51,
-    "Te": 52,
-    "I": 53,
-    "Xe": 54,
-    "Cs": 55,
-    "Ba": 56,
-    "La": 57,
-    "Ce": 58,
-    "Pr": 59,
-    "Nd": 60,
-    "Pm": 61,
-    "Sm": 62,
-    "Eu": 63,
-    "Gd": 64,
-    "Tb": 65,
-    "Dy": 66,
-    "Ho": 67,
-    "Er": 68,
-    "Tm": 69,
-    "Yb": 70,
-    "Lu": 71,
-    "Hf": 72,
-    "Ta": 73,
-    "W": 74,
-    "Re": 75,
-    "Os": 76,
-    "Ir": 77,
-    "Pt": 78,
-    "Au": 79,
-    "Hg": 80,
-    "Tl": 81,
-    "Pb": 82,
-    "Bi": 83,
-    "Po": 84,
-    "At": 85,
-    "Rn": 86,
-    "Fr": 87,
-    "Ra": 88,
-    "Ac": 89,
-    "Th": 90,
-    "Pa": 91,
-    "U": 92,
-    "Np": 93,
-    "Pu": 94,
-    "Am": 95,
-    "Cm": 96,
-    "Bk": 97,
-    "Cf": 98,
-    "Es": 99,
-    "Fm": 100,
-    "Md": 101,
-    "No": 102,
-    "Lr": 103,
-    "Rf": 104,
-    "Db": 105,
-    "Sg": 106,
-    "Bh": 107,
-    "Hs": 108,
-    "Mt": 109,
-    "Ds": 110,
-    "Rg": 111,
-    "Cn": 112,
-    "Nh": 113,
-    "Fl": 114,
-    "Mc": 115,
-    "Lv": 116,
-    "Ts": 117,
-    "Og": 118,
-}
-
-ELEMENTS_PATTERN = re.compile(
-    r"\d+|H|He|Li|Be|B|C|N|O|F|Ne|Na|Mg|Al|Si|P|S|Cl|Ar|K|Ca|Sc|Ti|V|Cr|Mn|Fe|Co|Ni|Cu|Zn|Ga|Ge|As|Se|Br|Kr|Rb|Sr|Y|Zr|Nb|Mo|Tc|Ru|Rh|Rd|Ag|Cd|In|Sn|Sb|Te|I|Xe|Cs|Ba|La|Ce|Pr|Nd|Pm|Sm|Eu|Gd|Tb|Dy|Ho|Er|Tm|Yb|Lu|Hf|Ta|W|Re|Os|Ir|Pt|Au|Hg|Tl|Pb|Bi|Po|At|Rn|Fr|Ra|Ac|Th|Pa|U|Np|Pu|Am|Cm|Bk|Cf|Es|Fm|Md|No|Lr|Rf|Db|Sg|Bh|Hs|Mt|Ds|Rg|Cn|Nh|Fl|Mc|Lv|Ts|Og"
-)
-Z_PATTERN = re.compile(r"\A[+-]?[0-9]+\Z")
-R_PATTERN = re.compile(r"\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([Ee]([+-][0-9]+))?\Z")
+from . import errors
 
 
-def cast_fortran_integer(string: str, hook: Callable[int, bool] = lambda _: True) -> int:
+class DistributionNumber:
     """
-    'cast_fortran_integer'
+    ``DistributionNumber`` represents MCNP distribution numbers.
+
+    Attributes:
+        n: number.
     """
 
-    if Z_PATTERN.match(string) is not None:
-        value = int(string)
-        if hook(value):
-            return value
+    def __init__(self, n: int):
+        """
+        ``__init__`` initializes ``DistributionNumber``.
 
-    return None
+        Parameters:
+            n: number.
+        """
 
+        if n is None or not (1 <= n <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DN)
 
-def cast_fortran_real(string: str, hook: Callable[float, bool] = lambda _: True) -> float:
-    """
-    'cast_fortran_real'
-    """
+        self.n: final[int] = n
 
-    if R_PATTERN.match(string) is not None:
-        value = float(string)
-        if hook(value):
-            return value
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        ``from_mcnp`` generates ``DistributionNumber`` objects from INP.
 
-    return None
+        ``from_mcnp`` constructs instances of ``DistributionNumber`` from INP
+        source strings, so it operates as a class constructor method
+        and INP parser helper function.
+
+        Parameters:
+            source: INP for distribution number.
+
+        Returns:
+            ``DistributionNumber`` object.
+        """
+
+        source = _parser.Preprocessor.process_inp(source)
+
+        match = re.match(r"\A[dD](\d|\d\d|\d\d\d)\Z", source)
+        if match is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DN)
+
+        return DistributionNumber(int(match[1]))
 
 
 class Zaid:
     """
-    'Zaid'
+    ``Zaid`` represents nuclide information numbers.
+
+    Attributes:
+        z: Atomic number.
+        a: Mass number.
+        abx: Cross-section evaluation & class information.
     """
 
-    def __init__(self, a: int, z: int, abx: str = None):
+    def __init__(self, z: int, a: int, abx: str = None):
         """
-        '__init__' initializes 'Zaid'.
+        ``__init__`` initializes ``Zaid``.
+
+        Parameters:
+            z: Atomic number.
+            a: Mass number.
+            abx: Cross-section evaluation & class information.
         """
 
-        self.a: int = a
-        self.z: int = z
-        self.abx: str = abx
+        if z is None or not (000 <= z <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_Z)
+
+        if a is None or not (000 <= a <= 999):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_A)
+
+        # if abx is None:
+        #    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_ABX)
+
+        self.z: final[int] = z
+        self.a: final[int] = a
+        self.abx: final[str] = abx
 
     @staticmethod
-    def cast_mcnp_zaid(source: str):
+    def from_mcnp(source: str):
         """
-        'cast_mcnp_zaid'
+        ``from_mcnp`` generates ``Zaid`` objects from INP.
+
+        ``from_mcnp`` constructs instances of ``Zaid`` from INP
+        source strings, so it operates as a class constructor method
+        and INP parser helper function.
+
+        Parameters:
+            source: INP for zaid.
+
+        Returns:
+            ``Zaid`` object.
         """
 
         source = _parser.Preprocessor.process_inp(source)
-        tokens = _parser.Parser(source.split("."), Exception)
+        tokens = _parser.Parser(source.split("."), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_ZAID))
 
-        az = tokens.popl()
-        if len(az) < 4 or len(az) > 6:
-            raise Exception
+        zzzaaa = tokens.popl()
+        if len(zzzaaa) < 4:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_Z)
 
-        a = int(az[:-3])
-        z = int(az[-3:])
-        abx = tokens.popl() if tokens else None
+        try:
+            a = int(zzzaaa[-3:])
+        except:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_A)
 
-        return Zaid(a, z, abx)
+        try:
+            z = int(zzzaaa[:-3])
+        except:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_Z)
 
-    def to_mcnp(self):
-        if self.abx is None:
-            return f"{self.a:03d}{self.z:03d}"
+        abx = None
+        if tokens:
+            abx = tokens.popl()
+
+        if tokens:
+            raise errors.MCNPSytnaxError(errors.MCNPSytnaxCodes.TOOLONG_ZAID)
+
+        return Zaid(z, a, abx)
+
+    def to_mcnp(self) -> str:
+        """
+        ``to_mcnp`` generates INP from ``Zaid`` objects.
+
+        ``to_mcnp`` creates INP source string from ``Zaid``
+        objects, so it provides an MCNP endpoint.
+
+        Returns:
+            INP string for ``Zaid`` object.
+        """
+
+        return f"{self.z:03}{self.a:03}.{self.abx}" if self.abx is not None else f"{self.z:03}{self.a:03}"
+
+
+class Designator:
+    """
+    ``Designator`` represents MCNP particle designators.
+
+    Attributes:
+        particles: Tuple of particles.
+    """
+
+    class Particle(enum.StrEnum):
+        """
+        ``Particle`` represents individular particle designators.
+        """
+
+        NEUTRON = "n"
+        ANTI_NEUTRON = "q"
+        PHOTON = "p"
+        ELECTRON = "e"
+        POSITRON = "f"
+        NEGATIVE_MUON = "|"
+        POSITIVE_MUON = "!"
+        ELECTRON_NEUTRINO = "u"
+        ANTI_ELECTRON_NEUTRINO = "<"
+        MUON_NEUTRINO = "v"
+        ANTI_MUON_MEUTRINO = ">"
+        PROTON = "h"
+        ANTI_PROTON = "g"
+        LAMBDA_BARYON = "l"
+        ANTI_LAMBDA_BARYON = "b"
+        POSITIVE_SIGMA_BARYON = "+"
+        ANTI_POSITIVE_SIGMA_BARYON = "_"
+        NEGATIVE_SIGMA_BARYON = "-"
+        ANTI_NEGATIVE_SIGMA_BARYON = "~"
+        CASCADE = "x"
+        ANTI_CASCADE = "c"
+        NEGATIVE_CASCADE = "y"
+        POSITIVE_CASCADE = "w"
+        OMEGA_BARYON = "o"
+        ANTI_OMEGA_BARYON = "@"
+        POSITIVE_PION = "/"
+        NEGATIVE_PION = "*"
+        NEUTRAL_PION = "z"
+        POSITIVE_KAON = "k"
+        NEGATIVE_KAON = "?"
+        SHORT_KAON = "%"
+        LONG_KAON = "^"
+        DEUTERON = "d"
+        TRITON = "t"
+        HELION = "s"
+        ALPHA = "a"
+        HEAVY_IONS = "#"
+
+    def __init__(self, particles: tuple[Particle]):
+        """
+        ``__init__`` initializes ``Designator``.
+
+        Parameters:
+            particles: Tuple of particles.
+
+        Raises:
+            MCNPSemanticError: INVALID_MCNP_DESIGNATOR.
+        """
+
+        if particles is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR)
+
+        for particle in particles:
+            if particle is None:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR)
+
+        self.particles: final[tuple[Particle]] = particles
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        ``from_mcnp`` generates ``Designator`` objects from INP.
+
+        ``from_mcnp`` constructs instances of ``Designator`` from INP
+        source strings, so it operates as a class constructor method
+        and INP parser helper function.
+
+        Parameters:
+            source: INP for particle designator(s).
+
+        Returns:
+            Tuple of ``Designator`` objects.
+        """
+
+        try:
+            particles = tuple([Designator.Particle(token) for token in source.split(",")])
+        except ValueError:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR)
+
+        return Designator(particles)
+
+    def to_mcnp(self) -> str:
+        """
+        ``to_mcnp`` generates INP from ``Designator`` objects.
+
+        ``to_mcnp`` creates INP source string from ``Designator``
+        objects, so it provides an MCNP endpoint.
+
+        Returns:
+            INP string for ``Designator`` object.
+        """
+
+        return ",".join(Designator.Particle(particle) for particle in self.particles)
+
+    def __eq__(self, other):
+        return self.particles == other.particles
+
+
+class McnpInteger:
+    """
+    ``McnpInteger`` represents the INP integer value.
+
+    Attributes:
+        value: Integer or J jump symbol.
+    """
+
+    def __init__(self, integer: int | Literal["j"]):
+        """
+        ``__init__`` initializes ``McnpInteger``.
+
+        Parameters:
+            integer: Integer or J jump symbol.
+
+        Raises:
+            MCNPSemanticError: INVALID_MCNP_INTEGER.
+        """
+
+        if integer is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER)
+
+        if isinstance(integer, int):
+            value = integer
+        elif integer == "j":
+            value = "j"
         else:
-            return f"{self.a:03d}{self.z:03d}.{self.abx}"
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER)
 
+        self.value: final[int | Literal["j"]] = value
 
-class Designator(StrEnum):
-    """
-    'Designator'
-    """
-
-    NEUTRON = "n"
-    ANTI_NEUTRON = "q"
-    PHOTON = "p"
-    ELECTRON = "e"
-    POSITRON = "f"
-    NEGATIVE_MUON = "|"
-    POSITIVE_MUON = "!"
-    ELECTRON_NEUTRINO = "u"
-    ANTI_ELECTRON_NEUTRINO = "<"
-    MUON_NEUTRINO = "v"
-    ANTI_MUON_MEUTRINO = ">"
-    PROTON = "h"
-    ANTI_PROTON = "g"
-    LAMBDA_BARYON = "l"
-    ANTI_LAMBDA_BARYON = "b"
-    POSITIVE_SIGMA_BARYON = "+"
-    ANTI_POSITIVE_SIGMA_BARYON = "_"
-    NEGATIVE_SIGMA_BARYON = "-"
-    ANTI_NEGATIVE_SIGMA_BARYON = "~"
-    CASCADE = "x"
-    ANTI_CASCADE = "c"
-    NEGATIVE_CASCADE = "y"
-    POSITIVE_CASCADE = "w"
-    OMEGA_BARYON = "o"
-    ANTI_OMEGA_BARYON = "@"
-    POSITIVE_PION = "/"
-    NEGATIVE_PION = "*"
-    NEUTRAL_PION = "z"
-    POSITIVE_KAON = "k"
-    NEGATIVE_KAON = "?"
-    SHORT_KAON = "%"
-    LONG_KAON = "^"
-    DEUTERON = "d"
-    TRITON = "t"
-    HELION = "s"
-    ALPHA = "a"
-    HEAVY_IONS = "#"
-
-    @classmethod
-    def cast_mcnp_designator(cls, string: str, hook: Callable[Designator, bool] = lambda _: True) -> tuple[Designator]:
+    @staticmethod
+    def from_mcnp(source: str):
         """
-        'cast_mcnp_designator'
+        ``from_mcnp`` generates ``McnpInteger`` objects from INP.
+
+        ``from_mcnp`` constructs instances of ``McnpInteger`` from INP
+        source strings, so it operates as a class constructor method
+        and INP parser helper function.
+
+        Parameters:
+            source: INP for integer.
+
+        Returns:
+            ``McnpInteger`` object.
         """
 
-        string = string.lower()
+        source = _parser.Preprocessor.process_inp(source)
 
-        designators = []
+        if re.match(r"\A[+-]?[0-9]+\Z", source):
+            integer = int(source)
+        elif re.match(r"\A[+-]?[0-9]+[Ee][+-]?[0-9]+\Z", source):
+            integer = int(float(source))
+        else:
+            integer = source
 
-        for substring in string.split(","):
-            try:
-                value = designators.append(cls(substring))
-                if hook(value):
-                    return tuple(designators) if designators else None
-            except ValueError:
-                pass
-
-        return None
+        return McnpInteger(integer)
 
     def to_mcnp(self):
-        return self.value
+        """
+        ``to_mcnp`` generates INP from ``McnpInteger`` objects.
+
+        ``to_mcnp`` creates INP source string from ``McnpInteger``
+        objects, so it provides an MCNP endpoint.
+
+        Returns:
+            INP string for ``McnpInteger`` object.
+        """
+
+        return str(self.value)
+
+    def __eq__(a, b: McnpInteger | int):
+        return a.value == b.value if isinstance(b, McnpInteger) else a.value == b
+
+    def __lt__(a, b: McnpInteger | int):
+        return a.value < b.value if isinstance(b, McnpInteger) else a.value < b
+
+    def __le__(a, b: McnpInteger | int):
+        return a.value <= b.value if isinstance(b, McnpInteger) else a.value <= b
+
+    def __gt__(a, b: McnpInteger | int):
+        return a.value > b.value if isinstance(b, McnpInteger) else a.value > b
+
+    def __ge__(a, b: McnpInteger | int):
+        return a.value >= b.value if isinstance(b, McnpInteger) else a.value >= b
+
+    def __ne__(a, b: McnpInteger | int):
+        return a.value != b.value if isinstance(b, McnpInteger) else a.value != b
+
+
+class McnpReal:
+    """
+    ``McnpReal`` represents the INP real/floating-point value.
+
+    Attributes:
+        value: Floating-point number or J jump symbol.
+    """
+
+    JUMP = "j"
+
+    def __init__(self, real: float | Literal["j"]):
+        """
+        ``__init__`` initializes ``McnpReal``.
+
+        Parameters:
+            real: Floating-point number or J jump symbol.
+
+        Raises:
+            MCNPSemanticError: INVALID_MCNP_REAL.
+        """
+
+        if real is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_REAL)
+
+        if isinstance(real, float) or isinstance(real, int):
+            value = float(real)
+        elif real == "j":
+            value = "j"
+        else:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_REAL)
+
+        self.value: final[float | Literal["j"]] = value
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        ``from_mcnp`` generates ``McnpReal`` objects from INP.
+
+        ``from_mcnp`` constructs instances of ``McnpReal`` from INP
+        source strings, so it operates as a class constructor method
+        and INP parser helper function.
+
+        Parameters:
+            source: INP for real.
+
+        Returns:
+            ``McnpReal`` object.
+        """
+
+        source = _parser.Preprocessor.process_inp(source)
+
+        if re.match(r"\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([Ee]([+-][0-9]+))?\Z", source):
+            real = float(source)
+        else:
+            real = source
+
+        return McnpReal(real)
+
+    def to_mcnp(self):
+        """
+        ``to_mcnp`` generates INP from ``McnpReal`` objects.
+
+        ``to_mcnp`` creates INP source string from ``McnpReal``
+        objects, so it provides an MCNP endpoint.
+
+        Returns:
+            INP string for ``McnpReal`` object.
+        """
+
+        return str(self.value)
+
+    def __eq__(a, b: McnpReal | float):
+        return a.value == b.value if isinstance(b, McnpReal) else a.value == b
+
+    def __lt__(a, b: McnpReal | float):
+        return a.value < b.value if isinstance(b, McnpReal) else a.value < b
+
+    def __le__(a, b: McnpReal | float):
+        return a.value <= b.value if isinstance(b, McnpReal) else a.value <= b
+
+    def __gt__(a, b: McnpReal | float):
+        return a.value > b.value if isinstance(b, McnpReal) else a.value > b
+
+    def __ge__(a, b: McnpReal | float):
+        return a.value >= b.value if isinstance(b, McnpReal) else a.value >= b
+
+    def __ne__(a, b: McnpReal | float):
+        return a.value != b.value if isinstance(b, McnpReal) else a.value != b
