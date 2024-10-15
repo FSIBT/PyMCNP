@@ -1,10 +1,9 @@
 """
 ``ptrac`` contains classes representing PTRAC files.
 
-``ptrac`` packages the ``Ptrac`` class, providing an object-oriented, 
+``ptrac`` packages the ``Ptrac`` class, providing an object-oriented,
 importable interface for PTRAC files.
 """
-
 
 from .header import Header
 from .history import History

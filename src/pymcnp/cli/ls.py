@@ -5,14 +5,13 @@
 utilities for listing MCNP information.
 """
 
-
 import sys
+from typing import final
 
 import docopt
 
 from .. import files
 from . import _save
-from . import _io
 
 
 class Ls:
@@ -42,7 +41,10 @@ class Ls:
         out = out.format("NUMBER", "MATERIAL", "DENSITY", "GEOMETRY")
 
         for cell in self.inp.cells._cards.values():
-            out += f"{cell.number:<12} {cell.material:<12} {cell.density if cell.density else '':<12} {cell.geometry.to_mcnp():<25}\n"
+            out += (
+                f"{cell.number:<12} {cell.material:<12} {cell.density if cell.density else '':<12}"
+                f"{cell.geometry.to_mcnp():<25}\n"
+            )
 
         return out
 
@@ -93,7 +95,7 @@ class Ls:
         return out
 
 
-PYMCNP_LS_DOC = f"""
+PYMCNP_LS_DOC = """
 Usage:
     pymcnp ls [(<alias> (--cells|--surfaces|--data)...)]
 

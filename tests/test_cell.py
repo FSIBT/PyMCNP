@@ -109,7 +109,7 @@ class Test_CellKeyword:
 
     def test_invalid(self):
         for keyword in self.INVALID_EXAMPLES:
-            with pytest.raises(ValueError) as err:
+            with pytest.raises(ValueError):
                 pymcnp.inp.Cell.CellOption.CellKeyword(keyword)
 
 

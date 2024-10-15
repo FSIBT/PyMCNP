@@ -1,13 +1,13 @@
 """
 ``run`` contains functions for interacting with MCNP.
 
-``run`` packages the ``Run`` utility class, providing an object-oriented, 
+``run`` packages the ``Run`` utility class, providing an object-oriented,
 importable interface for running MCNP INP files.
 """
 
-
 import os
 import sys
+from typing import final
 
 import docopt
 
@@ -98,7 +98,7 @@ class Run:
         if "nps" in self.inp.data:
             self.inp.data["nps"].npp //= count
         else:
-            self.inp.data.append(inp.Nps(DEFAULT_NPP // count, DEFAULT_NPSMG))
+            self.inp.data.append(files.inp.HistoyCutoff(DEFAULT_NPP // count, DEFAULT_NPSMG))
 
         inp_path = f"{directory_path}/pymcnp-inp-{timestamp}.inp"
         self.inp.to_mcnp_file(inp_path)
@@ -116,7 +116,7 @@ class Run:
         return directory_path
 
 
-PYMCNP_RUN_DOC = f"""
+PYMCNP_RUN_DOC = """
 Usage:
     pymcnp run ( [--object] <alias> | --file <file> ) [ --parallel=<threads> ]
 

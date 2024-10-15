@@ -2,11 +2,10 @@
 Run MCNP through Python using the package subprocess.
 Code modifed from https://gist.github.com/abnowack
 """
+
 import numpy as np
 import subprocess
-import tempfile
 import shutil
-from contextlib import contextmanager
 import os
 from pathlib import Path
 
@@ -33,7 +32,7 @@ def create_directory(directory):
     """
     if directory.exists():
         print(f"Directory '{directory}' already exists.")
-        new_name = directory.name + f"-{np.random.randint(0,999)}"
+        new_name = directory.name + f"-{np.random.randint(0, 999)}"
         new_dir = directory.parent / new_name
         new_dir.mkdir()
         print(f"Directory '{new_dir}' created successfully.")

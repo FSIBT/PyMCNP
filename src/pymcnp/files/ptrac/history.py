@@ -1,10 +1,9 @@
 """
 ``history`` contains classes representing PTRAC histories.
 
-``history`` packages the ``History`` class, providing an object-oriented, 
+``history`` packages the ``History`` class, providing an object-oriented,
 importable interface for PTRAC event histories.
 """
-
 
 from __future__ import annotations
 
@@ -105,7 +104,7 @@ class History:
             MCNPSemanticError: INVALID_HISTORY_NSF.
         """
 
-        if nfs is None:
+        if nsf is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HISTORY_NSF)
 
         self.nsf = nsf

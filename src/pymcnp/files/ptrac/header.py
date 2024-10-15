@@ -1,10 +1,9 @@
 """
 ``header`` contains classes representing PTRAC headers.
 
-``header`` packages the ``Header`` class, providing an object-oriented, 
+``header`` packages the ``Header`` class, providing an object-oriented,
 importable interface for PTRAC headers.
 """
-
 
 from __future__ import annotations
 from enum import Enum

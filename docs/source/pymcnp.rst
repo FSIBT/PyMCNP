@@ -46,7 +46,7 @@ Syntax Element                                                        Support
 INP                                                                   Partial
 INP.Cell                                                              Full
 INP.Cell.Geometry                                                     Partial
-INP.Cell.Option                                                       Full                    
+INP.Cell.Option                                                       Full
 INP.Cell.Option.Importance                                            Full
 INP.Cell.Option.Volume                                                Full
 INP.Cell.Option.Proton Weight                                         Full

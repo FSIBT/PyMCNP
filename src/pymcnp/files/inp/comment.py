@@ -5,6 +5,7 @@
 interface for INP comment cards.
 """
 
+from typing import final
 
 from . import card
 from ..utils import errors
@@ -63,7 +64,7 @@ class Comment(card.Card):
         source = _parser.Preprocessor.process_inp(source)
 
         if not source.startswith("c "):
-            raise MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_COMMENT_C)
+            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_COMMENT_C)
 
         return Comment(source[1:].strip(" "))
 

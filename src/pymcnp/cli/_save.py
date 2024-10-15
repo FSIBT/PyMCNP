@@ -2,7 +2,6 @@
 '_save'
 """
 
-
 import os.path
 
 from ..files import inp

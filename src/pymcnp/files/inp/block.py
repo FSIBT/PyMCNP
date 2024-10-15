@@ -1,10 +1,9 @@
 """
 ``block`` contains classes representing INP card blocks.
 
-``block`` packages the ``Block`` class, providing an object-oriented, 
+``block`` packages the ``Block`` class, providing an object-oriented,
 importable interface for INP card blocks.
 """
-
 
 from __future__ import annotations
 

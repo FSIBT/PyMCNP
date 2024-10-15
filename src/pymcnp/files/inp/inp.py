@@ -5,6 +5,7 @@
 interface for INP files.
 """
 
+from typing import final
 
 from . import cells
 from . import surfaces

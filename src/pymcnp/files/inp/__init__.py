@@ -12,15 +12,7 @@ from .datum import Lattice
 from .datum import Fill
 from .datum import StochasticGeometry
 from .datum import DeterministicMaterials
-from .datum import DeterministicWeightWindow
-from .datum import EmbeddedGeometry
-from .datum import EmbeddedControl
-from .datum import EmbeddedEnergyBoundaries
-from .datum import EmbeddedEnergyMultipliers
-from .datum import EmbeddedTimeBoundaries
-from .datum import EmbeddedTimeMultipliers
-from .datum import EmbeddedDoseBoundaries
-from .datum import EmbeddedDoseMultipliers
+from .datum import WeightWindow
 from .datum import Material
 from .datum import MaterialNeutronScattering
 from .datum import MaterialNuclideSubstitution
@@ -30,10 +22,7 @@ from .datum import FissionTurnoff
 from .datum import AtomicWeight
 from .datum import CrossSectionFile
 from .datum import Void
-from .datum import HistroyCutoff
 from .surface import Surface
-from .surface import PlaneGeneralEquation
-from .surface import PlaneGeneralPoint
 from .surface import PlaneNormalX
 from .surface import PlaneNormalY
 from .surface import PlaneNormalZ

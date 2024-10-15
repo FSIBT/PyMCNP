@@ -1,10 +1,9 @@
 """
 ``event`` contains classes representing PTRAC events.
 
-``event`` packages the ``Event`` class, providing an object-oriented, 
+``event`` packages the ``Event`` class, providing an object-oriented,
 importable interface for PTRAC event.
 """
-
 
 from __future__ import annotations
 from enum import Enum

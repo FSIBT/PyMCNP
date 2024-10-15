@@ -5,11 +5,8 @@
 importable interface for INP surface cards.
 """
 
-
-import numpy as np
-
 import math
-from typing import Callable
+from typing import final
 from enum import StrEnum
 
 from . import card
@@ -378,7 +375,7 @@ class Surface(card.Card):
 
         try:
             transform_periodic = types.McnpInteger.from_mcnp(tokens.peekl())
-        except:
+        except Exception:
             transform_periodic = None
 
         mnemonic = Surface.SurfaceMnemonic.from_mcnp(tokens.popl())
@@ -510,7 +507,7 @@ class PlaneGeneralPoint(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANEGENERAL
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANEGENERAL
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -620,7 +617,7 @@ class PlaneGeneralEquation(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANEGENERAL
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANEGENERAL
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -701,7 +698,7 @@ class PlaneNormalX(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALX
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALX
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -770,7 +767,7 @@ class PlaneNormalY(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALY
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALY
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -839,7 +836,7 @@ class PlaneNormalZ(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALZ
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALZ
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -908,7 +905,7 @@ class SphereOrigin(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHEREORIGIN
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHEREORIGIN
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -1006,7 +1003,7 @@ class SphereGeneral(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHEREGENERAL
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHEREGENERAL
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -1111,7 +1108,7 @@ class SphereNormalX(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALX
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALX
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -1208,7 +1205,7 @@ class SphereNormalY(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALY
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALY
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -1305,7 +1302,7 @@ class SphereNormalZ(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALZ
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALZ
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -1406,7 +1403,7 @@ class CylinderParallelX(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELX
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELX
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -1445,18 +1442,6 @@ class CylinderParallelY(Surface):
         z: Parallel-to-y-axis cylinder center z component.
         r: Parallel-to-y-axis cylinder radius.
     """
-
-    def __init__(self):
-        """
-        ``__init__`` initializes ``CylinderParallelY``.
-        """
-
-        super().__init__()
-        self.mnemonic = Surface.SurfaceMnemonic.CYLINDERPARALLELY
-
-        self.x: types.McnpReal = None
-        self.z: types.McnpReal = None
-        self.r: types.McnpReal = None
 
     def __init__(
         self,
@@ -1502,7 +1487,7 @@ class CylinderParallelY(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELY
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELY
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -1586,7 +1571,7 @@ class CylinderParallelZ(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELZ
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELZ
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -1663,7 +1648,7 @@ class CylinderOnX(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONX
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONX
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -1732,7 +1717,7 @@ class CylinderOnY(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONY
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONY
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -1801,7 +1786,7 @@ class CylinderOnZ(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONZ
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONZ
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -1882,7 +1867,7 @@ class ConeParallelX(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELX
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELX
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -1979,7 +1964,7 @@ class ConeParallelY(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELY
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELY
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -2076,7 +2061,7 @@ class ConeParallelZ(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELZ
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELZ
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -2167,7 +2152,7 @@ class ConeOnX(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONX
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONX
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -2250,7 +2235,7 @@ class ConeOnY(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONY
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONY
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -2333,7 +2318,7 @@ class ConeOnZ(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONZ
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONZ
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -2437,7 +2422,7 @@ class QuadraticSpecial(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.QUADRATICSPECIAL
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.QUADRATICSPECIAL
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -2570,7 +2555,7 @@ class QuadraticGeneral(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.QUADRATICGENERAL
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.QUADRATICGENERAL
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -2690,7 +2675,7 @@ class TorusParallelX(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELX
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELX
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -2794,7 +2779,7 @@ class TorusParallelY(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELY
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELY
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -2898,7 +2883,7 @@ class TorusParallelZ(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELZ
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELZ
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -3002,7 +2987,7 @@ class SurfaceX(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEX
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEX
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -3108,7 +3093,7 @@ class SurfaceY(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEY
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEY
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -3210,7 +3195,7 @@ class SurfaceZ(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEZ
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEZ
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -3336,7 +3321,7 @@ class Box(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.BOX
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.BOX
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -3488,7 +3473,7 @@ class Parallelepiped(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.PARALLELEPIPED
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.PARALLELEPIPED
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -3618,7 +3603,7 @@ class Sphere(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERE
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERE
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -3739,7 +3724,7 @@ class CylinderCircular(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERCIRCULAR
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERCIRCULAR
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -3904,7 +3889,7 @@ class HexagonalPrism(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.HEXAGONALPRISM
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.HEXAGONALPRISM
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -4093,7 +4078,7 @@ class CylinderElliptical(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERELLIPTICAL
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERELLIPTICAL
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -4261,7 +4246,7 @@ class ConeTruncated(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.CONETRUNCATED
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONETRUNCATED
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -4407,7 +4392,7 @@ class Ellipsoid(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.ELLIPSOID
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.ELLIPSOID
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -4568,7 +4553,7 @@ class Wedge(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.WEDGE
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.WEDGE
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )
@@ -4643,14 +4628,14 @@ class Wedge(Surface):
             Cadquery for surface card object.
         """
 
-        v = _caddquery.CqVectro(self.vx, self.vy, self.vz)
+        v = _cadquery.CqVectro(self.vx, self.vy, self.vz)
         v1 = _cadquery.CqVector(self.v1x, self.v1y, self.v1z)
         v2 = _cadquery.CqVector(self.v2x, self.v2y, self.v2z)
         v3 = _cadquery.CqVector(self.v3x, self.v3y, self.v3z)
 
         cadquery = "import cadquery as cq\n\n" if hasHeader else ""
-        cadquery += add_wedge(v1, v2, v3)
-        cadquery += add_translation(v)
+        cadquery += _cadquery.add_wedge(v1, v2, v3)
+        cadquery += _cadquery.add_translation(v)
 
         return cadquery
 
@@ -4793,7 +4778,7 @@ class Polyhedron(Surface):
 
         self.id: final[types.McnpInteger] = number.value
         self.number: final[types.McnpInteger] = number
-        self.mnemonic: final[SurfaceMnemonic] = Surface.SurfaceMnemonic.POLYHEDRON
+        self.mnemonic: final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.POLYHEDRON
         self.transform: final[types.McnpInteger] = (
             transform_periodic if transform_periodic is not None and transform_periodic > 0 else None
         )

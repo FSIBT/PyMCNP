@@ -5,9 +5,8 @@
 importable interface for INP datum cards.
 """
 
-
 import re
-from typing import Callable, Union, override
+from typing import Union, override, final
 from enum import StrEnum
 
 from .card import Card
@@ -266,7 +265,7 @@ class Datum(Card):
             case Datum.DatumMnemonic.DETERMINISTIC_MATERIALS:
                 obj = DeterministicMaterials(*parameters, suffix)
             case Datum.DatumMnemonic.DETERMINISTIC_WEIGHT_WINDOW:
-                obj = DeterministicWeightWindow(*parameters)
+                obj = WeightWindow(*parameters)
             case Datum.DatumMnemonic.EMBEDDED_GEOMETRY:
                 obj = EmbeddedGeometry(*parameters, suffix)
             case Datum.DatumMnemonic.EMBEDDED_CONTROL:
@@ -288,13 +287,13 @@ class Datum(Card):
             case Datum.DatumMnemonic.MATERIAL_NEUTRON_SCATTERING:
                 obj = MaterialNeutronScattering(*parameters)
             case Datum.DatumMnemonic.MATERIAL_NUCLIDE_SUBSTITUTION:
-                obj = MaterialNuclideSubstitution(*parametres)
+                obj = MaterialNuclideSubstitution(*parameters)
             case Datum.DatumMnemonic.ON_THE_FLY_BROADENING:
                 obj = OnTheFlyBroadening(*parameters)
             case Datum.DatumMnemonic.TOTAL_FISSION:
                 obj = TotalFission(*parameters)
             case Datum.DatumMnemonic.FISSION_TURNOFF:
-                obj = FissionTurnOff(*parameters)
+                obj = FissionTurnoff(*parameters)
             case Datum.DatumMnemonic.ATOMIC_WEIGHT:
                 obj = AtomicWeight(*parameters)
             case Datum.DatumMnemonic.CROSS_SECTION_FILE:
@@ -401,7 +400,7 @@ class Datum(Card):
 
             case Datum.DatumMnemonic.UNIVERSE:
                 tokens.popl()
-                unvierses = tuple(types.McnpInteger.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
+                universes = tuple(types.McnpInteger.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = Universe(universes)
 
@@ -422,9 +421,9 @@ class Datum(Card):
                 transformations = tuple(
                     StochasticGeometry.StochasticGeometryValue(
                         types.fortran_integer(tokens.popl()),
-                        typesf(tokens.popl()),
-                        typesf(tokens.popl()),
-                        typesf(tokens.popl()),
+                        types.fortran_real(tokens.popl()),
+                        types.fortran_real(tokens.popl()),
+                        types.fortran_real(tokens.popl()),
                     )
                     for _ in range(0, len(tokens), 4)
                 )
@@ -439,12 +438,9 @@ class Datum(Card):
 
             case Datum.DatumMnemonic.DETERMINISTIC_WEIGHT_WINDOW:
                 tokens.popl()
-                pairs = tuple(
-                    DeterministicWeightWindow.DeterministicWeightWindowOption.from_mcnp(tokens.popl())
-                    for _ in range(0, len(tokens))
-                )
+                pairs = tuple(WeightWindow.WeightWindowOption.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
-                datum = DeterministicWeightWindow(pairs)
+                datum = WeightWindow(pairs)
 
             case Datum.DatumMnemonic.EMBEDDED_GEOMETRY:
                 suffix = types.McnpInteger.from_mcnp(tokens.popl()[5:])
@@ -456,7 +452,7 @@ class Datum(Card):
                         try:
                             EmbeddedGeometry.EmbeddedGeometryOption.from_mcnp(tokens.peekl())
                             break
-                        except:
+                        except Exception:
                             values.append(tokens.popl())
                             pass
                     pairs.append(EmbeddedGeometry.EmbeddedGeometryOption.from_mcnp(f"{keyword}={" ".join(values)}"))
@@ -474,7 +470,7 @@ class Datum(Card):
                         try:
                             EmbeddedControl.EmbeddedControlOption.from_mcnp(tokens.peekl())
                             break
-                        except:
+                        except Exception:
                             values.append(tokens.popl())
                             pass
                     pairs.append(EmbeddedControl.EmbeddedControlOption.from_mcnp(f"{keyword}={" ".join(values)}"))
@@ -534,7 +530,7 @@ class Datum(Card):
                     try:
                         Material.MaterialOption.MaterialKeyword.from_mcnp(tokens.peekl())
                         break
-                    except:
+                    except Exception:
                         substances.append(
                             Material.MaterialValue(
                                 types.Zaid.from_mcnp(tokens.popl()), types.McnpReal.from_mcnp(tokens.popl())
@@ -550,7 +546,7 @@ class Datum(Card):
                         try:
                             Material.MaterialOption.MaterialKeyword.from_mcnp(tokens.peekl())
                             break
-                        except:
+                        except Exception:
                             values.append(tokens.popl())
                             pass
                     options.append(Material.MaterialOption.from_mcnp(f"{keyword}={" ".join(values)}"))
@@ -779,7 +775,7 @@ class Datum(Card):
                         try:
                             ActivationControl.ActivationControlOption.from_mcnp(tokens.peekl())
                             break
-                        except:
+                        except Exception:
                             values.append(tokens.popl())
                             pass
                     pairs.append(ActivationControl.ActivationControlOption.from_mcnp(f"{keyword}={" ".join(values)}"))
@@ -803,7 +799,7 @@ class Datum(Card):
                 designator = types.Designator.from_mcnp(tokens.popl())
                 cutoffs = types.McnpReal.from_mcnp(tokens.popl())
 
-                datum = CellEnergyCutoffs(designator, cutoffs)
+                datum = CellEnergyCutoff(designator, cutoffs)
 
             case Datum.DatumMnemonic.FREE_GAS_THERMAL_TEMPERATURE:
                 suffix = types.McnpInteger.from_mcnp(tokens.popl()[3:])
@@ -902,7 +898,7 @@ class Datum(Card):
                             try_keyword = re.search(r"([*]?[A-Za-z]+)", tokens.peekl()).group()
                             SourceDefinition.SourceDefinitionOption.SourceDefinitionKeyword.from_mcnp(try_keyword)
                             break
-                        except:
+                        except Exception:
                             values.append(tokens.popl())
                             pass
 
@@ -999,7 +995,7 @@ class Volume(Datum):
         if has_no is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"vol"
+        self.id: final[str] = "vol"
         self.mnemonic = Datum.DatumMnemonic.VOLUME
         self.parameters = (has_no, *volumes)
 
@@ -1040,8 +1036,8 @@ class Area(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"area"
-        self.mnemonic: final[DatumMnemonic] = Datum.DatumMnemonic.AREA
+        self.id: final[str] = "area"
+        self.mnemonic: final[Datum.DatumMnemonic] = Datum.DatumMnemonic.AREA
         self.parameters: final[[tuple[float]]] = areas
 
         self.areas: final[tuple[float]] = areas
@@ -1107,7 +1103,7 @@ class Transformation(Datum):
         self.displacement = displacement
         self.rotation = rotation
         self.system = system
-        self.is_angle = is_anlge
+        self.is_angle = is_angle
 
 
 class Universe(Datum):
@@ -1132,15 +1128,15 @@ class Universe(Datum):
             MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
-        for parameter in unvierses:
+        for parameter in universes:
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"u"
+        self.id: final[str] = "u"
         self.mnemonic = Datum.DatumMnemonic.UNIVERSE
-        self.universes = unvierses
+        self.universes = universes
 
-        self.parameters = unvierses
+        self.parameters = universes
 
 
 class Lattice(Datum):
@@ -1169,7 +1165,7 @@ class Lattice(Datum):
             if parameter is None or parameter not in {1, 2}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"lat"
+        self.id: final[str] = "lat"
         self.mnemonic = Datum.DatumMnemonic.LATTICE
         self.lattices = lattices
 
@@ -1204,7 +1200,7 @@ class Fill(Datum):
             if parameter is None or not (parameter >= 0 and parameter <= 99_999_999):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"fill"
+        self.id: final[str] = "fill"
         self.mnemonic = Datum.DatumMnemonic.FILL
         self.parameters = fills
 
@@ -1306,7 +1302,7 @@ class StochasticGeometry(Datum):
             if tokens:
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_URAN)
 
-            return StochasticGeometryValue(number, maximum_x, maximum_y, maximum_z)
+            return StochasticGeometry.StochasticGeometryValue(number, maximum_x, maximum_y, maximum_z)
 
     def __init__(self, transformations: tuple[StochasticGeometryValue]):
         """
@@ -1323,7 +1319,7 @@ class StochasticGeometry(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"uran"
+        self.id: final[str] = "uran"
         self.mnemonic = Datum.DatumMnemonic.STOCHASTIC_GEOMETRY
         self.parameters = transformations
 
@@ -1370,50 +1366,50 @@ class DeterministicMaterials(Datum):
         self.materials = materials
 
 
-class DeterministicWeightWindow(Datum):
+class WeightWindow(Datum):
     """
-    ``DeterministicWeightWindow`` represents INP deterministic weight window
+    ``WeightWindow`` represents INP deterministic weight window
     data cards.
 
-    ``DeterministicWeightWindow`` inherits attributes from ``Datum``. It
+    ``WeightWindow`` inherits attributes from ``Datum``. It
     represents the INP deterministic weight window data card syntax element.
 
     Attributes:
         pairs: Tuple of key-value pairs.
     """
 
-    class DeterministicWeightWindowOption:
+    class WeightWindowOption:
         """
-        ``DeterministicWeightWindowOption`` represents INP deterministic weight
+        ``WeightWindowOption`` represents INP deterministic weight
         window data card options.
 
-        ``DeterministicWeightWindowOption`` implements INP deterministic weight
+        ``WeightWindowOption`` implements INP deterministic weight
         window data card options. Its attributes store keywords and values, and
         its methods provide entry and endpoints for working with INP
         deterministic weight window data card options. It represents the
         generic INP deterministic weight window data card option syntax
-        element, so ``DeterministicWeightWindow`` depends on
-        ``DeterministicWeightWindowOption`` as a generic data structure and
+        element, so ``WeightWindow`` depends on
+        ``WeightWindowOption`` as a generic data structure and
         superclass.
 
         Attributes:
-            keyword: Deterministic weight window data card option keyword.
-            value: Deterministic weight window data card option value.
+            keyword:  weight window data card option keyword.
+            value:  weight window data card option value.
         """
 
-        class DeterministicWeightWindowKeyword(StrEnum):
+        class WeightWindowKeyword(StrEnum):
             """
-            ``DeterministicWeightWindowKeyword`` represents INP deterministic
+            ``WeightWindowKeyword`` represents INP deterministic
             weight window data card keywords.
 
-            ``DeterministicWeightWindowKeyword`` implements INP deterministic
+            ``WeightWindowKeyword`` implements INP deterministic
             weight window data card keywords as a Python inner class. It
             enumerates MCNP keywords and provides methods for casting strings
-            to ``DeterministicWeightWindowKeyword`` instances. It represents
+            to ``WeightWindowKeyword`` instances. It represents
             the INP deterministic weight window data card keyword syntax
-            element, so ``DeterministicWeightWindow`` and
-            ``DeterministicWeightWindowOption`` depend on
-            ``DeterministicWeightWindowKeyword`` as an enum.
+            element, so ``WeightWindow`` and
+            ``WeightWindowOption`` depend on
+            ``WeightWindowKeyword`` as an enum.
             """
 
             POINTS = "points"
@@ -1487,11 +1483,11 @@ class DeterministicWeightWindow(Datum):
             @staticmethod
             def from_mcnp(source: str):
                 """
-                ``from_mcnp`` generates ``DeterministicWeightWindowKeyword``
+                ``from_mcnp`` generates ``WeightWindowKeyword``
                 objects from INP.
 
                 ``from_mcnp`` constructs instances of
-                ``DeterministicWeightWindowKeyword`` from INP source strings,
+                ``WeightWindowKeyword`` from INP source strings,
                 so it operates as a class constructor method and INP parser
                 helper function.
 
@@ -1499,7 +1495,7 @@ class DeterministicWeightWindow(Datum):
                     source: INP for deterministic weight window keyword.
 
                 Returns:
-                    ``DeterministicWeightWindowKeyword`` object.
+                    ``WeightWindowKeyword`` object.
 
                 Raises:
                     MCNPSemanticError: INVALID_DATUM_DAWWG_KEYWORD.
@@ -1508,18 +1504,18 @@ class DeterministicWeightWindow(Datum):
                 source = _parser.Preprocessor.process_inp(source)
 
                 # Processing Keyword
-                if source not in [enum.value for enum in DeterministicWeightWindowKeyword]:
+                if source not in [enum.value for enum in WeightWindow.WeightWindowOption.WeightWindowKeyword]:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_KEYWORD)
 
-                return DeterministicWeightWindowKeyword(source)
+                return WeightWindow.WeightWindowOption.WeightWindowKeyword(source)
 
-        def __init__(self, keyword: DeterministicWeightWindowKeyword, value: any):
+        def __init__(self, keyword: WeightWindowKeyword, value: any):
             """
-            ``__init__`` initializes ``DeterministicWeightWindowOption``.
+            ``__init__`` initializes ``WeightWindowOption``.
 
             Parameters:
-                keyword: Deterministic weight window data card option keyword.
-                value:  Deterministic weight window data card option value.
+                keyword: Weight window data card option keyword.
+                value: Weight window data card option value.
 
             Raises:
                 MCNPSemanticError: INVALID_DATUM_DAWWG_KEYWORD.
@@ -1529,144 +1525,144 @@ class DeterministicWeightWindow(Datum):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_KEYWORD)
 
             match keyword:
-                case DeterministicWeightWindowKeyword.POINTS:
-                    obj = DeterministicWeightWindow.Points(keyword, value)
-                case DeterministicWeightWindowKeyword.XSEC:
-                    obj = DeterministicWeightWindow.Xsec(keyword, value)
-                case DeterministicWeightWindowKeyword.TALLY:
-                    obj = DeterministicWeightWindow.Tally(keyword, value)
-                case DeterministicWeightWindowKeyword.BLOCK:
-                    obj = DeterministicWeightWindow.Block(keyword, value)
-                case DeterministicWeightWindowKeyword.NGROUP:
-                    obj = DeterministicWeightWindow.Ngroup(keyword, value)
-                case DeterministicWeightWindowKeyword.ISN:
-                    obj = DeterministicWeightWindow.Isn(keyword, value)
-                case DeterministicWeightWindowKeyword.NISO:
-                    obj = DeterministicWeightWindow.Niso(keyword, value)
-                case DeterministicWeightWindowKeyword.MT:
-                    obj = DeterministicWeightWindow.Mt(keyword, value)
-                case DeterministicWeightWindowKeyword.IQUAD:
-                    obj = DeterministicWeightWindow.Iquad(keyword, value)
-                case DeterministicWeightWindowKeyword.FMMIX:
-                    obj = DeterministicWeightWindow.Fmmix(keyword, value)
-                case DeterministicWeightWindowKeyword.NOSOLV:
-                    obj = DeterministicWeightWindow.Nosolv(keyword, value)
-                case DeterministicWeightWindowKeyword.NOEDIT:
-                    obj = DeterministicWeightWindow.Noedit(keyword, value)
-                case DeterministicWeightWindowKeyword.NOGEOD:
-                    obj = DeterministicWeightWindow.Nogeod(keyword, value)
-                case DeterministicWeightWindowKeyword.NOMIX:
-                    obj = DeterministicWeightWindow.Nomix(keyword, value)
-                case DeterministicWeightWindowKeyword.NOASG:
-                    obj = DeterministicWeightWindow.Noasg(keyword, value)
-                case DeterministicWeightWindowKeyword.NOMACR:
-                    obj = DeterministicWeightWindow.Nomacr(keyword, value)
-                case DeterministicWeightWindowKeyword.NOSLNP:
-                    obj = DeterministicWeightWindow.Noslnp(keyword, value)
-                case DeterministicWeightWindowKeyword.NOEDTT:
-                    obj = DeterministicWeightWindow.Noedtt(keyword, value)
-                case DeterministicWeightWindowKeyword.NOADJM:
-                    obj = DeterministicWeightWindow.Noadjm(keyword, value)
-                case DeterministicWeightWindowKeyword.LIB:
-                    obj = DeterministicWeightWindow.Lib(keyword, value)
-                case DeterministicWeightWindowKeyword.LIBNAME:
-                    obj = DeterministicWeightWindow.Libname(keyword, value)
-                case DeterministicWeightWindowKeyword.FISSNEUT:
-                    obj = DeterministicWeightWindow.Fissneut(keyword, value)
-                case DeterministicWeightWindowKeyword.LNG:
-                    obj = DeterministicWeightWindow.Lng(keyword, value)
-                case DeterministicWeightWindowKeyword.BALXS:
-                    obj = DeterministicWeightWindow.Balxs(keyword, value)
-                case DeterministicWeightWindowKeyword.NTICHI:
-                    obj = DeterministicWeightWindow.Ntichi(keyword, value)
-                case DeterministicWeightWindowKeyword.IEVT:
-                    obj = DeterministicWeightWindow.Ievt(keyword, value)
-                case DeterministicWeightWindowKeyword.SCT:
-                    obj = DeterministicWeightWindow.Isct(keyword, value)
-                case DeterministicWeightWindowKeyword.ITH:
-                    obj = DeterministicWeightWindow.Ith(keyword, value)
-                case DeterministicWeightWindowKeyword.TRCOR:
-                    obj = DeterministicWeightWindow.Trcor(keyword, value)
-                case DeterministicWeightWindowKeyword.IBL:
-                    obj = DeterministicWeightWindow.Ibl(keyword, value)
-                case DeterministicWeightWindowKeyword.IBR:
-                    obj = DeterministicWeightWindow.Ibr(keyword, value)
-                case DeterministicWeightWindowKeyword.IBT:
-                    obj = DeterministicWeightWindow.Ibt(keyword, value)
-                case DeterministicWeightWindowKeyword.IBB:
-                    obj = DeterministicWeightWindow.Ibb(keyword, value)
-                case DeterministicWeightWindowKeyword.IBFRNT:
-                    obj = DeterministicWeightWindow.Ibfrnt(keyword, value)
-                case DeterministicWeightWindowKeyword.BIBACK:
-                    obj = DeterministicWeightWindow.Ibback(keyword, value)
-                case DeterministicWeightWindowKeyword.EPSI:
-                    obj = DeterministicWeightWindow.Epsi(keyword, value)
-                case DeterministicWeightWindowKeyword.OITM:
-                    obj = DeterministicWeightWindow.Oitm(keyword, value)
-                case DeterministicWeightWindowKeyword.NOSIGF:
-                    obj = DeterministicWeightWindow.Nosigf(keyword, value)
-                case DeterministicWeightWindowKeyword.SRCACC:
-                    obj = DeterministicWeightWindow.Srcacc(keyword, value)
-                case DeterministicWeightWindowKeyword.DIFFSOL:
-                    obj = DeterministicWeightWindow.Diffsol(keyword, value)
-                case DeterministicWeightWindowKeyword.TSASN:
-                    obj = DeterministicWeightWindow.Tsasn(keyword, value)
-                case DeterministicWeightWindowKeyword.TSAEPSI:
-                    obj = DeterministicWeightWindow.Tsaepsi(keyword, value)
-                case DeterministicWeightWindowKeyword.TSAITS:
-                    obj = DeterministicWeightWindow.Tsaits(keyword, value)
-                case DeterministicWeightWindowKeyword.TSABETA:
-                    obj = DeterministicWeightWindow.Tsabeta(keyword, value)
-                case DeterministicWeightWindowKeyword.PTCONV:
-                    obj = DeterministicWeightWindow.Ptconv(keyword, value)
-                case DeterministicWeightWindowKeyword.NORM:
-                    obj = DeterministicWeightWindow.Norm(keyword, value)
-                case DeterministicWeightWindowKeyword.XESCTP:
-                    obj = DeterministicWeightWindow.Xesctp(keyword, value)
-                case DeterministicWeightWindowKeyword.FISSRP:
-                    obj = DeterministicWeightWindow.Fissrp(keyword, value)
-                case DeterministicWeightWindowKeyword.SOURCP:
-                    obj = DeterministicWeightWindow.Sourcp(keyword, value)
-                case DeterministicWeightWindowKeyword.ANGP:
-                    obj = DeterministicWeightWindow.Angp(keyword, value)
-                case DeterministicWeightWindowKeyword.BALP:
-                    obj = DeterministicWeightWindow.Balp(keyword, value)
-                case DeterministicWeightWindowKeyword.RAFLUX:
-                    obj = DeterministicWeightWindow.Raflux(keyword, value)
-                case DeterministicWeightWindowKeyword.RMFLUX:
-                    obj = DeterministicWeightWindow.Rmflux(keyword, value)
-                case DeterministicWeightWindowKeyword.AVATAR:
-                    obj = DeterministicWeightWindow.Avatar(keyword, value)
-                case DeterministicWeightWindowKeyword.ASLEFT:
-                    obj = DeterministicWeightWindow.Asleft(keyword, value)
-                case DeterministicWeightWindowKeyword.ASRITE:
-                    obj = DeterministicWeightWindow.Asrite(keyword, value)
-                case DeterministicWeightWindowKeyword.ASBOTT:
-                    obj = DeterministicWeightWindow.Asbott(keyword, value)
-                case DeterministicWeightWindowKeyword.ASTOP:
-                    obj = DeterministicWeightWindow.Astop(keyword, value)
-                case DeterministicWeightWindowKeyword.ASFRNT:
-                    obj = DeterministicWeightWindow.Asfrnt(keyword, value)
-                case DeterministicWeightWindowKeyword.ASBACK:
-                    obj = DeterministicWeightWindow.Asback(keyword, value)
-                case DeterministicWeightWindowKeyword.MASSED:
-                    obj = DeterministicWeightWindow.Massed(keyword, value)
-                case DeterministicWeightWindowKeyword.PTED:
-                    obj = DeterministicWeightWindow.Pted(keyword, value)
-                case DeterministicWeightWindowKeyword.ZNED:
-                    obj = DeterministicWeightWindow.Zned(keyword, value)
-                case DeterministicWeightWindowKeyword.RZFLUX:
-                    obj = DeterministicWeightWindow.Rzflux(keyword, value)
-                case DeterministicWeightWindowKeyword.RXMFLUX:
-                    obj = DeterministicWeightWindow.Rzmflux(keyword, value)
-                case DeterministicWeightWindowKeyword.EDOUTF:
-                    obj = DeterministicWeightWindow.Edoutf(keyword, value)
-                case DeterministicWeightWindowKeyword.BYVLOP:
-                    obj = DeterministicWeightWindow.Byvlop(keyword, value)
-                case DeterministicWeightWindowKeyword.AJED:
-                    obj = DeterministicWeightWindow.Ajed(keyword, value)
-                case DeterministicWeightWindowKeyword.FLUXONE:
-                    obj = DeterministicWeightWindow.Fluxone(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.POINTS:
+                    obj = WeightWindow.Points(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.XSEC:
+                    obj = WeightWindow.Xsec(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.TALLY:
+                    obj = WeightWindow.Tally(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.BLOCK:
+                    obj = WeightWindow.Block(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NGROUP:
+                    obj = WeightWindow.Ngroup(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.ISN:
+                    obj = WeightWindow.Isn(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NISO:
+                    obj = WeightWindow.Niso(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.MT:
+                    obj = WeightWindow.Mt(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.IQUAD:
+                    obj = WeightWindow.Iquad(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.FMMIX:
+                    obj = WeightWindow.Fmmix(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NOSOLV:
+                    obj = WeightWindow.Nosolv(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NOEDIT:
+                    obj = WeightWindow.Noedit(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NOGEOD:
+                    obj = WeightWindow.Nogeod(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NOMIX:
+                    obj = WeightWindow.Nomix(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NOASG:
+                    obj = WeightWindow.Noasg(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NOMACR:
+                    obj = WeightWindow.Nomacr(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NOSLNP:
+                    obj = WeightWindow.Noslnp(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NOEDTT:
+                    obj = WeightWindow.Noedtt(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NOADJM:
+                    obj = WeightWindow.Noadjm(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.LIB:
+                    obj = WeightWindow.Lib(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.LIBNAME:
+                    obj = WeightWindow.Libname(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.FISSNEUT:
+                    obj = WeightWindow.Fissneut(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.LNG:
+                    obj = WeightWindow.Lng(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.BALXS:
+                    obj = WeightWindow.Balxs(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NTICHI:
+                    obj = WeightWindow.Ntichi(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.IEVT:
+                    obj = WeightWindow.Ievt(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.SCT:
+                    obj = WeightWindow.Isct(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.ITH:
+                    obj = WeightWindow.Ith(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.TRCOR:
+                    obj = WeightWindow.Trcor(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.IBL:
+                    obj = WeightWindow.Ibl(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.IBR:
+                    obj = WeightWindow.Ibr(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.IBT:
+                    obj = WeightWindow.Ibt(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.IBB:
+                    obj = WeightWindow.Ibb(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.IBFRNT:
+                    obj = WeightWindow.Ibfrnt(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.BIBACK:
+                    obj = WeightWindow.Ibback(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.EPSI:
+                    obj = WeightWindow.Epsi(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.OITM:
+                    obj = WeightWindow.Oitm(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NOSIGF:
+                    obj = WeightWindow.Nosigf(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.SRCACC:
+                    obj = WeightWindow.Srcacc(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.DIFFSOL:
+                    obj = WeightWindow.Diffsol(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.TSASN:
+                    obj = WeightWindow.Tsasn(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.TSAEPSI:
+                    obj = WeightWindow.Tsaepsi(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.TSAITS:
+                    obj = WeightWindow.Tsaits(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.TSABETA:
+                    obj = WeightWindow.Tsabeta(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.PTCONV:
+                    obj = WeightWindow.Ptconv(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.NORM:
+                    obj = WeightWindow.Norm(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.XESCTP:
+                    obj = WeightWindow.Xesctp(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.FISSRP:
+                    obj = WeightWindow.Fissrp(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.SOURCP:
+                    obj = WeightWindow.Sourcp(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.ANGP:
+                    obj = WeightWindow.Angp(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.BALP:
+                    obj = WeightWindow.Balp(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.RAFLUX:
+                    obj = WeightWindow.Raflux(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.RMFLUX:
+                    obj = WeightWindow.Rmflux(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.AVATAR:
+                    obj = WeightWindow.Avatar(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.ASLEFT:
+                    obj = WeightWindow.Asleft(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.ASRITE:
+                    obj = WeightWindow.Asrite(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.ASBOTT:
+                    obj = WeightWindow.Asbott(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.ASTOP:
+                    obj = WeightWindow.Astop(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.ASFRNT:
+                    obj = WeightWindow.Asfrnt(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.ASBACK:
+                    obj = WeightWindow.Asback(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.MASSED:
+                    obj = WeightWindow.Massed(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.PTED:
+                    obj = WeightWindow.Pted(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.ZNED:
+                    obj = WeightWindow.Zned(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.RZFLUX:
+                    obj = WeightWindow.Rzflux(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.RXMFLUX:
+                    obj = WeightWindow.Rzmflux(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.EDOUTF:
+                    obj = WeightWindow.Edoutf(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.BYVLOP:
+                    obj = WeightWindow.Byvlop(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.AJED:
+                    obj = WeightWindow.Ajed(keyword, value)
+                case WeightWindow.WeightWindowOption.WeightWindowKeyword.FLUXONE:
+                    obj = WeightWindow.Fluxone(keyword, value)
 
             self.__dict__ = obj.__dict__
             self.__class__ = obj.__class__
@@ -1674,20 +1670,20 @@ class DeterministicWeightWindow(Datum):
         @staticmethod
         def from_mcnp(source: str):
             """
-            ``from_mcnp`` generates ``DeterministicWeightWindowOption`` objects
+            ``from_mcnp`` generates ``WeightWindowOption`` objects
             from INP.
 
             ``from_mcnp`` constructs instances of
-            ``DeterministicWeightWindowOption`` from INP source strings, so it
+            ``WeightWindowOption`` from INP source strings, so it
             operates as a class constructor method and INP parser helper
             function. Although defined on the superclass, it returns
-            ``DeterministicWeightWindowOption`` subclasses.
+            ``WeightWindowOption`` subclasses.
 
             Parameters:
                 source: INP for deterministic weight window data card option.
 
             Returns:
-                ``DeterministicWeightWindowOption`` object.
+                ``WeightWindowOption`` object.
 
             Raises:
                 MCNPSemanticError: INVALID_DATUM_DAWWG_KEYWORD.
@@ -1698,15 +1694,86 @@ class DeterministicWeightWindow(Datum):
             tokens = _parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_DAWWG))
 
             # Processing Keyword
-            keyword = DeterministicWeightWindowOption.DeterministicWeightWindowKeyword.cast_keyword(tokens.peekl())
+            keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.cast_keyword(tokens.peekl())
 
             # Processing Values
             match keyword:
-                case DeterministicWeightWindowKeyword.POINTS | DeterministicWeightWindowKeyword.BLOCK | DeterministicWeightWindowKeyword.NGROUP | DeterministicWeightWindowKeyword.ISN | DeterministicWeightWindowKeyword.NISO | DeterministicWeightWindowKeyword.MT | DeterministicWeightWindowKeyword.IQUAD | DeterministicWeightWindowKeyword.FMMIX | DeterministicWeightWindowKeyword.NOSOLV | DeterministicWeightWindowKeyword.NOEDIT | DeterministicWeightWindowKeyword.NOGEOD | DeterministicWeightWindowKeyword.NOMIX | DeterministicWeightWindowKeyword.NOASG | DeterministicWeightWindowKeyword.NOMACR | DeterministicWeightWindowKeyword.NOSLNP | DeterministicWeightWindowKeyword.NOEDTT | DeterministicWeightWindowKeyword.NOADJM | DeterministicWeightWindowKeyword.FISSNEUT | DeterministicWeightWindowKeyword.LNG | DeterministicWeightWindowKeyword.BALXS | DeterministicWeightWindowKeyword.NTICHI | DeterministicWeightWindowKeyword.IEVT | DeterministicWeightWindowKeyword.SCT | DeterministicWeightWindowKeyword.ITH | DeterministicWeightWindowKeyword.TRCOR | DeterministicWeightWindowKeyword.IBL | DeterministicWeightWindowKeyword.IBR | DeterministicWeightWindowKeyword.IBT | DeterministicWeightWindowKeyword.IBB | DeterministicWeightWindowKeyword.IBFRNT | DeterministicWeightWindowKeyword.BIBACK | DeterministicWeightWindowKeyword.OITM | DeterministicWeightWindowKeyword.NOSIGF | DeterministicWeightWindowKeyword.TSASN | DeterministicWeightWindowKeyword.TSAEPSI | DeterministicWeightWindowKeyword.PTCONV | DeterministicWeightWindowKeyword.XESCTP | DeterministicWeightWindowKeyword.FISSRP | DeterministicWeightWindowKeyword.SOURCP | DeterministicWeightWindowKeyword.ANGP | DeterministicWeightWindowKeyword.BALP | DeterministicWeightWindowKeyword.RAFLUX | DeterministicWeightWindowKeyword.RMFLUX | DeterministicWeightWindowKeyword.AVATAR | DeterministicWeightWindowKeyword.ASLEFT | DeterministicWeightWindowKeyword.ASRITE | DeterministicWeightWindowKeyword.ASBOTT | DeterministicWeightWindowKeyword.ASTOP | DeterministicWeightWindowKeyword.ASFRNT | DeterministicWeightWindowKeyword.ASBACK | DeterministicWeightWindowKeyword.MASSED | DeterministicWeightWindowKeyword.PTED | DeterministicWeightWindowKeyword.ZNED | DeterministicWeightWindowKeyword.RZFLUX | DeterministicWeightWindowKeyword.RXMFLUX | DeterministicWeightWindowKeyword.EDOUTF | DeterministicWeightWindowKeyword.BYVLOP | DeterministicWeightWindowKeyword.AJED | DeterministicWeightWindowKeyword.FLUXONE:
+                case (
+                    WeightWindow.WeightWindowOption.WeightWindowKeyword.POINTS
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.BLOCK
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.NGROUP
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.ISN
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.NISO
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.MT
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.IQUAD
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.FMMIX
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.NOSOLV
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.NOEDIT
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.NOGEOD
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.NOMIX
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.NOASG
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.NOMACR
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.NOSLNP
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.NOEDTT
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.NOADJM
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.FISSNEUT
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.LNG
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.BALXS
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.NTICHI
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.IEVT
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.SCT
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.ITH
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.TRCOR
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.IBL
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.IBR
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.IBT
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.IBB
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.IBFRNT
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.BIBACK
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.OITM
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.NOSIGF
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.TSASN
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.TSAEPSI
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.PTCONV
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.XESCTP
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.FISSRP
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.SOURCP
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.ANGP
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.BALP
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.RAFLUX
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.RMFLUX
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.AVATAR
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.ASLEFT
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.ASRITE
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.ASBOTT
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.ASTOP
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.ASFRNT
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.ASBACK
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.MASSED
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.PTED
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.ZNED
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.RZFLUX
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.RXMFLUX
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.EDOUTF
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.BYVLOP
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.AJED
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.FLUXONE
+                ):
                     value = types.McnpInteger.from_mcnp(tokens.popl())
-                case DeterministicWeightWindowKeyword.LIB | DeterministicWeightWindowKeyword.LIBNAME | DeterministicWeightWindowKeyword.TRCOR | DeterministicWeightWindowKeyword.SRCACC | DeterministicWeightWindowKeyword.DIFFSOL:
+                case (
+                    WeightWindow.WeightWindowOption.WeightWindowKeyword.LIB
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.LIBNAME
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.TRCOR
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.SRCACC
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.DIFFSOL
+                ):
                     value = types.McnpReal.from_mcnp(tokens.popl())
-                case DeterministicWeightWindowKeyword.EPSI | DeterministicWeightWindowKeyword.TSAEPSI | DeterministicWeightWindowKeyword.TSAITS | DeterministicWeightWindowKeyword.TSABETA:
+                case (
+                    WeightWindow.WeightWindowOption.WeightWindowKeyword.EPSI
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.TSAEPSI
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.TSAITS
+                    | WeightWindow.WeightWindowOption.WeightWindowKeyword.TSABETA
+                ):
                     value = tokens.popl()
                 case _:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_KEYWORD)
@@ -1714,19 +1781,19 @@ class DeterministicWeightWindow(Datum):
             if tokens:
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_DAWWG)
 
-            return DeterministicWeightWindowOption(keyword, value)
+            return WeightWindow.WeightWindowOption(keyword, value)
 
-    class Points(DeterministicWeightWindowOption):
+    class Points(WeightWindowOption):
         """
         ``Points`` represents INP points deterministic weight window data card
         options.
 
         ``Points`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP points
+        ``WeightWindowOption``. It represents the INP points
         deterministic weight window data card option syntax element.
 
         Attributes:
-            point: Deterministic weight window data card sample point count.
+            point:  weight window data card sample point count.
         """
 
         def __init__(self, point: types.McnpInteger):
@@ -1734,25 +1801,25 @@ class DeterministicWeightWindow(Datum):
             ``__init__`` initializes ``Points``.
 
             Parameters:
-                point: Deterministic weight window data card sample point count.
+                point:  weight window data card sample point count.
 
             Raises:
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if point is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.POINTS
-            self.value = value
-            self.point = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.POINTS
+            self.value = point
+            self.point = point
 
-    class Block(DeterministicWeightWindowOption):
+    class Block(WeightWindowOption):
         """
         ``Block`` represents INP block deterministic weight window data card
         options.
 
-        ``Block`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Block`` inherits attributes from ``WeightWindowOption``.
         It represents the INP block deterministic weight window data card
         option syntax element.
 
@@ -1771,20 +1838,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {1, 3, 5, 6}:
+            if state is None or state not in {1, 3, 5, 6}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.BLOCK
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.BLOCK
+            self.value = state
+            self.state = state
 
-    class Ngroup(DeterministicWeightWindowOption):
+    class Ngroup(WeightWindowOption):
         """
         ``Ngroup`` represents INP ngroup deterministic weight window data card
         options.
 
         ``Ngroup`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP ngroup
+        ``WeightWindowOption``. It represents the INP ngroup
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -1802,19 +1869,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if energy_group_number is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NGROUP
-            self.value = value
-            self.energy_group_number = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NGROUP
+            self.value = energy_group_number
+            self.energy_group_number = energy_group_number
 
-    class Isn(DeterministicWeightWindowOption):
+    class Isn(WeightWindowOption):
         """
         ``Isn`` represents INP isn deterministic weight window data card
         options.
 
-        ``Isn`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Isn`` inherits attributes from ``WeightWindowOption``.
         It represents the INP isn deterministic weight window data option
         syntax element.
 
@@ -1833,19 +1900,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if sn_order is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.ISN
-            self.value = value
-            self.sn_order = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.ISN
+            self.value = sn_order
+            self.sn_order = sn_order
 
-    class Niso(DeterministicWeightWindowOption):
+    class Niso(WeightWindowOption):
         """
         ``Niso`` represents INP niso deterministic weight window data card
         options.
 
-        ``Niso`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Niso`` inherits attributes from ``WeightWindowOption``.
         It represents the INP niso deterministic weight window data card option
         syntax element.
 
@@ -1864,18 +1931,18 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if isotopes_number is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NISO
-            self.value = value
-            self.isotopes_number = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NISO
+            self.value = isotopes_number
+            self.isotopes_number = isotopes_number
 
-    class Mt(DeterministicWeightWindowOption):
+    class Mt(WeightWindowOption):
         """
         ``Mt`` represents INP mt deterministic weight window data card options.
 
-        ``Mt`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Mt`` inherits attributes from ``WeightWindowOption``.
         It represents the INP mt deterministic weight window data card option
         syntax element.
 
@@ -1894,19 +1961,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if materials_number is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.MT
-            self.value = value
-            self.materials_number = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.MT
+            self.value = materials_number
+            self.materials_number = materials_number
 
-    class Iquad(DeterministicWeightWindowOption):
+    class Iquad(WeightWindowOption):
         """
         ``Iquad`` represents INP iquad deterministic weight window data card
         options.
 
-        ``Iquad`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Iquad`` inherits attributes from ``WeightWindowOption``.
         It represents the INP iquad deterministic weight window data card
         option syntax element.
 
@@ -1925,19 +1992,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {1, 3, 4, 5, 6, 7, 8, 9}:
+            if quadrature is None or quadrature not in {1, 3, 4, 5, 6, 7, 8, 9}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.IQUAD
-            self.value = value
-            self.quadrature = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.IQUAD
+            self.value = quadrature
+            self.quadrature = quadrature
 
-    class Fmmix(DeterministicWeightWindowOption):
+    class Fmmix(WeightWindowOption):
         """
         ``Fmmix`` represents INP fmmix deterministic weight window data card
         options.
 
-        ``Fmmix`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Fmmix`` inherits attributes from ``WeightWindowOption``.
         It represents the INP fmmix deterministic weight window data card
         option sytnax element.
 
@@ -1956,20 +2023,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.FMMIX
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.FMMIX
+            self.value = state
+            self.state = state
 
-    class Nosolv(DeterministicWeightWindowOption):
+    class Nosolv(WeightWindowOption):
         """
         ``Nosolv`` represents INP nosolv deterministic weight window data card
         options.
 
         ``Nosolv`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP nosolv
+        ``WeightWindowOption``. It represents the INP nosolv
         deterministic weight window data card option syntax element
 
         Attributes:
@@ -1987,20 +2054,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NOSOLV
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NOSOLV
+            self.value = state
+            self.state = state
 
-    class Noedit(DeterministicWeightWindowOption):
+    class Noedit(WeightWindowOption):
         """
         ``Noedit`` represents INP noedit deterministic weight window data card
         options.
 
         ``Noedit`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP noedit
+        ``WeightWindowOption``. It represents the INP noedit
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2018,20 +2085,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NOEDIT
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NOEDIT
+            self.value = state
+            self.state = state
 
-    class Nogeod(DeterministicWeightWindowOption):
+    class Nogeod(WeightWindowOption):
         """
         ``Nogeod`` represents INP nogeod deterministic weight window data card
         options.
 
         ``Nogeod`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP nogeod
+        ``WeightWindowOption``. It represents the INP nogeod
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2049,19 +2116,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NOGEOD
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NOGEOD
+            self.value = state
+            self.state = state
 
-    class Nomix(DeterministicWeightWindowOption):
+    class Nomix(WeightWindowOption):
         """
         ``Nomix`` represents INP nomix deterministic weight window data card
         options.
 
-        ``Nomix`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Nomix`` inherits attributes from ``WeightWindowOption``.
         It represents the INP nomix deterministic weight window data card
         option syntax element.
 
@@ -2080,19 +2147,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NOMIX
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NOMIX
+            self.value = state
+            self.state = state
 
-    class Noasg(DeterministicWeightWindowOption):
+    class Noasg(WeightWindowOption):
         """
         ``Noasg`` represents INP noasg deterministic weight window data card
         options.
 
-        ``Noasg`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Noasg`` inherits attributes from ``WeightWindowOption``.
         It represents the INP noasg deterministic weight window data card
         option syntax element.
 
@@ -2111,20 +2178,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NOASG
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NOASG
+            self.value = state
+            self.state = state
 
-    class Nomacr(DeterministicWeightWindowOption):
+    class Nomacr(WeightWindowOption):
         """
         ``Nomacr`` represents INP nomacr deterministic weight window data card
         options.
 
         ``Nomacr`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP nomacr
+        ``WeightWindowOption``. It represents the INP nomacr
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2142,20 +2209,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NOMACR
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NOMACR
+            self.value = state
+            self.state = state
 
-    class Noslnp(DeterministicWeightWindowOption):
+    class Noslnp(WeightWindowOption):
         """
         ``Noslnp`` represents INP noslnp deterministic weight window data card
         options.
 
         ``Noslnp`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP noslnp
+        ``WeightWindowOption``. It represents the INP noslnp
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2173,20 +2240,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NOSLNP
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NOSLNP
+            self.value = state
+            self.state = state
 
-    class Noedtt(DeterministicWeightWindowOption):
+    class Noedtt(WeightWindowOption):
         """
         ``Noedtt`` represents INP noedtt deterministic weight window data card
         options.
 
         ``Noedtt`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP noedtt
+        ``WeightWindowOption``. It represents the INP noedtt
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2204,20 +2271,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NOEDTT
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NOEDTT
+            self.value = state
+            self.state = state
 
-    class Noadjm(DeterministicWeightWindowOption):
+    class Noadjm(WeightWindowOption):
         """
         ``Noadjm`` represents INP noadjm deterministic weight window data card
         options.
 
         ``Noadjm`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP noadjm
+        ``WeightWindowOption``. It represents the INP noadjm
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2235,18 +2302,18 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NOADJM
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NOADJM
+            self.value = state
+            self.state = state
 
-    class Lib(DeterministicWeightWindowOption):
+    class Lib(WeightWindowOption):
         """
         ``Lib`` represents lib deterministic weight window datacell coptions.
 
-        ``Lib`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Lib`` inherits attributes from ``WeightWindowOption``.
         It represents the Libents deterministic weight window data cell option
         syntax element.
 
@@ -2265,20 +2332,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if name is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.LIB
-            self.value = value
-            self.name = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.LIB
+            self.value = name
+            self.name = name
 
-    class Libname(DeterministicWeightWindowOption):
+    class Libname(WeightWindowOption):
         """
         ``Libname`` represents INP libname deterministic weight window data
         card options.
 
         ``Libname`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP libname
+        ``WeightWindowOption``. It represents the INP libname
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2296,20 +2363,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if filename is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.LIBNAME
-            self.value = value
-            self.filename = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.LIBNAME
+            self.value = filename
+            self.filename = filename
 
-    class Fissneut(DeterministicWeightWindowOption):
+    class Fissneut(WeightWindowOption):
         """
         ``Fissneut`` represents INP fissneut deterministic weight window data
         card options.
 
         ``Fissneut`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP fissneut
+        ``WeightWindowOption``. It represents the INP fissneut
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2327,18 +2394,18 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if fission_neutron_flag is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.FISSNEUT
-            self.value = value
-            self.fission_neutron_flag = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.FISSNEUT
+            self.value = fission_neutron_flag
+            self.fission_neutron_flag = fission_neutron_flag
 
-    class Lng(DeterministicWeightWindowOption):
+    class Lng(WeightWindowOption):
         """
         ``Lng`` represents lng deterministic weight window datacell coptions.
 
-        ``Lng`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Lng`` inherits attributes from ``WeightWindowOption``.
         It represents the Lngents deterministic weight window datacell coption
         syntax element.
 
@@ -2357,19 +2424,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if last_neutron_group_number is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.LNG
-            self.value = value
-            self.last_neutron_group_number = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.LNG
+            self.value = last_neutron_group_number
+            self.last_neutron_group_number = last_neutron_group_number
 
-    class Balxs(DeterministicWeightWindowOption):
+    class Balxs(WeightWindowOption):
         """
         ``Balxs`` represents INP balxs deterministic weight window data card
         options.
 
-        ``Balxs`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Balxs`` inherits attributes from ``WeightWindowOption``.
         It represents the INP balxs deterministic weight window data card
         option syntax element.
 
@@ -2388,20 +2455,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if cross_section_balance_control is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.BALXS
-            self.value = value
-            self.cross_section_balance_control = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.BALXS
+            self.value = cross_section_balance_control
+            self.cross_section_balance_control = cross_section_balance_control
 
-    class Ntichi(DeterministicWeightWindowOption):
+    class Ntichi(WeightWindowOption):
         """
         ``Ntichi`` represents INP ntichi deterministic weight window data card
         options.
 
         ``Ntichi`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP ntichi
+        ``WeightWindowOption``. It represents the INP ntichi
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2419,19 +2486,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if mendf_fission_fraction is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NTICHI
-            self.value = value
-            self.mendf_fission_fraction = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NTICHI
+            self.value = mendf_fission_fraction
+            self.mendf_fission_fraction = mendf_fission_fraction
 
-    class Ievt(DeterministicWeightWindowOption):
+    class Ievt(WeightWindowOption):
         """
         ``Ievt`` represents INP ievt deterministic weight window data card
         options.
 
-        ``Ievt`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Ievt`` inherits attributes from ``WeightWindowOption``.
         It represents the INP ievt deterministic weight window data card option
         syntax element.
 
@@ -2450,19 +2517,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1, 2, 3, 4}:
+            if calculation_type is None or calculation_type not in {0, 1, 2, 3, 4}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.IEVT
-            self.value = value
-            self.calculation_type = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.IEVT
+            self.value = calculation_type
+            self.calculation_type = calculation_type
 
-    class Isct(DeterministicWeightWindowOption):
+    class Isct(WeightWindowOption):
         """
         ``Isct`` represents INP isct deterministic weight window data card
         options.
 
-        ``Isct`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Isct`` inherits attributes from ``WeightWindowOption``.
         It represents the INP isct deterministic weight window data card option
         syntax element.
 
@@ -2481,18 +2548,18 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if legendre_order is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.SCT
-            self.value = value
-            self.legendre_order = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.SCT
+            self.value = legendre_order
+            self.legendre_order = legendre_order
 
-    class Ith(DeterministicWeightWindowOption):
+    class Ith(WeightWindowOption):
         """
         ``Ith`` represents ith deterministic weight window datacell coptions.
 
-        ``Ith`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Ith`` inherits attributes from ``WeightWindowOption``.
         It represents the Ithents deterministic weight window datacell coption
         syntax element.
 
@@ -2511,19 +2578,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if calculation_state is None or calculation_state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.ITH
-            self.value = value
-            self.calculation_state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.ITH
+            self.value = calculation_state
+            self.calculation_state = calculation_state
 
-    class Trcor(DeterministicWeightWindowOption):
+    class Trcor(WeightWindowOption):
         """
         ``Trcor`` represents INP trcor deterministic weight window data card
         options.
 
-        ``Trcor`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Trcor`` inherits attributes from ``WeightWindowOption``.
         It represents the INP trcor deterministic weight window data card
         option syntax element.
 
@@ -2542,18 +2609,18 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if trcor is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.TRCOR
-            self.value = value
-            self.trcor = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.TRCOR
+            self.value = trcor
+            self.trcor = trcor
 
-    class Ibl(DeterministicWeightWindowOption):
+    class Ibl(WeightWindowOption):
         """
         ``Ibl`` represents ibl deterministic weight window datacell coptions.
 
-        ``Ibl`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Ibl`` inherits attributes from ``WeightWindowOption``.
         It represents the Iblents deterministic weight window datacell coption
         syntax element.
 
@@ -2572,18 +2639,18 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if left_boundary is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.IBL
-            self.value = value
-            self.left_boundary = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.IBL
+            self.value = left_boundary
+            self.left_boundary = left_boundary
 
-    class Ibr(DeterministicWeightWindowOption):
+    class Ibr(WeightWindowOption):
         """
         ``Ibr`` represents ibr deterministic weight window datacell coptions.
 
-        ``Ibr`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Ibr`` inherits attributes from ``WeightWindowOption``.
         It represents the Ibrents deterministic weight window datacell coption
         syntax element.
 
@@ -2602,18 +2669,18 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if right_boundary is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.IBR
-            self.value = value
-            self.right_boundary = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.IBR
+            self.value = right_boundary
+            self.right_boundary = right_boundary
 
-    class Ibt(DeterministicWeightWindowOption):
+    class Ibt(WeightWindowOption):
         """
         ``Ibt`` represents ibt deterministic weight window datacell coptions.
 
-        ``Ibt`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Ibt`` inherits attributes from ``WeightWindowOption``.
         It represents the Ibtents deterministic weight window datacell coption
         syntax element.
 
@@ -2632,18 +2699,18 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if top_boundary is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.IBT
-            self.value = value
-            self.top_boundary = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.IBT
+            self.value = top_boundary
+            self.top_boundary = top_boundary
 
-    class Ibb(DeterministicWeightWindowOption):
+    class Ibb(WeightWindowOption):
         """
         ``Ibb`` represents ibb deterministic weight window datacell coptions.
 
-        ``Ibb`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Ibb`` inherits attributes from ``WeightWindowOption``.
         It represents the Ibbents deterministic weight window datacell coption
         syntax element.
 
@@ -2662,20 +2729,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if bottom_boundary is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.IBB
-            self.value = value
-            self.bottom_boundary = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.IBB
+            self.value = bottom_boundary
+            self.bottom_boundary = bottom_boundary
 
-    class Ibfrnt(DeterministicWeightWindowOption):
+    class Ibfrnt(WeightWindowOption):
         """
         ``Ibfrnt`` represents INP ibfrnt deterministic weight window data card
         options.
 
         ``Ibfrnt`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP ibfrnt
+        ``WeightWindowOption``. It represents the INP ibfrnt
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2693,20 +2760,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if front_boundary is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.IBFRNT
-            self.value = value
-            self.front_boundary = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.IBFRNT
+            self.value = front_boundary
+            self.front_boundary = front_boundary
 
-    class Ibback(DeterministicWeightWindowOption):
+    class Ibback(WeightWindowOption):
         """
         ``Ibback`` represents INP ibback deterministic weight window data card
         options.
 
         ``Ibback`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP ibback
+        ``WeightWindowOption``. It represents the INP ibback
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2724,19 +2791,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if back_boundary is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.BIBACK
-            self.value = value
-            self.back_boundary = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.BIBACK
+            self.value = back_boundary
+            self.back_boundary = back_boundary
 
-    class Epsi(DeterministicWeightWindowOption):
+    class Epsi(WeightWindowOption):
         """
         ``Epsi`` represents INP epsi deterministic weight window data card
         options.
 
-        ``Epsi`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Epsi`` inherits attributes from ``WeightWindowOption``.
         It represents the INP epsi deterministic weight window data card option
         syntax element.
 
@@ -2749,25 +2816,25 @@ class DeterministicWeightWindow(Datum):
             ``__init__`` initializes ``Epsi``.
 
             Parameters:
-                Convergence percision: Convergence percision.
+                convergence_percision: Convergence percision.
 
             Raises:
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if convergence_percision is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.EPSI
-            self.value = value
-            self.convergence_percision = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.EPSI
+            self.value = convergence_percision
+            self.convergence_percision = convergence_percision
 
-    class Oitm(DeterministicWeightWindowOption):
+    class Oitm(WeightWindowOption):
         """
         ``Oitm`` represents INP oitm deterministic weight window data card
         options.
 
-        ``Oitm`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Oitm`` inherits attributes from ``WeightWindowOption``.
         It represents the INP oitm deterministic weight window data card option
         syntax element.
 
@@ -2786,20 +2853,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if maximum_outer_iteration is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.OITM
-            self.value = value
-            self.maximum_outer_iteration = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.OITM
+            self.value = maximum_outer_iteration
+            self.maximum_outer_iteration = maximum_outer_iteration
 
-    class Nosigf(DeterministicWeightWindowOption):
+    class Nosigf(WeightWindowOption):
         """
         ``Nosigf`` represents INP nosigf deterministic weight window data card
         options.
 
         ``Nosigf`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP nosigf
+        ``WeightWindowOption``. It represents the INP nosigf
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2817,20 +2884,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NOSIGF
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NOSIGF
+            self.value = state
+            self.state = state
 
-    class Srcacc(DeterministicWeightWindowOption):
+    class Srcacc(WeightWindowOption):
         """
         ``Srcacc`` represents INP srcacc deterministic weight window data card
         options.
 
         ``Srcacc`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP srcacc
+        ``WeightWindowOption``. It represents the INP srcacc
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2848,20 +2915,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if transport_accelerations is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.SRCACC
-            self.value = value
-            self.transport_accelerations = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.SRCACC
+            self.value = transport_accelerations
+            self.transport_accelerations = transport_accelerations
 
-    class Diffsol(DeterministicWeightWindowOption):
+    class Diffsol(WeightWindowOption):
         """
         ``Diffsol`` represents INP diffsol deterministic weight window data
         card options.
 
         ``Diffsol`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP diffsol
+        ``WeightWindowOption``. It represents the INP diffsol
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2879,19 +2946,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if diffusion_operator_solver is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.DIFFSOL
-            self.value = value
-            self.diffusion_operator_solver = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.DIFFSOL
+            self.value = diffusion_operator_solver
+            self.diffusion_operator_solver = diffusion_operator_solver
 
-    class Tsasn(DeterministicWeightWindowOption):
+    class Tsasn(WeightWindowOption):
         """
         ``Tsasn`` represents INP tsasn deterministic weight window data card
         options.
 
-        ``Tsasn`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Tsasn`` inherits attributes from ``WeightWindowOption``.
         It represents the INP tsasn deterministic weight window data card
         option syntax element.
 
@@ -2910,20 +2977,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if sn_order is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.TSASN
-            self.value = value
-            self.sn_order = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.TSASN
+            self.value = sn_order
+            self.sn_order = sn_order
 
-    class Tsaepsi(DeterministicWeightWindowOption):
+    class Tsaepsi(WeightWindowOption):
         """
         ``Tsaepsi`` represents INP tsaepsi deterministic weight window data
         card options.
 
         ``Tsaepsi`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP tsaepsi
+        ``WeightWindowOption``. It represents the INP tsaepsi
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2941,20 +3008,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if convergence_criteria is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.TSAEPSI
-            self.value = value
-            self.convergence_criteria = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.TSAEPSI
+            self.value = convergence_criteria
+            self.convergence_criteria = convergence_criteria
 
-    class Tsaits(DeterministicWeightWindowOption):
+    class Tsaits(WeightWindowOption):
         """
         ``Tsaits`` represents INP tsaits deterministic weight window data card
         options.
 
         ``Tsaits`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP tsaits
+        ``WeightWindowOption``. It represents the INP tsaits
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2972,20 +3039,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if maximum_tsa_iteration is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.TSAITS
-            self.value = value
-            self.maximum_tsa_iteration = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.TSAITS
+            self.value = maximum_tsa_iteration
+            self.maximum_tsa_iteration = maximum_tsa_iteration
 
-    class Tsabeta(DeterministicWeightWindowOption):
+    class Tsabeta(WeightWindowOption):
         """
         ``Tsabeta`` represents INP tsabeta deterministic weight window data
         card options.
 
         ``Tsabeta`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP tsabeta
+        ``WeightWindowOption``. It represents the INP tsabeta
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -2997,26 +3064,26 @@ class DeterministicWeightWindow(Datum):
             ``__init__`` initializes ``Tsabeta``.
 
             Parameters:
-                tsa_scattering_corss_section: Scatting cross-section reduction.
+                tsa_scattering_cross_section: Scatting cross-section reduction.
 
             Raises:
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if tsa_scattering_cross_section is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.TSABETA
-            self.value = value
-            self.tsa_scattering_cross_section = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.TSABETA
+            self.value = tsa_scattering_cross_section
+            self.tsa_scattering_cross_section = tsa_scattering_cross_section
 
-    class Ptconv(DeterministicWeightWindowOption):
+    class Ptconv(WeightWindowOption):
         """
         ``Ptconv`` represents INP ptconv deterministic weight window data card
         options.
 
         ``Ptconv`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP ptconv
+        ``WeightWindowOption``. It represents the INP ptconv
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3034,19 +3101,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.PTCONV
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.PTCONV
+            self.value = state
+            self.state = state
 
-    class Norm(DeterministicWeightWindowOption):
+    class Norm(WeightWindowOption):
         """
         ``Norm`` represents INP norm deterministic weight window data card
         options.
 
-        ``Norm`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Norm`` inherits attributes from ``WeightWindowOption``.
         It represents the INP norm deterministic weight window data card option
         syntax element.
 
@@ -3065,20 +3132,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if norm is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.NORM
-            self.value = value
-            self.norm = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.NORM
+            self.value = norm
+            self.norm = norm
 
-    class Xesctp(DeterministicWeightWindowOption):
+    class Xesctp(WeightWindowOption):
         """
         ``Xesctp`` represents INP xesctp deterministic weight window data card
         options.
 
         ``Xesctp`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP xesctp
+        ``WeightWindowOption``. It represents the INP xesctp
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3096,20 +3163,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1, 2}:
+            if cross_section_print_flag is None or cross_section_print_flag not in {0, 1, 2}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.XESCTP
-            self.value = value
-            self.cross_section_print_flag = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.XESCTP
+            self.value = cross_section_print_flag
+            self.cross_section_print_flag = cross_section_print_flag
 
-    class Fissrp(DeterministicWeightWindowOption):
+    class Fissrp(WeightWindowOption):
         """
         ``Fissrp`` represents INP fissrp deterministic weight window data card
         options.
 
         ``Fissrp`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP fissrp
+        ``WeightWindowOption``. It represents the INP fissrp
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3127,20 +3194,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.FISSRP
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.FISSRP
+            self.value = state
+            self.state = state
 
-    class Sourcp(DeterministicWeightWindowOption):
+    class Sourcp(WeightWindowOption):
         """
         ``Sourcp`` represents INP sourcp deterministic weight window data card
         options.
 
         ``Sourcp`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP sourcp
+        ``WeightWindowOption``. It represents the INP sourcp
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3152,25 +3219,25 @@ class DeterministicWeightWindow(Datum):
             ``__init__`` initializes ``Sourcp``.
 
             Parameters:
-                ource_print_flag: Source print flag.
+                source_print_flag: Source print flag.
 
             Raises:
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1, 2, 3}:
+            if source_print_flag is None or source_print_flag not in {0, 1, 2, 3}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.SOURCP
-            self.value = value
-            self.source_print_flag = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.SOURCP
+            self.value = source_print_flag
+            self.source_print_flag = source_print_flag
 
-    class Angp(DeterministicWeightWindowOption):
+    class Angp(WeightWindowOption):
         """
         ``Angp`` represents INP angp deterministic weight window data card
         options.
 
-        ``Angp`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Angp`` inherits attributes from ``WeightWindowOption``.
         It represents the INP angp deterministic weight window data card option
         syntax element.
 
@@ -3189,19 +3256,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.ANGP
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.ANGP
+            self.value = state
+            self.state = state
 
-    class Balp(DeterministicWeightWindowOption):
+    class Balp(WeightWindowOption):
         """
         ``Balp`` represents INP balp deterministic weight window data card
         options.
 
-        ``Balp`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Balp`` inherits attributes from ``WeightWindowOption``.
         It represents the INP balp deterministic weight window data card option
         syntax element.
 
@@ -3220,20 +3287,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.BALP
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.BALP
+            self.value = state
+            self.state = state
 
-    class Raflux(DeterministicWeightWindowOption):
+    class Raflux(WeightWindowOption):
         """
         ``Raflux`` represents INP raflux deterministic weight window data card
         options.
 
         ``Raflux`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP raflux
+        ``WeightWindowOption``. It represents the INP raflux
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3251,20 +3318,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.RAFLUX
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.RAFLUX
+            self.value = state
+            self.state = state
 
-    class Rmflux(DeterministicWeightWindowOption):
+    class Rmflux(WeightWindowOption):
         """
         ``Rmflux`` represents INP rmflux deterministic weight window data card
         options.
 
         ``Rmflux`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP rmflux
+        ``WeightWindowOption``. It represents the INP rmflux
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3282,20 +3349,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.RMFLUX
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.RMFLUX
+            self.value = state
+            self.state = state
 
-    class Avatar(DeterministicWeightWindowOption):
+    class Avatar(WeightWindowOption):
         """
         ``Avatar`` represents INP avatar deterministic weight window data card
         options.
 
         ``Avatar`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP avatar
+        ``WeightWindowOption``. It represents the INP avatar
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3313,20 +3380,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.AVATAR
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.AVATAR
+            self.value = state
+            self.state = state
 
-    class Asleft(DeterministicWeightWindowOption):
+    class Asleft(WeightWindowOption):
         """
         ``Asleft`` represents INP asleft deterministic weight window data card
         options.
 
         ``Asleft`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP asleft
+        ``WeightWindowOption``. It represents the INP asleft
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3344,20 +3411,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if right_going_flux is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.ASLEFT
-            self.value = value
-            self.right_going_flux = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.ASLEFT
+            self.value = right_going_flux
+            self.right_going_flux = right_going_flux
 
-    class Asrite(DeterministicWeightWindowOption):
+    class Asrite(WeightWindowOption):
         """
         ``Asrite`` represents INP asrite deterministic weight window data card
         options.
 
         ``Asrite`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP asrite
+        ``WeightWindowOption``. It represents the INP asrite
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3375,20 +3442,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if left_going_flux is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.ASRITE
-            self.value = value
-            self.left_going_flux = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.ASRITE
+            self.value = left_going_flux
+            self.left_going_flux = left_going_flux
 
-    class Asbott(DeterministicWeightWindowOption):
+    class Asbott(WeightWindowOption):
         """
         ``Asbott`` represents INP asbott deterministic weight window data card
         options.
 
         ``Asbott`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP asbott
+        ``WeightWindowOption``. It represents the INP asbott
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3406,19 +3473,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if top_going_flux is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.ASBOTT
-            self.value = value
-            self.top_going_flux = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.ASBOTT
+            self.value = top_going_flux
+            self.top_going_flux = top_going_flux
 
-    class Astop(DeterministicWeightWindowOption):
+    class Astop(WeightWindowOption):
         """
         ``Astop`` represents INP astop deterministic weight window data card
         options.
 
-        ``Astop`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Astop`` inherits attributes from ``WeightWindowOption``.
         It represents the INP astop deterministic weight window data card
         option syntax element.
 
@@ -3437,20 +3504,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if bottom_going_flux is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.ASTOP
-            self.value = value
-            self.bottom_going_flux = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.ASTOP
+            self.value = bottom_going_flux
+            self.bottom_going_flux = bottom_going_flux
 
-    class Asfrnt(DeterministicWeightWindowOption):
+    class Asfrnt(WeightWindowOption):
         """
         ``Asfrnt`` represents INP asfrnt deterministic weight window data card
         options.
 
         ``Asfrnt`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP asfrnt
+        ``WeightWindowOption``. It represents the INP asfrnt
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3468,20 +3535,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if back_going_flux is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.ASFRNT
-            self.value = value
-            self.back_going_flux = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.ASFRNT
+            self.value = back_going_flux
+            self.back_going_flux = back_going_flux
 
-    class Asback(DeterministicWeightWindowOption):
+    class Asback(WeightWindowOption):
         """
         ``Asback`` represents INP asback deterministic weight window data card
         options.
 
         ``Asback`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP asback
+        ``WeightWindowOption``. It represents the INP asback
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3499,20 +3566,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if front_going_flux is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.ASBACK
-            self.value = value
-            self.front_going_flux = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.ASBACK
+            self.value = front_going_flux
+            self.front_going_flux = front_going_flux
 
-    class Massed(DeterministicWeightWindowOption):
+    class Massed(WeightWindowOption):
         """
         ``Massed`` represents INP massed deterministic weight window data card
         options.
 
         ``Massed`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP massed
+        ``WeightWindowOption``. It represents the INP massed
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3530,19 +3597,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.MASSED
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.MASSED
+            self.value = state
+            self.state = state
 
-    class Pted(DeterministicWeightWindowOption):
+    class Pted(WeightWindowOption):
         """
         ``Pted`` represents INP pted deterministic weight window data card
         options.
 
-        ``Pted`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Pted`` inherits attributes from ``WeightWindowOption``.
         It represents the INP pted deterministic weight window data card option
         syntax element.
 
@@ -3561,19 +3628,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.PTED
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.PTED
+            self.value = state
+            self.state = state
 
-    class Zned(DeterministicWeightWindowOption):
+    class Zned(WeightWindowOption):
         """
         ``Zned`` represents INP zned deterministic weight window data card
         options.
 
-        ``Zned`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Zned`` inherits attributes from ``WeightWindowOption``.
         It represents the INP zned deterministic weight window data card option
         syntax element.
 
@@ -3592,20 +3659,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.ZNED
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.ZNED
+            self.value = state
+            self.state = state
 
-    class Rzflux(DeterministicWeightWindowOption):
+    class Rzflux(WeightWindowOption):
         """
         ``Rzflux`` represents INP rzflux deterministic weight window data card
         options.
 
         ``Rzflux`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP rzflux
+        ``WeightWindowOption``. It represents the INP rzflux
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3623,20 +3690,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.RZFLUX
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.RZFLUX
+            self.value = state
+            self.state = state
 
-    class Rzmflux(DeterministicWeightWindowOption):
+    class Rzmflux(WeightWindowOption):
         """
         ``Rzmflux`` represents INP rzmflux deterministic weight window data
         card options.
 
         ``Rzmflux`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP rzmflux
+        ``WeightWindowOption``. It represents the INP rzmflux
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3654,20 +3721,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None:
+            if state is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.RXMFLUX
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.RXMFLUX
+            self.value = state
+            self.state = state
 
-    class Edoutf(DeterministicWeightWindowOption):
+    class Edoutf(WeightWindowOption):
         """
         ``Edoutf`` represents INP edoutf deterministic weight window data card
         options.
 
         ``Edoutf`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP edoutf
+        ``WeightWindowOption``. It represents the INP edoutf
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3685,20 +3752,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or not (-3 <= value <= 3):
+            if ascii_output_control is None or not (-3 <= ascii_output_control <= 3):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.EDOUTF
-            self.value = value
-            self.ascii_output_control = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.EDOUTF
+            self.value = ascii_output_control
+            self.ascii_output_control = ascii_output_control
 
-    class Byvlop(DeterministicWeightWindowOption):
+    class Byvlop(WeightWindowOption):
         """
         ``Byvlop`` represents INP byvlop deterministic weight window data card
         options.
 
         ``Byvlop`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP byvlop
+        ``WeightWindowOption``. It represents the INP byvlop
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3716,19 +3783,19 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.BYVLOP
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.BYVLOP
+            self.value = state
+            self.state = state
 
-    class Ajed(DeterministicWeightWindowOption):
+    class Ajed(WeightWindowOption):
         """
         ``Ajed`` represents INP ajed deterministic weight window data card
         options.
 
-        ``Ajed`` inherits attributes from ``DeterministicWeightWindowOption``.
+        ``Ajed`` inherits attributes from ``WeightWindowOption``.
         It represents the INP ajed deterministic weight window data card option
         syntax element.
 
@@ -3747,20 +3814,20 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.AJED
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.AJED
+            self.value = state
+            self.state = state
 
-    class Fluxone(DeterministicWeightWindowOption):
+    class Fluxone(WeightWindowOption):
         """
         ``Fluxone`` represents INP fluxone deterministic weight window data
         card options.
 
         ``Fluxone`` inherits attributes from
-        ``DeterministicWeightWindowOption``. It represents the INP fluxone
+        ``WeightWindowOption``. It represents the INP fluxone
         deterministic weight window data card option syntax element.
 
         Attributes:
@@ -3778,16 +3845,16 @@ class DeterministicWeightWindow(Datum):
                 MCNPSemanticError: INVALID_DATUM_DAWWG_VALUE.
             """
 
-            if value is None or value not in {0, 1}:
+            if state is None or state not in {0, 1}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_VALUE)
 
-            self.keyword = DeterministicWeightWindowKeyword.FLUXONE
-            self.value = value
-            self.state = value
+            self.keyword = WeightWindow.WeightWindowOption.WeightWindowKeyword.FLUXONE
+            self.value = state
+            self.state = state
 
-    def __init__(self, pairs: tuple[DeterministicWeightWindowOption]):
+    def __init__(self, pairs: tuple[WeightWindowOption]):
         """
-        ``__init__`` initializes ``DeterministicWeightWindow``.
+        ``__init__`` initializes ``WeightWindow``.
 
         Parameters:
             pairs: Tuple of key-value pairs.
@@ -3800,7 +3867,7 @@ class DeterministicWeightWindow(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"dawwg"
+        self.id: final[str] = "dawwg"
         self.mnemonic = Datum.DatumMnemonic.DETERMINISTIC_WEIGHT_WINDOW
         self.parameters = pairs
 
@@ -3889,10 +3956,10 @@ class EmbeddedGeometry(Datum):
                 source = _parser.Preprocessor.process_inp(source)
 
                 # Processing Keyword
-                if source not in [enum.value for enum in EmbeddedGeometryKeyword]:
+                if source not in [enum.value for enum in EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword]:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_KEYWORD)
 
-                return EmbeddedGeometryKeyword(source)
+                return EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword(source)
 
         def __init__(self, keyword: EmbeddedGeometryKeyword, value: any):
             """
@@ -3909,30 +3976,30 @@ class EmbeddedGeometry(Datum):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_KEYWORD)
 
             match keyword:
-                case EmbeddedGeometryKeyword.MATCELL:
-                    obj = EmbeddedGeometryOption.Matcell(keyword, value)
-                case EmbeddedGeometryKeyword.MESHOGEO:
-                    obj = EmbeddedGeometryOption.Meshgeo(keyword, value)
-                case EmbeddedGeometryKeyword.MGEOIN:
-                    obj = EmbeddedGeometryOption.Mgeoin(keyword, value)
-                case EmbeddedGeometryKeyword.MEEOUT:
-                    obj = EmbeddedGeometryOption.Meeout(keyword, value)
-                case EmbeddedGeometryKeyword.MEEIN:
-                    obj = EmbeddedGeometryOption.Meein(keyword, value)
-                case EmbeddedGeometryKeyword.CALC_VOLS:
-                    obj = EmbeddedGeometryOption.CalcVols(keyword, value)
-                case EmbeddedGeometryKeyword.DEBUG:
-                    obj = EmbeddedGeometryOption.Debug(keyword, value)
-                case EmbeddedGeometryKeyword.FILETYPE:
-                    obj = EmbeddedGeometryOption.Filetype(keyword, value)
-                case EmbeddedGeometryKeyword.GMVFILE:
-                    obj = EmbeddedGeometryOption.Gmvfile(keyword, value)
-                case EmbeddedGeometryKeyword.LENGTH:
-                    obj = EmbeddedGeometryOption.Length(keyword, value)
-                case EmbeddedGeometryKeyword.MCNPUMFILE:
-                    obj = EmbeddedGeometryOption.Mcnpumfile(keyword, value)
-                case EmbeddedGeometryKeyword.OVERLAP:
-                    obj = EmbeddedGeometryOption.Overlap(keyword, value)
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MATCELL:
+                    obj = EmbeddedGeometry.EmbeddedGeometryOption.Matcell(keyword, value)
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MESHOGEO:
+                    obj = EmbeddedGeometry.EmbeddedGeometryOption.Meshgeo(keyword, value)
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MGEOIN:
+                    obj = EmbeddedGeometry.EmbeddedGeometryOption.Mgeoin(keyword, value)
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MEEOUT:
+                    obj = EmbeddedGeometry.EmbeddedGeometryOption.Meeout(keyword, value)
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MEEIN:
+                    obj = EmbeddedGeometry.EmbeddedGeometryOption.Meein(keyword, value)
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.CALC_VOLS:
+                    obj = EmbeddedGeometry.EmbeddedGeometryOption.CalcVols(keyword, value)
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.DEBUG:
+                    obj = EmbeddedGeometry.EmbeddedGeometryOption.Debug(keyword, value)
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.FILETYPE:
+                    obj = EmbeddedGeometry.EmbeddedGeometryOption.Filetype(keyword, value)
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.GMVFILE:
+                    obj = EmbeddedGeometry.EmbeddedGeometryOption.Gmvfile(keyword, value)
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.LENGTH:
+                    obj = EmbeddedGeometry.EmbeddedGeometryOption.Length(keyword, value)
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MCNPUMFILE:
+                    obj = EmbeddedGeometry.EmbeddedGeometryOption.Mcnpumfile(keyword, value)
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.OVERLAP:
+                    obj = EmbeddedGeometry.EmbeddedGeometryOption.Overlap(keyword, value)
 
             self.__dict__ = obj.__dict__
             self.__class__ = obj.__class__
@@ -3961,22 +4028,34 @@ class EmbeddedGeometry(Datum):
             source = _parser.Preprocessor.process_inp(source)
             tokens = _parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_EMBED))
 
-            keyword = EmbeddedGeometryOption.EmbeddedGeometryKeyword.from_mcnp(tokens.popl())
+            keyword = EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.from_mcnp(tokens.popl())
 
             match keyword:
-                case EmbeddedGeometryKeyword.MATCELL:
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MATCELL:
                     assert False, "Unimplemented"
-                case EmbeddedGeometryKeyword.MESHOGEO | EmbeddedGeometryKeyword.MGEOIN | EmbeddedGeometryKeyword.MEEOUT | EmbeddedGeometryKeyword.MEEIN | EmbeddedGeometryKeyword.CALC_VOLS | EmbeddedGeometryKeyword.DEBUG | EmbeddedGeometryKeyword.FILETYPE | EmbeddedGeometryKeyword.GMVFILE | EmbeddedGeometryKeyword.MCNPUMFILE:
+                case (
+                    EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MESHOGEO
+                    | EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MGEOIN
+                    | EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MEEOUT
+                    | EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MEEIN
+                    | EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.CALC_VOLS
+                    | EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.DEBUG
+                    | EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.FILETYPE
+                    | EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.GMVFILE
+                    | EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MCNPUMFILE
+                ):
                     value = tokens.popl()
-                case EmbeddedGeometryKeyword.LENGTH:
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.LENGTH:
                     value = types.McnpReal.from_mcnp(tokens.popl())
-                case EmbeddedGeometryKeyword.OVERLAP:
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.OVERLAP:
                     assert False, "Unimplemented"
                 case _:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_KEYWORD)
 
             if tokens:
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_EMBED)
+
+            return EmbeddedGeometry.EmbeddedGeometryOption(value)
 
     class Meshgeo(EmbeddedGeometryOption):
         """
@@ -4005,9 +4084,9 @@ class EmbeddedGeometry(Datum):
             if form is None or form not in {"lnk3dnt", "abaqus", "mcnpum"}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
-            self.keyword = EmbeddedGeometryKeyword.MESHOGEO
-            self.value = value
-            self.form = value
+            self.keyword = EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MESHOGEO
+            self.value = form
+            self.form = form
 
     class Mgeoin(EmbeddedGeometryOption):
         """
@@ -4036,9 +4115,9 @@ class EmbeddedGeometry(Datum):
             if filename is None or not filename:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
-            self.keyword = EmbeddedGeometryKeyword.MGEOIN
-            self.value = value
-            self.filename = value
+            self.keyword = EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MGEOIN
+            self.value = filename
+            self.filename = filename
 
     class Meeout(EmbeddedGeometryOption):
         """
@@ -4064,12 +4143,12 @@ class EmbeddedGeometry(Datum):
                 MCNPSemanticError: INVALID_DATUM_EMBED_VALUE.
             """
 
-            if value is None or not value:
+            if filename is None or not filename:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
-            self.keyword = EmbeddedGeometryKeyword.MEEOUT
-            self.value = value
-            self.filename = value
+            self.keyword = EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MEEOUT
+            self.value = filename
+            self.filename = filename
 
     class Meein(EmbeddedGeometryOption):
         """
@@ -4097,7 +4176,7 @@ class EmbeddedGeometry(Datum):
             if filename is None or not filename:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
-            self.keyword = EmbeddedGeometryKeyword.MEEIN
+            self.keyword = EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MEEIN
             self.value = filename
             self.filename = filename
 
@@ -4128,7 +4207,7 @@ class EmbeddedGeometry(Datum):
             if yes_no is None or yes_no not in {"yes", "no"}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
-            self.keyword = EmbeddedGeometryKeyword.CALC_VOLS
+            self.keyword = EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.CALC_VOLS
             self.value = yes_no
             self.yes_no = yes_no
 
@@ -4158,7 +4237,7 @@ class EmbeddedGeometry(Datum):
             if form is None or form not in {"echomesh"}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
-            self.keyword = EmbeddedGeometryKeyword.DEBUG
+            self.keyword = EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.DEBUG
             self.value = form
             self.form = form
 
@@ -4189,7 +4268,7 @@ class EmbeddedGeometry(Datum):
             if filetype is None or filetype not in {"ascii", "binary"}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
-            self.keyword = EmbeddedGeometryKeyword.FILETYPE
+            self.keyword = EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.FILETYPE
             self.value = filetype
             self.filetype = filetype
 
@@ -4220,7 +4299,7 @@ class EmbeddedGeometry(Datum):
             if filename is None or not filename:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
-            self.keyword = EmbeddedGeometryKeyword.GMVFILE
+            self.keyword = EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.GMVFILE
             self.value = filename
             self.filename = filename
 
@@ -4251,7 +4330,7 @@ class EmbeddedGeometry(Datum):
             if factor is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
-            self.keyword = EmbeddedGeometryKeyword.LENGTH
+            self.keyword = EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.LENGTH
             self.value = factor
             self.factor = factor
 
@@ -4282,7 +4361,7 @@ class EmbeddedGeometry(Datum):
             if filename is None or not filename:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_VALUE)
 
-            self.keyword = EmbeddedGeometryKeyword.MCNPUMFILE
+            self.keyword = EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MCNPUMFILE
             self.value = filename
             self.filename = filename
 
@@ -4393,10 +4472,10 @@ class EmbeddedControl(Datum):
                 source = _parser.Preprocessor.process_inp(source)
 
                 # Processing Keyword
-                if source not in [enum.value for enum in EmbeddedControlKeyword]:
+                if source not in [enum.value for enum in EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword]:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_KEYWORD)
 
-                return EmbeddedControlKeyword(source)
+                return EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword(source)
 
         def __init__(self, keyword: EmbeddedControlKeyword, value: any):
             """
@@ -4412,23 +4491,23 @@ class EmbeddedControl(Datum):
             if keyword is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_KEYWORD)
 
-            match mnemoinc:
-                case EmbeddedControlOption.EmbeddedControlKeyword.EMBED:
-                    obj = EmbeddedControlOption.Embed(keyword, value)
-                case EmbeddedControlOption.EmbeddedControlKeyword.ENERGY:
-                    obj = EmbeddedControlOption.Energy(keyword, value)
-                case EmbeddedControlOption.EmbeddedControlKeyword.TIME:
-                    obj = EmbeddedControlOption.Time(keyword, value)
-                case EmbeddedControlOption.EmbeddedControlKeyword.ATOM:
-                    obj = EmbeddedControlOption.Atom(keyword, value)
-                case EmbeddedControlOption.EmbeddedControlKeyword.FACTOR:
-                    obj = EmbeddedControlOption.Factor(keyword, value)
-                case EmbeddedControlOption.EmbeddedControlKeyword.LIST:
+            match keyword:
+                case EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.EMBED:
+                    obj = EmbeddedControl.EmbeddedControlOption.Embed(keyword, value)
+                case EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.ENERGY:
+                    obj = EmbeddedControl.EmbeddedControlOption.Energy(keyword, value)
+                case EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.TIME:
+                    obj = EmbeddedControl.EmbeddedControlOption.Time(keyword, value)
+                case EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.ATOM:
+                    obj = EmbeddedControl.EmbeddedControlOption.Atom(keyword, value)
+                case EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.FACTOR:
+                    obj = EmbeddedControl.EmbeddedControlOption.Factor(keyword, value)
+                case EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.LIST:
                     assert False, "Unimplemented"
-                case EmbeddedControlOption.EmbeddedControlKeyword.MAT:
-                    obj = EmbeddedControlOption.Mat(keyword, value)
-                case EmbeddedControlOption.EmbeddedControlKeyword.MTYPE:
-                    obj = EmbeddedControlOption.Mtype(keyword, value)
+                case EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.MAT:
+                    obj = EmbeddedControl.EmbeddedControlOption.Mat(keyword, value)
+                case EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.MTYPE:
+                    obj = EmbeddedControl.EmbeddedControlOption.Mtype(keyword, value)
 
             self.__dict__ = obj.__dict__
             self.__class__ = obj.__class__
@@ -4458,15 +4537,22 @@ class EmbeddedControl(Datum):
             tokens = _parser.Parser(source.split("="), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_EMBEE))
 
             # Processing Keyword
-            keyword = EmbeddedGeometryOption.EmbeddedGeometryKeyword.from_mcnp(tokens.peekl())
+            keyword = EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.from_mcnp(tokens.peekl())
 
             # Processing Values
             match keyword:
-                case EmbeddedGeometryKeyword.EMBED:
+                case EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.EMBED:
                     value = types.McnpInteger.from_mcnp(tokens.popl())
-                case EmbeddedGeometryKeyword.ENERGY | EmbeddedGeometryKeyword.TIME | EmbeddedGeometryKeyword.FRACTOR:
+                case (
+                    EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.ENERGY
+                    | EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.TIME
+                    | EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.FRACTOR
+                ):
                     value = types.McnpReal.from_mcnp(tokens.popl())
-                case EmbeddedGeometryKeyword.ATOM | EmbeddedGeometryKeyword.MTYPE:
+                case (
+                    EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.ATOM
+                    | EmbeddedGeometry.EmbeddedGeometryOption.EmbeddedGeometryKeyword.MTYPE
+                ):
                     value = tokens.popl()
                 case _:
                     errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_KEYWORD)
@@ -4474,7 +4560,7 @@ class EmbeddedControl(Datum):
             if tokens:
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_EMBEE)
 
-            return EmbeddedControlOption(keyword, value)
+            return EmbeddedControl.EmbeddedControlOption(keyword, value)
 
     class Embed(EmbeddedControlOption):
         """
@@ -4500,10 +4586,10 @@ class EmbeddedControl(Datum):
                 MCNPSemanticError: INVALID_DATUM_EMBEE_VALUE.
             """
 
-            if number is None or not (1 <= value <= 99_999_999):
+            if number is None or not (1 <= number <= 99_999_999):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
-            self.keyword = EmbeddedControlKeyword.EMBED
+            self.keyword = EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.EMBED
             self.value = number
             self.number = number
 
@@ -4534,7 +4620,7 @@ class EmbeddedControl(Datum):
             if factor is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
-            self.keyword = EmbeddedControlKeyword.ENERGY
+            self.keyword = EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.ENERGY
             self.value = factor
             self.factor = factor
 
@@ -4565,7 +4651,7 @@ class EmbeddedControl(Datum):
             if factor is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
-            self.keyword = EmbeddedControlKeyword.TIME
+            self.keyword = EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.TIME
             self.value = factor
             self.factor = factor
 
@@ -4596,7 +4682,7 @@ class EmbeddedControl(Datum):
             if yes_no is None or yes_no not in {"yes", "no"}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
-            self.keyword = EmbeddedControlKeyword.ATOM
+            self.keyword = EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.ATOM
             self.value = yes_no
             self.yes_no = yes_no
 
@@ -4627,7 +4713,7 @@ class EmbeddedControl(Datum):
             if factor is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
-            self.keyword = EmbeddedControlKeyword.FACTOR
+            self.keyword = EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.FACTOR
             self.value = factor
             self.factor = factor
 
@@ -4658,7 +4744,7 @@ class EmbeddedControl(Datum):
             if number is None or not (0 <= number <= 99_999_999):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
-            self.keyword = EmbeddedControlKeyword.MAT
+            self.keyword = EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.MAT
             self.value = number
             self.number = number
 
@@ -4689,7 +4775,7 @@ class EmbeddedControl(Datum):
             if mtype is None or mtype not in {"flux", "isotopic", "population", "reaction", "source", "tracks"}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_VALUE)
 
-            self.keyword = EmbeddedControlKeyword.MTYPE
+            self.keyword = EmbeddedControl.EmbeddedControlOption.EmbeddedControlKeyword.MTYPE
             self.value = mtype
             self.mtype = mtype
 
@@ -5043,7 +5129,7 @@ class Material(Datum):
             if tokens:
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_MATERIAL)
 
-            return MaterialValue(zaid, fraction)
+            return Material.MaterialValue(zaid, fraction)
 
         def to_mcnp(self):
             """
@@ -5215,10 +5301,25 @@ class Material(Datum):
                 case Material.MaterialOption.MaterialKeyword.GAS:
                     value = types.McnpInteger.from_mcnp(tokens.popl())
 
-                case Material.MaterialOption.MaterialKeyword.ESTEP | Material.MaterialOption.MaterialKeyword.HSTEP | Material.MaterialOption.MaterialKeyword.COND | Material.MaterialOption.MaterialKeyword.REFI:
+                case (
+                    Material.MaterialOption.MaterialKeyword.ESTEP
+                    | Material.MaterialOption.MaterialKeyword.HSTEP
+                    | Material.MaterialOption.MaterialKeyword.COND
+                    | Material.MaterialOption.MaterialKeyword.REFI
+                ):
                     value = types.McnpReal.from_mcnp(tokens.popl())
 
-                case Material.MaterialOption.MaterialKeyword.NLIB | Material.MaterialOption.MaterialKeyword.PLIB | Material.MaterialOption.MaterialKeyword.PNLIB | Material.MaterialOption.MaterialKeyword.ELIB | Material.MaterialOption.MaterialKeyword.HLIB | Material.MaterialOption.MaterialKeyword.ALIB | Material.MaterialOption.MaterialKeyword.SLIB | Material.MaterialOption.MaterialKeyword.TLIB | Material.MaterialOption.MaterialKeyword.DLIB:
+                case (
+                    Material.MaterialOption.MaterialKeyword.NLIB
+                    | Material.MaterialOption.MaterialKeyword.PLIB
+                    | Material.MaterialOption.MaterialKeyword.PNLIB
+                    | Material.MaterialOption.MaterialKeyword.ELIB
+                    | Material.MaterialOption.MaterialKeyword.HLIB
+                    | Material.MaterialOption.MaterialKeyword.ALIB
+                    | Material.MaterialOption.MaterialKeyword.SLIB
+                    | Material.MaterialOption.MaterialKeyword.TLIB
+                    | Material.MaterialOption.MaterialKeyword.DLIB
+                ):
                     value = tokens.popl()
 
             if tokens:
@@ -5334,7 +5435,7 @@ class Material(Datum):
         INP Nlib material data card option syntax element.
 
         Attributes:
-            step: Energy step increment.
+            abx: Table identifier default.
         """
 
         def __init__(self, abx: str):
@@ -5342,18 +5443,18 @@ class Material(Datum):
             ``__init__`` initializes ``Mat``.
 
             Parameters:
-                step: Energy step increment.
+                abx: Table identifier default.
 
             Raises:
                 MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
-            if step is None:
+            if abx is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.NLIB
-            self.value = step
-            self.abx = step
+            self.value = abx
+            self.abx = abx
 
     class Plib(MaterialOption):
         """
@@ -5638,12 +5739,12 @@ class Material(Datum):
                 MCNPSemanticError: INVALID_DATUM_MATERIAL_VALUE.
             """
 
-            if value is None:
+            if index is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
 
             self.keyword = Material.MaterialOption.MaterialKeyword.REFI
-            self.value = value
-            self.index = value
+            self.value = index
+            self.index = index
 
     def __init__(self, substances: tuple[types.Zaid], pairs: tuple[MaterialOption], suffix: types.McnpInteger):
         """
@@ -5786,7 +5887,7 @@ class OnTheFlyBroadening(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"otfdb"
+        self.id: final[str] = "otfdb"
         self.mnemonic = Datum.DatumMnemonic.ONTHEFLY_BROADENING
         self.parameters = zaids
 
@@ -5818,7 +5919,7 @@ class TotalFission(Datum):
         if has_no is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"totnu"
+        self.id: final[str] = "totnu"
         self.mnemonic = Datum.DatumMnemonic.TOTAL_FISSION
         self.parameters = (has_no,)
 
@@ -5851,7 +5952,7 @@ class FissionTurnoff(Datum):
             if parameter is None or parameter not in {0, 1, 2}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"nonu"
+        self.id: final[str] = "nonu"
         self.mnemonic = Datum.DatumMnemonic.FISSION_TURNOFF
         self.parameters = states
 
@@ -5927,7 +6028,7 @@ class AtomicWeight(Datum):
             if tokens:
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_WEIGHT)
 
-            return AtomicWeightValue(zaid, ratio)
+            return AtomicWeight.AtomicWeightValue(zaid, ratio)
 
     def __init__(self, weight_ratios: tuple[AtomicWeightValue]):
         """
@@ -5940,11 +6041,11 @@ class AtomicWeight(Datum):
             MCNPSemanticError: INVALID_DATUM_PARAMETERS.
         """
 
-        for parameter in weights:
+        for parameter in weight_ratios:
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"awtab"
+        self.id: final[str] = "awtab"
         self.mnemonic = Datum.DatumMnemonic.ATOMIC_WEIGHT
         self.parameters = weight_ratios
 
@@ -6021,7 +6122,7 @@ class CrossSectionFile(Datum):
             if tokens:
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_WEIGHT)
 
-            return AtomicWeightValue(zaid, ratio)
+            return CrossSectionFile.CrossSectionFileValue(zaid, ratio)
 
     def __init__(self, weight_ratios: tuple[CrossSectionFileValue], suffix: types.McnpInteger):
         """
@@ -6076,7 +6177,7 @@ class Void(Datum):
             if parameter is None or not (1 <= parameter <= 99_999_999):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"void"
+        self.id: final[str] = "void"
         self.mnemonic = Datum.DatumMnemonic.VOID
         self.parameters = numbers
 
@@ -6149,7 +6250,7 @@ class MultigroupAdjointTransport(Datum):
         if rim is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"mgopt"
+        self.id: final[str] = "mgopt"
         self.mnemonic = Datum.DatumMnemonic.MULTIGROUP_ADJOINT_TRANSPORT
         self.parameters = (mcal, igm, iplt, isb, icw, fnw, rim)
 
@@ -6190,7 +6291,7 @@ class DiscreteReactionCrossSection(Datum):
             if zaid is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"drxs"
+        self.id: final[str] = "drxs"
         self.mnemonic = Datum.DatumMnemonic.DISCRETE_REACTIONC_CROSS_SECTION
         self.parameters = zaids
 
@@ -6226,7 +6327,7 @@ class ProblemType(Datum):
             if particle is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"mode"
+        self.id: final[str] = "mode"
         self.mnemonic = Datum.DatumMnemonic.PROBLEM_TYPE
         self.parameters = particles
 
@@ -6334,11 +6435,11 @@ class ParticlePhysicsOptionsNeutron(ParticlePhysicsOptions):
         if emcnf is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        if iunr is None or not (iurn in {0, 1}):
+        if iunr is None or not (iunr in {0, 1}):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         if colif is None or not (
-            coilf in {0, 3, 5} or 0.001 < coilf < 1.001 or 1.001 < coilf < 2.001 or 3.001 < coilf < 4.001
+            colif in {0, 3, 5} or 0.001 < colif < 1.001 or 1.001 < colif < 2.001 or 3.001 < colif < 4.001
         ):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
@@ -6354,7 +6455,7 @@ class ParticlePhysicsOptionsNeutron(ParticlePhysicsOptions):
         if i_els_model is None or not (i_els_model in {-1, 0}):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"phys:n"
+        self.id: final[str] = "phys:n"
         self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
         self.parameters = (emax, emcnf, iunr, colif, cutn, ngam, i_int_model, i_els_model)
         self.designator = types.Designator.Particle.NEUTRON
@@ -6429,7 +6530,7 @@ class ParticlePhysicsOptionsPhoton(ParticlePhysicsOptions):
         if fism is None or not (fism in {0, 1}):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"phys:p"
+        self.id: final[str] = "phys:p"
         self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
         self.parameters = (emcpf, ides, nocoh, ispn, nodop, fism)
         self.designator = types.Designator.Particle.PHOTON
@@ -6472,6 +6573,7 @@ class ParticlePhysicsOptionsElectron(ParticlePhysicsOptions):
         self,
         emax: types.McnpReal,
         ides: types.McnpInteger,
+        iphot: types.McnpReal,
         ibad: types.McnpInteger,
         istrg: types.McnpInteger,
         bnum: types.McnpReal,
@@ -6546,7 +6648,7 @@ class ParticlePhysicsOptionsElectron(ParticlePhysicsOptions):
         if ckvnum is None or not (0 <= ckvnum < 1):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"phys:e"
+        self.id: final[str] = "phys:e"
         self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
         self.parameters = (
             emax,
@@ -6672,7 +6774,7 @@ class ParticlePhysicsOptionsProton(ParticlePhysicsOptions):
         if drp is None or not (drp == -1 or drp >= 0):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"phys:h"
+        self.id: final[str] = "phys:h"
         self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
         self.parameters = (emax, ean, tabl, istrg, recl, i_mcs_model, i_int_model, i_els_model, efac, ckvnum, drp)
         self.designator = types.Designator.Particle.PROTON
@@ -6955,16 +7057,32 @@ class ActivationControl(Datum):
 
             # Processing Values
             match keyword:
-                case ActivationControl.ActivationControlOption.ActivationControlKeyword.FISSION | ActivationControl.ActivationControlOption.ActivationControlKeyword.NON_FISSION | ActivationControl.ActivationControlOption.ActivationControlKeyword.DELAYED_NEUTRON | ActivationControl.ActivationControlOption.ActivationControlKeyword.DELAYED_GAMMA | ActivationControl.ActivationControlOption.ActivationControlKeyword.SAMPLE:
+                case (
+                    ActivationControl.ActivationControlOption.ActivationControlKeyword.FISSION
+                    | ActivationControl.ActivationControlOption.ActivationControlKeyword.NON_FISSION
+                    | ActivationControl.ActivationControlOption.ActivationControlKeyword.DELAYED_NEUTRON
+                    | ActivationControl.ActivationControlOption.ActivationControlKeyword.DELAYED_GAMMA
+                    | ActivationControl.ActivationControlOption.ActivationControlKeyword.SAMPLE
+                ):
                     value = tokens.popl()
 
-                case ActivationControl.ActivationControlOption.ActivationControlKeyword.THRESH | ActivationControl.ActivationControlOption.ActivationControlKeyword.PECUT:
+                case (
+                    ActivationControl.ActivationControlOption.ActivationControlKeyword.THRESH
+                    | ActivationControl.ActivationControlOption.ActivationControlKeyword.PECUT
+                ):
                     value = types.McnpReal.from_mcnp(tokens.popl())
 
-                case ActivationControl.ActivationControlOption.ActivationControlKeyword.DNABIS | ActivationControl.ActivationControlOption.ActivationControlKeyword.NAP | ActivationControl.ActivationControlOption.ActivationControlKeyword.HLCUT:
+                case (
+                    ActivationControl.ActivationControlOption.ActivationControlKeyword.DNABIS
+                    | ActivationControl.ActivationControlOption.ActivationControlKeyword.NAP
+                    | ActivationControl.ActivationControlOption.ActivationControlKeyword.HLCUT
+                ):
                     value = types.McnpInteger.from_mcnp(tokens.popl())
 
-                case ActivationControl.ActivationControlOption.ActivationControlKeyword.DNEB | ActivationControl.ActivationControlOption.ActivationControlKeyword.DGEB:
+                case (
+                    ActivationControl.ActivationControlOption.ActivationControlKeyword.DNEB
+                    | ActivationControl.ActivationControlOption.ActivationControlKeyword.DGEB
+                ):
                     assert False, "Unimplemented"
 
             if tokens:
@@ -7008,7 +7126,7 @@ class ActivationControl(Datum):
                 MCNPSemanticError: INVALID_DATUM_ACTIVATION_VALUE.
             """
 
-            if particle is None or not (particles in {"none", "n,p,e,f,a", "all"}):
+            if particle is None or not (particle in {"none", "n,p,e,f,a", "all"}):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.FISSION
@@ -7038,7 +7156,7 @@ class ActivationControl(Datum):
                 MCNPSemanticError: INVALID_DATUM_ACTIVATION_VALUE.
             """
 
-            if particle is None or not (particles in {"none", "n,p,e,f,a", "all"}):
+            if particle is None or not (particle in {"none", "n,p,e,f,a", "all"}):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.NON_FISSION
@@ -7069,7 +7187,7 @@ class ActivationControl(Datum):
                 MCNPSemanticError: INVALID_DATUM_ACTIVATION_VALUE.
             """
 
-            if state is None or not (state in {"model", "library", "both", "prompt"}):
+            if source is None or not (source in {"model", "library", "both", "prompt"}):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.DELAYED_NEUTRON
@@ -7216,7 +7334,7 @@ class ActivationControl(Datum):
                 MCNPSemanticError: INVALID_DATUM_ACTIVATION_VALUE.
             """
 
-            if state is None:
+            if cutoff is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_VALUE)
 
             self.keyword = ActivationControl.ActivationControlOption.ActivationControlKeyword.PECUT
@@ -7299,7 +7417,7 @@ class ActivationControl(Datum):
             if pair is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"act"
+        self.id: final[str] = "act"
         self.mnemonic = Datum.DatumMnemonic.ACTIVATION_CONTROL
         self.parameters = pairs
 
@@ -7481,10 +7599,10 @@ class ThermalTimes(Datum):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         for time in times:
-            if time is None or not (0 <= i <= 99):
+            if time is None or not (0 <= time <= 99):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"thtme"
+        self.id: final[str] = "thtme"
         self.mnemonic = Datum.DatumMnemonic.THERMAL_TIMES
         self.parameters = times
 
@@ -7513,7 +7631,7 @@ class ModelPhysicsControl(Datum):
         if setting is None or not (setting in {"yes", "no"}):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"mphys"
+        self.id: final[str] = "mphys"
         self.mnemonic = Datum.DatumMnemonic.MODEL_PHYSICS_CONTROL
         self.parameters = (setting,)
 
@@ -7605,7 +7723,7 @@ class Lca(Datum):
         if nevtype is None or not (nevtype >= 0):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"lca"
+        self.id: final[str] = "lca"
         self.mnemonic = Datum.DatumMnemonic.LCA
         self.parameters = (ielas, ipreq, iexisa, ichoic, jcoul, nexite, npidk, noact, icem, ilaq, nevtype)
 
@@ -7689,7 +7807,7 @@ class Lcb(Datum):
         if flim0 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"lcb"
+        self.id: final[str] = "lcb"
         self.mnemonic = Datum.DatumMnemonic.LCB
         self.parameters = (flebn1, flebn2, flebn3, flebn4, flebn5, flebn6, ctofe, flim0)
 
@@ -7770,7 +7888,7 @@ class Lcc(Datum):
         if ebankabla is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"lcc"
+        self.id: final[str] = "lcc"
         self.mnemonic = Datum.DatumMnemonic.LCB
         self.parameters = (atincl, v0incl, xfoisaincl, npaulincl, nosurfincl, ecutincl, ebankincl, ebankabla)
 
@@ -7851,7 +7969,7 @@ class Lea(Datum):
         if nofis is None or not (nofis in {1, 0}):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: final[str] = f"lea"
+        self.id: final[str] = "lea"
         self.mnemonic = Datum.DatumMnemonic.LEA
         self.parameters = (ipht, icc, nobalc, nobale, ifbrk, ilvden, ievap, nofis)
 
@@ -8740,7 +8858,7 @@ class SourceDefinition(Datum):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SOURCE_VALUE)
 
             self.keyword = SourceDefinition.SourceDefinitionOption.SourceDefinitionKeyword.TR
-            self.value = transformatino
+            self.value = transformation
             self.transformation = transformation
 
     class Eff(SourceDefinitionOption):
@@ -8986,7 +9104,7 @@ class SourceDefinition(Datum):
         self.mnemonic: final[Datum.DatumMnemonic] = Datum.DatumMnemonic.GENERAL_SOURCE_DEFINITION
         self.parameters: final[tuple] = pairs
 
-        self.pairs: final[SourceDefinitionOption] = pairs
+        self.pairs: final[SourceDefinition.SourceDefinitionOption] = pairs
 
 
 class HistroyCutoff(Datum):

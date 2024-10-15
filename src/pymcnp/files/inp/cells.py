@@ -5,7 +5,6 @@
 interface for INP cell card blocks.
 """
 
-
 from .block import Block
 from .cell import Cell
 from ..utils import _parser

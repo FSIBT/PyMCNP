@@ -6,7 +6,6 @@ collapsing whitespace and processing continuation lines. ``_parser`` employs
 regular expressions and the deque data structure.
 """
 
-
 import re
 import collections
 
@@ -159,7 +158,7 @@ class Preprocessor:
     @staticmethod
     def _process_jump(string: str) -> str:
         for match in re.finditer(r"(\s)(\d+)j(\s)", string):
-            string = string[: match.start(0)] + match[1] + f" j" * int(match[2]) + match[3] + string[match.end(0) :]
+            string = string[: match.start(0)] + match[1] + " j" * int(match[2]) + match[3] + string[match.end(0) :]
 
         return string
 
@@ -285,7 +284,14 @@ class Preprocessor:
                 output += "\n".join(table)
                 table = line.split(" ")[1:]
             elif table != [] and not re.match(
-                r"(vol|area|tr|[*]tr|u|lat|fill|[*]fill|uran|dm|dawwg|embed|embee|embeb|embem|embtb|embtm|embde|embdf|m|mt|mx|otfdb|totnu|nonu|awtab|xs|void|mgopt|drxs|mode|phys|act|cut|elpt|tmp|thtme|mphys|lca|lcb|lcc|lea|leb|fmult|tropt|unc|cosyp|cosy|bfld|bflcl|field|sdef|si|sp|sb|ds|sc|ssw|ssr|kcode|ksrc|kopts|hsrc|burn|source|srdx|f|[*]f|fip|fir|fic|fc|e|t|c|[*]c|fq|em|de|df|em|tm|cm|cf|sf|fs|sd|fu|tallyx|ft|tf|notrn|pert|kpert|ksen|tmesh|fmesh|spdtl|imp|var|wwe|wwt|wwn|wwp|wwg|wwge|wwgt|mesh|esplt|tsplt|ext|vect|fcl|dxt|dd|pd|dxc|bbrem|pikmt|spabi|pwt|nps|ctme|stop|print|talnp|prdmp|ptrac|mplot|histp|rand|dbcn|lost|idum|rdum|za|zb|zc|zd|file).+",
+                r"(vol|area|tr|[*]tr|u|lat|fill|[*]fill|uran|dm|dawwg|embed|embee|embeb|embem|embtb \
+                |embtm|embde|embdf|m|mt|mx|otfdb|totnu|nonu|awtab|xs|void|mgopt|drxs|mode|phys|act  \
+                |cut|elpt|tmp|thtme|mphys|lca|lcb|lcc|lea|leb|fmult|tropt|unc|cosyp|cosy|bfld|bflcl \
+                |field|sdef|si|sp|sb|ds|sc|ssw|ssr|kcode|ksrc|kopts|hsrc|burn|source|srdx|f|[*]f    \
+                |fip|fir|fic|fc|e|t|c|[*]c|fq|em|de|df|em|tm|cm|cf|sf|fs|sd|fu|tallyx|ft|tf|notrn   \
+                |pert|kpert|ksen|tmesh|fmesh|spdtl|imp|var|wwe|wwt|wwn|wwp|wwg|wwge|wwgt|mesh|esplt \
+                |tsplt|ext|vect|fcl|dxt|dd|pd|dxc|bbrem|pikmt|spabi|pwt|nps|ctme|stop|print|talnp   \
+                |prdmp|ptrac|mplot|histp|rand|dbcn|lost|idum|rdum|za|zb|zc|zd|file).+",
                 line,
             ):
                 for i, token in enumerate(line.split(" ")):

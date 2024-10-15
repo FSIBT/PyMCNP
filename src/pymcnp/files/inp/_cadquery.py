@@ -6,7 +6,6 @@ private helper functions for generating Cadquery by abstracting Cadquery
 patterns.
 """
 
-
 from __future__ import annotations
 import math
 
@@ -280,7 +279,11 @@ def add_wedge(a: CqVector, b: CqVector, c: CqVector) -> str:
         Cadquery representing a wedge.
     """
 
-    return f".polyline([({a.x}, {a.y}, {a.z}), (0, 0, 0), ({b.x}, {b.y}, {b.z})]).close().polyline([({a.x + c.x}, {a.y + c.y}, {a.z + c.z}), ({c.x}, {c.y}, {c.z}), ({b.x + c.x}, {b.y + c.y}, {b.z + c.z})]).close().loft()"
+    return (
+        f".polyline([({a.x}, {a.y}, {a.z}), (0, 0, 0), ({b.x}, {b.y}, {b.z})]).close()."
+        "polyline([({a.x + c.x}, {a.y + c.y}, {a.z + c.z}), ({c.x}, {c.y}, {c.z}), ({b.x + c.x}, {b.y + c.y}, {b.z + c.z})])."
+        "close().loft()"
+    )
 
 
 def add_translation(v: CqVector) -> str:

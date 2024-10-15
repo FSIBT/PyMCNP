@@ -5,17 +5,15 @@
 module underpins the CLI by simplifying commands.
 """
 
-
 import sys
 
 import docopt
 
 from .. import files
-from . import _io
 from . import _save
 
 
-PYMCNP_INP_DOC = f"""
+PYMCNP_INP_DOC = """
 Usage:
     pymcnp inp ((--read <alias> <file>)|(--delete <alias>))
 

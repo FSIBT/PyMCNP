@@ -6,11 +6,10 @@
 MCNP types.
 """
 
-
 from __future__ import annotations
 import re
 import enum
-from typing import Union, Literal
+from typing import Literal, final
 
 from . import _parser
 from . import errors
@@ -120,12 +119,12 @@ class Zaid:
 
         try:
             a = int(zzzaaa[-3:])
-        except:
+        except ValueError:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_A, info=source)
 
         try:
             z = int(zzzaaa[:-3])
-        except:
+        except ValueError:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_Z, info=source)
 
         abx = None
@@ -220,7 +219,7 @@ class Designator:
             if particle is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=str(particles))
 
-        self.particles: final[tuple[Particle]] = particles
+        self.particles: final[tuple[Designator.Particle]] = particles
 
     @staticmethod
     def from_mcnp(source: str):
@@ -456,5 +455,5 @@ class McnpReal:
     def __sub__(a, b: McnpReal | float):
         return McnpReal(a.value - b.value) if isinstance(b, McnpReal) else McnpReal(a.value - b)
 
-    def __mul__(a, b: Mcnpreal | float):
+    def __mul__(a, b: McnpReal | float):
         return McnpReal(a.value * b.value) if isinstance(b, McnpReal) else McnpReal(a.value * b)

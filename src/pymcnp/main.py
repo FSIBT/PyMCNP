@@ -5,7 +5,6 @@
 PyMCNP as a script (``python3 main.py``) and command (``pymcnp``).
 """
 
-
 import sys
 
 import docopt
@@ -16,7 +15,7 @@ import pymcnp
 PYMCNP_DIR = ".pymcnp/"
 PYMCNP_SAVE_FILE = f"{PYMCNP_DIR}pymcnp-save.txt"
 
-PYMCNP_TITLE = f"""    
+PYMCNP_TITLE = f"""
     \x1b[1mPyMCNP\x1b[0m
     Version {pymcnp.version.__version__}
 
@@ -28,7 +27,7 @@ PYMCNP_TITLE = f"""
 PYMCNP_DOC = """
 \x1b[1mpymcnp\x1b[0m - Python interface for MCNP.
 
-Usage: 
+Usage:
     pymcnp [<command> [<args>...]]
 
 Commands:

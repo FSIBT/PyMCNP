@@ -5,8 +5,7 @@
 interface for INP cards.
 """
 
-
-from typing import Union
+from typing import Union, final
 
 
 class Card:

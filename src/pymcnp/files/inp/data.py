@@ -5,7 +5,6 @@
 interface for INP data card blocks.
 """
 
-
 from .block import Block
 from .datum import Datum
 from ..utils import _parser
@@ -85,7 +84,7 @@ class Data(Block):
     def __getitem__(self, index: str) -> Datum:
         try:
             return self._cards[index]
-        except KeyError as err:
+        except KeyError:
             raise KeyError
 
     def __contains__(self, item: str) -> Datum:

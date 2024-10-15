@@ -5,7 +5,6 @@
 importable interface for INP surface card blocks.
 """
 
-
 from .block import Block
 from .surface import Surface
 from ..utils import _parser
