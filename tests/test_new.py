@@ -189,7 +189,7 @@ class Test_CellOption:
     VALID_EXAMPLES = [
         (
             pymcnp.inp.Cell.CellOption.CellKeyword("imp"),
-            pymcnp.utils.types.McnpInteger(0),
+            pymcnp.utils.types.McnpReal(0.5),
             None,
             pymcnp.utils.types.Designator(("n", "p")),
         ),

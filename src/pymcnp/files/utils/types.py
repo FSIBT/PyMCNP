@@ -351,6 +351,15 @@ class McnpInteger:
     def __ne__(a, b: McnpInteger | int):
         return a.value != b.value if isinstance(b, McnpInteger) else a.value != b
 
+    def __add__(a, b: McnpInteger | float):
+        return McnpInteger(a.value + b.value) if isinstance(b, McnpInteger) else McnpInteger(a.value + b)
+
+    def __sub__(a, b: McnpInteger | float):
+        return McnpInteger(a.value - b.value) if isinstance(b, McnpInteger) else McnpInteger(a.value - b)
+
+    def __mul__(a, b: McnpInteger | float):
+        return McnpInteger(a.value * b.value) if isinstance(b, McnpInteger) else McnpInteger(a.value * b)
+
 
 class McnpReal:
     """
@@ -440,3 +449,12 @@ class McnpReal:
 
     def __ne__(a, b: McnpReal | float):
         return a.value != b.value if isinstance(b, McnpReal) else a.value != b
+
+    def __add__(a, b: McnpReal | float):
+        return McnpReal(a.value + b.value) if isinstance(b, McnpReal) else McnpReal(a.value + b)
+
+    def __sub__(a, b: McnpReal | float):
+        return McnpReal(a.value - b.value) if isinstance(b, McnpReal) else McnpReal(a.value - b)
+
+    def __mul__(a, b: Mcnpreal | float):
+        return McnpReal(a.value * b.value) if isinstance(b, McnpReal) else McnpReal(a.value * b)

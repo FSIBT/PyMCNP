@@ -375,7 +375,11 @@ class Datum(Card):
         match mnemonic:
             case Datum.DatumMnemonic.VOLUME:
                 tokens.popl()
-                has_no = True if tokens.peekl() == "no" else False
+                if tokens.peekl() == "no":
+                    tokens.popl()
+                    has_no = True
+                else:
+                    has_no = False
                 volumes = tuple(types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
 
                 datum = Volume(volumes, has_no=has_no)
@@ -391,7 +395,7 @@ class Datum(Card):
                 entries = tuple(types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
                 displacement = tuple(entries[:3])
                 rotation = (tuple(entries[3:6]), tuple(entries[6:9]), tuple(entries[9:12]))
-                system = int(entires[12])
+                system = int(entries[-1])
 
                 datum = Transformation(displacement, rotation, system)
 
@@ -635,8 +639,11 @@ class Datum(Card):
                 tokens.popl()
                 designator = types.Designator.from_mcnp(tokens.popl())
 
-                match designator:
-                    case types.Designator.NEUTRON:
+                if len(designator.particles) != 1:
+                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_DATUM_PHYS)
+
+                match designator.particles[0]:
+                    case types.Designator.Particle.NEUTRON:
                         emax = types.McnpReal.from_mcnp(tokens.popl())
                         emcnf = types.McnpReal.from_mcnp(tokens.popl())
                         iunr = types.McnpInteger.from_mcnp(tokens.popl())
@@ -658,7 +665,7 @@ class Datum(Card):
 
                         parameters = (emax, emcnf, iunr, colif, cutn, ngam, i_int_model, i_els_model)
 
-                    case types.Designator.PHOTON:
+                    case types.Designator.Particle.PHOTON:
                         emcpf = types.McnpReal.from_mcnp(tokens.popl())
                         ides = types.McnpInteger.from_mcnp(tokens.popl())
                         nocoh = types.McnpInteger.from_mcnp(tokens.popl())
@@ -670,7 +677,7 @@ class Datum(Card):
 
                         parameters = (emcpf, ides, nocoh, ispn, nodop, fism)
 
-                    case types.Designator.ELECTRON:
+                    case types.Designator.Particle.ELECTRON:
                         emax = types.McnpReal.from_mcnp(tokens.popl())
                         ides = types.McnpInteger.from_mcnp(tokens.popl())
                         ibad = types.McnpInteger.from_mcnp(tokens.popl())
@@ -705,7 +712,7 @@ class Datum(Card):
                             ckvnum,
                         )
 
-                    case types.Designator.PROTON:
+                    case types.Designator.Particle.PROTON:
                         emax = types.McnpReal.from_mcnp(tokens.popl())
                         ean = types.McnpReal.from_mcnp(tokens.popl())
                         tabl = types.McnpReal.from_mcnp(tokens.popl())
@@ -906,7 +913,7 @@ class Datum(Card):
                 datum = SourceDefinition(pairs)
 
             case _:
-                datum = _Placeholder(tokens.popl(), [tokens.popl() for _ in range(0, len(tokens))])
+                datum = _Placeholder(mnemonic, [tokens.popl() for _ in range(0, len(tokens))])
 
         if tokens:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM)
@@ -6258,13 +6265,13 @@ class ParticlePhysicsOptions(Datum):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         match designator:
-            case types.Designator.NEUTRON:
+            case types.Designator.Particle.NEUTRON:
                 obj = ParticlePhysicsOptionsNeutron(*parameters)
-            case types.Designator.PHOTON:
+            case types.Designator.Particle.PHOTON:
                 obj = ParticlePhysicsOptionsPhoton(*parameters)
-            case types.Designator.ELECTRON:
+            case types.Designator.Particle.ELECTRON:
                 obj = ParticlePhysicsOptionsElectron(*parameters)
-            case types.Designator.PROTON:
+            case types.Designator.Particle.PROTON:
                 obj = ParticlePhysicsOptionsPhoton(*parameters)
             case _:
                 obj = ParticlePhysicsOptionsOther(designator, *parameters)
@@ -6350,7 +6357,7 @@ class ParticlePhysicsOptionsNeutron(ParticlePhysicsOptions):
         self.id: final[str] = f"phys:n"
         self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
         self.parameters = (emax, emcnf, iunr, colif, cutn, ngam, i_int_model, i_els_model)
-        self.designator = types.Designator.NEUTRON
+        self.designator = types.Designator.Particle.NEUTRON
 
         self.emax = emax
         self.emcnf = emcnf
@@ -6425,7 +6432,7 @@ class ParticlePhysicsOptionsPhoton(ParticlePhysicsOptions):
         self.id: final[str] = f"phys:p"
         self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
         self.parameters = (emcpf, ides, nocoh, ispn, nodop, fism)
-        self.designator = types.Designator.PHOTON
+        self.designator = types.Designator.Particle.PHOTON
 
         self.emcpf = emcpf
         self.ides = ides
@@ -6557,7 +6564,7 @@ class ParticlePhysicsOptionsElectron(ParticlePhysicsOptions):
             electron_method_boundary,
             ckvnum,
         )
-        self.designator = types.Designator.ELECTRON
+        self.designator = types.Designator.Particle.ELECTRON
 
         self.emax = emax
         self.ides = ides
@@ -6668,7 +6675,7 @@ class ParticlePhysicsOptionsProton(ParticlePhysicsOptions):
         self.id: final[str] = f"phys:h"
         self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
         self.parameters = (emax, ean, tabl, istrg, recl, i_mcs_model, i_int_model, i_els_model, efac, ckvnum, drp)
-        self.designator = types.Designator.PROTON
+        self.designator = types.Designator.Particle.PROTON
 
         self.emax = emax
         self.ean = ean

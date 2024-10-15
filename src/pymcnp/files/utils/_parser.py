@@ -158,8 +158,20 @@ class Preprocessor:
 
     @staticmethod
     def _process_jump(string: str) -> str:
-        for match in re.finditer(r"\s(\d+)j\s", string):
-            string = string[: match.start(0)] + " j " * int(match[1]) + string[match.end(0) :]
+        for match in re.finditer(r"(\s)(\d+)j(\s)", string):
+            string = string[: match.start(0)] + match[1] + f" j" * int(match[2]) + match[3] + string[match.end(0) :]
+
+        return string
+
+    @staticmethod
+    def _process_repeat(string: str) -> str:
+        for match in re.finditer(r"\s(\S+)\s(\d*)r(\s)", string):
+            string = (
+                string[: match.start(0)]
+                + f" {match[1]}" * (int(match[2] if match[2] else 1) + 1)
+                + match[3]
+                + string[match.end(0) :]
+            )
 
         return string
 
@@ -308,6 +320,7 @@ class Preprocessor:
         string = Preprocessor._process_case(string)
         string = Preprocessor._process_tabs(string)
         string = Preprocessor._process_jump(string)
+        string = Preprocessor._process_repeat(string)
         string = Preprocessor._process_continuation(string)
 
         if hasColumnarData:

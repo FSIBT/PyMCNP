@@ -331,7 +331,8 @@ class Cell(card.Card):
 
             source = _parser.Preprocessor.process_inp(source)
             tokens = _parser.Parser(
-                re.split(r":|=| ", source), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_OPTION)
+                re.split(r":|=|[()] | [()]| ", source.strip(")")),
+                errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_OPTION),
             )
 
             # Processing Keyword
@@ -344,7 +345,7 @@ class Cell(card.Card):
             match keyword:
                 case Cell.CellOption.CellKeyword.IMPORTANCE:
                     tokens.popl()
-                    value = types.McnpInteger.from_mcnp(tokens.popr())
+                    value = types.McnpReal.from_mcnp(tokens.popr())
                     designator = types.Designator.from_mcnp(tokens.popr())
 
                 case Cell.CellOption.CellKeyword.VOLUME:
@@ -432,7 +433,7 @@ class Cell(card.Card):
                     elif len(entries) == 1:
                         value = entries[0]
                     else:
-                        raise errors.MCNPSemanticErrors(errors.MCNPSemanticCodes.TOOLONG_CELL_OPTION)
+                        raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_CELL_OPTION)
 
                 case Cell.CellOption.CellKeyword.FILL | Cell.CellOption.CellKeyword.FILL_ANGLE:
                     tokens.popl()
@@ -441,7 +442,7 @@ class Cell(card.Card):
 
                     if ":" in source:
                         if len(entries) <= 6:
-                            raise errors.MCNPSemanticErrors(errors.MCNPSemanticCodes.TOOFEW_CELL_OPTION)
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_OPTION)
 
                         value = (
                             (entries[0], entries[1]),
@@ -457,7 +458,7 @@ class Cell(card.Card):
                         elif len(entries) == 14:
                             value = tuple(entries)
                         else:
-                            raise errors.MCNPSemanticErrors(errors.MCNPSemanticCodes.TOOFEW_CELL_OPTION)
+                            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_OPTION)
 
                 case _:
                     assert False, "Impossible"
@@ -513,7 +514,7 @@ class Cell(card.Card):
                 "keyword": self.keyword.to_mcnp(),
                 "m": self.suffix.to_mcnp() if hasattr(self.__class__, "suffix") else None,
                 "n": self.designator if hasattr(self.__class__, "designator") else None,
-                "value": self.value.to_mcnp(),
+                "value": self.value.to_mcnp() if hasattr(self.value, "to_mcnp") else self.value,
             }
 
     class Importance(CellOption):
@@ -528,7 +529,7 @@ class Cell(card.Card):
             designator: Cell card option particle designator.
         """
 
-        def __init__(self, importance: types.McnpInteger, designator: types.Designator):
+        def __init__(self, importance: types.McnpReal, designator: types.Designator):
             """
             ``__init__`` initializes ``Importance``.
 
@@ -1105,45 +1106,24 @@ class Cell(card.Card):
                 self.keyword: final[CellOption.CellKeyword] = Cell.CellOption.CellKeyword.FILL
 
             if isinstance(value[0], tuple):
-                if (
-                    value[0] is None
-                    or len(value[0]) != 2
-                    or value[0][0] is None
-                    or value[0][1] is None
-                    or not (0 <= value[0][0])
-                    or not (0 <= value[0][1])
-                    or not (value[0][0] <= value[0][1])
-                ):
+                if len(value) < 4:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-                if (
-                    value[1] is None
-                    or len(value[1]) != 2
-                    or value[1][0] is None
-                    or value[1][1] is None
-                    or not (0 <= value[1][0])
-                    or not (0 <= value[1][1])
-                    or not (value[1][0] <= value[1][1])
-                ):
+                i, j, k, numbers = value
+
+                if i is None or len(i) != 2 and i[1] > i[0]:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-                if (
-                    value[2] is None
-                    or len(value[2]) != 2
-                    or value[2][0] is None
-                    or value[2][1] is None
-                    or not (0 <= value[2][0])
-                    or not (0 <= value[2][1])
-                    or not (value[2][0] <= value[2][1])
-                ):
+                if j is None or len(j) != 2 and j[1] > j[0]:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-                if value[3] is None or len(value[3]) != (
-                    (value[0][1] - value[0][0] + 1) * (value[1][1] - value[1][0] + 1) * (value[2][1] - value[2][0] + 1)
-                ):
+                if k is None or len(k) != 2 and k[1] > k[0]:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-                for number in value[3]:
+                if numbers is None or len(numbers) != (i[1] - i[0] + 1) * (j[1] - j[0] + 1) * (k[1] - k[0] + 1):
+                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
+
+                for number in numbers:
                     if number is None or not (0 <= number <= 99_999_999):
                         raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
