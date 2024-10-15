@@ -22,8 +22,6 @@ Similarly, aach object in PyMCNP has ``to_*`` methods which act as endpoints for
 * **To Cadquery File**. ``to_cadquery_file`` methods create/write to Cadquery source files from PyMCNP objects. It writes ``to_cadquery`` output to files. Only ``Surfaces`` supports this method.
 * **To Arguments**. ``to_arguments`` methods return Python nested dictionaries whose keys corresond to MCNP manual notation for MCNP syntax elements.
 
-Additionally, every public attribute of PyMCNP objects, i.e. component of every MCNP syntax element, has a setter method ``set_*``. These setter methods assign their parameter(s) to attributes after checking for semantic restrictions.
-
 Table of Contents
 -----------------
 
