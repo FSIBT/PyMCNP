@@ -10,6 +10,7 @@ import sys
 import docopt
 
 import pymcnp
+from . import version
 
 
 PYMCNP_DIR = ".pymcnp/"
