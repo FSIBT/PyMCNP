@@ -4,7 +4,7 @@
 
 PyMCNP enables research with Monte Carlo N-Particle (MCNP) simulations. It parses MCNP files, creates MCNP geometry visualization, and runs MCNP in parallel. PyMCNP provides a Python API for MCNP input and output files and a command line interface for interacting with MCNP and MCNP files.
 
-Find more information on [ReadTheDocs](https://github.com/mauricioAyllon/PyMCNP).
+Find more information on [ReadTheDocs](https://pymcnp.readthedocs.io).
 
 ## Installation
 
