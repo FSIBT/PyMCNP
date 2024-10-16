@@ -21,7 +21,6 @@ PyMCNP source code is accessable for contributions, suggestions, and bug reports
 ```
 git clone https://github.com/FSIBT/PyMCNP
 cd PyMCNP
-pip install numpy
 pip install -e .
 ```
 
