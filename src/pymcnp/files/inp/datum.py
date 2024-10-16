@@ -9111,8 +9111,8 @@ class HistoryCutoff(Datum):
     """
     ``HistoryCutoff`` represents INP nps data cards.
 
-    ``HistoryCutoff`` inherits attributes from ``Datum``. It represents the INP model
-    physics nps data card syntax element.
+    ``HistoryCutoff`` inherits attributes from ``Datum``. It represents the INP
+    nps data card syntax element.
 
     Attributes:
         npp: Total number of histories to run.
@@ -9142,29 +9142,29 @@ class HistoryCutoff(Datum):
         self.npsmg: Final[int] = npsmg
 
 
-class RandomGenerator(Datum):
+class Random(Datum):
     """
-    ``RandomGenerator`` represents INP random number generator data
+    ``Random`` represents INP random number generator data
     cards.
 
-    ``RandomGenerator`` inherits attributes from ``Datum``. It represents
+    ``Random`` inherits attributes from ``Datum``. It represents
     the INP random number data card syntax element.
 
     Attributes:
         pairs: Tuple of key-value pairs.
     """
 
-    class RandomGeneratorOption:
+    class RandomOption:
         """
-        ``RandomGeneratorOption`` represents INP random number generator data
+        ``RandomOption`` represents INP random number generator data
         card options.
 
-        ``RandomGeneratorOption`` implements INP random number generator data
+        ``RandomOption`` implements INP random number generator data
         card options. Its attributes store keywords and values, and its methods
         provide entry and endpoints for working with INP random number
         generator data card options. It represents the generic INP random
         number generator data card option syntax element, so
-        ``RandomGenerator`` depends on ``RandomGeneratorOption`` as a generic
+        ``Random`` depends on ``RandomOption`` as a generic
         data structure and superclass.
 
         Attributes:
@@ -9172,18 +9172,18 @@ class RandomGenerator(Datum):
             value: Random number generator data card option value.
         """
 
-        class RandomGeneratorKeyword(StrEnum):
+        class RandomKeyword(StrEnum):
             """
-            ``RandomGeneratorKeyword`` represents INP random number generator
+            ``RandomKeyword`` represents INP random number generator
             data card keywords.
 
-            ``RandomGeneratorKeyword`` implements INP random number generator
+            ``RandomKeyword`` implements INP random number generator
             data card keywords as a Python inner class. It enumerates MCNP
             keywords and provides methods for casting strings to
-            ``RandomGeneratorKeyword`` instances. It represents the INP
+            ``RandomKeyword`` instances. It represents the INP
             random number generator data card keyword syntax element, so
-            ``RandomGenerator`` and ``RandomGeneratorOption`` depend on
-            ``RandomGeneratorKeyword`` as an enum.
+            ``Random`` and ``RandomOption`` depend on
+            ``RandomKeyword`` as an enum.
             """
 
             GEN = "gen"
@@ -9194,11 +9194,11 @@ class RandomGenerator(Datum):
             @staticmethod
             def from_mcnp(source: str):
                 """
-                ``from_mcnp`` generates ``RandomGeneratorKeyword`` objects
+                ``from_mcnp`` generates ``RandomKeyword`` objects
                 from INP.
 
                 ``from_mcnp`` constructs instances of
-                ``RandomGeneratorKeyword`` from INP source strings, so it
+                ``RandomKeyword`` from INP source strings, so it
                 operates as a class constructor method and INP parser helper
                 function.
 
@@ -9206,7 +9206,7 @@ class RandomGenerator(Datum):
                     source: INP for source definition option keyword.
 
                 Returns:
-                    ``RandomGeneratorKeyword`` object.
+                    ``RandomKeyword`` object.
 
                 Raises:
                     MCNPSemanticError: INVALID_DATUM_RAND_KEYWORD.
@@ -9215,14 +9215,14 @@ class RandomGenerator(Datum):
                 source = _parser.Preprocessor.process_inp(source)
 
                 # Processing Keyword
-                if source not in [enum.value for enum in RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword]:
+                if source not in [enum.value for enum in Random.RandomOption.RandomKeyword]:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_RAND_KEYWORD)
 
-                return RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword(source)
+                return Random.RandomOption.RandomKeyword(source)
 
-        def __init__(self, keyword: RandomGeneratorKeyword, value: any):
+        def __init__(self, keyword: RandomKeyword, value: any):
             """
-            ``__init__`` initializes ``RandomGeneratorOption``.
+            ``__init__`` initializes ``RandomOption``.
 
             Parameters:
                 keyword: Random number generator data card option keyword.
@@ -9236,14 +9236,14 @@ class RandomGenerator(Datum):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SOURCE_KEYWORD)
 
             match keyword:
-                case RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.GEN:
-                    obj = RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.Gen(value)
-                case RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.SEED:
-                    obj = RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.Seed(value)
-                case RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.STRIDE:
-                    obj = RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.Stride(value)
-                case RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.HIST:
-                    obj = RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.Hist(value)
+                case Random.RandomOption.RandomKeyword.GEN:
+                    obj = Random.RandomOption.RandomKeyword.Gen(value)
+                case Random.RandomOption.RandomKeyword.SEED:
+                    obj = Random.RandomOption.RandomKeyword.Seed(value)
+                case Random.RandomOption.RandomKeyword.STRIDE:
+                    obj = Random.RandomOption.RandomKeyword.Stride(value)
+                case Random.RandomOption.RandomKeyword.HIST:
+                    obj = Random.RandomOption.RandomKeyword.Hist(value)
 
             self.__dict__ = obj.__dict__
             self.__class__ = obj.__class__
@@ -9251,19 +9251,19 @@ class RandomGenerator(Datum):
         @staticmethod
         def from_mcnp(source: str):
             """
-            ``from_mcnp`` generates ``RandomGeneratorOption`` objects from
+            ``from_mcnp`` generates ``RandomOption`` objects from
             INP.
 
-            ``from_mcnp`` constructs instances of ``RandomGeneratorOption``
+            ``from_mcnp`` constructs instances of ``RandomOption``
             from INP source strings, so it operates as a class constructor
             method and INP parser helper function. Although defined on the
-            superclass, it returns ``RandomGeneratorOption`` subclasses.
+            superclass, it returns ``RandomOption`` subclasses.
 
             Parameters:
                 source: INP for random number generator option.
 
             Returns:
-                ``RandomGeneratorOption`` object.
+                ``RandomOption`` object.
 
             Raises:
                 MCNPSyntaxError: TOOFEW_DATUM_SOURCE.
@@ -9274,15 +9274,15 @@ class RandomGenerator(Datum):
             tokens = _parser.Parser(re.split(r"=| ", source), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_RAND))
 
             # Processing Keyword
-            keyword = RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.from_mcnp(tokens.popl())
+            keyword = Random.RandomOption.RandomKeyword.from_mcnp(tokens.popl())
 
             # Processing Values
             match keyword:
                 case (
-                    RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.GEN
-                    | RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.SEED
-                    | RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.STRIDE
-                    | RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.HIST
+                    Random.RandomOption.RandomKeyword.GEN
+                    | Random.RandomOption.RandomKeyword.SEED
+                    | Random.RandomOption.RandomKeyword.STRIDE
+                    | Random.RandomOption.RandomKeyword.HIST
                 ):
                     value = types.McnpInteger.from_mcnp(tokens.popl())
 
@@ -9293,23 +9293,23 @@ class RandomGenerator(Datum):
 
         def to_mcnp(self):
             """
-            ``to_mcnp`` generates INP from ``RandomGeneratorOption`` objects.
+            ``to_mcnp`` generates INP from ``RandomOption`` objects.
 
-            ``to_mcnp`` creates INP source string from ``RandomGeneratorOption``
+            ``to_mcnp`` creates INP source string from ``RandomOption``
             objects, so it provides an MCNP endpoint.
 
             Returns:
-                INP string for ``RandomGeneratorOption`` object.
+                INP string for ``RandomOption`` object.
             """
 
             return f"{self.keyword.value}={self.value}"
 
-    class Gen(RandomGeneratorOption):
+    class Gen(RandomOption):
         """
         ``Gen`` represents INP Gen source definition data card
         options.
 
-        ``Gen`` inherits attributes from ``RandomGeneratorOption``. It
+        ``Gen`` inherits attributes from ``RandomOption``. It
         represents the INP Gen source definition data card option syntax element.
 
         Attributes:
@@ -9330,16 +9330,16 @@ class RandomGenerator(Datum):
             if setting is None or not (setting in {1, 2, 3, 4}):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_RAND_VALUE)
 
-            self.keyword = RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.GEN
+            self.keyword = Random.RandomOption.RandomKeyword.GEN
             self.value = setting
             self.setting = setting
 
-    class Seed(RandomGeneratorOption):
+    class Seed(RandomOption):
         """
         ``Seed`` represents INP Seed source definition data card
         options.
 
-        ``Seed`` inherits attributes from ``RandomGeneratorOption``. It
+        ``Seed`` inherits attributes from ``RandomOption``. It
         represents the INP Seed source definition data card option syntax
         element.
 
@@ -9361,16 +9361,16 @@ class RandomGenerator(Datum):
             if seed is None or not (seed % 2):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_RAND_VALUE)
 
-            self.keyword = RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.SEED
+            self.keyword = Random.RandomOption.RandomKeyword.SEED
             self.value = seed
             self.seed = seed
 
-    class Stride(RandomGeneratorOption):
+    class Stride(RandomOption):
         """
         ``Stride`` represents INP Stride source definition data card
         options.
 
-        ``Stride`` inherits attributes from ``RandomGeneratorOption``. It
+        ``Stride`` inherits attributes from ``RandomOption``. It
         represents the INP Stride source definition data card option syntax
         element.
 
@@ -9392,16 +9392,16 @@ class RandomGenerator(Datum):
             if stride is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_RAND_VALUE)
 
-            self.keyword = RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.SEED
+            self.keyword = Random.RandomOption.RandomKeyword.SEED
             self.value = stride
             self.stride = stride
 
-    class Hist(RandomGeneratorOption):
+    class Hist(RandomOption):
         """
         ``Hist`` represents INP Hist source definition data card
         options.
 
-        ``Hist`` inherits attributes from ``RandomGeneratorOption``. It
+        ``Hist`` inherits attributes from ``RandomOption``. It
         represents the INP Hist source definition data card option syntax
         element.
 
@@ -9423,6 +9423,159 @@ class RandomGenerator(Datum):
             if number is None or not (number >= 0):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_RAND_VALUE)
 
-            self.keyword = RandomGenerator.RandomGeneratorOption.RandomGeneratorKeyword.SEED
+            self.keyword = Random.RandomOption.RandomKeyword.SEED
             self.value = number
             self.number = number
+
+    def __init__(self, pairs: tuple[RandomOption]):
+        """
+        ``__init__`` initializes ``Random``.
+
+        Parameters:
+            pairs: Tuple of key-value pairs.
+        """
+
+        if pairs is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+        for pair in pairs:
+            if pair is None:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+        self.id: Final[str] = "rand"
+        self.mnemonic: Final[Datum.DatumMnemonic] = Datum.DatumMnemonic.RANDOM
+        self.parameters: Final[tuple] = pairs
+
+        self.pairs: Final[Random.RandomOption] = pairs
+
+
+class Print(Datum):
+    """
+    ``Print`` represents INP output print tables data cards.
+
+    ``Print`` inherits attributes from ``Datum``. It represents the INP output
+    print tables data card syntax element.
+
+    Attributes:
+        tables: Tuple of table numbers.
+    """
+
+    def __init__(self, tables: tuple[types.McnpInteger]):
+        """
+        ``__init__`` initializes ``Print``.
+
+        Parameters:
+            tables: Tuple of table numbers.
+        """
+
+        if tables is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+        for number in tables:
+            if number is None or not (
+                number
+                in {
+                    -1,
+                    10,
+                    20,
+                    30,
+                    32,
+                    35,
+                    38,
+                    40,
+                    41,
+                    44,
+                    50,
+                    55,
+                    60,
+                    62,
+                    70,
+                    72,
+                    80,
+                    85,
+                    86,
+                    87,
+                    90,
+                    95,
+                    98,
+                    100,
+                    102,
+                    110,
+                    115,
+                    117,
+                    118,
+                    120,
+                    126,
+                    128,
+                    130,
+                    140,
+                    150,
+                    160,
+                    161,
+                    162,
+                    163,
+                    170,
+                    175,
+                    178,
+                    180,
+                    190,
+                    198,
+                    200,
+                    210,
+                    220,
+                    -10,
+                    -20,
+                    -30,
+                    -32,
+                    -35,
+                    -38,
+                    -40,
+                    -41,
+                    -44,
+                    -50,
+                    -55,
+                    -60,
+                    -62,
+                    -70,
+                    -72,
+                    -80,
+                    -85,
+                    -86,
+                    -87,
+                    -90,
+                    -95,
+                    -98,
+                    -100,
+                    -102,
+                    -110,
+                    -115,
+                    -117,
+                    -118,
+                    -120,
+                    -126,
+                    -128,
+                    -130,
+                    -140,
+                    -150,
+                    -160,
+                    -161,
+                    -162,
+                    -163,
+                    -170,
+                    -175,
+                    -178,
+                    -180,
+                    -190,
+                    -198,
+                    -200,
+                    -210,
+                    -220,
+                }
+            ):
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+
+        self.id: Final[str] = "print"
+        self.mnemonic: Final[Datum.DatumMnemonic] = Datum.DatumMnemonic.PRINT
+        self.parameters: Final[tuple] = tables
+
+        self.tables: Final[tuple] = tables
