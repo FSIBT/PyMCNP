@@ -5,7 +5,7 @@
 interface for INP files.
 """
 
-from typing import final
+from typing import Final
 
 from . import cells
 from . import surfaces
@@ -56,12 +56,12 @@ class Inp:
         if other is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_OTHER)
 
-        self.message: final[str] = message
-        self.title: final[str] = title
-        self.cells: final[cells.Cells] = cells
-        self.surfaces: final[surfaces.Surfaces] = surfaces
-        self.data: final[data.Data] = data
-        self.other: final[str] = other
+        self.message: Final[str] = message
+        self.title: Final[str] = title
+        self.cells: Final[cells.Cells] = cells
+        self.surfaces: Final[surfaces.Surfaces] = surfaces
+        self.data: Final[data.Data] = data
+        self.other: Final[str] = other
 
     @staticmethod
     def from_mcnp(source: str):

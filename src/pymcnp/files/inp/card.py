@@ -5,7 +5,7 @@
 interface for INP cards.
 """
 
-from typing import Union, final
+from typing import Union, Final
 
 
 class Card:
@@ -26,6 +26,6 @@ class Card:
         ``__init__`` initalizes ``Card``.
         """
 
-        self.id: final[Union[int, str]] = ident
-        self.line: final[int] = None
-        self.comment: final[str] = None
+        self.id: Final[Union[int, str]] = ident
+        self.line: Final[int] = None
+        self.comment: Final[str] = None

@@ -9,7 +9,7 @@ MCNP types.
 from __future__ import annotations
 import re
 import enum
-from typing import Literal, final
+from typing import Literal, Final
 
 from . import _parser
 from . import errors
@@ -34,7 +34,7 @@ class DistributionNumber:
         if n is None or not (1 <= n <= 999):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DN, info=str(n))
 
-        self.n: final[int] = n
+        self.n: Final[int] = n
 
     @staticmethod
     def from_mcnp(source: str):
@@ -90,9 +90,9 @@ class Zaid:
         # if abx is None:
         #    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_ABX, info = str(abx))
 
-        self.z: final[int] = z
-        self.a: final[int] = a
-        self.abx: final[str] = abx
+        self.z: Final[int] = z
+        self.a: Final[int] = a
+        self.abx: Final[str] = abx
 
     @staticmethod
     def from_mcnp(source: str):
@@ -219,7 +219,7 @@ class Designator:
             if particle is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=str(particles))
 
-        self.particles: final[tuple[Designator.Particle]] = particles
+        self.particles: Final[tuple[Designator.Particle]] = particles
 
     @staticmethod
     def from_mcnp(source: str):
@@ -290,7 +290,7 @@ class McnpInteger:
         else:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(integer))
 
-        self.value: final[int | Literal["j"]] = value
+        self.value: Final[int | Literal["j"]] = value
 
     @staticmethod
     def from_mcnp(source: str):
@@ -391,7 +391,7 @@ class McnpReal:
         else:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(real))
 
-        self.value: final[float | Literal["j"]] = value
+        self.value: Final[float | Literal["j"]] = value
 
     @staticmethod
     def from_mcnp(source: str):

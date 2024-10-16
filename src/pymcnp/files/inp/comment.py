@@ -5,7 +5,7 @@
 interface for INP comment cards.
 """
 
-from typing import final
+from typing import Final
 
 from . import card
 from ..utils import errors
@@ -40,7 +40,7 @@ class Comment(card.Card):
         if content is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_COMMENT_CONTENT)
 
-        self.content: final[str] = content
+        self.content: Final[str] = content
 
     @staticmethod
     def from_mcnp(source: str):

@@ -7,7 +7,7 @@ interface for INP cell cards.
 
 import re
 from enum import StrEnum
-from typing import Union, final
+from typing import Union, Final
 
 from . import card
 from ..utils import _parser
@@ -553,10 +553,10 @@ class Cell(card.Card):
             if designator is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.IMPORTANCE
-            self.importance: final[types.McnpInteger] = importance
-            self.value: final[types.McnpInteger] = importance
-            self.designator: final[types.Designator] = designator
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.IMPORTANCE
+            self.importance: Final[types.McnpInteger] = importance
+            self.value: Final[types.McnpInteger] = importance
+            self.designator: Final[types.Designator] = designator
 
     class Volume(CellOption):
         """
@@ -587,9 +587,9 @@ class Cell(card.Card):
             if volume is None or not (volume > 0):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-            self.keyword: final[Cell.CellOption.Keyword] = Cell.CellOption.CellKeyword.VOLUME
-            self.volume: final[types.McnpReal] = volume
-            self.value: final[types.McnpReal] = volume
+            self.keyword: Final[Cell.CellOption.Keyword] = Cell.CellOption.CellKeyword.VOLUME
+            self.volume: Final[types.McnpReal] = volume
+            self.value: Final[types.McnpReal] = volume
 
     class PhotonWeight(CellOption):
         """
@@ -620,9 +620,9 @@ class Cell(card.Card):
             if weight is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.PHOTON_WEIGHT
-            self.weight: final[types.McnpReal] = weight
-            self.value: final[types.McnpReal] = weight
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.PHOTON_WEIGHT
+            self.weight: Final[types.McnpReal] = weight
+            self.value: Final[types.McnpReal] = weight
 
     class ExponentialTransform(CellOption):
         """
@@ -660,10 +660,10 @@ class Cell(card.Card):
             if designator is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.EXPONENTIAL_TRANSFORM
-            self.stretch: final[any] = stretch
-            self.value: final[any] = stretch
-            self.designator: final[types.Desigantor] = designator
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.EXPONENTIAL_TRANSFORM
+            self.stretch: Final[any] = stretch
+            self.value: Final[any] = stretch
+            self.designator: Final[types.Desigantor] = designator
 
     class ForcedCollision(CellOption):
         """
@@ -699,10 +699,10 @@ class Cell(card.Card):
             if designator is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.FORCED_COLLISION
-            self.control: final[types.McnpReal] = control
-            self.value: final[types.McnpReal] = control
-            self.designator: final[types.Designator] = designator
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.FORCED_COLLISION
+            self.control: Final[types.McnpReal] = control
+            self.value: Final[types.McnpReal] = control
+            self.designator: Final[types.Designator] = designator
 
     class WeightWindowBounds(CellOption):
         """
@@ -745,11 +745,11 @@ class Cell(card.Card):
             if designator is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.WEIGHT_WINDOW_BOUNDS
-            self.weight: final[types.McnpReal] = bound
-            self.value: final[types.McnpReal] = bound
-            self.designator: final[types.Designator] = designator
-            self.suffix: final[types.McnpInteger] = suffix
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.WEIGHT_WINDOW_BOUNDS
+            self.weight: Final[types.McnpReal] = bound
+            self.value: Final[types.McnpReal] = bound
+            self.designator: Final[types.Designator] = designator
+            self.suffix: Final[types.McnpInteger] = suffix
 
     class DxtranContribution(CellOption):
         """
@@ -791,11 +791,11 @@ class Cell(card.Card):
             if designator is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.DXTRAN_CONTRIBUTION
-            self.probability: final[types.McnpReal] = probability
-            self.value: final[types.McnpReal] = probability
-            self.designator: final[types.Designator] = designator
-            self.suffix: final[types.McnpInteger] = suffix
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.DXTRAN_CONTRIBUTION
+            self.probability: Final[types.McnpReal] = probability
+            self.value: Final[types.McnpReal] = probability
+            self.designator: Final[types.Designator] = designator
+            self.suffix: Final[types.McnpInteger] = suffix
 
     class FissionTurnoff(CellOption):
         """
@@ -826,9 +826,9 @@ class Cell(card.Card):
             if setting is None or not (setting == 0 or setting == 1 or setting == 2):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.FISSION_TURNOFF
-            self.setting: final[types.McnpInteger] = setting
-            self.value: final[types.McnpInteger] = setting
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.FISSION_TURNOFF
+            self.setting: Final[types.McnpInteger] = setting
+            self.value: Final[types.McnpInteger] = setting
 
     class DetectorContribution(CellOption):
         """
@@ -866,10 +866,10 @@ class Cell(card.Card):
             if suffix is None or not (0 <= suffix <= 9999):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_SUFFIX)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.DETECTOR_CONTRIBUTION
-            self.probability: final[types.McnpReal] = probability
-            self.value: final[types.McnpReal] = probability
-            self.suffix: final[types.McnpInteger] = suffix
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.DETECTOR_CONTRIBUTION
+            self.probability: Final[types.McnpReal] = probability
+            self.value: Final[types.McnpReal] = probability
+            self.suffix: Final[types.McnpInteger] = suffix
 
     class GasThermalTemperature(CellOption):
         """
@@ -907,10 +907,10 @@ class Cell(card.Card):
             if suffix is None or not (0 <= suffix <= 99):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_SUFFIX)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.GAS_THERMAL_TEMPERATURE
-            self.temperature: final[types.McnpReal] = temperature
-            self.value: final[types.McnpReal] = temperature
-            self.suffix: final[types.McnpInteger] = suffix
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.GAS_THERMAL_TEMPERATURE
+            self.temperature: Final[types.McnpReal] = temperature
+            self.value: Final[types.McnpReal] = temperature
+            self.suffix: Final[types.McnpInteger] = suffix
 
     class Universe(CellOption):
         """
@@ -941,9 +941,9 @@ class Cell(card.Card):
             if number is None or not (-99_999_999 <= number <= 99_999_999):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.UNIVERSE
-            self.number: final[types.McnpInteger] = number
-            self.value: final[types.McnpInteger] = number
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.UNIVERSE
+            self.number: Final[types.McnpInteger] = number
+            self.value: Final[types.McnpInteger] = number
 
     class CoordinateTransformation(CellOption):
         """
@@ -989,9 +989,9 @@ class Cell(card.Card):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
             if is_angle:
-                self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.COORDINATE_TRANSFORMATION_ANGLE
+                self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.COORDINATE_TRANSFORMATION_ANGLE
             else:
-                self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.COORDINATE_TRANSFORMATION
+                self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.COORDINATE_TRANSFORMATION
 
             if isinstance(value, tuple):
                 if len(value) != 13:
@@ -1004,22 +1004,22 @@ class Cell(card.Card):
                 if value[-1] is None or value[-1] != -1 and value[-1] != 1:
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-                self.number: final[types.McnpInteger] = None
-                self.displacement: final[tuple[float]] = value[:3]
-                self.rotation: final[tuple[float]] = value[3:-1]
-                self.system: final[types.McnpInteger] = value[-1]
-                self.value: final[tuple] = value
-                self.is_angle: final[bool] = is_angle
+                self.number: Final[types.McnpInteger] = None
+                self.displacement: Final[tuple[float]] = value[:3]
+                self.rotation: Final[tuple[float]] = value[3:-1]
+                self.system: Final[types.McnpInteger] = value[-1]
+                self.value: Final[tuple] = value
+                self.is_angle: Final[bool] = is_angle
             else:
                 if not (1 <= value <= 999):
                     raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-                self.number: final[types.McnpInteger] = value
-                self.displacement: final[tuple[float]] = None
-                self.rotation: final[tuple[float]] = None
-                self.system: final[types.McnpInteger] = None
-                self.value: final[types.McnpInteger] = value
-                self.is_angle: final[bool] = is_angle
+                self.number: Final[types.McnpInteger] = value
+                self.displacement: Final[tuple[float]] = None
+                self.rotation: Final[tuple[float]] = None
+                self.system: Final[types.McnpInteger] = None
+                self.value: Final[types.McnpInteger] = value
+                self.is_angle: Final[bool] = is_angle
 
     class Lattice(CellOption):
         """
@@ -1050,9 +1050,9 @@ class Cell(card.Card):
             if shape is None or not (shape == 1 or shape == 2):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.LATTICE
-            self.shape: final[types.McnpInteger] = shape
-            self.value: final[types.McnpInteger] = shape
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.LATTICE
+            self.shape: Final[types.McnpInteger] = shape
+            self.value: Final[types.McnpInteger] = shape
 
     class Fill(CellOption):
         """
@@ -1103,9 +1103,9 @@ class Cell(card.Card):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
             if is_angle:
-                self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.FILL_ANGLE
+                self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.FILL_ANGLE
             else:
-                self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.FILL
+                self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.FILL
 
             if isinstance(value[0], tuple):
                 if len(value) < 4:
@@ -1129,17 +1129,17 @@ class Cell(card.Card):
                     if number is None or not (0 <= number <= 99_999_999):
                         raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-                self.number: final[types.McnpInteger] = None
-                self.transform: final[types.McnpInteger] = None
-                self.displacement: final[tuple[int]] = None
-                self.rotation: final[tuple[tuple[int]]] = None
-                self.system: final[types.McnpInteger] = None
-                self.ibounds: final[tuple[int]] = value[0]
-                self.jbounds: final[tuple[int]] = value[1]
-                self.kbounds: final[tuple[int]] = value[2]
-                self.numbers: final[tuple[int]] = value[3]
-                self.value: final[tuple] = value
-                self.is_angle: final[bool] = is_angle
+                self.number: Final[types.McnpInteger] = None
+                self.transform: Final[types.McnpInteger] = None
+                self.displacement: Final[tuple[int]] = None
+                self.rotation: Final[tuple[tuple[int]]] = None
+                self.system: Final[types.McnpInteger] = None
+                self.ibounds: Final[tuple[int]] = value[0]
+                self.jbounds: Final[tuple[int]] = value[1]
+                self.kbounds: Final[tuple[int]] = value[2]
+                self.numbers: Final[tuple[int]] = value[3]
+                self.value: Final[tuple] = value
+                self.is_angle: Final[bool] = is_angle
             else:
                 if len(value) == 2:
                     if value[0] is None or not (0 <= value[0] <= 99_999_999):
@@ -1148,17 +1148,17 @@ class Cell(card.Card):
                     if value[1] is not None and not (0 <= value[1] <= 999):
                         raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-                    self.number: final[types.McnpInteger] = value[0]
-                    self.transform: final[types.McnpInteger] = value[1]
-                    self.displacement: final[tuple[int]] = None
-                    self.rotation: final[tuple[tuple[int]]] = None
-                    self.system: final[types.McnpInteger] = None
-                    self.ibounds: final[tuple[int]] = None
-                    self.jbounds: final[tuple[int]] = None
-                    self.kbounds: final[tuple[int]] = None
-                    self.numbers: final[tuple[int]] = None
-                    self.value: final[tuple] = value
-                    self.is_angle: final[bool] = is_angle
+                    self.number: Final[types.McnpInteger] = value[0]
+                    self.transform: Final[types.McnpInteger] = value[1]
+                    self.displacement: Final[tuple[int]] = None
+                    self.rotation: Final[tuple[tuple[int]]] = None
+                    self.system: Final[types.McnpInteger] = None
+                    self.ibounds: Final[tuple[int]] = None
+                    self.jbounds: Final[tuple[int]] = None
+                    self.kbounds: Final[tuple[int]] = None
+                    self.numbers: Final[tuple[int]] = None
+                    self.value: Final[tuple] = value
+                    self.is_angle: Final[bool] = is_angle
                 elif len(value) == 14:
                     if value[0] is None or not (0 <= value[0] <= 99_999_999):
                         raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
@@ -1170,17 +1170,17 @@ class Cell(card.Card):
                     if value[-1] is None or value[-1] != -1 and value[-1] != 1:
                         raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-                    self.number: final[types.McnpInteger] = value[0]
-                    self.transform: final[types.McnpInteger] = None
-                    self.displacement: final[tuple[int]] = value[1:4]
-                    self.rotation: final[tuple[int]] = value[4:12]
-                    self.system: final[types.McnpInteger] = value[13]
-                    self.ibounds: final[tuple[int]] = None
-                    self.jbounds: final[tuple[int]] = None
-                    self.kbounds: final[tuple[int]] = None
-                    self.numbers: final[tuple[int]] = None
-                    self.value: final[tuple] = value
-                    self.is_angle: final[bool] = is_angle
+                    self.number: Final[types.McnpInteger] = value[0]
+                    self.transform: Final[types.McnpInteger] = None
+                    self.displacement: Final[tuple[int]] = value[1:4]
+                    self.rotation: Final[tuple[int]] = value[4:12]
+                    self.system: Final[types.McnpInteger] = value[13]
+                    self.ibounds: Final[tuple[int]] = None
+                    self.jbounds: Final[tuple[int]] = None
+                    self.kbounds: Final[tuple[int]] = None
+                    self.numbers: Final[tuple[int]] = None
+                    self.value: Final[tuple] = value
+                    self.is_angle: Final[bool] = is_angle
 
     class EnergyCutoff(CellOption):
         """
@@ -1216,10 +1216,10 @@ class Cell(card.Card):
             if designator is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.ENERGY_CUTOFF
-            self.value: final[types.McnpReal] = cutoff
-            self.cutoff: final[types.McnpReal] = cutoff
-            self.designator: final[types.Designator] = designator
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.ENERGY_CUTOFF
+            self.value: Final[types.McnpReal] = cutoff
+            self.cutoff: Final[types.McnpReal] = cutoff
+            self.designator: Final[types.Designator] = designator
 
     class Cosy(CellOption):
         """
@@ -1250,9 +1250,9 @@ class Cell(card.Card):
             if number is None or not (number == 1 or number == 2 or number == 3 or number == 4 or number == 5 or number == 6):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.COSY
-            self.value: final[types.McnpInteger] = number
-            self.number: final[types.McnpInteger] = number
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.COSY
+            self.value: Final[types.McnpInteger] = number
+            self.number: Final[types.McnpInteger] = number
 
     class Bfield(CellOption):
         """
@@ -1283,9 +1283,9 @@ class Cell(card.Card):
             if number is None or not (number >= 0):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
 
-            self.keyword: final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.BFIELD
-            self.value: final[types.McnpInteger] = number
-            self.number: final[types.McnpInteger] = number
+            self.keyword: Final[Cell.CellOption.CellKeyword] = Cell.CellOption.CellKeyword.BFIELD
+            self.value: Final[types.McnpInteger] = number
+            self.number: Final[types.McnpInteger] = number
 
     class UncollidedSecondaries(CellOption):
         """
@@ -1324,10 +1324,10 @@ class Cell(card.Card):
             if designator is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
 
-            self.keyword: final[Cell.CellOption.Cellkeyword] = Cell.CellOption.CellKeyword.UNCOLLIDED_SECONDARIES
-            self.value: final[types.McnpInteger] = setting
-            self.setting: final[types.McnpInteger] = setting
-            self.designator: final[types.Designator] = designator
+            self.keyword: Final[Cell.CellOption.Cellkeyword] = Cell.CellOption.CellKeyword.UNCOLLIDED_SECONDARIES
+            self.value: Final[types.McnpInteger] = setting
+            self.setting: Final[types.McnpInteger] = setting
+            self.designator: Final[types.Designator] = designator
 
     def __init__(
         self,
@@ -1382,11 +1382,11 @@ class Cell(card.Card):
             if option is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION)
 
-        self.number: final[types.McnpInteger] = number
-        self.material: final[types.McnpInteger] = material
-        self.density: final[types.McnpInteger] = density if material != 0 else None
-        self.geometry: final[Cell.CellGeometry] = geometry
-        self.options: final[tuple[Cell.CellOption]] = options
+        self.number: Final[types.McnpInteger] = number
+        self.material: Final[types.McnpInteger] = material
+        self.density: Final[types.McnpInteger] = density if material != 0 else None
+        self.geometry: Final[Cell.CellGeometry] = geometry
+        self.options: Final[tuple[Cell.CellOption]] = options
 
     @staticmethod
     def from_mcnp(source: str, line: int = None):
