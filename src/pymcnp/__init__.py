@@ -5,4 +5,6 @@ from .files import utils
 from .files.inp import Inp
 from .files.ptrac import Ptrac
 
-__all__ = ["cli", "inp", "ptrac", "utils", "Inp", "Ptrac"]
+from .version import __version__
+
+__all__ = ['cli', 'inp', 'ptrac', 'utils', 'Inp', 'Ptrac', '__version__']

@@ -10,11 +10,10 @@ import sys
 import docopt
 
 import pymcnp
-from . import version
 
 
-PYMCNP_DIR = ".pymcnp/"
-PYMCNP_SAVE_FILE = f"{PYMCNP_DIR}pymcnp-save.txt"
+PYMCNP_DIR = '.pymcnp/'
+PYMCNP_SAVE_FILE = f'{PYMCNP_DIR}pymcnp-save.txt'
 
 PYMCNP_TITLE = f"""
     \x1b[1mPyMCNP\x1b[0m
@@ -51,16 +50,18 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
         argv: Tokenized list of CLI arguments.
     """
 
-    args = docopt.docopt(PYMCNP_DOC, argv=argv, version=pymcnp.version.__version__, options_first=True)
+    args = docopt.docopt(
+        PYMCNP_DOC, argv=argv, version=pymcnp.version.__version__, options_first=True
+    )
 
-    match args["<command>"]:
-        case "ls":
+    match args['<command>']:
+        case 'ls':
             pymcnp.cli.ls.main(argv=argv)
-        case "run":
+        case 'run':
             pymcnp.cli.run.main(argv=argv)
-        case "file":
+        case 'file':
             pymcnp.cli.file.main(argv=argv)
-        case "help":
+        case 'help':
             print(PYMCNP_DOC)
         case None:
             print(PYMCNP_TITLE)
@@ -68,7 +69,7 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
             print(PYMCNP_DOC)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     import pymcnp
 
     main()

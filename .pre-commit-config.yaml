@@ -9,7 +9,6 @@ repos:
   rev: v0.6.9
   hooks:
     - id: ruff
-    - id: ruff-format
 -   repo: https://github.com/asottile/pyupgrade
     rev: v3.2.3
     hooks:
