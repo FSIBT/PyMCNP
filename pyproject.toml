@@ -50,3 +50,12 @@ where = ["./src"]
 
 [tool.setuptools_scm]
 write_to = "./src/pymcnp/version.py"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "tab"
+docstring-code-format = true
+docstring-code-line-length = 80

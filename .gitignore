@@ -1,5 +1,6 @@
 .pymcnp
 src/pymcnp/version.py
+.ruff_cache
 
 # General
 .DS_Store
