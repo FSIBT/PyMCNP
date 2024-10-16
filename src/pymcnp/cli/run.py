@@ -7,13 +7,13 @@ importable interface for running MCNP INP files.
 
 import os
 import sys
-from typing import final
+from typing import Final, Callable
 
 import docopt
 
 from .. import files
+from . import _state
 from . import _io
-from . import _save
 
 
 DEFAULT_NPP = 1000
@@ -34,18 +34,32 @@ class Run:
         command: Terminal command to execute.
     """
 
-    def __init__(self, inp: files.inp.Inp, path: str = ".", command: str = "mcnp"):
+    def __init__(
+        self,
+        inp: files.inp.Inp,
+        path: str = ".",
+        command: str = "mcnp",
+        prehook: Callable = lambda _: _,
+        posthook: Callable = lambda _: _,
+    ):
         """
         ``__init__`` initalizes ``Run``.
 
         Parameters:
-             path: Path to directory to store run inputs and outputs.
+            path: Path to directory to store run inputs and outputs.
             command: Terminal command to execute.
         """
 
-        self.path: final[str] = path
-        self.command: final[str] = command
-        self.inp: final[files.inp.Inp] = inp
+        self.path: Final[str] = path
+        self.command: Final[str] = command
+        self.inp: Final[files.inp.Inp] = inp
+        self.prehook: Final[Callable] = prehook
+        self.posthook: Final[Callable] = posthook
+
+    def _run(self, path) -> str:
+        self.prehook(path)
+        path = os.system(f"{self.command} {path}")
+        self.posthook(path)
 
     def run_single(self) -> str:
         """
@@ -66,8 +80,8 @@ class Run:
         inp_path = f"{directory_path}/pymcnp-inp-{timestamp}.inp"
         self.inp.to_mcnp_file(inp_path)
 
-        outp_path = f"{directory_path}/pymcnp-outp-{timestamp}.outp"
-        os.system(f"{self.command} I={inp_path} O={outp_path}")
+        # outp_path = f"{directory_path}/pymcnp-outp-{timestamp}.outp"
+        os.system(f"pymcnp run --path={inp_path}")
 
         return directory_path
 
@@ -95,35 +109,41 @@ class Run:
         directory_path = f"{self.path}/pymcnp-runs-{timestamp}"
         os.mkdir(directory_path)
 
-        if "nps" in self.inp.data:
-            self.inp.data["nps"].npp //= count
-        else:
-            self.inp.data.append(files.inp.HistoyCutoff(DEFAULT_NPP // count, DEFAULT_NPSMG))
-
         inp_path = f"{directory_path}/pymcnp-inp-{timestamp}.inp"
         self.inp.to_mcnp_file(inp_path)
 
-        outp_paths = []
+        if "nps" in self.inp.data:
+            self.inp.data["nps"].npp //= count
+        else:
+            self.inp.data.append(files.inp.datum.HistoryCutoff(DEFAULT_NPP // count, DEFAULT_NPSMG))
+
+        args = []
         for n in range(0, count):
             subdirectory_path = f"{directory_path}/pymcnp-run-{n}"
             os.mkdir(subdirectory_path)
 
-            outp_path = f"{subdirectory_path}/pymcnp-outp-{n}.outp"
-            outp_paths.append(outp_path)
+            inp_path = f"{subdirectory_path}/pymcnp-inp-{timestamp}-{n}.inp"
 
-        os.system(f"parallel {self.command} ::: {' '.join(f'\"I={inp_path} O={outp_path}\"' for outp_path in outp_paths)}")
+            self.inp.to_mcnp_file(inp_path)
+
+            args.append(f"--path={inp_path}")
+
+        # Executing single run in parallel.
+        os.system(f"parallel pymcnp run ::: {' '.join(args)}")
 
         return directory_path
 
 
 PYMCNP_RUN_DOC = """
 Usage:
-    pymcnp run ( [--object] <alias> | --file <file> ) [ --parallel=<threads> ]
+    pymcnp run ( <alias> | --object=<alias> | --file=<file> | --path=<file> ) [ --parallel=<threads> ]
 
 Options:
-    -o --object                   Run from PyMCNP objects.
-    -f --file                     Run from filename.
+    -o --object=<alias>           Run from PyMCNP objects.
+    -f --file=<file>              Run from filename.
+    -p --path=<file>              Run from path without help.
     -p --parallel=<threads>       Run files in parallel on <threads> threads.
+    -d --directory=<path>         Path to excecute run.
 """
 
 
@@ -142,14 +162,35 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
 
     if args["<alias>"] is not None:
         # Running aliased PyMCNP object.
-        aliases = _save.Save.get_save()
-        run = Run(aliases[args["<alias>"]][1], path=".")
-    elif args["<file>"] is not None:
+        try:
+            filename = _state.table.access(args["<alias>"])
+        except ValueError:
+            print("NOPE!")
+            exit(1)
+        inp = files.inp.Inp.from_mcnp_file(filename)
+        run = Run(inp, path=".", command=_state.run.command, prehook=_state.run.prehook, posthook=_state.run.posthook)
+    elif args["--object"] is not None:
+        # Running aliased PyMCNP object.
+        try:
+            filename = _state.table.access(args["--object"])
+        except ValueError:
+            print("NOPE!")
+            exit(1)
+        inp = files.inp.Inp.from_mcnp_file(filename)
+        run = Run(inp, path=".", command=_state.run.command, prehook=_state.run.prehook, posthook=_state.run.posthook)
+    elif args["--file"] is not None:
         # Running from INP files.
-        inp = files.inp.Inp.from_mcnp_file(args["<file>"])
-        run = Run(inp, path=".")
+        inp = files.inp.Inp.from_mcnp_file(args["--file"])
+        run = Run(inp, path=".", command=_state.run.command, prehook=_state.run.prehook, posthook=_state.run.posthook)
+    elif args["--path"] is not None:
+        # Running from INP files.
+        inp = files.inp.Inp.from_mcnp_file(args["--path"])
+        run = Run(inp, path=".", command=_state.run.command, prehook=_state.run.prehook, posthook=_state.run.posthook)
 
     if args["--parallel"] is not None:
-        run.run_parallel(int(args["--parallel"][1:]))
+        run.run_parallel(int(args["--parallel"]))
     else:
-        run.run_single()
+        if args["--path"] is not None:
+            run._run(args["--path"])
+        else:
+            run.run_single()

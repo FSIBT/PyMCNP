@@ -34,7 +34,7 @@ Usage:
 Commands:
     ls      List aliases or alias content.
     run     Run MCNP.
-    inp     Edit INP files.
+    file    Edit INP files.
     ptrac   Edit PTRAC files.
     help    Show help.
 """
@@ -58,10 +58,8 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
             pymcnp.cli.ls.main(argv=argv)
         case "run":
             pymcnp.cli.run.main(argv=argv)
-        case "inp":
-            pymcnp.cli.inp.main(argv=argv)
-        case "ptrac":
-            pymcnp.cli.ptrac.main(argv=argv)
+        case "file":
+            pymcnp.cli.file.main(argv=argv)
         case "help":
             print(PYMCNP_DOC)
         case None:

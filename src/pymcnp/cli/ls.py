@@ -6,12 +6,12 @@ utilities for listing MCNP information.
 """
 
 import sys
-from typing import final
+from typing import Final
 
 import docopt
 
-from .. import files
-from . import _save
+from ..files import inp
+from . import _state
 
 
 class Ls:
@@ -19,15 +19,15 @@ class Ls:
     ``Ls``
     """
 
-    def __init__(self, inp: files.inp.Inp):
+    def __init__(self, inpt: inp.Inp):
         """
         ``__init__`` initializes ``Ls``.
         """
 
-        if inp is None:
+        if inpt is None:
             raise ValueError
 
-        self.inp: final[files.inp.Inp] = inp
+        self.inpt: Final[inp.Inp] = inpt
 
     def list_cells(self) -> str:
         """
@@ -37,13 +37,15 @@ class Ls:
             String of INP object cell information.
         """
 
-        out = "\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^25.25}\x1b[24m\n"
-        out = out.format("NUMBER", "MATERIAL", "DENSITY", "GEOMETRY")
+        out = "\x1b[4m{:^12.12}\x1b[24m " * 3 + "\x1b[4m{:^25.25}\x1b[24m \x1b[4m{:^25.25}\x1b[24m\n"
+        out = out.format("NUMBER", "MATERIAL", "DENSITY", "GEOMETRY", "OPTIONS")
 
-        for cell in self.inp.cells._cards.values():
+        for cell in self.inpt.cells._cards.values():
             out += (
-                f"{cell.number:<12} {cell.material:<12} {cell.density if cell.density else '':<12}"
-                f"{cell.geometry.to_mcnp():<25}\n"
+                f"{cell.number.to_mcnp():<12} "
+                f"{cell.material.to_mcnp():<12} "
+                f"{cell.density.to_mcnp() if cell.density.to_mcnp() else '':<12} "
+                f"{cell.geometry.to_mcnp():<25} {'':<25}\n"
             )
 
         return out
@@ -56,11 +58,16 @@ class Ls:
             String of INP object surface information.
         """
 
-        out = "\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m\n"
-        out = out.format("NUMBER", "MNEMONIC", "TRANSFORM")
+        out = "\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^51.51}\x1b[24m\n"
+        out = out.format("NUMBER", "MNEMONIC", "TRANSFORM", "PARAMETERS")
 
-        for surface in self.inp.surfaces._cards.values():
-            out += f"{surface.number:<12} {surface.mnemonic:<12} {surface.transfrom if surface.transform else '':<12}\n"
+        for surface in self.inpt.surfaces._cards.values():
+            out += (
+                f"{surface.number.to_mcnp():<12} "
+                f"{surface.mnemonic.to_mcnp():<12} "
+                f"{surface.transfrom.to_mcnp() if surface.transform else '':<12} "
+                f"{'':<51}\n"
+            )
 
         return out
 
@@ -72,25 +79,31 @@ class Ls:
             String of INP object data information.
         """
 
-        out = "\x1b[4m{:^12.12}\x1b[24m\n".format("MNEMONIC")
+        out = "\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^51.51}\x1b[24m\n"
+        out = out.format("NUMBER", "SUFFIX", "DESIGNATOR", "PARAMETERS")
 
-        for datum in self.inp.data._cards.values():
-            out += f"{datum.mnemonic:<12.12}\n"
+        for datum in self.inpt.data._cards.values():
+            out += (
+                f"{datum.mnemonic:<12.12} "
+                f"{datum.suffix.to_mcnp() if hasattr(datum, 'suffix') else '':<12} "
+                f"{datum.designator.to_mcnp() if hasattr(datum, 'designator') else '':<12} "
+                f"{'':<51.51}\n"
+            )
 
         return out
 
     @staticmethod
-    def list_inps(inps: tuple[str, files.inp.Inp]) -> str:
+    def list_inpts(inpts: tuple[str, inp.Inp]) -> str:
         """
-        ``list_inps`` tabulates INP objects.
+        ``list_inpts`` tabulates INP objects.
 
         Returns:
-            String of INP object inp information.
+            String of INP object inpt information.
         """
 
         out = "\x1b[4m{:^25.25}\x1b[24m \x1b[4m{:^51.51}\x1b[24m \x1b[4m{:^51.51}\x1b[24m\n".format("NAME", "TITLE", "OTHER")
-        for alias, inp in list(inps):
-            out += f"{alias:<25.25} {inp.title:<51.51} {repr(inp.other):<51.51}\n"
+        for alias, inpt in list(inpts):
+            out += f"{alias:<25.25} {inpt.title:<51.51} {repr(inpt.other):<51.51}\n"
 
         return out
 
@@ -119,14 +132,17 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
     """
 
     args = docopt.docopt(PYMCNP_LS_DOC, argv=argv)
-    aliases = _save.Save.get_save()
-
-    if args["<alias>"]:
-        inp = aliases[args["<alias>"]][1]
 
     if args["<alias>"]:
         # Listing aliased PyMCNP object content.
-        ls = Ls(inp)
+
+        try:
+            filename = _state.table.access(args["<alias>"])
+        except ValueError:
+            print("NOPE!")
+            exit(1)
+
+        ls = Ls(inp.Inp.from_mcnp_file(filename))
 
         if args["--cells"]:
             print(ls.list_cells())
@@ -136,4 +152,4 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
             print(ls.list_data())
     else:
         # Listing all aliased PyMCNP objects.
-        print(Ls.list_inps([(alias, inp) for alias, (path, inp) in aliases.items()]))
+        print(Ls.list_inpts([(alias, inp.Inp.from_mcnp_file(path)) for alias, path in _state.table]))
