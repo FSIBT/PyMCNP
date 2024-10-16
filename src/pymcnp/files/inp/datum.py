@@ -927,7 +927,7 @@ class Datum(Card):
             INP string for ``Datum`` object.
         """
 
-        suffix_str = f"{self.suffix}" if hasattr(self, "suffix") else ""
+        suffix_str = self.suffix.to_mcnp() if hasattr(self, "suffix") else ""
         designator_str = f":{self.designator}" if hasattr(self, "designator") else ""
 
         parameters_str = ""

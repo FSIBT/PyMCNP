@@ -400,11 +400,13 @@ class Surface(card.Card):
             INP string for ``Surface`` object.
         """
 
-        # parameters_str = " ".join([str(param) for _ in,
-        source = (
-            f"{self.number}{' ' + {self.transform} + ' ' if self.transform is not None else ' '}"
-            f"{self.mnemonic} {' '.join(str(parameter) if parameter is not None else '' for parameter in self.parameters)}"
+        number_str = self.number.to_mcnp()
+        transform_str = self.transform.to_mcnp() if self.transform is not None else " "
+        parameter_str = " ".join(
+            str(parameter.value) if hasattr(parameter, "to_mcnp") else str(parameter) for parameter in self.parameters
         )
+
+        source = f"{number_str} {transform_str} {self.mnemonic} {parameter_str}"
 
         return _parser.Postprocessor.add_continuation_lines(source)
 

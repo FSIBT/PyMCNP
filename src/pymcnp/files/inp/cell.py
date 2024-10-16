@@ -238,7 +238,7 @@ class Cell(card.Card):
                     INP string for ``CellKeyword`` object.
                 """
 
-                return self.value
+                return str(self.value.value) if hasattr(self.value, "value") else str(self.value)
 
         def __init__(
             self, keyword: CellKeyword, value: any, suffix: types.McnpInteger = None, designator: types.Designator = None
@@ -484,18 +484,20 @@ class Cell(card.Card):
             """
 
             # Processing Suffix
-            suffix_str = self.suffix if hasattr(self, "suffix") and self.suffix is not None else ""
+            suffix_str = str(self.suffix.to_mcnp()) if hasattr(self, "suffix") else ""
 
             # Processing Designator
             designator_str = (
-                f":{','.join(self.designator)}" if hasattr(self, "designator") and self.designator is not None else ""
+                f":{','.join(self.designator.particles)}"
+                if hasattr(self, "designator") and self.designator is not None
+                else ""
             )
 
             value_str = ""
             if isinstance(self.value, tuple):
-                value_str = " ".join([str(param) for param in self.value])
+                value_str = " ".join([str(param.value) if hasattr(param, "value") else str(param) for param in self.value])
             else:
-                value_str = self.value
+                value_str = self.value.value if hasattr(self.value, "value") else str(self.value)
 
             return f"{self.keyword}{suffix_str}{designator_str}={value_str}"
 
@@ -1470,12 +1472,14 @@ class Cell(card.Card):
             INP string for ``Cell`` object.
         """
 
-        density_str = self.density if self.material else " "
+        number_str = self.number.to_mcnp()
+        material_str = self.material.to_mcnp()
+        density_str = self.density.to_mcnp() if self.density is not None else " "
         geometry_str = self.geometry.to_mcnp()
-        options_str = " ".join(option.to_mcnp() for option in self.options)
+        options_str = " ".join([option.to_mcnp() for option in self.options])
 
         return _parser.Postprocessor.add_continuation_lines(
-            f"{self.number} {self.material} {density_str} {geometry_str} {options_str}"
+            f"{number_str} {material_str} {density_str} {geometry_str} {options_str}"
         )
 
     def to_arguments(self) -> dict:
