@@ -43,6 +43,7 @@ changelog = "https://github.com/mauricioAyllon/PyMCNP/blob/master/CHANGELOG.md"
 
 [project.scripts]
 pymcnp = "pymcnp.main:main"
+demo = "demo.main:main"
 
 [tool.setuptools.packages.find]
 where = ["./src"]
