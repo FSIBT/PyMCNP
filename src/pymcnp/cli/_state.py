@@ -4,9 +4,29 @@ import inspect
 from typing import Final, Callable
 
 
+DIR = os.getcwd() + '/.pymcnp/'
+
+
+def init():
+    if not os.path.isdir(DIR):
+        os.mkdir(DIR)
+
+    if not os.path.isfile(FileTable.PATH):
+        file = open(FileTable.PATH, 'w')
+        file.write('table = {}')
+        file.close()
+
+    if not os.path.isfile(RunConfig.PATH):
+        file = open(RunConfig.PATH, 'w')
+        file.write(
+            "command = 'mcnp'\n\ndef prehook():\n    return\n\ndef posthook():\n    return\n"
+        )
+        file.close()
+
+
 class FileTable:
-    DIR: Final[str] = os.getcwd() + "/.pymcnp/"
-    PATH: Final[str] = DIR + "files.py"
+    DIR: Final[str] = os.getcwd() + '/.pymcnp/'
+    PATH: Final[str] = DIR + '_files.py'
 
     def append(self, alias, path):
         self = self._sync_up()
@@ -45,14 +65,16 @@ class FileTable:
         ``./pymcnp/state.py``.
         """
 
+        init()
+
         path = sys.path
         sys.path.append(FileTable.DIR)
-        import files
+        import _files
 
         sys.path = path
 
         table_cls = cls()
-        table_cls._table = files.table
+        table_cls._table = _files.table
 
         return table_cls
 
@@ -64,8 +86,10 @@ class FileTable:
         ``./pymcnp/state.py``.
         """
 
-        file = open(FileTable.PATH, "w")
-        file.write(f"table = {self._table.__repr__()}")
+        init()
+
+        file = open(FileTable.PATH, 'w')
+        file.write(f'table = {self._table.__repr__()}')
         file.close()
 
     def __iter__(self):
@@ -74,8 +98,8 @@ class FileTable:
 
 
 class RunConfig:
-    DIR: Final[str] = os.getcwd() + "/.pymcnp/"
-    PATH: Final[str] = DIR + "run.py"
+    DIR: Final[str] = os.getcwd() + '/.pymcnp/'
+    PATH: Final[str] = DIR + '_run.py'
 
     def set_command(self, command: str):
         self.command = command
@@ -99,18 +123,20 @@ class RunConfig:
         ``./pymcnp/run.py``.
         """
 
+        int()
+
         path = sys.path
         sys.path.append(FileTable.DIR)
-        import run
+        import _run
 
         sys.path = path
 
         run_cls = cls()
-        run_cls.command: str = run.command
-        run_cls.prehook: Callable = run.prehook
-        run_cls.posthook: Callable = run.posthook
+        run_cls.command: str = _run.command
+        run_cls.prehook: Callable = _run.prehook
+        run_cls.posthook: Callable = _run.posthook
 
-        return run
+        return run_cls
 
     def _sync_down(self):
         """
@@ -120,31 +146,19 @@ class RunConfig:
         ``./pymcnp/run.py``.
         """
 
-        file = open(RunConfig.PATH, "w")
+        init()
+
+        file = open(RunConfig.PATH, 'w')
         file.write(
-            f"command = {self.command.__repr__()}"
-            + "\n"
+            f'command = {self.command.__repr__()}'
+            + '\n'
             + inspect.getsourcelines(self.prehook)
-            + "\n"
+            + '\n'
             + inspect.getsourcelines(self.posthook)
-            + "\n"
+            + '\n'
         )
         file.close()
 
-
-DIR = os.getcwd() + "/.pymcnp/"
-
-if not os.path.isdir(DIR):
-    os.mkdir(DIR)
-
-if not os.path.isfile(FileTable.PATH):
-    file = open(FileTable.PATH, "w")
-    file.write("table = {{}}")
-    file.close()
-
-if not os.path.isfile(RunConfig.PATH):
-    file = open(RunConfig.PATH, "w")
-    file.write("command = 'mcnp'\n\ndef prehook():\n    return\n\ndef posthook():\n    return\n")
 
 table = FileTable()._sync_up()
 run = RunConfig()._sync_up()
