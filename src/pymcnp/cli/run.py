@@ -57,9 +57,10 @@ class Run:
         self.posthook: Final[Callable] = posthook
 
     def _run(self, path) -> str:
-        self.prehook(path)
-        path = os.system(f"{self.command} {path}")
-        self.posthook(path)
+        self.prehook()
+        sys.stdout.flush()
+        os.system(f"{self.command} {path}")
+        self.posthook()
 
     def run_single(self) -> str:
         """
@@ -80,7 +81,10 @@ class Run:
         inp_path = f"{directory_path}/pymcnp-inp-{timestamp}.inp"
         self.inp.to_mcnp_file(inp_path)
 
-        # outp_path = f"{directory_path}/pymcnp-outp-{timestamp}.outp"
+        _state.run.set_command(self.command)
+        _state.run.set_prehook(self.prehook)
+        _state.run.set_posthook(self.posthook)
+
         os.system(f"pymcnp run --path={inp_path}")
 
         return directory_path
@@ -127,6 +131,10 @@ class Run:
             self.inp.to_mcnp_file(inp_path)
 
             args.append(f"--path={inp_path}")
+
+        _state.run.set_command(self.command)
+        _state.run.set_prehook(self.prehook)
+        _state.run.set_posthook(self.posthook)
 
         # Executing single run in parallel.
         os.system(f"parallel pymcnp run ::: {' '.join(args)}")

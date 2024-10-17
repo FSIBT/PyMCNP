@@ -116,14 +116,14 @@ class RunConfig:
     @classmethod
     def _sync_up(cls):
         """
-        ``_sync_down`` updates ``self.command``, ``self.prehook``, and
+        ``_sync_up`` updates ``self.command``, ``self.prehook``, and
         ``self.posthook``.
 
-        ``_sync_down`` syncronizes this class's state with the state stored in
+        ``_sync_up`` syncronizes this class's state with the state stored in
         ``./pymcnp/run.py``.
         """
 
-        int()
+        init()
 
         path = sys.path
         sys.path.append(FileTable.DIR)
@@ -148,14 +148,12 @@ class RunConfig:
 
         init()
 
+        prehook = 'def prehook():\n' + ''.join(inspect.getsourcelines(self.prehook)[0][1:])
+        posthook = 'def posthook():\n' + ''.join(inspect.getsourcelines(self.posthook)[0][1:])
+
         file = open(RunConfig.PATH, 'w')
         file.write(
-            f'command = {self.command.__repr__()}'
-            + '\n'
-            + inspect.getsourcelines(self.prehook)
-            + '\n'
-            + inspect.getsourcelines(self.posthook)
-            + '\n'
+            f'command = {self.command.__repr__()}\n' + '\n' + prehook + '\n' + posthook + '\n'
         )
         file.close()
 
