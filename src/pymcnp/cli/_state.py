@@ -4,7 +4,7 @@ import sys
 from typing import Final, Callable
 
 
-DIR = Path.getcwd() / '.pymcnp/'
+DIR = Path.cwd() / '.pymcnp/'
 
 
 def init():
