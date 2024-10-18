@@ -54,7 +54,7 @@ class DistributionNumber:
 
         source = _parser.Preprocessor.process_inp(source)
 
-        match = re.match(r"\A[dD](\d|\d\d|\d\d\d)\Z", source)
+        match = re.match(r'\A[dD](\d|\d\d|\d\d\d)\Z', source)
         if match is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DN, info=source)
 
@@ -111,7 +111,9 @@ class Zaid:
         """
 
         source = _parser.Preprocessor.process_inp(source)
-        tokens = _parser.Parser(source.split("."), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_ZAID))
+        tokens = _parser.Parser(
+            source.split('.'), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_ZAID)
+        )
 
         zzzaaa = tokens.popl()
         if len(zzzaaa) < 4:
@@ -147,7 +149,11 @@ class Zaid:
             INP string for ``Zaid`` object.
         """
 
-        return f"{self.z:03}{self.a:03}.{self.abx}" if self.abx is not None else f"{self.z:03}{self.a:03}"
+        return (
+            f'{self.z:03}{self.a:03}.{self.abx}'
+            if self.abx is not None
+            else f'{self.z:03}{self.a:03}'
+        )
 
 
 class Designator:
@@ -158,48 +164,48 @@ class Designator:
         particles: Tuple of particles.
     """
 
-    class Particle(enum.StrEnum):
+    class Particle(str, enum.Enum):
         """
         ``Particle`` represents individular particle designators.
         """
 
-        NEUTRON = "n"
-        ANTI_NEUTRON = "q"
-        PHOTON = "p"
-        ELECTRON = "e"
-        POSITRON = "f"
-        NEGATIVE_MUON = "|"
-        POSITIVE_MUON = "!"
-        ELECTRON_NEUTRINO = "u"
-        ANTI_ELECTRON_NEUTRINO = "<"
-        MUON_NEUTRINO = "v"
-        ANTI_MUON_MEUTRINO = ">"
-        PROTON = "h"
-        ANTI_PROTON = "g"
-        LAMBDA_BARYON = "l"
-        ANTI_LAMBDA_BARYON = "b"
-        POSITIVE_SIGMA_BARYON = "+"
-        ANTI_POSITIVE_SIGMA_BARYON = "_"
-        NEGATIVE_SIGMA_BARYON = "-"
-        ANTI_NEGATIVE_SIGMA_BARYON = "~"
-        CASCADE = "x"
-        ANTI_CASCADE = "c"
-        NEGATIVE_CASCADE = "y"
-        POSITIVE_CASCADE = "w"
-        OMEGA_BARYON = "o"
-        ANTI_OMEGA_BARYON = "@"
-        POSITIVE_PION = "/"
-        NEGATIVE_PION = "*"
-        NEUTRAL_PION = "z"
-        POSITIVE_KAON = "k"
-        NEGATIVE_KAON = "?"
-        SHORT_KAON = "%"
-        LONG_KAON = "^"
-        DEUTERON = "d"
-        TRITON = "t"
-        HELION = "s"
-        ALPHA = "a"
-        HEAVY_IONS = "#"
+        NEUTRON = 'n'
+        ANTI_NEUTRON = 'q'
+        PHOTON = 'p'
+        ELECTRON = 'e'
+        POSITRON = 'f'
+        NEGATIVE_MUON = '|'
+        POSITIVE_MUON = '!'
+        ELECTRON_NEUTRINO = 'u'
+        ANTI_ELECTRON_NEUTRINO = '<'
+        MUON_NEUTRINO = 'v'
+        ANTI_MUON_MEUTRINO = '>'
+        PROTON = 'h'
+        ANTI_PROTON = 'g'
+        LAMBDA_BARYON = 'l'
+        ANTI_LAMBDA_BARYON = 'b'
+        POSITIVE_SIGMA_BARYON = '+'
+        ANTI_POSITIVE_SIGMA_BARYON = '_'
+        NEGATIVE_SIGMA_BARYON = '-'
+        ANTI_NEGATIVE_SIGMA_BARYON = '~'
+        CASCADE = 'x'
+        ANTI_CASCADE = 'c'
+        NEGATIVE_CASCADE = 'y'
+        POSITIVE_CASCADE = 'w'
+        OMEGA_BARYON = 'o'
+        ANTI_OMEGA_BARYON = '@'
+        POSITIVE_PION = '/'
+        NEGATIVE_PION = '*'
+        NEUTRAL_PION = 'z'
+        POSITIVE_KAON = 'k'
+        NEGATIVE_KAON = '?'
+        SHORT_KAON = '%'
+        LONG_KAON = '^'
+        DEUTERON = 'd'
+        TRITON = 't'
+        HELION = 's'
+        ALPHA = 'a'
+        HEAVY_IONS = '#'
 
     def __init__(self, particles: tuple[Particle]):
         """
@@ -213,11 +219,15 @@ class Designator:
         """
 
         if particles is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=str(particles))
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=str(particles)
+            )
 
         for particle in particles:
             if particle is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=str(particles))
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=str(particles)
+                )
 
         self.particles: Final[tuple[Designator.Particle]] = particles
 
@@ -238,9 +248,11 @@ class Designator:
         """
 
         try:
-            particles = tuple([Designator.Particle(token) for token in source.split(",")])
+            particles = tuple([Designator.Particle(token) for token in source.split(',')])
         except ValueError:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=source)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=source
+            )
 
         return Designator(particles)
 
@@ -255,7 +267,7 @@ class Designator:
             INP string for ``Designator`` object.
         """
 
-        return ",".join(Designator.Particle(particle) for particle in self.particles)
+        return ','.join(Designator.Particle(particle) for particle in self.particles)
 
     def __eq__(self, other):
         return self.particles == other.particles
@@ -269,7 +281,7 @@ class McnpInteger:
         value: Integer or J jump symbol.
     """
 
-    def __init__(self, integer: int | Literal["j"]):
+    def __init__(self, integer: int | Literal['j']):
         """
         ``__init__`` initializes ``McnpInteger``.
 
@@ -281,16 +293,20 @@ class McnpInteger:
         """
 
         if integer is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(integer))
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(integer)
+            )
 
         if isinstance(integer, int):
             value = integer
-        elif integer == "j":
-            value = "j"
+        elif integer == 'j':
+            value = 'j'
         else:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(integer))
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(integer)
+            )
 
-        self.value: Final[int | Literal["j"]] = value
+        self.value: Final[int | Literal['j']] = value
 
     @staticmethod
     def from_mcnp(source: str):
@@ -310,9 +326,9 @@ class McnpInteger:
 
         source = _parser.Preprocessor.process_inp(source)
 
-        if re.match(r"\A[+-]?[0-9]+\Z", source):
+        if re.match(r'\A[+-]?[0-9]+\Z', source):
             integer = int(source)
-        elif re.match(r"\A[+-]?[0-9]+[Ee][+-]?[0-9]+\Z", source):
+        elif re.match(r'\A[+-]?[0-9]+[Ee][+-]?[0-9]+\Z', source):
             integer = int(float(source))
         else:
             integer = source
@@ -351,13 +367,25 @@ class McnpInteger:
         return a.value != b.value if isinstance(b, McnpInteger) else a.value != b
 
     def __add__(a, b: McnpInteger | float):
-        return McnpInteger(a.value + b.value) if isinstance(b, McnpInteger) else McnpInteger(a.value + b)
+        return (
+            McnpInteger(a.value + b.value)
+            if isinstance(b, McnpInteger)
+            else McnpInteger(a.value + b)
+        )
 
     def __sub__(a, b: McnpInteger | float):
-        return McnpInteger(a.value - b.value) if isinstance(b, McnpInteger) else McnpInteger(a.value - b)
+        return (
+            McnpInteger(a.value - b.value)
+            if isinstance(b, McnpInteger)
+            else McnpInteger(a.value - b)
+        )
 
     def __mul__(a, b: McnpInteger | float):
-        return McnpInteger(a.value * b.value) if isinstance(b, McnpInteger) else McnpInteger(a.value * b)
+        return (
+            McnpInteger(a.value * b.value)
+            if isinstance(b, McnpInteger)
+            else McnpInteger(a.value * b)
+        )
 
 
 class McnpReal:
@@ -368,9 +396,9 @@ class McnpReal:
         value: Floating-point number or J jump symbol.
     """
 
-    JUMP = "j"
+    JUMP = 'j'
 
-    def __init__(self, real: float | Literal["j"]):
+    def __init__(self, real: float | Literal['j']):
         """
         ``__init__`` initializes ``McnpReal``.
 
@@ -382,16 +410,20 @@ class McnpReal:
         """
 
         if real is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(real))
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(real)
+            )
 
         if isinstance(real, float) or isinstance(real, int):
             value = float(real)
-        elif real == "j":
-            value = "j"
+        elif real == 'j':
+            value = 'j'
         else:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(real))
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(real)
+            )
 
-        self.value: Final[float | Literal["j"]] = value
+        self.value: Final[float | Literal['j']] = value
 
     @staticmethod
     def from_mcnp(source: str):
@@ -411,7 +443,9 @@ class McnpReal:
 
         source = _parser.Preprocessor.process_inp(source)
 
-        if re.match(r"\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([Ee]([+-][0-9]+))?\Z", source):
+        if re.match(
+            r'\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([Ee]([+-][0-9]+))?\Z', source
+        ):
             real = float(source)
         else:
             real = source

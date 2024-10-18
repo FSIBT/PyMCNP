@@ -44,11 +44,11 @@ class Data(Block):
 
         block = Data()
 
-        lines = _parser.Preprocessor.process_inp(source).split("\n")
+        lines = _parser.Preprocessor.process_inp(source).split('\n')
         for line in lines:
-            if line == "":
+            if line == '':
                 break
-            elif line == "c" or line[0] == "c" and not line[1].isalpha():
+            elif line == 'c' or line[0] == 'c' and not line[1].isalpha():
                 continue
             else:
                 block.append(Datum.from_mcnp(line))
@@ -66,7 +66,7 @@ class Data(Block):
             INP string for ``Data`` object.
         """
 
-        return "\n".join([datum.to_mcnp() for datum in self._cards.values()])
+        return '\n'.join([datum.to_mcnp() for datum in self._cards.values()])
 
     def to_arguments(self) -> list:
         """

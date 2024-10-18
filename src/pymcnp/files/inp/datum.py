@@ -6,8 +6,8 @@ importable interface for INP datum cards.
 """
 
 import re
-from typing import Union, override, Final
-from enum import StrEnum
+from typing import Union, Final
+from enum import Enum
 
 from .card import Card
 from ..utils import types
@@ -29,7 +29,7 @@ class Datum(Card):
         parameters: Data card parameters.
     """
 
-    class DatumMnemonic(StrEnum):
+    class DatumMnemonic(str, Enum):
         """
         ``DatumMnemonic`` represents INP data card mnemonics
 
@@ -479,7 +479,7 @@ class Datum(Card):
                             pass
                     pairs.append(
                         EmbeddedGeometry.EmbeddedGeometryOption.from_mcnp(
-                            f"{keyword}={" ".join(values)}"
+                            f"{keyword}={' '.join(values)}"
                         )
                     )
 
@@ -501,7 +501,7 @@ class Datum(Card):
                             pass
                     pairs.append(
                         EmbeddedControl.EmbeddedControlOption.from_mcnp(
-                            f"{keyword}={" ".join(values)}"
+                            f"{keyword}={' '.join(values)}"
                         )
                     )
 
@@ -593,7 +593,7 @@ class Datum(Card):
                             values.append(tokens.popl())
                             pass
                     options.append(
-                        Material.MaterialOption.from_mcnp(f"{keyword}={" ".join(values)}")
+                        Material.MaterialOption.from_mcnp(f"{keyword}={' '.join(values)}")
                     )
 
                 datum = Material(substances, options, suffix)
@@ -911,7 +911,7 @@ class Datum(Card):
                             pass
                     pairs.append(
                         ActivationControl.ActivationControlOption.from_mcnp(
-                            f"{keyword}={" ".join(values)}"
+                            f"{keyword}={' '.join(values)}"
                         )
                     )
 
@@ -1065,7 +1065,7 @@ class Datum(Card):
                             pass
 
                     option = SourceDefinition.SourceDefinitionOption.from_mcnp(
-                        f"{keyword}={" ".join(values)}"
+                        f"{keyword}={' '.join(values)}"
                     )
                     pairs.append(option)
                 pairs = tuple(pairs)
@@ -1119,9 +1119,9 @@ class Datum(Card):
         """
 
         return {
-            'mnemonic': self.mnemonic.to_mcnp()
-            if hasattr(self.mnemonic, 'to_mcnp')
-            else self.mnemonic,
+            'mnemonic': (
+                self.mnemonic.to_mcnp() if hasattr(self.mnemonic, 'to_mcnp') else self.mnemonic
+            ),
             'm': self.suffix.to_mcnp() if hasattr(self, 'suffix') else None,
             'n': self.designator.to_mcnp() if hasattr(self, 'designator') else None,
             'parameters': tuple(
@@ -1171,12 +1171,12 @@ class Volume(Datum):
         self.has_no = has_no
         self.volumes = volumes
 
-    @override
     def to_mcnp(self) -> str:
+        """Overrides the baseclass function."""
         if self.has_no:
-            return f"vol no {" ".join(str(volume) for volume in self.volumes)}"
+            return f"vol no {' '.join(str(volume) for volume in self.volumes)}"
         else:
-            return f"vol {" ".join(str(volume) for volume in self.volumes)}"
+            return f"vol {' '.join(str(volume) for volume in self.volumes)}"
 
 
 class Area(Datum):
@@ -1577,7 +1577,7 @@ class WeightWindow(Datum):
             value:  weight window data card option value.
         """
 
-        class WeightWindowKeyword(StrEnum):
+        class WeightWindowKeyword(str, Enum):
             """
             ``WeightWindowKeyword`` represents INP deterministic
             weight window data card keywords.
@@ -4100,7 +4100,7 @@ class EmbeddedGeometry(Datum):
             value: INP embedded geometry specification option value.
         """
 
-        class EmbeddedGeometryKeyword(StrEnum):
+        class EmbeddedGeometryKeyword(str, Enum):
             """
             ``EmbeddedGeometryKeyword`` represents INP embedded geometry
             specification data card option keywords.
@@ -4634,7 +4634,7 @@ class EmbeddedControl(Datum):
             value: INP embedded elemental control option value.
         """
 
-        class EmbeddedControlKeyword(StrEnum):
+        class EmbeddedControlKeyword(str, Enum):
             """
             ``EmbeddedControlKeyword`` represents INP embedded elemental
             edits control data card option keywords.
@@ -5395,7 +5395,7 @@ class Material(Datum):
             value: INP material option value.
         """
 
-        class MaterialKeyword(StrEnum):
+        class MaterialKeyword(str, Enum):
             """
             ``MaterialKeyword`` represents INP material data card option
             keywords.
@@ -7248,7 +7248,7 @@ class ActivationControl(Datum):
             value: Activation control data card option value.
         """
 
-        class ActivationControlKeyword(StrEnum):
+        class ActivationControlKeyword(str, Enum):
             """
             ``ActivationControlKeyword`` represents INP activation control data
             card keywords.
@@ -8400,7 +8400,7 @@ class SourceDefinition(Datum):
             value: Source definition data card option value.
         """
 
-        class SourceDefinitionKeyword(StrEnum):
+        class SourceDefinitionKeyword(str, Enum):
             """
             ``SourceDefinitionKeyword`` represents INP source definition data
             card keywords.
@@ -9571,7 +9571,7 @@ class Random(Datum):
             value: Random number generator data card option value.
         """
 
-        class RandomKeyword(StrEnum):
+        class RandomKeyword(str, Enum):
             """
             ``RandomKeyword`` represents INP random number generator
             data card keywords.

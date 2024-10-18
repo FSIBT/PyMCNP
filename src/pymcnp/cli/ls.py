@@ -37,8 +37,10 @@ class Ls:
             String of INP object cell information.
         """
 
-        out = "\x1b[4m{:^12.12}\x1b[24m " * 3 + "\x1b[4m{:^25.25}\x1b[24m \x1b[4m{:^25.25}\x1b[24m\n"
-        out = out.format("NUMBER", "MATERIAL", "DENSITY", "GEOMETRY", "OPTIONS")
+        out = (
+            '\x1b[4m{:^12.12}\x1b[24m ' * 3 + '\x1b[4m{:^25.25}\x1b[24m \x1b[4m{:^25.25}\x1b[24m\n'
+        )
+        out = out.format('NUMBER', 'MATERIAL', 'DENSITY', 'GEOMETRY', 'OPTIONS')
 
         for cell in self.inpt.cells._cards.values():
             out += (
@@ -58,8 +60,8 @@ class Ls:
             String of INP object surface information.
         """
 
-        out = "\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^51.51}\x1b[24m\n"
-        out = out.format("NUMBER", "MNEMONIC", "TRANSFORM", "PARAMETERS")
+        out = '\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^51.51}\x1b[24m\n'
+        out = out.format('NUMBER', 'MNEMONIC', 'TRANSFORM', 'PARAMETERS')
 
         for surface in self.inpt.surfaces._cards.values():
             out += (
@@ -79,8 +81,8 @@ class Ls:
             String of INP object data information.
         """
 
-        out = "\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^51.51}\x1b[24m\n"
-        out = out.format("NUMBER", "SUFFIX", "DESIGNATOR", "PARAMETERS")
+        out = '\x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^12.12}\x1b[24m \x1b[4m{:^51.51}\x1b[24m\n'
+        out = out.format('NUMBER', 'SUFFIX', 'DESIGNATOR', 'PARAMETERS')
 
         for datum in self.inpt.data._cards.values():
             out += (
@@ -101,9 +103,11 @@ class Ls:
             String of INP object inpt information.
         """
 
-        out = "\x1b[4m{:^25.25}\x1b[24m \x1b[4m{:^51.51}\x1b[24m \x1b[4m{:^51.51}\x1b[24m\n".format("NAME", "TITLE", "OTHER")
+        out = '\x1b[4m{:^25.25}\x1b[24m \x1b[4m{:^51.51}\x1b[24m \x1b[4m{:^51.51}\x1b[24m\n'.format(
+            'NAME', 'TITLE', 'OTHER'
+        )
         for alias, inpt in list(inpts):
-            out += f"{alias:<25.25} {inpt.title:<51.51} {repr(inpt.other):<51.51}\n"
+            out += f'{alias:<25.25} {inpt.title:<51.51} {repr(inpt.other):<51.51}\n'
 
         return out
 
@@ -133,23 +137,25 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
 
     args = docopt.docopt(PYMCNP_LS_DOC, argv=argv)
 
-    if args["<alias>"]:
+    if args['<alias>']:
         # Listing aliased PyMCNP object content.
 
         try:
-            filename = _state.table.access(args["<alias>"])
+            filename = _state.table.access(args['<alias>'])
         except ValueError:
-            print("NOPE!")
+            print('NOPE!')
             exit(1)
 
         ls = Ls(inp.Inp.from_mcnp_file(filename))
 
-        if args["--cells"]:
+        if args['--cells']:
             print(ls.list_cells())
-        if args["--surfaces"]:
+        if args['--surfaces']:
             print(ls.list_surfaces())
-        if args["--data"]:
+        if args['--data']:
             print(ls.list_data())
     else:
         # Listing all aliased PyMCNP objects.
-        print(Ls.list_inpts([(alias, inp.Inp.from_mcnp_file(path)) for alias, path in _state.table]))
+        print(
+            Ls.list_inpts([(alias, inp.Inp.from_mcnp_file(path)) for alias, path in _state.table])
+        )

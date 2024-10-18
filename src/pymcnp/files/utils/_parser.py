@@ -157,17 +157,23 @@ class Preprocessor:
 
     @staticmethod
     def _process_jump(string: str) -> str:
-        for match in re.finditer(r"(\s)(\d+)j(\s)", string):
-            string = string[: match.start(0)] + match[1] + " j" * int(match[2]) + match[3] + string[match.end(0) :]
+        for match in re.finditer(r'(\s)(\d+)j(\s)', string):
+            string = (
+                string[: match.start(0)]
+                + match[1]
+                + ' j' * int(match[2])
+                + match[3]
+                + string[match.end(0) :]
+            )
 
         return string
 
     @staticmethod
     def _process_repeat(string: str) -> str:
-        for match in re.finditer(r"\s(\S+)\s(\d*)r(\s)", string):
+        for match in re.finditer(r'\s(\S+)\s(\d*)r(\s)', string):
             string = (
                 string[: match.start(0)]
-                + f" {match[1]}" * (int(match[2] if match[2] else 1) + 1)
+                + f' {match[1]}' * (int(match[2] if match[2] else 1) + 1)
                 + match[3]
                 + string[match.end(0) :]
             )
@@ -202,7 +208,7 @@ class Preprocessor:
             String without tabs.
         """
 
-        string = re.sub(r"\t", "    ", string)
+        string = re.sub(r'\t', '    ', string)
 
         return string
 
@@ -221,8 +227,8 @@ class Preprocessor:
             MCNP string without continuation lines.
         """
 
-        string = re.sub(r"\n +\n", "\n\n", string)
-        string = re.sub(r"( & *\n)|(\n     )|(\n    )|(\n   )|(\n  )|(\n )", r" ", string)
+        string = re.sub(r'\n +\n', '\n\n', string)
+        string = re.sub(r'( & *\n)|(\n     )|(\n    )|(\n   )|(\n  )|(\n )', r' ', string)
 
         return string
 
@@ -238,8 +244,8 @@ class Preprocessor:
             MCNP string without extra whitespace.
         """
 
-        string = re.sub(r" +", " ", string)
-        string = re.sub(r"( \n)|(\n )", "\n", string)
+        string = re.sub(r' +', ' ', string)
+        string = re.sub(r'( \n)|(\n )', '\n', string)
 
         return string
 
@@ -255,7 +261,7 @@ class Preprocessor:
             MCNP string without extra whitespace around equal signs.
         """
 
-        string = re.sub(r" = | =|= ", "=", string)
+        string = re.sub(r' = | =|= ', '=', string)
 
         return string
 
@@ -271,36 +277,36 @@ class Preprocessor:
             MCNP string without inline comments.
         """
 
-        string = re.sub(r"[$].+(\n|\Z)", "\n", string)
+        string = re.sub(r'[$].+(\n|\Z)', '\n', string)
 
         return string
 
     @staticmethod
     def _process_verticalformat(string: str) -> str:
         table = []
-        output = ""
-        for line in string.split("\n"):
-            if line.startswith("#", 0, 5):
-                output += "\n".join(table)
-                table = line.split(" ")[1:]
+        output = ''
+        for line in string.split('\n'):
+            if line.startswith('#', 0, 5):
+                output += '\n'.join(table)
+                table = line.split(' ')[1:]
             elif table != [] and not re.match(
-                r"(vol|area|tr|[*]tr|u|lat|fill|[*]fill|uran|dm|dawwg|embed|embee|embeb|embem|embtb \
+                r'(vol|area|tr|[*]tr|u|lat|fill|[*]fill|uran|dm|dawwg|embed|embee|embeb|embem|embtb \
                 |embtm|embde|embdf|m|mt|mx|otfdb|totnu|nonu|awtab|xs|void|mgopt|drxs|mode|phys|act  \
                 |cut|elpt|tmp|thtme|mphys|lca|lcb|lcc|lea|leb|fmult|tropt|unc|cosyp|cosy|bfld|bflcl \
                 |field|sdef|si|sp|sb|ds|sc|ssw|ssr|kcode|ksrc|kopts|hsrc|burn|source|srdx|f|[*]f    \
                 |fip|fir|fic|fc|e|t|c|[*]c|fq|em|de|df|em|tm|cm|cf|sf|fs|sd|fu|tallyx|ft|tf|notrn   \
                 |pert|kpert|ksen|tmesh|fmesh|spdtl|imp|var|wwe|wwt|wwn|wwp|wwg|wwge|wwgt|mesh|esplt \
                 |tsplt|ext|vect|fcl|dxt|dd|pd|dxc|bbrem|pikmt|spabi|pwt|nps|ctme|stop|print|talnp   \
-                |prdmp|ptrac|mplot|histp|rand|dbcn|lost|idum|rdum|za|zb|zc|zd|file).+",
+                |prdmp|ptrac|mplot|histp|rand|dbcn|lost|idum|rdum|za|zb|zc|zd|file).+',
                 line,
             ):
-                for i, token in enumerate(line.split(" ")):
-                    table[i] += f" {token}"
+                for i, token in enumerate(line.split(' ')):
+                    table[i] += f' {token}'
             else:
-                output += "\n".join(table + [line]) + "\n"
+                output += '\n'.join(table + [line]) + '\n'
                 table = []
 
-        output += "\n".join(table)
+        output += '\n'.join(table)
 
         return output
 
@@ -335,8 +341,8 @@ class Preprocessor:
 
         string = Preprocessor._process_whitespace(string)
         string = Preprocessor._process_equals(string)
-        string = string.strip(" ")
-        string = string.strip("\n")
+        string = string.strip(' ')
+        string = string.strip('\n')
 
         return string
 
@@ -380,16 +386,16 @@ class Postprocessor:
             String with continuation lines as needed.
         """
 
-        out = ""
+        out = ''
         line_length = 0
-        words = string.split(" ")
+        words = string.split(' ')
 
         for word in words:
             if len(word) + line_length > 80 or len(word) + line_length > 78 and words:
-                out += " &\n     "
+                out += ' &\n     '
                 line_length = 5
 
-            out += word + " "
+            out += word + ' '
             line_length += len(word) + 1
 
         return out

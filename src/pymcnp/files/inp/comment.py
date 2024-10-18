@@ -63,10 +63,10 @@ class Comment(card.Card):
 
         source = _parser.Preprocessor.process_inp(source)
 
-        if not source.startswith("c "):
+        if not source.startswith('c '):
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_COMMENT_C)
 
-        return Comment(source[1:].strip(" "))
+        return Comment(source[1:].strip(' '))
 
     def to_mcnp(self) -> str:
         """
@@ -79,4 +79,4 @@ class Comment(card.Card):
             INP string for ``Comment`` object.
         """
 
-        return "c " + self.content
+        return 'c ' + self.content

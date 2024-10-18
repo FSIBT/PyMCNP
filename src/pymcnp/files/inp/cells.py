@@ -44,11 +44,11 @@ class Cells(Block):
 
         block = Cells()
 
-        lines = _parser.Preprocessor.process_inp(source).split("\n")
+        lines = _parser.Preprocessor.process_inp(source).split('\n')
         for line in lines:
-            if line == "":
+            if line == '':
                 break
-            elif line == "c" or line[0] == "c" and not line[1].isalpha():
+            elif line == 'c' or line[0] == 'c' and not line[1].isalpha():
                 continue
             else:
                 block.append(Cell.from_mcnp(line))
@@ -66,7 +66,7 @@ class Cells(Block):
             INP string for ``Cells`` object.
         """
 
-        return "\n".join([cell.to_mcnp() for cell in self._cards.values()] + [""])
+        return '\n'.join([cell.to_mcnp() for cell in self._cards.values()] + [''])
 
     def to_arguments(self) -> list:
         """

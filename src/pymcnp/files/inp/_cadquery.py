@@ -120,19 +120,19 @@ def add_box(a: CqVector, b: CqVector, c: CqVector) -> str:
     """
 
     return (
-        f".polyline(["
-        f"(0, 0, 0), "
-        f"({a.x}, {a.y}, {a.z}), "
-        f"({a.x + b.x}, {a.y + b.y}, {a.z + b.z}), "
-        f"({b.x}, {b.y}, {b.z}), "
-        f"]).close()"
-        f".polyline(["
-        f"({c.x}, {c.y}, {c.z}), "
-        f"({a.x + c.x}, {a.y + c.y}, {a.z + c.z}), "
-        f"({a.x + b.x + c.x}, {a.y + b.y + c.y}, {a.z + b.z + c.z}), "
-        f"({b.x + c.x}, {b.y + c.y}, {b.z + c.z}), "
-        f"]).close()"
-        f".loft()"
+        f'.polyline(['
+        f'(0, 0, 0), '
+        f'({a.x}, {a.y}, {a.z}), '
+        f'({a.x + b.x}, {a.y + b.y}, {a.z + b.z}), '
+        f'({b.x}, {b.y}, {b.z}), '
+        f']).close()'
+        f'.polyline(['
+        f'({c.x}, {c.y}, {c.z}), '
+        f'({a.x + c.x}, {a.y + c.y}, {a.z + c.z}), '
+        f'({a.x + b.x + c.x}, {a.y + b.y + c.y}, {a.z + b.z + c.z}), '
+        f'({b.x + c.x}, {b.y + c.y}, {b.z + c.z}), '
+        f']).close()'
+        f'.loft()'
     )
 
 
@@ -151,7 +151,7 @@ def add_sphere(r: float) -> str:
         Cadquery representing a sphere.
     """
 
-    return f".sphere({r})"
+    return f'.sphere({r})'
 
 
 def add_cylinder_circle(h: float, r: float) -> str:
@@ -170,7 +170,7 @@ def add_cylinder_circle(h: float, r: float) -> str:
         Cadquery representing a circular cylinder.
     """
 
-    return f".cylinder({h}, {r})"
+    return f'.cylinder({h}, {r})'
 
 
 def add_prism_polygon(h: float, a: float, n: int = 6) -> str:
@@ -193,7 +193,7 @@ def add_prism_polygon(h: float, a: float, n: int = 6) -> str:
         Cadquery representing a n-polygonal prism.
     """
 
-    return f".sketch().regularPolygon({a}, {n}).finalize().extrude({h})"
+    return f'.sketch().regularPolygon({a}, {n}).finalize().extrude({h})'
 
 
 def add_cylinder_ellipse(h: float, a: float, b: float) -> str:
@@ -215,7 +215,7 @@ def add_cylinder_ellipse(h: float, a: float, b: float) -> str:
         Cadquery representing an elliptical cylinder.
     """
 
-    return f".ellipse({a}, {b}).extrude({h})"
+    return f'.ellipse({a}, {b}).extrude({h})'
 
 
 def add_cone_truncated(h: float, r1: float, r2: float) -> str:
@@ -237,7 +237,7 @@ def add_cone_truncated(h: float, r1: float, r2: float) -> str:
         Cadquery representing a truncated cone.
     """
 
-    return f".circle({r1}).workplane(offset={h}).circle({r2}).loft()"
+    return f'.circle({r1}).workplane(offset={h}).circle({r2}).loft()'
 
 
 def add_ellipsoid(a: float, b: float) -> str:
@@ -258,7 +258,7 @@ def add_ellipsoid(a: float, b: float) -> str:
         Cadquery representing an ellispoid.
     """
 
-    return f".ellipseArc({a}, {b}, -90, 90).close().revolve(axisStart=(0, -{a}, 0), axisEnd=(0, {a}, 0))"
+    return f'.ellipseArc({a}, {b}, -90, 90).close().revolve(axisStart=(0, -{a}, 0), axisEnd=(0, {a}, 0))'
 
 
 def add_wedge(a: CqVector, b: CqVector, c: CqVector) -> str:
@@ -280,9 +280,9 @@ def add_wedge(a: CqVector, b: CqVector, c: CqVector) -> str:
     """
 
     return (
-        f".polyline([({a.x}, {a.y}, {a.z}), (0, 0, 0), ({b.x}, {b.y}, {b.z})]).close()."
-        "polyline([({a.x + c.x}, {a.y + c.y}, {a.z + c.z}), ({c.x}, {c.y}, {c.z}), ({b.x + c.x}, {b.y + c.y}, {b.z + c.z})])."
-        "close().loft()"
+        f'.polyline([({a.x}, {a.y}, {a.z}), (0, 0, 0), ({b.x}, {b.y}, {b.z})]).close().'
+        'polyline([({a.x + c.x}, {a.y + c.y}, {a.z + c.z}), ({c.x}, {c.y}, {c.z}), ({b.x + c.x}, {b.y + c.y}, {b.z + c.z})]).'
+        'close().loft()'
     )
 
 
@@ -302,7 +302,7 @@ def add_translation(v: CqVector) -> str:
         Cadquery representing a truncated cone.
     """
 
-    return f".translate(({v.x}, {v.y}, {v.z}))"
+    return f'.translate(({v.x}, {v.y}, {v.z}))'
 
 
 def add_rotation(axis: CqVector, angle: float) -> str:
@@ -318,4 +318,4 @@ def add_rotation(axis: CqVector, angle: float) -> str:
         v: Vector specifying the translation.
     """
 
-    return f".rotate(({-axis.x}, {-axis.y}, {-axis.z}), ({axis.x}, {axis.y}, {axis.z}), {angle})"
+    return f'.rotate(({-axis.x}, {-axis.y}, {-axis.z}), ({axis.x}, {axis.y}, {axis.z}), {angle})'
