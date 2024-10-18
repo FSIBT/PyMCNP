@@ -1,32 +1,28 @@
-import os
-import sys
 import inspect
+from pathlib import Path
+import sys
 from typing import Final, Callable
 
 
-DIR = os.getcwd() + '/.pymcnp/'
+DIR = Path.getcwd() / '.pymcnp/'
 
 
 def init():
-    if not os.path.isdir(DIR):
-        os.mkdir(DIR)
+    if not DIR.is_dir():
+        DIR.mkdir()
 
-    if not os.path.isfile(FileTable.PATH):
-        file = open(FileTable.PATH, 'w')
-        file.write('table = {}')
-        file.close()
+    if not FileTable.PATH.is_file():
+        FileTable.PATH.write_text('table = {}')
 
-    if not os.path.isfile(RunConfig.PATH):
-        file = open(RunConfig.PATH, 'w')
-        file.write(
+    if not RunConfig.PATH.is_file():
+        RunConfig.PATH.write_text(
             "command = 'mcnp'\n\ndef prehook():\n    return\n\ndef posthook():\n    return\n"
         )
-        file.close()
 
 
 class FileTable:
-    DIR: Final[str] = os.getcwd() + '/.pymcnp/'
-    PATH: Final[str] = DIR + '_files.py'
+    DIR: Final[Path] = Path.cwd() / '.pymcnp'
+    PATH: Final[Path] = DIR / '_files.py'
 
     def append(self, alias, path):
         self = self._sync_up()
@@ -88,9 +84,7 @@ class FileTable:
 
         init()
 
-        file = open(FileTable.PATH, 'w')
-        file.write(f'table = {self._table.__repr__()}')
-        file.close()
+        FileTable.PATH.write_text(f'table = {self._table.__repr__()}')
 
     def __iter__(self):
         self = self._sync_up()
@@ -98,8 +92,8 @@ class FileTable:
 
 
 class RunConfig:
-    DIR: Final[str] = os.getcwd() + '/.pymcnp/'
-    PATH: Final[str] = DIR + '_run.py'
+    DIR: Final[Path] = Path.cwd() / '.pymcnp'
+    PATH: Final[Path] = DIR / '_run.py'
 
     def set_command(self, command: str):
         self.command = command
@@ -151,11 +145,9 @@ class RunConfig:
         prehook = 'def prehook():\n' + ''.join(inspect.getsourcelines(self.prehook)[0][1:])
         posthook = 'def posthook():\n' + ''.join(inspect.getsourcelines(self.posthook)[0][1:])
 
-        file = open(RunConfig.PATH, 'w')
-        file.write(
+        RunConfig.PATH.write_text(
             f'command = {self.command.__repr__()}\n' + '\n' + prehook + '\n' + posthook + '\n'
         )
-        file.close()
 
 
 table = FileTable()._sync_up()
