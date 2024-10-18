@@ -6,7 +6,7 @@ interface for INP cell cards.
 """
 
 import re
-from enum import StrEnum
+from enum import Enum
 from typing import Union, Final
 
 from . import card
@@ -176,7 +176,7 @@ class Cell(card.Card):
             value: Cell card option value.
         """
 
-        class CellKeyword(StrEnum):
+        class CellKeyword(str, Enum):
             """
             ``CellKeyword`` represents INP cell card option keywords.
 
