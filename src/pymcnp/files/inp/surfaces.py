@@ -44,11 +44,11 @@ class Surfaces(Block):
 
         block = Surfaces()
 
-        lines = _parser.Preprocessor.process_inp(source).split("\n")
+        lines = _parser.Preprocessor.process_inp(source).split('\n')
         for line in lines:
-            if line == "":
+            if line == '':
                 break
-            elif line == "c" or line[0] == "c" and not line[1].isalpha():
+            elif line == 'c' or line[0] == 'c' and not line[1].isalpha():
                 continue
             else:
                 block.append(Surface.from_mcnp(line))
@@ -66,7 +66,7 @@ class Surfaces(Block):
             INP string for ``Surfaces`` object.
         """
 
-        return "\n".join([surface.to_mcnp() for surface in self._cards.values()] + [""])
+        return '\n'.join([surface.to_mcnp() for surface in self._cards.values()] + [''])
 
     def to_arguments(self) -> list:
         """
@@ -96,16 +96,16 @@ class Surfaces(Block):
             INP string for ``Surfaces`` object.
         """
 
-        cadquery = "import cadquery as cq\n\n" if hasHeader else ""
-        surfaces_line = "\nsurfaces = cq.Workplane()"
+        cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
+        surfaces_line = '\nsurfaces = cq.Workplane()'
 
         for surface in self.cards.values():
-            if hasattr(surface, "to_cadquery"):
+            if hasattr(surface, 'to_cadquery'):
                 new_cadquery = surface.to_cadquery(hasHeader)
-                surfaces_line += f".add({new_cadquery.split(maxsplit=1)[0]})"
+                surfaces_line += f'.add({new_cadquery.split(maxsplit=1)[0]})'
                 cadquery += new_cadquery
 
-        return cadquery + surfaces_line + "\n\n"
+        return cadquery + surfaces_line + '\n\n'
 
     def to_cadquery_file(self, filename: str, hasHeader: bool = True) -> None:
         """
@@ -120,5 +120,5 @@ class Surfaces(Block):
             hasHeader: Boolean to include cadquery header.
         """
 
-        with open(filename, "w") as file:
+        with open(filename, 'w') as file:
             file.write(self.to_cadquery(hasHeader))

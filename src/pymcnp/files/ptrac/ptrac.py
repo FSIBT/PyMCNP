@@ -77,7 +77,7 @@ class Ptrac:
         """
 
         with open(filename) as file:
-            source = "".join(file.readlines())
+            source = ''.join(file.readlines())
 
         return cls.from_mcnp(source)
 
@@ -94,6 +94,6 @@ class Ptrac:
         """
 
         return {
-            "header": self.header.to_arguments(),
-            "histories": [history.to_arguments() for history in self.histories],
+            'header': self.header.to_arguments(),
+            'histories': [history.to_arguments() for history in self.histories],
         }

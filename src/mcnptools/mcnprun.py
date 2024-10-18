@@ -11,15 +11,15 @@ from pathlib import Path
 
 
 def set_mcnp_environment(DATAPATH, ISCDATA, MCNPPATH, force=False):
-    if force or "DATAPATH" not in os.environ:
-        os.environ["DATAPATH"] = DATAPATH
+    if force or 'DATAPATH' not in os.environ:
+        os.environ['DATAPATH'] = DATAPATH
 
-    if force or "ISCDATA" not in os.environ:
-        os.environ["ISCDATA"] = ISCDATA
+    if force or 'ISCDATA' not in os.environ:
+        os.environ['ISCDATA'] = ISCDATA
 
-    if force or "MCNPPATH" not in os.environ:
-        os.environ["MCNPPATH"] = MCNPPATH
-        os.environ["PATH"] += os.pathsep + str(os.environ["MCNPPATH"])
+    if force or 'MCNPPATH' not in os.environ:
+        os.environ['MCNPPATH'] = MCNPPATH
+        os.environ['PATH'] += os.pathsep + str(os.environ['MCNPPATH'])
 
 
 def create_directory(directory):
@@ -32,7 +32,7 @@ def create_directory(directory):
     """
     if directory.exists():
         print(f"Directory '{directory}' already exists.")
-        new_name = directory.name + f"-{np.random.randint(0, 999)}"
+        new_name = directory.name + f'-{np.random.randint(0, 999)}'
         new_dir = directory.parent / new_name
         new_dir.mkdir()
         print(f"Directory '{new_dir}' created successfully.")
@@ -47,13 +47,13 @@ def clean_directory(clean_dir):
     shutil.rmtree(clean_dir)
 
 
-DATAPATH = r"C:\MCNP62\MCNP_DATA"
-ISCDATA = r"C:\MCNP62\MCNP_CODE\MCNP620\Utilities\ISC\data"
-MCNPPATH = r"C:\MCNP62\MCNP_CODE\bin"
+DATAPATH = r'C:\MCNP62\MCNP_DATA'
+ISCDATA = r'C:\MCNP62\MCNP_CODE\MCNP620\Utilities\ISC\data'
+MCNPPATH = r'C:\MCNP62\MCNP_CODE\bin'
 
 set_mcnp_environment(DATAPATH, ISCDATA, MCNPPATH)
 
-input_file = "C:/Users/mayll/Documents/MCNP-tools/examples/Data/proton-dist.i"
+input_file = 'C:/Users/mayll/Documents/MCNP-tools/examples/Data/proton-dist.i'
 # test_dir = "C:/Users/mayll/Documents/MCNP-tools/test-delete"
 
 # args = f"i={input_file} o=testout.o"
@@ -87,7 +87,7 @@ def run_mcnp(input_file, out_dir=None, out_name=None, cores=1, clean=False):
     """
     input_file = Path(input_file)
     if out_dir is None:
-        out_dir = input_file.parent / "test-folder"
+        out_dir = input_file.parent / 'test-folder'
         new_out_dir = create_directory(out_dir)
     else:
         new_out_dir = Path(out_dir)
@@ -96,16 +96,16 @@ def run_mcnp(input_file, out_dir=None, out_name=None, cores=1, clean=False):
     else:
         new_name = out_name
     if cores <= 2:
-        args = f"i={input_file} o={new_name}.o"
+        args = f'i={input_file} o={new_name}.o'
     else:
-        args = f"i={input_file} o={new_name}.o tasks {cores}"
+        args = f'i={input_file} o={new_name}.o tasks {cores}'
 
-    args = f"i={input_file} o={new_name}.o"
-    run = subprocess.run("mcnp6.exe " + args, shell=True, cwd=new_out_dir, capture_output=True)
+    args = f'i={input_file} o={new_name}.o'
+    run = subprocess.run('mcnp6.exe ' + args, shell=True, cwd=new_out_dir, capture_output=True)
     return run
 
 
-out_dir = "C:/Users/mayll/Documents/MCNP-tools/examples/Data/test-folder"
+out_dir = 'C:/Users/mayll/Documents/MCNP-tools/examples/Data/test-folder'
 run = run_mcnp(input_file=input_file)
 
 # @contextmanager

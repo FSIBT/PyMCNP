@@ -479,7 +479,7 @@ class Datum(Card):
                             pass
                     pairs.append(
                         EmbeddedGeometry.EmbeddedGeometryOption.from_mcnp(
-                            f"{keyword}={" ".join(values)}"
+                            f"{keyword}={' '.join(values)}"
                         )
                     )
 
@@ -501,7 +501,7 @@ class Datum(Card):
                             pass
                     pairs.append(
                         EmbeddedControl.EmbeddedControlOption.from_mcnp(
-                            f"{keyword}={" ".join(values)}"
+                            f"{keyword}={' '.join(values)}"
                         )
                     )
 
@@ -593,7 +593,7 @@ class Datum(Card):
                             values.append(tokens.popl())
                             pass
                     options.append(
-                        Material.MaterialOption.from_mcnp(f"{keyword}={" ".join(values)}")
+                        Material.MaterialOption.from_mcnp(f"{keyword}={' '.join(values)}")
                     )
 
                 datum = Material(substances, options, suffix)
@@ -911,7 +911,7 @@ class Datum(Card):
                             pass
                     pairs.append(
                         ActivationControl.ActivationControlOption.from_mcnp(
-                            f"{keyword}={" ".join(values)}"
+                            f"{keyword}={' '.join(values)}"
                         )
                     )
 
@@ -1065,7 +1065,7 @@ class Datum(Card):
                             pass
 
                     option = SourceDefinition.SourceDefinitionOption.from_mcnp(
-                        f"{keyword}={" ".join(values)}"
+                        f"{keyword}={' '.join(values)}"
                     )
                     pairs.append(option)
                 pairs = tuple(pairs)
@@ -1119,9 +1119,9 @@ class Datum(Card):
         """
 
         return {
-            'mnemonic': self.mnemonic.to_mcnp()
-            if hasattr(self.mnemonic, 'to_mcnp')
-            else self.mnemonic,
+            'mnemonic': (
+                self.mnemonic.to_mcnp() if hasattr(self.mnemonic, 'to_mcnp') else self.mnemonic
+            ),
             'm': self.suffix.to_mcnp() if hasattr(self, 'suffix') else None,
             'n': self.designator.to_mcnp() if hasattr(self, 'designator') else None,
             'parameters': tuple(
@@ -1174,9 +1174,9 @@ class Volume(Datum):
     @override
     def to_mcnp(self) -> str:
         if self.has_no:
-            return f"vol no {" ".join(str(volume) for volume in self.volumes)}"
+            return f"vol no {' '.join(str(volume) for volume in self.volumes)}"
         else:
-            return f"vol {" ".join(str(volume) for volume in self.volumes)}"
+            return f"vol {' '.join(str(volume) for volume in self.volumes)}"
 
 
 class Area(Datum):

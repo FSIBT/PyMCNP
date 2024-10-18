@@ -193,48 +193,55 @@ class History:
         history.header = header
 
         source = _parser.Preprocessor.process_ptrac(source)
-        lines = _parser.Parser(source.split("\n"), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY))
+        lines = _parser.Parser(
+            source.split('\n'), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY)
+        )
 
         # Processing I Line
-        tokens = _parser.Parser(lines.popl().strip().split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY))
+        tokens = _parser.Parser(
+            lines.popl().strip().split(' '),
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY),
+        )
         if len(tokens) != header.numbers[0]:
             raise SyntaxError
 
         for i in range(0, header.numbers[0]):
             match header.ids[i]:
-                case "1":
+                case '1':
                     value = types.cast_fortran_integer(tokens.popl())
                     history.set_nps(value)
-                case "2":
+                case '2':
                     value = Event.EventType.from_mcnp(tokens.popl())
                     history.set_next_type(value)
-                case "3":
+                case '3':
                     value = types.cast_fortran_integer(tokens.popl())
                     history.set_ncl(value)
-                case "4":
+                case '4':
                     value = types.cast_fortran_integer(tokens.popl())
                     history.set_nsf(value)
-                case "5":
+                case '5':
                     value = types.cast_fortran_integer(tokens.popl())
                     history.set_jptal(value)
-                case "6":
+                case '6':
                     value = types.cast_fortran_real(tokens.popl())
                     history.set_tal(value)
 
         # Processing J & P Lines
         events = []
 
-        tokens = _parser.Parser(lines.peekl().split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY))
+        tokens = _parser.Parser(
+            lines.peekl().split(' '), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY)
+        )
 
         next_type = history.next_type
         while next_type != Event.EventType.FLAG:
-            event = Event().from_mcnp(lines.popl() + "\n" + lines.popl(), history.header, next_type)
+            event = Event().from_mcnp(lines.popl() + '\n' + lines.popl(), history.header, next_type)
             events.append(event)
             next_type = event.next_type
 
         history.events = tuple(events)
 
-        return history, "\n".join(list(lines.deque))
+        return history, '\n'.join(list(lines.deque))
 
     def to_arguments(self) -> dict:
         """
@@ -249,10 +256,10 @@ class History:
         """
 
         return {
-            "nps": self.nps,
-            "ncl": self.ncl,
-            "nsf": self.nsf,
-            "jptal": self.jptal,
-            "tal": self.tal,
-            "events": [event.to_arguments() for event in self.events],
+            'nps': self.nps,
+            'ncl': self.ncl,
+            'nsf': self.nsf,
+            'jptal': self.jptal,
+            'tal': self.tal,
+            'events': [event.to_arguments() for event in self.events],
         }

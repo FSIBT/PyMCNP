@@ -37,8 +37,8 @@ class Run:
     def __init__(
         self,
         inp: files.inp.Inp,
-        path: str = ".",
-        command: str = "mcnp",
+        path: str = '.',
+        command: str = 'mcnp',
         prehook: Callable = lambda _: _,
         posthook: Callable = lambda _: _,
     ):
@@ -59,7 +59,7 @@ class Run:
     def _run(self, path) -> str:
         self.prehook()
         sys.stdout.flush()
-        os.system(f"{self.command} {path}")
+        os.system(f'{self.command} {path}')
         self.posthook()
 
     def run_single(self) -> str:
@@ -75,17 +75,17 @@ class Run:
 
         timestamp = _io.get_timestamp()
 
-        directory_path = f"{self.path}/pymcnp-run-{timestamp}"
+        directory_path = f'{self.path}/pymcnp-run-{timestamp}'
         os.mkdir(directory_path)
 
-        inp_path = f"{directory_path}/pymcnp-inp-{timestamp}.inp"
+        inp_path = f'{directory_path}/pymcnp-inp-{timestamp}.inp'
         self.inp.to_mcnp_file(inp_path)
 
         _state.run.set_command(self.command)
         _state.run.set_prehook(self.prehook)
         _state.run.set_posthook(self.posthook)
 
-        os.system(f"pymcnp run --path={inp_path}")
+        os.system(f'pymcnp run --path={inp_path}')
 
         return directory_path
 
@@ -106,31 +106,31 @@ class Run:
         """
 
         if count <= 0:
-            _io.error("Invalid Count.")
+            _io.error('Invalid Count.')
 
         timestamp = _io.get_timestamp()
 
-        directory_path = f"{self.path}/pymcnp-runs-{timestamp}"
+        directory_path = f'{self.path}/pymcnp-runs-{timestamp}'
         os.mkdir(directory_path)
 
-        inp_path = f"{directory_path}/pymcnp-inp-{timestamp}.inp"
+        inp_path = f'{directory_path}/pymcnp-inp-{timestamp}.inp'
         self.inp.to_mcnp_file(inp_path)
 
-        if "nps" in self.inp.data:
-            self.inp.data["nps"].npp //= count
+        if 'nps' in self.inp.data:
+            self.inp.data['nps'].npp //= count
         else:
             self.inp.data.append(files.inp.datum.HistoryCutoff(DEFAULT_NPP // count, DEFAULT_NPSMG))
 
         args = []
         for n in range(0, count):
-            subdirectory_path = f"{directory_path}/pymcnp-run-{n}"
+            subdirectory_path = f'{directory_path}/pymcnp-run-{n}'
             os.mkdir(subdirectory_path)
 
-            inp_path = f"{subdirectory_path}/pymcnp-inp-{timestamp}-{n}.inp"
+            inp_path = f'{subdirectory_path}/pymcnp-inp-{timestamp}-{n}.inp'
 
             self.inp.to_mcnp_file(inp_path)
 
-            args.append(f"--path={inp_path}")
+            args.append(f'--path={inp_path}')
 
         _state.run.set_command(self.command)
         _state.run.set_prehook(self.prehook)
@@ -168,37 +168,61 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
 
     args = docopt.docopt(PYMCNP_RUN_DOC, argv=argv)
 
-    if args["<alias>"] is not None:
+    if args['<alias>'] is not None:
         # Running aliased PyMCNP object.
         try:
-            filename = _state.table.access(args["<alias>"])
+            filename = _state.table.access(args['<alias>'])
         except ValueError:
-            print("NOPE!")
+            print('NOPE!')
             exit(1)
         inp = files.inp.Inp.from_mcnp_file(filename)
-        run = Run(inp, path=".", command=_state.run.command, prehook=_state.run.prehook, posthook=_state.run.posthook)
-    elif args["--object"] is not None:
+        run = Run(
+            inp,
+            path='.',
+            command=_state.run.command,
+            prehook=_state.run.prehook,
+            posthook=_state.run.posthook,
+        )
+    elif args['--object'] is not None:
         # Running aliased PyMCNP object.
         try:
-            filename = _state.table.access(args["--object"])
+            filename = _state.table.access(args['--object'])
         except ValueError:
-            print("NOPE!")
+            print('NOPE!')
             exit(1)
         inp = files.inp.Inp.from_mcnp_file(filename)
-        run = Run(inp, path=".", command=_state.run.command, prehook=_state.run.prehook, posthook=_state.run.posthook)
-    elif args["--file"] is not None:
+        run = Run(
+            inp,
+            path='.',
+            command=_state.run.command,
+            prehook=_state.run.prehook,
+            posthook=_state.run.posthook,
+        )
+    elif args['--file'] is not None:
         # Running from INP files.
-        inp = files.inp.Inp.from_mcnp_file(args["--file"])
-        run = Run(inp, path=".", command=_state.run.command, prehook=_state.run.prehook, posthook=_state.run.posthook)
-    elif args["--path"] is not None:
+        inp = files.inp.Inp.from_mcnp_file(args['--file'])
+        run = Run(
+            inp,
+            path='.',
+            command=_state.run.command,
+            prehook=_state.run.prehook,
+            posthook=_state.run.posthook,
+        )
+    elif args['--path'] is not None:
         # Running from INP files.
-        inp = files.inp.Inp.from_mcnp_file(args["--path"])
-        run = Run(inp, path=".", command=_state.run.command, prehook=_state.run.prehook, posthook=_state.run.posthook)
+        inp = files.inp.Inp.from_mcnp_file(args['--path'])
+        run = Run(
+            inp,
+            path='.',
+            command=_state.run.command,
+            prehook=_state.run.prehook,
+            posthook=_state.run.posthook,
+        )
 
-    if args["--parallel"] is not None:
-        run.run_parallel(int(args["--parallel"]))
+    if args['--parallel'] is not None:
+        run.run_parallel(int(args['--parallel']))
     else:
-        if args["--path"] is not None:
-            run._run(args["--path"])
+        if args['--path'] is not None:
+            run._run(args['--path'])
         else:
             run.run_single()

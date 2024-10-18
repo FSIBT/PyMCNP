@@ -234,14 +234,18 @@ class Header:
         header = cls()
 
         source = _parser.Preprocessor.process_ptrac(source)
-        lines = _parser.Parser(source.split("\n"), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER))
+        lines = _parser.Parser(
+            source.split('\n'), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
+        )
 
         # Processing Magic Number
-        if lines.popl() != "-1":
+        if lines.popl() != '-1':
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_HEADER_MINUS1)
 
         # Processing Header
-        tokens = _parser.Parser(lines.popl().split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER))
+        tokens = _parser.Parser(
+            lines.popl().split(' '), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
+        )
         header.set_code(tokens.popl())
         header.set_version(tokens.popl())
         header.set_code_date(tokens.popl())
@@ -252,7 +256,10 @@ class Header:
         header.set_title(lines.popl())
 
         # Processing Settings Block
-        tokens = _parser.Parser(lines.popl().strip().split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER))
+        tokens = _parser.Parser(
+            lines.popl().strip().split(' '),
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
+        )
         if len(tokens) != 10:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
 
@@ -263,7 +270,8 @@ class Header:
         for i in range(0, int(m)):
             if not tokens:
                 tokens = _parser.Parser(
-                    lines.popl().strip().split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
+                    lines.popl().strip().split(' '),
+                    errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
                 )
 
                 if len(tokens) != 10:
@@ -277,7 +285,8 @@ class Header:
             for j in range(0, int(n)):
                 if not tokens:
                     tokens = _parser.Parser(
-                        lines.popl().strip().split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
+                        lines.popl().strip().split(' '),
+                        errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
                     )
 
                     if len(tokens) != 10:
@@ -292,7 +301,10 @@ class Header:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_SETTINGS)
 
         # Processing Numbers
-        tokens = _parser.Parser(lines.popl().strip().split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER))
+        tokens = _parser.Parser(
+            lines.popl().strip().split(' '),
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
+        )
         if len(tokens) != 20:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
 
@@ -316,7 +328,10 @@ class Header:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_NUMBERS)
 
         # Processing Entry Counts
-        tokens = _parser.Parser(lines.popl().strip().split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER))
+        tokens = _parser.Parser(
+            lines.popl().strip().split(' '),
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
+        )
         if len(tokens) > 30:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_HEADER)
 
@@ -326,14 +341,15 @@ class Header:
         for i in range(0, total):
             if not tokens:
                 tokens = _parser.Parser(
-                    lines.popl().strip().split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
+                    lines.popl().strip().split(' '),
+                    errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
                 )
                 if len(tokens) > 30:
                     raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_HEADER)
 
             header.ids[i] = tokens.popl()
 
-        return header, "\n".join(list(lines.deque))
+        return header, '\n'.join(list(lines.deque))
 
     def to_arguments(self):
         """
@@ -348,12 +364,12 @@ class Header:
         """
 
         return {
-            "kod": self.code,
-            "loddat": self.code_date,
-            "ver": self.version,
-            "idtm": (self.run_date, self.run_time),
-            "aid": self.title,
-            "m n v ... V ...": self.settings,
-            "N1 ... N20": self.numbers,
-            "L ... L": self.ids,
+            'kod': self.code,
+            'loddat': self.code_date,
+            'ver': self.version,
+            'idtm': (self.run_date, self.run_time),
+            'aid': self.title,
+            'm n v ... V ...': self.settings,
+            'N1 ... N20': self.numbers,
+            'L ... L': self.ids,
         }

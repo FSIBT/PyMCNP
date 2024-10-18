@@ -151,7 +151,7 @@ class Event:
             source = _parser.Preprocessor.process_ptrac(source)
 
             # Checking the source is numeric.
-            if not re.match(r"-?\d+", source):
+            if not re.match(r'-?\d+', source):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_TYPE)
 
             # Processing Type
@@ -211,7 +211,7 @@ class Event:
             source = _parser.Preprocessor.process_ptrac(source)
 
             # Checking the source is numeric.
-            if not re.match(r"\d+", source):
+            if not re.match(r'\d+', source):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NTER)
 
             # Processing Type
@@ -690,7 +690,9 @@ class Event:
         self.tme = tme
 
     @classmethod
-    def from_mcnp(cls, source: str, header: Header, event_type: EventType, line: int = None) -> tuple[Event, str]:
+    def from_mcnp(
+        cls, source: str, header: Header, event_type: EventType, line: int = None
+    ) -> tuple[Event, str]:
         """
         ``from_mcnp`` generates ``Event`` objects from PTRAC.
 
@@ -718,12 +720,14 @@ class Event:
         event.line = line
 
         source = _parser.Preprocessor.process_ptrac(source)
-        lines = source.split("\n")
+        lines = source.split('\n')
         if len(lines) != 2:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_EVENT)
 
         # Processing J-Line
-        j_line = _parser.Parser(lines[0].split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_EVENT))
+        j_line = _parser.Parser(
+            lines[0].split(' '), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_EVENT)
+        )
 
         # Processing J2 (Next Event Type: 7)
         value = cls.EventType.from_mcnp(j_line.popl())
@@ -856,7 +860,9 @@ class Event:
                 event.set_ntyn_mtp(value)
 
         # Processing P-Line
-        p_line = _parser.Parser(lines[1].split(" "), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_EVENT))
+        p_line = _parser.Parser(
+            lines[1].split(' '), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_EVENT)
+        )
 
         # Processing P1 (xxx: 20)
         value = types.cast_fortran_real(p_line.popl())
@@ -914,26 +920,26 @@ class Event:
         """
 
         return {
-            "type": self.type,
-            "node": self.node,
-            "nsr": self.nsr,
-            "nxs": self.nxs,
-            "ntyn_mtp": self.ntyn_mtp,
-            "nsf": self.nsf,
-            "surface_angle": self.surface_angle,
-            "nter": self.nter,
-            "branch": self.branch,
-            "ipt": self.ipt,
-            "ncl": self.ncl,
-            "mat": self.mat,
-            "ncp": self.ncp,
-            "xxx": self.xxx,
-            "yyy": self.yyy,
-            "zzz": self.zzz,
-            "uuu": self.uuu,
-            "vvv": self.vvv,
-            "www": self.www,
-            "erg": self.erg,
-            "wgt": self.wgt,
-            "tme": self.tme,
+            'type': self.type,
+            'node': self.node,
+            'nsr': self.nsr,
+            'nxs': self.nxs,
+            'ntyn_mtp': self.ntyn_mtp,
+            'nsf': self.nsf,
+            'surface_angle': self.surface_angle,
+            'nter': self.nter,
+            'branch': self.branch,
+            'ipt': self.ipt,
+            'ncl': self.ncl,
+            'mat': self.mat,
+            'ncp': self.ncp,
+            'xxx': self.xxx,
+            'yyy': self.yyy,
+            'zzz': self.zzz,
+            'uuu': self.uuu,
+            'vvv': self.vvv,
+            'www': self.www,
+            'erg': self.erg,
+            'wgt': self.wgt,
+            'tme': self.tme,
         }

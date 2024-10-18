@@ -35,15 +35,15 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
 
     args = docopt.docopt(PYMCNP_INP_DOC, argv=argv)
 
-    if args["--read"]:
+    if args['--read']:
         # Adding alias to save.
         try:
-            _state.table.append(args["<alias>"], args["--read"])
+            _state.table.append(args['<alias>'], args['--read'])
         except ValueError:
-            print("ALREADY!")
-    elif args["--delete"]:
+            print('ALREADY!')
+    elif args['--delete']:
         # Removing alias from save.
         try:
-            _state.table.remove(args["<alias>"])
+            _state.table.remove(args['<alias>'])
         except ValueError:
-            print("NOT THERE!")
+            print('NOT THERE!')
