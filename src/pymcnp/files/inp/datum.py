@@ -6,7 +6,7 @@ importable interface for INP datum cards.
 """
 
 import re
-from typing import Union, override, Final
+from typing import Union, Final
 from enum import StrEnum
 
 from .card import Card
@@ -1171,8 +1171,8 @@ class Volume(Datum):
         self.has_no = has_no
         self.volumes = volumes
 
-    @override
     def to_mcnp(self) -> str:
+        """Overrides the baseclass function."""
         if self.has_no:
             return f"vol no {' '.join(str(volume) for volume in self.volumes)}"
         else:
