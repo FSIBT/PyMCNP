@@ -7,7 +7,7 @@ importable interface for INP surface cards.
 
 import math
 from typing import Final
-from enum import StrEnum
+from enum import Enum
 
 from . import card
 from . import _cadquery
@@ -33,7 +33,7 @@ class Surface(card.Card):
         parameters: Surface parameter list based on mnemonic.
     """
 
-    class SurfaceMnemonic(StrEnum):
+    class SurfaceMnemonic(str, Enum):
         """
         ``SurfaceMnemonic`` represents INP surface card mnemonics
 

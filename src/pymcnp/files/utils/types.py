@@ -164,7 +164,7 @@ class Designator:
         particles: Tuple of particles.
     """
 
-    class Particle(enum.StrEnum):
+    class Particle(str, enum.Enum):
         """
         ``Particle`` represents individular particle designators.
         """
