@@ -1,8 +1,11 @@
-name: Upload Python Package
+name: Release on github and PyPI
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*'
+    branches:
+      - master
 
 permissions:
   contents: read
@@ -29,6 +32,37 @@ jobs:
         with:
           name: release-dists
           path: dist/
+
+  github-release:
+    runs-on: ubuntu-latest
+
+    needs:
+      - release-build
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download all the dists
+        uses: actions/download-artifact@v4
+        with:
+          name: python-package-distributions
+          path: dist/
+      - name: Create GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create
+          '${{ github.ref_name }}'
+          --repo '${{ github.repository }}'
+          --notes ""
+      - name: Upload artifact signatures to GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: >-
+          gh release upload
+          '${{ github.ref_name }}' dist/**
+          --repo '${{ github.repository }}'
 
   pypi-publish:
     runs-on: ubuntu-latest
