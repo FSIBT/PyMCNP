@@ -24,9 +24,9 @@ jobs:
 
       - name: Build release distributions
         run: |
-	  # check out latest tag
-	  git checkout $(git describe --tags --abbrev=0)
-	  # NOTE: put your own distribution build steps here.
+          # check out latest tag
+          git checkout $(git describe --tags --abbrev=0)
+          # NOTE: put your own distribution build steps here.
           python -m pip install build
           python -m build
 
