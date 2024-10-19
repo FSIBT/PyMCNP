@@ -81,15 +81,7 @@ class RunConfig:
         self.path.parent.mkdir(exist_ok=True, parents=True)
 
         if not self.path.is_file():
-            self.path.write_text(
-                "command = 'mcnp'\n"
-                '\n'
-                'def prehook():\n'
-                '    return\n'
-                '\n'
-                'def posthook():\n'
-                '    return\n'
-            )
+            self._sync_down()
 
     def prehook(self):
         pass
@@ -131,7 +123,7 @@ class RunConfig:
         posthook = 'def posthook():\n' + ''.join(inspect.getsourcelines(self.posthook)[0][1:])
 
         self.path.write_text(
-            f'command = {self.command}\n' + '\n' + prehook + '\n' + posthook + '\n'
+            f"command = '{self.command}'\n" + '\n' + prehook + '\n' + posthook + '\n'
         )
 
 
