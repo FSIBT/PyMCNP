@@ -14,6 +14,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+	  fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -21,14 +23,16 @@ jobs:
 
       - name: Build release distributions
         run: |
-          # NOTE: put your own distribution build steps here.
+	  # check out latest tag
+	  git checkout $(git describe --tags --abbrev=0)
+	  # NOTE: put your own distribution build steps here.
           python -m pip install build
           python -m build
 
       - name: Upload distributions
         uses: actions/upload-artifact@v4
         with:
-          name: release-dists
+          name: python-package-distributions
           path: dist/
 
   github-release:
@@ -81,7 +85,7 @@ jobs:
       - name: Retrieve release distributions
         uses: actions/download-artifact@v4
         with:
-          name: release-dists
+          name: python-package-distributions
           path: dist/
 
       - name: Publish release distributions to PyPI
