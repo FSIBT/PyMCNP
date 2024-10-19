@@ -1,31 +1,27 @@
 import inspect
 from pathlib import Path
 import sys
-from typing import Final, Callable
-
-
-DIR = Path.cwd() / '.pymcnp/'
-
-
-def init():
-    if not DIR.is_dir():
-        DIR.mkdir()
-
-    if not FileTable.PATH.is_file():
-        FileTable.PATH.write_text('table = {}')
-
-    if not RunConfig.PATH.is_file():
-        RunConfig.PATH.write_text(
-            "command = 'mcnp'\n\ndef prehook():\n    return\n\ndef posthook():\n    return\n"
-        )
+from typing import Callable
 
 
 class FileTable:
-    DIR: Final[Path] = Path.cwd() / '.pymcnp'
-    PATH: Final[Path] = DIR / '_files.py'
+    """Store information in a file, so that it can be used across multiple processes.
+
+    We use this mechanism to store information that is needed when, for example,
+    running MCNP simulations in parallel.
+    """
+
+    def __init__(self):
+        self.table = {}
+        self.path = Path.cwd() / '.pymcnp' / '_files.py'
+
+        self.path.parent.mkdir(exist_ok=True, parents=True)
+
+        if not self.path.is_file():
+            self.path.write_text('table = {}')
 
     def append(self, alias, path):
-        self = self._sync_up()
+        self._sync_up()
 
         if alias in self._table:
             raise ValueError
@@ -34,7 +30,7 @@ class FileTable:
         self._sync_down()
 
     def remove(self, alias):
-        self = self._sync_up()
+        self._sync_up()
 
         if alias not in self._table:
             raise ValueError
@@ -45,46 +41,30 @@ class FileTable:
         return path
 
     def access(self, alias):
-        self = self._sync_up()
+        self._sync_up()
 
         if alias not in self._table:
             raise ValueError
 
         return self._table[alias]
 
-    @classmethod
-    def _sync_up(cls):
-        """
-        ``_sync_up`` updates ``self._table``.
-
-        ``_sync_up`` syncronizes this class's state with the state stored in
-        ``./pymcnp/state.py``.
-        """
-
-        init()
+    def _sync_up(self):
+        """Read information from `_files.py`."""
 
         path = sys.path
-        sys.path.append(FileTable.DIR)
+        sys.path.append(str(self.path.parent.absolute()))
         import _files
 
         sys.path = path
 
-        table_cls = cls()
-        table_cls._table = _files.table
+        self._table = _files.table
 
-        return table_cls
+        return self
 
     def _sync_down(self):
-        """
-        ``_sync_down`` updates ``./pymcnp/state.py``.
+        """Write information to `_files.py`."""
 
-        ``_sync_down`` syncronizes this class's state with the state stored in
-        ``./pymcnp/state.py``.
-        """
-
-        init()
-
-        FileTable.PATH.write_text(f'table = {self._table.__repr__()}')
+        self.path.write_text(f'table = {self._table.__repr__()}')
 
     def __iter__(self):
         self = self._sync_up()
@@ -92,8 +72,30 @@ class FileTable:
 
 
 class RunConfig:
-    DIR: Final[Path] = Path.cwd() / '.pymcnp'
-    PATH: Final[Path] = DIR / '_run.py'
+    """Store pre and posthooks as well as the run command for parallel runs."""
+
+    def __init__(self):
+        self.path = Path.cwd() / '.pymcnp' / '_run.py'
+        self.command = 'mcnp'
+
+        self.path.parent.mkdir(exist_ok=True, parents=True)
+
+        if not self.path.is_file():
+            self.path.write_text(
+                "command = 'mcnp'\n"
+                '\n'
+                'def prehook():\n'
+                '    return\n'
+                '\n'
+                'def posthook():\n'
+                '    return\n'
+            )
+
+    def prehook(self):
+        pass
+
+    def posthook(self):
+        pass
 
     def set_command(self, command: str):
         self.command = command
@@ -107,46 +109,29 @@ class RunConfig:
         self.posthook = posthook
         self._sync_down()
 
-    @classmethod
-    def _sync_up(cls):
-        """
-        ``_sync_up`` updates ``self.command``, ``self.prehook``, and
-        ``self.posthook``.
-
-        ``_sync_up`` syncronizes this class's state with the state stored in
-        ``./pymcnp/run.py``.
-        """
-
-        init()
+    def _sync_up(self):
+        """Read command, prehook, and posthook from `_run.py`."""
 
         path = sys.path
-        sys.path.append(FileTable.DIR)
+        sys.path.append(str(self.path.parent.absolute()))
         import _run
 
         sys.path = path
 
-        run_cls = cls()
-        run_cls.command: str = _run.command
-        run_cls.prehook: Callable = _run.prehook
-        run_cls.posthook: Callable = _run.posthook
+        self.command = _run.command
+        self.prehook = _run.prehook
+        self.posthook = _run.posthook
 
-        return run_cls
+        return self
 
     def _sync_down(self):
-        """
-        ``_sync_down`` updates ``./pymcnp/run.py``.
-
-        ``_sync_down`` syncronizes this class's state with the state stored in
-        ``./pymcnp/run.py``.
-        """
-
-        init()
+        """Write command, prehook, and posthook to `_run.py`."""
 
         prehook = 'def prehook():\n' + ''.join(inspect.getsourcelines(self.prehook)[0][1:])
         posthook = 'def posthook():\n' + ''.join(inspect.getsourcelines(self.posthook)[0][1:])
 
-        RunConfig.PATH.write_text(
-            f'command = {self.command.__repr__()}\n' + '\n' + prehook + '\n' + posthook + '\n'
+        self.path.write_text(
+            f'command = {self.command}\n' + '\n' + prehook + '\n' + posthook + '\n'
         )
 
 
