@@ -1138,8 +1138,8 @@ class SphereOrigin(Surface):
         """
 
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
-        cadquery += f'surface_{self.number} = cq.Workplane()'
-        cadquery += _cadquery.add_sphere(self.r)
+        cadquery += f'surface_{self.number.value} = cq.Workplane()'
+        cadquery += _cadquery.add_sphere(self.r.value)
 
         return cadquery + '\n'
 
@@ -1254,9 +1254,9 @@ class SphereGeneral(Surface):
         """
 
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
-        cadquery += f'surface_{self.number} = cq.Workplane()'
-        cadquery += _cadquery.add_sphere(self.r)
-        cadquery += _cadquery.add_translation(self.x, self.y, self.z)
+        cadquery += f'surface_{self.number.value} = cq.Workplane()'
+        cadquery += _cadquery.add_sphere(self.r.value)
+        cadquery += _cadquery.add_translation(self.x.value, self.y.value, self.z.value)
 
         return cadquery + '\n'
 
@@ -1357,9 +1357,9 @@ class SphereNormalX(Surface):
         """
 
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
-        cadquery += f'surface_{self.number} = cq.Workplane()'
-        cadquery += _cadquery.add_sphere(self.r)
-        cadquery += _cadquery.add_translation(self.x, 0, 0)
+        cadquery += f'surface_{self.number.value} = cq.Workplane()'
+        cadquery += _cadquery.add_sphere(self.r.value)
+        cadquery += _cadquery.add_translation(self.x.value, 0, 0)
 
         return cadquery
 
@@ -1460,9 +1460,9 @@ class SphereNormalY(Surface):
         """
 
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
-        cadquery += f'surface_{self.number} = cq.Workplane()'
-        cadquery += _cadquery.add_sphere(self.r)
-        cadquery += _cadquery.add_translation(0, self.y, 0)
+        cadquery += f'surface_{self.number.value} = cq.Workplane()'
+        cadquery += _cadquery.add_sphere(self.r.value)
+        cadquery += _cadquery.add_translation(0, self.y.value, 0)
 
         return cadquery
 
@@ -1563,9 +1563,9 @@ class SphereNormalZ(Surface):
         """
 
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
-        cadquery += f'surface_{self.number} = cq.Workplane()'
-        cadquery += _cadquery.add_sphere(self.r)
-        cadquery += _cadquery.add_translation(0, 0, self.z)
+        cadquery += f'surface_{self.number.value} = cq.Workplane()'
+        cadquery += _cadquery.add_sphere(self.r.value)
+        cadquery += _cadquery.add_translation(0, 0, self.z.value)
 
         return cadquery
 
@@ -3773,13 +3773,13 @@ class Box(Surface):
             Cadquery for surface card object.
         """
 
-        v = _cadquery.CqVector(self.vx, self.vy, self.vz)
-        a1 = _cadquery.CqVector(self.a1x, self.a1y, self.a1z)
-        a2 = _cadquery.CqVector(self.a2x, self.a2y, self.a2z)
-        a3 = _cadquery.CqVector(self.a3x, self.a3y, self.a3z)
+        v = _cadquery.CqVector(self.vx.value, self.vy.value, self.vz.value)
+        a1 = _cadquery.CqVector(self.a1x.value, self.a1y.value, self.a1z.value)
+        a2 = _cadquery.CqVector(self.a2x.value, self.a2y.value, self.a2z.value)
+        a3 = _cadquery.CqVector(self.a3x.value, self.a3y.value, self.a3z.value)
 
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
-        cadquery += f'surface_{self.number} = cq.Workplane()'
+        cadquery += f'surface_{self.number.value} = cq.Workplane()'
         cadquery += _cadquery.add_box(a1, a2, a3)
         cadquery += _cadquery.add_translation(v)
 
@@ -3907,18 +3907,20 @@ class Parallelepiped(Surface):
         """
 
         xlen, ylen, zlen = (
-            math.fabs(self.xmax - self.xmin),
-            math.fabs(self.ymax - self.ymin),
-            math.fabs(self.zmax - self.zmin),
+            math.fabs(self.xmax.value - self.xmin.value),
+            math.fabs(self.ymax.value - self.ymin.value),
+            math.fabs(self.zmax.value - self.zmin.value),
         )
 
         x = _cadquery.CqVector(xlen, 0, 0)
         y = _cadquery.CqVector(0, ylen, 0)
         z = _cadquery.CqVector(0, 0, zlen)
-        v = _cadquery.CqVector(self.xmin + xlen / 2, self.ymin + ylen / 2, self.zmin + zlen / 2)
+        v = _cadquery.CqVector(
+            self.xmin.value + xlen / 2, self.ymin.value + ylen / 2, self.zmin.value + zlen / 2
+        )
 
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
-        cadquery += f'surface_{self.number} = cq.Workplane()'
+        cadquery += f'surface_{self.number.value} = cq.Workplane()'
         cadquery += _cadquery.add_box(x, y, z)
         cadquery += _cadquery.add_translation(v)
 
@@ -4035,9 +4037,9 @@ class Sphere(Surface):
         """
 
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
-        cadquery += f'surface_{self.number} = cq.Workplane()'
-        cadquery += _cadquery.add_sphere(self.r)
-        cadquery += _cadquery.add_translation(self.vx, self.vy, self.vz)
+        cadquery += f'surface_{self.number.value} = cq.Workplane()'
+        cadquery += _cadquery.add_sphere(self.r.value)
+        cadquery += _cadquery.add_translation(self.vx.value, self.vy.value, self.vz.value)
 
         return cadquery
 
@@ -4173,15 +4175,15 @@ class CylinderCircular(Surface):
             Cadquery for surface card object.
         """
 
-        h = _cadquery.CqVector(self.hx, self.hy, self.hz)
-        v = _cadquery.CqVector(self.vx, self.vy, self.vz / 2)
+        h = _cadquery.CqVector(self.hx.value, self.hy.value, self.hz.value)
+        v = _cadquery.CqVector(self.vx.value, self.vy.value, self.vz.value / 2)
         k = _cadquery.CqVector(0, 0, 1)
 
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
-        cadquery += f'surface_{self.number} = cq.Workplane()'
-        cadquery += _cadquery.add_cylinder_circle(h.norm(), self.r)
+        cadquery += f'surface_{self.number.value} = cq.Workplane()'
+        cadquery += _cadquery.add_cylinder_circle(h.norm(), self.r.value)
 
-        if self.hx != 0 or self.hy != 0 or self.hz / self.hz != 1:
+        if self.hx.value != 0 or self.hy.value != 0 or self.hz.value / self.hz.value != 1:
             cadquery += _cadquery.add_rotation(
                 _cadquery.CqVector.cross(k, h), _cadquery.CqVector.angle(k, h)
             )
@@ -4402,15 +4404,16 @@ class HexagonalPrism(Surface):
             Cadquery for surface card object.
         """
 
-        v = _cadquery.CqVector(self.vx, self.vy, self.vz)
-        h = _cadquery.CqVector(self.hx, self.hy, self.hz)
-        r = _cadquery.CqVector(self.r1, self.r2, self.r3)
+        v = _cadquery.CqVector(self.vx.value, self.vy.value, self.vz.value)
+        h = _cadquery.CqVector(self.hx.value, self.hy.value, self.hz.value)
+        r = _cadquery.CqVector(self.r1.value, self.r2.value, self.r3.value)
         k = _cadquery.CqVector(0, 0, 1)
+
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
-        cadquery += f'surface_{self.number} = cq.Workplane()'
+        cadquery += f'surface_{self.number.value} = cq.Workplane()'
         cadquery += _cadquery.add_prism_polygon(h.norm(), r.apothem())
 
-        if self.hx != 0 or self.hy != 0 or self.hz / self.hz != 1:
+        if self.hx.value != 0 or self.hy.value != 0 or self.hz.value / self.hz.value != 1:
             cadquery += _cadquery.add_rotation(
                 _cadquery.CqVector.cross(k, h), _cadquery.CqVector.angle(k, h)
             )
@@ -4602,16 +4605,16 @@ class CylinderElliptical(Surface):
         """
 
         k = _cadquery.CqVector(0, 0, 1)
-        v = _cadquery.CqVector(self.vx, self.vy, self.vz)
-        h = _cadquery.CqVector(self.hx, self.hy, self.hz)
-        v1 = _cadquery.CqVector(self.v1x, self.v1y, self.v1z)
-        v2 = _cadquery.CqVector(self.v2x, self.v2y, self.v2z)
+        v = _cadquery.CqVector(self.vx.value, self.vy.value, self.vz.value)
+        h = _cadquery.CqVector(self.hx.value, self.hy.value, self.hz.value)
+        v1 = _cadquery.CqVector(self.v1x.value, self.v1y.value, self.v1z.value)
+        v2 = _cadquery.CqVector(self.v2x.value, self.v2y.value, self.v2z.value)
 
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
-        cadquery += f'surface_{self.number} = cq.Workplane().'
+        cadquery += f'surface_{self.number.value} = cq.Workplane().'
         cadquery += _cadquery.add_cylinder_ellipse(h.norm(), v1.norm(), v2.norm())
 
-        if self.hx != 0 or self.hy != 0 or self.hz / self.hz != 1:
+        if self.hx.value != 0 or self.hy.value != 0 or self.hz.value / self.hz.value != 1:
             cadquery += _cadquery.add_rotation(
                 _cadquery.CqVector.cross(k, h), _cadquery.CqVector.angle(k, h)
             )
@@ -4760,16 +4763,16 @@ class ConeTruncated(Surface):
         """
 
         k = _cadquery.CqVector(0, 0, 1)
-        v = _cadquery.CqVector(self.vx, self.vy, self.vz)
-        h = _cadquery.CqVector(self.hx, self.hy, self.hz)
-        v1 = _cadquery.CqVector(self.v1x, self.v1y, self.v1z)
-        v2 = _cadquery.CqVector(self.v2x, self.v2y, self.v2z)
+        v = _cadquery.CqVector(self.vx.value, self.vy.value, self.vz.value)
+        h = _cadquery.CqVector(self.hx.value, self.hy.value, self.hz.value)
+        v1 = _cadquery.CqVector(self.v1x.value, self.v1y.value, self.v1z.value)
+        v2 = _cadquery.CqVector(self.v2x.value, self.v2y.value, self.v2z.value)
 
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
-        cadquery += f'surface_{self.number} = cq.Workplane()'
+        cadquery += f'surface_{self.number.value} = cq.Workplane()'
         cadquery += _cadquery.add_cone_truncated(h.norm(), v1.norm(), v2.norm())
 
-        if self.hx != 0 or self.hy != 0 or self.hz / self.hz != 1:
+        if self.hx.value != 0 or self.hy.value != 0 or self.hz.value / self.hz.value != 1:
             cadquery += _cadquery.add_rotation(
                 _cadquery.CqVector.cross(k, h), _cadquery.CqVector.angle(k, h)
             )
@@ -4910,17 +4913,17 @@ class Ellipsoid(Surface):
         """
 
         j = _cadquery.CqVector(0, 1, 0)
-        v1 = _cadquery.CqVector(self.v1x, self.v1y, self.v1z)
-        v2 = _cadquery.CqVector(self.v2x, self.v2y, self.v2z)
+        v1 = _cadquery.CqVector(self.v1x.value, self.v1y.value, self.v1z.value)
+        v2 = _cadquery.CqVector(self.v2x.value, self.v2y.value, self.v2z.value)
 
-        if self.rm > 0:
+        if self.rm.value > 0:
             a = _cadquery.CqVector.cross(j, v2 - v1)
             angle = _cadquery.CqVector.angle(j, v2 - v1)
             v = (
                 _cadquery.CqVector(
-                    (self.v2x - self.v1x) / 2,
-                    (self.v2y - self.v1y) / 2 - a,
-                    (self.v2z - self.v1z) / 2,
+                    (self.v2x.value - self.v1x.value) / 2,
+                    (self.v2y.value - self.v1y.value) / 2 - a,
+                    (self.v2z.value - self.v1z.value) / 2,
                 )
                 + v1
             )
@@ -4930,8 +4933,8 @@ class Ellipsoid(Surface):
             v = _cadquery.CqVector(v1.x, v1.y - a.y, v1.z)
 
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
-        cadquery += f'surface_{self.number} = cq.Workplane()'
-        cadquery += _cadquery.add_ellipsoid(a.norm(), self.rm)
+        cadquery += f'surface_{self.number.value} = cq.Workplane()'
+        cadquery += _cadquery.add_ellipsoid(a.norm(), self.rm.value)
         cadquery += _cadquery.add_rotation(a, angle)
         cadquery += _cadquery.add_translation(v)
 

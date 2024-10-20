@@ -99,9 +99,9 @@ class Surfaces(Block):
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
         surfaces_line = '\nsurfaces = cq.Workplane()'
 
-        for surface in self.cards.values():
+        for surface in self._cards.values():
             if hasattr(surface, 'to_cadquery'):
-                new_cadquery = surface.to_cadquery(hasHeader)
+                new_cadquery = surface.to_cadquery(hasHeader=False)
                 surfaces_line += f'.add({new_cadquery.split(maxsplit=1)[0]})'
                 cadquery += new_cadquery
 
