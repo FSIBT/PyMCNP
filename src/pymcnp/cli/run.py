@@ -41,6 +41,8 @@ class Run:
         command: str = 'mcnp',
         prehook: Callable = lambda _: _,
         posthook: Callable = lambda _: _,
+        parallel_prehook: Callable = lambda _: _,
+        parallel_posthook: Callable = lambda _: _,
     ):
         """
         ``__init__`` initalizes ``Run``.
@@ -55,6 +57,8 @@ class Run:
         self.inp: Final[files.inp.Inp] = inp
         self.prehook: Final[Callable] = prehook
         self.posthook: Final[Callable] = posthook
+        self.parallel_prehook: Final[Callable] = parallel_prehook
+        self.parallel_posthook: Final[Callable] = parallel_posthook
 
     def _run(self, path) -> str:
         self.prehook()
@@ -136,8 +140,9 @@ class Run:
         _state.run.set_prehook(self.prehook)
         _state.run.set_posthook(self.posthook)
 
-        # Executing single run in parallel.
+        self.parallel_prehook()
         os.system(f"parallel pymcnp run ::: {' '.join(args)}")
+        self.parallel_posthook()
 
         return directory_path
 
@@ -220,7 +225,9 @@ def main(argv: list[str] = sys.argv[1:]) -> None:
         )
 
     if args['--parallel'] is not None:
+        run.parallel_prehook()
         run.run_parallel(int(args['--parallel']))
+        run.parallel_posthook()
     else:
         if args['--path'] is not None:
             run._run(args['--path'])
