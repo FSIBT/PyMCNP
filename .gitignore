@@ -2,6 +2,9 @@
 src/pymcnp/version.py
 .ruff_cache
 
+# Editor backups
+*~
+
 # General
 .DS_Store
 .AppleDouble
