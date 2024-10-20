@@ -30,10 +30,10 @@ To run the PyMCNP testing suite, after clone the PyMCNP GitHub repository, use t
 
 ```
 cd PyMCNP
-pip install pytest hypothesis
+pip install pytest
 ```
 
-After instaling `pytest` and `hypothesis`, test the `pymcnp` package by calling the following commands inside the PyMCNP directory:
+After instaling `pytest`, test the `pymcnp` package by calling the following commands inside the PyMCNP directory:
 
 ```
 cd PyMCNP
