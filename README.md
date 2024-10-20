@@ -1,44 +1,46 @@
 [![Documentation Status](https://readthedocs.org/projects/pymcnp/badge/?version=latest)](https://pymcnp.readthedocs.io/en/latest/?badge=latest)
+[![PyPI version](https://badge.fury.io/py/pymcnp.svg)](https://badge.fury.io/py/pymcnp)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 # PyMCNP
 
-PyMCNP enables research with Monte Carlo N-Particle (MCNP) simulations. It parses MCNP files, creates MCNP geometry visualization, and runs MCNP in parallel. PyMCNP provides a Python API for MCNP input and output files and a command line interface for interacting with MCNP and MCNP files.
+PyMCNP supports running [Monte Carlo N-Particle (MCNP) simulations](https://mcnp.lanl.gov/). It parses MCNP files, enabling automation such as parameter scans, creates MCNP geometry visualization using [cadquery](https://cadquery.readthedocs.io/en/latest/), and can run MCNP in parallel across multiple machines (including support for clusters). PyMCNP provides a Python API for MCNP input and output files and a command line interface for interacting with MCNP and MCNP files.
 
 Find more information on [ReadTheDocs](https://pymcnp.readthedocs.io).
 
 ## Installation
 
-PyMCNP requires [Python](https://www.python.org>) (≥ 3.10) and [Numpy](https://numpy.org>) (≥ 2.0).
+PyMCNP is available on [PyPI](https://pypi.org/project/pymcnp/) and can be `pip installed`.
 
-PyMCNP is distributed through the [Python Package Index](https://pypi.org/project/pymcnp/>) (PyPi) with the ``pip`` command. The following command installs both ``pymcnp`` and its depenencies:
+    pip install pymcnp
 
-```
-pip install numpy pymcnp
-```
+## Contributing
 
-PyMCNP source code is accessable for contributions, suggestions, and bug reports on [GitHub](https://github.com/FSIBT/PyMCNP) with the ``git`` command. The following command downloads PyMCNP source code and installs ``pymcnp`` and its dependencies in editable mode:
+PyMCNP source code is accessable for contributions, suggestions, and bug reports on [GitHub](https://github.com/FSIBT/PyMCNP). The following command downloads PyMCNP source code and installs `pymcnp` and its dependencies in editable mode:
 
-```
-git clone https://github.com/FSIBT/PyMCNP
-cd PyMCNP
-pip install -e .
-```
+    git clone https://github.com/FSIBT/PyMCNP
+    cd PyMCNP
+    pip install -e .
+
+
+If you plan to contribute, you should also enable `pre-commit`
+
+    pip install pre-commit
+    # cd into repo
+    pre-commit install
+
+from within the top level directory in the git repository.
 
 ## Testings
 
-To run the PyMCNP testing suite, after clone the PyMCNP GitHub repository, use the following commands to install Hypothesis ([ReadTheDocs](https://hypothesis.readthedocs.io/en/latest/quickstart.html#installing])) and Pytest ([Docs](https://docs.pytest.org/en/stable/)) inside the PyMCNP directory:
+To run the PyMCNP test suite, after clone the PyMCNP GitHub repository, use the following commands to install Pytest ([Docs](https://docs.pytest.org/en/stable/)) inside the PyMCNP directory:
 
-```
-cd PyMCNP
-pip install pytest
-```
+    pip install pytest
 
 After instaling `pytest`, test the `pymcnp` package by calling the following commands inside the PyMCNP directory:
 
-```
-cd PyMCNP
-pytest --verbose
-```
+    cd PyMCNP
+    python -m pytest
 
 ## Copyright and License
 

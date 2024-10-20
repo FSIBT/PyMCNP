@@ -9,6 +9,7 @@ Table of Contents
 .. toctree::
    :maxdepth: 1
 
-   installation.rst
+   installation.md
+   contributing.md
    pymcnp.rst
    cli.rst
