@@ -1,29 +1,24 @@
 """
-``ls`` provides utilities for listing MCNP information.
+Usage:
+    pymcnp ls [(<alias> (--cells|--surfaces|--data)...)]
 
-``ls`` contains the procedures for executing the ``pymcnp ls`` command and
-utilities for listing MCNP information.
+Options:
+    -f --file      List from INP file.
+    -c --cells     List aliased INP cell cards.
+    -s --surfaces  List aliased INP surface cards.
+    -d --data      List aliased INP data cards.
 """
 
-import sys
 from typing import Final
 
-import docopt
+from docopt import docopt
 
 from ..files import inp
 from . import _state
 
 
 class Ls:
-    """
-    ``Ls``
-    """
-
     def __init__(self, inpt: inp.Inp):
-        """
-        ``__init__`` initializes ``Ls``.
-        """
-
         if inpt is None:
             raise ValueError
 
@@ -112,34 +107,12 @@ class Ls:
         return out
 
 
-PYMCNP_LS_DOC = """
-Usage:
-    pymcnp ls [(<alias> (--cells|--surfaces|--data)...)]
+def main() -> None:
+    """Listing aliased PyMCNP object content."""
 
-Options:
-    -f --file      List from INP file.
-    -c --cells     List aliased INP cell cards.
-    -s --surfaces  List aliased INP surface cards.
-    -d --data      List aliased INP data cards.
-"""
-
-
-def main(argv: list[str] = sys.argv[1:]) -> None:
-    """
-    ``main`` executes the ``pymcnp ls`` command.
-
-    ``main`` processes the given command line arguments, and it lists, prints,
-    and tabulates PyMCNP object contents.
-
-    Parameters:
-        argv: Tokenized list of CLI arguments.
-    """
-
-    args = docopt.docopt(PYMCNP_LS_DOC, argv=argv)
+    args = docopt(__doc__)
 
     if args['<alias>']:
-        # Listing aliased PyMCNP object content.
-
         try:
             filename = _state.table.access(args['<alias>'])
         except ValueError:

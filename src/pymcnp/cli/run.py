@@ -1,15 +1,20 @@
 """
-``run`` contains functions for interacting with MCNP.
+Usage:
+    pymcnp run ( <alias> | --object=<alias> | --file=<file> | --path=<file> ) [ --parallel=<threads> ]
 
-``run`` packages the ``Run`` utility class, providing an object-oriented,
-importable interface for running MCNP INP files.
+Options:
+    -o --object=<alias>           Run from PyMCNP objects.
+    -f --file=<file>              Run from filename.
+    -p --path=<file>              Run from path without help.
+    -p --parallel=<threads>       Run files in parallel on <threads> threads.
+    -d --directory=<path>         Path to excecute run.
 """
 
 import os
 import sys
 from typing import Final, Callable
 
-import docopt
+from docopt import docopt
 
 from .. import files
 from . import _state
@@ -21,8 +26,7 @@ DEFAULT_NPSMG = 1
 
 
 class Run:
-    """
-    ``Run`` encapsulates methods for running MCNP INP files.
+    """Encapsulates methods for running MCNP INP files.
 
     ``Run`` provides utilities for executing MCNP simulations concurrently or
     in parallel. This class also stores the inputs and outputs of MNPC runs
@@ -45,8 +49,6 @@ class Run:
         parallel_posthook: Callable = lambda _: _,
     ):
         """
-        ``__init__`` initalizes ``Run``.
-
         Parameters:
             path: Path to directory to store run inputs and outputs.
             command: Terminal command to execute.
@@ -147,31 +149,15 @@ class Run:
         return directory_path
 
 
-PYMCNP_RUN_DOC = """
-Usage:
-    pymcnp run ( <alias> | --object=<alias> | --file=<file> | --path=<file> ) [ --parallel=<threads> ]
-
-Options:
-    -o --object=<alias>           Run from PyMCNP objects.
-    -f --file=<file>              Run from filename.
-    -p --path=<file>              Run from path without help.
-    -p --parallel=<threads>       Run files in parallel on <threads> threads.
-    -d --directory=<path>         Path to excecute run.
-"""
-
-
-def main(argv: list[str] = sys.argv[1:]) -> None:
-    """
-    ``main`` executes the ``pymcnp run`` command.
+def main() -> None:
+    """Executes the ``pymcnp run`` command.
 
     ``main`` processes the given command line arguments, and it runs either INP
     files or PyMCNP aliased INP files single or in parallel.
 
-    Parameters:
-        argv: Tokenized list of CLI arguments.
     """
 
-    args = docopt.docopt(PYMCNP_RUN_DOC, argv=argv)
+    args = docopt(__doc__)
 
     if args['<alias>'] is not None:
         # Running aliased PyMCNP object.
