@@ -1,4 +1,5 @@
 import inspect
+import os
 from pathlib import Path
 import sys
 from typing import Callable
@@ -12,13 +13,13 @@ class FileTable:
     """
 
     def __init__(self):
-        self.table = {}
+        self._table = {}
         self.path = Path.cwd() / '.pymcnp' / '_files.py'
 
         self.path.parent.mkdir(exist_ok=True, parents=True)
 
         if not self.path.is_file():
-            self.path.write_text('table = {}')
+            self._sync_down()
 
     def append(self, alias, path):
         self._sync_up()
@@ -63,8 +64,10 @@ class FileTable:
 
     def _sync_down(self):
         """Write information to `_files.py`."""
-
-        self.path.write_text(f'table = {self._table.__repr__()}')
+        with self.path.open('w') as f:
+            f.write(f'table = {self._table.__repr__()}')
+            f.flush()
+            os.fsync(f.fileno())
 
     def __iter__(self):
         self = self._sync_up()
@@ -122,9 +125,10 @@ class RunConfig:
         prehook = 'def prehook():\n' + ''.join(inspect.getsourcelines(self.prehook)[0][1:])
         posthook = 'def posthook():\n' + ''.join(inspect.getsourcelines(self.posthook)[0][1:])
 
-        self.path.write_text(
-            f"command = '{self.command}'\n" + '\n' + prehook + '\n' + posthook + '\n'
-        )
+        with self.path.open('w') as f:
+            f.write(f"command = '{self.command}'\n" + '\n' + prehook + '\n' + posthook + '\n')
+            f.flush()
+            os.fsync(f.fileno())
 
 
 table = FileTable()._sync_up()
