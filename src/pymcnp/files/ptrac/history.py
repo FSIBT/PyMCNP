@@ -6,6 +6,7 @@ importable interface for PTRAC event histories.
 """
 
 from __future__ import annotations
+from typing import Final
 
 from .event import Event
 from .header import Header
@@ -31,146 +32,57 @@ class History:
         nsf: Problem transformation of the surfaces.
         jptal: Basic tally information.
         tal: Tally scores accumulation.
-        events: List of events in the PTRAC history.
+        events: List of events in the PTRAC
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        header: Header,
+        next_type: Event.EventType,
+        nps: int,
+        ncl: int,
+        nsf: int,
+        jptal: int,
+        tal: int,
+        events: tuple[Event],
+    ):
         """
         ``__init__`` initializes ``History``.
-        """
-
-        self.header: Header = None
-        self.next_type: Event.EventType = None
-        self.nps: int = None
-        self.ncl: int = None
-        self.nsf: int = None
-        self.jptal: int = None
-        self.tal: int = None
-
-        self.events: list[Event] = None
-
-    def set_nps(self, nps: int) -> None:
-        """
-        ``set_nps`` stores PTRAC history nps variable.
-
-        ``set_code`` checks given arguments before assigning the given value
-        to ``code.nps``. If given an unrecognized argument, it raises
-        semantic errors.
 
         Parameters:
-            nps: Count of source particles started.
-
-        Raises:
-            MCNPSemanticError: INVALID_HISTORY_NPS.
-        """
-
-        if nps is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HISTORY_NPS)
-
-        self.nps = nps
-
-    def set_ncl(self, ncl: int) -> None:
-        """
-        ``set_ncl`` stores PTRAC history ncl variable.
-
-        ``set_ncl`` checks given arguments before assigning the given value
-        to ``code.ncl``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
-            ncl: Problem numbers of the cells.
-
-        Raises:
-            MCNPSemanticError: INVALID_HISTORY_NCL.
-        """
-
-        if ncl is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HISTORY_NCL)
-
-        self.ncl = ncl
-
-    def set_nsf(self, nsf: int) -> None:
-        """
-        ``set_nsf`` stores PTRAC history nsf variable.
-
-        ``set_nsf`` checks given arguments before assigning the given value
-        to ``code.nsf``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
-            nsf: Problem transformation of the surfaces.
-
-        Raises:
-            MCNPSemanticError: INVALID_HISTORY_NSF.
-        """
-
-        if nsf is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HISTORY_NSF)
-
-        self.nsf = nsf
-
-    def set_jptal(self, jptal: int) -> None:
-        """
-        ``set_jptal`` stores PTRAC history jptal variable.
-
-        ``set_jptal`` checks given arguments before assigning the given value
-        to ``code.jptal``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
-            jptal: Basic tally information.
-
-        Raises:
-            MCNPSemanticError: INVALID_HISTORY_JPTAL.
-        """
-
-        if jptal is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HISTORY_JPTAL)
-
-        self.jptal = jptal
-
-    def set_tal(self, tal: int) -> None:
-        """
-        ``set_tal`` stores PTRAC history tal variable.
-
-        ``set_tal`` checks given arguments before assigning the given value
-        to ``code.tal``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
-            tal: Tally scores accumulation.
-
-        Raises:
-            MCNPSemanticError: INVALID_HISTORY_TAL.
-        """
-
-        if tal is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HISTORY_TAL)
-
-        self.tal = tal
-
-    def set_next_type(self, next_type: Event.EventType) -> None:
-        """
-        ``set_next_type`` stores PTRAC history first event type variable.
-
-        ``set_next_type`` checks given arguments before assigning the given
-        value to ``code.next_type``. If given an unrecognized argument, it
-        raises semantic errors.
-
-        Parameters:
+            header: History context, i.e. PTRAC header.
             next_type: Event type of the next event.
+            nps: Count of source particles started.
+            ncl: Problem numbers of the cells.
+            nsf: Problem transformation of the surfaces.
+            jptal: Basic tally information.
+            tal: Tally scores accumulation.
+            events: List of events in the PTRAC
 
         Raises:
             MCNPSemanticError: INVALID_HISTORY_NEXTTYPE.
+            MCNPSemanticError: INVALID_HISTORY_NPS.
+            MCNPSemanticError: INVALID_HISTORY_NCL.
+            MCNPSemanticError: INVALID_HISTORY_NSF.
+            MCNPSemanticError: INVALID_HISTORY_JPTAL.
+            MCNPSemanticError: INVALID_HISTORY_TAL.
+            MCNPSemanticError: INVALID_PTRAC_HEADER.
+            MCNPSemanticError: INVALID_PTRAC_EVENT.
         """
 
-        if next_type is None:
-            return errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HISTORY_NEXTTYPE)
+        # TODO: Add error checking here!
 
-        self.next_type = next_type
+        self.next_type: Final[Event.EventType] = next_type
+        self.nps: Final[int] = nps
+        self.ncl: Final[int] = ncl
+        self.nsf: Final[int] = nsf
+        self.jptal: Final[int] = jptal
+        self.tal: Final[int] = tal
+        self.header: Final[Header] = header
+        self.events: Final[tuple[Event]] = events
 
-    @classmethod
-    def from_mcnp(cls, source: str, header: Header) -> tuple[History, str]:
+    @staticmethod
+    def from_mcnp(source: str, header: Header) -> tuple[History, str]:
         """
         ``from_mcnp`` generates ``History`` objects from PTRAC.
 
@@ -179,7 +91,7 @@ class History:
         helper function.
 
         Parameters:
-            source: PTRAC for history.
+            source: PTRAC for
             header: PTRAC header.
 
         Returns:
@@ -189,8 +101,11 @@ class History:
             MCNPSyntaxError: TOOFEW_HISTORY, TOOLONG_HISTORY.
         """
 
-        history = cls()
-        history.header = header
+        nps = None
+        ncl = None
+        nsf = None
+        jptal = None
+        tal = None
 
         source = _parser.Preprocessor.process_ptrac(source)
         lines = _parser.Parser(
@@ -202,29 +117,23 @@ class History:
             lines.popl().strip().split(' '),
             errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY),
         )
-        if len(tokens) != header.numbers[0]:
+        if len(tokens) != header.numbers[0].value:
             raise SyntaxError
 
-        for i in range(0, header.numbers[0]):
+        for i in range(0, header.numbers[0].value):
             match header.ids[i]:
                 case '1':
-                    value = types.cast_fortran_integer(tokens.popl())
-                    history.set_nps(value)
+                    nps = types.McnpInteger.from_mcnp(tokens.popl())
                 case '2':
-                    value = Event.EventType.from_mcnp(tokens.popl())
-                    history.set_next_type(value)
+                    next_type = Event.EventType.from_mcnp(tokens.popl())
                 case '3':
-                    value = types.cast_fortran_integer(tokens.popl())
-                    history.set_ncl(value)
+                    ncl = types.McnpInteger.from_mcnp(tokens.popl())
                 case '4':
-                    value = types.cast_fortran_integer(tokens.popl())
-                    history.set_nsf(value)
+                    nsf = types.McnpInteger.from_mcnp(tokens.popl())
                 case '5':
-                    value = types.cast_fortran_integer(tokens.popl())
-                    history.set_jptal(value)
+                    jptal = types.McnpInteger.from_mcnp(tokens.popl())
                 case '6':
-                    value = types.cast_fortran_real(tokens.popl())
-                    history.set_tal(value)
+                    tal = types.McnpReal.from_mcnp(tokens.popl())
 
         # Processing J & P Lines
         events = []
@@ -233,15 +142,17 @@ class History:
             lines.peekl().split(' '), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY)
         )
 
-        next_type = history.next_type
+        next_type = next_type
         while next_type != Event.EventType.FLAG:
-            event = Event().from_mcnp(lines.popl() + '\n' + lines.popl(), history.header, next_type)
+            event = Event.from_mcnp(lines.popl() + '\n' + lines.popl(), header, next_type)
             events.append(event)
             next_type = event.next_type
 
-        history.events = tuple(events)
+        events = tuple(events)
 
-        return history, '\n'.join(list(lines.deque))
+        return History(header, next_type, nps, ncl, nsf, jptal, tal, events), '\n'.join(
+            list(lines.deque)
+        )
 
     def to_arguments(self) -> dict:
         """

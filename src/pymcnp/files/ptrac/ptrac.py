@@ -22,16 +22,16 @@ class Ptrac:
         history: PTRAC history.
     """
 
-    def __init__(self):
+    def __init__(self, header: Header, histories: tuple[History]):
         """
         ``__init__`` initializes ``Ptrac``.
         """
 
         self.header: Header = None
-        self.histories: list[History] = None
+        self.histories: tuple[History] = None
 
-    @classmethod
-    def from_mcnp(cls, source: str):
+    @staticmethod
+    def from_mcnp(source: str):
         """
         ``from_mcnp`` generates ``Ptrac`` objects from PTRAC.
 
@@ -45,24 +45,22 @@ class Ptrac:
             ``Ptrac`` object.
         """
 
-        ptrac = cls()
-
         # Processing Header
-        ptrac.header, lines = Header().from_mcnp(source)
+        header, lines = Header.from_mcnp(source)
 
         # Processing History
         histories = []
 
         while lines:
-            history, lines = History().from_mcnp(lines, ptrac.header)
+            history, lines = History.from_mcnp(lines, header)
             histories.append(history)
 
-        ptrac.histories = tuple(histories)
+        histories = tuple(histories)
 
-        return ptrac
+        return Ptrac(header, histories)
 
-    @classmethod
-    def from_mcnp_file(cls, filename: str):
+    @staticmethod
+    def from_mcnp_file(filename: str):
         """
         ``from_mcnp_file`` generates ``Ptrac`` objects from PTRAC files.
 
@@ -79,7 +77,7 @@ class Ptrac:
         with open(filename) as file:
             source = ''.join(file.readlines())
 
-        return cls.from_mcnp(source)
+        return Ptrac.from_mcnp(source)
 
     def to_arguments(self) -> dict:
         """

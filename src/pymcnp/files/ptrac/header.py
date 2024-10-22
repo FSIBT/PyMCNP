@@ -6,6 +6,7 @@ importable interface for PTRAC headers.
 """
 
 from __future__ import annotations
+from typing import Final
 from enum import Enum
 
 from ..utils import _parser
@@ -62,158 +63,88 @@ class Header:
         WRITE = 13
         UNKNOWN = 14
 
-    def __init__(self):
+    def __init__(
+        self,
+        code: str,
+        code_date: str,
+        version: str,
+        run_date: str,
+        run_time: str,
+        title: str,
+        settings: dict,
+        numbers: tuple[int],
+        ids: tuple[int],
+    ):
         """
         ``__init__`` initializes ``Header``.
-        """
-
-        self.code: str = None
-        self.code_date: str = None
-        self.version: str = None
-        self.run_date: str = None
-        self.run_time: str = None
-        self.title: str = None
-        self.settings: dict[self.PtracKeywords, list[float]] = {
-            self.PtracKeywords.BUFFER: None,
-            self.PtracKeywords.CELL: None,
-            self.PtracKeywords.EVENT: None,
-            self.PtracKeywords.FILE: None,
-            self.PtracKeywords.FILTER: None,
-            self.PtracKeywords.MAX: None,
-            self.PtracKeywords.MENP: None,
-            self.PtracKeywords.NPS: None,
-            self.PtracKeywords.SURFACE: None,
-            self.PtracKeywords.TALLY: None,
-            self.PtracKeywords.TYPE: None,
-            self.PtracKeywords.VALUE: None,
-            self.PtracKeywords.WRITE: None,
-            self.PtracKeywords.UNKNOWN: None,
-        }
-        self.numbers: tuple[int] = None
-        self.ids: tuple[int] = None
-
-    def set_code(self, code: str) -> None:
-        """
-        ``set_code`` stores PTRAC header code variable.
-
-        ``set_code`` checks given arguments before assigning the given value
-        to ``code.code``. If given an unrecognized argument, it raises
-        semantic errors.
 
         Parameters:
             code: Simulation name.
+            code_date: Simulation compilation date.
+            version: Simulation version.
+            run_date: Simulation run date.
+            run_time: Simulation run time.
+            title: Simulation title.
+            settings: PTRAC input format.
+            numbers: PTRAC event variable counts by type.
+            ids: PTRAC event variable identifiers by type.
 
         Raises:
             MCNPSemanticError: INVALID_HEADER_CODE.
+            MCNPSemanticError: INVALID_HEADER_CODEDATE.
+            MCNPSemanticError: INVALID_HEADER_VERSION.
+            MCNPSemanticError: INVALID_HEADER_RUNDATE.
+            MCNPSemanticError: INVALID_HEADER_RUNTIME.
+            MCNPSemanticError: INVALID_HEADER_TITLE.
         """
 
         if code is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_CODE)
 
-        self.code = code
-
-    def set_code_date(self, code_date: str) -> None:
-        """
-        ``set_code_date`` stores PTRAC header code date variable.
-
-        ``set_code_date`` checks given arguments before assigning the given value
-        to ``Header.code_date``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
-            code_date: Simulation compilation date.
-
-        Raises:
-            MCNPSemanticError: INVALID_HEADER_CODEDATE.
-        """
-
         if code_date is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_CODEDATE)
-
-        self.code_date = code_date
-
-    def set_version(self, version: str) -> None:
-        """
-        ``set_version`` stores PTRAC header version variable.
-
-        set_version`` checks given arguments before assigning the given value
-        to ``Header.version``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
-            version: Simulation version.
-
-        Raises:
-            MCNPSemanticError: INVALID_HEADER_VERSION.
-        """
 
         if version is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_VERSION)
 
-        self.version = version
-
-    def set_run_date(self, run_date: str) -> None:
-        """
-        ``set_run_date`` stores PTRAC header run date variable.
-
-        ``set_run_date`` checks given arguments before assigning the given value
-        to ``Header.run_date``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
-            run_date: Simulation run date.
-
-        Raises:
-            MCNPSemanticError: INVALID_HEADER_RUNDATE.
-        """
-
         if run_date is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_RUNDATE)
-
-        self.run_date = run_date
-
-    def set_run_time(self, run_time: str) -> None:
-        """
-        ``set_run_time`` stores PTRAC header run time variable.
-
-        ``set_run_time`` checks given arguments before assigning the given value
-        to ``Header.run_time``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
-            run_time: Simulation run time.
-
-        Raises:
-            MCNPSemanticError: INVALID_HEADER_RUNTIME.
-        """
 
         if run_time is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_RUNTIME)
 
-        self.run_time = run_time
-
-    def set_title(self, title: str) -> None:
-        """
-        ``set_title`` stores PTRAC header title variable.
-
-        set_title`` checks given arguments before assigning the given value
-        to ``title.code``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
-            title: Simulation title.
-
-        Raises:
-            MCNPSemanticError: INVALID_HEADER_TITLE.
-        """
-
-        if title is None or not (len(title) < 80):
+        if title is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_TITLE)
 
-        self.title = title
+        if settings is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_SETTING)
 
-    @classmethod
-    def from_mcnp(cls, source: str) -> tuple[Header, str]:
+        if numbers is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_NUMBERS)
+
+        for number in numbers:
+            if number is None:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_NUMBERS)
+
+        if ids is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_IDS)
+
+        for id_ in ids:
+            if id_ is None:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_IDS)
+
+        self.code: Final[str] = code
+        self.code_date: Final[str] = code_date
+        self.version: Final[str] = version
+        self.run_date: Final[str] = run_date
+        self.run_time: Final[str] = run_time
+        self.title: Final[str] = title
+        self.settings: Final[dict] = settings
+        self.numbers: Final[tuple[int]] = numbers
+        self.ids: Final[tuple[int]] = ids
+
+    @staticmethod
+    def from_mcnp(source: str) -> tuple[Header, str]:
         """
         ``from_mcnp`` generates ``Header`` objects from PTRAC.
 
@@ -231,8 +162,6 @@ class Header:
             MCNPSyntaxError: TOOFEW_HEADER, TOOLONG_HEADER, KEYWORD_HEADER_MINUS1
         """
 
-        header = cls()
-
         source = _parser.Preprocessor.process_ptrac(source)
         lines = _parser.Parser(
             source.split('\n'), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
@@ -246,14 +175,13 @@ class Header:
         tokens = _parser.Parser(
             lines.popl().split(' '), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
         )
-        header.set_code(tokens.popl())
-        header.set_version(tokens.popl())
-        header.set_code_date(tokens.popl())
-        header.set_run_date(tokens.popl())
-        header.set_run_time(tokens.popl())
 
-        # Processing Title
-        header.set_title(lines.popl())
+        code = tokens.popl()
+        version = tokens.popl()
+        code_date = tokens.popl()
+        run_date = tokens.popl()
+        run_time = tokens.popl()
+        title = lines.popl()
 
         # Processing Settings Block
         tokens = _parser.Parser(
@@ -263,11 +191,12 @@ class Header:
         if len(tokens) != 10:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
 
-        m = types.cast_fortran_real(tokens.popl(), lambda f: f == 13 or f == 14)
-        if m is None:
+        m = types.McnpReal.from_mcnp(tokens.popl())
+        if not (m == 13 or m == 14):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_SETTINGS)
 
-        for i in range(0, int(m)):
+        settings = {}
+        for i in range(0, int(m.value)):
             if not tokens:
                 tokens = _parser.Parser(
                     lines.popl().strip().split(' '),
@@ -277,12 +206,12 @@ class Header:
                 if len(tokens) != 10:
                     raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
 
-            n = types.cast_fortran_real(tokens.popl(), lambda f: f >= 0)
-            if n is None:
+            n = types.McnpReal.from_mcnp(tokens.popl())
+            if not (n.value != 'j' and n.value >= 0):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_SETTINGS)
 
-            values = [None] * int(n)
-            for j in range(0, int(n)):
+            values = [None] * int(n.value)
+            for j in range(0, int(n.value)):
                 if not tokens:
                     tokens = _parser.Parser(
                         lines.popl().strip().split(' '),
@@ -294,10 +223,10 @@ class Header:
 
                 values[j] = tokens.popl()
 
-            header.settings[Header.PtracKeywords(i + 1)] = tuple(values)
+            settings[Header.PtracKeywords(i + 1)] = tuple(values)
 
         while tokens:
-            if types.cast_fortran_real(tokens.popl(), lambda f: f == 0) is None:
+            if types.McnpReal.from_mcnp(tokens.popl()) != 0:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_SETTINGS)
 
         # Processing Numbers
@@ -310,16 +239,16 @@ class Header:
 
         numbers = []
         while tokens:
-            n = types.cast_fortran_integer(tokens.peekl(), lambda i: i >= 0)
-            if n is None:
+            n = types.McnpInteger.from_mcnp(tokens.peekl())
+            if not n >= 0:
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
 
             numbers.append(n)
             tokens.popl()
 
-        header.numbers = tuple(numbers)
+        numbers = tuple(numbers)
 
-        if numbers[1:11] not in [
+        if [number.value for number in numbers][1:11] not in [
             [5, 3, 6, 3, 6, 3, 6, 3, 6, 3],
             [6, 3, 7, 3, 7, 3, 7, 3, 7, 3],
             [6, 9, 7, 9, 7, 9, 7, 9, 7, 9],
@@ -335,8 +264,8 @@ class Header:
         if len(tokens) > 30:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_HEADER)
 
-        total = sum(header.numbers[:10])
-        header.ids = [None] * total
+        total = sum([number.value for number in numbers][:10])
+        ids = [None] * total
 
         for i in range(0, total):
             if not tokens:
@@ -347,9 +276,11 @@ class Header:
                 if len(tokens) > 30:
                     raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_HEADER)
 
-            header.ids[i] = tokens.popl()
+            ids[i] = tokens.popl()
 
-        return header, '\n'.join(list(lines.deque))
+        return Header(
+            code, code_date, version, run_date, run_time, title, settings, numbers, ids
+        ), '\n'.join(list(lines.deque))
 
     def to_arguments(self):
         """
