@@ -5,75 +5,6 @@ import sys
 from typing import Callable
 
 
-class FileTable:
-    """Store information in a file, so that it can be used across multiple processes.
-
-    We use this mechanism to store information that is needed when, for example,
-    running MCNP simulations in parallel.
-    """
-
-    def __init__(self):
-        self._table = {}
-        self.path = Path.cwd() / '.pymcnp' / '_files.py'
-
-        self.path.parent.mkdir(exist_ok=True, parents=True)
-
-        if not self.path.is_file():
-            self._sync_down()
-
-    def append(self, alias, path):
-        self._sync_up()
-
-        if alias in self._table:
-            raise ValueError
-
-        self._table[alias] = path
-        self._sync_down()
-
-    def remove(self, alias):
-        self._sync_up()
-
-        if alias not in self._table:
-            raise ValueError
-
-        path = self._table.pop(alias)
-        self._sync_down()
-
-        return path
-
-    def access(self, alias):
-        self._sync_up()
-
-        if alias not in self._table:
-            raise ValueError
-
-        return self._table[alias]
-
-    def _sync_up(self):
-        """Read information from `_files.py`."""
-
-        path = sys.path
-        sys.path.append(str(self.path.parent.absolute()))
-        import _files
-
-        sys.path = path
-
-        self._table = _files.table
-
-        return self
-
-    def _sync_down(self):
-        """Write information to `_files.py`."""
-        with self.path.open('w') as f:
-            f.write(f'table = {self._table.__repr__()}')
-            f.flush()
-            os.fsync(f.fileno())
-
-    def __iter__(self):
-        self = self._sync_up()
-        return iter(self._table.items())
-
-
 class RunConfig:
     """Store pre and posthooks as well as the run command for parallel runs."""
 
@@ -131,5 +62,4 @@ class RunConfig:
             os.fsync(f.fileno())
 
 
-table = FileTable()._sync_up()
 run = RunConfig()._sync_up()

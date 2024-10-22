@@ -4,7 +4,6 @@ from . import convert
 from . import plot
 from . import visualize
 
-from .run import Run
-
+Run = run.Run
 
 __all__ = ['run', 'check', 'convert', 'plot', 'visualize', 'Run']

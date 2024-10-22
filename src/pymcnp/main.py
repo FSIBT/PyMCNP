@@ -15,8 +15,7 @@ Commands:
     plot       Plot the output of an MCNP simulation.
     help       Show help for a specific command
 
-PyMCNP help you create, modify, and run MCNP simulations and aparse its output.
-
+PyMCNP helps you create, modify, and run MCNP simulations and aparse its output.
 """
 
 import sys
