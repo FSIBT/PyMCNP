@@ -247,7 +247,7 @@ class Cell(card.Card):
                     INP string for ``CellKeyword`` object.
                 """
 
-                return str(self.value.value) if hasattr(self.value, 'value') else str(self.value)
+                return self.value
 
         def __init__(
             self,
@@ -521,7 +521,7 @@ class Cell(card.Card):
             else:
                 value_str = self.value.value if hasattr(self.value, 'value') else str(self.value)
 
-            return f'{self.keyword}{suffix_str}{designator_str}={value_str}'
+            return f'{self.keyword.to_mcnp()}{suffix_str}{designator_str}={value_str}'
 
         def to_arguments(self) -> dict:
             """

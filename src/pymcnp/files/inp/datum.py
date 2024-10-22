@@ -219,7 +219,7 @@ class Datum(Card):
                 INP string for ``DatumMnemonic`` object.
             """
 
-            return str(self)
+            return self.value
 
     def __init__(
         self,
@@ -1103,7 +1103,7 @@ class Datum(Card):
             else:
                 parameters_str += f' {parameter.to_mcnp()}'
 
-        return f'{self.mnemonic}{suffix_str}{designator_str}{parameters_str}'
+        return f'{self.mnemonic.to_mcnp()}{suffix_str}{designator_str}{parameters_str}'
 
     def to_arguments(self) -> list:
         """
@@ -1119,9 +1119,7 @@ class Datum(Card):
         """
 
         return {
-            'mnemonic': (
-                self.mnemonic.to_mcnp() if hasattr(self.mnemonic, 'to_mcnp') else self.mnemonic
-            ),
+            'mnemonic': (self.mnemonic.to_mcnp()),
             'm': self.suffix.to_mcnp() if hasattr(self, 'suffix') else None,
             'n': self.designator.to_mcnp() if hasattr(self, 'designator') else None,
             'parameters': tuple(

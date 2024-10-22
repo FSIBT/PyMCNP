@@ -566,7 +566,7 @@ class Surface(card.Card):
             for parameter in self.parameters
         )
 
-        source = f'{number_str} {transform_str} {self.mnemonic} {parameter_str}'
+        source = f'{number_str} {transform_str} {self.mnemonic.to_mcnp()} {parameter_str}'
 
         return _parser.Postprocessor.add_continuation_lines(source)
 
