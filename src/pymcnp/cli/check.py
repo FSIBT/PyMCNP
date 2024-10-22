@@ -12,6 +12,7 @@ import sys
 
 from docopt import docopt
 from rich import print
+from rich.panel import Panel
 
 import pymcnp
 
@@ -27,6 +28,14 @@ def main() -> None:
 
     input_file = Path(args['<input_file>'])
 
+    print(
+        Panel(
+            '[orange3]Warning[/] PyMCNP is just getting started.'
+            'Please double check the output to make sure everyhing is working as expected'
+            'If you find an error, please report it at https://github.com/FSIBT/PyMCNP/issues'
+        )
+    )
+
     if not input_file.is_file():
         print(f'[red]ERROR[/] Input file {input_file} does not exists.')
         sys.exit(1)
@@ -35,6 +44,11 @@ def main() -> None:
         data = pymcnp.read_input(input_file)
     except:  # noqa
         print('[red]ERROR[/] Cannot read input file.')
+        print(
+            '     We would appreciate if you can report this '
+            '(and if possible share the input file) at https://github.com/FSIBT/PyMCNP/issues'
+            'Thanks! -- your PyMCNP team'
+        )
         sys.exit(2)
 
     if args['--fix']:
