@@ -5579,7 +5579,7 @@ class Material(Datum):
                 INP string for ``MaterialOption`` object.
             """
 
-            return f'{Material.MaterialOption.MaterialKeyword(self.keyword)}={self.value}'
+            return f'{self.keyword.to_mcnp()}={self.value.to_mcnp()}'
 
     class Gas(MaterialOption):
         """
@@ -7433,7 +7433,7 @@ class ActivationControl(Datum):
                 INP string for ``ActivationOption`` object.
             """
 
-            return f'{ActivationControl.ActivationControlOption.ActivationControlKeyword(self.keyword)}={self.value}'
+            return f'{self.keyword.to_mcnp()}={self.value.to_mcnp()}'
 
     class Fission(ActivationControlOption):
         """
@@ -8680,7 +8680,7 @@ class SourceDefinition(Datum):
                 INP string for ``SourceDefinitionOption`` object.
             """
 
-            return f'{self.keyword.value}={self.value}'
+            return f'{self.keyword.to_mcnp()}={self.value.to_mcnp()}'
 
     class Cel(SourceDefinitionOption):
         """
@@ -9708,7 +9708,7 @@ class Random(Datum):
                 INP string for ``RandomOption`` object.
             """
 
-            return f'{self.keyword.value}={self.value}'
+            return f'{self.keyword.to_mcnp()}={self.value.to_mcnp()}'
 
     class Gen(RandomOption):
         """
