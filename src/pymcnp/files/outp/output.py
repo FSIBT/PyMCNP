@@ -3,6 +3,8 @@ Read MCNP Output files
 """
 
 from datetime import datetime
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 from scipy.interpolate import griddata as gd
@@ -10,15 +12,13 @@ from scipy.interpolate import griddata as gd
 
 class ReadOutput:
     def __init__(self, filename):
-        self.filename = filename
+        self.filename = Path(filename)
         self.df_info = 0
         self.all_lines = self.read_entire_file()
         self.get_tally_info()
 
     def read_entire_file(self):
-        with open(self.filename) as f:
-            allf = f.readlines()
-        return allf
+        return self.filename.read_text().split('\n')
 
     def read_tally(self, n=0, tally_type='e'):
         start = -1
@@ -40,7 +40,7 @@ class ReadOutput:
 
     def get_runtime(self):
         # in development
-        outp = open(self.filename).read().split('\n')
+        outp = self.filename.read_text().split('\n')
 
         time1 = ''
         time2 = ''
@@ -63,7 +63,7 @@ class ReadOutput:
     def get_nps(self):
         print('Reading output file...')
         nps = 0
-        with open(self.filename) as myfile:
+        with self.filename.open() as myfile:
             for i, line in enumerate(myfile):
                 tmp = line.split()
                 if 'run' in tmp and 'terminated' in tmp:
@@ -426,3 +426,8 @@ def griddata(x, y, z, nbins, xrange=None, yrange=None):
 
     result = gd((x, y), z, (xg, yg))  # , method='cubic')
     return xx, result
+
+
+def read_output(filename: str | Path):
+    filename = Path(filename)
+    return ReadOutput(filename)

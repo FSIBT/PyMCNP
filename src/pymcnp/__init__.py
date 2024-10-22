@@ -4,7 +4,7 @@ from .files import outp
 from .files import ptrac
 from .files import utils
 from .files.inp import Inp, read_input
-from .files.outp import ReadOutput
+from .files.outp import ReadOutput, read_output
 from .files.ptrac import Ptrac
 
 from .version import __version__
@@ -18,6 +18,7 @@ __all__ = [
     'utils',
     'Inp',
     'read_input',
+    'read_output',
     'ReadOutput',
     'Ptrac',
     '__version__',
