@@ -1,14 +1,17 @@
 """
 Usage:
-    pymcnp run <file> [ --parallel=<threads> ]
+    pymcnp run <file> [ --parallel=<threads> ] [ options ]
 
 Options:
     -p --parallel=<threads>       Run files in parallel on <threads> threads.
+    -c --command=<command>        Command to run.
+    -P --path=<path>              Path to use.
 """
 
-import inspect
 import os
+import inspect
 from typing import Final
+from path import Path
 
 from docopt import docopt
 
@@ -157,7 +160,10 @@ def main() -> None:
     args = docopt(__doc__)
 
     inp = files.inp.Inp.from_mcnp_file(args['<file>'])
-    run = Run(inp, path='.', command='demo')
+    command = args['--command'] if args['--command'] else 'mcnp6'
+    path = args['--path'] if args['--path'] else Path.csw()
+
+    run = Run(inp, path=path, command=command)
 
     if args['--parallel'] is not None:
         run.run_parallel(int(args['--parallel']))
