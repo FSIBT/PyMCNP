@@ -11,7 +11,7 @@ Options:
 import os
 import inspect
 from typing import Final
-from path import Path
+from pathlib import Path
 
 from docopt import docopt
 
@@ -137,7 +137,15 @@ class Run:
             script_path = f'{subdirectory_path}/pymcnp-python-{timestamp}-{n}.py'
             with open(script_path, 'w') as file:
                 file.write(
-                    f'import os\ndef parallel_prehook():\n{"".join(line[4:] for line in inspect.getsourcelines(self.parallel_prehook)[0][2:])}\ndef parallel_posthook():\n{''.join(line[4:] for line in inspect.getsourcelines(self.parallel_posthook)[0][2:])}\nif __name__ == "__main__":\n    parallel_prehook()\n    os.system("{self.command} {inp_path}")\n    parallel_posthook()'
+                    f"import os\n"
+                    f"def parallel_prehook():\n"
+                    f"{''.join(line[4:] for line in inspect.getsourcelines(self.parallel_prehook)[0][2:])}\n"
+                    f"def parallel_posthook():\n"
+                    f"{''.join(line[4:] for line in inspect.getsourcelines(self.parallel_posthook)[0][2:])}\n"
+                    f'if __name__ == "__main__":\n'
+                    f"    parallel_prehook()\n"
+                    f'    os.system("{self.command} {inp_path}")\n'
+                    f"    parallel_posthook()"
                 )
 
             args.append(f'{script_path}')
