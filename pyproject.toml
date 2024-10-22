@@ -23,19 +23,20 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Physics",
 ]
 dependencies = [
-    "hypothesis",
+    "Sphinx",
+    "docopt",
     "matplotlib",
+    "myst_parser",
     "numpy",
     "pandas",
     "pytest",
+    "rich",
     "scipy",
-    "Sphinx",
     "sphinx_rtd_theme",
-    "myst_parser",
-    "docopt",
 ]
 
 [project.urls]
