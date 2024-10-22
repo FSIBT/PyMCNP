@@ -1096,7 +1096,9 @@ class Datum(Card):
 
         parameters_str = ''
         for parameter in self.parameters:
-            if isinstance(parameter, tuple):
+            if parameter is None:
+                continue
+            elif isinstance(parameter, tuple):
                 parameters_str += f" {' '.join([str(entry) for entry in parameter])}"
             elif not hasattr(parameter, 'to_mcnp'):
                 parameters_str += f' {str(parameter)}'
