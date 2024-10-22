@@ -121,8 +121,8 @@ class Inp:
 
         return Inp(title, cell_block, surface_block, datum_block, message=message, other=other)
 
-    @classmethod
-    def from_mcnp_file(cls, filename: str):
+    @staticmethod
+    def from_mcnp_file(filename: str):
         """
         ``from_mcnp_file`` generates ``Inp`` objects from INP files.
 
@@ -140,7 +140,7 @@ class Inp:
         with open(filename) as file:
             source = ''.join(file.readlines())
 
-        return cls.from_mcnp(source)
+        return Inp.from_mcnp(source)
 
     def to_mcnp(self) -> str:
         """
