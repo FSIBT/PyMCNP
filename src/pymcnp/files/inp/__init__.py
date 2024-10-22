@@ -95,7 +95,7 @@ from .comment import Comment
 from .cells import Cells
 from .surfaces import Surfaces
 from .data import Data
-from .inp import Inp
+from .inp import Inp, read_input
 
 CellGeometry = Cell.CellGeometry
 CellOption = Cell.CellOption
@@ -550,4 +550,5 @@ __all__ = [
     'Surfaces',
     'Data',
     'Inp',
+    'read_input',
 ]

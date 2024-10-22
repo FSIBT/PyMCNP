@@ -1,17 +1,19 @@
 """
 Usage:
-    pymcnp ls [<args>...]
     pymcnp run [<args>...]
-    pymcnp file [<args>...]
-    pymcnp ptrac [<args>...]
+    pymcnp check [<args>...]
+    pymcnp visualize [<args>...]
+    pymcnp convert [<args>...]
+    pymcnp plot [<args>...]
     pymcnp help <command>
 
 Commands:
-    ls      List aliases or alias content.
-    run     Run MCNP.
-    file    Create alias
-    ptrac   Edit PTRAC files.
-    help    Show help for a specific command
+    run        Run MCNP.
+    check      Check if we can parse an input file.
+    visualize  Create a 3D visualization of an input file.
+    convert    Convert the output of an MCNP run into a pandas dataframe.
+    plot       Plot the output of an MCNP simulation.
+    help       Show help for a specific command
 
 PyMCNP help you create, modify, and run MCNP simulations and aparse its output.
 
@@ -29,20 +31,28 @@ def main() -> None:
 
     args = docopt(__doc__, version=pymcnp.version.__version__, options_first=True)
 
-    if args['ls']:
-        pymcnp.cli.ls.main()
-    elif args['run']:
+    if args['run']:
         pymcnp.cli.run.main()
-    elif args['file']:
-        pymcnp.cli.file.main()
+    elif args['check']:
+        pymcnp.cli.check.main()
+    elif args['visualize']:
+        pymcnp.cli.visualize.main()
+    elif args['convert']:
+        pymcnp.cli.convert.main()
+    elif args['plot']:
+        pymcnp.cli.plot.main()
     elif args['help']:
         argv = sys.argv + ['--help']
-        if args['<command>'] == 'file':
-            docopt(pymcnp.cli.file.__doc__, argv=argv)
-        elif args['<command>'] == 'ls':
-            docopt(pymcnp.cli.ls.__doc__, argv=argv)
-        elif args['<command>'] == 'run':
+        if args['<command>'] == 'run':
             docopt(pymcnp.cli.run.__doc__, argv=argv)
+        elif args['<command>'] == 'check':
+            docopt(pymcnp.cli.check.__doc__, argv=argv)
+        elif args['<command>'] == 'visualize':
+            docopt(pymcnp.cli.visualize.__doc__, argv=argv)
+        elif args['<command>'] == 'convert':
+            docopt(pymcnp.cli.convert.__doc__, argv=argv)
+        elif args['<command>'] == 'plot':
+            docopt(pymcnp.cli.plot.__doc__, argv=argv)
         else:
             print(f'Unknown command: {args["<command>"]}')
 

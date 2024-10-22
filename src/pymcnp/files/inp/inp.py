@@ -5,7 +5,10 @@
 interface for INP files.
 """
 
+from pathlib import Path
 from typing import Final
+
+from rich import print
 
 from . import cells
 from . import surfaces
@@ -37,8 +40,8 @@ class Inp:
         cells: cells.Cells,
         surfaces: surfaces.Surfaces,
         data: data.Data,
-        message: str = '',
-        other: str = '',
+        message: str = "",
+        other: str = "",
     ):
         """
         ``__init__`` initializes ``Inp``.
@@ -54,7 +57,9 @@ class Inp:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_CELLS)
 
         if surfaces is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_SURFACES)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_INP_SURFACES
+            )
 
         if data is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
@@ -86,43 +91,46 @@ class Inp:
 
         source = _parser.Preprocessor.process_inp(source, hasComments=False)
         lines = _parser.Parser(
-            source.split('\n'), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_INP)
+            source.split("\n"),
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_INP),
         )
 
         # Processing Message & Title
-        message = lines.popl()[:9] if lines.peekl()[:9] == 'message:' else ''
+        message = lines.popl()[:9] if lines.peekl()[:9] == "message:" else ""
         title = lines.popl()
 
         # Processing Cell Cards
-        cell_source = ''
-        while lines.peekl() != '':
-            cell_source += lines.popl() + '\n'
+        cell_source = ""
+        while lines.peekl() != "":
+            cell_source += lines.popl() + "\n"
         cell_block = cells.Cells.from_mcnp(cell_source)
 
         lines.popl()
 
         # Processing Surface Cards
-        surface_source = ''
-        while lines and lines.peekl() != '':
-            surface_source += lines.popl() + '\n'
+        surface_source = ""
+        while lines and lines.peekl() != "":
+            surface_source += lines.popl() + "\n"
         surface_block = surfaces.Surfaces.from_mcnp(surface_source)
 
         lines.popl()
 
         # Processing Datum Cards
-        data_source = ''
-        while lines and lines.peekl() != '':
-            data_source += lines.popl() + '\n'
+        data_source = ""
+        while lines and lines.peekl() != "":
+            data_source += lines.popl() + "\n"
         datum_block = data.Data.from_mcnp(data_source)
 
-        other = ''
+        other = ""
         while lines:
             other += lines.popl()
 
-        return Inp(title, cell_block, surface_block, datum_block, message=message, other=other)
+        return Inp(
+            title, cell_block, surface_block, datum_block, message=message, other=other
+        )
 
     @staticmethod
-    def from_mcnp_file(filename: str):
+    def from_mcnp_file(filename: str | Path):
         """
         ``from_mcnp_file`` generates ``Inp`` objects from INP files.
 
@@ -136,9 +144,8 @@ class Inp:
             ``Inp`` object.
         """
 
-        source = ''
-        with open(filename) as file:
-            source = ''.join(file.readlines())
+        filename = Path(filename)
+        source = filename.read_text()
 
         return Inp.from_mcnp(source)
 
@@ -154,19 +161,19 @@ class Inp:
         """
 
         # Appending Message
-        source = self.message + '\n' if self.message else ''
+        source = self.message + "\n" if self.message else ""
 
         # Appending Title
-        source += self.title + '\n'
+        source += self.title + "\n"
 
         # Appending Blocks
-        source += self.cells.to_mcnp() + '\n'
-        source += self.surfaces.to_mcnp() + '\n'
-        source += self.data.to_mcnp() + '\n'
+        source += self.cells.to_mcnp() + "\n"
+        source += self.surfaces.to_mcnp() + "\n"
+        source += self.data.to_mcnp() + "\n"
 
         return source
 
-    def to_mcnp_file(self, filename: str) -> int:
+    def to_mcnp_file(self, filename: str | Path) -> int:
         """
         ``to_mcnp`` generates INP from ``Inp`` objects.
 
@@ -180,8 +187,8 @@ class Inp:
             Number of bytes written.
         """
 
-        with open(filename, 'w') as file:
-            return file.write(self.to_mcnp())
+        filename = Path(filename)
+        filename.write_text(self.to_mcnp())
 
         return 0
 
@@ -198,10 +205,19 @@ class Inp:
         """
 
         return {
-            'message': self.message,
-            'title': self.title,
-            'cells': self.cells.to_arguments(),
-            'surfaces': self.surfaces.to_arguments(),
-            'data': self.data.to_arguments(),
-            'other': self.other,
+            "message": self.message,
+            "title": self.title,
+            "cells": self.cells.to_arguments(),
+            "surfaces": self.surfaces.to_arguments(),
+            "data": self.data.to_arguments(),
+            "other": self.other,
         }
+
+
+def read_input(filename: Path | str) -> Inp:
+    filename = Path(filename)
+
+    if not filename.is_file():
+        print(f"[red]ERROR[/] Input file {filename} does not exists.")
+
+    return Inp.from_mcnp_file(filename)
