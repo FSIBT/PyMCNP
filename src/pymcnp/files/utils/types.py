@@ -281,29 +281,29 @@ class McnpInteger:
         value: Integer or J jump symbol.
     """
 
-    def __init__(self, integer: int | Literal['j']):
+    def __init__(self, value: int | Literal['j']):
         """
         ``__init__`` initializes ``McnpInteger``.
 
         Parameters:
-            integer: Integer or J jump symbol.
+            value: Integer or J jump symbol.
 
         Raises:
             MCNPSemanticError: INVALID_MCNP_INTEGER.
         """
 
-        if integer is None:
+        if value is None:
             raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(integer)
+                errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(value)
             )
 
-        if isinstance(integer, int):
-            value = integer
-        elif integer == 'j':
+        if isinstance(value, int):
+            value = value
+        elif value == 'j':
             value = 'j'
         else:
             raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(integer)
+                errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(value)
             )
 
         self.value: Final[int | Literal['j']] = value
@@ -318,7 +318,7 @@ class McnpInteger:
         and INP parser helper function.
 
         Parameters:
-            source: INP for integer.
+            source: INP for value.
 
         Returns:
             ``McnpInteger`` object.
@@ -331,15 +331,15 @@ class McnpInteger:
             content = re.split(r'[+-]', source)
 
             if len(delimiters) == 2:
-                integer = int(float(f'{delimiters[0]}{content[1]}e{delimiters[1]}{content[2]}'))
+                value = int(float(f'{delimiters[0]}{content[1]}e{delimiters[1]}{content[2]}'))
             else:
-                integer = int(float(f'{content[0]}e{delimiters[0]}{content[1]}'))
+                value = int(float(f'{content[0]}e{delimiters[0]}{content[1]}'))
         elif re.match(r'\A[+-]?[0-9]+\Z', source):
-            integer = int(source)
+            value = int(source)
         else:
-            integer = source
+            value = source
 
-        return McnpInteger(integer)
+        return McnpInteger(value)
 
     def to_mcnp(self):
         """
@@ -404,29 +404,29 @@ class McnpReal:
 
     JUMP = 'j'
 
-    def __init__(self, real: float | Literal['j']):
+    def __init__(self, value: float | Literal['j']):
         """
         ``__init__`` initializes ``McnpReal``.
 
         Parameters:
-            real: Floating-point number or J jump symbol.
+            value: Floating-point number or J jump symbol.
 
         Raises:
             MCNPSemanticError: INVALID_MCNP_REAL.
         """
 
-        if real is None:
+        if value is None:
             raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(real)
+                errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(value)
             )
 
-        if isinstance(real, float) or isinstance(real, int):
-            value = float(real)
-        elif real == 'j':
+        if isinstance(value, float) or isinstance(value, int):
+            value = float(value)
+        elif value == 'j':
             value = 'j'
         else:
             raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(real)
+                errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(value)
             )
 
         self.value: Final[float | Literal['j']] = value
@@ -441,7 +441,7 @@ class McnpReal:
         and INP parser helper function.
 
         Parameters:
-            source: INP for real.
+            source: INP for value.
 
         Returns:
             ``McnpReal`` object.
@@ -452,19 +452,19 @@ class McnpReal:
         if re.match(
             r'\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([Ee]([+-][0-9]+))?\Z', source
         ):
-            real = float(source)
+            value = float(source)
         elif re.match(r'\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([+-][0-9]+)?\Z', source):
             delimiters = re.findall(r'[+-]', source)
             content = re.split(r'[+-]', source)
 
             if len(delimiters) == 2:
-                real = float(f'{delimiters[0]}{content[1]}e{delimiters[1]}{content[2]}')
+                value = float(f'{delimiters[0]}{content[1]}e{delimiters[1]}{content[2]}')
             else:
-                real = float(f'{content[0]}e{delimiters[0]}{content[1]}')
+                value = float(f'{content[0]}e{delimiters[0]}{content[1]}')
         else:
-            real = source
+            value = source
 
-        return McnpReal(real)
+        return McnpReal(value)
 
     def to_mcnp(self):
         """

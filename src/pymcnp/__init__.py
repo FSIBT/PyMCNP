@@ -6,7 +6,7 @@ from .files import utils
 from .files.inp import Inp, read_input
 from .files.outp import ReadOutput, read_output
 from .files.ptrac import Ptrac
-
+from .functions import modify
 from .version import __version__
 
 
@@ -21,5 +21,6 @@ __all__ = [
     'read_output',
     'ReadOutput',
     'Ptrac',
+    'modify',
     '__version__',
 ]
