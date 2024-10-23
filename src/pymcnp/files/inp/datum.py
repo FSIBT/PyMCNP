@@ -9,13 +9,13 @@ import re
 from typing import Union, Final
 from enum import Enum
 
-from .card import Card
+from . import _card
 from ..utils import types
 from ..utils import errors
 from ..utils import _parser
 
 
-class Datum(Card):
+class Datum(_card.Card):
     """
     ``Datum`` represents INP data cards.
 

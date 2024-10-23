@@ -9,13 +9,13 @@ import re
 from enum import Enum
 from typing import Union, Final
 
-from . import card
+from . import _card
 from ..utils import _parser
 from ..utils import errors
 from ..utils import types
 
 
-class Cell(card.Card):
+class Cell(_card.Card):
     """
     ``Cell`` represents INP cell cards.
 

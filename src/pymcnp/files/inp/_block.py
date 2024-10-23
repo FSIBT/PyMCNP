@@ -6,8 +6,7 @@ importable interface for INP card blocks.
 """
 
 from __future__ import annotations
-
-from . import card
+from . import _card
 
 
 class Block:
@@ -23,9 +22,9 @@ class Block:
         ``__init__`` initalizes ``Block``.
         """
 
-        self._cards: dict[card.Card] = {}
+        self._cards: dict[_card.Card] = {}
 
-    def append(self, new_card: card.Card) -> int:
+    def append(self, new_card: _card.Card) -> int:
         """
         ``append`` enqueues cards to card block objects.
 
@@ -47,7 +46,7 @@ class Block:
 
         return new_card.id
 
-    def remove(self, old_id: int) -> card.Card:
+    def remove(self, old_id: int) -> _card.Card:
         """
         ``remove`` dequeues cards from ``block``.
 

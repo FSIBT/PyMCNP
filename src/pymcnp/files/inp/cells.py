@@ -5,12 +5,12 @@
 interface for INP cell card blocks.
 """
 
-from .block import Block
+from . import _block
 from .cell import Cell
 from ..utils import _parser
 
 
-class Cells(Block):
+class Cells(_block.Block):
     """
     ``Cells`` represents INP cell card blocks.
 

@@ -5,12 +5,12 @@
 interface for INP data card blocks.
 """
 
-from .block import Block
+from . import _block
 from .datum import Datum
 from ..utils import _parser
 
 
-class Data(Block):
+class Data(_block.Block):
     """
     ``Data`` represents INP data card blocks.
 
