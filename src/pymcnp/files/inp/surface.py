@@ -107,7 +107,9 @@ class Surface(card.Card):
 
             # Processing Mnemonic
             if source not in [enum.value for enum in Surface.SurfaceMnemonic]:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC)
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC, info=source
+                )
 
             return Surface.SurfaceMnemonic(source)
 
@@ -529,6 +531,7 @@ class Surface(card.Card):
 
         try:
             transform_periodic = types.McnpInteger.from_mcnp(tokens.peekl())
+            tokens.popl()
         except Exception:
             transform_periodic = None
 
