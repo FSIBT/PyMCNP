@@ -326,10 +326,16 @@ class McnpInteger:
 
         source = _parser.Preprocessor.process_inp(source)
 
-        if re.match(r'\A[+-]?[0-9]+\Z', source):
+        if re.match(r'\A[+-]?[0-9]+[Ee][+-]?[0-9]+\Z', source):
+            delimiters = re.findall(r'[+-]', source)
+            content = re.split(r'[+-]', source)
+
+            if len(delimiters) == 2:
+                integer = int(float(f'{delimiters[0]}{content[1]}e{delimiters[1]}{content[2]}'))
+            else:
+                integer = int(float(f'{content[0]}e{delimiters[0]}{content[1]}'))
+        elif re.match(r'\A[+-]?[0-9]+\Z', source):
             integer = int(source)
-        elif re.match(r'\A[+-]?[0-9]+[Ee][+-]?[0-9]+\Z', source):
-            integer = int(float(source))
         else:
             integer = source
 
@@ -447,6 +453,14 @@ class McnpReal:
             r'\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([Ee]([+-][0-9]+))?\Z', source
         ):
             real = float(source)
+        elif re.match(r'\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([+-][0-9]+)?\Z', source):
+            delimiters = re.findall(r'[+-]', source)
+            content = re.split(r'[+-]', source)
+
+            if len(delimiters) == 2:
+                real = float(f'{delimiters[0]}{content[1]}e{delimiters[1]}{content[2]}')
+            else:
+                real = float(f'{content[0]}e{delimiters[0]}{content[1]}')
         else:
             real = source
 
