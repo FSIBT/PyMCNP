@@ -40,8 +40,8 @@ class Inp:
         cells: cells.Cells,
         surfaces: surfaces.Surfaces,
         data: data.Data,
-        message: str = "",
-        other: str = "",
+        message: str = '',
+        other: str = '',
     ):
         """
         ``__init__`` initializes ``Inp``.
@@ -57,9 +57,7 @@ class Inp:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_CELLS)
 
         if surfaces is None:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_INP_SURFACES
-            )
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_SURFACES)
 
         if data is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
@@ -91,43 +89,41 @@ class Inp:
 
         source = _parser.Preprocessor.process_inp(source, hasComments=False)
         lines = _parser.Parser(
-            source.split("\n"),
+            source.split('\n'),
             errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_INP),
         )
 
         # Processing Message & Title
-        message = lines.popl()[:9] if lines.peekl()[:9] == "message:" else ""
+        message = lines.popl()[:9] if lines.peekl()[:9] == 'message:' else ''
         title = lines.popl()
 
         # Processing Cell Cards
-        cell_source = ""
-        while lines.peekl() != "":
-            cell_source += lines.popl() + "\n"
+        cell_source = ''
+        while lines.peekl() != '':
+            cell_source += lines.popl() + '\n'
         cell_block = cells.Cells.from_mcnp(cell_source)
 
         lines.popl()
 
         # Processing Surface Cards
-        surface_source = ""
-        while lines and lines.peekl() != "":
-            surface_source += lines.popl() + "\n"
+        surface_source = ''
+        while lines and lines.peekl() != '':
+            surface_source += lines.popl() + '\n'
         surface_block = surfaces.Surfaces.from_mcnp(surface_source)
 
         lines.popl()
 
         # Processing Datum Cards
-        data_source = ""
-        while lines and lines.peekl() != "":
-            data_source += lines.popl() + "\n"
+        data_source = ''
+        while lines and lines.peekl() != '':
+            data_source += lines.popl() + '\n'
         datum_block = data.Data.from_mcnp(data_source)
 
-        other = ""
+        other = ''
         while lines:
             other += lines.popl()
 
-        return Inp(
-            title, cell_block, surface_block, datum_block, message=message, other=other
-        )
+        return Inp(title, cell_block, surface_block, datum_block, message=message, other=other)
 
     @staticmethod
     def from_mcnp_file(filename: str | Path):
@@ -161,15 +157,15 @@ class Inp:
         """
 
         # Appending Message
-        source = self.message + "\n" if self.message else ""
+        source = self.message + '\n' if self.message else ''
 
         # Appending Title
-        source += self.title + "\n"
+        source += self.title + '\n'
 
         # Appending Blocks
-        source += self.cells.to_mcnp() + "\n"
-        source += self.surfaces.to_mcnp() + "\n"
-        source += self.data.to_mcnp() + "\n"
+        source += self.cells.to_mcnp() + '\n'
+        source += self.surfaces.to_mcnp() + '\n'
+        source += self.data.to_mcnp() + '\n'
 
         return source
 
@@ -205,12 +201,12 @@ class Inp:
         """
 
         return {
-            "message": self.message,
-            "title": self.title,
-            "cells": self.cells.to_arguments(),
-            "surfaces": self.surfaces.to_arguments(),
-            "data": self.data.to_arguments(),
-            "other": self.other,
+            'message': self.message,
+            'title': self.title,
+            'cells': self.cells.to_arguments(),
+            'surfaces': self.surfaces.to_arguments(),
+            'data': self.data.to_arguments(),
+            'other': self.other,
         }
 
 
@@ -218,6 +214,6 @@ def read_input(filename: Path | str) -> Inp:
     filename = Path(filename)
 
     if not filename.is_file():
-        print(f"[red]ERROR[/] Input file {filename} does not exists.")
+        print(f'[red]ERROR[/] Input file {filename} does not exists.')
 
     return Inp.from_mcnp_file(filename)
