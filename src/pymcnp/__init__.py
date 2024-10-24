@@ -16,7 +16,7 @@ __all__ = [
     'outp',
     'ptrac',
     'utils',
-    'materials'
+    'materials',
     'Inp',
     'read_input',
     'read_output',

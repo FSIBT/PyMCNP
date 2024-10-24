@@ -552,4 +552,5 @@ __all__ = [
     'Data',
     'Inp',
     'read_input',
+    'materials',
 ]
