@@ -38,6 +38,7 @@ dependencies = [
     "rich",
     "scipy",
     "sphinx_rtd_theme",
+    "molmass",
 ]
 
 [project.urls]
