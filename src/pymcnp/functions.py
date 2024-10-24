@@ -3,9 +3,10 @@ Contains functions to streamline PyMCNP workflows.
 """
 
 import inspect
+from . import files
 
 
-def modify(modificand, modifications: dict[str, any]):
+def modify(modificand, **modifications):
     """
     Updates immutable PyMCNP objects.
 
@@ -47,6 +48,19 @@ def modify(modificand, modifications: dict[str, any]):
             modifier = tuple(collection)
             subattributes[0] = name
 
+        # Type Coercion
+        if not isinstance(modifier, type(new_attributes[subattributes[0]])):
+            if isinstance(
+                new_attributes[subattributes[0]], files.utils.types.McnpInteger
+            ) and isinstance(modifier, int):
+                modifier = files.utils.types.McnpInteger(modifier)
+            if isinstance(
+                new_attributes[subattributes[0]], files.utils.types.McnpReal
+            ) and isinstance(modifier, float):
+                modifier = files.utils.types.McnpReal(modifier)
+
         new_attributes[subattributes[0]] = modifier
 
-    return modificand.__class__(*new_attributes.values())
+    new = modificand.__class__(*new_attributes.values())
+    modificand.__dict__ = new.__dict__
+    new.__class__ = new.__class__
