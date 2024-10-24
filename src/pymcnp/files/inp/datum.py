@@ -6094,10 +6094,12 @@ class Material(Datum):
                 entries = [
                     Material.MaterialValue(
                         zaid,
-                        (-1 if atomic_or_weight else 1)
-                        * mixture_fraction
-                        * compound_fraction
-                        * isotropic_fraction,
+                        types.McnpReal(
+                            (-1 if atomic_or_weight else 1)
+                            * mixture_fraction
+                            * compound_fraction
+                            * isotropic_fraction
+                        ),
                     )
                     for zaid, isotropic_fraction in zaids
                 ]
