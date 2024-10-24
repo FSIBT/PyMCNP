@@ -96,6 +96,7 @@ from .cells import Cells
 from .surfaces import Surfaces
 from .data import Data
 from .inp import Inp, read_input
+from . import materials
 
 CellGeometry = Cell.CellGeometry
 CellOption = Cell.CellOption
