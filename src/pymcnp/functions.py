@@ -12,8 +12,8 @@ def modify(modificand, modifications: dict[str, any]):
     ``modify`` copies of PyMCNP objects and makes the given modifications.
 
     Parameters:
-            modificand: PyMCNP object to copy and modify.
-            modifications: Dictionary of attributes and modifiers.
+        modificand: PyMCNP object to copy and modify.
+        modifications: Dictionary of attributes and modifiers.
     """
 
     new_attributes = {}
@@ -30,13 +30,22 @@ def modify(modificand, modifications: dict[str, any]):
     for attribute, modifier in modifications.items():
         subattributes = attribute.split('.')
 
-        if subattributes[0] not in new_attributes:
+        try:
+            eval(f'modificand.{subattributes[0]}')
+        except AttributeError:
             raise ValueError
 
         if '.' in attribute:
             submodifications = {}
-            submodifications[subattributes[1]] = modifier
+            submodifications['.'.join(subattributes[1:])] = modifier
             modifier = modify(eval(f'modificand.{subattributes[0]}'), submodifications)
+
+        if '[' in attribute:
+            name, index = subattributes[0].split('[', maxsplit=1)
+            collection = list(new_attributes[name])
+            exec(f'collection[{index} = modifier')
+            modifier = tuple(collection)
+            subattributes[0] = name
 
         new_attributes[subattributes[0]] = modifier
 
