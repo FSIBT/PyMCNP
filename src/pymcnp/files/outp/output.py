@@ -19,11 +19,11 @@ class ReadOutput:
 
     def read_entire_file(self):
         return self.filename.read_text().split('\n')
-    
+
     def read_tally(self, n=0):
-        s = self.df_info["line_start"][n]
-        e = self.df_info["line_end"][n]
-        corpus = self.all_lines[s : e]
+        s = self.df_info['line_start'][n]
+        e = self.df_info['line_end'][n]
+        corpus = self.all_lines[s:e]
         corpus_np = np.array([x.split() for x in corpus], dtype=float)
         df = pd.DataFrame(columns=['energy', 'cts', 'error'], data=corpus_np)
         return df
@@ -102,7 +102,7 @@ class ReadOutput:
         corpus_np = np.array([x.split() for x in corpus], dtype=float)
         df = pd.DataFrame(columns=col_names, data=corpus_np)
         return df
-    
+
     @staticmethod
     def parse_tally_info(lst):
         """
@@ -114,60 +114,76 @@ class ReadOutput:
             tmp = line.split()
             if len(tmp) == 0:
                 continue
-            if "1tally" in tmp and "nps" in tmp and len(tmp)>=5:
-                tally_name = f"F{tmp[1]}"
+            if '1tally' in tmp and 'nps' in tmp and len(tmp) >= 5:
+                tally_name = f'F{tmp[1]}'
                 nps = int(tmp[-1])
-            elif "tally" in tmp and "type" in tmp:
-                tally_type = f"F{tmp[2]}"
-                description = " ".join(tmp[3:])
-            elif "particle(s):" in tmp and len(tmp) > 1:
-                particle = " ".join(tmp[1:])
+            elif 'tally' in tmp and 'type' in tmp:
+                tally_type = f'F{tmp[2]}'
+                description = ' '.join(tmp[3:])
+            elif 'particle(s):' in tmp and len(tmp) > 1:
+                particle = ' '.join(tmp[1:])
             else:
-                other.append(" ".join(tmp))
-        other_info = " |***| ".join(other)
-        dic = {"nps":nps, "tally_type":tally_type, "tally_name":tally_name,
-               "description":description, "particle":particle, "other":other_info}
+                other.append(' '.join(tmp))
+        other_info = ' |***| '.join(other)
+        dic = {
+            'nps': nps,
+            'tally_type': tally_type,
+            'tally_name': tally_name,
+            'description': description,
+            'particle': particle,
+            'other': other_info,
+        }
         return dic
-    
+
     def get_tally_info(self):
         blank_idx, erg_idx, time_idx, total_idx = [], [], [], []
-        print("Reading output file...")
+        print('Reading output file...')
         for i, line in enumerate(self.all_lines):
             tmp = line.split()
-            if len(tmp)==0:
+            if len(tmp) == 0:
                 blank_idx.append(i)
-            if "energy" in tmp and len(tmp)==1:
+            if 'energy' in tmp and len(tmp) == 1:
                 erg_idx.append(i)
-            if "time" in tmp and len(tmp)==1:
+            if 'time' in tmp and len(tmp) == 1:
                 time_idx.append(i)
-            if "total" in tmp and len(tmp)==3 and (len(erg_idx)>0 or len(time_idx)>0):
+            if 'total' in tmp and len(tmp) == 3 and (len(erg_idx) > 0 or len(time_idx) > 0):
                 total_idx.append(i)
-        ky_idx = sorted(total_idx+erg_idx+time_idx) # keyword indices
-        ky_idx = np.array(ky_idx).reshape(-1,2)
-        ky_idx[:,0] = ky_idx[:,0] + 1 # remove keyword header 
+        ky_idx = sorted(total_idx + erg_idx + time_idx)  # keyword indices
+        ky_idx = np.array(ky_idx).reshape(-1, 2)
+        ky_idx[:, 0] = ky_idx[:, 0] + 1  # remove keyword header
         blank_idx = np.array(blank_idx)
         # find tally and subtally info indices by looking at blank spaces
         # before the keywords
-        tly_info_idx = []    
-        lines_before_tly = 10 # look for empty lines before tally
-        for x in ky_idx: # this won't work for short tallies
-            tly_info_idx.append(blank_idx[(blank_idx<x[0])&(blank_idx>x[0]-lines_before_tly)].min())
+        tly_info_idx = []
+        lines_before_tly = 10  # look for empty lines before tally
+        for x in ky_idx:  # this won't work for short tallies
+            tly_info_idx.append(
+                blank_idx[(blank_idx < x[0]) & (blank_idx > x[0] - lines_before_tly)].min()
+            )
         tly_info_idx = np.array(tly_info_idx) + 1
-        
+
         # initialize dataframe
-        cols = ["tally_name", "tally_type", "particle", "line_start", "line_end",
-                "description", "nps", "other"]
+        cols = [
+            'tally_name',
+            'tally_type',
+            'particle',
+            'line_start',
+            'line_end',
+            'description',
+            'nps',
+            'other',
+        ]
         df = pd.DataFrame(columns=cols)
 
-        for info,data in zip(tly_info_idx, ky_idx):
+        for info, data in zip(tly_info_idx, ky_idx):
             info_start = info
-            info_end = data[0]-1
+            info_end = data[0] - 1
             data_start = data[0]
             data_end = data[1]
             info_lst = self.all_lines[info_start:info_end]
             info_dict = self.parse_tally_info(info_lst)
-            info_dict["line_start"] = data_start
-            info_dict["line_end"] = data_end
+            info_dict['line_start'] = data_start
+            info_dict['line_end'] = data_end
             df.loc[len(df)] = info_dict
         print('--' * 20)
         print(f'Number of tallies and/or subtallies found: {df.shape[0]}')
@@ -383,12 +399,12 @@ class ReadFmesh:
     def __init__(self, filename):
         self.filename = Path(filename)
         self.all_lines = self.read_entire_file()
-        self.data_idx = 0 # start data index
+        self.data_idx = 0  # start data index
         self.df_info = self.read_tally_info()
-        
+
     def read_entire_file(self):
         return self.filename.read_text().split('\n')
-    
+
     @staticmethod
     def numpy_fillna(data):
         # Get lengths of each row of data
@@ -399,7 +415,7 @@ class ReadFmesh:
         out = np.zeros(mask.shape, dtype=data.dtype)
         out[mask] = np.concatenate(data)
         return out
-    
+
     def read_tally_info(self):
         e0 = np.array([0])
         t0 = np.array([0])
@@ -423,13 +439,13 @@ class ReadFmesh:
         data_info = [e0, t0, x0, y0, z0]
         info_np = np.array(data_info, dtype=object)
         info_np = self.numpy_fillna(info_np)
-        df_info = pd.DataFrame(data=info_np.T, columns=['Ebins', 'tbins',
-                                                        'Xbins', 'Ybins',
-                                                        'Zbins'])
+        df_info = pd.DataFrame(
+            data=info_np.T, columns=['Ebins', 'tbins', 'Xbins', 'Ybins', 'Zbins']
+        )
         return df_info
-    
+
     def read_data(self):
-        data = self.all_lines[self.data_idx + 1 :-1]
+        data = self.all_lines[self.data_idx + 1 : -1]
         data_np = np.array([x.split() for x in data], dtype=float)
         cols = self.all_lines[self.data_idx].split()
         cols.remove('Rel')
@@ -439,7 +455,7 @@ class ReadFmesh:
             cols = [w.replace('Rslt', 'ResVol') for w in cols]
         df = pd.DataFrame(data=data_np, columns=cols)
         return df
-    
+
 
 def read_fmesh(file, mesh_info=False):
     """
