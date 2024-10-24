@@ -227,8 +227,22 @@ class Preprocessor:
             MCNP string without continuation lines.
         """
 
+        # Isolating inline comments
+        string = re.sub(r' [$](.+?)[$]?\n', r' $\1 $\n', string)
+
+        # Processing continuation lines
         string = re.sub(r'\n +\n', '\n\n', string)
         string = re.sub(r'( & *\n)|(\n     )|(\n    )|(\n   )|(\n  )|(\n )', r' ', string)
+
+        # Moving inline comments
+        lines = []
+        for line in string.split('\n'):
+            if '$' in line:
+                comments = re.findall(r'( [$].+?[$])', line)
+                line = re.sub(r'( [$].+?[$])', r'', line)
+                line += ''.join(comments)
+            lines.append(line)
+        string = '\n'.join(lines)
 
         return string
 
@@ -311,23 +325,41 @@ class Preprocessor:
         return output
 
     @staticmethod
-    def process_inp(string: str, hasComments=True, hasColumnarData=True) -> str:
+    def process_inp_comments(string: str) -> tuple:
+        """
+        ``process_inp_comments`` preprocess INP inline comments.
+
+        ``process_inp_comments`` isolates INP inlines comments from the rest of
+        the source code.
+
+        Parameters:
+            string: String to preprocess.
+
+        Returns:
+            Tuple of string and inline comments.
+        """
+
+        string = Preprocessor._process_continuation(string)
+        print(string)
+        string, *comments = re.split(r' [$] [$] | [$] ?', string)
+
+        return string, comments[:-1]
+
+    @staticmethod
+    def process_inp(string: str, hasColumnarData=True) -> str:
         """
         ``process_inp`` preprocesses INP strings.
 
         ``process_inp`` removes extra whitespace, upper case letters, and
         processes continuation lines.
 
-        Parameter:
+        Parameters:
             string: String to preprocess.
-            hasComments: Comment processing setting.
+            hasComments: Process vertical data format flag.
 
         Returns:
             Preprocessed INP.
         """
-
-        if not hasComments:
-            string = Preprocessor._process_comments(string)
 
         string = Preprocessor._process_case(string)
         string = Preprocessor._process_tabs(string)
@@ -353,7 +385,7 @@ class Preprocessor:
 
         ``process_ptrac`` removes extra whitespace and upper case letters.
 
-        Parameter:
+        Parameters:
             string: String to preprocess.
 
         Returns:
@@ -379,7 +411,7 @@ class Postprocessor:
         """
         ``add_continuation_lines`` adds INP continuation lines.
 
-        Parameter:
+        Parameters:
             string: String to postprocessed as needed.
 
         Returns:

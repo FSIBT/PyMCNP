@@ -87,7 +87,8 @@ class Inp:
             ``Inp`` object.
         """
 
-        source = _parser.Preprocessor.process_inp(source, hasComments=False)
+        source = _parser.Preprocessor.process_inp(source)
+
         lines = _parser.Parser(
             source.split('\n'),
             errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_INP),
@@ -117,6 +118,7 @@ class Inp:
         data_source = ''
         while lines and lines.peekl() != '':
             data_source += lines.popl() + '\n'
+
         datum_block = data.Data.from_mcnp(data_source)
 
         other = ''

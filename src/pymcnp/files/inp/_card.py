@@ -28,4 +28,4 @@ class Card:
 
         self.id: Final[Union[int, str]] = ident
         self.line: Final[int] = None
-        self.comment: Final[str] = None
+        self.comment: Final[Union[str, tuple[str]]] = None
