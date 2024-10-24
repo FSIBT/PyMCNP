@@ -9,10 +9,13 @@ import re
 from typing import Union, Final
 from enum import Enum
 
+import molmass
+
 from . import _card
 from ..utils import types
 from ..utils import errors
 from ..utils import _parser
+from ..utils import _elements
 
 
 class Datum(_card.Card):
@@ -5376,7 +5379,7 @@ class Material(Datum):
                 INP string for ``MaterialValue`` object.
             """
 
-            return f'{self.zaid.to_mcnp()} {self.fraction.to_mcnp()}'
+            return f'{self.zaid.to_mcnp()} {self.fraction}'
 
     class MaterialOption:
         """
@@ -6048,6 +6051,60 @@ class Material(Datum):
         self.mnemonic = Datum.DatumMnemonic.MATERIAL
         self.parameters = tuple(list(substances) + list(pairs))
         self.suffix = suffix
+
+    @staticmethod
+    def from_formula(number: int, formulas: dict[str, float], atomic_or_weight: bool = True):
+        """
+        ``from_formula`` generates ``Datum`` objects from INP.
+
+        ``from_formula`` constructs instances of ``Datum`` from chemcials
+        formulas and fractions, so it operates as a class constructor method.
+
+        Parameters:
+            number: Arbitrary material number.
+            formulas: Dictionary of formulas and atomic/weight fractions.
+            atomic_or_weight: Atomtic/Weight fraction true/false flag.
+
+        Returns:
+            ``Datum`` object.
+        """
+
+        substances = []
+        comments = []
+        for formula, mixture_fraction in formulas.items():
+            formula = molmass.Formula(formula)
+
+            composition = formula.composition()
+            for element in composition:
+                compound_fraction = (
+                    composition[element].fraction
+                    if atomic_or_weight
+                    else composition[element].mass / formula.mass
+                )
+
+                zaids = [
+                    (types.Zaid(_elements.ELEMENTS[element]['z'], a), isotropic_fraction)
+                    for a, isotropic_fraction in _elements.ELEMENTS[element]['fraction'].items()
+                ]
+                subcomments = [f'{element}-{zaid.a:03}' for zaid, _ in zaids]
+                entries = [
+                    Material.MaterialValue(
+                        zaid,
+                        (-1 if atomic_or_weight else 1)
+                        * mixture_fraction
+                        * compound_fraction
+                        * isotropic_fraction,
+                    )
+                    for zaid, isotropic_fraction in zaids
+                ]
+
+                comments += subcomments
+                substances += entries
+
+        material = Material(substances, {}, suffix=types.McnpInteger(number))
+        material.comment = tuple(comments)
+
+        return material
 
 
 class MaterialNeutronScattering(Datum):
