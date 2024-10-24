@@ -10,7 +10,7 @@ from typing import Final
 from enum import Enum
 
 from . import _card
-from . import _cadquery
+from ..utils import _cadquery
 from ..utils import _parser
 from ..utils import errors
 from ..utils import types
