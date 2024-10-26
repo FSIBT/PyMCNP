@@ -6117,7 +6117,10 @@ class Material(Datum):
 
         if self.comment and isinstance(self.comment, tuple):
             if len(self.comment) == len(self.substances):
-                return f"m{self.suffix.to_mcnp()} {'\n   '.join(f'{substance.to_mcnp()} $ {comment}' for substance, comment in zip(self.substances, self.comment))}"
+                return f'm{self.suffix.to_mcnp()} ' + '\n   '.join(
+                    f'{substance.to_mcnp()} $ {comment}'
+                    for substance, comment in zip(self.substances, self.comment)
+                )
             else:
                 return super().to_mcnp() + ''.join(f' $ {comment}' for comment in self.comments)
         else:
