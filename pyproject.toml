@@ -30,6 +30,7 @@ dependencies = [
     "Sphinx",
     "docopt",
     "matplotlib",
+    "molmass",
     "myst_parser",
     "numpy",
     "pandas",
