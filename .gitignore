@@ -4,6 +4,8 @@ src/pymcnp/version.py
 
 # Editor backups
 *~
+\.\#*
+\#*\#
 
 # General
 .DS_Store
