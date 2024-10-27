@@ -221,6 +221,9 @@ class Inp:
             'other': self.other,
         }
 
+    def __str__(self):
+        return self.to_mcnp()
+
 
 def read_input(filename: Path | str) -> Inp:
     filename = Path(filename)
