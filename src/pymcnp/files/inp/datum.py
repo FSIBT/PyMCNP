@@ -8516,7 +8516,7 @@ class SourceDefinition(Datum):
             BAP = 'bap'
 
             def to_mcnp(self) -> str:
-                return str(self)
+                return str(self.value)
 
             @staticmethod
             def from_mcnp(source: str):
