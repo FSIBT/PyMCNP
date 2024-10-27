@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 import pymcnp
@@ -5,7 +7,8 @@ import pymcnp
 
 @pytest.fixture(scope='module')
 def input_file():
-    return pymcnp.read_input('data/test-input-detector.i')
+    data_dir = Path(__file__).parent / 'data'
+    return pymcnp.read_input(data_dir / 'test-input-detector.i')
 
 
 def test_modify(input_file):
