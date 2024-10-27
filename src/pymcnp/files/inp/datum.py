@@ -8515,6 +8515,9 @@ class SourceDefinition(Datum):
             BEM = 'bem'
             BAP = 'bap'
 
+            def to_mcnp(self) -> str:
+                return str(self)
+
             @staticmethod
             def from_mcnp(source: str):
                 """
@@ -8618,6 +8621,8 @@ class SourceDefinition(Datum):
 
             self.__dict__ = obj.__dict__
             self.__class__ = obj.__class__
+
+            self.value = value
 
         @staticmethod
         def from_mcnp(source: str):
@@ -8755,6 +8760,13 @@ class SourceDefinition(Datum):
             Returns:
                 INP string for ``SourceDefinitionOption`` object.
             """
+
+            if isinstance(self.value, str):
+                return f'{self.keyword.to_mcnp()}={self.value}'
+
+            if isinstance(self.value, tuple):
+                value = ' '.join(k.to_mcnp() for k in self.value)
+                return f'{self.keyword.to_mcnp()}={value}'
 
             return f'{self.keyword.to_mcnp()}={self.value.to_mcnp()}'
 
