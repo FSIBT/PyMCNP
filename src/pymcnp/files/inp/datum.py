@@ -8442,10 +8442,29 @@ class Lea(Datum):
 
 
 class _Placeholder(Datum):
+    """Placeholder for F8, FT8, etc."""
+
     def __init__(self, mnemonic: Datum.DatumMnemonic, parameters: tuple[any]):
         self.id = mnemonic
         self.mnemonic = mnemonic
         self.parameters = parameters
+
+    def to_mcnp(self):
+        tmp = []
+        # convert all parameters to strings
+        for parameter in self.parameters:
+            parameters_str = ''
+            if parameter is None:
+                continue
+            elif isinstance(parameter, tuple):
+                parameters_str += ' '.join([str(entry) for entry in parameter])
+            elif not hasattr(parameter, 'to_mcnp'):
+                parameters_str += str(parameter)
+            else:
+                parameters_str += parameter.to_mcnp()
+
+            tmp.append(parameters_str)
+        return ' '.join(tmp)
 
 
 class SourceDefinition(Datum):
