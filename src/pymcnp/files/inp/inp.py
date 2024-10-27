@@ -147,7 +147,7 @@ class Inp:
 
         return Inp.from_mcnp(source)
 
-    def to_mcnp(self) -> str:
+    def to_mcnp(self, comments: bool = True) -> str:
         """
         ``to_mcnp`` generates INP from ``Inp`` objects.
 
@@ -165,7 +165,16 @@ class Inp:
         source += self.title + '\n'
 
         # Appending Blocks
+        if comments:
+            source += 'c ============================================================\n'
+            source += 'c                        cell definitions\n'
+            source += 'c ============================================================\n'
         source += self.cells.to_mcnp() + '\n'
+
+        if comments:
+            source += 'c ============================================================\n'
+            source += 'c                        surface definitions\n'
+            source += 'c ============================================================\n'
         source += self.surfaces.to_mcnp() + '\n'
         source += self.data.to_mcnp() + '\n'
 
