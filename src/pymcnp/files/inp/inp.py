@@ -6,6 +6,7 @@ interface for INP files.
 """
 
 from pathlib import Path
+import sys
 from typing import Final
 
 from rich import print
@@ -226,5 +227,6 @@ def read_input(filename: Path | str) -> Inp:
 
     if not filename.is_file():
         print(f'[red]ERROR[/] Input file {filename} does not exists.')
+        sys.exit(1)
 
     return Inp.from_mcnp_file(filename)
