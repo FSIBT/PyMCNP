@@ -22,3 +22,4 @@ Table of Contents
    contributing.md
    cli.rst
    pymcnp.rst
+   examples.md
