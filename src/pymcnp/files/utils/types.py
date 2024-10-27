@@ -112,7 +112,8 @@ class Zaid:
 
         source = _parser.Preprocessor.process_inp(source)
         tokens = _parser.Parser(
-            source.split('.'), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_ZAID)
+            source.split('.'),
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_ZAID),
         )
 
         zzzaaa = tokens.popl()
@@ -226,7 +227,8 @@ class Designator:
         for particle in particles:
             if particle is None:
                 raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=str(particles)
+                    errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR,
+                    info=str(particles),
                 )
 
         self.particles: Final[tuple[Designator.Particle]] = particles
@@ -332,6 +334,8 @@ class McnpInteger:
 
             if len(delimiters) == 2:
                 value = int(float(f'{delimiters[0]}{content[1]}e{delimiters[1]}{content[2]}'))
+            elif len(delimiters) == 0:
+                value = int(float(source))
             else:
                 value = int(float(f'{content[0]}e{delimiters[0]}{content[1]}'))
         elif re.match(r'\A[+-]?[0-9]+\Z', source):
@@ -450,7 +454,8 @@ class McnpReal:
         source = _parser.Preprocessor.process_inp(source)
 
         if re.match(
-            r'\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([Ee]([+-][0-9]+))?\Z', source
+            r'\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([Ee]([+-][0-9]+))?\Z',
+            source,
         ):
             value = float(source)
         elif re.match(r'\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([+-][0-9]+)?\Z', source):
