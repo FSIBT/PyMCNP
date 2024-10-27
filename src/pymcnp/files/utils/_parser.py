@@ -340,7 +340,6 @@ class Preprocessor:
         """
 
         string = Preprocessor._process_continuation(string)
-        print(string)
         string, *comments = re.split(r' [$] [$] | [$] ?', string)
 
         return string, comments[:-1]
