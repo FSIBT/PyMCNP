@@ -1,7 +1,16 @@
 PyMCNP Documentation
 ====================
 
-PyMCNP is a Python package and command line interface (CLI) for interacting with `Monte Carlo N-Particle <https://mcnp.lanl.gov>`_ (MCNP). The `Fusion Science & Ion Beam Technology Group <https://atap.lbl.gov/research/scientific-programs-and-centers/fusion-science-ion-beam-technology-program/>`_ (FS&IBT) at `Lawrence Berkeley National Laboratory <https://lbl.gov>`_ (LBNL) developed PyMCNP to enable reserach with MCNP simulations. PyMCNP parsers MCNP input and output files, creates simulation geometry visualizations, and runs MCNP simulations in parallel.
+PyMCNP is a Python package and command line interface (CLI) for
+interacting with `Monte Carlo N-Particle <https://mcnp.lanl.gov>`_
+(MCNP). PyMCNP parsers MCNP input and output files. It can also create
+MCNP input files, as well as, visualize the simulation geometry, and
+runs MCNP simulations (including automated parallel runs on single
+desktops, multiple computers, or SLURM enabled clusters).
+
+PyMCNP allows to automate parameter scans, split long runs in many
+smaller runs for easy parallelization, automated optimization of
+parameters.
 
 Table of Contents
 -----------------
@@ -11,5 +20,5 @@ Table of Contents
 
    installation.md
    contributing.md
-   pymcnp.rst
    cli.rst
+   pymcnp.rst
