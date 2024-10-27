@@ -506,7 +506,7 @@ class Surface(_card.Card):
         # Processing Inline Comment
         comment = None
         if '$' in source:
-            source, comment = source.split('$')
+            source, comment = source.split('$', maxsplit=1)
 
         source = _parser.Preprocessor.process_inp(source)
         tokens = _parser.Parser(
