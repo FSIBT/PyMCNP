@@ -6,6 +6,7 @@ importable interface for INP card blocks.
 """
 
 from __future__ import annotations
+from typing import Union
 from . import _card
 
 
@@ -68,3 +69,12 @@ class Block:
             return self._cards.pop(old_id)
         except KeyError:
             return None
+
+    def __getitem__(self, index: Union[str, int]) -> _card.Card:
+        try:
+            return self._cards[index]
+        except KeyError:
+            raise KeyError
+
+    def __contains__(self, item: Union[str, int]) -> _card.Card:
+        return item in self._cards
