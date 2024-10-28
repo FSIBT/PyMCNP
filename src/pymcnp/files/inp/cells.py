@@ -80,3 +80,12 @@ class Cells(_block.Block):
         """
 
         return [card.to_arguments() for card in self._cards.values()]
+
+    def __getitem__(self, index: int) -> Cell:
+        try:
+            return self._cards[index]
+        except KeyError:
+            raise KeyError
+
+    def __contains__(self, item: str) -> Cell:
+        return item in self._cards

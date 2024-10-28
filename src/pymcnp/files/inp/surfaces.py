@@ -122,3 +122,12 @@ class Surfaces(_block.Block):
 
         with open(filename, 'w') as file:
             file.write(self.to_cadquery(hasHeader))
+
+    def __getitem__(self, index: int) -> Surface:
+        try:
+            return self._cards[index]
+        except KeyError:
+            raise KeyError
+
+    def __contains__(self, item: str) -> Surface:
+        return item in self._cards
