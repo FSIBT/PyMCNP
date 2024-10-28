@@ -1,5 +1,5 @@
-Support Syntax
-==============
+Supported Syntax
+================
 
 A list of MCNP input files syntax that PyMCNP is currently supporting.
 
