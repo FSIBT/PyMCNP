@@ -1524,11 +1524,8 @@ class Cell(_card.Card):
         """
 
         # Processing Inline Comment
-        comment = None
-        if '$' in source:
-            source, comment = source.split('$')
-
         source = _parser.Preprocessor.process_inp(source)
+        source, comments = _parser.Preprocessor.process_inp_comments(source)
         tokens = _parser.Parser(
             re.split(r' |=', source),
             errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL),
@@ -1573,7 +1570,7 @@ class Cell(_card.Card):
 
         cell = Cell(number, material, density, geometry, options)
         cell.line = line
-        cell.comment = comment
+        cell.comment = comments
 
         return cell
 

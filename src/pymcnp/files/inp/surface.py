@@ -504,11 +504,8 @@ class Surface(_card.Card):
         """
 
         # Processing Inline Comment
-        comment = None
-        if '$' in source:
-            source, comment = source.split('$', maxsplit=1)
-
         source = _parser.Preprocessor.process_inp(source)
+        source, comments = _parser.Preprocessor.process_inp_comments(source)
         tokens = _parser.Parser(
             source.split(' '), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE)
         )
@@ -547,7 +544,7 @@ class Surface(_card.Card):
             is_reflecting=is_reflecting,
         )
         surface.line = line
-        surface.comment = comment
+        surface.comment = comments
 
         return surface
 
