@@ -9959,7 +9959,7 @@ class Random(Datum):
         self.mnemonic: Final[Datum.DatumMnemonic] = Datum.DatumMnemonic.RANDOM
         self.parameters: Final[tuple] = pairs
 
-        self.pairs: Final[Random.RandomOption] = pairs
+        self.pairs: Final[tuple[Random.RandomOption]] = pairs
 
 
 class Print(Datum):
