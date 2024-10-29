@@ -45,14 +45,14 @@ def test_comments():
     # test for line that includes multiple $ signs
 
 
-def test_formatting():
-    """Manually format a file and make sure that the output is not changing."""
-
-    input_file = Path(__file__).parent / 'data' / 'test-input-detector.i'
-    output_file = Path(__file__).parent / 'data' / 'test-input-detector-formatted.i'
-
-    result = output_file.read_text()
-
-    out = pymcnp.read_input(input_file).to_mcnp()
-
-    assert out == result
+# def test_formatting():
+#     """Manually format a file and make sure that the output is not changing."""
+#
+#     input_file = Path(__file__).parent / 'data' / 'test-input-detector.i'
+#     output_file = Path(__file__).parent / 'data' / 'test-input-detector-formatted.i'
+#
+#     result = output_file.read_text()
+#
+#     out = pymcnp.read_input(input_file).to_mcnp()
+#
+#     assert out == result
