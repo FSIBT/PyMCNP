@@ -3,6 +3,8 @@ Contains functions to streamline PyMCNP workflows.
 """
 
 import inspect
+import random
+
 from . import files
 
 
@@ -84,7 +86,7 @@ def set_nps(input_: files.inp.Inp, npp: int):
         input_.data.append(files.inp.Datum.from_mcnp(f'nps {npp}'))
 
 
-def set_seed(input_: files.inp.Inp, seed: int):
+def set_seed(input_: files.inp.Inp, seed: int = None):
     """
     Updates the ``seed`` key-value pair on the ``rand`` card.
 
@@ -95,6 +97,13 @@ def set_seed(input_: files.inp.Inp, seed: int):
         input_: PyMCNP INP object with NPS data card to update.
         seed: New random number generator seed.
     """
+
+    if seed is None:
+        seed = random.randint(0, 2**20 - 1)
+
+    # seeds need to be odd
+    if seed // 2 == 0:
+        seed += 1
 
     seed = files.utils.types.McnpInteger(seed)
 
