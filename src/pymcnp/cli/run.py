@@ -10,14 +10,15 @@ Options:
 
 import os
 import inspect
+import sys
 from typing import Final
 from pathlib import Path
 
 from docopt import docopt
 
-from .. import files
+from ..files.inp import Inp, read_input
 from . import _io
-
+from ..functions import set_seed, set_nps
 
 DEFAULT_NPP = 1000
 DEFAULT_NPSMG = 1
@@ -39,9 +40,9 @@ class Run:
 
     def __init__(
         self,
-        inp: files.inp.Inp,
-        path: str = '.',
-        command: str = 'mcnp',
+        inp: Inp,
+        path: str | Path = '.',
+        command: str = 'mcnp6',
     ):
         """
         Parameters:
@@ -49,9 +50,9 @@ class Run:
             command: Terminal command to execute.
         """
 
-        self.path: Final[str] = path
+        self.path: Final[str] = Path(path)
         self.command: Final[str] = command
-        self.inp: Final[files.inp.Inp] = inp
+        self.inp: Final[Inp] = inp
 
     @staticmethod
     def prehook():
@@ -69,7 +70,7 @@ class Run:
     def parallel_posthook():
         pass
 
-    def run_single(self) -> str:
+    def run_single(self) -> Path:
         """
         Runs MCNP INP files.
 
@@ -82,19 +83,19 @@ class Run:
 
         timestamp = _io.get_timestamp()
 
-        directory_path = f'{self.path}/pymcnp-run-{timestamp}'
-        os.mkdir(directory_path)
+        directory_path = self.path / f'pymcnp-run-{timestamp}'
+        directory_path.mkdir(exist_ok=False, parents=True)
 
-        inp_path = f'{directory_path}/pymcnp-inp-{timestamp}.inp'
+        inp_path = directory_path / f'pymcnp-inp-{timestamp}.inp'
         self.inp.to_mcnp_file(inp_path)
 
         self.prehook()
-        os.system(f'{self.command} {inp_path}')
+        os.system(f'{self.command} i={inp_path}')
         self.posthook()
 
         return directory_path
 
-    def run_parallel(self, count: int) -> str:
+    def run_parallel(self, count: int) -> Path:
         """
         Runs MCNP INP files in parallel.
 
@@ -115,27 +116,33 @@ class Run:
 
         timestamp = _io.get_timestamp()
 
-        directory_path = f'{self.path}/pymcnp-runs-{timestamp}'
-        os.mkdir(directory_path)
+        directory_path = self.path / f'pymcnp-runs-{timestamp}'
+        directory_path.mkdir(parents=True, exist_ok=False)
 
-        inp_path = f'{directory_path}/pymcnp-inp-{timestamp}.inp'
+        inp_path = directory_path / f'xpymcnp-inp-{timestamp}.inp'
         self.inp.to_mcnp_file(inp_path)
 
-        if 'nps' in self.inp.data:
-            self.inp.data['nps'].npp.value //= count
-        else:
-            self.inp.data.append(files.inp.datum.HistoryCutoff(DEFAULT_NPP // count, DEFAULT_NPSMG))
+        if 'nps' not in self.inp.data:
+            print('ERROR: only support running files with a given nps at the moment')
+            sys.exit(1)
 
+        nps = self.inp.data['nps'].npp.value
+        set_nps(self.inp, nps // count)
+
+        set_seed(self.inp)
+
+        L = len(str(count))  # number of digits
         args = []
         for n in range(0, count):
-            subdirectory_path = f'{directory_path}/pymcnp-run-{n}'
-            os.mkdir(subdirectory_path)
+            subdirectory_path = directory_path / f'pymcnp-run-{n:0{L}d}'
+            subdirectory_path.mkdir(exist_ok=False)
 
-            inp_path = f'{subdirectory_path}/pymcnp-inp-{timestamp}-{n}.inp'
+            inp_path = subdirectory_path / f'pymcnp-inp-{timestamp}-{n:0{L}d}.inp'
+            set_seed(self.inp)
             self.inp.to_mcnp_file(inp_path)
 
-            script_path = f'{subdirectory_path}/pymcnp-python-{timestamp}-{n}.py'
-            with open(script_path, 'w') as file:
+            script_path = subdirectory_path / f'pymcnp-python-{timestamp}-{n:0{L}d}.py'
+            with script_path.open('w') as file:
                 file.write(
                     f"import os\n"
                     f"def parallel_prehook():\n"
@@ -144,14 +151,14 @@ class Run:
                     f"{''.join(line[4:] for line in inspect.getsourcelines(self.parallel_posthook)[0][2:])}\n"
                     f'if __name__ == "__main__":\n'
                     f"    parallel_prehook()\n"
-                    f'    os.system("{self.command} {inp_path}")\n'
+                    f'    os.system("{self.command} i={inp_path}")\n'
                     f"    parallel_posthook()"
                 )
 
             args.append(f'{script_path}')
 
         self.prehook()
-        os.system(f"parallel python3 ::: {' '.join(args)}")
+        os.system(f"parallel {sys.executable} ::: {' '.join(args)}")
         self.posthook()
 
         return directory_path
@@ -167,9 +174,9 @@ def main() -> None:
 
     args = docopt(__doc__)
 
-    inp = files.inp.Inp.from_mcnp_file(args['<file>'])
+    inp = read_input(args['<file>'])
     command = args['--command'] if args['--command'] else 'mcnp6'
-    path = args['--path'] if args['--path'] else Path.csw()
+    path = args['--path'] if args['--path'] else Path.cwd()
 
     run = Run(inp, path=path, command=command)
 
