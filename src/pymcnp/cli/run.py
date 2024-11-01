@@ -6,16 +6,15 @@ Options:
     -p --parallel=<threads>       Run files in parallel on <threads> threads.
     -c --command=<command>        Command to run.
     -P --path=<path>              Path to use.
+    -S --hosts=<hosts>            Comma separated ist of hosts to run on.
     -n --dry-run                  Don't run or create directories, just print what would happen
 """
 
 import os
-import inspect
 from pathlib import Path
 import shutil
 import subprocess
 import sys
-from typing import Final
 
 from docopt import docopt
 from rich import print
@@ -44,7 +43,7 @@ class Run:
 
     def __init__(
         self,
-        inp: Inp,
+        inp: Path | Inp,
         path: str | Path = Path('.'),
         command: str = 'mcnp6',
         dry_run: bool = False,
@@ -55,25 +54,22 @@ class Run:
             command: Terminal command to execute.
         """
 
-        self.path: Final[Path] = Path(path)
-        self.command: Final[str] = command
-        self.inp: Final[Inp] = inp
+        self.command: str = command
         self.dry_run: bool = dry_run
+        self.path: Path = Path(path)
 
-    @staticmethod
-    def prehook():
+        self.inp = inp
+
+    def prehook(self):
         pass
 
-    @staticmethod
-    def posthook():
+    def posthook(self):
         pass
 
-    @staticmethod
-    def parallel_prehook():
+    def parallel_prehook(self):
         pass
 
-    @staticmethod
-    def parallel_posthook():
+    def parallel_posthook(self):
         pass
 
     def check_prog(self, name: str) -> None:
@@ -92,34 +88,38 @@ class Run:
             Path to run directory.
         """
 
-        timestamp = _io.get_timestamp()
-
         self.check_prog(self.command)
 
-        directory_path = self.path / f'pymcnp-run-{timestamp}'
-        inp_path = directory_path / f'pymcnp-inp-{timestamp}.inp'
+        if isinstance(self.inp, Inp):
+            timestamp = _io.get_timestamp()
 
-        command_to_run = f'{self.command} i={inp_path.name}'
+            directory_path = self.path / f'pymcnp-run-{timestamp}'
+            self.path = directory_path
+            inp_path = directory_path / f'pymcnp-inp-{timestamp}.inp'
+
+            directory_path.mkdir(exist_ok=True, parents=True)
+            self.inp.to_mcnp_file(inp_path)
+
+            self.inp_path = inp_path
+        elif isinstance(self.inp, Path):
+            self.inp_path = self.inp
+
+        command_to_run = f'{self.command} i={self.inp_path.name}'
 
         if self.dry_run:
-            print('[yellow]INFO[/] Would run:')
-            print(f'   create {directory_path}')
-            print(f'   save {inp_path}')
+            print('[yellow]INFO[/] Dry run:')
             print('   executing prehook')
-            print(f'   {command_to_run}')
+            print(f'   {command_to_run} in {self.path}')
             print('   executing posthook')
-            return directory_path
-
-        directory_path.mkdir(exist_ok=False, parents=True)
-        self.inp.to_mcnp_file(inp_path)
+            return self.path
 
         self.prehook()
-        subprocess.run(command_to_run, cwd=directory_path, shell=True)
+        subprocess.run(command_to_run, cwd=self.path, shell=True)
         self.posthook()
 
-        return directory_path
+        return self.path
 
-    def run_parallel(self, count: int) -> Path:
+    def run_parallel(self, count: int, hosts: str | None = None) -> Path:
         """
         Runs MCNP INP files in parallel.
 
@@ -138,55 +138,77 @@ class Run:
         if count <= 0:
             _io.error('Invalid Count.')
 
+        # some error checking
         self.check_prog(self.command)
         self.check_prog('parallel')
 
         timestamp = _io.get_timestamp()
 
-        directory_path = self.path / f'pymcnp-runs-{timestamp}'
-        directory_path.mkdir(parents=True, exist_ok=False)
+        if isinstance(self.inp, Path):
+            self.inp = read_input(self.inp)
 
-        inp_path = directory_path / f'xpymcnp-inp-{timestamp}.inp'
-        self.inp.to_mcnp_file(inp_path)
+        # create the main directory
+        directory_path = self.path / f'pymcnp-runs-{timestamp}'
+
+        L = len(str(count))  # number of digits
+
+        if hosts is None:
+            hosts = os.getenv('SLURM_JOB_NODELIST')
+
+        remote_option = ''
+        if hosts:
+            # we are doing remote, so add a working dir and also return data
+            remote_option = (
+                f"--workdir {Path.home()/ '.parallel'/'tmp'} "
+                # f"--return {WORKING_DIR}/{PREFIX}{{0#}} "
+                f"--transferfile {{}} "
+                f"--cleanup "
+            )
+
+        hosts = f'-S {hosts}' if hosts else ''
+
+        command_to_run = f'parallel {hosts} {remote_option} pymcnp run {{}} :::'
+
+        if self.dry_run:
+            print('[yellow]INFO[/] Dry run:')
+            print(f'    Create main directory {directory_path}')
+            print('    Run parallel pre-hook')
+            args = []
+            for n in range(0, count):
+                subdirectory_path = Path(f'pymcnp-run-{n:0{L}d}')
+                sub_inp_path = subdirectory_path / f'pymcnp-inp-{timestamp}-{n:0{L}d}.inp'
+                print(f'    Create sub-directory: {subdirectory_path.name}')
+                print('    Reduce nps in input file')
+                args.append(str(sub_inp_path))
+            print(f"    Running: {command_to_run} {' '.join(args)}")
+            print('    Run parallel post-hook')
+            return directory_path
+
+        directory_path.mkdir(parents=True, exist_ok=False)
 
         if 'nps' not in self.inp.data:
             print('ERROR: only support running files with a given nps at the moment')
             sys.exit(1)
 
+        self.parallel_prehook()
+
         nps = self.inp.data['nps'].npp.value
         set_nps(self.inp, nps // count)
 
-        set_seed(self.inp)
-
-        L = len(str(count))  # number of digits
         args = []
-        for n in range(0, count):
-            subdirectory_path = directory_path / f'pymcnp-run-{n:0{L}d}'
-            subdirectory_path.mkdir(exist_ok=False)
+        for n in range(count):
+            subdirectory_path = Path(f'pymcnp-run-{n:0{L}d}')
+            (directory_path / subdirectory_path).mkdir(exist_ok=False)
 
-            inp_path = subdirectory_path / f'pymcnp-inp-{timestamp}-{n:0{L}d}.inp'
+            inp_path = directory_path / subdirectory_path / f'pymcnp-inp-{timestamp}-{n:0{L}d}.inp'
+
             set_seed(self.inp)
             self.inp.to_mcnp_file(inp_path)
+            args.append(str(inp_path))
 
-            script_path = subdirectory_path / f'pymcnp-python-{timestamp}-{n:0{L}d}.py'
-            with script_path.open('w') as file:
-                file.write(
-                    f"import os\n"
-                    f"def parallel_prehook():\n"
-                    f"{''.join(line[4:] for line in inspect.getsourcelines(self.parallel_prehook)[0][2:])}\n"
-                    f"def parallel_posthook():\n"
-                    f"{''.join(line[4:] for line in inspect.getsourcelines(self.parallel_posthook)[0][2:])}\n"
-                    f'if __name__ == "__main__":\n'
-                    f"    parallel_prehook()\n"
-                    f'    os.system("{self.command} i={inp_path}")\n'
-                    f"    parallel_posthook()"
-                )
+        subprocess.run(command_to_run, cwd=directory_path, shell=True)
 
-            args.append(f'{script_path}')
-
-        self.prehook()
-        os.system(f"parallel {sys.executable} ::: {' '.join(args)}")
-        self.posthook()
+        self.parallel_posthook()
 
         return directory_path
 
@@ -201,14 +223,22 @@ def main() -> None:
 
     args = docopt(__doc__)
 
-    inp = read_input(args['<file>'])
-    command = args['--command'] if args['--command'] else 'mcnp6'
-    path = args['--path'] if args['--path'] else Path.cwd()
-    dry_run = args['--dry-run']
+    input_file = Path(args['<file>'])
 
-    run = Run(inp, path=path, command=command, dry_run=dry_run)
+    command = args['--command'] if args['--command'] else 'mcnp6'
+    path = args['--path'] if args['--path'] else input_file.parent
+    dry_run = args['--dry-run']
+    nr_runs = int(args['--parallel']) if args['--parallel'] else None
+    hosts = args['--hosts']
+
+    run = Run(
+        input_file,
+        path=path,
+        command=command,
+        dry_run=dry_run,
+    )
 
     if args['--parallel'] is not None:
-        run.run_parallel(int(args['--parallel']))
+        run.run_parallel(nr_runs, hosts=hosts)
     else:
         run.run_single()
