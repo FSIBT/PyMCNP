@@ -18,3 +18,13 @@ def test_modify(input_file):
         assert False, 'Unexpected exception'
 
     assert input_file.surfaces._cards[1].vx == 15
+
+
+def test_set_nps(input_file):
+    pymcnp.functions.set_nps(input_file, 1234)
+    assert int(input_file.data['nps'].npp.value) == 1234
+
+
+def test_set_seed(input_file):
+    pymcnp.functions.set_seed(input_file, 125)
+    assert input_file.data['rand'].to_mcnp() == 'rand seed 125'

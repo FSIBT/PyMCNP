@@ -80,8 +80,8 @@ def set_nps(input_: files.inp.Inp, npp: int):
         npp: New total number of histories to run.
     """
 
-    if 'nps' in input_.datum:
-        files.modify(input_.data['nps'], npp=files.utils.types.McnpInteger(npp))
+    if 'nps' in input_.data:
+        modify(input_.data['nps'], npp=files.utils.types.McnpInteger(npp))
     else:
         input_.data.append(files.inp.Datum.from_mcnp(f'nps {npp}'))
 
@@ -107,7 +107,7 @@ def set_seed(input_: files.inp.Inp, seed: int = None):
 
     seed = files.utils.types.McnpInteger(seed)
 
-    if 'rand' in input_.datum:
+    if 'rand' in input_.data:
         index = -1
         for i, pair in enumerate(input_.data['rand'].pairs):
             if pair.keyword == files.inp.Random.RandomOption.RandomKeyword.SEED:
