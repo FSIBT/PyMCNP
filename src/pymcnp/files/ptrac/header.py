@@ -14,6 +14,36 @@ from ..utils import errors
 from ..utils import types
 
 
+class PtracKeywords(Enum):
+    """
+    ``PtracKeywords`` represents PTRAC input format index keywords.
+
+    ``PtracKeywords`` implements PTRAC input format index keywords as a
+    Python inner class. It enumerates input format index keywords. It
+    represents the PTRAC input format index keywords syntax element, so
+    ``Header`` depends on ``PtracKeywords`` as an enum.
+
+    Notes:
+        ``PtracKeywords`` does not currently implement a ``from_mcnp`
+        method because ``Header`` does not currently require it.
+    """
+
+    BUFFER = 1
+    CELL = 2
+    EVENT = 3
+    FILE = 4
+    FILTER = 5
+    MAX = 6
+    MENP = 7
+    NPS = 8
+    SURFACE = 9
+    TALLY = 10
+    TYPE = 11
+    VALUE = 12
+    WRITE = 13
+    UNKNOWN = 14
+
+
 class Header:
     """
     ``Header`` represents PTRAC headers.
@@ -33,35 +63,6 @@ class Header:
         numbers: PTRAC event variable counts by type.
         ids: PTRAC event variable identifiers by type.
     """
-
-    class PtracKeywords(Enum):
-        """
-        ``PtracKeywords`` represents PTRAC input format index keywords.
-
-        ``PtracKeywords`` implements PTRAC input format index keywords as a
-        Python inner class. It enumerates input format index keywords. It
-        represents the PTRAC input format index keywords syntax element, so
-        ``Header`` depends on ``PtracKeywords`` as an enum.
-
-        Notes:
-            ``PtracKeywords`` does not currently implement a ``from_mcnp`
-            method because ``Header`` does not currently require it.
-        """
-
-        BUFFER = 1
-        CELL = 2
-        EVENT = 3
-        FILE = 4
-        FILTER = 5
-        MAX = 6
-        MENP = 7
-        NPS = 8
-        SURFACE = 9
-        TALLY = 10
-        TYPE = 11
-        VALUE = 12
-        WRITE = 13
-        UNKNOWN = 14
 
     def __init__(
         self,
@@ -143,6 +144,17 @@ class Header:
         self.numbers: Final[tuple[int]] = numbers
         self.ids: Final[tuple[int]] = ids
 
+    def __str__(self):
+        out = f'  Program: {self.code} ; Version:({self.version} , {self.code_date}) ; Current Date:{self.run_date} {self.run_time}\n'
+        out += f'  {self.title}\n'
+        for k, v in self.settings.items():
+            out += f"    {k.name}: {' '.join(str(val) for val in v)}\n"
+        for k in self.ids:
+            out += f'    IDS: {k}\n'
+        for k in self.numbers:
+            out += f'    Numbers: {k}\n'
+        return out
+
     @staticmethod
     def from_mcnp(source: str) -> tuple[Header, str]:
         """
@@ -223,7 +235,7 @@ class Header:
 
                 values[j] = tokens.popl()
 
-            settings[Header.PtracKeywords(i + 1)] = tuple(values)
+            settings[PtracKeywords(i + 1)] = tuple(values)
 
         while tokens:
             if types.McnpReal.from_mcnp(tokens.popl()) != 0:
