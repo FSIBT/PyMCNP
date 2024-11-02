@@ -21,10 +21,12 @@ def test_modify(input_file):
 
 
 def test_set_nps(input_file):
-    pymcnp.functions.set_nps(input_file, 1234)
+    new = input_file.set_nps(1234)
     assert int(input_file.data['nps'].npp.value) == 1234
+    assert int(new.data['nps'].npp.value) == 1234
 
 
 def test_set_seed(input_file):
-    pymcnp.functions.set_seed(input_file, 125)
+    new = input_file.set_seed(125)
     assert input_file.data['rand'].to_mcnp() == 'rand seed 125'
+    assert new.data['rand'].to_mcnp() == 'rand seed 125'

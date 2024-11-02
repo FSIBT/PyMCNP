@@ -3,7 +3,6 @@ Contains functions to streamline PyMCNP workflows.
 """
 
 import inspect
-import random
 
 from . import files
 
@@ -66,58 +65,3 @@ def modify(modificand, **modifications):
     new = modificand.__class__(*new_attributes.values())
     modificand.__dict__ = new.__dict__
     new.__class__ = new.__class__
-
-
-def set_nps(input_: files.inp.Inp, npp: int):
-    """
-    Updates the ``npp`` value on the ``nps`` card.
-
-    ``set_nps`` uses ``modify`` to change the ``nps`` card or add a new ``nps``
-    card if it does not already exist.
-
-    Parameters:
-        input_: PyMCNP INP object with NPS data card to update.
-        npp: New total number of histories to run.
-    """
-
-    if 'nps' in input_.data:
-        modify(input_.data['nps'], npp=files.utils.types.McnpInteger(npp))
-    else:
-        input_.data.append(files.inp.Datum.from_mcnp(f'nps {npp}'))
-
-
-def set_seed(input_: files.inp.Inp, seed: int = None):
-    """
-    Updates the ``seed`` key-value pair on the ``rand`` card.
-
-    ``set_seed`` uses ``modify`` to change the ``rand`` card or add a new
-    ``rand`` card if it does not already exist.
-
-    Parameters:
-        input_: PyMCNP INP object with NPS data card to update.
-        seed: New random number generator seed.
-    """
-
-    if seed is None:
-        seed = random.randint(0, 2**20 - 1)
-
-    # seeds need to be odd
-    if seed // 2 == 0:
-        seed += 1
-
-    seed = files.utils.types.McnpInteger(seed)
-
-    if 'rand' in input_.data:
-        index = -1
-        for i, pair in enumerate(input_.data['rand'].pairs):
-            if pair.keyword == files.inp.Random.RandomOption.RandomKeyword.SEED:
-                index = i
-                break
-
-        if index == -1:
-            new_pairs = list(input_.data['rand'].pairs) + [files.inp.Random.Seed(seed)]
-            files.modify(input_.data['rand'], pairs=new_pairs)
-        else:
-            files.modify(input_.data['rand'].pairs[index], seed=seed)
-    else:
-        input_.data.append(files.inp.Datum.from_mcnp(f'rand seed={seed}'))

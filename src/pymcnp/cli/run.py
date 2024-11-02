@@ -21,7 +21,6 @@ from rich import print
 
 from ..files.inp import Inp, read_input
 from . import _io
-from ..functions import set_seed, set_nps
 
 DEFAULT_NPP = 1000
 DEFAULT_NPSMG = 1
@@ -193,7 +192,7 @@ class Run:
         self.parallel_prehook()
 
         nps = self.inp.data['nps'].npp.value
-        set_nps(self.inp, nps // count)
+        self.inp = self.inp.set_nps(nps // count)
 
         args = []
         for n in range(count):
@@ -202,7 +201,7 @@ class Run:
 
             inp_path = directory_path / subdirectory_path / f'pymcnp-inp-{timestamp}-{n:0{L}d}.inp'
 
-            set_seed(self.inp)
+            self.inp = self.inp.set_seed()
             self.inp.to_mcnp_file(inp_path)
             args.append(str(inp_path))
 
