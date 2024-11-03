@@ -5,12 +5,12 @@
 importable interface for INP surface card blocks.
 """
 
-from .block import Block
+from . import _block
 from .surface import Surface
 from ..utils import _parser
 
 
-class Surfaces(Block):
+class Surfaces(_block.Block):
     """
     ``Surfaces`` represents INP surfaces card blocks.
 

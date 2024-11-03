@@ -112,7 +112,8 @@ class Zaid:
 
         source = _parser.Preprocessor.process_inp(source)
         tokens = _parser.Parser(
-            source.split('.'), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_ZAID)
+            source.split('.'),
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_ZAID),
         )
 
         zzzaaa = tokens.popl()
@@ -226,7 +227,8 @@ class Designator:
         for particle in particles:
             if particle is None:
                 raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=str(particles)
+                    errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR,
+                    info=str(particles),
                 )
 
         self.particles: Final[tuple[Designator.Particle]] = particles
@@ -281,29 +283,29 @@ class McnpInteger:
         value: Integer or J jump symbol.
     """
 
-    def __init__(self, integer: int | Literal['j']):
+    def __init__(self, value: int | Literal['j']):
         """
         ``__init__`` initializes ``McnpInteger``.
 
         Parameters:
-            integer: Integer or J jump symbol.
+            value: Integer or J jump symbol.
 
         Raises:
             MCNPSemanticError: INVALID_MCNP_INTEGER.
         """
 
-        if integer is None:
+        if value is None:
             raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(integer)
+                errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(value)
             )
 
-        if isinstance(integer, int):
-            value = integer
-        elif integer == 'j':
+        if isinstance(value, int):
+            value = value
+        elif value == 'j':
             value = 'j'
         else:
             raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(integer)
+                errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(value)
             )
 
         self.value: Final[int | Literal['j']] = value
@@ -318,7 +320,7 @@ class McnpInteger:
         and INP parser helper function.
 
         Parameters:
-            source: INP for integer.
+            source: INP for value.
 
         Returns:
             ``McnpInteger`` object.
@@ -326,14 +328,22 @@ class McnpInteger:
 
         source = _parser.Preprocessor.process_inp(source)
 
-        if re.match(r'\A[+-]?[0-9]+\Z', source):
-            integer = int(source)
-        elif re.match(r'\A[+-]?[0-9]+[Ee][+-]?[0-9]+\Z', source):
-            integer = int(float(source))
-        else:
-            integer = source
+        if re.match(r'\A[+-]?[0-9]+[Ee][+-]?[0-9]+\Z', source):
+            delimiters = re.findall(r'[+-]', source)
+            content = re.split(r'[+-]', source)
 
-        return McnpInteger(integer)
+            if len(delimiters) == 2:
+                value = int(float(f'{delimiters[0]}{content[1]}e{delimiters[1]}{content[2]}'))
+            elif len(delimiters) == 0:
+                value = int(float(source))
+            else:
+                value = int(float(f'{content[0]}e{delimiters[0]}{content[1]}'))
+        elif re.match(r'\A[+-]?[0-9]+\Z', source):
+            value = int(source)
+        else:
+            value = source
+
+        return McnpInteger(value)
 
     def to_mcnp(self):
         """
@@ -347,6 +357,12 @@ class McnpInteger:
         """
 
         return str(self.value)
+
+    def __str__(self):
+        return str(self.value)
+
+    def __repr__(self):
+        return f'<McnpInteger({self.value}) at {id(self)!r}>'
 
     def __eq__(a, b: McnpInteger | int):
         return a.value == b.value if isinstance(b, McnpInteger) else a.value == b
@@ -398,29 +414,29 @@ class McnpReal:
 
     JUMP = 'j'
 
-    def __init__(self, real: float | Literal['j']):
+    def __init__(self, value: float | Literal['j']):
         """
         ``__init__`` initializes ``McnpReal``.
 
         Parameters:
-            real: Floating-point number or J jump symbol.
+            value: Floating-point number or J jump symbol.
 
         Raises:
             MCNPSemanticError: INVALID_MCNP_REAL.
         """
 
-        if real is None:
+        if value is None:
             raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(real)
+                errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(value)
             )
 
-        if isinstance(real, float) or isinstance(real, int):
-            value = float(real)
-        elif real == 'j':
+        if isinstance(value, float) or isinstance(value, int):
+            value = float(value)
+        elif value == 'j':
             value = 'j'
         else:
             raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(real)
+                errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(value)
             )
 
         self.value: Final[float | Literal['j']] = value
@@ -435,7 +451,7 @@ class McnpReal:
         and INP parser helper function.
 
         Parameters:
-            source: INP for real.
+            source: INP for value.
 
         Returns:
             ``McnpReal`` object.
@@ -444,13 +460,22 @@ class McnpReal:
         source = _parser.Preprocessor.process_inp(source)
 
         if re.match(
-            r'\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([Ee]([+-][0-9]+))?\Z', source
+            r'\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([Ee]([+-][0-9]+))?\Z',
+            source,
         ):
-            real = float(source)
-        else:
-            real = source
+            value = float(source)
+        elif re.match(r'\A[+-]?(([0-9]+)|([0-9]+[.][0-9]*)|([.][0-9]+))([+-][0-9]+)?\Z', source):
+            delimiters = re.findall(r'[+-]', source)
+            content = re.split(r'[+-]', source)
 
-        return McnpReal(real)
+            if len(delimiters) == 2:
+                value = float(f'{delimiters[0]}{content[1]}e{delimiters[1]}{content[2]}')
+            else:
+                value = float(f'{content[0]}e{delimiters[0]}{content[1]}')
+        else:
+            value = source
+
+        return McnpReal(value)
 
     def to_mcnp(self):
         """
@@ -464,6 +489,12 @@ class McnpReal:
         """
 
         return str(self.value)
+
+    def __str__(self):
+        return str(self.value)
+
+    def __repr__(self):
+        return f'<McnpReal({self.value}) at {id(self)!r}>'
 
     def __eq__(a, b: McnpReal | float):
         return a.value == b.value if isinstance(b, McnpReal) else a.value == b

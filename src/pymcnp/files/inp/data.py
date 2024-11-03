@@ -5,12 +5,12 @@
 interface for INP data card blocks.
 """
 
-from .block import Block
+from . import _block
 from .datum import Datum
 from ..utils import _parser
 
 
-class Data(Block):
+class Data(_block.Block):
     """
     ``Data`` represents INP data card blocks.
 
@@ -80,12 +80,3 @@ class Data(Block):
         """
 
         return [card.to_arguments() for card in self._cards.values()]
-
-    def __getitem__(self, index: str) -> Datum:
-        try:
-            return self._cards[index]
-        except KeyError:
-            raise KeyError
-
-    def __contains__(self, item: str) -> Datum:
-        return item in self._cards

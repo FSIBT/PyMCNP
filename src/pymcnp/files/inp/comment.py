@@ -7,12 +7,12 @@ interface for INP comment cards.
 
 from typing import Final
 
-from . import card
+from . import _card
 from ..utils import errors
 from ..utils import _parser
 
 
-class Comment(card.Card):
+class Comment(_card.Card):
     """
     ``Comment`` represents INP comment cards.
 

@@ -23,25 +23,30 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Physics",
 ]
 dependencies = [
-    "hypothesis",
+    "Sphinx",
+    "docopt",
     "matplotlib",
+    "molmass",
+    "myst_parser",
     "numpy",
     "pandas",
     "pytest",
+    "fastparquet",
+    "rich",
     "scipy",
-    "Sphinx",
     "sphinx_rtd_theme",
-    "docopt",
+    "molmass",
 ]
 
 [project.urls]
-documentation = "https://pymcnp.readthedocs.io/en/latest/"
-homepage = "https://github.com/mauricioAyllon/PyMCNP"
-issues = "https://github.com/mauricioAyllon/PyMCNP/issues"
-changelog = "https://github.com/mauricioAyllon/PyMCNP/blob/master/CHANGELOG.md"
+Documentation = "https://pymcnp.readthedocs.io/en/latest/"
+Homepage = "https://github.com/mauricioAyllon/PyMCNP"
+Issues = "https://github.com/mauricioAyllon/PyMCNP/issues"
+Changelog = "https://github.com/mauricioAyllon/PyMCNP/blob/master/CHANGELOG.md"
 
 [project.scripts]
 pymcnp = "pymcnp.main:main"

@@ -9,13 +9,16 @@ import re
 from typing import Union, Final
 from enum import Enum
 
-from .card import Card
+import molmass
+
+from . import _card
 from ..utils import types
 from ..utils import errors
 from ..utils import _parser
+from ..utils import _elements
 
 
-class Datum(Card):
+class Datum(_card.Card):
     """
     ``Datum`` represents INP data cards.
 
@@ -219,7 +222,7 @@ class Datum(Card):
                 INP string for ``DatumMnemonic`` object.
             """
 
-            return str(self)
+            return self.value
 
     def __init__(
         self,
@@ -360,7 +363,8 @@ class Datum(Card):
             MCNPSyntaxError: TOOFEW_DATUM, TOOLONG_DATUM.
         """
 
-        source = _parser.Preprocessor.process_inp(source, hasComments=False)
+        source = _parser.Preprocessor.process_inp(source)
+        source, comments = _parser.Preprocessor.process_inp_comments(source)
         tokens = _parser.Parser(
             re.split(r' |:|=', source),
             errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM),
@@ -1078,6 +1082,8 @@ class Datum(Card):
         if tokens:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM)
 
+        datum.comment = comments
+
         return datum
 
     def to_mcnp(self) -> str:
@@ -1096,14 +1102,16 @@ class Datum(Card):
 
         parameters_str = ''
         for parameter in self.parameters:
-            if isinstance(parameter, tuple):
+            if parameter is None:
+                continue
+            elif isinstance(parameter, tuple):
                 parameters_str += f" {' '.join([str(entry) for entry in parameter])}"
             elif not hasattr(parameter, 'to_mcnp'):
                 parameters_str += f' {str(parameter)}'
             else:
                 parameters_str += f' {parameter.to_mcnp()}'
 
-        return f'{self.mnemonic}{suffix_str}{designator_str}{parameters_str}'
+        return f'{self.mnemonic.to_mcnp()}{suffix_str}{designator_str}{parameters_str}'
 
     def to_arguments(self) -> list:
         """
@@ -1119,9 +1127,7 @@ class Datum(Card):
         """
 
         return {
-            'mnemonic': (
-                self.mnemonic.to_mcnp() if hasattr(self.mnemonic, 'to_mcnp') else self.mnemonic
-            ),
+            'mnemonic': (self.mnemonic.to_mcnp()),
             'm': self.suffix.to_mcnp() if hasattr(self, 'suffix') else None,
             'n': self.designator.to_mcnp() if hasattr(self, 'designator') else None,
             'parameters': tuple(
@@ -1164,7 +1170,7 @@ class Volume(Datum):
         if has_no is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'vol'
+        _card.Card.__init__(self, 'vol')
         self.mnemonic = Datum.DatumMnemonic.VOLUME
         self.parameters = (has_no, *volumes)
 
@@ -1173,6 +1179,7 @@ class Volume(Datum):
 
     def to_mcnp(self) -> str:
         """Overrides the baseclass function."""
+
         if self.has_no:
             return f"vol no {' '.join(str(volume) for volume in self.volumes)}"
         else:
@@ -1205,7 +1212,7 @@ class Area(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'area'
+        _card.Card.__init__(self, 'area')
         self.mnemonic: Final[Datum.DatumMnemonic] = Datum.DatumMnemonic.AREA
         self.parameters: Final[[tuple[float]]] = areas
 
@@ -1266,7 +1273,7 @@ class Transformation(Datum):
         if system is None or system not in {-1, 1}:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = f'tr{suffix}'
+        _card.Card.__init__(self, f'tr{suffix}')
         self.mnemonic = Datum.DatumMnemonic.TRANSFORMATION
         self.parameters = tuple(displacement, rotation, system)
         self.suffix = suffix
@@ -1303,7 +1310,7 @@ class Universe(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'u'
+        _card.Card.__init__(self, 'u')
         self.mnemonic = Datum.DatumMnemonic.UNIVERSE
         self.universes = universes
 
@@ -1336,7 +1343,7 @@ class Lattice(Datum):
             if parameter is None or parameter not in {1, 2}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'lat'
+        _card.Card.__init__(self, 'lat')
         self.mnemonic = Datum.DatumMnemonic.LATTICE
         self.lattices = lattices
 
@@ -1371,7 +1378,7 @@ class Fill(Datum):
             if parameter is None or not (parameter >= 0 and parameter <= 99_999_999):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'fill'
+        _card.Card.__init__(self, 'fill')
         self.mnemonic = Datum.DatumMnemonic.FILL
         self.parameters = fills
 
@@ -1499,7 +1506,7 @@ class StochasticGeometry(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'uran'
+        _card.Card.__init__(self, 'uran')
         self.mnemonic = Datum.DatumMnemonic.STOCHASTIC_GEOMETRY
         self.parameters = transformations
 
@@ -1538,7 +1545,7 @@ class DeterministicMaterials(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
-        self.id: Final[str] = f'dm{suffix}'
+        _card.Card.__init__(self, f'dm{suffix}')
         self.mnemonic = Datum.DatumMnemonic.DETERMINISTIC_MATERIALS
         self.parameters = materials
         self.suffix = suffix
@@ -4062,7 +4069,7 @@ class WeightWindow(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'dawwg'
+        _card.Card.__init__(self, 'dawwg')
         self.mnemonic = Datum.DatumMnemonic.DETERMINISTIC_WEIGHT_WINDOW
         self.parameters = pairs
 
@@ -4594,7 +4601,7 @@ class EmbeddedGeometry(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
-        self.id: Final[str] = f'embed{suffix}'
+        _card.Card.__init__(self, f'embed{suffix}')
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_GEOMETRY
         self.parameters = pairs
         self.suffix: Final[int] = suffix
@@ -5036,7 +5043,7 @@ class EmbeddedControl(Datum):
             if particle is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DESIGNATOR)
 
-        self.id: Final[str] = f'embee{suffix}:{designator.to_mcnp()}'
+        _card.Card.__init__(self, f'embee{suffix}:{designator.to_mcnp()}')
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_CONTROL
         self.parameters = pairs
         self.suffix = suffix
@@ -5079,7 +5086,7 @@ class EmbeddedEnergyBoundaries(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
-        self.id: Final[str] = f'embeb{suffix}'
+        _card.Card.__init__(self, f'embeb{suffix}')
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_ENERGY_BOUNDARIES
         self.parameters = energies
         self.suffix = suffix
@@ -5120,7 +5127,7 @@ class EmbeddedEnergyMultipliers(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
-        self.id: Final[str] = f'embem{suffix}'
+        _card.Card.__init__(self, f'embem{suffix}')
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_ENERGY_MULTIPLIERS
         self.parameters = multipliers
         self.suffix = suffix
@@ -5161,7 +5168,7 @@ class EmbeddedTimeBoundaries(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
-        self.id: Final[str] = f'embtb{suffix}'
+        _card.Card.__init__(self, f'embtb{suffix}')
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_TIME_BOUNDARIES
         self.parameters = times
         self.suffix = suffix
@@ -5202,7 +5209,7 @@ class EmbeddedTimeMultipliers(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
-        self.id: Final[str] = f'embtm{suffix}'
+        _card.Card.__init__(self, f'embtm{suffix}')
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_TIME_MULTIPLIERS
         self.parameters = multipliers
         self.suffix = suffix
@@ -5243,7 +5250,7 @@ class EmbeddedDoseBoundaries(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
-        self.id: Final[str] = f'embde{suffix}'
+        _card.Card.__init__(self, f'embde{suffix}')
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_DOSE_BOUNDARIES
         self.parameters = doses
         self.suffix = suffix
@@ -5281,7 +5288,7 @@ class EmbeddedDoseMultipliers(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = f'embdf{suffix}'
+        _card.Card.__init__(self, f'embdf{suffix}')
         self.mnemonic = Datum.DatumMnemonic.EMBEDDED_DOSE_MULTIPLIERS
         self.parameters = multipliers
         self.suffix = suffix
@@ -5579,7 +5586,7 @@ class Material(Datum):
                 INP string for ``MaterialOption`` object.
             """
 
-            return f'{Material.MaterialOption.MaterialKeyword(self.keyword)}={self.value}'
+            return f'{self.keyword.to_mcnp()}={self.value.to_mcnp()}'
 
     class Gas(MaterialOption):
         """
@@ -6044,10 +6051,80 @@ class Material(Datum):
         self.paris = pairs
         self.substances = substances
 
-        self.id: Final[str] = f'm{suffix}'
+        _card.Card.__init__(self, f'm{suffix}')
         self.mnemonic = Datum.DatumMnemonic.MATERIAL
         self.parameters = tuple(list(substances) + list(pairs))
         self.suffix = suffix
+
+    @staticmethod
+    def from_formula(number: int, formulas: dict[str, float], atomic_or_weight: bool = True):
+        """
+        ``from_formula`` generates ``Datum`` objects from INP.
+
+        ``from_formula`` constructs instances of ``Datum`` from chemcials
+        formulas and fractions, so it operates as a class constructor method.
+
+        Parameters:
+            number: Arbitrary material number.
+            formulas: Dictionary of formulas and atomic/weight fractions.
+            atomic_or_weight: Atomtic/Weight fraction true/false flag.
+
+        Returns:
+            ``Datum`` object.
+        """
+
+        substances = []
+        comments = []
+        for formula, mixture_fraction in formulas.items():
+            formula = molmass.Formula(formula)
+
+            composition = formula.composition()
+            for element in composition:
+                compound_fraction = (
+                    composition[element].fraction
+                    if atomic_or_weight
+                    else composition[element].mass / formula.mass
+                )
+
+                zaids = [
+                    (types.Zaid(_elements.ELEMENTS[element]['z'], a), isotropic_fraction)
+                    for a, isotropic_fraction in _elements.ELEMENTS[element]['fraction'].items()
+                ]
+                subcomments = [f'{element}-{zaid.a:03}' for zaid, _ in zaids]
+                entries = [
+                    Material.MaterialValue(
+                        zaid,
+                        types.McnpReal(
+                            (-1 if atomic_or_weight else 1)
+                            * mixture_fraction
+                            * compound_fraction
+                            * isotropic_fraction
+                        ),
+                    )
+                    for zaid, isotropic_fraction in zaids
+                ]
+
+                comments += subcomments
+                substances += entries
+
+        material = Material(substances, {}, suffix=types.McnpInteger(number))
+        material.comment = tuple(comments)
+
+        return material
+
+    def to_mcnp(self) -> str:
+        """Overrides the baseclass function."""
+
+        if self.comment and isinstance(self.comment, tuple):
+            if len(self.comment) == len(self.substances):
+                return f'm{self.suffix.to_mcnp()} ' + '\n   '.join(
+                    f'{substance.to_mcnp()} $ {comment}'
+                    for substance, comment in zip(self.substances, self.comment)
+                )
+            else:
+                return super().to_mcnp() + ''.join(f' $ {comment}' for comment in self.comments)
+        else:
+            return super().to_mcnp()
 
 
 class MaterialNeutronScattering(Datum):
@@ -6082,7 +6159,7 @@ class MaterialNeutronScattering(Datum):
         if suffix is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SUFFIX)
 
-        self.id: Final[str] = f'mt{suffix}'
+        _card.Card.__init__(self, f'mt{suffix}')
         self.mnemonic = Datum.DatumMnemonic.MATERIAL_NEUTRON_SCATTERING
         self.parameters = identifiers
         self.suffix = suffix
@@ -6131,7 +6208,7 @@ class MaterialNuclideSubstitution(Datum):
             if particle is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DESIGNATOR)
 
-        self.id: Final[str] = f'mx{suffix}:{designator.to_mcnp()}'
+        _card.Card.__init__(self, f'mx{suffix}:{designator.to_mcnp()}')
         self.mnemonic = Datum.DatumMnemonic.MATERIAL_NUCLIDE_SUBSTITUTION
         self.parameters = zaids
         self.suffix = suffix
@@ -6166,7 +6243,7 @@ class OnTheFlyBroadening(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'otfdb'
+        _card.Card.__init__(self, 'otfdb')
         self.mnemonic = Datum.DatumMnemonic.ONTHEFLY_BROADENING
         self.parameters = zaids
 
@@ -6198,7 +6275,7 @@ class TotalFission(Datum):
         if has_no is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'totnu'
+        _card.Card.__init__(self, 'totnu')
         self.mnemonic = Datum.DatumMnemonic.TOTAL_FISSION
         self.parameters = (has_no,)
 
@@ -6231,7 +6308,7 @@ class FissionTurnoff(Datum):
             if parameter is None or parameter not in {0, 1, 2}:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'nonu'
+        _card.Card.__init__(self, 'nonu')
         self.mnemonic = Datum.DatumMnemonic.FISSION_TURNOFF
         self.parameters = states
 
@@ -6327,7 +6404,7 @@ class AtomicWeight(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'awtab'
+        _card.Card.__init__(self, 'awtab')
         self.mnemonic = Datum.DatumMnemonic.ATOMIC_WEIGHT
         self.parameters = weight_ratios
 
@@ -6428,7 +6505,7 @@ class CrossSectionFile(Datum):
             if weight_ratio is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = f'xs{suffix}'
+        _card.Card.__init__(self, f'xs{suffix}')
         self.mnemonic = Datum.DatumMnemonic.CROSS_SECTION_FILE
         self.parameters = weight_ratios
         self.suffix = suffix
@@ -6462,7 +6539,7 @@ class Void(Datum):
             if parameter is None or not (1 <= parameter <= 99_999_999):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'void'
+        _card.Card.__init__(self, 'void')
         self.mnemonic = Datum.DatumMnemonic.VOID
         self.parameters = numbers
 
@@ -6535,7 +6612,7 @@ class MultigroupAdjointTransport(Datum):
         if rim is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'mgopt'
+        _card.Card.__init__(self, 'mgopt')
         self.mnemonic = Datum.DatumMnemonic.MULTIGROUP_ADJOINT_TRANSPORT
         self.parameters = (mcal, igm, iplt, isb, icw, fnw, rim)
 
@@ -6576,7 +6653,7 @@ class DiscreteReactionCrossSection(Datum):
             if zaid is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'drxs'
+        _card.Card.__init__(self, 'drxs')
         self.mnemonic = Datum.DatumMnemonic.DISCRETE_REACTIONC_CROSS_SECTION
         self.parameters = zaids
 
@@ -6612,7 +6689,7 @@ class ProblemType(Datum):
             if particle is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'mode'
+        _card.Card.__init__(self, 'mode')
         self.mnemonic = Datum.DatumMnemonic.PROBLEM_TYPE
         self.parameters = particles
 
@@ -6743,7 +6820,7 @@ class ParticlePhysicsOptionsNeutron(ParticlePhysicsOptions):
         if i_els_model is None or i_els_model not in {-1, 0}:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'phys:n'
+        _card.Card.__init__(self, 'phys:n')
         self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
         self.parameters = (
             emax,
@@ -6827,7 +6904,7 @@ class ParticlePhysicsOptionsPhoton(ParticlePhysicsOptions):
         if fism is None or fism not in {0, 1}:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'phys:p'
+        _card.Card.__init__(self, 'phys:p')
         self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
         self.parameters = (emcpf, ides, nocoh, ispn, nodop, fism)
         self.designator = types.Designator.Particle.PHOTON
@@ -6945,7 +7022,7 @@ class ParticlePhysicsOptionsElectron(ParticlePhysicsOptions):
         if ckvnum is None or not (0 <= ckvnum < 1):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'phys:e'
+        _card.Card.__init__(self, 'phys:e')
         self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
         self.parameters = (
             emax,
@@ -7071,7 +7148,7 @@ class ParticlePhysicsOptionsProton(ParticlePhysicsOptions):
         if drp is None or not (drp == -1 or drp >= 0):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'phys:h'
+        _card.Card.__init__(self, 'phys:h')
         self.mnemonic = Datum.DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
         self.parameters = (
             emax,
@@ -7433,7 +7510,7 @@ class ActivationControl(Datum):
                 INP string for ``ActivationOption`` object.
             """
 
-            return f'{ActivationControl.ActivationControlOption.ActivationControlKeyword(self.keyword)}={self.value}'
+            return f'{self.keyword.to_mcnp()}={self.value.to_mcnp()}'
 
     class Fission(ActivationControlOption):
         """
@@ -7777,7 +7854,7 @@ class ActivationControl(Datum):
             if pair is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'act'
+        _card.Card.__init__(self, 'act')
         self.mnemonic = Datum.DatumMnemonic.ACTIVATION_CONTROL
         self.parameters = pairs
 
@@ -7845,7 +7922,7 @@ class TimeEnergyWeightCutoffs(Datum):
         # if source is None:
         # raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = f'cut:{designator.to_mcnp()}'
+        _card.Card.__init__(self, f'cut:{designator.to_mcnp()}')
         self.mnemonic = Datum.DatumMnemonic.TIME_ENERGY_WEIGHT_CUTOFFS
         self.parameters = (time, energy, weight1, weight2, source)
         self.designator = designator
@@ -7888,7 +7965,7 @@ class CellEnergyCutoff(Datum):
             if cutoff is None or not (cutoff > 0):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = f'elpt:{designator.to_mcnp()}'
+        _card.Card.__init__(self, f'elpt:{designator.to_mcnp()}')
         self.mnemonic = Datum.DatumMnemonic.CELL_ENERGY_CUTOFF
         self.parameters = cutoffs
         self.designator = designator
@@ -7928,7 +8005,7 @@ class FreeGasThermalTemperature(Datum):
             if temperature is None or not (temperature > 0):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = f'tmp{suffix}'
+        _card.Card.__init__(self, f'tmp{suffix}')
         self.mnemonic = Datum.DatumMnemonic.FREE_GAS_THERMAL_TEMPERATURE
         self.parameters = temperatures
         self.suffix = suffix
@@ -7962,7 +8039,7 @@ class ThermalTimes(Datum):
             if time is None or not (0 <= time <= 99):
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'thtme'
+        _card.Card.__init__(self, 'thtme')
         self.mnemonic = Datum.DatumMnemonic.THERMAL_TIMES
         self.parameters = times
 
@@ -7991,7 +8068,7 @@ class ModelPhysicsControl(Datum):
         if setting is None or setting not in {'yes', 'no'}:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'mphys'
+        _card.Card.__init__(self, 'mphys')
         self.mnemonic = Datum.DatumMnemonic.MODEL_PHYSICS_CONTROL
         self.parameters = (setting,)
 
@@ -8083,7 +8160,7 @@ class Lca(Datum):
         if nevtype is None or not (nevtype >= 0):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'lca'
+        _card.Card.__init__(self, 'lca')
         self.mnemonic = Datum.DatumMnemonic.LCA
         self.parameters = (
             ielas,
@@ -8179,7 +8256,7 @@ class Lcb(Datum):
         if flim0 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'lcb'
+        _card.Card.__init__(self, 'lcb')
         self.mnemonic = Datum.DatumMnemonic.LCB
         self.parameters = (flebn1, flebn2, flebn3, flebn4, flebn5, flebn6, ctofe, flim0)
 
@@ -8260,7 +8337,7 @@ class Lcc(Datum):
         if ebankabla is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'lcc'
+        _card.Card.__init__(self, 'lcc')
         self.mnemonic = Datum.DatumMnemonic.LCB
         self.parameters = (
             atincl,
@@ -8350,7 +8427,7 @@ class Lea(Datum):
         if nofis is None or nofis not in {1, 0}:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'lea'
+        _card.Card.__init__(self, 'lea')
         self.mnemonic = Datum.DatumMnemonic.LEA
         self.parameters = (ipht, icc, nobalc, nobale, ifbrk, ilvden, ievap, nofis)
 
@@ -8365,11 +8442,29 @@ class Lea(Datum):
 
 
 class _Placeholder(Datum):
+    """Placeholder for F8, FT8, etc."""
+
     def __init__(self, mnemonic: Datum.DatumMnemonic, parameters: tuple[any]):
-        # print(f"[WARNING] Placeholder used for {mnemonic}")
         self.id = mnemonic
         self.mnemonic = mnemonic
         self.parameters = parameters
+
+    def to_mcnp(self):
+        tmp = []
+        # convert all parameters to strings
+        for parameter in self.parameters:
+            parameters_str = ''
+            if parameter is None:
+                continue
+            elif isinstance(parameter, tuple):
+                parameters_str += ' '.join([str(entry) for entry in parameter])
+            elif not hasattr(parameter, 'to_mcnp'):
+                parameters_str += str(parameter)
+            else:
+                parameters_str += parameter.to_mcnp()
+
+            tmp.append(parameters_str)
+        return ' '.join(tmp)
 
 
 class SourceDefinition(Datum):
@@ -8438,6 +8533,9 @@ class SourceDefinition(Datum):
             LOC = 'loc'
             BEM = 'bem'
             BAP = 'bap'
+
+            def to_mcnp(self) -> str:
+                return str(self.value)
 
             @staticmethod
             def from_mcnp(source: str):
@@ -8542,6 +8640,8 @@ class SourceDefinition(Datum):
 
             self.__dict__ = obj.__dict__
             self.__class__ = obj.__class__
+
+            self.value = value
 
         @staticmethod
         def from_mcnp(source: str):
@@ -8680,7 +8780,14 @@ class SourceDefinition(Datum):
                 INP string for ``SourceDefinitionOption`` object.
             """
 
-            return f'{self.keyword.value}={self.value}'
+            if isinstance(self.value, str):
+                return f'{self.keyword.to_mcnp()}={self.value}'
+
+            if isinstance(self.value, tuple):
+                value = ' '.join(k.to_mcnp() for k in self.value)
+                return f'{self.keyword.to_mcnp()}={value}'
+
+            return f'{self.keyword.to_mcnp()}={self.value.to_mcnp()}'
 
     class Cel(SourceDefinitionOption):
         """
@@ -9499,7 +9606,7 @@ class SourceDefinition(Datum):
             if pair is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'sdef'
+        _card.Card.__init__(self, 'sdef')
         self.mnemonic: Final[Datum.DatumMnemonic] = Datum.DatumMnemonic.GENERAL_SOURCE_DEFINITION
         self.parameters: Final[tuple] = pairs
 
@@ -9533,7 +9640,7 @@ class HistoryCutoff(Datum):
         # if npsmg is None or not (npsmg > 0):
         # raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'nps'
+        _card.Card.__init__(self, 'nps')
         self.mnemonic: Final[Datum.DatumMnemonic] = Datum.DatumMnemonic.HISTORY_CUTOFF
         self.parameters: Final[tuple] = (npp, npsmg)
 
@@ -9708,7 +9815,7 @@ class Random(Datum):
                 INP string for ``RandomOption`` object.
             """
 
-            return f'{self.keyword.value}={self.value}'
+            return f'{self.keyword.to_mcnp()}={self.value.to_mcnp()}'
 
     class Gen(RandomOption):
         """
@@ -9848,11 +9955,11 @@ class Random(Datum):
             if pair is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'rand'
+        _card.Card.__init__(self, 'rand')
         self.mnemonic: Final[Datum.DatumMnemonic] = Datum.DatumMnemonic.RANDOM
         self.parameters: Final[tuple] = pairs
 
-        self.pairs: Final[Random.RandomOption] = pairs
+        self.pairs: Final[tuple[Random.RandomOption]] = pairs
 
 
 class Print(Datum):
@@ -9977,7 +10084,7 @@ class Print(Datum):
             }:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.id: Final[str] = 'print'
+        _card.Card.__init__(self, 'print')
         self.mnemonic: Final[Datum.DatumMnemonic] = Datum.DatumMnemonic.PRINT
         self.parameters: Final[tuple] = tables
 

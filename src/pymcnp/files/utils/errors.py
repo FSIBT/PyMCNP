@@ -345,7 +345,7 @@ class MCNPSemanticError(Exception):
             case MCNPSemanticCodes.INVALID_SURFACE_NUMBER:
                 return 'Invalid INP surface name.'
             case MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC:
-                return 'Invalid INP surface mnemonic.'
+                return f'Invalid INP surface mnemonic. {self.info}'
             case MCNPSemanticCodes.INVALID_SURFACE_TRANSFORMPERIODIC:
                 return 'Invalid INP surface transform/periodic number.'
             case MCNPSemanticCodes.INVALID_SURFACE_PARAMETER:

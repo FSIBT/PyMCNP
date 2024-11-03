@@ -9,13 +9,13 @@ import re
 from enum import Enum
 from typing import Union, Final
 
-from . import card
+from . import _card
 from ..utils import _parser
 from ..utils import errors
 from ..utils import types
 
 
-class Cell(card.Card):
+class Cell(_card.Card):
     """
     ``Cell`` represents INP cell cards.
 
@@ -247,7 +247,7 @@ class Cell(card.Card):
                     INP string for ``CellKeyword`` object.
                 """
 
-                return str(self.value.value) if hasattr(self.value, 'value') else str(self.value)
+                return self.value
 
         def __init__(
             self,
@@ -521,7 +521,7 @@ class Cell(card.Card):
             else:
                 value_str = self.value.value if hasattr(self.value, 'value') else str(self.value)
 
-            return f'{self.keyword}{suffix_str}{designator_str}={value_str}'
+            return f'{self.keyword.to_mcnp()}{suffix_str}{designator_str}={value_str}'
 
         def to_arguments(self) -> dict:
             """
@@ -1524,11 +1524,8 @@ class Cell(card.Card):
         """
 
         # Processing Inline Comment
-        comment = None
-        if '$' in source:
-            source, comment = source.split('$')
-
         source = _parser.Preprocessor.process_inp(source)
+        source, comments = _parser.Preprocessor.process_inp_comments(source)
         tokens = _parser.Parser(
             re.split(r' |=', source),
             errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL),
@@ -1573,7 +1570,7 @@ class Cell(card.Card):
 
         cell = Cell(number, material, density, geometry, options)
         cell.line = line
-        cell.comment = comment
+        cell.comment = comments
 
         return cell
 

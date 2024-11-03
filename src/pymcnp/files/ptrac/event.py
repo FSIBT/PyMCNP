@@ -6,6 +6,7 @@ importable interface for PTRAC event.
 """
 
 from __future__ import annotations
+from typing import Final
 from enum import Enum
 import re
 
@@ -129,8 +130,8 @@ class Event:
         TERMINAL = 5000
         FLAG = 9000
 
-        @classmethod
-        def from_mcnp(cls, source: str):
+        @staticmethod
+        def from_mcnp(source: str):
             """
             ``from_mcnp`` generates ``EventType`` objects from PTRAC.
 
@@ -155,10 +156,10 @@ class Event:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_TYPE)
 
             # Processing Type
-            if int(source) not in [enum.value for enum in cls]:
+            if int(source) not in [enum.value for enum in Event.EventType]:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_TYPE)
 
-            return cls(int(source))
+            return Event.EventType(int(source))
 
     class EventNters(Enum):
         """
@@ -189,8 +190,8 @@ class Event:
         NTER_16 = 16
         NTER_17 = 17
 
-        @classmethod
-        def from_mcnp(cls, source: int):
+        @staticmethod
+        def from_mcnp(source: int):
             """
             ``from_mcnp`` generates ``EventNters`` objects from PTRAC.
 
@@ -215,483 +216,118 @@ class Event:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NTER)
 
             # Processing Type
-            if int(source) not in [enum.value for enum in cls]:
+            if int(source) not in [enum.value for enum in Event.EventNters]:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NTER)
 
-            return cls(int(source))
+            return Event.EventNters(int(source))
 
-    def __init__(self):
+    def __init__(
+        self,
+        next_type,
+        event_type,
+        node,
+        nsr,
+        nxs,
+        ntyn_mtp,
+        nsf,
+        surface_angle,
+        nter,
+        branch,
+        ipt,
+        ncl,
+        mat,
+        ncp,
+        xxx,
+        yyy,
+        zzz,
+        uuu,
+        vvv,
+        www,
+        erg,
+        wgt,
+        tme,
+    ):
         """
         ``__init__`` initializes ``Event``.
-        """
-
-        self.next_type: self.EventType = None
-        self.type: self.EventType = None
-        self.node: int = None
-        self.nsr: int = None
-        self.nxs: float = None
-        self.ntyn_mtp: int = None
-        self.nsf: int = None
-        self.surface_angle: int = None
-        self.nter: self.EventNtrs = None
-        self.branch: int = None
-        self.ipt: int = None
-        self.ncl: int = None
-        self.mat: int = None
-        self.ncp: int = None
-        self.xxx: float = None
-        self.yyy: float = None
-        self.zzz: float = None
-        self.uuu: float = None
-        self.vvv: float = None
-        self.www: float = None
-        self.erg: float = None
-        self.wgt: float = None
-        self.tme: float = None
-
-    def set_type(self, event_type: EventType) -> None:
-        """
-        ``set_type`` stores PTRAC event type variables.
-
-        ``set_type`` checks given arguments before assigning the given value
-        to ``Event.type``. If given an unrecognized argument, it raises
-        semantic errors.
 
         Parameters:
-            type: Event type.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_TYPE.
-        """
-
-        if event_type is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_TYPE)
-
-        self.type = event_type
-
-    def set_node(self, node: int) -> None:
-        """
-        ``set_node`` stores PTRAC event node variables.
-
-        ``set_node`` checks given arguments before assigning the given value
-        to ``Event.node``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
+            event_type: Event type.
             node: Number of nodes in track from source.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_NODE.
-        """
-
-        if node is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NODE)
-
-        self.node = node
-
-    def set_nsr(self, nsr: int) -> None:
-        """
-        ``set_nsr`` stores PTRAC event source nsr variables.
-
-        ``set_nsr`` checks given arguments before assigning the given value
-        to ``Event.nsr``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
             nsr: Source type.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_NSR.
-        """
-
-        if nsr is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NSR)
-
-        self.nsr = nsr
-
-    def set_nxs(self, nxs: float) -> None:
-        """
-        ``set_nxs`` stores PTRAC event source nxs variables.
-
-        ``set_nxs`` checks given arguments before assigning the given value
-        to ``Event.nxs``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
             nxs: Blocks of descriptors of cross section tables.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_NXS.
-        """
-
-        if nxs is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NXS)
-
-        self.nxs = nxs
-
-    def set_ntyn_mtp(self, ntyn_mtp: int) -> None:
-        """
-        ``set_ntyn_mtp`` stores PTRAC event source ntyn_mtp variables.
-
-        ``set_ntyn_mtp`` checks given arguments before assigning the given value
-        to ``Event.ntyn_mtp``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
             ntyn_mtp: Reaction type.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_NTYNMTP.
-        """
-
-        if ntyn_mtp is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NTYNMTP)
-
-        self.ntyn_mtp = ntyn_mtp
-
-    def set_nsf(self, nsf: int) -> None:
-        """
-        ``set_nsf`` stores PTRAC event source nsf variables.
-
-        ``set_nsf`` checks given arguments before assigning the given value
-        to ``Event.nsf``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
             nsf: Surface number.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_NSF.
-        """
-
-        if nsf is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NSF)
-
-        self.nsf = nsf
-
-    def set_surface_angle(self, surface_angle: int) -> None:
-        """
-        ``set_surface_angle`` stores PTRAC event source surface_angle variables.
-
-        ``set_surface_angle`` checks given arguments before assigning the given value
-        to ``Event.surface_angle``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
             surface_angle: Angle with surface normal in degrees.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_ANGLE.
-        """
-
-        if surface_angle is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_ANGLE)
-
-        self.surface_angle = surface_angle
-
-    def set_nter(self, nter: EventNters) -> None:
-        """
-        ``set_nter`` stores PTRAC event source nter variables.
-
-        ``set_nter`` checks given arguments before assigning the given value
-        to ``Event.nter``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
             nter: Termination type.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_NTER.
-        """
-
-        if nter is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NTER)
-
-        self.nter = nter
-
-    def set_branch(self, branch: int) -> None:
-        """
-        ``set_branch`` stores PTRAC event source branch variables.
-
-        ``set_branch`` checks given arguments before assigning the given value
-        to ``Event.branch``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
             branch: Event branch number.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_BRANCH.
-        """
-
-        if branch is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_BRANCH)
-
-        self.branch = branch
-
-    def set_ipt(self, ipt: int) -> None:
-        """
-        ``set_ipt`` stores PTRAC event source ipt variables.
-
-        ``set_ipt`` checks given arguments before assigning the given value
-        to ``Event.ipt``. If given an unrecognized argument, it raises
-        semantic errors.
-
-        Parameters:
             ipt: Particle type.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_IPT.
-        """
-
-        if ipt is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_IPT)
-
-        self.ipt = ipt
-
-    def set_ncl(self, ncl: int) -> None:
-        """
-        ``set_ncl`` stores PTRAC event source ncl variables.
-
-        ``set_ncl`` checks given arguments before assigning the given value
-        to ``Event.ncl``. If given an unrecognized argument, it raises semantic
-        errors.
-
-        Parameters:
             ncl: Problem number of the cells.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_NCL.
-        """
-
-        if ncl is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NCL)
-
-        self.ncl = ncl
-
-    def set_mat(self, mat: int) -> None:
-        """
-        ``set_mat`` stores PTRAC event source mat variables.
-
-        ``set_mat`` checks given arguments before assigning the given value
-        to ``Event.mat``. If given an unrecognized argument, it raises semantic
-        errors.
-
-        Parameters:
             mat: Material numbers of the cells.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_MAT.
-        """
-
-        if mat is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_MAT)
-
-        self.mat = mat
-
-    def set_ncp(self, ncp: int) -> None:
-        """
-        ``set_ncp`` stores PTRAC event source ncp variables.
-
-        ``set_ncp`` checks given arguments before assigning the given value
-        to ``Event.ncp``. If given an unrecognized argument, it raises semantic
-        errors.
-
-        Parameters:
             ncp: Count of collisions per track.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_NCP.
-        """
-
-        if ncp is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NCP)
-
-        self.ncp = ncp
-
-    def set_xxx(self, xxx: float) -> None:
-        """
-        ``set_xxx`` stores PTRAC event source xxx variables.
-
-        ``set_xxx`` checks given arguments before assigning the given value
-        to ``Event.xxx``. If given an unrecognized argument, it raises semantic
-        errors.
-
-        Parameters:
             xxx: X coordinate of the particle position.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_XXX.
-        """
-
-        if xxx is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_XXX)
-
-        self.xxx = xxx
-
-    def set_yyy(self, yyy: float) -> None:
-        """
-        ``set_yyy`` stores PTRAC event source yyy variables.
-
-        ``set_yyy`` checks given arguments before assigning the given value
-        to ``Event.yyy``. If given an unrecognized argument, it raises semantic
-        errors.
-
-        Parameters:
             yyy: Y coordinate of the particle position.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_YYY.
-        """
-
-        if yyy is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_YYY)
-
-        self.yyy = yyy
-
-    def set_zzz(self, zzz: float) -> None:
-        """
-        ``set_zzz`` stores PTRAC event source zzz variables.
-
-        ``set_zzz`` checks given arguments before assigning the given value
-        to ``Event.zzz``. If given an unrecognized argument, it raises semantic
-        errors.
-
-        Parameters:
             zzz: Z coordinate of the particle position.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_ZZZ.
-        """
-
-        if zzz is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_ZZZ)
-
-        self.zzz = zzz
-
-    def set_uuu(self, uuu: float) -> None:
-        """
-        ``set_uuu`` stores PTRAC event source uuu variables.
-
-        ``set_uuu`` checks given arguments before assigning the given value
-        to ``Event.uuu``. If given an unrecognized argument, it raises semantic
-        errors.
-
-        Parameters:
             uuu: Particle direction cosine with x axis.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_UUU.
-        """
-
-        if uuu is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_UUU)
-
-        self.uuu = uuu
-
-    def set_vvv(self, vvv: float) -> None:
-        """
-        ``set_vvv`` stores PTRAC event source vvv variables.
-
-        ``set_vvv`` checks given arguments before assigning the given value
-        to ``Event.vvv``. If given an unrecognized argument, it raises semantic
-        errors.
-
-        Parameters:
             vvv: Particle direction cosine with y axis.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_VVV.
-        """
-
-        if vvv is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_VVV)
-
-        self.vvv = vvv
-
-    def set_www(self, www: float) -> None:
-        """
-        ``set_www`` stores PTRAC event source www variables.
-
-        ``set_www`` checks given arguments before assigning the given value
-        to ``Event.www``. If given an unrecognized argument, it raises semantic
-        errors.
-
-        Parameters:
             www: Particle direction cosine with z axis.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_WWW.
-        """
-
-        if www is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_WWW)
-
-        self.www = www
-
-    def set_erg(self, erg: float) -> None:
-        """
-        ``set_erg`` stores PTRAC event source erg variables.
-
-        ``set_erg`` checks given arguments before assigning the given value
-        to ``Event.erg``. If given an unrecognized argument, it raises semantic
-        errors.
-
-        Parameters:
             erg: Particle energy.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_ERG.
-        """
-
-        if erg is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_ERG)
-
-        self.erg = erg
-
-    def set_wgt(self, wgt: float) -> None:
-        """
-        ``set_wgt`` stores PTRAC event source wgt variables.
-
-        ``set_wgt`` checks given arguments before assigning the given value
-        to ``Event.wgt``. If given an unrecognized argument, it raises semantic
-        errors.
-
-        Parameters:
             wgt: Particle weight.
-
-        Raises:
-            MCNPSemanticError: INVALID_EVENT_WGT.
-        """
-
-        if wgt is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_WGT)
-
-        self.wgt = wgt
-
-    def set_tme(self, tme: float) -> None:
-        """
-        ``set_tme`` stores PTRAC event source tme variables.
-
-        ``set_tme`` checks given arguments before assigning the given value to
-        ``Event.tme``. If given an unrecognized argument, it raises semantic
-        errors.
-
-        Parameters:
             tme: Time at the particles position.
 
         Raises:
+            MCNPSemanticError: INVALID_EVENT_TYPE.
+            MCNPSemanticError: INVALID_EVENT_NODE.
+            MCNPSemanticError: INVALID_EVENT_NSR.
+            MCNPSemanticError: INVALID_EVENT_NXS.
+            MCNPSemanticError: INVALID_EVENT_NTYNMTP.
+            MCNPSemanticError: INVALID_EVENT_NSF.
+            MCNPSemanticError: INVALID_EVENT_ANGLE.
+            MCNPSemanticError: INVALID_EVENT_NTER.
+            MCNPSemanticError: INVALID_EVENT_BRANCH.
+            MCNPSemanticError: INVALID_EVENT_IPT.
+            MCNPSemanticError: INVALID_EVENT_NCL.
+            MCNPSemanticError: INVALID_EVENT_MAT.
+            MCNPSemanticError: INVALID_EVENT_NCP.
+            MCNPSemanticError: INVALID_EVENT_XXX.
+            MCNPSemanticError: INVALID_EVENT_YYY.
+            MCNPSemanticError: INVALID_EVENT_ZZZ.
+            MCNPSemanticError: INVALID_EVENT_UUU.
+            MCNPSemanticError: INVALID_EVENT_VVV.
+            MCNPSemanticError: INVALID_EVENT_WWW.
+            MCNPSemanticError: INVALID_EVENT_ERG.
+            MCNPSemanticError: INVALID_EVENT_WGT.
             MCNPSemanticError: INVALID_EVENT_TME.
         """
 
-        if tme is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_TME)
+        # TODO: Add error checking here!
 
-        self.tme = tme
+        self.next_type: Final[self.EventType] = next_type
+        self.event_type: Final[self.EventType] = event_type
+        self.node: Final[int] = node
+        self.nsr: Final[int] = nsr
+        self.nxs: Final[float] = nxs
+        self.ntyn_mtp: Final[int] = ntyn_mtp
+        self.nsf: Final[int] = nsf
+        self.surface_angle: Final[int] = surface_angle
+        self.nter: Final[self.EventNtrs] = nter
+        self.branch: Final[int] = branch
+        self.ipt: Final[int] = ipt
+        self.ncl: Final[int] = ncl
+        self.mat: Final[int] = mat
+        self.ncp: Final[int] = ncp
+        self.xxx: Final[float] = xxx
+        self.yyy: Final[float] = yyy
+        self.zzz: Final[float] = zzz
+        self.uuu: Final[float] = uuu
+        self.vvv: Final[float] = vvv
+        self.www: Final[float] = www
+        self.erg: Final[float] = erg
+        self.wgt: Final[float] = wgt
+        self.tme: Final[float] = tme
 
-    @classmethod
+    @staticmethod
     def from_mcnp(
-        cls, source: str, header: Header, event_type: EventType, line: int = None
+        source: str, header: Header, event_type: EventType, line: int = None
     ) -> tuple[Event, str]:
         """
         ``from_mcnp`` generates ``Event`` objects from PTRAC.
@@ -713,11 +349,29 @@ class Event:
             MCNPSyntaxError: TOOFEW_EVENT, TOOLONG_EVENT.
         """
 
-        event = cls()
-        event.set_type(event_type)
-
-        # Processing Line Number
-        event.line = line
+        next_type = None
+        event_type = None
+        node = None
+        nsr = None
+        nxs = None
+        ntyn_mtp = None
+        nsf = None
+        surface_angle = None
+        nter = None
+        branch = None
+        ipt = None
+        ncl = None
+        mat = None
+        ncp = None
+        xxx = None
+        yyy = None
+        zzz = None
+        uuu = None
+        vvv = None
+        www = None
+        erg = None
+        wgt = None
+        tme = None
 
         source = _parser.Preprocessor.process_ptrac(source)
         lines = source.split('\n')
@@ -730,134 +384,111 @@ class Event:
         )
 
         # Processing J2 (Next Event Type: 7)
-        value = cls.EventType.from_mcnp(j_line.popl())
-        if value is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NSR)
-        event.next_type = value
+        next_type = Event.EventType.from_mcnp(j_line.popl())
 
         # Processing J2 (Node: 8)
-        value = types.cast_fortran_integer(j_line.popl())
-        event.set_node(value)
+        node = types.McnpInteger.from_mcnp(j_line.popl())
 
         # Processing J3
         match event_type:
-            case cls.EventType.SOURCE:
+            case Event.EventType.SOURCE:
                 # (NSR: 9)
-                value = types.cast_fortran_integer(j_line.popl())
-                event.set_nsr(value)
+                nsr = types.McnpInteger.from_mcnp(j_line.popl())
 
-            case cls.EventType.SURFACE:
+            case Event.EventType.SURFACE:
                 # (NSF: 12)
-                value = types.cast_fortran_real(j_line.popl())
-                event.set_nsf(value)
+                nsf = types.McnpReal.from_mcnp(j_line.popl())
 
-            case cls.EventType.COLLISION:
+            case Event.EventType.COLLISION:
                 # (NXS: 10)
-                value = types.cast_fortran_real(j_line.popl())
-                event.set_nxs(value)
+                nxs = types.McnpReal.from_mcnp(j_line.popl())
 
-            case cls.EventType.TERMINAL:
+            case Event.EventType.TERMINAL:
                 # (NTER: 14)
-                value = cls.EventNter.cast_mcnp_nter(j_line.popl())
-                event.set_nter(value)
+                nter = Event.EventNter.from_mcnp(j_line.popl())
 
-            case cls.EventType.FLAG:
+            case Event.EventType.FLAG:
                 assert False
 
             case _:
                 # (NXS: 10)
-                value = types.cast_fortran_real(j_line.popl())
-                event.set_nxs(value)
+                nxs = types.McnpReal.from_mcnp(j_line.popl())
 
         # Processing Type Dependent Entries
-        match header.numbers[1:12]:
-            case [5, 3, 6, 3, 6, 3, 6, 3, 6, 3]:
+        numbers = tuple([number.value for number in header.numbers[1:12]])
+
+        match numbers:
+            case (5, 3, 6, 3, 6, 3, 6, 3, 6, 3):
                 # Type 1
 
                 # Processing J5/J6 (MAT: 18)
-                value = types.cast_fortran_integer(j_line.popr())
-                event.set_mat(value)
+                mat = types.McnpInteger.from_mcnp(j_line.popr())
 
                 # Processing J4/J5 (NCL: 17)
-                value = types.cast_fortran_integer(j_line.popr())
-                event.set_ncl(value)
+                ncl = types.McnpInteger.from_mcnp(j_line.popr())
 
-            case [6, 3, 7, 3, 7, 3, 7, 3, 7, 3]:
+            case (6, 3, 7, 3, 7, 3, 7, 3, 7, 3):
                 # Type 2
 
                 # Processing J6/J7 (MAT: 18)
-                value = types.cast_fortran_integer(j_line.popr())
-                event.set_mat(value)
+                mat = types.McnpInteger.from_mcnp(j_line.popr())
 
                 # Processing J5/J6 (NCL: 17)
-                value = types.cast_fortran_integer(j_line.popr())
-                event.set_ncl(value)
+                ncl = types.McnpInteger.from_mcnp(j_line.popr())
 
                 # Processing J4/J5 (IPT: 16)
-                value = types.cast_fortran_integer(j_line.popr())
-                event.set_ipt(value)
+                ipt = types.McnpInteger.from_mcnp(j_line.popr())
 
-            case [6, 9, 7, 9, 7, 9, 7, 9, 7, 9]:
+            case (6, 9, 7, 9, 7, 9, 7, 9, 7, 9):
                 # Type 3
 
                 # Processing J6/J7 (NCP: 19)
-                value = types.cast_fortran_integer(j_line.popr())
-                event.set_ncp(value)
+                ncp = types.McnpInteger.from_mcnp(j_line.popr())
 
                 # Processing J5/J6 (MAT: 18)
-                value = types.cast_fortran_integer(j_line.popr())
-                event.set_mat(value)
+                mat = types.McnpInteger.from_mcnp(j_line.popr())
 
                 # Processing J4/J5 (NCL: 17)
-                value = types.cast_fortran_integer(j_line.popr())
-                event.set_ncl(value)
+                ncl = types.McnpInteger.from_mcnp(j_line.popr())
 
-            case [7, 9, 8, 9, 8, 9, 8, 9, 8, 9]:
+            case (7, 9, 8, 9, 8, 9, 8, 9, 8, 9):
                 # Type 4
 
                 # Processing J7/J8 (NCP: 19)
-                value = types.cast_fortran_integer(j_line.popr())
-                event.set_ncp(value)
+                ncp = types.McnpInteger.from_mcnp(j_line.popr())
 
                 # Processing J6/J7 (MAT: 18)
-                value = types.cast_fortran_integer(j_line.popr())
-                event.set_mat(value)
+                mat = types.McnpInteger.from_mcnp(j_line.popr())
 
                 # Processing J5/J6 (NCL: 17)
-                value = types.cast_fortran_integer(j_line.popr())
-                event.set_ncl(value)
+                ncl = types.McnpInteger.from_mcnp(j_line.popr())
 
                 # Processing J4/J5 (IPT: 16)
-                value = types.cast_fortran_integer(j_line.popr())
-                event.set_ipt(value)
+                ipt = types.McnpInteger.from_mcnp(j_line.popr())
 
         # Processing J4
         match event_type:
-            case cls.EventType.SOURCE:
+            case Event.EventType.SOURCE:
                 pass
 
-            case cls.EventType.SURFACE:
+            case Event.EventType.SURFACE:
                 # (Surface Angle: 13)
-                value = types.cast_fortran_integer(j_line.popl())
-                event.set_surface_angle(value)
+                surface_angle = types.McnpInteger.from_mcnp(j_line.popl())
 
-            case cls.EventType.COLLISION:
+            case Event.EventType.COLLISION:
                 # (NTYN/MTP: 11)
-                value = types.cast_fortran_integer(j_line.popl())
-                event.set_ntyn_mtp(value)
+                ntyn_mtp = types.McnpInteger.from_mcnp(j_line.popl())
 
-            case cls.EventType.TERMINAL:
+            case Event.EventType.TERMINAL:
                 # (Branch Number: 15)
-                value = types.cast_fortran_integer(j_line.popl())
-                event.set_branch_number(value)
+                branch = types.McnpInteger.from_mcnp(j_line.popl())
 
-            case cls.EventType.FLAG:
+            case Event.EventType.FLAG:
                 assert False
 
             case _:
                 # (NTYN/MTP: 11)
-                value = types.cast_fortran_integer(j_line.popl())
-                event.set_ntyn_mtp(value)
+                ntyn_mtp = types.McnpInteger.from_mcnp(j_line.popl())
 
         # Processing P-Line
         p_line = _parser.Parser(
@@ -865,47 +496,62 @@ class Event:
         )
 
         # Processing P1 (xxx: 20)
-        value = types.cast_fortran_real(p_line.popl())
-        event.set_xxx(value)
+        xxx = types.McnpReal.from_mcnp(p_line.popl())
 
         # Processing P2 (yyy: 21)
-        value = types.cast_fortran_real(p_line.popl())
-        event.set_yyy(value)
+        yyy = types.McnpReal.from_mcnp(p_line.popl())
 
         # Processing P3 (zzz: 22)
-        value = types.cast_fortran_real(p_line.popl())
-        event.set_zzz(value)
+        zzz = types.McnpReal.from_mcnp(p_line.popl())
 
         # Processing Type Dependent Entries
-        if header.numbers[1:12] in {
+        if numbers in {
             (6, 9, 7, 9, 7, 9, 7, 9, 7, 9),
             (7, 9, 8, 9, 8, 9, 8, 9, 8, 9),
         }:
             # Processing P4 (uuu: 23)
-            value = types.cast_fortran_real(p_line.popl())
-            event.set_uuu(value)
+            uuu = types.McnpReal.from_mcnp(p_line.popl())
 
             # Processing P5 (vvv: 24)
-            value = types.cast_fortran_real(p_line.popl())
-            event.set_vvv(value)
+            vvv = types.McnpReal.from_mcnp(p_line.popl())
 
             # Processing P6 (www: 25)
-            value = types.cast_fortran_real(p_line.popl())
-            event.set_www(value)
+            www = types.McnpReal.from_mcnp(p_line.popl())
 
             # Processing P7 (erg: 26)
-            value = types.cast_fortran_real(p_line.popl())
-            event.set_erg(value)
+            erg = types.McnpReal.from_mcnp(p_line.popl())
 
             # Processing P8 (wgt: 27)
-            value = types.cast_fortran_real(p_line.popl())
-            event.set_wgt(value)
+            wgt = types.McnpReal.from_mcnp(p_line.popl())
 
             # Processing P9 (tme: 28)
-            value = types.cast_fortran_real(p_line.popl())
-            event.set_tme(value)
+            tme = types.McnpReal.from_mcnp(p_line.popl())
 
-        return event
+        return Event(
+            next_type,
+            event_type,
+            node,
+            nsr,
+            nxs,
+            ntyn_mtp,
+            nsf,
+            surface_angle,
+            nter,
+            branch,
+            ipt,
+            ncl,
+            mat,
+            ncp,
+            xxx,
+            yyy,
+            zzz,
+            uuu,
+            vvv,
+            www,
+            erg,
+            wgt,
+            tme,
+        )
 
     def to_arguments(self) -> dict:
         """

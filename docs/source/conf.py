@@ -14,13 +14,12 @@
 project = 'PyMCNP'
 copyright = '2024, The Regents of the University of California, through Lawrence Berkeley National Laboratory '
 '(subject to receipt of any required approvals from the U.S. Dept. of Energy). All rights reserved.'
-author = 'Devin Pease'
-release = '0.0.0'
+author = 'Devin Pease, Arun Persaud'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.napoleon']
+extensions = ['sphinx.ext.napoleon', 'myst_parser']
 
 templates_path = ['_templates']
 exclude_patterns = []
