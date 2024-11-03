@@ -400,6 +400,7 @@ class ReadFmesh:
         self.filename = Path(filename)
         self.all_lines = self.read_entire_file()
         self.data_idx = 0  # start data index
+        self.totals = []
         self.df_info = self.read_tally_info()
 
     def read_entire_file(self):
@@ -419,23 +420,22 @@ class ReadFmesh:
     def read_tally_info(self):
         e0 = np.array([0])
         t0 = np.array([0])
-        totals = []
         for i, line in enumerate(self.all_lines):
             tmp = line.split()
             if ('X direction') in line:
-                x0 = np.asarray(tmp[2:], dtype=float)
+                x0 = tmp[2:]
             if ('Y direction') in line:
-                y0 = np.asarray(tmp[2:], dtype=float)
+                y0 = tmp[2:]
             if ('Z direction') in line:
-                z0 = np.asarray(tmp[2:], dtype=float)
+                z0 = tmp[2:]
             if ('Energy bin boundaries') in line:
-                e0 = np.asarray(tmp[3:], dtype=float)
+                e0 = tmp[3:]
             if ('Time bin boundaries') in line:
-                t0 = np.asarray(tmp[3:], dtype=float)
+                t0 = tmp[3:]
             if 'Result' in tmp and 'Error' in tmp:
                 self.data_idx = i
-            if 'Total' in tmp:
-                totals.append(i)
+            if "Total" in tmp:
+                self.totals.append(i)
         data_info = [e0, t0, x0, y0, z0]
         info_np = np.array(data_info, dtype=object)
         info_np = self.numpy_fillna(info_np)
@@ -444,17 +444,56 @@ class ReadFmesh:
         )
         return df_info
 
-    def read_data(self):
-        data = self.all_lines[self.data_idx + 1 : -1]
-        data_np = np.array([x.split() for x in data], dtype=float)
+    def read_data(self, time_bin=False, energy_bin=False):
         cols = self.all_lines[self.data_idx].split()
         cols.remove('Rel')
         if 'Volume' in cols:
             cols.remove('*')
             cols.remove('Vol')
             cols = [w.replace('Rslt', 'ResVol') for w in cols]
-        df = pd.DataFrame(data=data_np, columns=cols)
-        return df
+        data0 = self.all_lines[self.data_idx + 1 : -1]
+        data = [x.split() for x in data0]
+        df = pd.DataFrame(data=data, columns=cols)
+        self.df_raw = df
+        try:
+            if time_bin is False and energy_bin is False: # no time or energy bins
+                pass
+            elif time_bin == "total" and energy_bin is False: # total time bins, no energy bins
+                df = df[df["Time"]=="Total"]
+            elif time_bin is not False and energy_bin is False: # specific time bin, no energy bins
+                df = df[df["Time"] != "Total"] # remove total entries
+                df = df[df["Time"].astype(float)==time_bin]
+            elif time_bin is False and energy_bin == "Total":
+                df = df[df["Energy"]=="Total"]
+            elif time_bin is False and energy_bin is not False:
+                df = df[df["Energy"] != "Total"] # remove total entries
+                df = df[df["Energy"].astype(float)==energy_bin]
+            elif time_bin == "Total" and energy_bin == "Total":
+                df = df[(df["Time"]=="Total") & (df["Energy"]=="Total")]
+                df = df.drop(columns=["Energy", "Time"])
+            elif time_bin == "Total" and energy_bin is not False:
+                df = df[df["Time"]=="Total"]
+                df = df.drop(columns=["Time"]) 
+                df = df[df["Energy"] != "Total"] # remove total entries
+                df = df[df["Energy"].astype(float)==energy_bin]
+            elif time_bin is not False and energy_bin == "Total":
+                df = df[df["Energy"]=="Total"]
+                df = df.drop(columns=["Energy"]) 
+                df = df[df["Time"] != "Total"] # remove total entries
+                df = df[df["Time"].astype(float)==time_bin]
+            elif time_bin is not False and energy_bin is not False:
+                df = df[df["Time"] != "Total"] # remove total entries
+                df = df[df["Energy"] != "Total"] # remove total entries
+                df = df[df["Time"].astype(float)==time_bin]
+                df = df[df["Energy"].astype(float)==energy_bin]
+            for col in df.columns:
+                df.loc[:,col] = pd.to_numeric(df[col], errors="coerce")
+                df.dropna(inplace=True)
+                df = df.astype(float)
+            return df
+        except:
+            print("Error in reading the file. The raw data will be output instead")
+            return self.df_raw
 
 
 def read_fmesh(file, mesh_info=False):
@@ -477,7 +516,6 @@ def read_fmesh(file, mesh_info=False):
     idx0 = 0
     e0 = np.array([0])
     t0 = np.array([0])
-    totals = []
     with open(file) as myfile:
         for i, line in enumerate(myfile):
             tmp = line.split()
@@ -493,8 +531,6 @@ def read_fmesh(file, mesh_info=False):
                 t0 = np.asarray(tmp[3:], dtype=float)
             if 'Result' in tmp and 'Error' in tmp:
                 idx0 = i
-            if 'Total' in tmp:
-                totals.append(i)
 
     with open(file) as f:
         all_data = f.readlines()
