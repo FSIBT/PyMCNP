@@ -7,14 +7,14 @@ should be ommitted
 import pymcnp
 import matplotlib.pyplot as plt
 
-fileF1 = "data/F1.o"
+fileF1 = "data/output_files/F1.o"
 out1 = pymcnp.outp.ReadOutput(fileF1)
 
 # information about tallies found
 dfi_F1 = out1.df_info
 
 # read one of the three subtallies
-df0 = out1.read_tally(n=0, tally_type="e")
+df0 = out1.read_tally(n=0)
 
 # plot tally
 plt.figure()
