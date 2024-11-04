@@ -136,7 +136,7 @@ class ReadOutput:
         return dic
 
     def get_tally_info(self):
-        blank_idx, erg_idx, time_idx, total_idx = [], [], [], []
+        blank_idx, erg_idx, time_idx, time_col_idx, total_idx = [], [], [], [], []
         print('Reading output file...')
         for i, line in enumerate(self.all_lines):
             tmp = line.split()
@@ -144,14 +144,17 @@ class ReadOutput:
                 blank_idx.append(i)
             if 'energy' in tmp and len(tmp) == 1:
                 erg_idx.append(i)
-            if 'time' in tmp and len(tmp) == 1:
+            if 'time' in tmp and len(tmp) == 1: # column format
                 time_idx.append(i)
+            if 'time:' in tmp and len(tmp) > 1: # row format
+                time_col_idx.append(i)
             if 'total' in tmp and len(tmp) == 3 and (len(erg_idx) > 0 or len(time_idx) > 0):
                 total_idx.append(i)
-        ky_idx = sorted(total_idx + erg_idx + time_idx)  # keyword indices
+        # keyword indices
+        ky_idx = sorted(total_idx + erg_idx + time_idx)  
         ky_idx = np.array(ky_idx).reshape(-1, 2)
         ky_idx[:, 0] = ky_idx[:, 0] + 1  # remove keyword header
-        blank_idx = np.array(blank_idx)
+        blank_idx = np.array(blank_idx) # blank spaces
         # find tally and subtally info indices by looking at blank spaces
         # before the keywords
         tly_info_idx = []
@@ -159,6 +162,10 @@ class ReadOutput:
         for x in ky_idx:  # this won't work for short tallies
             tly_info_idx.append(
                 blank_idx[(blank_idx < x[0]) & (blank_idx > x[0] - lines_before_tly)].min()
+            )
+        if len(time_col_idx) > 0:
+            tly_info_idx.append(
+                blank_idx[(blank_idx < time_col_idx[0]) & (blank_idx > time_col_idx[0] - 12)].min()
             )
         tly_info_idx = np.array(tly_info_idx) + 1
 
