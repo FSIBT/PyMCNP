@@ -36,13 +36,18 @@ def test_ft():
 def test_comments():
     line = 'ft8 geb -0.02 0.044 0.117'
     source, comments = pymcnp.utils._parser.Preprocessor.process_inp_comments(line)
-
     assert source == line
     assert comments == []
 
-    # todo add test for line including comments
+    comment_line = 'ft8 geb -0.02 0.044 0.117 $ hi\n'
+    source, comments = pymcnp.utils._parser.Preprocessor.process_inp_comments(comment_line)
+    assert source == 'ft8 geb -0.02 0.044 0.117'
+    assert comments == ['hi']
 
-    # test for line that includes multiple $ signs
+    continuation_line = 'm300 8016 -0.2094897 $ o-016\n     7014 -0.7771608 $ n-014\n     18040 -0.00996035 $ ar-040\n'
+    source, comments = pymcnp.utils._parser.Preprocessor.process_inp_comments(continuation_line)
+    assert source == 'm300 8016 -0.2094897 7014 -0.7771608 18040 -0.00996035'
+    assert comments == ['o-016', 'n-014', 'ar-040']
 
 
 def test_formatting():

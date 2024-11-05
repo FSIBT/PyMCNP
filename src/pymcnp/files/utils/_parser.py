@@ -227,24 +227,27 @@ class Preprocessor:
             MCNP string without continuation lines.
         """
 
-        # Isolating inline comments
-        string = re.sub(r' [$](.+?)[$]?\n', r' $\1 $\n', string)
+        string = re.sub(r'[$] *\n', '\n', string)
 
-        # Processing continuation lines
-        string = re.sub(r'\n +\n', '\n\n', string)
-        string = re.sub(r'( & *\n)|(\n     )|(\n    )|(\n   )|(\n  )|(\n )', r' ', string)
+        lines = re.split(r'\n +|& *\n +', string)
+        string = ''
+        for line in lines:
+            subline = line.split('\n')[-1] if '\n' in line else line
 
-        # Moving inline comments
-        lines = []
-        for line in string.split('\n'):
-            if '$' in line:
-                comments = re.findall(r'( [$].+?[$])', line)
-                line = re.sub(r'( [$].+?[$])', r'', line)
-                line += ''.join(comments)
-            lines.append(line)
-        string = '\n'.join(lines)
+            if '$' in subline:
+                line += '$'
 
-        return string
+            string += line
+
+        lines = string.split('\n')
+        string = []
+        for line in lines:
+            comments = re.findall(r'[$].+?[$]|[$].+', line)
+            content = re.split(r'[$].+?[$]|[$].+', line)
+
+            string.append(''.join(content) + ''.join(comments))
+
+        return '\n'.join(string)
 
     @staticmethod
     def _process_whitespace(string: str) -> str:
@@ -340,9 +343,11 @@ class Preprocessor:
         """
 
         string = Preprocessor._process_continuation(string)
-        string, *comments = re.split(r' [$] [$] | [$] ?', string)
+        strings = re.split(r' ?[$][$]|[$]', string)
+        string = strings[0].strip()
+        comments = [comment.strip() for comment in strings[1:]]
 
-        return string, comments[:-1]
+        return string, comments
 
     @staticmethod
     def process_inp(string: str, hasColumnarData=True) -> str:
