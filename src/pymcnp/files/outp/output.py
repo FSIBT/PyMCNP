@@ -144,17 +144,17 @@ class ReadOutput:
                 blank_idx.append(i)
             if 'energy' in tmp and len(tmp) == 1:
                 erg_idx.append(i)
-            if 'time' in tmp and len(tmp) == 1: # column format
+            if 'time' in tmp and len(tmp) == 1:  # column format
                 time_idx.append(i)
-            if 'time:' in tmp and len(tmp) > 1: # row format
+            if 'time:' in tmp and len(tmp) > 1:  # row format
                 time_col_idx.append(i)
             if 'total' in tmp and len(tmp) == 3 and (len(erg_idx) > 0 or len(time_idx) > 0):
                 total_idx.append(i)
         # keyword indices
-        ky_idx = sorted(total_idx + erg_idx + time_idx)  
+        ky_idx = sorted(total_idx + erg_idx + time_idx)
         ky_idx = np.array(ky_idx).reshape(-1, 2)
         ky_idx[:, 0] = ky_idx[:, 0] + 1  # remove keyword header
-        blank_idx = np.array(blank_idx) # blank spaces
+        blank_idx = np.array(blank_idx)  # blank spaces
         # find tally and subtally info indices by looking at blank spaces
         # before the keywords
         tly_info_idx = []
@@ -441,7 +441,7 @@ class ReadFmesh:
                 t0 = tmp[3:]
             if 'Result' in tmp and 'Error' in tmp:
                 self.data_idx = i
-            if "Total" in tmp:
+            if 'Total' in tmp:
                 self.totals.append(i)
         data_info = [e0, t0, x0, y0, z0]
         info_np = np.array(data_info, dtype=object)
@@ -463,43 +463,43 @@ class ReadFmesh:
         df = pd.DataFrame(data=data, columns=cols)
         self.df_raw = df
         try:
-            if time_bin is False and energy_bin is False: # no time or energy bins
+            if time_bin is False and energy_bin is False:  # no time or energy bins
                 pass
-            elif time_bin == "total" and energy_bin is False: # total time bins, no energy bins
-                df = df[df["Time"]=="Total"]
-            elif time_bin is not False and energy_bin is False: # specific time bin, no energy bins
-                df = df[df["Time"] != "Total"] # remove total entries
-                df = df[df["Time"].astype(float)==time_bin]
-            elif time_bin is False and energy_bin == "Total":
-                df = df[df["Energy"]=="Total"]
+            elif time_bin == 'total' and energy_bin is False:  # total time bins, no energy bins
+                df = df[df['Time'] == 'Total']
+            elif time_bin is not False and energy_bin is False:  # specific time bin, no energy bins
+                df = df[df['Time'] != 'Total']  # remove total entries
+                df = df[df['Time'].astype(float) == time_bin]
+            elif time_bin is False and energy_bin == 'Total':
+                df = df[df['Energy'] == 'Total']
             elif time_bin is False and energy_bin is not False:
-                df = df[df["Energy"] != "Total"] # remove total entries
-                df = df[df["Energy"].astype(float)==energy_bin]
-            elif time_bin == "Total" and energy_bin == "Total":
-                df = df[(df["Time"]=="Total") & (df["Energy"]=="Total")]
-                df = df.drop(columns=["Energy", "Time"])
-            elif time_bin == "Total" and energy_bin is not False:
-                df = df[df["Time"]=="Total"]
-                df = df.drop(columns=["Time"]) 
-                df = df[df["Energy"] != "Total"] # remove total entries
-                df = df[df["Energy"].astype(float)==energy_bin]
-            elif time_bin is not False and energy_bin == "Total":
-                df = df[df["Energy"]=="Total"]
-                df = df.drop(columns=["Energy"]) 
-                df = df[df["Time"] != "Total"] # remove total entries
-                df = df[df["Time"].astype(float)==time_bin]
+                df = df[df['Energy'] != 'Total']  # remove total entries
+                df = df[df['Energy'].astype(float) == energy_bin]
+            elif time_bin == 'Total' and energy_bin == 'Total':
+                df = df[(df['Time'] == 'Total') & (df['Energy'] == 'Total')]
+                df = df.drop(columns=['Energy', 'Time'])
+            elif time_bin == 'Total' and energy_bin is not False:
+                df = df[df['Time'] == 'Total']
+                df = df.drop(columns=['Time'])
+                df = df[df['Energy'] != 'Total']  # remove total entries
+                df = df[df['Energy'].astype(float) == energy_bin]
+            elif time_bin is not False and energy_bin == 'Total':
+                df = df[df['Energy'] == 'Total']
+                df = df.drop(columns=['Energy'])
+                df = df[df['Time'] != 'Total']  # remove total entries
+                df = df[df['Time'].astype(float) == time_bin]
             elif time_bin is not False and energy_bin is not False:
-                df = df[df["Time"] != "Total"] # remove total entries
-                df = df[df["Energy"] != "Total"] # remove total entries
-                df = df[df["Time"].astype(float)==time_bin]
-                df = df[df["Energy"].astype(float)==energy_bin]
+                df = df[df['Time'] != 'Total']  # remove total entries
+                df = df[df['Energy'] != 'Total']  # remove total entries
+                df = df[df['Time'].astype(float) == time_bin]
+                df = df[df['Energy'].astype(float) == energy_bin]
             for col in df.columns:
-                df.loc[:,col] = pd.to_numeric(df[col], errors="coerce")
+                df.loc[:, col] = pd.to_numeric(df[col], errors='coerce')
                 df.dropna(inplace=True)
                 df = df.astype(float)
             return df
-        except:
-            print("Error in reading the file. The raw data will be output instead")
+        except Exception:
+            print('Error in reading the file. The raw data will be output instead')
             return self.df_raw
 
 

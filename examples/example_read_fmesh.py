@@ -4,7 +4,6 @@ Example to read FMESH file
 
 import pymcnp
 import matplotlib.pyplot as plt
-import numpy as np
 
 file = 'data/output_files/meshtal'
 out = pymcnp.outp.output.ReadFmesh(file)
@@ -24,11 +23,11 @@ plt.imshow(
     origin='lower',
     cmap='inferno',
 )
-plt.xlabel("X (cm)")
-plt.ylabel("Y (cm)")
-clb = plt.colorbar(orientation="horizontal", shrink=0.8, pad=0.2)
-clb.ax.set_title("n/cm2/s")
-plt.title("Neutron Flux")
+plt.xlabel('X (cm)')
+plt.ylabel('Y (cm)')
+clb = plt.colorbar(orientation='horizontal', shrink=0.8, pad=0.2)
+clb.ax.set_title('n/cm2/s')
+plt.title('Neutron Flux')
 
 plt.figure(figsize=(8, 8))
 plt.imshow(
@@ -37,17 +36,16 @@ plt.imshow(
     origin='lower',
     cmap='inferno',
 )
-plt.xlabel("X (cm)")
-plt.ylabel("Z (cm)")
-clb = plt.colorbar(orientation="horizontal", shrink=0.8, pad=0.2)
-clb.ax.set_title("n/cm2/s")
-plt.title("Neutron Flux")
+plt.xlabel('X (cm)')
+plt.ylabel('Z (cm)')
+clb = plt.colorbar(orientation='horizontal', shrink=0.8, pad=0.2)
+clb.ax.set_title('n/cm2/s')
+plt.title('Neutron Flux')
 
 # Plotting the scatter plot with color mapping
 plt.figure(figsize=(8, 6))
-scatter = plt.scatter(df_mesh.X, df_mesh.Z, c=df_mesh.Result, cmap="magma")
-plt.colorbar(scatter, label="Neutron flux")
-plt.xlabel("X")
-plt.ylabel("Y")
+scatter = plt.scatter(df_mesh.X, df_mesh.Z, c=df_mesh.Result, cmap='magma')
+plt.colorbar(scatter, label='Neutron flux')
+plt.xlabel('X')
+plt.ylabel('Y')
 plt.show()
-

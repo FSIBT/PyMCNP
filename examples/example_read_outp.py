@@ -7,7 +7,7 @@ should be ommitted
 import pymcnp
 import matplotlib.pyplot as plt
 
-fileF1 = "data/output_files/F1.o"
+fileF1 = 'data/output_files/F1.o'
 out1 = pymcnp.outp.ReadOutput(fileF1)
 
 # information about tallies found
@@ -18,8 +18,7 @@ df0 = out1.read_tally(n=0)
 
 # plot tally
 plt.figure()
-plt.plot(df0["energy"], df0["cts"])
-plt.xlabel("Energy (MeV)")
-plt.ylabel("Counts (a.u)")
-plt.yscale("log")
-
+plt.plot(df0['energy'], df0['cts'])
+plt.xlabel('Energy (MeV)')
+plt.ylabel('Counts (a.u)')
+plt.yscale('log')
