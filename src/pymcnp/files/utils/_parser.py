@@ -227,27 +227,30 @@ class Preprocessor:
             MCNP string without continuation lines.
         """
 
-        string = re.sub(r'[$] *\n', '\n', string)
+        string = re.sub(r'\n *\n', '\n\n', string)
 
-        lines = re.split(r'\n +|& *\n +', string)
-        string = ''
-        for line in lines:
-            subline = line.split('\n')[-1] if '\n' in line else line
+        # Processing comments, storing and subsituting
+        comments = re.findall(r'[$].*?(?=\n|\Z)', string)
+        char = '*'
+        while char in string:
+            char += '*' if char[-1] == '&' else '&'
+        string = re.sub(r'[$].*?(?=\n|\Z)', char, string)
 
-            if '$' in subline:
-                line += '$'
+        # Processing continuation lines
+        string = re.sub(r'\n +|& *\n +', '', string)
 
-            string += line
+        # Processing inline comments
+        lines = []
+        for line in string.split('\n'):
+            if char in line:
+                count = line.count(char)
+                content = ' '.join(segment.strip() for segment in line.split(char))
+                comment = ' '.join(comments.pop(0) for _ in range(count))
+                lines.append(content + ' ' + comment)
+            else:
+                lines.append(line)
 
-        lines = string.split('\n')
-        string = []
-        for line in lines:
-            comments = re.findall(r'[$].+?[$]|[$].+', line)
-            content = re.split(r'[$].+?[$]|[$].+', line)
-
-            string.append(''.join(content) + ''.join(comments))
-
-        return '\n'.join(string)
+        return '\n'.join(lines)
 
     @staticmethod
     def _process_whitespace(string: str) -> str:
@@ -343,9 +346,10 @@ class Preprocessor:
         """
 
         string = Preprocessor._process_continuation(string)
-        strings = re.split(r' ?[$][$]|[$]', string)
-        string = strings[0].strip()
-        comments = [comment.strip() for comment in strings[1:]]
+        string, *comments = string.split('$')
+
+        string = string.strip()
+        comments = [comment.strip() for comment in comments]
 
         return string, comments
 
