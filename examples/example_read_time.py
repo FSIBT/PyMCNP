@@ -11,3 +11,8 @@ out = pymcnp.outp.ReadOutput(file)
 # information about tallies found
 dfi = out.df_info
 df = out.read_tally(n=0, mode="t")
+
+plt.figure()
+plt.plot(df["time"] * 1e-2, df["cts"])
+plt.xlabel("Time (us)")
+plt.ylabel("counts")

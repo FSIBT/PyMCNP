@@ -21,6 +21,7 @@ class ReadOutput:
         return self.filename.read_text().split("\n")
 
     def read_tally(self, n=0, mode="e"):
+        flag_et = False  # this is a time and energy tally flag
         if mode == "e":  # energy
             s = self.df_info["line_start"][n]
             e = self.df_info["line_end"][n]
@@ -28,35 +29,84 @@ class ReadOutput:
             corpus_np = np.array([x.split() for x in corpus], dtype=float)
             df = pd.DataFrame(columns=["energy", "cts", "error"], data=corpus_np)
             return df
-        elif mode == "t":  # time
+        elif mode == "t" or mode == "et" or mode == "te":
             s = self.df_info["line_start"][n]
             e = self.df_info["line_end"][n]
-            time, counts, error = [], [], []
-            for i, line in enumerate(self.all_lines[s : e + 10]):
+            time, energy, counts, error, total = [], [], [], [], []
+            for i, line in enumerate(self.all_lines[s:]):
                 tmp = line.split()
                 if "time:" in tmp and "total" not in tmp:
-                    time.append(tmp[1:])
-                    next_line = self.all_lines[s:e][i + 1].split()
-                    cts = next_line[0::2]
-                    err = next_line[1::2]
-                    counts.append(cts)
-                    error.append(err)
-                elif "time:" in tmp and "total" in tmp:
-                    time.append(tmp[1:-1])
+                    time0 = np.array(tmp[1:], dtype=float)
+                    time.append(time0)
                     next_line = self.all_lines[s:][i + 1].split()
-                    cts = next_line[0::2]
-                    err = next_line[1::2]
-                    counts.append(cts)
-                    error.append(err)
-            time = [item for sublist in time for item in sublist]
-            counts = [item for sublist in counts for item in sublist][:-1]
-            error = [item for sublist in error for item in sublist][:-1]
-            time = np.array(time, dtype=float)
-            counts = np.array(counts, dtype=float)
-            error = np.array(error, dtype=float)
-            mat = np.array([time, counts, error]).T
-            df = pd.DataFrame(columns=["time", "cts", "error"], data=mat)
-            return df
+                    if "energy" in next_line:
+                        flag_et = True
+                        tot_idx = None
+                        for j, line2 in enumerate(self.all_lines[s + i + 2 :]):
+                            tmp2 = line2.split()
+                            if "total" in tmp2:
+                                total.append(tmp2[1:])
+                                tot_idx = s + i + 2 + j + 1
+                                break
+                        data = self.all_lines[s + i + 2 : tot_idx - 1]
+                        data_np = np.array([x.split() for x in data], dtype=float)
+                        erg = data_np[:, 0]
+                        cts = data_np[:, 1::2]
+                        err = data_np[:, 2::2]
+                        energy.append(erg)
+                        counts.append(cts)
+                        error.append(err)
+                    else:
+                        cts = next_line[0::2]
+                        err = next_line[1::2]
+                        counts.append(cts)
+                        error.append(err)
+                elif "time:" in tmp and "total" in tmp:
+                    time.append(np.array(tmp[1:-1], dtype=float))
+                    next_line = self.all_lines[s:][i + 1].split()
+                    if "energy" in next_line:
+                        tot_idx = None
+                        for j, line2 in enumerate(self.all_lines[s + i + 2 :]):
+                            tmp2 = line2.split()
+                            if "total" in tmp2:
+                                total.append(tmp2[1:])
+                                tot_idx = s + i + 2 + j + 1
+                                break
+                        data = self.all_lines[s + i + 2 : tot_idx - 1]
+                        data_np = np.array([x.split() for x in data], dtype=float)
+                        erg = data_np[:, 0]
+                        cts = data_np[:, 1::2][:, :-1]
+                        err = data_np[:, 2::2][:, :-1]
+                        energy.append(erg)
+                        counts.append(cts)
+                        error.append(err)
+                    else:
+                        cts = next_line[0::2]
+                        err = next_line[1::2]
+                        counts.append(cts)
+                        error.append(err)
+            if flag_et is False:
+                time = [item for sublist in time for item in sublist]
+                counts = [item for sublist in counts for item in sublist][:-1]
+                error = [item for sublist in error for item in sublist][:-1]
+                time = np.array(time, dtype=float)
+                counts = np.array(counts, dtype=float)
+                error = np.array(error, dtype=float)
+                mat = np.array([time, counts, error]).T
+                df = pd.DataFrame(columns=["time", "cts", "error"], data=mat)
+                return df
+            else:
+                time = [item for sublist in time for item in sublist]
+                counts = np.concatenate(counts, axis=1)
+                error = np.concatenate(error, axis=1)
+                energy = np.unique(np.concatenate(energy))
+                dfe = pd.DataFrame()
+                dfe["energy"] = energy
+                dfc = pd.DataFrame(columns=time, data=counts)
+                dferr = pd.DataFrame(columns=time, data=error)
+                df = pd.concat((dfe, dfc), axis=1)
+                dfe = pd.concat((dfe, dferr), axis=1)
+                return dfe, df
 
     def old_read_tally(self, n=0, tally_type="e"):
         start = -1
@@ -185,7 +235,7 @@ class ReadOutput:
                 tally1_idx.append(i)
             if len(tmp) == 0:
                 blank_idx.append(i)
-            if "energy" in tmp and len(tmp) == 1:
+            if "energy" in tmp and "time:" not in self.all_lines[i - 1] and len(tmp) == 1:
                 erg_idx.append(i)
             if "time" in tmp and len(tmp) == 1:  # column format
                 time_idx.append(i)
@@ -251,9 +301,9 @@ class ReadOutput:
             info_dict["line_end"] = data_end
             df.loc[len(df)] = info_dict
 
-        print("--" * 20)
+        print("--" * 25)
         print(f"Number of tallies and/or subtallies found: {df.shape[0]}")
-        print("--" * 20)
+        print("--" * 25)
         self.df_info = df
 
     def old_get_tally_info(self):
