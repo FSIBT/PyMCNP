@@ -1111,7 +1111,9 @@ class Datum(_card.Card):
             else:
                 parameters_str += f' {parameter.to_mcnp()}'
 
-        return f'{self.mnemonic.to_mcnp()}{suffix_str}{designator_str}{parameters_str}'
+        return _parser.Postprocessor.add_continuation_lines(
+            f'{self.mnemonic.to_mcnp()}{suffix_str}{designator_str}{parameters_str}'
+        )
 
     def to_arguments(self) -> list:
         """
@@ -1181,9 +1183,13 @@ class Volume(Datum):
         """Overrides the baseclass function."""
 
         if self.has_no:
-            return f"vol no {' '.join(str(volume) for volume in self.volumes)}"
+            return _parser.Postprocessor.add_continuation_lines(
+                f"vol no {' '.join(str(volume) for volume in self.volumes)}"
+            )
         else:
-            return f"vol {' '.join(str(volume) for volume in self.volumes)}"
+            return _parser.Postprocessor.add_continuation_lines(
+                f"vol {' '.join(str(volume) for volume in self.volumes)}"
+            )
 
 
 class Area(Datum):
@@ -8464,7 +8470,7 @@ class _Placeholder(Datum):
                 parameters_str += parameter.to_mcnp()
 
             tmp.append(parameters_str)
-        return ' '.join(tmp)
+        return _parser.Postprocessor.add_continuation_lines(' '.join(tmp))
 
 
 class SourceDefinition(Datum):
