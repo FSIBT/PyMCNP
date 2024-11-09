@@ -18,33 +18,33 @@ class ReadOutput:
         self.get_tally_info()
 
     def read_entire_file(self):
-        return self.filename.read_text().split("\n")
+        return self.filename.read_text().split('\n')
 
-    def read_tally(self, n=0, mode="e"):
+    def read_tally(self, n=0, mode='e'):
         flag_et = False  # this is a time and energy tally flag
-        if mode == "e":  # energy
-            s = self.df_info["line_start"][n]
-            e = self.df_info["line_end"][n]
+        if mode == 'e':  # energy
+            s = self.df_info['line_start'][n]
+            e = self.df_info['line_end'][n]
             corpus = self.all_lines[s:e]
             corpus_np = np.array([x.split() for x in corpus], dtype=float)
-            df = pd.DataFrame(columns=["energy", "cts", "error"], data=corpus_np)
+            df = pd.DataFrame(columns=['energy', 'cts', 'error'], data=corpus_np)
             return df
-        elif mode == "t" or mode == "et" or mode == "te":
-            s = self.df_info["line_start"][n]
-            e = self.df_info["line_end"][n]
+        elif mode == 't' or mode == 'et' or mode == 'te':
+            s = self.df_info['line_start'][n]
+            e = self.df_info['line_end'][n]
             time, energy, counts, error, total = [], [], [], [], []
             for i, line in enumerate(self.all_lines[s:]):
                 tmp = line.split()
-                if "time:" in tmp and "total" not in tmp:
+                if 'time:' in tmp and 'total' not in tmp:
                     time0 = np.array(tmp[1:], dtype=float)
                     time.append(time0)
                     next_line = self.all_lines[s:][i + 1].split()
-                    if "energy" in next_line:
+                    if 'energy' in next_line:
                         flag_et = True
                         tot_idx = None
                         for j, line2 in enumerate(self.all_lines[s + i + 2 :]):
                             tmp2 = line2.split()
-                            if "total" in tmp2:
+                            if 'total' in tmp2:
                                 total.append(tmp2[1:])
                                 tot_idx = s + i + 2 + j + 1
                                 break
@@ -61,14 +61,14 @@ class ReadOutput:
                         err = next_line[1::2]
                         counts.append(cts)
                         error.append(err)
-                elif "time:" in tmp and "total" in tmp:
+                elif 'time:' in tmp and 'total' in tmp:
                     time.append(np.array(tmp[1:-1], dtype=float))
                     next_line = self.all_lines[s:][i + 1].split()
-                    if "energy" in next_line:
+                    if 'energy' in next_line:
                         tot_idx = None
                         for j, line2 in enumerate(self.all_lines[s + i + 2 :]):
                             tmp2 = line2.split()
-                            if "total" in tmp2:
+                            if 'total' in tmp2:
                                 total.append(tmp2[1:])
                                 tot_idx = s + i + 2 + j + 1
                                 break
@@ -93,7 +93,7 @@ class ReadOutput:
                 counts = np.array(counts, dtype=float)
                 error = np.array(error, dtype=float)
                 mat = np.array([time, counts, error]).T
-                df = pd.DataFrame(columns=["time", "cts", "error"], data=mat)
+                df = pd.DataFrame(columns=['time', 'cts', 'error'], data=mat)
                 return df
             else:
                 time = [item for sublist in time for item in sublist]
@@ -101,65 +101,65 @@ class ReadOutput:
                 error = np.concatenate(error, axis=1)
                 energy = np.unique(np.concatenate(energy))
                 dfe = pd.DataFrame()
-                dfe["energy"] = energy
+                dfe['energy'] = energy
                 dfc = pd.DataFrame(columns=time, data=counts)
                 dferr = pd.DataFrame(columns=time, data=error)
                 df = pd.concat((dfe, dfc), axis=1)
                 dfe = pd.concat((dfe, dferr), axis=1)
                 return dfe, df
 
-    def old_read_tally(self, n=0, tally_type="e"):
+    def old_read_tally(self, n=0, tally_type='e'):
         start = -1
-        if tally_type == "e":
-            key_word = "energy"
-        start_line = list(self.df_info["line_number"])[n]
+        if tally_type == 'e':
+            key_word = 'energy'
+        start_line = list(self.df_info['line_number'])[n]
 
         for i, line in enumerate(self.all_lines[start_line:]):
             words = line.split()
             if key_word in words:
                 start = start_line + i
-            if "total" in words and start != -1:
+            if 'total' in words and start != -1:
                 end = start_line + i
                 break
         corpus = self.all_lines[start + 1 : end]
         corpus_np = np.array([x.split() for x in corpus], dtype=float)
-        df = pd.DataFrame(columns=["energy", "cts", "error"], data=corpus_np)
+        df = pd.DataFrame(columns=['energy', 'cts', 'error'], data=corpus_np)
         return df
 
     def get_runtime(self):
         # in development
-        outp = self.filename.read_text().split("\n")
+        outp = self.filename.read_text().split('\n')
 
-        time1 = ""
-        time2 = ""
+        time1 = ''
+        time2 = ''
         for line in outp:
-            if "mcnp" in line and "version 6" in line and "probid" in line:
-                string = line.replace("     ", " ").split(" ")
+            if 'mcnp' in line and 'version 6' in line and 'probid' in line:
+                string = line.replace('     ', ' ').split(' ')
                 time1 = string[10]
                 time2 = string[19]
-            if "computer" in line and "time" in line:
+            if 'computer' in line and 'time' in line:
                 cpt = line
 
-        datetime2 = datetime.strptime(time2, "%H:%M:%S")
-        datetime1 = datetime.strptime(time1, "%H:%M:%S")
+        datetime2 = datetime.strptime(time2, '%H:%M:%S')
+        datetime1 = datetime.strptime(time1, '%H:%M:%S')
         diff = datetime1 - datetime2
         # real_time = "real time: " + time.strftime("%H:%M:%S", time.gmtime(diff.seconds))
-        real_time = f"real time: {round(diff.seconds/60,1)} minutes"
+        real_time = f'real time: {round(diff.seconds/60,1)} minutes'
         computer_time = cpt[1:]
         return real_time, computer_time
 
     def get_nps(self):
-        print("Reading output file...")
+        print('Reading output file...')
         nps = 0
         with self.filename.open() as myfile:
             for i, line in enumerate(myfile):
                 tmp = line.split()
-                if "run" in tmp and "terminated" in tmp:
+                if 'run' in tmp and 'terminated' in tmp:
                     nps = tmp[3]
                     print(tmp)
                     break
-        print("Done reading")
-        print(f"Number of simulated particles: {nps}")
+        print('Done reading')
+        print(f'Number of simulated particles: {nps}')
         return nps
 
     def read_table110(self):
@@ -172,9 +172,9 @@ class ReadOutput:
         start = -1
         for i, line in enumerate(allf):
             words = line.lower().split()
-            if "print" in words and "table" in words and "110" in words:
+            if 'print' in words and 'table' in words and '110' in words:
                 start = i
-            if "nps" in words and start != -1:
+            if 'nps' in words and start != -1:
                 col_line = i
                 break
         col_names = allf[col_line].split()
@@ -194,24 +194,24 @@ class ReadOutput:
             tmp = line.split()
             if len(tmp) == 0:
                 continue
-            if "1tally" in tmp and "nps" in tmp and len(tmp) >= 5:
-                tally_name = f"F{tmp[1]}"
+            if '1tally' in tmp and 'nps' in tmp and len(tmp) >= 5:
+                tally_name = f'F{tmp[1]}'
                 nps = int(tmp[-1])
-            elif "tally" in tmp and "type" in tmp:
-                tally_type = f"F{tmp[2]}"
-                description = " ".join(tmp[3:])
-            elif "particle(s):" in tmp and len(tmp) > 1:
-                particle = " ".join(tmp[1:])
+            elif 'tally' in tmp and 'type' in tmp:
+                tally_type = f'F{tmp[2]}'
+                description = ' '.join(tmp[3:])
+            elif 'particle(s):' in tmp and len(tmp) > 1:
+                particle = ' '.join(tmp[1:])
             else:
-                other.append(" ".join(tmp))
-        other_info = " |***| ".join(other)
+                other.append(' '.join(tmp))
+        other_info = ' |***| '.join(other)
         dic = {
-            "nps": nps,
-            "tally_type": tally_type,
-            "tally_name": tally_name,
-            "description": description,
-            "particle": particle,
-            "other": other_info,
+            'nps': nps,
+            'tally_type': tally_type,
+            'tally_name': tally_name,
+            'description': description,
+            'particle': particle,
+            'other': other_info,
         }
         return dic
 
@@ -228,26 +228,22 @@ class ReadOutput:
     def get_tally_info(self):
         blank_idx, erg_idx, time_idx, time2_idx, total_idx = [], [], [], [], []
         tally1_idx, time2_end_idx = [], []
-        print("Reading output file...")
+        print('Reading output file...')
         for i, line in enumerate(self.all_lines):
             tmp = line.split()
-            if "1tally" in tmp and "nps" in tmp:
+            if '1tally' in tmp and 'nps' in tmp:
                 tally1_idx.append(i)
             if len(tmp) == 0:
                 blank_idx.append(i)
-            if "energy" in tmp and "time:" not in self.all_lines[i - 1] and len(tmp) == 1:
+            if 'energy' in tmp and 'time:' not in self.all_lines[i - 1] and len(tmp) == 1:
                 erg_idx.append(i)
-            if "time" in tmp and len(tmp) == 1:  # column format
+            if 'time' in tmp and len(tmp) == 1:  # column format
                 time_idx.append(i)
-            if "time:" in tmp and len(tmp) > 1:  # row format
+            if 'time:' in tmp and len(tmp) > 1:  # row format
                 time2_idx.append(i)
-            if "time:" in tmp and "total" in tmp:
+            if 'time:' in tmp and 'total' in tmp:
                 time2_end_idx.append(i)
-            if (
-                "total" in tmp
-                and len(tmp) == 3
-                and (len(erg_idx) > 0 or len(time_idx) > 0)
-            ):
+            if 'total' in tmp and len(tmp) == 3 and (len(erg_idx) > 0 or len(time_idx) > 0):
                 total_idx.append(i)
         # keyword indices
         ky_idx = sorted(total_idx + erg_idx + time_idx)
@@ -260,22 +256,20 @@ class ReadOutput:
         lines_before_tly = 10  # look for empty lines before tally
         for x in ky_idx:  # this won't work for short tallies
             tly_info_idx.append(
-                blank_idx[
-                    (blank_idx < x[0]) & (blank_idx > x[0] - lines_before_tly)
-                ].min()
+                blank_idx[(blank_idx < x[0]) & (blank_idx > x[0] - lines_before_tly)].min()
             )
         tly_info_idx = np.array(tly_info_idx) + 1
 
         # initialize dataframe
         cols = [
-            "tally_name",
-            "tally_type",
-            "particle",
-            "line_start",
-            "line_end",
-            "description",
-            "nps",
-            "other",
+            'tally_name',
+            'tally_type',
+            'particle',
+            'line_start',
+            'line_end',
+            'description',
+            'nps',
+            'other',
         ]
         df = pd.DataFrame(columns=cols)
 
@@ -286,8 +280,8 @@ class ReadOutput:
             data_end = data[1]
             info_lst = self.all_lines[info_start:info_end]
             info_dict = self.parse_tally_info(info_lst)
-            info_dict["line_start"] = data_start
-            info_dict["line_end"] = data_end
+            info_dict['line_start'] = data_start
+            info_dict['line_end'] = data_end
             df.loc[len(df)] = info_dict
         # handle time binned data
         for t, e in zip(tally1_idx, time2_end_idx):
@@ -297,13 +291,13 @@ class ReadOutput:
             data_end = e  # fix this
             info_lst = self.all_lines[info_start:info_end]
             info_dict = self.parse_tally_info(info_lst)
-            info_dict["line_start"] = data_start
-            info_dict["line_end"] = data_end
+            info_dict['line_start'] = data_start
+            info_dict['line_end'] = data_end
             df.loc[len(df)] = info_dict
 
-        print("--" * 25)
-        print(f"Number of tallies and/or subtallies found: {df.shape[0]}")
-        print("--" * 25)
+        print('--' * 25)
+        print(f'Number of tallies and/or subtallies found: {df.shape[0]}')
+        print('--' * 25)
         self.df_info = df
 
     def old_get_tally_info(self):
@@ -312,48 +306,48 @@ class ReadOutput:
         tally_type, particle, surface = [], [], []
         uncollided, user_bin, l_angle = [], [], []
 
-        print("Reading output file...")
+        print('Reading output file...')
         for i, line in enumerate(self.all_lines):
             tmp = line.split()
-            if "tally" in tmp and "type" in tmp:
+            if 'tally' in tmp and 'type' in tmp:
                 lidx.append(i)
                 tally_type.append(line)
-            if "particle(s):" in tmp:
+            if 'particle(s):' in tmp:
                 pidx.append(i)
                 particle.append(tmp)
-            if "surface" in tmp and len(tmp) == 2 and len(lidx) > 0 and i >= min(lidx):
+            if 'surface' in tmp and len(tmp) == 2 and len(lidx) > 0 and i >= min(lidx):
                 surf.append(i)
                 surface.append(tmp)
-            if "angle" in tmp and "bin:" in tmp:
+            if 'angle' in tmp and 'bin:' in tmp:
                 l_angle.append(tmp)
                 ix_angle.append(i)
-            if "uncollided" in tmp and "flux" in tmp:
+            if 'uncollided' in tmp and 'flux' in tmp:
                 uncol.append(i)
                 uncollided.append(line)
-            if "user" in tmp and "bin" in tmp:
+            if 'user' in tmp and 'bin' in tmp:
                 tagix.append(i)
                 user_bin.append(line.split()[-1])
-        print("Done reading")
+        print('Done reading')
         if len(surface) > 0 and len(user_bin) > 0:
             tot_subtly = len(user_bin)
         else:
             tot_subtly = len(surface) + len(uncollided) + len(user_bin)
-        print("--" * 20)
-        print(f"Number of tallies: {len(lidx)}")
-        print(f"Number of subtallies: {tot_subtly}")
-        print("--" * 20)
+        print('--' * 20)
+        print(f'Number of tallies: {len(lidx)}')
+        print(f'Number of subtallies: {tot_subtly}')
+        print('--' * 20)
         ttype = tally_type[0].split()
 
         # initialize dataframe
         cols = [
-            "tally_type",
-            "description",
-            "particle",
-            "surfaces",
-            "angle_bin",
-            "flux",
-            "user_bin",
-            "line_number",
+            'tally_type',
+            'description',
+            'particle',
+            'surfaces',
+            'angle_bin',
+            'flux',
+            'user_bin',
+            'line_number',
         ]
         df = pd.DataFrame(columns=cols)
         sur, ang, unc, ub = 0, 0, 0, 0
@@ -362,8 +356,8 @@ class ReadOutput:
                 sur = surface
                 for ix, s in zip(surf, sur):
                     dat0 = [
-                        "F" + ttype[2],
-                        " ".join(ttype[3:]),
+                        'F' + ttype[2],
+                        ' '.join(ttype[3:]),
                         particle[0][1],
                         s[1],
                         ang,
@@ -378,11 +372,11 @@ class ReadOutput:
                 sur = surface
                 for ix, s, a in zip(surf, sur, ang):
                     dat0 = [
-                        "F" + ttype[2],
-                        " ".join(ttype[3:]),
+                        'F' + ttype[2],
+                        ' '.join(ttype[3:]),
                         particle[0][1],
                         s[1],
-                        " ".join(a[2:]),
+                        ' '.join(a[2:]),
                         unc,
                         ub,
                         ix,
@@ -392,12 +386,12 @@ class ReadOutput:
 
         if len(uncollided) > 0:
             uncol_idx = uncol
-            flux = "collided flux"
+            flux = 'collided flux'
             unc = uncollided
             for line, p in zip(lidx, particle):
                 dat0 = [
-                    "F" + ttype[2],
-                    " ".join(ttype[3:]),
+                    'F' + ttype[2],
+                    ' '.join(ttype[3:]),
                     p[1],
                     sur,
                     ang,
@@ -409,8 +403,8 @@ class ReadOutput:
                 df.loc[len(df)] = ser0
             for line, ix, p in zip(unc, uncol_idx, particle):
                 dat0 = [
-                    "F" + ttype[2],
-                    " ".join(ttype[3:]),
+                    'F' + ttype[2],
+                    ' '.join(ttype[3:]),
                     p[1],
                     sur,
                     ang,
@@ -424,8 +418,8 @@ class ReadOutput:
             ub = user_bin
             for line, ix in zip(ub, tagix):
                 dat0 = [
-                    "F" + ttype[2],
-                    " ".join(ttype[3:]),
+                    'F' + ttype[2],
+                    ' '.join(ttype[3:]),
                     particle[0][1],
                     sur,
                     ang,
@@ -443,11 +437,11 @@ class ReadOutput:
             ub = user_bin
             for ix, s, a, line in zip(surf, sur, ang, ub):
                 dat0 = [
-                    "F" + ttype[2],
-                    " ".join(ttype[3:]),
+                    'F' + ttype[2],
+                    ' '.join(ttype[3:]),
                     particle[0][1],
                     s[1],
-                    " ".join(a[2:]),
+                    ' '.join(a[2:]),
                     unc,
                     line,
                     ix,
@@ -458,8 +452,8 @@ class ReadOutput:
         if tot_subtly == 0:
             for n in lidx:
                 dat0 = [
-                    "F" + ttype[2],
-                    " ".join(ttype[3:]),
+                    'F' + ttype[2],
+                    ' '.join(ttype[3:]),
                     particle[0][1],
                     sur,
                     ang,
@@ -476,7 +470,7 @@ class ReadOutput:
 
 
 # This function should be implemented separately under the ptrac reader
-def read_ptrac_surf(files, surfaces=["5.1", "5.2", "5.3"], event_types=["3000", "9000"]):
+def read_ptrac_surf(files, surfaces=['5.1', '5.2', '5.3'], event_types=['3000', '9000']):
     # surface crossing event (3000) and last event for given history (9000)
     det = []
     det_info = []
@@ -502,12 +496,12 @@ def read_ptrac_surf(files, surfaces=["5.1", "5.2", "5.3"], event_types=["3000", 
             if len(tmp) == 9:
                 det.append(tmp)
 
-    cols_i = ["event", "node", "ZA", "MTP", "particle", "cell", "material", "ncp"]
+    cols_i = ['event', 'node', 'ZA', 'MTP', 'particle', 'cell', 'material', 'ncp']
     df_i = pd.DataFrame(data=det_info, columns=cols_i)
-    cols = ["x", "y", "z", "u", "v", "w", "energy", "wgt", "tme"]
+    cols = ['x', 'y', 'z', 'u', 'v', 'w', 'energy', 'wgt', 'tme']
     df = pd.DataFrame(data=det, columns=cols)
 
-    df["tme"] = df["tme"] * 10  # ns
+    df['tme'] = df['tme'] * 10  # ns
     return df_i, df
 
 
@@ -520,7 +514,7 @@ class ReadFmesh:
         self.df_info = self.read_tally_info()
 
     def read_entire_file(self):
-        return self.filename.read_text().split("\n")
+        return self.filename.read_text().split('\n')
 
     @staticmethod
     def numpy_fillna(data):
@@ -538,35 +532,35 @@ class ReadFmesh:
         t0 = np.array([0])
         for i, line in enumerate(self.all_lines):
             tmp = line.split()
-            if ("X direction") in line:
+            if ('X direction') in line:
                 x0 = tmp[2:]
-            if ("Y direction") in line:
+            if ('Y direction') in line:
                 y0 = tmp[2:]
-            if ("Z direction") in line:
+            if ('Z direction') in line:
                 z0 = tmp[2:]
-            if ("Energy bin boundaries") in line:
+            if ('Energy bin boundaries') in line:
                 e0 = tmp[3:]
-            if ("Time bin boundaries") in line:
+            if ('Time bin boundaries') in line:
                 t0 = tmp[3:]
-            if "Result" in tmp and "Error" in tmp:
+            if 'Result' in tmp and 'Error' in tmp:
                 self.data_idx = i
-            if "Total" in tmp:
+            if 'Total' in tmp:
                 self.totals.append(i)
         data_info = [e0, t0, x0, y0, z0]
         info_np = np.array(data_info, dtype=object)
         info_np = self.numpy_fillna(info_np)
         df_info = pd.DataFrame(
-            data=info_np.T, columns=["Ebins", "tbins", "Xbins", "Ybins", "Zbins"]
+            data=info_np.T, columns=['Ebins', 'tbins', 'Xbins', 'Ybins', 'Zbins']
         )
         return df_info
 
     def read_data(self, time_bin=False, energy_bin=False):
         cols = self.all_lines[self.data_idx].split()
-        cols.remove("Rel")
-        if "Volume" in cols:
-            cols.remove("*")
-            cols.remove("Vol")
-            cols = [w.replace("Rslt", "ResVol") for w in cols]
+        cols.remove('Rel')
+        if 'Volume' in cols:
+            cols.remove('*')
+            cols.remove('Vol')
+            cols = [w.replace('Rslt', 'ResVol') for w in cols]
         data0 = self.all_lines[self.data_idx + 1 : -1]
         data = [x.split() for x in data0]
         df = pd.DataFrame(data=data, columns=cols)
@@ -574,45 +568,41 @@ class ReadFmesh:
         try:
             if time_bin is False and energy_bin is False:  # no time or energy bins
                 pass
-            elif (
-                time_bin == "total" and energy_bin is False
-            ):  # total time bins, no energy bins
-                df = df[df["Time"] == "Total"]
-            elif (
-                time_bin is not False and energy_bin is False
-            ):  # specific time bin, no energy bins
-                df = df[df["Time"] != "Total"]  # remove total entries
-                df = df[df["Time"].astype(float) == time_bin]
-            elif time_bin is False and energy_bin == "Total":
-                df = df[df["Energy"] == "Total"]
+            elif time_bin == 'total' and energy_bin is False:  # total time bins, no energy bins
+                df = df[df['Time'] == 'Total']
+            elif time_bin is not False and energy_bin is False:  # specific time bin, no energy bins
+                df = df[df['Time'] != 'Total']  # remove total entries
+                df = df[df['Time'].astype(float) == time_bin]
+            elif time_bin is False and energy_bin == 'Total':
+                df = df[df['Energy'] == 'Total']
             elif time_bin is False and energy_bin is not False:
-                df = df[df["Energy"] != "Total"]  # remove total entries
-                df = df[df["Energy"].astype(float) == energy_bin]
-            elif time_bin == "Total" and energy_bin == "Total":
-                df = df[(df["Time"] == "Total") & (df["Energy"] == "Total")]
-                df = df.drop(columns=["Energy", "Time"])
-            elif time_bin == "Total" and energy_bin is not False:
-                df = df[df["Time"] == "Total"]
-                df = df.drop(columns=["Time"])
-                df = df[df["Energy"] != "Total"]  # remove total entries
-                df = df[df["Energy"].astype(float) == energy_bin]
-            elif time_bin is not False and energy_bin == "Total":
-                df = df[df["Energy"] == "Total"]
-                df = df.drop(columns=["Energy"])
-                df = df[df["Time"] != "Total"]  # remove total entries
-                df = df[df["Time"].astype(float) == time_bin]
+                df = df[df['Energy'] != 'Total']  # remove total entries
+                df = df[df['Energy'].astype(float) == energy_bin]
+            elif time_bin == 'Total' and energy_bin == 'Total':
+                df = df[(df['Time'] == 'Total') & (df['Energy'] == 'Total')]
+                df = df.drop(columns=['Energy', 'Time'])
+            elif time_bin == 'Total' and energy_bin is not False:
+                df = df[df['Time'] == 'Total']
+                df = df.drop(columns=['Time'])
+                df = df[df['Energy'] != 'Total']  # remove total entries
+                df = df[df['Energy'].astype(float) == energy_bin]
+            elif time_bin is not False and energy_bin == 'Total':
+                df = df[df['Energy'] == 'Total']
+                df = df.drop(columns=['Energy'])
+                df = df[df['Time'] != 'Total']  # remove total entries
+                df = df[df['Time'].astype(float) == time_bin]
             elif time_bin is not False and energy_bin is not False:
-                df = df[df["Time"] != "Total"]  # remove total entries
-                df = df[df["Energy"] != "Total"]  # remove total entries
-                df = df[df["Time"].astype(float) == time_bin]
-                df = df[df["Energy"].astype(float) == energy_bin]
+                df = df[df['Time'] != 'Total']  # remove total entries
+                df = df[df['Energy'] != 'Total']  # remove total entries
+                df = df[df['Time'].astype(float) == time_bin]
+                df = df[df['Energy'].astype(float) == energy_bin]
             for col in df.columns:
-                df.loc[:, col] = pd.to_numeric(df[col], errors="coerce")
+                df.loc[:, col] = pd.to_numeric(df[col], errors='coerce')
                 df.dropna(inplace=True)
                 df = df.astype(float)
             return df
         except Exception:
-            print("Error in reading the file. The raw data will be output instead")
+            print('Error in reading the file. The raw data will be output instead')
             return self.df_raw
 
 
@@ -639,41 +629,37 @@ def read_fmesh(file, mesh_info=False):
     with open(file) as myfile:
         for i, line in enumerate(myfile):
             tmp = line.split()
-            if ("X direction") in line:
+            if ('X direction') in line:
                 x0 = np.asarray(tmp[2:], dtype=float)
-            if ("Y direction") in line:
+            if ('Y direction') in line:
                 y0 = np.asarray(tmp[2:], dtype=float)
-            if ("Z direction") in line:
+            if ('Z direction') in line:
                 z0 = np.asarray(tmp[2:], dtype=float)
-            if ("Energy bin boundaries") in line:
+            if ('Energy bin boundaries') in line:
                 e0 = np.asarray(tmp[3:], dtype=float)
-            if ("Time bin boundaries") in line:
+            if ('Time bin boundaries') in line:
                 t0 = np.asarray(tmp[3:], dtype=float)
-            if "Result" in tmp and "Error" in tmp:
+            if 'Result' in tmp and 'Error' in tmp:
                 idx0 = i
 
     with open(file) as f:
         all_data = f.readlines()
 
     data0 = all_data[idx0 + 1 :]
-    data1 = np.array(
-        [np.fromstring(x, dtype=float, sep=" ") for x in data0 if "Total" not in x]
-    )
+    data1 = np.array([np.fromstring(x, dtype=float, sep=' ') for x in data0 if 'Total' not in x])
     cols = all_data[idx0].split()
-    cols.remove("Rel")
-    if "Volume" in cols:
-        cols.remove("*")
-        cols.remove("Vol")
-        cols = [w.replace("Rslt", "ResVol") for w in cols]
+    cols.remove('Rel')
+    if 'Volume' in cols:
+        cols.remove('*')
+        cols.remove('Vol')
+        cols = [w.replace('Rslt', 'ResVol') for w in cols]
     df = pd.DataFrame(data=data1, columns=cols)
     # info
     if mesh_info:
         data_info = [e0, t0, x0, y0, z0]
         info_np = np.array(data_info, dtype=object)
         a = numpy_fillna(info_np)
-        df_info = pd.DataFrame(
-            data=a.T, columns=["Ebins", "tbins", "Xbins", "Ybins", "Zbins"]
-        )
+        df_info = pd.DataFrame(data=a.T, columns=['Ebins', 'tbins', 'Xbins', 'Ybins', 'Zbins'])
         return df_info, df
     else:
         return df
