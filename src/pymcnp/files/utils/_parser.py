@@ -8,6 +8,7 @@ regular expressions and the deque data structure.
 
 import re
 import collections
+import itertools
 
 
 class Parser:
@@ -143,6 +144,32 @@ class Parser:
         """
 
         return str(list(self.deque))
+
+    @classmethod
+    def from_fortran(cls, specifiers: list[int], string: str, err: Exception):
+        """
+        ``from_fortran`` generates ``Parser`` objects from strings and lengths.
+
+        Parameters:
+            specifiers: Fortran specifier lengths.
+            string: String to read.
+            err: Empty deque error.
+
+        Returns:
+            ``Parser`` based on string split.
+
+        Raises:
+            err
+        """
+
+        if len(string) != sum(specifiers):
+            raise err
+
+        specifiers = [0] + specifiers
+        indicies = list(itertools.accumulate(specifiers))
+        tokens = [string[i:j] for i, j in zip(indicies, indicies[1:])]
+
+        return cls(tokens, err)
 
 
 class Preprocessor:
@@ -401,7 +428,6 @@ class Preprocessor:
         """
 
         string = Preprocessor._process_case(string)
-        string = Preprocessor._process_whitespace(string)
 
         return string
 

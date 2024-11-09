@@ -27,8 +27,8 @@ class Ptrac:
         ``__init__`` initializes ``Ptrac``.
         """
 
-        self.header: Header = None
-        self.histories: tuple[History] = None
+        self.header: Header = header
+        self.histories: tuple[History] = histories
 
     @staticmethod
     def from_mcnp(source: str):

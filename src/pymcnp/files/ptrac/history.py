@@ -106,6 +106,7 @@ class History:
         nsf = None
         jptal = None
         tal = None
+        next_type = None
 
         source = _parser.Preprocessor.process_ptrac(source)
         lines = _parser.Parser(
@@ -113,36 +114,32 @@ class History:
         )
 
         # Processing I Line
-        tokens = _parser.Parser(
-            lines.popl().strip().split(' '),
-            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY),
+        tokens = _parser.Parser.from_fortran(
+            (header.numbers[0].value - 1) * [10] + [13],
+            lines.popl()[1:],
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
         )
-        if len(tokens) != header.numbers[0].value:
-            raise SyntaxError
 
         for i in range(0, header.numbers[0].value):
-            match header.ids[i]:
-                case '1':
-                    nps = types.McnpInteger.from_mcnp(tokens.popl())
-                case '2':
-                    next_type = Event.EventType.from_mcnp(tokens.popl())
-                case '3':
-                    ncl = types.McnpInteger.from_mcnp(tokens.popl())
-                case '4':
-                    nsf = types.McnpInteger.from_mcnp(tokens.popl())
-                case '5':
-                    jptal = types.McnpInteger.from_mcnp(tokens.popl())
-                case '6':
-                    tal = types.McnpReal.from_mcnp(tokens.popl())
+            match header.ids[i].value:
+                case 1:
+                    nps = types.McnpInteger.from_mcnp(tokens.popl().strip())
+                case 2:
+                    next_type = Event.EventType.from_mcnp(tokens.popl().strip())
+                case 3:
+                    ncl = types.McnpInteger.from_mcnp(tokens.popl().strip())
+                case 4:
+                    nsf = types.McnpInteger.from_mcnp(tokens.popl().strip())
+                case 5:
+                    jptal = types.McnpInteger.from_mcnp(tokens.popl().strip())
+                case 6:
+                    tal = types.McnpReal.from_mcnp(tokens.popl().strip())
+                case _:
+                    assert False
 
         # Processing J & P Lines
         events = []
 
-        tokens = _parser.Parser(
-            lines.peekl().split(' '), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY)
-        )
-
-        next_type = next_type
         while next_type != Event.EventType.FLAG:
             event = Event.from_mcnp(lines.popl() + '\n' + lines.popl(), header, next_type)
             events.append(event)

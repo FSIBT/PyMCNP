@@ -350,7 +350,6 @@ class Event:
         """
 
         next_type = None
-        event_type = None
         node = None
         nsr = None
         nxs = None
@@ -379,12 +378,30 @@ class Event:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_EVENT)
 
         # Processing J-Line
-        j_line = _parser.Parser(
-            lines[0].split(' '), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_EVENT)
+        n = None
+
+        match event_type:
+            case Event.EventType.SOURCE:
+                n = header.numbers[1]
+            case Event.EventType.SURFACE:
+                n = header.numbers[5]
+            case Event.EventType.COLLISION:
+                n = header.numbers[7]
+            case Event.EventType.TERMINAL:
+                n = header.numbers[9]
+            case Event.EventType.FLAG:
+                assert False
+            case _:
+                n = header.numbers[3]
+
+        j_line = _parser.Parser.from_fortran(
+            n.value * [10],
+            lines[0][1:],
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_EVENT),
         )
 
         # Processing J2 (Next Event Type: 7)
-        next_type = Event.EventType.from_mcnp(j_line.popl())
+        next_type = Event.EventType.from_mcnp(j_line.popl().strip())
 
         # Processing J2 (Node: 8)
         node = types.McnpInteger.from_mcnp(j_line.popl())
@@ -491,8 +508,26 @@ class Event:
                 ntyn_mtp = types.McnpInteger.from_mcnp(j_line.popl())
 
         # Processing P-Line
-        p_line = _parser.Parser(
-            lines[1].split(' '), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_EVENT)
+        n = None
+
+        match event_type:
+            case Event.EventType.SOURCE:
+                n = header.numbers[2]
+            case Event.EventType.SURFACE:
+                n = header.numbers[6]
+            case Event.EventType.COLLISION:
+                n = header.numbers[8]
+            case Event.EventType.TERMINAL:
+                n = header.numbers[9]
+            case Event.EventType.FLAG:
+                assert False
+            case _:
+                n = header.numbers[10]
+
+        p_line = _parser.Parser.from_fortran(
+            n.value * [13],
+            lines[1][1:],
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_EVENT),
         )
 
         # Processing P1 (xxx: 20)

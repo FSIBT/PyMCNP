@@ -176,16 +176,19 @@ class Header:
 
         source = _parser.Preprocessor.process_ptrac(source)
         lines = _parser.Parser(
-            source.split('\n'), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
+            source.split('\n'),
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
         )
 
         # Processing Magic Number
-        if lines.popl() != '-1':
+        if lines.popl() != '   -1':
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_HEADER_MINUS1)
 
         # Processing Header
-        tokens = _parser.Parser(
-            lines.popl().split(' '), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
+        tokens = _parser.Parser.from_fortran(
+            [4, 5, 32, 9, 10],
+            lines.popl(),
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
         )
 
         code = tokens.popl()
@@ -196,12 +199,11 @@ class Header:
         title = lines.popl()
 
         # Processing Settings Block
-        tokens = _parser.Parser(
-            lines.popl().strip().split(' '),
+        tokens = _parser.Parser.from_fortran(
+            10 * [12],
+            lines.popl()[1:],
             errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
         )
-        if len(tokens) != 10:
-            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
 
         m = types.McnpReal.from_mcnp(tokens.popl())
         if not (m == 13 or m == 14):
@@ -210,13 +212,11 @@ class Header:
         settings = {}
         for i in range(0, int(m.value)):
             if not tokens:
-                tokens = _parser.Parser(
-                    lines.popl().strip().split(' '),
+                tokens = _parser.Parser.from_fortran(
+                    10 * [12],
+                    lines.popl()[1:],
                     errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
                 )
-
-                if len(tokens) != 10:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
 
             n = types.McnpReal.from_mcnp(tokens.popl())
             if not (n.value != 'j' and n.value >= 0):
@@ -225,13 +225,11 @@ class Header:
             values = [None] * int(n.value)
             for j in range(0, int(n.value)):
                 if not tokens:
-                    tokens = _parser.Parser(
-                        lines.popl().strip().split(' '),
+                    tokens = _parser.Parser.from_fortran(
+                        10 * [12],
+                        lines.popl()[1:],
                         errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
                     )
-
-                    if len(tokens) != 10:
-                        raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
 
                 values[j] = tokens.popl()
 
@@ -242,53 +240,33 @@ class Header:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_SETTINGS)
 
         # Processing Numbers
-        tokens = _parser.Parser(
-            lines.popl().strip().split(' '),
+        tokens = _parser.Parser.from_fortran(
+            20 * [5],
+            lines.popl()[1:],
             errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
         )
-        if len(tokens) != 20:
-            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
 
-        numbers = []
-        while tokens:
-            n = types.McnpInteger.from_mcnp(tokens.peekl())
-            if not n >= 0:
-                raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER)
-
-            numbers.append(n)
-            tokens.popl()
-
-        numbers = tuple(numbers)
-
-        if [number.value for number in numbers][1:11] not in [
-            [5, 3, 6, 3, 6, 3, 6, 3, 6, 3],
-            [6, 3, 7, 3, 7, 3, 7, 3, 7, 3],
-            [6, 9, 7, 9, 7, 9, 7, 9, 7, 9],
-            [7, 9, 8, 9, 8, 9, 8, 9, 8, 9],
-        ]:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_NUMBERS)
+        numbers = tuple([types.McnpInteger.from_mcnp(tokens.popl()) for _ in range(0, len(tokens))])
 
         # Processing Entry Counts
-        tokens = _parser.Parser(
-            lines.popl().strip().split(' '),
+        tokens = _parser.Parser.from_fortran(
+            30 * [4],
+            lines.popl()[1:],
             errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
         )
-        if len(tokens) > 30:
-            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_HEADER)
 
-        total = sum([number.value for number in numbers][:10])
+        total = sum([number.value for number in numbers[:11]])
         ids = [None] * total
 
         for i in range(0, total):
             if not tokens:
-                tokens = _parser.Parser(
-                    lines.popl().strip().split(' '),
+                tokens = _parser.Parser.from_fortran(
+                    min(total - i, 30) * [4],
+                    lines.popl()[1:],
                     errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
                 )
-                if len(tokens) > 30:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_HEADER)
 
-            ids[i] = tokens.popl()
+            ids[i] = types.McnpInteger.from_mcnp(tokens.popl())
 
         return Header(
             code, code_date, version, run_date, run_time, title, settings, numbers, ids
