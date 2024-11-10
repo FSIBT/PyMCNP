@@ -19,7 +19,7 @@ from . import datum
 from .. import utils
 from ..utils import _parser
 from ..utils import errors
-from ...functions import modify
+from ...functions.modify import modify
 
 
 class Inp:

@@ -4,7 +4,7 @@ Contains functions to streamline PyMCNP workflows.
 
 import inspect
 
-from . import files
+from .. import files
 
 
 def modify(modificand, **modifications):
