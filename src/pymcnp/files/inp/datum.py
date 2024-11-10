@@ -9628,7 +9628,7 @@ class HistoryCutoff(Datum):
 
     Attributes:
         npp: Total number of histories to run.
-        npsmg: Number of histroy with direct source contributions.
+        npsmg: Number of history with direct source contributions.
     """
 
     def __init__(self, npp: types.McnpInteger, npsmg: types.McnpInteger):
@@ -9637,7 +9637,7 @@ class HistoryCutoff(Datum):
 
         Parameters:
             npp: Total number of histories to run.
-            npsmg: Number of histroy with direct source contributions.
+            npsmg: Number of history with direct source contributions.
         """
 
         if npp is None or not (npp > 0):
