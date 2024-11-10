@@ -244,6 +244,12 @@ class Inp:
             self.data.append(datum.create_datum_from_mcnp(f'nps {npp}'))
         return self
 
+    def get_nps(self) -> int:
+        """Returns the ``npp`` value on the ``nps`` card."""
+
+        if 'nps' in self.data:
+            return int(self.data['nps'].npp.value)
+
     def set_seed(self, seed: int = None):
         """
         Updates the ``seed`` key-value pair on the ``rand`` card.
