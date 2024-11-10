@@ -6,7 +6,7 @@ interface for INP data card blocks.
 """
 
 from . import _block
-from .datum import Datum
+from .datum import create_datum_from_mcnp
 from ..utils import _parser
 
 
@@ -51,7 +51,7 @@ class Data(_block.Block):
             elif line == 'c' or line[0] == 'c' and not line[1].isalpha():
                 continue
             else:
-                block.append(Datum.from_mcnp(line))
+                block.append(create_datum_from_mcnp(line))
 
         return block
 

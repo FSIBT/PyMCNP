@@ -241,7 +241,7 @@ class Inp:
         if 'nps' in self.data:
             modify(self.data['nps'], npp=utils.types.McnpInteger(npp))
         else:
-            self.data.append(datum.Datum.from_mcnp(f'nps {npp}'))
+            self.data.append(datum.create_datum_from_mcnp(f'nps {npp}'))
         return self
 
     def set_seed(self, seed: int = None):
@@ -271,7 +271,7 @@ class Inp:
         if 'rand' in self.data:
             index = -1
             for i, pair in enumerate(self.data['rand'].pairs):
-                if pair.keyword == datum.Random.RandomOption.RandomKeyword.SEED:
+                if pair.keyword == datum.RandomKeyword.SEED:
                     index = i
                     break
 
@@ -281,7 +281,7 @@ class Inp:
             else:
                 modify(self.data['rand'].pairs[index], seed=seed)
         else:
-            self.data.append(datum.Datum.from_mcnp(f'rand seed={seed}'))
+            self.data.append(datum.create_datum_from_mcnp(f'rand seed={seed}'))
         return self
 
     def __str__(self):
