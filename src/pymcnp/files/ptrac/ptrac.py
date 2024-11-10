@@ -5,6 +5,8 @@
 importable interface for PTRAC files.
 """
 
+from typing import Generator
+
 from .header import Header
 from .history import History
 
@@ -18,17 +20,17 @@ class Ptrac:
     for working with PTRAC. It represents the PTRAC files syntax element.
 
     Attributes:
-        header: PTRAC header.
+        head: PTRAC header.
         history: PTRAC history.
     """
 
-    def __init__(self, header: Header, histories: tuple[History]):
+    def __init__(self, head: Header, histories: Generator[History, None, None]):
         """
         ``__init__`` initializes ``Ptrac``.
         """
 
-        self.header: Header = header
-        self.histories: tuple[History] = histories
+        self.header: Header = head
+        self.histories: Generator[History] = histories
 
     @staticmethod
     def from_mcnp(source: str):
@@ -39,25 +41,22 @@ class Ptrac:
         strings, so it operates as a class constructor method and PTRAC parser.
 
         Parameters:
-            source: Complete PTRAC source string.
+            source: PTRAC source string.
 
         Returns:
             ``Ptrac`` object.
         """
 
         # Processing Header
-        header, lines = Header.from_mcnp(source)
+        head, lines = Header.from_mcnp(source)
 
         # Processing History
-        histories = []
+        def histories(lines):
+            while lines:
+                history, lines = History.from_mcnp(lines, head)
+                yield history
 
-        while lines:
-            history, lines = History.from_mcnp(lines, header)
-            histories.append(history)
-
-        histories = tuple(histories)
-
-        return Ptrac(header, histories)
+        return Ptrac(head, histories(lines))
 
     @staticmethod
     def from_mcnp_file(filename: str):
