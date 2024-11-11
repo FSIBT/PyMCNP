@@ -28,5 +28,15 @@ def test_set_nps(input_file):
 
 def test_set_seed(input_file):
     new = input_file.set_seed(125)
-    assert input_file.data['rand'].to_mcnp() == 'rand seed 125'
-    assert new.data['rand'].to_mcnp() == 'rand seed 125'
+    assert input_file.data['rand'].to_mcnp() == 'rand seed=125'
+    assert new.data['rand'].to_mcnp() == 'rand seed=125'
+
+    # ensure that we set values to odd numbers
+    for _ in range(5):
+        input_file.set_seed()
+        for pair in input_file.data['rand'].pairs:
+            if pair.keyword == pymcnp.inp.datum.RandomKeyword.SEED:
+                value = pair.value.value
+                break
+
+        assert value % 2 == 1
