@@ -57,6 +57,9 @@ class RandomKeyword(str, Enum):
 
         return RandomKeyword(source)
 
+    def to_mcnp(self) -> str:
+        return str(self.value)
+
 
 class RandomOption:
     """
