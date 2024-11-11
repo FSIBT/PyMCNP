@@ -43,6 +43,7 @@ from .lca import Lca
 from .lcb import Lcb
 from .lcc import Lcc
 from .lea import Lea
+from .random import Random, RandomKeyword, RandomOption
 
 
 from ...utils import errors
@@ -694,6 +695,26 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
 
             datum = HistoryCutoff(npp, npsmg)
 
+        case DatumMnemonic.RANDOM:
+            tokens.popl()
+            pairs = []
+            while tokens:
+                keyword = tokens.popl()
+                values = []
+                while tokens:
+                    try:
+                        try_keyword = re.search(r'([*]?[A-Za-z]+)', tokens.peekl()).group()
+                        RandomKeyword.from_mcnp(try_keyword)
+                        break
+                    except Exception:
+                        values.append(tokens.popl())
+                        pass
+
+                option = RandomOption.from_mcnp(f"{keyword}={' '.join(values)}")
+                pairs.append(option)
+            pairs = tuple(pairs)
+
+            datum = Random(pairs)
         case DatumMnemonic.GENERAL_SOURCE_DEFINITION:
             tokens.popl()
             pairs = []
