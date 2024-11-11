@@ -71,38 +71,7 @@ class RandomOption:
     ``Random`` depends on ``RandomOption`` as a generic
     data structure and superclass.
 
-    Attributes:
-        keyword: Random number generator data card option keyword.
-        value: Random number generator data card option value.
     """
-
-    def __init__(self, keyword: RandomKeyword, value: any):
-        """
-        ``__init__`` initializes ``RandomOption``.
-
-        Parameters:
-            keyword: Random number generator data card option keyword.
-            value: Random number generator data card option value.
-
-        Raises:
-            MCNPSemanticError: INVALID_DATUM_RAND_KEYWORD.
-        """
-
-        if keyword is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SOURCE_KEYWORD)
-
-        match keyword:
-            case RandomKeyword.GEN:
-                obj = Gen(value)
-            case RandomKeyword.SEED:
-                obj = Seed(value)
-            case RandomKeyword.STRIDE:
-                obj = Stride(value)
-            case RandomKeyword.HIST:
-                obj = Hist(value)
-
-        self.__dict__ = obj.__dict__
-        self.__class__ = obj.__class__
 
     @staticmethod
     def from_mcnp(source: str):
@@ -143,7 +112,17 @@ class RandomOption:
         if tokens:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_RAND)
 
-        return (keyword, value)
+        match keyword:
+            case RandomKeyword.GEN:
+                obj = Gen(value)
+            case RandomKeyword.SEED:
+                obj = Seed(value)
+            case RandomKeyword.STRIDE:
+                obj = Stride(value)
+            case RandomKeyword.HIST:
+                obj = Hist(value)
+
+        return obj
 
     def to_mcnp(self):
         """
@@ -214,7 +193,7 @@ class Seed(RandomOption):
             MCNPSemanticError: INVALID_DATUM_RAND_VALUE.
         """
 
-        if seed is None or not (seed.value % 2):
+        if seed is None or (seed.value % 2 == 0):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_RAND_VALUE)
 
         self.keyword = RandomKeyword.SEED
@@ -249,7 +228,7 @@ class Stride(RandomOption):
         if stride is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_RAND_VALUE)
 
-        self.keyword = RandomKeyword.SEED
+        self.keyword = RandomKeyword.STRIDE
         self.value = stride
         self.stride = stride
 
@@ -281,7 +260,7 @@ class Hist(RandomOption):
         if number is None or not (number >= 0):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_RAND_VALUE)
 
-        self.keyword = RandomKeyword.SEED
+        self.keyword = RandomKeyword.HIST
         self.value = number
         self.number = number
 

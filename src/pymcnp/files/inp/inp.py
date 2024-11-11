@@ -269,7 +269,7 @@ class Inp:
             seed = random.randint(0, 2**20 - 1)
 
         # seeds need to be odd
-        if seed // 2 == 0:
+        if seed % 2 == 0:
             seed += 1
 
         seed = utils.types.McnpInteger(seed)
@@ -277,7 +277,7 @@ class Inp:
         if 'rand' in self.data:
             index = -1
             for i, pair in enumerate(self.data['rand'].pairs):
-                if pair[0] == datum.RandomKeyword.SEED:
+                if pair.keyword == datum.RandomKeyword.SEED:
                     index = i
                     break
 
