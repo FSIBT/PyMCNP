@@ -214,6 +214,15 @@ class ReadOutput:
             'other': other_info,
         }
         return dic
+    
+    @staticmethod
+    def isevaluable(s):
+        "Check if eval(s) is possible"
+        try:
+            eval(s)
+            return True
+        except:
+            return False
 
     @staticmethod
     def closest_value(lst, N):
@@ -244,7 +253,8 @@ class ReadOutput:
             if 'time:' in tmp and 'total' in tmp:
                 time2_end_idx.append(i)
             if 'total' in tmp and len(tmp) == 3 and (len(erg_idx) > 0 or len(time_idx) > 0):
-                total_idx.append(i)
+                if self.isevaluable(tmp[1]) and self.isevaluable(tmp[2]):
+                    total_idx.append(i)
         # keyword indices
         ky_idx = sorted(total_idx + erg_idx + time_idx)
         ky_idx = np.array(ky_idx).reshape(-1, 2)
