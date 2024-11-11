@@ -277,7 +277,7 @@ class Inp:
         if 'rand' in self.data:
             index = -1
             for i, pair in enumerate(self.data['rand'].pairs):
-                if pair.keyword == datum.RandomKeyword.SEED:
+                if pair[0] == datum.RandomKeyword.SEED:
                     index = i
                     break
 
