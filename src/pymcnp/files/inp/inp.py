@@ -19,7 +19,7 @@ from . import datum
 from .. import utils
 from ..utils import _parser
 from ..utils import errors
-from ...functions import modify
+from ...functions.modify import modify
 
 
 class Inp:
@@ -241,8 +241,14 @@ class Inp:
         if 'nps' in self.data:
             modify(self.data['nps'], npp=utils.types.McnpInteger(npp))
         else:
-            self.data.append(datum.Datum.from_mcnp(f'nps {npp}'))
+            self.data.append(datum.create_datum_from_mcnp(f'nps {npp}'))
         return self
+
+    def get_nps(self) -> int:
+        """Returns the ``npp`` value on the ``nps`` card."""
+
+        if 'nps' in self.data:
+            return int(self.data['nps'].npp.value)
 
     def set_seed(self, seed: int = None):
         """
@@ -263,7 +269,7 @@ class Inp:
             seed = random.randint(0, 2**20 - 1)
 
         # seeds need to be odd
-        if seed // 2 == 0:
+        if seed % 2 == 0:
             seed += 1
 
         seed = utils.types.McnpInteger(seed)
@@ -271,7 +277,7 @@ class Inp:
         if 'rand' in self.data:
             index = -1
             for i, pair in enumerate(self.data['rand'].pairs):
-                if pair.keyword == datum.Random.RandomOption.RandomKeyword.SEED:
+                if pair.keyword == datum.RandomKeyword.SEED:
                     index = i
                     break
 
@@ -281,7 +287,7 @@ class Inp:
             else:
                 modify(self.data['rand'].pairs[index], seed=seed)
         else:
-            self.data.append(datum.Datum.from_mcnp(f'rand seed={seed}'))
+            self.data.append(datum.create_datum_from_mcnp(f'rand seed={seed}'))
         return self
 
     def __str__(self):

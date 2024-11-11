@@ -452,16 +452,15 @@ class Postprocessor:
             String with continuation lines as needed.
         """
 
-        out = ''
+        out = []
         line_length = 0
-        words = string.split(' ')
 
-        for word in words:
-            if len(word) + line_length > 80 or len(word) + line_length > 78 and words:
+        for word in string.split(' '):
+            if len(word) + line_length > 80 or len(word) + line_length > 78:
                 out += ' &\n     '
                 line_length = 5
 
-            out += word + ' '
+            out.append(word)
             line_length += len(word) + 1
 
-        return out
+        return ' '.join(out)

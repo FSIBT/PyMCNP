@@ -6,7 +6,7 @@ importable interface for PTRAC event histories.
 """
 
 from __future__ import annotations
-from typing import Final
+from typing import Final, Generator
 
 from .event import Event
 from .header import Header
@@ -44,7 +44,7 @@ class History:
         nsf: int,
         jptal: int,
         tal: int,
-        events: tuple[Event],
+        events: Generator[Event, None, None],
     ):
         """
         ``__init__`` initializes ``History``.
@@ -79,10 +79,10 @@ class History:
         self.jptal: Final[int] = jptal
         self.tal: Final[int] = tal
         self.header: Final[Header] = header
-        self.events: Final[tuple[Event]] = events
+        self.events: Final[Generator[Event]] = events
 
     @staticmethod
-    def from_mcnp(source: str, header: Header) -> tuple[History, str]:
+    def from_mcnp(source: str, head: Header) -> tuple[History, str]:
         """
         ``from_mcnp`` generates ``History`` objects from PTRAC.
 
@@ -91,8 +91,8 @@ class History:
         helper function.
 
         Parameters:
-            source: PTRAC for
-            header: PTRAC header.
+            source: PTRAC source.
+            head: PTRAC header.
 
         Returns:
             ``History`` object.
@@ -115,17 +115,18 @@ class History:
 
         # Processing I Line
         tokens = _parser.Parser.from_fortran(
-            (header.numbers[0].value - 1) * [10] + [13],
+            (head.numbers[0].value - 1) * [10] + [13],
             lines.popl()[1:],
             errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
         )
 
-        for i in range(0, header.numbers[0].value):
-            match header.ids[i].value:
+        for i in range(0, head.numbers[0].value):
+            match head.ids[i].value:
                 case 1:
                     nps = types.McnpInteger.from_mcnp(tokens.popl().strip())
                 case 2:
                     next_type = Event.EventType.from_mcnp(tokens.popl().strip())
+                    first_next_type = next_type
                 case 3:
                     ncl = types.McnpInteger.from_mcnp(tokens.popl().strip())
                 case 4:
@@ -138,17 +139,26 @@ class History:
                     assert False
 
         # Processing J & P Lines
-        events = []
+        event_lines = _parser.Parser(
+            [], errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY)
+        )
 
-        while next_type != Event.EventType.FLAG:
-            event = Event.from_mcnp(lines.popl() + '\n' + lines.popl(), header, next_type)
-            events.append(event)
-            next_type = event.next_type
+        def events(next_type, lines):
+            while next_type != Event.EventType.FLAG:
+                event = Event.from_mcnp(lines.popl() + '\n' + lines.popl(), head, next_type)
+                next_type = event.next_type
+                yield event
 
-        events = tuple(events)
+        while lines and lines.peekl() and not lines.peekl().startswith('       9000'):
+            event_lines.pushr(lines.popl())
+        event_lines.pushr(lines.popl())
+        event_lines.pushr(lines.popl())
 
-        return History(header, next_type, nps, ncl, nsf, jptal, tal, events), '\n'.join(
-            list(lines.deque)
+        return (
+            History(
+                head, first_next_type, nps, ncl, nsf, jptal, tal, events(next_type, event_lines)
+            ),
+            '\n'.join(list(lines.deque)),
         )
 
     def to_arguments(self) -> dict:

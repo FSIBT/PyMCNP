@@ -30,7 +30,7 @@ def test_ft():
     There was an error where we didn't output the same string as we read in.
     """
     line = 'ft8 geb -0.02 0.044 0.117'
-    assert line == pymcnp.inp.datum.Datum.from_mcnp(line).to_mcnp()
+    assert line == pymcnp.inp.datum.create_datum_from_mcnp(line).to_mcnp()
 
 
 def test_comments():

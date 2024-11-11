@@ -12,11 +12,11 @@ c ============================================================
 c                       surface cards
 c ============================================================
 1 RPP -300 300 -300 300 -150 -50       $ surface
-2 RCC 50 0 0 0 0 7.62 3.81             $ 3-inch LaBr3 crystal 
-3 RCC -50 0 0 0 0 5.08 2.54            $ 2-inch CeBr3 crystal 
+2 RCC 50 0 0 0 0 7.62 3.81             $ 3-inch LaBr3 crystal
+3 RCC -50 0 0 0 0 5.08 2.54            $ 2-inch CeBr3 crystal
 99 SO 600                              $ World
 
-c ============================================================       
+c ============================================================
 c                      material cards
 c ============================================================
 c Lunar Highlands:
@@ -56,20 +56,20 @@ c Air:
 M900   8016      -0.2094897          $ O-016
        7014      -0.7771608          $ N-014
        18040     -0.00996035         $ Ar-040
-c 
+c
 c ============================================================
 c                      source cards
 c ============================================================
-mode n                                   
-sdef par=n erg=14                        
-nps 1e6                      
+mode n
+sdef par=n erg=14
+nps 1e6
 Fmesh4:n geom=xyz  origin= -100 -100 -150
-                 imesh=100    iints=4   
-                 jmesh=100     jints=4  
-                 kmesh=-50     kints=4  
-				 tmesh= 2 3  
-                 emesh= 3 14           
-c FM4 -1e8 0 -5 $ photon production rate 
-FM4 -2e8 T
+                 imesh=100    iints=4
+                                  jmesh=100     jints=4
+                                  kmesh=-50     kints=4
+                 				 tmesh= 2 3
+                                  emesh= 3 14
+                                  c FM4 -1e8 0 -5 $ photon production rate
+                 FM4 -2e8 T
 c
 c end of file
