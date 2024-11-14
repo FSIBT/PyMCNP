@@ -83,48 +83,9 @@ class EmbeddedGeometryOption:
         value: INP embedded geometry specification option value.
     """
 
-    def __init__(self, keyword: EmbeddedGeometryKeyword, value: any):
-        """
-        ``__init__`` initializes ``EmbeddedGeometryOption``.
-
-        Parameters:
-            keyword: Embedded geometry data card option keyword.
-
-        Raises:
-            MCNPSemanticError: INVALID_DATUM_EMBED_KEYWORD.
-        """
-
-        if keyword is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_KEYWORD)
-
-        match keyword:
-            case EmbeddedGeometryKeyword.MATCELL:
-                obj = Matcell(keyword, value)  # noqa: F821
-            case EmbeddedGeometryKeyword.MESHOGEO:
-                obj = Meshgeo(keyword, value)  # noqa: F821
-            case EmbeddedGeometryKeyword.MGEOIN:
-                obj = Mgeoin(keyword, value)  # noqa: F821
-            case EmbeddedGeometryKeyword.MEEOUT:
-                obj = Meeout(keyword, value)  # noqa: F821
-            case EmbeddedGeometryKeyword.MEEIN:
-                obj = Meein(keyword, value)  # noqa: F821
-            case EmbeddedGeometryKeyword.CALC_VOLS:
-                obj = CalcVols(keyword, value)  # noqa: F821
-            case EmbeddedGeometryKeyword.DEBUG:
-                obj = Debug(keyword, value)  # noqa: F821
-            case EmbeddedGeometryKeyword.FILETYPE:
-                obj = Filetype(keyword, value)  # noqa: F821
-            case EmbeddedGeometryKeyword.GMVFILE:
-                obj = Gmvfile(keyword, value)  # noqa: F821
-            case EmbeddedGeometryKeyword.LENGTH:
-                obj = Length(keyword, value)  # noqa: F821
-            case EmbeddedGeometryKeyword.MCNPUMFILE:
-                obj = Mcnpumfile(keyword, value)  # noqa: F821
-            case EmbeddedGeometryKeyword.OVERLAP:
-                obj = Overlap(keyword, value)  # noqa: F821
-
-        self.__dict__ = obj.__dict__
-        self.__class__ = obj.__class__
+    def __init__(self):
+        """Needs to be implemented in subclass."""
+        raise NotImplementedError
 
     @staticmethod
     def from_mcnp(source: str):
@@ -180,7 +141,37 @@ class EmbeddedGeometryOption:
         if tokens:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_EMBED)
 
-        return EmbeddedGeometry.EmbeddedGeometryOption(value)
+        # select correct subclass
+        if keyword is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBED_KEYWORD)
+
+        match keyword:
+            case EmbeddedGeometryKeyword.MATCELL:
+                obj = Matcell(keyword, value)  # noqa: F821
+            case EmbeddedGeometryKeyword.MESHOGEO:
+                obj = Meshgeo(keyword, value)  # noqa: F821
+            case EmbeddedGeometryKeyword.MGEOIN:
+                obj = Mgeoin(keyword, value)  # noqa: F821
+            case EmbeddedGeometryKeyword.MEEOUT:
+                obj = Meeout(keyword, value)  # noqa: F821
+            case EmbeddedGeometryKeyword.MEEIN:
+                obj = Meein(keyword, value)  # noqa: F821
+            case EmbeddedGeometryKeyword.CALC_VOLS:
+                obj = CalcVols(keyword, value)  # noqa: F821
+            case EmbeddedGeometryKeyword.DEBUG:
+                obj = Debug(keyword, value)  # noqa: F821
+            case EmbeddedGeometryKeyword.FILETYPE:
+                obj = Filetype(keyword, value)  # noqa: F821
+            case EmbeddedGeometryKeyword.GMVFILE:
+                obj = Gmvfile(keyword, value)  # noqa: F821
+            case EmbeddedGeometryKeyword.LENGTH:
+                obj = Length(keyword, value)  # noqa: F821
+            case EmbeddedGeometryKeyword.MCNPUMFILE:
+                obj = Mcnpumfile(keyword, value)  # noqa: F821
+            case EmbeddedGeometryKeyword.OVERLAP:
+                obj = Overlap(keyword, value)  # noqa: F821
+
+        return obj
 
 
 class Meshgeo(EmbeddedGeometryOption):

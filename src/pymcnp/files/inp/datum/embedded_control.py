@@ -80,40 +80,10 @@ class EmbeddedControlOption:
         value: INP embedded elemental control option value.
     """
 
-    def __init__(self, keyword: EmbeddedControlKeyword, value: any):
-        """
-        ``__init__`` initializes ``EmbeddedControlOption``.
+    def __init__(self):
+        """Needs to be implemented in the subclass."""
 
-        Parameters:
-            keyword: Embedded edits control data card option keyword.
-
-        Raises:
-            MCNPSemanticError: INVALID_DATUM_EMBEE_KEYWORD.
-        """
-
-        if keyword is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_KEYWORD)
-
-        match keyword:
-            case EmbeddedControlKeyword.EMBED:
-                obj = Embed(keyword, value)  # noqa: F821
-            case EmbeddedControlKeyword.ENERGY:
-                obj = Energy(keyword, value)  # noqa: F821
-            case EmbeddedControlKeyword.TIME:
-                obj = Time(keyword, value)  # noqa: F821
-            case EmbeddedControlKeyword.ATOM:
-                obj = Atom(keyword, value)  # noqa: F821
-            case EmbeddedControlKeyword.FACTOR:
-                obj = Factor(keyword, value)  # noqa: F821
-            case EmbeddedControlKeyword.LIST:
-                assert False, 'Unimplemented'
-            case EmbeddedControlKeyword.MAT:
-                obj = Mat(keyword, value)  # noqa: F821
-            case EmbeddedControlKeyword.MTYPE:
-                obj = Mtype(keyword, value)  # noqa: F821
-
-        self.__dict__ = obj.__dict__
-        self.__class__ = obj.__class__
+        raise NotImplementedError
 
     @staticmethod
     def from_mcnp(source: str):
@@ -163,7 +133,29 @@ class EmbeddedControlOption:
         if tokens:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_EMBEE)
 
-        return EmbeddedControl.EmbeddedControlOption(keyword, value)
+        # select correct subclass
+        if keyword is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_EMBEE_KEYWORD)
+
+        match keyword:
+            case EmbeddedControlKeyword.EMBED:
+                obj = Embed(keyword, value)  # noqa: F821
+            case EmbeddedControlKeyword.ENERGY:
+                obj = Energy(keyword, value)  # noqa: F821
+            case EmbeddedControlKeyword.TIME:
+                obj = Time(keyword, value)  # noqa: F821
+            case EmbeddedControlKeyword.ATOM:
+                obj = Atom(keyword, value)  # noqa: F821
+            case EmbeddedControlKeyword.FACTOR:
+                obj = Factor(keyword, value)  # noqa: F821
+            case EmbeddedControlKeyword.LIST:
+                assert False, 'Unimplemented'
+            case EmbeddedControlKeyword.MAT:
+                obj = Mat(keyword, value)  # noqa: F821
+            case EmbeddedControlKeyword.MTYPE:
+                obj = Mtype(keyword, value)  # noqa: F821
+
+        return obj
 
 
 class Embed(EmbeddedControlOption):
