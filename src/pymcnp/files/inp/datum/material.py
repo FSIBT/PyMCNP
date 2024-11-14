@@ -87,6 +87,9 @@ class MaterialValue:
 
         return f'{self.zaid.to_mcnp()} {self.fraction.to_mcnp()}'
 
+    def __repr__(self):
+        return f'<{self.__class__.__name__}(Zaid={self.zaid}, fraction={self.fraction}) object at {id(self):#x}>'
+
 
 class MaterialKeyword(str, Enum):
     """
@@ -709,7 +712,7 @@ class Material(Datum):
 
     Attributes:
         substances: Tuple of substance specification.
-        paris: Tuple of key-value pairs.
+        pairs: Tuple of key-value pairs.
     """
 
     def __init__(
@@ -738,7 +741,7 @@ class Material(Datum):
             if parameter is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
-        self.paris = pairs
+        self.pairs = pairs
         self.substances = substances
 
         _card.Card.__init__(self, f'm{suffix}')

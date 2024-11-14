@@ -156,6 +156,9 @@ class Zaid:
             else f'{self.z:03}{self.a:03}'
         )
 
+    def __str__(self):
+        return self.to_mcnp()
+
 
 class Designator:
     """

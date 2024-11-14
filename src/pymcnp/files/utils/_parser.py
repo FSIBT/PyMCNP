@@ -264,7 +264,7 @@ class Preprocessor:
         string = re.sub(r'[$].*?(?=\n|\Z)', char, string)
 
         # Processing continuation lines
-        string = re.sub(r'\n +|& *\n +', '', string)
+        string = re.sub(r'\n +|& *\n +', ' ', string)
 
         # Processing inline comments
         lines = []
