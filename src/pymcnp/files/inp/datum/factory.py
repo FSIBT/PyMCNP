@@ -1,4 +1,5 @@
 import re
+import sys
 
 from .datum import DatumMnemonic, _Placeholder
 from .history_cutoff import HistoryCutoff
@@ -86,6 +87,8 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
     # Processing Suffix & Parameters
     suffix = None
     designator = None
+
+    datum = None
     match mnemonic:
         case DatumMnemonic.VOLUME:
             tokens.popl()
@@ -617,7 +620,7 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
         case DatumMnemonic.MODEL_PHYSICS_CONTROL:
             tokens.popl()
             if tokens:
-                ModelPhysicsControl(tokens.popl())
+                datum = ModelPhysicsControl(tokens.popl())
             else:
                 datum = ModelPhysicsControl('off')
 
@@ -754,6 +757,10 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
 
     if tokens:
         raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM)
+
+    if datum is None:
+        print('Error: cannot assign a datum to tokens:', tokens, 'source:', source)
+        sys.exit()
 
     datum.comment = comments
 
