@@ -16,6 +16,100 @@ from ..utils import errors
 from ..utils import types
 
 
+class SurfaceMnemonic(str, Enum):
+    """
+    ``SurfaceMnemonic`` represents INP surface card mnemonics
+
+    ``SurfaceMnemonic`` implements INP surface card mnemonics as a Python
+    inner class. It enumerates MCNP mnemonics and provides methods for
+    casting strings to ``SurfaceMnemonic`` instances. It represents the INP
+    surface card mnemonics syntax element, so ``Surface`` depends on
+    ``SurfaceMnemonic`` as an enum.
+    """
+
+    PLANEGENERAL = 'p'
+    PLANENORMALX = 'px'
+    PLANENORMALY = 'py'
+    PLANENORMALZ = 'pz'
+    SPHEREORIGIN = 'so'
+    SPHEREGENERAL = 's'
+    SPHERENORMALX = 'sx'
+    SPHERENORMALY = 'sy'
+    SPHERENORMALZ = 'sz'
+    CYLINDERPARALLELX = 'c/x'
+    CYLINDERPARALLELY = 'c/y'
+    CYLINDERPARALLELZ = 'c/z'
+    CYLINDERONX = 'cx'
+    CYLINDERONY = 'cy'
+    CYLINDERONZ = 'cz'
+    CONEPARALLELX = 'k/x'
+    CONEPARALLELY = 'k/y'
+    CONEPARALLELZ = 'k/z'
+    CONEONX = 'kx'
+    CONEONY = 'ky'
+    CONEONZ = 'kx'
+    QUADRATICSPECIAL = 'sq'
+    QUADRATICGENERAL = 'gq'
+    TORUSPARALLELX = 'tx'
+    TORUSPARALLELY = 'ty'
+    TORUSPARALLELZ = 'tz'
+    SURFACEX = 'x'
+    SURFACEY = 'y'
+    SURFACEZ = 'z'
+    BOX = 'box'
+    PARALLELEPIPED = 'rpp'
+    SPHERE = 'sph'
+    CYLINDERCIRCULAR = 'rcc'
+    HEXAGONALPRISM = 'rhp'
+    CYLINDERELLIPTICAL = 'rec'
+    CONETRUNCATED = 'trc'
+    ELLIPSOID = 'ell'
+    WEDGE = 'wed'
+    POLYHEDRON = 'arb'
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        ``from_mcnp`` generates ``SurfaceMnemonic`` objects from INP.
+
+        ``from_mcnp`` constructs instances of ``SurfaceMnemonic`` from INP
+        source strings, so it operates as a class constructor method
+        and INP parser helper function.
+
+        Parameters:
+            source: INP for surface card mnemonic.
+
+        Returns:
+            ``SurfaceMnemonic`` object.
+
+        Raises:
+            MCNPSemanticError: INVALID_SURFACE_MNEMONIC.
+        """
+
+        source = _parser.Preprocessor.process_inp(source)
+
+        # Processing Mnemonic
+        if source not in [enum.value for enum in SurfaceMnemonic]:
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC, info=source
+            )
+
+        return SurfaceMnemonic(source)
+
+    def to_mcnp(self) -> str:
+        """
+        ``to_mcnp`` generates INP from ``SurfaceMnemonic`` objects.
+
+        ``to_mcnp`` creates INP source string from ``SurfaceMnemonic``
+        objects, so it provides an MCNP endpoint.
+
+        Returns:
+            INP string for ``SurfaceMnemonic`` object.
+        """
+
+        return self.value
+
+
 class Surface(_card.Card):
     """
     ``Surface`` represents INP cell cards.
@@ -32,99 +126,6 @@ class Surface(_card.Card):
         periodic: Surface card periodic number.
         parameters: Surface parameter list based on mnemonic.
     """
-
-    class SurfaceMnemonic(str, Enum):
-        """
-        ``SurfaceMnemonic`` represents INP surface card mnemonics
-
-        ``SurfaceMnemonic`` implements INP surface card mnemonics as a Python
-        inner class. It enumerates MCNP mnemonics and provides methods for
-        casting strings to ``SurfaceMnemonic`` instances. It represents the INP
-        surface card mnemonics syntax element, so ``Surface`` depends on
-        ``SurfaceMnemonic`` as an enum.
-        """
-
-        PLANEGENERAL = 'p'
-        PLANENORMALX = 'px'
-        PLANENORMALY = 'py'
-        PLANENORMALZ = 'pz'
-        SPHEREORIGIN = 'so'
-        SPHEREGENERAL = 's'
-        SPHERENORMALX = 'sx'
-        SPHERENORMALY = 'sy'
-        SPHERENORMALZ = 'sz'
-        CYLINDERPARALLELX = 'c/x'
-        CYLINDERPARALLELY = 'c/y'
-        CYLINDERPARALLELZ = 'c/z'
-        CYLINDERONX = 'cx'
-        CYLINDERONY = 'cy'
-        CYLINDERONZ = 'cz'
-        CONEPARALLELX = 'k/x'
-        CONEPARALLELY = 'k/y'
-        CONEPARALLELZ = 'k/z'
-        CONEONX = 'kx'
-        CONEONY = 'ky'
-        CONEONZ = 'kx'
-        QUADRATICSPECIAL = 'sq'
-        QUADRATICGENERAL = 'gq'
-        TORUSPARALLELX = 'tx'
-        TORUSPARALLELY = 'ty'
-        TORUSPARALLELZ = 'tz'
-        SURFACEX = 'x'
-        SURFACEY = 'y'
-        SURFACEZ = 'z'
-        BOX = 'box'
-        PARALLELEPIPED = 'rpp'
-        SPHERE = 'sph'
-        CYLINDERCIRCULAR = 'rcc'
-        HEXAGONALPRISM = 'rhp'
-        CYLINDERELLIPTICAL = 'rec'
-        CONETRUNCATED = 'trc'
-        ELLIPSOID = 'ell'
-        WEDGE = 'wed'
-        POLYHEDRON = 'arb'
-
-        @staticmethod
-        def from_mcnp(source: str):
-            """
-            ``from_mcnp`` generates ``SurfaceMnemonic`` objects from INP.
-
-            ``from_mcnp`` constructs instances of ``SurfaceMnemonic`` from INP
-            source strings, so it operates as a class constructor method
-            and INP parser helper function.
-
-            Parameters:
-                source: INP for surface card mnemonic.
-
-            Returns:
-                ``SurfaceMnemonic`` object.
-
-            Raises:
-                MCNPSemanticError: INVALID_SURFACE_MNEMONIC.
-            """
-
-            source = _parser.Preprocessor.process_inp(source)
-
-            # Processing Mnemonic
-            if source not in [enum.value for enum in Surface.SurfaceMnemonic]:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC, info=source
-                )
-
-            return Surface.SurfaceMnemonic(source)
-
-        def to_mcnp(self) -> str:
-            """
-            ``to_mcnp`` generates INP from ``SurfaceMnemonic`` objects.
-
-            ``to_mcnp`` creates INP source string from ``SurfaceMnemonic``
-            objects, so it provides an MCNP endpoint.
-
-            Returns:
-                INP string for ``SurfaceMnemonic`` object.
-            """
-
-            return self.value
 
     def __init__(
         self,
@@ -153,7 +154,7 @@ class Surface(_card.Card):
 
         try:
             match mnemonic:
-                case Surface.SurfaceMnemonic.PLANEGENERAL:
+                case SurfaceMnemonic.PLANEGENERAL:
                     if len(parameters) == 4:
                         obj = PlaneGeneralEquation(
                             number,
@@ -170,7 +171,7 @@ class Surface(_card.Card):
                             is_whiteboundary=is_whiteboundary,
                             is_reflecting=is_reflecting,
                         )
-                case Surface.SurfaceMnemonic.PLANENORMALX:
+                case SurfaceMnemonic.PLANENORMALX:
                     obj = PlaneNormalX(
                         number,
                         transform,
@@ -178,7 +179,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.PLANENORMALY:
+                case SurfaceMnemonic.PLANENORMALY:
                     obj = PlaneNormalY(
                         number,
                         transform,
@@ -186,7 +187,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.PLANENORMALZ:
+                case SurfaceMnemonic.PLANENORMALZ:
                     obj = PlaneNormalZ(
                         number,
                         transform,
@@ -194,7 +195,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.SPHEREORIGIN:
+                case SurfaceMnemonic.SPHEREORIGIN:
                     obj = SphereOrigin(
                         number,
                         transform,
@@ -202,7 +203,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.SPHEREGENERAL:
+                case SurfaceMnemonic.SPHEREGENERAL:
                     obj = SphereGeneral(
                         number,
                         transform,
@@ -210,7 +211,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.SPHERENORMALX:
+                case SurfaceMnemonic.SPHERENORMALX:
                     obj = SphereNormalX(
                         number,
                         transform,
@@ -218,7 +219,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.SPHERENORMALY:
+                case SurfaceMnemonic.SPHERENORMALY:
                     obj = SphereNormalY(
                         number,
                         transform,
@@ -226,7 +227,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.SPHERENORMALZ:
+                case SurfaceMnemonic.SPHERENORMALZ:
                     obj = SphereNormalZ(
                         number,
                         transform,
@@ -234,7 +235,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CYLINDERPARALLELX:
+                case SurfaceMnemonic.CYLINDERPARALLELX:
                     obj = CylinderParallelX(
                         number,
                         transform,
@@ -242,7 +243,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CYLINDERPARALLELY:
+                case SurfaceMnemonic.CYLINDERPARALLELY:
                     obj = CylinderParallelY(
                         number,
                         transform,
@@ -250,7 +251,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CYLINDERPARALLELZ:
+                case SurfaceMnemonic.CYLINDERPARALLELZ:
                     obj = CylinderParallelZ(
                         number,
                         transform,
@@ -258,7 +259,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CYLINDERONX:
+                case SurfaceMnemonic.CYLINDERONX:
                     obj = CylinderOnX(
                         number,
                         transform,
@@ -266,7 +267,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CYLINDERONY:
+                case SurfaceMnemonic.CYLINDERONY:
                     obj = CylinderOnY(
                         number,
                         transform,
@@ -274,7 +275,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CYLINDERONZ:
+                case SurfaceMnemonic.CYLINDERONZ:
                     obj = CylinderOnZ(
                         number,
                         transform,
@@ -282,7 +283,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CONEPARALLELX:
+                case SurfaceMnemonic.CONEPARALLELX:
                     obj = ConeParallelX(
                         number,
                         transform,
@@ -290,7 +291,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CONEPARALLELY:
+                case SurfaceMnemonic.CONEPARALLELY:
                     obj = ConeParallelY(
                         number,
                         transform,
@@ -298,7 +299,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CONEPARALLELZ:
+                case SurfaceMnemonic.CONEPARALLELZ:
                     obj = ConeParallelZ(
                         number,
                         transform,
@@ -306,7 +307,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CONEONX:
+                case SurfaceMnemonic.CONEONX:
                     obj = ConeOnX(
                         number,
                         transform,
@@ -314,7 +315,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CONEONY:
+                case SurfaceMnemonic.CONEONY:
                     obj = ConeOnY(
                         number,
                         transform,
@@ -322,7 +323,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CONEONZ:
+                case SurfaceMnemonic.CONEONZ:
                     obj = ConeOnZ(
                         number,
                         transform,
@@ -330,7 +331,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.QUADRATICSPECIAL:
+                case SurfaceMnemonic.QUADRATICSPECIAL:
                     obj = QuadraticSpecial(
                         number,
                         transform,
@@ -338,7 +339,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.QUADRATICGENERAL:
+                case SurfaceMnemonic.QUADRATICGENERAL:
                     obj = QuadraticGeneral(
                         number,
                         transform,
@@ -346,7 +347,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.TORUSPARALLELX:
+                case SurfaceMnemonic.TORUSPARALLELX:
                     obj = TorusParallelX(
                         number,
                         transform,
@@ -354,7 +355,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.TORUSPARALLELY:
+                case SurfaceMnemonic.TORUSPARALLELY:
                     obj = TorusParallelY(
                         number,
                         transform,
@@ -362,7 +363,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.TORUSPARALLELZ:
+                case SurfaceMnemonic.TORUSPARALLELZ:
                     obj = TorusParallelZ(
                         number,
                         transform,
@@ -370,7 +371,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.SURFACEX:
+                case SurfaceMnemonic.SURFACEX:
                     obj = SurfaceX(
                         number,
                         transform,
@@ -378,7 +379,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.SURFACEY:
+                case SurfaceMnemonic.SURFACEY:
                     obj = SurfaceY(
                         number,
                         transform,
@@ -386,7 +387,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.SURFACEZ:
+                case SurfaceMnemonic.SURFACEZ:
                     obj = SurfaceZ(
                         number,
                         transform,
@@ -394,7 +395,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.BOX:
+                case SurfaceMnemonic.BOX:
                     obj = Box(
                         number,
                         transform,
@@ -402,7 +403,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.PARALLELEPIPED:
+                case SurfaceMnemonic.PARALLELEPIPED:
                     obj = Parallelepiped(
                         number,
                         transform,
@@ -410,7 +411,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.SPHERE:
+                case SurfaceMnemonic.SPHERE:
                     obj = Sphere(
                         number,
                         transform,
@@ -418,7 +419,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CYLINDERCIRCULAR:
+                case SurfaceMnemonic.CYLINDERCIRCULAR:
                     obj = CylinderCircular(
                         number,
                         transform,
@@ -426,7 +427,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.HEXAGONALPRISM:
+                case SurfaceMnemonic.HEXAGONALPRISM:
                     obj = HexagonalPrism(
                         number,
                         transform,
@@ -434,7 +435,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CYLINDERELLIPTICAL:
+                case SurfaceMnemonic.CYLINDERELLIPTICAL:
                     obj = CylinderElliptical(
                         number,
                         transform,
@@ -442,7 +443,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.CONETRUNCATED:
+                case SurfaceMnemonic.CONETRUNCATED:
                     obj = ConeTruncated(
                         number,
                         transform,
@@ -450,7 +451,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.ELLIPSOID:
+                case SurfaceMnemonic.ELLIPSOID:
                     obj = Ellipsoid(
                         number,
                         transform,
@@ -458,7 +459,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.WEDGE:
+                case SurfaceMnemonic.WEDGE:
                     obj = Wedge(
                         number,
                         transform,
@@ -466,7 +467,7 @@ class Surface(_card.Card):
                         is_whiteboundary=is_whiteboundary,
                         is_reflecting=is_reflecting,
                     )
-                case Surface.SurfaceMnemonic.POLYHEDRON:
+                case SurfaceMnemonic.POLYHEDRON:
                     obj = Polyhedron(
                         number,
                         transform,
@@ -532,7 +533,7 @@ class Surface(_card.Card):
         except Exception:
             transform = None
 
-        mnemonic = Surface.SurfaceMnemonic.from_mcnp(tokens.popl())
+        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())
         parameters = tuple([types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens))])
 
         surface = Surface(
@@ -674,7 +675,7 @@ class PlaneGeneralPoint(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANEGENERAL
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.PLANEGENERAL
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -781,7 +782,7 @@ class PlaneGeneralEquation(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANEGENERAL
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.PLANEGENERAL
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -859,7 +860,7 @@ class PlaneNormalX(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALX
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.PLANENORMALX
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -925,7 +926,7 @@ class PlaneNormalY(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALY
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.PLANENORMALY
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -991,7 +992,7 @@ class PlaneNormalZ(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.PLANENORMALZ
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.PLANENORMALZ
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -1057,7 +1058,7 @@ class SphereOrigin(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHEREORIGIN
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.SPHEREORIGIN
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -1152,7 +1153,7 @@ class SphereGeneral(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHEREGENERAL
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.SPHEREGENERAL
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -1254,7 +1255,7 @@ class SphereNormalX(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALX
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.SPHERENORMALX
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -1348,7 +1349,7 @@ class SphereNormalY(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALY
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.SPHERENORMALY
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -1442,7 +1443,7 @@ class SphereNormalZ(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERENORMALZ
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.SPHERENORMALZ
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -1540,7 +1541,7 @@ class CylinderParallelX(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELX
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CYLINDERPARALLELX
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -1621,7 +1622,7 @@ class CylinderParallelY(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELY
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CYLINDERPARALLELY
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -1702,7 +1703,7 @@ class CylinderParallelZ(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERPARALLELZ
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CYLINDERPARALLELZ
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -1776,7 +1777,7 @@ class CylinderOnX(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONX
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CYLINDERONX
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -1842,7 +1843,7 @@ class CylinderOnY(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONY
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CYLINDERONY
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -1908,7 +1909,7 @@ class CylinderOnZ(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERONZ
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CYLINDERONZ
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -1986,7 +1987,7 @@ class ConeParallelX(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELX
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CONEPARALLELX
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -2080,7 +2081,7 @@ class ConeParallelY(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELY
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CONEPARALLELY
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -2174,7 +2175,7 @@ class ConeParallelZ(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEPARALLELZ
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CONEPARALLELZ
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -2262,7 +2263,7 @@ class ConeOnX(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONX
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CONEONX
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -2342,7 +2343,7 @@ class ConeOnY(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONY
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CONEONY
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -2422,7 +2423,7 @@ class ConeOnZ(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONEONZ
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CONEONZ
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -2523,7 +2524,7 @@ class QuadraticSpecial(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.QUADRATICSPECIAL
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.QUADRATICSPECIAL
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -2653,7 +2654,7 @@ class QuadraticGeneral(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.QUADRATICGENERAL
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.QUADRATICGENERAL
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -2770,7 +2771,7 @@ class TorusParallelX(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELX
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.TORUSPARALLELX
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -2871,7 +2872,7 @@ class TorusParallelY(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELY
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.TORUSPARALLELY
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -2972,7 +2973,7 @@ class TorusParallelZ(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.TORUSPARALLELZ
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.TORUSPARALLELZ
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -3073,7 +3074,7 @@ class SurfaceX(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEX
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.SURFACEX
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -3180,7 +3181,7 @@ class SurfaceY(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEY
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.SURFACEY
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -3283,7 +3284,7 @@ class SurfaceZ(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SURFACEZ
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.SURFACEZ
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -3410,7 +3411,7 @@ class Box(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.BOX
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.BOX
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -3572,7 +3573,7 @@ class Parallelepiped(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.PARALLELEPIPED
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.PARALLELEPIPED
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -3701,7 +3702,7 @@ class Sphere(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.SPHERE
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.SPHERE
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -3819,7 +3820,7 @@ class CylinderCircular(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERCIRCULAR
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CYLINDERCIRCULAR
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -3983,7 +3984,7 @@ class HexagonalPrism(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.HEXAGONALPRISM
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.HEXAGONALPRISM
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -4195,7 +4196,7 @@ class CylinderElliptical(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CYLINDERELLIPTICAL
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CYLINDERELLIPTICAL
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -4375,7 +4376,7 @@ class ConeTruncated(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.CONETRUNCATED
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.CONETRUNCATED
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -4520,7 +4521,7 @@ class Ellipsoid(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.ELLIPSOID
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.ELLIPSOID
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -4685,7 +4686,7 @@ class Wedge(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.WEDGE
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.WEDGE
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
@@ -4920,7 +4921,7 @@ class Polyhedron(Surface):
 
         _card.Card.__init__(self, number.value)
         self.number: Final[types.McnpInteger] = number
-        self.mnemonic: Final[Surface.SurfaceMnemonic] = Surface.SurfaceMnemonic.POLYHEDRON
+        self.mnemonic: Final[SurfaceMnemonic] = SurfaceMnemonic.POLYHEDRON
         self.transform: Final[types.McnpInteger] = transform
         self.is_reflecting: Final[bool] = is_reflecting
         self.is_whiteboundary: Final[bool] = is_whiteboundary
