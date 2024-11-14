@@ -403,6 +403,9 @@ class McnpInteger:
             else McnpInteger(a.value * b)
         )
 
+    def __int__(self) -> int:
+        return int(self.value)
+
 
 class McnpReal:
     """
@@ -522,3 +525,6 @@ class McnpReal:
 
     def __mul__(a, b: McnpReal | float):
         return McnpReal(a.value * b.value) if isinstance(b, McnpReal) else McnpReal(a.value * b)
+
+    def __float__(self):
+        return float(self.value)
