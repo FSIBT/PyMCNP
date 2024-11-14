@@ -180,33 +180,33 @@ class MaterialOption:
 
         match keyword:
             case MaterialKeyword.GAS:
-                obj = Material.Gas(value)
+                obj = Gas(value)
             case MaterialKeyword.ESTEP:
-                obj = Material.Estep(value)
+                obj = Estep(value)
             case MaterialKeyword.HSTEP:
-                obj = Material.Hstep(value)
+                obj = Hstep(value)
             case MaterialKeyword.NLIB:
-                obj = Material.Nlib(value)
+                obj = Nlib(value)
             case MaterialKeyword.PLIB:
-                obj = Material.Plib(value)
+                obj = Plib(value)
             case MaterialKeyword.PNLIB:
-                obj = Material.Pnlib(value)
+                obj = Pnlib(value)
             case MaterialKeyword.ELIB:
-                obj = Material.Elib(value)
+                obj = Elib(value)
             case MaterialKeyword.HLIB:
-                obj = Material.Hlib(value)
+                obj = Hlib(value)
             case MaterialKeyword.ALIB:
-                obj = Material.Alib(value)
+                obj = Alib(value)
             case MaterialKeyword.SLIB:
-                obj = Material.Slib(value)
+                obj = Slib(value)
             case MaterialKeyword.TLIB:
-                obj = Material.Tlib(value)
+                obj = Tlib(value)
             case MaterialKeyword.DLIB:
-                obj = Material.Dlib(value)
+                obj = Dlib(value)
             case MaterialKeyword.COND:
-                obj = Material.Cond(value)
+                obj = Cond(value)
             case MaterialKeyword.REFI:
-                obj = Material.Refi(value)
+                obj = Refi(value)
             case MaterialKeyword.REFC:
                 assert False, 'Unimplemented'
             case MaterialKeyword.REFS:
@@ -273,7 +273,7 @@ class MaterialOption:
         if tokens:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_MATERIAL)
 
-        return Material.MaterialOption(keyword, value)
+        return MaterialOption(keyword, value)
 
     def to_mcnp(self):
         """
@@ -794,7 +794,7 @@ class Material(Datum):
                 ]
                 subcomments = [f'{element}-{zaid.a:03}' for zaid, _ in zaids]
                 entries = [
-                    Material.MaterialValue(
+                    MaterialValue(
                         zaid,
                         types.McnpReal(
                             (-1 if atomic_or_weight else 1)
