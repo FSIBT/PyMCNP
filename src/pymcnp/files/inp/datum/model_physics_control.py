@@ -22,7 +22,7 @@ class ModelPhysicsControl(Datum):
             setting: On/Off.
         """
 
-        if setting is None or setting not in {'yes', 'no'}:
+        if setting is None or setting not in {'on', 'off'}:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         _card.Card.__init__(self, 'mphys')

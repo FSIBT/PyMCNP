@@ -616,11 +616,10 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
 
         case DatumMnemonic.MODEL_PHYSICS_CONTROL:
             tokens.popl()
-
             if tokens:
                 ModelPhysicsControl(tokens.popl())
             else:
-                datum = ModelPhysicsControl('no')
+                datum = ModelPhysicsControl('off')
 
         case DatumMnemonic.LCA:
             tokens.popl()
