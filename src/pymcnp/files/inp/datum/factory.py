@@ -107,15 +107,29 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
         case DatumMnemonic.TRANSFORMATION:
             suffix = types.McnpInteger.from_mcnp(tokens.popl()[2:])
             entries = tuple(types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
-            displacement = tuple(entries[:3])
-            rotation = (
-                tuple(entries[3:6]),
-                tuple(entries[6:9]),
-                tuple(entries[9:12]),
-            )
-            system = int(entries[-1])
 
-            datum = Transformation(displacement, rotation, system)
+            N = len(entries)
+            displacement = tuple(entries[:3])
+            if N <= 3:
+                one = types.McnpReal.from_mcnp('1')
+                zero = types.McnpReal.from_mcnp('0')
+                rotation = (
+                    tuple((one, zero, zero)),
+                    tuple((zero, one, zero)),
+                    tuple((zero, zero, one)),
+                )
+            else:
+                rotation = (
+                    tuple(entries[3:6]),
+                    tuple(entries[6:9]),
+                    tuple(entries[9:12]),
+                )
+            if N == 13 or N == 4:
+                system = int(float(entries[-1]))
+            else:
+                system = 1
+
+            datum = Transformation(displacement, rotation, system, suffix)
 
         case DatumMnemonic.UNIVERSE:
             tokens.popl()

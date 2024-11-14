@@ -24,7 +24,6 @@ class Transformation(Datum):
         rotation: tuple[tuple[float]],
         system: types.McnpInteger,
         suffix: types.McnpInteger,
-        is_angle: bool,
     ):
         """
         ``__init__`` initializes ``Transformation``.
@@ -34,7 +33,6 @@ class Transformation(Datum):
             rotation: Transformation rotation matrix.
             system: Transformation coordinate system setting.
             suffix: Data card suffix.
-            is_angle: Angle units modifier.
 
         Raises:
             MCNPSemanticError: INVALID_DATUM_SUFFIX.
@@ -66,4 +64,3 @@ class Transformation(Datum):
         self.displacement = displacement
         self.rotation = rotation
         self.system = system
-        self.is_angle = is_angle

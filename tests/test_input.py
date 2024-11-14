@@ -73,3 +73,25 @@ def test_formatting():
     out = pymcnp.read_input(input_file).to_mcnp()
 
     assert out == result
+
+
+def test_transformation():
+    obj = pymcnp.inp.datum.create_datum_from_mcnp('TR14   50     1       80.0')
+    assert obj.suffix == 14
+    assert obj.displacement[0] == 50.0
+    assert obj.displacement[1] == 1.0
+    assert obj.displacement[2] == 80.0
+
+    assert obj.rotation[0][0] == 1.0
+    assert obj.rotation[0][1] == 0.0
+    assert obj.rotation[0][2] == 0.0
+
+    obj = pymcnp.inp.datum.create_datum_from_mcnp('TR24   50 1 80.0 123 234 345 0 1 0 0 0 1')
+    assert obj.suffix == 24
+    assert obj.displacement[0] == 50.0
+    assert obj.displacement[1] == 1.0
+    assert obj.displacement[2] == 80.0
+
+    assert obj.rotation[0][0] == 123
+    assert obj.rotation[0][1] == 234
+    assert obj.rotation[0][2] == 345
