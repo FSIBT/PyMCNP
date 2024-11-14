@@ -127,24 +127,63 @@ class Surface(_card.Card):
         parameters: Surface parameter list based on mnemonic.
     """
 
-    def __init__(
-        self,
-        number: types.McnpInteger,
-        mnemonic: SurfaceMnemonic,
-        transform: types.McnpInteger,
-        parameters: tuple[types.McnpReal],
-        is_whiteboundary: bool = False,
-        is_reflecting: bool = False,
-    ):
-        """
-        ``__init__`` initializes ``Surface``.
+    def __init__(self):
+        """Needs to be implmemented in subclass."""
 
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
+        raise NotImplementedError
+
+    @staticmethod
+    def from_mcnp(source: str, line: int | None = None):
+        """
+        ``from_mcnp`` generates ``Surface`` objects from INP.
+
+        ``from_mcnp`` constructs instances of ``Surface`` from INP source
+        strings, so it operates as a class constructor method and INP parser
+        helper function.
+
+        Parameters:
+            source: INP for surface.
+            line: Line number.
+
+        Returns:
+            ``Surface`` object.
+
+        Raises:
+            MCNPSyntaxError: TOOFEW_SURFACE, TOOLONG_SURFACE.
         """
 
-        super().__init__(number.value)
+        # Processing Inline Comment
+        source = _parser.Preprocessor.process_inp(source)
+        source, comments = _parser.Preprocessor.process_inp_comments(source)
+        tokens = _parser.Parser(
+            source.split(' '),
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE),
+        )
+
+        # Processing Reflecting Prefix
+        if tokens.peekl()[0] == '+':
+            is_whiteboundary = True
+            is_reflecting = False
+            tokens.pushl(tokens.popl()[1:])
+        elif tokens.peekl()[0] == '*':
+            is_whiteboundary = False
+            is_reflecting = True
+            tokens.pushl(tokens.popl()[1:])
+        else:
+            is_whiteboundary = False
+            is_reflecting = False
+
+        # Processing Number, Transform/Periodic, Mnemonic, Parameters
+        number = types.McnpInteger.from_mcnp(tokens.popl())
+
+        try:
+            transform = types.McnpInteger.from_mcnp(tokens.peekl())
+            tokens.popl()
+        except Exception:
+            transform = None
+
+        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())
+        parameters = tuple([types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens))])
 
         if mnemonic is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC)
@@ -477,77 +516,13 @@ class Surface(_card.Card):
                     )
                 case _:
                     assert False, 'Impossible'
-
-            self.__dict__ = obj.__dict__
-            self.__class__ = obj.__class__
-
         except TypeError:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE_ENTRIES)
 
-    @staticmethod
-    def from_mcnp(source: str, line: int = None):
-        """
-        ``from_mcnp`` generates ``Surface`` objects from INP.
+        obj.line = line
+        obj.comment = comments
 
-        ``from_mcnp`` constructs instances of ``Surface`` from INP source
-        strings, so it operates as a class constructor method and INP parser
-        helper function.
-
-        Parameters:
-            source: INP for surface.
-            line: Line number.
-
-        Returns:
-            ``Surface`` object.
-
-        Raises:
-            MCNPSyntaxError: TOOFEW_SURFACE, TOOLONG_SURFACE.
-        """
-
-        # Processing Inline Comment
-        source = _parser.Preprocessor.process_inp(source)
-        source, comments = _parser.Preprocessor.process_inp_comments(source)
-        tokens = _parser.Parser(
-            source.split(' '), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_SURFACE)
-        )
-
-        # Processing Reflecting Prefix
-        if tokens.peekl()[0] == '+':
-            is_whiteboundary = True
-            is_reflecting = False
-            tokens.pushl(tokens.popl()[1:])
-        elif tokens.peekl()[0] == '*':
-            is_whiteboundary = False
-            is_reflecting = True
-            tokens.pushl(tokens.popl()[1:])
-        else:
-            is_whiteboundary = False
-            is_reflecting = False
-
-        # Processing Number, Transform/Periodic, Mnemonic, Parameters
-        number = types.McnpInteger.from_mcnp(tokens.popl())
-
-        try:
-            transform = types.McnpInteger.from_mcnp(tokens.peekl())
-            tokens.popl()
-        except Exception:
-            transform = None
-
-        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())
-        parameters = tuple([types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens))])
-
-        surface = Surface(
-            number,
-            mnemonic,
-            transform,
-            parameters,
-            is_whiteboundary=is_whiteboundary,
-            is_reflecting=is_reflecting,
-        )
-        surface.line = line
-        surface.comment = comments
-
-        return surface
+        return obj
 
     def to_mcnp(self) -> str:
         """
@@ -717,7 +692,17 @@ class PlaneGeneralPoint(Surface):
         self.y3: Final[types.McnpReal] = y3
         self.z3: Final[types.McnpReal] = z3
 
-        self.parameters: Final[tuple[types.McnpReal]] = (x1, y1, z1, x2, y2, z2, x3, y3, z3)
+        self.parameters: Final[tuple[types.McnpReal]] = (
+            x1,
+            y1,
+            z1,
+            x2,
+            y2,
+            z2,
+            x3,
+            y3,
+            z3,
+        )
 
 
 class PlaneGeneralEquation(Surface):
@@ -2013,7 +1998,13 @@ class ConeParallelX(Surface):
         if plusminus_1 is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_PARAMETER)
 
-        self.parameters: Final[tuple[types.McnpReal]] = (x, y, z, t_squared, plusminus_1)
+        self.parameters: Final[tuple[types.McnpReal]] = (
+            x,
+            y,
+            z,
+            t_squared,
+            plusminus_1,
+        )
 
 
 class ConeParallelY(Surface):
@@ -2107,7 +2098,13 @@ class ConeParallelY(Surface):
         self.t_squared: Final[types.McnpReal] = t_squared
         self.plusminus_1: Final[types.McnpReal] = plusminus_1
 
-        self.parameters: Final[tuple[types.McnpReal]] = (x, y, z, t_squared, plusminus_1)
+        self.parameters: Final[tuple[types.McnpReal]] = (
+            x,
+            y,
+            z,
+            t_squared,
+            plusminus_1,
+        )
 
 
 class ConeParallelZ(Surface):
@@ -2201,7 +2198,13 @@ class ConeParallelZ(Surface):
         self.t_squared: Final[types.McnpReal] = t_squared
         self.plusminus_1: Final[types.McnpReal] = plusminus_1
 
-        self.parameters: Final[tuple[types.McnpReal]] = (x, y, z, t_squared, plusminus_1)
+        self.parameters: Final[tuple[types.McnpReal]] = (
+            x,
+            y,
+            z,
+            t_squared,
+            plusminus_1,
+        )
 
 
 class ConeOnX(Surface):
@@ -3603,7 +3606,14 @@ class Parallelepiped(Surface):
         self.zmin: Final[types.McnpReal] = zmin
         self.zmax: Final[types.McnpReal] = zmax
 
-        self.parameters: Final[tuple[types.McnpReal]] = (xmin, xmax, ymin, ymax, zmin, zmax)
+        self.parameters: Final[tuple[types.McnpReal]] = (
+            xmin,
+            xmax,
+            ymin,
+            ymax,
+            zmin,
+            zmax,
+        )
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
@@ -3629,7 +3639,9 @@ class Parallelepiped(Surface):
         y = _cadquery.CqVector(0, ylen, 0)
         z = _cadquery.CqVector(0, 0, zlen)
         v = _cadquery.CqVector(
-            self.xmin.value + xlen / 2, self.ymin.value + ylen / 2, self.zmin.value + zlen / 2
+            self.xmin.value + xlen / 2,
+            self.ymin.value + ylen / 2,
+            self.zmin.value + zlen / 2,
         )
 
         cadquery = 'import cadquery as cq\n\n' if hasHeader else ''
@@ -4555,7 +4567,15 @@ class Ellipsoid(Surface):
         self.v2z: Final[types.McnpReal] = v2z
         self.rm: Final[types.McnpReal] = rm
 
-        self.parameters: Final[tuple[types.McnpReal]] = (v1x, v1y, v1z, v2x, v2y, v2z, rm)
+        self.parameters: Final[tuple[types.McnpReal]] = (
+            v1x,
+            v1y,
+            v1z,
+            v2x,
+            v2y,
+            v2z,
+            rm,
+        )
 
     def to_cadquery(self, hasHeader: bool = False) -> str:
         """
