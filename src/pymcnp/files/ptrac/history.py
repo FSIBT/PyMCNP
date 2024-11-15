@@ -8,7 +8,7 @@ importable interface for PTRAC event histories.
 from __future__ import annotations
 from typing import Final, Generator
 
-from .event import Event
+from .event import Event, EventType
 from .header import Header
 from ..utils import _parser
 from ..utils import errors
@@ -38,7 +38,7 @@ class History:
     def __init__(
         self,
         header: Header,
-        next_type: Event.EventType,
+        next_type: EventType,
         nps: int,
         ncl: int,
         nsf: int,
@@ -72,7 +72,7 @@ class History:
 
         # TODO: Add error checking here!
 
-        self.next_type: Final[Event.EventType] = next_type
+        self.next_type: Final[EventType] = next_type
         self.nps: Final[int] = nps
         self.ncl: Final[int] = ncl
         self.nsf: Final[int] = nsf
@@ -110,7 +110,8 @@ class History:
 
         source = _parser.Preprocessor.process_ptrac(source)
         lines = _parser.Parser(
-            source.split('\n'), errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY)
+            source.split('\n'),
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY),
         )
 
         # Processing I Line
@@ -125,7 +126,7 @@ class History:
                 case 1:
                     nps = types.McnpInteger.from_mcnp(tokens.popl().strip())
                 case 2:
-                    next_type = Event.EventType.from_mcnp(tokens.popl().strip())
+                    next_type = EventType.from_mcnp(tokens.popl().strip())
                     first_next_type = next_type
                 case 3:
                     ncl = types.McnpInteger.from_mcnp(tokens.popl().strip())
@@ -144,7 +145,7 @@ class History:
         )
 
         def events(next_type, lines):
-            while next_type != Event.EventType.FLAG:
+            while next_type != EventType.FLAG:
                 event = Event.from_mcnp(lines.popl() + '\n' + lines.popl(), head, next_type)
                 next_type = event.next_type
                 yield event
@@ -156,7 +157,14 @@ class History:
 
         return (
             History(
-                head, first_next_type, nps, ncl, nsf, jptal, tal, events(next_type, event_lines)
+                head,
+                first_next_type,
+                nps,
+                ncl,
+                nsf,
+                jptal,
+                tal,
+                events(next_type, event_lines),
             ),
             '\n'.join(list(lines.deque)),
         )

@@ -31,15 +31,15 @@ class FilteredHistory(history.History):
         def events(hist):
             for evnt in hist.events:
                 match evnt.event_type:
-                    case event.Event.EventType.SOURCE:
+                    case event.EventType.SOURCE:
                         filter_ = filters.filteredsource
-                    case event.Event.EventType.SURFACE:
+                    case event.EventType.SURFACE:
                         filter_ = filters.filteredsurface
-                    case event.Event.EventType.COLLISION:
+                    case event.EventType.COLLISION:
                         filter_ = filters.filteredcollision
-                    case event.Event.EventType.TERMINAL:
+                    case event.EventType.TERMINAL:
                         filter_ = filters.filteredterminal
-                    case event.Event.EventType.FLAG:
+                    case event.EventType.FLAG:
                         filter_ = filters.fitler_flag
                     case _:
                         filter_ = filters.filteredbank
