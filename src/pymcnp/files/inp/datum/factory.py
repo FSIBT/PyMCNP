@@ -405,7 +405,7 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_DATUM_PHYS)
 
             match designator.particles[0]:
-                case types.Designator.Particle.NEUTRON:
+                case types.Particle.NEUTRON:
                     emax = types.McnpReal.from_mcnp(tokens.popl())
                     emcnf = types.McnpReal.from_mcnp(tokens.popl())
                     iunr = types.McnpInteger.from_mcnp(tokens.popl())
@@ -436,7 +436,7 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
                         i_els_model,
                     )
 
-                case types.Designator.Particle.PHOTON:
+                case types.Particle.PHOTON:
                     emcpf = types.McnpReal.from_mcnp(tokens.popl())
                     ides = types.McnpInteger.from_mcnp(tokens.popl())
                     nocoh = types.McnpInteger.from_mcnp(tokens.popl())
@@ -448,7 +448,7 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
 
                     parameters = (emcpf, ides, nocoh, ispn, nodop, fism)
 
-                case types.Designator.Particle.ELECTRON:
+                case types.Particle.ELECTRON:
                     emax = types.McnpReal.from_mcnp(tokens.popl())
                     ides = types.McnpInteger.from_mcnp(tokens.popl())
                     ibad = types.McnpInteger.from_mcnp(tokens.popl())
@@ -483,7 +483,7 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
                         ckvnum,
                     )
 
-                case types.Designator.Particle.PROTON:
+                case types.Particle.PROTON:
                     emax = types.McnpReal.from_mcnp(tokens.popl())
                     ean = types.McnpReal.from_mcnp(tokens.popl())
                     tabl = types.McnpReal.from_mcnp(tokens.popl())

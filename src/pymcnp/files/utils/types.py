@@ -160,6 +160,50 @@ class Zaid:
         return self.to_mcnp()
 
 
+class Particle(str, enum.Enum):
+    """
+    ``Particle`` represents individular particle designators.
+    """
+
+    NEUTRON = 'n'
+    ANTI_NEUTRON = 'q'
+    PHOTON = 'p'
+    ELECTRON = 'e'
+    POSITRON = 'f'
+    NEGATIVE_MUON = '|'
+    POSITIVE_MUON = '!'
+    ELECTRON_NEUTRINO = 'u'
+    ANTI_ELECTRON_NEUTRINO = '<'
+    MUON_NEUTRINO = 'v'
+    ANTI_MUON_MEUTRINO = '>'
+    PROTON = 'h'
+    ANTI_PROTON = 'g'
+    LAMBDA_BARYON = 'l'
+    ANTI_LAMBDA_BARYON = 'b'
+    POSITIVE_SIGMA_BARYON = '+'
+    ANTI_POSITIVE_SIGMA_BARYON = '_'
+    NEGATIVE_SIGMA_BARYON = '-'
+    ANTI_NEGATIVE_SIGMA_BARYON = '~'
+    CASCADE = 'x'
+    ANTI_CASCADE = 'c'
+    NEGATIVE_CASCADE = 'y'
+    POSITIVE_CASCADE = 'w'
+    OMEGA_BARYON = 'o'
+    ANTI_OMEGA_BARYON = '@'
+    POSITIVE_PION = '/'
+    NEGATIVE_PION = '*'
+    NEUTRAL_PION = 'z'
+    POSITIVE_KAON = 'k'
+    NEGATIVE_KAON = '?'
+    SHORT_KAON = '%'
+    LONG_KAON = '^'
+    DEUTERON = 'd'
+    TRITON = 't'
+    HELION = 's'
+    ALPHA = 'a'
+    HEAVY_IONS = '#'
+
+
 class Designator:
     """
     ``Designator`` represents MCNP particle designators.
@@ -167,49 +211,6 @@ class Designator:
     Attributes:
         particles: Tuple of particles.
     """
-
-    class Particle(str, enum.Enum):
-        """
-        ``Particle`` represents individular particle designators.
-        """
-
-        NEUTRON = 'n'
-        ANTI_NEUTRON = 'q'
-        PHOTON = 'p'
-        ELECTRON = 'e'
-        POSITRON = 'f'
-        NEGATIVE_MUON = '|'
-        POSITIVE_MUON = '!'
-        ELECTRON_NEUTRINO = 'u'
-        ANTI_ELECTRON_NEUTRINO = '<'
-        MUON_NEUTRINO = 'v'
-        ANTI_MUON_MEUTRINO = '>'
-        PROTON = 'h'
-        ANTI_PROTON = 'g'
-        LAMBDA_BARYON = 'l'
-        ANTI_LAMBDA_BARYON = 'b'
-        POSITIVE_SIGMA_BARYON = '+'
-        ANTI_POSITIVE_SIGMA_BARYON = '_'
-        NEGATIVE_SIGMA_BARYON = '-'
-        ANTI_NEGATIVE_SIGMA_BARYON = '~'
-        CASCADE = 'x'
-        ANTI_CASCADE = 'c'
-        NEGATIVE_CASCADE = 'y'
-        POSITIVE_CASCADE = 'w'
-        OMEGA_BARYON = 'o'
-        ANTI_OMEGA_BARYON = '@'
-        POSITIVE_PION = '/'
-        NEGATIVE_PION = '*'
-        NEUTRAL_PION = 'z'
-        POSITIVE_KAON = 'k'
-        NEGATIVE_KAON = '?'
-        SHORT_KAON = '%'
-        LONG_KAON = '^'
-        DEUTERON = 'd'
-        TRITON = 't'
-        HELION = 's'
-        ALPHA = 'a'
-        HEAVY_IONS = '#'
 
     def __init__(self, particles: tuple[Particle]):
         """
@@ -234,7 +235,7 @@ class Designator:
                     info=str(particles),
                 )
 
-        self.particles: Final[tuple[Designator.Particle]] = particles
+        self.particles: Final[tuple[Particle]] = particles
 
     @staticmethod
     def from_mcnp(source: str):
@@ -253,7 +254,7 @@ class Designator:
         """
 
         try:
-            particles = tuple([Designator.Particle(token) for token in source.split(',')])
+            particles = tuple([Particle(token) for token in source.split(',')])
         except ValueError:
             raise errors.MCNPSemanticError(
                 errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=source
@@ -272,7 +273,7 @@ class Designator:
             INP string for ``Designator`` object.
         """
 
-        return ','.join(Designator.Particle(particle) for particle in self.particles)
+        return ','.join(Particle(particle) for particle in self.particles)
 
     def __eq__(self, other):
         return self.particles == other.particles
