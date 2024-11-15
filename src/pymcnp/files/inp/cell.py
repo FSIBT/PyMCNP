@@ -147,7 +147,7 @@ class CellKeyword(str, Enum):
     ``CellKeyword`` represents INP cell card option keywords.
 
     ``CellKeyword`` implements INP cell card option keywords as a
-    Python inner class. It enumerates MCNP keywords and provides
+    Python class. It enumerates MCNP keywords and provides
     methods for casting strings to ``CellKeyword`` instances. It
     represents the INP cell card option keyword syntax element, so
     ``Cell`` and ``CellOption`` depends on ``CellKeyword`` as an enum.
@@ -502,6 +502,9 @@ class CellOption:
             'n': self.designator if hasattr(self.__class__, 'designator') else None,
             'value': (self.value.to_mcnp() if hasattr(self.value, 'to_mcnp') else self.value),
         }
+
+    def __repr__(self):
+        return f'<CellOption: {self.__class__.__name__} ({self.to_mcnp()})>'
 
 
 class Importance(CellOption):
