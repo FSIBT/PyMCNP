@@ -62,7 +62,7 @@ class MaterialValue:
 
         source = _parser.Preprocessor.process_inp(source)
         tokens = _parser.Parser(
-            source.split(' '),
+            source.split(" "),
             errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_MATERIAL),
         )
 
@@ -85,7 +85,7 @@ class MaterialValue:
             INP string for ``MaterialValue`` object.
         """
 
-        return f'{self.zaid.to_mcnp()} {self.fraction.to_mcnp()}'
+        return f"{self.zaid.to_mcnp()} {self.fraction.to_mcnp()}"
 
 
 class MaterialKeyword(str, Enum):
@@ -101,22 +101,22 @@ class MaterialKeyword(str, Enum):
     ``MaterialKeyword`` as an enum.
     """
 
-    GAS = 'gas'
-    ESTEP = 'estep'
-    HSTEP = 'hstep'
-    NLIB = 'nlib'
-    PLIB = 'plib'
-    PNLIB = 'pnlib'
-    ELIB = 'elib'
-    HLIB = 'hlib'
-    ALIB = 'alib'
-    SLIB = 'slib'
-    TLIB = 'tlib'
-    DLIB = 'dlib'
-    COND = 'cond'
-    REFI = 'refi'
-    REFC = 'refc'
-    REFS = 'refs'
+    GAS = "gas"
+    ESTEP = "estep"
+    HSTEP = "hstep"
+    NLIB = "nlib"
+    PLIB = "plib"
+    PNLIB = "pnlib"
+    ELIB = "elib"
+    HLIB = "hlib"
+    ALIB = "alib"
+    SLIB = "slib"
+    TLIB = "tlib"
+    DLIB = "dlib"
+    COND = "cond"
+    REFI = "refi"
+    REFC = "refc"
+    REFS = "refs"
 
     @staticmethod
     def from_mcnp(source: str):
@@ -141,7 +141,9 @@ class MaterialKeyword(str, Enum):
 
         # Processing Keyword
         if source not in [enum.value for enum in MaterialKeyword]:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_KEYWORD)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_KEYWORD
+            )
 
         return MaterialKeyword(source)
 
@@ -176,41 +178,43 @@ class MaterialOption:
         """
 
         if keyword is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_KEYWORD)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_KEYWORD
+            )
 
         match keyword:
             case MaterialKeyword.GAS:
-                obj = Material.Gas(value)
+                obj = Gas(value)
             case MaterialKeyword.ESTEP:
-                obj = Material.Estep(value)
+                obj = Estep(value)
             case MaterialKeyword.HSTEP:
-                obj = Material.Hstep(value)
+                obj = Hstep(value)
             case MaterialKeyword.NLIB:
-                obj = Material.Nlib(value)
+                obj = Nlib(value)
             case MaterialKeyword.PLIB:
-                obj = Material.Plib(value)
+                obj = Plib(value)
             case MaterialKeyword.PNLIB:
-                obj = Material.Pnlib(value)
+                obj = Pnlib(value)
             case MaterialKeyword.ELIB:
-                obj = Material.Elib(value)
+                obj = Elib(value)
             case MaterialKeyword.HLIB:
-                obj = Material.Hlib(value)
+                obj = Hlib(value)
             case MaterialKeyword.ALIB:
-                obj = Material.Alib(value)
+                obj = Alib(value)
             case MaterialKeyword.SLIB:
-                obj = Material.Slib(value)
+                obj = Slib(value)
             case MaterialKeyword.TLIB:
-                obj = Material.Tlib(value)
+                obj = Tlib(value)
             case MaterialKeyword.DLIB:
-                obj = Material.Dlib(value)
+                obj = Dlib(value)
             case MaterialKeyword.COND:
-                obj = Material.Cond(value)
+                obj = Cond(value)
             case MaterialKeyword.REFI:
-                obj = Material.Refi(value)
+                obj = Refi(value)
             case MaterialKeyword.REFC:
-                assert False, 'Unimplemented'
+                assert False, "Unimplemented"
             case MaterialKeyword.REFS:
-                assert False, 'Unimplemented'
+                assert False, "Unimplemented"
 
         self.__dict__ = obj.__dict__
         self.__class__ = obj.__class__
@@ -237,7 +241,7 @@ class MaterialOption:
 
         source = _parser.Preprocessor.process_inp(source)
         tokens = _parser.Parser(
-            source.split('='),
+            source.split("="),
             errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_MATERIAL),
         )
 
@@ -273,7 +277,7 @@ class MaterialOption:
         if tokens:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_MATERIAL)
 
-        return Material.MaterialOption(keyword, value)
+        return MaterialOption(keyword, value)
 
     def to_mcnp(self):
         """
@@ -286,7 +290,7 @@ class MaterialOption:
             INP string for ``MaterialOption`` object.
         """
 
-        return f'{self.keyword.to_mcnp()}={self.value.to_mcnp()}'
+        return f"{self.keyword.to_mcnp()}={self.value.to_mcnp()}"
 
 
 class Gas(MaterialOption):
@@ -312,7 +316,9 @@ class Gas(MaterialOption):
         """
 
         if state is None or state not in {0, 1}:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.GAS
         self.value = state
@@ -342,7 +348,9 @@ class Estep(MaterialOption):
         """
 
         if step is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.ESTEP
         self.value = step
@@ -372,7 +380,9 @@ class Hstep(MaterialOption):
         """
 
         if step is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.HSTEP
         self.value = step
@@ -402,7 +412,9 @@ class Nlib(MaterialOption):
         """
 
         if abx is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.NLIB
         self.value = abx
@@ -432,7 +444,9 @@ class Plib(MaterialOption):
         """
 
         if abx is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.PLIB
         self.value = abx
@@ -462,7 +476,9 @@ class Pnlib(MaterialOption):
         """
 
         if abx is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.PNLIB
         self.value = abx
@@ -492,7 +508,9 @@ class Elib(MaterialOption):
         """
 
         if abx is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.ELIB
         self.value = abx
@@ -522,7 +540,9 @@ class Hlib(MaterialOption):
         """
 
         if abx is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.HLIB
         self.value = abx
@@ -552,7 +572,9 @@ class Alib(MaterialOption):
         """
 
         if abx is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.ALIB
         self.value = abx
@@ -582,7 +604,9 @@ class Slib(MaterialOption):
         """
 
         if abx is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.SLIB
         self.value = abx
@@ -612,7 +636,9 @@ class Tlib(MaterialOption):
         """
 
         if abx is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.TLIB
         self.value = abx
@@ -642,7 +668,9 @@ class Dlib(MaterialOption):
         """
 
         if abx is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.DLIB
         self.value = abx
@@ -672,7 +700,9 @@ class Cond(MaterialOption):
         """
 
         if conducation_state is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.COND
         self.value = conducation_state
@@ -702,7 +732,9 @@ class Refi(MaterialOption):
         """
 
         if index is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE)
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_VALUE
+            )
 
         self.keyword = MaterialKeyword.REFI
         self.value = index
@@ -741,22 +773,28 @@ class Material(Datum):
 
         for parameter in substances:
             if parameter is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS
+                )
 
         for parameter in pairs:
             if parameter is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
+                raise errors.MCNPSemanticError(
+                    errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS
+                )
 
         self.paris = pairs
         self.substances = substances
 
-        _card.Card.__init__(self, f'm{suffix}')
+        _card.Card.__init__(self, f"m{suffix}")
         self.mnemonic = DatumMnemonic.MATERIAL
         self.parameters = tuple(list(substances) + list(pairs))
         self.suffix = suffix
 
     @staticmethod
-    def from_formula(number: int, formulas: dict[str, float], atomic_or_weight: bool = True):
+    def from_formula(
+        number: int, formulas: dict[str, float], atomic_or_weight: bool = True
+    ):
         """
         ``from_formula`` generates ``Datum`` objects from INP.
 
@@ -787,14 +825,16 @@ class Material(Datum):
 
                 zaids = [
                     (
-                        types.Zaid(_elements.ELEMENTS[element]['z'], a),
+                        types.Zaid(_elements.ELEMENTS[element]["z"], a),
                         isotropic_fraction,
                     )
-                    for a, isotropic_fraction in _elements.ELEMENTS[element]['fraction'].items()
+                    for a, isotropic_fraction in _elements.ELEMENTS[element][
+                        "fraction"
+                    ].items()
                 ]
-                subcomments = [f'{element}-{zaid.a:03}' for zaid, _ in zaids]
+                subcomments = [f"{element}-{zaid.a:03}" for zaid, _ in zaids]
                 entries = [
-                    Material.MaterialValue(
+                    MaterialValue(
                         zaid,
                         types.McnpReal(
                             (-1 if atomic_or_weight else 1)
@@ -819,11 +859,13 @@ class Material(Datum):
 
         if self.comment and isinstance(self.comment, tuple):
             if len(self.comment) == len(self.substances):
-                return f'm{self.suffix.to_mcnp()} ' + '\n   '.join(
-                    f'{substance.to_mcnp()} $ {comment}'
+                return f"m{self.suffix.to_mcnp()} " + "\n   ".join(
+                    f"{substance.to_mcnp()} $ {comment}"
                     for substance, comment in zip(self.substances, self.comment)
                 )
             else:
-                return super().to_mcnp() + ''.join(f' $ {comment}' for comment in self.comments)
+                return super().to_mcnp() + "".join(
+                    f" $ {comment}" for comment in self.comments
+                )
         else:
             return super().to_mcnp()
