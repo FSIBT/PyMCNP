@@ -16,6 +16,178 @@ from ..utils import errors
 from .header import Header
 
 
+class EventType(Enum):
+    """
+    ``EventType`` represents PTRAC event event-types.
+
+    ``EventType`` implements PTRAC event event-types as a Python inner
+    class. It enumerates event-type descriptoins and provides methods for
+    casting strings to ``EventType`` instances. It represents the PTRAC
+    event event-types syntax element, so ``Event`` depends on ``EventType``
+    as an enum.
+    """
+
+    SOURCE = 1000
+    BANK_DXTRAN_TRACK = 2001
+    REJECTED_DXTRAN_TRACK = -2001
+    BANK_ENERGY_SPLIT = 2002
+    REJECTED_ENERGY_SPLIT = -2002
+    BANK_WEIGHT_WINDOW_SURFACE_SPLIT = 2003
+    REJECTED_WEIGHT_WINDOW_SURFACE_SPLIT = -2003
+    BANK_WEIGHT_WINDOW_COLLISION_SPLIT = 2004
+    REJECTED_WEIGHT_WINDOW_COLLISION_SPLIT = -2004
+    BANK_FORCED_COLLISION_UNCOLLIDED_PART = 2005
+    REJECTED_FORCED_COLLISION_UNCOLLIDED_PART = -2005
+    BANK_IMPORTANCE_SPLIT = 2006
+    REJECTED_IMPORTANCE_SPLIT = -2006
+    BANK_NEUTRON_FROM_LIBRARY_PROTONS = 2007
+    REJECTED_NEUTRON_FROM_LIBRARY_PROTONS = -2007
+    BANK_PHOTON_FROM_NEUTRON = 2008
+    REJECTED_PHOTON_FROM_NEUTRON = -2008
+    BANK_PHOTON_FROM_DOUBLE_FLUORENSCENE = 2009
+    REJECTED_PHOTON_FROM_DOUBLE_FLUORENSCENE = -2009
+    BANK_PHOTON_FROM_ANNIHILATION = 2010
+    REJECTED_PHOTON_FROM_ANNIHILATION = -2010
+    BANK_ELECTRON_FROM_PHOTOELECTRIC = 2011
+    REJECTED_ELECTRON_FROM_PHOTOELECTRIC = -2011
+    BANK_ELECTRON_FROM_COMPTON = 2012
+    REJECTED_ELECTRON_FROM_COMPTON = -2012
+    BANK_ELECTRON_FROM_PAIR_PRODUCTION = 2013
+    REJECTED_ELECTRON_FROM_PAIR_PRODUCTION = -2013
+    BANK_AUGER_ELECTRON_FROM_PHOTON = 2014
+    REJECTED_AUGER_ELECTRON_FROM_PHOTON = -2014
+    BANK_POSITRON_FROM_PAIR_PRODUCTION = 2015
+    REJECTED_POSITRON_FROM_PAIR_PRODUCTION = -2015
+    BANK_BREMSSTRAHLUNG_FROM_ELECTRON = 2016
+    REJECTED_BREMSSTRAHLUNG_FROM_ELECTRON = -2016
+    BANK_KNOCK_ON_ELECTRON = 2017
+    REJECTED_KNOCK_ON_ELECTRON = -2017
+    BANK_PHOTON_FROM_ELECTRON = 2018
+    REJECTED_PHOTON_FROM_ELECTRON = -2018
+    BANK_PHOTON_FROM_NEUTRON_MULTIGROUP = 2019
+    REJECTED_PHOTON_FROM_NEUTRON_MULTIGROUP = -2019
+    BANK_NEUTRON_MULTIGROUP = 2020
+    REJECTED_NEUTRON_MULTIGROUP = -2020
+    BANK_NEUTRON_K_MULTIGROUP = 2021
+    REJECTED_NEUTRON_K_MULTIGROUP = -2021
+    BANK_PHOTO_FROM_PHOTON_MULTIGROUP = 2022
+    REJECTED_PHOTO_FROM_PHOTON_MULTIGROUP = -2022
+    BANK_ADJOINT_WEIGHT_SPLIT_MULTIGROUP = 2023
+    REJECTED_ADJOINT_WEIGHT_SPLIT_MULTIGROUP = -2023
+    BANK_WEIGHT_WINDOW_PSEUDO_COLLISION_SPLIT = 2024
+    REJECTED_WEIGHT_WINDOW_PSEUDO_COLLISION_SPLIT = -2024
+    BANK_SECONDARIES_FROM_PHOTONUCLEAR = 2025
+    REJECTED_SECONDARIES_FROM_PHOTONUCLEAR = -2025
+    BANK_DXTRAN_ANNIHILATION_PHOTON = 2026
+    REJECTED_DXTRAN_ANNIHILATION_PHOTON = -2026
+    BANK_LIGHT_IONS_FROM_NEUTRONS = 2030
+    REJECTED_LIGHT_IONS_FROM_NEUTRONS = -2030
+    BANK_LIGHT_IONS_FROM_PROTONS = 2031
+    REJECTED_LIGHT_IONS_FROM_PROTONS = -2031
+    BANK_LIBRARY_NEUTRONS_FROM_MODEL_NETURONS = 2032
+    REJECTED_LIBRARY_NEUTRONS_FROM_MODEL_NETURONS = -2032
+    BANK_SECONDARIES_FROM_INELASTIC_INTERACTIONS = 2033
+    REJECTED_SECONDARIES_FROM_INELASTIC_INTERACTIONS = -2033
+    BANK_SECONARIES_FORM_ELASTIC_INTERACTIONS = 2034
+    REJECTED_SECONARIES_FORM_ELASTIC_INTERACTIONS = -2034
+    SURFACE = 3000
+    COLLISION = 4000
+    TERMINAL = 5000
+    FLAG = 9000
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        ``from_mcnp`` generates ``EventType`` objects from PTRAC.
+
+        ``from_mcnp`` constructs instances of ``EventType`` from PTRAC
+        source strings, so it operates as a class constructor method
+        and PTRAC parser helper function.
+
+        Parameters:
+            source: PTRAC for event event-type.
+
+        Returns:
+            ``EventType`` object.
+
+        Raises:
+            MCNPSemanticError: INVALID_EVENT_TYPE.
+        """
+
+        source = _parser.Preprocessor.process_ptrac(source)
+
+        # Checking the source is numeric.
+        if not re.match(r'-?\d+', source):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_TYPE)
+
+        # Processing Type
+        if int(source) not in [enum.value for enum in EventType]:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_TYPE)
+
+        return EventType(int(source))
+
+
+class EventNters(Enum):
+    """
+    ``EventNters`` represents PTRAC event NTER variables.
+
+    ``EventNters`` implements PTRAC event NTER variable as a Python inner
+    class. It enumerates event-type descriptoins and provides methods for
+    casting strings to ``EventNters`` instances. It represents the PTRAC
+    event NTER variable syntax element, so ``Event`` depends on
+    ``EventNters`` as an enum.
+    """
+
+    ESCAPE = 1
+    ENERGY_CUTOFF = 2
+    TIME_CUTOFF = 3
+    WEIGHT_WINDOW = 4
+    CELL_IMPORTANCE = 5
+    WEIGHT_CUTOFF = 6
+    ENERGY_IMPORTANCE = 7
+    DXTRAN = 8
+    FORCED_COLLISION = 9
+    EXPONENTIAL_TRANSFROM = 10
+    NTER_11 = 11
+    NTER_12 = 12
+    NTER_13 = 13
+    NTER_14 = 14
+    NTER_15 = 15
+    NTER_16 = 16
+    NTER_17 = 17
+
+    @staticmethod
+    def from_mcnp(source: int):
+        """
+        ``from_mcnp`` generates ``EventNters`` objects from PTRAC.
+
+        ``from_mcnp`` constructs instances of ``EventNters`` from PTRAC
+        source strings, so it operates as a class constructor method
+        and PTRAC parser helper function.
+
+        Parameters:
+            source: PTRAC for event NTER variable.
+
+        Returns:
+            ``EventNters`` object.
+
+        Raises:
+            MCNPSemanticError: INVALID_EVENT_NTER.
+        """
+
+        source = _parser.Preprocessor.process_ptrac(source)
+
+        # Checking the source is numeric.
+        if not re.match(r'\d+', source):
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NTER)
+
+        # Processing Type
+        if int(source) not in [enum.value for enum in EventNters]:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NTER)
+
+        return EventNters(int(source))
+
+
 class Event:
     """
     ``Event`` represents PTRAC events.
@@ -50,176 +222,6 @@ class Event:
         wgt: Particle weight.
         tme: Time at the particles position.
     """
-
-    class EventType(Enum):
-        """
-        ``EventType`` represents PTRAC event event-types.
-
-        ``EventType`` implements PTRAC event event-types as a Python inner
-        class. It enumerates event-type descriptoins and provides methods for
-        casting strings to ``EventType`` instances. It represents the PTRAC
-        event event-types syntax element, so ``Event`` depends on ``EventType``
-        as an enum.
-        """
-
-        SOURCE = 1000
-        BANK_DXTRAN_TRACK = 2001
-        REJECTED_DXTRAN_TRACK = -2001
-        BANK_ENERGY_SPLIT = 2002
-        REJECTED_ENERGY_SPLIT = -2002
-        BANK_WEIGHT_WINDOW_SURFACE_SPLIT = 2003
-        REJECTED_WEIGHT_WINDOW_SURFACE_SPLIT = -2003
-        BANK_WEIGHT_WINDOW_COLLISION_SPLIT = 2004
-        REJECTED_WEIGHT_WINDOW_COLLISION_SPLIT = -2004
-        BANK_FORCED_COLLISION_UNCOLLIDED_PART = 2005
-        REJECTED_FORCED_COLLISION_UNCOLLIDED_PART = -2005
-        BANK_IMPORTANCE_SPLIT = 2006
-        REJECTED_IMPORTANCE_SPLIT = -2006
-        BANK_NEUTRON_FROM_LIBRARY_PROTONS = 2007
-        REJECTED_NEUTRON_FROM_LIBRARY_PROTONS = -2007
-        BANK_PHOTON_FROM_NEUTRON = 2008
-        REJECTED_PHOTON_FROM_NEUTRON = -2008
-        BANK_PHOTON_FROM_DOUBLE_FLUORENSCENE = 2009
-        REJECTED_PHOTON_FROM_DOUBLE_FLUORENSCENE = -2009
-        BANK_PHOTON_FROM_ANNIHILATION = 2010
-        REJECTED_PHOTON_FROM_ANNIHILATION = -2010
-        BANK_ELECTRON_FROM_PHOTOELECTRIC = 2011
-        REJECTED_ELECTRON_FROM_PHOTOELECTRIC = -2011
-        BANK_ELECTRON_FROM_COMPTON = 2012
-        REJECTED_ELECTRON_FROM_COMPTON = -2012
-        BANK_ELECTRON_FROM_PAIR_PRODUCTION = 2013
-        REJECTED_ELECTRON_FROM_PAIR_PRODUCTION = -2013
-        BANK_AUGER_ELECTRON_FROM_PHOTON = 2014
-        REJECTED_AUGER_ELECTRON_FROM_PHOTON = -2014
-        BANK_POSITRON_FROM_PAIR_PRODUCTION = 2015
-        REJECTED_POSITRON_FROM_PAIR_PRODUCTION = -2015
-        BANK_BREMSSTRAHLUNG_FROM_ELECTRON = 2016
-        REJECTED_BREMSSTRAHLUNG_FROM_ELECTRON = -2016
-        BANK_KNOCK_ON_ELECTRON = 2017
-        REJECTED_KNOCK_ON_ELECTRON = -2017
-        BANK_PHOTON_FROM_ELECTRON = 2018
-        REJECTED_PHOTON_FROM_ELECTRON = -2018
-        BANK_PHOTON_FROM_NEUTRON_MULTIGROUP = 2019
-        REJECTED_PHOTON_FROM_NEUTRON_MULTIGROUP = -2019
-        BANK_NEUTRON_MULTIGROUP = 2020
-        REJECTED_NEUTRON_MULTIGROUP = -2020
-        BANK_NEUTRON_K_MULTIGROUP = 2021
-        REJECTED_NEUTRON_K_MULTIGROUP = -2021
-        BANK_PHOTO_FROM_PHOTON_MULTIGROUP = 2022
-        REJECTED_PHOTO_FROM_PHOTON_MULTIGROUP = -2022
-        BANK_ADJOINT_WEIGHT_SPLIT_MULTIGROUP = 2023
-        REJECTED_ADJOINT_WEIGHT_SPLIT_MULTIGROUP = -2023
-        BANK_WEIGHT_WINDOW_PSEUDO_COLLISION_SPLIT = 2024
-        REJECTED_WEIGHT_WINDOW_PSEUDO_COLLISION_SPLIT = -2024
-        BANK_SECONDARIES_FROM_PHOTONUCLEAR = 2025
-        REJECTED_SECONDARIES_FROM_PHOTONUCLEAR = -2025
-        BANK_DXTRAN_ANNIHILATION_PHOTON = 2026
-        REJECTED_DXTRAN_ANNIHILATION_PHOTON = -2026
-        BANK_LIGHT_IONS_FROM_NEUTRONS = 2030
-        REJECTED_LIGHT_IONS_FROM_NEUTRONS = -2030
-        BANK_LIGHT_IONS_FROM_PROTONS = 2031
-        REJECTED_LIGHT_IONS_FROM_PROTONS = -2031
-        BANK_LIBRARY_NEUTRONS_FROM_MODEL_NETURONS = 2032
-        REJECTED_LIBRARY_NEUTRONS_FROM_MODEL_NETURONS = -2032
-        BANK_SECONDARIES_FROM_INELASTIC_INTERACTIONS = 2033
-        REJECTED_SECONDARIES_FROM_INELASTIC_INTERACTIONS = -2033
-        BANK_SECONARIES_FORM_ELASTIC_INTERACTIONS = 2034
-        REJECTED_SECONARIES_FORM_ELASTIC_INTERACTIONS = -2034
-        SURFACE = 3000
-        COLLISION = 4000
-        TERMINAL = 5000
-        FLAG = 9000
-
-        @staticmethod
-        def from_mcnp(source: str):
-            """
-            ``from_mcnp`` generates ``EventType`` objects from PTRAC.
-
-            ``from_mcnp`` constructs instances of ``EventType`` from PTRAC
-            source strings, so it operates as a class constructor method
-            and PTRAC parser helper function.
-
-            Parameters:
-                source: PTRAC for event event-type.
-
-            Returns:
-                ``EventType`` object.
-
-            Raises:
-                MCNPSemanticError: INVALID_EVENT_TYPE.
-            """
-
-            source = _parser.Preprocessor.process_ptrac(source)
-
-            # Checking the source is numeric.
-            if not re.match(r'-?\d+', source):
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_TYPE)
-
-            # Processing Type
-            if int(source) not in [enum.value for enum in Event.EventType]:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_TYPE)
-
-            return Event.EventType(int(source))
-
-    class EventNters(Enum):
-        """
-        ``EventNters`` represents PTRAC event NTER variables.
-
-        ``EventNters`` implements PTRAC event NTER variable as a Python inner
-        class. It enumerates event-type descriptoins and provides methods for
-        casting strings to ``EventNters`` instances. It represents the PTRAC
-        event NTER variable syntax element, so ``Event`` depends on
-        ``EventNters`` as an enum.
-        """
-
-        ESCAPE = 1
-        ENERGY_CUTOFF = 2
-        TIME_CUTOFF = 3
-        WEIGHT_WINDOW = 4
-        CELL_IMPORTANCE = 5
-        WEIGHT_CUTOFF = 6
-        ENERGY_IMPORTANCE = 7
-        DXTRAN = 8
-        FORCED_COLLISION = 9
-        EXPONENTIAL_TRANSFROM = 10
-        NTER_11 = 11
-        NTER_12 = 12
-        NTER_13 = 13
-        NTER_14 = 14
-        NTER_15 = 15
-        NTER_16 = 16
-        NTER_17 = 17
-
-        @staticmethod
-        def from_mcnp(source: int):
-            """
-            ``from_mcnp`` generates ``EventNters`` objects from PTRAC.
-
-            ``from_mcnp`` constructs instances of ``EventNters`` from PTRAC
-            source strings, so it operates as a class constructor method
-            and PTRAC parser helper function.
-
-            Parameters:
-                source: PTRAC for event NTER variable.
-
-            Returns:
-                ``EventNters`` object.
-
-            Raises:
-                MCNPSemanticError: INVALID_EVENT_NTER.
-            """
-
-            source = _parser.Preprocessor.process_ptrac(source)
-
-            # Checking the source is numeric.
-            if not re.match(r'\d+', source):
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NTER)
-
-            # Processing Type
-            if int(source) not in [enum.value for enum in Event.EventNters]:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NTER)
-
-            return Event.EventNters(int(source))
 
     def __init__(
         self,
@@ -381,15 +383,15 @@ class Event:
         n = None
 
         match event_type:
-            case Event.EventType.SOURCE:
+            case EventType.SOURCE:
                 n = header.numbers[1]
-            case Event.EventType.SURFACE:
+            case EventType.SURFACE:
                 n = header.numbers[5]
-            case Event.EventType.COLLISION:
+            case EventType.COLLISION:
                 n = header.numbers[7]
-            case Event.EventType.TERMINAL:
+            case EventType.TERMINAL:
                 n = header.numbers[9]
-            case Event.EventType.FLAG:
+            case EventType.FLAG:
                 assert False
             case _:
                 n = header.numbers[3]
@@ -401,30 +403,30 @@ class Event:
         )
 
         # Processing J2 (Next Event Type: 7)
-        next_type = Event.EventType.from_mcnp(j_line.popl().strip())
+        next_type = EventType.from_mcnp(j_line.popl().strip())
 
         # Processing J2 (Node: 8)
         node = types.McnpInteger.from_mcnp(j_line.popl())
 
         # Processing J3
         match event_type:
-            case Event.EventType.SOURCE:
+            case EventType.SOURCE:
                 # (NSR: 9)
                 nsr = types.McnpInteger.from_mcnp(j_line.popl())
 
-            case Event.EventType.SURFACE:
+            case EventType.SURFACE:
                 # (NSF: 12)
                 nsf = types.McnpReal.from_mcnp(j_line.popl())
 
-            case Event.EventType.COLLISION:
+            case EventType.COLLISION:
                 # (NXS: 10)
                 nxs = types.McnpReal.from_mcnp(j_line.popl())
 
-            case Event.EventType.TERMINAL:
+            case EventType.TERMINAL:
                 # (NTER: 14)
-                nter = Event.EventNter.from_mcnp(j_line.popl())
+                nter = EventNters.from_mcnp(j_line.popl())
 
-            case Event.EventType.FLAG:
+            case EventType.FLAG:
                 assert False
 
             case _:
@@ -485,22 +487,22 @@ class Event:
 
         # Processing J4
         match event_type:
-            case Event.EventType.SOURCE:
+            case EventType.SOURCE:
                 pass
 
-            case Event.EventType.SURFACE:
+            case EventType.SURFACE:
                 # (Surface Angle: 13)
                 surface_angle = types.McnpInteger.from_mcnp(j_line.popl())
 
-            case Event.EventType.COLLISION:
+            case EventType.COLLISION:
                 # (NTYN/MTP: 11)
                 ntyn_mtp = types.McnpInteger.from_mcnp(j_line.popl())
 
-            case Event.EventType.TERMINAL:
+            case EventType.TERMINAL:
                 # (Branch Number: 15)
                 branch = types.McnpInteger.from_mcnp(j_line.popl())
 
-            case Event.EventType.FLAG:
+            case EventType.FLAG:
                 assert False
 
             case _:
@@ -511,15 +513,15 @@ class Event:
         n = None
 
         match event_type:
-            case Event.EventType.SOURCE:
+            case EventType.SOURCE:
                 n = header.numbers[2]
-            case Event.EventType.SURFACE:
+            case EventType.SURFACE:
                 n = header.numbers[6]
-            case Event.EventType.COLLISION:
+            case EventType.COLLISION:
                 n = header.numbers[8]
-            case Event.EventType.TERMINAL:
+            case EventType.TERMINAL:
                 n = header.numbers[9]
-            case Event.EventType.FLAG:
+            case EventType.FLAG:
                 assert False
             case _:
                 n = header.numbers[10]

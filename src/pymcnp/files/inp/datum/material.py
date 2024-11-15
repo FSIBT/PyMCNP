@@ -87,6 +87,9 @@ class MaterialValue:
 
         return f"{self.zaid.to_mcnp()} {self.fraction.to_mcnp()}"
 
+    def __repr__(self):
+        return f'<{self.__class__.__name__}(Zaid={self.zaid}, fraction={self.fraction}) object at {id(self):#x}>'
+
 
 class MaterialKeyword(str, Enum):
     """
@@ -165,10 +168,10 @@ class MaterialOption:
         value: INP material option value.
     """
 
-    def __init__(self, keyword: MaterialKeyword, value: any):
-        """
-        ``__init__`` initializes ``MaterialOption``.
+    def __init__(self):
+        """This needs to be implemented in the subclasses."""
 
+<<<<<<< HEAD
         Parameters:
             keyword: Material specification data card option keyword.
             value: Material specification data card option value.
@@ -218,6 +221,9 @@ class MaterialOption:
 
         self.__dict__ = obj.__dict__
         self.__class__ = obj.__class__
+=======
+        raise NotImplementedError
+>>>>>>> 9c89af9756b5ce35033917321991df097981b0e0
 
     @staticmethod
     def from_mcnp(source: str):
@@ -277,7 +283,49 @@ class MaterialOption:
         if tokens:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_MATERIAL)
 
+<<<<<<< HEAD
         return MaterialOption(keyword, value)
+=======
+        # create the correct subclass
+        if keyword is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MATERIAL_KEYWORD)
+
+        match keyword:
+            case MaterialKeyword.GAS:
+                obj = Gas(value)
+            case MaterialKeyword.ESTEP:
+                obj = Estep(value)
+            case MaterialKeyword.HSTEP:
+                obj = Hstep(value)
+            case MaterialKeyword.NLIB:
+                obj = Nlib(value)
+            case MaterialKeyword.PLIB:
+                obj = Plib(value)
+            case MaterialKeyword.PNLIB:
+                obj = Pnlib(value)
+            case MaterialKeyword.ELIB:
+                obj = Elib(value)
+            case MaterialKeyword.HLIB:
+                obj = Hlib(value)
+            case MaterialKeyword.ALIB:
+                obj = Alib(value)
+            case MaterialKeyword.SLIB:
+                obj = Slib(value)
+            case MaterialKeyword.TLIB:
+                obj = Tlib(value)
+            case MaterialKeyword.DLIB:
+                obj = Dlib(value)
+            case MaterialKeyword.COND:
+                obj = Cond(value)
+            case MaterialKeyword.REFI:
+                obj = Refi(value)
+            case MaterialKeyword.REFC:
+                assert False, 'Unimplemented'
+            case MaterialKeyword.REFS:
+                assert False, 'Unimplemented'
+
+        return obj
+>>>>>>> 9c89af9756b5ce35033917321991df097981b0e0
 
     def to_mcnp(self):
         """
@@ -750,7 +798,7 @@ class Material(Datum):
 
     Attributes:
         substances: Tuple of substance specification.
-        paris: Tuple of key-value pairs.
+        pairs: Tuple of key-value pairs.
     """
 
     def __init__(
@@ -783,7 +831,7 @@ class Material(Datum):
                     errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS
                 )
 
-        self.paris = pairs
+        self.pairs = pairs
         self.substances = substances
 
         _card.Card.__init__(self, f"m{suffix}")

@@ -139,18 +139,128 @@ class WeightWindowOption:
         value:  weight window data card option value.
     """
 
-    def __init__(self, keyword: WeightWindowKeyword, value: any):
+    def __init__(self):
+        """Needs to be implmemented by the subclass."""
+        raise NotImplementedError
+
+    @staticmethod
+    def from_mcnp(source: str):
         """
-        ``__init__`` initializes ``WeightWindowOption``.
+        ``from_mcnp`` generates ``WeightWindowOption`` objects
+        from INP.
+
+        ``from_mcnp`` constructs instances of
+        ``WeightWindowOption`` from INP source strings, so it
+        operates as a class constructor method and INP parser helper
+        function. Although defined on the superclass, it returns
+        ``WeightWindowOption`` subclasses.
 
         Parameters:
-            keyword: Weight window data card option keyword.
-            value: Weight window data card option value.
+            source: INP for deterministic weight window data card option.
+
+        Returns:
+            ``WeightWindowOption`` object.
 
         Raises:
             MCNPSemanticError: INVALID_DATUM_DAWWG_KEYWORD.
+            MCNPSyntaxError: TOOFEW_DATUM_DAWWG, TOOLONG_DATUM_DAWWG.
         """
 
+        source = _parser.Preprocessor.process_inp(source)
+        tokens = _parser.Parser(
+            source.split('='),
+            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_DAWWG),
+        )
+
+        # Processing Keyword
+        keyword = WeightWindowKeyword.cast_keyword(tokens.peekl())
+
+        # Processing Values
+        match keyword:
+            case (
+                WeightWindowKeyword.POINTS
+                | WeightWindowKeyword.BLOCK
+                | WeightWindowKeyword.NGROUP
+                | WeightWindowKeyword.ISN
+                | WeightWindowKeyword.NISO
+                | WeightWindowKeyword.MT
+                | WeightWindowKeyword.IQUAD
+                | WeightWindowKeyword.FMMIX
+                | WeightWindowKeyword.NOSOLV
+                | WeightWindowKeyword.NOEDIT
+                | WeightWindowKeyword.NOGEOD
+                | WeightWindowKeyword.NOMIX
+                | WeightWindowKeyword.NOASG
+                | WeightWindowKeyword.NOMACR
+                | WeightWindowKeyword.NOSLNP
+                | WeightWindowKeyword.NOEDTT
+                | WeightWindowKeyword.NOADJM
+                | WeightWindowKeyword.FISSNEUT
+                | WeightWindowKeyword.LNG
+                | WeightWindowKeyword.BALXS
+                | WeightWindowKeyword.NTICHI
+                | WeightWindowKeyword.IEVT
+                | WeightWindowKeyword.SCT
+                | WeightWindowKeyword.ITH
+                | WeightWindowKeyword.TRCOR
+                | WeightWindowKeyword.IBL
+                | WeightWindowKeyword.IBR
+                | WeightWindowKeyword.IBT
+                | WeightWindowKeyword.IBB
+                | WeightWindowKeyword.IBFRNT
+                | WeightWindowKeyword.BIBACK
+                | WeightWindowKeyword.OITM
+                | WeightWindowKeyword.NOSIGF
+                | WeightWindowKeyword.TSASN
+                | WeightWindowKeyword.TSAEPSI
+                | WeightWindowKeyword.PTCONV
+                | WeightWindowKeyword.XESCTP
+                | WeightWindowKeyword.FISSRP
+                | WeightWindowKeyword.SOURCP
+                | WeightWindowKeyword.ANGP
+                | WeightWindowKeyword.BALP
+                | WeightWindowKeyword.RAFLUX
+                | WeightWindowKeyword.RMFLUX
+                | WeightWindowKeyword.AVATAR
+                | WeightWindowKeyword.ASLEFT
+                | WeightWindowKeyword.ASRITE
+                | WeightWindowKeyword.ASBOTT
+                | WeightWindowKeyword.ASTOP
+                | WeightWindowKeyword.ASFRNT
+                | WeightWindowKeyword.ASBACK
+                | WeightWindowKeyword.MASSED
+                | WeightWindowKeyword.PTED
+                | WeightWindowKeyword.ZNED
+                | WeightWindowKeyword.RZFLUX
+                | WeightWindowKeyword.RXMFLUX
+                | WeightWindowKeyword.EDOUTF
+                | WeightWindowKeyword.BYVLOP
+                | WeightWindowKeyword.AJED
+                | WeightWindowKeyword.FLUXONE
+            ):
+                value = types.McnpInteger.from_mcnp(tokens.popl())
+            case (
+                WeightWindowKeyword.LIB
+                | WeightWindowKeyword.LIBNAME
+                | WeightWindowKeyword.TRCOR
+                | WeightWindowKeyword.SRCACC
+                | WeightWindowKeyword.DIFFSOL
+            ):
+                value = types.McnpReal.from_mcnp(tokens.popl())
+            case (
+                WeightWindowKeyword.EPSI
+                | WeightWindowKeyword.TSAEPSI
+                | WeightWindowKeyword.TSAITS
+                | WeightWindowKeyword.TSABETA
+            ):
+                value = tokens.popl()
+            case _:
+                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_KEYWORD)
+
+        if tokens:
+            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_DAWWG)
+
+        # create correct subclass
         if keyword is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_KEYWORD)
 
@@ -294,127 +404,7 @@ class WeightWindowOption:
             case WeightWindowKeyword.FLUXONE:
                 obj = Fluxone(keyword, value)  # noqa: F821
 
-        self.__dict__ = obj.__dict__
-        self.__class__ = obj.__class__
-
-    @staticmethod
-    def from_mcnp(source: str):
-        """
-        ``from_mcnp`` generates ``WeightWindowOption`` objects
-        from INP.
-
-        ``from_mcnp`` constructs instances of
-        ``WeightWindowOption`` from INP source strings, so it
-        operates as a class constructor method and INP parser helper
-        function. Although defined on the superclass, it returns
-        ``WeightWindowOption`` subclasses.
-
-        Parameters:
-            source: INP for deterministic weight window data card option.
-
-        Returns:
-            ``WeightWindowOption`` object.
-
-        Raises:
-            MCNPSemanticError: INVALID_DATUM_DAWWG_KEYWORD.
-            MCNPSyntaxError: TOOFEW_DATUM_DAWWG, TOOLONG_DATUM_DAWWG.
-        """
-
-        source = _parser.Preprocessor.process_inp(source)
-        tokens = _parser.Parser(
-            source.split('='),
-            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM_DAWWG),
-        )
-
-        # Processing Keyword
-        keyword = WeightWindowKeyword.cast_keyword(tokens.peekl())
-
-        # Processing Values
-        match keyword:
-            case (
-                WeightWindowKeyword.POINTS
-                | WeightWindowKeyword.BLOCK
-                | WeightWindowKeyword.NGROUP
-                | WeightWindowKeyword.ISN
-                | WeightWindowKeyword.NISO
-                | WeightWindowKeyword.MT
-                | WeightWindowKeyword.IQUAD
-                | WeightWindowKeyword.FMMIX
-                | WeightWindowKeyword.NOSOLV
-                | WeightWindowKeyword.NOEDIT
-                | WeightWindowKeyword.NOGEOD
-                | WeightWindowKeyword.NOMIX
-                | WeightWindowKeyword.NOASG
-                | WeightWindowKeyword.NOMACR
-                | WeightWindowKeyword.NOSLNP
-                | WeightWindowKeyword.NOEDTT
-                | WeightWindowKeyword.NOADJM
-                | WeightWindowKeyword.FISSNEUT
-                | WeightWindowKeyword.LNG
-                | WeightWindowKeyword.BALXS
-                | WeightWindowKeyword.NTICHI
-                | WeightWindowKeyword.IEVT
-                | WeightWindowKeyword.SCT
-                | WeightWindowKeyword.ITH
-                | WeightWindowKeyword.TRCOR
-                | WeightWindowKeyword.IBL
-                | WeightWindowKeyword.IBR
-                | WeightWindowKeyword.IBT
-                | WeightWindowKeyword.IBB
-                | WeightWindowKeyword.IBFRNT
-                | WeightWindowKeyword.BIBACK
-                | WeightWindowKeyword.OITM
-                | WeightWindowKeyword.NOSIGF
-                | WeightWindowKeyword.TSASN
-                | WeightWindowKeyword.TSAEPSI
-                | WeightWindowKeyword.PTCONV
-                | WeightWindowKeyword.XESCTP
-                | WeightWindowKeyword.FISSRP
-                | WeightWindowKeyword.SOURCP
-                | WeightWindowKeyword.ANGP
-                | WeightWindowKeyword.BALP
-                | WeightWindowKeyword.RAFLUX
-                | WeightWindowKeyword.RMFLUX
-                | WeightWindowKeyword.AVATAR
-                | WeightWindowKeyword.ASLEFT
-                | WeightWindowKeyword.ASRITE
-                | WeightWindowKeyword.ASBOTT
-                | WeightWindowKeyword.ASTOP
-                | WeightWindowKeyword.ASFRNT
-                | WeightWindowKeyword.ASBACK
-                | WeightWindowKeyword.MASSED
-                | WeightWindowKeyword.PTED
-                | WeightWindowKeyword.ZNED
-                | WeightWindowKeyword.RZFLUX
-                | WeightWindowKeyword.RXMFLUX
-                | WeightWindowKeyword.EDOUTF
-                | WeightWindowKeyword.BYVLOP
-                | WeightWindowKeyword.AJED
-                | WeightWindowKeyword.FLUXONE
-            ):
-                value = types.McnpInteger.from_mcnp(tokens.popl())
-            case (
-                WeightWindowKeyword.LIB
-                | WeightWindowKeyword.LIBNAME
-                | WeightWindowKeyword.TRCOR
-                | WeightWindowKeyword.SRCACC
-                | WeightWindowKeyword.DIFFSOL
-            ):
-                value = types.McnpReal.from_mcnp(tokens.popl())
-            case (
-                WeightWindowKeyword.EPSI
-                | WeightWindowKeyword.TSAEPSI
-                | WeightWindowKeyword.TSAITS
-                | WeightWindowKeyword.TSABETA
-            ):
-                value = tokens.popl()
-            case _:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_DAWWG_KEYWORD)
-
-        if tokens:
-            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_DAWWG)
-
-        return WeightWindowOption(keyword, value)
+        return obj
 
 
 class Points(WeightWindowOption):

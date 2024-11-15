@@ -99,74 +99,8 @@ class SourceDefinitionOption:
     """
 
     def __init__(self, keyword: SourceDefinitionKeyword, value: any):
-        """
-        ``__init__`` initializes ``SourceDefinitionOption``.
-
-        Parameters:
-            keyword: Source definition data card option keyword.
-            value: Source definition data card option value.
-
-        Raises:
-            MCNPSemanticError: INVALID_DATUM_SOURCE_KEYWORD.
-        """
-
-        if keyword is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SOURCE_KEYWORD)
-
-        match keyword:
-            case SourceDefinitionKeyword.CEL:
-                obj = Cel(value)
-            case SourceDefinitionKeyword.SUR:
-                obj = Sur(value)
-            case SourceDefinitionKeyword.ERG:
-                obj = Erg(value)
-            case SourceDefinitionKeyword.TME:
-                obj = Tme(value)
-            case SourceDefinitionKeyword.DIR:
-                obj = Dir(value)
-            case SourceDefinitionKeyword.VEC:
-                obj = Vec(value)
-            case SourceDefinitionKeyword.NRM:
-                obj = Nrm(value)
-            case SourceDefinitionKeyword.POS:
-                obj = Pos(value)
-            case SourceDefinitionKeyword.RAD:
-                obj = Rad(value)
-            case SourceDefinitionKeyword.EXT:
-                obj = Ext(value)
-            case SourceDefinitionKeyword.AXS:
-                obj = Axs(value)
-            case SourceDefinitionKeyword.X:
-                obj = X(value)
-            case SourceDefinitionKeyword.Y:
-                obj = Y(value)
-            case SourceDefinitionKeyword.Z:
-                obj = Z(value)
-            case SourceDefinitionKeyword.CCC:
-                obj = Ccc(value)
-            case SourceDefinitionKeyword.ARA:
-                obj = Ara(value)
-            case SourceDefinitionKeyword.WGT:
-                obj = Wgt(value)
-            case SourceDefinitionKeyword.TR:
-                obj = Tr(value)
-            case SourceDefinitionKeyword.EFF:
-                obj = Eff(value)
-            case SourceDefinitionKeyword.PAR:
-                obj = Par(value)
-            case SourceDefinitionKeyword.DAT:
-                obj = Dat(value)
-            case SourceDefinitionKeyword.LOC:
-                obj = Loc(value)
-            case SourceDefinitionKeyword.BEM:
-                obj = Bem(value)
-            case SourceDefinitionKeyword.BAP:
-                obj = Bap(value)
-
-        self.__dict__ = obj.__dict__
-        self.__class__ = obj.__class__
-
-        self.value = value
+        """Needs to be implemented in subclass."""
+        raise NotImplementedError
 
     @staticmethod
     def from_mcnp(source: str):
@@ -290,7 +224,61 @@ class SourceDefinitionOption:
         if tokens:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_SOURCE)
 
-        return SourceDefinitionOption(keyword, value)
+        # create correct subclass
+        if keyword is None:
+            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_SOURCE_KEYWORD)
+
+        match keyword:
+            case SourceDefinitionKeyword.CEL:
+                obj = Cel(value)
+            case SourceDefinitionKeyword.SUR:
+                obj = Sur(value)
+            case SourceDefinitionKeyword.ERG:
+                obj = Erg(value)
+            case SourceDefinitionKeyword.TME:
+                obj = Tme(value)
+            case SourceDefinitionKeyword.DIR:
+                obj = Dir(value)
+            case SourceDefinitionKeyword.VEC:
+                obj = Vec(value)
+            case SourceDefinitionKeyword.NRM:
+                obj = Nrm(value)
+            case SourceDefinitionKeyword.POS:
+                obj = Pos(value)
+            case SourceDefinitionKeyword.RAD:
+                obj = Rad(value)
+            case SourceDefinitionKeyword.EXT:
+                obj = Ext(value)
+            case SourceDefinitionKeyword.AXS:
+                obj = Axs(value)
+            case SourceDefinitionKeyword.X:
+                obj = X(value)
+            case SourceDefinitionKeyword.Y:
+                obj = Y(value)
+            case SourceDefinitionKeyword.Z:
+                obj = Z(value)
+            case SourceDefinitionKeyword.CCC:
+                obj = Ccc(value)
+            case SourceDefinitionKeyword.ARA:
+                obj = Ara(value)
+            case SourceDefinitionKeyword.WGT:
+                obj = Wgt(value)
+            case SourceDefinitionKeyword.TR:
+                obj = Tr(value)
+            case SourceDefinitionKeyword.EFF:
+                obj = Eff(value)
+            case SourceDefinitionKeyword.PAR:
+                obj = Par(value)
+            case SourceDefinitionKeyword.DAT:
+                obj = Dat(value)
+            case SourceDefinitionKeyword.LOC:
+                obj = Loc(value)
+            case SourceDefinitionKeyword.BEM:
+                obj = Bem(value)
+            case SourceDefinitionKeyword.BAP:
+                obj = Bap(value)
+
+        return obj
 
     def to_mcnp(self):
         """

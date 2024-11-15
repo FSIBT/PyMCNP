@@ -82,51 +82,10 @@ class ActivationControlOption:
         value: Activation control data card option value.
     """
 
-    def __init__(self, keyword: ActivationControlKeyword, value: any):
-        """
-        ``__init__`` initializes ``ActivationControlOption``.
+    def __init__(self):
+        """Needs to be implemented in subclass."""
 
-        Parameters:
-            keyword: Activation control data card option keyword.
-            value: Activation control data card option value.
-
-        Raises:
-            MCNPSemanticError: INVALID_DATUM_ACTIVATION_KEYWORD.
-        """
-
-        if keyword is None:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_KEYWORD
-            )
-
-        match keyword:
-            case ActivationControlKeyword.FISSION:
-                obj = ActivationControl.Fission(value)
-            case ActivationControlKeyword.NON_FISSION:
-                obj = ActivationControl.NonFission(value)
-            case ActivationControlKeyword.DELAYED_NEUTRON:
-                obj = ActivationControl.DelayedNeutron(value)
-            case ActivationControlKeyword.DELAYED_GAMMA:
-                obj = ActivationControl.DelayedGamma(value)
-            case ActivationControlKeyword.THRESH:
-                obj = ActivationControl.Thresh(value)
-            case ActivationControlKeyword.DNBAIS:
-                obj = ActivationControl.Dnbais(value)
-            case ActivationControlKeyword.NAP:
-                obj = ActivationControl.Nap(value)
-            case ActivationControlKeyword.PECUT:
-                obj = ActivationControl.Pecut(value)
-            case ActivationControlKeyword.HLCUT:
-                obj = ActivationControl.Hlcut(value)
-            case ActivationControlKeyword.SAMPLE:
-                obj = ActivationControl.Sample(value)
-            case ActivationControlKeyword.DNEB:
-                assert False, 'Unimplemented'
-            case ActivationControlKeyword.DGEB:
-                assert False, 'Unimplemented'
-
-        self.__dict__ = obj.__dict__
-        self.__class__ = obj.__class__
+        raise NotImplementedError
 
     @staticmethod
     def from_mcnp(source: str):
@@ -186,7 +145,39 @@ class ActivationControlOption:
         if tokens:
             raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM_ACTIVATION)
 
-        return ActivationControl.ActivationControlOption(keyword, value)
+        # create correct subclass
+        if keyword is None:
+            raise errors.MCNPSemanticError(
+                errors.MCNPSemanticCodes.INVALID_DATUM_ACTIVATION_KEYWORD
+            )
+
+        match keyword:
+            case ActivationControlKeyword.FISSION:
+                obj = Fission(value)
+            case ActivationControlKeyword.NON_FISSION:
+                obj = NonFission(value)
+            case ActivationControlKeyword.DELAYED_NEUTRON:
+                obj = DelayedNeutron(value)
+            case ActivationControlKeyword.DELAYED_GAMMA:
+                obj = DelayedGamma(value)
+            case ActivationControlKeyword.THRESH:
+                obj = Thresh(value)
+            case ActivationControlKeyword.DNBAIS:
+                obj = Dnbais(value)
+            case ActivationControlKeyword.NAP:
+                obj = Nap(value)
+            case ActivationControlKeyword.PECUT:
+                obj = Pecut(value)
+            case ActivationControlKeyword.HLCUT:
+                obj = Hlcut(value)
+            case ActivationControlKeyword.SAMPLE:
+                obj = Sample(value)
+            case ActivationControlKeyword.DNEB:
+                assert False, 'Unimplemented'
+            case ActivationControlKeyword.DGEB:
+                assert False, 'Unimplemented'
+
+        return obj
 
     def to_mcnp(self):
         """

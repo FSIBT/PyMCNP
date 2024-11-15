@@ -1,4 +1,4 @@
-from .cell import Cell
+from .cell import Cell, CellKeyword, CellGeometry, CellOption
 from .surface import Surface
 from .surface import PlaneGeneralPoint
 from .surface import PlaneGeneralEquation
@@ -99,6 +99,9 @@ from .inp import Inp, read_input
 
 __all__ = [
     'Cell',
+    'CellKeyword',
+    'CellGeometry',
+    'CellOption',
     'Surface',
     'PlaneGeneralPoint',
     'PlaneGeneralEquation',

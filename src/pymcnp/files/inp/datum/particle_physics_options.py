@@ -36,13 +36,13 @@ class ParticlePhysicsOptions(Datum):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_PARAMETERS)
 
         match designator:
-            case types.Designator.Particle.NEUTRON:
+            case types.Particle.NEUTRON:
                 obj = ParticlePhysicsOptionsNeutron(*parameters)
-            case types.Designator.Particle.PHOTON:
+            case types.Particle.PHOTON:
                 obj = ParticlePhysicsOptionsPhoton(*parameters)
-            case types.Designator.Particle.ELECTRON:
+            case types.Particle.ELECTRON:
                 obj = ParticlePhysicsOptionsElectron(*parameters)
-            case types.Designator.Particle.PROTON:
+            case types.Particle.PROTON:
                 obj = ParticlePhysicsOptionsProton(*parameters)
             case _:
                 obj = ParticlePhysicsOptionsOther(designator, *parameters)
@@ -140,7 +140,7 @@ class ParticlePhysicsOptionsNeutron(ParticlePhysicsOptions):
             i_int_model,
             i_els_model,
         )
-        self.designator = types.Designator.Particle.NEUTRON
+        self.designator = types.Particle.NEUTRON
 
         self.emax = emax
         self.emcnf = emcnf
@@ -215,7 +215,7 @@ class ParticlePhysicsOptionsPhoton(ParticlePhysicsOptions):
         _card.Card.__init__(self, 'phys:p')
         self.mnemonic = DatumMnemonic.PARTICLE_PHYSICS_OPTIONS
         self.parameters = (emcpf, ides, nocoh, ispn, nodop, fism)
-        self.designator = types.Designator.Particle.PHOTON
+        self.designator = types.Particle.PHOTON
 
         self.emcpf = emcpf
         self.ides = ides
@@ -348,7 +348,7 @@ class ParticlePhysicsOptionsElectron(ParticlePhysicsOptions):
             electron_method_boundary,
             ckvnum,
         )
-        self.designator = types.Designator.Particle.ELECTRON
+        self.designator = types.Particle.ELECTRON
 
         self.emax = emax
         self.ides = ides
@@ -471,7 +471,7 @@ class ParticlePhysicsOptionsProton(ParticlePhysicsOptions):
             ckvnum,
             drp,
         )
-        self.designator = types.Designator.Particle.PROTON
+        self.designator = types.Particle.PROTON
 
         self.emax = emax
         self.ean = ean

@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- refactored code, e.g. datum.py
+- added __str__ and __repr__ method to different classes to make it
+  easier to work on the command line with these objects
+
+### Added
+- more tests for parsing input files
+- set_seed function
+- set_nps function
+- code examples
+- parsing of more output data
+
 ## [0.2.0]  - 2024-10-27
 
 ### Fixed

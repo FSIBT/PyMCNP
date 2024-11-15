@@ -1,4 +1,5 @@
 import re
+import sys
 
 from .datum import DatumMnemonic, _Placeholder
 from .history_cutoff import HistoryCutoff
@@ -86,6 +87,8 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
     # Processing Suffix & Parameters
     suffix = None
     designator = None
+
+    datum = None
     match mnemonic:
         case DatumMnemonic.VOLUME:
             tokens.popl()
@@ -107,15 +110,29 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
         case DatumMnemonic.TRANSFORMATION:
             suffix = types.McnpInteger.from_mcnp(tokens.popl()[2:])
             entries = tuple(types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens)))
-            displacement = tuple(entries[:3])
-            rotation = (
-                tuple(entries[3:6]),
-                tuple(entries[6:9]),
-                tuple(entries[9:12]),
-            )
-            system = int(entries[-1])
 
-            datum = Transformation(displacement, rotation, system)
+            N = len(entries)
+            displacement = tuple(entries[:3])
+            if N <= 3:
+                one = types.McnpReal.from_mcnp('1')
+                zero = types.McnpReal.from_mcnp('0')
+                rotation = (
+                    tuple((one, zero, zero)),
+                    tuple((zero, one, zero)),
+                    tuple((zero, zero, one)),
+                )
+            else:
+                rotation = (
+                    tuple(entries[3:6]),
+                    tuple(entries[6:9]),
+                    tuple(entries[9:12]),
+                )
+            if N == 13 or N == 4:
+                system = int(float(entries[-1]))
+            else:
+                system = 1
+
+            datum = Transformation(displacement, rotation, system, suffix)
 
         case DatumMnemonic.UNIVERSE:
             tokens.popl()
@@ -388,7 +405,7 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
                 raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOMANY_DATUM_PHYS)
 
             match designator.particles[0]:
-                case types.Designator.Particle.NEUTRON:
+                case types.Particle.NEUTRON:
                     emax = types.McnpReal.from_mcnp(tokens.popl())
                     emcnf = types.McnpReal.from_mcnp(tokens.popl())
                     iunr = types.McnpInteger.from_mcnp(tokens.popl())
@@ -419,7 +436,7 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
                         i_els_model,
                     )
 
-                case types.Designator.Particle.PHOTON:
+                case types.Particle.PHOTON:
                     emcpf = types.McnpReal.from_mcnp(tokens.popl())
                     ides = types.McnpInteger.from_mcnp(tokens.popl())
                     nocoh = types.McnpInteger.from_mcnp(tokens.popl())
@@ -431,7 +448,7 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
 
                     parameters = (emcpf, ides, nocoh, ispn, nodop, fism)
 
-                case types.Designator.Particle.ELECTRON:
+                case types.Particle.ELECTRON:
                     emax = types.McnpReal.from_mcnp(tokens.popl())
                     ides = types.McnpInteger.from_mcnp(tokens.popl())
                     ibad = types.McnpInteger.from_mcnp(tokens.popl())
@@ -466,7 +483,7 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
                         ckvnum,
                     )
 
-                case types.Designator.Particle.PROTON:
+                case types.Particle.PROTON:
                     emax = types.McnpReal.from_mcnp(tokens.popl())
                     ean = types.McnpReal.from_mcnp(tokens.popl())
                     tabl = types.McnpReal.from_mcnp(tokens.popl())
@@ -602,11 +619,10 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
 
         case DatumMnemonic.MODEL_PHYSICS_CONTROL:
             tokens.popl()
-
             if tokens:
-                ModelPhysicsControl(tokens.popl())
+                datum = ModelPhysicsControl(tokens.popl())
             else:
-                datum = ModelPhysicsControl('no')
+                datum = ModelPhysicsControl('off')
 
         case DatumMnemonic.LCA:
             tokens.popl()
@@ -741,6 +757,10 @@ def create_datum_from_mcnp(source: str, line: types.McnpInteger = None):
 
     if tokens:
         raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_DATUM)
+
+    if datum is None:
+        print('Error: cannot assign a datum to tokens:', tokens, 'source:', source)
+        sys.exit()
 
     datum.comment = comments
 
