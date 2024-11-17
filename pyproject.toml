@@ -27,19 +27,22 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Physics",
 ]
 dependencies = [
-    "Sphinx",
     "docopt",
+    "fastparquet",
     "matplotlib",
     "molmass",
-    "myst_parser",
     "numpy",
     "pandas",
     "pytest",
-    "fastparquet",
     "rich",
     "scipy",
+]
+
+[project.optional-dependencies]
+docs = [
+    "myst_parser",
+    "Sphinx",
     "sphinx_rtd_theme",
-    "molmass",
 ]
 
 [project.urls]
