@@ -5,7 +5,7 @@ Example to read and plot FMESH tallies
 import pymcnp
 import matplotlib.pyplot as plt
 
-file_fmesh = 'data/meshtal'
+file_fmesh = 'data/output_files/meshtal'
 df = pymcnp.outp.output.read_fmesh(file_fmesh)
 dfz = df[(df.Z > -1) & (df.Z < 1)]  # central slice
 xx, mat = pymcnp.outp.output.griddata(dfz.X, dfz.Y, dfz.Result, nbins=100)

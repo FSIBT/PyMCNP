@@ -12,6 +12,9 @@ PyMCNP allows to automate parameter scans, split long runs in many
 smaller runs for easy parallelization, automated optimization of
 parameters.
 
+**Note: PyMCNP is still in beta and not everything is fully implemented**
+See: :doc:`roadmap`.
+
 Table of Contents
 -----------------
 
@@ -23,3 +26,4 @@ Table of Contents
    cli.rst
    pymcnp.rst
    examples.md
+   roadmap.md
