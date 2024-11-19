@@ -1,8 +1,5 @@
 """
-``event`` contains classes representing PTRAC events.
-
-``event`` packages the ``Event`` class, providing an object-oriented,
-importable interface for PTRAC event.
+Contains classes representing PTRAC event.
 """
 
 from __future__ import annotations
@@ -111,18 +108,18 @@ class EventType(Enum):
             ``EventType`` object.
 
         Raises:
-            MCNPSemanticError: INVALID_EVENT_TYPE.
+            McnpError: INVALID_EVENT_TYPE.
         """
 
         source = _parser.Preprocessor.process_ptrac(source)
 
         # Checking the source is numeric.
         if not re.match(r'-?\d+', source):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_TYPE)
+            raise errors.McnpError(errors.McnpCode.INVALID_EVENT_TYPE)
 
         # Processing Type
         if int(source) not in [enum.value for enum in EventType]:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_TYPE)
+            raise errors.McnpError(errors.McnpCode.INVALID_EVENT_TYPE)
 
         return EventType(int(source))
 
@@ -172,18 +169,18 @@ class EventNters(Enum):
             ``EventNters`` object.
 
         Raises:
-            MCNPSemanticError: INVALID_EVENT_NTER.
+            McnpError: INVALID_EVENT_NTER.
         """
 
         source = _parser.Preprocessor.process_ptrac(source)
 
         # Checking the source is numeric.
         if not re.match(r'\d+', source):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NTER)
+            raise errors.McnpError(errors.McnpCode.INVALID_EVENT_NTER)
 
         # Processing Type
         if int(source) not in [enum.value for enum in EventNters]:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_EVENT_NTER)
+            raise errors.McnpError(errors.McnpCode.INVALID_EVENT_NTER)
 
         return EventNters(int(source))
 
@@ -277,28 +274,28 @@ class Event:
             tme: Time at the particles position.
 
         Raises:
-            MCNPSemanticError: INVALID_EVENT_TYPE.
-            MCNPSemanticError: INVALID_EVENT_NODE.
-            MCNPSemanticError: INVALID_EVENT_NSR.
-            MCNPSemanticError: INVALID_EVENT_NXS.
-            MCNPSemanticError: INVALID_EVENT_NTYNMTP.
-            MCNPSemanticError: INVALID_EVENT_NSF.
-            MCNPSemanticError: INVALID_EVENT_ANGLE.
-            MCNPSemanticError: INVALID_EVENT_NTER.
-            MCNPSemanticError: INVALID_EVENT_BRANCH.
-            MCNPSemanticError: INVALID_EVENT_IPT.
-            MCNPSemanticError: INVALID_EVENT_NCL.
-            MCNPSemanticError: INVALID_EVENT_MAT.
-            MCNPSemanticError: INVALID_EVENT_NCP.
-            MCNPSemanticError: INVALID_EVENT_XXX.
-            MCNPSemanticError: INVALID_EVENT_YYY.
-            MCNPSemanticError: INVALID_EVENT_ZZZ.
-            MCNPSemanticError: INVALID_EVENT_UUU.
-            MCNPSemanticError: INVALID_EVENT_VVV.
-            MCNPSemanticError: INVALID_EVENT_WWW.
-            MCNPSemanticError: INVALID_EVENT_ERG.
-            MCNPSemanticError: INVALID_EVENT_WGT.
-            MCNPSemanticError: INVALID_EVENT_TME.
+            McnpError: INVALID_EVENT_TYPE.
+            McnpError: INVALID_EVENT_NODE.
+            McnpError: INVALID_EVENT_NSR.
+            McnpError: INVALID_EVENT_NXS.
+            McnpError: INVALID_EVENT_NTYNMTP.
+            McnpError: INVALID_EVENT_NSF.
+            McnpError: INVALID_EVENT_ANGLE.
+            McnpError: INVALID_EVENT_NTER.
+            McnpError: INVALID_EVENT_BRANCH.
+            McnpError: INVALID_EVENT_IPT.
+            McnpError: INVALID_EVENT_NCL.
+            McnpError: INVALID_EVENT_MAT.
+            McnpError: INVALID_EVENT_NCP.
+            McnpError: INVALID_EVENT_XXX.
+            McnpError: INVALID_EVENT_YYY.
+            McnpError: INVALID_EVENT_ZZZ.
+            McnpError: INVALID_EVENT_UUU.
+            McnpError: INVALID_EVENT_VVV.
+            McnpError: INVALID_EVENT_WWW.
+            McnpError: INVALID_EVENT_ERG.
+            McnpError: INVALID_EVENT_WGT.
+            McnpError: INVALID_EVENT_TME.
         """
 
         # TODO: Add error checking here!

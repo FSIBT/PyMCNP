@@ -29,10 +29,13 @@ class DistributionNumber:
 
         Parameters:
             n: number.
+
+        Raises:
+            McnpError: INVALID_DN.
         """
 
         if n is None or not (1 <= n <= 999):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DN, info=str(n))
+            raise errors.McnpError(errors.McnpCode.INVALID_DN, str(n))
 
         self.n: Final[int] = n
 
@@ -50,13 +53,16 @@ class DistributionNumber:
 
         Returns:
             ``DistributionNumber`` object.
+
+        Raises:
+            McnpError: UNRECOGNIZED_KEYWORD.
         """
 
         source = _parser.Preprocessor.process_inp(source)
 
         match = re.match(r'\A[dD](\d|\d\d|\d\d\d)\Z', source)
         if match is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DN, info=source)
+            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, source)
 
         return DistributionNumber(int(match[1]))
 
@@ -82,13 +88,13 @@ class Zaid:
         """
 
         if z is None or not (000 <= z <= 999):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_Z, info=str(z))
+            raise errors.McnpError(errors.McnpCode.INVALID_ZAID_Z, str(z))
 
         if a is None or not (000 <= a <= 999):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_A, info=str(a))
+            raise errors.McnpError(errors.McnpCode.INVALID_ZAID_A, str(a))
 
         # if abx is None:
-        #    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_ABX, info = str(abx))
+        #    raise errors.McnpError(errors.McnpCode.INVALID_ZAID_ABX, info = str(abx))
 
         self.z: Final[int] = z
         self.a: Final[int] = a
@@ -113,29 +119,29 @@ class Zaid:
         source = _parser.Preprocessor.process_inp(source)
         tokens = _parser.Parser(
             source.split('.'),
-            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_ZAID),
+            errors.McnpError(errors.McnpCode.EXPECTED_TOKEN, source),
         )
 
         zzzaaa = tokens.popl()
         if len(zzzaaa) < 4:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_Z, info=source)
+            raise errors.McnpError(errors.McnpCode.INVALID_ZAID_Z, source)
 
         try:
             a = int(zzzaaa[-3:])
         except ValueError:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_A, info=source)
+            raise errors.McnpError(errors.McnpCode.INVALID_ZAID_A, source)
 
         try:
             z = int(zzzaaa[:-3])
         except ValueError:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_ZAID_Z, info=source)
+            raise errors.McnpError(errors.McnpCode.INVALID_ZAID_Z, source)
 
         abx = None
         if tokens:
             abx = tokens.popl()
 
         if tokens:
-            raise errors.MCNPSytnaxError(errors.MCNPSytnaxCodes.TOOLONG_ZAID)
+            raise errors.McnpError(errors.McnpCode.UNEXPECTED_TOKEN, source)
 
         return Zaid(z, a, abx)
 
@@ -220,19 +226,17 @@ class Designator:
             particles: Tuple of particles.
 
         Raises:
-            MCNPSemanticError: INVALID_MCNP_DESIGNATOR.
+            McnpError: INVALID_TYPES_DESIGNATOR.
         """
 
         if particles is None:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=str(particles)
-            )
+            raise errors.McnpError(errors.McnpCode.INVALID_TYPES_DESIGNATOR, str(particles))
 
         for particle in particles:
             if particle is None:
-                raise errors.MCNPSemanticError(
-                    errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR,
-                    info=str(particles),
+                raise errors.McnpError(
+                    errors.McnpCode.INVALID_TYPES_DESIGNATOR,
+                    str(particles),
                 )
 
         self.particles: Final[tuple[Particle]] = particles
@@ -256,9 +260,7 @@ class Designator:
         try:
             particles = tuple([Particle(token) for token in source.split(',')])
         except ValueError:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_DESIGNATOR, info=source
-            )
+            raise errors.McnpError(errors.McnpCode.INVALID_TYPES_DESIGNATOR, source)
 
         return Designator(particles)
 
@@ -295,22 +297,18 @@ class McnpInteger:
             value: Integer or J jump symbol.
 
         Raises:
-            MCNPSemanticError: INVALID_MCNP_INTEGER.
+            McnpError: INVALID_TYPES_INTEGER.
         """
 
         if value is None:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(value)
-            )
+            raise errors.McnpError(errors.McnpCode.INVALID_TYPES_INTEGER, str(value))
 
         if isinstance(value, int):
             value = value
         elif value == 'j':
             value = 'j'
         else:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_INTEGER, info=str(value)
-            )
+            raise errors.McnpError(errors.McnpCode.INVALID_TYPES_INTEGER, str(value))
 
         self.value: Final[int | Literal['j']] = value
 
@@ -429,22 +427,18 @@ class McnpReal:
             value: Floating-point number or J jump symbol.
 
         Raises:
-            MCNPSemanticError: INVALID_MCNP_REAL.
+            McnpError: INVALID_TYPES_REAL.
         """
 
         if value is None:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(value)
-            )
+            raise errors.McnpError(errors.McnpCode.INVALID_TYPES_REAL, str(value))
 
         if isinstance(value, float) or isinstance(value, int):
             value = float(value)
         elif value == 'j':
             value = 'j'
         else:
-            raise errors.MCNPSemanticError(
-                errors.MCNPSemanticCodes.INVALID_MCNP_REAL, info=str(value)
-            )
+            raise errors.McnpError(errors.McnpCode.INVALID_TYPES_REAL, str(value))
 
         self.value: Final[float | Literal['j']] = value
 

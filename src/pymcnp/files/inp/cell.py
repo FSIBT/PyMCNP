@@ -1,8 +1,5 @@
 """
-Contains the class representing INP cell cards.
-
-``cell`` packages the ``Cell`` class, providing an object-oriented, importable
-interface for INP cell cards.
+Contains classes representing INP cell cards.
 """
 
 import re
@@ -35,24 +32,29 @@ class CellGeometry(_card.CardEntry):
             formula: INP for cell geometry.
 
         Raises:
-            MCNPSemanticError: INVALID_CELL_GEOMETRY.
-            MCNPSyntaxError: TOOFEW_CELL_GEOMETRY, TOOLONG_CELL_GEOMETRY.
+            McnpError: EXPECTED_TOKEN.
+            McnpError: INVALID_CELL_GEOMETRY.
         """
 
         if not formula:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY)
+            raise errors.McnpError(errors.McnpCode.INVALID_CELL_GEOMETRY, formula)
 
         # Running Shunting-Yard Algorithm
         ops_stack = _parser.Parser(
-            [], errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY)
+            [],
+            errors.McnpError(errors.McnpCode.EXPECTED_TOKEN, formula),
         )
         out_stack = _parser.Parser(
-            [], errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_GEOMETRY)
+            [],
+            errors.McnpError(errors.McnpCode.EXPECTED_TOKEN, formula),
         )
-        inp_stack = re.findall(r'#|:| : |[()]| [()]|[()] | [()] | |[+-]?\d+', formula)
+        inp_stack = re.findall(
+            r'#|:| : |[()]| [()]|[()] | [()] | |[+-]?\d+',
+            formula,
+        )
 
         if ''.join(inp_stack) != formula:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY)
+            raise errors.McnpError(errors.McnpCode.INVALID_CELL_GEOMETRY, formula)
 
         for token in inp_stack:
             if re.match(r'[+-]?\d+', token):
@@ -60,7 +62,7 @@ class CellGeometry(_card.CardEntry):
 
                 entry = int(token)
                 if entry is None or not (entry != 0 and -99_999_999 <= entry <= 99_999_999):
-                    raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY)
+                    raise errors.McnpError(errors.McnpCode.INVALID_CELL_GEOMETRY, formula)
 
                 out_stack.pushr(token)
 
@@ -172,7 +174,7 @@ class CellKeyword(_card.CardKeyword):
             ``CellKeyword`` object.
 
         Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_KEYWORD.
+            MCNPError: UNRECOGNIZED_KEYWORD.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -180,7 +182,7 @@ class CellKeyword(_card.CardKeyword):
         try:
             return CellKeyword(source)
         except ValueError:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_KEYWORD)
+            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, source)
 
 
 class CellOption(_card.CardOption):
@@ -495,33 +497,32 @@ class Cell(_card.Card):
             parameters: Cell card parameter table.
 
         Raises:
-            MCNPSemanticError: INVALID_CELL_NUMBER.
-            MCNPSemanticError: INVALID_CELL_MATERIAL.
-            MCNPSemanticError: INVALID_CELL_DENSITY.
-            MCNPSemanticError: INVALID_CELL_MATERIAL.
-            MCNPSemanticError: INVALID_CELL_GEOMETRY.
-            MCNPSemanticError: INVALID_CELL_OPTION.
+            McnpError: INVALID_CELL_NUMBER.
+            McnpError: INVALID_CELL_MATERIAL.
+            McnpError: INVALID_CELL_DENSITY.
+            McnpError: INVALID_CELL_GEOMETRY.
+            McnpError: INVALID_CELL_OPTION.
         """
 
         if number is None or not (1 <= number <= 99_999_999):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_NUMBER)
+            raise errors.McnpError(errors.McnpCode.INVALID_CELL_NUMBER, str(number))
 
         if material is None or not (0 <= material <= 99_999_999):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_MATERIAL)
+            raise errors.McnpError(errors.McnpCode.INVALID_CELL_MATERIAL, str(material))
 
         if material != 0:
             if density is None or (density == 0):
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_DENSITY)
+                raise errors.McnpError(errors.McnpCode.INVALID_CELL_DENSITY, str(density))
 
         if geometry is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY)
+            raise errors.McnpError(errors.McnpCode.INVALID_CELL_GEOMETRY, str(geometry))
 
         if options is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION)
+            raise errors.McnpError(errors.McnpCode.INVALID_CELL_OPTION, str(options))
 
         for option in options.items():
             if option is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION)
+                raise errors.McnpError(errors.McnpCode.INVALID_CELL_OPTION, str(options))
 
         self.number: Final[types.McnpInteger] = number
         self.material: Final[types.McnpInteger] = material
@@ -544,7 +545,7 @@ class Cell(_card.Card):
             ``Cell`` object.
 
         Raises:
-            MCNPSyntaxError: TOOFEW_CELL, TOOLONG_CELL.
+            McnpError: EXPECTED_TOKEN.
         """
 
         # Processing Inline Comment
@@ -552,7 +553,7 @@ class Cell(_card.Card):
         source, comments = _parser.Preprocessor.process_inp_comments(source)
         tokens = _parser.Parser(
             re.split(r' |=', source),
-            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL),
+            errors.McnpError(errors.McnpCode.EXPECTED_TOKEN, source),
         )
 
         # Processing Number, Material, & Density

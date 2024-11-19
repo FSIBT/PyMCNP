@@ -1,3 +1,7 @@
+"""
+Contains the ``Filters`` class for filtering PTRAC.
+"""
+
 from . import event
 
 

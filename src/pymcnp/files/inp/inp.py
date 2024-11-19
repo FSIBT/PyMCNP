@@ -1,13 +1,11 @@
 """
-Contains the class representing INP files.
-
-``inp`` packages the ``Inp`` class, providing an object-oriented, importable
-interface for INP files.
+Contains classes representing INP files.
 """
 
 import re
-import pathlib
 from typing import Final
+
+import pathlib
 
 from . import cell
 from . import data
@@ -15,22 +13,30 @@ from . import surface
 from . import comment
 from ..utils import errors
 from ..utils import _parser
+from ..utils import _object
 
 
-class Inp:
+class Inp(_object.PyMCNPFileObject):
     """
-    ``Inp`` represents INP files.
+    Represents INP files.
 
-    ``Inp`` implements INP files as a Python class. Its attributes store
-    INP blocks, and its methods provide entry points and endpoints for working
-    with INP. It represents the INP file syntax element.
+    ``Inp`` implements ``_object.PyMCNPFileObject``.
 
     Attributes:
         message: INP message.
         title: INP title.
         cells: INP cell card block.
+        cells_comments: INP cell card block comments.
         surfaces: INP surface card block.
-        data: INP data card block.
+        surfaces_comments: INP surface card block comments.
+        data_geometry: INP data card block geometry section.
+        data_material: INP data card block material section.
+        data_physics: INP data card block physics section.
+        data_source: INP data card block source section.
+        data_tally: INP data card block tally section.
+        data_variance: INP data card block variance section.
+        data_micellaneous: INP data card block micellaneous section.
+        data_comments: INP data card block comments.
         other: INP other block.
     """
 
@@ -53,101 +59,127 @@ class Inp:
         other: str = '',
     ):
         """
-        ``__init__`` initializes ``Inp``.
+        Initializes ``Inp``.
+
+        Parameters:
+            message: INP message.
+            title: INP title.
+            cells: INP cell card block.
+            cells_comments: INP cell card block comments.
+            surfaces: INP surface card block.
+            surfaces_comments: INP surface card block comments.
+            data_geometry: INP data card block geometry section.
+            data_material: INP data card block material section.
+            data_physics: INP data card block physics section.
+            data_source: INP data card block source section.
+            data_tally: INP data card block tally section.
+            data_variance: INP data card block variance section.
+            data_micellaneous: INP data card block micellaneous section.
+            data_comments: INP data card block comments.
+            other: INP other block.
+
+        Raises:
+            McnpError: INVALID_INP_MESSAGE.
+            McnpError: INVALID_INP_TITLE.
+            McnpError: INVALID_INP_COMMENTS.
+            McnpError: INVALID_INP_CELLS.
+            McnpError: INVALID_INP_SURFACES.
+            McnpError: INVALID_INP_DATA.
+            McnpError: INVALID_INP_OTHER.
         """
 
         if message is None:
-            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.INVALID_INP_MESSAGE)
+            raise errors.McnpError(errors.McnoCodes.INVALID_INP_MESSAGE, info=message)
 
         if title is None or not len(title) < 80:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_TITLE)
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_TITLE, info=title)
 
         if cells is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_CELLS)
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_CELLS, info=cells)
 
         for key, card in cells.items():
             if card is None or card.ident != key:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_CELLS)
+                raise errors.McnpError(errors.McnpCode.INVALID_INP_CELLS, info=cells)
 
         if cells_comments is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_COMMENTS)
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_COMMENTS, info=cells_comments)
 
         for card in cells_comments:
             if card is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_COMMENTS)
+                raise errors.McnpError(errors.McnpCode.INVALID_INP_COMMENTS, info=cells_comments)
 
         if surfaces is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_SURFACES)
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_SURFACES, info=surfaces)
 
         for key, card in surfaces.items():
             if card is None or card.ident != key:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_SURFACES)
+                raise errors.McnpError(errors.McnpCode.INVALID_INP_SURFACES, info=surfaces)
 
         if surfaces_comments is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_COMMENTS)
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_COMMENTS, info=surfaces_comments)
 
         for card in surfaces_comments:
             if card is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_COMMENTS)
+                raise errors.McnpError(errors.McnpCode.INVALID_INP_COMMENTS, info=surfaces_comments)
 
         if data_geometry is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_geometry)
 
         for key, card in data_geometry.items():
             if card is None or card.ident != key:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+                raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_geometry)
 
         if data_material is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_material)
 
         for key, card in data_material.items():
             if card is None or card.ident != key:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+                raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_material)
 
         if data_physics is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_physics)
 
         for key, card in data_physics.items():
             if card is None or card.ident != key:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+                raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_physics)
 
         if data_source is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_source)
 
         for key, card in data_source.items():
             if card is None or card.ident != key:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+                raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_source)
 
         if data_tally is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_tally)
 
         for key, card in data_tally.items():
             if card is None or card.ident != key:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+                raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_tally)
 
         if data_variance is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_variance)
 
         for key, card in data_variance.items():
             if card is None or card.ident != key:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+                raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_variance)
 
         if data_micellaneous is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_micellaneous)
 
         for key, card in data_micellaneous.items():
             if card is None or card.ident != key:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_DATA)
+                raise errors.McnpError(errors.McnpCode.INVALID_INP_DATA, info=data_micellaneous)
 
-        if cells_comments is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_COMMENTS)
+        if data_comments is None:
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_COMMENTS, info=data_comments)
 
         for card in data_comments:
             if card is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_COMMENTS)
+                raise errors.McnpError(errors.McnpCode.INVALID_INP_COMMENTS, info=data_comments)
 
         if other is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_INP_OTHER)
+            raise errors.McnpError(errors.McnpCode.INVALID_INP_OTHER, info=other)
 
         self.title: Final[str] = title
         self.cells: Final[dict[int, cell.Cell]] = cells
@@ -168,22 +200,25 @@ class Inp:
     @staticmethod
     def from_mcnp(source: str):
         """
-        ``from_mcnp`` generates ``Inp`` objects from INP.
+        Generates ``Inp`` objects from INP.
 
-        ``from_mcnp`` constructs instances of ``Inp`` from INP source strings,
-        so it operates as a class constructor method and INP parser.
+        ``from_mcnp`` translates from INP to PyMCNP; it parses INP.
 
         Parameters:
-            source: Complete INP source string.
+            source: INP for ``Inp``.
 
         Returns:
             ``Inp`` object.
+
+        Raises:
+            McnpError: EXPECTED_TOKEN.
+            McnpError: UNEXPECTED_TOKEN.
         """
 
         source = _parser.Preprocessor.process_inp(source)
         lines = _parser.Parser(
             source.split('\n'),
-            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_INP),
+            errors.McnpError(errors.McnpCode.EXPECTED_TOKEN, source),
         )
 
         # Processing Message & Title
@@ -464,35 +499,17 @@ class Inp:
             other=other,
         )
 
-    @staticmethod
-    def from_mcnp_file(filename: str | pathlib.Path):
+    def to_mcnp(self, makeFancy: bool = True) -> str:
         """
-        ``from_mcnp_file`` generates ``Inp`` objects from INP files.
+        Generates INP from ``Inp`` objects.
 
-        ``from_mcnp_file`` constructs instances of ``Inp`` from INP files,
-        so it operates as a class constructor method and INP parser.
+        ``to_mcnp`` translates from PyMCNP to INP.
 
         Parameters:
-            filename: Name of file to parse.
+            makeFancy: Prettifier on/off.
 
         Returns:
-            ``Inp`` object.
-        """
-
-        filename = pathlib.Path(filename)
-        source = filename.read_text()
-
-        return Inp.from_mcnp(source)
-
-    def to_mcnp(self, comments: bool = True) -> str:
-        """
-        ``to_mcnp`` generates INP from ``Inp`` objects.
-
-        ``to_mcnp`` creates INP source string from ``INP`` objects, so it
-        provides an MCNP endpoint.
-
-        Returns:
-            INP string for ``Inp`` object.
+            INP for ``Inp``.
         """
 
         # Appending Message
@@ -502,182 +519,110 @@ class Inp:
         source += self.title + '\n'
 
         # Appending Blocks
-        if comments and self.cells:
-            source += (
-                'c ============================================================================\n'
-            )
+        DELIMITER = 'c ' + '=' * 76 + '\n'
+
+        if makeFancy:
+            source += DELIMITER
             source += f'c {'cells':^76.76}\n'
-            source += (
-                'c ============================================================================\n'
-            )
+            source += DELIMITER
 
-            for card in self.cells.values():
-                source += f'{card.to_mcnp()}\n'
+        source += '\n'.join(card.to_mcnp() for card in self.cells.values())
+        source += '\n\n'
 
-            source += '\n'
-
-        if comments and self.surfaces:
-            source += (
-                'c ============================================================================\n'
-            )
+        if makeFancy and self.surfaces:
+            source += DELIMITER
             source += f'c {'surfaces':^76.76}\n'
-            source += (
-                'c ============================================================================\n'
-            )
+            source += DELIMITER
 
-            for card in self.surfaces.values():
-                source += f'{card.to_mcnp()}\n'
+        source += '\n'.join(card.to_mcnp() for card in self.surfaces.values())
+        source += '\n\n'
 
+        if self.data_geometry:
+            if makeFancy:
+                source += DELIMITER
+                source += f'c {'geometry data':^76.76}\n'
+                source += DELIMITER
+
+            source += '\n'.join(card.to_mcnp() for card in self.data_geometry.values())
+            source += '\nc\n'
+
+        if self.data_material:
+            if makeFancy:
+                source += DELIMITER
+                source += f'c {'material data':^76.76}\n'
+                source += DELIMITER
+
+            source += '\n'.join(card.to_mcnp() for card in self.data_material.values())
+            source += '\nc\n'
+
+        if self.data_physics:
+            if makeFancy:
+                source += DELIMITER
+                source += f'c {'physics data':^76.76}\n'
+                source += DELIMITER
+
+            source += '\n'.join(card.to_mcnp() for card in (self.data_physics).values())
+            source += '\nc\n'
+
+        if self.data_source:
+            if makeFancy:
+                source += DELIMITER
+                source += f'c {'source data':^76.76}\n'
+                source += DELIMITER
+
+            source += '\n'.join(card.to_mcnp() for card in (self.data_source).values())
+            source += '\nc\n'
+
+        if self.data_tally:
+            if makeFancy:
+                source += DELIMITER
+                source += f'c {'tally data':^76.76}\n'
+                source += DELIMITER
+
+            source += '\n'.join(card.to_mcnp() for card in (self.data_tally).values())
+            source += '\nc\n'
+
+        if self.data_variance:
+            if makeFancy:
+                source += DELIMITER
+                source += f'c {'variance data':^76.76}\n'
+                source += DELIMITER
+
+            source += '\n'.join(card.to_mcnp() for card in (self.data_variance).values())
+            source += '\nc\n'
+
+        if self.data_micellaneous:
+            if makeFancy:
+                source += DELIMITER
+                source += f'c {'micellaneous data':^76.76}\n'
+                source += DELIMITER
+
+            source += '\n'.join(card.to_mcnp() for card in (self.data_micellaneous).values())
             source += '\n'
 
-        if comments and self.data_geometry:
-            source += (
-                'c ============================================================================\n'
-            )
-            source += f'c {'geometry data':^76.76}\n'
-            source += (
-                'c ============================================================================\n'
-            )
-
-            for card in (self.data_geometry).values():
-                source += f'{card.to_mcnp()}\n'
-
-            source += 'c\n'
-
-        if comments and self.data_material:
-            source += (
-                'c ============================================================================\n'
-            )
-            source += f'c {'material data':^76.76}\n'
-            source += (
-                'c ============================================================================\n'
-            )
-
-            for card in (self.data_material).values():
-                source += f'{card.to_mcnp()}\n'
-
-            source += 'c\n'
-
-        if comments and self.data_physics:
-            source += (
-                'c ============================================================================\n'
-            )
-            source += f'c {'physics data':^76.76}\n'
-            source += (
-                'c ============================================================================\n'
-            )
-
-            for card in (self.data_physics).values():
-                source += f'{card.to_mcnp()}\n'
-
-            source += 'c\n'
-
-        if comments and self.data_source:
-            source += (
-                'c ============================================================================\n'
-            )
-            source += f'c {'source data':^76.76}\n'
-            source += (
-                'c ============================================================================\n'
-            )
-
-            for card in (self.data_source).values():
-                source += f'{card.to_mcnp()}\n'
-
-            source += 'c\n'
-
-        if comments and self.data_tally:
-            source += (
-                'c ============================================================================\n'
-            )
-            source += f'c {'tally data':^76.76}\n'
-            source += (
-                'c ============================================================================\n'
-            )
-
-            for card in (self.data_tally).values():
-                source += f'{card.to_mcnp()}\n'
-
-            source += 'c\n'
-
-        if comments and self.data_variance:
-            source += (
-                'c ============================================================================\n'
-            )
-            source += f'c {'variance data':^76.76}\n'
-            source += (
-                'c ============================================================================\n'
-            )
-
-            for card in (self.data_variance).values():
-                source += f'{card.to_mcnp()}\n'
-
-            source += 'c\n'
-
-        if comments and self.data_micellaneous:
-            source += (
-                'c ============================================================================\n'
-            )
-            source += f'c {'micellaneous data':^76.76}\n'
-            source += (
-                'c ============================================================================\n'
-            )
-
-            for card in (self.data_micellaneous).values():
-                source += f'{card.to_mcnp()}\n'
+        # Appending Extra
+        source += self.other
 
         return source
 
-    def to_mcnp_file(self, filename: str | pathlib.Path) -> int:
+    @staticmethod
+    def from_mcnp_file(filename: str | pathlib.Path):
         """
-        ``to_mcnp`` generates INP from ``Inp`` objects.
+        Generates ``Inp`` objects from MCNP files.
 
-        ``to_mcnp`` creates INP source string from ``INp`` objects, so it
-        provides an MCNP endpoint.
+        ``from_mcnp_file`` translates from MCNP files to PyMCNP.
 
         Parameters:
-            filename: Name of file to write INP string for ``Inp`` object.
+            filename: MCNP file path.
 
         Returns:
-            Number of bytes written.
+            ``Inp`` object.
         """
 
         filename = pathlib.Path(filename)
-        filename.write_text(self.to_mcnp())
+        source = filename.read_text()
 
-        return 0
-
-    def to_arguments(self) -> dict:
-        """
-        ``to_arguments`` makes dictionaries from ``Inp`` objects.
-
-        ``to_arguments`` creates Python dictionaries from ``Inp`` objects, so
-        it provides an MCNP endpoint. The dictionary keys follow the MCNP
-        manual.
-
-        Returns:
-            Dictionary for ``Inp`` object.
-        """
-
-        return {
-            'message': self.message,
-            'title': self.title,
-            'cells': {ident: card.to_arguments() for ident, card in self.cells.items()},
-            'surfaces': {ident: card.to_arguments() for ident, card in self.surfaces.items()},
-            'data': {
-                ident: card.to_arguments()
-                for ident, card in (
-                    self.data_geometry
-                    | self.data_material
-                    | self.data_physics
-                    | self.data_source
-                    | self.data_tally
-                    | self.data_variance
-                    | self.data_micellaneous
-                ).items()
-            },
-            'other': self.other,
-        }
+        return Inp.from_mcnp(source)
 
     def __str__(self):
         return self.to_mcnp()

@@ -1,8 +1,5 @@
 """
-Contains the class representing INP surface cards.
-
-``surface`` packages the ``Surface`` class, providing an object-oriented,
-importable interface for INP surface cards.
+Contains classes representing INP surface cards.
 """
 
 from . import _card
@@ -73,7 +70,7 @@ class SurfaceMnemonic(_card.CardMnemonic):
             ``SurfaceMnemonic`` object.
 
         Raises:
-            MCNPSemanticError: INVALID_SURFACE_MNEMONIC.
+            McnpError: INVALID_SURFACE_MNEMONIC.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -81,15 +78,14 @@ class SurfaceMnemonic(_card.CardMnemonic):
         try:
             return SurfaceMnemonic(source)
         except ValueError:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_SURFACE_MNEMONIC)
+            raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_MNEMONIC)
 
 
 class Surface(_card.Card):
     """
     Represents INP data cards.
 
-    ``Surface`` specifies common methods and attributes for INP surface
-    cards as an abstract class.
+    ``Surface`` extends the ``_card.Card`` abstract class.
 
     Attributes:
         ident: Card identifier.

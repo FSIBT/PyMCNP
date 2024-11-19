@@ -1,9 +1,5 @@
 """
-``_cadquery`` contains classes and methods for generating Cadquery code.
-
-``_cadquery`` packages the ``CqVector`` class and adder methods, providing
-private helper functions for generating Cadquery by abstracting Cadquery
-patterns.
+Contains classes and functions for generating CADQUERY.
 """
 
 from __future__ import annotations

@@ -1,9 +1,5 @@
 """
-``_parser`` contains preprocessor, parser, and postprocessor classes.
-
-PyMCNP relies on these classes to prepare MCNP for parsing and printing by
-collapsing whitespace and processing continuation lines. ``_parser`` employs
-regular expressions and the deque data structure.
+Contains classes for preprocessing, postprocessing, and parsing INP & PTRAC.
 """
 
 import re

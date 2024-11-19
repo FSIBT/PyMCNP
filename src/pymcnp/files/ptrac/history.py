@@ -1,8 +1,5 @@
 """
-``history`` contains classes representing PTRAC histories.
-
-``history`` packages the ``History`` class, providing an object-oriented,
-importable interface for PTRAC event histories.
+Contains classes representing INP histories.
 """
 
 from __future__ import annotations
@@ -60,14 +57,14 @@ class History:
             events: List of events in the PTRAC
 
         Raises:
-            MCNPSemanticError: INVALID_HISTORY_NEXTTYPE.
-            MCNPSemanticError: INVALID_HISTORY_NPS.
-            MCNPSemanticError: INVALID_HISTORY_NCL.
-            MCNPSemanticError: INVALID_HISTORY_NSF.
-            MCNPSemanticError: INVALID_HISTORY_JPTAL.
-            MCNPSemanticError: INVALID_HISTORY_TAL.
-            MCNPSemanticError: INVALID_PTRAC_HEADER.
-            MCNPSemanticError: INVALID_PTRAC_EVENT.
+            McnpError: INVALID_HISTORY_NEXTTYPE.
+            McnpError: INVALID_HISTORY_NPS.
+            McnpError: INVALID_HISTORY_NCL.
+            McnpError: INVALID_HISTORY_NSF.
+            McnpError: INVALID_HISTORY_JPTAL.
+            McnpError: INVALID_HISTORY_TAL.
+            McnpError: INVALID_PTRAC_HEADER.
+            McnpError: INVALID_PTRAC_EVENT.
         """
 
         # TODO: Add error checking here!
@@ -98,7 +95,7 @@ class History:
             ``History`` object.
 
         Raises:
-            MCNPSyntaxError: TOOFEW_HISTORY, TOOLONG_HISTORY.
+            McnpError: TOOFEW_HISTORY,McnpCode.
         """
 
         nps = None
@@ -111,14 +108,14 @@ class History:
         source = _parser.Preprocessor.process_ptrac(source)
         lines = _parser.Parser(
             source.split('\n'),
-            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY),
+            errors.McnpError(errors.McnpCode.EXPECTED_TOKEN, source),
         )
 
         # Processing I Line
         tokens = _parser.Parser.from_fortran(
             (head.numbers[0].value - 1) * [10] + [13],
             lines.popl()[1:],
-            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_HEADER),
+            errors.McnpError(errors.McnpCode.TOOFEW_HEADER),
         )
 
         for i in range(0, head.numbers[0].value):
@@ -140,9 +137,7 @@ class History:
                     assert False
 
         # Processing J & P Lines
-        event_lines = _parser.Parser(
-            [], errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOFEW_HISTORY)
-        )
+        event_lines = _parser.Parser([], errors.McnpError(errors.McnpCode.EXPECTED_TOKEN, source))
 
         def events(next_type, lines):
             while next_type != EventType.FLAG:

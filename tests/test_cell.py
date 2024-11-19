@@ -48,7 +48,7 @@ class Test_CellGeometry:
 
     def test_init_invalid(self):
         for geometry in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.pymcnp.utils.errors.MCNPSemanticError) as err:
+            with pytest.raises(pymcnp.utils.pymcnp.utils.errors.McnpError) as err:
                 pymcnp.inp.CellGeometry(geometry)
 
             assert (
@@ -64,7 +64,7 @@ class Test_CellGeometry:
 
     def test_fromMcnp_invalid(self):
         for formula in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.pymcnp.utils.errors.MCNPSemanticError) as err:
+            with pytest.raises(pymcnp.utils.pymcnp.utils.errors.McnpError) as err:
                 pymcnp.inp.CellGeometry.from_mcnp(f'{formula}')
 
             assert (
@@ -141,7 +141,7 @@ class Test_CellKeyword:
 
     def test_fromMcnp_invalid(self):
         for keyword in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.MCNPSemanticError):
+            with pytest.raises(pymcnp.utils.errors.McnpError):
                 pymcnp.inp.CellKeyword.from_mcnp(f'{keyword}')
 
 

@@ -1,8 +1,5 @@
 """
-``ptrac`` contains classes representing PTRAC files.
-
-``ptrac`` packages the ``Ptrac`` class, providing an object-oriented,
-importable interface for PTRAC files.
+Contains classes representing PTRAC file.
 """
 
 from typing import Generator

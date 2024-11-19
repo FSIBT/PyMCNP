@@ -1,3 +1,7 @@
+"""
+Contains classes representing filtered PTRAC histories.
+"""
+
 from . import filters
 from . import history
 from . import header

@@ -1,8 +1,5 @@
 """
-Contains the class representing INP comment cards.
-
-``comment`` packages the ``Comment`` class, providing an object-oriented, importable
-interface for INP comment cards.
+Contains classes representing INP comment cards.
 """
 
 import re
@@ -33,7 +30,7 @@ class Comment(_card.Card):
         """
 
         if content is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_COMMENT_CONTENT)
+            raise errors.McnpError(errors.McnpCode.INVALID_COMMENT_CONTENT)
 
         self.content: Final[str] = content
 
@@ -51,13 +48,13 @@ class Comment(_card.Card):
             ``Comment`` object.
 
         Raises:
-            MCNPSyntaxError: KEYWORD_COMMENT_C.
+            McnpError: KEYWORD_COMMENT_C.
         """
 
         source = _parser.Preprocessor.process_inp(source)
 
         if not re.match(r'c[^a-zA-Z]*', source):
-            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.KEYWORD_COMMENT_C)
+            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD)
 
         return Comment(source[1:].strip(' '))
 

@@ -1,8 +1,5 @@
 """
-``header`` contains classes representing PTRAC headers.
-
-``header`` packages the ``Header`` class, providing an object-oriented,
-importable interface for PTRAC headers.
+Contains classes representing INP headers.
 """
 
 from __future__ import annotations
@@ -91,48 +88,48 @@ class Header:
             ids: PTRAC event variable identifiers by type.
 
         Raises:
-            MCNPSemanticError: INVALID_HEADER_CODE.
-            MCNPSemanticError: INVALID_HEADER_CODEDATE.
-            MCNPSemanticError: INVALID_HEADER_VERSION.
-            MCNPSemanticError: INVALID_HEADER_RUNDATE.
-            MCNPSemanticError: INVALID_HEADER_RUNTIME.
-            MCNPSemanticError: INVALID_HEADER_TITLE.
+            McnpError: INVALID_HEADER_CODE.
+            McnpError: INVALID_HEADER_CODEDATE.
+            McnpError: INVALID_HEADER_VERSION.
+            McnpError: INVALID_HEADER_RUNDATE.
+            McnpError: INVALID_HEADER_RUNTIME.
+            McnpError: INVALID_HEADER_TITLE.
         """
 
         if code is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_CODE)
+            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_CODE)
 
         if code_date is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_CODEDATE)
+            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_CODEDATE)
 
         if version is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_VERSION)
+            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_VERSION)
 
         if run_date is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_RUNDATE)
+            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_RUNDATE)
 
         if run_time is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_RUNTIME)
+            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_RUNTIME)
 
         if title is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_TITLE)
+            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_TITLE)
 
         if settings is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_SETTING)
+            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_SETTING)
 
         if numbers is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_NUMBERS)
+            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_NUMBERS)
 
         for number in numbers:
             if number is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_NUMBERS)
+                raise errors.McnpError(errors.McnpCode.INVALID_HEADER_NUMBERS)
 
         if ids is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_IDS)
+            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_IDS)
 
         for id_ in ids:
             if id_ is None:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_IDS)
+                raise errors.McnpError(errors.McnpCode.INVALID_HEADER_IDS)
 
         self.code: Final[str] = code
         self.code_date: Final[str] = code_date
@@ -207,7 +204,7 @@ class Header:
 
         m = types.McnpReal.from_mcnp(tokens.popl())
         if not (m == 13 or m == 14):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_SETTINGS)
+            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_SETTINGS)
 
         settings = {}
         for i in range(0, int(m.value)):
@@ -220,7 +217,7 @@ class Header:
 
             n = types.McnpReal.from_mcnp(tokens.popl())
             if not (n.value != 'j' and n.value >= 0):
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_SETTINGS)
+                raise errors.McnpError(errors.McnpCode.INVALID_HEADER_SETTINGS)
 
             values = [None] * int(n.value)
             for j in range(0, int(n.value)):
@@ -237,7 +234,7 @@ class Header:
 
         while tokens:
             if types.McnpReal.from_mcnp(tokens.popl()) != 0:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_HEADER_SETTINGS)
+                raise errors.McnpError(errors.McnpCode.INVALID_HEADER_SETTINGS)
 
         # Processing Numbers
         tokens = _parser.Parser.from_fortran(

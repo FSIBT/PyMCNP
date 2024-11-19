@@ -1,8 +1,5 @@
 """
-Contains the class representing INP data cards.
-
-``data`` packages the ``_Data`` class, providing an object-oriented,
-importable interface for INP data cards.
+Contains classes representing INP data cards.
 """
 
 import re
@@ -182,7 +179,7 @@ class DataMnemonic(_card.CardMnemonic):
             ``DataMnemonic``.
 
         Raises:
-            MCNPSyntaxError: INVALID_DATUM_MNEMONIC.
+            McnpError: INVALID_DATUM_MNEMONIC.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -190,15 +187,14 @@ class DataMnemonic(_card.CardMnemonic):
         try:
             return DataMnemonic(source)
         except ValueError:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_DATUM_MNEMONIC)
+            raise errors.McnpError(errors.McnpCode.INVALID_DATUM_MNEMONIC)
 
 
 class DataKeyword(_card.CardKeyword):
     """
     Represents INP data card option keywords.
 
-    ``DataKeyword`` specifies common methods and attributes for PyMCNP data
-    card options as an abstract class.
+    ``DataKeyword`` extends the ``_card.CawrdKeyword`` abstract class.
     """
 
     @staticmethod
@@ -210,8 +206,7 @@ class DataOption(_card.CardOption):
     """
     Represents INP data cards options.
 
-    ``DataOption`` specifies common methods and attributes for PyMCNP data card
-    options as an abstract class.
+    ``DataOption`` extends the ``_card.CardOption`` abstract class.
 
     Attributes:
         keyword: Data card option keyword.
@@ -227,8 +222,7 @@ class DataEntry(_card.CardEntry):
     """
     Represents INP data card entry.
 
-    ``DataEntry`` specifies common methods and attributes for PyMCNP data card
-    options as an abstract class.
+    ``DataEntry`` extends the ``_card.CardEntry`` abstract class.
     """
 
     @staticmethod
@@ -240,8 +234,7 @@ class Data(_card.Card):
     """
     Represents INP data cards.
 
-    ``Data`` specifies common methods and attributes for PyMCNP data cards
-    as an abstract class.
+    ``Data`` extends the ``_card.Card`` abstract class.
 
     Attributes:
         ident: Card identifier.
@@ -441,7 +434,10 @@ _DataTrFactory = _factory.DataFactory(
         ),
         _factory.AttributeFactory('rotation', 'TrRotationEntry', 'Tuple for rotation matrix', ''),
         _factory.AttributeFactory(
-            'system', 'types.McnpInteger', 'Coordinate system setting', 'system in {-1, 1}'
+            'system',
+            'types.McnpInteger',
+            'Coordinate system setting',
+            'system == -1 or system == 1',
         ),
     ],
     [
@@ -517,7 +513,10 @@ _DataLatFactory = _factory.DataFactory(
     False,
     [
         _factory.AttributeFactory(
-            'types', 'tuple[types.McnpInteger]', 'Tuple of lattice types', 'entry in {1, 2}'
+            'types',
+            'tuple[types.McnpInteger]',
+            'Tuple of lattice types',
+            'entry == 1 or entry == 2',
         ),
     ],
     [],
@@ -959,7 +958,7 @@ _DataNonuFactory = _factory.DataFactory(
             'settings',
             'tuple[types.McnpInteger]',
             'Tuple of fission settings',
-            'entry in {0, 1, 2}',
+            'entry == 0 or entry == 1 or entry == 2',
         ),
     ],
     [],
@@ -1041,13 +1040,16 @@ _DataMgoptFactory = _factory.DataFactory(
             'igm >= 0',
         ),
         _factory.AttributeFactory(
-            'iplt', 'types.McnpInteger', 'Weight windows usage indicator', 'iplt in {0, 1, 2}'
+            'iplt',
+            'types.McnpInteger',
+            'Weight windows usage indicator',
+            'iplt == 0 or iplt == 1 or iplt == 2',
         ),
         _factory.AttributeFactory(
             'iab',
             'types.McnpInteger',
             'Adjoint biasing for adjoint problems contorls',
-            'iab in {0, 1, 2}',
+            'iab == 0 or iab == 1 or iab == 2',
         ),
         _factory.AttributeFactory(
             'icw',
@@ -1228,13 +1230,22 @@ _DataLcaFactory = _factory.DataFactory(
     False,
     [
         _factory.AttributeFactory(
-            'ielas', 'types.McnpInteger', 'Elastic scattering controls', 'ielas in {0, 1, 2}'
+            'ielas',
+            'types.McnpInteger',
+            'Elastic scattering controls',
+            'ielas == 0 or ielas == 1 or ielas == 2',
         ),
         _factory.AttributeFactory(
-            'ipreg', 'types.McnpInteger', 'pre-equilibrium model', 'ipreg in {0, 1, 2, 3}'
+            'ipreg',
+            'types.McnpInteger',
+            'pre-equilibrium model',
+            'ipreg == 0 or ipreg == 1 or ipreg == 2 or ipreg == 3',
         ),
         _factory.AttributeFactory(
-            'iexisa', 'types.McnpInteger', 'Model choice controls', 'iexisa in {0, 1, 2}'
+            'iexisa',
+            'types.McnpInteger',
+            'Model choice controls',
+            'iexisa == 0 or iexisa == 1 or iexisa == 2',
         ),
         _factory.AttributeFactory(
             'ichoic', 'types.McnpInteger', 'ISABEL intranuclear cascade model control', ''
@@ -1243,31 +1254,37 @@ _DataLcaFactory = _factory.DataFactory(
             'jcoul',
             'types.McnpInteger',
             'Coulomb barrier for incident charged particle controls',
-            'jcoul in {0, 1}',
+            'jcoul == 0 or jcoul == 1',
         ),
         _factory.AttributeFactory(
             'nexite',
             'types.McnpInteger',
             'Subtract nuclear recoil energy to get excitation energy',
-            'nexite in {0, 1}',
+            'nexite == 0 or nexite == 1',
         ),
         _factory.AttributeFactory(
-            'npidk', 'types.McnpInteger', 'Cutoff interact/terminate control', 'npidk in {0, 1}'
+            'npidk',
+            'types.McnpInteger',
+            'Cutoff interact/terminate control',
+            'npidk == 0 or npidk == 1',
         ),
         _factory.AttributeFactory(
             'noact',
             'types.McnpInteger',
             'Particle transport settings',
-            'noact in {-2, -1, 0, 1, 2}',
+            'noact == -2 or noact == -1 or noact == 0 or noact == 1 or noact == 2',
         ),
         _factory.AttributeFactory(
-            'icem', 'types.McnpInteger', 'Choose alternative physics model', 'icem in {0, 1, 2}'
+            'icem',
+            'types.McnpInteger',
+            'Choose alternative physics model',
+            'icem == 0 or icem == 1 or icem == 2',
         ),
         _factory.AttributeFactory(
             'ilaq',
             'types.McnpInteger',
             'Choose light ion and nucleon physics modules',
-            'ilaq in {0, 1}',
+            'ilaq == 0 or ilaq == 1',
         ),
         _factory.AttributeFactory(
             'nevtype',
@@ -1333,13 +1350,13 @@ _DataLccFactory = _factory.DataFactory(
             'npaulincl',
             'types.McnpInteger',
             'Pauli blocking parameter setting',
-            'npaulincl in {0, -1, 1}',
+            'npaulincl == 0 or npaulincl == -1 or npaulincl == 1',
         ),
         _factory.AttributeFactory(
             'nosurfincl',
             'types.McnpInteger',
             'Difuse nuclear surface based on Wood-Saxon density setting',
-            'xfoisaincl in {-2 -1, 0, 1}',
+            'xfoisaincl == -2 or xfoisaincl == -1 or xfoisaincl == 0 or xfoisaincl == 1',
         ),
         _factory.AttributeFactory(
             'ecutincl', 'types.McnpReal', 'Bertini model energy below this energy', ''
@@ -1364,43 +1381,46 @@ _DataLaeFactory = _factory.DataFactory(
             'ipht',
             'types.McnpInteger',
             'Generation of de-excitation photons setting',
-            'ipht in {0, 1}',
+            'ipht.value in {0, 1}',
         ),
         _factory.AttributeFactory(
             'icc',
             'types.McnpInteger',
             'Level of physics for PHT physics setting',
-            'icc in {0, 1, 2, 3, 4}',
+            'icc.value in {0, 1, 2, 3, 4}',
         ),
         _factory.AttributeFactory(
             'nobalc',
             'types.McnpInteger',
             'Mass-energy balancing in cascade setting',
-            'nobalc in {0, 1}',
+            'nobalc.value in {0, 1}',
         ),
         _factory.AttributeFactory(
             'nobale',
             'types.McnpInteger',
             'Mass-energy balancing in evaporation setting',
-            'nobale in {0, 1}',
+            'nobale.value in {0, 1}',
         ),
         _factory.AttributeFactory(
             'ifbrk',
             'types.McnpInteger',
             'Mass-energy balancing in Fermi-breakup setting',
-            'ifbrk in {0, 1}',
+            'ifbrk.value in {0, 1}',
         ),
         _factory.AttributeFactory(
-            'ilvden', 'types.McnpInteger', 'Level-density model setting', 'ilvden in {0, 1, -1}'
+            'ilvden',
+            'types.McnpInteger',
+            'Level-density model setting',
+            'ilvden.value in {0, 1, -1}',
         ),
         _factory.AttributeFactory(
             'ievap',
             'types.McnpInteger',
             'Evaporation and fission model setting',
-            'ievap in {0, 1, -1, 2}',
+            'ievap.value in {0, 1, -1, 2}',
         ),
         _factory.AttributeFactory(
-            'nofis', 'types.McnpInteger', 'Fission setting', 'nofis in {0, 1}'
+            'nofis', 'types.McnpInteger', 'Fission setting', 'nofis.value in {0, 1}'
         ),
     ],
     [],
@@ -1474,7 +1494,7 @@ _DataFmultFactory = _factory.DataFactory(
                 'setting',
                 'types.McnpInteger',
                 'Gaussian sampling algorithm setting',
-                'setting in {0, 1, 3, 5, 6, 7}',
+                'setting.value in {0, 1, 3, 5, 6, 7}',
             ),
         ),
         _factory.DataOptionFactory(
@@ -1483,7 +1503,7 @@ _DataFmultFactory = _factory.DataFactory(
                 'setting',
                 'types.McnpInteger',
                 'Shift method setting',
-                'setting in {0, 1, 2, 3, 4}',
+                'setting.value in {0, 1, 2, 3, 4}',
             ),
         ),
     ],
@@ -1544,7 +1564,7 @@ _DataUncFactory = _factory.DataFactory(
             'settings',
             'tuple[types.McnpInteger]',
             'Tuple of uncollided secondary settings',
-            'entry in {0, 1}',
+            'entry.value in {0, 1}',
         ),
     ],
     [],
@@ -1560,10 +1580,10 @@ _DataCosypFactory = _factory.DataFactory(
             'prefix', 'types.McnpInteger', 'Prefix number of the COSY map files', ''
         ),
         _factory.AttributeFactory(
-            'axsh', 'types.McnpInteger', 'Horiztonal axis orientation', 'axsh in {1, 2, 3}'
+            'axsh', 'types.McnpInteger', 'Horiztonal axis orientation', 'axsh.value in {1, 2, 3}'
         ),
         _factory.AttributeFactory(
-            'axsv', 'types.McnpInteger', 'Vertical axis orientation', 'axsv in {1, 2, 3}'
+            'axsv', 'types.McnpInteger', 'Vertical axis orientation', 'axsv.value in {1, 2, 3}'
         ),
         _factory.AttributeFactory(
             'emaps', 'tuple[types.McnpReal]', 'Tuple of operating beam energies', ''
@@ -1844,7 +1864,7 @@ _DataSsrFactory = _factory.DataFactory(
                 'setting',
                 'types.McnpInteger',
                 'Collision option setting',
-                'setting in {-1, 0, 1}',
+                'setting.value in {-1, 0, 1}',
             ),
         ),
         _factory.DataOptionFactory(
@@ -1905,7 +1925,7 @@ _DataKcodeFactory = _factory.DataFactory(
             'msrk < 40 * nsrck',
         ),
         _factory.AttributeFactory(
-            'knrm', 'types.McnpInteger', 'Normalization of tallies setting', 'knrm in {0, 1}'
+            'knrm', 'types.McnpInteger', 'Normalization of tallies setting', 'knrm.value in {0, 1}'
         ),
         _factory.AttributeFactory(
             'mrkp',
@@ -1914,7 +1934,10 @@ _DataKcodeFactory = _factory.DataFactory(
             'mrkp > 0',
         ),
         _factory.AttributeFactory(
-            'kc8', 'types.McnpInteger', 'Number of cylces for average setting', 'kc8 in {0, 1}'
+            'kc8',
+            'types.McnpInteger',
+            'Number of cylces for average setting',
+            'kc8.value in {0, 1}',
         ),
     ],
     [],
@@ -2091,7 +2114,7 @@ _DataRandFactory = _factory.DataFactory(
                 'setting',
                 'types.McnpInteger',
                 'Type of pseudorandom number generator',
-                'setting in {1, 2, 3, 4}',
+                'setting.value in {1, 2, 3, 4}',
             ),
         ),
         _factory.DataOptionFactory(
@@ -2251,7 +2274,7 @@ class _Placeholder(Data):
         source, comments = _parser.Preprocessor.process_inp_comments(source)
         tokens = _parser.Parser(
             re.split(r' |=', source),
-            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_DATUM),
+            errors.McnpError(errors.McnpCode.EXPECTED_TOKEN, source),
         )
 
         mnemonic = tokens.popl()

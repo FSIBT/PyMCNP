@@ -1,5 +1,5 @@
 """
-Packages most ``Istopes-NIST-2`` data into the ``ELEMENTS`` constant.
+Contains the ``ELEMENTS`` constant of ``Istopes-NIST-2`` data.
 """
 
 from typing import Final

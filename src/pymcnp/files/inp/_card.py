@@ -1,8 +1,5 @@
 """
-Contains classes representing INP cards.
-
-``card`` packages the ``Card`` class, providing an object-oriented, importable
-interface for INP cards.
+Contains abstract classes for ``inp``.
 """
 
 import enum

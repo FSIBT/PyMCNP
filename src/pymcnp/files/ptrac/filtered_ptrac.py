@@ -1,3 +1,7 @@
+"""
+Contains classes representing fitlered PTRAC file.
+"""
+
 from . import ptrac
 from . import header
 from . import filters
