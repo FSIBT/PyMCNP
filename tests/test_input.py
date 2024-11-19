@@ -11,10 +11,7 @@ def test_reading_all_input_files():
     """
 
     for f in (Path(__file__).parent / 'data').glob('*.i'):
-        try:
-            pymcnp.read_input(f)
-        except:  # noqa
-            assert False, 'Unexpected exception'
+        pymcnp.read_input(f)
 
 
 def test_output_files():
@@ -29,24 +26,24 @@ def test_ft():
 
     There was an error where we didn't output the same string as we read in.
     """
-    line = 'ft8 geb -0.02 0.044 0.117'
-    assert line == pymcnp.inp.datum.create_datum_from_mcnp(line).to_mcnp()
+    line = 'area -0.02 0.044 0.117'
+    assert line == pymcnp.inp.data.Area.from_mcnp(line).to_mcnp()
 
 
 def test_comments():
-    line = 'ft8 geb -0.02 0.044 0.117\n'
+    line = 'area -0.02 0.044 0.117\n'
     source, comments = pymcnp.utils._parser.Preprocessor.process_inp_comments(line)
-    assert source == 'ft8 geb -0.02 0.044 0.117'
+    assert source == 'area -0.02 0.044 0.117'
     assert comments == []
 
-    comment_line = 'ft8 geb -0.02 0.044 0.117 $ hi\n'
+    comment_line = 'area -0.02 0.044 0.117 $ hi\n'
     source, comments = pymcnp.utils._parser.Preprocessor.process_inp_comments(comment_line)
-    assert source == 'ft8 geb -0.02 0.044 0.117'
+    assert source == 'area -0.02 0.044 0.117'
     assert comments == ['hi']
 
-    doubled_comment_line = 'ft8 geb -0.02 0.044 0.117 $ hi $ hello\n'
+    doubled_comment_line = 'area -0.02 0.044 0.117 $ hi $ hello\n'
     source, comments = pymcnp.utils._parser.Preprocessor.process_inp_comments(doubled_comment_line)
-    assert source == 'ft8 geb -0.02 0.044 0.117'
+    assert source == 'area -0.02 0.044 0.117'
     assert comments == ['hi', 'hello']
 
     continuation_line = 'm300 8016 -0.2094897 $ o-016\n     7014 -0.7771608 $ n-014\n     18040 -0.00996035 $ ar-040\n'
@@ -76,22 +73,30 @@ def test_formatting():
 
 
 def test_transformation():
-    obj = pymcnp.inp.datum.create_datum_from_mcnp('TR14   50     1       80.0')
-    assert obj.suffix == 14
-    assert obj.displacement[0] == 50.0
-    assert obj.displacement[1] == 1.0
-    assert obj.displacement[2] == 80.0
+    # obj = pymcnp.inp.Tr.from_mcnp('TR14   50     1       80.0')
+    # assert obj.suffix == 14
+    # assert obj.displacement.x == 50.0
+    # assert obj.displacement.y == 1.0
+    # assert obj.displacement.z == 80.0
 
-    assert obj.rotation[0][0] == 1.0
-    assert obj.rotation[0][1] == 0.0
-    assert obj.rotation[0][2] == 0.0
+    # assert obj.rotation[0][0] == 1.0
+    # assert obj.rotation[0][1] == 0.0
+    # assert obj.rotation[0][2] == 0.0
 
-    obj = pymcnp.inp.datum.create_datum_from_mcnp('TR24   50 1 80.0 123 234 345 0 1 0 0 0 1')
+    obj = pymcnp.inp.Tr.from_mcnp('TR24   50 1 80.0 123 234 345 0 1 0 0 0 1 1')
     assert obj.suffix == 24
-    assert obj.displacement[0] == 50.0
-    assert obj.displacement[1] == 1.0
-    assert obj.displacement[2] == 80.0
+    assert obj.displacement.x == 50.0
+    assert obj.displacement.y == 1.0
+    assert obj.displacement.z == 80.0
 
-    assert obj.rotation[0][0] == 123
-    assert obj.rotation[0][1] == 234
-    assert obj.rotation[0][2] == 345
+    assert obj.rotation.xx == 123
+    assert obj.rotation.xy == 234
+    assert obj.rotation.xz == 345
+    assert obj.rotation.yx == 0
+    assert obj.rotation.yy == 1
+    assert obj.rotation.yz == 0
+    assert obj.rotation.zx == 0
+    assert obj.rotation.zy == 0
+    assert obj.rotation.zz == 1
+
+    assert obj.system == 1

@@ -1,30 +1,25 @@
 """
-``cell`` contains the class representing INP cell cards.
+Contains the class representing INP cell cards.
 
 ``cell`` packages the ``Cell`` class, providing an object-oriented, importable
 interface for INP cell cards.
 """
 
 import re
-from enum import Enum
-from typing import Union, Final
+from typing import Final
 
 from . import _card
-from ..utils import _parser
-from ..utils import errors
+from . import _factory
 from ..utils import types
+from ..utils import errors
+from ..utils import _parser
 
 
-class CellGeometry:
+class CellGeometry(_card.CardEntry):
     """
     ``CellGeometry`` represents INP cell card geometry formulas.
 
-    ``CellGeometry`` implements INP cell card geometry formulas as a
-    Python inner class. Its attributes store different representations of
-    INP cell card geometry formulas, and its methods provide entry points
-    and endpoints for working with MCNP cell geometries. It represents the
-    INP cell card geometry formula syntax element, so ``Cell`` depends on
-    ``CellGeometry`` as a data type.
+    ``CellGeometry`` implements ``_card.CardMnemonic``.
 
     Attributes:
         string: Geometry formula string representation.
@@ -34,11 +29,7 @@ class CellGeometry:
 
     def __init__(self, formula: str):
         """
-        ``__init__`` initializes ``CellGeometry``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
+        Initializes ``CellGeometry``.
 
         Parameters:
             formula: INP for cell geometry.
@@ -113,11 +104,9 @@ class CellGeometry:
     @staticmethod
     def from_mcnp(source: str) -> str:
         """
-        ``from_mcnp`` generates ``CellGeometry`` objects from INP.
+        Generates ``CellGeometry`` objects from INP.
 
-        ``from_mcnp`` constructs instances of ``CellGeometry`` from INP
-        source strings, so it operates as a class constructor method
-        and INP parser helper function.
+        ``from_mcnp`` translates from INP to PyMCNP; it parses INP.
 
         Parameters:
             source: INP for cell card geometry.
@@ -130,61 +119,54 @@ class CellGeometry:
 
     def to_mcnp(self) -> str:
         """
-        ``to_mcnp`` generates INP from ``CellGeometry`` objects.
+        Generates INP from ``CellGeometry``.
 
-        ``to_mcnp`` creates INP source string from ``CellGeometry``
-        objects, so it provides an MCNP endpoint.
+        ``to_mcnp`` translates from PyMCNP to INP.
 
         Returns:
-            INP string for ``CellGeometry`` object.
+            INP for ``CellGeometry``.
         """
 
         return self.formula
 
 
-class CellKeyword(str, Enum):
+class CellKeyword(_card.CardKeyword):
     """
-    ``CellKeyword`` represents INP cell card option keywords.
+    Represents INP cell card option keywords.
 
-    ``CellKeyword`` implements INP cell card option keywords as a
-    Python class. It enumerates MCNP keywords and provides
-    methods for casting strings to ``CellKeyword`` instances. It
-    represents the INP cell card option keyword syntax element, so
-    ``Cell`` and ``CellOption`` depends on ``CellKeyword`` as an enum.
+    ``CellKeyword`` implements ``_card.CardKeyword``.
     """
 
-    IMPORTANCE = 'imp'
-    VOLUME = 'vol'
-    PHOTON_WEIGHT = 'pwt'
-    EXPONENTIAL_TRANSFORM = 'ext'
-    FORCED_COLLISION = 'fcl'
-    WEIGHT_WINDOW_BOUNDS = 'wwn'
-    DXTRAN_CONTRIBUTION = 'dxc'
-    FISSION_TURNOFF = 'nonu'
-    DETECTOR_CONTRIBUTION = 'pd'
-    GAS_THERMAL_TEMPERATURE = 'tmp'
-    UNIVERSE = 'u'
-    COORDINATE_TRANSFORMATION = 'trcl'
-    COORDINATE_TRANSFORMATION_ANGLE = '*trcl'
-    LATTICE = 'lat'
+    IMP = 'imp'
+    VOL = 'vol'
+    PWT = 'pwt'
+    EXT = 'ext'
+    FCL = 'fcl'
+    WWN = 'wwn'
+    DXC = 'dxc'
+    NONU = 'nonu'
+    PD = 'pd'
+    TMP = 'tmp'
+    U = 'u'
+    TRCL = 'trcl'
+    # COORDINATE_TRANSFORMATION_ANGLE = '*trcl'
+    LAT = 'lat'
     FILL = 'fill'
-    FILL_ANGLE = '*fill'
-    ENERGY_CUTOFF = 'elpt'
+    # FILL_ANGLE = '*fill'
+    ELPT = 'elpt'
     COSY = 'cosy'
     BFIELD = 'bflcl'
-    UNCOLLIDED_SECONDARIES = 'unc'
+    UNC = 'unc'
 
     @staticmethod
     def from_mcnp(source: str):
         """
-        ``from_mcnp`` generates ``CellKeyword`` objects from INP.
+        Generates ``CellKeyword`` objects from INP.
 
-        ``from_mcnp`` constructs instances of ``CellKeyword`` from INP
-        source strings, so it operates as a class constructor method
-        and INP parser helper function.
+        ``from_mcnp`` translates from INP to PyMCNP; it parses INP.
 
         Parameters:
-            source: INP for cell card option keyword.
+            source: INP for ``CellKeyword``
 
         Returns:
             ``CellKeyword`` object.
@@ -195,269 +177,35 @@ class CellKeyword(str, Enum):
 
         source = _parser.Preprocessor.process_inp(source)
 
-        if source not in [enum.value for enum in CellKeyword]:
+        try:
+            return CellKeyword(source)
+        except ValueError:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_KEYWORD)
 
-        return CellKeyword(source)
 
-    def to_mcnp(self) -> str:
-        """
-        ``to_mcnp`` generates INP from ``CellKeyword`` objects.
-
-        ``to_mcnp`` creates INP source string from ``CellKeyword``
-        objects, so it provides an MCNP endpoint.
-
-        Returns:
-            INP string for ``CellKeyword`` object.
-        """
-
-        return self.value
-
-
-class CellOption:
+class CellOption(_card.CardOption):
     """
-    ``CellOption`` represents INP cell card options.
+    Represents INP cell card option keywords.
 
-    ``CellOption`` implements INP cell card options. Its attributes store
-    keywords and values, and its methods provide entry and endpoints for
-    working with MCNP cell card options. It represents the generic INP cell
-    card option syntax element, so ``Cell`` depends on ``CellOption`` as a
-    generic data structure and superclass.
+    ``CellOption`` implements ``_card.CardOption``.
 
     Attributes:
         keyword: Cell card option keyword.
         value: Cell card option value.
     """
 
-    def __init__(self):
-        """Needs to be implemented in subclass."""
-        raise NotImplementedError
-
     @staticmethod
     def from_mcnp(source: str):
-        """
-        ``from_mcnp`` generates ``CellOption`` objects from INP.
-
-        ``from_mcnp`` constructs instances of ``CellOption`` from INP
-        source strings, so it operates as a class constructor method and
-        INP parser helper function. Although defined on the superclass, it
-        returns ``CellOption`` subclasses.
-
-        Parameters:
-            source: INP for cell card option.
-
-        Returns:
-            ``CellOption`` object.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION.
-            MCNPSyntaxError: TOOFEW_CELL_OPTION, TOOLONG_CELL_OPTION.
-        """
-
-        source = _parser.Preprocessor.process_inp(source)
-        tokens = _parser.Parser(
-            re.split(r':|=|[()] | [()]| ', source.strip(')')),
-            errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_OPTION),
-        )
-
-        # Processing Keyword
-        keyword = re.search(r'^[a-zA-z*]+', tokens.peekl())
-        keyword = keyword.group() if keyword else ''
-        keyword = CellKeyword.from_mcnp(keyword)
-
-        # Processing Values, Suffixes, & Designators
-        suffix = None
-        match keyword:
-            case CellKeyword.IMPORTANCE:
-                tokens.popl()
-                value = types.McnpReal.from_mcnp(tokens.popr())
-                designator = types.Designator.from_mcnp(tokens.popr())
-
-            case CellKeyword.VOLUME:
-                tokens.popl()
-                value = types.McnpReal.from_mcnp(tokens.popr())
-                designator = None
-
-            case CellKeyword.PHOTON_WEIGHT:
-                tokens.popl()
-                value = types.McnpReal.from_mcnp(tokens.popr())
-                designator = None
-
-            case CellKeyword.EXPONENTIAL_TRANSFORM:
-                tokens.popl()
-                value = types.McnpReal.from_mcnp(tokens.popr())
-                designator = types.Designator.from_mcnp(tokens.popr())
-
-            case CellKeyword.FORCED_COLLISION:
-                tokens.popl()
-                value = types.McnpReal.from_mcnp(tokens.popr())
-                designator = types.Designator.from_mcnp(tokens.popr())
-
-            case CellKeyword.WEIGHT_WINDOW_BOUNDS:
-                suffix = types.McnpInteger.from_mcnp(tokens.popl()[3:])
-                value = types.McnpReal.from_mcnp(tokens.popr())
-                designator = types.Designator.from_mcnp(tokens.popr())
-
-            case CellKeyword.DXTRAN_CONTRIBUTION:
-                suffix = types.McnpInteger.from_mcnp(tokens.popl()[3:])
-                value = types.McnpReal.from_mcnp(tokens.popr())
-                designator = types.Designator.from_mcnp(tokens.popr())
-
-            case CellKeyword.FISSION_TURNOFF:
-                tokens.popl()
-                value = types.McnpInteger.from_mcnp(tokens.popr())
-                designator = None
-
-            case CellKeyword.DETECTOR_CONTRIBUTION:
-                suffix = types.McnpInteger.from_mcnp(tokens.popl()[2:])
-                value = types.McnpReal.from_mcnp(tokens.popr())
-                designator = None
-
-            case CellKeyword.GAS_THERMAL_TEMPERATURE:
-                suffix = types.McnpInteger.from_mcnp(tokens.popl()[3:])
-                value = types.McnpReal.from_mcnp(tokens.popr())
-                designator = None
-
-            case CellKeyword.UNIVERSE:
-                tokens.popl()
-                value = types.McnpInteger.from_mcnp(tokens.popr())
-                designator = None
-
-            case CellKeyword.LATTICE:
-                tokens.popl()
-                value = types.McnpInteger.from_mcnp(tokens.popr())
-                designator = None
-
-            case CellKeyword.ENERGY_CUTOFF:
-                tokens.popl()
-                value = types.McnpReal.from_mcnp(tokens.popr())
-                designator = types.Designator.from_mcnp(tokens.popr())
-
-            case CellKeyword.COSY:
-                tokens.popl()
-                value = types.McnpInteger.from_mcnp(tokens.popr())
-                designator = None
-
-            case CellKeyword.BFIELD:
-                tokens.popl()
-                value = types.McnpInteger.from_mcnp(tokens.popr())
-                designator = None
-
-            case CellKeyword.UNCOLLIDED_SECONDARIES:
-                tokens.popl()
-                value = types.McnpInteger.from_mcnp(tokens.popr())
-                designator = types.Designator.from_mcnp(tokens.popr())
-
-            case (
-                CellKeyword.COORDINATE_TRANSFORMATION
-                | CellKeyword.COORDINATE_TRANSFORMATION_ANGLE
-            ):
-                tokens.popl()
-                entries = [
-                    types.McnpReal.from_mcnp(tokens.popl()) for token in range(0, len(tokens))
-                ]
-                designator = None
-
-                if len(entries) == 13:
-                    value = tuple(entries)
-                elif len(entries) == 1:
-                    value = entries[0]
-                else:
-                    raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_CELL_OPTION)
-
-            case CellKeyword.FILL | CellKeyword.FILL_ANGLE:
-                tokens.popl()
-                entries = [
-                    types.McnpReal.from_mcnp(tokens.popl()) for token in range(0, len(tokens))
-                ]
-                designator = None
-
-                if ':' in source:
-                    if len(entries) <= 6:
-                        raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_OPTION)
-
-                    value = (
-                        (entries[0], entries[1]),
-                        (entries[2], entries[3]),
-                        (entries[4], entries[5]),
-                        tuple(entries[6:]),
-                    )
-                else:
-                    if len(entries) == 1:
-                        value = (entries[0], None)
-                    elif len(entries) == 2:
-                        value = (entries[0], entries[1])
-                    elif len(entries) == 14:
-                        value = tuple(entries)
-                    else:
-                        raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOFEW_CELL_OPTION)
-
-            case _:
-                assert False, 'Impossible'
-
-        # Checking for Remaining Tokens
-        if tokens:
-            raise errors.MCNPSyntaxError(errors.MCNPSyntaxCodes.TOOLONG_CELL_OPTION)
-
-            # create subclass        if keyword is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_KEYWORD)
-
-        match keyword:
-            case CellKeyword.IMPORTANCE:
-                obj = Importance(value, designator)
-            case CellKeyword.VOLUME:
-                obj = Volume(value)
-            case CellKeyword.PHOTON_WEIGHT:
-                obj = PhotonWeight(value)
-            case CellKeyword.EXPONENTIAL_TRANSFORM:
-                obj = ExponentialTransform(value, designator)
-            case CellKeyword.FORCED_COLLISION:
-                obj = ForcedCollision(value, designator)
-            case CellKeyword.WEIGHT_WINDOW_BOUNDS:
-                obj = WeightWindowBounds(value, suffix, designator)
-            case CellKeyword.DXTRAN_CONTRIBUTION:
-                obj = DxtranContribution(value, suffix, designator)
-            case CellKeyword.FISSION_TURNOFF:
-                obj = FissionTurnoff(value)
-            case CellKeyword.DETECTOR_CONTRIBUTION:
-                obj = DetectorContribution(value, suffix)
-            case CellKeyword.GAS_THERMAL_TEMPERATURE:
-                obj = GasThermalTemperature(value, suffix)
-            case CellKeyword.UNIVERSE:
-                obj = Universe(value)
-            case CellKeyword.COORDINATE_TRANSFORMATION:
-                obj = CoordinateTransformation(value, is_angle=False)
-            case CellKeyword.COORDINATE_TRANSFORMATION_ANGLE:
-                obj = CoordinateTransformation(value, is_angle=True)
-            case CellKeyword.LATTICE:
-                obj = Lattice(value)
-            case CellKeyword.FILL:
-                obj = Fill(value, is_angle=False)
-            case CellKeyword.FILL_ANGLE:
-                obj = Fill(value, is_angle=True)
-            case CellKeyword.ENERGY_CUTOFF:
-                obj = EnergyCutoff(value, designator)
-            case CellKeyword.COSY:
-                obj = Cosy(value)
-            case CellKeyword.BFIELD:
-                obj = Bfield(value)
-            case CellKeyword.UNCOLLIDED_SECONDARIES:
-                obj = UncollidedSecondaries(value, designator)
-            case _:
-                assert False, 'Impossible'
-
-        return obj
+        raise NotImplementedError
 
     def to_mcnp(self) -> str:
         """
-        ``to_mcnp`` generates INP from ``CellOption`` objects.
+        Generates INP from ``CellOption`` objects.
 
-        ``to_mcnp`` creates INP source string from ``CellOption`` objects,
-        so it provides an MCNP endpoint. Although defined on the
-        superclass, it returns corrent INP for ``CellOption`` subclasses.
+        ``to_mcnp`` translates from PyMCNP to INP.
 
         Returns:
-            INP string for ``CellOption`` object.
+            INP for ``CellOption``.
         """
 
         # Processing Suffix
@@ -483,894 +231,242 @@ class CellOption:
 
         return f'{self.keyword.to_mcnp()}{suffix_str}{designator_str}={value_str}'
 
-    def to_arguments(self) -> dict:
-        """
-        ``to_arguments`` makes dictionaries from ``CellOption`` objects.
-
-        ``to_arguments`` creates Python dictionaries from ``CellOption``
-        objects, so it provides an MCNP endpoint. The dictionary keys
-        follow the MCNP manual. Although defined on the superclass, it
-        returns key-value pairs suffixes and designators as required.
-
-        Returns:
-            Dictionary for ``CellOption`` object.
-        """
-
-        return {
-            'keyword': self.keyword.to_mcnp(),
-            'm': (self.suffix.to_mcnp() if hasattr(self.__class__, 'suffix') else None),
-            'n': self.designator if hasattr(self.__class__, 'designator') else None,
-            'value': (self.value.to_mcnp() if hasattr(self.value, 'to_mcnp') else self.value),
-        }
-
     def __repr__(self):
         return f'<CellOption: {self.__class__.__name__} ({self.to_mcnp()})>'
 
 
-class Importance(CellOption):
-    """
-    ``Importance`` represents INP cell card importance options.
-
-    ``Importance`` inherits attributes from ``CellOption``. It represents
-    the INP cell card importance option syntax element.
-
-    Attributes:
-        importance: Cell importance.
-        designator: Cell card option particle designator.
-    """
-
-    def __init__(self, importance: types.McnpReal, designator: types.Designator):
-        """
-        ``__init__`` initializes ``Importance``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            importance: Cell importance.
-            designator: Cell card option particle designator.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if importance is None or not (importance >= 0):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        if designator is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.IMPORTANCE
-        self.importance: Final[types.McnpInteger] = importance
-        self.value: Final[types.McnpInteger] = importance
-        self.designator: Final[types.Designator] = designator
-
-
-class Volume(CellOption):
-    """
-    ``Volume`` represents INP cell card volume options.
-
-    ``Volume`` inherits attributes from ``CellOption``. It represents the
-    INP cell card volume option syntax element.
-
-    Attributes:
-        volume: Cell volume.
-    """
-
-    def __init__(self, volume: types.McnpReal):
-        """
-        ``__init__`` initializes ``Volume``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            volume: Cell volume.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if volume is None or not (volume > 0):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.VOLUME
-        self.volume: Final[types.McnpReal] = volume
-        self.value: Final[types.McnpReal] = volume
-
-
-class PhotonWeight(CellOption):
-    """
-    ``PhotonWeight`` represents INP cell card photon weight options.
-
-    ``PhotonWeight`` inherits attributes from ``CellOption``. It represents
-    the INP cell card photon weight option syntax element.
-
-    Attributes:
-        weight: Cell weight of photons produced at neutron collisions.
-    """
-
-    def __init__(self, weight: types.McnpReal):
-        """
-        ``__init__`` initializes ``PhotonWeight``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            weight: Cell weight of photons produced at neutron collisions.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if weight is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.PHOTON_WEIGHT
-        self.weight: Final[types.McnpReal] = weight
-        self.value: Final[types.McnpReal] = weight
-
-
-class ExponentialTransform(CellOption):
-    """
-    ``ExponentialTransform`` represents INP cell card exponential transform
-    options.
-
-    ``ExponentialTransform`` inherits attributes from ``CellOption``. It
-    represents the INP cell card exponential transfrom option syntax
-    element.
-
-    Attributes:
-        stretch: Cell exponential transform stretching specifier.
-        designator: Cell card option particle designator.
-    """
-
-    def __init__(self, stretch: any, designator: types.Designator):
-        """
-        ``__init__`` initializes ``ExponentialTransform``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            stretch: Cell exponential transform stretching specifier.
-            designator: Cell card option particle designator.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if stretch is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        if designator is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.EXPONENTIAL_TRANSFORM
-        self.stretch: Final[any] = stretch
-        self.value: Final[any] = stretch
-        self.designator: Final[types.Desigantor] = designator
-
-
-class ForcedCollision(CellOption):
-    """
-    ``ForcedCollision`` represents INP cell card forced collision options.
-
-    ``ForcedCollision`` inherits attributes from ``CellOption``. It
-    represents the INP cell card forced collision option syntax element.
-
-    Attributes:
-        control: Cell forced-collision control.
-        designator: Cell card option particle designator.
-    """
-
-    def __init__(self, control: types.McnpReal, designator: types.Designator):
-        """
-        ``__init__`` initializes ``ForcedCollision``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            control: Cell forced-collision control.
-            designator: Cell card option particle designator.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if control is None or not (-1 <= control <= 1):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        if designator is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.FORCED_COLLISION
-        self.control: Final[types.McnpReal] = control
-        self.value: Final[types.McnpReal] = control
-        self.designator: Final[types.Designator] = designator
-
-
-class WeightWindowBounds(CellOption):
-    """
-    ``WeightWindowBounds`` represents INP cell card space-, time-, and
-    energy-dependent weight-window bounds options.
-
-    ``WeightWindowBounds`` inherits attributes from ``CellOption``. It
-    represents the INP cell card space-, time-, and energy-dependent
-    weight-window bounds option syntax element.
-
-    Attributes:
-        bound: Cell weight-window space, time, or energy lower bound.
-        suffix: Cell card option suffix.
-        designator: Cell card option particle designator.
-    """
-
-    def __init__(
-        self,
-        bound: types.McnpReal,
-        suffix: types.McnpInteger,
-        designator: types.Designator,
-    ):
-        """
-        ``__init__`` initializes ``WeightWindowBounds``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            bound: Cell weight-window space, time, or energy lower bound.
-            suffix: Cell card option suffix.
-            designator: Cell card option particle designator.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if bound is None or not (bound == -1 or bound >= 0):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        if suffix is None or not (suffix >= 1):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_SUFFIX)
-
-        if designator is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.WEIGHT_WINDOW_BOUNDS
-        self.weight: Final[types.McnpReal] = bound
-        self.value: Final[types.McnpReal] = bound
-        self.designator: Final[types.Designator] = designator
-        self.suffix: Final[types.McnpInteger] = suffix
-
-
-class DxtranContribution(CellOption):
-    """
-    ``DxtranContribution`` represents INP cell card DXTRAN contribution
-    options.
-
-    ``DxtranContribution`` inherits attributes from ``CellOption``. It
-    represents the INP cell card DXTRAN contribution option syntax element.
-
-    Attributes:
-        probability: Cell probability of DXTRAN contribution.
-        suffix: Cell card option suffix.
-        designator: Cell card option particle designator.
-    """
-
-    def __init__(
-        self,
-        probability: types.McnpReal,
-        suffix: types.McnpInteger,
-        designator: types.Designator,
-    ):
-        """
-        ``__init__`` initializes ``DxtranContribution``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            probability: Cell probability of DXTRAN contribution.
-            suffix: Cell card option suffix.
-            designator: Cell card option particle designator.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if probability is None or not (0 <= probability <= 1):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        if suffix is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_SUFFIX)
-
-        if designator is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.DXTRAN_CONTRIBUTION
-        self.probability: Final[types.McnpReal] = probability
-        self.value: Final[types.McnpReal] = probability
-        self.designator: Final[types.Designator] = designator
-        self.suffix: Final[types.McnpInteger] = suffix
-
-
-class FissionTurnoff(CellOption):
-    """
-    ``FissionTurnoff`` represents INP cell card fission turnoff options.
-
-    ``FissionTurnoff`` inherits attributes from ``CellOption``. It
-    represents the INP cell card fission turnoff option syntax element.
-
-    Attributes:
-        setting: Cell fission setting.
-    """
-
-    def __init__(self, setting: types.McnpInteger):
-        """
-        ``__init_`` initializes ``FissionTurnoff``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            setting: Cell fission setting.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if setting is None or not (setting == 0 or setting == 1 or setting == 2):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.FISSION_TURNOFF
-        self.setting: Final[types.McnpInteger] = setting
-        self.value: Final[types.McnpInteger] = setting
-
-
-class DetectorContribution(CellOption):
-    """
-    ``DetectorContribution`` represents INP cell card detector contribution
-    options.
-
-    ``DetectorContribution`` inherits attributes from ``CellOption``. It
-    represents the INP cell card detector contribution option syntax
-    element.
-
-    Attributes:
-        probability: Cell probability of DXTRAN contribution.
-        suffix: Cell card option suffix.
-    """
-
-    def __init__(self, probability: types.McnpReal, suffix: types.McnpInteger):
-        """
-        ``__init_`` initializes ``DetectorContribution``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            probability: Cell probability of DXTRAN contribution.
-            suffix: Cell card option suffix.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if probability is None or not (0 <= probability <= 1):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        if suffix is None or not (0 <= suffix <= 9999):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_SUFFIX)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.DETECTOR_CONTRIBUTION
-        self.probability: Final[types.McnpReal] = probability
-        self.value: Final[types.McnpReal] = probability
-        self.suffix: Final[types.McnpInteger] = suffix
-
-
-class GasThermalTemperature(CellOption):
-    """
-    ``GasThermalTemperature`` represents INP cell card gas thermal
-    temperature options.
-
-    ``GasThermalTemperature`` inherits attributes from ``CellOption``. It
-    represents the INP cell card gas thermal temperature option syntax
-    element.
-
-    Attributes:
-        temperature: Cell temperature at suffix time index.
-        suffix: Cell card option suffix.
-    """
-
-    def __init__(self, temperature: types.McnpReal, suffix: types.McnpInteger):
-        """
-        ``__init_`` initializes ``GasThermalTemperature``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            temperature: Cell temperature at suffix time index.
-            suffix: Cell card option suffix.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if temperature is None or not (temperature > 0):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        if suffix is None or not (0 <= suffix <= 99):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_SUFFIX)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.GAS_THERMAL_TEMPERATURE
-        self.temperature: Final[types.McnpReal] = temperature
-        self.value: Final[types.McnpReal] = temperature
-        self.suffix: Final[types.McnpInteger] = suffix
-
-
-class Universe(CellOption):
-    """
-    ``Universe`` represents INP cell card universe options.
-
-    ``Universe`` inherits attributes from ``CellOption``. It represents
-    the INP cell card universe option syntax element.
-
-    Attributes:
-        number: Cell universe number.
-    """
-
-    def __init__(self, number: types.McnpInteger):
-        """
-        ``__init__`` initializes ``Universe``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            number: Cell universe number.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if number is None or not (-99_999_999 <= number <= 99_999_999):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.UNIVERSE
-        self.number: Final[types.McnpInteger] = number
-        self.value: Final[types.McnpInteger] = number
-
-
-class CoordinateTransformation(CellOption):
-    """
-    ``CoordinateTransformation`` represents INP cell card coordinate
-    transformation options.
-
-    ``CoordinateTransformation`` inherits attributes from ``CellOption``.
-    It represents the INP cell card coordinate transformation option syntax
-    element.
-
-    Attributes:
-        number: Cell coordinate transformation number.
-        displacement: Cell coordinate transformation displacement vector.
-        rotation: Cell coordinate transformation rotation matrix.
-        system: Cell coordinate transformation coordinate system setting.
-        is_angle: Cell coordinate angle units setting.
-    """
-
-    def __init__(self, value: Union[tuple, int], is_angle: bool = False):
-        """
-        ``__init__`` initializes ``CoordinateTransformation``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Since the INP cell coordinate transformations have two forms,
-        ``__init__`` takes different value(s). It takes ``number`` or
-        (``displacement``, ``rotation``, ``system``).
-
-        Parameters:
-            value: Cell coordinate transformation option value(s).
-            is_angle: Cell coordinate angle units setting.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if is_angle is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_KEYWORD)
-
-        if value is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        if is_angle:
-            self.keyword: Final[CellKeyword] = CellKeyword.COORDINATE_TRANSFORMATION_ANGLE
-        else:
-            self.keyword: Final[CellKeyword] = CellKeyword.COORDINATE_TRANSFORMATION
-
-        if isinstance(value, tuple):
-            if len(value) != 13:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-            for entry in value[:-1]:
-                if entry is None:
-                    raise errors.MCNPSemanticError(
-                        errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE
-                    )
-
-            if value[-1] is None or value[-1] != -1 and value[-1] != 1:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-            self.number: Final[types.McnpInteger] = None
-            self.displacement: Final[tuple[float]] = value[:3]
-            self.rotation: Final[tuple[float]] = value[3:-1]
-            self.system: Final[types.McnpInteger] = value[-1]
-            self.value: Final[tuple] = value
-            self.is_angle: Final[bool] = is_angle
-        else:
-            if not (1 <= value <= 999):
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-            self.number: Final[types.McnpInteger] = value
-            self.displacement: Final[tuple[float]] = None
-            self.rotation: Final[tuple[float]] = None
-            self.system: Final[types.McnpInteger] = None
-            self.value: Final[types.McnpInteger] = value
-            self.is_angle: Final[bool] = is_angle
-
-
-class Lattice(CellOption):
-    """
-    ``Lattice`` represents INP cell card lattice options.
-
-    ``Lattice`` inherits attributes from ``CellOption``. It represents the
-    INP cell card lattice option syntax element.
-
-    Attributes:
-        shape: Cell lattice shape.
-    """
-
-    def __init__(self, shape: types.McnpInteger):
-        """
-        ``__init__`` initializes ``Lattice``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            shape: Cell lattice shape.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if shape is None or not (shape == 1 or shape == 2):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.LATTICE
-        self.shape: Final[types.McnpInteger] = shape
-        self.value: Final[types.McnpInteger] = shape
-
-
-class Fill(CellOption):
-    """
-    ``Fill`` represents INP cell card fill options.
-
-    ``Fill`` inherits attributes from ``CellOption``. It represents the
-    INP cell card fill option syntax element.
-
-    Attributes:
-        number: Cell arbitrary universe number for fill.
-        transform: Cell optional transformation number.
-        displacement: Cell optional tranformation displacement vector.
-        rotation: Cell optional tranformation rotation matrix.
-        system: Cell optional tranformation coordinate system.
-        ibounds: i direction upper and lower bounds.
-        jbounds: j direction upper and lower bounds.
-        kbounds: k direction upper and lower bounds.
-        numbers: List of universe numbers to fill.
-        is_angle: Cell coordinate angle units setting.
-    """
-
-    def __init__(self, value: tuple, is_angle: bool = False):
-        """
-        ``__init__`` initializes ``Fill``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Since the INP cell fill options have three forms,  ``__init__``
-        takes different value(s). It takes (``number``, ``transform``)
-        tuples, (``number``, displacment``, ``rotation``, ``system``)
-        tuples, or (``ibounds``, ``jbounds``, ``kbounds``, ``numbers``).
-
-        Parameters:
-            value: Fill cell option value or value(s) tuple.
-            is_angle: Cell coordinate angle units setting.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_KEYWORD.
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if is_angle is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_KEYWORD)
-
-        if value is None or not value:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        if is_angle:
-            self.keyword: Final[CellKeyword] = CellKeyword.FILL_ANGLE
-        else:
-            self.keyword: Final[CellKeyword] = CellKeyword.FILL
-
-        if isinstance(value[0], tuple):
-            if len(value) < 4:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-            i, j, k, numbers = value
-
-            if i is None or len(i) != 2 and i[1] > i[0]:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-            if j is None or len(j) != 2 and j[1] > j[0]:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-            if k is None or len(k) != 2 and k[1] > k[0]:
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-            if numbers is None or len(numbers) != (i[1] - i[0] + 1) * (j[1] - j[0] + 1) * (
-                k[1] - k[0] + 1
-            ):
-                raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-            for number in numbers:
-                if number is None or not (0 <= number <= 99_999_999):
-                    raise errors.MCNPSemanticError(
-                        errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE
-                    )
-
-            self.number: Final[types.McnpInteger] = None
-            self.transform: Final[types.McnpInteger] = None
-            self.displacement: Final[tuple[int]] = None
-            self.rotation: Final[tuple[tuple[int]]] = None
-            self.system: Final[types.McnpInteger] = None
-            self.ibounds: Final[tuple[int]] = value[0]
-            self.jbounds: Final[tuple[int]] = value[1]
-            self.kbounds: Final[tuple[int]] = value[2]
-            self.numbers: Final[tuple[int]] = value[3]
-            self.value: Final[tuple] = value
-            self.is_angle: Final[bool] = is_angle
-        else:
-            if len(value) == 2:
-                if value[0] is None or not (0 <= value[0] <= 99_999_999):
-                    raise errors.MCNPSemanticError(
-                        errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE
-                    )
-
-                if value[1] is not None and not (0 <= value[1] <= 999):
-                    raise errors.MCNPSemanticError(
-                        errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE
-                    )
-
-                self.number: Final[types.McnpInteger] = value[0]
-                self.transform: Final[types.McnpInteger] = value[1]
-                self.displacement: Final[tuple[int]] = None
-                self.rotation: Final[tuple[tuple[int]]] = None
-                self.system: Final[types.McnpInteger] = None
-                self.ibounds: Final[tuple[int]] = None
-                self.jbounds: Final[tuple[int]] = None
-                self.kbounds: Final[tuple[int]] = None
-                self.numbers: Final[tuple[int]] = None
-                self.value: Final[tuple] = value
-                self.is_angle: Final[bool] = is_angle
-            elif len(value) == 14:
-                if value[0] is None or not (0 <= value[0] <= 99_999_999):
-                    raise errors.MCNPSemanticError(
-                        errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE
-                    )
-
-                for entry in value[1:-1]:
-                    if entry is None:
-                        raise errors.MCNPSemanticError(
-                            errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE
-                        )
-
-                if value[-1] is None or value[-1] != -1 and value[-1] != 1:
-                    raise errors.MCNPSemanticError(
-                        errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE
-                    )
-
-                self.number: Final[types.McnpInteger] = value[0]
-                self.transform: Final[types.McnpInteger] = None
-                self.displacement: Final[tuple[int]] = value[1:4]
-                self.rotation: Final[tuple[int]] = value[4:12]
-                self.system: Final[types.McnpInteger] = value[13]
-                self.ibounds: Final[tuple[int]] = None
-                self.jbounds: Final[tuple[int]] = None
-                self.kbounds: Final[tuple[int]] = None
-                self.numbers: Final[tuple[int]] = None
-                self.value: Final[tuple] = value
-                self.is_angle: Final[bool] = is_angle
-
-
-class EnergyCutoff(CellOption):
-    """
-    ``EnergyCutoff`` represents INP cell card energy cutoff options.
-
-    ``EnergyCutoff`` inherits attributes from ``CellOption``. It represents
-    the INP cell card energy cutoff option syntax element.
-
-    Attributes:
-        cutoff: Cell energy cutoff.
-        designator: Cell card option particle designator.
-    """
-
-    def __init__(self, cutoff: types.McnpReal, designator: types.Designator):
-        """
-        ``__init__`` initializes ``EnergyCutoff``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            cutoff: Cell energy cutoff.
-            designator: Cell card option particle designator.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if cutoff is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        if designator is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.ENERGY_CUTOFF
-        self.value: Final[types.McnpReal] = cutoff
-        self.cutoff: Final[types.McnpReal] = cutoff
-        self.designator: Final[types.Designator] = designator
-
-
-class Cosy(CellOption):
-    """
-    ``Cosy`` represents INP cell card cosy map options.
-
-    ``Cosy`` inherits attributes from ``CellOption``. It represents the INP
-    cell card cosy map option syntax element.
-
-    Attributes:
-        number: Cell cosy map number.
-    """
-
-    def __init__(self, number: types.McnpInteger):
-        """
-        ``__init_`` initializes ``Cosy``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            number: Cell cosy map number.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if number is None or not (
-            number == 1 or number == 2 or number == 3 or number == 4 or number == 5 or number == 6
-        ):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.COSY
-        self.value: Final[types.McnpInteger] = number
-        self.number: Final[types.McnpInteger] = number
-
-
-class Bfield(CellOption):
-    """
-    ``Bfield`` represents INP cell card magnetic field options.
-
-    ``Bfield`` inherits attributes from ``CellOption``. It represents the
-    INP cell card magnetic field option syntax element.
-
-    Attributes:
-        number: Cell magnetic field number.
-    """
-
-    def __init__(self, number: types.McnpInteger):
-        """
-        ``__init__`` initializes ``Bfield``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            number: Cell magnetic field number.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-        """
-
-        if number is None or not (number >= 0):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.BFIELD
-        self.value: Final[types.McnpInteger] = number
-        self.number: Final[types.McnpInteger] = number
-
-
-class UncollidedSecondaries(CellOption):
-    """
-    ``UncollidedSecondaries`` represents INP cell card uncollided
-    secondaries options.
-
-    ``UncollidedSecondaries`` inherits attributes from ``CellOption``. It
-    represents the INP cell card uncollided secondaires option syntax
-    element.
-
-    Attributes:
-        setting: Cell uncollided secondaries setting.
-        designator: Cell card option particle designator.
-    """
-
-    def __init__(self, setting: types.McnpInteger, designator: types.Designator):
-        """
-        ``__init__`` initializes ``UncollidedSecoies``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
-
-        Parameters:
-            setting: Cell uncollided secondaries setting.
-            designator: Cell card option particle designator.
-
-        Raises:
-            MCNPSemanticError: INVALID_CELL_OPTION_VALUE.
-            MCNPSemanticError: INVALID_CELL_OPTION_DESIGNATOR.
-        """
-
-        if setting is None or not (setting == 0 or setting == 1):
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE)
-
-        if designator is None:
-            raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR)
-
-        self.keyword: Final[CellKeyword] = CellKeyword.UNCOLLIDED_SECONDARIES
-        self.value: Final[types.McnpInteger] = setting
-        self.setting: Final[types.McnpInteger] = setting
-        self.designator: Final[types.Designator] = designator
+_CellImpFactory = _factory.CellOptionFactory(
+    'imp',
+    False,
+    True,
+    _factory.AttributeFactory('importance', 'types.McnpReal', 'Particle(s) importance in cell', ''),
+)
+
+_CellVolFactory = _factory.CellOptionFactory(
+    'vol',
+    False,
+    False,
+    _factory.AttributeFactory(
+        'volume',
+        'types.McnpReal',
+        'Cell volume',
+        'volume >= 0',
+    ),
+)
+
+_CellPwtFactory = _factory.CellOptionFactory(
+    'pwt',
+    False,
+    False,
+    _factory.AttributeFactory(
+        'weight',
+        'types.McnpReal',
+        'Cell weight of photons produced at neutron collisions',
+        '',
+    ),
+)
+
+_CellExtFactory = _factory.CellOptionFactory(
+    'ext',
+    False,
+    True,
+    _factory.AttributeFactory(
+        'stretch',
+        'str',
+        'Cell exponential transform stretching specifier',
+        '',
+    ),
+)
+
+_CellFclFactory = _factory.CellOptionFactory(
+    'fcl',
+    False,
+    True,
+    _factory.AttributeFactory(
+        'control', 'types.McnpReal', 'Cell forced-collision control.', '-1 <= control <= 1'
+    ),
+)
+
+_CellWwnFactory = _factory.CellOptionFactory(
+    'wwn',
+    True,
+    True,
+    _factory.AttributeFactory(
+        'bound',
+        'types.McnpReal',
+        'Cell weight-window space, time, or energy lower bound.',
+        'bound == -1 or bound >= 0',
+    ),
+)
+
+_CellDxcFactory = _factory.CellOptionFactory(
+    'dxc',
+    True,
+    True,
+    _factory.AttributeFactory(
+        'probability',
+        'types.McnpReal',
+        'Cell probability of DXTRAN contribution.',
+        '0 <= probability <= 1',
+    ),
+)
+
+_CellNonuFactory = _factory.CellOptionFactory(
+    'nonu',
+    False,
+    False,
+    _factory.AttributeFactory(
+        'setting', 'types.McnpInteger', 'Cell fission setting.', 'setting in {0, 1, 2}'
+    ),
+)
+
+_CellPdFactory = _factory.CellOptionFactory(
+    'pd',
+    True,
+    False,
+    _factory.AttributeFactory(
+        'probability',
+        'types.McnpReal',
+        'Cell probability of DXTRAN contribution.',
+        '0 <= probability <= 1',
+    ),
+)
+
+_CellTmpFactory = _factory.CellOptionFactory(
+    'tmp',
+    True,
+    False,
+    _factory.AttributeFactory(
+        'temperature',
+        'types.McnpReal',
+        'Cell temperature at suffix time index.',
+        'temperature > 0',
+    ),
+)
+
+_CellUFactory = _factory.CellOptionFactory(
+    'u',
+    False,
+    False,
+    _factory.AttributeFactory(
+        'number',
+        'types.McnpInteger',
+        'Cell universe number.',
+        '-99_999_999 <= number <= 99_999_999',
+    ),
+)
+
+_CellTrclFactory = _factory.CellOptionFactory(
+    'trcl',
+    False,
+    False,
+    _factory.AttributeFactory(
+        'value', 'int', 'Cell coordinate transformation option value(s).', '1 <= value <= 999'
+    ),
+)
+
+_CellLatFactory = _factory.CellOptionFactory(
+    'lat',
+    False,
+    False,
+    _factory.AttributeFactory(
+        'shape', 'types.McnpInteger', 'Cell lattice shape.', 'shape in {1, 2}'
+    ),
+)
+
+_CellFillFactory = _factory.CellOptionFactory(
+    'fill',
+    False,
+    False,
+    _factory.AttributeFactory(
+        'value',
+        'tuple[types.McnpInteger]',
+        'Fill cell option value or value(s) tuple.',
+        '0 <= entry <= 99_999_999',
+    ),
+)
+
+_CellElptFactory = _factory.CellOptionFactory(
+    'elpt',
+    False,
+    True,
+    _factory.AttributeFactory('cutoff', 'types.McnpReal', 'Cell energy cutoff.', ''),
+)
+
+_CellCosyFactory = _factory.CellOptionFactory(
+    'cosy',
+    False,
+    False,
+    _factory.AttributeFactory(
+        'number', 'types.McnpInteger', 'Cell cosy map number.', 'number in {1, 2, 3, 4, 5, 6}'
+    ),
+)
+
+_CellBflclFactory = _factory.CellOptionFactory(
+    'bflcl',
+    False,
+    False,
+    _factory.AttributeFactory(
+        'number', 'types.McnpInteger', 'Cell magnetic field number.', 'number >= 0'
+    ),
+)
+
+_CellUncFactory = _factory.CellOptionFactory(
+    'unc',
+    False,
+    True,
+    _factory.AttributeFactory(
+        'setting',
+        'types.McnpInteger',
+        'Cell uncollided secondaries setting.',
+        'setting in {0, 1}',
+    ),
+)
+
+CellImp = None
+CellVol = None
+CellPwt = None
+CellExt = None
+CellFcl = None
+CellWwn = None
+CellDxc = None
+CellNonu = None
+CellPd = None
+CellTmp = None
+CellU = None
+CellTrcl = None
+CellLat = None
+CellFill = None
+CellElpt = None
+CellCosy = None
+CellBflcl = None
+CellUnc = None
+
+exec(_CellImpFactory.build())
+exec(_CellVolFactory.build())
+exec(_CellPwtFactory.build())
+exec(_CellExtFactory.build())
+exec(_CellFclFactory.build())
+exec(_CellWwnFactory.build())
+exec(_CellDxcFactory.build())
+exec(_CellNonuFactory.build())
+exec(_CellPdFactory.build())
+exec(_CellTmpFactory.build())
+exec(_CellUFactory.build())
+exec(_CellTrclFactory.build())
+exec(_CellLatFactory.build())
+exec(_CellFillFactory.build())
+exec(_CellElptFactory.build())
+exec(_CellCosyFactory.build())
+exec(_CellBflclFactory.build())
+exec(_CellUncFactory.build())
 
 
 class Cell(_card.Card):
     """
     ``Cell`` represents INP cell cards.
 
-    ``Cell`` implements INP cell cards as a Python class. Its attributes store
-    INP cell card input parameters, and its methods provide entry points and
-    endpoints for working with MCNP cells. It represents the INP cell card
-    syntax element, and it inherits from the ``Card`` super class.
+    ``Cell`` implements ``_card.Card``.
 
     Attributes:
         number: Cell card number.
@@ -1386,14 +482,10 @@ class Cell(_card.Card):
         material: types.McnpInteger,
         density: types.McnpReal,
         geometry: CellGeometry,
-        options: tuple[CellOption],
+        options: dict[str, CellOption],
     ):
         """
-        ``__init__`` initializes ``Cell``.
-
-        ``__init__`` checks given arguments before assigning the given
-        value to their cooresponding attributes. If given an unrecognized
-        argument, it raises semantic errors.
+        Initializes ``Cell``.
 
         Parameters:
             number: Cell card number.
@@ -1411,8 +503,6 @@ class Cell(_card.Card):
             MCNPSemanticError: INVALID_CELL_OPTION.
         """
 
-        super().__init__(number.value)
-
         if number is None or not (1 <= number <= 99_999_999):
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_NUMBER)
 
@@ -1429,7 +519,7 @@ class Cell(_card.Card):
         if options is None:
             raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION)
 
-        for option in options:
+        for option in options.items():
             if option is None:
                 raise errors.MCNPSemanticError(errors.MCNPSemanticCodes.INVALID_CELL_OPTION)
 
@@ -1437,20 +527,18 @@ class Cell(_card.Card):
         self.material: Final[types.McnpInteger] = material
         self.density: Final[types.McnpInteger] = density if material != 0 else None
         self.geometry: Final[CellGeometry] = geometry
-        self.options: Final[tuple[CellOption]] = options
+        self.options: Final[dict[str, CellOption]] = options
+        self.ident: Final[int] = number.value
 
     @staticmethod
-    def from_mcnp(source: str, line: int = None):
+    def from_mcnp(source: str):
         """
-        ``from_mcnp`` generates ``Cell`` objects from INP.
+        Generates ``Cell`` objects from INP.
 
-        ``from_mcnp`` constructs instances of ``Cell`` from INP source strings,
-        so it operates as a class constructor method and INP parser helper
-        function.
+        ``from_mcnp`` translate from INP to PyMCNP; it parses INP.
 
         Parameters:
-            source: INP for cell.
-            line: Line number.
+            source: INP for ``Cell``.
 
         Returns:
             ``Cell`` object.
@@ -1482,71 +570,78 @@ class Cell(_card.Card):
             except Exception:
                 geometry.append(tokens.popl())
                 pass
-
         geometry = CellGeometry(' '.join(geometry))
 
         # Processing Options
-        options = []
-        while tokens:
-            keyword = tokens.popl()
-            values = []
-            while tokens:
-                try:
-                    try_keyword = re.search(r'([*]?[A-Za-z]+)', tokens.peekl()).group()
-                    CellKeyword.from_mcnp(try_keyword)
-                    break
-                except Exception:
-                    values.append(tokens.popl())
-                    pass
-
-            option = CellOption.from_mcnp(f"{keyword}={' '.join(values)}")
-            options.append(option)
-
-        options = tuple(options)
+        options = {}
+        keywords = re.findall(
+            r'imp|vol|pwt|ext|fcl|wwn|dxc|nonu|pd|tmp|u|trcl|lat|fill|elpt|cosy|bflcl|unc',
+            ' '.join(tokens.deque),
+        )
+        values = re.split(
+            r'imp|vol|pwt|ext|fcl|wwn|dxc|nonu|pd|tmp|u|trcl|lat|fill|elpt|cosy|bflcl|unc',
+            ' '.join(tokens.deque),
+        )[1:]
+        for keyword, value in zip(keywords, values):
+            match keyword:
+                case 'imp':
+                    options['imp'] = CellImp.from_mcnp(f'{keyword}{value}')
+                case 'vol':
+                    options['vol'] = CellVol.from_mcnp(f'{keyword}{value}')
+                case 'pwt':
+                    options['pwt'] = CellPwt.from_mcnp(f'{keyword}{value}')
+                case 'ext':
+                    options['ext'] = CellExt.from_mcnp(f'{keyword}{value}')
+                case 'fcl':
+                    options['fcl'] = CellFcl.from_mcnp(f'{keyword}{value}')
+                case 'wwn':
+                    options['wwn'] = CellWwn.from_mcnp(f'{keyword}{value}')
+                case 'dxc':
+                    options['dxc'] = CellDxc.from_mcnp(f'{keyword}{value}')
+                case 'nonu':
+                    options['nonu'] = CellNonu.from_mcnp(f'{keyword}{value}')
+                case 'pd':
+                    options['pd'] = CellPd.from_mcnp(f'{keyword}{value}')
+                case 'tmp':
+                    options['tmp'] = CellTmp.from_mcnp(f'{keyword}{value}')
+                case 'u':
+                    options['u'] = CellU.from_mcnp(f'{keyword}{value}')
+                case 'trcl':
+                    options['trcl'] = CellTrcl.from_mcnp(f'{keyword}{value}')
+                case 'lat':
+                    options['lat'] = CellLat.from_mcnp(f'{keyword}{value}')
+                case 'fill':
+                    options['fill'] = CellFill.from_mcnp(f'{keyword}{value}')
+                case 'elpt':
+                    options['elpt'] = CellElpt.from_mcnp(f'{keyword}{value}')
+                case 'cosy':
+                    options['cosy'] = CellCosy.from_mcnp(f'{keyword}{value}')
+                case 'bflcl':
+                    options['bflcl'] = CellBflcl.from_mcnp(f'{keyword}{value}')
+                case 'unc':
+                    options['unc'] = CellUnc.from_mcnp(f'{keyword}{value}')
 
         cell = Cell(number, material, density, geometry, options)
-        cell.line = line
         cell.comment = comments
 
         return cell
 
     def to_mcnp(self) -> str:
         """
-        ``to_mcnp`` generates INP from ``Cell`` objects.
+        Generates INP from ``Cell`` objects.
 
-        ``to_mcnp`` creates INP source string from ``Cell`` objects,
-        so it provides an MCNP endpoint.
+        ``to_mcnp`` translates from INP to PyMCNP.
 
         Returns:
-            INP string for ``Cell`` object.
+            INP for ``Cell`` object.
         """
 
         number_str = self.number.to_mcnp()
         material_str = self.material.to_mcnp()
         density_str = self.density.to_mcnp() if self.density is not None else ' '
         geometry_str = self.geometry.to_mcnp()
-        options_str = ' '.join([option.to_mcnp() for option in self.options])
+        options_str = ' '.join([option.to_mcnp() for option in self.options.values()])
 
         return _parser.Postprocessor.add_continuation_lines(
             f'{number_str} {material_str} {density_str} {geometry_str} {options_str}'
         )
-
-    def to_arguments(self) -> dict:
-        """
-        ``to_arguments`` makes dictionaries from ``Cell`` objects.
-
-        ``to_arguments`` creates Python dictionaries from ``Cell`` objects, so
-        it provides an MCNP endpoint. The dictionary keys follow the MCNP
-        manual.
-
-        Returns:
-            Dictionary for ``Cell`` object.
-        """
-
-        return {
-            'j': self.number.to_mcnp(),
-            'm': self.material.to_mcnp(),
-            'd': self.density.to_mcnp() if self.density is not None else None,
-            'geom': self.geometry.to_mcnp(),
-            'params': [option.to_arguments() for option in self.options],
-        }

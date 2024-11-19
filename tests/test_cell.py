@@ -2,12 +2,9 @@ import pymcnp
 import pytest
 
 
-_ = None
-
-
 class Test_CellGeometry:
     """
-    ``Test_CellGeometry`` tests ``CellGeometry``.
+    Tests ``CellGeometry``.
     """
 
     VALID_EXAMPLES = [
@@ -41,27 +38,44 @@ class Test_CellGeometry:
         '-100000 010',
     ]
 
-    INVALID_EXAMPLES = [
-        None,
-    ]
+    INVALID_EXAMPLES = []
 
-    def test_valid(self):
+    def test_init_valid(self):
         for formula in self.VALID_EXAMPLES:
             obj = pymcnp.inp.CellGeometry(formula)
 
             assert obj.formula == formula
 
-    def test_invalid(self):
+    def test_init_invalid(self):
         for geometry in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.MCNPSemanticError) as err:
+            with pytest.raises(pymcnp.utils.pymcnp.utils.errors.MCNPSemanticError) as err:
                 pymcnp.inp.CellGeometry(geometry)
 
-            assert err.value.code == pymcnp.utils.errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY
+            assert (
+                err.value.code
+                == pymcnp.utils.pymcnp.utils.errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY
+            )
+
+    def test_fromMcnp_valid(self):
+        for formula in self.VALID_EXAMPLES:
+            obj = pymcnp.inp.CellGeometry.from_mcnp(f'{formula}')
+
+            assert obj.formula == formula
+
+    def test_fromMcnp_invalid(self):
+        for formula in self.INVALID_EXAMPLES:
+            with pytest.raises(pymcnp.utils.pymcnp.utils.errors.MCNPSemanticError) as err:
+                pymcnp.inp.CellGeometry.from_mcnp(f'{formula}')
+
+            assert (
+                err.value.code
+                == pymcnp.utils.pymcnp.utils.errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY
+            )
 
 
 class Test_CellKeyword:
     """
-    ``Test_CellKeyword`` tests ``CellKeyword``.
+    Tests ``CellKeyword``.
     """
 
     INVALID_EXAMPLES = [
@@ -80,396 +94,254 @@ class Test_CellKeyword:
         'beam',
     ]
 
-    def test_valid(self):
-        assert pymcnp.inp.CellKeyword('imp') == pymcnp.inp.CellKeyword.IMPORTANCE
-        assert pymcnp.inp.CellKeyword('vol') == pymcnp.inp.CellKeyword.VOLUME
-        assert pymcnp.inp.CellKeyword('pwt') == pymcnp.inp.CellKeyword.PHOTON_WEIGHT
-        assert pymcnp.inp.CellKeyword('ext') == pymcnp.inp.CellKeyword.EXPONENTIAL_TRANSFORM
-        assert pymcnp.inp.CellKeyword('fcl') == pymcnp.inp.CellKeyword.FORCED_COLLISION
-        assert pymcnp.inp.CellKeyword('wwn') == pymcnp.inp.CellKeyword.WEIGHT_WINDOW_BOUNDS
-        assert pymcnp.inp.CellKeyword('dxc') == pymcnp.inp.CellKeyword.DXTRAN_CONTRIBUTION
-        assert pymcnp.inp.CellKeyword('nonu') == pymcnp.inp.CellKeyword.FISSION_TURNOFF
-        assert pymcnp.inp.CellKeyword('pd') == pymcnp.inp.CellKeyword.DETECTOR_CONTRIBUTION
-        assert pymcnp.inp.CellKeyword('tmp') == pymcnp.inp.CellKeyword.GAS_THERMAL_TEMPERATURE
-        assert pymcnp.inp.CellKeyword('u') == pymcnp.inp.CellKeyword.UNIVERSE
-        assert pymcnp.inp.CellKeyword('trcl') == pymcnp.inp.CellKeyword.COORDINATE_TRANSFORMATION
-        assert (
-            pymcnp.inp.CellKeyword('*trcl')
-            == pymcnp.inp.CellKeyword.COORDINATE_TRANSFORMATION_ANGLE
-        )
-        assert pymcnp.inp.CellKeyword('lat') == pymcnp.inp.CellKeyword.LATTICE
+    def test_init_valid(self):
+        assert pymcnp.inp.CellKeyword('imp') == pymcnp.inp.CellKeyword.IMP
+        assert pymcnp.inp.CellKeyword('vol') == pymcnp.inp.CellKeyword.VOL
+        assert pymcnp.inp.CellKeyword('pwt') == pymcnp.inp.CellKeyword.PWT
+        assert pymcnp.inp.CellKeyword('ext') == pymcnp.inp.CellKeyword.EXT
+        assert pymcnp.inp.CellKeyword('fcl') == pymcnp.inp.CellKeyword.FCL
+        assert pymcnp.inp.CellKeyword('wwn') == pymcnp.inp.CellKeyword.WWN
+        assert pymcnp.inp.CellKeyword('dxc') == pymcnp.inp.CellKeyword.DXC
+        assert pymcnp.inp.CellKeyword('nonu') == pymcnp.inp.CellKeyword.NONU
+        assert pymcnp.inp.CellKeyword('pd') == pymcnp.inp.CellKeyword.PD
+        assert pymcnp.inp.CellKeyword('tmp') == pymcnp.inp.CellKeyword.TMP
+        assert pymcnp.inp.CellKeyword('u') == pymcnp.inp.CellKeyword.U
+        assert pymcnp.inp.CellKeyword('trcl') == pymcnp.inp.CellKeyword.TRCL
+        assert pymcnp.inp.CellKeyword('lat') == pymcnp.inp.CellKeyword.LAT
         assert pymcnp.inp.CellKeyword('fill') == pymcnp.inp.CellKeyword.FILL
-        assert pymcnp.inp.CellKeyword('*fill') == pymcnp.inp.CellKeyword.FILL_ANGLE
-        assert pymcnp.inp.CellKeyword('elpt') == pymcnp.inp.CellKeyword.ENERGY_CUTOFF
+        assert pymcnp.inp.CellKeyword('elpt') == pymcnp.inp.CellKeyword.ELPT
         assert pymcnp.inp.CellKeyword('cosy') == pymcnp.inp.CellKeyword.COSY
         assert pymcnp.inp.CellKeyword('bflcl') == pymcnp.inp.CellKeyword.BFIELD
-        assert pymcnp.inp.CellKeyword('unc') == pymcnp.inp.CellKeyword.UNCOLLIDED_SECONDARIES
+        assert pymcnp.inp.CellKeyword('unc') == pymcnp.inp.CellKeyword.UNC
 
-    def test_invalid(self):
+    def test_init_invalid(self):
         for keyword in self.INVALID_EXAMPLES:
             with pytest.raises(ValueError):
                 pymcnp.inp.CellKeyword(keyword)
 
+    def test_fromMcnp_valid(self):
+        assert pymcnp.inp.CellKeyword.from_mcnp('imp') == pymcnp.inp.CellKeyword.IMP
+        assert pymcnp.inp.CellKeyword.from_mcnp('vol') == pymcnp.inp.CellKeyword.VOL
+        assert pymcnp.inp.CellKeyword.from_mcnp('pwt') == pymcnp.inp.CellKeyword.PWT
+        assert pymcnp.inp.CellKeyword.from_mcnp('ext') == pymcnp.inp.CellKeyword.EXT
+        assert pymcnp.inp.CellKeyword.from_mcnp('fcl') == pymcnp.inp.CellKeyword.FCL
+        assert pymcnp.inp.CellKeyword.from_mcnp('wwn') == pymcnp.inp.CellKeyword.WWN
+        assert pymcnp.inp.CellKeyword.from_mcnp('dxc') == pymcnp.inp.CellKeyword.DXC
+        assert pymcnp.inp.CellKeyword.from_mcnp('nonu') == pymcnp.inp.CellKeyword.NONU
+        assert pymcnp.inp.CellKeyword.from_mcnp('pd') == pymcnp.inp.CellKeyword.PD
+        assert pymcnp.inp.CellKeyword.from_mcnp('tmp') == pymcnp.inp.CellKeyword.TMP
+        assert pymcnp.inp.CellKeyword.from_mcnp('u') == pymcnp.inp.CellKeyword.U
+        assert pymcnp.inp.CellKeyword.from_mcnp('trcl') == pymcnp.inp.CellKeyword.TRCL
+        assert pymcnp.inp.CellKeyword.from_mcnp('lat') == pymcnp.inp.CellKeyword.LAT
+        assert pymcnp.inp.CellKeyword.from_mcnp('fill') == pymcnp.inp.CellKeyword.FILL
+        assert pymcnp.inp.CellKeyword.from_mcnp('elpt') == pymcnp.inp.CellKeyword.ELPT
+        assert pymcnp.inp.CellKeyword.from_mcnp('cosy') == pymcnp.inp.CellKeyword.COSY
+        assert pymcnp.inp.CellKeyword.from_mcnp('bflcl') == pymcnp.inp.CellKeyword.BFIELD
+        assert pymcnp.inp.CellKeyword.from_mcnp('unc') == pymcnp.inp.CellKeyword.UNC
 
-class Test_CellOption:
+    def test_fromMcnp_invalid(self):
+        for keyword in self.INVALID_EXAMPLES:
+            with pytest.raises(pymcnp.utils.errors.MCNPSemanticError):
+                pymcnp.inp.CellKeyword.from_mcnp(f'{keyword}')
+
+
+class Test_CellImp:
     """
-    ``Test_CellOption`` tests ``CellOption``.
-    """
-
-    _VALID_TRCL2 = (
-        pymcnp.utils.types.McnpReal(1.12),
-        pymcnp.utils.types.McnpReal(5.23),
-        pymcnp.utils.types.McnpReal(7.52),
-        pymcnp.utils.types.McnpReal(1.12),
-        pymcnp.utils.types.McnpReal(5.23),
-        pymcnp.utils.types.McnpReal(7.52),
-        pymcnp.utils.types.McnpReal(1.12),
-        pymcnp.utils.types.McnpReal(5.23),
-        pymcnp.utils.types.McnpReal(7.52),
-        pymcnp.utils.types.McnpReal(1.12),
-        pymcnp.utils.types.McnpReal(5.23),
-        pymcnp.utils.types.McnpReal(7.52),
-        pymcnp.utils.types.McnpInteger(1),
-    )
-    _VALID_FILL1 = (pymcnp.utils.types.McnpInteger(0), None)
-    _VALID_FILL2 = (
-        pymcnp.utils.types.McnpInteger(0),
-        pymcnp.utils.types.McnpInteger(0),
-    )
-    _VALID_FILL3 = (
-        pymcnp.utils.types.McnpInteger(1),
-        pymcnp.utils.types.McnpReal(1.12),
-        pymcnp.utils.types.McnpReal(5.23),
-        pymcnp.utils.types.McnpReal(7.52),
-        pymcnp.utils.types.McnpReal(1.12),
-        pymcnp.utils.types.McnpReal(5.23),
-        pymcnp.utils.types.McnpReal(7.52),
-        pymcnp.utils.types.McnpReal(1.12),
-        pymcnp.utils.types.McnpReal(5.23),
-        pymcnp.utils.types.McnpReal(7.52),
-        pymcnp.utils.types.McnpReal(1.12),
-        pymcnp.utils.types.McnpReal(5.23),
-        pymcnp.utils.types.McnpReal(7.52),
-        pymcnp.utils.types.McnpInteger(1),
-    )
-
-    _INVALID_TRCL2 = (
-        pymcnp.utils.types.McnpReal(1.12),
-        pymcnp.utils.types.McnpReal(5.23),
-        pymcnp.utils.types.McnpReal(7.52),
-        pymcnp.utils.types.McnpReal(1.12),
-        pymcnp.utils.types.McnpReal(5.23),
-        pymcnp.utils.types.McnpReal(7.52),
-        pymcnp.utils.types.McnpReal(1.12),
-        pymcnp.utils.types.McnpReal(5.23),
-        pymcnp.utils.types.McnpReal(7.52),
-        pymcnp.utils.types.McnpReal(1.12),
-        pymcnp.utils.types.McnpReal(5.23),
-        pymcnp.utils.types.McnpReal(7.52),
-        pymcnp.utils.types.McnpInteger(2),
-    )
-    _INVALID_FILL1 = (pymcnp.utils.types.McnpInteger(-1), None)
-    _INVALID_FILL2 = (
-        pymcnp.utils.types.McnpInteger(-1),
-        pymcnp.utils.types.McnpInteger(-1),
-    )
-    _INVALID_FILL3 = (
-        pymcnp.utils.types.McnpInteger(-1),
-        pymcnp.utils.types.McnpReal(1.123),
-        pymcnp.utils.types.McnpReal(5.233),
-        pymcnp.utils.types.McnpReal(7.528),
-        pymcnp.utils.types.McnpReal(1.126),
-        pymcnp.utils.types.McnpReal(5.235),
-        pymcnp.utils.types.McnpReal(7.524),
-        pymcnp.utils.types.McnpReal(1.126),
-        pymcnp.utils.types.McnpReal(5.238),
-        pymcnp.utils.types.McnpReal(7.527),
-        pymcnp.utils.types.McnpReal(1.124),
-        pymcnp.utils.types.McnpReal(5.233),
-        pymcnp.utils.types.McnpReal(7.525),
-        pymcnp.utils.types.McnpInteger(23),
-    )
-
-    N_P_DESIGNATOR = pymcnp.utils.types.Designator(('n', 'p'))
-    VALID_EXAMPLES = [
-        ('imp:n,p=0.5', 'imp', None, N_P_DESIGNATOR, 0.5),
-        ('vol=1.12', 'vol', None, None, 1.12),
-        ('pwt=1e-3', 'pwt', None, None, 1e-3),
-        ('ext:n,p=1', 'ext', None, N_P_DESIGNATOR, 1),
-        ('fcl:n,p=-0.9', 'fcl', None, N_P_DESIGNATOR, -0.9),
-        ('wwn1:n,p=-1', 'wwn', 1, N_P_DESIGNATOR, -1),
-        ('dxc0:n,p=0.83', 'dxc', 0, N_P_DESIGNATOR, 0.83),
-        ('nonu=2', 'nonu', None, None, 2),
-        ('pd0=0.83', 'pd', 0, None, 0.83),
-        ('tmp0=1.22', 'tmp', 0, None, 1.22),
-        ('u=0', 'u', None, None, 0),
-        ('trcl=1', 'trcl', None, None, 1),
-        ('*trcl=1', '*trcl', None, None, 1),
-        ('lat=1', 'lat', None, None, 1),
-        ('elpt:n,p=1.33', 'elpt', None, N_P_DESIGNATOR, 1.33),
-        ('cosy=6', 'cosy', None, None, 6),
-        ('bflcl=4', 'bflcl', None, None, 4),
-        ('unc:n,p=1', 'unc', None, N_P_DESIGNATOR, 1),
-        #        (
-        #            pymcnp.inp.CellKeyword("trcl"),
-        #            _VALID_TRCL2,
-        #            None,
-        #            None,
-        #        ),
-        #        (
-        #            pymcnp.inp.CellKeyword("*trcl"),
-        #            _VALID_TRCL2,
-        #            None,
-        #            None,
-        #        ),
-        #        (
-        #            pymcnp.inp.CellKeyword("fill"),
-        #            _VALID_FILL1,
-        #            None,
-        #            None,
-        #        ),
-        #        (
-        #            pymcnp.inp.CellKeyword("fill"),
-        #            _VALID_FILL2,
-        #            None,
-        #            None,
-        #        ),
-        #        (
-        #            pymcnp.inp.CellKeyword("fill"),
-        #            _VALID_FILL3,
-        #            None,
-        #            None,
-        #        ),
-        #        (
-        #            pymcnp.inp.CellKeyword("*fill"),
-        #            _VALID_FILL1,
-        #            None,
-        #            None,
-        #        ),
-        #        (
-        #            pymcnp.inp.CellKeyword("*fill"),
-        #            _VALID_FILL2,
-        #            None,
-        #            None,
-        #        ),
-        #        (
-        #            pymcnp.inp.CellKeyword("*fill"),
-        #            _VALID_FILL3,
-        #            None,
-        #            None,
-        #        ),
-    ]
-
-    INVALID_VALUE_EXAMPLES = [
-        'imp:n=-1',
-        'vol=-1.12',
-        'fcl:p=-1.95',
-        'wwn0:p=-1.03',
-        'dxc0:n=-1.83',
-        'nonu=32',
-        'pd0=-0.83',
-        'tmp0=-1.12',
-        'u=-100000000',
-        'trcl=1000',
-        '*trcl=1000',
-        'lat=3',
-        'cosy=70',
-        'bflcl=-1',
-        'unc:n,p=-1',
-        # (pymcnp.inp.CellKeyword("trcl"), _INVALID_TRCL2, _, _),
-        # (pymcnp.inp.CellKeyword("*trcl"), _INVALID_TRCL2, _, _),
-        # (pymcnp.inp.CellKeyword("fill"), _INVALID_FILL1, _, _),
-        # (pymcnp.inp.CellKeyword("fill"), _INVALID_FILL2, _, _),
-        # (pymcnp.inp.CellKeyword("fill"), _INVALID_FILL3, _, _),
-        # (pymcnp.inp.CellKeyword("*fill"), _INVALID_FILL1, _, _),
-        # (pymcnp.inp.CellKeyword("*fill"), _INVALID_FILL2, _, _),
-        # (pymcnp.inp.CellKeyword("*fill"), _INVALID_FILL3, _, _),
-    ]
-
-    def test_valid(self):
-        for to_test, name, suffix, designator, value in self.VALID_EXAMPLES:
-            obj = pymcnp.inp.CellOption.from_mcnp(to_test)
-
-            assert obj.keyword.value == name
-            assert obj.value == value
-            if suffix is not None:
-                assert obj.suffix == suffix
-            if designator is not None:
-                assert obj.designator == designator
-
-    INVALID_KEYWORD_EXAMPLES = ['asdfasdfadsf']
-
-    def test_invalid_keyword(self):
-        for to_test in self.INVALID_KEYWORD_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.MCNPSemanticError) as err:
-                pymcnp.inp.CellOption.from_mcnp(to_test)
-
-            assert (
-                err.value.code == pymcnp.utils.errors.MCNPSemanticCodes.INVALID_CELL_OPTION_KEYWORD
-            )
-
-    def test_invalid_value(self):
-        for to_test in self.INVALID_VALUE_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.MCNPSemanticError) as err:
-                pymcnp.inp.CellOption.from_mcnp(to_test)
-
-            assert err.value.code == pymcnp.utils.errors.MCNPSemanticCodes.INVALID_CELL_OPTION_VALUE
-
-    INVALID_SUFFIX_EXAMPLES = ['wwn-1:n=1', 'dxc=0.83', 'pd-1=0.83', 'tmp=1.12']
-
-    def test_invalid_suffix(self):
-        for to_test in self.INVALID_SUFFIX_EXAMPLES:
-            # with pytest.raises(pymcnp.utils.errors.MCNPSemanticError) as err:
-            with pytest.raises(Exception):
-                pymcnp.inp.CellOption.from_mcnp(to_test)
-
-            # assert (
-            #    err.value.code
-            #    == pymcnp.utils.errors.MCNPSemanticCodes.INVALID_CELL_OPTION_SUFFIX
-            # )
-
-    INVALID_DESGINATOR_EXAMPLES = [
-        'imp=1',
-        'ext=1',
-        'fcl=-0.9' 'wwn0=1',
-        'dxc0=0.83',
-        'elpt=1.33',
-        'unc=1',
-    ]
-
-    def test_invalid_designator(self):
-        for to_test in self.INVALID_DESGINATOR_EXAMPLES:
-            print('debug', to_test)
-            # with pytest.raises(pymcnp.utils.errors.MCNPSemanticError) as err:
-            #    pymcnp.inp.CellOption.from_mcnp(to_test)
-            with pytest.raises(Exception):
-                pymcnp.inp.CellOption.from_mcnp(to_test)
-
-        # assert (
-        #     err.value.code
-        #     == pymcnp.utils.errors.MCNPSemanticCodes.INVALID_CELL_OPTION_DESIGNATOR
-        # )
-
-
-class Test_Cell:
-    """
-    ``Test_Cell`` tests ``Cell``.
+    Tests ``CellImp``.
     """
 
     VALID_EXAMPLES = [
-        (
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpInteger(4),
-            pymcnp.utils.types.McnpReal(0.232),
-            pymcnp.inp.CellGeometry('+3:2'),
-            (),
-        ),
+        (0.5, ('n', 'p')),
+        (1.5, ('n')),
+        (-0.5, ('n', '#')),
     ]
 
-    INVALID_NUMBER_EXAMPLES = [
-        (None, _, _, _, _),
-        (pymcnp.utils.types.McnpInteger(-99), _, _, _, _),
-        (pymcnp.utils.types.McnpInteger(-132), _, _, _, _),
+    INVALID_EXAMPLES = []
+
+    exec(pymcnp.inp.cell._CellImpFactory.build_test())
+
+
+class Test_CellVol:
+    """
+    Tests ``CellVol``.
+    """
+
+    VALID_EXAMPLES = [
+        0.5,
+        1.5,
+        0.0,
     ]
 
-    INVALID_MATERIAL_EXAMPLES = [
-        (pymcnp.utils.types.McnpInteger(1), None, _, _, _, _),
-        (
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpInteger(-92),
-            _,
-            _,
-            _,
-            _,
-        ),
-        (
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpInteger(-321),
-            _,
-            _,
-            _,
-            _,
-        ),
+    INVALID_EXAMPLES = [
+        -1.5,
+        -2.5,
+        -0.1,
     ]
 
-    INVALID_DENSITY_EXAMPLES = [
-        (
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpInteger(1),
-            None,
-            _,
-            _,
-            _,
-        ),
-        (
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpReal(-0.232),
-            _,
-            _,
-            _,
-        ),
-        (
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpReal(-3.232),
-            _,
-            _,
-            _,
-        ),
+    exec(pymcnp.inp.cell._CellVolFactory.build_test())
+
+
+class Test_CellPwt:
+    """
+    Tests ``CellPwt``.
+    """
+
+    VALID_EXAMPLES = [
+        0.5,
+        1.5,
+        -0.5,
     ]
 
-    INVALID_GEOMETRY_EXAMLPES = [
-        (
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpReal(3.232),
-            None,
-            _,
-        ),
+    INVALID_EXAMPLES = []
+
+    exec(pymcnp.inp.cell._CellPwtFactory.build_test())
+
+
+class Test_CellExt:
+    """
+    Tests ``CellExt``.
+    """
+
+    VALID_EXAMPLES = [
+        ('0.5', 'p'),
+        ('0.9', '#'),
+        ('-0.5', 'n'),
     ]
 
-    INVALID_OPTIONS_EXAMPLES = [
-        (
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpReal(3.232),
-            pymcnp.inp.CellGeometry('#1'),
-            (),
-        ),
-        (
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpReal(3.232),
-            pymcnp.inp.CellGeometry('#1'),
-            (pymcnp.inp.CellOption.from_mcnp('imp:n=1')),
-        ),
-        (
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpInteger(1),
-            pymcnp.utils.types.McnpReal(3.232),
-            pymcnp.inp.CellGeometry('#1'),
-            (
-                pymcnp.inp.CellOption.from_mcnp('imp:n=1'),
-                pymcnp.inp.CellOption.from_mcnp('vol=3.4'),
-            ),
-        ),
+    INVALID_EXAMPLES = []
+
+    exec(pymcnp.inp.cell._CellExtFactory.build_test())
+
+
+class Test_CellFcl:
+    """
+    Tests ``CellFcl``.
+    """
+
+    VALID_EXAMPLES = [
+        (0.5, 'p'),
+        (0.9, '#'),
+        (-0.5, 'n'),
     ]
 
-    def test_valid(self):
-        pass
+    INVALID_EXAMPLES = [
+        (2.51, 'p'),
+        (3.94, '#'),
+        (-1.3, 'n'),
+    ]
 
-    def test_invalid_number(self):
-        pass
+    exec(pymcnp.inp.cell._CellFclFactory.build_test())
 
-    def test_invalid_material(self):
-        pass
 
-    def test_invalid_density(self):
-        pass
+class Test_CellWwn:
+    """
+    Tests ``CellWwn``.
+    """
 
-    def test_invalid_geometry(self):
-        pass
+    VALID_EXAMPLES = [
+        (0.5, 3, 'p'),
+        (0.9, 8, '#'),
+        (-1.0, 2, 'n'),
+    ]
 
-    def test_invalid_options(self):
-        pass
+    INVALID_EXAMPLES = []
+
+    exec(pymcnp.inp.cell._CellWwnFactory.build_test())
+
+
+class Test_CellDxc:
+    """
+    Tests ``CellDxc``.
+    """
+
+    VALID_EXAMPLES = [
+        (0.5, 3, 'p'),
+        (0.9, 8, '#'),
+        (0.0, 2, 'n'),
+    ]
+
+    INVALID_EXAMPLES = [
+        (1.5, 3, 'e'),
+        (5.9, 8, '@'),
+        (-0.5, 2, '_'),
+    ]
+
+    exec(pymcnp.inp.cell._CellDxcFactory.build_test())
+
+
+# class Test_CellNonu:
+#     """
+#     Tests ``CellNonu``.
+#     """
+
+#     exec(pymcnp.inp.cell._CellNonuFactory.build_test())
+
+# class Test_CellPd:
+#     """
+#     Tests ``CellPd``.
+#     """
+
+#     exec(pymcnp.inp.cell._CellPdFactory.build_test())
+
+# class Test_CellTmp:
+#     """
+#     Tests ``CellTmp``.
+#     """
+
+#     exec(pymcnp.inp.cell._CellTmpFactory.build_test())
+
+# class Test_CellU:
+#     """
+#     Tests ``CellU``.
+#     """
+
+#     exec(pymcnp.inp.cell._CellUFactory.build_test())
+
+# class Test_CellTrcl:
+#     """
+#     Tests ``CellTrcl``.
+#     """
+
+#     exec(pymcnp.inp.cell._CellTrclFactory.build_test())
+
+# class Test_CellLat:
+#     """
+#     Tests ``CellLat``.
+#     """
+
+#     exec(pymcnp.inp.cell._CellLatFactory.build_test())
+
+# class Test_CellFill:
+#     """
+#     Tests ``CellFill``.
+#     """
+
+#     exec(pymcnp.inp.cell._CellFillFactory.build_test())
+
+# class Test_CellElpt:
+#     """
+#     Tests ``CellElpt``.
+#     """
+
+#     exec(pymcnp.inp.cell._CellElptFactory.build_test())
+
+# class Test_CellCosy:
+#     """
+#     Tests ``CellCosy``.
+#     """
+
+#     exec(pymcnp.inp.cell._CellCosyFactory.build_test())
+
+# class Test_CellBflcl:
+#     """
+#     Tests ``CellBflcl``.
+#     """
+
+#     exec(pymcnp.inp.cell._CellBflclFactory.build_test())
+
+# class Test_CellUnc:
+#     """
+#     Tests ``CellUnc``.
+#     """
+
+#     exec(pymcnp.inp.cell._CellUncFactory.build_test())

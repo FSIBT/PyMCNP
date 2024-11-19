@@ -19,6 +19,8 @@ class MCNPSyntaxCodes(Enum):
     means too many tokens, and ``TOOSHORT`` means too few tokens.
     """
 
+    KEYWORD = -1000
+
     KEYWORD_INP_MESSAGE = 0
     TOOFEW_INP = -1
     TOOLONG_INP = 1

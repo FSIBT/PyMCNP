@@ -44,8 +44,8 @@ class FilteredHistory(history.History):
                     case _:
                         filter_ = filters.filteredbank
 
-                if filter_(evnt):
-                    yield evnt
+                if not filter_(evnt):
+                    return
 
         return (
             FilteredHistory(

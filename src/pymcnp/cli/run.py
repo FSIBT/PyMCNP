@@ -16,7 +16,8 @@ import sys
 from docopt import docopt
 from rich import print
 
-from ..files.inp import Inp, read_input
+from ..files.inp import Inp
+from ..functions.read import read_input
 from . import _io
 
 

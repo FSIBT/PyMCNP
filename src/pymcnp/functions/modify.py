@@ -1,7 +1,3 @@
-"""
-Contains functions to streamline PyMCNP workflows.
-"""
-
 import inspect
 
 from .. import files
