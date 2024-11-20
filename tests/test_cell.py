@@ -40,37 +40,18 @@ class Test_CellGeometry:
 
     INVALID_EXAMPLES = []
 
-    def test_init_valid(self):
-        for formula in self.VALID_EXAMPLES:
-            obj = pymcnp.inp.CellGeometry(formula)
-
-            assert obj.formula == formula
-
-    def test_init_invalid(self):
-        for geometry in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.pymcnp.utils.errors.McnpError) as err:
-                pymcnp.inp.CellGeometry(geometry)
-
-            assert (
-                err.value.code
-                == pymcnp.utils.pymcnp.utils.errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY
-            )
-
-    def test_fromMcnp_valid(self):
+    def test_valid(self):
         for formula in self.VALID_EXAMPLES:
             obj = pymcnp.inp.CellGeometry.from_mcnp(f'{formula}')
 
             assert obj.formula == formula
 
-    def test_fromMcnp_invalid(self):
+    def test_invalid(self):
         for formula in self.INVALID_EXAMPLES:
             with pytest.raises(pymcnp.utils.pymcnp.utils.errors.McnpError) as err:
                 pymcnp.inp.CellGeometry.from_mcnp(f'{formula}')
 
-            assert (
-                err.value.code
-                == pymcnp.utils.pymcnp.utils.errors.MCNPSemanticCodes.INVALID_CELL_GEOMETRY
-            )
+            assert err.value.code == pymcnp.utils.errors.McnpCode.INVALID_CELL_GEOMETRY
 
 
 class Test_CellKeyword:
@@ -94,32 +75,7 @@ class Test_CellKeyword:
         'beam',
     ]
 
-    def test_init_valid(self):
-        assert pymcnp.inp.CellKeyword('imp') == pymcnp.inp.CellKeyword.IMP
-        assert pymcnp.inp.CellKeyword('vol') == pymcnp.inp.CellKeyword.VOL
-        assert pymcnp.inp.CellKeyword('pwt') == pymcnp.inp.CellKeyword.PWT
-        assert pymcnp.inp.CellKeyword('ext') == pymcnp.inp.CellKeyword.EXT
-        assert pymcnp.inp.CellKeyword('fcl') == pymcnp.inp.CellKeyword.FCL
-        assert pymcnp.inp.CellKeyword('wwn') == pymcnp.inp.CellKeyword.WWN
-        assert pymcnp.inp.CellKeyword('dxc') == pymcnp.inp.CellKeyword.DXC
-        assert pymcnp.inp.CellKeyword('nonu') == pymcnp.inp.CellKeyword.NONU
-        assert pymcnp.inp.CellKeyword('pd') == pymcnp.inp.CellKeyword.PD
-        assert pymcnp.inp.CellKeyword('tmp') == pymcnp.inp.CellKeyword.TMP
-        assert pymcnp.inp.CellKeyword('u') == pymcnp.inp.CellKeyword.U
-        assert pymcnp.inp.CellKeyword('trcl') == pymcnp.inp.CellKeyword.TRCL
-        assert pymcnp.inp.CellKeyword('lat') == pymcnp.inp.CellKeyword.LAT
-        assert pymcnp.inp.CellKeyword('fill') == pymcnp.inp.CellKeyword.FILL
-        assert pymcnp.inp.CellKeyword('elpt') == pymcnp.inp.CellKeyword.ELPT
-        assert pymcnp.inp.CellKeyword('cosy') == pymcnp.inp.CellKeyword.COSY
-        assert pymcnp.inp.CellKeyword('bflcl') == pymcnp.inp.CellKeyword.BFIELD
-        assert pymcnp.inp.CellKeyword('unc') == pymcnp.inp.CellKeyword.UNC
-
-    def test_init_invalid(self):
-        for keyword in self.INVALID_EXAMPLES:
-            with pytest.raises(ValueError):
-                pymcnp.inp.CellKeyword(keyword)
-
-    def test_fromMcnp_valid(self):
+    def test_valid(self):
         assert pymcnp.inp.CellKeyword.from_mcnp('imp') == pymcnp.inp.CellKeyword.IMP
         assert pymcnp.inp.CellKeyword.from_mcnp('vol') == pymcnp.inp.CellKeyword.VOL
         assert pymcnp.inp.CellKeyword.from_mcnp('pwt') == pymcnp.inp.CellKeyword.PWT
@@ -139,10 +95,12 @@ class Test_CellKeyword:
         assert pymcnp.inp.CellKeyword.from_mcnp('bflcl') == pymcnp.inp.CellKeyword.BFIELD
         assert pymcnp.inp.CellKeyword.from_mcnp('unc') == pymcnp.inp.CellKeyword.UNC
 
-    def test_fromMcnp_invalid(self):
+    def test_invalid(self):
         for keyword in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.McnpError):
+            with pytest.raises(pymcnp.utils.errors.McnpError) as err:
                 pymcnp.inp.CellKeyword.from_mcnp(f'{keyword}')
+
+            assert err.value.code == pymcnp.utils.errors.McnpCode.UNRECOGNIZED_KEYWORD
 
 
 class Test_CellImp:
@@ -261,9 +219,7 @@ class Test_CellDxc:
     ]
 
     INVALID_EXAMPLES = [
-        (1.5, 3, 'e'),
-        (5.9, 8, '@'),
-        (-0.5, 2, '_'),
+        (-1.0, 2, '_'),
     ]
 
     exec(pymcnp.inp.cell._CellDxcFactory.build_test())

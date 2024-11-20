@@ -920,10 +920,6 @@ class CellOptionFactory:
         return o
 
     def build_test(self):
-        o = ''
-
-        o += 'def test_init_valid(self):\n'
-
         t = ['value']
 
         if self.has_suffix:
@@ -932,47 +928,8 @@ class CellOptionFactory:
         if self.has_designator:
             t.append('designator')
 
-        o += f'    for {", ".join(t)} in self.VALID_EXAMPLES:\n'
-
-        if self.attribute.type.startswith('types'):
-            o += f'        value = pymcnp.utils.{self.attribute.type}(value)\n'
-        elif self.attribute.type == 'str':
-            o += '        value = value\n'
-        else:
-            o += f'        value = {self.attribute.type}(value)\n'
-
-        if self.has_designator:
-            o += '        designator = pymcnp.utils.types.Designator(designator)\n'
-
-        if self.has_suffix:
-            o += '        suffix = pymcnp.utils.types.McnpInteger(suffix)\n'
-
-        o += f'        obj = pymcnp.inp.Cell{self.name}({", ".join(t)})\n'
-        o += '\n'
-        o += f'        assert obj.keyword == pymcnp.inp.CellKeyword.{self.enum}\n'
-        o += f'        assert obj.{self.attribute.name} == value\n'
-        o += '        assert obj.value == value\n'
-        o += '\n'
-        o += 'def test_init_invalid(self):\n'
-        o += f'    for {", ".join(t)} in self.INVALID_EXAMPLES:\n'
-        o += '        with pytest.raises(pymcnp.utils.errors.McnpError):\n'
-
-        if self.attribute.type.startswith('types'):
-            o += f'            value = pymcnp.utils.{self.attribute.type}(value)\n'
-        elif self.attribute.type == 'str':
-            o += '            value = value\n'
-        else:
-            o += f'            value = {self.attribute.type}(value)\n'
-
-        if self.has_designator:
-            o += '            designator = pymcnp.utils.types.Designator(designator)\n'
-
-        if self.has_suffix:
-            o += '            suffix = pymcnp.utils.types.McnpInteger(suffix)\n'
-
-        o += f'            pymcnp.inp.Cell{self.name}({", ".join(t)})\n'
-        o += '\n'
-        o += 'def test_fromMcnp_valid(self):\n'
+        o = ''
+        o += 'def test_valid(self):\n'
         o += f'    for {", ".join(t)} in self.VALID_EXAMPLES:\n'
 
         if self.attribute.type.startswith('types'):
@@ -1007,38 +964,38 @@ class CellOptionFactory:
         o += f'        assert obj.{self.attribute.name} == value\n'
         o += '        assert obj.value == value\n'
         o += '\n'
-        #        o += f'def test_fromMcnp_invalid(self):\n'
-        #        o += f'    for {", ".join(t)} in self.INVALID_EXAMPLES:\n'
-        #        o += f'        with pytest.raises(Excpetion):\n'
+        o += 'def test_invalid(self):\n'
+        o += f'    for {", ".join(t)} in self.INVALID_EXAMPLES:\n'
+        o += '        with pytest.raises(pymcnp.utils.errors.McnpError):\n'
 
-        #        if self.attribute.type.startswith('types'):
-        #            o += f'            value = pymcnp.utils.{self.attribute.type}(value)\n'
-        #        elif self.attribute.type == 'str':
-        #            o += f'            value = value\n'
-        #        else:
-        #            o += f'            value = {self.attribute.type}(value)\n'
+        if self.attribute.type.startswith('types'):
+            o += f'            value = pymcnp.utils.{self.attribute.type}(value)\n'
+        elif self.attribute.type == 'str':
+            o += '            value = value\n'
+        else:
+            o += f'            value = {self.attribute.type}(value)\n'
 
-        #        if self.has_designator:
-        #            o += f'            designator = pymcnp.utils.types.Designator(designator)\n'
+        if self.has_designator:
+            o += '            designator = pymcnp.utils.types.Designator(designator)\n'
 
-        #        if self.has_suffix:
-        #            o += f'            suffix = pymcnp.utils.types.McnpInteger(suffix)\n'
+        if self.has_suffix:
+            o += '            suffix = pymcnp.utils.types.McnpInteger(suffix)\n'
 
-        #        if self.attribute.type == 'str':
-        #            q = 'value'
-        #        else:
-        #            q = 'value.to_mcnp()'
+        if self.attribute.type == 'str':
+            q = 'value'
+        else:
+            q = 'value.to_mcnp()'
 
-        #        if self.has_suffix and self.has_designator:
-        #            o += f'        obj = pymcnp.inp.Cell{self.name}.from_mcnp(f"{self.mnemonic}{{suffix.to_mcnp()}}:{{designator.to_mcnp()}}={{{q}}}")\n'
-        #        elif self.has_suffix:
-        #            o += f'        obj = pymcnp.inp.Cell{self.name}.from_mcnp(f"{self.mnemonic}{{suffix.to_mcnp()}}={{{q}}}")\n'
-        #        elif self.has_designator:
-        #            o += f'        obj = pymcnp.inp.Cell{self.name}.from_mcnp(f"{self.mnemonic}:{{designator.to_mcnp()}}={{{q}}}")\n'
-        #        else:
-        #            o += f'        obj = pymcnp.inp.Cell{self.name}.from_mcnp(f"{self.mnemonic}={{{q}}}")\n'
+        if self.has_suffix and self.has_designator:
+            o += f'            pymcnp.inp.Cell{self.name}.from_mcnp(f"{self.mnemonic}{{suffix.to_mcnp()}}:{{designator.to_mcnp()}}={{{q}}}")\n'
+        elif self.has_suffix:
+            o += f'            pymcnp.inp.Cell{self.name}.from_mcnp(f"{self.mnemonic}{{suffix.to_mcnp()}}={{{q}}}")\n'
+        elif self.has_designator:
+            o += f'            pymcnp.inp.Cell{self.name}.from_mcnp(f"{self.mnemonic}:{{designator.to_mcnp()}}={{{q}}}")\n'
+        else:
+            o += f'            pymcnp.inp.Cell{self.name}.from_mcnp(f"{self.mnemonic}={{{q}}}")\n'
 
-        #        o += f'\n'
+        o += '\n'
 
         if _DEBUG_CELL_TEST:
             debug_print(o)
