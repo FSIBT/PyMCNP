@@ -3,7 +3,7 @@ Contains classes representing INP data cards.
 """
 
 import re
-from typing import Final
+from typing import Final, Union  # noqa
 
 from . import _card
 from . import _factory
