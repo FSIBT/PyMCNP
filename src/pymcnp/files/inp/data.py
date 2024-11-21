@@ -1705,7 +1705,12 @@ _DataSdefFactory = _factory.DataFactory(
         ),
         _factory.DataOptionFactory(
             'tme',
-            _factory.AttributeFactory('time', 'types.McnpReal', 'Time in shakes', 'time >= 0'),
+            _factory.AttributeFactory(
+                'time',
+                'Union[types.McnpReal, types.EmbeddedDistributionNumber]',
+                'Time in shakes',
+                'time >= 0',
+            ),
         ),
         _factory.DataOptionFactory(
             'dir',

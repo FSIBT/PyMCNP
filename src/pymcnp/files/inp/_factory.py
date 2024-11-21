@@ -231,6 +231,33 @@ class DataFactory:
 
                 o += '\n'
 
+            elif attribute.type.startswith('Union'):
+                inside_types = attribute.type[len('Union[') : -1].split(', ')
+
+                a = True
+                for inside_type in inside_types:
+                    o += (
+                        f'        {'if' if a else 'elif'} isinstance(inside_type, {inside_type}):\n'
+                    )
+
+                    if inside_type.startswith('tuple'):
+                        inside_inside_type = inside_type[len('tuple[') : -1]
+
+                        if inside_inside_type == 'str':
+                            # Union[tuple[str], ...]
+                            o += f'            {attribute.name} = [tokens.popl() for _ in range(0, len(tokens))]\n'
+                        else:
+                            # Union[tuple[?], ...]
+                            o += f'            {attribute.name} = [{inside_inside_type}.popl() for _ in range(0, len(tokens))]\n'
+                    elif inside_type == 'str':
+                        # Union[str, ...]
+                        o += f'            {attribute.name} = tokens.popl()\n'
+                    else:
+                        # Union[?, ...]
+                        o += f'            {attribute.name} = {inside_type}.from_mcnp(tokens.popl())\n'
+
+                    a = False
+
             elif attribute.type.startswith('tuple'):
                 inside_type = attribute.type[len('tuple[') : -1]
 
@@ -256,7 +283,7 @@ class DataFactory:
                 entry_attributes = len(self.entries[index].attributes)
                 o += f'        {attribute.name} = {attribute.type}.from_mcnp(" ".join([tokens.popl() for _ in range(0, {entry_attributes})]))\n'
             else:
-                # object
+                # ?
                 o += f'        {attribute.name} = {attribute.type}.from_mcnp(tokens.popl())\n'
 
         o += '\n'
@@ -597,6 +624,31 @@ class DataOptionFactory:
 
         elif self.attribute.type == 'str':
             o += '        value = tokens.popl()\n'
+
+        elif self.attribute.type.startswith('Union'):
+            inside_types = self.attribute.type[len('Union[') : -1].split(', ')
+
+            a = True
+            for inside_type in inside_types:
+                o += f'        {'if' if a else 'elif'} isinstance(inside_type, {inside_type}):\n'
+
+                if inside_type.startswith('tuple'):
+                    inside_inside_type = inside_type[len('tuple[') : -1]
+
+                    if inside_inside_type == 'str':
+                        # Union[tuple[str], ...]
+                        o += f'            {self.attribute.name} = [tokens.popl() for _ in range(0, len(tokens))]\n'
+                    else:
+                        # Union[tuple[?], ...]
+                        o += f'            {self.attribute.name} = [{inside_inside_type}.popl() for _ in range(0, len(tokens))]\n'
+                elif inside_type == 'str':
+                    # Union[str, ...]
+                    o += f'            {self.attribute.name} = tokens.popl()\n'
+                else:
+                    # Union[?, ...]
+                    o += f'            {self.attribute.name} = {inside_type}.from_mcnp(tokens.popl())\n'
+
+                a = False
 
         else:
             o += f'        value = {self.attribute.type}.from_mcnp(tokens.popl())\n'

@@ -1,9 +1,5 @@
 """
-``types`` contains class representing basic MCNP types.
-
-``types`` packages the ``McnpInteger``, ``McnpReal``, ``Zaid``, and
-``Designator`` classes, providing an object-oriented, importable interface for
-MCNP types.
+Contains classes representing basic MCNP value types.
 """
 
 from __future__ import annotations
@@ -11,13 +7,16 @@ import re
 import enum
 from typing import Literal, Final
 
-from . import _parser
 from . import errors
+from . import _parser
+from . import _object
 
 
-class DistributionNumber:
+class DistributionNumber(_object.PyMcnpObject):
     """
-    ``DistributionNumber`` represents MCNP distribution numbers.
+    Represents MCNP distribution numbers.
+
+    ``DistributionNumber`` implements ``_object.PyMcnpObject``.
 
     Attributes:
         n: number.
@@ -25,7 +24,7 @@ class DistributionNumber:
 
     def __init__(self, n: int):
         """
-        ``__init__`` initializes ``DistributionNumber``.
+        Initializes ``DistributionNumber``.
 
         Parameters:
             n: number.
@@ -42,14 +41,12 @@ class DistributionNumber:
     @staticmethod
     def from_mcnp(source: str):
         """
-        ``from_mcnp`` generates ``DistributionNumber`` objects from INP.
+        Generates ``DistributionNumber`` objects from INP.
 
-        ``from_mcnp`` constructs instances of ``DistributionNumber`` from INP
-        source strings, so it operates as a class constructor method
-        and INP parser helper function.
+        ``from_mcnp`` translates from INP to PyMCNP; it parses INP.
 
         Parameters:
-            source: INP for distribution number.
+            source: INP for ``DistributionNumber``.
 
         Returns:
             ``DistributionNumber`` object.
@@ -66,10 +63,93 @@ class DistributionNumber:
 
         return DistributionNumber(int(match[1]))
 
+    def to_mcnp(self):
+        """
+        Generates INP from ``DistributionNumber`` objects.
 
-class Zaid:
+        ``to_mcnp`` translates from PyMCNP to INP.
+
+        Returns:
+            INP for ``DistributionNumber``.
+        """
+
+        return f'd{self.n}'
+
+
+class EmbeddedDistributionNumber(_object.PyMcnpObject):
     """
-    ``Zaid`` represents nuclide information numbers.
+    Represents MCNP embedded distribution numbers.
+
+    ``EmbeddedDistributionNumber`` implements ``_object.PyMcnpObject``.
+
+    Attributes:
+        numbers: Tuple of distribution numbers.
+    """
+
+    def __init__(self, numbers: tuple[DistributionNumber]):
+        """
+        Initializes ``EmbeddedDistributionNumber``.
+
+        Parameters:
+            numbers: Tuple of distribution numbers.
+
+        Raises:
+            McnpError: INVALID_DN.
+        """
+
+        if numbers is None:
+            raise errors.McnpError(errors.McnpCode.INVALID_DN, str(numbers))
+
+        for number in numbers:
+            if number is None:
+                raise errors.McnpError(errors.McnpCode.INVALID_DN, str(number))
+
+        self.numbers: Final[tuple[DistributionNumber]] = numbers
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``EmbeddedDistributionNumber`` objects from INP.
+
+        ``from_mcnp`` translates from INP to PyMCNP; it parses INP.
+
+        Parameters:
+            source: INP for ``EmbeddedDistributionNumber``.
+
+        Returns:
+            ``EmbeddedDistributionNumber`` object.
+
+        Raises:
+            McnpError: UNRECOGNIZED_KEYWORD.
+        """
+
+        source = _parser.Preprocessor.process_inp(source)
+        tokens = re.split(r'>', source)
+
+        numbers = []
+        for token in tokens:
+            numbers.append(DistributionNumber.from_mcnp(token))
+
+        return EmbeddedDistributionNumber(tuple(numbers))
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``EmbeddedDistributionNumber`` objects.
+
+        ``to_mcnp`` translates from PyMCNP to INP.
+
+        Returns:
+            INP for ``EmbeddedDistributionNumber``.
+        """
+
+        return '>'.join(number.to_mcnp() for number in self.numbers)
+
+
+class Zaid(_object.PyMcnpObject):
+    """
+    Represents nuclide information numbers.
+
+    ``Zaid`` implements ``_object.PyMcnpObject``.
 
     Attributes:
         z: Atomic number.
@@ -79,7 +159,7 @@ class Zaid:
 
     def __init__(self, z: int, a: int, abx: str = None):
         """
-        ``__init__`` initializes ``Zaid``.
+        Initializes ``Zaid``.
 
         Parameters:
             z: Atomic number.
@@ -103,14 +183,12 @@ class Zaid:
     @staticmethod
     def from_mcnp(source: str):
         """
-        ``from_mcnp`` generates ``Zaid`` objects from INP.
+        Generates ``Zaid`` objects from INP.
 
-        ``from_mcnp`` constructs instances of ``Zaid`` from INP
-        source strings, so it operates as a class constructor method
-        and INP parser helper function.
+        ``from_mcnp`` translates from INP to PyMCNP; it parses INP.
 
         Parameters:
-            source: INP for zaid.
+            source: INP for ``Zaid``.
 
         Returns:
             ``Zaid`` object.
@@ -147,13 +225,12 @@ class Zaid:
 
     def to_mcnp(self) -> str:
         """
-        ``to_mcnp`` generates INP from ``Zaid`` objects.
+        Generates INP from ``Zaid`` objects.
 
-        ``to_mcnp`` creates INP source string from ``Zaid``
-        objects, so it provides an MCNP endpoint.
+        ``to_mcnp`` translates from PyMCNP to INP.
 
         Returns:
-            INP string for ``Zaid`` object.
+            INP for ``Zaid``.
         """
 
         return (
@@ -166,9 +243,11 @@ class Zaid:
         return self.to_mcnp()
 
 
-class Particle(str, enum.Enum):
+class Particle(_object.PyMcnpObject, enum.StrEnum):
     """
-    ``Particle`` represents individular particle designators.
+    Represents particle designators.
+
+    ``Particle`` implements ``_object.PyMcnpObject`` and ``enum.StrEnum``.
     """
 
     NEUTRON = 'n'
@@ -209,10 +288,40 @@ class Particle(str, enum.Enum):
     ALPHA = 'a'
     HEAVY_IONS = '#'
 
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``Particle`` objects from INP.
 
-class Designator:
+        ``from_mcnp`` translates from INP to PyMCNP; it parses INP.
+
+        Parameters:
+            source: INP for ``Particle``.
+
+        Returns:
+            ``Particle`` object.
+        """
+
+        return Particle(source)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``Particle`` objects.
+
+        ``to_mcnp`` translates from PyMCNP to INP.
+
+        Returns:
+            INP for ``Particle``.
+        """
+
+        return self.value
+
+
+class Designator(_object.PyMcnpObject):
     """
-    ``Designator`` represents MCNP particle designators.
+    Represents MCNP particle designators.
+
+    ``Designator`` implements ``_object.PyMcnpObject``.
 
     Attributes:
         particles: Tuple of particles.
@@ -220,7 +329,7 @@ class Designator:
 
     def __init__(self, particles: tuple[Particle]):
         """
-        ``__init__`` initializes ``Designator``.
+        Initializes ``Designator``.
 
         Parameters:
             particles: Tuple of particles.
@@ -244,17 +353,15 @@ class Designator:
     @staticmethod
     def from_mcnp(source: str):
         """
-        ``from_mcnp`` generates ``Designator`` objects from INP.
+        Generates ``Designator`` objects from INP.
 
-        ``from_mcnp`` constructs instances of ``Designator`` from INP
-        source strings, so it operates as a class constructor method
-        and INP parser helper function.
+        ``from_mcnp`` translates from INP to PyMCNP; it parses INP.
 
         Parameters:
-            source: INP for particle designator(s).
+            source: INP for ``Designator``.
 
         Returns:
-            Tuple of ``Designator`` objects.
+            ``Designator`` object.
         """
 
         try:
@@ -266,24 +373,22 @@ class Designator:
 
     def to_mcnp(self) -> str:
         """
-        ``to_mcnp`` generates INP from ``Designator`` objects.
+        Generates INP from ``Designator`` objects.
 
-        ``to_mcnp`` creates INP source string from ``Designator``
-        objects, so it provides an MCNP endpoint.
+        ``to_mcnp`` translates from PyMCNP to INP.
 
         Returns:
-            INP string for ``Designator`` object.
+            INP for ``Designator``.
         """
 
         return ','.join(Particle(particle) for particle in self.particles)
 
-    def __eq__(self, other):
-        return self.particles == other.particles
 
-
-class McnpInteger:
+class McnpInteger(_object.PyMcnpObject):
     """
-    ``McnpInteger`` represents the INP integer value.
+    Represents the INP integer value.
+
+    ``McnpInteger`` implements ``_object.PyMcnpObject``.
 
     Attributes:
         value: Integer or J jump symbol.
@@ -291,7 +396,7 @@ class McnpInteger:
 
     def __init__(self, value: int | Literal['j']):
         """
-        ``__init__`` initializes ``McnpInteger``.
+        Initializes ``McnpInteger``.
 
         Parameters:
             value: Integer or J jump symbol.
@@ -315,11 +420,9 @@ class McnpInteger:
     @staticmethod
     def from_mcnp(source: str):
         """
-        ``from_mcnp`` generates ``McnpInteger`` objects from INP.
+        Generates ``McnpInteger`` objects from INP.
 
-        ``from_mcnp`` constructs instances of ``McnpInteger`` from INP
-        source strings, so it operates as a class constructor method
-        and INP parser helper function.
+        ``from_mcnp`` translates from INP to PyMCNP.
 
         Parameters:
             source: INP for value.
@@ -349,13 +452,12 @@ class McnpInteger:
 
     def to_mcnp(self):
         """
-        ``to_mcnp`` generates INP from ``McnpInteger`` objects.
+        Generates INP from ``McnpInteger`` objects.
 
-        ``to_mcnp`` creates INP source string from ``McnpInteger``
-        objects, so it provides an MCNP endpoint.
+        ``to_mcnp`` translates from PyMCNP to INP.
 
         Returns:
-            INP string for ``McnpInteger`` object.
+            INP for ``McnpInteger``.
         """
 
         return str(self.value)
@@ -409,9 +511,11 @@ class McnpInteger:
         return int(self.value)
 
 
-class McnpReal:
+class McnpReal(_object.PyMcnpObject):
     """
-    ``McnpReal`` represents the INP real/floating-point value.
+    Represents the INP real/floating-point value.
+
+    ``McnpReal`` implements ``_object.PyMcnpObject``.
 
     Attributes:
         value: Floating-point number or J jump symbol.
@@ -421,7 +525,7 @@ class McnpReal:
 
     def __init__(self, value: float | Literal['j']):
         """
-        ``__init__`` initializes ``McnpReal``.
+        Initializes ``McnpReal``.
 
         Parameters:
             value: Floating-point number or J jump symbol.
@@ -445,14 +549,12 @@ class McnpReal:
     @staticmethod
     def from_mcnp(source: str):
         """
-        ``from_mcnp`` generates ``McnpReal`` objects from INP.
+        Generates ``McnpReal`` objects from INP.
 
-        ``from_mcnp`` constructs instances of ``McnpReal`` from INP
-        source strings, so it operates as a class constructor method
-        and INP parser helper function.
+        ``from_mcnp`` translates from INP to PyMCNP; it parses INP.
 
         Parameters:
-            source: INP for value.
+            source: INP for ``McnpReal``.
 
         Returns:
             ``McnpReal`` object.
@@ -480,13 +582,12 @@ class McnpReal:
 
     def to_mcnp(self):
         """
-        ``to_mcnp`` generates INP from ``McnpReal`` objects.
+        Generates INP from ``McnpReal`` objects.
 
-        ``to_mcnp`` creates INP source string from ``McnpReal``
-        objects, so it provides an MCNP endpoint.
+        ``to_mcnp`` translates from PyMCNP to INP.
 
         Returns:
-            INP string for ``McnpReal`` object.
+            INP for ``McnpReal``.
         """
 
         return str(self.value)
