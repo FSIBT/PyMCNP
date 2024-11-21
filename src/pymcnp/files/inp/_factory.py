@@ -544,7 +544,7 @@ class DataOptionFactory:
         o = ''
         o += f'class {name}{self.name}(DataOption):\n'
         o += '    """\n'
-        o += f'    ``{name}{self.name}`` represents INP {mnemonic} data card {self.mnemonic} options.\n'
+        o += f'    Represents INP {mnemonic} data card {self.mnemonic} options.\n'
         o += '\n'
         o += f'    ``{name}{self.name}`` implements ``DataOption``\n.'
         o += '\n'
