@@ -239,9 +239,6 @@ class Zaid(_object.PyMcnpObject):
             else f'{self.z:03}{self.a:03}'
         )
 
-    def __str__(self):
-        return self.to_mcnp()
-
 
 class Particle(_object.PyMcnpObject, enum.StrEnum):
     """
@@ -462,12 +459,6 @@ class McnpInteger(_object.PyMcnpObject):
 
         return str(self.value)
 
-    def __str__(self):
-        return str(self.value)
-
-    def __repr__(self):
-        return f'<McnpInteger({self.value}) at {id(self)!r}>'
-
     def __eq__(a, b: McnpInteger | int):
         return a.value == b.value if isinstance(b, McnpInteger) else a.value == b
 
@@ -591,12 +582,6 @@ class McnpReal(_object.PyMcnpObject):
         """
 
         return str(self.value)
-
-    def __str__(self):
-        return str(self.value)
-
-    def __repr__(self):
-        return f'<McnpReal({self.value}) at {id(self)!r}>'
 
     def __eq__(a, b: McnpReal | float):
         return a.value == b.value if isinstance(b, McnpReal) else a.value == b

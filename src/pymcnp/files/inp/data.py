@@ -244,7 +244,7 @@ class Data(_card.Card):
         parameters: Data card parameters.
     """
 
-    GEOMETRY_MNEMONICS: Final[set[DataMnemonic]] = {
+    GEOMETRY_MNEMONICS: Final[tuple[DataMnemonic]] = (
         DataMnemonic.VOLUME,
         DataMnemonic.AREA,
         DataMnemonic.TR,
@@ -264,9 +264,9 @@ class Data(_card.Card):
         DataMnemonic.EMBTM,
         DataMnemonic.EMBDB,
         DataMnemonic.EMBDF,
-    }
+    )
 
-    MATERIAL_MNEMONICS: Final[set[DataMnemonic]] = {
+    MATERIAL_MNEMONICS: Final[tuple[DataMnemonic]] = (
         DataMnemonic.M,
         DataMnemonic.MT,
         DataMnemonic.MATERIAL_NUCLIDE_SUBSTITUTION,
@@ -278,9 +278,9 @@ class Data(_card.Card):
         DataMnemonic.VOID,
         DataMnemonic.MGOPT,
         DataMnemonic.DRXS,
-    }
+    )
 
-    PHYSICS_MNEMONICS: Final[set[DataMnemonic]] = {
+    PHYSICS_MNEMONICS: Final[tuple[DataMnemonic]] = (
         DataMnemonic.MODE,
         DataMnemonic.PARTICLE_PHYSICS_OPTIONS,
         DataMnemonic.ACT,
@@ -302,9 +302,9 @@ class Data(_card.Card):
         DataMnemonic.BFLD,
         DataMnemonic.BFLCL,
         DataMnemonic.GRAVITATIONAL_FIELD,
-    }
+    )
 
-    SOURCE_MNEMONICS: Final[set[DataMnemonic]] = {
+    SOURCE_MNEMONICS: Final[tuple[DataMnemonic]] = (
         DataMnemonic.SDEF,
         DataMnemonic.SOURCE_INFORMATION,
         DataMnemonic.SOURCE_PROBABILITY,
@@ -320,9 +320,9 @@ class Data(_card.Card):
         DataMnemonic.DEPLETION_BURNUP,
         DataMnemonic.SOURCE,
         DataMnemonic.SRCDX,
-    }
+    )
 
-    TALLY_MNEMONICS: Final[set[DataMnemonic]] = {
+    TALLY_MNEMONICS: Final[tuple[DataMnemonic]] = (
         DataMnemonic.STANDARD_TALLIES,
         DataMnemonic.STANDARD_TALLIES_ANGLE,
         DataMnemonic.FIP,
@@ -355,9 +355,9 @@ class Data(_card.Card):
         DataMnemonic.SUPERIMPOSED_MESH_TALLY_A,
         DataMnemonic.SUPERIMPOSED_MESH_TALLY_B,
         DataMnemonic.LATTICE_SPEED_TALLY_ENHANCEMENT,
-    }
+    )
 
-    VARIENCE_MNEMONICS: Final[set[DataMnemonic]] = {
+    VARIENCE_MNEMONICS: Final[tuple[DataMnemonic]] = (
         DataMnemonic.IMPORTANCE,
         DataMnemonic.VARIANCE_REDUCATION_CONTROL,
         DataMnemonic.WEIGHT_WINDOW_ENERGIES,
@@ -381,9 +381,9 @@ class Data(_card.Card):
         DataMnemonic.PHOTON_PRODUDCTION_BIASING,
         DataMnemonic.SECONDARY_PARTICLE_BIASING,
         DataMnemonic.PHOTON_WEIGHT,
-    }
+    )
 
-    MICELLANEOUS_MNEMONICS: Final[set[DataMnemonic]] = {
+    MICELLANEOUS_MNEMONICS: Final[tuple[DataMnemonic]] = (
         DataMnemonic.NPS,
         DataMnemonic.COMPUTER_TIME_CUTOFF,
         DataMnemonic.PERCISION_CUTOFF,
@@ -403,7 +403,7 @@ class Data(_card.Card):
         DataMnemonic.ZC,
         DataMnemonic.ZD,
         DataMnemonic.FILE,
-    }
+    )
 
     @staticmethod
     def from_mcnp(source: str):

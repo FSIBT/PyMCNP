@@ -256,6 +256,6 @@ class McnpError(Exception):
                 hint += ''
 
         if hint:
-            return f'\n\033[31;4;1mMcnpError[{self.code.name}]\033[0m: {head}\n|\n| {self.info.__repr__()}\n|\n| \033[35;4mHint\033[0m: {hint}\n|'
+            return f'\n\033[31;4;1mMcnpError[{self.code.name}]\033[0m: {head}\n|\n| {repr(self.info)}\n|\n| \033[35;4mHint\033[0m: {hint}\n|'
         else:
-            return f'\n\033[31;4;1mMcnpError[{self.code.name}]\033[0m: {head}\n|\n| {self.info.__repr__()}\n|'
+            return f'\n\033[31;4;1mMcnpError[{self.code.name}]\033[0m: {head}\n|\n| {repr(self.info)}\n|'

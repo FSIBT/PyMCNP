@@ -18,6 +18,27 @@ class PyMcnpObject:
     def to_mcnp(self) -> str:
         raise NotImplementedError
 
+    def __eq__(a, b):
+        """
+        Compares ``PyMcnpObject`` objects for equality.
+        """
+
+        return repr(a) == repr(b)
+
+    def __str__(self):
+        """
+        Stingifies ``PyMcnpObject``.
+        """
+
+        return self.to_mcnp()
+
+    def __repr__(self):
+        """
+        Stringifies ``PyMcnpObject`` for debugging.
+        """
+
+        return f"<{self.__class__.__name__} {' '.join(f'{attribute}={self.__dict__[attribute]}' for attribute in self.__dict__)}>"
+
 
 class PyMcnpKeyword(PyMcnpObject, enum.Enum):
     """
@@ -41,6 +62,13 @@ class PyMcnpKeyword(PyMcnpObject, enum.Enum):
         """
 
         return self.value
+
+    def __repr__(self):
+        """
+        Stringifies ``PyMcnpObject`` for debugging.
+        """
+
+        return f'<{self.__class__.__name__} {self.value}>'
 
 
 class PyMcnpFileObject(PyMcnpObject):

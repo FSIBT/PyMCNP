@@ -233,9 +233,6 @@ class CellOption(_card.CardOption):
 
         return f'{self.keyword.to_mcnp()}{suffix_str}{designator_str}={value_str}'
 
-    def __repr__(self):
-        return f'<CellOption: {self.__class__.__name__} ({self.to_mcnp()})>'
-
 
 _CellImpFactory = _factory.CellOptionFactory(
     'imp',

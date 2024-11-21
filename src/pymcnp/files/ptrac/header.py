@@ -135,15 +135,15 @@ class Header(_object.PyMcnpObject):
         if numbers is None:
             raise errors.McnpError(errors.McnpCode.INVALID_HEADER_NUMBERS)
 
-        for number in numbers:
-            if number is None:
+        for entry in numbers:
+            if entry is None:
                 raise errors.McnpError(errors.McnpCode.INVALID_HEADER_NUMBERS)
 
         if ids is None:
             raise errors.McnpError(errors.McnpCode.INVALID_HEADER_IDS)
 
-        for id_ in ids:
-            if id_ is None:
+        for entry in ids:
+            if entry is None:
                 raise errors.McnpError(errors.McnpCode.INVALID_HEADER_IDS)
 
         self.code: Final[str] = code
@@ -155,17 +155,6 @@ class Header(_object.PyMcnpObject):
         self.settings: Final[dict] = settings
         self.numbers: Final[tuple[int]] = numbers
         self.ids: Final[tuple[int]] = ids
-
-    def __str__(self):
-        out = f'  Program: {self.code} ; Version:({self.version} , {self.code_date}) ; Current Date:{self.run_date} {self.run_time}\n'
-        out += f'  {self.title}\n'
-        for k, v in self.settings.items():
-            out += f"    {k.name}: {' '.join(str(val) for val in v)}\n"
-        for k in self.ids:
-            out += f'    IDS: {k}\n'
-        for k in self.numbers:
-            out += f'    Numbers: {k}\n'
-        return out
 
     @staticmethod
     def from_mcnp(source: str) -> tuple[Header, str]:
