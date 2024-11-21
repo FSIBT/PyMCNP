@@ -2,8 +2,6 @@
 Contains abstract classes for ``inp``.
 """
 
-import enum
-
 from ..utils import _object
 
 
@@ -23,7 +21,7 @@ class CardEntry(_object.PyMcnpObject):
         raise NotImplementedError
 
 
-class CardKeyword(_object.PyMcnpObject, enum.StrEnum):
+class CardKeyword(_object.PyMcnpKeyword):
     """
     Represents INP card option keywords.
 
@@ -34,18 +32,6 @@ class CardKeyword(_object.PyMcnpObject, enum.StrEnum):
     @staticmethod
     def from_mcnp(source: str):
         raise NotImplementedError
-
-    def to_mcnp(self) -> str:
-        """
-        ``to_mcnp`` generates INP from ``CardKeyword``.
-
-        ``from_mcnp`` translates from PyMCNP to INP.
-
-        Returns:
-            INP for ``CardKeyword``.
-        """
-
-        return self.value
 
 
 class CardOption(_object.PyMcnpObject):
@@ -88,7 +74,7 @@ class CardOption(_object.PyMcnpObject):
                 return f'{self.keyword.to_mcnp()}={self.value.to_mcnp()}'
 
 
-class CardMnemonic(_object.PyMcnpObject, enum.StrEnum):
+class CardMnemonic(_object.PyMcnpKeyword):
     """
     Represents INP card mnemonics.
 
@@ -99,18 +85,6 @@ class CardMnemonic(_object.PyMcnpObject, enum.StrEnum):
     @staticmethod
     def from_mcnp(source: str):
         raise NotImplementedError
-
-    def to_mcnp(self) -> str:
-        """
-        Generates INP from ``CardMnemonic``.
-
-        ``to_mcnp`` translates from PyMCNP to INP.
-
-        Returns:
-            INP for ``CardMnemonic``.
-        """
-
-        return self.value
 
 
 class Card(_object.PyMcnpObject):

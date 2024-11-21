@@ -4,24 +4,19 @@ Contains classes representing PTRAC event.
 
 from __future__ import annotations
 from typing import Final
-from enum import Enum
-import re
 
-from ..utils import _parser
+from .header import Header
 from ..utils import types
 from ..utils import errors
-from .header import Header
+from ..utils import _parser
+from ..utils import _object
 
 
-class EventType(Enum):
+class EventType(_object.PyMcnpKeyword):
     """
-    ``EventType`` represents PTRAC event event-types.
+    Represents PTRAC event event-types.
 
-    ``EventType`` implements PTRAC event event-types as a Python inner
-    class. It enumerates event-type descriptoins and provides methods for
-    casting strings to ``EventType`` instances. It represents the PTRAC
-    event event-types syntax element, so ``Event`` depends on ``EventType``
-    as an enum.
+    ``EventType`` implements ``_object.PyMcnpKeyword``.
     """
 
     SOURCE = 1000
@@ -95,14 +90,12 @@ class EventType(Enum):
     @staticmethod
     def from_mcnp(source: str):
         """
-        ``from_mcnp`` generates ``EventType`` objects from PTRAC.
+        Generates ``EventType`` objects from PTRAC.
 
-        ``from_mcnp`` constructs instances of ``EventType`` from PTRAC
-        source strings, so it operates as a class constructor method
-        and PTRAC parser helper function.
+        ``from_mcnp`` translates from PTRAC to PyMCNP; it parses PTRAC.
 
         Parameters:
-            source: PTRAC for event event-type.
+            source: PTRAC for ``EventType``.
 
         Returns:
             ``EventType`` object.
@@ -113,26 +106,17 @@ class EventType(Enum):
 
         source = _parser.Preprocessor.process_ptrac(source)
 
-        # Checking the source is numeric.
-        if not re.match(r'-?\d+', source):
+        try:
+            return EventType(int(source))
+        except ValueError:
             raise errors.McnpError(errors.McnpCode.INVALID_EVENT_TYPE)
 
-        # Processing Type
-        if int(source) not in [enum.value for enum in EventType]:
-            raise errors.McnpError(errors.McnpCode.INVALID_EVENT_TYPE)
 
-        return EventType(int(source))
-
-
-class EventNters(Enum):
+class EventNters(_object.PyMcnpKeyword):
     """
-    ``EventNters`` represents PTRAC event NTER variables.
+    Represents PTRAC event NTER variables.
 
-    ``EventNters`` implements PTRAC event NTER variable as a Python inner
-    class. It enumerates event-type descriptoins and provides methods for
-    casting strings to ``EventNters`` instances. It represents the PTRAC
-    event NTER variable syntax element, so ``Event`` depends on
-    ``EventNters`` as an enum.
+    ``EventNters`` implements ``_object.PyMcnpKeyword``.
     """
 
     ESCAPE = 1
@@ -156,14 +140,12 @@ class EventNters(Enum):
     @staticmethod
     def from_mcnp(source: int):
         """
-        ``from_mcnp`` generates ``EventNters`` objects from PTRAC.
+        Generates ``EventNters`` objects from PTRAC.
 
-        ``from_mcnp`` constructs instances of ``EventNters`` from PTRAC
-        source strings, so it operates as a class constructor method
-        and PTRAC parser helper function.
+        ``from_mcnp`` translates from PTRAC to PyMCNP; it parses PTRAC.
 
         Parameters:
-            source: PTRAC for event NTER variable.
+            source: PTRAC for ``EventNters``.
 
         Returns:
             ``EventNters`` object.
@@ -174,25 +156,17 @@ class EventNters(Enum):
 
         source = _parser.Preprocessor.process_ptrac(source)
 
-        # Checking the source is numeric.
-        if not re.match(r'\d+', source):
+        try:
+            return EventNters(int(source))
+        except ValueError:
             raise errors.McnpError(errors.McnpCode.INVALID_EVENT_NTER)
 
-        # Processing Type
-        if int(source) not in [enum.value for enum in EventNters]:
-            raise errors.McnpError(errors.McnpCode.INVALID_EVENT_NTER)
 
-        return EventNters(int(source))
-
-
-class Event:
+class Event(_object.PyMcnpObject):
     """
-    ``Event`` represents PTRAC events.
+    Represents PTRAC events.
 
-    ``Event`` implements PTRAC events as a Python class. Its attributes store
-    PTRAC event line parameters, and its methods provide entry points and
-    endpoints for working with PTRAC. It represents the PTRAC event, i.e. the
-    PTRAC J and P lines, syntax element.
+    ``Event`` implements ``_object.PyMcnpObject``.
 
     Attributes:
         next_type: Event type of the next event.
@@ -247,7 +221,7 @@ class Event:
         tme,
     ):
         """
-        ``__init__`` initializes ``Event``.
+        Initializes ``Event``.
 
         Parameters:
             event_type: Event type.
@@ -325,18 +299,14 @@ class Event:
         self.tme: Final[float] = tme
 
     @staticmethod
-    def from_mcnp(
-        source: str, header: Header, event_type: EventType, line: int = None
-    ) -> tuple[Event, str]:
+    def from_mcnp(source: str, header: Header, event_type: EventType) -> tuple[Event, str]:
         """
-        ``from_mcnp`` generates ``Event`` objects from PTRAC.
+        Generates ``Event`` objects from PTRAC.
 
-        ``from_mcnp`` constructs instances of ``Event`` from PTRAC source
-        strings, so it operates as a class constructor method and PTRAC parser
-        helper function.
+        ``from_mcnp`` translates from PTRAC to PyMCNP; it parses PTRAC.
 
         Parameters:
-            source: PTRAC for event.
+            source: PTRAC for ``Event``.
             header: PTRAC header.
             event_type: Event type.
             line: Line number.
@@ -587,39 +557,14 @@ class Event:
             tme,
         )
 
-    def to_arguments(self) -> dict:
+    def to_mcnp(self):
         """
-        ``to_arguments`` makes dictionaries from ``Event`` objects.
+        Generates PTRAC from ``Event`` objects.
 
-        ``to_arguments`` creates Python dictionaries from ``Event`` objects, so
-        it provides an MCNP endpoint. The dictionary keys follow the MCNP
-        manual.
+        ``to_mcnp`` translates from PTRAC to PyMCNP.
 
         Returns:
-            Dictionary for ``Event`` object.
+            INP for ``Event``.
         """
 
-        return {
-            'type': self.type,
-            'node': self.node,
-            'nsr': self.nsr,
-            'nxs': self.nxs,
-            'ntyn_mtp': self.ntyn_mtp,
-            'nsf': self.nsf,
-            'surface_angle': self.surface_angle,
-            'nter': self.nter,
-            'branch': self.branch,
-            'ipt': self.ipt,
-            'ncl': self.ncl,
-            'mat': self.mat,
-            'ncp': self.ncp,
-            'xxx': self.xxx,
-            'yyy': self.yyy,
-            'zzz': self.zzz,
-            'uuu': self.uuu,
-            'vvv': self.vvv,
-            'www': self.www,
-            'erg': self.erg,
-            'wgt': self.wgt,
-            'tme': self.tme,
-        }
+        assert False, 'NotImplemented'

@@ -16,11 +16,11 @@ from ..utils import _parser
 from ..utils import _object
 
 
-class Inp(_object.PyMCNPFileObject):
+class Inp(_object.PyMcnpFileObject):
     """
     Represents INP files.
 
-    ``Inp`` implements ``_object.PyMCNPFileObject``.
+    ``Inp`` implements ``_object.PyMcnpFileObject``.
 
     Attributes:
         message: INP message.
@@ -624,5 +624,15 @@ class Inp(_object.PyMCNPFileObject):
 
         return Inp.from_mcnp(source)
 
-    def __str__(self):
-        return self.to_mcnp()
+    def to_mcnp_file(self, filename: str | pathlib.Path):
+        """
+        Generates MCNP files from ``Inp`` objects.
+
+        ``to_mcnp_file`` translates from PyMCNP to MCNP files.
+
+        Parameters:
+            filename: new MCNP file path.
+        """
+
+        filename = pathlib.Path(filename)
+        filename.write_text(self.to_mcnp())

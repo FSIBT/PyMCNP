@@ -7,19 +7,17 @@ from typing import Final, Generator
 
 from .event import Event, EventType
 from .header import Header
-from ..utils import _parser
-from ..utils import errors
 from ..utils import types
+from ..utils import errors
+from ..utils import _parser
+from ..utils import _object
 
 
-class History:
+class History(_object.PyMcnpObject):
     """
-    ``History`` represents PTRAC event histories.
+    Represents PTRAC event histories.
 
-    ``History`` implements PTRAC event histories as a Python class. Its
-    attributes store PTRAC event hisotry metadata and data parameters, and its
-    methods provide entry points and endpoints for working with PTRAC. It
-    represents the PTRAC event history syntax element.
+    ``History`` implements ``_object.PyMcnpObject``.
 
     Attributes:
         header: History context, i.e. PTRAC header.
@@ -44,7 +42,7 @@ class History:
         events: Generator[Event, None, None],
     ):
         """
-        ``__init__`` initializes ``History``.
+        Initializes ``History``.
 
         Parameters:
             header: History context, i.e. PTRAC header.
@@ -67,8 +65,6 @@ class History:
             McnpError: INVALID_PTRAC_EVENT.
         """
 
-        # TODO: Add error checking here!
-
         self.next_type: Final[EventType] = next_type
         self.nps: Final[int] = nps
         self.ncl: Final[int] = ncl
@@ -79,23 +75,21 @@ class History:
         self.events: Final[Generator[Event]] = events
 
     @staticmethod
-    def from_mcnp(source: str, head: Header) -> tuple[History, str]:
+    def from_mcnp(source: str, header: Header) -> tuple[History, str]:
         """
-        ``from_mcnp`` generates ``History`` objects from PTRAC.
+        Generates ``History`` objects from PTRAC.
 
-        ``from_mcnp`` constructs instances of ``History`` from PTRAC source
-        strings, so it operates as a class constructor method and PTRAC parser
-        helper function.
+        ``from_mcnp`` translates from PTRAC to PyMCNP; it parses PTRAC.
 
         Parameters:
-            source: PTRAC source.
+            source: PTRAC for ``History``.
             head: PTRAC header.
 
         Returns:
             ``History`` object.
 
         Raises:
-            McnpError: TOOFEW_HISTORY,McnpCode.
+            McnpError: TOOFEW_HISTORY.
         """
 
         nps = None
@@ -113,13 +107,13 @@ class History:
 
         # Processing I Line
         tokens = _parser.Parser.from_fortran(
-            (head.numbers[0].value - 1) * [10] + [13],
+            (header.numbers[0].value - 1) * [10] + [13],
             lines.popl()[1:],
             errors.McnpError(errors.McnpCode.TOOFEW_HEADER),
         )
 
-        for i in range(0, head.numbers[0].value):
-            match head.ids[i].value:
+        for i in range(0, header.numbers[0].value):
+            match header.ids[i].value:
                 case 1:
                     nps = types.McnpInteger.from_mcnp(tokens.popl().strip())
                 case 2:
@@ -141,7 +135,7 @@ class History:
 
         def events(next_type, lines):
             while next_type != EventType.FLAG:
-                event = Event.from_mcnp(lines.popl() + '\n' + lines.popl(), head, next_type)
+                event = Event.from_mcnp(lines.popl() + '\n' + lines.popl(), header, next_type)
                 next_type = event.next_type
                 yield event
 
@@ -152,7 +146,7 @@ class History:
 
         return (
             History(
-                head,
+                header,
                 first_next_type,
                 nps,
                 ncl,
@@ -164,23 +158,14 @@ class History:
             '\n'.join(list(lines.deque)),
         )
 
-    def to_arguments(self) -> dict:
+    def to_mcnp(self):
         """
-        ``to_arguments`` makes dictionaries from ``History`` objects.
+        Generates PTRAC from ``History`` objects.
 
-        ``to_arguments`` creates Python dictionaries from ``History`` objects,
-        so it provides an MCNP endpoint. The dictionary keys follow the MCNP
-        manual.
+        ``to_mcnp`` translates from PTRAC to PyMCNP.
 
         Returns:
-            Dictionary for ``History`` object.
+            INP for ``History``.
         """
 
-        return {
-            'nps': self.nps,
-            'ncl': self.ncl,
-            'nsf': self.nsf,
-            'jptal': self.jptal,
-            'tal': self.tal,
-            'events': [event.to_arguments() for event in self.events],
-        }
+        assert False, 'NotImplemented'

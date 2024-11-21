@@ -2,43 +2,46 @@
 Contains classes representing PTRAC file.
 """
 
+import pathlib
 from typing import Generator
 
 from .header import Header
 from .history import History
+from ..utils import _object
 
 
-class Ptrac:
+class Ptrac(_object.PyMcnpFileObject):
     """
-    ``Ptrac`` represents PTRAC files.
+    Represents PTRAC files.
 
-    ``Ptrac`` implements PTRAC files as a Python class. Its attributes store
-    PTRAC file components, and its methods provide entry points and endpoints
-    for working with PTRAC. It represents the PTRAC files syntax element.
+    ``Ptrac`` implements ``_object.PyMcnpFileObject``.
 
     Attributes:
-        head: PTRAC header.
+        header: PTRAC header.
         history: PTRAC history.
     """
 
-    def __init__(self, head: Header, histories: Generator[History, None, None]):
+    def __init__(self, header: Header, histories: Generator[History, None, None]):
         """
-        ``__init__`` initializes ``Ptrac``.
+        Initializes ``Ptrac``.
+
+        Parameters:
+            header: PTRAC header.
+            history: PTRAC history.
         """
 
-        self.header: Header = head
-        self.histories: Generator[History] = histories
+        self.header: Header = header
+        self.histories: Generator[History, None, None] = histories
 
     @staticmethod
     def from_mcnp(source: str):
         """
-        ``from_mcnp`` generates ``Ptrac`` objects from PTRAC.
+        Generates ``Ptrac`` objects from PTRAC.
 
-        ``from_mcnp`` constructs instances of ``Inp`` from PTRAC source
-        strings, so it operates as a class constructor method and PTRAC parser.
+        ``from_mcnp`` translates from PTRAC to PyMCNP; it parses PTRAC.
 
         Parameters:
-            source: PTRAC source string.
+            source: PTRAC for ``Ptrac``.
 
         Returns:
             ``Ptrac`` object.
@@ -52,42 +55,49 @@ class Ptrac:
             while lines:
                 history, lines = History.from_mcnp(lines, head)
                 yield history
+            return
 
         return Ptrac(head, histories(lines))
 
-    @staticmethod
-    def from_mcnp_file(filename: str):
+    def to_mcnp(self):
         """
-        ``from_mcnp_file`` generates ``Ptrac`` objects from PTRAC files.
+        Generates PTRAC from ``Ptrac`` objects.
 
-        ``from_mcnp_file`` constructs instances of ``Ptrac`` from PTRAC files,
-        so it operates as a class constructor method and PTRAC parser.
+        ``to_mcnp`` translates from PTRAC to PyMCNP.
+
+        Returns:
+            INP for ``Ptrac``.
+        """
+
+        assert False, 'NotImplemented'
+
+    @staticmethod
+    def from_mcnp_file(filename: str | pathlib.Path):
+        """
+        Generates ``Ptrac`` objects from MCNP files.
+
+        ``from_mcnp_file`` translates from MCNP files to PyMCNP.
 
         Parameters:
-            filename: Name of file to parse.
+            filename: MCNP file path.
 
         Returns:
             ``Ptrac`` object.
         """
 
-        with open(filename) as file:
-            source = ''.join(file.readlines())
+        filename = pathlib.Path(filename)
+        source = filename.read_text()
 
         return Ptrac.from_mcnp(source)
 
-    def to_arguments(self) -> dict:
+    def to_mcnp_file(self, filename: str | pathlib.Path):
         """
-        ``to_arguments`` makes dictionaries from ``Ptrac`` objects.
+        Generates MCNP files from ``Ptrac`` objects.
 
-        ``to_arguments`` creates Python dictionaries from ``Ptrac`` objects, so
-        it provides an MCNP endpoint. The dictionary keys follow the MCNP
-        manual.
+        ``to_mcnp_file`` translates from PyMCNP to MCNP files.
 
-        Returns:
-            Dictionary for ``Ptrac`` object.
+        Parameters:
+            filename: new MCNP file path.
         """
 
-        return {
-            'header': self.header.to_arguments(),
-            'histories': [history.to_arguments() for history in self.histories],
-        }
+        assert False, 'NotImplemented'

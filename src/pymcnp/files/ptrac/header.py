@@ -4,25 +4,18 @@ Contains classes representing INP headers.
 
 from __future__ import annotations
 from typing import Final
-from enum import Enum
 
-from ..utils import _parser
-from ..utils import errors
 from ..utils import types
+from ..utils import errors
+from ..utils import _parser
+from ..utils import _object
 
 
-class PtracKeywords(Enum):
+class PtracKeywords(_object.PyMcnpKeyword):
     """
-    ``PtracKeywords`` represents PTRAC input format index keywords.
+    Represents PTRAC input format index keywords.
 
-    ``PtracKeywords`` implements PTRAC input format index keywords as a
-    Python inner class. It enumerates input format index keywords. It
-    represents the PTRAC input format index keywords syntax element, so
-    ``Header`` depends on ``PtracKeywords`` as an enum.
-
-    Notes:
-        ``PtracKeywords`` does not currently implement a ``from_mcnp`
-        method because ``Header`` does not currently require it.
+    ``PtracKeywords`` implements ``_object.PyMcnpKeyword``.
     """
 
     BUFFER = 1
@@ -40,14 +33,36 @@ class PtracKeywords(Enum):
     WRITE = 13
     UNKNOWN = 14
 
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``PtracKeywords`` objects from PTRAC.
 
-class Header:
+        ``from_mcnp`` translates from PTRAC to PyMCNP; it parses PTRAC.
+
+        Parameters:
+            source: PTRAC for ``PtracKeywords``.
+
+        Returns:
+            ``PtracKeywords`` object.
+
+        Raises:
+            McnpError: INVALID_EVENT_TYPE.
+        """
+
+        source = _parser.Preprocessor.process_ptrac(source)
+
+        try:
+            return PtracKeywords(int(source))
+        except ValueError:
+            raise errors.McnpError(errors.McnpCode.INVALID_EVENT_TYPE)
+
+
+class Header(_object.PyMcnpObject):
     """
-    ``Header`` represents PTRAC headers.
+    Represents PTRAC headers.
 
-    ``Header`` implements PTRAC headers as a Python class. Its attributes store
-    PTRAC header parameters, and its methods provide entry points and endpoints
-    for working with PTRAC. It represents the PTRAC header syntax element.
+    ``Header`` implements ``_object.PyMcnpObject``.
 
     Attributes:
         code: Simulation name.
@@ -74,7 +89,7 @@ class Header:
         ids: tuple[int],
     ):
         """
-        ``__init__`` initializes ``Header``.
+        Initializes ``Header``.
 
         Parameters:
             code: Simulation name.
@@ -155,14 +170,12 @@ class Header:
     @staticmethod
     def from_mcnp(source: str) -> tuple[Header, str]:
         """
-        ``from_mcnp`` generates ``Header`` objects from PTRAC.
+        Generates ``Header`` objects from PTRAC.
 
-        ``from_mcnp`` constructs instances of ``Header`` from PTRAC source
-        strings, so it operates as a class constructor method and PTRAC parser
-        helper function.
+        ``from_mcnp`` translates from PTRAC to PyMCNP; it parses PTRAC.
 
         Parameters:
-            source: PTRAC for header.
+            source: PTRAC for ``Header``.
 
         Returns:
             ``Header`` object.
@@ -269,25 +282,14 @@ class Header:
             code, code_date, version, run_date, run_time, title, settings, numbers, ids
         ), '\n'.join(list(lines.deque))
 
-    def to_arguments(self):
+    def to_mcnp(self):
         """
-        ``to_arguments`` makes dictionaries from ``Header`` objects.
+        Generates PTRAC from ``Header`` objects.
 
-        ``to_arguments`` creates Python dictionaries from ``Header`` objects,
-        so it provides an MCNP endpoint. The dictionary keys follow the MCNP
-        manual.
+        ``to_mcnp`` translates from PTRAC to PyMCNP.
 
         Returns:
-            Dictionary for ``Header`` object.
+            INP for ``Header``.
         """
 
-        return {
-            'kod': self.code,
-            'loddat': self.code_date,
-            'ver': self.version,
-            'idtm': (self.run_date, self.run_time),
-            'aid': self.title,
-            'm n v ... V ...': self.settings,
-            'N1 ... N20': self.numbers,
-            'L ... L': self.ids,
-        }
+        assert False, 'NotImplemented'
