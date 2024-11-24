@@ -121,7 +121,7 @@ class McnpError(Exception):
 
     def __init__(self, code: McnpCode, info: str):
         """
-        ``__init__`` initializes ``MCNPSyntaxError``
+        Initializes ``McnpError``
 
         Parameters:
             code: Error code.

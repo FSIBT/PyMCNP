@@ -6,15 +6,32 @@ import re
 from typing import Final
 
 from . import _card
-from . import _factory
 from ..utils import types
 from ..utils import errors
 from ..utils import _parser
+from ..subclasses_cell_option import Imp
+from ..subclasses_cell_option import Vol
+from ..subclasses_cell_option import Pwt
+from ..subclasses_cell_option import Ext
+from ..subclasses_cell_option import Fcl
+from ..subclasses_cell_option import Wwn
+from ..subclasses_cell_option import Dxc
+from ..subclasses_cell_option import Nonu
+from ..subclasses_cell_option import Pd
+from ..subclasses_cell_option import Tmp
+from ..subclasses_cell_option import U
+from ..subclasses_cell_option import Trcl
+from ..subclasses_cell_option import Lat
+from ..subclasses_cell_option import Fill
+from ..subclasses_cell_option import Elpt
+from ..subclasses_cell_option import Cosy
+from ..subclasses_cell_option import Bflcl
+from ..subclasses_cell_option import Unc
 
 
 class CellGeometry(_card.CardEntry):
     """
-    ``CellGeometry`` represents INP cell card geometry formulas.
+    Represents INP cell card geometry formulas.
 
     ``CellGeometry`` implements ``_card.CardMnemonic``.
 
@@ -234,236 +251,9 @@ class CellOption(_card.CardOption):
         return f'{self.keyword.to_mcnp()}{suffix_str}{designator_str}={value_str}'
 
 
-_CellImpFactory = _factory.CellOptionFactory(
-    'imp',
-    False,
-    True,
-    _factory.AttributeFactory('importance', 'types.McnpReal', 'Particle(s) importance in cell', ''),
-)
-
-_CellVolFactory = _factory.CellOptionFactory(
-    'vol',
-    False,
-    False,
-    _factory.AttributeFactory(
-        'volume',
-        'types.McnpReal',
-        'Cell volume',
-        'volume >= 0',
-    ),
-)
-
-_CellPwtFactory = _factory.CellOptionFactory(
-    'pwt',
-    False,
-    False,
-    _factory.AttributeFactory(
-        'weight',
-        'types.McnpReal',
-        'Cell weight of photons produced at neutron collisions',
-        '',
-    ),
-)
-
-_CellExtFactory = _factory.CellOptionFactory(
-    'ext',
-    False,
-    True,
-    _factory.AttributeFactory(
-        'stretch',
-        'str',
-        'Cell exponential transform stretching specifier',
-        '',
-    ),
-)
-
-_CellFclFactory = _factory.CellOptionFactory(
-    'fcl',
-    False,
-    True,
-    _factory.AttributeFactory(
-        'control', 'types.McnpReal', 'Cell forced-collision control.', '-1 <= control <= 1'
-    ),
-)
-
-_CellWwnFactory = _factory.CellOptionFactory(
-    'wwn',
-    True,
-    True,
-    _factory.AttributeFactory(
-        'bound',
-        'types.McnpReal',
-        'Cell weight-window space, time, or energy lower bound.',
-        'bound == -1 or bound >= 0',
-    ),
-)
-
-_CellDxcFactory = _factory.CellOptionFactory(
-    'dxc',
-    True,
-    True,
-    _factory.AttributeFactory(
-        'probability',
-        'types.McnpReal',
-        'Cell probability of DXTRAN contribution.',
-        '0 <= probability <= 1',
-    ),
-)
-
-_CellNonuFactory = _factory.CellOptionFactory(
-    'nonu',
-    False,
-    False,
-    _factory.AttributeFactory(
-        'setting', 'types.McnpInteger', 'Cell fission setting.', 'setting in {0, 1, 2}'
-    ),
-)
-
-_CellPdFactory = _factory.CellOptionFactory(
-    'pd',
-    True,
-    False,
-    _factory.AttributeFactory(
-        'probability',
-        'types.McnpReal',
-        'Cell probability of DXTRAN contribution.',
-        '0 <= probability <= 1',
-    ),
-)
-
-_CellTmpFactory = _factory.CellOptionFactory(
-    'tmp',
-    True,
-    False,
-    _factory.AttributeFactory(
-        'temperature',
-        'types.McnpReal',
-        'Cell temperature at suffix time index.',
-        'temperature > 0',
-    ),
-)
-
-_CellUFactory = _factory.CellOptionFactory(
-    'u',
-    False,
-    False,
-    _factory.AttributeFactory(
-        'number',
-        'types.McnpInteger',
-        'Cell universe number.',
-        '-99_999_999 <= number <= 99_999_999',
-    ),
-)
-
-_CellTrclFactory = _factory.CellOptionFactory(
-    'trcl',
-    False,
-    False,
-    _factory.AttributeFactory(
-        'value', 'int', 'Cell coordinate transformation option value(s).', '1 <= value <= 999'
-    ),
-)
-
-_CellLatFactory = _factory.CellOptionFactory(
-    'lat',
-    False,
-    False,
-    _factory.AttributeFactory(
-        'shape', 'types.McnpInteger', 'Cell lattice shape.', 'shape in {1, 2}'
-    ),
-)
-
-_CellFillFactory = _factory.CellOptionFactory(
-    'fill',
-    False,
-    False,
-    _factory.AttributeFactory(
-        'value',
-        'tuple[types.McnpInteger]',
-        'Fill cell option value or value(s) tuple.',
-        '0 <= entry <= 99_999_999',
-    ),
-)
-
-_CellElptFactory = _factory.CellOptionFactory(
-    'elpt',
-    False,
-    True,
-    _factory.AttributeFactory('cutoff', 'types.McnpReal', 'Cell energy cutoff.', ''),
-)
-
-_CellCosyFactory = _factory.CellOptionFactory(
-    'cosy',
-    False,
-    False,
-    _factory.AttributeFactory(
-        'number', 'types.McnpInteger', 'Cell cosy map number.', 'number in {1, 2, 3, 4, 5, 6}'
-    ),
-)
-
-_CellBflclFactory = _factory.CellOptionFactory(
-    'bflcl',
-    False,
-    False,
-    _factory.AttributeFactory(
-        'number', 'types.McnpInteger', 'Cell magnetic field number.', 'number >= 0'
-    ),
-)
-
-_CellUncFactory = _factory.CellOptionFactory(
-    'unc',
-    False,
-    True,
-    _factory.AttributeFactory(
-        'setting',
-        'types.McnpInteger',
-        'Cell uncollided secondaries setting.',
-        'setting in {0, 1}',
-    ),
-)
-
-CellImp = None
-CellVol = None
-CellPwt = None
-CellExt = None
-CellFcl = None
-CellWwn = None
-CellDxc = None
-CellNonu = None
-CellPd = None
-CellTmp = None
-CellU = None
-CellTrcl = None
-CellLat = None
-CellFill = None
-CellElpt = None
-CellCosy = None
-CellBflcl = None
-CellUnc = None
-
-exec(_CellImpFactory.build())
-exec(_CellVolFactory.build())
-exec(_CellPwtFactory.build())
-exec(_CellExtFactory.build())
-exec(_CellFclFactory.build())
-exec(_CellWwnFactory.build())
-exec(_CellDxcFactory.build())
-exec(_CellNonuFactory.build())
-exec(_CellPdFactory.build())
-exec(_CellTmpFactory.build())
-exec(_CellUFactory.build())
-exec(_CellTrclFactory.build())
-exec(_CellLatFactory.build())
-exec(_CellFillFactory.build())
-exec(_CellElptFactory.build())
-exec(_CellCosyFactory.build())
-exec(_CellBflclFactory.build())
-exec(_CellUncFactory.build())
-
-
 class Cell(_card.Card):
     """
-    ``Cell`` represents INP cell cards.
+    Represents INP cell cards.
 
     ``Cell`` implements ``_card.Card``.
 
@@ -583,41 +373,41 @@ class Cell(_card.Card):
         for keyword, value in zip(keywords, values):
             match keyword:
                 case 'imp':
-                    options['imp'] = CellImp.from_mcnp(f'{keyword}{value}')
+                    options['imp'] = Imp.from_mcnp(f'{keyword}{value}')
                 case 'vol':
-                    options['vol'] = CellVol.from_mcnp(f'{keyword}{value}')
+                    options['vol'] = Vol.from_mcnp(f'{keyword}{value}')
                 case 'pwt':
-                    options['pwt'] = CellPwt.from_mcnp(f'{keyword}{value}')
+                    options['pwt'] = Pwt.from_mcnp(f'{keyword}{value}')
                 case 'ext':
-                    options['ext'] = CellExt.from_mcnp(f'{keyword}{value}')
+                    options['ext'] = Ext.from_mcnp(f'{keyword}{value}')
                 case 'fcl':
-                    options['fcl'] = CellFcl.from_mcnp(f'{keyword}{value}')
+                    options['fcl'] = Fcl.from_mcnp(f'{keyword}{value}')
                 case 'wwn':
-                    options['wwn'] = CellWwn.from_mcnp(f'{keyword}{value}')
+                    options['wwn'] = Wwn.from_mcnp(f'{keyword}{value}')
                 case 'dxc':
-                    options['dxc'] = CellDxc.from_mcnp(f'{keyword}{value}')
+                    options['dxc'] = Dxc.from_mcnp(f'{keyword}{value}')
                 case 'nonu':
-                    options['nonu'] = CellNonu.from_mcnp(f'{keyword}{value}')
+                    options['nonu'] = Nonu.from_mcnp(f'{keyword}{value}')
                 case 'pd':
-                    options['pd'] = CellPd.from_mcnp(f'{keyword}{value}')
+                    options['pd'] = Pd.from_mcnp(f'{keyword}{value}')
                 case 'tmp':
-                    options['tmp'] = CellTmp.from_mcnp(f'{keyword}{value}')
+                    options['tmp'] = Tmp.from_mcnp(f'{keyword}{value}')
                 case 'u':
-                    options['u'] = CellU.from_mcnp(f'{keyword}{value}')
+                    options['u'] = U.from_mcnp(f'{keyword}{value}')
                 case 'trcl':
-                    options['trcl'] = CellTrcl.from_mcnp(f'{keyword}{value}')
+                    options['trcl'] = Trcl.from_mcnp(f'{keyword}{value}')
                 case 'lat':
-                    options['lat'] = CellLat.from_mcnp(f'{keyword}{value}')
+                    options['lat'] = Lat.from_mcnp(f'{keyword}{value}')
                 case 'fill':
-                    options['fill'] = CellFill.from_mcnp(f'{keyword}{value}')
+                    options['fill'] = Fill.from_mcnp(f'{keyword}{value}')
                 case 'elpt':
-                    options['elpt'] = CellElpt.from_mcnp(f'{keyword}{value}')
+                    options['elpt'] = Elpt.from_mcnp(f'{keyword}{value}')
                 case 'cosy':
-                    options['cosy'] = CellCosy.from_mcnp(f'{keyword}{value}')
+                    options['cosy'] = Cosy.from_mcnp(f'{keyword}{value}')
                 case 'bflcl':
-                    options['bflcl'] = CellBflcl.from_mcnp(f'{keyword}{value}')
+                    options['bflcl'] = Bflcl.from_mcnp(f'{keyword}{value}')
                 case 'unc':
-                    options['unc'] = CellUnc.from_mcnp(f'{keyword}{value}')
+                    options['unc'] = Unc.from_mcnp(f'{keyword}{value}')
 
         cell = Cell(number, material, density, geometry, options)
         cell.comment = comments
