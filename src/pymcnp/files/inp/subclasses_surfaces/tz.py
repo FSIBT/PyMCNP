@@ -1,10 +1,11 @@
 """
-Contains the ``Tz`` subclass of ``Surface``."""
+Contains the ``Tz`` subclass of ``Surface``.
+"""
 
 from typing import Final
 
 from ..surface import Surface, SurfaceMnemonic
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class Tz(Surface):
@@ -118,7 +119,9 @@ class Tz(Surface):
             ``Tz`` object.
 
         Raises:
-            McnpError: EXPECTED_TOKEN, UNEXPECTED_TOKEN.
+            McnpError: EXPECTED_TOKEN.
+            McnpError: UNEXPECTED_TOKEN.
+            McnpError: UNRECOGNIZED_KEYWORD.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -148,7 +151,8 @@ class Tz(Surface):
         except Exception:
             transform = None
 
-        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())
+        if tokens.popl() != 'tz':
+            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, info=source)
 
         x = types.McnpReal.from_mcnp(tokens.popl())
         y = types.McnpReal.from_mcnp(tokens.popl())
@@ -160,7 +164,6 @@ class Tz(Surface):
         return Tz(
             number,
             transform,
-            mnemonic,
             x,
             y,
             z,

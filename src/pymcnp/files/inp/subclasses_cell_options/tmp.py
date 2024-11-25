@@ -1,11 +1,12 @@
 """
-Contains the ``Tmp`` subclass of ``CellOption``."""
+Contains the ``Tmp`` subclass of ``CellOption``.
+"""
 
 import re
 from typing import Final
 
-from ..cell import CellOption, CellKeyword
-from ....utils import types, errors, _parser
+from ..cell_option import CellOption, CellKeyword
+from ...utils import types, errors, _parser
 
 
 class Tmp(CellOption):
@@ -71,6 +72,6 @@ class Tmp(CellOption):
             raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, str(keyword))
 
         suffix = types.McnpInteger.from_mcnp(tokens.popl()[3:])
-        temperature = types.McnpInteger.from_mcnp(tokens.popl())
+        temperature = types.McnpReal.from_mcnp(tokens.popl())
 
         return Tmp(temperature, suffix)

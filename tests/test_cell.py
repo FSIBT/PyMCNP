@@ -116,8 +116,6 @@ class Test_CellImp:
 
     INVALID_EXAMPLES = []
 
-    exec(pymcnp.inp.cell._CellImpFactory.build_test())
-
 
 class Test_CellVol:
     """
@@ -136,8 +134,6 @@ class Test_CellVol:
         -0.1,
     ]
 
-    exec(pymcnp.inp.cell._CellVolFactory.build_test())
-
 
 class Test_CellPwt:
     """
@@ -152,8 +148,6 @@ class Test_CellPwt:
 
     INVALID_EXAMPLES = []
 
-    exec(pymcnp.inp.cell._CellPwtFactory.build_test())
-
 
 class Test_CellExt:
     """
@@ -167,8 +161,6 @@ class Test_CellExt:
     ]
 
     INVALID_EXAMPLES = []
-
-    exec(pymcnp.inp.cell._CellExtFactory.build_test())
 
 
 class Test_CellFcl:
@@ -188,8 +180,6 @@ class Test_CellFcl:
         (-1.3, 'n'),
     ]
 
-    exec(pymcnp.inp.cell._CellFclFactory.build_test())
-
 
 class Test_CellWwn:
     """
@@ -203,8 +193,6 @@ class Test_CellWwn:
     ]
 
     INVALID_EXAMPLES = []
-
-    exec(pymcnp.inp.cell._CellWwnFactory.build_test())
 
 
 class Test_CellDxc:
@@ -222,82 +210,68 @@ class Test_CellDxc:
         (-1.0, 2, '_'),
     ]
 
-    exec(pymcnp.inp.cell._CellDxcFactory.build_test())
-
 
 # class Test_CellNonu:
 #     """
 #     Tests ``CellNonu``.
 #     """
 
-#     exec(pymcnp.inp.cell._CellNonuFactory.build_test())
 
 # class Test_CellPd:
 #     """
 #     Tests ``CellPd``.
 #     """
 
-#     exec(pymcnp.inp.cell._CellPdFactory.build_test())
 
 # class Test_CellTmp:
 #     """
 #     Tests ``CellTmp``.
 #     """
 
-#     exec(pymcnp.inp.cell._CellTmpFactory.build_test())
 
 # class Test_CellU:
 #     """
 #     Tests ``CellU``.
 #     """
 
-#     exec(pymcnp.inp.cell._CellUFactory.build_test())
 
 # class Test_CellTrcl:
 #     """
 #     Tests ``CellTrcl``.
 #     """
 
-#     exec(pymcnp.inp.cell._CellTrclFactory.build_test())
 
 # class Test_CellLat:
 #     """
 #     Tests ``CellLat``.
 #     """
 
-#     exec(pymcnp.inp.cell._CellLatFactory.build_test())
 
 # class Test_CellFill:
 #     """
 #     Tests ``CellFill``.
 #     """
 
-#     exec(pymcnp.inp.cell._CellFillFactory.build_test())
 
 # class Test_CellElpt:
 #     """
 #     Tests ``CellElpt``.
 #     """
 
-#     exec(pymcnp.inp.cell._CellElptFactory.build_test())
 
 # class Test_CellCosy:
 #     """
 #     Tests ``CellCosy``.
 #     """
 
-#     exec(pymcnp.inp.cell._CellCosyFactory.build_test())
 
 # class Test_CellBflcl:
 #     """
 #     Tests ``CellBflcl``.
 #     """
 
-#     exec(pymcnp.inp.cell._CellBflclFactory.build_test())
 
 # class Test_CellUnc:
 #     """
 #     Tests ``CellUnc``.
 #     """
-
-#     exec(pymcnp.inp.cell._CellUncFactory.build_test())

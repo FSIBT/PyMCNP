@@ -1,10 +1,11 @@
 """
-Contains the ``Sy`` subclass of ``Surface``."""
+Contains the ``Sy`` subclass of ``Surface``.
+"""
 
 from typing import Final
 
 from ..surface import Surface, SurfaceMnemonic
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class Sy(Surface):
@@ -90,7 +91,9 @@ class Sy(Surface):
             ``Sy`` object.
 
         Raises:
-            McnpError: EXPECTED_TOKEN, UNEXPECTED_TOKEN.
+            McnpError: EXPECTED_TOKEN.
+            McnpError: UNEXPECTED_TOKEN.
+            McnpError: UNRECOGNIZED_KEYWORD.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -120,17 +123,12 @@ class Sy(Surface):
         except Exception:
             transform = None
 
-        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())
+        if tokens.popl() != 'sy':
+            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, info=source)
 
         y = types.McnpReal.from_mcnp(tokens.popl())
         r = types.McnpReal.from_mcnp(tokens.popl())
 
         return Sy(
-            number,
-            transform,
-            mnemonic,
-            y,
-            r,
-            is_whiteboundary=is_whiteboundary,
-            is_reflecting=is_reflecting,
+            number, transform, y, r, is_whiteboundary=is_whiteboundary, is_reflecting=is_reflecting
         )

@@ -9,7 +9,7 @@ from ..data import Data
 from ..data import DataMnemonic
 from ..data import DataOption
 from ..data import DataKeyword
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class BfldKeyword(DataKeyword):
@@ -550,7 +550,6 @@ class Bfld(Data):
         suffix = types.McnpInteger.from_mcnp(tokens.popl()[4:])
 
         kind = tokens.popl()
-        suffix = types.McnpInteger.from_mcnp(tokens.popl())
         pairs = {}
         keywords = re.findall(
             r'field|vec|maxdeflc|maxstep|axs|ffedges|refpnt', ' '.join(tokens.deque)
@@ -591,5 +590,5 @@ class Bfld(Data):
         """
 
         return _parser.Postprocessor.add_continuation_lines(
-            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {self.kind.to_mcnp()} {self.suffix.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.pairs.values())}"
+            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {self.kind.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.pairs.values())}"
         )

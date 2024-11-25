@@ -15,7 +15,7 @@ def build_Surface(surface: _data.SurfaceScheme):
     o += 'from typing import Final\n'
     o += '\n'
     o += 'from ..surface import Surface, SurfaceMnemonic\n'
-    o += 'from ....utils import types, errors, _parser\n'
+    o += 'from ...utils import types, errors, _parser\n'
     o += '\n'
     o += f'class {surface.name}(Surface):\n'
     o += '    """\n'
@@ -106,7 +106,9 @@ def build_Surface(surface: _data.SurfaceScheme):
     o += f'            ``{surface.name}`` object.\n'
     o += '\n'
     o += '        Raises:\n'
-    o += '            McnpError: EXPECTED_TOKEN, UNEXPECTED_TOKEN.\n'
+    o += '            McnpError: EXPECTED_TOKEN.\n'
+    o += '            McnpError: UNEXPECTED_TOKEN.\n'
+    o += '            McnpError: UNRECOGNIZED_KEYWORD.\n'
     o += '        """\n'
     o += '\n'
     o += '        source = _parser.Preprocessor.process_inp(source)\n'
@@ -136,7 +138,8 @@ def build_Surface(surface: _data.SurfaceScheme):
     o += '        except Exception:\n'
     o += '            transform = None\n'
     o += '\n'
-    o += '        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())\n'
+    o += f'        if tokens.popl() != "{surface.mnemonic}":\n'
+    o += '            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, info=source)\n'
     o += '\n'
 
     t = []
@@ -145,7 +148,7 @@ def build_Surface(surface: _data.SurfaceScheme):
         t.append(attribute.name)
 
     o += '\n'
-    o += f'        return {surface.name}(number, transform, mnemonic, {", ".join(t)}, is_whiteboundary=is_whiteboundary, is_reflecting=is_reflecting)\n'
+    o += f'        return {surface.name}(number, transform, {", ".join(t)}, is_whiteboundary=is_whiteboundary, is_reflecting=is_reflecting)\n'
     o += '\n'
 
     return o
@@ -160,7 +163,7 @@ for surface in _data.SURFACE_CARDS:
     )
     with filename.open('w') as file:
         file.write(
-            f'"""\n Contains the ``{surface.name}`` subclass of ``Surface``."""\n\n'
+            f'"""\n Contains the ``{surface.name}`` subclass of ``Surface``.\n"""\n\n'
             + build_Surface(surface)
         )
         init_imports.append(f'from .{surface.name.lower()} import {surface.name}')

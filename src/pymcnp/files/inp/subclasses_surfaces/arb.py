@@ -1,10 +1,11 @@
 """
-Contains the ``Arb`` subclass of ``Surface``."""
+Contains the ``Arb`` subclass of ``Surface``.
+"""
 
 from typing import Final
 
 from ..surface import Surface, SurfaceMnemonic
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class Arb(Surface):
@@ -319,7 +320,9 @@ class Arb(Surface):
             ``Arb`` object.
 
         Raises:
-            McnpError: EXPECTED_TOKEN, UNEXPECTED_TOKEN.
+            McnpError: EXPECTED_TOKEN.
+            McnpError: UNEXPECTED_TOKEN.
+            McnpError: UNRECOGNIZED_KEYWORD.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -349,7 +352,8 @@ class Arb(Surface):
         except Exception:
             transform = None
 
-        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())
+        if tokens.popl() != 'arb':
+            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, info=source)
 
         ax = types.McnpReal.from_mcnp(tokens.popl())
         ay = types.McnpReal.from_mcnp(tokens.popl())
@@ -385,7 +389,6 @@ class Arb(Surface):
         return Arb(
             number,
             transform,
-            mnemonic,
             ax,
             ay,
             az,

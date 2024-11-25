@@ -1,11 +1,12 @@
 """
-Contains the ``Fcl`` subclass of ``CellOption``."""
+Contains the ``Fcl`` subclass of ``CellOption``.
+"""
 
 import re
 from typing import Final
 
-from ..cell import CellOption, CellKeyword
-from ....utils import types, errors, _parser
+from ..cell_option import CellOption, CellKeyword
+from ...utils import types, errors, _parser
 
 
 class Fcl(CellOption):
@@ -72,6 +73,6 @@ class Fcl(CellOption):
 
         tokens.popl()
         designator = types.Designator.from_mcnp(tokens.popl())
-        control = types.Designator.from_mcnp(tokens.popl())
+        control = types.McnpReal.from_mcnp(tokens.popl())
 
         return Fcl(control, designator)

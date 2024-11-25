@@ -1,11 +1,12 @@
 """
-Contains the ``Pd`` subclass of ``CellOption``."""
+Contains the ``Pd`` subclass of ``CellOption``.
+"""
 
 import re
 from typing import Final
 
-from ..cell import CellOption, CellKeyword
-from ....utils import types, errors, _parser
+from ..cell_option import CellOption, CellKeyword
+from ...utils import types, errors, _parser
 
 
 class Pd(CellOption):
@@ -71,6 +72,6 @@ class Pd(CellOption):
             raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, str(keyword))
 
         suffix = types.McnpInteger.from_mcnp(tokens.popl()[2:])
-        probability = types.McnpInteger.from_mcnp(tokens.popl())
+        probability = types.McnpReal.from_mcnp(tokens.popl())
 
         return Pd(probability, suffix)

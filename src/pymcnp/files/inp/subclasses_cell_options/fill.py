@@ -1,11 +1,12 @@
 """
-Contains the ``Fill`` subclass of ``CellOption``."""
+Contains the ``Fill`` subclass of ``CellOption``.
+"""
 
 import re
 from typing import Final
 
-from ..cell import CellOption, CellKeyword
-from ....utils import types, errors, _parser
+from ..cell_option import CellOption, CellKeyword
+from ...utils import types, errors, _parser
 
 
 class Fill(CellOption):

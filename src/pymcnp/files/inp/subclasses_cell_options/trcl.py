@@ -1,11 +1,12 @@
 """
-Contains the ``Trcl`` subclass of ``CellOption``."""
+Contains the ``Trcl`` subclass of ``CellOption``.
+"""
 
 import re
 from typing import Final
 
-from ..cell import CellOption, CellKeyword
-from ....utils import errors, _parser
+from ..cell_option import CellOption, CellKeyword
+from ...utils import errors, _parser
 
 
 class Trcl(CellOption):

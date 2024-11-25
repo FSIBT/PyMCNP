@@ -1,10 +1,11 @@
 """
-Contains the ``X`` subclass of ``Surface``."""
+Contains the ``X`` subclass of ``Surface``.
+"""
 
 from typing import Final
 
 from ..surface import Surface, SurfaceMnemonic
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class X(Surface):
@@ -118,7 +119,9 @@ class X(Surface):
             ``X`` object.
 
         Raises:
-            McnpError: EXPECTED_TOKEN, UNEXPECTED_TOKEN.
+            McnpError: EXPECTED_TOKEN.
+            McnpError: UNEXPECTED_TOKEN.
+            McnpError: UNRECOGNIZED_KEYWORD.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -148,7 +151,8 @@ class X(Surface):
         except Exception:
             transform = None
 
-        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())
+        if tokens.popl() != 'x':
+            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, info=source)
 
         x1 = types.McnpReal.from_mcnp(tokens.popl())
         r1 = types.McnpReal.from_mcnp(tokens.popl())
@@ -160,7 +164,6 @@ class X(Surface):
         return X(
             number,
             transform,
-            mnemonic,
             x1,
             r1,
             x2,

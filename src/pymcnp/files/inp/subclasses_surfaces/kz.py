@@ -1,10 +1,11 @@
 """
-Contains the ``Kz`` subclass of ``Surface``."""
+Contains the ``Kz`` subclass of ``Surface``.
+"""
 
 from typing import Final
 
 from ..surface import Surface, SurfaceMnemonic
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class Kz(Surface):
@@ -97,7 +98,9 @@ class Kz(Surface):
             ``Kz`` object.
 
         Raises:
-            McnpError: EXPECTED_TOKEN, UNEXPECTED_TOKEN.
+            McnpError: EXPECTED_TOKEN.
+            McnpError: UNEXPECTED_TOKEN.
+            McnpError: UNRECOGNIZED_KEYWORD.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -127,7 +130,8 @@ class Kz(Surface):
         except Exception:
             transform = None
 
-        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())
+        if tokens.popl() != 'kz':
+            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, info=source)
 
         z = types.McnpReal.from_mcnp(tokens.popl())
         t_squared = types.McnpReal.from_mcnp(tokens.popl())
@@ -136,7 +140,6 @@ class Kz(Surface):
         return Kz(
             number,
             transform,
-            mnemonic,
             z,
             t_squared,
             plusminus_1,

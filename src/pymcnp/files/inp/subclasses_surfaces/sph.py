@@ -1,10 +1,11 @@
 """
-Contains the ``Sph`` subclass of ``Surface``."""
+Contains the ``Sph`` subclass of ``Surface``.
+"""
 
 from typing import Final
 
 from ..surface import Surface, SurfaceMnemonic
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class Sph(Surface):
@@ -104,7 +105,9 @@ class Sph(Surface):
             ``Sph`` object.
 
         Raises:
-            McnpError: EXPECTED_TOKEN, UNEXPECTED_TOKEN.
+            McnpError: EXPECTED_TOKEN.
+            McnpError: UNEXPECTED_TOKEN.
+            McnpError: UNRECOGNIZED_KEYWORD.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -134,7 +137,8 @@ class Sph(Surface):
         except Exception:
             transform = None
 
-        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())
+        if tokens.popl() != 'sph':
+            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, info=source)
 
         vx = types.McnpReal.from_mcnp(tokens.popl())
         vy = types.McnpReal.from_mcnp(tokens.popl())
@@ -144,7 +148,6 @@ class Sph(Surface):
         return Sph(
             number,
             transform,
-            mnemonic,
             vx,
             vy,
             vz,

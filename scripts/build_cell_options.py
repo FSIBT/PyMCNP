@@ -15,8 +15,8 @@ def build_CellOption(cell_option: _data.CellOptionScheme):
     o += 'import re\n'
     o += 'from typing import Final\n'
     o += '\n'
-    o += 'from ..cell import CellOption, CellKeyword\n'
-    o += 'from ....utils import types, errors, _parser\n'
+    o += 'from ..cell_option import CellOption, CellKeyword\n'
+    o += 'from ...utils import types, errors, _parser\n'
     o += '\n'
     o += f'class {cell_option.name}(CellOption):\n'
     o += '    """\n'
@@ -137,7 +137,7 @@ def build_CellOption(cell_option: _data.CellOptionScheme):
 
     else:
         # value: ?
-        o += f'        {cell_option.attributes[0].name} = {attribute.type}.from_mcnp(tokens.popl())\n'
+        o += f'        {cell_option.attributes[0].name} = {cell_option.attributes[0].type}.from_mcnp(tokens.popl())\n'
 
     o += '\n'
 
@@ -156,10 +156,10 @@ for cell_option in _data.CELL_OPTIONS:
     )
     with filename.open('w') as file:
         file.write(
-            f'"""\n Contains the ``{cell_option.name}`` subclass of ``CellOption``."""\n\n'
+            f'"""\n Contains the ``{cell_option.name}`` subclass of ``CellOption``.\n"""\n\n'
             + build_CellOption(cell_option)
         )
-        init_imports.append(f'from .{cell_option.name} import {cell_option.name}')
+        init_imports.append(f'from .{cell_option.name.lower()} import {cell_option.name}')
         init_all.append(f'"{cell_option.name}",')
 
 init_path = pathlib.Path(__file__).parent / pathlib.Path(

@@ -27,7 +27,7 @@ def test_ft():
     There was an error where we didn't output the same string as we read in.
     """
     line = 'area -0.02 0.044 0.117'
-    assert line == pymcnp.inp.data.Area.from_mcnp(line).to_mcnp()
+    assert line == pymcnp.inp.DataArea.from_mcnp(line).to_mcnp()
 
 
 def test_comments():
@@ -83,7 +83,7 @@ def test_transformation():
     # assert obj.rotation[0][1] == 0.0
     # assert obj.rotation[0][2] == 0.0
 
-    obj = pymcnp.inp.Tr.from_mcnp('TR24   50 1 80.0 123 234 345 0 1 0 0 0 1 1')
+    obj = pymcnp.inp.DataTr.from_mcnp('TR24   50 1 80.0 123 234 345 0 1 0 0 0 1 1')
     assert obj.suffix == 24
     assert obj.displacement.x == 50.0
     assert obj.displacement.y == 1.0

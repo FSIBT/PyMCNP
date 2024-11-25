@@ -9,7 +9,7 @@ from ..data import Data
 from ..data import DataMnemonic
 from ..data import DataOption
 from ..data import DataKeyword
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class KoptsKeyword(DataKeyword):

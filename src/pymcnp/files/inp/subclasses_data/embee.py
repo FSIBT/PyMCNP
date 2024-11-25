@@ -9,7 +9,7 @@ from ..data import Data
 from ..data import DataMnemonic
 from ..data import DataOption
 from ..data import DataKeyword
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class EmbeeKeyword(DataKeyword):
@@ -531,7 +531,6 @@ class Embee(Data):
 
         suffix = types.McnpInteger.from_mcnp(tokens.popl()[5:])
 
-        suffix = types.McnpInteger.from_mcnp(tokens.popl())
         pairs = {}
         keywords = re.findall(r'embed|energy|time|atom|factor|mat|mtype', ' '.join(tokens.deque))
         values = re.split(r'embed|energy|time|atom|factor|mat|mtype', ' '.join(tokens.deque))[1:]
@@ -568,5 +567,5 @@ class Embee(Data):
         """
 
         return _parser.Postprocessor.add_continuation_lines(
-            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {self.suffix.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.pairs.values())}"
+            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.pairs.values())}"
         )

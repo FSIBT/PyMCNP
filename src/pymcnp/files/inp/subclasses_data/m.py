@@ -10,7 +10,7 @@ from ..data import DataMnemonic
 from ..data import DataEntry
 from ..data import DataOption
 from ..data import DataKeyword
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class MEntry(DataEntry):
@@ -1170,7 +1170,6 @@ class M(Data):
             MEntry.from_mcnp(' '.join([tokens.popl() for __ in range(0, 2)]))
             for _ in range(0, len(tokens), 2)
         ]
-        suffix = types.McnpInteger.from_mcnp(tokens.popl())
         pairs = {}
         keywords = re.findall(
             r'gas|estep|hstep|nlib|plib|pnlib|elib|hlib|alib|slib|tlib|dlib|cond|refi|refc|refs',
@@ -1231,5 +1230,5 @@ class M(Data):
         """
 
         return _parser.Postprocessor.add_continuation_lines(
-            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.substances)} {self.suffix.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.pairs.values())}"
+            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.substances)} {" ".join(entry.to_mcnp() for entry in self.pairs.values())}"
         )

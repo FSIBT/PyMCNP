@@ -7,7 +7,7 @@ from typing import Final
 
 from ..data import Data
 from ..data import DataMnemonic
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class Sc(Data):
@@ -81,7 +81,6 @@ class Sc(Data):
         suffix = types.McnpInteger.from_mcnp(tokens.popl()[2:])
 
         comment = [tokens.popl() for _ in range(0, len(tokens))]
-        suffix = types.McnpInteger.from_mcnp(tokens.popl())
 
         data = Sc(comment, suffix)
         data.comment = comments
@@ -99,5 +98,5 @@ class Sc(Data):
         """
 
         return _parser.Postprocessor.add_continuation_lines(
-            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.comment)} {self.suffix.to_mcnp()}"
+            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.comment)}"
         )

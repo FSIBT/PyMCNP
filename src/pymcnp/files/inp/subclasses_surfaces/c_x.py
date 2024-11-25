@@ -1,10 +1,11 @@
 """
-Contains the ``C_x`` subclass of ``Surface``."""
+Contains the ``C_x`` subclass of ``Surface``.
+"""
 
 from typing import Final
 
 from ..surface import Surface, SurfaceMnemonic
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class C_x(Surface):
@@ -97,7 +98,9 @@ class C_x(Surface):
             ``C_x`` object.
 
         Raises:
-            McnpError: EXPECTED_TOKEN, UNEXPECTED_TOKEN.
+            McnpError: EXPECTED_TOKEN.
+            McnpError: UNEXPECTED_TOKEN.
+            McnpError: UNRECOGNIZED_KEYWORD.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -127,7 +130,8 @@ class C_x(Surface):
         except Exception:
             transform = None
 
-        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())
+        if tokens.popl() != 'c/x':
+            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, info=source)
 
         y = types.McnpReal.from_mcnp(tokens.popl())
         z = types.McnpReal.from_mcnp(tokens.popl())
@@ -136,7 +140,6 @@ class C_x(Surface):
         return C_x(
             number,
             transform,
-            mnemonic,
             y,
             z,
             r,

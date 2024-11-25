@@ -1,10 +1,11 @@
 """
-Contains the ``K_y`` subclass of ``Surface``."""
+Contains the ``K_y`` subclass of ``Surface``.
+"""
 
 from typing import Final
 
 from ..surface import Surface, SurfaceMnemonic
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class K_y(Surface):
@@ -111,7 +112,9 @@ class K_y(Surface):
             ``K_y`` object.
 
         Raises:
-            McnpError: EXPECTED_TOKEN, UNEXPECTED_TOKEN.
+            McnpError: EXPECTED_TOKEN.
+            McnpError: UNEXPECTED_TOKEN.
+            McnpError: UNRECOGNIZED_KEYWORD.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -141,7 +144,8 @@ class K_y(Surface):
         except Exception:
             transform = None
 
-        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())
+        if tokens.popl() != 'k/y':
+            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, info=source)
 
         x = types.McnpReal.from_mcnp(tokens.popl())
         y = types.McnpReal.from_mcnp(tokens.popl())
@@ -152,7 +156,6 @@ class K_y(Surface):
         return K_y(
             number,
             transform,
-            mnemonic,
             x,
             y,
             z,

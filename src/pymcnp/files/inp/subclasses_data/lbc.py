@@ -12,7 +12,7 @@ from ...utils import types, errors, _parser
 
 class Lcb(Data):
     """
-    Represents INP lcb data cards.
+    Represents INP lbc data cards.
 
     ``Lcb`` implements ``Data``.
 
@@ -79,7 +79,7 @@ class Lcb(Data):
         if film0 is None:
             raise errors.McnpError(errors.McnpCode.INVALID_DATUM_PARAMETERS, str(film0))
 
-        self.mnemonic: Final[DataMnemonic] = DataMnemonic.LCB
+        self.mnemonic: Final[DataMnemonic] = DataMnemonic.LBC
         self.parameters: Final[tuple[any]] = tuple(
             [flenb1] + [flenb2] + [flenb3] + [flenb4] + [flenb5] + [flenb6] + [cotfe] + [film0]
         )
@@ -91,7 +91,7 @@ class Lcb(Data):
         self.flenb6: Final[types.McnpReal] = flenb6
         self.cotfe: Final[types.McnpReal] = cotfe
         self.film0: Final[types.McnpReal] = film0
-        self.ident: Final[str] = 'lcb'
+        self.ident: Final[str] = 'lbc'
 
     @staticmethod
     def from_mcnp(source: str):
@@ -101,7 +101,7 @@ class Lcb(Data):
         ``from_mcnp`` translates from INP to PyMCNP; it parses INP.
 
         Parameters:
-            source: INP for lcb data cards.
+            source: INP for lbc data cards.
 
         Returns:
             ``Lcb`` object.
@@ -119,7 +119,7 @@ class Lcb(Data):
 
         mnemonic = re.search(r'^[a-zA-Z*]+', tokens.peekl())
         mnemonic = mnemonic[0] if mnemonic else ''
-        if mnemonic != 'lcb':
+        if mnemonic != 'lbc':
             raise errors.McnpError(errors.McnpCode.KEYWORD_DATUM_MNEMONIC)
 
         tokens.popl()

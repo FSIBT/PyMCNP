@@ -1,11 +1,12 @@
 """
-Contains the ``Ext`` subclass of ``CellOption``."""
+Contains the ``Ext`` subclass of ``CellOption``.
+"""
 
 import re
 from typing import Final
 
-from ..cell import CellOption, CellKeyword
-from ....utils import types, errors, _parser
+from ..cell_option import CellOption, CellKeyword
+from ...utils import types, errors, _parser
 
 
 class Ext(CellOption):
@@ -72,6 +73,6 @@ class Ext(CellOption):
 
         tokens.popl()
         designator = types.Designator.from_mcnp(tokens.popl())
-        stretch = types.Designator.from_mcnp(tokens.popl())
+        stretch = str.from_mcnp(tokens.popl())
 
         return Ext(stretch, designator)

@@ -1,11 +1,12 @@
 """
-Contains the ``Dxc`` subclass of ``CellOption``."""
+Contains the ``Dxc`` subclass of ``CellOption``.
+"""
 
 import re
 from typing import Final
 
-from ..cell import CellOption, CellKeyword
-from ....utils import types, errors, _parser
+from ..cell_option import CellOption, CellKeyword
+from ...utils import types, errors, _parser
 
 
 class Dxc(CellOption):
@@ -80,6 +81,6 @@ class Dxc(CellOption):
 
         suffix = types.McnpInteger.from_mcnp(tokens.popl()[3:])
         designator = types.Designator.from_mcnp(tokens.popl())
-        probability = types.Designator.from_mcnp(tokens.popl())
+        probability = types.McnpReal.from_mcnp(tokens.popl())
 
         return Dxc(probability, suffix, designator)

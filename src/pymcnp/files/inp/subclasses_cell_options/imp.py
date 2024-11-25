@@ -1,11 +1,12 @@
 """
-Contains the ``Imp`` subclass of ``CellOption``."""
+Contains the ``Imp`` subclass of ``CellOption``.
+"""
 
 import re
 from typing import Final
 
-from ..cell import CellOption, CellKeyword
-from ....utils import types, errors, _parser
+from ..cell_option import CellOption, CellKeyword
+from ...utils import types, errors, _parser
 
 
 class Imp(CellOption):
@@ -72,6 +73,6 @@ class Imp(CellOption):
 
         tokens.popl()
         designator = types.Designator.from_mcnp(tokens.popl())
-        importance = types.Designator.from_mcnp(tokens.popl())
+        importance = types.McnpReal.from_mcnp(tokens.popl())
 
         return Imp(importance, designator)

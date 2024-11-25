@@ -1,10 +1,11 @@
 """
-Contains the ``Ell`` subclass of ``Surface``."""
+Contains the ``Ell`` subclass of ``Surface``.
+"""
 
 from typing import Final
 
 from ..surface import Surface, SurfaceMnemonic
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class Ell(Surface):
@@ -125,7 +126,9 @@ class Ell(Surface):
             ``Ell`` object.
 
         Raises:
-            McnpError: EXPECTED_TOKEN, UNEXPECTED_TOKEN.
+            McnpError: EXPECTED_TOKEN.
+            McnpError: UNEXPECTED_TOKEN.
+            McnpError: UNRECOGNIZED_KEYWORD.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -155,7 +158,8 @@ class Ell(Surface):
         except Exception:
             transform = None
 
-        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())
+        if tokens.popl() != 'ell':
+            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, info=source)
 
         v1x = types.McnpReal.from_mcnp(tokens.popl())
         v1y = types.McnpReal.from_mcnp(tokens.popl())
@@ -168,7 +172,6 @@ class Ell(Surface):
         return Ell(
             number,
             transform,
-            mnemonic,
             v1x,
             v1y,
             v1z,

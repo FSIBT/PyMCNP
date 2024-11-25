@@ -1,122 +1,122 @@
 from .inp import Inp
 from .comment import Comment
 from .cell import Cell
-from .cell import CellKeyword
 from .cell import CellGeometry
-from .cell import CellOption
-from .cell import CellImp
-from .cell import CellVol
-from .cell import CellPwt
-from .cell import CellExt
-from .cell import CellFcl
-from .cell import CellWwn
-from .cell import CellDxc
-from .cell import CellNonu
-from .cell import CellPd
-from .cell import CellTmp
-from .cell import CellU
-from .cell import CellTrcl
-from .cell import CellLat
-from .cell import CellFill
-from .cell import CellElpt
-from .cell import CellCosy
-from .cell import CellBflcl
-from .cell import CellUnc
+from .cell_option import CellKeyword
+from .cell_option import CellOption
+from .cell import Imp as CellImp
+from .cell import Vol as CellVol
+from .cell import Pwt as CellPwt
+from .cell import Ext as CellExt
+from .cell import Fcl as CellFcl
+from .cell import Wwn as CellWwn
+from .cell import Dxc as CellDxc
+from .cell import Nonu as CellNonu
+from .cell import Pd as CellPd
+from .cell import Tmp as CellTmp
+from .cell import U as CellU
+from .cell import Trcl as CellTrcl
+from .cell import Lat as CellLat
+from .cell import Fill as CellFill
+from .cell import Elpt as CellElpt
+from .cell import Cosy as CellCosy
+from .cell import Bflcl as CellBflcl
+from .cell import Unc as CellUnc
 from .surface import Surface
 from .surface import SurfaceMnemonic
-from .surface import P
-from .surface import Px
-from .surface import Py
-from .surface import Pz
-from .surface import So
-from .surface import S
-from .surface import Sx
-from .surface import Sy
-from .surface import Sz
-from .surface import C_x
-from .surface import C_y
-from .surface import C_z
-from .surface import Cx
-from .surface import Cy
-from .surface import Cz
-from .surface import K_x
-from .surface import K_y
-from .surface import K_z
-from .surface import Kx
-from .surface import Ky
-from .surface import Kz
-from .surface import Sq
-from .surface import Gq
-from .surface import Tx
-from .surface import Ty
-from .surface import Tz
-from .surface import X
-from .surface import Y
-from .surface import Z
-from .surface import Box
-from .surface import Rpp
-from .surface import Sph
-from .surface import Rcc
-from .surface import Rhp
-from .surface import Rec
-from .surface import Trc
-from .surface import Ell
-from .surface import Wed
+from .subclasses_surfaces import P as SurfaceP
+from .subclasses_surfaces import Px as SurfacePx
+from .subclasses_surfaces import Py as SurfacePy
+from .subclasses_surfaces import Pz as SurfacePz
+from .subclasses_surfaces import So as SurfaceSo
+from .subclasses_surfaces import S as SurfaceS
+from .subclasses_surfaces import Sx as SurfaceSx
+from .subclasses_surfaces import Sy as SurfaceSy
+from .subclasses_surfaces import Sz as SurfaceSz
+from .subclasses_surfaces import C_x as SurfaceC_x
+from .subclasses_surfaces import C_y as SurfaceC_y
+from .subclasses_surfaces import C_z as SurfaceC_z
+from .subclasses_surfaces import Cx as SurfaceCx
+from .subclasses_surfaces import Cy as SurfaceCy
+from .subclasses_surfaces import Cz as SurfaceCz
+from .subclasses_surfaces import K_x as SurfaceK_x
+from .subclasses_surfaces import K_y as SurfaceK_y
+from .subclasses_surfaces import K_z as SurfaceK_z
+from .subclasses_surfaces import Kx as SurfaceKx
+from .subclasses_surfaces import Ky as SurfaceKy
+from .subclasses_surfaces import Kz as SurfaceKz
+from .subclasses_surfaces import Sq as SurfaceSq
+from .subclasses_surfaces import Gq as SurfaceGq
+from .subclasses_surfaces import Tx as SurfaceTx
+from .subclasses_surfaces import Ty as SurfaceTy
+from .subclasses_surfaces import Tz as SurfaceTz
+from .subclasses_surfaces import X as SurfaceX
+from .subclasses_surfaces import Y as SurfaceY
+from .subclasses_surfaces import Z as SurfaceZ
+from .subclasses_surfaces import Box as SurfaceBox
+from .subclasses_surfaces import Rpp as SurfaceRpp
+from .subclasses_surfaces import Sph as SurfaceSph
+from .subclasses_surfaces import Rcc as SurfaceRcc
+from .subclasses_surfaces import Rhp as SurfaceRhp
+from .subclasses_surfaces import Rec as SurfaceRec
+from .subclasses_surfaces import Trc as SurfaceTrc
+from .subclasses_surfaces import Ell as SurfaceEll
+from .subclasses_surfaces import Wed as SurfaceWed
 from .data import Data
 from .data import DataMnemonic
 from .data import DataEntry
 from .data import DataKeyword
 from .data import DataOption
-from .data import Area
-from .data import Tr
-from .data import U
-from .data import Lat
-from .data import Fill
-from .data import Uran
-from .data import Dm
-from .data import Embed
-from .data import Embee
-from .data import Embeb
-from .data import Embem
-from .data import Embtb
-from .data import Embtm
-from .data import Embdb
-from .data import Embdf
-from .data import M
-from .data import Mt
-from .data import Otfdb
-from .data import Nonu
-from .data import Awtab
-from .data import Xs
-from .data import Void
-from .data import Mgopt
-from .data import Drxs
-from .data import Mode
-from .data import Act
-from .data import Cut
-from .data import Elpt
-from .data import Thtme
-from .data import Lca
-from .data import Lcb
-from .data import Lcc
-from .data import Lae
-from .data import Leb
-from .data import Fmult
-from .data import Tropt
-from .data import Unc
-from .data import Cosyp
-from .data import Cosy
-from .data import Bfld
-from .data import Bflcl
-from .data import Sdef
-from .data import Sc
-from .data import Ssr
-from .data import Kcode
-from .data import Ksrc
-from .data import Kopts
-from .data import Hsrc
-from .data import Nps
-from .data import Rand
+from .subclasses_data import Area as DataArea
+from .subclasses_data import Tr as DataTr
+from .subclasses_data import U as DataU
+from .subclasses_data import Lat as DataLat
+from .subclasses_data import Fill as DataFill
+from .subclasses_data import Uran as DataUran
+from .subclasses_data import Dm as DataDm
+from .subclasses_data import Embed as DataEmbed
+from .subclasses_data import Embee as DataEmbee
+from .subclasses_data import Embeb as DataEmbeb
+from .subclasses_data import Embem as DataEmbem
+from .subclasses_data import Embtb as DataEmbtb
+from .subclasses_data import Embtm as DataEmbtm
+from .subclasses_data import Embdb as DataEmbdb
+from .subclasses_data import Embdf as DataEmbdf
+from .subclasses_data import M as DataM
+from .subclasses_data import Mt as DataMt
+from .subclasses_data import Otfdb as DataOtfdb
+from .subclasses_data import Nonu as DataNonu
+from .subclasses_data import Awtab as DataAwtab
+from .subclasses_data import Xs as DataXs
+from .subclasses_data import Void as DataVoid
+from .subclasses_data import Mgopt as DataMgopt
+from .subclasses_data import Drxs as DataDrxs
+from .subclasses_data import Mode as DataMode
+from .subclasses_data import Act as DataAct
+from .subclasses_data import Cut as DataCut
+from .subclasses_data import Elpt as DataElpt
+from .subclasses_data import Thtme as DataThtme
+from .subclasses_data import Lca as DataLca
+from .subclasses_data import Lcb as DataLcb
+from .subclasses_data import Lcc as DataLcc
+from .subclasses_data import Lae as DataLae
+from .subclasses_data import Leb as DataLeb
+from .subclasses_data import Fmult as DataFmult
+from .subclasses_data import Tropt as DataTropt
+from .subclasses_data import Unc as DataUnc
+from .subclasses_data import Cosyp as DataCosyp
+from .subclasses_data import Cosy as DataCosy
+from .subclasses_data import Bfld as DataBfld
+from .subclasses_data import Bflcl as DataBflcl
+from .subclasses_data import Sdef as DataSdef
+from .subclasses_data import Sc as DataSc
+from .subclasses_data import Ssr as DataSsr
+from .subclasses_data import Kcode as DataKcode
+from .subclasses_data import Ksrc as DataKsrc
+from .subclasses_data import Kopts as DataKopts
+from .subclasses_data import Hsrc as DataHsrc
+from .subclasses_data import Nps as DataNps
+from .subclasses_data import Rand as DataRand
 
 __all__ = [
     'Inp',
@@ -145,97 +145,97 @@ __all__ = [
     'CellUnc',
     'Surface',
     'SurfaceMnemonic',
-    'P',
-    'Px',
-    'Py',
-    'Pz',
-    'So',
-    'S',
-    'Sx',
-    'Sy',
-    'Sz',
-    'C_x',
-    'C_y',
-    'C_z',
-    'Cx',
-    'Cy',
-    'Cz',
-    'K_x',
-    'K_y',
-    'K_z',
-    'Kx',
-    'Ky',
-    'Kz',
-    'Sq',
-    'Gq',
-    'Tx',
-    'Ty',
-    'Tz',
-    'X',
-    'Y',
-    'Z',
-    'Box',
-    'Rpp',
-    'Sph',
-    'Rcc',
-    'Rhp',
-    'Rec',
-    'Trc',
-    'Ell',
-    'Wed',
+    'SurfaceP',
+    'SurfacePx',
+    'SurfacePy',
+    'SurfacePz',
+    'SurfaceSo',
+    'SurfaceS',
+    'SurfaceSx',
+    'SurfaceSy',
+    'SurfaceSz',
+    'SurfaceC_x',
+    'SurfaceC_y',
+    'SurfaceC_z',
+    'SurfaceCx',
+    'SurfaceCy',
+    'SurfaceCz',
+    'SurfaceK_x',
+    'SurfaceK_y',
+    'SurfaceK_z',
+    'SurfaceKx',
+    'SurfaceKy',
+    'SurfaceKz',
+    'SurfaceSq',
+    'SurfaceGq',
+    'SurfaceTx',
+    'SurfaceTy',
+    'SurfaceTz',
+    'SurfaceX',
+    'SurfaceY',
+    'SurfaceZ',
+    'SurfaceBox',
+    'SurfaceRpp',
+    'SurfaceSph',
+    'SurfaceRcc',
+    'SurfaceRhp',
+    'SurfaceRec',
+    'SurfaceTrc',
+    'SurfaceEll',
+    'SurfaceWed',
     'Data',
     'DataMnemonic',
     'DataEntry',
     'DataKeyword',
     'DataOption',
-    'Area',
-    'Tr',
-    'U',
-    'Lat',
-    'Fill',
-    'Uran',
-    'Dm',
-    'Embed',
-    'Embee',
-    'Embeb',
-    'Embem',
-    'Embtb',
-    'Embtm',
-    'Embdb',
-    'Embdf',
-    'M',
-    'Mt',
-    'Otfdb',
-    'Nonu',
-    'Awtab',
-    'Xs',
-    'Void',
-    'Mgopt',
-    'Drxs',
-    'Mode',
-    'Act',
-    'Cut',
-    'Elpt',
-    'Thtme',
-    'Lca',
-    'Lcb',
-    'Lcc',
-    'Lae',
-    'Leb',
-    'Fmult',
-    'Tropt',
-    'Unc',
-    'Cosyp',
-    'Cosy',
-    'Bfld',
-    'Bflcl',
-    'Sdef',
-    'Sc',
-    'Ssr',
-    'Kcode',
-    'Ksrc',
-    'Kopts',
-    'Hsrc',
-    'Nps',
-    'Rand',
+    'DataArea',
+    'DataTr',
+    'DataU',
+    'DataLat',
+    'DataFill',
+    'DataUran',
+    'DataDm',
+    'DataEmbed',
+    'DataEmbee',
+    'DataEmbeb',
+    'DataEmbem',
+    'DataEmbtb',
+    'DataEmbtm',
+    'DataEmbdb',
+    'DataEmbdf',
+    'DataM',
+    'DataMt',
+    'DataOtfdb',
+    'DataNonu',
+    'DataAwtab',
+    'DataXs',
+    'DataVoid',
+    'DataMgopt',
+    'DataDrxs',
+    'DataMode',
+    'DataAct',
+    'DataCut',
+    'DataElpt',
+    'DataThtme',
+    'DataLca',
+    'DataLcb',
+    'DataLcc',
+    'DataLae',
+    'DataLeb',
+    'DataFmult',
+    'DataTropt',
+    'DataUnc',
+    'DataCosyp',
+    'DataCosy',
+    'DataBfld',
+    'DataBflcl',
+    'DataSdef',
+    'DataSc',
+    'DataSsr',
+    'DataKcode',
+    'DataKsrc',
+    'DataKopts',
+    'DataHsrc',
+    'DataNps',
+    'DataRand',
 ]

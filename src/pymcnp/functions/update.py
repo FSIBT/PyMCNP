@@ -49,4 +49,4 @@ def update_seed(inpt, seed: int = None):
         else:
             modify.modify(inpt.data_micellaneous['rand'].pairs['seed'], seed=seed)
     else:
-        append.append_data(inpt, files.inp.data.Rand.from_mcnp(f'rand seed={seed}'))
+        append.append_data(inpt, files.inp.DataRand.from_mcnp(f'rand seed={seed}'))

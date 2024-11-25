@@ -8,7 +8,7 @@ from typing import Final
 from ..data import Data
 from ..data import DataMnemonic
 from ..data import DataEntry
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class XsEntry(DataEntry):
@@ -161,7 +161,6 @@ class Xs(Data):
             XsEntry.from_mcnp(' '.join([tokens.popl() for __ in range(0, 2)]))
             for _ in range(0, len(tokens), 2)
         ]
-        suffix = types.McnpInteger.from_mcnp(tokens.popl())
 
         data = Xs(weight_ratios, suffix)
         data.comment = comments
@@ -179,5 +178,5 @@ class Xs(Data):
         """
 
         return _parser.Postprocessor.add_continuation_lines(
-            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.weight_ratios)} {self.suffix.to_mcnp()}"
+            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.weight_ratios)}"
         )

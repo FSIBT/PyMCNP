@@ -6,27 +6,29 @@ import re
 from typing import Final
 
 from . import _card
+from .subclasses_cell_options import Imp
+from .subclasses_cell_options import Vol
+from .subclasses_cell_options import Pwt
+from .subclasses_cell_options import Ext
+from .subclasses_cell_options import Fcl
+from .subclasses_cell_options import Wwn
+from .subclasses_cell_options import Dxc
+from .subclasses_cell_options import Nonu
+from .subclasses_cell_options import Pd
+from .subclasses_cell_options import Tmp
+from .subclasses_cell_options import U
+from .subclasses_cell_options import Trcl
+from .subclasses_cell_options import Lat
+from .subclasses_cell_options import Fill
+from .subclasses_cell_options import Elpt
+from .subclasses_cell_options import Cosy
+from .subclasses_cell_options import Bflcl
+from .subclasses_cell_options import Unc
+from .cell_option import CellOption
+from .cell_option import CellKeyword
 from ..utils import types
 from ..utils import errors
 from ..utils import _parser
-from ..subclasses_cell_option import Imp
-from ..subclasses_cell_option import Vol
-from ..subclasses_cell_option import Pwt
-from ..subclasses_cell_option import Ext
-from ..subclasses_cell_option import Fcl
-from ..subclasses_cell_option import Wwn
-from ..subclasses_cell_option import Dxc
-from ..subclasses_cell_option import Nonu
-from ..subclasses_cell_option import Pd
-from ..subclasses_cell_option import Tmp
-from ..subclasses_cell_option import U
-from ..subclasses_cell_option import Trcl
-from ..subclasses_cell_option import Lat
-from ..subclasses_cell_option import Fill
-from ..subclasses_cell_option import Elpt
-from ..subclasses_cell_option import Cosy
-from ..subclasses_cell_option import Bflcl
-from ..subclasses_cell_option import Unc
 
 
 class CellGeometry(_card.CardEntry):
@@ -149,108 +151,6 @@ class CellGeometry(_card.CardEntry):
         return self.formula
 
 
-class CellKeyword(_card.CardKeyword):
-    """
-    Represents INP cell card option keywords.
-
-    ``CellKeyword`` implements ``_card.CardKeyword``.
-    """
-
-    IMP = 'imp'
-    VOL = 'vol'
-    PWT = 'pwt'
-    EXT = 'ext'
-    FCL = 'fcl'
-    WWN = 'wwn'
-    DXC = 'dxc'
-    NONU = 'nonu'
-    PD = 'pd'
-    TMP = 'tmp'
-    U = 'u'
-    TRCL = 'trcl'
-    # COORDINATE_TRANSFORMATION_ANGLE = '*trcl'
-    LAT = 'lat'
-    FILL = 'fill'
-    # FILL_ANGLE = '*fill'
-    ELPT = 'elpt'
-    COSY = 'cosy'
-    BFIELD = 'bflcl'
-    UNC = 'unc'
-
-    @staticmethod
-    def from_mcnp(source: str):
-        """
-        Generates ``CellKeyword`` objects from INP.
-
-        ``from_mcnp`` translates from INP to PyMCNP; it parses INP.
-
-        Parameters:
-            source: INP for ``CellKeyword``
-
-        Returns:
-            ``CellKeyword`` object.
-
-        Raises:
-            MCNPError: UNRECOGNIZED_KEYWORD.
-        """
-
-        source = _parser.Preprocessor.process_inp(source)
-
-        try:
-            return CellKeyword(source)
-        except ValueError:
-            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, source)
-
-
-class CellOption(_card.CardOption):
-    """
-    Represents INP cell card option keywords.
-
-    ``CellOption`` implements ``_card.CardOption``.
-
-    Attributes:
-        keyword: Cell card option keyword.
-        value: Cell card option value.
-    """
-
-    @staticmethod
-    def from_mcnp(source: str):
-        raise NotImplementedError
-
-    def to_mcnp(self) -> str:
-        """
-        Generates INP from ``CellOption`` objects.
-
-        ``to_mcnp`` translates from PyMCNP to INP.
-
-        Returns:
-            INP for ``CellOption``.
-        """
-
-        # Processing Suffix
-        suffix_str = str(self.suffix.to_mcnp()) if hasattr(self, 'suffix') else ''
-
-        # Processing Designator
-        designator_str = (
-            f":{','.join(self.designator.particles)}"
-            if hasattr(self, 'designator') and self.designator is not None
-            else ''
-        )
-
-        value_str = ''
-        if isinstance(self.value, tuple):
-            value_str = ' '.join(
-                [
-                    str(param.value) if hasattr(param, 'value') else str(param)
-                    for param in self.value
-                ]
-            )
-        else:
-            value_str = self.value.value if hasattr(self.value, 'value') else str(self.value)
-
-        return f'{self.keyword.to_mcnp()}{suffix_str}{designator_str}={value_str}'
-
-
 class Cell(_card.Card):
     """
     Represents INP cell cards.
@@ -339,7 +239,7 @@ class Cell(_card.Card):
         source = _parser.Preprocessor.process_inp(source)
         source, comments = _parser.Preprocessor.process_inp_comments(source)
         tokens = _parser.Parser(
-            re.split(r' |=', source),
+            re.split(r' ', source),
             errors.McnpError(errors.McnpCode.EXPECTED_TOKEN, source),
         )
 

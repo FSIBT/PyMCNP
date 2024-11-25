@@ -10,6 +10,93 @@ import pathlib
 from . import cell
 from . import data
 from . import surface
+from .subclasses_surfaces import P
+from .subclasses_surfaces import Px
+from .subclasses_surfaces import Py
+from .subclasses_surfaces import Pz
+from .subclasses_surfaces import So
+from .subclasses_surfaces import S
+from .subclasses_surfaces import Sx
+from .subclasses_surfaces import Sy
+from .subclasses_surfaces import Sz
+from .subclasses_surfaces import C_x
+from .subclasses_surfaces import C_y
+from .subclasses_surfaces import C_z
+from .subclasses_surfaces import Cx
+from .subclasses_surfaces import Cy
+from .subclasses_surfaces import Cz
+from .subclasses_surfaces import K_x
+from .subclasses_surfaces import K_y
+from .subclasses_surfaces import K_z
+from .subclasses_surfaces import Kx
+from .subclasses_surfaces import Ky
+from .subclasses_surfaces import Sq
+from .subclasses_surfaces import Gq
+from .subclasses_surfaces import Tx
+from .subclasses_surfaces import Ty
+from .subclasses_surfaces import Tz
+from .subclasses_surfaces import X
+from .subclasses_surfaces import Y
+from .subclasses_surfaces import Z
+from .subclasses_surfaces import Box
+from .subclasses_surfaces import Rpp
+from .subclasses_surfaces import Sph
+from .subclasses_surfaces import Rcc
+from .subclasses_surfaces import Rhp
+from .subclasses_surfaces import Rec
+from .subclasses_surfaces import Trc
+from .subclasses_surfaces import Ell
+from .subclasses_surfaces import Wed
+from .subclasses_surfaces import Arb
+from .subclasses_data import Area
+from .subclasses_data import U
+from .subclasses_data import Lat
+from .subclasses_data import Fill
+from .subclasses_data import Uran
+from .subclasses_data import Dm
+from .subclasses_data import Embed
+from .subclasses_data import Embee
+from .subclasses_data import Embeb
+from .subclasses_data import Embem
+from .subclasses_data import Embtb
+from .subclasses_data import Embtm
+from .subclasses_data import Embdb
+from .subclasses_data import Embdf
+from .subclasses_data import M
+from .subclasses_data import Mt
+from .subclasses_data import Otfdb
+from .subclasses_data import Nonu
+from .subclasses_data import Awtab
+from .subclasses_data import Xs
+from .subclasses_data import Void
+from .subclasses_data import Mgopt
+from .subclasses_data import Drxs
+from .subclasses_data import Mode
+from .subclasses_data import Act
+from .subclasses_data import Cut
+from .subclasses_data import Elpt
+from .subclasses_data import Thtme
+from .subclasses_data import Lca
+from .subclasses_data import Lcb
+from .subclasses_data import Lcc
+from .subclasses_data import Lae
+from .subclasses_data import Leb
+from .subclasses_data import Fmult
+from .subclasses_data import Tropt
+from .subclasses_data import Unc
+from .subclasses_data import Cosyp
+from .subclasses_data import Cosy
+from .subclasses_data import Bfld
+from .subclasses_data import Bflcl
+from .subclasses_data import Sdef
+from .subclasses_data import Sc
+from .subclasses_data import Ssr
+from .subclasses_data import Kcode
+from .subclasses_data import Ksrc
+from .subclasses_data import Kopts
+from .subclasses_data import Hsrc
+from .subclasses_data import Nps
+from .subclasses_data import Rand
 from . import comment
 from ..utils import errors
 from ..utils import _parser
@@ -254,83 +341,83 @@ class Inp(_object.PyMcnpFileObject):
 
                 match mnemonic:
                     case surface.SurfaceMnemonic.P:
-                        card = surface.P.from_mcnp(line)
+                        card = P.from_mcnp(line)
                     case surface.SurfaceMnemonic.PX:
-                        card = surface.Px.from_mcnp(line)
+                        card = Px.from_mcnp(line)
                     case surface.SurfaceMnemonic.PY:
-                        card = surface.Py.from_mcnp(line)
+                        card = Py.from_mcnp(line)
                     case surface.SurfaceMnemonic.PZ:
-                        card = surface.Pz.from_mcnp(line)
+                        card = Pz.from_mcnp(line)
                     case surface.SurfaceMnemonic.SO:
-                        card = surface.So.from_mcnp(line)
+                        card = So.from_mcnp(line)
                     case surface.SurfaceMnemonic.S:
-                        card = surface.S.from_mcnp(line)
+                        card = S.from_mcnp(line)
                     case surface.SurfaceMnemonic.SX:
-                        card = surface.Sx.from_mcnp(line)
+                        card = Sx.from_mcnp(line)
                     case surface.SurfaceMnemonic.SY:
-                        card = surface.Sy.from_mcnp(line)
+                        card = Sy.from_mcnp(line)
                     case surface.SurfaceMnemonic.SZ:
-                        card = surface.Sz.from_mcnp(line)
+                        card = Sz.from_mcnp(line)
                     case surface.SurfaceMnemonic.C_X:
-                        card = surface.C_x.from_mcnp(line)
+                        card = C_x.from_mcnp(line)
                     case surface.SurfaceMnemonic.C_Y:
-                        card = surface.C_y.from_mcnp(line)
+                        card = C_y.from_mcnp(line)
                     case surface.SurfaceMnemonic.C_Z:
-                        card = surface.C_z.from_mcnp(line)
+                        card = C_z.from_mcnp(line)
                     case surface.SurfaceMnemonic.CX:
-                        card = surface.Cx.from_mcnp(line)
+                        card = Cx.from_mcnp(line)
                     case surface.SurfaceMnemonic.CY:
-                        card = surface.Cy.from_mcnp(line)
+                        card = Cy.from_mcnp(line)
                     case surface.SurfaceMnemonic.CZ:
-                        card = surface.Cz.from_mcnp(line)
+                        card = Cz.from_mcnp(line)
                     case surface.SurfaceMnemonic.K_X:
-                        card = surface.K_x.from_mcnp(line)
+                        card = K_x.from_mcnp(line)
                     case surface.SurfaceMnemonic.K_Y:
-                        card = surface.K_y.from_mcnp(line)
+                        card = K_y.from_mcnp(line)
                     case surface.SurfaceMnemonic.K_Z:
-                        card = surface.K_z.from_mcnp(line)
+                        card = K_z.from_mcnp(line)
                     case surface.SurfaceMnemonic.KX:
-                        card = surface.Kx.from_mcnp(line)
+                        card = Kx.from_mcnp(line)
                     case surface.SurfaceMnemonic.KY:
-                        card = surface.Ky.from_mcnp(line)
+                        card = Ky.from_mcnp(line)
                     case surface.SurfaceMnemonic.KZ:
-                        card = surface.Kx.from_mcnp(line)
+                        card = Kx.from_mcnp(line)
                     case surface.SurfaceMnemonic.SQ:
-                        card = surface.Sq.from_mcnp(line)
+                        card = Sq.from_mcnp(line)
                     case surface.SurfaceMnemonic.GQ:
-                        card = surface.Gq.from_mcnp(line)
+                        card = Gq.from_mcnp(line)
                     case surface.SurfaceMnemonic.TX:
-                        card = surface.Tx.from_mcnp(line)
+                        card = Tx.from_mcnp(line)
                     case surface.SurfaceMnemonic.TY:
-                        card = surface.Ty.from_mcnp(line)
+                        card = Ty.from_mcnp(line)
                     case surface.SurfaceMnemonic.TZ:
-                        card = surface.Tz.from_mcnp(line)
+                        card = Tz.from_mcnp(line)
                     case surface.SurfaceMnemonic.X:
-                        card = surface.X.from_mcnp(line)
+                        card = X.from_mcnp(line)
                     case surface.SurfaceMnemonic.Y:
-                        card = surface.Y.from_mcnp(line)
+                        card = Y.from_mcnp(line)
                     case surface.SurfaceMnemonic.Z:
-                        card = surface.Z.from_mcnp(line)
+                        card = Z.from_mcnp(line)
                     case surface.SurfaceMnemonic.BOX:
-                        card = surface.Box.from_mcnp(line)
+                        card = Box.from_mcnp(line)
                     case surface.SurfaceMnemonic.RPP:
-                        card = surface.Rpp.from_mcnp(line)
+                        card = Rpp.from_mcnp(line)
                     case surface.SurfaceMnemonic.SPH:
-                        card = surface.Sph.from_mcnp(line)
+                        card = Sph.from_mcnp(line)
                     case surface.SurfaceMnemonic.RCC:
-                        card = surface.Rcc.from_mcnp(line)
+                        card = Rcc.from_mcnp(line)
                     case surface.SurfaceMnemonic.RHP:
-                        card = surface.Rhp.from_mcnp(line)
+                        card = Rhp.from_mcnp(line)
                     case surface.SurfaceMnemonic.REC:
-                        card = surface.Rec.from_mcnp(line)
+                        card = Rec.from_mcnp(line)
                     case surface.SurfaceMnemonic.TRC:
-                        card = surface.Trc.from_mcnp(line)
+                        card = Trc.from_mcnp(line)
                     case surface.SurfaceMnemonic.ELL:
-                        card = surface.Ell.from_mcnp(line)
+                        card = Ell.from_mcnp(line)
                     case surface.SurfaceMnemonic.WED:
-                        card = surface.Wed.from_mcnp(line)
+                        card = Wed.from_mcnp(line)
                     case surface.SurfaceMnemonic.ARB:
-                        card = surface.Arb.from_mcnp(line)
+                        card = Arb.from_mcnp(line)
 
                 surfaces[card.ident] = card
 
@@ -358,105 +445,105 @@ class Inp(_object.PyMcnpFileObject):
 
                 match mnemonic:
                     case data.DataMnemonic.AREA:
-                        card = data.Area.from_mcnp(line)
+                        card = Area.from_mcnp(line)
                     case data.DataMnemonic.U:
-                        card = data.U.from_mcnp(line)
+                        card = U.from_mcnp(line)
                     case data.DataMnemonic.LAT:
-                        card = data.Lat.from_mcnp(line)
+                        card = Lat.from_mcnp(line)
                     case data.DataMnemonic.FILL:
-                        card = data.Fill.from_mcnp(line)
+                        card = Fill.from_mcnp(line)
                     case data.DataMnemonic.URAN:
-                        card = data.Uran.from_mcnp(line)
+                        card = Uran.from_mcnp(line)
                     case data.DataMnemonic.DM:
-                        card = data.Dm.from_mcnp(line)
+                        card = Dm.from_mcnp(line)
                     case data.DataMnemonic.EMBED:
-                        card = data.Embed.from_mcnp(line)
+                        card = Embed.from_mcnp(line)
                     case data.DataMnemonic.EMBEE:
-                        card = data.Embee.from_mcnp(line)
+                        card = Embee.from_mcnp(line)
                     case data.DataMnemonic.EMBEE:
-                        card = data.Embee.from_mcnp(line)
+                        card = Embee.from_mcnp(line)
                     case data.DataMnemonic.EMBEB:
-                        card = data.Embeb.from_mcnp(line)
+                        card = Embeb.from_mcnp(line)
                     case data.DataMnemonic.EMBEM:
-                        card = data.Embem.from_mcnp(line)
+                        card = Embem.from_mcnp(line)
                     case data.DataMnemonic.EMBTB:
-                        card = data.Embtb.from_mcnp(line)
+                        card = Embtb.from_mcnp(line)
                     case data.DataMnemonic.EMBTM:
-                        card = data.Embtm.from_mcnp(line)
+                        card = Embtm.from_mcnp(line)
                     case data.DataMnemonic.EMBDB:
-                        card = data.Embdb.from_mcnp(line)
+                        card = Embdb.from_mcnp(line)
                     case data.DataMnemonic.EMBDF:
-                        card = data.Embdf.from_mcnp(line)
+                        card = Embdf.from_mcnp(line)
                     case data.DataMnemonic.M:
-                        card = data.M.from_mcnp(line)
+                        card = M.from_mcnp(line)
                     case data.DataMnemonic.MT:
-                        card = data.Mt.from_mcnp(line)
+                        card = Mt.from_mcnp(line)
                     case data.DataMnemonic.OTFDB:
-                        card = data.Otfdb.from_mcnp(line)
+                        card = Otfdb.from_mcnp(line)
                     case data.DataMnemonic.NONU:
-                        card = data.Nonu.from_mcnp(line)
+                        card = Nonu.from_mcnp(line)
                     case data.DataMnemonic.AWTAB:
-                        card = data.Awtab.from_mcnp(line)
+                        card = Awtab.from_mcnp(line)
                     case data.DataMnemonic.XS:
-                        card = data.Xs.from_mcnp(line)
+                        card = Xs.from_mcnp(line)
                     case data.DataMnemonic.VOID:
-                        card = data.Void.from_mcnp(line)
+                        card = Void.from_mcnp(line)
                     case data.DataMnemonic.MGOPT:
-                        card = data.Mgopt.from_mcnp(line)
+                        card = Mgopt.from_mcnp(line)
                     case data.DataMnemonic.DRXS:
-                        card = data.Drxs.from_mcnp(line)
+                        card = Drxs.from_mcnp(line)
                     case data.DataMnemonic.MODE:
-                        card = data.Mode.from_mcnp(line)
+                        card = Mode.from_mcnp(line)
                     case data.DataMnemonic.ACT:
-                        card = data.Act.from_mcnp(line)
+                        card = Act.from_mcnp(line)
                     case data.DataMnemonic.CUT:
-                        card = data.Cut.from_mcnp(line)
+                        card = Cut.from_mcnp(line)
                     case data.DataMnemonic.ELPT:
-                        card = data.Elpt.from_mcnp(line)
+                        card = Elpt.from_mcnp(line)
                     case data.DataMnemonic.THTME:
-                        card = data.Thtme.from_mcnp(line)
+                        card = Thtme.from_mcnp(line)
                     case data.DataMnemonic.LCA:
-                        card = data.Lca.from_mcnp(line)
+                        card = Lca.from_mcnp(line)
                     case data.DataMnemonic.LCB:
-                        card = data.Lbc.from_mcnp(line)
+                        card = Lcb.from_mcnp(line)
                     case data.DataMnemonic.LCC:
-                        card = data.Lcc.from_mcnp(line)
+                        card = Lcc.from_mcnp(line)
                     case data.DataMnemonic.LEA:
-                        card = data.Lae.from_mcnp(line)
+                        card = Lae.from_mcnp(line)
                     case data.DataMnemonic.LEB:
-                        card = data.Leb.from_mcnp(line)
+                        card = Leb.from_mcnp(line)
                     case data.DataMnemonic.FMULT:
-                        card = data.Fmult.from_mcnp(line)
+                        card = Fmult.from_mcnp(line)
                     case data.DataMnemonic.TROPT:
-                        card = data.Tropt.from_mcnp(line)
+                        card = Tropt.from_mcnp(line)
                     case data.DataMnemonic.UNC:
-                        card = data.Unc.from_mcnp(line)
+                        card = Unc.from_mcnp(line)
                     case data.DataMnemonic.COSYP:
-                        card = data.Cosyp.from_mcnp(line)
+                        card = Cosyp.from_mcnp(line)
                     case data.DataMnemonic.COSY:
-                        card = data.Cosy.from_mcnp(line)
+                        card = Cosy.from_mcnp(line)
                     case data.DataMnemonic.BFLD:
-                        card = data.Bfld.from_mcnp(line)
+                        card = Bfld.from_mcnp(line)
                     case data.DataMnemonic.BFLCL:
-                        card = data.Bflcl.from_mcnp(line)
+                        card = Bflcl.from_mcnp(line)
                     case data.DataMnemonic.SDEF:
-                        card = data.Sdef.from_mcnp(line)
+                        card = Sdef.from_mcnp(line)
                     case data.DataMnemonic.SC:
-                        card = data.Sc.from_mcnp(line)
+                        card = Sc.from_mcnp(line)
                     case data.DataMnemonic.SSR:
-                        card = data.Ssr.from_mcnp(line)
+                        card = Ssr.from_mcnp(line)
                     case data.DataMnemonic.KCODE:
-                        card = data.Kcode.from_mcnp(line)
+                        card = Kcode.from_mcnp(line)
                     case data.DataMnemonic.KSRC:
-                        card = data.Ksrc.from_mcnp(line)
+                        card = Ksrc.from_mcnp(line)
                     case data.DataMnemonic.KOPTS:
-                        card = data.Kopts.from_mcnp(line)
+                        card = Kopts.from_mcnp(line)
                     case data.DataMnemonic.HSRC:
-                        card = data.Hsrc.from_mcnp(line)
+                        card = Hsrc.from_mcnp(line)
                     case data.DataMnemonic.NPS:
-                        card = data.Nps.from_mcnp(line)
+                        card = Nps.from_mcnp(line)
                     case data.DataMnemonic.RAND:
-                        card = data.Rand.from_mcnp(line)
+                        card = Rand.from_mcnp(line)
                     case _:
                         card = data._Placeholder.from_mcnp(line)
 

@@ -8,7 +8,7 @@ from typing import Final
 from ..data import Data
 from ..data import DataMnemonic
 from ..data import DataEntry
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class TrDisplacementEntry(DataEntry):
@@ -327,7 +327,6 @@ class Tr(Data):
         displacement = TrDisplacementEntry.from_mcnp(' '.join([tokens.popl() for _ in range(0, 3)]))
         rotation = TrRotationEntry.from_mcnp(' '.join([tokens.popl() for _ in range(0, 9)]))
         system = types.McnpInteger.from_mcnp(tokens.popl())
-        suffix = types.McnpInteger.from_mcnp(tokens.popl())
 
         data = Tr(displacement, rotation, system, suffix)
         data.comment = comments
@@ -345,5 +344,5 @@ class Tr(Data):
         """
 
         return _parser.Postprocessor.add_continuation_lines(
-            f'{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {self.displacement.to_mcnp()} {self.rotation.to_mcnp()} {self.system.to_mcnp()} {self.suffix.to_mcnp()}'
+            f'{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {self.displacement.to_mcnp()} {self.rotation.to_mcnp()} {self.system.to_mcnp()}'
         )

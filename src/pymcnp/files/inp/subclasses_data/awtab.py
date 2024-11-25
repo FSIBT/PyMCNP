@@ -8,7 +8,7 @@ from typing import Final
 from ..data import Data
 from ..data import DataMnemonic
 from ..data import DataEntry
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class AwtabEntry(DataEntry):

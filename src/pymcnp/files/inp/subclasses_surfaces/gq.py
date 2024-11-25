@@ -1,10 +1,11 @@
 """
-Contains the ``Gq`` subclass of ``Surface``."""
+Contains the ``Gq`` subclass of ``Surface``.
+"""
 
 from typing import Final
 
 from ..surface import Surface, SurfaceMnemonic
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class Gq(Surface):
@@ -146,7 +147,9 @@ class Gq(Surface):
             ``Gq`` object.
 
         Raises:
-            McnpError: EXPECTED_TOKEN, UNEXPECTED_TOKEN.
+            McnpError: EXPECTED_TOKEN.
+            McnpError: UNEXPECTED_TOKEN.
+            McnpError: UNRECOGNIZED_KEYWORD.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -176,7 +179,8 @@ class Gq(Surface):
         except Exception:
             transform = None
 
-        mnemonic = SurfaceMnemonic.from_mcnp(tokens.popl())
+        if tokens.popl() != 'gq':
+            raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, info=source)
 
         a = types.McnpReal.from_mcnp(tokens.popl())
         b = types.McnpReal.from_mcnp(tokens.popl())
@@ -192,7 +196,6 @@ class Gq(Surface):
         return Gq(
             number,
             transform,
-            mnemonic,
             a,
             b,
             c,

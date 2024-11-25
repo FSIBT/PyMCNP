@@ -7,7 +7,7 @@ from typing import Final
 
 from ..data import Data
 from ..data import DataMnemonic
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class Mt(Data):
@@ -77,7 +77,6 @@ class Mt(Data):
         suffix = types.McnpInteger.from_mcnp(tokens.popl()[2:])
 
         identifier = tokens.popl()
-        suffix = types.McnpInteger.from_mcnp(tokens.popl())
 
         data = Mt(identifier, suffix)
         data.comment = comments
@@ -95,5 +94,5 @@ class Mt(Data):
         """
 
         return _parser.Postprocessor.add_continuation_lines(
-            f'{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {self.identifier.to_mcnp()} {self.suffix.to_mcnp()}'
+            f'{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {self.identifier.to_mcnp()}'
         )

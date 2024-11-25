@@ -11,19 +11,19 @@ def append_surfaces(inpt: files.inp.Inp, *surfaces: files.inp.Surface):
 
 
 def append_data(inpt: files.inp.Inp, data: files.inp.Data):
-    if data.mnemonic in files.inp.data.Data.GEOMETRY_MNEMONICS:
+    if data.mnemonic in files.inp.Data.GEOMETRY_MNEMONICS:
         modify.modify(inpt, data_geometry=(inpt.data_geometry | {data.ident: data}))
-    elif data.mnemonic in files.inp.data.Data.MATERIAL_MNEMONICS:
+    elif data.mnemonic in files.inp.Data.MATERIAL_MNEMONICS:
         modify.modify(inpt, data_material=(inpt.data_material | {data.ident: data}))
-    elif data.mnemonic in files.inp.data.Data.PHYSICS_MNEMONICS:
+    elif data.mnemonic in files.inp.Data.PHYSICS_MNEMONICS:
         modify.modify(inpt, data_physics=(inpt.data_physics | {data.ident: data}))
-    elif data.mnemonic in files.inp.data.Data.SOURCE_MNEMONICS:
+    elif data.mnemonic in files.inp.Data.SOURCE_MNEMONICS:
         modify.modify(inpt, data_source=(inpt.data_source | {data.ident: data}))
-    elif data.mnemonic in files.inp.data.Data.TALLY_MNEMONICS:
+    elif data.mnemonic in files.inp.Data.TALLY_MNEMONICS:
         modify.modify(inpt, data_tally=(inpt.data_tally | {data.ident: data}))
-    elif data.mnemonic in files.inp.data.Data.VARIENCE_MNEMONICS:
+    elif data.mnemonic in files.inp.Data.VARIENCE_MNEMONICS:
         modify.modify(inpt, data_variance=(inpt.data_variance | {data.ident: data}))
-    elif data.mnemonic in files.inp.data.Data.MICELLANEOUS_MNEMONICS:
+    elif data.mnemonic in files.inp.Data.MICELLANEOUS_MNEMONICS:
         modify.modify(inpt, data_micellaneous=(inpt.data_micellaneous | {data.ident: data}))
     else:
         assert False

@@ -1,11 +1,12 @@
 """
-Contains the ``Elpt`` subclass of ``CellOption``."""
+Contains the ``Elpt`` subclass of ``CellOption``.
+"""
 
 import re
 from typing import Final
 
-from ..cell import CellOption, CellKeyword
-from ....utils import types, errors, _parser
+from ..cell_option import CellOption, CellKeyword
+from ...utils import types, errors, _parser
 
 
 class Elpt(CellOption):
@@ -72,6 +73,6 @@ class Elpt(CellOption):
 
         tokens.popl()
         designator = types.Designator.from_mcnp(tokens.popl())
-        cutoff = types.Designator.from_mcnp(tokens.popl())
+        cutoff = types.McnpReal.from_mcnp(tokens.popl())
 
         return Elpt(cutoff, designator)

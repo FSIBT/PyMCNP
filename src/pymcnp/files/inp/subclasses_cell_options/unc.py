@@ -1,11 +1,12 @@
 """
-Contains the ``Unc`` subclass of ``CellOption``."""
+Contains the ``Unc`` subclass of ``CellOption``.
+"""
 
 import re
 from typing import Final
 
-from ..cell import CellOption, CellKeyword
-from ....utils import types, errors, _parser
+from ..cell_option import CellOption, CellKeyword
+from ...utils import types, errors, _parser
 
 
 class Unc(CellOption):
@@ -72,6 +73,6 @@ class Unc(CellOption):
 
         tokens.popl()
         designator = types.Designator.from_mcnp(tokens.popl())
-        setting = types.Designator.from_mcnp(tokens.popl())
+        setting = types.McnpInteger.from_mcnp(tokens.popl())
 
         return Unc(setting, designator)

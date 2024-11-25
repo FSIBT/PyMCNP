@@ -7,7 +7,7 @@ from typing import Final
 
 from ..data import Data
 from ..data import DataMnemonic
-from ....utils import types, errors, _parser
+from ...utils import types, errors, _parser
 
 
 class Embdf(Data):
@@ -81,7 +81,6 @@ class Embdf(Data):
         suffix = types.McnpInteger.from_mcnp(tokens.popl()[5:])
 
         multipliers = [types.McnpReal.from_mcnp(tokens.popl()) for _ in range(0, len(tokens))]
-        suffix = types.McnpInteger.from_mcnp(tokens.popl())
 
         data = Embdf(multipliers, suffix)
         data.comment = comments
@@ -99,5 +98,5 @@ class Embdf(Data):
         """
 
         return _parser.Postprocessor.add_continuation_lines(
-            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.multipliers)} {self.suffix.to_mcnp()}"
+            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.multipliers)}"
         )

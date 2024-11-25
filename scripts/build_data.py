@@ -325,7 +325,7 @@ def build_Data(data: _data.DataScheme):
     o += 'from ..data import DataEntry\n' if data.entries else ''
     o += 'from ..data import DataOption\n' if data.options else ''
     o += 'from ..data import DataKeyword\n' if data.options else ''
-    o += 'from ....utils import types, errors, _parser\n'
+    o += 'from ...utils import types, errors, _parser\n'
     o += '\n'
 
     # DATA.ENTRY
@@ -473,6 +473,9 @@ def build_Data(data: _data.DataScheme):
     o += '\n'
 
     for attribute in data.attributes:
+        if attribute.name == 'suffix' or attribute.name == 'designator':
+            continue
+
         if attribute.type.endswith('Option]'):
             # tuple[..Option]
 
@@ -571,6 +574,9 @@ def build_Data(data: _data.DataScheme):
         o += '        return _parser.Postprocessor.add_continuation_lines(f"{self.mnemonic.to_mcnp()}'
 
     for attribute in data.attributes:
+        if attribute.name == 'designator' or attribute.name == 'suffix':
+            continue
+
         if attribute.type.startswith('tuple'):
             o += f' {{" ".join(entry.to_mcnp() for entry in self.{attribute.name})}}'
         elif attribute.type.startswith('dict'):
@@ -593,7 +599,7 @@ for data in _data.DATA_CARDS:
     )
     with filename.open('w') as file:
         file.write(build_Data(data))
-        init_imports.append(f'from .{data.name} import {data.name}')
+        init_imports.append(f'from .{data.name.lower()} import {data.name}')
         init_all.append(f'"{data.name}",')
 
 init_path = pathlib.Path(__file__).parent / pathlib.Path(

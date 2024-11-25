@@ -1,11 +1,12 @@
 """
-Contains the ``Wwn`` subclass of ``CellOption``."""
+Contains the ``Wwn`` subclass of ``CellOption``.
+"""
 
 import re
 from typing import Final
 
-from ..cell import CellOption, CellKeyword
-from ....utils import types, errors, _parser
+from ..cell_option import CellOption, CellKeyword
+from ...utils import types, errors, _parser
 
 
 class Wwn(CellOption):
@@ -80,6 +81,6 @@ class Wwn(CellOption):
 
         suffix = types.McnpInteger.from_mcnp(tokens.popl()[3:])
         designator = types.Designator.from_mcnp(tokens.popl())
-        bound = types.Designator.from_mcnp(tokens.popl())
+        bound = types.McnpReal.from_mcnp(tokens.popl())
 
         return Wwn(bound, suffix, designator)
