@@ -16,30 +16,26 @@ class Fill(CellOption):
     ``Fill`` implements ``_card.CardOption``.
 
     Attributes:
-        numbers: Fill cell option value or value(s) tuple.
+        number: Fill cell option value or value(s) tuple.
     """
 
-    def __init__(self, numbers: tuple[types.McnpInteger]):
+    def __init__(self, number: types.McnpInteger):
         """
         Initializes ``Fill``.
 
         Parameters:
-            numbers: Fill cell option value or value(s) tuple.
+            number: Fill cell option value or value(s) tuple.
 
         Raises:
             McnpError: INVALID_CELL_OPTION_VALUE.
         """
 
-        if numbers is None:
-            raise errors.McnpError(errors.McnpCode.INVALID_CELL_OPTION_VALUE, str(numbers))
-
-        for entry in numbers:
-            if entry is None or not (0 <= entry <= 99_999_999):
-                raise errors.McnpError(errors.McnpCode.INVALID_CELL_OPTION_VALUE, str(numbers))
+        if number is None or not (0 <= number <= 99_999_999):
+            raise errors.McnpError(errors.McnpCode.INVALID_CELL_OPTION_VALUE, str(number))
 
         self.keyword: Final[CellKeyword] = CellKeyword.FILL
-        self.value: Final[tuple[types.McnpInteger]] = numbers
-        self.numbers: Final[tuple[types.McnpInteger]] = numbers
+        self.value: Final[types.McnpInteger] = number
+        self.number: Final[types.McnpInteger] = number
 
     @staticmethod
     def from_mcnp(source: str):
@@ -70,6 +66,6 @@ class Fill(CellOption):
             raise errors.McnpError(errors.McnpCode.UNRECOGNIZED_KEYWORD, str(keyword))
 
         tokens.popl()
-        numbers = tuple([types.McnpInteger.from_mcnp(tokens.popl()) for _ in range(0, len(tokens))])
+        number = types.McnpInteger.from_mcnp(tokens.popl())
 
-        return Fill(numbers)
+        return Fill(number)

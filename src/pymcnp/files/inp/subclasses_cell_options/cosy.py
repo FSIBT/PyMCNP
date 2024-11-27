@@ -30,7 +30,7 @@ class Cosy(CellOption):
             McnpError: INVALID_CELL_OPTION_VALUE.
         """
 
-        if number is None or number not in {1, 2, 3, 4, 5, 6}:
+        if number is None or number.value not in {1, 2, 3, 4, 5, 6}:
             raise errors.McnpError(errors.McnpCode.INVALID_CELL_OPTION_VALUE, str(number))
 
         self.keyword: Final[CellKeyword] = CellKeyword.COSY

@@ -33,7 +33,7 @@ class Unc(CellOption):
             McnpError: INVALID_CELL_OPTION_DESIGNATOR.
         """
 
-        if setting is None or setting not in {0, 1}:
+        if setting is None or setting.value not in {0, 1}:
             raise errors.McnpError(errors.McnpCode.INVALID_CELL_OPTION_VALUE, str(setting))
         if designator is None:
             raise errors.McnpError(errors.McnpCode.INVALID_CELL_OPTION_DESIGNATOR, str(designator))

@@ -30,7 +30,7 @@ class Nonu(CellOption):
             McnpError: INVALID_CELL_OPTION_VALUE.
         """
 
-        if setting is None or setting not in {0, 1, 2}:
+        if setting is None or setting.value not in {0, 1, 2}:
             raise errors.McnpError(errors.McnpCode.INVALID_CELL_OPTION_VALUE, str(setting))
 
         self.keyword: Final[CellKeyword] = CellKeyword.NONU

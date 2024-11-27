@@ -28,7 +28,7 @@ class CellKeyword(_card.CardKeyword):
     # FILL_ANGLE = '*fill'
     ELPT = 'elpt'
     COSY = 'cosy'
-    BFIELD = 'bflcl'
+    BFLCL = 'bflcl'
     UNC = 'unc'
 
     @staticmethod

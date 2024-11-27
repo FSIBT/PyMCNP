@@ -30,7 +30,7 @@ class Lat(CellOption):
             McnpError: INVALID_CELL_OPTION_VALUE.
         """
 
-        if shape is None or shape not in {1, 2}:
+        if shape is None or shape.value not in {1, 2}:
             raise errors.McnpError(errors.McnpCode.INVALID_CELL_OPTION_VALUE, str(shape))
 
         self.keyword: Final[CellKeyword] = CellKeyword.LAT
