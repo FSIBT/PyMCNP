@@ -321,10 +321,10 @@ def build_Data(data: _data.DataScheme):
     o += 'from typing import Final, Union\n'
     o += '\n'
     o += 'from ..data import Data\n'
-    o += 'from ..data import DataMnemonic\n'
-    o += 'from ..data import DataEntry\n' if data.entries else ''
-    o += 'from ..data import DataOption\n' if data.options else ''
-    o += 'from ..data import DataKeyword\n' if data.options else ''
+    o += 'from ..data_mnemonic import DataMnemonic\n'
+    o += 'from ..data_entry import DataEntry\n' if data.entries else ''
+    o += 'from ..data_option import DataOption\n' if data.options else ''
+    o += 'from ..data_keyword import DataKeyword\n' if data.options else ''
     o += 'from ...utils import types, errors, _parser\n'
     o += '\n'
 
@@ -595,7 +595,7 @@ init_all = []
 
 for data in _data.DATA_CARDS:
     filename = pathlib.Path(__file__).parent / pathlib.Path(
-        f'../src/pymcnp/files/inp/subclasses_data/{data.name.lower()}.py'
+        f'../src/pymcnp/files/inp/data_cards/{data.name.lower()}.py'
     )
     with filename.open('w') as file:
         file.write(build_Data(data))
@@ -603,7 +603,7 @@ for data in _data.DATA_CARDS:
         init_all.append(f'"{data.name}",')
 
 init_path = pathlib.Path(__file__).parent / pathlib.Path(
-    '../src/pymcnp/files/inp/subclasses_data/__init__.py'
+    '../src/pymcnp/files/inp/data_cards/__init__.py'
 )
 with init_path.open('w') as file:
     file.write(

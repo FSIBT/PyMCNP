@@ -15,7 +15,8 @@ def build_CellOption(cell_option: _data.CellOptionScheme):
     o += 'import re\n'
     o += 'from typing import Final\n'
     o += '\n'
-    o += 'from ..cell_option import CellOption, CellKeyword\n'
+    o += 'from ..cell_option import CellOption\n'
+    o += 'from ..cell_keyword import CellKeyword\n'
     o += 'from ...utils import types, errors, _parser\n'
     o += '\n'
     o += f'class {cell_option.name}(CellOption):\n'
@@ -152,7 +153,7 @@ init_all = []
 
 for cell_option in _data.CELL_OPTIONS:
     filename = pathlib.Path(__file__).parent / pathlib.Path(
-        f'../src/pymcnp/files/inp/subclasses_cell_options/{cell_option.mnemonic}.py'
+        f'../src/pymcnp/files/inp/cell_options/{cell_option.mnemonic}.py'
     )
     with filename.open('w') as file:
         file.write(
@@ -163,7 +164,7 @@ for cell_option in _data.CELL_OPTIONS:
         init_all.append(f'"{cell_option.name}",')
 
 init_path = pathlib.Path(__file__).parent / pathlib.Path(
-    '../src/pymcnp/files/inp/subclasses_cell_options/__init__.py'
+    '../src/pymcnp/files/inp/cell_options/__init__.py'
 )
 with init_path.open('w') as file:
     file.write(

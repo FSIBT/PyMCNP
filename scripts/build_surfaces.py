@@ -14,7 +14,8 @@ def build_Surface(surface: _data.SurfaceScheme):
 
     o += 'from typing import Final\n'
     o += '\n'
-    o += 'from ..surface import Surface, SurfaceMnemonic\n'
+    o += 'from ..surface import Surface\n'
+    o += 'from ..surface_mnemonic import SurfaceMnemonic\n'
     o += 'from ...utils import types, errors, _parser\n'
     o += '\n'
     o += f'class {surface.name}(Surface):\n'
@@ -159,7 +160,7 @@ init_all = []
 
 for surface in _data.SURFACE_CARDS:
     filename = pathlib.Path(__file__).parent / pathlib.Path(
-        f'../src/pymcnp/files/inp/subclasses_surfaces/{surface.name.lower()}.py'
+        f'../src/pymcnp/files/inp/surface_cards/{surface.name.lower()}.py'
     )
     with filename.open('w') as file:
         file.write(
@@ -170,7 +171,7 @@ for surface in _data.SURFACE_CARDS:
         init_all.append(f'"{surface.name}",')
 
 init_path = pathlib.Path(__file__).parent / pathlib.Path(
-    '../src/pymcnp/files/inp/subclasses_surfaces/__init__.py'
+    '../src/pymcnp/files/inp/surface_cards/__init__.py'
 )
 with init_path.open('w') as file:
     file.write(
