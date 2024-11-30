@@ -6,7 +6,10 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import types, errors, _parser
+from ...utils import _visualization
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class Trc(Surface):
@@ -43,7 +46,6 @@ class Trc(Surface):
     ):
         """
         Initializes ``Trc``.
-
 
         Parameters:
             vx: Truncated cone position vector x component.
@@ -192,3 +194,26 @@ class Trc(Surface):
             is_whiteboundary=is_whiteboundary,
             is_reflecting=is_reflecting,
         )
+
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` representing ``Trc``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``Trc``.
+        """
+
+        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
+
+        cross = h * _visualization.Vector(0, 0, 1)
+        angle = h & _visualization.Vector(0, 0, 1)
+
+        vis = _visualization.PyMcnpVisualization.get_cone_truncated(
+            h.norm(), self.r1.value, self.r2.value
+        )
+        vis = vis.add_rotation(cross, angle, (0, 0, 0))
+        vis = vis.add_translation(
+            _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+        )
+
+        return vis.data

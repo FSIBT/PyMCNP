@@ -6,7 +6,9 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import types, errors, _parser
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class Sq(Surface):
@@ -47,7 +49,6 @@ class Sq(Surface):
     ):
         """
         Initializes ``Sq``.
-
 
         Parameters:
             a: Oblique special quadratic A coefficent.

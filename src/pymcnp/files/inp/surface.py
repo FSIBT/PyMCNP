@@ -47,3 +47,6 @@ class Surface(_card.Card):
         source = f'{number_str} {transform_str} {self.mnemonic.to_mcnp()} {parameter_str}'
 
         return _parser.Postprocessor.add_continuation_lines(source)
+
+    def to_pyvista(self):
+        raise NotImplementedError

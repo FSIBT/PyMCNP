@@ -62,6 +62,7 @@ from .surface_cards import Rec as SurfaceRec
 from .surface_cards import Trc as SurfaceTrc
 from .surface_cards import Ell as SurfaceEll
 from .surface_cards import Wed as SurfaceWed
+from .surface_cards import Arb as SurfaceArb
 from .data import Data
 from .data_mnemonic import DataMnemonic
 from .data_entry import DataEntry
@@ -183,6 +184,7 @@ __all__ = [
     'SurfaceTrc',
     'SurfaceEll',
     'SurfaceWed',
+    'SurfaceArb',
     'Data',
     'DataMnemonic',
     'DataEntry',

@@ -6,7 +6,10 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import types, errors, _parser
+from ...utils import _visualization
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class Rpp(Surface):
@@ -39,7 +42,6 @@ class Rpp(Surface):
     ):
         """
         Initializes ``Rpp``.
-
 
         Parameters:
             xmin: Parallelepiped x termini minimum.
@@ -174,3 +176,22 @@ class Rpp(Surface):
             is_whiteboundary=is_whiteboundary,
             is_reflecting=is_reflecting,
         )
+
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` representing ``Rpp``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``Rpp``.
+        """
+
+        vis = _visualization.PyMcnpVisualization.get_parallelipiped(
+            self.xmin.value,
+            self.xmax.value,
+            self.ymin.value,
+            self.ymax.value,
+            self.zmin.value,
+            self.zmax.value,
+        )
+
+        return vis.data

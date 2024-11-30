@@ -6,7 +6,10 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import types, errors, _parser
+from ...utils import _visualization
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class Box(Surface):
@@ -51,7 +54,6 @@ class Box(Surface):
     ):
         """
         Initializes ``Box``.
-
 
         Parameters:
             vx: Box macrobody position vector x component.
@@ -230,3 +232,25 @@ class Box(Surface):
             is_whiteboundary=is_whiteboundary,
             is_reflecting=is_reflecting,
         )
+
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` representing ``Box``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``Box``.
+        """
+
+        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+        a1 = _visualization.Vector(self.a1x.value, self.a1y.value, self.a1z.value)
+        a2 = _visualization.Vector(self.a2x.value, self.a2y.value, self.a2z.value)
+        a3 = _visualization.Vector(self.a3x.value, self.a3y.value, self.a3z.value)
+
+        cross = _visualization.Vector(1, 0, 0) * a1
+        angle = _visualization.Vector(1, 0, 0) & a1
+
+        vis = _visualization.PyMcnpVisualization.get_box(a1.norm(), a2.norm(), a3.norm())
+        vis = vis.add_rotation(cross, angle, (0, 0, 0))
+        vis = vis.add_translation(v)
+
+        return vis.data

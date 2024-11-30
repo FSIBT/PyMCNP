@@ -6,7 +6,10 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import types, errors, _parser
+from ...utils import _visualization
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class Sy(Surface):
@@ -31,7 +34,6 @@ class Sy(Surface):
     ):
         """
         Initializes ``Sy``.
-
 
         Parameters:
             y: On-y-axis sphere center y component.
@@ -133,3 +135,17 @@ class Sy(Surface):
         return Sy(
             number, transform, y, r, is_whiteboundary=is_whiteboundary, is_reflecting=is_reflecting
         )
+
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` representing ``Sy``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``Sy``.
+        """
+
+        vis = _visualization.PyMcnpVisualization.get_sphere(self.r.value)
+        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(0, self.y.value, 0))
+
+        return vis.data

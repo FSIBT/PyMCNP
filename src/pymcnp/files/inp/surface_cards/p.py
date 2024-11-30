@@ -6,7 +6,10 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import types, errors, _parser
+from ...utils import _visualization
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class P(Surface):
@@ -35,7 +38,6 @@ class P(Surface):
     ):
         """
         Initializes ``P``.
-
 
         Parameters:
             a: Equation-defined general plane A coefficent.
@@ -156,3 +158,17 @@ class P(Surface):
             is_whiteboundary=is_whiteboundary,
             is_reflecting=is_reflecting,
         )
+
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` representing ``P``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``P``.
+        """
+
+        vis = _visualization.PyMcnpVisualization.get_plane(
+            self.a.value, self.b.value, self.c.value, self.d.value
+        )
+
+        return vis.data

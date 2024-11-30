@@ -6,7 +6,9 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import types, errors, _parser
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class X(Surface):
@@ -39,7 +41,6 @@ class X(Surface):
     ):
         """
         Initializes ``X``.
-
 
         Parameters:
             x1: X-axisymmetric point-defined surface point #1 x component.
@@ -79,17 +80,11 @@ class X(Surface):
         if r1 is None:
             raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(r1))
 
-        if x2 is None:
-            raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(x2))
+        if x3 is None != r3 is None:
+            raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(x3) + str(r3))
 
-        if r2 is None:
-            raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(r2))
-
-        if x3 is None:
-            raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(x3))
-
-        if r3 is None:
-            raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(r3))
+        if x2 is None != r2 is None and x3 is not None:
+            raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(x2) + str(r2))
 
         self.ident: Final[int] = number.value
         self.number: Final[types.McnpInteger] = number

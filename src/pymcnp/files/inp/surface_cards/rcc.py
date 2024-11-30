@@ -6,7 +6,10 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import types, errors, _parser
+from ...utils import _visualization
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class Rcc(Surface):
@@ -41,7 +44,6 @@ class Rcc(Surface):
     ):
         """
         Initializes ``Rcc``.
-
 
         Parameters:
             vx: Circular cylinder macrobody position vector x component.
@@ -183,3 +185,23 @@ class Rcc(Surface):
             is_whiteboundary=is_whiteboundary,
             is_reflecting=is_reflecting,
         )
+
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` representing ``Rcc``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``Rcc``.
+        """
+
+        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
+
+        cross = v * _visualization.Vector(0, 0, 1)
+        angle = v & _visualization.Vector(0, 0, 1)
+
+        vis = _visualization.PyMcnpVisualization.get_cylinder_circle(h.norm(), self.r.value)
+        vis = vis.add_rotation(cross, angle, (0, 0, 0))
+        vis = vis.add_translation(v)
+
+        return vis.data

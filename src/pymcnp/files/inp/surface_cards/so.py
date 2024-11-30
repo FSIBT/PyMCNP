@@ -6,7 +6,10 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import types, errors, _parser
+from ...utils import _visualization
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class So(Surface):
@@ -29,7 +32,6 @@ class So(Surface):
     ):
         """
         Initializes ``So``.
-
 
         Parameters:
             r: Origin-centered sphere radius.
@@ -125,3 +127,15 @@ class So(Surface):
         return So(
             number, transform, r, is_whiteboundary=is_whiteboundary, is_reflecting=is_reflecting
         )
+
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` representing ``So``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``So``.
+        """
+
+        vis = _visualization.PyMcnpVisualization.get_sphere(self.r.value)
+
+        return vis.data

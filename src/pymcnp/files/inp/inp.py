@@ -3,9 +3,10 @@ Contains classes representing INP files.
 """
 
 import re
+import pathlib
 from typing import Final
 
-import pathlib
+import pyvista
 
 from .comment import Comment
 from .cell import Cell
@@ -104,6 +105,7 @@ from .data_cards import Rand
 from ..utils import errors
 from ..utils import _parser
 from ..utils import _object
+from ..utils import _visualization
 
 
 class Inp(_object.PyMcnpFileObject):
@@ -726,3 +728,18 @@ class Inp(_object.PyMcnpFileObject):
 
         filename = pathlib.Path(filename)
         filename.write_text(self.to_mcnp())
+
+    def to_pyvista(self) -> pyvista.PolyData:
+        """
+        Generates ``pyvista.PolyData`` representing ``Inp``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``Inp``.
+        """
+
+        vis = _visualization.PyMcnpVisualization()
+
+        for surface in self.surfaces.values():
+            vis += _visualization.PyMcnpVisualization(surface.to_pyvista())
+
+        return vis.data

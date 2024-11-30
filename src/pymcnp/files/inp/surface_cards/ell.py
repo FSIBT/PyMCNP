@@ -2,11 +2,15 @@
 Contains the ``Ell`` subclass of ``Surface``.
 """
 
+import math
 from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import types, errors, _parser
+from ...utils import _visualization
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class Ell(Surface):
@@ -41,7 +45,6 @@ class Ell(Surface):
     ):
         """
         Initializes ``Ell``.
-
 
         Parameters:
             v1x: Ellipsoid focus #1 or center x component.
@@ -183,3 +186,35 @@ class Ell(Surface):
             is_whiteboundary=is_whiteboundary,
             is_reflecting=is_reflecting,
         )
+
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` representing ``Ell``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``Ell``.
+        """
+
+        v1 = _visualization.Vector(self.v1x.value, self.v1y.value, self.v1z.value)
+        v2 = _visualization.Vector(self.v2x.value, self.v2y.value, self.v2z.value)
+
+        if self.rm > 0:
+            center = _visualization.Vector(
+                (v2 - v1).x / 2 + v1.x, (v2 - v1).y / 2 + v1.y, (v2 - v1).z / 2 + v1.z
+            )
+            major_length = self.rm.value
+            minor_length = 2 * math.sqrt((major_length / 2) ** 2 - ((v2 - v1).norm() / 2) ** 2)
+            cross = (v2 - v1) * _visualization.Vector(1, 0, 0)
+            angle = (v2 - v1) & _visualization.Vector(1, 0, 0)
+        elif self.rm < 0:
+            center = v1
+            major_length = v2.norm()
+            minor_length = -self.rm.value
+            cross = v2 * _visualization.Vector(1, 0, 0)
+            angle = v2 & _visualization.Vector(1, 0, 0)
+
+        vis = _visualization.PyMcnpVisualization.get_ellipsoid(major_length, minor_length)
+        vis = vis.add_rotation(cross, angle, (0, 0, 0))
+        vis = vis.add_translation(center)
+
+        return vis.data

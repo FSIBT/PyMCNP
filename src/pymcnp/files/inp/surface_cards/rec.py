@@ -6,7 +6,10 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import types, errors, _parser
+from ...utils import _visualization
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class Rec(Surface):
@@ -51,7 +54,6 @@ class Rec(Surface):
     ):
         """
         Initializes ``Rec``.
-
 
         Parameters:
             vx: Elliptical cylinder position vector x component.
@@ -230,3 +232,27 @@ class Rec(Surface):
             is_whiteboundary=is_whiteboundary,
             is_reflecting=is_reflecting,
         )
+
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` representing ``Rec``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``Rec``.
+        """
+
+        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
+        v1 = _visualization.Vector(self.v1x.value, self.v1y.value, self.v1z.value)
+        v2 = _visualization.Vector(self.v2x.value, self.v2y.value, self.v2z.value)
+
+        cross = v * _visualization.Vector(0, 0, 1)
+        angle = v & _visualization.Vector(0, 0, 1)
+
+        vis = _visualization.PyMcnpVisualization.get_cylinder_ellipse(
+            h.norm(), v1.norm(), v2.norm()
+        )
+        vis = vis.add_rotation(cross, angle, (0, 0, 0))
+        vis = vis.add_translation(v)
+
+        return vis.data

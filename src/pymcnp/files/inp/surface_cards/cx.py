@@ -6,7 +6,10 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import types, errors, _parser
+from ...utils import _visualization
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class Cx(Surface):
@@ -29,7 +32,6 @@ class Cx(Surface):
     ):
         """
         Initializes ``Cx``.
-
 
         Parameters:
             r: On-x-axis cylinder radius.
@@ -125,3 +127,16 @@ class Cx(Surface):
         return Cx(
             number, transform, r, is_whiteboundary=is_whiteboundary, is_reflecting=is_reflecting
         )
+
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` representing ``Cx``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``Cx``.
+        """
+
+        vis = _visualization.PyMcnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
+
+        return vis.data
