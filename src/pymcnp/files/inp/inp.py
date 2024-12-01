@@ -615,7 +615,7 @@ class Inp(_object.PyMcnpFileObject):
 
         if makeFancy:
             source += DELIMITER
-            source += f'c {'cells':^76.76}\n'
+            source += f'c {"cells":^76.76}\n'
             source += DELIMITER
 
         source += '\n'.join(card.to_mcnp() for card in self.cells.values())
@@ -623,7 +623,7 @@ class Inp(_object.PyMcnpFileObject):
 
         if makeFancy and self.surfaces:
             source += DELIMITER
-            source += f'c {'surfaces':^76.76}\n'
+            source += f'c {"surfaces":^76.76}\n'
             source += DELIMITER
 
         source += '\n'.join(card.to_mcnp() for card in self.surfaces.values())
@@ -632,7 +632,7 @@ class Inp(_object.PyMcnpFileObject):
         if self.data_geometry:
             if makeFancy:
                 source += DELIMITER
-                source += f'c {'geometry data':^76.76}\n'
+                source += f'c {"geometry data":^76.76}\n'
                 source += DELIMITER
 
             source += '\n'.join(card.to_mcnp() for card in self.data_geometry.values())
@@ -641,7 +641,7 @@ class Inp(_object.PyMcnpFileObject):
         if self.data_material:
             if makeFancy:
                 source += DELIMITER
-                source += f'c {'material data':^76.76}\n'
+                source += f'c {"material data":^76.76}\n'
                 source += DELIMITER
 
             source += '\n'.join(card.to_mcnp() for card in self.data_material.values())
@@ -650,7 +650,7 @@ class Inp(_object.PyMcnpFileObject):
         if self.data_physics:
             if makeFancy:
                 source += DELIMITER
-                source += f'c {'physics data':^76.76}\n'
+                source += f'c {"physics data":^76.76}\n'
                 source += DELIMITER
 
             source += '\n'.join(card.to_mcnp() for card in (self.data_physics).values())
@@ -659,7 +659,7 @@ class Inp(_object.PyMcnpFileObject):
         if self.data_source:
             if makeFancy:
                 source += DELIMITER
-                source += f'c {'source data':^76.76}\n'
+                source += f'c {"source data":^76.76}\n'
                 source += DELIMITER
 
             source += '\n'.join(card.to_mcnp() for card in (self.data_source).values())
@@ -668,7 +668,7 @@ class Inp(_object.PyMcnpFileObject):
         if self.data_tally:
             if makeFancy:
                 source += DELIMITER
-                source += f'c {'tally data':^76.76}\n'
+                source += f'c {"tally data":^76.76}\n'
                 source += DELIMITER
 
             source += '\n'.join(card.to_mcnp() for card in (self.data_tally).values())
@@ -677,7 +677,7 @@ class Inp(_object.PyMcnpFileObject):
         if self.data_variance:
             if makeFancy:
                 source += DELIMITER
-                source += f'c {'variance data':^76.76}\n'
+                source += f'c {"variance data":^76.76}\n'
                 source += DELIMITER
 
             source += '\n'.join(card.to_mcnp() for card in (self.data_variance).values())
@@ -686,7 +686,7 @@ class Inp(_object.PyMcnpFileObject):
         if self.data_micellaneous:
             if makeFancy:
                 source += DELIMITER
-                source += f'c {'micellaneous data':^76.76}\n'
+                source += f'c {"micellaneous data":^76.76}\n'
                 source += DELIMITER
 
             source += '\n'.join(card.to_mcnp() for card in (self.data_micellaneous).values())
