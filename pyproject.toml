@@ -36,6 +36,7 @@ dependencies = [
     "pytest",
     "rich",
     "scipy",
+    "pyvista",
 ]
 
 [project.optional-dependencies]
