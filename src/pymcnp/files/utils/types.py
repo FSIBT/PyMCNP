@@ -240,11 +240,11 @@ class Zaid(_object.PyMcnpObject):
         )
 
 
-class Particle(_object.PyMcnpObject, enum.StrEnum):
+class Particle(_object.PyMcnpObject, str, enum.Enum):
     """
     Represents particle designators.
 
-    ``Particle`` implements ``_object.PyMcnpObject`` and ``enum.StrEnum``.
+    ``Particle`` implements ``_object.PyMcnpObject`` and ``str, enum.Enum``.
     """
 
     NEUTRON = 'n'

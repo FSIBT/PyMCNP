@@ -590,5 +590,5 @@ class Bfld(Data):
         """
 
         return _parser.Postprocessor.add_continuation_lines(
-            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {self.kind.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.pairs.values())}"
+            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {self.kind.to_mcnp()} {' '.join(entry.to_mcnp() for entry in self.pairs.values())}"
         )

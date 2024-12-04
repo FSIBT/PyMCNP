@@ -1230,5 +1230,5 @@ class M(Data):
         """
 
         return _parser.Postprocessor.add_continuation_lines(
-            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.substances)} {" ".join(entry.to_mcnp() for entry in self.pairs.values())}"
+            f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()} {' '.join(entry.to_mcnp() for entry in self.substances)} {' '.join(entry.to_mcnp() for entry in self.pairs.values())}"
         )

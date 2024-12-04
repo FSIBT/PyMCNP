@@ -444,5 +444,5 @@ class Fmult(Data):
         """
 
         return _parser.Postprocessor.add_continuation_lines(
-            f"{self.mnemonic.to_mcnp()} {self.zaid.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.pairs.values())}"
+            f"{self.mnemonic.to_mcnp()} {self.zaid.to_mcnp()} {' '.join(entry.to_mcnp() for entry in self.pairs.values())}"
         )

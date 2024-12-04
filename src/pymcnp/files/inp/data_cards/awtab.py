@@ -172,5 +172,5 @@ class Awtab(Data):
         """
 
         return _parser.Postprocessor.add_continuation_lines(
-            f"{self.mnemonic.to_mcnp()} {" ".join(entry.to_mcnp() for entry in self.weight_ratios)}"
+            f"{self.mnemonic.to_mcnp()} {' '.join(entry.to_mcnp() for entry in self.weight_ratios)}"
         )

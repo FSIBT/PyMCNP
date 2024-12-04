@@ -44,7 +44,7 @@ class PyMcnpKeyword(PyMcnpObject, enum.Enum):
     """
     Represents generic MCNP keyword objects in PyMCNP.
 
-    ``PyMcnpKeyword`` implements ``PyMcnpObject`` and ``enum.StrEnum``
+    ``PyMcnpKeyword`` implements ``PyMcnpObject`` and ``str, enum.Enum``
     """
 
     @staticmethod

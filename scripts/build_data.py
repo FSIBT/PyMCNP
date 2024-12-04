@@ -578,9 +578,9 @@ def build_Data(data: _data.DataScheme):
             continue
 
         if attribute.type.startswith('tuple'):
-            o += f' {{" ".join(entry.to_mcnp() for entry in self.{attribute.name})}}'
+            o += f" {{' '.join(entry.to_mcnp() for entry in self.{attribute.name})}}"
         elif attribute.type.startswith('dict'):
-            o += f' {{" ".join(entry.to_mcnp() for entry in self.{attribute.name}.values())}}'
+            o += f" {{' '.join(entry.to_mcnp() for entry in self.{attribute.name}.values())}}"
         else:
             o += f' {{self.{attribute.name}.to_mcnp()}}'
 
