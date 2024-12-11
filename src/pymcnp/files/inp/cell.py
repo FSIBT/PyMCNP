@@ -20,9 +20,11 @@ from .cell_options import Nonu
 from .cell_options import Pd
 from .cell_options import Tmp
 from .cell_options import U
-from .cell_options import Trcl
+from .cell_options import Trcl_Form1
+from .cell_options import Trcl_Form2
 from .cell_options import Lat
-from .cell_options import Fill
+from .cell_options import Fill_Form1
+from .cell_options import Fill_Form2
 from .cell_options import Elpt
 from .cell_options import Cosy
 from .cell_options import Bflcl
@@ -176,11 +178,17 @@ class Cell(_card.Card):
                 case 'u':
                     options['u'] = U.from_mcnp(f'{keyword}{value}')
                 case 'trcl':
-                    options['trcl'] = Trcl.from_mcnp(f'{keyword}{value}')
+                    if ' ' in value:
+                        options['trcl'] = Trcl_Form2.from_mcnp(f'{keyword}{value}')
+                    else:
+                        options['trcl'] = Trcl_Form1.from_mcnp(f'{keyword}{value}')
                 case 'lat':
                     options['lat'] = Lat.from_mcnp(f'{keyword}{value}')
                 case 'fill':
-                    options['fill'] = Fill.from_mcnp(f'{keyword}{value}')
+                    if ':' in value:
+                        options['fill'] = Fill_Form2.from_mcnp(f'{keyword}{value}')
+                    else:
+                        options['fill'] = Fill_Form1.from_mcnp(f'{keyword}{value}')
                 case 'elpt':
                     options['elpt'] = Elpt.from_mcnp(f'{keyword}{value}')
                 case 'cosy':

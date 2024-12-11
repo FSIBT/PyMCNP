@@ -7,7 +7,9 @@ from typing import Final
 
 from ..cell_option import CellOption
 from ..cell_keyword import CellKeyword
-from ...utils import types, errors, _parser
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class Cosy(CellOption):

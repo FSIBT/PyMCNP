@@ -12,7 +12,9 @@ from ..data_mnemonic import DataMnemonic
 from ..data_entry import DataEntry
 from ..data_option import DataOption
 from ..data_keyword import DataKeyword
-from ...utils import types, errors, _parser
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 from ...utils import _elements
 
 

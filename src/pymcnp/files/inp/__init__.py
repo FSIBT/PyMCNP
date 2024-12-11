@@ -4,6 +4,7 @@ from .cell import Cell
 from .cell_geometry import CellGeometry
 from .cell_keyword import CellKeyword
 from .cell_option import CellOption
+from .cell_entry import CellEntry
 from .cell_options import Imp as CellImp
 from .cell_options import Vol as CellVol
 from .cell_options import Pwt as CellPwt
@@ -15,9 +16,13 @@ from .cell_options import Nonu as CellNonu
 from .cell_options import Pd as CellPd
 from .cell_options import Tmp as CellTmp
 from .cell_options import U as CellU
-from .cell_options import Trcl as CellTrcl
+from .cell_options import TrclEntry as CellTrclEntry
+from .cell_options import Trcl_Form1 as CellTrcl_Form1
+from .cell_options import Trcl_Form2 as CellTrcl_Form2
 from .cell_options import Lat as CellLat
-from .cell_options import Fill as CellFill
+from .cell_options import FillEntry as CellFillEntry
+from .cell_options import Fill_Form1 as CellFill_Form1
+from .cell_options import Fill_Form2 as CellFill_Form2
 from .cell_options import Elpt as CellElpt
 from .cell_options import Cosy as CellCosy
 from .cell_options import Bflcl as CellBflcl
@@ -126,6 +131,7 @@ __all__ = [
     'CellKeyword',
     'CellGeometry',
     'CellOption',
+    'CellEntry',
     'CellImp',
     'CellVol',
     'CellPwt',
@@ -137,9 +143,13 @@ __all__ = [
     'CellPd',
     'CellTmp',
     'CellU',
-    'CellTrcl',
+    'CellTrclEntry',
+    'CellTrcl_Form1',
+    'CellTrcl_Form2',
     'CellLat',
-    'CellFill',
+    'CellFillEntry',
+    'CellFill_Form1',
+    'CellFill_Form2',
     'CellElpt',
     'CellCosy',
     'CellBflcl',

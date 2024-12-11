@@ -405,7 +405,7 @@ class Test_CellU:
                 pymcnp.inp.CellU(number)
 
 
-class Test_CellTrcl:
+class Test_CellTrcl_Form1:
     """
     Tests ``CellTrcl``.
     """
@@ -418,7 +418,7 @@ class Test_CellTrcl:
         for value in self.VALID_EXAMPLES:
             _value = int(value)
 
-            obj = pymcnp.inp.CellTrcl(_value)
+            obj = pymcnp.inp.CellTrcl_Form1(_value)
 
             assert obj.keyword == pymcnp.inp.CellKeyword.TRCL
             assert obj.value == int(value)
@@ -427,7 +427,7 @@ class Test_CellTrcl:
         for value in self.INVALID_EXAMPLES:
             with pytest.raises(pymcnp.utils.errors.McnpError):
                 value = int(value)
-                pymcnp.inp.CellTrcl(value)
+                pymcnp.inp.CellTrcl_Form1(value)
 
 
 class Test_CellLat:
@@ -455,9 +455,9 @@ class Test_CellLat:
                 pymcnp.inp.CellLat(shape)
 
 
-class Test_CellFill:
+class Test_CellFill_Form1:
     """
-    Tests ``CellFill``.
+    Tests ``CellFill_Form1``.
     """
 
     VALID_EXAMPLES = [0, 234, 99999999]
@@ -468,7 +468,7 @@ class Test_CellFill:
         for number in self.VALID_EXAMPLES:
             _number = pymcnp.utils.types.McnpInteger(number)
 
-            obj = pymcnp.inp.CellFill(_number)
+            obj = pymcnp.inp.CellFill_Form1(_number)
 
             assert obj.keyword == pymcnp.inp.CellKeyword.FILL
             assert obj.number == pymcnp.utils.types.McnpInteger(number)
@@ -477,7 +477,7 @@ class Test_CellFill:
         for number in self.INVALID_EXAMPLES:
             with pytest.raises(pymcnp.utils.errors.McnpError):
                 number = pymcnp.utils.types.McnpInteger(number)
-                pymcnp.inp.CellFill(number)
+                pymcnp.inp.CellFill_Form1(number)
 
 
 class Test_CellElpt:

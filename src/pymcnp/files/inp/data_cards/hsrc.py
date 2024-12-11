@@ -7,7 +7,9 @@ from typing import Final
 
 from ..data import Data
 from ..data_mnemonic import DataMnemonic
-from ...utils import types, errors, _parser
+from ...utils import types
+from ...utils import errors
+from ...utils import _parser
 
 
 class Hsrc(Data):

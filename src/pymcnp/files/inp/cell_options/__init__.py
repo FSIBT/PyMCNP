@@ -9,9 +9,13 @@ from .nonu import Nonu
 from .pd import Pd
 from .tmp import Tmp
 from .u import U
-from .trcl import Trcl
+from .trcl import TrclEntry
+from .trcl import Trcl_Form1
+from .trcl import Trcl_Form2
 from .lat import Lat
-from .fill import Fill
+from .fill import FillEntry
+from .fill import Fill_Form1
+from .fill import Fill_Form2
 from .elpt import Elpt
 from .cosy import Cosy
 from .bflcl import Bflcl
@@ -29,9 +33,13 @@ __all__ = [
     'Pd',
     'Tmp',
     'U',
-    'Trcl',
+    'TrclEntry',
+    'Trcl_Form1',
+    'Trcl_Form2',
     'Lat',
-    'Fill',
+    'FillEntry',
+    'Fill_Form1',
+    'Fill_Form2',
     'Elpt',
     'Cosy',
     'Bflcl',

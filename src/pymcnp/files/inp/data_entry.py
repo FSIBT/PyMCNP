@@ -15,3 +15,6 @@ class DataEntry(_card.CardEntry):
     @staticmethod
     def from_mcnp(source: str):
         raise NotImplementedError
+
+    def to_mcnp(self):
+        raise NotImplementedError

@@ -21,7 +21,7 @@ def build_DataEntry(entry: _data.DataEntryScheme):
     o += '    Attributes:\n'
 
     for attribute in entry.attributes:
-        o += f'            {attribute.name}: {attribute.description}.\n'
+        o += f'        {attribute.name}: {attribute.description}.\n'
 
     o += '    """\n'
     o += '\n'
@@ -35,7 +35,7 @@ def build_DataEntry(entry: _data.DataEntryScheme):
     o += '        Parameters:\n'
 
     for attribute in entry.attributes:
-        o += f'                {attribute.name}: {attribute.description}.\n'
+        o += f'            {attribute.name}: {attribute.description}.\n'
 
     o += '\n'
     o += '        Raises:\n'
@@ -325,7 +325,9 @@ def build_Data(data: _data.DataScheme):
     o += 'from ..data_entry import DataEntry\n' if data.entries else ''
     o += 'from ..data_option import DataOption\n' if data.options else ''
     o += 'from ..data_keyword import DataKeyword\n' if data.options else ''
-    o += 'from ...utils import types, errors, _parser\n'
+    o += 'from ...utils import types\n'
+    o += 'from ...utils import errors\n'
+    o += 'from ...utils import _parser\n'
     o += '\n'
 
     # DATA.ENTRY
