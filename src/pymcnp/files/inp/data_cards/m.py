@@ -5,12 +5,15 @@ Contains the ``M`` subclass of ``Data``.
 import re
 from typing import Final
 
+import molmass
+
 from ..data import Data
 from ..data_mnemonic import DataMnemonic
 from ..data_entry import DataEntry
 from ..data_option import DataOption
 from ..data_keyword import DataKeyword
 from ...utils import types, errors, _parser
+from ...utils import _elements
 
 
 class MEntry(DataEntry):
@@ -1218,6 +1221,65 @@ class M(Data):
         data.comment = comments
 
         return data
+
+    @staticmethod
+    def from_formula(number: int, formulas: dict[str, float], atomic_or_weight: bool = True):
+        """
+        Generates ``Datum`` objects from INP.
+
+        ``from_formula`` constructs instances of ``Datum`` from chemcials
+        formulas and fractions, so it operates as a class constructor method.
+
+        Parameters:
+            number: Arbitrary material number.
+            formulas: Dictionary of formulas and atomic/weight fractions.
+            atomic_or_weight: Atomtic/Weight fraction true/false flag.
+
+        Returns:
+            ``Datum`` object.
+        """
+
+        substances = []
+        comments = []
+        for formula, mixture_fraction in formulas.items():
+            formula = molmass.Formula(formula)
+
+            composition = formula.composition()
+            for element in composition:
+                compound_fraction = (
+                    composition[element].fraction
+                    if atomic_or_weight
+                    else composition[element].mass / formula.mass
+                )
+
+                zaids = [
+                    (
+                        types.Zaid(_elements.ELEMENTS[element]['z'], a),
+                        isotropic_fraction,
+                    )
+                    for a, isotropic_fraction in _elements.ELEMENTS[element]['fraction'].items()
+                ]
+                subcomments = [f'{element}-{zaid.a:03}' for zaid, _ in zaids]
+                entries = [
+                    MEntry(
+                        zaid,
+                        types.McnpReal(
+                            (-1 if atomic_or_weight else 1)
+                            * mixture_fraction
+                            * compound_fraction
+                            * isotropic_fraction
+                        ),
+                    )
+                    for zaid, isotropic_fraction in zaids
+                ]
+
+                comments += subcomments
+                substances += entries
+
+        material = M(substances, types.McnpInteger(number), {})
+        material.comment = tuple(comments)
+
+        return material
 
     def to_mcnp(self) -> str:
         """

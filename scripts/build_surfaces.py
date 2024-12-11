@@ -173,7 +173,7 @@ for surface in _data.SURFACE_CARDS:
 init_path = pathlib.Path(__file__).parent / pathlib.Path(
     '../src/pymcnp/files/inp/surface_cards/__init__.py'
 )
-with init_path.open('w') as file:
-    file.write(
-        '\n'.join(init_imports) + '\n\n__all__ = [\n    ' + '\n    '.join(init_all) + '\n]\n'
-    )
+# with init_path.open('w') as file:
+#     file.write(
+#         '\n'.join(init_imports) + '\n\n__all__ = [\n    ' + '\n    '.join(init_all) + '\n]\n'
+#     )
