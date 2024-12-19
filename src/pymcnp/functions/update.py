@@ -22,7 +22,7 @@ def update_nps(inpt, npp: int):
         append.append_data(inpt, files.inp.data.Nps.from_mcnp(f'nps {npp}'))
 
 
-def update_seed(inpt, seed: int = None):
+def update_seed(inpt, seed: int):
     """
     Updates the ``seed`` key-value pair on the ``rand`` card.
 
