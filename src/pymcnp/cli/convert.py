@@ -26,7 +26,11 @@ import pymcnp
 
 
 def main() -> None:
-    """Convert MCNP output files to pandas dataframes."""
+    """
+    Executes the ``pymcnp convert`` command.
+
+    ``pymcnp convert`` converts MCNP output files to pandas dataframes.
+    """
 
     args = docopt(__doc__)
 

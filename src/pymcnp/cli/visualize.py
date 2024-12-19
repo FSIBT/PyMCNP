@@ -1,19 +1,16 @@
 """
 Usage:
-    pymcnp check [--fix] <input>
-
-Options:
-    -f --fix                  Reformat input file.
-    -o file --output=file     Write to file instead of overwriting the input file.
+    pymcnp visualize <file>
 """
 
 from docopt import docopt
 
 
 def main() -> None:
-    """Check the syntax of an input file.
+    """
+    Executes the ``pymcnp visualize`` command.
 
-    If `--fix` is given, reformat the output.
+    ``pymcnp visualize`` visualizes INP files using PyVISTA.
     """
 
     args = docopt(__doc__)

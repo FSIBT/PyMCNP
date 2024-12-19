@@ -16,9 +16,30 @@ from types import ModuleType
 from docopt import docopt
 
 from . import _io
-from . import _run
 from .. import files
 from .hooks import default
+
+
+EXECUTABLE = """
+import importlib
+import subprocess
+
+
+def main():
+    prehook = importlib.import_module('prehook')
+    posthook = importlib.import_module('posthook')
+
+    path = "{path}"
+    command = "{command}"
+
+    prehook.main(path)
+    subprocess.run(command, shell=True)
+    posthook.main(path)
+
+
+if __name__ == '__main__':
+    main()
+"""
 
 
 class Run:
@@ -29,6 +50,10 @@ class Run:
         inps: ``Inp`` objects.
         path: Working directory.
         command: Terminal command.
+        prehook: Prehook module with ``main`` function.
+        posthook: Posthook module with ``main`` function.
+        path_directory: Path to batch run directory
+        path_subdirectories: List of paths to run directories.
     """
 
     PREHOOK_PASS = default
@@ -43,7 +68,7 @@ class Run:
         command: str = 'mcnp6',
     ):
         """
-        Initializes ``RunBatch``.
+        Initializes ``Run``.
 
         Parameters:
             inps: ``Inp`` objects.
@@ -85,13 +110,15 @@ class Run:
         self.path_directory.mkdir()
         for i, (inp, path_subdirectory) in enumerate(zip(self.inps, self.path_subdirectories)):
             path_inp = path_subdirectory / 'inp.i'
-            path_script = path_subdirectory / f'{self.command}.py'
+            path_script = path_subdirectory / 'script.py'
             path_prehook = path_subdirectory / 'prehook.py'
             path_posthook = path_subdirectory / 'posthook.py'
 
             path_subdirectory.mkdir()
             inp.to_mcnp_file(path_inp)
-            shutil.copy(pathlib.Path(_run.__file__), path_script)
+            path_script.write_text(
+                EXECUTABLE.format(path=self.path_directory, command=f'{self.command} {path_inp}')
+            )
             shutil.copy(pathlib.Path(self.prehook.__file__), path_prehook)
             shutil.copy(pathlib.Path(self.posthook.__file__), path_posthook)
 
@@ -101,7 +128,7 @@ class Run:
         )
 
         if hosts == []:
-            command = f'parallel python3 {{}}/{self.command}.py ::: {param_files}'
+            command = f'parallel python3 {{}}/script.py ::: {param_files}'
         else:
             param_hosts = ' '.join(hosts)
             command = f'parallel -S {param_hosts} --transferfile {{}} --return {{}} python3 {{}}/{self.command}.py ::: {param_files}'
@@ -113,8 +140,7 @@ def main() -> None:
     """
     Executes the ``pymcnp run`` command.
 
-    ``main`` processes the given command line arguments, and it runs either INP
-    files single or in parallel.
+    ``pymcnp run`` runs INP files.
     """
 
     args = docopt(__doc__)

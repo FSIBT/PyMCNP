@@ -19,9 +19,10 @@ import pymcnp
 
 
 def main() -> None:
-    """Check the syntax of an input file.
+    """
+    Executes the ``pymcnp plot`` command.
 
-    If `--fix` is given, reformat the output.
+    ``pymcnp plot`` plots MCNP output data.
     """
 
     args = docopt(__doc__)

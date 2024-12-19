@@ -18,10 +18,10 @@ import pymcnp
 
 
 def main() -> None:
-    """Check the syntax of an input file.
+    """
+    Executes the ``pymcnp check`` command.
 
-    If `--fix` is given, reformat the output.
-    If `--output=file` is given, write to an output file instead of stdout.
+    ``pymcnp check`` checks INP file syntax.
     """
 
     args = docopt(__doc__)
