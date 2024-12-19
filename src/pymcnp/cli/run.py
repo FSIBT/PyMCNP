@@ -1,235 +1,112 @@
 """
 Usage:
-    pymcnp run <file> [ --parallel=<threads> ] [ options ]
+    pymcnp run <file>... [ options ]
 
 Options:
     -c --command=<command>        Command to run.
-    -P --path=<path>              Path to use.
-    -n --dry-run                  Don't run or create directories, just print what would happen
+    -s --hosts=<host>...          External hosts.
 """
 
-from pathlib import Path
+import os
 import shutil
+import pathlib
 import subprocess
-import sys
+from types import ModuleType
 
 from docopt import docopt
-from rich import print
 
-from ..files.inp import Inp
-from ..functions.read import read_input
 from . import _io
-
-
-def check_prog(name: str) -> None:
-    if shutil.which(name) is None:
-        print(f'[red]ERROR[/] Cannot find {name} program.')
-        sys.exit(3)
+from . import _run
+from .. import files
+from .hooks import default
 
 
 class Run:
-    """Encapsulates methods for running a single PyMCNP INP instance.
-
-    Can take either an Inp object or a filename that gets red in.
-
-    Always executes in a custom directory. By default this directory
-    doesn't get deleted.
-
     """
+    Represents collection of MCNP runs.
+
+    Attributes:
+        inps: ``Inp`` objects.
+        path: Working directory.
+        command: Terminal command.
+    """
+
+    PREHOOK_PASS = default
+    POSTHOOK_PASS = default
 
     def __init__(
         self,
-        inp: Inp | Path | str,
-        path: str | Path = Path('.'),
+        inps: list[files.inp.Inp],
+        path: pathlib.Path,
+        prehook: ModuleType = PREHOOK_PASS,
+        posthook: ModuleType = POSTHOOK_PASS,
         command: str = 'mcnp6',
-        prefix: str = 'pymcnp',
-        run_name: str | None = None,
     ):
         """
+        Initializes ``RunBatch``.
+
         Parameters:
-            inp:      The pymcnp input object or filename to run
-            path:     Path to directory to store run inputs and outputs.
-            command:  Terminal command to execute.
-            prefix:   prefix of the run directory
-            run_name: name of the run, use a timestamp if not given
+            inps: ``Inp`` objects.
+            path: Working directory.
+            command: Terminal command.
+            prehook: Prehook module with ``main`` function.
+            posthook: Posthook module with ``main`` function.
         """
 
-        self.command: str = command
-        self.path: Path = Path(path)
-        self.prefix: str = prefix
-        self.run_name: str | None = run_name
-        self.run_path: Path | None = None  # will be modified when we run
-        self.filename: Path | None = None  # will be modified when we run
+        if shutil.which(command) is None:
+            raise ValueError
 
-        if isinstance(inp, Inp):
-            self.inp = inp
-        elif isinstance(inp, (str, Path)):
-            self.inp = read_input(inp)
+        if shutil.which('parallel') is None:
+            raise ValueError
+
+        # Storing arguments.
+        self.command = command
+        self.inps = inps
+        self.prehook = prehook
+        self.posthook = posthook
+
+        # Initializing paths.
+        timestamp = _io.get_timestamp()
+        self.path_directory = path / f'pymcnp-{timestamp}'
+        self.path_subdirectories = []
+
+        for i, inp in enumerate(self.inps):
+            self.path_subdirectories.append(self.path_directory / f'run-{i}')
+
+    def run(self, hosts: list[str] = []):
+        """
+        Runs MCNP INP files.
+
+        Parameters:
+            hosts: List of hostnames on which to execute.
+        """
+
+        # Creating directories.
+        self.path_directory.mkdir()
+        for i, (inp, path_subdirectory) in enumerate(zip(self.inps, self.path_subdirectories)):
+            path_inp = path_subdirectory / 'inp.i'
+            path_script = path_subdirectory / f'{self.command}.py'
+            path_prehook = path_subdirectory / 'prehook.py'
+            path_posthook = path_subdirectory / 'posthook.py'
+
+            path_subdirectory.mkdir()
+            inp.to_mcnp_file(path_inp)
+            shutil.copy(pathlib.Path(_run.__file__), path_script)
+            shutil.copy(pathlib.Path(self.prehook.__file__), path_prehook)
+            shutil.copy(pathlib.Path(self.posthook.__file__), path_posthook)
+
+        # Running!
+        param_files = ' '.join(
+            str(subdirectory).split('/')[-1] for subdirectory in self.path_subdirectories
+        )
+
+        if hosts == []:
+            command = f'parallel python3 {{}}/{self.command}.py ::: {param_files}'
         else:
-            print('[red]Error[/] cannot parse input')
+            param_hosts = ' '.join(hosts)
+            command = f'parallel -S {param_hosts} --transferfile {{}} --return {{}} python3 {{}}/{self.command}.py ::: {param_files}'
 
-    def prehook(self):
-        pass
-
-    def posthook(self):
-        pass
-
-    def create_files(self, dry_run: bool = False):
-        """Create directory and input files."""
-        if self.run_name is None:
-            self.run_name = _io.get_timestamp()
-
-        self.run_path = self.path / f'{self.prefix}-{self.run_name}'
-        self.filename = self.run_path / f'input-{self.run_name}.i'
-
-        if dry_run:
-            return
-
-        self.run_path.mkdir(exist_ok=True, parents=True)
-        self.inp.to_mcnp_file(self.filename)
-
-    def run(self, *, dry_run: bool = False) -> Path:
-        """Runs a PyMcnp INP instance.
-
-        Creates a custom directory and a copy of the input file. It
-        then calls MCNP. By default no cleanup is done.
-
-        Returns:
-            Path to run directory.
-
-        """
-        check_prog(self.command)
-
-        self.create_files(dry_run)
-
-        command_to_run = f'{self.command} i={self.filename.name}'
-
-        if dry_run:
-            print('[yellow]INFO[/] Dry run:')
-            print(f'   creating {self.run_path.absolute()}')
-            print('   executing prehook')
-            print(f'   {command_to_run}')
-            print('   executing posthook')
-
-            # some cleanup
-            self.run_path = None
-            self.filename = None
-            return self.path
-
-        self.prehook()
-        subprocess.run(command_to_run, cwd=self.run_path, shell=True)
-        self.posthook()
-
-        return self.path
-
-    def cleanup(self):
-        """Helper function that can be used in posthooks."""
-        if self.run_path:
-            for file_or_dir in self.run_path.rglob('*'):
-                if file_or_dir.is_file():
-                    file_or_dir.unlink()
-                else:
-                    file_or_dir.rmdir()
-            self.run_path.rmdir()
-
-
-class Parallel:
-    """Run  multiple `Run` instancnes.
-
-    At the moment we only create the input directories with the correct files.
-    However, in the future we plan to automatically run those using Gnu parallel.
-
-    """
-
-    def __init__(
-        self,
-        runs,
-        prefix: str = 'pymcnp',
-        run_name: str | None = None,
-    ):
-        self.runs = runs
-        self.prefix = prefix
-
-        if run_name is None:
-            self.run_name = _io.get_timestamp()
-        else:
-            self.run_name = run_name
-
-        self.path = Path('.') / f'{self.prefix}-{self.run_name}'
-
-    def create_files(self):
-        if self.path.is_dir():
-            print(f'[red]Error[/] {self.path} already exists. Existing.')
-            return
-
-        self.path.mkdir()
-
-        N = len(str(len(self.runs)))  # how many digits do we need?
-        for i, run in enumerate(self.runs):
-            run.path = self.path
-            run.prefix = self.prefix
-            run.run_name = f'{i:0{N}d}'
-            run.create_files()
-
-    def cleanup(self):
-        """Helper function that can be used in posthooks."""
-        if self.path:
-            for file_or_dir in self.path.rglob('*'):
-                if file_or_dir.is_file():
-                    file_or_dir.unlink()
-                else:
-                    file_or_dir.rmdir()
-            self.path.rmdir()
-
-    def prehook(self):
-        pass
-
-    def posthook(self):
-        pass
-
-    def run(self, *, dry_run: bool = False):
-        """
-        Runs MCNP INP files in parallel.
-
-        Creates a directory with subdirectories for all the different input files
-
-        Returns:
-            Path to run directory.
-        """
-
-        # some error checking
-        self.check_prog('parallel')
-
-        return
-
-
-class ParallelWithMaxNPS(Parallel):
-    """Replace any run with nps > max_nps with multiple runs with a given nps."""
-
-    def __init__(
-        self,
-        runs,
-        prefix: str = 'pymcnp',
-        run_name: str | None = None,
-        max_nps: float = 1e8,
-    ):
-        super().__init__(runs, prefix, run_name)
-        self.max_nps = int(max_nps)
-
-    def prehook(self):
-        out = []
-        for run in self.runs:
-            nps = run.inp.get_nps()
-            if nps > self.max_nps:
-                while nps > 0:
-                    if nps > self.max_nps:
-                        run.inp = run.inp.set_nps(self.max_nps)
-                    else:
-                        run.inp = run.inp.set_nps(nps)
-                    nps -= self.max_nps
-                    run.inp = run.inp.set_seed()
-                    out.append(run)
-        self.runs = out
+        subprocess.run(command, cwd=self.path_directory, shell=True)
 
 
 def main() -> None:
@@ -242,16 +119,12 @@ def main() -> None:
 
     args = docopt(__doc__)
 
-    input_file = Path(args['<file>'])
-
+    inps = args['<file>']
+    hosts = args['--hosts'] if args['--hosts'] else []
     command = args['--command'] if args['--command'] else 'mcnp6'
-    path = args['--path'] if args['--path'] else input_file.parent
-    dry_run = args['--dry-run']
 
-    run = Run(
-        input_file,
-        path=path,
-        command=command,
-    )
+    inps = [files.inp.Inp.from_mcnp_file(inp) for inp in inps]
+    path = pathlib.Path(os.getcwd())
 
-    run.run(dry_run=dry_run)
+    run = Run(inps, path, command=command)
+    run.run(hosts)
