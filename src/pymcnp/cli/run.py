@@ -16,6 +16,7 @@ from types import ModuleType
 from docopt import docopt
 
 from . import _io
+from . import _errors
 from .. import files
 from .hooks import default
 
@@ -76,13 +77,39 @@ class Run:
             command: Terminal command.
             prehook: Prehook module with ``main`` function.
             posthook: Posthook module with ``main`` function.
+
+        Raises:
+            CliError: INVALID_INP.
+            CliError: INVALID_PATH.
+            CliError: INVALID_PREHOOK.
+            CliError: INVALID_POSTHOOK.
+            CliError: INVALID_COMMAND.
         """
 
+        if inps is None:
+            raise _errors.CliError(_errors.CliCode.INVALID_INP, str(inps))
+
+        for inp in inps:
+            if inp is None:
+                raise _errors.CliError(_errors.CliCode.INVALID_INP, str(inp))
+
+        if path is None:
+            raise _errors.CliError(_errors.CliCode.INVALID_PATH, str(path))
+
+        if prehook is None or not hasattr(prehook, 'main'):
+            raise _errors.CliError(_errors.CliCode.INVALID_PREHOOK, str(prehook))
+
+        if posthook is None or not hasattr(posthook, 'main'):
+            raise _errors.CliError(_errors.CliCode.INVALID_POSTHOOK, str(posthook))
+
+        if command is None:
+            raise _errors.CliError(_errors.CliCode.INVALID_COMMAND, str(command))
+
         if shutil.which(command) is None:
-            raise ValueError
+            raise _errors.CliError(_errors.CliCode.INVALID_COMMAND, str(command))
 
         if shutil.which('parallel') is None:
-            raise ValueError
+            raise _errors.CliError(_errors.CliCode.INVALID_COMMAND, 'parallel')
 
         # Storing arguments.
         self.command = command
@@ -108,17 +135,18 @@ class Run:
 
         # Creating directories.
         self.path_directory.mkdir()
+
         for i, (inp, path_subdirectory) in enumerate(zip(self.inps, self.path_subdirectories)):
             path_inp = path_subdirectory / 'inp.i'
             path_script = path_subdirectory / 'script.py'
             path_prehook = path_subdirectory / 'prehook.py'
             path_posthook = path_subdirectory / 'posthook.py'
 
+            command = f'{self.command} {path_inp}'
+
             path_subdirectory.mkdir()
             inp.to_mcnp_file(path_inp)
-            path_script.write_text(
-                EXECUTABLE.format(path=self.path_directory, command=f'{self.command} {path_inp}')
-            )
+            path_script.write_text(EXECUTABLE.format(path=self.path_directory, command=command))
             shutil.copy(pathlib.Path(self.prehook.__file__), path_prehook)
             shutil.copy(pathlib.Path(self.posthook.__file__), path_posthook)
 
@@ -149,8 +177,16 @@ def main() -> None:
     hosts = args['--hosts'] if args['--hosts'] else []
     command = args['--command'] if args['--command'] else 'mcnp6'
 
-    inps = [files.inp.Inp.from_mcnp_file(inp) for inp in inps]
+    try:
+        inps = [files.inp.Inp.from_mcnp_file(inp) for inp in inps]
+    except files.utils.errors.McnpError as err:
+        _io.error(err.__str__())
+
     path = pathlib.Path(os.getcwd())
 
-    run = Run(inps, path, command=command)
+    try:
+        run = Run(inps, path, command=command)
+    except _errors.CliError as err:
+        _io.error(err.__str__())
+
     run.run(hosts)

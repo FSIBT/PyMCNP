@@ -19,6 +19,7 @@ def main():
         print('[DEMO] Input file not found.')
         exit(1)
 
-    file = open('.' + ''.join(args['<inp>'].split('.')[:-1]) + '.outp', 'x')
-    file.write('MCNP Output! :)')
-    file.close()
+    path = ''.join(args['<inp>'].split('.')[:-1]) + '.outp'
+    with open(path, 'x') as file:
+        print(path)
+        file.write('MCNP Output! :)')
