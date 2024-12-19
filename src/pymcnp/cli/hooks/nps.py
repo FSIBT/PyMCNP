@@ -7,7 +7,7 @@ import pymcnp
 MAX_NPS = 1000
 
 
-def main(path, command):
+def main(path):
     path = pathlib.Path(path)
 
     for file_or_dir in path.rglob('*'):

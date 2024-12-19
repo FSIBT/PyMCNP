@@ -1,2 +1,2 @@
-def main(path, command):
+def main(path):
     pass
