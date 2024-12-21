@@ -257,6 +257,6 @@ class McnpError(Exception):
                 hint += ''
 
         if hint:
-            return f'\n\033[31;4;1mMcnpError[{self.code.name}]\033[0m: {head}\n|\n| {repr(self.info)}\n|\n| \033[35;4mHint\033[0m: {hint}\n|'
+            return f'[red][bold]McnpError[{self.code.name}]:[/][/] {head}\n\n``{self.info[:]}``\n\n[bold][magenta]Hint:[/][/] {hint}'
         else:
-            return f'\n\033[31;4;1mMcnpError[{self.code.name}]\033[0m: {head}\n|\n| {repr(self.info)}\n|'
+            return f'[red][bold]McnpError[{self.code.name}]:[/][/] {head}\n\n``{self.info[:]}``'

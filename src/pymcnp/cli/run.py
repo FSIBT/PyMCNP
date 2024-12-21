@@ -16,9 +16,9 @@ from types import ModuleType
 from docopt import docopt
 
 from . import _io
+from . import hooks
 from . import _errors
 from .. import files
-from .hooks import default
 
 
 EXECUTABLE = """
@@ -57,15 +57,17 @@ class Run:
         path_subdirectories: List of paths to run directories.
     """
 
-    PREHOOK_PASS = default
-    POSTHOOK_PASS = default
+    PREHOOK_EMPTY = hooks.empty
+    POSTHOOK_EMPTY = hooks.empty
+    PREHOOK_NPS = hooks.nps
+    POSTHOOK_CLEAN = hooks.clean
 
     def __init__(
         self,
         inps: list[files.inp.Inp],
         path: pathlib.Path,
-        prehook: ModuleType = PREHOOK_PASS,
-        posthook: ModuleType = POSTHOOK_PASS,
+        prehook: ModuleType = PREHOOK_EMPTY,
+        posthook: ModuleType = POSTHOOK_EMPTY,
         command: str = 'mcnp6',
     ):
         """
@@ -127,7 +129,7 @@ class Run:
 
     def run(self, hosts: list[str] = []):
         """
-        Runs MCNP INP files.
+        Runs MCNP INP pymcnp.
 
         Parameters:
             hosts: List of hostnames on which to execute.
@@ -168,25 +170,35 @@ def main() -> None:
     """
     Executes the ``pymcnp run`` command.
 
-    ``pymcnp run`` runs INP files.
+    ``pymcnp run`` runs INP pymcnp.
     """
 
-    args = docopt(__doc__)
+    _io.warning()
 
+    # Processing CLI arguments.
+    args = docopt(__doc__)
     inps = args['<file>']
     hosts = args['--hosts'] if args['--hosts'] else []
     command = args['--command'] if args['--command'] else 'mcnp6'
 
+    # Reading INP files.
     try:
         inps = [files.inp.Inp.from_mcnp_file(inp) for inp in inps]
     except files.utils.errors.McnpError as err:
         _io.error(err.__str__())
+    except FileNotFoundError:
+        _io.error(f'[red][bold]IoError:[/][/] {inps} File not found.')
 
-    path = pathlib.Path(os.getcwd())
-
+    # Running!
     try:
-        run = Run(inps, path, command=command)
+        Run(
+            inps,
+            pathlib.Path(os.getcwd()),
+            prehook=Run.PREHOOK_EMPTY,
+            posthook=Run.POSTHOOK_CLEAN,
+            command=command,
+        ).run(hosts)
     except _errors.CliError as err:
         _io.error(err.__str__())
 
-    run.run(hosts)
+    _io.done()

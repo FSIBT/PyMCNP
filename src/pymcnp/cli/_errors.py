@@ -11,14 +11,15 @@ class CliCode(enum.Enum):
     Represents ``CliError`` error codes.
 
     Notes:
-        10X: Value, ``Run``.
+        10X: System.
+        11X: Value, ``Run``.
     """
 
-    INVALID_INP = 100
-    INVALID_PATH = 101
-    INVALID_PREHOOK = 102
-    INVALID_POSTHOOK = 103
-    INVALID_COMMAND = 104
+    INVALID_INP = 110
+    INVALID_PATH = 111
+    INVALID_PREHOOK = 112
+    INVALID_POSTHOOK = 113
+    INVALID_COMMAND = 114
 
 
 class CliError(Exception):
@@ -73,6 +74,6 @@ class CliError(Exception):
                 hint += ''
 
         if hint:
-            return f'\n\033[31;4;1mCliError[{self.code.name}]\033[0m: {head}\n|\n| {repr(self.info)}\n|\n| \033[35;4mHint\033[0m: {hint}\n|'
+            return f'[red][bold]McnpError[{self.code.name}]:[/][/] {head}\n\n``{self.info[:]}``\n\n[magenta][bold]Hint:[/bold][/magenta] {hint}'
         else:
-            return f'\n\033[31;4;1mCliError[{self.code.name}]\033[0m: {head}\n|\n| {repr(self.info)}\n|'
+            return f'[red][bold]McnpError[{self.code.name}]:[/][/] {head}\n\n``{self.info[:]}``'

@@ -1,20 +1,18 @@
 """
 Usage:
-    pymcnp check [options] <input_file>
+    pymcnp check [options] <file>
 
 Options:
     -f --fix                  Reformat input file.
-    -o file --output=file     Write to file instead of overwriting the input file.
 """
 
-from pathlib import Path
-import sys
+import pathlib
+import difflib
 
 from docopt import docopt
-from rich import print
-from rich.panel import Panel
 
-import pymcnp
+from . import _io
+from .. import files
 
 
 def main() -> None:
@@ -24,42 +22,27 @@ def main() -> None:
     ``pymcnp check`` checks INP file syntax.
     """
 
+    _io.warning()
+
+    # Processing CLI arguments.
     args = docopt(__doc__)
+    file = pathlib.Path(args['<file>'])
 
-    input_file = Path(args['<input_file>'])
-
-    print(
-        Panel(
-            '[orange3]Warning[/] PyMCNP is just getting started.'
-            'Please double check the output to make sure everyhing is working as expected'
-            'If you find an error, please report it at https://github.com/FSIBT/PyMCNP/issues'
-        )
-    )
-
-    if not input_file.is_file():
-        print(f'[red]ERROR[/] Input file {input_file} does not exists.')
-        sys.exit(1)
-
+    # Reading INP file.
     try:
-        data = pymcnp.read_input(input_file)
-    except:  # noqa
-        print('[red]ERROR[/] Cannot read input file.')
-        print(
-            '     We would appreciate if you can report this '
-            '(and if possible share the input file) at https://github.com/FSIBT/PyMCNP/issues'
-            'Thanks! -- your PyMCNP team'
-        )
-        sys.exit(2)
+        inp = files.inp.Inp.from_mcnp_file(file)
+    except files.utils.errors.McnpError as err:
+        _io.error(err.__str__())
+    except FileNotFoundError:
+        _io.error(f'[red][bold]IoError:[/][/] ``{file}`` not found.')
 
+    # Running ``diff``!
+    with open(file, 'r') as file:
+        diff = difflib.unified_diff(file.readlines(), inp.to_mcnp().split('\n'))
+        _io.print('\n'.join(line.rstrip('\n') for line in diff))
+
+    # Handling ``--fix``.
     if args['--fix']:
-        output = args['--output']
-        if output is None:
-            print(data.to_mcnp())
-        else:
-            output = Path(output)
-            if output.is_file():
-                print('[orange3]Warning[/] Overwriting existing file.')
-            data.to_mcnp_file(output)
-            print(':thumbs_up: Rewrote input file.')
-    else:
-        print(f':thumbs_up: Input file {input_file} can be parsed.')
+        inp.to_mcnp_file(file)
+
+    _io.done()

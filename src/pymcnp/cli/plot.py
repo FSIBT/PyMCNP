@@ -13,9 +13,9 @@ import sys
 from docopt import docopt
 from matplotlib import pyplot as plt
 from rich import print
-from rich.panel import Panel
 
 import pymcnp
+from . import _io
 
 
 def main() -> None:
@@ -25,18 +25,12 @@ def main() -> None:
     ``pymcnp plot`` plots MCNP output data.
     """
 
+    _io.warning()
+
     args = docopt(__doc__)
 
     N = args['--number']
     file_in = Path(args['<input>'])
-
-    print(
-        Panel(
-            '[orange3]Warning[/] PyMCNP is just getting started.'
-            'Please double check the output to make sure everyhing is working as expected'
-            'If you find an error, please report it at https://github.com/FSIBT/PyMCNP/issues'
-        )
-    )
 
     if not file_in.is_file():
         print(f'[red]Error[/] Cannot access file {file_in}')
@@ -78,3 +72,5 @@ def main() -> None:
         plt.savefig(output_filename)
     else:
         plt.show()
+
+    _io.done()
