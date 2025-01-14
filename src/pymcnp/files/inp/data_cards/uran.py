@@ -20,10 +20,10 @@ class UranEntry(DataEntry):
     ``UranEntry`` implements ``DataEntry``.
 
     Attributes:
-            number: Universe number for transformation.
-            maximum_x: Maximum displacement in the x direction.
-            maximum_y: Maximum displacement in the y direction.
-            maximum_z: Maximum displacement in the z direction.
+        number: Universe number for transformation.
+        maximum_x: Maximum displacement in the x direction.
+        maximum_y: Maximum displacement in the y direction.
+        maximum_z: Maximum displacement in the z direction.
     """
 
     def __init__(
@@ -37,10 +37,10 @@ class UranEntry(DataEntry):
         Initializes ``UranEntry``.
 
         Parameters:
-                number: Universe number for transformation.
-                maximum_x: Maximum displacement in the x direction.
-                maximum_y: Maximum displacement in the y direction.
-                maximum_z: Maximum displacement in the z direction.
+            number: Universe number for transformation.
+            maximum_x: Maximum displacement in the x direction.
+            maximum_y: Maximum displacement in the y direction.
+            maximum_z: Maximum displacement in the z direction.
 
         Raises:
             McnpError: INVALID_DATA_ENTRY_PARAMETER.

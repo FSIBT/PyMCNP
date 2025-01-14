@@ -6,7 +6,6 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import _visualization
 from ...utils import types
 from ...utils import errors
 from ...utils import _parser
@@ -34,6 +33,7 @@ class Sz(Surface):
     ):
         """
         Initializes ``Sz``.
+
 
         Parameters:
             z: On-z-axis sphere center z component.
@@ -135,16 +135,3 @@ class Sz(Surface):
         return Sz(
             number, transform, z, r, is_whiteboundary=is_whiteboundary, is_reflecting=is_reflecting
         )
-
-    def to_pyvista(self):
-        """
-        Generates ``pyvista.PolyData`` representing ``Sz``.
-
-        Returns:
-            ``pyvista.PolyData`` for ``Sz``.
-        """
-
-        vis = _visualization.PyMcnpVisualization.get_sphere(self.r.value)
-        vis = vis.add_translation(_visualization.Vector(0, 0, self.z.value))
-
-        return vis.data

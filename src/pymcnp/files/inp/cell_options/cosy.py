@@ -19,7 +19,7 @@ class Cosy(CellOption):
     ``Cosy`` implements ``_card.CardOption``.
 
     Attributes:
-        number: Cell cosy map number.
+        number: Cell cosy map number
     """
 
     def __init__(self, number: types.McnpInteger):
@@ -27,7 +27,7 @@ class Cosy(CellOption):
         Initializes ``Cosy``.
 
         Parameters:
-            number: Cell cosy map number.
+            number: Cell cosy map number
 
         Raises:
             McnpError: INVALID_CELL_OPTION_VALUE.

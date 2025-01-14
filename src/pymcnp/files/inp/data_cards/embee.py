@@ -474,7 +474,7 @@ class Embee(Data):
     ``Embee`` implements ``Data``.
 
     Attributes:
-        suffix: Data card suffix..
+        suffix: Data card suffix.
         pairs: Dictionary of options.
     """
 
@@ -483,7 +483,7 @@ class Embee(Data):
         Initializes ``Embee``.
 
         Parameters:
-            suffix: Data card suffix..
+            suffix: Data card suffix.
             pairs: Dictionary of options.
 
         Raises:

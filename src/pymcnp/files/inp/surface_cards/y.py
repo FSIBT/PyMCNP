@@ -42,6 +42,7 @@ class Y(Surface):
         """
         Initializes ``Y``.
 
+
         Parameters:
             y1: Y-axisymmetric point-defined surface point #1 y component.
             r1: Y-axisymmetric point-defined surface point #1 radius.
@@ -80,11 +81,17 @@ class Y(Surface):
         if r1 is None:
             raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(r1))
 
-        if y3 is None != r3 is None:
-            raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(y3) + str(r3))
+        if y2 is None:
+            raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(y2))
 
-        if y2 is None != r2 is None and y3 is not None:
-            raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(y2) + str(r2))
+        if r2 is None:
+            raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(r2))
+
+        if y3 is None:
+            raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(y3))
+
+        if r3 is None:
+            raise errors.McnpError(errors.McnpCode.INVALID_SURFACE_PARAMETER, str(r3))
 
         self.ident: Final[int] = number.value
         self.number: Final[types.McnpInteger] = number

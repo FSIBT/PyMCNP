@@ -20,7 +20,7 @@ class Embtm(Data):
 
     Attributes:
         multipliers: Tuple of time multipliers.
-        suffix: Data card suffix..
+        suffix: Data card suffix.
     """
 
     def __init__(self, multipliers: tuple[types.McnpReal], suffix: types.McnpInteger):
@@ -29,7 +29,7 @@ class Embtm(Data):
 
         Parameters:
             multipliers: Tuple of time multipliers.
-            suffix: Data card suffix..
+            suffix: Data card suffix.
 
         Raises:
             McnpError: INVALID_DATUM_PARAMETERS.

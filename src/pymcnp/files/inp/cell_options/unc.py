@@ -19,7 +19,7 @@ class Unc(CellOption):
     ``Unc`` implements ``_card.CardOption``.
 
     Attributes:
-        setting: Cell uncollided secondaries setting.
+        setting: Cell uncollided secondaries setting
         designator: Cell option particle designator
     """
 
@@ -28,7 +28,7 @@ class Unc(CellOption):
         Initializes ``Unc``.
 
         Parameters:
-            setting: Cell uncollided secondaries setting.
+            setting: Cell uncollided secondaries setting
             designator: Cell option particle designator
 
         Raises:

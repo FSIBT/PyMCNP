@@ -20,14 +20,14 @@ class Hsrc(Data):
 
     Attributes:
         x_number: Number of mesh intervals in x direction.
-        x_minimum: Minimum x-value for mesh..
-        x_maximum: Maximum x-value for mesh..
+        x_minimum: Minimum x-value for mesh.
+        x_maximum: Maximum x-value for mesh.
         y_number: Number of mesh intervals in y direction.
-        y_minimum: Minimum y-value for mesh..
-        y_maximum: Maximum y-value for mesh..
+        y_minimum: Minimum y-value for mesh.
+        y_maximum: Maximum y-value for mesh.
         z_number: Number of mesh intervals in z direction.
-        z_minimum: Minimum z-value for mesh..
-        z_maximum: Maximum z-value for mesh..
+        z_minimum: Minimum z-value for mesh.
+        z_maximum: Maximum z-value for mesh.
     """
 
     def __init__(
@@ -47,14 +47,14 @@ class Hsrc(Data):
 
         Parameters:
             x_number: Number of mesh intervals in x direction.
-            x_minimum: Minimum x-value for mesh..
-            x_maximum: Maximum x-value for mesh..
+            x_minimum: Minimum x-value for mesh.
+            x_maximum: Maximum x-value for mesh.
             y_number: Number of mesh intervals in y direction.
-            y_minimum: Minimum y-value for mesh..
-            y_maximum: Maximum y-value for mesh..
+            y_minimum: Minimum y-value for mesh.
+            y_maximum: Maximum y-value for mesh.
             z_number: Number of mesh intervals in z direction.
-            z_minimum: Minimum z-value for mesh..
-            z_maximum: Maximum z-value for mesh..
+            z_minimum: Minimum z-value for mesh.
+            z_maximum: Maximum z-value for mesh.
 
         Raises:
             McnpError: INVALID_DATUM_PARAMETERS.

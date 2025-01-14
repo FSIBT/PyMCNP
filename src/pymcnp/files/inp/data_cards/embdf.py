@@ -20,7 +20,7 @@ class Embdf(Data):
 
     Attributes:
         multipliers: Tuple of dose energy multipliers.
-        suffix: Data card suffix..
+        suffix: Data card suffix.
     """
 
     def __init__(self, multipliers: tuple[types.McnpReal], suffix: types.McnpInteger):
@@ -29,7 +29,7 @@ class Embdf(Data):
 
         Parameters:
             multipliers: Tuple of dose energy multipliers.
-            suffix: Data card suffix..
+            suffix: Data card suffix.
 
         Raises:
             McnpError: INVALID_DATUM_PARAMETERS.

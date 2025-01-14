@@ -50,6 +50,7 @@ class Gq(Surface):
         """
         Initializes ``Gq``.
 
+
         Parameters:
             a: Oblique special quadratic A coefficent.
             b: Oblique special quadratic B coefficent.

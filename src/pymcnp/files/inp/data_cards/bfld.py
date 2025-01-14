@@ -487,7 +487,7 @@ class Bfld(Data):
 
     Attributes:
         kind: Magnetic field type.
-        suffix: Data card suffix..
+        suffix: Data card suffix.
         pairs: Dictionary of options.
     """
 
@@ -497,7 +497,7 @@ class Bfld(Data):
 
         Parameters:
             kind: Magnetic field type.
-            suffix: Data card suffix..
+            suffix: Data card suffix.
             pairs: Dictionary of options.
 
         Raises:

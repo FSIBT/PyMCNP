@@ -19,7 +19,7 @@ class U(CellOption):
     ``U`` implements ``_card.CardOption``.
 
     Attributes:
-        number: Cell universe number.
+        number: Cell universe number
     """
 
     def __init__(self, number: types.McnpInteger):
@@ -27,7 +27,7 @@ class U(CellOption):
         Initializes ``U``.
 
         Parameters:
-            number: Cell universe number.
+            number: Cell universe number
 
         Raises:
             McnpError: INVALID_CELL_OPTION_VALUE.

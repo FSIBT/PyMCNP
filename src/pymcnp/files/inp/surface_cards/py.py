@@ -6,7 +6,6 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import _visualization
 from ...utils import types
 from ...utils import errors
 from ...utils import _parser
@@ -32,6 +31,7 @@ class Py(Surface):
     ):
         """
         Initializes ``Py``.
+
 
         Parameters:
             d: Normal-to-the-y-axis plane D coefficent.
@@ -127,16 +127,3 @@ class Py(Surface):
         return Py(
             number, transform, d, is_whiteboundary=is_whiteboundary, is_reflecting=is_reflecting
         )
-
-    def to_pyvista(self):
-        """
-        Generates ``pyvista.PolyData`` representing ``Py``.
-
-        Returns:
-            ``pyvista.PolyData`` for ``Py``.
-        """
-
-        vis = _visualization.PyMcnpVisualization.get_plane(0, 1, 0, self.d.value)
-        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-
-        return vis.data

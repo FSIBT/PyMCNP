@@ -20,7 +20,7 @@ class Sc(Data):
 
     Attributes:
         comment: source comment.
-        suffix: Data card suffix..
+        suffix: Data card suffix.
     """
 
     def __init__(self, comment: tuple[str], suffix: types.McnpInteger):
@@ -29,7 +29,7 @@ class Sc(Data):
 
         Parameters:
             comment: source comment.
-            suffix: Data card suffix..
+            suffix: Data card suffix.
 
         Raises:
             McnpError: INVALID_DATUM_PARAMETERS.

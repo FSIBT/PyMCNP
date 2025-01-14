@@ -20,7 +20,7 @@ class Embtb(Data):
 
     Attributes:
         bounds: Tuple of upper time bounds.
-        suffix: Data card suffix..
+        suffix: Data card suffix.
     """
 
     def __init__(self, bounds: tuple[types.McnpReal], suffix: types.McnpInteger):
@@ -29,7 +29,7 @@ class Embtb(Data):
 
         Parameters:
             bounds: Tuple of upper time bounds.
-            suffix: Data card suffix..
+            suffix: Data card suffix.
 
         Raises:
             McnpError: INVALID_DATUM_PARAMETERS.

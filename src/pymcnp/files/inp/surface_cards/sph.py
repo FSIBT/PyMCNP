@@ -6,7 +6,6 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import _visualization
 from ...utils import types
 from ...utils import errors
 from ...utils import _parser
@@ -38,6 +37,7 @@ class Sph(Surface):
     ):
         """
         Initializes ``Sph``.
+
 
         Parameters:
             vx: Sphere macrobody position vector x component.
@@ -158,18 +158,3 @@ class Sph(Surface):
             is_whiteboundary=is_whiteboundary,
             is_reflecting=is_reflecting,
         )
-
-    def to_pyvista(self):
-        """
-        Generates ``pyvista.PolyData`` representing ``Sph``.
-
-        Returns:
-            ``pyvista.PolyData`` for ``Sph``.
-        """
-
-        vis = _visualization.PyMcnpVisualization.get_sphere(self.r.value)
-        vis = vis.add_translation(
-            _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-        )
-
-        return vis.data

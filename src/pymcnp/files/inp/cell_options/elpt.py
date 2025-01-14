@@ -19,7 +19,7 @@ class Elpt(CellOption):
     ``Elpt`` implements ``_card.CardOption``.
 
     Attributes:
-        cutoff: Cell energy cutoff.
+        cutoff: Cell energy cutoff
         designator: Cell option particle designator
     """
 
@@ -28,7 +28,7 @@ class Elpt(CellOption):
         Initializes ``Elpt``.
 
         Parameters:
-            cutoff: Cell energy cutoff.
+            cutoff: Cell energy cutoff
             designator: Cell option particle designator
 
         Raises:

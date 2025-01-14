@@ -6,7 +6,6 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import _visualization
 from ...utils import types
 from ...utils import errors
 from ...utils import _parser
@@ -32,6 +31,7 @@ class Pz(Surface):
     ):
         """
         Initializes ``Pz``.
+
 
         Parameters:
             d: Normal-to-the-z-axis plane D coefficent.
@@ -127,15 +127,3 @@ class Pz(Surface):
         return Pz(
             number, transform, d, is_whiteboundary=is_whiteboundary, is_reflecting=is_reflecting
         )
-
-    def to_pyvista(self):
-        """
-        Generates ``pyvista.PolyData`` representing ``Pz``.
-
-        Returns:
-            ``pyvista.PolyData`` for ``Pz``.
-        """
-
-        vis = _visualization.PyMcnpVisualization.get_plane(0, 0, 1, self.d.value)
-
-        return vis.data

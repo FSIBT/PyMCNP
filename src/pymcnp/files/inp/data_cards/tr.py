@@ -20,9 +20,9 @@ class TrDisplacementEntry(DataEntry):
     ``TrDisplacementEntry`` implements ``DataEntry``.
 
     Attributes:
-            x: Displacement vector x component.
-            y: Displacement vector y component.
-            z: Displacement vector z component.
+        x: Displacement vector x component.
+        y: Displacement vector y component.
+        z: Displacement vector z component.
     """
 
     def __init__(self, x: types.McnpReal, y: types.McnpReal, z: types.McnpReal):
@@ -30,9 +30,9 @@ class TrDisplacementEntry(DataEntry):
         Initializes ``TrDisplacementEntry``.
 
         Parameters:
-                x: Displacement vector x component.
-                y: Displacement vector y component.
-                z: Displacement vector z component.
+            x: Displacement vector x component.
+            y: Displacement vector y component.
+            z: Displacement vector z component.
 
         Raises:
             McnpError: INVALID_DATA_ENTRY_PARAMETER.
@@ -104,15 +104,15 @@ class TrRotationEntry(DataEntry):
     ``TrRotationEntry`` implements ``DataEntry``.
 
     Attributes:
-            xx: Rotation matrix xx' component.
-            xy: Rotation matrix xy' component.
-            xz: Rotation matrix xz' component.
-            yx: Rotation matrix yx' component.
-            yy: Rotation matrix yy' component.
-            yz: Rotation matrix yz' component.
-            zx: Rotation matrix zx' component.
-            zy: Rotation matrix zy' component.
-            zz: Rotation matrix zz' component.
+        xx: Rotation matrix xx' component.
+        xy: Rotation matrix xy' component.
+        xz: Rotation matrix xz' component.
+        yx: Rotation matrix yx' component.
+        yy: Rotation matrix yy' component.
+        yz: Rotation matrix yz' component.
+        zx: Rotation matrix zx' component.
+        zy: Rotation matrix zy' component.
+        zz: Rotation matrix zz' component.
     """
 
     def __init__(
@@ -131,15 +131,15 @@ class TrRotationEntry(DataEntry):
         Initializes ``TrRotationEntry``.
 
         Parameters:
-                xx: Rotation matrix xx' component.
-                xy: Rotation matrix xy' component.
-                xz: Rotation matrix xz' component.
-                yx: Rotation matrix yx' component.
-                yy: Rotation matrix yy' component.
-                yz: Rotation matrix yz' component.
-                zx: Rotation matrix zx' component.
-                zy: Rotation matrix zy' component.
-                zz: Rotation matrix zz' component.
+            xx: Rotation matrix xx' component.
+            xy: Rotation matrix xy' component.
+            xz: Rotation matrix xz' component.
+            yx: Rotation matrix yx' component.
+            yy: Rotation matrix yy' component.
+            yz: Rotation matrix yz' component.
+            zx: Rotation matrix zx' component.
+            zy: Rotation matrix zy' component.
+            zz: Rotation matrix zz' component.
 
         Raises:
             McnpError: INVALID_DATA_ENTRY_PARAMETER.
@@ -250,7 +250,7 @@ class Tr(Data):
         displacement: Tuple for displacement vector.
         rotation: Tuple for rotation matrix.
         system: Coordinate system setting.
-        suffix: Data card suffix..
+        suffix: Data card suffix.
     """
 
     def __init__(
@@ -267,7 +267,7 @@ class Tr(Data):
             displacement: Tuple for displacement vector.
             rotation: Tuple for rotation matrix.
             system: Coordinate system setting.
-            suffix: Data card suffix..
+            suffix: Data card suffix.
 
         Raises:
             McnpError: INVALID_DATUM_PARAMETERS.

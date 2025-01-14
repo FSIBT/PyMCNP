@@ -19,7 +19,7 @@ class Nonu(CellOption):
     ``Nonu`` implements ``_card.CardOption``.
 
     Attributes:
-        setting: Cell fission setting.
+        setting: Cell fission setting
     """
 
     def __init__(self, setting: types.McnpInteger):
@@ -27,7 +27,7 @@ class Nonu(CellOption):
         Initializes ``Nonu``.
 
         Parameters:
-            setting: Cell fission setting.
+            setting: Cell fission setting
 
         Raises:
             McnpError: INVALID_CELL_OPTION_VALUE.

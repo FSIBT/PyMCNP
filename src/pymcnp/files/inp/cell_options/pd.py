@@ -19,7 +19,7 @@ class Pd(CellOption):
     ``Pd`` implements ``_card.CardOption``.
 
     Attributes:
-        probability: Cell probability of DXTRAN contribution.
+        probability: Cell probability of DXTRAN contribution
         suffix: Cell option suffix
     """
 
@@ -28,7 +28,7 @@ class Pd(CellOption):
         Initializes ``Pd``.
 
         Parameters:
-            probability: Cell probability of DXTRAN contribution.
+            probability: Cell probability of DXTRAN contribution
             suffix: Cell option suffix
 
         Raises:

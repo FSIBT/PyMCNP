@@ -20,8 +20,8 @@ class XsEntry(DataEntry):
     ``XsEntry`` implements ``DataEntry``.
 
     Attributes:
-            zaid: Zaid alias for nuclide.
-            weight_ratio: Atomic weight ratios.
+        zaid: Zaid alias for nuclide.
+        weight_ratio: Atomic weight ratios.
     """
 
     def __init__(self, zaid: types.Zaid, weight_ratio: types.McnpReal):
@@ -29,8 +29,8 @@ class XsEntry(DataEntry):
         Initializes ``XsEntry``.
 
         Parameters:
-                zaid: Zaid alias for nuclide.
-                weight_ratio: Atomic weight ratios.
+            zaid: Zaid alias for nuclide.
+            weight_ratio: Atomic weight ratios.
 
         Raises:
             McnpError: INVALID_DATA_ENTRY_PARAMETER.
@@ -97,7 +97,7 @@ class Xs(Data):
 
     Attributes:
         weight_ratios: Tuple of atomic weight ratios.
-        suffix: Data card suffix..
+        suffix: Data card suffix.
     """
 
     def __init__(self, weight_ratios: tuple[XsEntry], suffix: types.McnpInteger):
@@ -106,7 +106,7 @@ class Xs(Data):
 
         Parameters:
             weight_ratios: Tuple of atomic weight ratios.
-            suffix: Data card suffix..
+            suffix: Data card suffix.
 
         Raises:
             McnpError: INVALID_DATUM_PARAMETERS.

@@ -19,7 +19,7 @@ class Fcl(CellOption):
     ``Fcl`` implements ``_card.CardOption``.
 
     Attributes:
-        control: Cell forced-collision control.
+        control: Cell forced-collision control
         designator: Cell option particle designator
     """
 
@@ -28,7 +28,7 @@ class Fcl(CellOption):
         Initializes ``Fcl``.
 
         Parameters:
-            control: Cell forced-collision control.
+            control: Cell forced-collision control
             designator: Cell option particle designator
 
         Raises:

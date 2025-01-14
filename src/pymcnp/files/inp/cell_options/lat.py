@@ -19,7 +19,7 @@ class Lat(CellOption):
     ``Lat`` implements ``_card.CardOption``.
 
     Attributes:
-        shape: Cell lattice shape.
+        shape: Cell lattice shape
     """
 
     def __init__(self, shape: types.McnpInteger):
@@ -27,7 +27,7 @@ class Lat(CellOption):
         Initializes ``Lat``.
 
         Parameters:
-            shape: Cell lattice shape.
+            shape: Cell lattice shape
 
         Raises:
             McnpError: INVALID_CELL_OPTION_VALUE.

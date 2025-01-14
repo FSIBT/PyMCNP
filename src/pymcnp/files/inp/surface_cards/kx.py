@@ -6,7 +6,6 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import _visualization
 from ...utils import types
 from ...utils import errors
 from ...utils import _parser
@@ -36,6 +35,7 @@ class Kx(Surface):
     ):
         """
         Initializes ``Kx``.
+
 
         Parameters:
             x: On-x-axis cone center x component.
@@ -149,19 +149,3 @@ class Kx(Surface):
             is_whiteboundary=is_whiteboundary,
             is_reflecting=is_reflecting,
         )
-
-    def to_pyvista(self):
-        """
-        Generates ``pyvista.PolyData`` representing ``Kx``.
-
-        Returns:
-            ``pyvista.PolyData`` for ``Kx``.
-        """
-
-        vis = _visualization.PyMcnpVisualization.get_cone_quadratic(
-            self.t_squared.value ** (1 / 2), self.plusminus_1.value
-        )
-        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
-
-        return vis.data

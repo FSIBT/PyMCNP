@@ -19,7 +19,7 @@ class Dxc(CellOption):
     ``Dxc`` implements ``_card.CardOption``.
 
     Attributes:
-        probability: Cell probability of DXTRAN contribution.
+        probability: Cell probability of DXTRAN contribution
         suffix: Cell option suffix
         designator: Cell option particle designator
     """
@@ -31,7 +31,7 @@ class Dxc(CellOption):
         Initializes ``Dxc``.
 
         Parameters:
-            probability: Cell probability of DXTRAN contribution.
+            probability: Cell probability of DXTRAN contribution
             suffix: Cell option suffix
             designator: Cell option particle designator
 

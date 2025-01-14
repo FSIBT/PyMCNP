@@ -19,7 +19,7 @@ class Wwn(CellOption):
     ``Wwn`` implements ``_card.CardOption``.
 
     Attributes:
-        bound: Cell weight-window space, time, or energy lower bound.
+        bound: Cell weight-window space, time, or energy lower bound
         suffix: Cell option suffix
         designator: Cell option particle designator
     """
@@ -31,7 +31,7 @@ class Wwn(CellOption):
         Initializes ``Wwn``.
 
         Parameters:
-            bound: Cell weight-window space, time, or energy lower bound.
+            bound: Cell weight-window space, time, or energy lower bound
             suffix: Cell option suffix
             designator: Cell option particle designator
 

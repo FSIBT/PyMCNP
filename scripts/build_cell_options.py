@@ -165,10 +165,10 @@ for cell_option in _data.CELL_OPTIONS:
         init_imports.append(f'from .{cell_option.name.lower()} import {cell_option.name}')
         init_all.append(f'"{cell_option.name}",')
 
-init_path = pathlib.Path(__file__).parent / pathlib.Path(
-    '../src/pymcnp/files/inp/cell_options/__init__.py'
-)
-with init_path.open('w') as file:
-    file.write(
-        '\n'.join(init_imports) + '\n\n__all__ = [\n    ' + '\n    '.join(init_all) + '\n]\n'
-    )
+# init_path = pathlib.Path(__file__).parent / pathlib.Path(
+#     '../src/pymcnp/files/inp/cell_options/__init__.py'
+# )
+# with init_path.open('w') as file:
+#     file.write(
+#         '\n'.join(init_imports) + '\n\n__all__ = [\n    ' + '\n    '.join(init_all) + '\n]\n'
+#     )

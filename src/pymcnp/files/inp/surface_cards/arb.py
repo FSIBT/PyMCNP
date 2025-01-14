@@ -6,7 +6,6 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import _visualization
 from ...utils import types
 from ...utils import errors
 from ...utils import _parser
@@ -90,6 +89,7 @@ class Arb(Surface):
     ):
         """
         Initializes ``Arb``.
+
 
         Parameters:
             ax: Polyhedron corner #1 x component.
@@ -425,45 +425,3 @@ class Arb(Surface):
             is_whiteboundary=is_whiteboundary,
             is_reflecting=is_reflecting,
         )
-
-    def to_pyvista(self):
-        """
-        Generates ``pyvista.PolyData`` representing ``Arb``.
-
-        Returns:
-            ``pyvista.PolyData`` for ``Arb``.
-        """
-
-        a = _visualization.Vector(self.ax.value, self.ay.value, self.az.value)
-        b = _visualization.Vector(self.bx.value, self.by.value, self.bz.value)
-        c = _visualization.Vector(self.cx.value, self.cy.value, self.cz.value)
-        d = _visualization.Vector(self.dx.value, self.dy.value, self.dz.value)
-        e = _visualization.Vector(self.ex.value, self.ey.value, self.ez.value)
-        f = _visualization.Vector(self.fx.value, self.fy.value, self.fz.value)
-        g = _visualization.Vector(self.gx.value, self.gy.value, self.gz.value)
-        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
-
-        vectices = []
-        for vec in [a, b, c, d, e, f, g, h]:
-            if vec.x == 0 and vec.y == 0 and vec.z == 0:
-                continue
-            else:
-                vectices.append(vec)
-
-        faces = []
-        for n in [
-            self.n1.value,
-            self.n2.value,
-            self.n3.value,
-            self.n4.value,
-            self.n5.value,
-            self.n6.value,
-        ]:
-            if n == 0:
-                continue
-            else:
-                faces.append([n // 1000 % 10, n // 100 % 10, n // 10 % 10, n // 1 % 10])
-
-        vis = _visualization.PyMcnpVisualization.get_polyhedron(vectices, faces)
-
-        return vis.data

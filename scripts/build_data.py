@@ -568,7 +568,7 @@ def build_Data(data: _data.DataScheme):
 
     if 'suffix' in attribute_names and 'designator' in attribute_names:
         o += '        return _parser.Postprocessor.add_continuation_lines(f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()}:{self.designator.to_mcnp()}'
-    if 'designator' in attribute_names:
+    elif 'designator' in attribute_names:
         o += '        return _parser.Postprocessor.add_continuation_lines(f"{self.mnemonic.to_mcnp()}:{self.designator.to_mcnp()}'
     elif 'suffix' in attribute_names:
         o += '        return _parser.Postprocessor.add_continuation_lines(f"{self.mnemonic.to_mcnp()}{self.suffix.to_mcnp()}'

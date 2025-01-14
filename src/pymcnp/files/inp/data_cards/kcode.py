@@ -23,7 +23,7 @@ class Kcode(Data):
         rkk: Initial guess of keff.
         ikz: Number of cycles to be skipped before beginning tally accumulation.
         kct: Total number of cycles to be done.
-        msrk: Number of source points to allocate for..
+        msrk: Number of source points to allocate for.
         knrm: Normalization of tallies setting.
         mrkp: Maximum number of cycle values on MCTAL or RUNTPE files.
         kc8: Number of cylces for average setting.
@@ -48,7 +48,7 @@ class Kcode(Data):
             rkk: Initial guess of keff.
             ikz: Number of cycles to be skipped before beginning tally accumulation.
             kct: Total number of cycles to be done.
-            msrk: Number of source points to allocate for..
+            msrk: Number of source points to allocate for.
             knrm: Normalization of tallies setting.
             mrkp: Maximum number of cycle values on MCTAL or RUNTPE files.
             kc8: Number of cylces for average setting.

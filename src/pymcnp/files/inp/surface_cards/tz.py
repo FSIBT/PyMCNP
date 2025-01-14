@@ -6,7 +6,6 @@ from typing import Final
 
 from ..surface import Surface
 from ..surface_mnemonic import SurfaceMnemonic
-from ...utils import _visualization
 from ...utils import types
 from ...utils import errors
 from ...utils import _parser
@@ -42,6 +41,7 @@ class Tz(Surface):
     ):
         """
         Initializes ``Tz``.
+
 
         Parameters:
             x: Parallel-to-z-axis tori center x component.
@@ -176,16 +176,3 @@ class Tz(Surface):
             is_whiteboundary=is_whiteboundary,
             is_reflecting=is_reflecting,
         )
-
-    def to_pyvista(self):
-        """
-        Generates ``pyvista.PolyData`` representing ``Tz``.
-
-        Returns:
-            ``pyvista.PolyData`` for ``Tz``.
-        """
-
-        vis = _visualization.PyMcnpVisualization.get_torus(self.b.value, self.c.value, self.a.value)
-        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
-
-        return vis.data

@@ -20,7 +20,7 @@ class Mt(Data):
 
     Attributes:
         identifier: Corresponding S(α,β) identifier.
-        suffix: Data card suffix..
+        suffix: Data card suffix.
     """
 
     def __init__(self, identifier: str, suffix: types.McnpInteger):
@@ -29,7 +29,7 @@ class Mt(Data):
 
         Parameters:
             identifier: Corresponding S(α,β) identifier.
-            suffix: Data card suffix..
+            suffix: Data card suffix.
 
         Raises:
             McnpError: INVALID_DATUM_PARAMETERS.

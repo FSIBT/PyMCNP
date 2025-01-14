@@ -20,8 +20,8 @@ class AwtabEntry(DataEntry):
     ``AwtabEntry`` implements ``DataEntry``.
 
     Attributes:
-            zaid: Zaid alias for nuclide.
-            weight_ratio: Atomic weight ratios.
+        zaid: Zaid alias for nuclide.
+        weight_ratio: Atomic weight ratios.
     """
 
     def __init__(self, zaid: types.Zaid, weight_ratio: types.McnpReal):
@@ -29,8 +29,8 @@ class AwtabEntry(DataEntry):
         Initializes ``AwtabEntry``.
 
         Parameters:
-                zaid: Zaid alias for nuclide.
-                weight_ratio: Atomic weight ratios.
+            zaid: Zaid alias for nuclide.
+            weight_ratio: Atomic weight ratios.
 
         Raises:
             McnpError: INVALID_DATA_ENTRY_PARAMETER.

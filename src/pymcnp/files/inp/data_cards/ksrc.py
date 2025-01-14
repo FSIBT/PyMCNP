@@ -20,9 +20,9 @@ class KsrcEntry(DataEntry):
     ``KsrcEntry`` implements ``DataEntry``.
 
     Attributes:
-            x: Location x-coordinate.
-            y: Location y-coordinate.
-            z: Location z-coordinate.
+        x: Location x-coordinate.
+        y: Location y-coordinate.
+        z: Location z-coordinate.
     """
 
     def __init__(self, x: types.McnpReal, y: types.McnpReal, z: types.McnpReal):
@@ -30,9 +30,9 @@ class KsrcEntry(DataEntry):
         Initializes ``KsrcEntry``.
 
         Parameters:
-                x: Location x-coordinate.
-                y: Location y-coordinate.
-                z: Location z-coordinate.
+            x: Location x-coordinate.
+            y: Location y-coordinate.
+            z: Location z-coordinate.
 
         Raises:
             McnpError: INVALID_DATA_ENTRY_PARAMETER.

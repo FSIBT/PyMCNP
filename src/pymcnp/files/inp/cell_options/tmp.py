@@ -19,7 +19,7 @@ class Tmp(CellOption):
     ``Tmp`` implements ``_card.CardOption``.
 
     Attributes:
-        temperature: Cell temperature at suffix time index.
+        temperature: Cell temperature at suffix time index
         suffix: Cell option suffix
     """
 
@@ -28,7 +28,7 @@ class Tmp(CellOption):
         Initializes ``Tmp``.
 
         Parameters:
-            temperature: Cell temperature at suffix time index.
+            temperature: Cell temperature at suffix time index
             suffix: Cell option suffix
 
         Raises:

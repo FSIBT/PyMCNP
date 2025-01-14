@@ -50,6 +50,7 @@ class Sq(Surface):
         """
         Initializes ``Sq``.
 
+
         Parameters:
             a: Oblique special quadratic A coefficent.
             b: Oblique special quadratic B coefficent.

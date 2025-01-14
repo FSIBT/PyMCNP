@@ -19,7 +19,7 @@ class Bflcl(CellOption):
     ``Bflcl`` implements ``_card.CardOption``.
 
     Attributes:
-        number: Cell magnetic field number.
+        number: Cell magnetic field number
     """
 
     def __init__(self, number: types.McnpInteger):
@@ -27,7 +27,7 @@ class Bflcl(CellOption):
         Initializes ``Bflcl``.
 
         Parameters:
-            number: Cell magnetic field number.
+            number: Cell magnetic field number
 
         Raises:
             McnpError: INVALID_CELL_OPTION_VALUE.
