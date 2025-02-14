@@ -12,19 +12,16 @@ def input_file():
 
 
 def test_modify(input_file):
-    try:
-        pymcnp.modify(input_file.surfaces[1], vx=15)
-    except:  # noqa
-        assert False, 'Unexpected exception'
-
-    assert input_file.surfaces[1].vx == 15
+    new_input_file = input_file.modify(**{'surfaces[1].option.vx': pymcnp.utils.types.Real(16)})
+    assert input_file.surfaces[1].option.vx == 0
+    assert new_input_file.surfaces[1].option.vx == 16
 
 
 def test_update_nps(input_file):
-    pymcnp.update_nps(input_file, 1234)
-    assert input_file.data_micellaneous['nps'].to_mcnp() == 'nps 1234 1'
+    new = input_file.update_nps(1234)
+    assert new.data['nps'].to_mcnp() == 'nps 1234 1'
 
 
 def test_update_seed(input_file):
-    pymcnp.update_seed(input_file, 125)
-    assert input_file.data_micellaneous['rand'].to_mcnp() == 'rand seed=125'
+    new = input_file.update_seed(125)
+    assert new.data['rand'].to_mcnp() == 'rand seed 125'
