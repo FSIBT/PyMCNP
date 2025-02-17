@@ -18,4 +18,4 @@ class InpOption_(_object.McnpRegistry_):
             INP option.
         """
 
-        return f'{self._KEYWORD}{self.suffix if hasattr(self, 'suffix') else ""}{f":{self.designator}" if hasattr(self, 'designator') else ""} {self.value}'
+        return f'{self._KEYWORD}{self.suffix if hasattr(self, "suffix") else ""}{f":{self.designator}" if hasattr(self, "designator") else ""} {self.value}'
