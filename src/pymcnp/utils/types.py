@@ -713,7 +713,7 @@ class Zaid(_object.McnpElement_):
             return f'{self.z:03}{self.a:03}'
 
 
-class Particle(_object.McnpElement_, enum.StrEnum):
+class Particle(_object.McnpElement_, enum.Enum):
     """
     Represents MCNP particle designators.
     """

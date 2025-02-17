@@ -105,5 +105,5 @@ class Surface(_card.InpCard_):
         """
 
         return _parser.postprocess_continuation_line(
-            f'{self.prefix or ''}{self.number} {self.transform or ''} {self.option}'
+            f'{self.prefix or ""}{self.number} {self.transform or ""} {self.option}'
         )
