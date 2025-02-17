@@ -35,4 +35,4 @@ SDEF X=0 Y=0 Z=0 ERG=2.2
 """[1:-1]
 
 
-print(get_inp(60, 15, 1).to_mcnp())
+print(get_inp(60, 15, 1))
