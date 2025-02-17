@@ -47,7 +47,7 @@ EXCLUDE = [
     'wed',
     'arb',
     # DATA
-    #'m',
+    'm',
 ]
 
 

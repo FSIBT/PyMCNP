@@ -10,3 +10,9 @@ def test_material():
     assert int(mat.option.suffix) == 10
     assert str(mat.option.substances[0].zaid) == '048106'
     assert mat.option.substances[0].fraction == -0.0125
+
+
+def test_material_formula():
+    mat = pymcnp.inp.DataOption_M.from_formula(1, {'H20': 1})
+
+    assert mat.to_mcnp() == 'm1 001001 -0.999885 001002 -0.000115 '

@@ -19,7 +19,10 @@ class _Tuple(tuple, _object.McnpElement_):
         self.value: typing.Final[tuple] = tuple(value)
 
     def to_mcnp(self):
-        return ' '.join(val.to_mcnp() for val in self.value)
+        return ' '.join(
+            val.to_mcnp() if not isinstance(val, list) else ' '.join(v.to_mcnp() for v in val)
+            for val in self.value
+        )
 
     def __getitem__(self, key: any):
         return self.value[key]
