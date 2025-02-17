@@ -84,7 +84,7 @@ class McnpElement_:
             subattributes = attribute.split('.')
 
             for i, _ in enumerate(subattributes[1:]):
-                addend = eval(f'self.{'.'.join(subattributes[:-1-i])}').append(
+                addend = eval(f'self.{".".join(subattributes[:-1-i])}').append(
                     **{subattributes[-1 - i]: addend}
                 )
 
