@@ -402,6 +402,6 @@ class SurfaceOption_Arb(_option.SurfaceOption_, keyword='arb'):
             else:
                 faces.append([n // 1000 % 10, n // 100 % 10, n // 10 % 10, n // 1 % 10])
 
-        vis = _visualization.PyMcnpVisualization.get_polyhedron(vectices, faces)
+        vis = _visualization.McnpVisualization.get_polyhedron(vectices, faces)
 
         return vis.data

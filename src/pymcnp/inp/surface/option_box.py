@@ -173,7 +173,7 @@ class SurfaceOption_Box(_option.SurfaceOption_, keyword='box'):
         cross = _visualization.Vector(1, 0, 0) * a1
         angle = _visualization.Vector(1, 0, 0) & a1
 
-        vis = _visualization.PyMcnpVisualization.get_box(a1.norm(), a2.norm(), a3.norm())
+        vis = _visualization.McnpVisualization.get_box(a1.norm(), a2.norm(), a3.norm())
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 

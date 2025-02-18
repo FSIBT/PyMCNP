@@ -140,7 +140,7 @@ class SurfaceOption_Ell(_option.SurfaceOption_, keyword='ell'):
             cross = v2 * _visualization.Vector(1, 0, 0)
             angle = v2 & _visualization.Vector(1, 0, 0)
 
-        vis = _visualization.PyMcnpVisualization.get_ellipsoid(major_length, minor_length)
+        vis = _visualization.McnpVisualization.get_ellipsoid(major_length, minor_length)
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(center)
 

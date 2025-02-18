@@ -108,13 +108,13 @@ class SurfaceOption_Rpp(_option.SurfaceOption_, keyword='rpp'):
 
     def to_pyvista(self):
         """
-        Generates ``pyvista[.]PolyData`` from ``SurfaceOption_Rpp``.
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Rpp``.
 
         Returns:
-            ``pyvista[.]PolyData`` for ``SurfaceOption_Rpp``
+            ``pyvista.PolyData`` for ``SurfaceOption_Rpp``
         """
 
-        vis = _visualization.PyMcnpVisualization.get_parallelipiped(
+        vis = _visualization.McnpVisualization.get_parallelipiped(
             self.xmin.value,
             self.xmax.value,
             self.ymin.value,

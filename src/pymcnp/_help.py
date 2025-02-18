@@ -8,6 +8,8 @@ EXCLUDE = [
     # CELL
     'geometry',
     # SURFACE
+    'p_0',
+    'p_1',
     'px',
     'py',
     'pz',

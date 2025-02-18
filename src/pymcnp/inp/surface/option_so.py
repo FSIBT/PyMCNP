@@ -65,12 +65,12 @@ class SurfaceOption_So(_option.SurfaceOption_, keyword='so'):
 
     def to_pyvista(self):
         """
-        Generates ``pyvista[.]PolyData`` from ``SurfaceOption_So``.
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_So``.
 
         Returns:
-            ``pyvista[.]PolyData`` for ``SurfaceOption_So``
+            ``pyvista.PolyData`` for ``SurfaceOption_So``
         """
 
-        vis = _visualization.PyMcnpVisualization.get_sphere(self.r.value)
+        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
 
         return vis.data
