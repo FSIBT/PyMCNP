@@ -85,7 +85,7 @@ class SurfaceOption_C_x(_option.SurfaceOption_, keyword='c/x'):
             ``pyvista.PolyData`` for ``SurfaceOption_C_x``.
         """
 
-        vis = _visualization.PyMcnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(0, self.y.value, self.z.value))
 

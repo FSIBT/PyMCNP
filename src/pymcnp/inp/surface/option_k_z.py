@@ -106,7 +106,7 @@ class SurfaceOption_K_z(_option.SurfaceOption_, keyword='k/z'):
             ``pyvista.PolyData`` for ``SurfaceOption_K_z``.
         """
 
-        vis = _visualization.PyMcnpVisualization.get_cone_quadratic(
+        vis = _visualization.McnpVisualization.get_cone_quadratic(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))

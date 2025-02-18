@@ -160,10 +160,10 @@ class SurfaceOption_Rec(_option.SurfaceOption_, keyword='rec'):
 
     def to_pyvista(self):
         """
-        Generates ``pyvista[.]PolyData`` from ``SurfaceOption_Rec``.
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Rec``.
 
         Returns:
-            ``pyvista[.]PolyData`` for ``SurfaceOption_Rec``
+            ``pyvista.PolyData`` for ``SurfaceOption_Rec``
         """
 
         v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
@@ -174,9 +174,7 @@ class SurfaceOption_Rec(_option.SurfaceOption_, keyword='rec'):
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.PyMcnpVisualization.get_cylinder_ellipse(
-            h.norm(), v1.norm(), v2.norm()
-        )
+        vis = _visualization.McnpVisualization.get_cylinder_ellipse(h.norm(), v1.norm(), v2.norm())
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 

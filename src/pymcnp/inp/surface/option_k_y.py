@@ -106,7 +106,7 @@ class SurfaceOption_K_y(_option.SurfaceOption_, keyword='k/y'):
             ``pyvista.PolyData`` for ``SurfaceOption_K_y``.
         """
 
-        vis = _visualization.PyMcnpVisualization.get_cone_quadratic(
+        vis = _visualization.McnpVisualization.get_cone_quadratic(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))

@@ -160,10 +160,10 @@ class SurfaceOption_Wed(_option.SurfaceOption_, keyword='wed'):
 
     def to_pyvista(self):
         """
-        Generates ``pyvista[.]PolyData`` from ``SurfaceOption_Wed``.
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Wed``.
 
         Returns:
-            ``pyvista[.]PolyData`` for ``SurfaceOption_Wed``
+            ``pyvista.PolyData`` for ``SurfaceOption_Wed``
         """
 
         v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
@@ -174,7 +174,7 @@ class SurfaceOption_Wed(_option.SurfaceOption_, keyword='wed'):
         cross = _visualization.Vector(1, 0, 0) * v1
         angle = _visualization.Vector(1, 0, 0) & v1
 
-        vis = _visualization.PyMcnpVisualization.get_wedge(v1.norm(), v2.norm(), v3.norm())
+        vis = _visualization.McnpVisualization.get_wedge(v1.norm(), v2.norm(), v3.norm())
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 

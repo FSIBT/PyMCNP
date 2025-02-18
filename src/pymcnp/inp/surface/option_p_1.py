@@ -5,6 +5,7 @@ from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _parser
+from ...utils import _visualization
 
 
 class SurfaceOption_P1(_option.SurfaceOption_, keyword='p'):
@@ -128,3 +129,21 @@ class SurfaceOption_P1(_option.SurfaceOption_, keyword='p'):
         z3 = types.Real.from_mcnp(tokens[9])
 
         return SurfaceOption_P1(x1, y1, z1, x2, y2, z2, x3, y3, z3)
+
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_P0``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_P1``
+        """
+
+        a = _visualization.Vector(self.x2 - self.x1, self.y2 - self.y1, self.z2 - self.z1)
+        b = _visualization.Vector(self.x3 - self.x1, self.y3 - self.y1, self.z3 - self.z1)
+        n = a * b
+
+        vis = _visualization.McnpVisualization.get_plane(
+            n.x, n.y, n.z, n.x * self.x1 + n.y * self.y1 + n.z * self.z1
+        )
+
+        return vis.data

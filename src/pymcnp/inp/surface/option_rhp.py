@@ -184,10 +184,10 @@ class SurfaceOption_Rhp(_option.SurfaceOption_, keyword='rhp'):
 
     def to_pyvista(self):
         """
-        Generates ``pyvista[.]PolyData`` from ``SurfaceOption_Rhp``.
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Rhp``.
 
         Returns:
-            ``pyvista[.]PolyData`` for ``SurfaceOption_Rhp``
+            ``pyvista.PolyData`` for ``SurfaceOption_Rhp``
         """
 
         v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
@@ -199,7 +199,7 @@ class SurfaceOption_Rhp(_option.SurfaceOption_, keyword='rhp'):
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.PyMcnpVisualization.get_cylinder_hexagon(
+        vis = _visualization.McnpVisualization.get_cylinder_hexagon(
             h.norm(), r.apothem(), s.apothem(), t.apothem()
         )
         vis = vis.add_rotation(cross, angle, (0, 0, 0))

@@ -116,10 +116,10 @@ class SurfaceOption_Rcc(_option.SurfaceOption_, keyword='rcc'):
 
     def to_pyvista(self):
         """
-        Generates ``pyvista[.]PolyData`` from ``SurfaceOption_Rcc``.
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Rcc``.
 
         Returns:
-            ``pyvista[.]PolyData`` for ``SurfaceOption_Rcc``
+            ``pyvista.PolyData`` for ``SurfaceOption_Rcc``
         """
 
         v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
@@ -128,7 +128,7 @@ class SurfaceOption_Rcc(_option.SurfaceOption_, keyword='rcc'):
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.PyMcnpVisualization.get_cylinder_circle(h.norm(), self.r.value)
+        vis = _visualization.McnpVisualization.get_cylinder_circle(h.norm(), self.r.value)
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 

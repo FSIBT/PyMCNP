@@ -72,13 +72,13 @@ class SurfaceOption_Sy(_option.SurfaceOption_, keyword='sy'):
 
     def to_pyvista(self):
         """
-        Generates ``pyvista[.]PolyData`` from ``SurfaceOption_Sy``.
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Sy``.
 
         Returns:
-            ``pyvista[.]PolyData`` for ``SurfaceOption_Sy``
+            ``pyvista.PolyData`` for ``SurfaceOption_Sy``
         """
 
-        vis = _visualization.PyMcnpVisualization.get_sphere(self.r.value)
+        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(0, self.y.value, 0))
 

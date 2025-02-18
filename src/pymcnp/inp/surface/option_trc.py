@@ -124,10 +124,10 @@ class SurfaceOption_Trc(_option.SurfaceOption_, keyword='trc'):
 
     def to_pyvista(self):
         """
-        Generates ``pyvista[.]PolyData`` from ``SurfaceOption_Trc``.
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Trc``.
 
         Returns:
-            ``pyvista[.]PolyData`` for ``SurfaceOption_Trc``
+            ``pyvista.PolyData`` for ``SurfaceOption_Trc``
         """
 
         h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
@@ -135,7 +135,7 @@ class SurfaceOption_Trc(_option.SurfaceOption_, keyword='trc'):
         cross = h * _visualization.Vector(0, 0, 1)
         angle = h & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.PyMcnpVisualization.get_cone_truncated(
+        vis = _visualization.McnpVisualization.get_cone_truncated(
             h.norm(), self.r1.value, self.r2.value
         )
         vis = vis.add_rotation(cross, angle, (0, 0, 0))

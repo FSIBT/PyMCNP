@@ -71,6 +71,6 @@ class SurfaceOption_Cz(_option.SurfaceOption_, keyword='cz'):
             ``pyvista.PolyData`` for ``SurfaceOption_Cz``.
         """
 
-        vis = _visualization.PyMcnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
 
         return vis.data

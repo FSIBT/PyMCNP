@@ -108,13 +108,13 @@ class SurfaceOption_Tz(_option.SurfaceOption_, keyword='tz'):
 
     def to_pyvista(self):
         """
-        Generates ``pyvista[.]PolyData`` from ``SurfaceOption_Tz``.
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Tz``.
 
         Returns:
-            ``pyvista[.]PolyData`` for ``SurfaceOption_Tz``
+            ``pyvista.PolyData`` for ``SurfaceOption_Tz``
         """
 
-        vis = _visualization.PyMcnpVisualization.get_torus(self.b.value, self.c.value, self.a.value)
+        vis = _visualization.McnpVisualization.get_torus(self.b.value, self.c.value, self.a.value)
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
 
         return vis.data
