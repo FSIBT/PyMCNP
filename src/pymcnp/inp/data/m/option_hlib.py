@@ -28,11 +28,11 @@ class MOption_Hlib(_option.MOption_, keyword='hlib'):
             ``MOption_Hlib``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_DATA_OPTION_VALUE.
         """
 
         if abx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, abx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_OPTION_VALUE, abx)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([abx])
         self.abx: typing.Final[types.String] = abx
@@ -49,14 +49,14 @@ class MOption_Hlib(_option.MOption_, keyword='hlib'):
             ``MOption_Hlib``.
 
         Raises:
-            McnpError: SYNTAX_M_OPTION.
+            InpError: SYNTAX_M_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = MOption_Hlib._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_M_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_M_OPTION, source)
 
         abx = types.String.from_mcnp(tokens[1])
 

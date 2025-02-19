@@ -28,11 +28,11 @@ class DataOption_Lat(_option.DataOption_, keyword='lat'):
             ``DataOption_Lat``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if type is None or not (filter(lambda entry: not (entry == 1 or entry == 2), type)):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, type)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, type)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([type])
         self.type: typing.Final[tuple[types.Integer]] = type
@@ -49,14 +49,14 @@ class DataOption_Lat(_option.DataOption_, keyword='lat'):
             ``DataOption_Lat``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Lat._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         type = types._Tuple(
             [types.Integer.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

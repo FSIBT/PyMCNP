@@ -63,43 +63,33 @@ class DataOption_Lca(_option.DataOption_, keyword='lca'):
             ``DataOption_Lca``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if ielas is None or not (ielas == 0 or ielas == 1 or ielas == 2):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ielas)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ielas)
         if ipreg is None or not (ipreg == 0 or ipreg == 1 or ipreg == 2 or ipreg == 3):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ipreg)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ipreg)
         if iexisa is None or not (iexisa == 0 or iexisa == 1 or iexisa == 2):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, iexisa)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, iexisa)
         if ichoic is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ichoic)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ichoic)
         if jcoul is None or not (jcoul == 0 or jcoul == 1):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, jcoul)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, jcoul)
         if nexite is None or not (nexite == 0 or nexite == 1):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, nexite)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nexite)
         if npidk is None or not (npidk == 0 or npidk == 1):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, npidk)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, npidk)
         if noact is None or not (
             noact == -2 or noact == -1 or noact == 0 or noact == 1 or noact == 2
         ):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, noact)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, noact)
         if icem is None or not (icem == 0 or icem == 1 or icem == 2):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, icem)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, icem)
         if ilaq is None or not (ilaq == 0 or ilaq == 1):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ilaq)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ilaq)
         if nevtype is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, nevtype)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nevtype)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [ielas, ipreg, iexisa, ichoic, jcoul, nexite, npidk, noact, icem, ilaq, nevtype]
@@ -128,14 +118,14 @@ class DataOption_Lca(_option.DataOption_, keyword='lca'):
             ``DataOption_Lca``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Lca._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         ielas = types.Integer.from_mcnp(tokens[1])
         ipreg = types.Integer.from_mcnp(tokens[2])

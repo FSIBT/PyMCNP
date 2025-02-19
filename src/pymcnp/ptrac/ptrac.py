@@ -2,11 +2,11 @@
 Contains classes representing PTRAC file.
 """
 
-import pathlib
 from typing import Generator
 
 from .block_header import Header
 from .block_history import History
+from ..utils import errors
 from ..utils import _object
 
 
@@ -30,6 +30,12 @@ class Ptrac(_object.McnpFile_):
         Returns:
             ``Ptrac``.
         """
+
+        if header is None:
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_PTRAC_HEADER)
+
+        if histories is None:
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_PTRAC_HISTORY)
 
         self.header: Header = header
         self.histories: Generator[History, None, None] = histories
@@ -67,24 +73,3 @@ class Ptrac(_object.McnpFile_):
         """
 
         assert False, "I'm working on it!"
-
-    @staticmethod
-    def from_mcnp_file(filename: str | pathlib.Path):
-        """
-        Generates ``Ptrac`` from MCNP files.
-
-        Parameters:
-            filename: MCNP file path.
-
-        Returns:
-            ``Ptrac``.
-        """
-
-        filename = pathlib.Path(filename)
-
-        if not filename.is_file():
-            raise Exception
-
-        source = filename.read_text()
-
-        return Ptrac.from_mcnp(source)

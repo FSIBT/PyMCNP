@@ -28,11 +28,11 @@ class SswOption_Pty(_option.SswOption_, keyword='pty'):
             ``SswOption_Pty``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if tracks is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, tracks)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, tracks)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([tracks])
         self.tracks: typing.Final[tuple[types.Designator]] = tracks
@@ -49,14 +49,14 @@ class SswOption_Pty(_option.SswOption_, keyword='pty'):
             ``SswOption_Pty``.
 
         Raises:
-            McnpError: SYNTAX_SSW_OPTION.
+            InpError: SYNTAX_SSW_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SswOption_Pty._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SSW_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         tracks = types._Tuple(
             [types.Designator.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

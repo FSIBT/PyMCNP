@@ -28,11 +28,11 @@ class SsrOption_Col(_option.SsrOption_, keyword='col'):
             ``SsrOption_Col``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if setting is None or setting.value not in {-1, 0, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([setting])
         self.setting: typing.Final[types.Integer] = setting
@@ -49,14 +49,14 @@ class SsrOption_Col(_option.SsrOption_, keyword='col'):
             ``SsrOption_Col``.
 
         Raises:
-            McnpError: SYNTAX_SSR_OPTION.
+            InpError: SYNTAX_SSR_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SsrOption_Col._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SSR_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         setting = types.Integer.from_mcnp(tokens[1])
 

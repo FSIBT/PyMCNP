@@ -88,7 +88,7 @@ def process_inp_option(registry: _object.McnpRegistry_, string: str):
         for form in registry[key]:
             try:
                 yield form.from_mcnp(val)
-            except errors.McnpError as err:
+            except errors.InpError as err:
                 if 1000 <= err.code.value < 2000:
                     error = err
                 else:

@@ -33,12 +33,11 @@ class DataOption_Embee(_option.DataOption_, keyword='embee'):
             ``DataOption_Embee``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_SUFFIX.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if suffix is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_SUFFIX, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([options])
         self.suffix: typing.Final[types.Integer] = suffix
@@ -58,14 +57,14 @@ class DataOption_Embee(_option.DataOption_, keyword='embee'):
             ``DataOption_Embee``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Embee._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         suffix = types.Integer.from_mcnp(tokens[1])
         options = (

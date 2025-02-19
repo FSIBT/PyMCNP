@@ -28,11 +28,11 @@ class MOption_Hstep(_option.MOption_, keyword='hstep'):
             ``MOption_Hstep``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_DATA_OPTION_VALUE.
         """
 
         if step is None or not (step >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, step)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_OPTION_VALUE, step)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([step])
         self.step: typing.Final[types.Integer] = step
@@ -49,14 +49,14 @@ class MOption_Hstep(_option.MOption_, keyword='hstep'):
             ``MOption_Hstep``.
 
         Raises:
-            McnpError: SYNTAX_M_OPTION.
+            InpError: SYNTAX_M_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = MOption_Hstep._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_M_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_M_OPTION, source)
 
         step = types.Integer.from_mcnp(tokens[1])
 

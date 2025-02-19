@@ -28,11 +28,11 @@ class SdefOption_Dir(_option.SdefOption_, keyword='dir'):
             ``SdefOption_Dir``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if cosine is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, cosine)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cosine)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([cosine])
         self.cosine: typing.Final[types.Real] = cosine
@@ -49,14 +49,14 @@ class SdefOption_Dir(_option.SdefOption_, keyword='dir'):
             ``SdefOption_Dir``.
 
         Raises:
-            McnpError: SYNTAX_SDEF_OPTION.
+            InpError: SYNTAX_SDEF_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SdefOption_Dir._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SDEF_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         cosine = types.Real.from_mcnp(tokens[1])
 

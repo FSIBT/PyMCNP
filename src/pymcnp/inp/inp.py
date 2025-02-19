@@ -1,6 +1,5 @@
 import re
 import typing
-import pathlib
 
 import pyvista
 
@@ -65,34 +64,34 @@ class Inp(_object.McnpFile_):
             ``Inp``.
 
         Raises:
-            McnpError: SEMATNICS_INP_MESSAGE.
-            McnpError: SEMATNICS_INP_TITLE.
-            McnpError: SEMATNICS_INP_CELLS.
-            McnpError: SEMATNICS_INP_SURFACES.
-            McnpError: SEMATNICS_INP_DATA.
-            McnpError: SEMATNICS_INP_OTHER.
+            InpError: SEMATNICS_INP_MESSAGE.
+            InpError: SEMATNICS_INP_TITLE.
+            InpError: SEMATNICS_INP_CELLS.
+            InpError: SEMATNICS_INP_SURFACES.
+            InpError: SEMATNICS_INP_DATA.
+            InpError: SEMATNICS_INP_OTHER.
         """
 
         if title is None or not len(title) < 80:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_INP_TITLE, title)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP_TITLE, title)
 
         if cells is None or None in cells:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_INP_CELLS, cells)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP_CELLS, cells)
 
         if cells_comments is None or None in cells_comments:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_INP_COMMENTS, cells_comments)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP_COMMENTS, cells_comments)
 
         if surfaces is None or None in surfaces:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_INP_SURFACES, surfaces)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP_SURFACES, surfaces)
 
         if surfaces_comments is None or None in surfaces_comments:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_INP_COMMENTS, surfaces_comments)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP_COMMENTS, surfaces_comments)
 
         if data is None or None in data:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_INP_DATA, data)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP_DATA, data)
 
         if data_comments is None or None in data_comments:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_INP_COMMENTS, data_comments)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP_COMMENTS, data_comments)
 
         self.message: typing.Final[types.String] = message
         self.title: typing.Final[types.String] = title
@@ -118,14 +117,14 @@ class Inp(_object.McnpFile_):
             ``Inp``.
 
         Raisees:
-            McnpError: SYNTAX_INP.
+            InpError: SYNTAX_INP.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Inp._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_INP, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_INP, source)
 
         message = types.String.from_mcnp(tokens[1]) if tokens[1] else None
         title = types.String.from_mcnp(tokens[2])
@@ -135,7 +134,7 @@ class Inp(_object.McnpFile_):
         for line in tokens[3].strip().split('\n'):
             try:
                 cells_comments.append(card_comment.Comment.from_mcnp(line))
-            except errors.McnpError:
+            except errors.InpError:
                 cells.append(card_cell.Cell.from_mcnp(line))
 
         surfaces = []
@@ -143,7 +142,7 @@ class Inp(_object.McnpFile_):
         for line in tokens[4].strip().split('\n'):
             try:
                 surfaces_comments.append(card_comment.Comment.from_mcnp(line))
-            except errors.McnpError:
+            except errors.InpError:
                 surfaces.append(card_surface.Surface.from_mcnp(line))
 
         data = []
@@ -151,7 +150,7 @@ class Inp(_object.McnpFile_):
         for line in tokens[5].strip().split('\n'):
             try:
                 data_comments.append(card_comment.Comment.from_mcnp(line))
-            except errors.McnpError:
+            except errors.InpError:
                 data.append(card_data.Data.from_mcnp(line))
 
         other = types.String.from_mcnp(tokens[6]) if tokens[6] else None
@@ -207,27 +206,6 @@ class Inp(_object.McnpFile_):
         source += self.other if self.other else ''
 
         return source
-
-    @staticmethod
-    def from_mcnp_file(filename: str | pathlib.Path):
-        """
-        Generates ``Inp`` from INP files.
-
-        Parameters:
-            filename: MCNP file path.
-
-        Returns:
-            ``Inp`` object.
-        """
-
-        filename = pathlib.Path(filename)
-
-        if not filename.is_file():
-            raise Exception
-
-        source = filename.read_text()
-
-        return Inp.from_mcnp(source)
 
     def to_pyvista(self) -> pyvista.PolyData:
         """

@@ -28,11 +28,11 @@ class ActOption_Dn(_option.ActOption_, keyword='dn'):
             ``ActOption_Dn``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if source is None or source not in {'model', 'library', 'both', 'prompt'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, source)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, source)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([source])
         self.source: typing.Final[types.String] = source
@@ -49,14 +49,14 @@ class ActOption_Dn(_option.ActOption_, keyword='dn'):
             ``ActOption_Dn``.
 
         Raises:
-            McnpError: SYNTAX_ACT_OPTION.
+            InpError: SYNTAX_ACT_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = ActOption_Dn._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_ACT_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         source = types.String.from_mcnp(tokens[1])
 

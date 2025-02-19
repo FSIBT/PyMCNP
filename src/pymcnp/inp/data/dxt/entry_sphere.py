@@ -43,19 +43,19 @@ class DxtEntry_Sphere(_entry.DxtEntry_):
             ``DxtEntrySphere``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, x)
         if y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, y)
         if z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, z)
         if inner_radius is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, inner_radius)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, inner_radius)
         if outer_radius is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, outer_radius)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, outer_radius)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple(
             [x, y, z, inner_radius, outer_radius]
@@ -78,14 +78,14 @@ class DxtEntry_Sphere(_entry.DxtEntry_):
             ``DxtEntry_Sphere``.
 
         Raises:
-            McnpError: SYNTAX_DXT_ENTRY.
+            InpError: SYNTAX_DXT_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DxtEntry_Sphere._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DXT_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         x = types.Real.from_mcnp(tokens[1])
         y = types.Real.from_mcnp(tokens[2])

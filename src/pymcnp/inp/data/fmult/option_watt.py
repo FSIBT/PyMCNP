@@ -30,14 +30,13 @@ class FmultOption_Watt(_option.FmultOption_, keyword='watt'):
             ``FmultOption_Watt``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if a is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, a)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a)
         if b is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, b)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, b)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([a, b])
         self.a: typing.Final[types.Real] = a
@@ -55,14 +54,14 @@ class FmultOption_Watt(_option.FmultOption_, keyword='watt'):
             ``FmultOption_Watt``.
 
         Raises:
-            McnpError: SYNTAX_FMULT_OPTION.
+            InpError: SYNTAX_FMULT_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = FmultOption_Watt._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_FMULT_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         a = types.Real.from_mcnp(tokens[1])
         b = types.Real.from_mcnp(tokens[2])

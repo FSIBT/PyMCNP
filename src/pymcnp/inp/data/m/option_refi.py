@@ -28,11 +28,11 @@ class MOption_Refi(_option.MOption_, keyword='refi'):
             ``MOption_Refi``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_DATA_OPTION_VALUE.
         """
 
         if refractive_index is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, refractive_index)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_OPTION_VALUE, refractive_index)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([refractive_index])
         self.refractive_index: typing.Final[types.Real] = refractive_index
@@ -49,14 +49,14 @@ class MOption_Refi(_option.MOption_, keyword='refi'):
             ``MOption_Refi``.
 
         Raises:
-            McnpError: SYNTAX_M_OPTION.
+            InpError: SYNTAX_M_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = MOption_Refi._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_M_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_M_OPTION, source)
 
         refractive_index = types.Real.from_mcnp(tokens[1])
 

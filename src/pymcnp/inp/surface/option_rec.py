@@ -67,44 +67,33 @@ class SurfaceOption_Rec(_option.SurfaceOption_, keyword='rec'):
             ``SurfaceOption_Rec``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if vx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, vx)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, vx)
         if vy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, vy)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, vy)
         if vz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, vz)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, vz)
         if hx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, hx)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, hx)
         if hy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, hy)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, hy)
         if hz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, hz)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, hz)
         if v1x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, v1x)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, v1x)
         if v1y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, v1y)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, v1y)
         if v1z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, v1z)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, v1z)
         if v2x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, v2x)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, v2x)
         if v2y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, v2y)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, v2y)
         if v2z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, v2z)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, v2z)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [vx, vy, vz, hx, hy, hz, v1x, v1y, v1z, v2x, v2y, v2z]
@@ -134,14 +123,14 @@ class SurfaceOption_Rec(_option.SurfaceOption_, keyword='rec'):
             ``SurfaceOption_Rec``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_Rec._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         vx = types.Real.from_mcnp(tokens[1])
         vy = types.Real.from_mcnp(tokens[2])

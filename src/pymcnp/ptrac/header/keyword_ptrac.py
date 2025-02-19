@@ -35,7 +35,7 @@ class HeaderKeyword_Ptrac(_keyword.HeaderKeyword_):
             ``PtracKeywords``.
 
         Raises:
-            McnpError: INVALID_EVENT_TYPE.
+            PtracError: SYNTAX_HEADER_KEYWORD.
         """
 
         source = _parser.Preprocessor.preprocess_ptrac(source)
@@ -43,4 +43,4 @@ class HeaderKeyword_Ptrac(_keyword.HeaderKeyword_):
         try:
             return HeaderKeyword_Ptrac(int(source))
         except ValueError:
-            raise errors.McnpError(errors.McnpCode.INVALID_EVENT_TYPE)
+            raise errors.PtracError(errors.PtracCode.SYNTAX_HEADER_KEYWORD, source)

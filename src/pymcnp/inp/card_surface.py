@@ -42,23 +42,20 @@ class Surface(_card.InpCard_):
             ``Surface``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_NUMBER.
-            McnpError: SEMANTICS_SURFACE_TRANSFORM.
-            McnpError: SEMANTICS_SURFACE_OPTION.
-            McnpError: SEMANTICS_SURFACE_PREFIX.
+            InpError: SEMANTICS_SURFACE_VALUE.
         """
 
         if number is None or not (1 <= number <= 99_999_999 if not transform else 999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_NUMBER, number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_SURFACE_VALUE, number)
 
         if transform is not None and not (0 <= transform <= 999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_TRANSFORM, transform)
+            raise errors.InpError(errors.InpCode.SEMANTICS_SURFACE_VALUE, transform)
 
         if option is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION, option)
+            raise errors.InpError(errors.InpCode.SEMANTICS_SURFACE_VALUE, option)
 
         if prefix is not None and prefix not in {'*', '+'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_PREFIX, prefix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_SURFACE_VALUE, prefix)
 
         self.number: typing.Final[types.Integer] = number
         self.transform: typing.Final[types.Integer] = transform
@@ -77,14 +74,14 @@ class Surface(_card.InpCard_):
             ``Surface``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE.
+            InpError: SYNTAX_CARD.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Surface._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_CARD, source)
 
         prefix = types.String.from_mcnp(tokens[1]) if tokens[1] else None
         number = types.Integer.from_mcnp(tokens[2])

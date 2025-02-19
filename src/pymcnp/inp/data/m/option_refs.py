@@ -28,11 +28,11 @@ class MOption_Refs(_option.MOption_, keyword='refs'):
             ``MOption_Refs``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_DATA_OPTION_VALUE.
         """
 
         if coefficents is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, coefficents)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_OPTION_VALUE, coefficents)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([coefficents])
         self.coefficents: typing.Final[tuple[types.Real]] = coefficents
@@ -49,14 +49,14 @@ class MOption_Refs(_option.MOption_, keyword='refs'):
             ``MOption_Refs``.
 
         Raises:
-            McnpError: SYNTAX_M_OPTION.
+            InpError: SYNTAX_M_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = MOption_Refs._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_M_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_M_OPTION, source)
 
         coefficents = types._Tuple(
             [types.Real.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

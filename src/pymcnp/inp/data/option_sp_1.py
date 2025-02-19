@@ -32,15 +32,13 @@ class DataOption_Sp1(_option.DataOption_, keyword='sp'):
             ``DataOption_Sp1``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if function is None or function not in {-2, -3, -4, -5, -6, -7, -21, -31, -41}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, function)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, function)
         if a is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, a)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([function, a, b])
         self.function: typing.Final[types.Integer] = function
@@ -59,14 +57,14 @@ class DataOption_Sp1(_option.DataOption_, keyword='sp'):
             ``DataOption_Sp1``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Sp1._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         function = types.Integer.from_mcnp(tokens[1])
         a = types.Real.from_mcnp(tokens[2])

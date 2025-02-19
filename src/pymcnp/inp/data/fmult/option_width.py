@@ -28,11 +28,11 @@ class FmultOption_Width(_option.FmultOption_, keyword='width'):
             ``FmultOption_Width``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if width is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, width)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, width)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([width])
         self.width: typing.Final[types.Real] = width
@@ -49,14 +49,14 @@ class FmultOption_Width(_option.FmultOption_, keyword='width'):
             ``FmultOption_Width``.
 
         Raises:
-            McnpError: SYNTAX_FMULT_OPTION.
+            InpError: SYNTAX_FMULT_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = FmultOption_Width._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_FMULT_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         width = types.Real.from_mcnp(tokens[1])
 

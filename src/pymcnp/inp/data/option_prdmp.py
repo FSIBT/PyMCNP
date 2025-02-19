@@ -43,23 +43,19 @@ class DataOption_Prdmp(_option.DataOption_, keyword='prdmp'):
             ``DataOption_Prdmp``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if ndp is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ndp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ndp)
         if ndm is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ndm)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ndm)
         if mct is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, mct)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, mct)
         if ndmp is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ndmp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ndmp)
         if dmmp is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, dmmp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, dmmp)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([ndp, ndm, mct, ndmp, dmmp])
         self.ndp: typing.Final[types.Integer] = ndp
@@ -80,14 +76,14 @@ class DataOption_Prdmp(_option.DataOption_, keyword='prdmp'):
             ``DataOption_Prdmp``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Prdmp._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         ndp = types.Integer.from_mcnp(tokens[1])
         ndm = types.Integer.from_mcnp(tokens[2])

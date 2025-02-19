@@ -55,35 +55,27 @@ class DataOption_Hsrc(_option.DataOption_, keyword='hsrc'):
             ``DataOption_Hsrc``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if x_number is None or not (x_number > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x_number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x_number)
         if x_minimum is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x_minimum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x_minimum)
         if x_maximum is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x_maximum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x_maximum)
         if y_number is None or not (y_number > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, y_number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y_number)
         if y_minimum is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, y_minimum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y_minimum)
         if y_maximum is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, y_maximum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y_maximum)
         if z_number is None or not (z_number > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, z_number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z_number)
         if z_minimum is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, z_minimum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z_minimum)
         if z_maximum is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, z_maximum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z_maximum)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [
@@ -120,14 +112,14 @@ class DataOption_Hsrc(_option.DataOption_, keyword='hsrc'):
             ``DataOption_Hsrc``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Hsrc._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         x_number = types.Integer.from_mcnp(tokens[1])
         x_minimum = types.Real.from_mcnp(tokens[2])

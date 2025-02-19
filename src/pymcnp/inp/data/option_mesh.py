@@ -31,7 +31,7 @@ class DataOption_Mesh(_option.DataOption_, keyword='mesh'):
             ``DataOption_Mesh``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         self.value: typing.Final[tuple[any]] = types._Tuple([options])
@@ -51,14 +51,14 @@ class DataOption_Mesh(_option.DataOption_, keyword='mesh'):
             ``DataOption_Mesh``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Mesh._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         options = (
             types._Tuple(tuple(_parser.process_inp_option(mesh.MeshOption_, tokens[1])))

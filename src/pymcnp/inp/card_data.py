@@ -33,11 +33,11 @@ class Data(_card.InpCard_):
             ``Data``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION.
+            InpError: SEMANTICS_CARD_VALUE.
         """
 
         if option is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION, option)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, option)
 
         self.option: typing.Final[data.DataOption_] = option
 
@@ -53,14 +53,14 @@ class Data(_card.InpCard_):
             ``Data``.
 
         Raises:
-            McnpError: SYNTAX_DATA.
+            InpError: SYNTAX_CARD.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Data._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_CARD, source)
 
         option = next(_parser.process_inp_option(data.DataOption_, tokens[1]))
 

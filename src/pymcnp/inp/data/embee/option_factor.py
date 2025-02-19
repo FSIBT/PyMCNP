@@ -28,11 +28,11 @@ class EmbeeOption_Factor(_option.EmbeeOption_, keyword='factor'):
             ``EmbeeOption_Factor``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if constant is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, constant)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, constant)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([constant])
         self.constant: typing.Final[types.Real] = constant
@@ -49,14 +49,14 @@ class EmbeeOption_Factor(_option.EmbeeOption_, keyword='factor'):
             ``EmbeeOption_Factor``.
 
         Raises:
-            McnpError: SYNTAX_EMBEE_OPTION.
+            InpError: SYNTAX_EMBEE_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = EmbeeOption_Factor._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_EMBEE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         constant = types.Real.from_mcnp(tokens[1])
 

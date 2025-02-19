@@ -56,35 +56,27 @@ class SurfaceOption_P1(_option.SurfaceOption_, keyword='p'):
             ``SurfaceOption_P1``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if x1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, x1)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, x1)
         if y1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, y1)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, y1)
         if z1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, z1)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, z1)
         if x2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, x2)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, x2)
         if y2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, y2)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, y2)
         if z2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, z2)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, z2)
         if x3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, x3)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, x3)
         if y3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, y3)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, y3)
         if z3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, z3)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, z3)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([x1, y1, z1, x2, y2, z2, x3, y3, z3])
         self.x1: typing.Final[types.Real] = x1
@@ -109,14 +101,14 @@ class SurfaceOption_P1(_option.SurfaceOption_, keyword='p'):
             ``SurfaceOption_P1``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_P1._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         x1 = types.Real.from_mcnp(tokens[1])
         y1 = types.Real.from_mcnp(tokens[2])

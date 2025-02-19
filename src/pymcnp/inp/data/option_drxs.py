@@ -28,7 +28,7 @@ class DataOption_Drxs(_option.DataOption_, keyword='drxs'):
             ``DataOption_Drxs``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         self.value: typing.Final[tuple[any]] = types._Tuple([zaids])
@@ -46,14 +46,14 @@ class DataOption_Drxs(_option.DataOption_, keyword='drxs'):
             ``DataOption_Drxs``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Drxs._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         zaids = (
             types._Tuple(

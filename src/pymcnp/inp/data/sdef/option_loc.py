@@ -32,17 +32,15 @@ class SdefOption_Loc(_option.SdefOption_, keyword='loc'):
             ``SdefOption_Loc``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if latitude is None or not (-90 <= latitude <= 90):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, latitude)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, latitude)
         if longitude is None or not (-180 <= longitude <= 180):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, longitude)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, longitude)
         if altitude is None or not (0 <= altitude):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, altitude)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, altitude)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([latitude, longitude, altitude])
         self.latitude: typing.Final[types.Real] = latitude
@@ -61,14 +59,14 @@ class SdefOption_Loc(_option.SdefOption_, keyword='loc'):
             ``SdefOption_Loc``.
 
         Raises:
-            McnpError: SYNTAX_SDEF_OPTION.
+            InpError: SYNTAX_SDEF_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SdefOption_Loc._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SDEF_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         latitude = types.Real.from_mcnp(tokens[1])
         longitude = types.Real.from_mcnp(tokens[2])

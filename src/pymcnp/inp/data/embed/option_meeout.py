@@ -28,11 +28,11 @@ class EmbedOption_Meeout(_option.EmbedOption_, keyword='meeout'):
             ``EmbedOption_Meeout``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if filename is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, filename)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, filename)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([filename])
         self.filename: typing.Final[types.String] = filename
@@ -49,14 +49,14 @@ class EmbedOption_Meeout(_option.EmbedOption_, keyword='meeout'):
             ``EmbedOption_Meeout``.
 
         Raises:
-            McnpError: SYNTAX_EMBED_OPTION.
+            InpError: SYNTAX_EMBED_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = EmbedOption_Meeout._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_EMBED_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         filename = types.String.from_mcnp(tokens[1])
 

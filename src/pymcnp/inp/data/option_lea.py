@@ -52,32 +52,25 @@ class DataOption_Lea(_option.DataOption_, keyword='lea'):
             ``DataOption_Lea``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if ipht is None or ipht.value not in {0, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ipht)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ipht)
         if icc is None or icc.value not in {0, 1, 2, 3, 4}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, icc)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, icc)
         if nobalc is None or nobalc.value not in {0, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, nobalc)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nobalc)
         if nobale is None or nobale.value not in {0, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, nobale)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nobale)
         if ifbrk is None or ifbrk.value not in {0, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ifbrk)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ifbrk)
         if ilvden is None or ilvden.value not in {0, 1, -1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ilvden)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ilvden)
         if ievap is None or ievap.value not in {0, 1, -1, 2}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ievap)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ievap)
         if nofis is None or nofis.value not in {0, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, nofis)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nofis)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [ipht, icc, nobalc, nobale, ifbrk, ilvden, ievap, nofis]
@@ -103,14 +96,14 @@ class DataOption_Lea(_option.DataOption_, keyword='lea'):
             ``DataOption_Lea``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Lea._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         ipht = types.Integer.from_mcnp(tokens[1])
         icc = types.Integer.from_mcnp(tokens[2])

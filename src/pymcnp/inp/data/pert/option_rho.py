@@ -28,11 +28,11 @@ class PertOption_Rho(_option.PertOption_, keyword='rho'):
             ``PertOption_Rho``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if density is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, density)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, density)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([density])
         self.density: typing.Final[types.Real] = density
@@ -49,14 +49,14 @@ class PertOption_Rho(_option.PertOption_, keyword='rho'):
             ``PertOption_Rho``.
 
         Raises:
-            McnpError: SYNTAX_PERT_OPTION.
+            InpError: SYNTAX_PERT_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = PertOption_Rho._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_PERT_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         density = types.Real.from_mcnp(tokens[1])
 

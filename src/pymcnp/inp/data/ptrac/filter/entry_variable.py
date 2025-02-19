@@ -32,15 +32,15 @@ class FilterEntry_Variable(_entry.FilterEntry_):
             ``FilterEntryVariable``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if lower is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, lower)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, lower)
         if upper is not None and not (upper >= lower):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, upper)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, upper)
         if variable is None or variable not in {''}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, variable)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, variable)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple([lower, variable, upper])
         self.lower: typing.Final[types.Real] = lower
@@ -59,14 +59,14 @@ class FilterEntry_Variable(_entry.FilterEntry_):
             ``FilterEntry_Variable``.
 
         Raises:
-            McnpError: SYNTAX_FILTER_ENTRY.
+            InpError: SYNTAX_FILTER_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = FilterEntry_Variable._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_FILTER_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         lower = types.Real.from_mcnp(tokens[1])
         upper = types.Real.from_mcnp(tokens[2]) if tokens[2] else None

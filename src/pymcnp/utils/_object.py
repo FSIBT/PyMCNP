@@ -1,6 +1,8 @@
 import re
 import pathlib
 
+from ..utils import errors
+
 
 class McnpElement_:
     """
@@ -36,9 +38,26 @@ class McnpFile_(McnpElement_):
     Represents generic MCNP files.
     """
 
-    @staticmethod
-    def from_mcnp_file(filename: pathlib.Path | str):
-        raise NotImplementedError
+    @classmethod
+    def from_mcnp_file(cls, filename: pathlib.Path | str):
+        """
+        Generates ``McnpFile_`` from MCNP files.
+
+        Parameters:
+            filename: MCNP file path.
+
+        Raises:
+            CliError: SEMANTICS_PATH.
+        """
+
+        filename = pathlib.Path(filename)
+
+        if not filename.is_file():
+            raise errors.CliError(errors.CliCode.SEMANTICS_PATH)
+
+        source = filename.read_text()
+
+        return cls.from_mcnp(source)
 
     def to_mcnp_file(self, filename: str | pathlib.Path):
         """
@@ -51,6 +70,6 @@ class McnpFile_(McnpElement_):
         filename = pathlib.Path(filename)
 
         if not filename.is_file():
-            raise Exception
+            raise errors.CliError(errors.CliCode.SEMANTICS_PATH)
 
         filename.write_text(self.to_mcnp())

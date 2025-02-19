@@ -28,11 +28,11 @@ class PertOption_Mat(_option.PertOption_, keyword='mat'):
             ``PertOption_Mat``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if material is None or not (0 <= material <= 99_999_999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, material)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, material)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([material])
         self.material: typing.Final[types.Integer] = material
@@ -49,14 +49,14 @@ class PertOption_Mat(_option.PertOption_, keyword='mat'):
             ``PertOption_Mat``.
 
         Raises:
-            McnpError: SYNTAX_PERT_OPTION.
+            InpError: SYNTAX_PERT_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = PertOption_Mat._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_PERT_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         material = types.Integer.from_mcnp(tokens[1])
 

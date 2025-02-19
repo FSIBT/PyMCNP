@@ -30,14 +30,13 @@ class StopOption_Fk(_option.StopOption_, keyword='fk'):
             ``StopOption_Fk``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_SUFFIX.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if e is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, e)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, e)
         if suffix is None or not (suffix <= 99_999_999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_SUFFIX, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([e])
         self.e: typing.Final[types.Integer] = e
@@ -55,14 +54,14 @@ class StopOption_Fk(_option.StopOption_, keyword='fk'):
             ``StopOption_Fk``.
 
         Raises:
-            McnpError: SYNTAX_STOP_OPTION.
+            InpError: SYNTAX_STOP_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = StopOption_Fk._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_STOP_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         suffix = types.Integer.from_mcnp(tokens[1])
         e = types.Integer.from_mcnp(tokens[2])

@@ -44,23 +44,19 @@ class SurfaceOption_K_x(_option.SurfaceOption_, keyword='k/x'):
             ``SurfaceOption_K_x``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, x)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, x)
         if y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, y)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, y)
         if z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, z)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, z)
         if t_squared is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, t_squared)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, t_squared)
         if plusminus_1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, plusminus_1)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, plusminus_1)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([x, y, z, t_squared, plusminus_1])
         self.x: typing.Final[types.Real] = x
@@ -81,14 +77,14 @@ class SurfaceOption_K_x(_option.SurfaceOption_, keyword='k/x'):
             ``SurfaceOption_K_x``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_K_x._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         x = types.Real.from_mcnp(tokens[1])
         y = types.Real.from_mcnp(tokens[2])

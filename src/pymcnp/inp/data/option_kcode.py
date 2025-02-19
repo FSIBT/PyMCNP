@@ -52,32 +52,25 @@ class DataOption_Kcode(_option.DataOption_, keyword='kcode'):
             ``DataOption_Kcode``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if nsrck is None or not (nsrck >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, nsrck)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nsrck)
         if rkk is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, rkk)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, rkk)
         if ikz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ikz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ikz)
         if kct is None or not (kct > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, kct)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kct)
         if msrk is None or not (msrk < 40 * nsrck):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, msrk)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, msrk)
         if knrm is None or knrm.value not in {0, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, knrm)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, knrm)
         if mrkp is None or not (mrkp > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, mrkp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, mrkp)
         if kc8 is None or kc8.value not in {0, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, kc8)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kc8)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [nsrck, rkk, ikz, kct, msrk, knrm, mrkp, kc8]
@@ -103,14 +96,14 @@ class DataOption_Kcode(_option.DataOption_, keyword='kcode'):
             ``DataOption_Kcode``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Kcode._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         nsrck = types.Integer.from_mcnp(tokens[1])
         rkk = types.Real.from_mcnp(tokens[2])

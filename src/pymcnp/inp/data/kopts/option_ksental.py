@@ -28,13 +28,13 @@ class KoptsOption_Ksental(_option.KoptsOption_, keyword='ksental'):
             ``KoptsOption_Ksental``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if fileopt is None or fileopt not in {
             'mctal',
         }:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, fileopt)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fileopt)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([fileopt])
         self.fileopt: typing.Final[types.String] = fileopt
@@ -51,14 +51,14 @@ class KoptsOption_Ksental(_option.KoptsOption_, keyword='ksental'):
             ``KoptsOption_Ksental``.
 
         Raises:
-            McnpError: SYNTAX_KOPTS_OPTION.
+            InpError: SYNTAX_KOPTS_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = KoptsOption_Ksental._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_KOPTS_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         fileopt = types.String.from_mcnp(tokens[1])
 

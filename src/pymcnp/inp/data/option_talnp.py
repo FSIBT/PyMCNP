@@ -28,13 +28,13 @@ class DataOption_Talnp(_option.DataOption_, keyword='talnp'):
             ``DataOption_Talnp``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if tallies is not None and not (
             filter(lambda entry: not (1 <= entry <= 99_999_999), tallies)
         ):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, tallies)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, tallies)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([tallies])
         self.tallies: typing.Final[tuple[types.Integer]] = tallies
@@ -51,14 +51,14 @@ class DataOption_Talnp(_option.DataOption_, keyword='talnp'):
             ``DataOption_Talnp``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Talnp._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         tallies = (
             types._Tuple(

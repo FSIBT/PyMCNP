@@ -28,13 +28,11 @@ class Ds2Entry_Qpair(_entry.Ds2Entry_):
             ``Ds2EntryQpair``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if distribution_dependent is None:
-            raise errors.McnpError(
-                errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, distribution_dependent
-            )
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, distribution_dependent)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple([distribution_dependent])
         self.distribution_dependent: typing.Final[tuple[types.Real]] = distribution_dependent
@@ -51,14 +49,14 @@ class Ds2Entry_Qpair(_entry.Ds2Entry_):
             ``Ds2Entry_Qpair``.
 
         Raises:
-            McnpError: SYNTAX_DS_2_ENTRY.
+            InpError: SYNTAX_DS_2_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Ds2Entry_Qpair._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DS_2_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         distribution_dependent = types._Tuple(
             [types.Real.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

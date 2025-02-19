@@ -30,14 +30,13 @@ class DataOption_Sc(_option.DataOption_, keyword='sc'):
             ``DataOption_Sc``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_SUFFIX.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if comment is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, comment)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, comment)
         if suffix is None or not (1 <= suffix <= 999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_SUFFIX, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([comment])
         self.comment: typing.Final[tuple[str]] = comment
@@ -55,14 +54,14 @@ class DataOption_Sc(_option.DataOption_, keyword='sc'):
             ``DataOption_Sc``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Sc._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         suffix = types.Integer.from_mcnp(tokens[1])
         comment = types._Tuple(

@@ -30,14 +30,13 @@ class CellOption_Unc(_option.CellOption_, keyword='unc'):
             ``CellOption_Unc``.
 
         Raises:
-            McnpError: SEMANTICS_CELL_OPTION_VALUE.
-            McnpError: SEMANTICS_CELL_OPTION_DESIGNATOR.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if setting is None or setting.value not in {0, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
         if designator is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_DESIGNATOR, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([setting])
         self.setting: typing.Final[types.Integer] = setting
@@ -55,14 +54,14 @@ class CellOption_Unc(_option.CellOption_, keyword='unc'):
             ``CellOption_Unc``.
 
         Raises:
-            McnpError: SYNTAX_CELL_OPTION.
+            InpError: SYNTAX_CELL_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = CellOption_Unc._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         designator = types.Designator.from_mcnp(tokens[1])
         setting = types.Integer.from_mcnp(tokens[2])

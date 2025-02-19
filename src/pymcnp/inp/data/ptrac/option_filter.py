@@ -29,11 +29,11 @@ class PtracOption_Filter(_option.PtracOption_, keyword='filter'):
             ``PtracOption_Filter``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if variables is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, variables)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, variables)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([variables])
         self.variables: typing.Final[tuple[filter.FilterEntry_Variable]] = variables
@@ -50,14 +50,14 @@ class PtracOption_Filter(_option.PtracOption_, keyword='filter'):
             ``PtracOption_Filter``.
 
         Raises:
-            McnpError: SYNTAX_PTRAC_OPTION.
+            InpError: SYNTAX_PTRAC_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = PtracOption_Filter._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_PTRAC_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         variables = types._Tuple(
             [

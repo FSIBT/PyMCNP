@@ -32,17 +32,15 @@ class SdefOption_Vec(_option.SdefOption_, keyword='vec'):
             ``SdefOption_Vec``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x)
         if y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y)
         if z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([x, y, z])
         self.x: typing.Final[types.Real] = x
@@ -61,14 +59,14 @@ class SdefOption_Vec(_option.SdefOption_, keyword='vec'):
             ``SdefOption_Vec``.
 
         Raises:
-            McnpError: SYNTAX_SDEF_OPTION.
+            InpError: SYNTAX_SDEF_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SdefOption_Vec._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SDEF_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         x = types.Real.from_mcnp(tokens[1])
         y = types.Real.from_mcnp(tokens[2])

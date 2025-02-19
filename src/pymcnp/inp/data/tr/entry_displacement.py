@@ -33,15 +33,15 @@ class TrEntry_Displacement(_entry.TrEntry_):
             ``TrEntryDisplacement``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_DATA_ENTRY_VALUE.
         """
 
         if x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_ENTRY_VALUE, x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_ENTRY_VALUE, x)
         if y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_ENTRY_VALUE, y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_ENTRY_VALUE, y)
         if z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_ENTRY_VALUE, z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_ENTRY_VALUE, z)
 
         self.parameters: typing.Final[tuple[any]] = tuple([x, y, z])
         self.x: typing.Final[types.Real] = x
@@ -60,14 +60,14 @@ class TrEntry_Displacement(_entry.TrEntry_):
             ``TrEntry_Displacement``.
 
         Raises:
-            McnpError: SYNTAX_TR_ENTRY.
+            InpError: SYNTAX_TR_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = TrEntry_Displacement._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_TR_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_TR_ENTRY, source)
 
         x = types.Real.from_mcnp(tokens[1].strip())
         y = types.Real.from_mcnp(tokens[2].strip())

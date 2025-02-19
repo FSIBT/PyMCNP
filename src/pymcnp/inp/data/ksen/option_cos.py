@@ -28,11 +28,11 @@ class KsenOption_Cos(_option.KsenOption_, keyword='cos'):
             ``KsenOption_Cos``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if cosines is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, cosines)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cosines)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([cosines])
         self.cosines: typing.Final[tuple[types.Real]] = cosines
@@ -49,14 +49,14 @@ class KsenOption_Cos(_option.KsenOption_, keyword='cos'):
             ``KsenOption_Cos``.
 
         Raises:
-            McnpError: SYNTAX_KSEN_OPTION.
+            InpError: SYNTAX_KSEN_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = KsenOption_Cos._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_KSEN_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         cosines = types._Tuple(
             [types.Real.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

@@ -28,11 +28,11 @@ class PtracOption_Tally(_option.PtracOption_, keyword='tally'):
             ``PtracOption_Tally``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if numbers is None or not (filter(lambda entry: not (entry != 0), numbers)):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, numbers)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, numbers)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([numbers])
         self.numbers: typing.Final[tuple[types.Integer]] = numbers
@@ -49,14 +49,14 @@ class PtracOption_Tally(_option.PtracOption_, keyword='tally'):
             ``PtracOption_Tally``.
 
         Raises:
-            McnpError: SYNTAX_PTRAC_OPTION.
+            InpError: SYNTAX_PTRAC_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = PtracOption_Tally._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_PTRAC_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         numbers = types._Tuple(
             [types.Integer.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

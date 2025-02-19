@@ -5,6 +5,7 @@ import typing
 from . import header
 from . import history
 from ..utils import types
+from ..utils import errors
 from ..utils import _parser
 from ..utils import _object
 
@@ -37,15 +38,14 @@ class History(_object.McnpElement_):
             events: PTRAC history events.
 
         Raises:
-            McnpError: INVALID_HISTORY_NEXTTYPE.
-            McnpError: INVALID_HISTORY_NPS.
-            McnpError: INVALID_HISTORY_NCL.
-            McnpError: INVALID_HISTORY_NSF.
-            McnpError: INVALID_HISTORY_JPTAL.
-            McnpError: INVALID_HISTORY_TAL.
-            McnpError: INVALID_PTRAC_HEADER.
-            McnpError: INVALID_PTRAC_EVENT.
+            PtracError: SEMANTICS_BLOCK_VALUE.
         """
+
+        if i_line is None:
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, i_line)
+
+        if events is None:
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, events)
 
         self.i_line: typing.Final[tuple] = (i_line,)
         self.events: typing.Final[typing.Generator] = (events,)
@@ -63,14 +63,14 @@ class History(_object.McnpElement_):
             ``History``.
 
         Raises:
-            McnpError: TOOFEW_HISTORY.
+            PtracERror: SYNTAX_HISTORY.
         """
 
         source = _parser.preprocess_ptrac(source)
         tokens = History._REGEX.match(source)
 
         if not tokens:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY, source)
 
         i_line = types._Tuple(
             types.Integer(tokens[1]),
@@ -97,7 +97,7 @@ class History(_object.McnpElement_):
                         j_line = history.HistoryLine_J_6.from_mcnp(lines.pop(0))
                         p_line = history.HistoryLine_P_1.from_mcnp(lines.pop(0))
                     else:
-                        raise Exception
+                        assert False
                 else:
                     if next_type == history.HistoryKeyword_Type.SURFACE:
                         na = header.n_line[5]
@@ -125,7 +125,7 @@ class History(_object.McnpElement_):
                         j_line = history.HistoryLine_J_6.from_mcnp(lines.pop(0))
                         p_line = history.HistoryLine_P_1.from_mcnp(lines.pop(0))
                     else:
-                        raise Exception
+                        assert False
 
                 yield (j_line, p_line)
                 next_type = j_line.next_type

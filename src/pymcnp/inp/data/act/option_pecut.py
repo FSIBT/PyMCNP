@@ -28,11 +28,11 @@ class ActOption_Pecut(_option.ActOption_, keyword='pecut'):
             ``ActOption_Pecut``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if cutoff is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, cutoff)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cutoff)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([cutoff])
         self.cutoff: typing.Final[types.Real] = cutoff
@@ -49,14 +49,14 @@ class ActOption_Pecut(_option.ActOption_, keyword='pecut'):
             ``ActOption_Pecut``.
 
         Raises:
-            McnpError: SYNTAX_ACT_OPTION.
+            InpError: SYNTAX_ACT_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = ActOption_Pecut._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_ACT_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         cutoff = types.Real.from_mcnp(tokens[1])
 

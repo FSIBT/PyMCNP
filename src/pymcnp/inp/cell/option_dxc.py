@@ -34,17 +34,15 @@ class CellOption_Dxc(_option.CellOption_, keyword='dxc'):
             ``CellOption_Dxc``.
 
         Raises:
-            McnpError: SEMANTICS_CELL_OPTION_VALUE.
-            McnpError: SEMANTICS_CELL_OPTION_SUFFIX.
-            McnpError: SEMANTICS_CELL_OPTION_DESIGNATOR.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if probability is None or not (0 <= probability <= 1):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, probability)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, probability)
         if suffix is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_SUFFIX, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
         if designator is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_DESIGNATOR, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([probability])
         self.probability: typing.Final[types.Real] = probability
@@ -63,14 +61,14 @@ class CellOption_Dxc(_option.CellOption_, keyword='dxc'):
             ``CellOption_Dxc``.
 
         Raises:
-            McnpError: SYNTAX_CELL_OPTION.
+            InpError: SYNTAX_CELL_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = CellOption_Dxc._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         suffix = types.Integer.from_mcnp(tokens[1])
         designator = types.Designator.from_mcnp(tokens[2])

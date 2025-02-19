@@ -28,11 +28,11 @@ class CellOption_U(_option.CellOption_, keyword='u'):
             ``CellOption_U``.
 
         Raises:
-            McnpError: SEMANTICS_CELL_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if number is None or not (-99_999_999 <= number <= 99_999_999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, number)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([number])
         self.number: typing.Final[types.Integer] = number
@@ -49,14 +49,14 @@ class CellOption_U(_option.CellOption_, keyword='u'):
             ``CellOption_U``.
 
         Raises:
-            McnpError: SYNTAX_CELL_OPTION.
+            InpError: SYNTAX_CELL_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = CellOption_U._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         number = types.Integer.from_mcnp(tokens[1])
 

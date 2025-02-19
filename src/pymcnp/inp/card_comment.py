@@ -28,11 +28,11 @@ class Comment(_card.InpCard_):
             text: Comment card text.
 
         Raises:
-            McnpError: SEMANTICS_COMMENT_TEXT.
+            InpError: SEMANTICS_CARD_VALUE.
         """
 
         if text is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_COMMENT_TEXT, text)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, text)
 
         self.text: typing.Final[types.String] = text
 
@@ -48,7 +48,7 @@ class Comment(_card.InpCard_):
             ``Comment``.
 
         Raises:
-            McnpError: SYNTAX_COMMENT.
+            InpError: SYNTAX_CARD.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -56,7 +56,7 @@ class Comment(_card.InpCard_):
         tokens = Comment._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_COMMENT, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_CARD, source)
 
         text = types.String.from_mcnp(tokens[1])
 

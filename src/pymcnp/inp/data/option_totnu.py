@@ -28,11 +28,11 @@ class DataOption_Totnu(_option.DataOption_, keyword='totnu'):
             ``DataOption_Totnu``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if no is not None and not (no == 'no'):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, no)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, no)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([no])
         self.no: typing.Final[types.String] = no
@@ -49,14 +49,14 @@ class DataOption_Totnu(_option.DataOption_, keyword='totnu'):
             ``DataOption_Totnu``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Totnu._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         no = types.String.from_mcnp(tokens[1]) if tokens[1] else None
 

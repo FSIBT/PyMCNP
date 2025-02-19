@@ -28,11 +28,11 @@ class BfldOption_Ffedges(_option.BfldOption_, keyword='ffedges'):
             ``BfldOption_Ffedges``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if numbers is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, numbers)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, numbers)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([numbers])
         self.numbers: typing.Final[tuple[types.Real]] = numbers
@@ -49,14 +49,14 @@ class BfldOption_Ffedges(_option.BfldOption_, keyword='ffedges'):
             ``BfldOption_Ffedges``.
 
         Raises:
-            McnpError: SYNTAX_BFLD_OPTION.
+            InpError: SYNTAX_BFLD_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = BfldOption_Ffedges._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_BFLD_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         numbers = types._Tuple(
             [types.Real.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

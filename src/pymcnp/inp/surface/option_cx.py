@@ -29,11 +29,11 @@ class SurfaceOption_Cx(_option.SurfaceOption_, keyword='cx'):
             ``SurfaceOption_Cx``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if r is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, r)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, r)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([r])
         self.r: typing.Final[types.Real] = r
@@ -50,14 +50,14 @@ class SurfaceOption_Cx(_option.SurfaceOption_, keyword='cx'):
             ``SurfaceOption_Cx``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_Cx._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         r = types.Real.from_mcnp(tokens[1])
 

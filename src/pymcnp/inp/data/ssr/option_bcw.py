@@ -32,17 +32,15 @@ class SsrOption_Bcw(_option.SsrOption_, keyword='bcw'):
             ``SsrOption_Bcw``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if radius is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, radius)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, radius)
         if zb is None or not (0 < zb):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, zb)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zb)
         if ze is None or not (0 < zb < ze):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ze)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ze)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([radius, zb, ze])
         self.radius: typing.Final[types.Real] = radius
@@ -61,14 +59,14 @@ class SsrOption_Bcw(_option.SsrOption_, keyword='bcw'):
             ``SsrOption_Bcw``.
 
         Raises:
-            McnpError: SYNTAX_SSR_OPTION.
+            InpError: SYNTAX_SSR_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SsrOption_Bcw._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SSR_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         radius = types.Real.from_mcnp(tokens[1])
         zb = types.Real.from_mcnp(tokens[2])

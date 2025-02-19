@@ -28,11 +28,11 @@ class FmultOption_Sfyield(_option.FmultOption_, keyword='sfyield'):
             ``FmultOption_Sfyield``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if fission_yield is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, fission_yield)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fission_yield)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([fission_yield])
         self.fission_yield: typing.Final[types.Real] = fission_yield
@@ -49,14 +49,14 @@ class FmultOption_Sfyield(_option.FmultOption_, keyword='sfyield'):
             ``FmultOption_Sfyield``.
 
         Raises:
-            McnpError: SYNTAX_FMULT_OPTION.
+            InpError: SYNTAX_FMULT_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = FmultOption_Sfyield._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_FMULT_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         fission_yield = types.Real.from_mcnp(tokens[1])
 

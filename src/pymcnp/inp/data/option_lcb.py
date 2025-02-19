@@ -52,32 +52,25 @@ class DataOption_Lcb(_option.DataOption_, keyword='lcb'):
             ``DataOption_Lcb``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if flenb1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, flenb1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, flenb1)
         if flenb2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, flenb2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, flenb2)
         if flenb3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, flenb3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, flenb3)
         if flenb4 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, flenb4)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, flenb4)
         if flenb5 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, flenb5)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, flenb5)
         if flenb6 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, flenb6)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, flenb6)
         if cotfe is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, cotfe)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cotfe)
         if film0 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, film0)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, film0)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [flenb1, flenb2, flenb3, flenb4, flenb5, flenb6, cotfe, film0]
@@ -103,14 +96,14 @@ class DataOption_Lcb(_option.DataOption_, keyword='lcb'):
             ``DataOption_Lcb``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Lcb._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         flenb1 = types.Real.from_mcnp(tokens[1])
         flenb2 = types.Real.from_mcnp(tokens[2])

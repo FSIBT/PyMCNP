@@ -33,17 +33,15 @@ class DataOption_Ds1(_option.DataOption_, keyword='ds'):
             ``DataOption_Ds1``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_SUFFIX.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if t is None or t not in {'t'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, t)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, t)
         if ijs is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ijs)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ijs)
         if suffix is None or not (1 <= suffix <= 999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_SUFFIX, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([t, ijs])
         self.t: typing.Final[types.String] = t
@@ -62,14 +60,14 @@ class DataOption_Ds1(_option.DataOption_, keyword='ds'):
             ``DataOption_Ds1``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Ds1._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         suffix = types.Integer.from_mcnp(tokens[1])
         t = types.String.from_mcnp(tokens[2])

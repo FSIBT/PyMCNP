@@ -30,14 +30,13 @@ class CellOption_Fcl(_option.CellOption_, keyword='fcl'):
             ``CellOption_Fcl``.
 
         Raises:
-            McnpError: SEMANTICS_CELL_OPTION_VALUE.
-            McnpError: SEMANTICS_CELL_OPTION_DESIGNATOR.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if control is None or not (-1 <= control <= 1):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, control)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, control)
         if designator is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_DESIGNATOR, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([control])
         self.control: typing.Final[types.Real] = control
@@ -55,14 +54,14 @@ class CellOption_Fcl(_option.CellOption_, keyword='fcl'):
             ``CellOption_Fcl``.
 
         Raises:
-            McnpError: SYNTAX_CELL_OPTION.
+            InpError: SYNTAX_CELL_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = CellOption_Fcl._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         designator = types.Designator.from_mcnp(tokens[1])
         control = types.Real.from_mcnp(tokens[2])

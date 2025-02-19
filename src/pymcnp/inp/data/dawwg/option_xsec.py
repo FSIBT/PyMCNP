@@ -28,11 +28,11 @@ class DawwgOption_Xsec(_option.DawwgOption_, keyword='xsec'):
             ``DawwgOption_Xsec``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if count is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, count)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, count)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([count])
         self.count: typing.Final[types.Integer] = count
@@ -49,14 +49,14 @@ class DawwgOption_Xsec(_option.DawwgOption_, keyword='xsec'):
             ``DawwgOption_Xsec``.
 
         Raises:
-            McnpError: SYNTAX_DAWWG_OPTION.
+            InpError: SYNTAX_DAWWG_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DawwgOption_Xsec._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DAWWG_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         count = types.Integer.from_mcnp(tokens[1])
 

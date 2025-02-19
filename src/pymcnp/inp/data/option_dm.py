@@ -28,11 +28,11 @@ class DataOption_Dm(_option.DataOption_, keyword='dm'):
             ``DataOption_Dm``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if zaids is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, zaids)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zaids)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([zaids])
         self.zaids: typing.Final[tuple[types.Zaid]] = zaids
@@ -49,14 +49,14 @@ class DataOption_Dm(_option.DataOption_, keyword='dm'):
             ``DataOption_Dm``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Dm._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         zaids = types._Tuple(
             [types.Zaid.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

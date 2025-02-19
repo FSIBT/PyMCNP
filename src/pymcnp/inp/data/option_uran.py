@@ -29,11 +29,11 @@ class DataOption_Uran(_option.DataOption_, keyword='uran'):
             ``DataOption_Uran``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if transformations is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, transformations)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, transformations)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([transformations])
         self.transformations: typing.Final[tuple[uran.UranEntry_Transformation]] = transformations
@@ -50,14 +50,14 @@ class DataOption_Uran(_option.DataOption_, keyword='uran'):
             ``DataOption_Uran``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Uran._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         transformations = types._Tuple(
             [

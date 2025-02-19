@@ -28,11 +28,11 @@ class CellOption_Lat(_option.CellOption_, keyword='lat'):
             ``CellOption_Lat``.
 
         Raises:
-            McnpError: SEMANTICS_CELL_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if shape is None or shape.value not in {1, 2}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, shape)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, shape)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([shape])
         self.shape: typing.Final[types.Integer] = shape
@@ -49,14 +49,14 @@ class CellOption_Lat(_option.CellOption_, keyword='lat'):
             ``CellOption_Lat``.
 
         Raises:
-            McnpError: SYNTAX_CELL_OPTION.
+            InpError: SYNTAX_CELL_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = CellOption_Lat._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         shape = types.Integer.from_mcnp(tokens[1])
 

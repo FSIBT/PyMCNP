@@ -35,12 +35,11 @@ class CellOption_Fill1(_option.CellOption_, keyword='fill'):
             ``CellOption_Fill1``.
 
         Raises:
-            McnpError: SEMANTICS_CELL_OPTION_VALUE.
-            McnpError: SEMANTICS_CELL_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if universe is None or not (0 <= universe <= 99_999_999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, universe)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, universe)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([universe, transformation])
         self.universe: typing.Final[types.Integer] = universe
@@ -58,14 +57,14 @@ class CellOption_Fill1(_option.CellOption_, keyword='fill'):
             ``CellOption_Fill1``.
 
         Raises:
-            McnpError: SYNTAX_CELL_OPTION.
+            InpError: SYNTAX_CELL_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = CellOption_Fill1._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         universe = types.Integer.from_mcnp(tokens[1])
         transformation = (

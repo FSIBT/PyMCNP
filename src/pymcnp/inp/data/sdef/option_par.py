@@ -28,11 +28,11 @@ class SdefOption_Par(_option.SdefOption_, keyword='par'):
             ``SdefOption_Par``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if kind is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, kind)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kind)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([kind])
         self.kind: typing.Final[types.String] = kind
@@ -49,14 +49,14 @@ class SdefOption_Par(_option.SdefOption_, keyword='par'):
             ``SdefOption_Par``.
 
         Raises:
-            McnpError: SYNTAX_SDEF_OPTION.
+            InpError: SYNTAX_SDEF_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SdefOption_Par._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SDEF_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         kind = types.String.from_mcnp(tokens[1])
 

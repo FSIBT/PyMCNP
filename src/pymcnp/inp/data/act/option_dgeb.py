@@ -29,11 +29,11 @@ class ActOption_Dgeb(_option.ActOption_, keyword='dgeb'):
             ``ActOption_Dgeb``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if biases is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, biases)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, biases)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([biases])
         self.biases: typing.Final[tuple[dgeb.DgebEntry_Bias]] = biases
@@ -50,14 +50,14 @@ class ActOption_Dgeb(_option.ActOption_, keyword='dgeb'):
             ``ActOption_Dgeb``.
 
         Raises:
-            McnpError: SYNTAX_ACT_OPTION.
+            InpError: SYNTAX_ACT_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = ActOption_Dgeb._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_ACT_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         biases = types._Tuple(
             [

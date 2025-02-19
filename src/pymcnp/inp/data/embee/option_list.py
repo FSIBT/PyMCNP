@@ -28,11 +28,11 @@ class EmbeeOption_List(_option.EmbeeOption_, keyword='list'):
             ``EmbeeOption_List``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if reactions is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, reactions)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, reactions)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([reactions])
         self.reactions: typing.Final[types.Real] = reactions
@@ -49,14 +49,14 @@ class EmbeeOption_List(_option.EmbeeOption_, keyword='list'):
             ``EmbeeOption_List``.
 
         Raises:
-            McnpError: SYNTAX_EMBEE_OPTION.
+            InpError: SYNTAX_EMBEE_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = EmbeeOption_List._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_EMBEE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         reactions = types.Real.from_mcnp(tokens[1])
 

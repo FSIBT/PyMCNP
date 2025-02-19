@@ -30,14 +30,13 @@ class CellOption_Elpt(_option.CellOption_, keyword='elpt'):
             ``CellOption_Elpt``.
 
         Raises:
-            McnpError: SEMANTICS_CELL_OPTION_VALUE.
-            McnpError: SEMANTICS_CELL_OPTION_DESIGNATOR.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if cutoff is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, cutoff)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cutoff)
         if designator is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_DESIGNATOR, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([cutoff])
         self.cutoff: typing.Final[types.Real] = cutoff
@@ -55,14 +54,14 @@ class CellOption_Elpt(_option.CellOption_, keyword='elpt'):
             ``CellOption_Elpt``.
 
         Raises:
-            McnpError: SYNTAX_CELL_OPTION.
+            InpError: SYNTAX_CELL_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = CellOption_Elpt._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         designator = types.Designator.from_mcnp(tokens[1])
         cutoff = types.Real.from_mcnp(tokens[2])

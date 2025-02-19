@@ -44,13 +44,13 @@ class Integer(int, _object.McnpElement_):
         Initializes ``Integer``.
 
         Parameters:
-                value: Integer value.
+            value: Integer value.
 
         Returns:
-                ``Integer``.
+            ``Integer``.
 
         Raises:
-                McnpError: SEMANTICS_INTEGER_VALUE.
+            McnpError: SEMANTICS_INTEGER_VALUE.
         """
 
         if value is None:
@@ -64,13 +64,13 @@ class Integer(int, _object.McnpElement_):
         Generates ``Integer`` from MCNP.
 
         Parameters:
-                source: MCNP integer.
+            source: MCNP integer.
 
         Returns:
-                ``Integer``.
+            ``Integer``.
 
         Raises:
-                McnpError: SYNTAX_INTEGER.
+            McnpError: SYNTAX_INTEGER.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -85,7 +85,7 @@ class Integer(int, _object.McnpElement_):
         Generates MCNP from ``Integer``.
 
         Returns:
-                MCNP integer.
+            MCNP integer.
         """
 
         return str(self.value)
@@ -101,13 +101,13 @@ class Real(float, _object.McnpElement_):
         Initializes ``Real``.
 
         Parameters:
-                value: Real value.
+            value: Real value.
 
         Returns:
-                ``Real``.
+            ``Real``.
 
         Raises:
-                McnpError: SEMANTICS_REAL_VALUE.
+            McnpError: SEMANTICS_REAL_VALUE.
         """
 
         if value is None:
@@ -121,13 +121,13 @@ class Real(float, _object.McnpElement_):
         Generates ``Real`` from MCNP.
 
         Praameters:
-                source: MCNP real.
+            source: MCNP real.
 
         Returns:
-                ``Real``.
+            ``Real``.
 
         Raises:
-                McnpError: SYNTAX_REAL.
+            McnpError: SYNTAX_REAL.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -142,7 +142,7 @@ class Real(float, _object.McnpElement_):
         Generates MCNP from ``Real``.
 
         Returns:
-                MCNP real.
+            MCNP real.
         """
 
         return str(self.value)
@@ -158,13 +158,13 @@ class String(str, _object.McnpElement_):
         Initializes ``String``.
 
         Parameters:
-                value: String value.
+            value: String value.
 
         Returns:
-                ``String``.
+            ``String``.
 
         Raises:
-                McnpError: SEMANTICS_STRING_VALUE.
+            McnpError: SEMANTICS_STRING_VALUE.
         """
 
         if value is None:
@@ -178,13 +178,13 @@ class String(str, _object.McnpElement_):
         Generates ``String`` from MCNP.
 
         Praameters:
-                source: MCNP string.
+            source: MCNP string.
 
         Returns:
-                ``String``.
+            ``String``.
 
         Raises:
-                McnpError: SYNTAX_STRING.
+            McnpError: SYNTAX_STRING.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -196,7 +196,7 @@ class String(str, _object.McnpElement_):
         Generates MCNP from ``String``.
 
         Returns:
-                MCNP string.
+            MCNP string.
         """
 
         return self
@@ -214,10 +214,10 @@ class Repeat(_object.McnpElement_):
         Initializes ``Repeat``.
 
         Parameters:
-                n: Repetition number.
+            n: Repetition number.
 
         Returns:
-                ``Repeat``
+            ``Repeat``
 
         Raises
                 McnpError: SEMANTICS_REPEAT_N.
@@ -234,13 +234,13 @@ class Repeat(_object.McnpElement_):
         Generates ``Repeat`` from MCNP.
 
         Parameters:
-                source: MCNP repeats.
+            source: MCNP repeats.
 
         Returns:
-                ``Repeat``.
+            ``Repeat``.
 
         Raises:
-                McnpError: SYNTAX_REPEAT.
+            McnpError: SYNTAX_REPEAT.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -258,7 +258,7 @@ class Repeat(_object.McnpElement_):
         Genereates MCNP repeats from ``Repeat``.
 
         Returns:
-                MCNP repeats.
+            MCNP repeats.
         """
 
         return f'{self.n}r'
@@ -276,10 +276,10 @@ class Insert(_object.McnpElement_):
         Initializes ``Insert``.
 
         Parameters:
-                n: Repetition number.
+            n: Repetition number.
 
         Returns:
-                ``Insert``
+            ``Insert``
 
         Raises
                 McnpError: SEMANTICS_INSERT_N.
@@ -296,13 +296,13 @@ class Insert(_object.McnpElement_):
         Generates ``Insert`` from MCNP.
 
         Parameters:
-                source: MCNP inserts.
+            source: MCNP inserts.
 
         Returns:
-                ``Insert``.
+            ``Insert``.
 
         Raises:
-                McnpError: SYNTAX_INSERT.
+            McnpError: SYNTAX_INSERT.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -320,7 +320,7 @@ class Insert(_object.McnpElement_):
         Genereates MCNP inserts from ``Insert``.
 
         Returns:
-                MCNP inserts.
+            MCNP inserts.
         """
 
         return f'{self.n}i'
@@ -338,10 +338,10 @@ class Multiply(_object.McnpElement_):
         Initializes ``Multiply``.
 
         Parameters:
-                x: Multiply number.
+            x: Multiply number.
 
         Returns:
-                ``Multiply``
+            ``Multiply``
 
         Raises
                 McnpError: SEMANTICS_MULTIPLY_X.
@@ -358,13 +358,13 @@ class Multiply(_object.McnpElement_):
         Generates ``Multiply`` from MCNP.
 
         Parameters:
-                source: MCNP multiply.
+            source: MCNP multiply.
 
         Returns:
-                ``Multiply``.
+            ``Multiply``.
 
         Raises:
-                McnpError: SYNTAX_MULTIPLY.
+            McnpError: SYNTAX_MULTIPLY.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -382,7 +382,7 @@ class Multiply(_object.McnpElement_):
         Genereates MCNP multiplies. from ``Multiply``.
 
         Returns:
-                MCNP multiply.
+            MCNP multiply.
         """
 
         return f'{self.x}m'
@@ -400,10 +400,10 @@ class Jump(_object.McnpElement_):
         Initializes ``Jump``.
 
         Parameters:
-                n: Repetition number.
+            n: Repetition number.
 
         Returns:
-                ``Jump``
+            ``Jump``
 
         Raises
                 McnpError: SEMANTICS_JUMP_N.
@@ -420,13 +420,13 @@ class Jump(_object.McnpElement_):
         Generates ``Jump`` from MCNP.
 
         Parameters:
-                source: MCNP jump.
+            source: MCNP jump.
 
         Returns:
-                ``Jump``.
+            ``Jump``.
 
         Raises:
-                McnpError: SYNTAX_JUMP.
+            McnpError: SYNTAX_JUMP.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -444,7 +444,7 @@ class Jump(_object.McnpElement_):
         Genereates MCNP jumps. from ``Jump``.
 
         Returns:
-                MCNP jumps.
+            MCNP jumps.
         """
 
         return f'{self.n}j'
@@ -462,10 +462,10 @@ class Log(_object.McnpElement_):
         Initializes ``Log``.
 
         Parameters:
-                n: Repetition number.
+            n: Repetition number.
 
         Returns:
-                ``Log``
+            ``Log``
 
         Raises
                 McnpError: SEMANTICS_LOG_N.
@@ -482,13 +482,13 @@ class Log(_object.McnpElement_):
         Generates ``Log`` from MCNP.
 
         Parameters:
-                source: MCNP log.
+            source: MCNP log.
 
         Returns:
-                ``Log``.
+            ``Log``.
 
         Raises:
-                McnpError: SYNTAX_LOG.
+            McnpError: SYNTAX_LOG.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -506,7 +506,7 @@ class Log(_object.McnpElement_):
         Genereates MCNP logs. from ``Logs``.
 
         Returns:
-                MCNP logs.
+            MCNP logs.
         """
 
         return f'{self.n}j'
@@ -525,13 +525,13 @@ class DistributionNumber(_object.McnpElement_):
         Initializes ``DistributionNumber``.
 
         Parameters:
-                n: Distribution identifier.
+            n: Distribution identifier.
 
         Returns:
-                ``DistributionNumber``.
+            ``DistributionNumber``.
 
         Raises:
-                McnpError: SEMANTICS_DISTRIBUTIONNUMBER_N.
+            McnpError: SEMANTICS_DISTRIBUTIONNUMBER_N.
         """
 
         if n is None or not (1 <= n <= 999):
@@ -545,13 +545,13 @@ class DistributionNumber(_object.McnpElement_):
         Generates ``DistributionNumber`` from MCNP.
 
         Parameters:
-                source: MCNP for ``DistributionNumber``.
+            source: MCNP for ``DistributionNumber``.
 
         Returns:
-                ``DistributionNumber``.
+            ``DistributionNumber``.
 
         Raises:
-                McnpError: SYNTAX_DISTRIBUTIONNUMBER.
+            McnpError: SYNTAX_DISTRIBUTIONNUMBER.
         """
 
         source = _parser.Preprocessor.process_inp(source)
@@ -569,7 +569,7 @@ class DistributionNumber(_object.McnpElement_):
         ``to_mcnp`` translates from PyMCNP to MCNP.
 
         Returns:
-                MCNP for ``DistributionNumber``.
+            MCNP for ``DistributionNumber``.
         """
 
         return f'd{self.n}'
@@ -588,10 +588,10 @@ class EmbeddedDistributionNumber(_object.McnpElement_):
         Initializes ``EmbeddedDistributionNumber``.
 
         Parameters:
-                numbers: Distribution numbers.
+            numbers: Distribution numbers.
 
         Raises:
-                McnpError: SEMANTICS_EMBEDDEDDISTRIBUTIONNUMBER_NUMBERS.
+            McnpError: SEMANTICS_EMBEDDEDDISTRIBUTIONNUMBER_NUMBERS.
         """
 
         if numbers is None or None in numbers:
@@ -607,13 +607,13 @@ class EmbeddedDistributionNumber(_object.McnpElement_):
         Generates ``EmbeddedDistributionNumber`` objects from MCNP.
 
         Parameters:
-                source: MCNP for ``EmbeddedDistributionNumber``.
+            source: MCNP for ``EmbeddedDistributionNumber``.
 
         Returns:
-                ``EmbeddedDistributionNumber`` object.
+            ``EmbeddedDistributionNumber`` object.
 
         Raises:
-                McnpError: SYNTAX_EMBEDDEDDISTRIBUTIONNUMBER.
+            McnpError: SYNTAX_EMBEDDEDDISTRIBUTIONNUMBER.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -630,7 +630,7 @@ class EmbeddedDistributionNumber(_object.McnpElement_):
         Generates MCNP from ``EmbeddedDistributionNumber`` objects.
 
         Returns:
-                MCNP for ``EmbeddedDistributionNumber``.
+            MCNP for ``EmbeddedDistributionNumber``.
         """
 
         return '>'.join(number.to_mcnp() for number in self.numbers)
@@ -653,15 +653,15 @@ class Zaid(_object.McnpElement_):
         Initializes ``Zaid``.
 
         Parameters:
-                z: ZAID atomic number.
+            z: ZAID atomic number.
                 a: ZAID mass number.
                 abx: ZAID cross-section evaluation & class information.
 
         Returns:
-                ``Zaid``.
+            ``Zaid``.
 
         Raises:
-                McnpError: SEMANTICS_ZAID_Z.
+            McnpError: SEMANTICS_ZAID_Z.
                 McnpError: SEMANTICS_ZAID_A.
                 McnpError: SEMANTICS_ZAID_ABX.
         """
@@ -682,13 +682,13 @@ class Zaid(_object.McnpElement_):
         Generates ``Zaid`` objects from MCNP.
 
         Parameters:
-                source: MCNP for ``Zaid``.
+            source: MCNP for ``Zaid``.
 
         Returns:
-                ``Zaid`` object.
+            ``Zaid`` object.
 
         Raises:
-                McnpError: SYNTAX_ZAID.
+            McnpError: SYNTAX_ZAID.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -704,7 +704,7 @@ class Zaid(_object.McnpElement_):
         Generates MCNP from ``Zaid``.
 
         Returns:
-                MCNP Zaid.
+            MCNP Zaid.
         """
 
         if self.abx:
@@ -762,13 +762,13 @@ class Particle(_object.McnpElement_, enum.Enum):
         Generates ``Particle`` from MCNP.
 
         Parameters:
-                source: MCNP for ``Particle``.
+            source: MCNP for ``Particle``.
 
         Returns:
-                ``Particle``.
+            ``Particle``.
 
         Raises:
-                McnpError: SYNTAX_PARTICLE.
+            McnpError: SYNTAX_PARTICLE.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -783,7 +783,7 @@ class Particle(_object.McnpElement_, enum.Enum):
         Generates MCNP from ``Particle``.
 
         Returns:
-                MCNP particle.
+            MCNP particle.
         """
 
         return str(self.value)
@@ -802,13 +802,13 @@ class Designator(_object.McnpElement_):
         Initializes ``Designator``.
 
         Parameters:
-                particles: Tuple of particles.
+            particles: Tuple of particles.
 
         Returns:
-                ``Designator``.
+            ``Designator``.
 
         Raises:
-                McnpError: SEMANTICS_DESIGNATOR_PARTICLES.
+            McnpError: SEMANTICS_DESIGNATOR_PARTICLES.
         """
 
         if particles is None or None in particles:
@@ -822,20 +822,20 @@ class Designator(_object.McnpElement_):
         Generates ``Designator`` from MCNP.
 
         Parameters:
-                source: MCNP for ``Designator``.
+            source: MCNP for ``Designator``.
 
         Returns:
-                ``Designator``.
+            ``Designator``.
 
         Raises:
-                McnpError: SYNTAX_DESIGNATOR.
+            McnpError: SYNTAX_DESIGNATOR.
         """
 
         source, comments = _parser.preprocess_inp(source)
 
         try:
             return Designator(tuple(Particle.from_mcnp(token) for token in source.split(',')))
-        except Exception:
+        except ValueError:
             raise errors.McnpError(errors.McnpCode.SYNTAX_DESIGNATOR, source)
 
     def to_mcnp(self) -> str:
@@ -843,7 +843,7 @@ class Designator(_object.McnpElement_):
         Generates MCNP from ``Designator``.
 
         Returns:
-                MCNP designator.
+            MCNP designator.
         """
 
         return ','.join(particle.to_mcnp() for particle in self.particles)

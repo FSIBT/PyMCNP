@@ -30,13 +30,13 @@ class DnebEntry_Bias(_entry.DnebEntry_):
             ``DnebEntryBias``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if weight is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, weight)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, weight)
         if energy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, energy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, energy)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple([weight, energy])
         self.weight: typing.Final[types.Real] = weight
@@ -54,14 +54,14 @@ class DnebEntry_Bias(_entry.DnebEntry_):
             ``DnebEntry_Bias``.
 
         Raises:
-            McnpError: SYNTAX_DNEB_ENTRY.
+            InpError: SYNTAX_DNEB_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DnebEntry_Bias._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DNEB_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         weight = types.Real.from_mcnp(tokens[1])
         energy = types.Real.from_mcnp(tokens[2])

@@ -28,11 +28,11 @@ class SswOption_Cel(_option.SswOption_, keyword='cel'):
             ``SswOption_Cel``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if cfs is None or not (filter(lambda entry: not (1 <= entry <= 99_999_999), cfs)):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, cfs)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cfs)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([cfs])
         self.cfs: typing.Final[tuple[types.Integer]] = cfs
@@ -49,14 +49,14 @@ class SswOption_Cel(_option.SswOption_, keyword='cel'):
             ``SswOption_Cel``.
 
         Raises:
-            McnpError: SYNTAX_SSW_OPTION.
+            InpError: SYNTAX_SSW_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SswOption_Cel._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SSW_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         cfs = types._Tuple(
             [types.Integer.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

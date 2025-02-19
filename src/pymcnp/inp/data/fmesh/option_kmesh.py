@@ -28,11 +28,11 @@ class FmeshOption_Kmesh(_option.FmeshOption_, keyword='kmesh'):
             ``FmeshOption_Kmesh``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if locations is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, locations)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, locations)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([locations])
         self.locations: typing.Final[types.Real] = locations
@@ -49,14 +49,14 @@ class FmeshOption_Kmesh(_option.FmeshOption_, keyword='kmesh'):
             ``FmeshOption_Kmesh``.
 
         Raises:
-            McnpError: SYNTAX_FMESH_OPTION.
+            InpError: SYNTAX_FMESH_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = FmeshOption_Kmesh._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_FMESH_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         locations = types.Real.from_mcnp(tokens[1])
 

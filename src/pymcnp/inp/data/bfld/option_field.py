@@ -28,11 +28,11 @@ class BfldOption_Field(_option.BfldOption_, keyword='field'):
             ``BfldOption_Field``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if strength_gradient is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, strength_gradient)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, strength_gradient)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([strength_gradient])
         self.strength_gradient: typing.Final[types.Real] = strength_gradient
@@ -49,14 +49,14 @@ class BfldOption_Field(_option.BfldOption_, keyword='field'):
             ``BfldOption_Field``.
 
         Raises:
-            McnpError: SYNTAX_BFLD_OPTION.
+            InpError: SYNTAX_BFLD_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = BfldOption_Field._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_BFLD_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         strength_gradient = types.Real.from_mcnp(tokens[1])
 

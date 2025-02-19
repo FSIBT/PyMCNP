@@ -49,29 +49,23 @@ class DataOption_Mgopt(_option.DataOption_, keyword='mgopt'):
             ``DataOption_Mgopt``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if mcal is None or mcal not in {'f', 'a'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, mcal)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, mcal)
         if igm is None or not (igm >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, igm)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, igm)
         if iplt is None or not (iplt == 0 or iplt == 1 or iplt == 2):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, iplt)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, iplt)
         if iab is None or not (iab == 0 or iab == 1 or iab == 2):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, iab)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, iab)
         if icw is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, icw)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, icw)
         if fnw is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, fnw)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fnw)
         if rim is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, rim)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, rim)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([mcal, igm, iplt, iab, icw, fnw, rim])
         self.mcal: typing.Final[types.String] = mcal
@@ -94,14 +88,14 @@ class DataOption_Mgopt(_option.DataOption_, keyword='mgopt'):
             ``DataOption_Mgopt``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Mgopt._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         mcal = types.String.from_mcnp(tokens[1])
         igm = types.Integer.from_mcnp(tokens[2])

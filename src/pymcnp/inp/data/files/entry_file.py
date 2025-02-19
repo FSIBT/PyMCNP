@@ -43,19 +43,19 @@ class FilesEntry_File(_entry.FilesEntry_):
             ``FilesEntryFile``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if unit is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, unit)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, unit)
         if filename is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, filename)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, filename)
         if access is None or access not in {'sequential', 'direct'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, access)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, access)
         if form is None or format not in {'formatted', 'unformatted'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, form)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, form)
         if length is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, length)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, length)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple(
             [unit, filename, access, form, length]
@@ -78,14 +78,14 @@ class FilesEntry_File(_entry.FilesEntry_):
             ``FilesEntry_File``.
 
         Raises:
-            McnpError: SYNTAX_FILES_ENTRY.
+            InpError: SYNTAX_FILES_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = FilesEntry_File._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_FILES_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         unit = types.Integer.from_mcnp(tokens[1])
         filename = types.String.from_mcnp(tokens[2])

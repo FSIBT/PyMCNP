@@ -30,13 +30,13 @@ class DdEntry_Diagnostic(_entry.DdEntry_):
             ``DdEntryDiagnostic``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if playing_setting is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, playing_setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, playing_setting)
         if printing_setting is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, printing_setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, printing_setting)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple(
             [playing_setting, printing_setting]
@@ -56,14 +56,14 @@ class DdEntry_Diagnostic(_entry.DdEntry_):
             ``DdEntry_Diagnostic``.
 
         Raises:
-            McnpError: SYNTAX_DD_ENTRY.
+            InpError: SYNTAX_DD_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DdEntry_Diagnostic._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DD_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         playing_setting = types.Real.from_mcnp(tokens[1])
         printing_setting = types.Real.from_mcnp(tokens[2])

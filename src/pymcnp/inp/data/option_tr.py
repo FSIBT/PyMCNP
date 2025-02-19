@@ -72,50 +72,37 @@ class DataOption_Tr(_option.DataOption_, keyword='tr'):
             ``DataOption_Tr``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_ENTRY_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_ENTRY_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_ENTRY_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_ENTRY_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_ENTRY_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_ENTRY_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_ENTRY_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_ENTRY_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_ENTRY_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_ENTRY_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_ENTRY_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_ENTRY_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_SUFFIX.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x)
         if y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y)
         if z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z)
         if xx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, xx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, xx)
         if xy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, xy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, xy)
         if xz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, xz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, xz)
         if yx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, yx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, yx)
         if yy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, yy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, yy)
         if yz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, yz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, yz)
         if zx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, zx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zx)
         if zy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, zy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zy)
         if zz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, zz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zz)
         if system is None or not (system == -1 or system == 1):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, system)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, system)
         if suffix is None or not (1 <= suffix <= 999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_SUFFIX, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [x, y, z, xx, xy, xz, yx, yy, yz, zx, zy, zz, system]
@@ -147,14 +134,14 @@ class DataOption_Tr(_option.DataOption_, keyword='tr'):
             ``DataOption_Tr``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Tr._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         suffix = types.Integer.from_mcnp(tokens[1])
         x = types.Real.from_mcnp(tokens[2])

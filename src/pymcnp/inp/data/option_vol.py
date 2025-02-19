@@ -30,14 +30,13 @@ class DataOption_Vol(_option.DataOption_, keyword='vol'):
             ``DataOption_Vol``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if no is not None and not (no == 'no'):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, no)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, no)
         if volumes is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, volumes)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, volumes)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([volumes, no])
         self.no: typing.Final[types.String] = no
@@ -55,14 +54,14 @@ class DataOption_Vol(_option.DataOption_, keyword='vol'):
             ``DataOption_Vol``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Vol._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         no = types.String.from_mcnp(tokens[1]) if tokens[1] else None
         volumes = types._Tuple(

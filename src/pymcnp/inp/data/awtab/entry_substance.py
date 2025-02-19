@@ -30,13 +30,13 @@ class AwtabEntry_Substance(_entry.AwtabEntry_):
             ``AwtabEntrySubstance``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if zaid is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, zaid)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, zaid)
         if weight_ratio is None or not (weight_ratio > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, weight_ratio)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, weight_ratio)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple([zaid, weight_ratio])
         self.zaid: typing.Final[types.Zaid] = zaid
@@ -54,14 +54,14 @@ class AwtabEntry_Substance(_entry.AwtabEntry_):
             ``AwtabEntry_Substance``.
 
         Raises:
-            McnpError: SYNTAX_AWTAB_ENTRY.
+            InpError: SYNTAX_AWTAB_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = AwtabEntry_Substance._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_AWTAB_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         zaid = types.Zaid.from_mcnp(tokens[1])
         weight_ratio = types.Real.from_mcnp(tokens[2])

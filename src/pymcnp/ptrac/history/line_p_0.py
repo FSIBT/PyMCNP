@@ -3,6 +3,7 @@ import typing
 
 from . import _line
 from ...utils import types
+from ...utils import errors
 from ...utils import _parser
 
 
@@ -33,17 +34,17 @@ class HistoryLine_P_0(_line.HistoryLine_):
             z: Z coordinate of the particle position.
 
         Raises:
-            McnpError: INVALID_HEADER_CODE.
+            InpError: SEMANTICS_LINE_VALUE.
         """
 
         if x is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, x)
 
         if y is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, y)
 
         if z is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, z)
 
         self.x: typing.Final[types.Integer] = x
         self.y: typing.Final[types.Integer] = y
@@ -60,14 +61,14 @@ class HistoryLine_P_0(_line.HistoryLine_):
             ``HistoryLine_P_0``.
 
         Raises:
-            McnpError: TOOFEW_HISTORY.
+            PtracError: SYNTAX_HISTORY_LINE.
         """
 
         source = _parser.preprocess_ptrac(source)
         tokens = HistoryLine_P_0._REGEX.match(source)
 
         if not tokens:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
 
         x = types.Integer.from_mcnp(tokens[1])
         y = types.Integer.from_mcnp(tokens[2])

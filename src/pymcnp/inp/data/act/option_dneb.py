@@ -29,11 +29,11 @@ class ActOption_Dneb(_option.ActOption_, keyword='dneb'):
             ``ActOption_Dneb``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if biases is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, biases)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, biases)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([biases])
         self.biases: typing.Final[tuple[dneb.DnebEntry_Bias]] = biases
@@ -50,14 +50,14 @@ class ActOption_Dneb(_option.ActOption_, keyword='dneb'):
             ``ActOption_Dneb``.
 
         Raises:
-            McnpError: SYNTAX_ACT_OPTION.
+            InpError: SYNTAX_ACT_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = ActOption_Dneb._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_ACT_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         biases = types._Tuple(
             [

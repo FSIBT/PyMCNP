@@ -32,17 +32,15 @@ class SdefOption_Bem(_option.SdefOption_, keyword='bem'):
             ``SdefOption_Bem``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if exn is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, exn)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, exn)
         if eyn is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, eyn)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, eyn)
         if bml is None or not (bml >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bml)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bml)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([exn, eyn, bml])
         self.exn: typing.Final[types.Real] = exn
@@ -61,14 +59,14 @@ class SdefOption_Bem(_option.SdefOption_, keyword='bem'):
             ``SdefOption_Bem``.
 
         Raises:
-            McnpError: SYNTAX_SDEF_OPTION.
+            InpError: SYNTAX_SDEF_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SdefOption_Bem._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SDEF_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         exn = types.Real.from_mcnp(tokens[1])
         eyn = types.Real.from_mcnp(tokens[2])

@@ -30,8 +30,7 @@ class DataOption_Histp(_option.DataOption_, keyword='histp'):
             ``DataOption_Histp``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         self.value: typing.Final[tuple[any]] = types._Tuple([lhist, cells])
@@ -50,14 +49,14 @@ class DataOption_Histp(_option.DataOption_, keyword='histp'):
             ``DataOption_Histp``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Histp._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         lhist = types.Integer.from_mcnp(tokens[1]) if tokens[1] else None
         cells = (

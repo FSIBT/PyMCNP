@@ -330,308 +330,209 @@ class DataOption_Dbcn(_option.DataOption_, keyword='dbcn'):
             ``DataOption_Dbcn``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if x1 is None or not (x1 >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x1)
         if x2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x2)
         if x3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x3)
         if x4 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x4)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x4)
         if x5 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x5)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x5)
         if x6 is None or not (50 <= x6 <= 200):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x6)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x6)
         if x7 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x7)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x7)
         if x8 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x8)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x8)
         if x9 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x9)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x9)
         if x10 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x10)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x10)
         if x11 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x11)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x11)
         if x12 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x12)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x12)
         if x13 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x13)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x13)
         if x14 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x14)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x14)
         if x15 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x15)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x15)
         if x16 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x16)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x16)
         if x17 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x17)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x17)
         if x18 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x18)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x18)
         if x19 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x19)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x19)
         if x20 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x20)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x20)
         if x21 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x21)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x21)
         if x22 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x22)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x22)
         if x23 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x23)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x23)
         if x24 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x24)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x24)
         if x25 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x25)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x25)
         if x26 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x26)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x26)
         if x27 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x27)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x27)
         if x28 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x28)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x28)
         if x29 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x29)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x29)
         if x30 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x30)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x30)
         if x31 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x31)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x31)
         if x32 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x32)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x32)
         if x33 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x33)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x33)
         if x34 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x34)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x34)
         if x35 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x35)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x35)
         if x36 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x36)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x36)
         if x37 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x37)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x37)
         if x38 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x38)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x38)
         if x39 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x39)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x39)
         if x40 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x40)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x40)
         if x41 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x41)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x41)
         if x42 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x42)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x42)
         if x43 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x43)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x43)
         if x44 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x44)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x44)
         if x45 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x45)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x45)
         if x46 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x46)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x46)
         if x47 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x47)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x47)
         if x48 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x48)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x48)
         if x49 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x49)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x49)
         if x50 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x50)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x50)
         if x51 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x51)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x51)
         if x52 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x52)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x52)
         if x53 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x53)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x53)
         if x54 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x54)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x54)
         if x55 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x55)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x55)
         if x56 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x56)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x56)
         if x57 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x57)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x57)
         if x58 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x58)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x58)
         if x59 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x59)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x59)
         if x60 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x60)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x60)
         if x61 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x61)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x61)
         if x62 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x62)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x62)
         if x63 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x63)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x63)
         if x64 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x64)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x64)
         if x65 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x65)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x65)
         if x66 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x66)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x66)
         if x67 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x67)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x67)
         if x68 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x68)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x68)
         if x69 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x69)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x69)
         if x70 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x70)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x70)
         if x71 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x71)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x71)
         if x72 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x72)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x72)
         if x73 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x73)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x73)
         if x74 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x74)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x74)
         if x75 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x75)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x75)
         if x76 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x76)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x76)
         if x77 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x77)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x77)
         if x78 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x78)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x78)
         if x79 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x79)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x79)
         if x80 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x80)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x80)
         if x81 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x81)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x81)
         if x82 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x82)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x82)
         if x83 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x83)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x83)
         if x84 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x84)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x84)
         if x85 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x85)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x85)
         if x86 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x86)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x86)
         if x87 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x87)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x87)
         if x88 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x88)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x88)
         if x89 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x89)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x89)
         if x90 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x90)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x90)
         if x91 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x91)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x91)
         if x92 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x92)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x92)
         if x93 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x93)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x93)
         if x94 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x94)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x94)
         if x95 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x95)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x95)
         if x96 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x96)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x96)
         if x97 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x97)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x97)
         if x98 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x98)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x98)
         if x99 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x99)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x99)
         if x100 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, x100)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x100)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [
@@ -850,14 +751,14 @@ class DataOption_Dbcn(_option.DataOption_, keyword='dbcn'):
             ``DataOption_Dbcn``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Dbcn._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         x1 = types.Integer.from_mcnp(tokens[1])
         x2 = types.Integer.from_mcnp(tokens[2])

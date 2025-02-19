@@ -34,17 +34,15 @@ class DataOption_Mx(_option.DataOption_, keyword='mx'):
             ``DataOption_Mx``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_SUFFIX.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if zaids is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, zaids)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zaids)
         if designator is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
         if suffix is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_SUFFIX, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([zaids])
         self.zaids: typing.Final[tuple[types.Zaid]] = zaids
@@ -63,14 +61,14 @@ class DataOption_Mx(_option.DataOption_, keyword='mx'):
             ``DataOption_Mx``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Mx._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         suffix = types.Integer.from_mcnp(tokens[1])
         designator = types.Designator.from_mcnp(tokens[2])

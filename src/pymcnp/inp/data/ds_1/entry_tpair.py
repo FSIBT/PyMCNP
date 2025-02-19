@@ -30,13 +30,13 @@ class Ds1Entry_Tpair(_entry.Ds1Entry_):
             ``Ds1EntryTpair``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if independent is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, independent)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, independent)
         if dependent is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, dependent)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, dependent)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple([independent, dependent])
         self.independent: typing.Final[types.Real] = independent
@@ -54,14 +54,14 @@ class Ds1Entry_Tpair(_entry.Ds1Entry_):
             ``Ds1Entry_Tpair``.
 
         Raises:
-            McnpError: SYNTAX_DS_1_ENTRY.
+            InpError: SYNTAX_DS_1_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Ds1Entry_Tpair._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DS_1_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         independent = types.Real.from_mcnp(tokens[1])
         dependent = types.Real.from_mcnp(tokens[2])

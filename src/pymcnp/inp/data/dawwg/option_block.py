@@ -33,12 +33,11 @@ class DawwgOption_Block(_option.DawwgOption_, keyword='block'):
             ``DawwgOption_Block``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if setting is None or setting.value not in {1, 3, 5, 6}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([setting, options])
         self.setting: typing.Final[types.Integer] = setting
@@ -58,14 +57,14 @@ class DawwgOption_Block(_option.DawwgOption_, keyword='block'):
             ``DawwgOption_Block``.
 
         Raises:
-            McnpError: SYNTAX_DAWWG_OPTION.
+            InpError: SYNTAX_DAWWG_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DawwgOption_Block._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DAWWG_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         setting = types.Integer.from_mcnp(tokens[1])
         options = (

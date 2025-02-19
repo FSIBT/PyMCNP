@@ -28,11 +28,11 @@ class BlockOption_Ngroup(_option.BlockOption_, keyword='ngroup'):
             ``BlockOption_Ngroup``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, value)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, value)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([value])
         self.value: typing.Final[types.Integer] = value
@@ -49,14 +49,14 @@ class BlockOption_Ngroup(_option.BlockOption_, keyword='ngroup'):
             ``BlockOption_Ngroup``.
 
         Raises:
-            McnpError: SYNTAX_BLOCK_OPTION.
+            InpError: SYNTAX_BLOCK_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = BlockOption_Ngroup._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_BLOCK_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         value = types.Integer.from_mcnp(tokens[1])
 

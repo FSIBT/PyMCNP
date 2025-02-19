@@ -52,34 +52,27 @@ class DataOption_Lcc(_option.DataOption_, keyword='lcc'):
             ``DataOption_Lcc``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if stincl is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, stincl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, stincl)
         if v0incl is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, v0incl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v0incl)
         if xfoisaincl is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, xfoisaincl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, xfoisaincl)
         if npaulincl is None or not (npaulincl == 0 or npaulincl == -1 or npaulincl == 1):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, npaulincl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, npaulincl)
         if nosurfincl is None or not (
             xfoisaincl == -2 or xfoisaincl == -1 or xfoisaincl == 0 or xfoisaincl == 1
         ):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, nosurfincl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nosurfincl)
         if ecutincl is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ecutincl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ecutincl)
         if ebankincl is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ebankincl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ebankincl)
         if ebankabia is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ebankabia)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ebankabia)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [stincl, v0incl, xfoisaincl, npaulincl, nosurfincl, ecutincl, ebankincl, ebankabia]
@@ -105,14 +98,14 @@ class DataOption_Lcc(_option.DataOption_, keyword='lcc'):
             ``DataOption_Lcc``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Lcc._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         stincl = types.Real.from_mcnp(tokens[1])
         v0incl = types.Real.from_mcnp(tokens[2])

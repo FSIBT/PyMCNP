@@ -30,12 +30,11 @@ class StopOption_Nps(_option.StopOption_, keyword='nps'):
             ``StopOption_Nps``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if npp is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, npp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, npp)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([npp, npsmg])
         self.npp: typing.Final[types.Integer] = npp
@@ -53,14 +52,14 @@ class StopOption_Nps(_option.StopOption_, keyword='nps'):
             ``StopOption_Nps``.
 
         Raises:
-            McnpError: SYNTAX_STOP_OPTION.
+            InpError: SYNTAX_STOP_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = StopOption_Nps._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_STOP_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         npp = types.Integer.from_mcnp(tokens[1])
         npsmg = types.Integer.from_mcnp(tokens[2]) if tokens[2] else None

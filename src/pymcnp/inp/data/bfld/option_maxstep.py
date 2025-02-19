@@ -28,11 +28,11 @@ class BfldOption_Maxstep(_option.BfldOption_, keyword='maxstep'):
             ``BfldOption_Maxstep``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if size is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, size)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, size)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([size])
         self.size: typing.Final[types.Real] = size
@@ -49,14 +49,14 @@ class BfldOption_Maxstep(_option.BfldOption_, keyword='maxstep'):
             ``BfldOption_Maxstep``.
 
         Raises:
-            McnpError: SYNTAX_BFLD_OPTION.
+            InpError: SYNTAX_BFLD_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = BfldOption_Maxstep._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_BFLD_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         size = types.Real.from_mcnp(tokens[1])
 

@@ -28,11 +28,11 @@ class KpertOption_Rho(_option.KpertOption_, keyword='rho'):
             ``KpertOption_Rho``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if densities is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, densities)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, densities)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([densities])
         self.densities: typing.Final[tuple[types.Zaid]] = densities
@@ -49,14 +49,14 @@ class KpertOption_Rho(_option.KpertOption_, keyword='rho'):
             ``KpertOption_Rho``.
 
         Raises:
-            McnpError: SYNTAX_KPERT_OPTION.
+            InpError: SYNTAX_KPERT_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = KpertOption_Rho._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_KPERT_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         densities = types._Tuple(
             [types.Zaid.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

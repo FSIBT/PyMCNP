@@ -28,11 +28,11 @@ class MeshOption_Geom(_option.MeshOption_, keyword='geom'):
             ``MeshOption_Geom``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if geometry is None or geometry not in {'xyz', 'rzt', 'rpt'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, geometry)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, geometry)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([geometry])
         self.geometry: typing.Final[types.String] = geometry
@@ -49,14 +49,14 @@ class MeshOption_Geom(_option.MeshOption_, keyword='geom'):
             ``MeshOption_Geom``.
 
         Raises:
-            McnpError: SYNTAX_MESH_OPTION.
+            InpError: SYNTAX_MESH_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = MeshOption_Geom._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_MESH_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         geometry = types.String.from_mcnp(tokens[1])
 

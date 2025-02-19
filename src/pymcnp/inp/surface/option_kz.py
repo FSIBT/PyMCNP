@@ -33,17 +33,15 @@ class SurfaceOption_Kz(_option.SurfaceOption_, keyword='kz'):
             ``SurfaceOption_Kz``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, z)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, z)
         if t_squared is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, t_squared)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, t_squared)
         if plusminus_1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, plusminus_1)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, plusminus_1)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([z, t_squared, plusminus_1])
         self.z: typing.Final[types.Real] = z
@@ -62,14 +60,14 @@ class SurfaceOption_Kz(_option.SurfaceOption_, keyword='kz'):
             ``SurfaceOption_Kz``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_Kz._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         z = types.Real.from_mcnp(tokens[1])
         t_squared = types.Real.from_mcnp(tokens[2])

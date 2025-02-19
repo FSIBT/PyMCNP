@@ -28,11 +28,11 @@ class RandOption_Seed(_option.RandOption_, keyword='seed'):
             ``RandOption_Seed``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if seed is None or not (seed.value % 2 == 1):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, seed)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, seed)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([seed])
         self.seed: typing.Final[types.Integer] = seed
@@ -49,14 +49,14 @@ class RandOption_Seed(_option.RandOption_, keyword='seed'):
             ``RandOption_Seed``.
 
         Raises:
-            McnpError: SYNTAX_RAND_OPTION.
+            InpError: SYNTAX_RAND_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = RandOption_Seed._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_RAND_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         seed = types.Integer.from_mcnp(tokens[1])
 

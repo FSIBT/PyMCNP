@@ -28,11 +28,11 @@ class DataOption_Mphys(_option.DataOption_, keyword='mphys'):
             ``DataOption_Mphys``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if setting is not None and setting not in {'on', 'off'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([setting])
         self.setting: typing.Final[types.String] = setting
@@ -49,14 +49,14 @@ class DataOption_Mphys(_option.DataOption_, keyword='mphys'):
             ``DataOption_Mphys``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Mphys._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         setting = types.String.from_mcnp(tokens[1]) if tokens[1] else None
 

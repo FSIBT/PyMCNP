@@ -28,11 +28,11 @@ class BlockOption_Libname(_option.BlockOption_, keyword='libname'):
             ``BlockOption_Libname``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if setting is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([setting])
         self.setting: typing.Final[types.String] = setting
@@ -49,14 +49,14 @@ class BlockOption_Libname(_option.BlockOption_, keyword='libname'):
             ``BlockOption_Libname``.
 
         Raises:
-            McnpError: SYNTAX_BLOCK_OPTION.
+            InpError: SYNTAX_BLOCK_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = BlockOption_Libname._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_BLOCK_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         setting = types.String.from_mcnp(tokens[1])
 

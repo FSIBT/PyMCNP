@@ -28,11 +28,11 @@ class MeshOption_Imesh(_option.MeshOption_, keyword='imesh'):
             ``MeshOption_Imesh``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if vector is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, vector)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vector)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([vector])
         self.vector: typing.Final[tuple[types.Real]] = vector
@@ -49,14 +49,14 @@ class MeshOption_Imesh(_option.MeshOption_, keyword='imesh'):
             ``MeshOption_Imesh``.
 
         Raises:
-            McnpError: SYNTAX_MESH_OPTION.
+            InpError: SYNTAX_MESH_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = MeshOption_Imesh._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_MESH_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         vector = types._Tuple(
             [types.Real.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

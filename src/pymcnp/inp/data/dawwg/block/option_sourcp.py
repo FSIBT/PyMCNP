@@ -28,11 +28,11 @@ class BlockOption_Sourcp(_option.BlockOption_, keyword='sourcp'):
             ``BlockOption_Sourcp``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if setting is None or setting not in {0, 1, 2, 3}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([setting])
         self.setting: typing.Final[types.Integer] = setting
@@ -49,14 +49,14 @@ class BlockOption_Sourcp(_option.BlockOption_, keyword='sourcp'):
             ``BlockOption_Sourcp``.
 
         Raises:
-            McnpError: SYNTAX_BLOCK_OPTION.
+            InpError: SYNTAX_BLOCK_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = BlockOption_Sourcp._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_BLOCK_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         setting = types.Integer.from_mcnp(tokens[1])
 

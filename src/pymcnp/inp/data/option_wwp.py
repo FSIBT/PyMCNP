@@ -63,41 +63,31 @@ class DataOption_Wwp(_option.DataOption_, keyword='wwp'):
             ``DataOption_Wwp``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if wupn is None or not (wupn >= 2):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, wupn)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, wupn)
         if wsurvn is None or not (1 < wsurvn):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, wsurvn)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, wsurvn)
         if mxspln is None or not (1 < mxspln):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, mxspln)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, mxspln)
         if mwhere is None or mwhere.value not in {-1, 0, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, mwhere)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, mwhere)
         if switchn is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, switchn)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, switchn)
         if mtime is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, mtime)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, mtime)
         if wnrom is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, wnrom)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, wnrom)
         if etsplt is None or etsplt.value not in {0, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, etsplt)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, etsplt)
         if wu is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, wu)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, wu)
         if nmfp is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, nmfp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nmfp)
         if designator is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [wupn, wsurvn, mxspln, mwhere, switchn, mtime, wnrom, etsplt, wu, nmfp]
@@ -126,14 +116,14 @@ class DataOption_Wwp(_option.DataOption_, keyword='wwp'):
             ``DataOption_Wwp``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Wwp._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         designator = types.Designator.from_mcnp(tokens[1])
         wupn = types.Real.from_mcnp(tokens[2])

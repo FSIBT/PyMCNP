@@ -28,7 +28,7 @@ class EmbeeOption_Mtype(_option.EmbeeOption_, keyword='mtype'):
             ``EmbeeOption_Mtype``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if kind is None or type not in {
@@ -39,7 +39,7 @@ class EmbeeOption_Mtype(_option.EmbeeOption_, keyword='mtype'):
             'source',
             'track',
         }:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, kind)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kind)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([kind])
         self.kind: typing.Final[types.String] = kind
@@ -56,14 +56,14 @@ class EmbeeOption_Mtype(_option.EmbeeOption_, keyword='mtype'):
             ``EmbeeOption_Mtype``.
 
         Raises:
-            McnpError: SYNTAX_EMBEE_OPTION.
+            InpError: SYNTAX_EMBEE_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = EmbeeOption_Mtype._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_EMBEE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         kind = types.String.from_mcnp(tokens[1])
 

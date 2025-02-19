@@ -184,7 +184,7 @@ def main() -> None:
     # Reading INP files.
     try:
         inps = [files.inp.Inp.from_mcnp_file(inp) for inp in inps]
-    except files.utils.errors.McnpError as err:
+    except files.utils.errors.InpError as err:
         _io.error(err.__str__())
     except FileNotFoundError:
         _io.error(f'[red][bold]IoError:[/][/] {inps} File not found.')

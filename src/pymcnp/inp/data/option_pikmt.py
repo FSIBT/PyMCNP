@@ -29,11 +29,11 @@ class DataOption_Pikmt(_option.DataOption_, keyword='pikmt'):
             ``DataOption_Pikmt``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if biases is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, biases)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, biases)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([biases])
         self.biases: typing.Final[tuple[pikmt.PikmtEntry_Bias]] = biases
@@ -50,14 +50,14 @@ class DataOption_Pikmt(_option.DataOption_, keyword='pikmt'):
             ``DataOption_Pikmt``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Pikmt._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         biases = types._Tuple(
             [

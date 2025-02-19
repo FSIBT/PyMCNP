@@ -35,15 +35,15 @@ class PikmtEntry_Bias(_entry.PikmtEntry_):
             ``PikmtEntryBias``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if zaid is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, zaid)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, zaid)
         if ipiki is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ipiki)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, ipiki)
         if reactions is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, reactions)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, reactions)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple([zaid, ipiki, reactions])
         self.zaid: typing.Final[types.Zaid] = zaid
@@ -62,14 +62,14 @@ class PikmtEntry_Bias(_entry.PikmtEntry_):
             ``PikmtEntry_Bias``.
 
         Raises:
-            McnpError: SYNTAX_PIKMT_ENTRY.
+            InpError: SYNTAX_PIKMT_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = PikmtEntry_Bias._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_PIKMT_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         zaid = types.Zaid.from_mcnp(tokens[1])
         ipiki = types.Integer.from_mcnp(tokens[2])

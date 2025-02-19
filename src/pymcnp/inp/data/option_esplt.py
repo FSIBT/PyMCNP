@@ -153,131 +153,91 @@ class DataOption_Esplt(_option.DataOption_, keyword='esplt'):
             ``DataOption_Esplt``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if ratio_1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_1)
         if energy_1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_1)
         if ratio_2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_2)
         if energy_2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_2)
         if ratio_3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_3)
         if energy_3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_3)
         if ratio_4 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_4)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_4)
         if energy_4 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_4)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_4)
         if ratio_5 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_5)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_5)
         if energy_5 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_5)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_5)
         if ratio_6 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_6)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_6)
         if energy_6 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_6)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_6)
         if ratio_7 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_7)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_7)
         if energy_7 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_7)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_7)
         if ratio_8 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_8)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_8)
         if energy_8 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_8)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_8)
         if ratio_9 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_9)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_9)
         if energy_9 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_9)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_9)
         if ratio_10 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_10)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_10)
         if energy_10 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_10)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_10)
         if ratio_11 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_11)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_11)
         if energy_11 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_11)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_11)
         if ratio_12 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_12)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_12)
         if energy_12 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_12)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_12)
         if ratio_13 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_13)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_13)
         if energy_13 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_13)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_13)
         if ratio_14 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_14)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_14)
         if energy_14 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_14)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_14)
         if ratio_15 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_15)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_15)
         if energy_15 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_15)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_15)
         if ratio_16 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_16)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_16)
         if energy_16 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_16)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_16)
         if ratio_17 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_17)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_17)
         if energy_17 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_17)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_17)
         if ratio_18 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_18)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_18)
         if energy_18 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_18)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_18)
         if ratio_19 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_19)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_19)
         if energy_19 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_19)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_19)
         if ratio_20 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, ratio_20)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ratio_20)
         if energy_20 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, energy_20)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_20)
         if designator is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [
@@ -377,14 +337,14 @@ class DataOption_Esplt(_option.DataOption_, keyword='esplt'):
             ``DataOption_Esplt``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Esplt._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         designator = types.Designator.from_mcnp(tokens[1])
         ratio_1 = types.Real.from_mcnp(tokens[2])

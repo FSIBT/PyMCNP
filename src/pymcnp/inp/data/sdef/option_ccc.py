@@ -28,11 +28,11 @@ class SdefOption_Ccc(_option.SdefOption_, keyword='ccc'):
             ``SdefOption_Ccc``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if number is None or not (0 <= number <= 99_999_999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, number)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([number])
         self.number: typing.Final[types.Integer] = number
@@ -49,14 +49,14 @@ class SdefOption_Ccc(_option.SdefOption_, keyword='ccc'):
             ``SdefOption_Ccc``.
 
         Raises:
-            McnpError: SYNTAX_SDEF_OPTION.
+            InpError: SYNTAX_SDEF_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SdefOption_Ccc._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SDEF_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         number = types.Integer.from_mcnp(tokens[1])
 

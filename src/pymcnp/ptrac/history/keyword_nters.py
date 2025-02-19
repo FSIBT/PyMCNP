@@ -38,7 +38,7 @@ class HistoryKeyword_Nters(_keyword.HistoryKeyword_):
             ``HistoryKeyword_Nters``.
 
         Raises:
-            McnpError: INVALID_EVENT_NTER.
+            PtracError: SYNTAX_HISTORY_KEYWORD.
         """
 
         source = _parser.Preprocessor.preprocess_ptrac(source)
@@ -46,4 +46,4 @@ class HistoryKeyword_Nters(_keyword.HistoryKeyword_):
         try:
             return HistoryKeyword_Nters(int(source))
         except ValueError:
-            raise errors.McnpError(errors.McnpCode.INVALID_EVENT_NTER)
+            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_KEYWORD, source)

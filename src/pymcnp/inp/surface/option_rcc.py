@@ -50,29 +50,23 @@ class SurfaceOption_Rcc(_option.SurfaceOption_, keyword='rcc'):
             ``SurfaceOption_Rcc``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if vx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, vx)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, vx)
         if vy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, vy)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, vy)
         if vz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, vz)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, vz)
         if hx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, hx)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, hx)
         if hy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, hy)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, hy)
         if hz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, hz)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, hz)
         if r is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, r)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, r)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([vx, vy, vz, hx, hy, hz, r])
         self.vx: typing.Final[types.Real] = vx
@@ -95,14 +89,14 @@ class SurfaceOption_Rcc(_option.SurfaceOption_, keyword='rcc'):
             ``SurfaceOption_Rcc``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_Rcc._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         vx = types.Real.from_mcnp(tokens[1])
         vy = types.Real.from_mcnp(tokens[2])

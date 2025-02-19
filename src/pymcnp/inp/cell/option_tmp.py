@@ -30,14 +30,13 @@ class CellOption_Tmp(_option.CellOption_, keyword='tmp'):
             ``CellOption_Tmp``.
 
         Raises:
-            McnpError: SEMANTICS_CELL_OPTION_VALUE.
-            McnpError: SEMANTICS_CELL_OPTION_SUFFIX.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if temperature is None or not (temperature > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, temperature)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, temperature)
         if suffix is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_SUFFIX, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([temperature])
         self.temperature: typing.Final[types.Real] = temperature
@@ -55,14 +54,14 @@ class CellOption_Tmp(_option.CellOption_, keyword='tmp'):
             ``CellOption_Tmp``.
 
         Raises:
-            McnpError: SYNTAX_CELL_OPTION.
+            InpError: SYNTAX_CELL_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = CellOption_Tmp._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         suffix = types.Integer.from_mcnp(tokens[1])
         temperature = types.Real.from_mcnp(tokens[2])
