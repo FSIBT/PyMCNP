@@ -28,11 +28,11 @@ class KsenOption_Legendre(_option.KsenOption_, keyword='legendre'):
             ``KsenOption_Legendre``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if number is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, number)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([number])
         self.number: typing.Final[types.Integer] = number
@@ -49,14 +49,14 @@ class KsenOption_Legendre(_option.KsenOption_, keyword='legendre'):
             ``KsenOption_Legendre``.
 
         Raises:
-            McnpError: SYNTAX_KSEN_OPTION.
+            InpError: SYNTAX_KSEN_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = KsenOption_Legendre._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_KSEN_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         number = types.Integer.from_mcnp(tokens[1])
 

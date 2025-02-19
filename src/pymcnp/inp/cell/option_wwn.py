@@ -32,17 +32,15 @@ class CellOption_Wwn(_option.CellOption_, keyword='wwn'):
             ``CellOption_Wwn``.
 
         Raises:
-            McnpError: SEMANTICS_CELL_OPTION_VALUE.
-            McnpError: SEMANTICS_CELL_OPTION_SUFFIX.
-            McnpError: SEMANTICS_CELL_OPTION_DESIGNATOR.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if bound is None or not (bound == -1 or bound >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, bound)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bound)
         if suffix is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_SUFFIX, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
         if designator is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_DESIGNATOR, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([bound])
         self.bound: typing.Final[types.Real] = bound
@@ -61,14 +59,14 @@ class CellOption_Wwn(_option.CellOption_, keyword='wwn'):
             ``CellOption_Wwn``.
 
         Raises:
-            McnpError: SYNTAX_CELL_OPTION.
+            InpError: SYNTAX_CELL_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = CellOption_Wwn._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         suffix = types.Integer.from_mcnp(tokens[1])
         designator = types.Designator.from_mcnp(tokens[2])

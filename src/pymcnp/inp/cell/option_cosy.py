@@ -28,11 +28,11 @@ class CellOption_Cosy(_option.CellOption_, keyword='cosy'):
             ``CellOption_Cosy``.
 
         Raises:
-            McnpError: SEMANTICS_CELL_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if number is None or number.value not in {1, 2, 3, 4, 5, 6}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, number)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([number])
         self.number: typing.Final[types.Integer] = number
@@ -49,14 +49,14 @@ class CellOption_Cosy(_option.CellOption_, keyword='cosy'):
             ``CellOption_Cosy``.
 
         Raises:
-            McnpError: SYNTAX_CELL_OPTION.
+            InpError: SYNTAX_CELL_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = CellOption_Cosy._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         number = types.Integer.from_mcnp(tokens[1])
 

@@ -69,35 +69,35 @@ class Fill1Entry_Transformation(_entry.Fill1Entry_):
             ``Fill1EntryTransformation``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if o1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, o1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, o1)
         if o2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, o2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, o2)
         if o3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, o3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, o3)
         if xx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, xx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, xx)
         if xy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, xy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, xy)
         if xz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, xz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, xz)
         if yx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, yx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, yx)
         if yy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, yy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, yy)
         if yz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, yz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, yz)
         if zx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, zx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, zx)
         if zy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, zy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, zy)
         if zz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, zz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, zz)
         if m is None or m not in {-1, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, m)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, m)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple(
             [o1, o2, o3, xx, xy, xz, yx, yy, yz, zx, zy, zz, m]
@@ -128,14 +128,14 @@ class Fill1Entry_Transformation(_entry.Fill1Entry_):
             ``Fill1Entry_Transformation``.
 
         Raises:
-            McnpError: SYNTAX_FILL_1_ENTRY.
+            InpError: SYNTAX_FILL_1_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Fill1Entry_Transformation._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_FILL_1_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         o1 = types.Real.from_mcnp(tokens[1])
         o2 = types.Real.from_mcnp(tokens[2])

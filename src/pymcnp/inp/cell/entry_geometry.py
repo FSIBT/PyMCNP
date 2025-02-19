@@ -23,13 +23,13 @@ class CellEntry_Geometry(_entry.CellEntry_):
         Initializes ``CellEntry_Geometry``.
 
         Parameters:
-                infix: Cell geometry infix formula.
+            infix: Cell geometry infix formula.
 
         Returns:
-                ``CellEntryGeometry``.
+            ``CellEntryGeometry``.
 
         Raises:
-                McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         temp = re.sub(r' 0+', '', infix)
@@ -41,7 +41,7 @@ class CellEntry_Geometry(_entry.CellEntry_):
         try:
             eval(temp)
         except SyntaxError:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_ENTRY_PARAMETER, infix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CELL_ENTRY_VALUE, infix)
 
         self.parameters: typing.Final[tuple[any]] = tuple([infix])
         self.infix: typing.typing.Final[types.String] = infix
@@ -52,20 +52,20 @@ class CellEntry_Geometry(_entry.CellEntry_):
         Generates ``CellEntry_Geometry`` from INP.
 
         Parameters:
-                INP for ``CellEntry_Geometry``.
+            INP for ``CellEntry_Geometry``.
 
         Returns:
-                ``CellEntry_Geometry``.
+            ``CellEntry_Geometry``.
 
         Raises:
-                McnpError: SYNTAX_CELL_ENTRY.
+            InpError: SYNTAX_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = CellEntry_Geometry._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         infix = types.String.from_mcnp(tokens[1])
 

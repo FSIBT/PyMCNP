@@ -34,20 +34,17 @@ class DataOption_Leb(_option.DataOption_, keyword='leb'):
             ``DataOption_Leb``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if yzere is None or not (yzere > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, yzere)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, yzere)
         if bzere is None or not (bzere > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bzere)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bzere)
         if yzero is None or not (yzero > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, yzero)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, yzero)
         if bzero is None or not (bzero > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bzero)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bzero)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([yzere, bzere, yzero, bzero])
         self.yzere: typing.Final[types.Real] = yzere
@@ -67,14 +64,14 @@ class DataOption_Leb(_option.DataOption_, keyword='leb'):
             ``DataOption_Leb``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Leb._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         yzere = types.Real.from_mcnp(tokens[1])
         bzere = types.Real.from_mcnp(tokens[2])

@@ -58,27 +58,27 @@ class TrEntry_Rotation(_entry.TrEntry_):
             ``TrEntryRotation``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_DATA_ENTRY_VALUE.
         """
 
         if xx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_ENTRY_VALUE, xx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_ENTRY_VALUE, xx)
         if xy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_ENTRY_VALUE, xy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_ENTRY_VALUE, xy)
         if xz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_ENTRY_VALUE, xz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_ENTRY_VALUE, xz)
         if yx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_ENTRY_VALUE, yx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_ENTRY_VALUE, yx)
         if yy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_ENTRY_VALUE, yy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_ENTRY_VALUE, yy)
         if yz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_ENTRY_VALUE, yz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_ENTRY_VALUE, yz)
         if zx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_ENTRY_VALUE, zx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_ENTRY_VALUE, zx)
         if zy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_ENTRY_VALUE, zy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_ENTRY_VALUE, zy)
         if zz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_ENTRY_VALUE, zz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_ENTRY_VALUE, zz)
 
         self.parameters: typing.Final[tuple[any]] = tuple([xx, xy, xz, yx, yy, yz, zx, zy, zz])
         self.xx: typing.Final[types.Real] = xx
@@ -103,14 +103,14 @@ class TrEntry_Rotation(_entry.TrEntry_):
             ``TrEntry_Rotation``.
 
         Raises:
-            McnpError: SYNTAX_TR_ENTRY.
+            InpError: SYNTAX_TR_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = TrEntry_Rotation._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_TR_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_TR_ENTRY, source)
 
         xx = types.Real.from_mcnp(tokens[1].strip())
         xy = types.Real.from_mcnp(tokens[2].strip())

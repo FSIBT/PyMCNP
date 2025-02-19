@@ -55,40 +55,35 @@ class Header(_object.McnpElement_):
             l_line: PTRAC l-line.
 
         Raises:
-            McnpError: INVALID_HEADER_CODE.
-            McnpError: INVALID_HEADER_CODEDATE.
-            McnpError: INVALID_HEADER_VERSION.
-            McnpError: INVALID_HEADER_RUNDATE.
-            McnpError: INVALID_HEADER_RUNTIME.
-            McnpError: INVALID_HEADER_TITLE.
+            PtracError: SEMANTICS_BLOCK_VALUE.
         """
 
         if code is None:
-            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_CODE)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, code)
 
         if code_date is None:
-            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_CODEDATE)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, code_date)
 
         if version is None:
-            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_VERSION)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, version)
 
         if run_date is None:
-            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_RUNDATE)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, run_date)
 
         if run_time is None:
-            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_RUNTIME)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, run_time)
 
         if title is None:
-            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_TITLE)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, title)
 
         if v_line is None or None in v_line:
-            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_SETTING)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, v_line)
 
         if n_line is None or None in n_line:
-            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_NUMBERS)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, n_line)
 
         if l_line is None or None in l_line:
-            raise errors.McnpError(errors.McnpCode.INVALID_HEADER_IDS)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, l_line)
 
         self.code: typing.Final[types.String] = code
         self.code_date: typing.Final[types.String] = code_date
@@ -112,14 +107,14 @@ class Header(_object.McnpElement_):
             ``Header``.
 
         Raises:
-            MCNPSyntaxError: TOOFEW_HEADER, TOOLONG_HEADER, KEYWORD_HEADER_MINUS1
+            PtracError: SYNTAX_HEADER.
         """
 
         source = _parser.preprocess_ptrac(source)
         tokens = Header._REGEX.match(source)
 
         if not tokens:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SYNTAX_HEADER, source)
 
         code = types.String.from_mcnp(tokens[1])
         version = types.String.from_mcnp(tokens[2])

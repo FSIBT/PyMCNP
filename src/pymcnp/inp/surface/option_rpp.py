@@ -47,26 +47,21 @@ class SurfaceOption_Rpp(_option.SurfaceOption_, keyword='rpp'):
             ``SurfaceOption_Rpp``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if xmin is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, xmin)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, xmin)
         if xmax is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, xmax)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, xmax)
         if ymin is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, ymin)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, ymin)
         if ymax is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, ymax)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, ymax)
         if zmin is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, zmin)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, zmin)
         if zmax is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, zmax)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, zmax)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([xmin, xmax, ymin, ymax, zmin, zmax])
         self.xmin: typing.Final[types.Real] = xmin
@@ -88,14 +83,14 @@ class SurfaceOption_Rpp(_option.SurfaceOption_, keyword='rpp'):
             ``SurfaceOption_Rpp``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_Rpp._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         xmin = types.Real.from_mcnp(tokens[1])
         xmax = types.Real.from_mcnp(tokens[2])

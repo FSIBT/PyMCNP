@@ -28,11 +28,11 @@ class CellOption_Pwt(_option.CellOption_, keyword='pwt'):
             ``CellOption_Pwt``.
 
         Raises:
-            McnpError: SEMANTICS_CELL_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if weight is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, weight)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, weight)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([weight])
         self.weight: typing.Final[types.Real] = weight
@@ -49,14 +49,14 @@ class CellOption_Pwt(_option.CellOption_, keyword='pwt'):
             ``CellOption_Pwt``.
 
         Raises:
-            McnpError: SYNTAX_CELL_OPTION.
+            InpError: SYNTAX_CELL_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = CellOption_Pwt._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         weight = types.Real.from_mcnp(tokens[1])
 

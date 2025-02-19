@@ -28,13 +28,13 @@ class DataOption_Void(_option.DataOption_, keyword='void'):
             ``DataOption_Void``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if numbers is not None and not (
             filter(lambda entry: not (1 <= entry <= 99_999_999), numbers)
         ):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, numbers)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, numbers)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([numbers])
         self.numbers: typing.Final[tuple[types.Integer]] = numbers
@@ -51,14 +51,14 @@ class DataOption_Void(_option.DataOption_, keyword='void'):
             ``DataOption_Void``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Void._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         numbers = (
             types._Tuple(

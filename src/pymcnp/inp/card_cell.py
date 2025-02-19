@@ -46,27 +46,23 @@ class Cell(_card.InpCard_):
             ``Cell``.
 
         Raises:
-            McnpError: SEMANTICS_CELL_NUMBER.
-            McnpError: SEMANTICS_CELL_MATERIAL.
-            McnpError: SEMANTICS_CELL_DENSITY.
-            McnpError: SEMANTICS_CELL_GEOMETRY.
-            McnpError: SEMANTICS_CELL_OPTIONS.
+            InpError: SEMANTICS_CARD_VALUE.
         """
 
         if number is None or not (1 <= number <= 99_999_999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_NUMBER, number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, number)
 
         if material is None or not (0 <= material <= 99_999_999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_MATERIAL, material)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, material)
 
         if (density is not None and material == 0) or (density is None and material != 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_DENSITY, density)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, density)
 
         if geometry is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_GEOMETRY, geometry)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, geometry)
 
         if options is not None and None in options:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTIONS, options)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, options)
 
         self.number: typing.Final[types.Integer] = number
         self.material: typing.Final[types.Integer] = material
@@ -86,14 +82,14 @@ class Cell(_card.InpCard_):
             ``Cell``.
 
         Raises:
-            McnpError: SYNTAX_CELL.
+            InpError: SYNTAX_CARD.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Cell._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_CARD, source)
 
         number = types.Integer.from_mcnp(tokens[1])
         material = types.Integer.from_mcnp(tokens[2])

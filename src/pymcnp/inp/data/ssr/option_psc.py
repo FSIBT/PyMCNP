@@ -28,11 +28,11 @@ class SsrOption_Psc(_option.SsrOption_, keyword='psc'):
             ``SsrOption_Psc``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if constant is None or not (constant >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, constant)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, constant)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([constant])
         self.constant: typing.Final[types.Real] = constant
@@ -49,14 +49,14 @@ class SsrOption_Psc(_option.SsrOption_, keyword='psc'):
             ``SsrOption_Psc``.
 
         Raises:
-            McnpError: SYNTAX_SSR_OPTION.
+            InpError: SYNTAX_SSR_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SsrOption_Psc._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SSR_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         constant = types.Real.from_mcnp(tokens[1])
 

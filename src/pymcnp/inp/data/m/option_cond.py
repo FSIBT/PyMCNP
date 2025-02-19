@@ -28,11 +28,11 @@ class MOption_Cond(_option.MOption_, keyword='cond'):
             ``MOption_Cond``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_DATA_OPTION_VALUE.
         """
 
         if setting is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_DATA_OPTION_VALUE, setting)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([setting])
         self.setting: typing.Final[types.Real] = setting
@@ -49,14 +49,14 @@ class MOption_Cond(_option.MOption_, keyword='cond'):
             ``MOption_Cond``.
 
         Raises:
-            McnpError: SYNTAX_M_OPTION.
+            InpError: SYNTAX_M_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = MOption_Cond._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_M_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_M_OPTION, source)
 
         setting = types.Real.from_mcnp(tokens[1])
 

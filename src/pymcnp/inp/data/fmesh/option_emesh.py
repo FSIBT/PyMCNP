@@ -28,11 +28,11 @@ class FmeshOption_Emesh(_option.FmeshOption_, keyword='emesh'):
             ``FmeshOption_Emesh``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if energy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, energy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([energy])
         self.energy: typing.Final[types.Real] = energy
@@ -49,14 +49,14 @@ class FmeshOption_Emesh(_option.FmeshOption_, keyword='emesh'):
             ``FmeshOption_Emesh``.
 
         Raises:
-            McnpError: SYNTAX_FMESH_OPTION.
+            InpError: SYNTAX_FMESH_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = FmeshOption_Emesh._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_FMESH_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         energy = types.Real.from_mcnp(tokens[1])
 

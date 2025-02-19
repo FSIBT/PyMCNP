@@ -31,14 +31,13 @@ class DataOption_Xs(_option.DataOption_, keyword='xs'):
             ``DataOption_Xs``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_SUFFIX.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if weight_ratios is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, weight_ratios)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, weight_ratios)
         if suffix is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_SUFFIX, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([weight_ratios])
         self.weight_ratios: typing.Final[tuple[xs.XsEntry_Substance]] = weight_ratios
@@ -56,14 +55,14 @@ class DataOption_Xs(_option.DataOption_, keyword='xs'):
             ``DataOption_Xs``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Xs._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         suffix = types.Integer.from_mcnp(tokens[1])
         weight_ratios = types._Tuple(

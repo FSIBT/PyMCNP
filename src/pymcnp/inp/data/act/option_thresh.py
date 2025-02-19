@@ -28,11 +28,11 @@ class ActOption_Thresh(_option.ActOption_, keyword='thresh'):
             ``ActOption_Thresh``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if fraction is None or not (0 <= fraction <= 1):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, fraction)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fraction)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([fraction])
         self.fraction: typing.Final[types.Real] = fraction
@@ -49,14 +49,14 @@ class ActOption_Thresh(_option.ActOption_, keyword='thresh'):
             ``ActOption_Thresh``.
 
         Raises:
-            McnpError: SYNTAX_ACT_OPTION.
+            InpError: SYNTAX_ACT_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = ActOption_Thresh._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_ACT_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         fraction = types.Real.from_mcnp(tokens[1])
 

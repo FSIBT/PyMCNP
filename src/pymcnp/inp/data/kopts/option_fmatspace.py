@@ -28,11 +28,11 @@ class KoptsOption_Fmatspace(_option.KoptsOption_, keyword='fmatspace'):
             ``KoptsOption_Fmatspace``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if fmat_space is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, fmat_space)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fmat_space)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([fmat_space])
         self.fmat_space: typing.Final[types.Real] = fmat_space
@@ -49,14 +49,14 @@ class KoptsOption_Fmatspace(_option.KoptsOption_, keyword='fmatspace'):
             ``KoptsOption_Fmatspace``.
 
         Raises:
-            McnpError: SYNTAX_KOPTS_OPTION.
+            InpError: SYNTAX_KOPTS_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = KoptsOption_Fmatspace._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_KOPTS_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         fmat_space = types.Real.from_mcnp(tokens[1])
 

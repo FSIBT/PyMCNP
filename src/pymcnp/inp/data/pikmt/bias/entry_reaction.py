@@ -30,13 +30,13 @@ class BiasEntry_Reaction(_entry.BiasEntry_):
             ``BiasEntryReaction``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if mt is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, mt)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, mt)
         if pmt is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, pmt)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, pmt)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple([mt, pmt])
         self.mt: typing.Final[types.Zaid] = mt
@@ -54,14 +54,14 @@ class BiasEntry_Reaction(_entry.BiasEntry_):
             ``BiasEntry_Reaction``.
 
         Raises:
-            McnpError: SYNTAX_BIAS_ENTRY.
+            InpError: SYNTAX_BIAS_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = BiasEntry_Reaction._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_BIAS_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         mt = types.Zaid.from_mcnp(tokens[1])
         pmt = types.Integer.from_mcnp(tokens[2])

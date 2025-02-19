@@ -28,11 +28,11 @@ class SdEntry_Information(_entry.SdEntry_):
             ``SdEntryInformation``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if values is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, values)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, values)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple([values])
         self.values: typing.Final[tuple[types.Real]] = values
@@ -49,14 +49,14 @@ class SdEntry_Information(_entry.SdEntry_):
             ``SdEntry_Information``.
 
         Raises:
-            McnpError: SYNTAX_SD_ENTRY.
+            InpError: SYNTAX_SD_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SdEntry_Information._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SD_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         values = types._Tuple(
             [types.Real.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

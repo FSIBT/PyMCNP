@@ -28,11 +28,11 @@ class KsenOption_Constrain(_option.KsenOption_, keyword='constrain'):
             ``KsenOption_Constrain``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if setting is None or setting not in {'yes', 'no'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([setting])
         self.setting: typing.Final[types.String] = setting
@@ -49,14 +49,14 @@ class KsenOption_Constrain(_option.KsenOption_, keyword='constrain'):
             ``KsenOption_Constrain``.
 
         Raises:
-            McnpError: SYNTAX_KSEN_OPTION.
+            InpError: SYNTAX_KSEN_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = KsenOption_Constrain._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_KSEN_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         setting = types.String.from_mcnp(tokens[1])
 

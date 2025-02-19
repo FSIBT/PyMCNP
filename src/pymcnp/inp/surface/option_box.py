@@ -67,44 +67,33 @@ class SurfaceOption_Box(_option.SurfaceOption_, keyword='box'):
             ``SurfaceOption_Box``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if vx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, vx)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, vx)
         if vy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, vy)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, vy)
         if vz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, vz)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, vz)
         if a1x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, a1x)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, a1x)
         if a1y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, a1y)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, a1y)
         if a1z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, a1z)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, a1z)
         if a2x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, a2x)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, a2x)
         if a2y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, a2y)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, a2y)
         if a2z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, a2z)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, a2z)
         if a3x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, a3x)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, a3x)
         if a3y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, a3y)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, a3y)
         if a3z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, a3z)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, a3z)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [vx, vy, vz, a1x, a1y, a1z, a2x, a2y, a2z, a3x, a3y, a3z]
@@ -134,14 +123,14 @@ class SurfaceOption_Box(_option.SurfaceOption_, keyword='box'):
             ``SurfaceOption_Box``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_Box._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         vx = types.Real.from_mcnp(tokens[1])
         vy = types.Real.from_mcnp(tokens[2])

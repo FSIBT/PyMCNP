@@ -28,13 +28,13 @@ class DataOption_Nonu(_option.DataOption_, keyword='nonu'):
             ``DataOption_Nonu``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if settings is not None and not (
             filter(lambda entry: not (entry == 0 or entry == 1 or entry == 2), settings)
         ):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, settings)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, settings)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([settings])
         self.settings: typing.Final[tuple[types.Integer]] = settings
@@ -51,14 +51,14 @@ class DataOption_Nonu(_option.DataOption_, keyword='nonu'):
             ``DataOption_Nonu``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Nonu._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         settings = (
             types._Tuple(

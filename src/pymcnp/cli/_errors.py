@@ -74,6 +74,6 @@ class CliError(Exception):
                 hint += ''
 
         if hint:
-            return f'[red][bold]McnpError[{self.code.name}]:[/][/] {head}\n\n``{self.info[:]}``\n\n[magenta][bold]Hint:[/bold][/magenta] {hint}'
+            return f'[red][bold]InpError[{self.code.name}]:[/][/] {head}\n\n``{self.info[:]}``\n\n[magenta][bold]Hint:[/bold][/magenta] {hint}'
         else:
-            return f'[red][bold]McnpError[{self.code.name}]:[/][/] {head}\n\n``{self.info[:]}``'
+            return f'[red][bold]InpError[{self.code.name}]:[/][/] {head}\n\n``{self.info[:]}``'

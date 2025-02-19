@@ -28,11 +28,11 @@ class PtracOption_Buffer(_option.PtracOption_, keyword='buffer'):
             ``PtracOption_Buffer``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if storage is None or not (storage > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, storage)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, storage)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([storage])
         self.storage: typing.Final[types.Integer] = storage
@@ -49,14 +49,14 @@ class PtracOption_Buffer(_option.PtracOption_, keyword='buffer'):
             ``PtracOption_Buffer``.
 
         Raises:
-            McnpError: SYNTAX_PTRAC_OPTION.
+            InpError: SYNTAX_PTRAC_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = PtracOption_Buffer._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_PTRAC_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         storage = types.Integer.from_mcnp(tokens[1])
 

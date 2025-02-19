@@ -29,11 +29,11 @@ class DataOption_Files(_option.DataOption_, keyword='files'):
             ``DataOption_Files``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if creations is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, creations)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, creations)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([creations])
         self.creations: typing.Final[tuple[files.FilesEntry_File]] = creations
@@ -50,14 +50,14 @@ class DataOption_Files(_option.DataOption_, keyword='files'):
             ``DataOption_Files``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Files._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         creations = types._Tuple(
             [

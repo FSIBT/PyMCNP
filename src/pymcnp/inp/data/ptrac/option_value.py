@@ -28,11 +28,11 @@ class PtracOption_Value(_option.PtracOption_, keyword='value'):
             ``PtracOption_Value``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if cutoff is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, cutoff)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cutoff)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([cutoff])
         self.cutoff: typing.Final[types.Real] = cutoff
@@ -49,14 +49,14 @@ class PtracOption_Value(_option.PtracOption_, keyword='value'):
             ``PtracOption_Value``.
 
         Raises:
-            McnpError: SYNTAX_PTRAC_OPTION.
+            InpError: SYNTAX_PTRAC_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = PtracOption_Value._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_PTRAC_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         cutoff = types.Real.from_mcnp(tokens[1])
 

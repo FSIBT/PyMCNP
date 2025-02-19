@@ -4,6 +4,7 @@ import typing
 from . import _line
 from . import keyword_type
 from ...utils import types
+from ...utils import errors
 from ...utils import _parser
 
 
@@ -43,26 +44,26 @@ class HistoryLine_J_4(_line.HistoryLine_):
             ncp: Count of collisions per track.
 
         Raises:
-            McnpError: INVALID_HEADER_CODE.
+            InpError: SEMANTICS_LINE_VALUE.
         """
 
         if next_type is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, next_type)
 
         if node is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, node)
 
         if nsr is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, nsr)
 
         if ncl is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, ncl)
 
         if mat is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, mat)
 
         if ncp is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, ncp)
 
         self.next_type: typing.Final[keyword_type.HistoryKeyword_Type] = next_type
         self.node: typing.Final[types.Integer] = node
@@ -82,14 +83,14 @@ class HistoryLine_J_4(_line.HistoryLine_):
             ``HistoryLine_J_4``.
 
         Raises:
-            McnpError: TOOFEW_HISTORY.
+            PtracError: SYNTAX_HISTORY_LINE.
         """
 
         source = _parser.preprocess_ptrac(source)
         tokens = HistoryLine_J_4._REGEX.match(source)
 
         if not tokens:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
 
         next_type = keyword_type.HistoryKeyword_Type.from_mcnp(tokens[1])
         node = types.Integer.from_mcnp(tokens[2])

@@ -40,17 +40,17 @@ class UranEntry_Transformation(_entry.UranEntry_):
             ``UranEntryTransformation``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if number is None or not (0 <= number <= 99_999_999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, number)
         if maximum_x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, maximum_x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, maximum_x)
         if maximum_y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, maximum_y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, maximum_y)
         if maximum_z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, maximum_z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, maximum_z)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple(
             [number, maximum_x, maximum_y, maximum_z]
@@ -72,14 +72,14 @@ class UranEntry_Transformation(_entry.UranEntry_):
             ``UranEntry_Transformation``.
 
         Raises:
-            McnpError: SYNTAX_URAN_ENTRY.
+            InpError: SYNTAX_URAN_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = UranEntry_Transformation._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_URAN_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         number = types.Integer.from_mcnp(tokens[1])
         maximum_x = types.Real.from_mcnp(tokens[2])

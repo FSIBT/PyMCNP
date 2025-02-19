@@ -28,11 +28,11 @@ class BfldOption_Maxdeflc(_option.BfldOption_, keyword='maxdeflc'):
             ``BfldOption_Maxdeflc``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if angle is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, angle)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, angle)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([angle])
         self.angle: typing.Final[types.Real] = angle
@@ -49,14 +49,14 @@ class BfldOption_Maxdeflc(_option.BfldOption_, keyword='maxdeflc'):
             ``BfldOption_Maxdeflc``.
 
         Raises:
-            McnpError: SYNTAX_BFLD_OPTION.
+            InpError: SYNTAX_BFLD_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = BfldOption_Maxdeflc._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_BFLD_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         angle = types.Real.from_mcnp(tokens[1])
 

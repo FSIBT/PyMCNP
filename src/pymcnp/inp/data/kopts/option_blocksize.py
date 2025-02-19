@@ -28,11 +28,11 @@ class KoptsOption_Blocksize(_option.KoptsOption_, keyword='blocksize'):
             ``KoptsOption_Blocksize``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if ncy is None or not (ncy >= 2):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ncy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ncy)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([ncy])
         self.ncy: typing.Final[types.Integer] = ncy
@@ -49,14 +49,14 @@ class KoptsOption_Blocksize(_option.KoptsOption_, keyword='blocksize'):
             ``KoptsOption_Blocksize``.
 
         Raises:
-            McnpError: SYNTAX_KOPTS_OPTION.
+            InpError: SYNTAX_KOPTS_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = KoptsOption_Blocksize._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_KOPTS_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         ncy = types.Integer.from_mcnp(tokens[1])
 

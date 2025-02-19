@@ -28,11 +28,11 @@ class KoptsOption_Fmatnz(_option.KoptsOption_, keyword='fmatnz'):
             ``KoptsOption_Fmatnz``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if fmat_nz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, fmat_nz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fmat_nz)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([fmat_nz])
         self.fmat_nz: typing.Final[types.Real] = fmat_nz
@@ -49,14 +49,14 @@ class KoptsOption_Fmatnz(_option.KoptsOption_, keyword='fmatnz'):
             ``KoptsOption_Fmatnz``.
 
         Raises:
-            McnpError: SYNTAX_KOPTS_OPTION.
+            InpError: SYNTAX_KOPTS_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = KoptsOption_Fmatnz._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_KOPTS_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         fmat_nz = types.Real.from_mcnp(tokens[1])
 

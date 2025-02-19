@@ -52,32 +52,25 @@ class DataOption_Wwg(_option.DataOption_, keyword='wwg'):
             ``DataOption_Wwg``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if tally is None or not (tally <= 99_999_999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, tally)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, tally)
         if cell is None or not (cell <= 99_999_999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, cell)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cell)
         if lower is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, lower)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, lower)
         if j1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, j1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, j1)
         if j2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, j2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, j2)
         if j3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, j3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, j3)
         if j4 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, j4)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, j4)
         if setting is None or setting.value not in {0, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [tally, cell, lower, j1, j2, j3, j4, setting]
@@ -103,14 +96,14 @@ class DataOption_Wwg(_option.DataOption_, keyword='wwg'):
             ``DataOption_Wwg``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Wwg._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         tally = types.Integer.from_mcnp(tokens[1])
         cell = types.Integer.from_mcnp(tokens[2])

@@ -32,17 +32,15 @@ class DataOption_Sb0(_option.DataOption_, keyword='sb'):
             ``DataOption_Sb0``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_SUFFIX.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if option is None or option not in {'d', 'c', 'v', 'w'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, option)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, option)
         if biases is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, biases)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, biases)
         if suffix is None or not (1 <= suffix <= 999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_SUFFIX, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([option, biases])
         self.option: typing.Final[types.String] = option
@@ -61,14 +59,14 @@ class DataOption_Sb0(_option.DataOption_, keyword='sb'):
             ``DataOption_Sb0``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Sb0._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         suffix = types.Integer.from_mcnp(tokens[1])
         option = types.String.from_mcnp(tokens[2])

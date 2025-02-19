@@ -43,23 +43,19 @@ class DataOption_Cut(_option.DataOption_, keyword='cut'):
             ``DataOption_Cut``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if time_cutoff is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, time_cutoff)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, time_cutoff)
         if energy_cutoff is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, energy_cutoff)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_cutoff)
         if weight_cutoff1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, weight_cutoff1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, weight_cutoff1)
         if weight_cutoff2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, weight_cutoff2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, weight_cutoff2)
         if source_weight is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, source_weight)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, source_weight)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [time_cutoff, energy_cutoff, weight_cutoff1, weight_cutoff2, source_weight]
@@ -82,14 +78,14 @@ class DataOption_Cut(_option.DataOption_, keyword='cut'):
             ``DataOption_Cut``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Cut._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         time_cutoff = types.Real.from_mcnp(tokens[1])
         energy_cutoff = types.Real.from_mcnp(tokens[2])

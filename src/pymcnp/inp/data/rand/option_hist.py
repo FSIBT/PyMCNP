@@ -28,11 +28,11 @@ class RandOption_Hist(_option.RandOption_, keyword='hist'):
             ``RandOption_Hist``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if hist is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, hist)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hist)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([hist])
         self.hist: typing.Final[types.Integer] = hist
@@ -49,14 +49,14 @@ class RandOption_Hist(_option.RandOption_, keyword='hist'):
             ``RandOption_Hist``.
 
         Raises:
-            McnpError: SYNTAX_RAND_OPTION.
+            InpError: SYNTAX_RAND_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = RandOption_Hist._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_RAND_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         hist = types.Integer.from_mcnp(tokens[1])
 

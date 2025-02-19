@@ -40,22 +40,19 @@ class DataOption_Fs(_option.DataOption_, keyword='fs'):
             ``DataOption_Fs``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_SUFFIX.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if numbers is None or not (
             filter(lambda entry: not (-99_999_999 <= numbers <= 99_999_999), numbers)
         ):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, numbers)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, numbers)
         if t is not None and t not in {'t'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, t)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, t)
         if c is not None and c not in {'c'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, c)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, c)
         if suffix is None or not (suffix <= 99_999_999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_SUFFIX, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([numbers, t, c])
         self.numbers: typing.Final[tuple[types.Integer]] = numbers
@@ -75,14 +72,14 @@ class DataOption_Fs(_option.DataOption_, keyword='fs'):
             ``DataOption_Fs``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Fs._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         suffix = types.Integer.from_mcnp(tokens[1])
         numbers = types._Tuple(

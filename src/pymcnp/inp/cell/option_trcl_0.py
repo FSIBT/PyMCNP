@@ -28,11 +28,11 @@ class CellOption_Trcl0(_option.CellOption_, keyword='trcl'):
             ``CellOption_Trcl0``.
 
         Raises:
-            McnpError: SEMANTICS_CELL_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if transformation is None or not (1 <= transformation <= 999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_CELL_OPTION_VALUE, transformation)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, transformation)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([transformation])
         self.transformation: typing.Final[types.Integer] = transformation
@@ -49,14 +49,14 @@ class CellOption_Trcl0(_option.CellOption_, keyword='trcl'):
             ``CellOption_Trcl0``.
 
         Raises:
-            McnpError: SYNTAX_CELL_OPTION.
+            InpError: SYNTAX_CELL_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = CellOption_Trcl0._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_CELL_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         transformation = types.Integer.from_mcnp(tokens[1])
 

@@ -73,50 +73,37 @@ class DataOption_Dxt(_option.DataOption_, keyword='dxt'):
             ``DataOption_Dxt``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_DESIGNATOR.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if spheres_1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, spheres_1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_1)
         if spheres_2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, spheres_2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_2)
         if spheres_3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, spheres_3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_3)
         if spheres_4 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, spheres_4)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_4)
         if spheres_5 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, spheres_5)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_5)
         if spheres_6 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, spheres_6)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_6)
         if spheres_7 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, spheres_7)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_7)
         if spheres_8 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, spheres_8)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_8)
         if spheres_9 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, spheres_9)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_9)
         if spheres_10 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, spheres_10)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_10)
         if cutoff_1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, cutoff_1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cutoff_1)
         if cutoff_2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, cutoff_2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cutoff_2)
         if weight is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, weight)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, weight)
         if designator is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_DESIGNATOR, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [
@@ -162,14 +149,14 @@ class DataOption_Dxt(_option.DataOption_, keyword='dxt'):
             ``DataOption_Dxt``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Dxt._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         designator = types.Designator.from_mcnp(tokens[1])
         spheres_1 = dxt.DxtEntry_Sphere.from_mcnp(tokens[2])

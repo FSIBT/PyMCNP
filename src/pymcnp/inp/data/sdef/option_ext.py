@@ -28,11 +28,11 @@ class SdefOption_Ext(_option.SdefOption_, keyword='ext'):
             ``SdefOption_Ext``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if distance_cosine is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, distance_cosine)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, distance_cosine)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([distance_cosine])
         self.distance_cosine: typing.Final[types.Real] = distance_cosine
@@ -49,14 +49,14 @@ class SdefOption_Ext(_option.SdefOption_, keyword='ext'):
             ``SdefOption_Ext``.
 
         Raises:
-            McnpError: SYNTAX_SDEF_OPTION.
+            InpError: SYNTAX_SDEF_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SdefOption_Ext._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SDEF_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         distance_cosine = types.Real.from_mcnp(tokens[1])
 

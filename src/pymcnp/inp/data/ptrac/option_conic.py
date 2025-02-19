@@ -28,11 +28,11 @@ class PtracOption_Conic(_option.PtracOption_, keyword='conic'):
             ``PtracOption_Conic``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if setting is None or setting not in {'col', 'lin'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([setting])
         self.setting: typing.Final[types.String] = setting
@@ -49,14 +49,14 @@ class PtracOption_Conic(_option.PtracOption_, keyword='conic'):
             ``PtracOption_Conic``.
 
         Raises:
-            McnpError: SYNTAX_PTRAC_OPTION.
+            InpError: SYNTAX_PTRAC_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = PtracOption_Conic._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_PTRAC_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         setting = types.String.from_mcnp(tokens[1])
 

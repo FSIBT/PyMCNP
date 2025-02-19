@@ -32,17 +32,15 @@ class SdefOption_Bap(_option.SdefOption_, keyword='bap'):
             ``SdefOption_Bap``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if ba1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ba1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ba1)
         if ba2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, ba2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ba2)
         if u is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, u)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, u)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([ba1, ba2, u])
         self.ba1: typing.Final[types.Real] = ba1
@@ -61,14 +59,14 @@ class SdefOption_Bap(_option.SdefOption_, keyword='bap'):
             ``SdefOption_Bap``.
 
         Raises:
-            McnpError: SYNTAX_SDEF_OPTION.
+            InpError: SYNTAX_SDEF_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SdefOption_Bap._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SDEF_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         ba1 = types.Real.from_mcnp(tokens[1])
         ba2 = types.Real.from_mcnp(tokens[2])

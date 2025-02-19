@@ -82,12 +82,6 @@ def COMMENT(element, t):
     ).strip()
 
 
-def ERROR(element, t):
-    return '\n'.join(
-        f'{T(t)}McnpError: {attribute.error}.' for attribute in element.attributes
-    ).strip()
-
-
 def ASSIGN(element, t):
     o = ''
 
@@ -105,7 +99,7 @@ def ASSIGN(element, t):
     ).strip()
 
 
-def CHECK(element, t):
+def CHECK(element, t, error):
     o = ''
 
     for attribute in element.attributes:
@@ -120,7 +114,7 @@ def CHECK(element, t):
             else:
                 o += f'{T(t)}if {attribute.name} is None:\n'
 
-        o += f'{T(t)}   raise errors.McnpError(errors.McnpCode.{attribute.error}, {attribute.name})\n'
+        o += f'{T(t)}   raise errors.InpError(errors.InpCode.{error}, {attribute.name})\n'
 
     return o.strip()
 
@@ -275,10 +269,10 @@ class {C(name)}Option_{C(option.name)}(_option.{C(name)}Option_, keyword="{L(opt
             ``{C(name)}Option_{C(option.name)}``.
 
         Raises:
-            {ERROR(option, 3)}
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
-        {CHECK(option, 2)}
+        {CHECK(option, 2, 'SEMANTICS_OPTION_VALUE')}
 
         self.value: typing.Final[tuple[any]] = types._Tuple([{LIST_N_NSD(option)}])
         {ASSIGN(option, 2)}
@@ -295,14 +289,14 @@ class {C(name)}Option_{C(option.name)}(_option.{C(name)}Option_, keyword="{L(opt
             ``{C(name)}Option_{C(option.name)}``.
 
         Raises:
-            McnpError: SYNTAX_{U(name)}_OPTION.
+            InpError: SYNTAX_{U(name)}_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = {C(name)}Option_{C(option.name)}._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_{U(name)}_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         {MATCH(option, 2)}
 
@@ -360,10 +354,10 @@ class {C(name)}Entry_{C(entry.name)}(_entry.{C(name)}Entry_):
             ``{C(name)}Entry{C(entry.name)}``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
-        {CHECK(entry, 2)}
+        {CHECK(entry, 2, 'SEMANTICS_ENTRY_VALUE')}
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple([{LIST_N(entry)}])
         {ASSIGN(entry, 2)}
@@ -380,14 +374,14 @@ class {C(name)}Entry_{C(entry.name)}(_entry.{C(name)}Entry_):
             ``{C(name)}Entry_{C(entry.name)}``.
 
         Raises:
-            McnpError: SYNTAX_{U(name)}_ENTRY.
+            InpError: SYNTAX_{U(name)}_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = {C(name)}Entry_{C(entry.name)}._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_{U(name)}_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         {MATCH(entry, 2)}
 

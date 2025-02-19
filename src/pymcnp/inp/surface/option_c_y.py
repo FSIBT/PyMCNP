@@ -33,17 +33,15 @@ class SurfaceOption_C_y(_option.SurfaceOption_, keyword='c/y'):
             ``SurfaceOption_C_y``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, x)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, x)
         if z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, z)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, z)
         if r is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, r)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, r)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([x, z, r])
         self.x: typing.Final[types.Real] = x
@@ -62,14 +60,14 @@ class SurfaceOption_C_y(_option.SurfaceOption_, keyword='c/y'):
             ``SurfaceOption_C_y``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_C_y._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         x = types.Real.from_mcnp(tokens[1])
         z = types.Real.from_mcnp(tokens[2])

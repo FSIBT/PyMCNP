@@ -28,11 +28,11 @@ class DataOption_Ctme(_option.DataOption_, keyword='ctme'):
             ``DataOption_Ctme``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if tme is None or not (tme >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, tme)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, tme)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([tme])
         self.tme: typing.Final[types.Integer] = tme
@@ -49,14 +49,14 @@ class DataOption_Ctme(_option.DataOption_, keyword='ctme'):
             ``DataOption_Ctme``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Ctme._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         tme = types.Integer.from_mcnp(tokens[1])
 

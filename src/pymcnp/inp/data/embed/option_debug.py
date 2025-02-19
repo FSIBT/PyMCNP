@@ -28,11 +28,11 @@ class EmbedOption_Debug(_option.EmbedOption_, keyword='debug'):
             ``EmbedOption_Debug``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if parameter is None or parameter not in {'echomesh'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, parameter)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, parameter)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([parameter])
         self.parameter: typing.Final[types.String] = parameter
@@ -49,14 +49,14 @@ class EmbedOption_Debug(_option.EmbedOption_, keyword='debug'):
             ``EmbedOption_Debug``.
 
         Raises:
-            McnpError: SYNTAX_EMBED_OPTION.
+            InpError: SYNTAX_EMBED_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = EmbedOption_Debug._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_EMBED_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         parameter = types.String.from_mcnp(tokens[1])
 

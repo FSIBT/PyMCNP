@@ -33,12 +33,11 @@ class DataOption_Fmult(_option.DataOption_, keyword='fmult'):
             ``DataOption_Fmult``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if zaid is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, zaid)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zaid)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([zaid, options])
         self.zaid: typing.Final[types.Zaid] = zaid
@@ -58,14 +57,14 @@ class DataOption_Fmult(_option.DataOption_, keyword='fmult'):
             ``DataOption_Fmult``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Fmult._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         zaid = types.Zaid.from_mcnp(tokens[1])
         options = (

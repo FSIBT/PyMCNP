@@ -28,11 +28,11 @@ class PtracOption_Max(_option.PtracOption_, keyword='max'):
             ``PtracOption_Max``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if events is None or not (events != 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, events)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, events)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([events])
         self.events: typing.Final[types.Integer] = events
@@ -49,14 +49,14 @@ class PtracOption_Max(_option.PtracOption_, keyword='max'):
             ``PtracOption_Max``.
 
         Raises:
-            McnpError: SYNTAX_PTRAC_OPTION.
+            InpError: SYNTAX_PTRAC_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = PtracOption_Max._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_PTRAC_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         events = types.Integer.from_mcnp(tokens[1])
 

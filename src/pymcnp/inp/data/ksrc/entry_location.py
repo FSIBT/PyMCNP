@@ -32,15 +32,15 @@ class KsrcEntry_Location(_entry.KsrcEntry_):
             ``KsrcEntryLocation``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, x)
         if y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, y)
         if z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, z)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple([x, y, z])
         self.x: typing.Final[types.Real] = x
@@ -59,14 +59,14 @@ class KsrcEntry_Location(_entry.KsrcEntry_):
             ``KsrcEntry_Location``.
 
         Raises:
-            McnpError: SYNTAX_KSRC_ENTRY.
+            InpError: SYNTAX_KSRC_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = KsrcEntry_Location._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_KSRC_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         x = types.Real.from_mcnp(tokens[1])
         y = types.Real.from_mcnp(tokens[2])

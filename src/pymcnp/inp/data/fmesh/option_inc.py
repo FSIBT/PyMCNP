@@ -30,12 +30,11 @@ class FmeshOption_Inc(_option.FmeshOption_, keyword='inc'):
             ``FmeshOption_Inc``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if lower is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, lower)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, lower)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([lower, upper])
         self.lower: typing.Final[types.Real] = lower
@@ -53,14 +52,14 @@ class FmeshOption_Inc(_option.FmeshOption_, keyword='inc'):
             ``FmeshOption_Inc``.
 
         Raises:
-            McnpError: SYNTAX_FMESH_OPTION.
+            InpError: SYNTAX_FMESH_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = FmeshOption_Inc._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_FMESH_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         lower = types.Real.from_mcnp(tokens[1])
         upper = types.Real.from_mcnp(tokens[2]) if tokens[2] else None

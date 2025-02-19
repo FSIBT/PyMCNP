@@ -31,14 +31,13 @@ class SurfaceOption_Sz(_option.SurfaceOption_, keyword='sz'):
             ``SurfaceOption_Sz``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, z)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, z)
         if r is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, r)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, r)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([z, r])
         self.z: typing.Final[types.Real] = z
@@ -56,14 +55,14 @@ class SurfaceOption_Sz(_option.SurfaceOption_, keyword='sz'):
             ``SurfaceOption_Sz``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_Sz._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         z = types.Real.from_mcnp(tokens[1])
         r = types.Real.from_mcnp(tokens[2])

@@ -29,11 +29,11 @@ class DataOption_Ksrc(_option.DataOption_, keyword='ksrc'):
             ``DataOption_Ksrc``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if locations is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, locations)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, locations)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([locations])
         self.locations: typing.Final[tuple[ksrc.KsrcEntry_Location]] = locations
@@ -50,14 +50,14 @@ class DataOption_Ksrc(_option.DataOption_, keyword='ksrc'):
             ``DataOption_Ksrc``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Ksrc._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         locations = types._Tuple(
             [

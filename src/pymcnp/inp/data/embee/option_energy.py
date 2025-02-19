@@ -28,11 +28,11 @@ class EmbeeOption_Energy(_option.EmbeeOption_, keyword='energy'):
             ``EmbeeOption_Energy``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if factor is None or not (factor > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, factor)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, factor)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([factor])
         self.factor: typing.Final[types.Real] = factor
@@ -49,14 +49,14 @@ class EmbeeOption_Energy(_option.EmbeeOption_, keyword='energy'):
             ``EmbeeOption_Energy``.
 
         Raises:
-            McnpError: SYNTAX_EMBEE_OPTION.
+            InpError: SYNTAX_EMBEE_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = EmbeeOption_Energy._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_EMBEE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         factor = types.Real.from_mcnp(tokens[1])
 

@@ -28,11 +28,11 @@ class RandOption_Stride(_option.RandOption_, keyword='stride'):
             ``RandOption_Stride``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if stride is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, stride)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, stride)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([stride])
         self.stride: typing.Final[types.Integer] = stride
@@ -49,14 +49,14 @@ class RandOption_Stride(_option.RandOption_, keyword='stride'):
             ``RandOption_Stride``.
 
         Raises:
-            McnpError: SYNTAX_RAND_OPTION.
+            InpError: SYNTAX_RAND_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = RandOption_Stride._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_RAND_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         stride = types.Integer.from_mcnp(tokens[1])
 

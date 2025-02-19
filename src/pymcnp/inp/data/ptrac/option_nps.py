@@ -28,11 +28,11 @@ class PtracOption_Nps(_option.PtracOption_, keyword='nps'):
             ``PtracOption_Nps``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if particles is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, particles)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, particles)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([particles])
         self.particles: typing.Final[tuple[types.Integer]] = particles
@@ -49,14 +49,14 @@ class PtracOption_Nps(_option.PtracOption_, keyword='nps'):
             ``PtracOption_Nps``.
 
         Raises:
-            McnpError: SYNTAX_PTRAC_OPTION.
+            InpError: SYNTAX_PTRAC_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = PtracOption_Nps._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_PTRAC_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         particles = types._Tuple(
             [types.Integer.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

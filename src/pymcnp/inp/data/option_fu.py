@@ -40,20 +40,17 @@ class DataOption_Fu(_option.DataOption_, keyword='fu'):
             ``DataOption_Fu``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_SUFFIX.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if bounds is None or not (filter(lambda entry: not (entry > -1), bounds)):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bounds)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bounds)
         if nt is not None and nt not in {'nt'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, nt)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nt)
         if c is not None and c not in {'c'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, c)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, c)
         if suffix is None or not (suffix <= 99_999_999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_SUFFIX, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([bounds, nt, c])
         self.bounds: typing.Final[tuple[types.Real]] = bounds
@@ -73,14 +70,14 @@ class DataOption_Fu(_option.DataOption_, keyword='fu'):
             ``DataOption_Fu``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Fu._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         suffix = types.Integer.from_mcnp(tokens[1])
         bounds = types._Tuple(

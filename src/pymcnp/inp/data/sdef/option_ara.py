@@ -28,11 +28,11 @@ class SdefOption_Ara(_option.SdefOption_, keyword='ara'):
             ``SdefOption_Ara``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if area is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, area)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, area)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([area])
         self.area: typing.Final[types.Real] = area
@@ -49,14 +49,14 @@ class SdefOption_Ara(_option.SdefOption_, keyword='ara'):
             ``SdefOption_Ara``.
 
         Raises:
-            McnpError: SYNTAX_SDEF_OPTION.
+            InpError: SYNTAX_SDEF_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SdefOption_Ara._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SDEF_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         area = types.Real.from_mcnp(tokens[1])
 

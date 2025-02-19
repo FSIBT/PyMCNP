@@ -40,20 +40,17 @@ class DataOption_Cosyp(_option.DataOption_, keyword='cosyp'):
             ``DataOption_Cosyp``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if prefix is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, prefix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, prefix)
         if axsh is None or axsh.value not in {1, 2, 3}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, axsh)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, axsh)
         if axsv is None or axsv.value not in {1, 2, 3}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, axsv)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, axsv)
         if emaps is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, emaps)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, emaps)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([prefix, axsh, axsv, emaps])
         self.prefix: typing.Final[types.Integer] = prefix
@@ -73,14 +70,14 @@ class DataOption_Cosyp(_option.DataOption_, keyword='cosyp'):
             ``DataOption_Cosyp``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Cosyp._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         prefix = types.Integer.from_mcnp(tokens[1])
         axsh = types.Integer.from_mcnp(tokens[2])

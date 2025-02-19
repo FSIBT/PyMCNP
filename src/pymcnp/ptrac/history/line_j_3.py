@@ -4,6 +4,7 @@ import typing
 from . import _line
 from . import keyword_type
 from ...utils import types
+from ...utils import errors
 from ...utils import _parser
 
 
@@ -46,29 +47,29 @@ class HistoryLine_J_3(_line.HistoryLine_):
             mat: Material numbers of the cells.
 
         Raises:
-            McnpError: INVALID_HEADER_CODE.
+            InpError: SEMANTICS_LINE_VALUE.
         """
 
         if next_type is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, next_type)
 
         if node is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, node)
 
         if nsx_nsf_nter is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, nsx_nsf_nter)
 
         if ntyn_mtp_angle_branch is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, ntyn_mtp_angle_branch)
 
         if ipt is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, ipt)
 
         if ncl is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, ncl)
 
         if mat is None:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, mat)
 
         self.next_type: typing.Final[keyword_type.HistoryKeyword_Type] = next_type
         self.node: typing.Final[types.Integer] = node
@@ -89,14 +90,14 @@ class HistoryLine_J_3(_line.HistoryLine_):
             ``HistoryLine_J_3``.
 
         Raises:
-            McnpError: TOOFEW_HISTORY.
+            PtracError: SYNTAX_HISTORY_LINE.
         """
 
         source = _parser.preprocess_ptrac(source)
         tokens = HistoryLine_J_3._REGEX.match(source)
 
         if not tokens:
-            raise Exception
+            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
 
         next_type = keyword_type.HistoryKeyword_Type.from_mcnp(tokens[1])
         node = types.Integer.from_mcnp(tokens[2])

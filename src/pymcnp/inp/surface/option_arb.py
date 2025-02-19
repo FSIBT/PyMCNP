@@ -121,98 +121,69 @@ class SurfaceOption_Arb(_option.SurfaceOption_, keyword='arb'):
             ``SurfaceOption_Arb``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if ax is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, ax)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, ax)
         if ay is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, ay)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, ay)
         if az is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, az)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, az)
         if bx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, bx)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, bx)
         if by is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, by)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, by)
         if bz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, bz)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, bz)
         if cx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, cx)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, cx)
         if cy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, cy)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, cy)
         if cz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, cz)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, cz)
         if dx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, dx)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, dx)
         if dy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, dy)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, dy)
         if dz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, dz)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, dz)
         if ex is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, ex)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, ex)
         if ey is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, ey)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, ey)
         if ez is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, ez)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, ez)
         if fx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, fx)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, fx)
         if fy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, fy)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, fy)
         if fz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, fz)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, fz)
         if gx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, gx)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, gx)
         if gy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, gy)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, gy)
         if gz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, gz)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, gz)
         if hx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, hx)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, hx)
         if hy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, hy)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, hy)
         if hz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, hz)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, hz)
         if n1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, n1)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, n1)
         if n2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, n2)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, n2)
         if n3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, n3)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, n3)
         if n4 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, n4)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, n4)
         if n5 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, n5)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, n5)
         if n6 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, n6)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, n6)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [
@@ -291,14 +262,14 @@ class SurfaceOption_Arb(_option.SurfaceOption_, keyword='arb'):
             ``SurfaceOption_Arb``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_Arb._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         ax = types.Real.from_mcnp(tokens[1])
         ay = types.Real.from_mcnp(tokens[2])

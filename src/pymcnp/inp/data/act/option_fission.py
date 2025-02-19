@@ -28,11 +28,11 @@ class ActOption_Fission(_option.ActOption_, keyword='fission'):
             ``ActOption_Fission``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if kind is None or type not in {'none', 'n,p,e,f,a', 'all'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, kind)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kind)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([kind])
         self.kind: typing.Final[types.String] = kind
@@ -49,14 +49,14 @@ class ActOption_Fission(_option.ActOption_, keyword='fission'):
             ``ActOption_Fission``.
 
         Raises:
-            McnpError: SYNTAX_ACT_OPTION.
+            InpError: SYNTAX_ACT_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = ActOption_Fission._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_ACT_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         kind = types.String.from_mcnp(tokens[1])
 

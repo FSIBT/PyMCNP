@@ -30,13 +30,13 @@ class XsEntry_Substance(_entry.XsEntry_):
             ``XsEntrySubstance``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_ENTRY_VALUE.
+            InpError: SEMANTICS_ENTRY_VALUE.
         """
 
         if zaid is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, zaid)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, zaid)
         if weight_ratio is None or not (weight_ratio > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_ENTRY_VALUE, weight_ratio)
+            raise errors.InpError(errors.InpCode.SEMANTICS_ENTRY_VALUE, weight_ratio)
 
         self.parameters: typing.Final[tuple[any]] = types._Tuple([zaid, weight_ratio])
         self.zaid: typing.Final[types.Zaid] = zaid
@@ -54,14 +54,14 @@ class XsEntry_Substance(_entry.XsEntry_):
             ``XsEntry_Substance``.
 
         Raises:
-            McnpError: SYNTAX_XS_ENTRY.
+            InpError: SYNTAX_XS_ENTRY.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = XsEntry_Substance._REGEX.match(' ' + source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_XS_ENTRY, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_ENTRY, source)
 
         zaid = types.Zaid.from_mcnp(tokens[1])
         weight_ratio = types.Real.from_mcnp(tokens[2])

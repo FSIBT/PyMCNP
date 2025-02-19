@@ -50,29 +50,23 @@ class SurfaceOption_Ell(_option.SurfaceOption_, keyword='ell'):
             ``SurfaceOption_Ell``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if v1x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, v1x)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, v1x)
         if v1y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, v1y)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, v1y)
         if v1z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, v1z)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, v1z)
         if v2x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, v2x)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, v2x)
         if v2y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, v2y)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, v2y)
         if v2z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, v2z)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, v2z)
         if rm is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, rm)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, rm)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([v1x, v1y, v1z, v2x, v2y, v2z, rm])
         self.v1x: typing.Final[types.Real] = v1x
@@ -95,14 +89,14 @@ class SurfaceOption_Ell(_option.SurfaceOption_, keyword='ell'):
             ``SurfaceOption_Ell``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_Ell._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         v1x = types.Real.from_mcnp(tokens[1])
         v1y = types.Real.from_mcnp(tokens[2])

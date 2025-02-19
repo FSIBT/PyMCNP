@@ -28,11 +28,11 @@ class SdefOption_Wgt(_option.SdefOption_, keyword='wgt'):
             ``SdefOption_Wgt``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if weight is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, weight)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, weight)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([weight])
         self.weight: typing.Final[types.Real] = weight
@@ -49,14 +49,14 @@ class SdefOption_Wgt(_option.SdefOption_, keyword='wgt'):
             ``SdefOption_Wgt``.
 
         Raises:
-            McnpError: SYNTAX_SDEF_OPTION.
+            InpError: SYNTAX_SDEF_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SdefOption_Wgt._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SDEF_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         weight = types.Real.from_mcnp(tokens[1])
 

@@ -28,11 +28,11 @@ class StopOption_Ctme(_option.StopOption_, keyword='ctme'):
             ``StopOption_Ctme``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if tme is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, tme)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, tme)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([tme])
         self.tme: typing.Final[types.Real] = tme
@@ -49,14 +49,14 @@ class StopOption_Ctme(_option.StopOption_, keyword='ctme'):
             ``StopOption_Ctme``.
 
         Raises:
-            McnpError: SYNTAX_STOP_OPTION.
+            InpError: SYNTAX_STOP_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = StopOption_Ctme._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_STOP_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         tme = types.Real.from_mcnp(tokens[1])
 

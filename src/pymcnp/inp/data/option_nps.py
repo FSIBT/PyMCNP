@@ -30,14 +30,13 @@ class DataOption_Nps(_option.DataOption_, keyword='nps'):
             ``DataOption_Nps``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if npp is None or not (npp > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, npp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, npp)
         if npsmg is not None and not (npsmg > 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, npsmg)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, npsmg)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([npp, npsmg])
         self.npp: typing.Final[types.Integer] = npp
@@ -55,14 +54,14 @@ class DataOption_Nps(_option.DataOption_, keyword='nps'):
             ``DataOption_Nps``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Nps._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         npp = types.Integer.from_mcnp(tokens[1])
         npsmg = types.Integer.from_mcnp(tokens[2]) if tokens[2] else None

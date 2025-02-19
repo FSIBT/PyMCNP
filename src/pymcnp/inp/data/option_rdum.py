@@ -28,11 +28,11 @@ class DataOption_Rdum(_option.DataOption_, keyword='rdum'):
             ``DataOption_Rdum``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if floats is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, floats)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, floats)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([floats])
         self.floats: typing.Final[tuple[types.Real]] = floats
@@ -49,14 +49,14 @@ class DataOption_Rdum(_option.DataOption_, keyword='rdum'):
             ``DataOption_Rdum``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Rdum._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         floats = types._Tuple(
             [types.Real.from_mcnp(token[0]) for token in re.finditer(r'( \S+)', tokens[1])]

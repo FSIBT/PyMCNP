@@ -28,11 +28,11 @@ class SdefOption_Erg(_option.SdefOption_, keyword='erg'):
             ``SdefOption_Erg``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if energy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, energy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([energy])
         self.energy: typing.Final[types.Real] = energy
@@ -49,14 +49,14 @@ class SdefOption_Erg(_option.SdefOption_, keyword='erg'):
             ``SdefOption_Erg``.
 
         Raises:
-            McnpError: SYNTAX_SDEF_OPTION.
+            InpError: SYNTAX_SDEF_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SdefOption_Erg._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SDEF_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         energy = types.Real.from_mcnp(tokens[1])
 

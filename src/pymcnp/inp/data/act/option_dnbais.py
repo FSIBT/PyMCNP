@@ -28,11 +28,11 @@ class ActOption_Dnbais(_option.ActOption_, keyword='dnbais'):
             ``ActOption_Dnbais``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if count is None or not (0 <= count <= 10):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, count)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, count)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([count])
         self.count: typing.Final[types.Integer] = count
@@ -49,14 +49,14 @@ class ActOption_Dnbais(_option.ActOption_, keyword='dnbais'):
             ``ActOption_Dnbais``.
 
         Raises:
-            McnpError: SYNTAX_ACT_OPTION.
+            InpError: SYNTAX_ACT_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = ActOption_Dnbais._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_ACT_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         count = types.Integer.from_mcnp(tokens[1])
 

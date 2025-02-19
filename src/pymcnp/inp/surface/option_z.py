@@ -46,26 +46,21 @@ class SurfaceOption_Z(_option.SurfaceOption_, keyword='z'):
             ``SurfaceOption_Z``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if z1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, z1)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, z1)
         if r1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, r1)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, r1)
         if z2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, z2)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, z2)
         if r2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, r2)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, r2)
         if z3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, z3)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, z3)
         if r3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, r3)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, r3)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([z1, r1, z2, r2, z3, r3])
         self.z1: typing.Final[types.Real] = z1
@@ -87,14 +82,14 @@ class SurfaceOption_Z(_option.SurfaceOption_, keyword='z'):
             ``SurfaceOption_Z``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_Z._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         z1 = types.Real.from_mcnp(tokens[1])
         r1 = types.Real.from_mcnp(tokens[2])

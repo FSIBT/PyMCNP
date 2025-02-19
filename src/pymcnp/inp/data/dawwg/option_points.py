@@ -28,11 +28,11 @@ class DawwgOption_Points(_option.DawwgOption_, keyword='points'):
             ``DawwgOption_Points``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if name is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, name)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, name)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([name])
         self.name: typing.Final[types.String] = name
@@ -49,14 +49,14 @@ class DawwgOption_Points(_option.DawwgOption_, keyword='points'):
             ``DawwgOption_Points``.
 
         Raises:
-            McnpError: SYNTAX_DAWWG_OPTION.
+            InpError: SYNTAX_DAWWG_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DawwgOption_Points._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DAWWG_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         name = types.String.from_mcnp(tokens[1])
 

@@ -180,160 +180,111 @@ class DataOption_Bbrem(_option.DataOption_, keyword='bbrem'):
             ``DataOption_Bbrem``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if bias_1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_1)
         if bias_2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_2)
         if bias_3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_3)
         if bias_4 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_4)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_4)
         if bias_5 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_5)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_5)
         if bias_6 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_6)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_6)
         if bias_7 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_7)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_7)
         if bias_8 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_8)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_8)
         if bias_9 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_9)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_9)
         if bias_10 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_10)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_10)
         if bias_11 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_11)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_11)
         if bias_12 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_12)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_12)
         if bias_13 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_13)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_13)
         if bias_14 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_14)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_14)
         if bias_15 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_15)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_15)
         if bias_16 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_16)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_16)
         if bias_17 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_17)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_17)
         if bias_18 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_18)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_18)
         if bias_19 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_19)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_19)
         if bias_20 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_20)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_20)
         if bias_21 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_21)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_21)
         if bias_22 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_22)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_22)
         if bias_23 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_23)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_23)
         if bias_24 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_24)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_24)
         if bias_25 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_25)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_25)
         if bias_26 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_26)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_26)
         if bias_27 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_27)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_27)
         if bias_28 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_28)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_28)
         if bias_29 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_29)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_29)
         if bias_30 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_30)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_30)
         if bias_31 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_31)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_31)
         if bias_32 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_32)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_32)
         if bias_33 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_33)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_33)
         if bias_34 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_34)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_34)
         if bias_35 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_35)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_35)
         if bias_36 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_36)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_36)
         if bias_37 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_37)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_37)
         if bias_38 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_38)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_38)
         if bias_39 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_39)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_39)
         if bias_40 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_40)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_40)
         if bias_41 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_41)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_41)
         if bias_42 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_42)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_42)
         if bias_43 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_43)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_43)
         if bias_44 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_44)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_44)
         if bias_45 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_45)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_45)
         if bias_46 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_46)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_46)
         if bias_47 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_47)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_47)
         if bias_48 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_48)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_48)
         if bias_49 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, bias_49)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bias_49)
         if materials is None or not (
             filter(lambda entry: not (0 <= entry <= 99_999_999), materials)
         ):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, materials)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, materials)
 
         self.value: typing.Final[tuple[any]] = types._Tuple(
             [
@@ -452,14 +403,14 @@ class DataOption_Bbrem(_option.DataOption_, keyword='bbrem'):
             ``DataOption_Bbrem``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Bbrem._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         bias_1 = types.Real.from_mcnp(tokens[1])
         bias_2 = types.Real.from_mcnp(tokens[2])

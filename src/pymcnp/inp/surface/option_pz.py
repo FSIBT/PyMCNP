@@ -29,11 +29,11 @@ class SurfaceOption_Pz(_option.SurfaceOption_, keyword='pz'):
             ``SurfaceOption_Pz``.
 
         Raises:
-            McnpError: SEMANTICS_SURFACE_OPTION_VALUE.
+            InpError: SYNTAX_OPTION_VALUE.
         """
 
         if d is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_SURFACE_OPTION_VALUE, d)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION_VALUE, d)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([d])
         self.d: typing.Final[types.Real] = d
@@ -50,14 +50,14 @@ class SurfaceOption_Pz(_option.SurfaceOption_, keyword='pz'):
             ``SurfaceOption_Pz``.
 
         Raises:
-            McnpError: SYNTAX_SURFACE_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = SurfaceOption_Pz._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_SURFACE_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         d = types.Real.from_mcnp(tokens[1])
 

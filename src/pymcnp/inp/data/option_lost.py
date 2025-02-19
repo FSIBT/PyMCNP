@@ -30,14 +30,13 @@ class DataOption_Lost(_option.DataOption_, keyword='lost'):
             ``DataOption_Lost``.
 
         Raises:
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
-            McnpError: SEMANTICS_DATA_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION_VALUE.
         """
 
         if lost1 is None or not (lost1 >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, lost1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, lost1)
         if lost2 is None or not (lost2 >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DATA_OPTION_VALUE, lost2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, lost2)
 
         self.value: typing.Final[tuple[any]] = types._Tuple([lost1, lost2])
         self.lost1: typing.Final[types.Integer] = lost1
@@ -55,14 +54,14 @@ class DataOption_Lost(_option.DataOption_, keyword='lost'):
             ``DataOption_Lost``.
 
         Raises:
-            McnpError: SYNTAX_DATA_OPTION.
+            InpError: SYNTAX_DATA_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = DataOption_Lost._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DATA_OPTION, source)
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         lost1 = types.Integer.from_mcnp(tokens[1])
         lost2 = types.Integer.from_mcnp(tokens[2])
