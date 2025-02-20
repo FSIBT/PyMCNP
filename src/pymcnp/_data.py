@@ -66,6 +66,7 @@ class EntryScheme:
         attributes: tuple[AttributeScheme],
         entries: tuple[any] = None,
         options: tuple[any] = None,
+        extra: str = '',
     ):
         """
         Initializes ``EntryScheme``.
@@ -73,6 +74,9 @@ class EntryScheme:
         Parameters:
             name: INP entry name.
             attributes: INP entry attributes.
+            options: INP entry options.
+            entries: INP entry entries.
+            extra: Python to append.
 
         Returns:
             ``EntryScheme``.
@@ -82,6 +86,7 @@ class EntryScheme:
         self.attributes: typing.Final[tuple[AttributeScheme]] = attributes
         self.entries: typing.Final[tuple[EntryScheme]] = entries
         self.options: typing.Final[tuple[OptionScheme]] = options
+        self.extra: typing.Final[str] = extra
 
         GET[name] = self
 
@@ -95,6 +100,7 @@ class OptionScheme:
         attributes: INP option attributes.
         options: INP option options.
         entries: INP option entries.
+        extra: Python to append.
     """
 
     def __init__(
@@ -105,6 +111,7 @@ class OptionScheme:
         attributes: tuple[AttributeScheme],
         options: tuple[any] = None,
         entries: tuple[EntryScheme] = None,
+        extra: str = '',
     ):
         """
         Initializes ``OptionScheme``.
@@ -125,6 +132,7 @@ class OptionScheme:
         self.attributes: typing.Final[tuple[AttributeScheme]] = attributes
         self.options: typing.Final[tuple[OptionScheme]] = options
         self.entries: typing.Final[tuple[EntryScheme]] = entries
+        self.extra: typing.Final[str] = extra
 
 
 class CardScheme:
@@ -171,7 +179,7 @@ CARDS = (
         attributes=[
             AttributeScheme(
                 name='options',
-                type='tuple[cell.CellOption_]',
+                type='tuple[cell_.CellOption_]',
                 description='Help Me!',
                 restriction='',
                 optional=True,
@@ -397,7 +405,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='transformation',
-                        type='trcl_1.Trcl1Entry_Transformation',
+                        type='trcl_1_.Trcl1Entry_Transformation',
                         description='Cell transformation.',
                         restriction='',
                     ),
@@ -531,7 +539,7 @@ CARDS = (
                     ),
                     AttributeScheme(
                         name='transformation',
-                        type='fill_1.Fill1Entry_Transformation',
+                        type='fill_1_.Fill1Entry_Transformation',
                         description='Cell fill transformation',
                         restriction='',
                         optional=True,
@@ -690,7 +698,7 @@ CARDS = (
         attributes=[
             AttributeScheme(
                 name='options',
-                type='surface.SurfaceOption_',
+                type='surface_.SurfaceOption_',
                 description='Help Me!',
                 restriction='',
             ),
@@ -725,6 +733,21 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Px``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Px``
+        """
+
+        vis = _visualization.McnpVisualization.get_plane(
+            self.a.value, self.b.value, self.c.value, self.d.value
+        )
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='p_1',
@@ -785,6 +808,25 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_P0``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_P1``
+        """
+
+        a = _visualization.Vector(self.x2 - self.x1, self.y2 - self.y1, self.z2 - self.z1)
+        b = _visualization.Vector(self.x3 - self.x1, self.y3 - self.y1, self.z3 - self.z1)
+        n = a * b
+
+        vis = _visualization.McnpVisualization.get_plane(
+            n.x, n.y, n.z, n.x * self.x1 + n.y * self.y1 + n.z * self.z1
+        )
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='px',
@@ -797,6 +839,20 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Px``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Px``
+        """
+
+        vis = _visualization.McnpVisualization.get_plane(1, 0, 0, self.d.value)
+        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='py',
@@ -809,6 +865,20 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Py``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Py``
+        """
+
+        vis = _visualization.McnpVisualization.get_plane(0, 1, 0, self.d.value)
+        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='pz',
@@ -821,6 +891,19 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Pz``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Pz``
+        """
+
+        vis = _visualization.McnpVisualization.get_plane(0, 0, 1, self.d.value)
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='so',
@@ -833,6 +916,19 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_So``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_So``
+        """
+
+        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='s',
@@ -863,6 +959,20 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_S``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_S``
+        """
+
+        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='sx',
@@ -881,6 +991,20 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Sx``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Sx``
+        """
+
+        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='sy',
@@ -899,6 +1023,21 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Sy``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Sy``
+        """
+
+        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(0, self.y.value, 0))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='sz',
@@ -917,6 +1056,20 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Sz``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Sz``
+        """
+
+        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = vis.add_translation(_visualization.Vector(0, 0, self.z.value))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='c/x',
@@ -941,6 +1094,21 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_C_x``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_C_x``.
+        """
+
+        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(0, self.y.value, self.z.value))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='c/y',
@@ -965,6 +1133,21 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_C_y``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_C_y``.
+        """
+
+        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(self.x.value, 0, self.z.value))
+
+        return vis.data
+''',
             ),
             OptionScheme(
                 name='c/z',
@@ -989,6 +1172,20 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_C_z``.
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_C_z``.
+        """
+
+        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, 0))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='cx',
@@ -1001,6 +1198,20 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Cx``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Cx``.
+        """
+
+        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='cy',
@@ -1013,6 +1224,20 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Cy``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Cy``.
+        """
+
+        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
+
+        return vis.data
+''',
             ),
             OptionScheme(
                 name='cz',
@@ -1025,6 +1250,19 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Cz``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Cz``.
+        """
+
+        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+
+        return vis.data
+''',
             ),
             OptionScheme(
                 name='k/x',
@@ -1061,6 +1299,23 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_K_x``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_K_x``.
+        """
+
+        vis = _visualization.McnpVisualization.get_cone_quadratic(
+            self.t_squared.value ** (1 / 2), self.plusminus_1.value
+        )
+        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='k/y',
@@ -1097,6 +1352,23 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_K_y``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_K_y``.
+        """
+
+        vis = _visualization.McnpVisualization.get_cone_quadratic(
+            self.t_squared.value ** (1 / 2), self.plusminus_1.value
+        )
+        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='k/z',
@@ -1133,6 +1405,22 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_K_z``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_K_z``.
+        """
+
+        vis = _visualization.McnpVisualization.get_cone_quadratic(
+            self.t_squared.value ** (1 / 2), self.plusminus_1.value
+        )
+        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='kx',
@@ -1157,6 +1445,23 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Kx``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Kx``.
+        """
+
+        vis = _visualization.McnpVisualization.get_cone_quadratic(
+            self.t_squared.value ** (1 / 2), self.plusminus_1.value
+        )
+        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='ky',
@@ -1181,6 +1486,23 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Ky``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Ky``.
+        """
+
+        vis = _visualization.McnpVisualization.get_cone_quadratic(
+            self.t_squared.value ** (1 / 2), self.plusminus_1.value
+        )
+        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(0, self.y.value, 0))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='kz',
@@ -1205,6 +1527,22 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Kz``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Kz``.
+        """
+
+        vis = _visualization.McnpVisualization.get_cone_quadratic(
+            self.t_squared.value ** (1 / 2), self.plusminus_1.value
+        )
+        vis = vis.add_translation(_visualization.Vector(0, 0, self.z.value))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='sq',
@@ -1379,6 +1717,21 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Tx``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Tx``
+        """
+
+        vis = _visualization.McnpVisualization.get_torus(self.b.value, self.c.value, self.a.value)
+        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='ty',
@@ -1421,6 +1774,21 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Ty``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Ty``
+        """
+
+        vis = _visualization.McnpVisualization.get_torus(self.b.value, self.c.value, self.a.value)
+        vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='tz',
@@ -1463,6 +1831,20 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Tz``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Tz``
+        """
+
+        vis = _visualization.McnpVisualization.get_torus(self.b.value, self.c.value, self.a.value)
+        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='x',
@@ -1667,6 +2049,28 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Box``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Box``.
+        """
+
+        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+        a1 = _visualization.Vector(self.a1x.value, self.a1y.value, self.a1z.value)
+        a2 = _visualization.Vector(self.a2x.value, self.a2y.value, self.a2z.value)
+        a3 = _visualization.Vector(self.a3x.value, self.a3y.value, self.a3z.value)
+        cross = _visualization.Vector(1, 0, 0) * a1
+        angle = _visualization.Vector(1, 0, 0) & a1
+
+        vis = _visualization.McnpVisualization.get_box(a1.norm(), a2.norm(), a3.norm())
+        vis = vis.add_rotation(cross, angle, (0, 0, 0))
+        vis = vis.add_translation(v)
+
+        return vis.data
+''',
             ),
             OptionScheme(
                 name='rpp',
@@ -1709,6 +2113,26 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Rpp``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Rpp``
+        """
+
+        vis = _visualization.McnpVisualization.get_parallelipiped(
+            self.xmin.value,
+            self.xmax.value,
+            self.ymin.value,
+            self.ymax.value,
+            self.zmin.value,
+            self.zmax.value,
+        )
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='sph',
@@ -1739,6 +2163,22 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Sph``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Sph``
+        """
+
+        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = vis.add_translation(
+            _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+        )
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='rcc',
@@ -1787,6 +2227,27 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Rcc``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Rcc``
+        """
+
+        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
+
+        cross = v * _visualization.Vector(0, 0, 1)
+        angle = v & _visualization.Vector(0, 0, 1)
+
+        vis = _visualization.McnpVisualization.get_cylinder_circle(h.norm(), self.r.value)
+        vis = vis.add_rotation(cross, angle, (0, 0, 0))
+        vis = vis.add_translation(v)
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='rhp',
@@ -1883,6 +2344,32 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Rhp``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Rhp``
+        """
+
+        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
+        r = _visualization.Vector(self.r1.value, self.r2.value, self.r3.value)
+        s = _visualization.Vector(self.s1.value, self.s2.value, self.s3.value)
+        t = _visualization.Vector(self.t1.value, self.t2.value, self.t3.value)
+
+        cross = v * _visualization.Vector(0, 0, 1)
+        angle = v & _visualization.Vector(0, 0, 1)
+
+        vis = _visualization.McnpVisualization.get_cylinder_hexagon(
+            h.norm(), r.apothem(), s.apothem(), t.apothem()
+        )
+        vis = vis.add_rotation(cross, angle, (0, 0, 0))
+        vis = vis.add_translation(v)
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='rec',
@@ -1961,6 +2448,29 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Rec``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Rec``
+        """
+
+        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
+        v1 = _visualization.Vector(self.v1x.value, self.v1y.value, self.v1z.value)
+        v2 = _visualization.Vector(self.v2x.value, self.v2y.value, self.v2z.value)
+
+        cross = v * _visualization.Vector(0, 0, 1)
+        angle = v & _visualization.Vector(0, 0, 1)
+
+        vis = _visualization.McnpVisualization.get_cylinder_ellipse(h.norm(), v1.norm(), v2.norm())
+        vis = vis.add_rotation(cross, angle, (0, 0, 0))
+        vis = vis.add_translation(v)
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='trc',
@@ -2015,6 +2525,30 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Trc``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Trc``
+        """
+
+        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
+
+        cross = h * _visualization.Vector(0, 0, 1)
+        angle = h & _visualization.Vector(0, 0, 1)
+
+        vis = _visualization.McnpVisualization.get_cone_truncated(
+            h.norm(), self.r1.value, self.r2.value
+        )
+        vis = vis.add_rotation(cross, angle, (0, 0, 0))
+        vis = vis.add_translation(
+            _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+        )
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='ell',
@@ -2063,6 +2597,39 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Ell``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Ell``.
+        """
+
+        v1 = _visualization.Vector(self.v1x.value, self.v1y.value, self.v1z.value)
+        v2 = _visualization.Vector(self.v2x.value, self.v2y.value, self.v2z.value)
+
+        if self.rm > 0:
+            center = _visualization.Vector(
+                (v2 - v1).x / 2 + v1.x, (v2 - v1).y / 2 + v1.y, (v2 - v1).z / 2 + v1.z
+            )
+            major_length = self.rm.value
+            minor_length = 2 * (((major_length / 2) ** 2 - ((v2 - v1).norm() / 2) ** 2) ** 0.5)
+            cross = (v2 - v1) * _visualization.Vector(1, 0, 0)
+            angle = (v2 - v1) & _visualization.Vector(1, 0, 0)
+        elif self.rm < 0:
+            center = v1
+            major_length = v2.norm()
+            minor_length = -self.rm.value
+            cross = v2 * _visualization.Vector(1, 0, 0)
+            angle = v2 & _visualization.Vector(1, 0, 0)
+
+        vis = _visualization.McnpVisualization.get_ellipsoid(major_length, minor_length)
+        vis = vis.add_rotation(cross, angle, (0, 0, 0))
+        vis = vis.add_translation(center)
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='wed',
@@ -2141,6 +2708,29 @@ CARDS = (
                         restriction='',
                     ),
                 ],
+                extra='''
+def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``SurfaceOption_Wed``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``SurfaceOption_Wed``
+        """
+
+        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+        v1 = _visualization.Vector(self.v1x.value, self.v1y.value, self.v1z.value)
+        v2 = _visualization.Vector(self.v2x.value, self.v2y.value, self.v2z.value)
+        v3 = _visualization.Vector(self.v3x.value, self.v3y.value, self.v3z.value)
+
+        cross = _visualization.Vector(1, 0, 0) * v1
+        angle = _visualization.Vector(1, 0, 0) & v1
+
+        vis = _visualization.McnpVisualization.get_wedge(v1.norm(), v2.norm(), v3.norm())
+        vis = vis.add_rotation(cross, angle, (0, 0, 0))
+        vis = vis.add_translation(v)
+
+        return vis.data
+'''[1:-1],
             ),
             OptionScheme(
                 name='arb',
@@ -2335,7 +2925,7 @@ CARDS = (
         attributes=[
             AttributeScheme(
                 name='options',
-                type='data.DataOption_',
+                type='data_.DataOption_',
                 description='Help Me!',
                 restriction='',
             ),
@@ -2504,7 +3094,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='transformations',
-                        type='tuple[uran.UranEntry_Transformation]',
+                        type='tuple[uran_.UranEntry_Transformation]',
                         description='Tuple of stochastic transformations',
                         restriction='',
                     ),
@@ -2559,7 +3149,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[dawwg.DawwgOption_]',
+                        type='tuple[dawwg_.DawwgOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -2602,7 +3192,7 @@ CARDS = (
                             ),
                             AttributeScheme(
                                 name='options',
-                                type='tuple[block.BlockOption_]',
+                                type='tuple[block_.BlockOption_]',
                                 description='Dictionary of dawwg block options',
                                 restriction='',
                                 optional=True,
@@ -3400,7 +3990,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[embed.EmbedOption_]',
+                        type='tuple[embed_.EmbedOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -3553,7 +4143,7 @@ CARDS = (
                     ),
                     AttributeScheme(
                         name='options',
-                        type='tuple[embee.EmbeeOption_]',
+                        type='tuple[embee_.EmbeeOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -3772,7 +4362,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='substances',
-                        type='tuple[m.MEntry_Substance]',
+                        type='tuple[m_.MEntry_Substance]',
                         description='Tuple of material constituents',
                         restriction='',
                     ),
@@ -3784,7 +4374,7 @@ CARDS = (
                     ),
                     AttributeScheme(
                         name='options',
-                        type='tuple[m.MOption_]',
+                        type='tuple[m_.MOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -4003,6 +4593,63 @@ CARDS = (
                         ],
                     ),
                 ],
+                extra='''
+@staticmethod
+    def from_formula(number: int, formulas: dict[str, float], atomic_or_weight: bool = True):
+        """
+        Generates ``DataOption_M`` from INP.
+
+        Parameters:
+            number: Arbitrary material number.
+            formulas: Dictionary of formulas and atomic/weight fractions.
+            atomic_or_weight: Atomtic/Weight fraction true/false flag.
+
+        Returns:
+            ``DataOption_M`` object.
+        """
+
+        substances = []
+        comments = []
+        for formula, mixture_fraction in formulas.items():
+            formula = molmass.Formula(formula)
+
+            composition = formula.composition()
+            for element in composition:
+                compound_fraction = (
+                    composition[element].fraction
+                    if atomic_or_weight
+                    else composition[element].mass / formula.mass
+                )
+
+                zaids = [
+                    (
+                        types.Zaid(_elements.ELEMENTS[element]['z'], a),
+                        isotropic_fraction,
+                    )
+                    for a, isotropic_fraction in _elements.ELEMENTS[element]['fraction'].items()
+                ]
+                subcomments = [f"{element}-{zaid.a:03}" for zaid, _ in zaids]
+                entries = [
+                    m.MEntry_Substance(
+                        zaid,
+                        types.Real(
+                            (-1 if atomic_or_weight else 1)
+                            * mixture_fraction
+                            * compound_fraction
+                            * isotropic_fraction
+                        ),
+                    )
+                    for zaid, isotropic_fraction in zaids
+                ]
+
+                comments += subcomments
+                substances += entries
+
+        material = DataOption_M(substances, types.Integer(number), [])
+        material.comment = tuple(comments)
+
+        return material
+'''[1:-1],
             ),
             OptionScheme(
                 name='mt',
@@ -4090,7 +4737,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='weight_ratios',
-                        type='tuple[awtab.AwtabEntry_Substance]',
+                        type='tuple[awtab_.AwtabEntry_Substance]',
                         description='Tuple of atomic weight ratios',
                         restriction='',
                     ),
@@ -4121,7 +4768,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='weight_ratios',
-                        type='tuple[xs.XsEntry_Substance]',
+                        type='tuple[xs_.XsEntry_Substance]',
                         description='Tuple of atomic weight ratios',
                         restriction='',
                     ),
@@ -4244,7 +4891,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[act.ActOption_]',
+                        type='tuple[act_.ActOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -4341,7 +4988,7 @@ CARDS = (
                         attributes=[
                             AttributeScheme(
                                 name='biases',
-                                type='tuple[dneb.DnebEntry_Bias]',
+                                type='tuple[dneb_.DnebEntry_Bias]',
                                 description='Delayed neutron energy biases',
                                 restriction='',
                             ),
@@ -4372,7 +5019,7 @@ CARDS = (
                         attributes=[
                             AttributeScheme(
                                 name='biases',
-                                type='tuple[dgeb.DgebEntry_Bias]',
+                                type='tuple[dgeb_.DgebEntry_Bias]',
                                 description='Delayed neutron energy biases',
                                 restriction='',
                             ),
@@ -4784,7 +5431,7 @@ CARDS = (
                     ),
                     AttributeScheme(
                         name='options',
-                        type='tuple[fmult.FmultOption_]',
+                        type='tuple[fmult_.FmultOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -4888,7 +5535,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[tropt.TroptOption_]',
+                        type='tuple[tropt_.TroptOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -5029,7 +5676,7 @@ CARDS = (
                     ),
                     AttributeScheme(
                         name='options',
-                        type='tuple[bfld.BfldOption_]',
+                        type='tuple[bfld_.BfldOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -5140,7 +5787,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[sdef.SdefOption_]',
+                        type='tuple[sdef_.SdefOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -5661,7 +6308,7 @@ CARDS = (
                     ),
                     AttributeScheme(
                         name='ijs',
-                        type='tuple[ds_1.Ds1Entry_Tpair]',
+                        type='tuple[ds_1_.Ds1Entry_Tpair]',
                         description='Dependent source independent & dependent variables',
                         restriction='',
                     ),
@@ -5704,7 +6351,7 @@ CARDS = (
                     ),
                     AttributeScheme(
                         name='vss',
-                        type='tuple[ds_2.Ds2Entry_Qpair]',
+                        type='tuple[ds_2_.Ds2Entry_Qpair]',
                         description='Dependent source independent & dependent variables',
                         restriction='',
                     ),
@@ -5782,7 +6429,7 @@ CARDS = (
                     ),
                     AttributeScheme(
                         name='options',
-                        type='tuple[ssw.SswOption_]',
+                        type='tuple[ssw_.SswOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -5833,7 +6480,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[ssr.SsrOption_]',
+                        type='tuple[ssr_.SsrOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -6057,7 +6704,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='locations',
-                        type='tuple[ksrc.KsrcEntry_Location]',
+                        type='tuple[ksrc_.KsrcEntry_Location]',
                         description='Tuple of inital source points',
                         restriction='',
                     ),
@@ -6094,7 +6741,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[kopts.KoptsOption_]',
+                        type='tuple[kopts_.KoptsOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -6717,7 +7364,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[pert.PertOption_]',
+                        type='tuple[pert_.PertOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -6822,7 +7469,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[kpert.KpertOption_]',
+                        type='tuple[kpert_.KpertOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -6933,7 +7580,7 @@ CARDS = (
                     ),
                     AttributeScheme(
                         name='options',
-                        type='tuple[ksen.KsenOption_]',
+                        type='tuple[ksen_.KsenOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -7050,7 +7697,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[fmesh.FmeshOption_]',
+                        type='tuple[fmesh_.FmeshOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -7440,7 +8087,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[var.VarOption_]',
+                        type='tuple[var_.VarOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -7677,7 +8324,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[mesh.MeshOption_]',
+                        type='tuple[mesh_.MeshOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -8346,7 +8993,7 @@ CARDS = (
             #        attributes=[
             #            AttributeScheme(
             #                name='vectors',
-            #                type='tuple[vect.VectEntry_Vector]',
+            #                type='tuple[vect_.VectEntry_Vector]',
             #                description='Vectrors for EXT',
             #            ),
             #        ],
@@ -8402,61 +9049,61 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='spheres_1',
-                        type='dxt.DxtEntry_Sphere',
+                        type='dxt_.DxtEntry_Sphere',
                         description='DXTRAN spheres #1',
                         restriction='',
                     ),
                     AttributeScheme(
                         name='spheres_2',
-                        type='dxt.DxtEntry_Sphere',
+                        type='dxt_.DxtEntry_Sphere',
                         description='DXTRAN spheres #2',
                         restriction='',
                     ),
                     AttributeScheme(
                         name='spheres_3',
-                        type='dxt.DxtEntry_Sphere',
+                        type='dxt_.DxtEntry_Sphere',
                         description='DXTRAN spheres #3',
                         restriction='',
                     ),
                     AttributeScheme(
                         name='spheres_4',
-                        type='dxt.DxtEntry_Sphere',
+                        type='dxt_.DxtEntry_Sphere',
                         description='DXTRAN spheres #4',
                         restriction='',
                     ),
                     AttributeScheme(
                         name='spheres_5',
-                        type='dxt.DxtEntry_Sphere',
+                        type='dxt_.DxtEntry_Sphere',
                         description='DXTRAN spheres #5',
                         restriction='',
                     ),
                     AttributeScheme(
                         name='spheres_6',
-                        type='dxt.DxtEntry_Sphere',
+                        type='dxt_.DxtEntry_Sphere',
                         description='DXTRAN spheres #6',
                         restriction='',
                     ),
                     AttributeScheme(
                         name='spheres_7',
-                        type='dxt.DxtEntry_Sphere',
+                        type='dxt_.DxtEntry_Sphere',
                         description='DXTRAN spheres #7',
                         restriction='',
                     ),
                     AttributeScheme(
                         name='spheres_8',
-                        type='dxt.DxtEntry_Sphere',
+                        type='dxt_.DxtEntry_Sphere',
                         description='DXTRAN spheres #8',
                         restriction='',
                     ),
                     AttributeScheme(
                         name='spheres_9',
-                        type='dxt.DxtEntry_Sphere',
+                        type='dxt_.DxtEntry_Sphere',
                         description='DXTRAN spheres #9',
                         restriction='',
                     ),
                     AttributeScheme(
                         name='spheres_10',
-                        type='dxt.DxtEntry_Sphere',
+                        type='dxt_.DxtEntry_Sphere',
                         description='DXTRAN spheres #10',
                         restriction='',
                     ),
@@ -8529,7 +9176,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='diagnostics',
-                        type='tuple[dd.DdEntry_Diagnostic]',
+                        type='tuple[dd_.DdEntry_Diagnostic]',
                         description='Detector diagnostic entries',
                         restriction='',
                     ),
@@ -8920,7 +9567,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='biases',
-                        type='tuple[pikmt.PikmtEntry_Bias]',
+                        type='tuple[pikmt_.PikmtEntry_Bias]',
                         description='Biases for proton production',
                         restriction='',
                     ),
@@ -8943,7 +9590,7 @@ CARDS = (
                             ),
                             AttributeScheme(
                                 name='reactions',
-                                type='tuple[bias.BiasEntry_Reaction]',
+                                type='tuple[bias_.BiasEntry_Reaction]',
                                 description='Bias MT reactions',
                                 restriction='',
                             ),
@@ -9019,7 +9666,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[stop.StopOption_]',
+                        type='tuple[stop_.StopOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -9145,7 +9792,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[ptrac.PtracOption_]',
+                        type='tuple[ptrac_.PtracOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -9242,7 +9889,7 @@ CARDS = (
                         attributes=[
                             AttributeScheme(
                                 name='variables',
-                                type='tuple[filter.FilterEntry_Variable]',
+                                type='tuple[filter_.FilterEntry_Variable]',
                                 description='MCNP6 variables for filtering',
                                 restriction='',
                             ),
@@ -9374,7 +10021,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='options',
-                        type='tuple[rand.RandOption_]',
+                        type='tuple[rand_.RandOption_]',
                         description='Dictionary of options',
                         restriction='',
                         optional=True,
@@ -10137,7 +10784,7 @@ CARDS = (
                 attributes=[
                     AttributeScheme(
                         name='creations',
-                        type='tuple[files.FilesEntry_File]',
+                        type='tuple[files_.FilesEntry_File]',
                         description='Files to create',
                         restriction='',
                     ),
