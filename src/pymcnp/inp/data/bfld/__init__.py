@@ -1,19 +1,11 @@
-from ._option import BfldOption_
-from .option_field import BfldOption_Field
-from .option_vec import BfldOption_Vec
-from .option_maxdeflc import BfldOption_Maxdeflc
-from .option_maxstep import BfldOption_Maxstep
-from .option_axs import BfldOption_Axs
-from .option_ffedges import BfldOption_Ffedges
-from .option_refpnt import BfldOption_Refpnt
+from .option_ import BfldOption_
 
-__all__ = [
-    'BfldOption_',
-    'BfldOption_Field',
-    'BfldOption_Vec',
-    'BfldOption_Maxdeflc',
-    'BfldOption_Maxstep',
-    'BfldOption_Axs',
-    'BfldOption_Ffedges',
-    'BfldOption_Refpnt',
-]
+from .Field import Field
+from .Vec import Vec
+from .Maxdeflc import Maxdeflc
+from .Maxstep import Maxstep
+from .Axs import Axs
+from .Ffedges import Ffedges
+from .Refpnt import Refpnt
+
+__all__ = ['BfldOption_', 'Field', 'Vec', 'Maxdeflc', 'Maxstep', 'Axs', 'Ffedges', 'Refpnt']

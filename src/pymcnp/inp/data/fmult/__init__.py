@@ -1,17 +1,10 @@
-from ._option import FmultOption_
-from .option_width import FmultOption_Width
-from .option_sfyield import FmultOption_Sfyield
-from .option_watt import FmultOption_Watt
-from .option_method import FmultOption_Method
-from .option_data import FmultOption_Data
-from .option_shift import FmultOption_Shift
+from .option_ import FmultOption_
 
-__all__ = [
-    'FmultOption_',
-    'FmultOption_Width',
-    'FmultOption_Sfyield',
-    'FmultOption_Watt',
-    'FmultOption_Method',
-    'FmultOption_Data',
-    'FmultOption_Shift',
-]
+from .Width import Width
+from .Sfyield import Sfyield
+from .Watt import Watt
+from .Method import Method
+from .Data import Data
+from .Shift import Shift
+
+__all__ = ['FmultOption_', 'Width', 'Sfyield', 'Watt', 'Method', 'Data', 'Shift']

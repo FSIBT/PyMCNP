@@ -122,13 +122,13 @@ class Header(_object.McnpElement_):
         run_date = types.String.from_mcnp(tokens[4])
         run_time = types.String.from_mcnp(tokens[5])
         title = types.String.from_mcnp(tokens[6])
-        v_line = types._Tuple(
+        v_line = types.Tuple(
             types.Real.from_mcnp(token) for token in re.split(r'\s+', tokens[7].strip())
         )
-        n_line = types._Tuple(
+        n_line = types.Tuple(
             types.Integer.from_mcnp(token) for token in re.split(r'\s+', tokens[8].strip())
         )
-        l_line = types._Tuple(
+        l_line = types.Tuple(
             types.Integer.from_mcnp(token) for token in re.split(r'\s+', tokens[9].strip())
         )
 

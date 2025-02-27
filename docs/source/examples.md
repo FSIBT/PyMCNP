@@ -19,7 +19,7 @@ use the universal `modify` function.
 	filename = "/path/to/data/input.i'
 	data = pymcnp.read_input(filename)
 	
-	pymcnp.modify(x.data._cards['nps'], npp=100_000)
+	pymcnp.modify(x.data.card_s['nps'], npp=100_000)
 
 	data.to_mcnp_file('/path/to/data/new_file_name.i')
 

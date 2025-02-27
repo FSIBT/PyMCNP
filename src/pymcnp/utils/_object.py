@@ -11,8 +11,8 @@ class McnpElement_:
 
     _REGEX: re.Pattern
 
-    @staticmethod
-    def from_mcnp(source: str):
+    @classmethod
+    def from_mcnp(cls, source: str):
         raise NotImplementedError
 
     def to_mcnp(self):

@@ -72,7 +72,7 @@ class History(_object.McnpElement_):
         if not tokens:
             raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY, source)
 
-        i_line = types._Tuple(
+        i_line = types.Tuple(
             types.Integer(tokens[1]),
             history.HistoryKeyword_Type(tokens[2]),
             types.Integer(tokens[3]),

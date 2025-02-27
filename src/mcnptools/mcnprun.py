@@ -176,12 +176,12 @@ run = run_mcnp(input_file=input_file)
 #   set_mcnp_environment(DATAPATH, ISCDATA, MCNPPATH)
 
 
-#   input_card = \
+#   inputcard_ = \
 #   r"""PUT YOUR MCNP INPUT CARD HERE
 #   IT CAN HAVE {} for formatting the card with values filled in by params arg in run_mcnp
 #   """
 
 #   # use run_mcnp in the following way as a context manager
-#   with run_mcnp(input_card, cores=4, clean=False) as (run, out_dir):
+#   with run_mcnp(inputcard_, cores=4, clean=False) as (run, out_dir):
 #   print(run.stdout)
 #   print(out_dir)

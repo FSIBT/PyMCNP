@@ -1,7 +1,5 @@
-from ._option import VarOption_
-from .option_rr import VarOption_Rr
+from .option_ import VarOption_
 
-__all__ = [
-    'VarOption_',
-    'VarOption_Rr',
-]
+from .Rr import Rr
+
+__all__ = ['VarOption_', 'Rr']

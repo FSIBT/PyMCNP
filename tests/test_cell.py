@@ -2,61 +2,61 @@ import pymcnp
 import pytest
 
 
-class Test_CellEntry_Geometry:
+# class Test_CellEntry_Geometry:
+#     """
+#     Tests ``CellEntry_Geometry``.
+#     """
+#
+#     VALID_EXAMPLES = [
+#         '-15158',
+#         '(116 8810)',
+#         '#(16270052)',
+#         '(127 4699712)',
+#         '#(55912)',
+#         '(38406:38406)',
+#         '(61781 8810)',
+#         '(8459955:54415642)',
+#         '10002 4736',
+#         '1000 25488',
+#         '(43 2832)',
+#         '59909',
+#         '#(24)',
+#         '+1',
+#         '(20552 66588:10001 6572)',
+#         '(46413 53335)',
+#         '-203',
+#         '(60608 60608)',
+#         '82811712',
+#         '(10001 7004 112147 7320)',
+#         '+1000 00057',
+#         '(17 17)',
+#         '#(999 99998)',
+#         '-1000 11505',
+#         '#(1000 00100)',
+#         '(85:38406)',
+#         '-100022 492',
+#         '-100000 010',
+#     ]
+#
+#     INVALID_EXAMPLES = []
+#
+#     def test_valid(self):
+#         for infix in self.VALID_EXAMPLES:
+#             obj = pymcnp.inp.cell.CellEntry_Geometry.from_mcnp(f'{infix}')
+#
+#             assert obj.infix == infix
+#
+#     def test_invalid(self):
+#         for infix in self.INVALID_EXAMPLES:
+#             with pytest.raises(pymcnp.utils.pymcnp.utils.errors.InpError) as err:
+#                 pymcnp.inp.cell.CellEntry_Geometry.from_mcnp(f'{infix}')
+#
+#             assert err.value.code == pymcnp.utils.errors.InpCode.INVALID_CELL_GEOMETRY
+
+
+class Test_Imp:
     """
-    Tests ``CellEntry_Geometry``.
-    """
-
-    VALID_EXAMPLES = [
-        '-15158',
-        '(116 8810)',
-        '#(16270052)',
-        '(127 4699712)',
-        '#(55912)',
-        '(38406:38406)',
-        '(61781 8810)',
-        '(8459955:54415642)',
-        '10002 4736',
-        '1000 25488',
-        '(43 2832)',
-        '59909',
-        '#(24)',
-        '+1',
-        '(20552 66588:10001 6572)',
-        '(46413 53335)',
-        '-203',
-        '(60608 60608)',
-        '82811712',
-        '(10001 7004 112147 7320)',
-        '+1000 00057',
-        '(17 17)',
-        '#(999 99998)',
-        '-1000 11505',
-        '#(1000 00100)',
-        '(85:38406)',
-        '-100022 492',
-        '-100000 010',
-    ]
-
-    INVALID_EXAMPLES = []
-
-    def test_valid(self):
-        for infix in self.VALID_EXAMPLES:
-            obj = pymcnp.inp.CellEntry_Geometry.from_mcnp(f'{infix}')
-
-            assert obj.infix == infix
-
-    def test_invalid(self):
-        for infix in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.pymcnp.utils.errors.InpError) as err:
-                pymcnp.inp.CellEntry_Geometry.from_mcnp(f'{infix}')
-
-            assert err.value.code == pymcnp.utils.errors.InpCode.INVALID_CELL_GEOMETRY
-
-
-class Test_CellOption_Imp:
-    """
-    Tests ``CellOption_Imp``.
+    Tests ``Imp``.
     """
 
     VALID_EXAMPLES = [(0.5, ('n', 'p')), (1.5, ('n',)), (-0.5, ('n', '#'))]
@@ -68,7 +68,7 @@ class Test_CellOption_Imp:
             _importance = pymcnp.utils.types.Real(importance)
             _designator = pymcnp.utils.types.Designator(designator)
 
-            obj = pymcnp.inp.CellOption_Imp(_importance, _designator)
+            obj = pymcnp.inp.cell.Imp(_designator, _importance)
 
             assert obj.importance == pymcnp.utils.types.Real(importance)
             assert obj.designator == pymcnp.utils.types.Designator(designator)
@@ -78,12 +78,12 @@ class Test_CellOption_Imp:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 importance = pymcnp.utils.types.Real(importance)
                 designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.CellOption_Imp(importance, designator)
+                pymcnp.inp.cell.Imp(designator, importance)
 
 
-class Test_CellOption_Vol:
+class Test_Vol:
     """
-    Tests ``CellOption_Vol``.
+    Tests ``Vol``.
     """
 
     VALID_EXAMPLES = [0.5, 1.5, 0.0]
@@ -94,7 +94,7 @@ class Test_CellOption_Vol:
         for volume in self.VALID_EXAMPLES:
             _volume = pymcnp.utils.types.Real(volume)
 
-            obj = pymcnp.inp.CellOption_Vol(_volume)
+            obj = pymcnp.inp.cell.Vol(_volume)
 
             assert obj.volume == pymcnp.utils.types.Real(volume)
 
@@ -102,12 +102,12 @@ class Test_CellOption_Vol:
         for volume in self.INVALID_EXAMPLES:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 volume = pymcnp.utils.types.Real(volume)
-                pymcnp.inp.CellOption_Vol(volume)
+                pymcnp.inp.cell.Vol(volume)
 
 
-class Test_CellOption_Pwt:
+class Test_Pwt:
     """
-    Tests ``CellOption_Pwt``.
+    Tests ``Pwt``.
     """
 
     VALID_EXAMPLES = [0.5, 1.5, -0.5]
@@ -118,7 +118,7 @@ class Test_CellOption_Pwt:
         for weight in self.VALID_EXAMPLES:
             _weight = pymcnp.utils.types.Real(weight)
 
-            obj = pymcnp.inp.CellOption_Pwt(_weight)
+            obj = pymcnp.inp.cell.Pwt(_weight)
 
             assert obj.weight == pymcnp.utils.types.Real(weight)
 
@@ -126,12 +126,12 @@ class Test_CellOption_Pwt:
         for weight in self.INVALID_EXAMPLES:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 weight = pymcnp.utils.types.Real(weight)
-                pymcnp.inp.CellOption_Pwt(weight)
+                pymcnp.inp.cell.Pwt(weight)
 
 
-class Test_CellOption_Ext:
+class Test_Ext:
     """
-    Tests ``CellOption_Ext``.
+    Tests ``Ext``.
     """
 
     VALID_EXAMPLES = [('0.5', ('n', 'p')), ('0.9', ('n',)), ('-0.5', ('n', '#'))]
@@ -143,7 +143,7 @@ class Test_CellOption_Ext:
             _stretch = stretch
             _designator = pymcnp.utils.types.Designator(designator)
 
-            obj = pymcnp.inp.CellOption_Ext(_stretch, _designator)
+            obj = pymcnp.inp.cell.Ext(_designator, _stretch)
 
             assert obj.stretch == stretch
             assert obj.designator == pymcnp.utils.types.Designator(designator)
@@ -153,12 +153,12 @@ class Test_CellOption_Ext:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 stretch = stretch
                 designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.CellOption_Ext(stretch, designator)
+                pymcnp.inp.cell.Ext(designator, stretch)
 
 
-class Test_CellOption_Fcl:
+class Test_Fcl:
     """
-    Tests ``CellOption_Fcl``.
+    Tests ``Fcl``.
     """
 
     VALID_EXAMPLES = [(0.5, ('n', 'p')), (0.9, ('n',)), (-0.5, ('n', '#'))]
@@ -170,7 +170,7 @@ class Test_CellOption_Fcl:
             _control = pymcnp.utils.types.Real(control)
             _designator = pymcnp.utils.types.Designator(designator)
 
-            obj = pymcnp.inp.CellOption_Fcl(_control, _designator)
+            obj = pymcnp.inp.cell.Fcl(_designator, _control)
 
             assert obj.control == pymcnp.utils.types.Real(control)
             assert obj.designator == pymcnp.utils.types.Designator(designator)
@@ -180,12 +180,12 @@ class Test_CellOption_Fcl:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 control = pymcnp.utils.types.Real(control)
                 designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.CellOption_Fcl(control, designator)
+                pymcnp.inp.cell.Fcl(designator, control)
 
 
-class Test_CellOption_Wwn:
+class Test_Wwn:
     """
-    Tests ``CellOption_Wwn``.
+    Tests ``Wwn``.
     """
 
     VALID_EXAMPLES = [(0.5, 3, ('n', 'p')), (0.9, 8, ('n',)), (-1.0, 2, ('n', '#'))]
@@ -198,7 +198,7 @@ class Test_CellOption_Wwn:
             _suffix = pymcnp.utils.types.Integer(suffix)
             _designator = pymcnp.utils.types.Designator(designator)
 
-            obj = pymcnp.inp.CellOption_Wwn(_bound, _suffix, _designator)
+            obj = pymcnp.inp.cell.Wwn(_suffix, _designator, _bound)
 
             assert obj.bound == pymcnp.utils.types.Real(bound)
             assert obj.suffix == pymcnp.utils.types.Integer(suffix)
@@ -210,12 +210,12 @@ class Test_CellOption_Wwn:
                 bound = pymcnp.utils.types.Real(bound)
                 suffix = pymcnp.utils.types.Integer(suffix)
                 designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.CellOption_Wwn(bound, suffix, designator)
+                pymcnp.inp.cell.Wwn(suffix, designator, bound)
 
 
-class Test_CellOption_Dxc:
+class Test_Dxc:
     """
-    Tests ``CellOption_Dxc``.
+    Tests ``Dxc``.
     """
 
     VALID_EXAMPLES = [(0.5, 3, ('n', 'p')), (0.9, 8, ('n',)), (0.0, 2, ('n', '#'))]
@@ -228,7 +228,7 @@ class Test_CellOption_Dxc:
             _suffix = pymcnp.utils.types.Integer(suffix)
             _designator = pymcnp.utils.types.Designator(designator)
 
-            obj = pymcnp.inp.CellOption_Dxc(_probability, _suffix, _designator)
+            obj = pymcnp.inp.cell.Dxc(_suffix, _designator, _probability)
 
             assert obj.probability == pymcnp.utils.types.Real(probability)
             assert obj.suffix == pymcnp.utils.types.Integer(suffix)
@@ -240,12 +240,12 @@ class Test_CellOption_Dxc:
                 probability = pymcnp.utils.types.Real(probability)
                 suffix = pymcnp.utils.types.Integer(suffix)
                 designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.CellOption_Dxc(probability, suffix, designator)
+                pymcnp.inp.cell.Dxc(suffix, designator, probability)
 
 
-class Test_CellOption_Nonu:
+class Test_Nonu:
     """
-    Tests ``CellOption_Nonu``.
+    Tests ``Nonu``.
     """
 
     VALID_EXAMPLES = [0, 1, 2]
@@ -256,7 +256,7 @@ class Test_CellOption_Nonu:
         for setting in self.VALID_EXAMPLES:
             _setting = pymcnp.utils.types.Integer(setting)
 
-            obj = pymcnp.inp.CellOption_Nonu(_setting)
+            obj = pymcnp.inp.cell.Nonu(_setting)
 
             assert obj.setting == pymcnp.utils.types.Integer(setting)
 
@@ -264,12 +264,12 @@ class Test_CellOption_Nonu:
         for setting in self.INVALID_EXAMPLES:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 setting = pymcnp.utils.types.Integer(setting)
-                pymcnp.inp.CellOption_Nonu(setting)
+                pymcnp.inp.cell.Nonu(setting)
 
 
-class Test_CellOption_Pd:
+class Test_Pd:
     """
-    Tests ``CellOption_Pd``.
+    Tests ``Pd``.
     """
 
     VALID_EXAMPLES = [(0, 5), (0.5, 7), (1, 3)]
@@ -281,7 +281,7 @@ class Test_CellOption_Pd:
             _probability = pymcnp.utils.types.Real(probability)
             _suffix = pymcnp.utils.types.Integer(suffix)
 
-            obj = pymcnp.inp.CellOption_Pd(_probability, _suffix)
+            obj = pymcnp.inp.cell.Pd(_suffix, _probability)
 
             assert obj.probability == pymcnp.utils.types.Real(probability)
             assert obj.suffix == pymcnp.utils.types.Integer(suffix)
@@ -291,12 +291,12 @@ class Test_CellOption_Pd:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 probability = pymcnp.utils.types.Real(probability)
                 suffix = pymcnp.utils.types.Integer(suffix)
-                pymcnp.inp.CellOption_Pd(probability, suffix)
+                pymcnp.inp.cell.Pd(suffix, probability)
 
 
-class Test_CellOption_Tmp:
+class Test_Tmp:
     """
-    Tests ``CellOption_Tmp``.
+    Tests ``Tmp``.
     """
 
     VALID_EXAMPLES = [(4.26, 1), (3.14, 5), (0.24, 7), (9.43, 3)]
@@ -308,7 +308,7 @@ class Test_CellOption_Tmp:
             _temperature = pymcnp.utils.types.Real(temperature)
             _suffix = pymcnp.utils.types.Integer(suffix)
 
-            obj = pymcnp.inp.CellOption_Tmp(_temperature, _suffix)
+            obj = pymcnp.inp.cell.Tmp(_suffix, _temperature)
 
             assert obj.temperature == pymcnp.utils.types.Real(temperature)
             assert obj.suffix == pymcnp.utils.types.Integer(suffix)
@@ -318,12 +318,12 @@ class Test_CellOption_Tmp:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 temperature = pymcnp.utils.types.Real(temperature)
                 suffix = pymcnp.utils.types.Integer(suffix)
-                pymcnp.inp.CellOption_Tmp(temperature, suffix)
+                pymcnp.inp.cell.Tmp(suffix, temperature)
 
 
-class Test_CellOption_U:
+class Test_U:
     """
-    Tests ``CellOption_U``.
+    Tests ``U``.
     """
 
     VALID_EXAMPLES = [-99999999, 99999999, 0, 1, -1]
@@ -334,7 +334,7 @@ class Test_CellOption_U:
         for number in self.VALID_EXAMPLES:
             _number = pymcnp.utils.types.Integer(number)
 
-            obj = pymcnp.inp.CellOption_U(_number)
+            obj = pymcnp.inp.cell.U(_number)
 
             assert obj.number == pymcnp.utils.types.Integer(number)
 
@@ -342,12 +342,12 @@ class Test_CellOption_U:
         for number in self.INVALID_EXAMPLES:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 number = pymcnp.utils.types.Integer(number)
-                pymcnp.inp.CellOption_U(number)
+                pymcnp.inp.cell.U(number)
 
 
-class Test_CellOption_Trcl0:
+class Test_Trcl_0:
     """
-    Tests ``CellOption_Trcl0``.
+    Tests ``Trcl_0``.
     """
 
     VALID_EXAMPLES = [1, 67, 999]
@@ -355,23 +355,23 @@ class Test_CellOption_Trcl0:
     INVALID_EXAMPLES = [-1000, 1000, 2343]
 
     def test_valid(self):
-        for value in self.VALID_EXAMPLES:
-            _value = int(value)
+        for transformation in self.VALID_EXAMPLES:
+            _transformation = int(transformation)
 
-            obj = pymcnp.inp.CellOption_Trcl0(_value)
+            obj = pymcnp.inp.cell.Trcl_0(_transformation)
 
-            assert obj.value == (int(value),)
+            assert obj.transformation == _transformation
 
     def test_invalid(self):
         for value in self.INVALID_EXAMPLES:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 value = int(value)
-                pymcnp.inp.CellOption_Trcl0(value)
+                pymcnp.inp.cell.Trcl_0(value)
 
 
-class Test_CellOption_Lat:
+class Test_Lat:
     """
-    Tests ``CellOption_Lat``.
+    Tests ``Lat``.
     """
 
     VALID_EXAMPLES = [1, 2]
@@ -382,7 +382,7 @@ class Test_CellOption_Lat:
         for shape in self.VALID_EXAMPLES:
             _shape = pymcnp.utils.types.Integer(shape)
 
-            obj = pymcnp.inp.CellOption_Lat(_shape)
+            obj = pymcnp.inp.cell.Lat(_shape)
 
             assert obj.shape == _shape
 
@@ -390,12 +390,12 @@ class Test_CellOption_Lat:
         for shape in self.INVALID_EXAMPLES:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 shape = pymcnp.utils.types.Integer(shape)
-                pymcnp.inp.CellOption_Lat(shape)
+                pymcnp.inp.cell.Lat(shape)
 
 
-class Test_CellOption_Fill0:
+class Test_Fill_0:
     """
-    Tests ``CellOption_Fill0``.
+    Tests ``Fill_0``.
     """
 
     VALID_EXAMPLES = [0, 234, 99999999]
@@ -406,7 +406,7 @@ class Test_CellOption_Fill0:
         for universe in self.VALID_EXAMPLES:
             _universe = pymcnp.utils.types.Integer(universe)
 
-            obj = pymcnp.inp.CellOption_Fill0(_universe)
+            obj = pymcnp.inp.cell.Fill_0(_universe)
 
             assert obj.universe == _universe
 
@@ -414,12 +414,12 @@ class Test_CellOption_Fill0:
         for number in self.INVALID_EXAMPLES:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 number = pymcnp.utils.types.Integer(number)
-                pymcnp.inp.CellOption_Fill0(number)
+                pymcnp.inp.cell.Fill_0(number)
 
 
-class Test_CellOption_Elpt:
+class Test_Elpt:
     """
-    Tests ``CellOption_Elpt``.
+    Tests ``Elpt``.
     """
 
     VALID_EXAMPLES = [(-234.05434, ('n', 'p')), (345034950, ('n',)), (34534.3453, ('n', '#'))]
@@ -431,7 +431,7 @@ class Test_CellOption_Elpt:
             _cutoff = pymcnp.utils.types.Real(cutoff)
             _designator = pymcnp.utils.types.Designator(designator)
 
-            obj = pymcnp.inp.CellOption_Elpt(_cutoff, _designator)
+            obj = pymcnp.inp.cell.Elpt(_designator, _cutoff)
 
             assert obj.cutoff == pymcnp.utils.types.Real(cutoff)
             assert obj.designator == pymcnp.utils.types.Designator(designator)
@@ -441,12 +441,12 @@ class Test_CellOption_Elpt:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 cutoff = pymcnp.utils.types.Real(cutoff)
                 designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.CellOption_Elpt(cutoff, designator)
+                pymcnp.inp.cell.Elpt(designator, cutoff)
 
 
-class Test_CellOption_Cosy:
+class Test_Cosy:
     """
-    Tests ``CellOption_Cosy``.
+    Tests ``Cosy``.
     """
 
     VALID_EXAMPLES = [1, 2, 3, 4, 5, 6]
@@ -457,7 +457,7 @@ class Test_CellOption_Cosy:
         for number in self.VALID_EXAMPLES:
             _number = pymcnp.utils.types.Integer(number)
 
-            obj = pymcnp.inp.CellOption_Cosy(_number)
+            obj = pymcnp.inp.cell.Cosy(_number)
 
             assert obj.number == pymcnp.utils.types.Integer(number)
 
@@ -465,12 +465,12 @@ class Test_CellOption_Cosy:
         for number in self.INVALID_EXAMPLES:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 number = pymcnp.utils.types.Integer(number)
-                pymcnp.inp.CellOption_Cosy(number)
+                pymcnp.inp.cell.Cosy(number)
 
 
-class Test_CellOption_Bflcl:
+class Test_Bflcl:
     """
-    Tests ``CellOption_Bflcl``.
+    Tests ``Bflcl``.
     """
 
     VALID_EXAMPLES = [0, 4, 10]
@@ -481,7 +481,7 @@ class Test_CellOption_Bflcl:
         for number in self.VALID_EXAMPLES:
             _number = pymcnp.utils.types.Integer(number)
 
-            obj = pymcnp.inp.CellOption_Bflcl(_number)
+            obj = pymcnp.inp.cell.Bflcl(_number)
 
             assert obj.number == pymcnp.utils.types.Integer(number)
 
@@ -489,12 +489,12 @@ class Test_CellOption_Bflcl:
         for number in self.INVALID_EXAMPLES:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 number = pymcnp.utils.types.Integer(number)
-                pymcnp.inp.CellOption_Bflcl(number)
+                pymcnp.inp.cell.Bflcl(number)
 
 
-class Test_CellOption_Unc:
+class Test_Unc:
     """
-    Tests ``CellOption_Unc``.
+    Tests ``Unc``.
     """
 
     VALID_EXAMPLES = [(0, ('#',)), (1, ('e',))]
@@ -506,7 +506,7 @@ class Test_CellOption_Unc:
             _setting = pymcnp.utils.types.Integer(setting)
             _designator = pymcnp.utils.types.Designator(designator)
 
-            obj = pymcnp.inp.CellOption_Unc(_setting, _designator)
+            obj = pymcnp.inp.cell.Unc(_designator, _setting)
 
             assert obj.setting == pymcnp.utils.types.Integer(setting)
             assert obj.designator == pymcnp.utils.types.Designator(designator)
@@ -516,4 +516,4 @@ class Test_CellOption_Unc:
             with pytest.raises(pymcnp.utils.errors.InpError):
                 setting = pymcnp.utils.types.Integer(setting)
                 designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.CellOption_Unc(setting, designator)
+                pymcnp.inp.cell.Unc(designator, setting)

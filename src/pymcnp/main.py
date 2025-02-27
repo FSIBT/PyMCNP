@@ -28,7 +28,7 @@ import pymcnp
 def main() -> None:
     """The command line interface to PyMCNP."""
 
-    args = docopt(__doc__, version=pymcnp.version.__version__, options_first=True)
+    args = docopt(__doc__, options_first=True)
 
     if args['run']:
         pymcnp.cli.run.main()
