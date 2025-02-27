@@ -8,4 +8,13 @@ from .Axs import Axs
 from .Ffedges import Ffedges
 from .Refpnt import Refpnt
 
-__all__ = ['BfldOption_', 'Field', 'Vec', 'Maxdeflc', 'Maxstep', 'Axs', 'Ffedges', 'Refpnt']
+__all__ = [
+    'BfldOption_',
+    'Field',
+    'Vec',
+    'Maxdeflc',
+    'Maxstep',
+    'Axs',
+    'Ffedges',
+    'Refpnt',
+]
