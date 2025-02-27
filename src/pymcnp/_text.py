@@ -141,14 +141,16 @@ def ATTRS_COMMENT(element, t):
 # ELEMENT #
 def INIT(element):
     return f"""
-from .option_ import {CAMEL(element.name)}Option_\n
-{'\n'.join(f'from .{CAMEL(option.name)} import {CAMEL(option.name)}' for option in element.options)}
+from .option_ import {CAMEL(element.name)}Option_
+{''.join(f"from . import {SNAKE(option.name)}\n" if option.options else "" for option in element.options)[:-1]}
+{''.join(f'from .{CAMEL(option.name)} import {CAMEL(option.name)}\n' for option in element.options)[:-1]}
 
 __all__ = [
     "{CAMEL(element.name)}Option_",
-    {',\n\t'.join(f'"{CAMEL(option.name)}"' for option in element.options)}
+    {''.join(f'\t"{SNAKE(option.name)}",\n' if option.options else "" for option in element.options).strip()}
+    {''.join(f'\t"{CAMEL(option.name)}",\n' for option in element.options).strip()}
 ]
-"""[:-1]
+"""[1:-1]
 
 
 def OPTION(element, depth):

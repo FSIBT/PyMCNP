@@ -6,4 +6,11 @@ from .Nreact import Nreact
 from .Nescat import Nescat
 from .Genxs import Genxs
 
-__all__ = ['TroptOption_', 'Mcscat', 'Eloss', 'Nreact', 'Nescat', 'Genxs']
+__all__ = [
+    'TroptOption_',
+    'Mcscat',
+    'Eloss',
+    'Nreact',
+    'Nescat',
+    'Genxs',
+]

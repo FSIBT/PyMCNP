@@ -1,5 +1,25 @@
 from .option_ import DataOption_
-
+from . import dawwg
+from . import embed
+from . import embee
+from . import m
+from . import act
+from . import fmult
+from . import tropt
+from . import bfld
+from . import sdef
+from . import ssw
+from . import ssr
+from . import kopts
+from . import pert
+from . import kpert
+from . import ksen
+from . import fmesh
+from . import var
+from . import mesh
+from . import stop
+from . import ptrac
+from . import rand
 from .Vol import Vol
 from .Area import Area
 from .Tr import Tr
@@ -121,6 +141,27 @@ from .Files import Files
 
 __all__ = [
     'DataOption_',
+    'dawwg',
+    'embed',
+    'embee',
+    'm',
+    'act',
+    'fmult',
+    'tropt',
+    'bfld',
+    'sdef',
+    'ssw',
+    'ssr',
+    'kopts',
+    'pert',
+    'kpert',
+    'ksen',
+    'fmesh',
+    'var',
+    'mesh',
+    'stop',
+    'ptrac',
+    'rand',
     'Vol',
     'Area',
     'Tr',
