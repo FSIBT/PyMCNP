@@ -3,7 +3,7 @@ Usage:
     pymcnp convert <input>
     pymcnp convert [-n <number>] <input> <output>
 
-Options:
+Option_s:
     -n number --number=<number>   Which tally should be converted.
     -o file --output=file         Write to file instead of overwriting the input file.
 

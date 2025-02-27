@@ -2,7 +2,7 @@
 Usage:
     pymcnp check [options] <file>
 
-Options:
+Option_s:
     -f --fix                  Reformat input file.
 """
 

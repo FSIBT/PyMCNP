@@ -12,25 +12,25 @@ Syntax Element                                                        Support
 INP                                                                   Partial
 INP.Cell                                                              Full
 INP.Cell.Geometry                                                     Partial
-INP.Cell.Option                                                       Full
-INP.Cell.Option.Importance                                            Full
-INP.Cell.Option.Volume                                                Full
-INP.Cell.Option.Proton Weight                                         Full
-INP.Cell.Option.Exponential Transformation                            Full
-INP.Cell.Option.Forced Collision                                      Full
-INP.Cell.Option.Weight Window Bounds                                  Full
-INP.Cell.Option.Dxtran Contribution                                   Full
-INP.Cell.Option.Fission Turnoff                                       Full
-INP.Cell.Option.Detector Contribution                                 Full
-INP.Cell.Option.Gas Thermal Temperature                               Full
-INP.Cell.Option.Universe                                              Full
-INP.Cell.Option.Coordinate Transformation                             Full
-INP.Cell.Option.Lattice                                               Full
-INP.Cell.Option.Fill                                                  Full
-INP.Cell.Option.EnergyCutoff                                          Full
-INP.Cell.Option.Cosy                                                  Full
-INP.Cell.Option.Bfield                                                Full
-INP.Cell.Option.Uncollided Secondaries                                Full
+INP.Cell.Option_                                                       Full
+INP.Cell.Option_.Importance                                            Full
+INP.Cell.Option_.Volume                                                Full
+INP.Cell.Option_.Proton Weight                                         Full
+INP.Cell.Option_.Exponential Transformation                            Full
+INP.Cell.Option_.Forced Collision                                      Full
+INP.Cell.Option_.Weight Window Bounds                                  Full
+INP.Cell.Option_.Dxtran Contribution                                   Full
+INP.Cell.Option_.Fission Turnoff                                       Full
+INP.Cell.Option_.Detector Contribution                                 Full
+INP.Cell.Option_.Gas Thermal Temperature                               Full
+INP.Cell.Option_.Universe                                              Full
+INP.Cell.Option_.Coordinate Transformation                             Full
+INP.Cell.Option_.Lattice                                               Full
+INP.Cell.Option_.Fill                                                  Full
+INP.Cell.Option_.EnergyCutoff                                          Full
+INP.Cell.Option_.Cosy                                                  Full
+INP.Cell.Option_.Bfield                                                Full
+INP.Cell.Option_.Uncollided Secondaries                                Full
 INP.Surface                                                           Full
 INP.Surface.Plane                                                     Full
 INP.Surface.Sphere (Centered at Origin)                               Full
@@ -103,9 +103,9 @@ INP.Data.Fission Turnoff                                              Full
 INP.Data.Atomic Weight                                                Full
 INP.Data.Cross-Section File                                           Full
 INP.Data.Material Void                                                Full
-INP.Data.Multigroup Adjoint Transport Option                          None
+INP.Data.Multigroup Adjoint Transport Option_                          None
 INP.Data.Discrete.Reaction Cross Section                              None
-INP.Data.Physics Options                                              None
+INP.Data.Physics Option_s                                              None
 INP.Data.Activation Control                                           None
 INP.Data.Cutoffs                                                      None
 INP.Data.Cell Cutoffs                                                 None
@@ -117,7 +117,7 @@ INP.Data.Lcc                                                          None
 INP.Data.Lea                                                          None
 INP.Data.Leb                                                          None
 INP.Data.Multiplicity Constants                                       None
-INP.Data.Transport Options                                            None
+INP.Data.Transport Option_s                                            None
 INP.Data.Uncollided Secondaries                                       None
 INP.Data.Cosyp                                                        None
 INP.Data.Cosy                                                         None
@@ -133,7 +133,7 @@ INP.Data.Source Comment                                               None
 INP.Data.Surface Source Write                                         None
 INP.Data.Surface Source Read                                          None
 INP.Data.Criticality Source                                           None
-INP.Data.Criticaliy Calculations Options                              None
+INP.Data.Criticaliy Calculations Option_s                              None
 INP.Data.Mesh for Shannon Entropy                                     None
 INP.Data.Depletion/Burnup                                             None
 INP.Data.Source                                                       None

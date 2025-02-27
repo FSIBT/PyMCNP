@@ -1,7 +1,7 @@
 pymcnp.inp Subpackage
 =====================
 
-Comment Card
+Comment Card_
 ------------
 
 .. autoclass:: pymcnp.inp.Comment
@@ -9,7 +9,7 @@ Comment Card
    :undoc-members:
    :show-inheritance:
 
-Cell Card
+Cell Card_
 ---------
 
 .. autoclass:: pymcnp.inp.Cell
@@ -17,7 +17,7 @@ Cell Card
    :undoc-members:
    :show-inheritance:
 
-Surface Cards
+Surface Card_s
 -------------
 
 .. autoclass:: pymcnp.inp.Surface
@@ -25,7 +25,7 @@ Surface Cards
    :undoc-members:
    :show-inheritance:
 
-Data Cards
+Data Card_s
 ----------
 
 .. autoclass:: pymcnp.inp.Datum
@@ -33,7 +33,7 @@ Data Cards
    :undoc-members:
    :show-inheritance:
 
-Cell Card Block
+Cell Card_ Block
 ---------------
 
 .. autoclass:: pymcnp.inp.cells
@@ -41,7 +41,7 @@ Cell Card Block
    :undoc-members:
    :show-inheritance:
 
-Surface Card Block
+Surface Card_ Block
 ------------------
 
 .. autoclass:: pymcnp.inp.Surfaces
@@ -49,7 +49,7 @@ Surface Card Block
    :undoc-members:
    :show-inheritance:
 
-Data Card Block
+Data Card_ Block
 ---------------
 
 .. autoclass:: pymcnp.inp.Data

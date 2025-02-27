@@ -75,7 +75,7 @@ def preprocess_ptrac(string: str):
 """ Processing Functions """
 
 
-def process_inp_option(registry: _object.McnpRegistry_, string: str):
+def process_inpoption_(registry: _object.McnpRegistry_, string: str):
     """ """
 
     for match in registry._REGEX.finditer(string):

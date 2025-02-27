@@ -18,8 +18,7 @@ def test_output_files():
     """Check if out output can be read as input again."""
     for f in (Path(__file__).parent / 'data').glob('*.i'):
         x = pymcnp.read_input(f)
-        print(x.to_mcnp())
-        pymcnp.inp.Inp.from_mcnp(x.to_mcnp())
+        pymcnp.Inp.from_mcnp(x.to_mcnp())
 
 
 def test_ft():
@@ -82,7 +81,7 @@ def test_transformation():
     # assert obj.rotation[0][1] == 0.0
     # assert obj.rotation[0][2] == 0.0
 
-    obj = pymcnp.inp.DataOption_Tr.from_mcnp('TR24   50 1 80.0 123 234 345 0 1 0 0 0 1 1')
+    obj = pymcnp.inp.data.DataOption_.from_mcnp('TR24   50 1 80.0 123 234 345 0 1 0 0 0 1 1')
     assert obj.suffix == 24
     assert obj.x == 50.0
     assert obj.y == 1.0

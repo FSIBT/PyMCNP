@@ -2,7 +2,7 @@
 Usage:
     pymcnp run <file>... [ options ]
 
-Options:
+Option_s:
     -c --command=<command>        Command to run.
     -s --hosts=<host>...          External hosts.
 """

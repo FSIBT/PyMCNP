@@ -7,37 +7,79 @@ from . import _parser
 from . import _object
 
 
-class _Tuple(tuple, _object.McnpElement_):
+class Tuple(tuple, _object.McnpElement_):
     """
     Represents generic MCNP collections.
+
+    Attributes:
+        value: Tuple value.
     """
 
     def __init__(self, value: tuple):
-        if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TUPLE_VALUE, value)
+        """
+        Initializes ``Tuple``.
 
-        self.value: typing.Final[tuple] = tuple(value)
+        Parameters:
+            value: Tuple value.
+
+        Returns:
+            ``Tuple``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if value is None or not (value != tuple()):
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, value)
+
+        self.value: typing.Final[tuple[type]] = value
+
+    @classmethod
+    def from_mcnp(cls, source: str, type: type):
+        """
+        Generates ``Tuple`` from MCNP.
+
+        Parameters:
+            source: MCNP tuple.
+
+        Returns:
+            ``Tuple``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = type._REGEX.finditer(source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        return Tuple([type.from_mcnp(token[0]) for token in tokens])
 
     def to_mcnp(self):
-        return ' '.join(
-            val.to_mcnp() if not isinstance(val, list) else ' '.join(v.to_mcnp() for v in val)
-            for val in self.value
-        )
+        """
+        Generates MCNP from ``Tuple``.
+
+        Returns:
+            MCNP for ``Tuple``.
+        """
+
+        return ' '.join(val.to_mcnp() if val is not None else '' for val in self.value)
 
     def __getitem__(self, key: any):
         return self.value[key]
-
-    def __bool__(self):
-        return bool(self.value)
-
-    def extend(self, val: any):
-        return self.__class__((*self.value, val))
 
 
 class Integer(int, _object.McnpElement_):
     """
     Represents MCNP integers.
+
+    Attributes:
+        value: Integer value.
     """
+
+    _REGEX = re.compile(r'( \S+)')
 
     def __init__(self, value: int):
         """
@@ -50,11 +92,11 @@ class Integer(int, _object.McnpElement_):
             ``Integer``.
 
         Raises:
-            McnpError: SEMANTICS_INTEGER_VALUE.
+            McnpError: SEMANTICS_TYPE_VALUE.
         """
 
         if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_INTEGER_VALUE, value)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, value)
 
         self.value: typing.Final[int] = value
 
@@ -70,7 +112,7 @@ class Integer(int, _object.McnpElement_):
             ``Integer``.
 
         Raises:
-            McnpError: SYNTAX_INTEGER.
+            McnpError: SYNTAX_TYPE.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -78,14 +120,14 @@ class Integer(int, _object.McnpElement_):
         try:
             return Integer(int(float(source)))
         except ValueError:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_INTEGER, source)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
     def to_mcnp(self):
         """
         Generates MCNP from ``Integer``.
 
         Returns:
-            MCNP integer.
+            ``Integer``.
         """
 
         return str(self.value)
@@ -94,7 +136,12 @@ class Integer(int, _object.McnpElement_):
 class Real(float, _object.McnpElement_):
     """
     Represents MCNP reals.
+
+    Attributes:
+        value: Real value.
     """
+
+    _REGEX = re.compile(r'(\S+)')
 
     def __init__(self, value: float):
         """
@@ -107,11 +154,11 @@ class Real(float, _object.McnpElement_):
             ``Real``.
 
         Raises:
-            McnpError: SEMANTICS_REAL_VALUE.
+            McnpError: SEMANTICS_TYPE_VALUE.
         """
 
         if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_REAL_VALUE, value)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, value)
 
         self.value: typing.Final[float] = value
 
@@ -127,7 +174,7 @@ class Real(float, _object.McnpElement_):
             ``Real``.
 
         Raises:
-            McnpError: SYNTAX_REAL.
+            McnpError: SYNTAX_TYPE.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -135,7 +182,7 @@ class Real(float, _object.McnpElement_):
         try:
             return Real(float(source))
         except ValueError:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_REAL, source)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
     def to_mcnp(self):
         """
@@ -151,6 +198,9 @@ class Real(float, _object.McnpElement_):
 class String(str, _object.McnpElement_):
     """
     Represents MCNP strings.
+
+    Attributes:
+        value: String value.
     """
 
     def __init__(self, value: str):
@@ -164,11 +214,11 @@ class String(str, _object.McnpElement_):
             ``String``.
 
         Raises:
-            McnpError: SEMANTICS_STRING_VALUE.
+            McnpError: SEMANTICS_TYPE_VALUE.
         """
 
         if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_STRING_VALUE, value)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, value)
 
         self.value: typing.Final[str] = value
 
@@ -184,7 +234,7 @@ class String(str, _object.McnpElement_):
             ``String``.
 
         Raises:
-            McnpError: SYNTAX_STRING.
+            McnpError: SYNTAX_TYPE.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -205,6 +255,9 @@ class String(str, _object.McnpElement_):
 class Repeat(_object.McnpElement_):
     """
     Represents MCNP repeats.
+
+    Attributes:
+        n: Repetition number.
     """
 
     REGEX = re.compile(r'((?:\A)\d+)?r(?:\Z)')
@@ -220,11 +273,11 @@ class Repeat(_object.McnpElement_):
             ``Repeat``
 
         Raises
-                McnpError: SEMANTICS_REPEAT_N.
+            McnpError: SEMANTICS_TYPE_VALUE.
         """
 
         if n is not None and not (n >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_REPEAT_N, n)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, n)
 
         self.n: typing.Final[int] = n
 
@@ -240,14 +293,14 @@ class Repeat(_object.McnpElement_):
             ``Repeat``.
 
         Raises:
-            McnpError: SYNTAX_REPEAT.
+            McnpError: SYNTAX_TYPE.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Repeat.REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_REPEAT, source)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
         n = int(tokens[1])
 
@@ -267,6 +320,9 @@ class Repeat(_object.McnpElement_):
 class Insert(_object.McnpElement_):
     """
     Represents MCNP inserts.
+
+    Attributes:
+        n: Repetition number.
     """
 
     REGEX = re.compile(r'((?:\A)\d+)?i(?:\Z)')
@@ -281,12 +337,12 @@ class Insert(_object.McnpElement_):
         Returns:
             ``Insert``
 
-        Raises
-                McnpError: SEMANTICS_INSERT_N.
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
         """
 
         if n is not None and not (n >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_INSERT_N, n)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, n)
 
         self.n: typing.Final[int] = n
 
@@ -302,14 +358,14 @@ class Insert(_object.McnpElement_):
             ``Insert``.
 
         Raises:
-            McnpError: SYNTAX_INSERT.
+            McnpError: SYNTAX_TYPE.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Insert.REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_INSERT, source)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
         n = int(tokens[1])
 
@@ -329,6 +385,9 @@ class Insert(_object.McnpElement_):
 class Multiply(_object.McnpElement_):
     """
     Represents MCNP multiply.
+
+    Attributes:
+        x: Multiply number.
     """
 
     REGEX = re.compile(r'((?:\A)\d+)m(?:\Z)')
@@ -343,12 +402,12 @@ class Multiply(_object.McnpElement_):
         Returns:
             ``Multiply``
 
-        Raises
-                McnpError: SEMANTICS_MULTIPLY_X.
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
         """
 
         if x is not None and not x:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_MULTIPLY_X, x)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, x)
 
         self.x: typing.Final[float] = x
 
@@ -364,14 +423,14 @@ class Multiply(_object.McnpElement_):
             ``Multiply``.
 
         Raises:
-            McnpError: SYNTAX_MULTIPLY.
+            McnpError: SYNTAX_TYPE.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Multiply.REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_MULTIPLY, source)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
         x = float(tokens[1])
 
@@ -391,6 +450,9 @@ class Multiply(_object.McnpElement_):
 class Jump(_object.McnpElement_):
     """
     Represents MCNP jumps.
+
+    Attributes:
+        n: Repetition number.
     """
 
     REGEX = re.compile(r'((?:\A)\d+)?j(?:\Z)')
@@ -405,12 +467,12 @@ class Jump(_object.McnpElement_):
         Returns:
             ``Jump``
 
-        Raises
-                McnpError: SEMANTICS_JUMP_N.
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
         """
 
         if n is not None and not (n >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_JUMP_N, n)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, n)
 
         self.n: typing.Final[int] = n
 
@@ -426,14 +488,14 @@ class Jump(_object.McnpElement_):
             ``Jump``.
 
         Raises:
-            McnpError: SYNTAX_JUMP.
+            McnpError: SYNTAX_TYPE.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Jump.REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_JUMP, source)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
         n = int(tokens[1])
 
@@ -441,7 +503,7 @@ class Jump(_object.McnpElement_):
 
     def to_mcnp(self):
         """
-        Genereates MCNP jumps. from ``Jump``.
+        Genereates MCNP from ``Jump``.
 
         Returns:
             MCNP jumps.
@@ -453,6 +515,9 @@ class Jump(_object.McnpElement_):
 class Log(_object.McnpElement_):
     """
     Represents MCNP logs.
+
+    Attributes:
+        n: Repetition number.
     """
 
     REGEX = re.compile(r'((?:\A)\d+)?(log|ilog)(?:\Z)')
@@ -467,12 +532,12 @@ class Log(_object.McnpElement_):
         Returns:
             ``Log``
 
-        Raises
-                McnpError: SEMANTICS_LOG_N.
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
         """
 
         if n is not None and not (n >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_LOG_N, n)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, n)
 
         self.n: typing.Final[int] = n
 
@@ -488,14 +553,14 @@ class Log(_object.McnpElement_):
             ``Log``.
 
         Raises:
-            McnpError: SYNTAX_LOG.
+            McnpError: SYNTAX_TYPE.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Log.REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_LOG, source)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
         n = int(tokens[1])
 
@@ -517,7 +582,7 @@ class DistributionNumber(_object.McnpElement_):
     Represents MCNP distribution numbers.
 
     Attributes:
-            n: Distribution identifier.
+        n: Distribution identifier.
     """
 
     def __init__(self, n: int):
@@ -531,11 +596,11 @@ class DistributionNumber(_object.McnpElement_):
             ``DistributionNumber``.
 
         Raises:
-            McnpError: SEMANTICS_DISTRIBUTIONNUMBER_N.
+            McnpError: SEMANTICS_TYPE_VALUE.
         """
 
         if n is None or not (1 <= n <= 999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DISTRIBUTIONNUMBER_N, n)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, n)
 
         self.n: typing.Final[int] = n
 
@@ -551,22 +616,20 @@ class DistributionNumber(_object.McnpElement_):
             ``DistributionNumber``.
 
         Raises:
-            McnpError: SYNTAX_DISTRIBUTIONNUMBER.
+            McnpError: SYNTAX_TYPE.
         """
 
         source = _parser.Preprocessor.process_inp(source)
         match = re.match(r'\A[dD](\d|\d\d|\d\d\d)\Z', source)
 
         if match is None:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DISTRIBUTIONNUMBER, source)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
         return DistributionNumber(int(match[1]))
 
     def to_mcnp(self):
         """
-        Generates MCNP from ``DistributionNumber`` objects.
-
-        ``to_mcnp`` translates from PyMCNP to MCNP.
+        Generates MCNP from ``DistributionNumber``.
 
         Returns:
             MCNP for ``DistributionNumber``.
@@ -580,7 +643,7 @@ class EmbeddedDistributionNumber(_object.McnpElement_):
     Represents MCNP embedded distribution numbers.
 
     Attributes:
-            numbers: Tuple of distribution numbers.
+        numbers: Distribution numbers.
     """
 
     def __init__(self, numbers: tuple[DistributionNumber]):
@@ -591,20 +654,18 @@ class EmbeddedDistributionNumber(_object.McnpElement_):
             numbers: Distribution numbers.
 
         Raises:
-            McnpError: SEMANTICS_EMBEDDEDDISTRIBUTIONNUMBER_NUMBERS.
+            McnpError: SEMANTICS_TYPE_VALUE.
         """
 
         if numbers is None or None in numbers:
-            raise errors.McnpError(
-                errors.McnpCode.SEMANTICS_EMBEDDEDDISTRIBUTIONNUMBER_NUMBERS, numbers
-            )
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, numbers)
 
         self.numbers: typing.Final[tuple[DistributionNumber]] = numbers
 
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``EmbeddedDistributionNumber`` objects from MCNP.
+        Generates ``EmbeddedDistributionNumber`` from MCNP.
 
         Parameters:
             source: MCNP for ``EmbeddedDistributionNumber``.
@@ -613,7 +674,7 @@ class EmbeddedDistributionNumber(_object.McnpElement_):
             ``EmbeddedDistributionNumber`` object.
 
         Raises:
-            McnpError: SYNTAX_EMBEDDEDDISTRIBUTIONNUMBER.
+            McnpError: SYNTAX_TYPE.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -623,11 +684,11 @@ class EmbeddedDistributionNumber(_object.McnpElement_):
                 DistributionNumber.from_mcnp(token) for token in source.split('>')
             )
         except errors.McnpError:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_EMBEDDEDDISTRIBUTIONNUMBER, source)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
     def to_mcnp(self):
         """
-        Generates MCNP from ``EmbeddedDistributionNumber`` objects.
+        Generates MCNP from ``EmbeddedDistributionNumber``.
 
         Returns:
             MCNP for ``EmbeddedDistributionNumber``.
@@ -641,9 +702,9 @@ class Zaid(_object.McnpElement_):
     Represents MCNP nuclide information numbers.
 
     Attributes:
-            z: Atomic number.
-            a: Mass number.
-            abx: Cross-section evaluation & class information.
+        z: Atomic number.
+        a: Mass number.
+        abx: Cross-section evaluation & class information.
     """
 
     _REGEX = re.compile(r'(?:\A)(\d{1,3})(\d\d\d)((?:[.])\S+)?(?:\Z)')
@@ -654,23 +715,23 @@ class Zaid(_object.McnpElement_):
 
         Parameters:
             z: ZAID atomic number.
-                a: ZAID mass number.
-                abx: ZAID cross-section evaluation & class information.
+            a: ZAID mass number.
+            abx: ZAID cross-section evaluation & class information.
 
         Returns:
             ``Zaid``.
 
         Raises:
-            McnpError: SEMANTICS_ZAID_Z.
-                McnpError: SEMANTICS_ZAID_A.
-                McnpError: SEMANTICS_ZAID_ABX.
+            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE_VALUE.
         """
 
         if z is None or not (000 <= z <= 999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_ZAID_Z, z)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, z)
 
         if a is None or not (000 <= a <= 999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_ZAID_A, a)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, a)
 
         self.z: typing.Final[int] = z
         self.a: typing.Final[int] = a
@@ -679,7 +740,7 @@ class Zaid(_object.McnpElement_):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Zaid`` objects from MCNP.
+        Generates ``Zaid`` from MCNP.
 
         Parameters:
             source: MCNP for ``Zaid``.
@@ -688,14 +749,14 @@ class Zaid(_object.McnpElement_):
             ``Zaid`` object.
 
         Raises:
-            McnpError: SYNTAX_ZAID.
+            McnpError: SYNTAX_TYPE.
         """
 
         source, comments = _parser.preprocess_inp(source)
         tokens = Zaid._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_ZAID, source)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
         return Zaid(int(tokens[1]), int(tokens[2]), tokens[3])
 
@@ -768,7 +829,7 @@ class Particle(_object.McnpElement_, enum.Enum):
             ``Particle``.
 
         Raises:
-            McnpError: SYNTAX_PARTICLE.
+            McnpError: SYNTAX_TYPE.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -776,7 +837,7 @@ class Particle(_object.McnpElement_, enum.Enum):
         try:
             return Particle(source)
         except ValueError:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_PARTICLE, source)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
     def to_mcnp(self):
         """
@@ -794,8 +855,12 @@ class Designator(_object.McnpElement_):
     Represents MCNP particle designators.
 
     Attributes:
-            particles: Designator particles.
+        particles: Designator particles.
     """
+
+    _REGEX = re.compile(
+        r'[nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#]((?:,)[nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#])*'
+    )
 
     def __init__(self, particles: tuple[Particle]):
         """
@@ -808,11 +873,11 @@ class Designator(_object.McnpElement_):
             ``Designator``.
 
         Raises:
-            McnpError: SEMANTICS_DESIGNATOR_PARTICLES.
+            McnpError: SEMANTICS_TYPE_VALUE.
         """
 
         if particles is None or None in particles:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_DESIGNATOR_PARTICLES, particles)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, particles)
 
         self.particles: typing.Final[tuple[Particle]] = particles
 
@@ -828,7 +893,7 @@ class Designator(_object.McnpElement_):
             ``Designator``.
 
         Raises:
-            McnpError: SYNTAX_DESIGNATOR.
+            McnpError: SYNTAX_TYPE.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -836,7 +901,7 @@ class Designator(_object.McnpElement_):
         try:
             return Designator(tuple(Particle.from_mcnp(token) for token in source.split(',')))
         except ValueError:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_DESIGNATOR, source)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
     def to_mcnp(self) -> str:
         """
@@ -847,3 +912,1102 @@ class Designator(_object.McnpElement_):
         """
 
         return ','.join(particle.to_mcnp() for particle in self.particles)
+
+
+class GeometryEntry(_object.McnpElement_):
+    """
+    Represents MCNP geometries.
+
+    Attributes:
+        infix: Geometry infix formula.
+    """
+
+    _REGEX = re.compile(r'((?:).+)')
+
+    def __init__(self, infix: String):
+        """
+        Initializes ``GeometryEntry``.
+
+        Parameters:
+            infix: Geometry infix formula.
+
+        Returns:
+            ``GeometryEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        temp = re.sub(r' 0+', '', infix)
+        temp = re.sub(r' +', '*', temp)
+        temp = re.sub(r' ?([()]) ?', r'\1', temp)
+        temp = re.sub(r' ?: ?', '+', temp)
+        temp = re.sub(r'#', '-', temp)
+
+        try:
+            eval(temp)
+        except SyntaxError:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, infix)
+
+        self.infix: typing.typing.Final[String] = infix
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``GeometryEntry`` from INP.
+
+        Parameters:
+            INP for ``GeometryEntry``.
+
+        Returns:
+            ``GeometryEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = GeometryEntry._REGEX.match(source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        infix = String.from_mcnp(tokens[1])
+
+        return GeometryEntry(infix)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``GeometryEntry``.
+
+        Returns:
+            INP for ``GeometryEntry``.
+        """
+
+        return self.infix
+
+
+class SubstanceEntry(_object.McnpElement_):
+    """
+    Represents MCNP substances.
+
+    Attributes:
+        zaid: Zaid alias for nuclide.
+        weight_ratio: Atomic weight ratios.
+    """
+
+    _REGEX = re.compile(r'(\S+) (\S+)')
+
+    def __init__(self, zaid: Zaid, weight_ratio: Real):
+        """
+        Initializes ``SubstanceEntry``.
+
+        Parameters:
+            zaid: Zaid alias for nuclide.
+            weight_ratio: Atomic weight ratios.
+
+        Returns:
+            ``SubstanceEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if zaid is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, zaid)
+        if weight_ratio is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, weight_ratio)
+
+        self.zaid: typing.Final[Zaid] = zaid
+        self.weight_ratio: typing.Final[Real] = weight_ratio
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``SubstanceEntry`` from MCNP.
+
+        Parameters:
+            MCNP for ``SubstanceEntry``.
+
+        Returns:
+            ``SubstanceEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = SubstanceEntry._REGEX.match(source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE)
+
+        zaid = Zaid.from_mcnp(tokens[1])
+        weight_ratio = Real.from_mcnp(tokens[2])
+
+        return SubstanceEntry(zaid, weight_ratio)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``SubstanceEntry``.
+
+        Returns:
+            INP for ``SubstanceEntry``.
+        """
+
+        return f'{self.zaid} {self.weight_ratio}'
+
+
+class BiasEntry(_object.McnpElement_):
+    """
+    Represents generic MCNP biases.
+
+    Attributes:
+        weight: Weight for bias.
+        energy: Energy boundary for bias.
+    """
+
+    _REGEX = re.compile(r'(\S+) (\S+)')
+
+    def __init__(self, weight: Real, energy: Real):
+        """
+        Initializes ``BiasEntry``.
+
+        Parameters:
+            weight: Weight for bias.
+            energy: Energy boundary for bias.
+
+        Returns:
+            ``BiasEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if weight is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, weight)
+        if energy is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, energy)
+
+        self.weight: typing.Final[Real] = weight
+        self.energy: typing.Final[Real] = energy
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``BiasEntry`` from MCNP.
+
+        Parameters:
+            MCNP for ``BiasEntry``.
+
+        Returns:
+            ``BiasEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = BiasEntry._REGEX.match(source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE)
+
+        weight = Real.from_mcnp(tokens[1])
+        energy = Real.from_mcnp(tokens[2])
+
+        return BiasEntry(weight, energy)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``BiasEntry``.
+
+        Returns:
+            INP for ``BiasEntry``.
+        """
+
+        return f'{self.weight} {self.energy}'
+
+
+class TransformationEntry(_object.McnpElement_):
+    """
+    Represents MCNP transformations.
+
+    Attributes:
+        o1: Transformation displacement vector x-coordinate.
+        o2: Transformation displacement vector y-coordinate.
+        o3: Transformation displacement vector z-coordinate.
+        xx: Transformation rotation matrix xx-entry.
+        xy: Transformation rotation matrix xy-entry.
+        xz: Transformation rotation matrix xz-entry.
+        yx: Transformation rotation matrix yx-entry.
+        yy: Transformation rotation matrix yy-entry.
+        yz: Transformation rotation matrix yz-entry.
+        zx: Transformation rotation matrix zx-entry.
+        zy: Transformation rotation matrix zy-entry.
+        zz: Transformation rotation matrix zz-entry.
+        m: Transformation coordinate system setting.
+    """
+
+    _REGEX = re.compile(
+        r'(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) '
+    )
+
+    def __init__(
+        self,
+        o1: Real,
+        o2: Real,
+        o3: Real,
+        xx: Real,
+        xy: Real,
+        xz: Real,
+        yx: Real,
+        yy: Real,
+        yz: Real,
+        zx: Real,
+        zy: Real,
+        zz: Real,
+        m: Real,
+    ):
+        """
+        Initializes ``TransformationEntry``.
+
+        Parameters:
+            o1: Transformation displacement vector x-coordinate.
+            o2: Transformation displacement vector y-coordinate.
+            o3: Transformation displacement vector z-coordinate.
+            xx: Transformation rotation matrix xx-entry.
+            xy: Transformation rotation matrix xy-entry.
+            xz: Transformation rotation matrix xz-entry.
+            yx: Transformation rotation matrix yx-entry.
+            yy: Transformation rotation matrix yy-entry.
+            yz: Transformation rotation matrix yz-entry.
+            zx: Transformation rotation matrix zx-entry.
+            zy: Transformation rotation matrix zy-entry.
+            zz: Transformation rotation matrix zz-entry.
+            m: Transformation coordinate system setting.
+
+        Returns:
+            ``Trcl1EntryTransformation``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if o1 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o1)
+        if o2 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o2)
+        if o3 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o3)
+        if xx is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xx)
+        if xy is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xy)
+        if xz is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xz)
+        if yx is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yx)
+        if yy is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yy)
+        if yz is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yz)
+        if zx is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, zx)
+        if zy is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, zy)
+        if zz is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, zz)
+        if m is None or m not in {-1, 1}:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, m)
+
+        self.o1: typing.Final[Real] = o1
+        self.o2: typing.Final[Real] = o2
+        self.o3: typing.Final[Real] = o3
+        self.xx: typing.Final[Real] = xx
+        self.xy: typing.Final[Real] = xy
+        self.xz: typing.Final[Real] = xz
+        self.yx: typing.Final[Real] = yx
+        self.yy: typing.Final[Real] = yy
+        self.yz: typing.Final[Real] = yz
+        self.zx: typing.Final[Real] = zx
+        self.zy: typing.Final[Real] = zy
+        self.zz: typing.Final[Real] = zz
+        self.m: typing.Final[Real] = m
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``TransformationEntry`` from INP.
+
+        Parameters:
+            INP for ``TransformationEntry``.
+
+        Returns:
+            ``TransformationEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = TransformationEntry._REGEX.match(source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        o1 = Real.from_mcnp(tokens[1])
+        o2 = Real.from_mcnp(tokens[2])
+        o3 = Real.from_mcnp(tokens[3])
+        xx = Real.from_mcnp(tokens[4])
+        xy = Real.from_mcnp(tokens[5])
+        xz = Real.from_mcnp(tokens[6])
+        yx = Real.from_mcnp(tokens[7])
+        yy = Real.from_mcnp(tokens[8])
+        yz = Real.from_mcnp(tokens[9])
+        zx = Real.from_mcnp(tokens[10])
+        zy = Real.from_mcnp(tokens[11])
+        zz = Real.from_mcnp(tokens[12])
+        m = Real.from_mcnp(tokens[13])
+
+        return TransformationEntry(o1, o2, o3, xx, xy, xz, yx, yy, yz, zx, zy, zz, m)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``TransformationEntry``.
+
+        Returns:
+            INP for ``TransformationEntry``.
+        """
+
+        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.zx} {self.zy} {self.zz} {self.m}'
+
+
+class StochasticEntry(_object.McnpElement_):
+    """
+    Represents MCNP stochastic transformation entries.
+
+    Attributes:
+        universe: Universe number.
+        maximum_x: Maximum x displacement.
+        maximum_y: Maximum y displacement.
+        maximum_z: Maximum z displacement.
+    """
+
+    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+)')
+
+    def __init__(
+        self,
+        universe: Integer,
+        maximum_x: Real,
+        maximum_y: Real,
+        maximum_z: Real,
+    ):
+        """
+        Initializes ``StochasticEntry``.
+
+        Parameters:
+            universe: Universe number.
+            maximum_x: Maximum x displacement.
+            maximum_y: Maximum y displacement.
+            maximum_z: Maximum z displacement.
+
+        Returns:
+            ``StochasticEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if universe is None or not (0 <= universe <= 99_999_999):
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, universe)
+        if maximum_x is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, maximum_x)
+        if maximum_y is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, maximum_y)
+        if maximum_z is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, maximum_z)
+
+        self.universe: typing.Final[Integer] = universe
+        self.maximum_x: typing.Final[Real] = maximum_x
+        self.maximum_y: typing.Final[Real] = maximum_y
+        self.maximum_z: typing.Final[Real] = maximum_z
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``StochasticEntry`` from INP.
+
+        Parameters:
+            INP for ``StochasticEntry``.
+
+        Returns:
+            ``StochasticEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = StochasticEntry._REGEX.match(source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        number = Integer.from_mcnp(tokens[1])
+        maximum_x = Real.from_mcnp(tokens[2])
+        maximum_y = Real.from_mcnp(tokens[3])
+        maximum_z = Real.from_mcnp(tokens[4])
+
+        return StochasticEntry(number, maximum_x, maximum_y, maximum_z)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``StochasticEntry``.
+
+        Returns:
+            INP for ``StochasticEntry``.
+        """
+
+        return f'{self.number} {self.maximum_x} {self.maximum_y} {self.maximum_z}'
+
+
+class IndependentDependentEntry(_object.McnpElement_):
+    """
+    Represents INP inpependent-dependent entries.
+
+    Attributes:
+        independent: Independent source dependent variable.
+        dependent: Dependent source dependent variable.
+    """
+
+    _REGEX = re.compile(r'( \S+)( \S+)')
+
+    def __init__(self, independent: Real, dependent: Real):
+        """
+        Initializes ``IndependentDependentEntry``.
+
+        Parameters:
+            independent: Independent source dependent variable.
+            dependent: Dependent source dependent variable.
+
+        Returns:
+            ``IndependentDependentEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if independent is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, independent)
+        if dependent is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, dependent)
+
+        self.independent: typing.Final[Real] = independent
+        self.dependent: typing.Final[Real] = dependent
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``IndependentDependentEntry`` from INP.
+
+        Parameters:
+            INP for ``IndependentDependentEntry``.
+
+        Returns:
+            ``IndependentDependentEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = IndependentDependentEntry._REGEX.match(' ' + source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        independent = Real.from_mcnp(tokens[1])
+        dependent = Real.from_mcnp(tokens[2])
+
+        return IndependentDependentEntry(independent, dependent)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``IndependentDependentEntry``.
+
+        Returns:
+            INP for ``IndependentDependentEntry``.
+        """
+
+        return f'{self.independent} {self.dependent}'
+
+
+class LocationEntry(_object.McnpElement_):
+    """
+    Represents INP location entries.
+
+    Attributes:
+        x: Location x-coordinate.
+        y: Location y-coordinate.
+        z: Location z-coordinate.
+    """
+
+    _REGEX = re.compile(r'( \S+)( \S+)( \S+)')
+
+    def __init__(self, x: Real, y: Real, z: Real):
+        """
+        Initializes ``LocationEntry``.
+
+        Parameters:
+            x: Location x-coordinate.
+            y: Location y-coordinate.
+            z: Location z-coordinate.
+
+        Returns:
+            ``LocationEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if x is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, x)
+        if y is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, y)
+        if z is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, z)
+
+        self.x: typing.Final[Real] = x
+        self.y: typing.Final[Real] = y
+        self.z: typing.Final[Real] = z
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``LocationEntry`` from INP.
+
+        Parameters:
+            INP for ``LocationEntry``.
+
+        Returns:
+            ``LocationEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = LocationEntry._REGEX.match(' ' + source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        x = Real.from_mcnp(tokens[1])
+        y = Real.from_mcnp(tokens[2])
+        z = Real.from_mcnp(tokens[3])
+
+        return LocationEntry(x, y, z)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``LocationEntry``.
+
+        Returns:
+            INP for ``LocationEntry``.
+        """
+
+        return f'{self.x} {self.y} {self.z}'
+
+
+class FileEntry(_object.McnpElement_):
+    """
+    Represents INP file entries.
+
+    Attributes:
+        unit: Unit number of file to create.
+        filename: Name of file to create.
+        access: access of file to create.
+        form: Format of file to create.
+        length: Record length of file to create.
+    """
+
+    _REGEX = re.compile(r'( \S+)( \S+)( \S+)( \S+)( \S+)')
+
+    def __init__(
+        self,
+        unit: Integer,
+        filename: String,
+        access: String,
+        form: String,
+        length: Integer,
+    ):
+        """
+        Initializes ``FileEntry``.
+
+        Parameters:
+            unit: Unit number of file to create.
+            filename: Name of file to create.
+            access: access of file to create.
+            form: Format of file to create.
+            length: Record length of file to create.
+
+        Returns:
+            ``FileEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if unit is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, unit)
+        if filename is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, filename)
+        if access is None or access not in {'sequential', 'direct'}:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, access)
+        if form is None or format not in {'formatted', 'unformatted'}:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, form)
+        if length is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, length)
+
+        self.unit: typing.Final[Integer] = unit
+        self.filename: typing.Final[String] = filename
+        self.access: typing.Final[String] = access
+        self.form: typing.Final[String] = form
+        self.length: typing.Final[Integer] = length
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``FileEntry`` from INP.
+
+        Parameters:
+            INP for ``FileEntry``.
+
+        Returns:
+            ``FileEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = FileEntry._REGEX.match(' ' + source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        unit = Integer.from_mcnp(tokens[1])
+        filename = String.from_mcnp(tokens[2])
+        access = String.from_mcnp(tokens[3])
+        form = String.from_mcnp(tokens[4])
+        length = Integer.from_mcnp(tokens[5])
+
+        return FileEntry(unit, filename, access, form, length)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``FileEntry``.
+
+        Returns:
+            INP for ``FileEntry``.
+        """
+
+        return f'{self.unit} {self.filename} {self.access} {self.form} {self.length}'
+
+
+class DiagnosticEntry(_object.McnpElement_):
+    """
+    Represents INP diagnostic entries.
+
+    Attributes:
+        playing_setting: Criterion for playing Russian roulette for DXTRAN.
+        printing_setting: Criterion for printing diagnostics for large contributions for DXTRAN.
+    """
+
+    _REGEX = re.compile(r'( \S+)( \S+)')
+
+    def __init__(self, playing_setting: Real, printing_setting: Real):
+        """
+        Initializes ``DiagnosticEntry``.
+
+        Parameters:
+            playing_setting: Criterion for playing Russian roulette for DXTRAN.
+            printing_setting: Criterion for printing diagnostics for large contributions for DXTRAN.
+
+        Returns:
+            ``DiagnosticEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if playing_setting is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, playing_setting)
+        if printing_setting is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, printing_setting)
+
+        self.playing_setting: typing.Final[Real] = playing_setting
+        self.printing_setting: typing.Final[Real] = printing_setting
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``DiagnosticEntry`` from INP.
+
+        Parameters:
+            INP for ``DiagnosticEntry``.
+
+        Returns:
+            ``DiagnosticEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = DiagnosticEntry._REGEX.match(' ' + source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        playing_setting = Real.from_mcnp(tokens[1])
+        printing_setting = Real.from_mcnp(tokens[2])
+
+        return DiagnosticEntry(playing_setting, printing_setting)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``DiagnosticEntry``.
+
+        Returns:
+            INP for ``DiagnosticEntry``.
+        """
+
+        return f'{self.playing_setting} {self.printing_setting}'
+
+
+class SphereEntry(_object.McnpElement_):
+    """
+    Represents INP data card data option sphere entries.
+
+    Attributes:
+        x: Vector x coordinate.
+        y: Vector y coordinate.
+        z: Vector z coordinate.
+        inner_radius: Inner sphere radius.
+        outer_radius: Outer sphere radius.
+    """
+
+    _REGEX = re.compile(r'( \S+)( \S+)( \S+)( \S+)( \S+)')
+
+    def __init__(
+        self,
+        x: Real,
+        y: Real,
+        z: Real,
+        inner_radius: Integer,
+        outer_radius: Integer,
+    ):
+        """
+        Initializes ``SphereEntry``.
+
+        Parameters:
+            x: Vector x coordinate.
+            y: Vector y coordinate.
+            z: Vector z coordinate.
+            inner_radius: Inner sphere radius.
+            outer_radius: Outer sphere radius.
+
+        Returns:
+            ``SphereEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if x is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, x)
+        if y is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, y)
+        if z is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, z)
+        if inner_radius is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, inner_radius)
+        if outer_radius is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, outer_radius)
+
+        self.x: typing.Final[Real] = x
+        self.y: typing.Final[Real] = y
+        self.z: typing.Final[Real] = z
+        self.inner_radius: typing.Final[Integer] = inner_radius
+        self.outer_radius: typing.Final[Integer] = outer_radius
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``SphereEntry`` from INP.
+
+        Parameters:
+            INP for ``SphereEntry``.
+
+        Returns:
+            ``SphereEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = SphereEntry._REGEX.match(' ' + source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        x = Real.from_mcnp(tokens[1])
+        y = Real.from_mcnp(tokens[2])
+        z = Real.from_mcnp(tokens[3])
+        inner_radius = Integer.from_mcnp(tokens[4])
+        outer_radius = Integer.from_mcnp(tokens[5])
+
+        return SphereEntry(x, y, z, inner_radius, outer_radius)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``SphereEntry``.
+
+        Returns:
+            INP for ``SphereEntry``.
+        """
+
+        return f'{self.x} {self.y} {self.z} {self.inner_radius} {self.outer_radius}'
+
+
+class ReactionEntry(_object.McnpElement_):
+    """
+    Represents INP reaction entries.
+
+    Attributes:
+        mt: MT reaction identifiers.
+        pmt: MT reaction frequency control.
+    """
+
+    _REGEX = re.compile(r'( \S+)( \S+)')
+
+    def __init__(self, mt: Zaid, pmt: Integer):
+        """
+        Initializes ``ReactionEntry``.
+
+        Parameters:
+            mt: MT reaction identifiers.
+            pmt: MT reaction frequency control.
+
+        Returns:
+            ``ReactionEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if mt is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, mt)
+        if pmt is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, pmt)
+
+        self.mt: typing.Final[Zaid] = mt
+        self.pmt: typing.Final[Integer] = pmt
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``ReactionEntry`` from INP.
+
+        Parameters:
+            INP for ``ReactionEntry``.
+
+        Returns:
+            ``ReactionEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = ReactionEntry._REGEX.match(' ' + source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        mt = Zaid.from_mcnp(tokens[1])
+        pmt = Integer.from_mcnp(tokens[2])
+
+        return ReactionEntry(mt, pmt)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``ReactionEntry``.
+
+        Returns:
+            INP for ``ReactionEntry``.
+        """
+
+        return f'{self.mt} {self.pmt}'
+
+
+class PtracFilterEntry(_object.McnpElement_):
+    """
+    Represents INP ptrac filters entries.
+
+    Attributes:
+        lower: Lower bound for filtering.
+        upper: Upper bound for filtering.
+        variable: Variable name for PBL derived structure.
+    """
+
+    _REGEX = re.compile(r'( \S+)( \S+)?( \S+)')
+
+    def __init__(self, lower: Real, variable: String, upper: Real = None):
+        """
+        Initializes ``PtracFilterEntry``.
+
+        Parameters:
+            lower: Lower bound for filtering.
+            upper: Upper bound for filtering.
+            variable: Variable name for PBL derived structure.
+
+        Returns:
+            ``PtracFilterEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if lower is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, lower)
+        if upper is not None and not (upper >= lower):
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, upper)
+        if variable is None or variable not in {''}:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, variable)
+
+        self.lower: typing.Final[Real] = lower
+        self.upper: typing.Final[Real] = upper
+        self.variable: typing.Final[String] = variable
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``PtracFilterEntry`` from INP.
+
+        Parameters:
+            INP for ``PtracFilterEntry``.
+
+        Returns:
+            ``PtracFilterEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = PtracFilterEntry._REGEX.match(' ' + source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        lower = Real.from_mcnp(tokens[1])
+        upper = Real.from_mcnp(tokens[2]) if tokens[2] else None
+        variable = String.from_mcnp(tokens[3])
+
+        return PtracFilterEntry(lower, variable, upper)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``PtracFilterEntry``.
+
+        Returns:
+            INP for ``PtracFilterEntry``.
+        """
+
+        return f'{self.lower} {self.upper} {self.variable}'
+
+
+class PhotonBiasEntry(_object.McnpElement_):
+    """
+    Represents INP data card data option bias entries.
+
+    Attributes:
+        zaid: Bias nuclide identifier.
+        ipiki: Bias controls.
+        reactions: Bias MT reactions.
+    """
+
+    _REGEX = re.compile(r'( \S+)( \S+)((( \S+)( \S+))+)')
+
+    def __init__(self, zaid: Zaid, ipiki: Integer, reactions: tuple[ReactionEntry]):
+        """
+        Initializes ``PhotonBiasEntry``.
+
+        Parameters:
+            zaid: Bias nuclide identifier.
+            ipiki: Bias controls.
+            reactions: Bias MT reactions.
+
+        Returns:
+            ``PhotonBiasEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if zaid is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, zaid)
+        if ipiki is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, ipiki)
+        if reactions is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, reactions)
+
+        self.zaid: typing.Final[Zaid] = zaid
+        self.ipiki: typing.Final[Integer] = ipiki
+        self.reactions: typing.Final[tuple[ReactionEntry]] = reactions
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``PhotonBiasEntry`` from INP.
+
+        Parameters:
+            INP for ``PhotonBiasEntry``.
+
+        Returns:
+            ``PhotonBiasEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = PhotonBiasEntry._REGEX.match(' ' + source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        zaid = Zaid.from_mcnp(tokens[1])
+        ipiki = Integer.from_mcnp(tokens[2])
+        reactions = Tuple(
+            [
+                ReactionEntry.from_mcnp(token[0])
+                for token in ReactionEntry._REGEX.finditer(tokens[3])
+            ]
+        )
+
+        return PhotonBiasEntry(zaid, ipiki, reactions)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``PhotonBiasEntry``.
+
+        Returns:
+            INP for ``PhotonBiasEntry``.
+        """
+
+        return f'{self.zaid} {self.ipiki} {self.reactions}'

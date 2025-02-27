@@ -1,7 +1,7 @@
 pymcnp.ptrac Subpackage
 =======================
 
-Event Card
+Event Card_
 ----------
 
 .. autoclass:: pymcnp.ptrac.Event

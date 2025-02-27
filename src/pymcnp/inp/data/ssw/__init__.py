@@ -1,11 +1,7 @@
-from ._option import SswOption_
-from .option_sym import SswOption_Sym
-from .option_pty import SswOption_Pty
-from .option_cel import SswOption_Cel
+from .option_ import SswOption_
 
-__all__ = [
-    'SswOption_',
-    'SswOption_Sym',
-    'SswOption_Pty',
-    'SswOption_Cel',
-]
+from .Sym import Sym
+from .Pty import Pty
+from .Cel import Cel
+
+__all__ = ['SswOption_', 'Sym', 'Pty', 'Cel']

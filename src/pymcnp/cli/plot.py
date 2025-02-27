@@ -2,7 +2,7 @@
 Usage:
     pymcnp plot [-n number] [--pdf] <input>
 
-Options:
+Option_s:
     -n number --number=<number>   Which tally should be converted.
     --pdf                         Save as pdf
 """
