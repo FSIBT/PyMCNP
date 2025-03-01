@@ -1,9 +1,9 @@
-from . import _keyword
+from . import keyword_
 from ...utils import errors
 from ...utils import _parser
 
 
-class HistoryKeyword_Nters(_keyword.HistoryKeyword_):
+class Nters(keyword_.HistoryKeyword_):
     """
     Represents PTRAC event NTER variables.
     """
@@ -29,13 +29,13 @@ class HistoryKeyword_Nters(_keyword.HistoryKeyword_):
     @staticmethod
     def from_mcnp(source: int):
         """
-        Generates ``HistoryKeyword_Nters`` from PTRAC.
+        Generates ``Nters`` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``HistoryKeyword_Nters``.
+            source: PTRAC for ``Nters``.
 
         Returns:
-            ``HistoryKeyword_Nters``.
+            ``Nters``.
 
         Raises:
             PtracError: SYNTAX_HISTORY_KEYWORD.
@@ -44,6 +44,6 @@ class HistoryKeyword_Nters(_keyword.HistoryKeyword_):
         source = _parser.Preprocessor.preprocess_ptrac(source)
 
         try:
-            return HistoryKeyword_Nters(int(source))
+            return Nters(int(source))
         except ValueError:
             raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_KEYWORD, source)

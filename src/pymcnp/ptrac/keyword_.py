@@ -3,14 +3,14 @@ import enum
 from ..utils import _object
 
 
-class PtracKeyword_(enum.EnumMeta, _object.McnpElement_):
+class Keyword_(enum.EnumMeta, _object.McnpElement_):
     """
     Represents generic PTRAC keywords.
     """
 
     def to_mcnp(self):
         """
-        Generates PtracKeyword_ from ``PtracKeyword_``.
+        Generates PTRAC from ``Keyword_``.
 
         Returns:
             PTRAC keyword.

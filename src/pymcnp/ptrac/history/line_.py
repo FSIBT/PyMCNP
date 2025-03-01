@@ -1,7 +1,7 @@
-from .. import _line
+from .. import line_
 
 
-class HistoryLine_(_line.PtracLine_):
+class HistoryLine_(line_.Line_):
     """
     Represents generic PTRAC history block lines.
     """

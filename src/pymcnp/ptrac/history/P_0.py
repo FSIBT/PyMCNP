@@ -1,13 +1,13 @@
 import re
 import typing
 
-from . import _line
+from . import line_
 from ...utils import types
 from ...utils import errors
 from ...utils import _parser
 
 
-class HistoryLine_P_0(_line.HistoryLine_):
+class P_0(line_.HistoryLine_):
     """
     Represents PTRAC history block p lines form #1.
 
@@ -26,7 +26,7 @@ class HistoryLine_P_0(_line.HistoryLine_):
         z: types.Integer,
     ):
         """
-        Initializes ``HistoryLine_P_0``.
+        Initializes ``P_0``.
 
         Parameters:
             x: X coordinate of the particle position.
@@ -52,20 +52,20 @@ class HistoryLine_P_0(_line.HistoryLine_):
 
     def from_mcnp(source: str):
         """
-        Generates ``HistoryLine_P_0`` from PTRAC.
+        Generates ``P_0`` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``HistoryLine_P_0``.
+            source: PTRAC for ``P_0``.
 
         Returns:
-            ``HistoryLine_P_0``.
+            ``P_0``.
 
         Raises:
             PtracError: SYNTAX_HISTORY_LINE.
         """
 
         source = _parser.preprocess_ptrac(source)
-        tokens = HistoryLine_P_0._REGEX.match(source)
+        tokens = P_0._REGEX.match(source)
 
         if not tokens:
             raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
@@ -74,7 +74,7 @@ class HistoryLine_P_0(_line.HistoryLine_):
         y = types.Integer.from_mcnp(tokens[2])
         z = types.Integer.from_mcnp(tokens[3])
 
-        return HistoryLine_P_0(
+        return P_0(
             x,
             y,
             z,

@@ -1,14 +1,14 @@
 import re
 import typing
 
-from . import _line
-from . import keyword_type
+from . import line_
+from .EventType import EventType
 from ...utils import types
 from ...utils import errors
 from ...utils import _parser
 
 
-class HistoryLine_J_7(_line.HistoryLine_):
+class J_7(line_.HistoryLine_):
     """
     Represents PTRAC history block j lines form #4b.
 
@@ -27,7 +27,7 @@ class HistoryLine_J_7(_line.HistoryLine_):
 
     def __init__(
         self,
-        next_type: keyword_type.HistoryKeyword_Type,
+        next_type: EventType,
         node: types.Integer,
         nsx_nsf_nter: types.Integer,
         ntyn_mtp_angle_branch: types.Integer,
@@ -37,7 +37,7 @@ class HistoryLine_J_7(_line.HistoryLine_):
         ncp: types.Integer,
     ):
         """
-        Initializes ``HistoryLine_J_7``.
+        Initializes ``J_7``.
 
         Parameters:
             next_type: Next event type.
@@ -77,7 +77,7 @@ class HistoryLine_J_7(_line.HistoryLine_):
         if ncp is None:
             raise errors.PtracError(errors.PtracCode.SEMATICS_LINE_VALUE, ncp)
 
-        self.next_type: typing.Final[keyword_type.HistoryKeyword_Type] = next_type
+        self.next_type: typing.Final[EventType] = next_type
         self.node: typing.Final[types.Integer] = node
         self.nsx_nsf_nter: typing.Final[types.Integer] = nsx_nsf_nter
         self.ntyn_mtp_angle_branch: typing.Final[types.Integer] = ntyn_mtp_angle_branch
@@ -88,25 +88,25 @@ class HistoryLine_J_7(_line.HistoryLine_):
 
     def from_mcnp(source: str):
         """
-        Generates ``HistoryLine_J_7`` from PTRAC.
+        Generates ``J_7`` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``HistoryLine_J_7``.
+            source: PTRAC for ``J_7``.
 
         Returns:
-            ``HistoryLine_J_7``.
+            ``J_7``.
 
         Raises:
             PtracError: SYNTAX_HISTORY_LINE.
         """
 
         source = _parser.preprocess_ptrac(source)
-        tokens = HistoryLine_J_7._REGEX.match(source)
+        tokens = J_7._REGEX.match(source)
 
         if not tokens:
             raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
 
-        next_type = keyword_type.HistoryKeyword_Type.from_mcnp(tokens[1])
+        next_type = EventType.from_mcnp(tokens[1])
         node = types.Integer.from_mcnp(tokens[2])
         nsx_nsf_nter = types.Integer.from_mcnp(tokens[3])
         ntyn_mtp_angle_branch = types.Integer.from_mcnp(tokens[4])
@@ -115,6 +115,4 @@ class HistoryLine_J_7(_line.HistoryLine_):
         mat = types.Integer.from_mcnp(tokens[7])
         ncp = types.Integer.from_mcnp(tokens[8])
 
-        return HistoryLine_J_7(
-            next_type, node, nsx_nsf_nter, ntyn_mtp_angle_branch, ipt, ncl, mat, ncp
-        )
+        return J_7(next_type, node, nsx_nsf_nter, ntyn_mtp_angle_branch, ipt, ncl, mat, ncp)

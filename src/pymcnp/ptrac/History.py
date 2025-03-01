@@ -2,8 +2,8 @@ from __future__ import annotations
 import re
 import typing
 
-from . import header
 from . import history
+from .Header import Header
 from ..utils import types
 from ..utils import errors
 from ..utils import _parser
@@ -47,11 +47,11 @@ class History(_object.McnpElement_):
         if events is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, events)
 
-        self.i_line: typing.Final[tuple] = (i_line,)
+        self.i_line: typing.Final[tuple] = i_line
         self.events: typing.Final[typing.Generator] = (events,)
 
     @staticmethod
-    def from_mcnp(source: str, header: header.Header) -> tuple[History, str]:
+    def from_mcnp(source: str, header: Header) -> tuple[History, str]:
         """
         Generates ``History`` from PTRAC.
 
@@ -74,7 +74,7 @@ class History(_object.McnpElement_):
 
         i_line = types.Tuple(
             types.Integer(tokens[1]),
-            history.HistoryKeyword_Type(tokens[2]),
+            history.EventType(tokens[2]),
             types.Integer(tokens[3]),
             types.Integer(tokens[4]),
             types.Integer(tokens[5]),
@@ -82,48 +82,48 @@ class History(_object.McnpElement_):
         )
 
         def events(next_type, lines):
-            while next_type != history.HistoryKeyword_Type.FLAG:
-                if next_type == history.HistoryKeyword_Type.SOURCE:
-                    if (header.n_line[1], header.n_line[2]) == (5, 3):
-                        j_line = history.HistoryLine_J_0.from_mcnp(lines.pop(0))
-                        p_line = history.HistoryLine_P_0.from_mcnp(lines.pop(0))
-                    elif (header.n_line[1], header.n_line[2]) == (6, 3):
-                        j_line = history.HistoryLine_J_2.from_mcnp(lines.pop(0))
-                        p_line = history.HistoryLine_P_0.from_mcnp(lines.pop(0))
-                    elif (header.n_line[1], header.n_line[2]) == (6, 9):
-                        j_line = history.HistoryLine_J_4.from_mcnp(lines.pop(0))
-                        p_line = history.HistoryLine_P_1.from_mcnp(lines.pop(0))
-                    elif (header.n_line[1], header.n_line[2]) == (7, 9):
-                        j_line = history.HistoryLine_J_6.from_mcnp(lines.pop(0))
-                        p_line = history.HistoryLine_P_1.from_mcnp(lines.pop(0))
+            while next_type != history.EventType.FLAG:
+                if next_type == history.EventType.SOURCE:
+                    if (header.n_line, header.n_line) == (5, 3):
+                        j_line = history.J_0.from_mcnp(lines.pop(0))
+                        p_line = history.P_0.from_mcnp(lines.pop(0))
+                    elif (header.n_line, header.n_line) == (6, 3):
+                        j_line = history.J_2.from_mcnp(lines.pop(0))
+                        p_line = history.P_0.from_mcnp(lines.pop(0))
+                    elif (header.n_line, header.n_line) == (6, 9):
+                        j_line = history.J_4.from_mcnp(lines.pop(0))
+                        p_line = history.P_1.from_mcnp(lines.pop(0))
+                    elif (header.n_line, header.n_line) == (7, 9):
+                        j_line = history.J_6.from_mcnp(lines.pop(0))
+                        p_line = history.P_1.from_mcnp(lines.pop(0))
                     else:
                         assert False
                 else:
-                    if next_type == history.HistoryKeyword_Type.SURFACE:
-                        na = header.n_line[5]
-                        nb = header.n_line[6]
-                    elif next_type == history.HistoryKeyword_Type.COLLISION:
-                        na = header.n_line[7]
-                        nb = header.n_line[8]
-                    elif next_type == history.HistoryKeyword_Type.TERMINATION:
-                        na = header.n_line[9]
-                        nb = header.n_line[10]
+                    if next_type == history.EventType.SURFACE:
+                        na = header.n_line
+                        nb = header.n_line
+                    elif next_type == history.EventType.COLLISION:
+                        na = header.n_line
+                        nb = header.n_line
+                    elif next_type == history.EventType.TERMINATION:
+                        na = header.n_line
+                        nb = header.n_line
                     else:
-                        na = header.n_line[3]
-                        nb = header.n_line[4]
+                        na = header.n_line
+                        nb = header.n_line
 
                     if (na, nb) == (5, 3):
-                        j_line = history.HistoryLine_J_0.from_mcnp(lines.pop(0))
-                        p_line = history.HistoryLine_P_0.from_mcnp(lines.pop(0))
+                        j_line = history.J_0.from_mcnp(lines.pop(0))
+                        p_line = history.P_0.from_mcnp(lines.pop(0))
                     elif (na, nb) == (6, 3):
-                        j_line = history.HistoryLine_J_2.from_mcnp(lines.pop(0))
-                        p_line = history.HistoryLine_P_0.from_mcnp(lines.pop(0))
+                        j_line = history.J_2.from_mcnp(lines.pop(0))
+                        p_line = history.P_0.from_mcnp(lines.pop(0))
                     elif (na, nb) == (6, 9):
-                        j_line = history.HistoryLine_J_4.from_mcnp(lines.pop(0))
-                        p_line = history.HistoryLine_P_1.from_mcnp(lines.pop(0))
+                        j_line = history.J_4.from_mcnp(lines.pop(0))
+                        p_line = history.P_1.from_mcnp(lines.pop(0))
                     elif (na, nb) == (7, 9):
-                        j_line = history.HistoryLine_J_6.from_mcnp(lines.pop(0))
-                        p_line = history.HistoryLine_P_1.from_mcnp(lines.pop(0))
+                        j_line = history.J_6.from_mcnp(lines.pop(0))
+                        p_line = history.P_1.from_mcnp(lines.pop(0))
                     else:
                         assert False
 

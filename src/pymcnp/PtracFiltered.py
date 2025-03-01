@@ -1,17 +1,10 @@
-"""
-Contains the ``FilterPtrac`` for filtering PTRAC file.
-"""
-
-from .history import HistoryKeyword_Type
-from .ptrac import Ptrac
+from .Ptrac import Ptrac
+from .history import EventType
 
 
 class FilterPtrac:
     """
     Filters PTRAC files.
-
-    ``FilterPtrac`` provides helper methods and stubs for processing PTRAC.
-    Subclasses override its methods to specify how ``run`` processes PTRAC.
 
     Attributes:
         ptrac: ``Ptrac`` to filter.
@@ -28,7 +21,7 @@ class FilterPtrac:
         self.ptrac: Ptrac = ptrac
 
     @staticmethod
-    def filter_source(event: HistoryKeyword_Type) -> bool:
+    def filter_source(event: EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC source events.
 
@@ -39,7 +32,7 @@ class FilterPtrac:
         raise NotImplementedError
 
     @staticmethod
-    def filter_bank(event: HistoryKeyword_Type) -> bool:
+    def filter_bank(event: EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC bank events.
 
@@ -50,7 +43,7 @@ class FilterPtrac:
         raise NotImplementedError
 
     @staticmethod
-    def filter_surface(event: HistoryKeyword_Type) -> bool:
+    def filter_surface(event: EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC surface events.
 
@@ -61,7 +54,7 @@ class FilterPtrac:
         raise NotImplementedError
 
     @staticmethod
-    def filter_collision(event: HistoryKeyword_Type) -> bool:
+    def filter_collision(event: EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC collision events.
 
@@ -72,7 +65,7 @@ class FilterPtrac:
         raise NotImplementedError
 
     @staticmethod
-    def filter_terminal(event: HistoryKeyword_Type) -> bool:
+    def filter_terminal(event: EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC terminal events.
 
@@ -83,7 +76,7 @@ class FilterPtrac:
         raise NotImplementedError
 
     @staticmethod
-    def filter_flag(event: HistoryKeyword_Type) -> bool:
+    def filter_flag(event: EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC flag events.
 
@@ -102,15 +95,15 @@ class FilterPtrac:
             for history in self.ptrac.history:
                 for event in self.ptracFile.history.events:
                     match event.event_type:
-                        case HistoryKeyword_Type.SOURCE:
+                        case EventType.SOURCE:
                             _filter = self.filter_source
-                        case HistoryKeyword_Type.SURFACE:
+                        case EventType.SURFACE:
                             _filter = self.filter_surface
-                        case HistoryKeyword_Type.COLLISION:
+                        case EventType.COLLISION:
                             _filter = self.filter_collision
-                        case HistoryKeyword_Type.TERMINAL:
+                        case EventType.TERMINAL:
                             _filter = self.filter_terminal
-                        case HistoryKeyword_Type.FLAG:
+                        case EventType.FLAG:
                             _filter = self.filter_flag
                         case _:
                             _filter = self.filter_bank
