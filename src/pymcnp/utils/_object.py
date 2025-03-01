@@ -53,7 +53,7 @@ class McnpFile_(McnpElement_):
         filename = pathlib.Path(filename)
 
         if not filename.is_file():
-            raise errors.CliError(errors.CliCode.SEMANTICS_PATH)
+            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, filename)
 
         source = filename.read_text()
 
@@ -70,6 +70,6 @@ class McnpFile_(McnpElement_):
         filename = pathlib.Path(filename)
 
         if not filename.is_file():
-            raise errors.CliError(errors.CliCode.SEMANTICS_PATH)
+            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, filename)
 
         filename.write_text(self.to_mcnp())
