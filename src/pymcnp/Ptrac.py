@@ -4,10 +4,9 @@ Contains classes representing PTRAC file.
 
 from typing import Generator
 
-from .block_header import Header
-from .block_history import History
-from ..utils import errors
-from ..utils import _object
+from . import ptrac
+from .utils import errors
+from .utils import _object
 
 
 class Ptrac(_object.McnpFile_):
@@ -19,7 +18,7 @@ class Ptrac(_object.McnpFile_):
         history: PTRAC history.
     """
 
-    def __init__(self, header: Header, histories: Generator[History, None, None]):
+    def __init__(self, header: ptrac.Header, histories: Generator[ptrac.History, None, None]):
         """
         Initializes ``Ptrac``.
 
@@ -37,8 +36,8 @@ class Ptrac(_object.McnpFile_):
         if histories is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_PTRAC_HISTORY)
 
-        self.header: Header = header
-        self.histories: Generator[History, None, None] = histories
+        self.header: ptrac.Header = header
+        self.histories: Generator[ptrac.History, None, None] = histories
 
     @staticmethod
     def from_mcnp(source: str):
@@ -52,11 +51,11 @@ class Ptrac(_object.McnpFile_):
             ``Ptrac``.
         """
 
-        header, lines = Header.from_mcnp(source)
+        header, lines = ptrac.Header.from_mcnp(source)
 
         def histories(lines):
             while histories:
-                history, lines = History.from_mcnp(lines, header)
+                history, lines = ptrac.History.from_mcnp(lines, header)
                 yield history
             return
 

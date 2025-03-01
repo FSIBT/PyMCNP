@@ -2,8 +2,8 @@
 Contains the ``ProcessorPtrac`` class for processing PTRAC.
 """
 
-from .history import HistoryKeyword_Type
-from .ptrac import Ptrac
+from .ptrac import ptrac
+from .Ptrac import Ptrac
 
 
 class ProcessorPtrac:
@@ -41,42 +41,42 @@ class ProcessorPtrac:
 
         pass
 
-    def process_source(self, event: HistoryKeyword_Type):
+    def process_source(self, event: EventType):
         """
         Runs when ``run`` processes PTRAC source events.
         """
 
         raise NotImplementedError
 
-    def process_bank(self, event: HistoryKeyword_Type):
+    def process_bank(self, event: EventType):
         """
         Runs when ``run`` processes PTRAC bank events.
         """
 
         raise NotImplementedError
 
-    def process_surface(self, event: HistoryKeyword_Type):
+    def process_surface(self, event: EventType):
         """
         Runs when ``run`` processes PTRAC surface events.
         """
 
         raise NotImplementedError
 
-    def process_collision(self, event: HistoryKeyword_Type):
+    def process_collision(self, event: EventType):
         """
         Runs when ``run`` processes PTRAC collision events.
         """
 
         raise NotImplementedError
 
-    def process_terminal(self, event: HistoryKeyword_Type):
+    def process_terminal(self, event: EventType):
         """
         Runs when ``run`` processes PTRAC termianl events.
         """
 
         raise NotImplementedError
 
-    def process_flag(self, event: HistoryKeyword_Type):
+    def process_flag(self, event: EventType):
         """
         Runs when ``run`` processes PTRAC source events.
         """
@@ -93,15 +93,15 @@ class ProcessorPtrac:
         for history in self.ptrac.history:
             for event in history:
                 match event.event_type:
-                    case HistoryKeyword_Type.SOURCE:
+                    case EventType.SOURCE:
                         self.process_source(event)
-                    case HistoryKeyword_Type.SURFACE:
+                    case EventType.SURFACE:
                         self.process_surface(event)
-                    case HistoryKeyword_Type.COLLISION:
+                    case EventType.COLLISION:
                         self.process_collision(event)
-                    case HistoryKeyword_Type.TERMINAL:
+                    case EventType.TERMINAL:
                         self.process_terminal(event)
-                    case HistoryKeyword_Type.FLAG:
+                    case EventType.FLAG:
                         self.process_flag(event)
                     case _:
                         self.process_bank(event)

@@ -1,9 +1,9 @@
-from . import _keyword
+from . import keyword_
 from ...utils import errors
 from ...utils import _parser
 
 
-class HistoryKeyword_Type(_keyword.HistoryKeyword_):
+class EventType(keyword_.HistoryKeyword_):
     """
     Represents PTRAC event event-types.
     """
@@ -79,13 +79,13 @@ class HistoryKeyword_Type(_keyword.HistoryKeyword_):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``HistoryKeyword_Type`` from PTRAC.
+        Generates ``EventType`` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``HistoryKeyword_Type``.
+            source: PTRAC for ``EventType``.
 
         Returns:
-            ``HistoryKeyword_Type``.
+            ``EventType``.
 
         Raises:
             PtracError: SYNTAX_HISTORY_KEYWORD.
@@ -94,6 +94,6 @@ class HistoryKeyword_Type(_keyword.HistoryKeyword_):
         source = _parser.Preprocessor.preprocess_ptrac(source)
 
         try:
-            return HistoryKeyword_Type(int(source))
+            return EventType(int(source))
         except ValueError:
             raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_KEYWORD, source)

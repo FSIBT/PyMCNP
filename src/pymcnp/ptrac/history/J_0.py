@@ -1,14 +1,14 @@
 import re
 import typing
 
-from . import _line
-from . import keyword_type
+from . import line_
+from .EventType import EventType
 from ...utils import types
 from ...utils import errors
 from ...utils import _parser
 
 
-class HistoryLine_J_0(_line.HistoryLine_):
+class J_0(line_.HistoryLine_):
     """
     Represents PTRAC history block j lines form #1a.
 
@@ -24,14 +24,14 @@ class HistoryLine_J_0(_line.HistoryLine_):
 
     def __init__(
         self,
-        next_type: keyword_type.HistoryKeyword_Type,
+        next_type: EventType,
         pbl: types.Integer,
         nsr: types.Integer,
         ncl: types.Integer,
         mat: types.Integer,
     ):
         """
-        Initializes ``HistoryLine_J_0``.
+        Initializes ``J_0``.
 
         Parameters:
             next_type: Next J line event type.
@@ -59,7 +59,7 @@ class HistoryLine_J_0(_line.HistoryLine_):
         if mat is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, mat)
 
-        self.next_type: typing.Final[keyword_type.HistoryKeyword_Type] = next_type
+        self.next_type: typing.Final[EventType] = next_type
         self.pbl: typing.Final[types.Integer] = pbl
         self.nsr: typing.Final[types.Integer] = nsr
         self.ncl: typing.Final[types.Integer] = ncl
@@ -67,31 +67,31 @@ class HistoryLine_J_0(_line.HistoryLine_):
 
     def from_mcnp(source: str):
         """
-        Generates ``HistoryLine_J_0`` from PTRAC.
+        Generates ``J_0`` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``HistoryLine_J_0``.
+            source: PTRAC for ``J_0``.
 
         Returns:
-            ``HistoryLine_J_0``.
+            ``J_0``.
 
         Raises:
             PtracError: SYNTAX_HISTORY_LINE.
         """
 
         source = _parser.preprocess_ptrac(source)
-        tokens = HistoryLine_J_0._REGEX.match(source)
+        tokens = J_0._REGEX.match(source)
 
         if not tokens:
             raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
 
-        next_type = keyword_type.HistoryKeyword_Type.from_mcnp(tokens[1])
+        next_type = EventType.from_mcnp(tokens[1])
         pbl = types.Integer.from_mcnp(tokens[2])
         nsr = types.Integer.from_mcnp(tokens[3])
         ncl = types.Integer.from_mcnp(tokens[4])
         mat = types.Integer.from_mcnp(tokens[5])
 
-        return HistoryLine_J_0(
+        return J_0(
             next_type,
             pbl,
             nsr,
