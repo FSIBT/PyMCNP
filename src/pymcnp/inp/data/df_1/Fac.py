@@ -1,0 +1,44 @@
+import re
+import typing
+
+
+from .option_ import Df_1Option_
+from ....utils import types
+from ....utils import errors
+
+
+class Fac(Df_1Option_, keyword='fac'):
+    """
+    Represents INP fac elements.
+
+    Attributes:
+        InpError: SEMANTICS_OPTION_VALUE.
+    """
+
+    _ATTRS = {
+        'normalization': types.Integer,
+    }
+
+    _REGEX = re.compile(r'fac( \S+)')
+
+    def __init__(self, normalization: types.Integer):
+        """
+        Initializes ``Fac``.
+
+        Parameters:
+            normalization: Normalization factor for dose.
+
+        Raises:
+            InpError: SEMANTICS_OPTION_VALUE.
+        """
+
+        if normalization is None or not (normalization >= -3):
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, normalization)
+
+        self.value: typing.Final[types.Tuple] = types.Tuple(
+            [
+                normalization,
+            ]
+        )
+
+        self.normalization: typing.Final[types.Integer] = normalization

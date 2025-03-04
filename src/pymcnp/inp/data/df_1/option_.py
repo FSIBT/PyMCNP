@@ -5,16 +5,14 @@ import typing
 from ...option_ import Option_
 
 
-class FmultOption_(Option_):
+class Df_1Option_(Option_):
     """
-    Represents generic INP fmult options.
+    Represents generic INP df_1 options.
     """
 
     _KEYWORD = ''
     _SUBCLASSES = {}
-    _REGEX = re.compile(
-        r'sfyield( \S+)|method( \S+)|width( \S+)|shift( \S+)|sfnu(( \S+)+)|watt( \S+)( \S+)|data( \S+)'
-    )
+    _REGEX = re.compile(r'fac( \S+)|int( \S+)|iu( \S+)|ic( \S+)')
 
     def __init_subclass__(cls, keyword: str):
         cls._KEYWORD: typing.Final[str] = keyword

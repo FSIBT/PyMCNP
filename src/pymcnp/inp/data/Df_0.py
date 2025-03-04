@@ -7,9 +7,9 @@ from ...utils import types
 from ...utils import errors
 
 
-class Df(DataOption_, keyword='df'):
+class Df_0(DataOption_, keyword='df'):
     """
-    Represents INP df elements.
+    Represents INP df_0 elements.
 
     Attributes:
         InpError: SEMANTICS_OPTION_VALUE.
@@ -27,7 +27,7 @@ class Df(DataOption_, keyword='df'):
         self, suffix: types.Integer, method: types.String, values: types.Tuple[types.Real]
     ):
         """
-        Initializes ``Df``.
+        Initializes ``Df_0``.
 
         Parameters:
             suffix: Data card option suffix.
