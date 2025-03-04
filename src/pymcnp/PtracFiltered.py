@@ -1,17 +1,10 @@
-"""
-Contains the ``FilterPtrac`` for filtering PTRAC file.
-"""
-
-from .ptrac import ptrac
 from .Ptrac import Ptrac
+from .history import EventType
 
 
 class FilterPtrac:
     """
     Filters PTRAC files.
-
-    ``FilterPtrac`` provides helper methods and stubs for processing PTRAC.
-    Subclasses override its methods to specify how ``run`` processes PTRAC.
 
     Attributes:
         ptrac: ``Ptrac`` to filter.

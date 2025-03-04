@@ -1,17 +1,10 @@
-"""
-Contains the ``ProcessorPtrac`` class for processing PTRAC.
-"""
-
-from .ptrac import ptrac
 from .Ptrac import Ptrac
+from .history import EventType
 
 
 class ProcessorPtrac:
     """
     Processes PTRAC.
-
-    ``ProcessorPtrac`` provides helper methods and stubs for processing PTRAC.
-    Subclasses override its methods to specify how ``run`` processes PTRAC.
 
     Attributes:
         ptrac: ``Ptrac`` to process.

@@ -37,7 +37,7 @@ class J_7(line_.HistoryLine_):
         ncp: types.Integer,
     ):
         """
-        Initializes ``_7``.
+        Initializes ``J_7``.
 
         Parameters:
             next_type: Next event type.
@@ -88,20 +88,20 @@ class J_7(line_.HistoryLine_):
 
     def from_mcnp(source: str):
         """
-        Generates ``_7`` from PTRAC.
+        Generates ``J_7`` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``_7``.
+            source: PTRAC for ``J_7``.
 
         Returns:
-            ``_7``.
+            ``J_7``.
 
         Raises:
             PtracError: SYNTAX_HISTORY_LINE.
         """
 
         source = _parser.preprocess_ptrac(source)
-        tokens = _7._REGEX.match(source)
+        tokens = J_7._REGEX.match(source)
 
         if not tokens:
             raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
@@ -115,6 +115,4 @@ class J_7(line_.HistoryLine_):
         mat = types.Integer.from_mcnp(tokens[7])
         ncp = types.Integer.from_mcnp(tokens[8])
 
-        return _7(
-            next_type, node, nsx_nsf_nter, ntyn_mtp_angle_branch, ipt, ncl, mat, ncp
-        )
+        return J_7(next_type, node, nsx_nsf_nter, ntyn_mtp_angle_branch, ipt, ncl, mat, ncp)
