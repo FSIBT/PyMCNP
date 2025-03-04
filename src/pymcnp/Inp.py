@@ -197,7 +197,7 @@ class Inp(_object.McnpFile_):
         source += f'c {"data":^76.76}\n'
         source += DELIMITER
         source += '\n'.join(card.to_mcnp() for card in self.data.values())
-        source += '\nc\n'
+        source += '\n'
 
         # Appending Extra
         source += self.other if self.other else ''
