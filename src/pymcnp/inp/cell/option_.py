@@ -14,7 +14,7 @@ class CellOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'bflcl( \S+)|nonu( \S+)|trcl( \S+)|trcl( {types.TransformationEntry._REGEX.pattern})|fill( \S+)( \S+)?|fill( \S+)( {types.TransformationEntry._REGEX.pattern})?|elpt:(\S+)( \S+)|cosy( \S+)|imp:(\S+)( \S+)|vol( \S+)|pwt( \S+)|ext:(\S+)( \S+)|fcl:(\S+)( \S+)|wwn(\S+):(\S+)( \S+)|dxc(\S+):(\S+)( \S+)|tmp(\S+)( \S+)|lat( \S+)|unc:(\S+)( \S+)|pd(\S+)( \S+)|u( \S+)'
+        rf'bflcl( \S+)|nonu( \S+)|trcl( \S+)|trcl( {types.TransformationEntry._REGEX.pattern})|fill( \S+)( \S+)?|fill( \S+)( {types.TransformationEntry._REGEX.pattern})?|fill( {types.IndexEntry._REGEX.pattern})( {types.IndexEntry._REGEX.pattern})( {types.IndexEntry._REGEX.pattern})(( \S+)+)|elpt:(\S+)( \S+)|cosy( \S+)|imp:(\S+)( \S+)|vol( \S+)|pwt( \S+)|ext:(\S+)( \S+)|fcl:(\S+)( \S+)|wwn(\S+):(\S+)( \S+)|dxc(\S+):(\S+)( \S+)|tmp(\S+)( \S+)|lat( \S+)|tmp(\S+)( \S+)|tmp( \S+)|unc:(\S+)( \S+)|pd(\S+)( \S+)|u( \S+)'
     )
 
     def __init_subclass__(cls, keyword: str):

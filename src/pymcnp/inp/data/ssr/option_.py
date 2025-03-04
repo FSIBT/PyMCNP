@@ -13,7 +13,7 @@ class SsrOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        r'old(( \S+)+)|cel(( \S+)+)|new(( \S+)+)|pty(( \S+)+)|col( \S+)|wgt( \S+)|psc( \S+)|axs(( \S+)+)|ext( \S+)|poa( \S+)|bcw( \S+)( \S+)( \S+)'
+        r'old(( \S+)+)|cel(( \S+)+)|new(( \S+)+)|pty(( \S+)+)|col( \S+)|wgt( \S+)|psc( \S+)|axs(( \S+)+)|ext( \S+)|poa( \S+)|bcw( \S+)( \S+)( \S+)|tr( \S+)|tr( \S+)'
     )
 
     def __init_subclass__(cls, keyword: str):

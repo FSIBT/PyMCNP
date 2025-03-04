@@ -1687,27 +1687,107 @@ class DiagnosticEntry(_object.McnpElement_):
         return f'{self.playing_setting} {self.printing_setting}'
 
 
+class RingEntry(_object.McnpElement_):
+    """
+    Represents INP ring detector entries.
+
+    Attributes:
+        distance: Ring position.
+        radius: Ring radius.
+        excludion_radius: Ring radius.
+    """
+
+    _REGEX = re.compile(r'( \S+)( \S+)( \S+)')
+
+    def __init__(
+        self,
+        distance: Real,
+        radius: Real,
+        ro: Real,
+    ):
+        """
+        Initializes ``RingEntry``.
+
+        Parameters:
+            distance: Ring position.
+            radius: Ring radius.
+            ro: Ring exclusion radius.
+
+        Returns:
+            ``RingEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if distance is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, distance)
+        if radius is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, radius)
+        if ro is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, ro)
+
+        self.distance: typing.Final[Real] = distance
+        self.radius: typing.Final[Real] = radius
+        self.ro: typing.Final[Real] = ro
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``RingEntry`` from INP.
+
+        Parameters:
+            INP for ``RingEntry``.
+
+        Returns:
+            ``RingEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = RingEntry._REGEX.match(' ' + source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        distance = Real.from_mcnp(tokens[1])
+        radius = Real.from_mcnp(tokens[2])
+        ro = Real.from_mcnp(tokens[3])
+
+        return RingEntry(distance, radius, ro)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``SphereEntry``.
+
+        Returns:
+            INP for ``SphereEntry``.
+        """
+
+        return f'{self.distance} {self.radius} {self.ro}'
+
+
 class SphereEntry(_object.McnpElement_):
     """
-    Represents INP data card data option sphere entries.
+    Represents INP sphere detector entries.
 
     Attributes:
         x: Vector x coordinate.
         y: Vector y coordinate.
         z: Vector z coordinate.
-        inner_radius: Inner sphere radius.
-        outer_radius: Outer sphere radius.
+        ro: Sphere exclusion radius.
     """
 
-    _REGEX = re.compile(r'( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(r'( \S+)( \S+)( \S+)( \S+)')
 
     def __init__(
         self,
         x: Real,
         y: Real,
         z: Real,
-        inner_radius: Integer,
-        outer_radius: Integer,
+        ro: Integer,
     ):
         """
         Initializes ``SphereEntry``.
@@ -1716,8 +1796,7 @@ class SphereEntry(_object.McnpElement_):
             x: Vector x coordinate.
             y: Vector y coordinate.
             z: Vector z coordinate.
-            inner_radius: Inner sphere radius.
-            outer_radius: Outer sphere radius.
+            ro: Sphere exclusion radius.
 
         Returns:
             ``SphereEntry``.
@@ -1732,16 +1811,13 @@ class SphereEntry(_object.McnpElement_):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, y)
         if z is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, z)
-        if inner_radius is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, inner_radius)
-        if outer_radius is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, outer_radius)
+        if ro is None or not (ro != 0):
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, ro)
 
         self.x: typing.Final[Real] = x
         self.y: typing.Final[Real] = y
         self.z: typing.Final[Real] = z
-        self.inner_radius: typing.Final[Integer] = inner_radius
-        self.outer_radius: typing.Final[Integer] = outer_radius
+        self.ro: typing.Final[Integer] = ro
 
     @staticmethod
     def from_mcnp(source: str):
@@ -1767,10 +1843,9 @@ class SphereEntry(_object.McnpElement_):
         x = Real.from_mcnp(tokens[1])
         y = Real.from_mcnp(tokens[2])
         z = Real.from_mcnp(tokens[3])
-        inner_radius = Integer.from_mcnp(tokens[4])
-        outer_radius = Integer.from_mcnp(tokens[5])
+        ro = Integer.from_mcnp(tokens[4])
 
-        return SphereEntry(x, y, z, inner_radius, outer_radius)
+        return SphereEntry(x, y, z, ro)
 
     def to_mcnp(self):
         """
@@ -1778,6 +1853,102 @@ class SphereEntry(_object.McnpElement_):
 
         Returns:
             INP for ``SphereEntry``.
+        """
+
+        return f'{self.x} {self.y} {self.z} {self.ro}'
+
+
+class ShellEntry(_object.McnpElement_):
+    """
+    Represents INP shell detector entries.
+
+    Attributes:
+        x: Vector x coordinate.
+        y: Vector y coordinate.
+        z: Vector z coordinate.
+        inner_radius: Inner sphere radius.
+        outer_radius: Outer sphere radius.
+    """
+
+    _REGEX = re.compile(r'( \S+)( \S+)( \S+)( \S+)( \S+)')
+
+    def __init__(
+        self,
+        x: Real,
+        y: Real,
+        z: Real,
+        inner_radius: Integer,
+        outer_radius: Integer,
+    ):
+        """
+        Initializes ``ShellEntry``.
+
+        Parameters:
+            x: Vector x coordinate.
+            y: Vector y coordinate.
+            z: Vector z coordinate.
+            inner_radius: Inner sphere radius.
+            outer_radius: Outer sphere radius.
+
+        Returns:
+            ``ShellEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if x is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, x)
+        if y is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, y)
+        if z is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, z)
+        if inner_radius is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, inner_radius)
+        if outer_radius is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, outer_radius)
+
+        self.x: typing.Final[Real] = x
+        self.y: typing.Final[Real] = y
+        self.z: typing.Final[Real] = z
+        self.inner_radius: typing.Final[Integer] = inner_radius
+        self.outer_radius: typing.Final[Integer] = outer_radius
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``ShellEntry`` from INP.
+
+        Parameters:
+            INP for ``ShellEntry``.
+
+        Returns:
+            ``ShellEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = ShellEntry._REGEX.match(' ' + source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        x = Real.from_mcnp(tokens[1])
+        y = Real.from_mcnp(tokens[2])
+        z = Real.from_mcnp(tokens[3])
+        inner_radius = Integer.from_mcnp(tokens[4])
+        outer_radius = Integer.from_mcnp(tokens[5])
+
+        return ShellEntry(x, y, z, inner_radius, outer_radius)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``ShellEntry``.
+
+        Returns:
+            INP for ``ShellEntry``.
         """
 
         return f'{self.x} {self.y} {self.z} {self.inner_radius} {self.outer_radius}'
@@ -1933,7 +2104,7 @@ class PtracFilterEntry(_object.McnpElement_):
 
 class PhotonBiasEntry(_object.McnpElement_):
     """
-    Represents INP data card data option bias entries.
+    Represents INP bias entries.
 
     Attributes:
         zaid: Bias nuclide identifier.
@@ -2011,3 +2182,74 @@ class PhotonBiasEntry(_object.McnpElement_):
         """
 
         return f'{self.zaid} {self.ipiki} {self.reactions}'
+
+
+class IndexEntry(_object.McnpElement_):
+    """
+    Represents INP lattice index entries.
+
+    Attributes:
+        lower: Lower index.
+        upper: Upper index.
+    """
+
+    _REGEX = re.compile(r'( \S+):( \S+)')
+
+    def __init__(self, lower: Integer, upper: Integer):
+        """
+        Initializes ``IndexEntry``.
+
+        Parameters:
+            lower: Lower index.
+            upper: Upper index.
+
+        Returns:
+            ``IndexEntry``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if lower is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, lower)
+        if upper is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, upper)
+
+        self.lower: typing.Final[Integer] = lower
+        self.upper: typing.Final[Integer] = upper
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``IndexEntry`` from INP.
+
+        Parameters:
+            INP for ``IndexEntry``.
+
+        Returns:
+            ``IndexEntry``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = IndexEntry._REGEX.match(' ' + source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        lower = Integer.from_mcnp(tokens[1])
+        upper = Integer.from_mcnp(tokens[2])
+
+        return IndexEntry(lower, upper)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``IndexEntry``.
+
+        Returns:
+            INP for ``IndexEntry``.
+        """
+
+        return f'{self.lower}:{self.upper}'
