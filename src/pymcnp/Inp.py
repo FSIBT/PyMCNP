@@ -93,13 +93,13 @@ class Inp(_object.McnpFile_):
         self.message: typing.Final[types.String] = message
         self.title: typing.Final[types.String] = title
         self.cells: dict[int, inp.Cell] = {cell.number.value: cell for cell in cells}
-        self.cells_comments: types.Tuple[inp.Comment] = types.Tuple(cells_comments)
+        self.cells_comments: types.Tuple[inp.Comment] = cells_comments
         self.surfaces: dict[int, inp.Surface] = {
             surface.number.value: surface for surface in surfaces
         }
-        self.surfaces_comments: types.Tuple[inp.Comment] = types.Tuple(surfaces_comments)
+        self.surfaces_comments: types.Tuple[inp.Comment] = surfaces_comments
         self.data: dict[int, inp.Data] = {datum.option._KEYWORD: datum for datum in data}
-        self.data_comments: types.Tuple[inp.Comment] = types.Tuple(data_comments)
+        self.data_comments: types.Tuple[inp.Comment] = data_comments
         self.other: typing.Final[types.String] = other
 
     @staticmethod

@@ -19,13 +19,13 @@ class Option_(_object.McnpElement_):
         Generates ``Option_`` from INP.
 
         Parameters:
-                source: ``Option_`` for INP.
+            source: ``Option_`` for INP.
 
         Returns:
-                ``Option_``.
+            ``Option_``.
 
         Raises:
-                InpError: SYNTAX_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)
@@ -60,9 +60,7 @@ class Option_(_object.McnpElement_):
         Generates INP from ``Option_``.
 
         Returns:
-                INP for ``Option_``.
+            INP for ``Option_``.
         """
-
-        print(self.value)
 
         return f"{self._KEYWORD}{self.suffix if hasattr(self, 'suffix') else ''}{f':{self.designator}' if hasattr(self, 'designator') else ''} {self.value}"

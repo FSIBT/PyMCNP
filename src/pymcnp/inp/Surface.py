@@ -13,10 +13,10 @@ class Surface(Card_):
     Represents INP surface cards.
 
     Attributes:
-        number:    INP surface number.
+        number: INP surface number.
         transform: INP surface transformation.
-        option:    INP surface option.
-        prefix:    INP surface kind setting.
+        option: INP surface option.
+        prefix: INP surface kind setting.
     """
 
     _ATTRS = {
@@ -39,10 +39,10 @@ class Surface(Card_):
         Initializes ``Surface``.
 
         Parameters:
-            number:    INP surface number.
+            number: INP surface number.
             transform: INP surface transformation.
-            option:    INP surface option.
-            prefix:    INP surface kind setting.
+            option: INP surface option.
+            prefix: INP surface kind setting.
 
         Returns:
             ``Surface``.
