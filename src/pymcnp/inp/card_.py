@@ -18,13 +18,13 @@ class Card_(_object.McnpElement_):
         Generates ``Card_`` from INP.
 
         Parameters:
-                source: ``Card_`` for INP.
+            source: ``Card_`` for INP.
 
         Returns:
-                ``Card_``.
+            ``Card_``.
 
         Raises:
-                InpError: SYNTAX_OPTION.
+            InpError: SYNTAX_OPTION.
         """
 
         source, comments = _parser.preprocess_inp(source)

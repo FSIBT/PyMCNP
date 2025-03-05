@@ -1,8 +1,8 @@
+from . import ptrac
 from .Ptrac import Ptrac
-from .history import EventType
 
 
-class ProcessorPtrac:
+class PtracProcessed:
     """
     Processes PTRAC.
 
@@ -12,7 +12,7 @@ class ProcessorPtrac:
 
     def __init__(self, ptrac: Ptrac):
         """
-        Initializes ``ProcessorPtrac``.
+        Initializes ``PtracProcessed``.
 
         Parameters:
             ptrac: ``Ptrac`` to process.
@@ -34,42 +34,42 @@ class ProcessorPtrac:
 
         pass
 
-    def process_source(self, event: EventType):
+    def process_source(self, event: ptrac.history.EventType):
         """
         Runs when ``run`` processes PTRAC source events.
         """
 
         raise NotImplementedError
 
-    def process_bank(self, event: EventType):
+    def process_bank(self, event: ptrac.history.EventType):
         """
         Runs when ``run`` processes PTRAC bank events.
         """
 
         raise NotImplementedError
 
-    def process_surface(self, event: EventType):
+    def process_surface(self, event: ptrac.history.EventType):
         """
         Runs when ``run`` processes PTRAC surface events.
         """
 
         raise NotImplementedError
 
-    def process_collision(self, event: EventType):
+    def process_collision(self, event: ptrac.history.EventType):
         """
         Runs when ``run`` processes PTRAC collision events.
         """
 
         raise NotImplementedError
 
-    def process_terminal(self, event: EventType):
+    def process_terminal(self, event: ptrac.history.EventType):
         """
         Runs when ``run`` processes PTRAC termianl events.
         """
 
         raise NotImplementedError
 
-    def process_flag(self, event: EventType):
+    def process_flag(self, event: ptrac.history.EventType):
         """
         Runs when ``run`` processes PTRAC source events.
         """
@@ -86,15 +86,15 @@ class ProcessorPtrac:
         for history in self.ptrac.history:
             for event in history:
                 match event.event_type:
-                    case EventType.SOURCE:
+                    case ptrac.history.EventType.SOURCE:
                         self.process_source(event)
-                    case EventType.SURFACE:
+                    case ptrac.history.EventType.SURFACE:
                         self.process_surface(event)
-                    case EventType.COLLISION:
+                    case ptrac.history.EventType.COLLISION:
                         self.process_collision(event)
-                    case EventType.TERMINAL:
+                    case ptrac.history.EventType.TERMINAL:
                         self.process_terminal(event)
-                    case EventType.FLAG:
+                    case ptrac.history.EventType.FLAG:
                         self.process_flag(event)
                     case _:
                         self.process_bank(event)
