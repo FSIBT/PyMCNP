@@ -1,519 +1,522 @@
 import pymcnp
+
 import pytest
 
 
-# class Test_CellEntry_Geometry:
-#     """
-#     Tests ``CellEntry_Geometry``.
-#     """
-#
-#     VALID_EXAMPLES = [
-#         '-15158',
-#         '(116 8810)',
-#         '#(16270052)',
-#         '(127 4699712)',
-#         '#(55912)',
-#         '(38406:38406)',
-#         '(61781 8810)',
-#         '(8459955:54415642)',
-#         '10002 4736',
-#         '1000 25488',
-#         '(43 2832)',
-#         '59909',
-#         '#(24)',
-#         '+1',
-#         '(20552 66588:10001 6572)',
-#         '(46413 53335)',
-#         '-203',
-#         '(60608 60608)',
-#         '82811712',
-#         '(10001 7004 112147 7320)',
-#         '+1000 00057',
-#         '(17 17)',
-#         '#(999 99998)',
-#         '-1000 11505',
-#         '#(1000 00100)',
-#         '(85:38406)',
-#         '-100022 492',
-#         '-100000 010',
-#     ]
-#
-#     INVALID_EXAMPLES = []
-#
-#     def test_valid(self):
-#         for infix in self.VALID_EXAMPLES:
-#             obj = pymcnp.inp.cell.CellEntry_Geometry.from_mcnp(f'{infix}')
-#
-#             assert obj.infix == infix
-#
-#     def test_invalid(self):
-#         for infix in self.INVALID_EXAMPLES:
-#             with pytest.raises(pymcnp.utils.pymcnp.utils.errors.InpError) as err:
-#                 pymcnp.inp.cell.CellEntry_Geometry.from_mcnp(f'{infix}')
-#
-#             assert err.value.code == pymcnp.utils.errors.InpCode.INVALID_CELL_GEOMETRY
+class _Test_FromMcnp:
+    """
+    Tests ``McnpElement_.from_mcnp``.
+    """
+
+    element: pymcnp.utils._object.McnpElement_
+    EXAMPLE_VALID: list[str]
+    EXAMPLE_INVALID: list[str]
+
+    def test_valid(self):
+        """
+        Tests ``EXAMPLES_VALID``.
+        """
+
+        for example in self.EXAMPLES_VALID:
+            self.element.from_mcnp(example)
+
+    def test_invalid(self):
+        """
+        Tests ``EXAMPLES_INVALID``.
+        """
+
+        for example in self.EXAMPLES_INVALID:
+            with pytest.raises(pymcnp.utils.errors.InpError):
+                self.element.from_mcnp(example)
 
 
-class Test_Imp:
+class Test_Cell:
+    """
+    Tests ``Cell``.
+    """
+
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Cell.from_mcnp``.
+        """
+
+        element = pymcnp.inp.Cell
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_CellImp:
     """
     Tests ``Imp``.
     """
 
-    VALID_EXAMPLES = [(0.5, ('n', 'p')), (1.5, ('n',)), (-0.5, ('n', '#'))]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Imp.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = []
-
-    def test_valid(self):
-        for importance, designator in self.VALID_EXAMPLES:
-            _importance = pymcnp.utils.types.Real(importance)
-            _designator = pymcnp.utils.types.Designator(designator)
-
-            obj = pymcnp.inp.cell.Imp(_designator, _importance)
-
-            assert obj.importance == pymcnp.utils.types.Real(importance)
-            assert obj.designator == pymcnp.utils.types.Designator(designator)
-
-    def test_invalid(self):
-        for importance, designator in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                importance = pymcnp.utils.types.Real(importance)
-                designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.cell.Imp(designator, importance)
+        element = pymcnp.inp.cell.Imp
+        EXAMPLES_VALID = [
+            'imp:n,p=0.5',
+            'imp:n=1.5',
+            'imp:n,#=-0.5',
+        ]
+        EXAMPLES_INVALID = []
 
 
-class Test_Vol:
+class Test_CellVol:
     """
     Tests ``Vol``.
     """
 
-    VALID_EXAMPLES = [0.5, 1.5, 0.0]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Vol.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = [-1.5, -2.5, -0.1]
-
-    def test_valid(self):
-        for volume in self.VALID_EXAMPLES:
-            _volume = pymcnp.utils.types.Real(volume)
-
-            obj = pymcnp.inp.cell.Vol(_volume)
-
-            assert obj.volume == pymcnp.utils.types.Real(volume)
-
-    def test_invalid(self):
-        for volume in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                volume = pymcnp.utils.types.Real(volume)
-                pymcnp.inp.cell.Vol(volume)
+        element = pymcnp.inp.cell.Vol
+        EXAMPLES_VALID = [
+            'vol=0.5',
+            'vol=1.5',
+            'vol=0.0',
+        ]
+        EXAMPLES_INVALID = [
+            'vol=-22',
+            'vol=-1',
+            'vol=-32423',
+        ]
 
 
-class Test_Pwt:
+class Test_CellPwt:
     """
     Tests ``Pwt``.
     """
 
-    VALID_EXAMPLES = [0.5, 1.5, -0.5]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Pwt.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = []
-
-    def test_valid(self):
-        for weight in self.VALID_EXAMPLES:
-            _weight = pymcnp.utils.types.Real(weight)
-
-            obj = pymcnp.inp.cell.Pwt(_weight)
-
-            assert obj.weight == pymcnp.utils.types.Real(weight)
-
-    def test_invalid(self):
-        for weight in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                weight = pymcnp.utils.types.Real(weight)
-                pymcnp.inp.cell.Pwt(weight)
+        element = pymcnp.inp.cell.Pwt
+        EXAMPLES_VALID = [
+            'pwt=0.5',
+            'pwt=1.5',
+            'pwt=-0.5',
+        ]
+        EXAMPLES_INVALID = []
 
 
-class Test_Ext:
+class Test_CellExt:
     """
     Tests ``Ext``.
     """
 
-    VALID_EXAMPLES = [('0.5', ('n', 'p')), ('0.9', ('n',)), ('-0.5', ('n', '#'))]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Ext.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = []
-
-    def test_valid(self):
-        for stretch, designator in self.VALID_EXAMPLES:
-            _stretch = stretch
-            _designator = pymcnp.utils.types.Designator(designator)
-
-            obj = pymcnp.inp.cell.Ext(_designator, _stretch)
-
-            assert obj.stretch == stretch
-            assert obj.designator == pymcnp.utils.types.Designator(designator)
-
-    def test_invalid(self):
-        for stretch, designator in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                stretch = stretch
-                designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.cell.Ext(designator, stretch)
+        element = pymcnp.inp.cell.Ext
+        EXAMPLES_VALID = [
+            'ext:n,p=0.5',
+            'ext:n=0.9',
+            'ext:n,#=-0.5',
+        ]
+        EXAMPLES_INVALID = []
 
 
-class Test_Fcl:
+class Test_CellFcl:
     """
     Tests ``Fcl``.
     """
 
-    VALID_EXAMPLES = [(0.5, ('n', 'p')), (0.9, ('n',)), (-0.5, ('n', '#'))]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Fcl.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = [(2.51, ('n', 'p')), (3.94, ('n',)), (-1.3, ('n', '#'))]
-
-    def test_valid(self):
-        for control, designator in self.VALID_EXAMPLES:
-            _control = pymcnp.utils.types.Real(control)
-            _designator = pymcnp.utils.types.Designator(designator)
-
-            obj = pymcnp.inp.cell.Fcl(_designator, _control)
-
-            assert obj.control == pymcnp.utils.types.Real(control)
-            assert obj.designator == pymcnp.utils.types.Designator(designator)
-
-    def test_invalid(self):
-        for control, designator in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                control = pymcnp.utils.types.Real(control)
-                designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.cell.Fcl(designator, control)
+        element = pymcnp.inp.cell.Fcl
+        EXAMPLES_VALID = [
+            'fcl:n,p=0.5',
+            'fcl:n=0.9',
+            'fcl:n,#=-0.5',
+        ]
+        EXAMPLES_INVALID = [
+            'fcl:n,p=2.51',
+            'fcl:n=3.94',
+            'fcl:n,#=-1.3',
+        ]
 
 
-class Test_Wwn:
+class Test_CellWwn:
     """
     Tests ``Wwn``.
     """
 
-    VALID_EXAMPLES = [(0.5, 3, ('n', 'p')), (0.9, 8, ('n',)), (-1.0, 2, ('n', '#'))]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Wwn.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = []
-
-    def test_valid(self):
-        for bound, suffix, designator in self.VALID_EXAMPLES:
-            _bound = pymcnp.utils.types.Real(bound)
-            _suffix = pymcnp.utils.types.Integer(suffix)
-            _designator = pymcnp.utils.types.Designator(designator)
-
-            obj = pymcnp.inp.cell.Wwn(_suffix, _designator, _bound)
-
-            assert obj.bound == pymcnp.utils.types.Real(bound)
-            assert obj.suffix == pymcnp.utils.types.Integer(suffix)
-            assert obj.designator == pymcnp.utils.types.Designator(designator)
-
-    def test_invalid(self):
-        for bound, suffix, designator in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                bound = pymcnp.utils.types.Real(bound)
-                suffix = pymcnp.utils.types.Integer(suffix)
-                designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.cell.Wwn(suffix, designator, bound)
+        element = pymcnp.inp.cell.Wwn
+        EXAMPLES_VALID = [
+            'wwn3:n,p=1',
+            'wwn4:e=0',
+            'wwn6:#=-1',
+        ]
+        EXAMPLES_INVALID = [
+            'wwn4:_=-2',
+        ]
 
 
-class Test_Dxc:
+class Test_CellDxc:
     """
     Tests ``Dxc``.
     """
 
-    VALID_EXAMPLES = [(0.5, 3, ('n', 'p')), (0.9, 8, ('n',)), (0.0, 2, ('n', '#'))]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Dxc.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = [(-1.0, 2, ('n',))]
-
-    def test_valid(self):
-        for probability, suffix, designator in self.VALID_EXAMPLES:
-            _probability = pymcnp.utils.types.Real(probability)
-            _suffix = pymcnp.utils.types.Integer(suffix)
-            _designator = pymcnp.utils.types.Designator(designator)
-
-            obj = pymcnp.inp.cell.Dxc(_suffix, _designator, _probability)
-
-            assert obj.probability == pymcnp.utils.types.Real(probability)
-            assert obj.suffix == pymcnp.utils.types.Integer(suffix)
-            assert obj.designator == pymcnp.utils.types.Designator(designator)
-
-    def test_invalid(self):
-        for probability, suffix, designator in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                probability = pymcnp.utils.types.Real(probability)
-                suffix = pymcnp.utils.types.Integer(suffix)
-                designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.cell.Dxc(suffix, designator, probability)
+        element = pymcnp.inp.cell.Dxc
+        EXAMPLES_VALID = [
+            'dxc3:n,p=0.5',
+            'dxc8:n=0.9',
+            'dxc2:n,#=0.0',
+        ]
+        EXAMPLES_INVALID = [
+            'dxc2:n=-1.0',
+        ]
 
 
-class Test_Nonu:
+class Test_CellNonu:
     """
     Tests ``Nonu``.
     """
 
-    VALID_EXAMPLES = [0, 1, 2]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Nonu.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = [-1, 3, 100]
-
-    def test_valid(self):
-        for setting in self.VALID_EXAMPLES:
-            _setting = pymcnp.utils.types.Integer(setting)
-
-            obj = pymcnp.inp.cell.Nonu(_setting)
-
-            assert obj.setting == pymcnp.utils.types.Integer(setting)
-
-    def test_invalid(self):
-        for setting in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                setting = pymcnp.utils.types.Integer(setting)
-                pymcnp.inp.cell.Nonu(setting)
+        element = pymcnp.inp.cell.Nonu
+        EXAMPLES_VALID = [
+            'nonu=0',
+            'nonu=1',
+            'nonu=2',
+        ]
+        EXAMPLES_INVALID = [
+            'nonu=-1',
+            'nonu=3',
+            'nonu=100',
+        ]
 
 
-class Test_Pd:
+class Test_CellPd:
     """
     Tests ``Pd``.
     """
 
-    VALID_EXAMPLES = [(0, 5), (0.5, 7), (1, 3)]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Pd.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = [(-1, 1), (3, 2), (100, 5)]
-
-    def test_valid(self):
-        for probability, suffix in self.VALID_EXAMPLES:
-            _probability = pymcnp.utils.types.Real(probability)
-            _suffix = pymcnp.utils.types.Integer(suffix)
-
-            obj = pymcnp.inp.cell.Pd(_suffix, _probability)
-
-            assert obj.probability == pymcnp.utils.types.Real(probability)
-            assert obj.suffix == pymcnp.utils.types.Integer(suffix)
-
-    def test_invalid(self):
-        for probability, suffix in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                probability = pymcnp.utils.types.Real(probability)
-                suffix = pymcnp.utils.types.Integer(suffix)
-                pymcnp.inp.cell.Pd(suffix, probability)
+        element = pymcnp.inp.cell.Pd
+        EXAMPLES_VALID = [
+            'pd5=0',
+            'pd7=0.5',
+            'pd3=1',
+        ]
+        EXAMPLES_INVALID = [
+            'pd1=-1',
+            'pd3=2',
+            'pd5=100',
+        ]
 
 
-class Test_Tmp:
+class Test_CellTmp:
     """
     Tests ``Tmp``.
     """
 
-    VALID_EXAMPLES = [(4.26, 1), (3.14, 5), (0.24, 7), (9.43, 3)]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Tmp.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = [(-0.53, 1), (0.0, 2), (-1.43, 5)]
-
-    def test_valid(self):
-        for temperature, suffix in self.VALID_EXAMPLES:
-            _temperature = pymcnp.utils.types.Real(temperature)
-            _suffix = pymcnp.utils.types.Integer(suffix)
-
-            obj = pymcnp.inp.cell.Tmp(_suffix, _temperature)
-
-            assert obj.temperature == pymcnp.utils.types.Real(temperature)
-            assert obj.suffix == pymcnp.utils.types.Integer(suffix)
-
-    def test_invalid(self):
-        for temperature, suffix in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                temperature = pymcnp.utils.types.Real(temperature)
-                suffix = pymcnp.utils.types.Integer(suffix)
-                pymcnp.inp.cell.Tmp(suffix, temperature)
+        element = pymcnp.inp.cell.Tmp
+        EXAMPLES_VALID = [
+            'tmp1=4.26',
+            'tmp5=3.14',
+            'tmp7=0.24',
+            'tmp3=9.43',
+        ]
+        EXAMPLES_INVALID = [
+            'tmp1=-0.53',
+            'tmp2-0.0',
+            'tmp5=-1.43',
+        ]
 
 
-class Test_U:
+class Test_CellU:
     """
     Tests ``U``.
     """
 
-    VALID_EXAMPLES = [-99999999, 99999999, 0, 1, -1]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``U.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = [-100000000, 100000000, 100000432]
-
-    def test_valid(self):
-        for number in self.VALID_EXAMPLES:
-            _number = pymcnp.utils.types.Integer(number)
-
-            obj = pymcnp.inp.cell.U(_number)
-
-            assert obj.number == pymcnp.utils.types.Integer(number)
-
-    def test_invalid(self):
-        for number in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                number = pymcnp.utils.types.Integer(number)
-                pymcnp.inp.cell.U(number)
+        element = pymcnp.inp.cell.U
+        EXAMPLES_VALID = [
+            'u=-99999999',
+            'u=99999999',
+            'u=0',
+            'u=1',
+            'u=-1',
+        ]
+        EXAMPLES_INVALID = [
+            'u=-100000000',
+            'u=100000000',
+            'u=100000432',
+        ]
 
 
-class Test_Trcl_0:
+class Test_CellTrcl_0:
     """
     Tests ``Trcl_0``.
     """
 
-    VALID_EXAMPLES = [1, 67, 999]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Trcl_0.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = [-1000, 1000, 2343]
-
-    def test_valid(self):
-        for transformation in self.VALID_EXAMPLES:
-            _transformation = int(transformation)
-
-            obj = pymcnp.inp.cell.Trcl_0(_transformation)
-
-            assert obj.transformation == _transformation
-
-    def test_invalid(self):
-        for value in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                value = int(value)
-                pymcnp.inp.cell.Trcl_0(value)
+        element = pymcnp.inp.cell.Trcl_0
+        EXAMPLES_VALID = [
+            'trcl=1',
+            'trcl=67',
+            'trcl=999',
+        ]
+        EXAMPLES_INVALID = [
+            'trcl=-1000',
+            'trcl=1000',
+            'trcl=2343',
+        ]
 
 
-class Test_Lat:
+class Test_CellTrcl_1:
+    """
+    Tests ``Trcl_1``.
+    """
+
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Trcl_1.from_mcnp``.
+        """
+
+        element = pymcnp.inp.cell.Trcl_1
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_CellLat:
     """
     Tests ``Lat``.
     """
 
-    VALID_EXAMPLES = [1, 2]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Lat.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = [0, -1, 100]
-
-    def test_valid(self):
-        for shape in self.VALID_EXAMPLES:
-            _shape = pymcnp.utils.types.Integer(shape)
-
-            obj = pymcnp.inp.cell.Lat(_shape)
-
-            assert obj.shape == _shape
-
-    def test_invalid(self):
-        for shape in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                shape = pymcnp.utils.types.Integer(shape)
-                pymcnp.inp.cell.Lat(shape)
+        element = pymcnp.inp.cell.Lat
+        EXAMPLES_VALID = [
+            'lat=1',
+            'lat=2',
+        ]
+        EXAMPLES_INVALID = [
+            'lat=-1',
+            'lat=9',
+        ]
 
 
-class Test_Fill_0:
+class Test_CellFill_0:
     """
     Tests ``Fill_0``.
     """
 
-    VALID_EXAMPLES = [0, 234, 99999999]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Fill_0.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = [-100, 100000000, -1]
+        element = pymcnp.inp.cell.Fill_0
+        EXAMPLES_VALID = [
+            'fill=0',
+            'fill=1',
+            'fill=0 1',
+            'fill=1 0',
+            'fill=0 0',
+            'fill=1 1',
+        ]
+        EXAMPLES_INVALID = [
+            'fill=-1',
+            'fill=-1 1',
+            'fill=1 -1',
+            'fill=1 91232', 
+        ]
 
-    def test_valid(self):
-        for universe in self.VALID_EXAMPLES:
-            _universe = pymcnp.utils.types.Integer(universe)
 
-            obj = pymcnp.inp.cell.Fill_0(_universe)
+class Test_CellFill_1:
+    """
+    Tests ``Fill_1``.
+    """
 
-            assert obj.universe == _universe
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Fill_1.from_mcnp``.
+        """
 
-    def test_invalid(self):
-        for number in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                number = pymcnp.utils.types.Integer(number)
-                pymcnp.inp.cell.Fill_0(number)
+        element = pymcnp.inp.cell.Fill_1
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
 
 
-class Test_Elpt:
+class Test_CellFill_2:
+    """
+    Tests ``Fill_2``.
+    """
+
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Fill_2.from_mcnp``.
+        """
+
+        element = pymcnp.inp.cell.Fill_2
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_CellElpt:
     """
     Tests ``Elpt``.
     """
 
-    VALID_EXAMPLES = [(-234.05434, ('n', 'p')), (345034950, ('n',)), (34534.3453, ('n', '#'))]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Elpt.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = []
-
-    def test_valid(self):
-        for cutoff, designator in self.VALID_EXAMPLES:
-            _cutoff = pymcnp.utils.types.Real(cutoff)
-            _designator = pymcnp.utils.types.Designator(designator)
-
-            obj = pymcnp.inp.cell.Elpt(_designator, _cutoff)
-
-            assert obj.cutoff == pymcnp.utils.types.Real(cutoff)
-            assert obj.designator == pymcnp.utils.types.Designator(designator)
-
-    def test_invalid(self):
-        for cutoff, designator in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                cutoff = pymcnp.utils.types.Real(cutoff)
-                designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.cell.Elpt(designator, cutoff)
+        element = pymcnp.inp.cell.Elpt
+        EXAMPLES_VALID = [
+            'elpt:n,p=-234.05434',
+            'elpt:n=345034950',
+            'elpt:n,#=34534.3453',
+        ]
+        EXAMPLES_INVALID = []
 
 
-class Test_Cosy:
+class Test_CellTmp_0:
+    """
+    Tests ``Tmp_0``.
+    """
+
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Tmp_0.from_mcnp``.
+        """
+
+        element = pymcnp.inp.cell.Tmp_0
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_CellTmp_1:
+    """
+    Tests ``Tmp_1``.
+    """
+
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Tmp_1.from_mcnp``.
+        """
+
+        element = pymcnp.inp.cell.Tmp_1
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_CellCosy:
     """
     Tests ``Cosy``.
     """
 
-    VALID_EXAMPLES = [1, 2, 3, 4, 5, 6]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Cosy.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = [0, 100000000, -1]
+        element = pymcnp.inp.cell.Cosy
+        EXAMPLES_VALID = [
+            'cosy=1',
+            'cosy=2',
+            'cosy=3',
+            'cosy=4',
+            'cosy=5',
+            'cosy=6',
+        ]
+        EXAMPLES_INVALID = [
+            'cosy=0',
+            'cosy=100000000',
+            'cosy=-1',
+        ]
 
-    def test_valid(self):
-        for number in self.VALID_EXAMPLES:
-            _number = pymcnp.utils.types.Integer(number)
 
-            obj = pymcnp.inp.cell.Cosy(_number)
-
-            assert obj.number == pymcnp.utils.types.Integer(number)
-
-    def test_invalid(self):
-        for number in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                number = pymcnp.utils.types.Integer(number)
-                pymcnp.inp.cell.Cosy(number)
-
-
-class Test_Bflcl:
+class Test_CellBflcl:
     """
     Tests ``Bflcl``.
     """
 
-    VALID_EXAMPLES = [0, 4, 10]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Bflcl.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = [-1, -345, -1000]
-
-    def test_valid(self):
-        for number in self.VALID_EXAMPLES:
-            _number = pymcnp.utils.types.Integer(number)
-
-            obj = pymcnp.inp.cell.Bflcl(_number)
-
-            assert obj.number == pymcnp.utils.types.Integer(number)
-
-    def test_invalid(self):
-        for number in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                number = pymcnp.utils.types.Integer(number)
-                pymcnp.inp.cell.Bflcl(number)
+        element = pymcnp.inp.cell.Bflcl
+        EXAMPLES_VALID = [
+            'bflcl=0',
+            'bflcl=4',
+            'bflcl=10',
+        ]
+        EXAMPLES_INVALID = [
+            'bflcl=-1',
+            'bflcl=-345',
+            'bflcl=-1000',
+        ]
 
 
-class Test_Unc:
+class Test_CellUnc:
     """
     Tests ``Unc``.
     """
 
-    VALID_EXAMPLES = [(0, ('#',)), (1, ('e',))]
+    class Test_FromMcnp(_Test_FromMcnp):
+        """
+        Tests ``Unc.from_mcnp``.
+        """
 
-    INVALID_EXAMPLES = [(-1, ('n', '#')), (345, ('@', '#')), (-1000, ('e',)), (2, ('p', '_'))]
-
-    def test_valid(self):
-        for setting, designator in self.VALID_EXAMPLES:
-            _setting = pymcnp.utils.types.Integer(setting)
-            _designator = pymcnp.utils.types.Designator(designator)
-
-            obj = pymcnp.inp.cell.Unc(_designator, _setting)
-
-            assert obj.setting == pymcnp.utils.types.Integer(setting)
-            assert obj.designator == pymcnp.utils.types.Designator(designator)
-
-    def test_invalid(self):
-        for setting, designator in self.INVALID_EXAMPLES:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                setting = pymcnp.utils.types.Integer(setting)
-                designator = pymcnp.utils.types.Designator(designator)
-                pymcnp.inp.cell.Unc(designator, setting)
+        element = pymcnp.inp.cell.Unc
+        EXAMPLES_VALID = [
+            'unc:p=1',
+            'unc:e=0',
+        ]
+        EXAMPLES_INVALID = [
+            'unc:n,#=-1',
+            'unc:@,#=345',
+            'unc:e=-1000',
+            'unc:p,_=2',
+        ]
