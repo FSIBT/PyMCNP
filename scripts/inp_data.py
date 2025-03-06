@@ -202,7 +202,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='stretch',
-                            type='str',
+                            type='types.String',
                             description='Cell exponential transform stretching specifier',
                         ),
                     ),

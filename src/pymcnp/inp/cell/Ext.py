@@ -17,12 +17,12 @@ class Ext(CellOption_, keyword='ext'):
 
     _ATTRS = {
         'designator': types.Designator,
-        'stretch': str,
+        'stretch': types.String,
     }
 
     _REGEX = re.compile(r'ext:(\S+)( \S+)')
 
-    def __init__(self, designator: types.Designator, stretch: str):
+    def __init__(self, designator: types.Designator, stretch: types.String):
         """
         Initializes ``Ext``.
 
@@ -46,4 +46,4 @@ class Ext(CellOption_, keyword='ext'):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.stretch: typing.Final[str] = stretch
+        self.stretch: typing.Final[types.String] = stretch

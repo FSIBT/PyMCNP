@@ -1,7 +1,7 @@
 import re
 import pathlib
 
-import _data
+import inp_data
 
 
 # UTILITIES #
@@ -26,11 +26,6 @@ def CAMEL(name: str) -> str:
 
 
 def SNAKE(name: str) -> str:
-    name = re.sub('/', '_', name)
-    return name.lower()
-
-
-def FILE(name: str) -> str:
     name = re.sub('/', '_', name)
     return name.lower()
 
@@ -261,5 +256,5 @@ def build_element(element, parent_name, path_dir, depth):
             file.write(ELEMENT(element, parent_name, depth - 1))
 
 
-for card in _data.cards.options:
-    build_element(card, '', pathlib.Path(__file__).parent / 'inp', 3)
+for card in inp_data.cards.options:
+    build_element(card, '', pathlib.Path(__file__).parent.parent / 'src/pymcnp/inp', 3)
