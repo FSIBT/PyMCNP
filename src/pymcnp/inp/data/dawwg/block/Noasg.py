@@ -19,7 +19,7 @@ class Noasg(BlockOption_, keyword='noasg'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'noasg( \S+)')
+    _REGEX = re.compile(rf'noasg( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

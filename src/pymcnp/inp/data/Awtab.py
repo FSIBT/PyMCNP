@@ -16,12 +16,12 @@ class Awtab(DataOption_, keyword='awtab'):
     """
 
     _ATTRS = {
-        'weight_ratios': types.Tuple[types.SubstanceEntry],
+        'weight_ratios': types.Tuple[types.Substance],
     }
 
-    _REGEX = re.compile(rf'awtab(( {types.SubstanceEntry._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'awtab(( {types.Substance._REGEX.pattern})+)')
 
-    def __init__(self, weight_ratios: types.Tuple[types.SubstanceEntry]):
+    def __init__(self, weight_ratios: types.Tuple[types.Substance]):
         """
         Initializes ``Awtab``.
 
@@ -41,4 +41,4 @@ class Awtab(DataOption_, keyword='awtab'):
             ]
         )
 
-        self.weight_ratios: typing.Final[types.Tuple[types.SubstanceEntry]] = weight_ratios
+        self.weight_ratios: typing.Final[types.Tuple[types.Substance]] = weight_ratios

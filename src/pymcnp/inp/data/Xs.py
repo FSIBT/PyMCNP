@@ -17,12 +17,12 @@ class Xs(DataOption_, keyword='xs'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'weight_ratios': types.Tuple[types.SubstanceEntry],
+        'weight_ratios': types.Tuple[types.Substance],
     }
 
-    _REGEX = re.compile(rf'xs(\S+)(( {types.SubstanceEntry._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'xs(\S+)(( {types.Substance._REGEX.pattern})+)')
 
-    def __init__(self, suffix: types.Integer, weight_ratios: types.Tuple[types.SubstanceEntry]):
+    def __init__(self, suffix: types.Integer, weight_ratios: types.Tuple[types.Substance]):
         """
         Initializes ``Xs``.
 
@@ -46,4 +46,4 @@ class Xs(DataOption_, keyword='xs'):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.weight_ratios: typing.Final[types.Tuple[types.SubstanceEntry]] = weight_ratios
+        self.weight_ratios: typing.Final[types.Tuple[types.Substance]] = weight_ratios

@@ -19,7 +19,7 @@ class Length(EmbedOption_, keyword='length'):
         'factor': types.Real,
     }
 
-    _REGEX = re.compile(r'length( \S+)')
+    _REGEX = re.compile(rf'length( {types.Real._REGEX.pattern})')
 
     def __init__(self, factor: types.Real):
         """

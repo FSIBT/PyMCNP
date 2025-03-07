@@ -20,7 +20,7 @@ class Tm(DataOption_, keyword='tm'):
         'multipliers': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'tm(\S+)(( \S+)+)')
+    _REGEX = re.compile(rf'tm(\S+)(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, suffix: types.Integer, multipliers: types.Tuple[types.Real]):
         """

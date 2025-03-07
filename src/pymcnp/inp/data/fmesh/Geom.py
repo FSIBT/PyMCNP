@@ -19,7 +19,7 @@ class Geom(FmeshOption_, keyword='geom'):
         'geometry': types.String,
     }
 
-    _REGEX = re.compile(r'geom( \S+)')
+    _REGEX = re.compile(rf'geom( {types.String._REGEX.pattern})')
 
     def __init__(self, geometry: types.String):
         """

@@ -19,7 +19,7 @@ class Trcor(BlockOption_, keyword='trcor'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'trcor( \S+)')
+    _REGEX = re.compile(rf'trcor( {types.String._REGEX.pattern})')
 
     def __init__(self, setting: types.String):
         """

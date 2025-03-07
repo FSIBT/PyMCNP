@@ -17,38 +17,38 @@ class Dxt(DataOption_, keyword='dxt'):
 
     _ATTRS = {
         'designator': types.Designator,
-        'spheres_1': types.ShellEntry,
-        'spheres_2': types.ShellEntry,
-        'spheres_3': types.ShellEntry,
-        'spheres_4': types.ShellEntry,
-        'spheres_5': types.ShellEntry,
-        'spheres_6': types.ShellEntry,
-        'spheres_7': types.ShellEntry,
-        'spheres_8': types.ShellEntry,
-        'spheres_9': types.ShellEntry,
-        'spheres_10': types.ShellEntry,
+        'spheres_1': types.Shell,
+        'spheres_2': types.Shell,
+        'spheres_3': types.Shell,
+        'spheres_4': types.Shell,
+        'spheres_5': types.Shell,
+        'spheres_6': types.Shell,
+        'spheres_7': types.Shell,
+        'spheres_8': types.Shell,
+        'spheres_9': types.Shell,
+        'spheres_10': types.Shell,
         'cutoff_1': types.Real,
         'cutoff_2': types.Real,
         'weight': types.Real,
     }
 
     _REGEX = re.compile(
-        rf'dxt:(\S+)( {types.ShellEntry._REGEX.pattern})( {types.ShellEntry._REGEX.pattern})( {types.ShellEntry._REGEX.pattern})( {types.ShellEntry._REGEX.pattern})( {types.ShellEntry._REGEX.pattern})( {types.ShellEntry._REGEX.pattern})( {types.ShellEntry._REGEX.pattern})( {types.ShellEntry._REGEX.pattern})( {types.ShellEntry._REGEX.pattern})( {types.ShellEntry._REGEX.pattern})( \S+)( \S+)( \S+)'
+        rf'dxt:(\S+)( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
     )
 
     def __init__(
         self,
         designator: types.Designator,
-        spheres_1: types.ShellEntry,
-        spheres_2: types.ShellEntry,
-        spheres_3: types.ShellEntry,
-        spheres_4: types.ShellEntry,
-        spheres_5: types.ShellEntry,
-        spheres_6: types.ShellEntry,
-        spheres_7: types.ShellEntry,
-        spheres_8: types.ShellEntry,
-        spheres_9: types.ShellEntry,
-        spheres_10: types.ShellEntry,
+        spheres_1: types.Shell,
+        spheres_2: types.Shell,
+        spheres_3: types.Shell,
+        spheres_4: types.Shell,
+        spheres_5: types.Shell,
+        spheres_6: types.Shell,
+        spheres_7: types.Shell,
+        spheres_8: types.Shell,
+        spheres_9: types.Shell,
+        spheres_10: types.Shell,
         cutoff_1: types.Real,
         cutoff_2: types.Real,
         weight: types.Real,
@@ -124,16 +124,16 @@ class Dxt(DataOption_, keyword='dxt'):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.spheres_1: typing.Final[types.ShellEntry] = spheres_1
-        self.spheres_2: typing.Final[types.ShellEntry] = spheres_2
-        self.spheres_3: typing.Final[types.ShellEntry] = spheres_3
-        self.spheres_4: typing.Final[types.ShellEntry] = spheres_4
-        self.spheres_5: typing.Final[types.ShellEntry] = spheres_5
-        self.spheres_6: typing.Final[types.ShellEntry] = spheres_6
-        self.spheres_7: typing.Final[types.ShellEntry] = spheres_7
-        self.spheres_8: typing.Final[types.ShellEntry] = spheres_8
-        self.spheres_9: typing.Final[types.ShellEntry] = spheres_9
-        self.spheres_10: typing.Final[types.ShellEntry] = spheres_10
+        self.spheres_1: typing.Final[types.Shell] = spheres_1
+        self.spheres_2: typing.Final[types.Shell] = spheres_2
+        self.spheres_3: typing.Final[types.Shell] = spheres_3
+        self.spheres_4: typing.Final[types.Shell] = spheres_4
+        self.spheres_5: typing.Final[types.Shell] = spheres_5
+        self.spheres_6: typing.Final[types.Shell] = spheres_6
+        self.spheres_7: typing.Final[types.Shell] = spheres_7
+        self.spheres_8: typing.Final[types.Shell] = spheres_8
+        self.spheres_9: typing.Final[types.Shell] = spheres_9
+        self.spheres_10: typing.Final[types.Shell] = spheres_10
         self.cutoff_1: typing.Final[types.Real] = cutoff_1
         self.cutoff_2: typing.Final[types.Real] = cutoff_2
         self.weight: typing.Final[types.Real] = weight

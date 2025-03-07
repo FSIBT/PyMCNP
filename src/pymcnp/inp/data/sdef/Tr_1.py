@@ -19,7 +19,7 @@ class Tr_1(SdefOption_, keyword='tr'):
         'number': types.Integer,
     }
 
-    _REGEX = re.compile(r'tr( \S+)')
+    _REGEX = re.compile(rf'tr( {types.Integer._REGEX.pattern})')
 
     def __init__(self, number: types.Integer):
         """

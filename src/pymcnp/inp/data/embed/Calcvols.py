@@ -19,7 +19,7 @@ class Calcvols(EmbedOption_, keyword='calcvols'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'calcvols( \S+)')
+    _REGEX = re.compile(rf'calcvols( {types.String._REGEX.pattern})')
 
     def __init__(self, setting: types.String):
         """

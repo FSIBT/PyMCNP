@@ -20,7 +20,7 @@ class Fcl(CellOption_, keyword='fcl'):
         'control': types.Real,
     }
 
-    _REGEX = re.compile(r'fcl:(\S+)( \S+)')
+    _REGEX = re.compile(rf'fcl:(\S+)( {types.Real._REGEX.pattern})')
 
     def __init__(self, designator: types.Designator, control: types.Real):
         """

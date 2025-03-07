@@ -19,7 +19,7 @@ class Estep(MOption_, keyword='estep'):
         'step': types.Integer,
     }
 
-    _REGEX = re.compile(r'estep( \S+)')
+    _REGEX = re.compile(rf'estep( {types.Integer._REGEX.pattern})')
 
     def __init__(self, step: types.Integer):
         """

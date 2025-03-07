@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class SswOption_(Option_):
@@ -12,7 +13,9 @@ class SswOption_(Option_):
 
     _KEYWORD = ''
     _SUBCLASSES = {}
-    _REGEX = re.compile(r'sym( \S+)|pty(( \S+)+)|cel(( \S+)+)')
+    _REGEX = re.compile(
+        rf'sym( {types.Integer._REGEX.pattern})|pty(( {types.Designator._REGEX.pattern})+)|cel(( {types.Integer._REGEX.pattern})+)'
+    )
 
     def __init_subclass__(cls, keyword: str):
         cls._KEYWORD: typing.Final[str] = keyword

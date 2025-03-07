@@ -20,7 +20,7 @@ class Ext(CellOption_, keyword='ext'):
         'stretch': types.String,
     }
 
-    _REGEX = re.compile(r'ext:(\S+)( \S+)')
+    _REGEX = re.compile(rf'ext:(\S+)( {types.String._REGEX.pattern})')
 
     def __init__(self, designator: types.Designator, stretch: types.String):
         """

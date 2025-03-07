@@ -19,7 +19,7 @@ class Niso(BlockOption_, keyword='niso'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'niso( \S+)')
+    _REGEX = re.compile(rf'niso( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

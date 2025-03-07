@@ -23,7 +23,9 @@ class Cut(DataOption_, keyword='cut'):
         'source_weight': types.Real,
     }
 
-    _REGEX = re.compile(r'cut( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'cut( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(
         self,

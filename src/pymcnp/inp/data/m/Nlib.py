@@ -19,7 +19,7 @@ class Nlib(MOption_, keyword='nlib'):
         'abx': types.String,
     }
 
-    _REGEX = re.compile(r'nlib( \S+)')
+    _REGEX = re.compile(rf'nlib( {types.String._REGEX.pattern})')
 
     def __init__(self, abx: types.String):
         """

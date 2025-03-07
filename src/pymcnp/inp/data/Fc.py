@@ -20,7 +20,7 @@ class Fc(DataOption_, keyword='fc'):
         'info': types.String,
     }
 
-    _REGEX = re.compile(r'fc(\S+)( \S+)')
+    _REGEX = re.compile(rf'fc(\S+)( {types.String._REGEX.pattern})')
 
     def __init__(self, suffix: types.Integer, info: types.String):
         """

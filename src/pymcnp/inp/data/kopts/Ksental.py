@@ -19,7 +19,7 @@ class Ksental(KoptsOption_, keyword='ksental'):
         'fileopt': types.String,
     }
 
-    _REGEX = re.compile(r'ksental( \S+)')
+    _REGEX = re.compile(rf'ksental( {types.String._REGEX.pattern})')
 
     def __init__(self, fileopt: types.String):
         """

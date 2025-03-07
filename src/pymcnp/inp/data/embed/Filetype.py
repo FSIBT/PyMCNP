@@ -19,7 +19,7 @@ class Filetype(EmbedOption_, keyword='filetype'):
         'kind': types.String,
     }
 
-    _REGEX = re.compile(r'filetype( \S+)')
+    _REGEX = re.compile(rf'filetype( {types.String._REGEX.pattern})')
 
     def __init__(self, kind: types.String):
         """

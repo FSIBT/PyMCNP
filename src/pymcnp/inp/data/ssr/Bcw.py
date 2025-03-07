@@ -21,7 +21,9 @@ class Bcw(SsrOption_, keyword='bcw'):
         'ze': types.Real,
     }
 
-    _REGEX = re.compile(r'bcw( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'bcw( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(self, radius: types.Real, zb: types.Real, ze: types.Real):
         """

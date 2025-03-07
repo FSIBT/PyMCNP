@@ -20,7 +20,7 @@ class Elpt(CellOption_, keyword='elpt'):
         'cutoff': types.Real,
     }
 
-    _REGEX = re.compile(r'elpt:(\S+)( \S+)')
+    _REGEX = re.compile(rf'elpt:(\S+)( {types.Real._REGEX.pattern})')
 
     def __init__(self, designator: types.Designator, cutoff: types.Real):
         """

@@ -19,7 +19,7 @@ class Isn(BlockOption_, keyword='isn'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'isn( \S+)')
+    _REGEX = re.compile(rf'isn( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

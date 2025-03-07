@@ -17,12 +17,12 @@ class Tmp_0(CellOption_, keyword='tmp'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'temperature': tuple[types.Real],
+        'temperature': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'tmp(\S+)( \S+)')
+    _REGEX = re.compile(rf'tmp(\S+)(( {types.Real._REGEX.pattern})+)')
 
-    def __init__(self, suffix: types.Integer, temperature: tuple[types.Real]):
+    def __init__(self, suffix: types.Integer, temperature: types.Tuple[types.Real]):
         """
         Initializes ``Tmp_0``.
 
@@ -46,4 +46,4 @@ class Tmp_0(CellOption_, keyword='tmp'):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.temperature: typing.Final[tuple[types.Real]] = temperature
+        self.temperature: typing.Final[types.Tuple[types.Real]] = temperature

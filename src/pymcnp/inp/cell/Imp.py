@@ -20,7 +20,7 @@ class Imp(CellOption_, keyword='imp'):
         'importance': types.Real,
     }
 
-    _REGEX = re.compile(r'imp:(\S+)( \S+)')
+    _REGEX = re.compile(rf'imp:(\S+)( {types.Real._REGEX.pattern})')
 
     def __init__(self, designator: types.Designator, importance: types.Real):
         """

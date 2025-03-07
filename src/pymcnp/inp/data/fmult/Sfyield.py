@@ -19,7 +19,7 @@ class Sfyield(FmultOption_, keyword='sfyield'):
         'fission_yield': types.Real,
     }
 
-    _REGEX = re.compile(r'sfyield( \S+)')
+    _REGEX = re.compile(rf'sfyield( {types.Real._REGEX.pattern})')
 
     def __init__(self, fission_yield: types.Real):
         """

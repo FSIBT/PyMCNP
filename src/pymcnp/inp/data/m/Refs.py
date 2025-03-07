@@ -19,7 +19,7 @@ class Refs(MOption_, keyword='refs'):
         'coefficents': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'refs(( \S+)+)')
+    _REGEX = re.compile(rf'refs(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, coefficents: types.Tuple[types.Real]):
         """

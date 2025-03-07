@@ -19,7 +19,7 @@ class Gen(RandOption_, keyword='gen'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'gen( \S+)')
+    _REGEX = re.compile(rf'gen( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

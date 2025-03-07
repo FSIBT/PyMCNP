@@ -21,7 +21,9 @@ class Sp_0(DataOption_, keyword='sp'):
         'probabilities': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'sp(\S+)( \S+)(( \S+)+)')
+    _REGEX = re.compile(
+        rf'sp(\S+)( {types.String._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
+    )
 
     def __init__(
         self, suffix: types.Integer, option: types.String, probabilities: types.Tuple[types.Real]

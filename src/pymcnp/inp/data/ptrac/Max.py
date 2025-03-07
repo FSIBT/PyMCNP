@@ -19,7 +19,7 @@ class Max(PtracOption_, keyword='max'):
         'events': types.Integer,
     }
 
-    _REGEX = re.compile(r'max( \S+)')
+    _REGEX = re.compile(rf'max( {types.Integer._REGEX.pattern})')
 
     def __init__(self, events: types.Integer):
         """

@@ -19,7 +19,7 @@ class Sym(SswOption_, keyword='sym'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'sym( \S+)')
+    _REGEX = re.compile(rf'sym( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

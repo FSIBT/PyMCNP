@@ -19,7 +19,7 @@ class Shift(FmultOption_, keyword='shift'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'shift( \S+)')
+    _REGEX = re.compile(rf'shift( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

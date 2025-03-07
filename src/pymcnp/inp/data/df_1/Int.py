@@ -19,7 +19,7 @@ class Int(Df_1Option_, keyword='int'):
         'interpolation': types.String,
     }
 
-    _REGEX = re.compile(r'int( \S+)')
+    _REGEX = re.compile(rf'int( {types.String._REGEX.pattern})')
 
     def __init__(self, interpolation: types.String):
         """

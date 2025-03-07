@@ -19,7 +19,7 @@ class Jmesh(FmeshOption_, keyword='jmesh'):
         'locations': types.Real,
     }
 
-    _REGEX = re.compile(r'jmesh( \S+)')
+    _REGEX = re.compile(rf'jmesh( {types.Real._REGEX.pattern})')
 
     def __init__(self, locations: types.Real):
         """

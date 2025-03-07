@@ -21,7 +21,7 @@ class Sy(SurfaceOption_, keyword='sy'):
         'r': types.Real,
     }
 
-    _REGEX = re.compile(r'sy( \S+)( \S+)')
+    _REGEX = re.compile(rf'sy( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})')
 
     def __init__(self, y: types.Real, r: types.Real):
         """

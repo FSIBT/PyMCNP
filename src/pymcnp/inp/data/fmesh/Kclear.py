@@ -19,7 +19,7 @@ class Kclear(FmeshOption_, keyword='kclear'):
         'count': types.Integer,
     }
 
-    _REGEX = re.compile(r'kclear( \S+)')
+    _REGEX = re.compile(rf'kclear( {types.Integer._REGEX.pattern})')
 
     def __init__(self, count: types.Integer):
         """

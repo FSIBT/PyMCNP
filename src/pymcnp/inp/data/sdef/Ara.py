@@ -19,7 +19,7 @@ class Ara(SdefOption_, keyword='ara'):
         'area': types.Real,
     }
 
-    _REGEX = re.compile(r'ara( \S+)')
+    _REGEX = re.compile(rf'ara( {types.Real._REGEX.pattern})')
 
     def __init__(self, area: types.Real):
         """

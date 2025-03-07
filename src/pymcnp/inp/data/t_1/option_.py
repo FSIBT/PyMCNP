@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class T_1Option_(Option_):
@@ -12,7 +13,9 @@ class T_1Option_(Option_):
 
     _KEYWORD = ''
     _SUBCLASSES = {}
-    _REGEX = re.compile(r'cbeg( \S+)|cfrq( \S+)|cofi( \S+)|coni( \S+)|csub( \S+)|cend( \S+)')
+    _REGEX = re.compile(
+        rf'cbeg( {types.Real._REGEX.pattern})|cfrq( {types.Real._REGEX.pattern})|cofi( {types.Real._REGEX.pattern})|coni( {types.Real._REGEX.pattern})|csub( {types.Integer._REGEX.pattern})|cend( {types.Real._REGEX.pattern})'
+    )
 
     def __init_subclass__(cls, keyword: str):
         cls._KEYWORD: typing.Final[str] = keyword

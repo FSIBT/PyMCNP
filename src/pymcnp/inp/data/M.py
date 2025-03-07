@@ -20,18 +20,18 @@ class M(DataOption_, keyword='m'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'substances': types.Tuple[types.SubstanceEntry],
+        'substances': types.Tuple[types.Substance],
         'options': types.Tuple[m.MOption_],
     }
 
     _REGEX = re.compile(
-        rf'm(\S+)(( {types.SubstanceEntry._REGEX.pattern})+)(( ({m.MOption_._REGEX.pattern}))+)?'
+        rf'm(\S+)(( {types.Substance._REGEX.pattern})+)(( ({m.MOption_._REGEX.pattern}))+)?'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
-        substances: types.Tuple[types.SubstanceEntry],
+        substances: types.Tuple[types.Substance],
         options: types.Tuple[m.MOption_] = None,
     ):
         """
@@ -59,7 +59,7 @@ class M(DataOption_, keyword='m'):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.substances: typing.Final[types.Tuple[types.SubstanceEntry]] = substances
+        self.substances: typing.Final[types.Tuple[types.Substance]] = substances
         self.options: typing.Final[types.Tuple[m.MOption_]] = options
 
     @staticmethod
@@ -98,7 +98,7 @@ class M(DataOption_, keyword='m'):
                 ]
                 subcomments = [f'{element}-{zaid.a:03}' for zaid, _ in zaids]
                 entries = [
-                    types.SubstanceEntry(
+                    types.Substance(
                         zaid,
                         types.Real(
                             (-1 if atomic_or_weight else 1)

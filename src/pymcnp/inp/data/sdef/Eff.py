@@ -19,7 +19,7 @@ class Eff(SdefOption_, keyword='eff'):
         'criterion': types.Real,
     }
 
-    _REGEX = re.compile(r'eff( \S+)')
+    _REGEX = re.compile(rf'eff( {types.Real._REGEX.pattern})')
 
     def __init__(self, criterion: types.Real):
         """

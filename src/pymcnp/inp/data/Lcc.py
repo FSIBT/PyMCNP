@@ -26,7 +26,9 @@ class Lcc(DataOption_, keyword='lcc'):
         'ebankabia': types.Real,
     }
 
-    _REGEX = re.compile(r'lcc( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'lcc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(
         self,

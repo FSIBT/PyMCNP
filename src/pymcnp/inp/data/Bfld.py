@@ -22,7 +22,9 @@ class Bfld(DataOption_, keyword='bfld'):
         'options': types.Tuple[bfld.BfldOption_],
     }
 
-    _REGEX = re.compile(rf'bfld(\S+)( \S+)(( ({bfld.BfldOption_._REGEX.pattern}))+)?')
+    _REGEX = re.compile(
+        rf'bfld(\S+)( {types.String._REGEX.pattern})(( ({bfld.BfldOption_._REGEX.pattern}))+)?'
+    )
 
     def __init__(
         self,

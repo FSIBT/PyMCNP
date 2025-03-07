@@ -19,7 +19,7 @@ class Dm(DataOption_, keyword='dm'):
         'zaids': types.Tuple[types.Zaid],
     }
 
-    _REGEX = re.compile(r'dm(( \S+)+)')
+    _REGEX = re.compile(rf'dm(( {types.Zaid._REGEX.pattern})+)')
 
     def __init__(self, zaids: types.Tuple[types.Zaid]):
         """

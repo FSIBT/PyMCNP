@@ -19,7 +19,7 @@ class Par(SdefOption_, keyword='par'):
         'kind': types.String,
     }
 
-    _REGEX = re.compile(r'par( \S+)')
+    _REGEX = re.compile(rf'par( {types.String._REGEX.pattern})')
 
     def __init__(self, kind: types.String):
         """

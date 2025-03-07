@@ -19,7 +19,7 @@ class Ith(BlockOption_, keyword='ith'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'ith( \S+)')
+    _REGEX = re.compile(rf'ith( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

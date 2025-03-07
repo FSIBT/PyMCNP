@@ -24,7 +24,9 @@ class Phys_1(DataOption_, keyword='phys:p'):
         'fism': types.Integer,
     }
 
-    _REGEX = re.compile(r'phys:p( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'phys:p( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})'
+    )
 
     def __init__(
         self,

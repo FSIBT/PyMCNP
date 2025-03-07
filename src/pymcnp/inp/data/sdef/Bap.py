@@ -21,7 +21,9 @@ class Bap(SdefOption_, keyword='bap'):
         'u': types.Real,
     }
 
-    _REGEX = re.compile(r'bap( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'bap( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(self, ba1: types.Real, ba2: types.Real, u: types.Real):
         """

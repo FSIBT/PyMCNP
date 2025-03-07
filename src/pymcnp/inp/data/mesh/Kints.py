@@ -19,7 +19,7 @@ class Kints(MeshOption_, keyword='kints'):
         'number': types.Integer,
     }
 
-    _REGEX = re.compile(r'kints( \S+)')
+    _REGEX = re.compile(rf'kints( {types.Integer._REGEX.pattern})')
 
     def __init__(self, number: types.Integer):
         """

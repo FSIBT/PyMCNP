@@ -17,12 +17,12 @@ class Dd(DataOption_, keyword='dd'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'diagnostics': types.Tuple[types.DiagnosticEntry],
+        'diagnostics': types.Tuple[types.Diagnostic],
     }
 
-    _REGEX = re.compile(rf'dd(\S+)(( {types.DiagnosticEntry._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'dd(\S+)(( {types.Diagnostic._REGEX.pattern})+)')
 
-    def __init__(self, suffix: types.Integer, diagnostics: types.Tuple[types.DiagnosticEntry]):
+    def __init__(self, suffix: types.Integer, diagnostics: types.Tuple[types.Diagnostic]):
         """
         Initializes ``Dd``.
 
@@ -46,4 +46,4 @@ class Dd(DataOption_, keyword='dd'):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.diagnostics: typing.Final[types.Tuple[types.DiagnosticEntry]] = diagnostics
+        self.diagnostics: typing.Final[types.Tuple[types.Diagnostic]] = diagnostics

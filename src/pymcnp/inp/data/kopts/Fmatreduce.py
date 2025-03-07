@@ -19,7 +19,7 @@ class Fmatreduce(KoptsOption_, keyword='fmatreduce'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'fmatreduce( \S+)')
+    _REGEX = re.compile(rf'fmatreduce( {types.String._REGEX.pattern})')
 
     def __init__(self, setting: types.String):
         """

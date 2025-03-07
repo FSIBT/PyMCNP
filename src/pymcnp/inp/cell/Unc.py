@@ -20,7 +20,7 @@ class Unc(CellOption_, keyword='unc'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'unc:(\S+)( \S+)')
+    _REGEX = re.compile(rf'unc:(\S+)( {types.Integer._REGEX.pattern})')
 
     def __init__(self, designator: types.Designator, setting: types.Integer):
         """

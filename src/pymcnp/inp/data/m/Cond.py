@@ -19,7 +19,7 @@ class Cond(MOption_, keyword='cond'):
         'setting': types.Real,
     }
 
-    _REGEX = re.compile(r'cond( \S+)')
+    _REGEX = re.compile(rf'cond( {types.Real._REGEX.pattern})')
 
     def __init__(self, setting: types.Real):
         """

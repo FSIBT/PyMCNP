@@ -26,7 +26,9 @@ class Rcc(SurfaceOption_, keyword='rcc'):
         'r': types.Real,
     }
 
-    _REGEX = re.compile(r'rcc( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'rcc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(
         self,

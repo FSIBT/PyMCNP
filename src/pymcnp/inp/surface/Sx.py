@@ -21,7 +21,7 @@ class Sx(SurfaceOption_, keyword='sx'):
         'r': types.Real,
     }
 
-    _REGEX = re.compile(r'sx( \S+)( \S+)')
+    _REGEX = re.compile(rf'sx( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})')
 
     def __init__(self, x: types.Real, r: types.Real):
         """

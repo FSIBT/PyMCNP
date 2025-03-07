@@ -19,7 +19,7 @@ class Asback(BlockOption_, keyword='asback'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'asback( \S+)')
+    _REGEX = re.compile(rf'asback( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

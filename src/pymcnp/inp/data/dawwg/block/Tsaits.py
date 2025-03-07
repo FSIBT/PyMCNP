@@ -19,7 +19,7 @@ class Tsaits(BlockOption_, keyword='tsaits'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'tsaits( \S+)')
+    _REGEX = re.compile(rf'tsaits( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

@@ -27,7 +27,9 @@ class Fq(DataOption_, keyword='fq'):
         'a8': types.String,
     }
 
-    _REGEX = re.compile(r'fq(\S+)( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'fq(\S+)( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})'
+    )
 
     def __init__(
         self,

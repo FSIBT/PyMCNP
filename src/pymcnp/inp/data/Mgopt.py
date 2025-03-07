@@ -25,7 +25,9 @@ class Mgopt(DataOption_, keyword='mgopt'):
         'rim': types.Real,
     }
 
-    _REGEX = re.compile(r'mgopt( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'mgopt( {types.String._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(
         self,

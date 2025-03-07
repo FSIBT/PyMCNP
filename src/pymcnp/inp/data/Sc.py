@@ -17,12 +17,12 @@ class Sc(DataOption_, keyword='sc'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'comment': types.Tuple[str],
+        'comment': types.Tuple[types.String],
     }
 
-    _REGEX = re.compile(r'sc(\S+)(( \S+)+)')
+    _REGEX = re.compile(rf'sc(\S+)(( {types.String._REGEX.pattern})+)')
 
-    def __init__(self, suffix: types.Integer, comment: types.Tuple[str]):
+    def __init__(self, suffix: types.Integer, comment: types.Tuple[types.String]):
         """
         Initializes ``Sc``.
 
@@ -46,4 +46,4 @@ class Sc(DataOption_, keyword='sc'):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.comment: typing.Final[types.Tuple[str]] = comment
+        self.comment: typing.Final[types.Tuple[types.String]] = comment

@@ -19,7 +19,7 @@ class Stride(RandOption_, keyword='stride'):
         'stride': types.Integer,
     }
 
-    _REGEX = re.compile(r'stride( \S+)')
+    _REGEX = re.compile(rf'stride( {types.Integer._REGEX.pattern})')
 
     def __init__(self, stride: types.Integer):
         """

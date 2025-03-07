@@ -19,7 +19,7 @@ class Hlcut(ActOption_, keyword='hlcut'):
         'cutoff': types.Real,
     }
 
-    _REGEX = re.compile(r'hlcut( \S+)')
+    _REGEX = re.compile(rf'hlcut( {types.Real._REGEX.pattern})')
 
     def __init__(self, cutoff: types.Real):
         """

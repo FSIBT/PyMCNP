@@ -22,7 +22,9 @@ class Cosyp(DataOption_, keyword='cosyp'):
         'emaps': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'cosyp( \S+)( \S+)( \S+)(( \S+)+)')
+    _REGEX = re.compile(
+        rf'cosyp( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
+    )
 
     def __init__(
         self,

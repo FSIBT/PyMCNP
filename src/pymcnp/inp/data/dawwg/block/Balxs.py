@@ -19,7 +19,7 @@ class Balxs(BlockOption_, keyword='balxs'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'balxs( \S+)')
+    _REGEX = re.compile(rf'balxs( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

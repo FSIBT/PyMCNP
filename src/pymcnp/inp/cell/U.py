@@ -19,7 +19,7 @@ class U(CellOption_, keyword='u'):
         'number': types.Integer,
     }
 
-    _REGEX = re.compile(r'u( \S+)')
+    _REGEX = re.compile(rf'u( {types.Integer._REGEX.pattern})')
 
     def __init__(self, number: types.Integer):
         """

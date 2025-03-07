@@ -19,7 +19,7 @@ class Totnu(DataOption_, keyword='totnu'):
         'no': types.String,
     }
 
-    _REGEX = re.compile(r'totnu( \S+)?')
+    _REGEX = re.compile(rf'totnu( {types.String._REGEX.pattern})?')
 
     def __init__(self, no: types.String = None):
         """

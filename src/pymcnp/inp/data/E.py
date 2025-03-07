@@ -22,7 +22,9 @@ class E(DataOption_, keyword='e'):
         'c': types.String,
     }
 
-    _REGEX = re.compile(r'e(\S+)(( \S+)+)( \S+)?( \S+)?')
+    _REGEX = re.compile(
+        rf'e(\S+)(( {types.Real._REGEX.pattern})+)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?'
+    )
 
     def __init__(
         self,

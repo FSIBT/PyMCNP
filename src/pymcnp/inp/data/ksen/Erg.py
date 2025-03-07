@@ -19,7 +19,7 @@ class Erg(KsenOption_, keyword='erg'):
         'energies': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'erg(( \S+)+)')
+    _REGEX = re.compile(rf'erg(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, energies: types.Tuple[types.Real]):
         """

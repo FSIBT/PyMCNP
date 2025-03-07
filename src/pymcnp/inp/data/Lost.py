@@ -20,7 +20,7 @@ class Lost(DataOption_, keyword='lost'):
         'lost2': types.Integer,
     }
 
-    _REGEX = re.compile(r'lost( \S+)( \S+)')
+    _REGEX = re.compile(rf'lost( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})')
 
     def __init__(self, lost1: types.Integer, lost2: types.Integer):
         """

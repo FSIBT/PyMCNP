@@ -19,7 +19,7 @@ class Embed(EmbeeOption_, keyword='embed'):
         'number': types.Integer,
     }
 
-    _REGEX = re.compile(r'embed( \S+)')
+    _REGEX = re.compile(rf'embed( {types.Integer._REGEX.pattern})')
 
     def __init__(self, number: types.Integer):
         """

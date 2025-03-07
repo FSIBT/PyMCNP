@@ -19,7 +19,7 @@ class Sur(SdefOption_, keyword='sur'):
         'number': types.Integer,
     }
 
-    _REGEX = re.compile(r'sur( \S+)')
+    _REGEX = re.compile(rf'sur( {types.Integer._REGEX.pattern})')
 
     def __init__(self, number: types.Integer):
         """

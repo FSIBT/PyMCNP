@@ -7,9 +7,9 @@ from .utils import errors
 
 
 @dataclasses.dataclass
-class GeometryEntryBuilder:
+class GeometryBuilder:
     """
-    Builds ``GeometryEntry``.
+    Builds ``Geometry``.
 
     Attributes:
         infix: Geometry infix formula.
@@ -19,51 +19,51 @@ class GeometryEntryBuilder:
 
     def __and__(a, b):
         """
-        Unites ``GeometryEntryBuilder``.
+        Unites ``GeometryBuilder``.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            ``GeometryEntryBuilder`` union.
+            ``GeometryBuilder`` union.
         """
 
-        return GeometryEntryBuilder(infix=f'{a.infix}:{b.infix}')
+        return GeometryBuilder(infix=f'{a.infix}:{b.infix}')
 
     def __or__(a, b):
         """
-        Intersects ``GeometryEntryBuilder``.
+        Intersects ``GeometryBuilder``.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            ``GeometryEntryBuilder`` intersection.
+            ``GeometryBuilder`` intersection.
         """
 
-        return GeometryEntryBuilder(infix=f'{a.infix} {b.infix}')
+        return GeometryBuilder(infix=f'{a.infix} {b.infix}')
 
     def __invert__(self):
         """
-        Inverts ``GeometryEntryBuilder``.
+        Inverts ``GeometryBuilder``.
 
         Returns:
-            ``GeometryEntryBuilder`` complement.
+            ``GeometryBuilder`` complement.
         """
 
-        return GeometryEntryBuilder(infix=f'#{self.infix}')
+        return GeometryBuilder(infix=f'#{self.infix}')
 
     def build(self):
         """
-        Builds ``GeometryEntryBuilder`` into ``GeometryEntry``.
+        Builds ``GeometryBuilder`` into ``Geometry``.
 
         Returns:
-            ``GeometryEntry`` for ``GeometryEntryBuilder``.
+            ``Geometry`` for ``GeometryBuilder``.
         """
 
-        return types.GeometryEntry(infix=types.String(self.infix))
+        return types.Geometry(infix=types.String(self.infix))
 
 
 @dataclasses.dataclass
@@ -118,8 +118,8 @@ class CellBuilder:
 
     number: int | types.Integer
     material: int | types.Integer
-    geometry: GeometryEntryBuilder
-    options: tuple[CellOptionBuilder] = tuple()
+    geometry: GeometryBuilder
+    options: dict[str, CellOptionBuilder] = dataclasses.field(default_factory=lambda: ({}))
     density: float | types.Real = None
     atoms_or_grams: bool = True
 

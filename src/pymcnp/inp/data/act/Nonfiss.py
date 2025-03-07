@@ -19,7 +19,7 @@ class Nonfiss(ActOption_, keyword='nonfiss'):
         'kind': types.String,
     }
 
-    _REGEX = re.compile(r'nonfiss( \S+)')
+    _REGEX = re.compile(rf'nonfiss( {types.String._REGEX.pattern})')
 
     def __init__(self, kind: types.String):
         """

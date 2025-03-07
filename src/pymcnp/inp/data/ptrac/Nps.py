@@ -19,7 +19,7 @@ class Nps(PtracOption_, keyword='nps'):
         'particles': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(r'nps(( \S+)+)')
+    _REGEX = re.compile(rf'nps(( {types.Integer._REGEX.pattern})+)')
 
     def __init__(self, particles: types.Tuple[types.Integer]):
         """

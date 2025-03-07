@@ -21,7 +21,7 @@ class Dxc(DataOption_, keyword='dxc'):
         'probabilities': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'dxc(\S+):(\S+)(( \S+)+)')
+    _REGEX = re.compile(rf'dxc(\S+):(\S+)(( {types.Real._REGEX.pattern})+)')
 
     def __init__(
         self,

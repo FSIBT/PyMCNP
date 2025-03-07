@@ -25,7 +25,9 @@ class Ty(SurfaceOption_, keyword='ty'):
         'c': types.Real,
     }
 
-    _REGEX = re.compile(r'ty( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'ty( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(
         self,

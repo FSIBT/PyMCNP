@@ -20,7 +20,7 @@ class Vol(DataOption_, keyword='vol'):
         'volumes': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'vol( \S+)?(( \S+)+)')
+    _REGEX = re.compile(rf'vol( {types.String._REGEX.pattern})?(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, volumes: types.Tuple[types.Real], no: types.String = None):
         """

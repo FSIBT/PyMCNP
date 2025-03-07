@@ -19,7 +19,7 @@ class Background(EmbedOption_, keyword='background'):
         'number': types.Integer,
     }
 
-    _REGEX = re.compile(r'background( \S+)')
+    _REGEX = re.compile(rf'background( {types.Integer._REGEX.pattern})')
 
     def __init__(self, number: types.Integer):
         """

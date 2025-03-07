@@ -18,16 +18,15 @@ class Ds_1(DataOption_, keyword='ds'):
     _ATTRS = {
         'suffix': types.Integer,
         't': types.String,
-        'ijs': types.Tuple[types.IndependentDependentEntry],
+        'ijs': types.Tuple[types.IndependentDependent],
     }
 
-    _REGEX = re.compile(rf'ds(\S+)( \S+)(( {types.IndependentDependentEntry._REGEX.pattern})+)')
+    _REGEX = re.compile(
+        rf'ds(\S+)( {types.String._REGEX.pattern})(( {types.IndependentDependent._REGEX.pattern})+)'
+    )
 
     def __init__(
-        self,
-        suffix: types.Integer,
-        t: types.String,
-        ijs: types.Tuple[types.IndependentDependentEntry],
+        self, suffix: types.Integer, t: types.String, ijs: types.Tuple[types.IndependentDependent]
     ):
         """
         Initializes ``Ds_1``.
@@ -57,4 +56,4 @@ class Ds_1(DataOption_, keyword='ds'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.t: typing.Final[types.String] = t
-        self.ijs: typing.Final[types.Tuple[types.IndependentDependentEntry]] = ijs
+        self.ijs: typing.Final[types.Tuple[types.IndependentDependent]] = ijs

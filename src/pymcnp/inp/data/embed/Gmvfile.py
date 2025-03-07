@@ -19,7 +19,7 @@ class Gmvfile(EmbedOption_, keyword='gmvfile'):
         'filename': types.String,
     }
 
-    _REGEX = re.compile(r'gmvfile( \S+)')
+    _REGEX = re.compile(rf'gmvfile( {types.String._REGEX.pattern})')
 
     def __init__(self, filename: types.String):
         """

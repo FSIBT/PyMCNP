@@ -19,7 +19,7 @@ class Ccc(SdefOption_, keyword='ccc'):
         'number': types.Integer,
     }
 
-    _REGEX = re.compile(r'ccc( \S+)')
+    _REGEX = re.compile(rf'ccc( {types.Integer._REGEX.pattern})')
 
     def __init__(self, number: types.Integer):
         """

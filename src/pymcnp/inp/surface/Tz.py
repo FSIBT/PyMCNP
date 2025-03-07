@@ -25,7 +25,9 @@ class Tz(SurfaceOption_, keyword='tz'):
         'c': types.Real,
     }
 
-    _REGEX = re.compile(r'tz( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'tz( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(
         self,

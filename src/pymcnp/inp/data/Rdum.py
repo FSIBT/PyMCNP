@@ -19,7 +19,7 @@ class Rdum(DataOption_, keyword='rdum'):
         'floats': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'rdum(( \S+)+)')
+    _REGEX = re.compile(rf'rdum(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, floats: types.Tuple[types.Real]):
         """

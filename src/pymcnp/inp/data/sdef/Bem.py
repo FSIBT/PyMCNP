@@ -21,7 +21,9 @@ class Bem(SdefOption_, keyword='bem'):
         'bml': types.Real,
     }
 
-    _REGEX = re.compile(r'bem( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'bem( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(self, exn: types.Real, eyn: types.Real, bml: types.Real):
         """

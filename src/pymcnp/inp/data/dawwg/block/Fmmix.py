@@ -19,7 +19,7 @@ class Fmmix(BlockOption_, keyword='fmmix'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'fmmix( \S+)')
+    _REGEX = re.compile(rf'fmmix( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

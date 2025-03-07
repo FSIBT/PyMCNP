@@ -19,7 +19,7 @@ class Talnp(DataOption_, keyword='talnp'):
         'tallies': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(r'talnp(( \S+)+)?')
+    _REGEX = re.compile(rf'talnp(( {types.Integer._REGEX.pattern})+)?')
 
     def __init__(self, tallies: types.Tuple[types.Integer] = None):
         """

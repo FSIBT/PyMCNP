@@ -21,7 +21,9 @@ class Sb_0(DataOption_, keyword='sb'):
         'biases': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'sb(\S+)( \S+)(( \S+)+)')
+    _REGEX = re.compile(
+        rf'sb(\S+)( {types.String._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
+    )
 
     def __init__(
         self, suffix: types.Integer, option: types.String, biases: types.Tuple[types.Real]

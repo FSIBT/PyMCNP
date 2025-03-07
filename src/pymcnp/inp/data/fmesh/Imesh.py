@@ -19,7 +19,7 @@ class Imesh(FmeshOption_, keyword='imesh'):
         'locations': types.Real,
     }
 
-    _REGEX = re.compile(r'imesh( \S+)')
+    _REGEX = re.compile(rf'imesh( {types.Real._REGEX.pattern})')
 
     def __init__(self, locations: types.Real):
         """

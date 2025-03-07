@@ -19,7 +19,7 @@ class Tsabeta(BlockOption_, keyword='tsabeta'):
         'setting': types.Real,
     }
 
-    _REGEX = re.compile(r'tsabeta( \S+)')
+    _REGEX = re.compile(rf'tsabeta( {types.Real._REGEX.pattern})')
 
     def __init__(self, setting: types.Real):
         """

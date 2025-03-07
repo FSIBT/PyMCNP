@@ -19,7 +19,7 @@ class Nogeod(BlockOption_, keyword='nogeod'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'nogeod( \S+)')
+    _REGEX = re.compile(rf'nogeod( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

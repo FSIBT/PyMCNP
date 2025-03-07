@@ -19,7 +19,7 @@ class Tsasn(BlockOption_, keyword='tsasn'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'tsasn( \S+)')
+    _REGEX = re.compile(rf'tsasn( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

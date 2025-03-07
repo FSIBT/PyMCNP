@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class StopOption_(Option_):
@@ -12,7 +13,9 @@ class StopOption_(Option_):
 
     _KEYWORD = ''
     _SUBCLASSES = {}
-    _REGEX = re.compile(r'ctme( \S+)|nps( \S+)( \S+)?|fk(\S+)( \S+)')
+    _REGEX = re.compile(
+        rf'ctme( {types.Real._REGEX.pattern})|nps( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})?|fk(\S+)( {types.Integer._REGEX.pattern})'
+    )
 
     def __init_subclass__(cls, keyword: str):
         cls._KEYWORD: typing.Final[str] = keyword

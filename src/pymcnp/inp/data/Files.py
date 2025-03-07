@@ -16,12 +16,12 @@ class Files(DataOption_, keyword='files'):
     """
 
     _ATTRS = {
-        'creations': types.Tuple[types.FileEntry],
+        'creations': types.Tuple[types.File],
     }
 
-    _REGEX = re.compile(rf'files(( {types.FileEntry._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'files(( {types.File._REGEX.pattern})+)')
 
-    def __init__(self, creations: types.Tuple[types.FileEntry]):
+    def __init__(self, creations: types.Tuple[types.File]):
         """
         Initializes ``Files``.
 
@@ -41,4 +41,4 @@ class Files(DataOption_, keyword='files'):
             ]
         )
 
-        self.creations: typing.Final[types.Tuple[types.FileEntry]] = creations
+        self.creations: typing.Final[types.Tuple[types.File]] = creations

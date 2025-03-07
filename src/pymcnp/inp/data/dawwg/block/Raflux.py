@@ -19,7 +19,7 @@ class Raflux(BlockOption_, keyword='raflux'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'raflux( \S+)')
+    _REGEX = re.compile(rf'raflux( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

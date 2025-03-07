@@ -19,7 +19,7 @@ class Psc(SsrOption_, keyword='psc'):
         'constant': types.Real,
     }
 
-    _REGEX = re.compile(r'psc( \S+)')
+    _REGEX = re.compile(rf'psc( {types.Real._REGEX.pattern})')
 
     def __init__(self, constant: types.Real):
         """

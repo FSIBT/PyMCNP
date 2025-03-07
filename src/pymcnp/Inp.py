@@ -92,13 +92,11 @@ class Inp(_object.McnpFile_):
 
         self.message: typing.Final[types.String] = message
         self.title: typing.Final[types.String] = title
-        self.cells: dict[int, inp.Cell] = {cell.number.value: cell for cell in cells}
+        self.cells: types.Tuple[inp.Cell] = cells
         self.cells_comments: types.Tuple[inp.Comment] = cells_comments
-        self.surfaces: dict[int, inp.Surface] = {
-            surface.number.value: surface for surface in surfaces
-        }
+        self.surfaces: types.Tuple[inp.Surface] = surfaces
         self.surfaces_comments: types.Tuple[inp.Comment] = surfaces_comments
-        self.data: dict[int, inp.Data] = {datum.option._KEYWORD: datum for datum in data}
+        self.data: types.Tuple[inp.Data] = data
         self.data_comments: types.Tuple[inp.Comment] = data_comments
         self.other: typing.Final[types.String] = other
 
@@ -184,19 +182,19 @@ class Inp(_object.McnpFile_):
         source += DELIMITER
         source += f'c {"cells":^76.76}\n'
         source += DELIMITER
-        source += '\n'.join(card.to_mcnp() for card in self.cells.values())
+        source += '\n'.join(card.to_mcnp() for card in self.cells)
         source += '\n\n'
 
         source += DELIMITER
         source += f'c {"surfaces":^76.76}\n'
         source += DELIMITER
-        source += '\n'.join(card.to_mcnp() for card in self.surfaces.values())
+        source += '\n'.join(card.to_mcnp() for card in self.surfaces)
         source += '\n\n'
 
         source += DELIMITER
         source += f'c {"data":^76.76}\n'
         source += DELIMITER
-        source += '\n'.join(card.to_mcnp() for card in self.data.values())
+        source += '\n'.join(card.to_mcnp() for card in self.data)
         source += '\n'
 
         # Appending Extra
@@ -214,7 +212,7 @@ class Inp(_object.McnpFile_):
 
         vis = _visualization.McnpVisualization()
 
-        for surface in self.surfaces.values():
+        for surface in self.surfaces:
             vis += _visualization.McnpVisualization(surface.to_pyvista())
 
         return vis.data

@@ -19,7 +19,7 @@ class Type(PtracOption_, keyword='type'):
         'particles': types.Tuple[types.Designator],
     }
 
-    _REGEX = re.compile(r'type(( \S+)+)')
+    _REGEX = re.compile(rf'type(( {types.Designator._REGEX.pattern})+)')
 
     def __init__(self, particles: types.Tuple[types.Designator]):
         """

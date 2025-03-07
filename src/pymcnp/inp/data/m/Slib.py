@@ -19,7 +19,7 @@ class Slib(MOption_, keyword='slib'):
         'abx': types.String,
     }
 
-    _REGEX = re.compile(r'slib( \S+)')
+    _REGEX = re.compile(rf'slib( {types.String._REGEX.pattern})')
 
     def __init__(self, abx: types.String):
         """

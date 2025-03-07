@@ -19,7 +19,7 @@ class File(PtracOption_, keyword='file'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'file( \S+)')
+    _REGEX = re.compile(rf'file( {types.String._REGEX.pattern})')
 
     def __init__(self, setting: types.String):
         """

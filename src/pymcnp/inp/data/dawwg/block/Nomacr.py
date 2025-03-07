@@ -19,7 +19,7 @@ class Nomacr(BlockOption_, keyword='nomacr'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'nomacr( \S+)')
+    _REGEX = re.compile(rf'nomacr( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

@@ -19,7 +19,7 @@ class Ngroup(BlockOption_, keyword='ngroup'):
         'value': types.Integer,
     }
 
-    _REGEX = re.compile(r'ngroup( \S+)')
+    _REGEX = re.compile(rf'ngroup( {types.Integer._REGEX.pattern})')
 
     def __init__(self, value: types.Integer):
         """

@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class TroptOption_(Option_):
@@ -12,7 +13,9 @@ class TroptOption_(Option_):
 
     _KEYWORD = ''
     _SUBCLASSES = {}
-    _REGEX = re.compile(r'mcscat( \S+)|nreact( \S+)|nescat( \S+)|eloss( \S+)|genxs( \S+)')
+    _REGEX = re.compile(
+        rf'mcscat( {types.String._REGEX.pattern})|nreact( {types.String._REGEX.pattern})|nescat( {types.String._REGEX.pattern})|eloss( {types.String._REGEX.pattern})|genxs( {types.String._REGEX.pattern})'
+    )
 
     def __init_subclass__(cls, keyword: str):
         cls._KEYWORD: typing.Final[str] = keyword

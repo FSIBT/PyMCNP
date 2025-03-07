@@ -16,22 +16,18 @@ class Fill_2(CellOption_, keyword='fill'):
     """
 
     _ATTRS = {
-        'i': types.IndexEntry,
-        'j': types.IndexEntry,
-        'k': types.IndexEntry,
+        'i': types.Index,
+        'j': types.Index,
+        'k': types.Index,
         'universes': types.Tuple[types.Integer],
     }
 
     _REGEX = re.compile(
-        rf'fill( {types.IndexEntry._REGEX.pattern})( {types.IndexEntry._REGEX.pattern})( {types.IndexEntry._REGEX.pattern})(( \S+)+)'
+        rf'fill( {types.Index._REGEX.pattern})( {types.Index._REGEX.pattern})( {types.Index._REGEX.pattern})(( {types.Integer._REGEX.pattern})+)'
     )
 
     def __init__(
-        self,
-        i: types.IndexEntry,
-        j: types.IndexEntry,
-        k: types.IndexEntry,
-        universes: types.Tuple[types.Integer],
+        self, i: types.Index, j: types.Index, k: types.Index, universes: types.Tuple[types.Integer]
     ):
         """
         Initializes ``Fill_2``.
@@ -66,7 +62,7 @@ class Fill_2(CellOption_, keyword='fill'):
             ]
         )
 
-        self.i: typing.Final[types.IndexEntry] = i
-        self.j: typing.Final[types.IndexEntry] = j
-        self.k: typing.Final[types.IndexEntry] = k
+        self.i: typing.Final[types.Index] = i
+        self.j: typing.Final[types.Index] = j
+        self.k: typing.Final[types.Index] = k
         self.universes: typing.Final[types.Tuple[types.Integer]] = universes

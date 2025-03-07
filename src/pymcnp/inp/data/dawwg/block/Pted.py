@@ -19,7 +19,7 @@ class Pted(BlockOption_, keyword='pted'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'pted( \S+)')
+    _REGEX = re.compile(rf'pted( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

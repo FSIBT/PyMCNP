@@ -19,7 +19,7 @@ class Zned(BlockOption_, keyword='zned'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'zned( \S+)')
+    _REGEX = re.compile(rf'zned( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

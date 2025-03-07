@@ -19,7 +19,7 @@ class Rxn(KpertOption_, keyword='rxn'):
         'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(r'rxn(( \S+)+)')
+    _REGEX = re.compile(rf'rxn(( {types.Integer._REGEX.pattern})+)')
 
     def __init__(self, numbers: types.Tuple[types.Integer]):
         """

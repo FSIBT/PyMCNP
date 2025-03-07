@@ -18,17 +18,19 @@ class F_1(DataOption_, keyword='f'):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'spheres': types.Tuple[types.SphereEntry],
+        'spheres': types.Tuple[types.Sphere],
         'nd': types.String,
     }
 
-    _REGEX = re.compile(rf'f(\S+):(\S+)(( {types.SphereEntry._REGEX.pattern})+)( \S+)?')
+    _REGEX = re.compile(
+        rf'f(\S+):(\S+)(( {types.Sphere._REGEX.pattern})+)( {types.String._REGEX.pattern})?'
+    )
 
     def __init__(
         self,
         suffix: types.Integer,
         designator: types.Designator,
-        spheres: types.Tuple[types.SphereEntry],
+        spheres: types.Tuple[types.Sphere],
         nd: types.String = None,
     ):
         """
@@ -60,5 +62,5 @@ class F_1(DataOption_, keyword='f'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
-        self.spheres: typing.Final[types.Tuple[types.SphereEntry]] = spheres
+        self.spheres: typing.Final[types.Tuple[types.Sphere]] = spheres
         self.nd: typing.Final[types.String] = nd

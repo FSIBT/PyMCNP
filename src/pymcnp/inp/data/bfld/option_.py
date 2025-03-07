@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class BfldOption_(Option_):
@@ -13,7 +14,7 @@ class BfldOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        r'maxdeflc( \S+)|maxstep( \S+)|ffedges(( \S+)+)|refpnt(( \S+)+)|field( \S+)|vec(( \S+)+)|axs(( \S+)+)'
+        rf'maxdeflc( {types.Real._REGEX.pattern})|maxstep( {types.Real._REGEX.pattern})|ffedges(( {types.Real._REGEX.pattern})+)|refpnt(( {types.Real._REGEX.pattern})+)|field( {types.Real._REGEX.pattern})|vec(( {types.Real._REGEX.pattern})+)|axs(( {types.Real._REGEX.pattern})+)'
     )
 
     def __init_subclass__(cls, keyword: str):

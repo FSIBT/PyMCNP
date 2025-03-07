@@ -19,7 +19,7 @@ class Vol(CellOption_, keyword='vol'):
         'volume': types.Real,
     }
 
-    _REGEX = re.compile(r'vol( \S+)')
+    _REGEX = re.compile(rf'vol( {types.Real._REGEX.pattern})')
 
     def __init__(self, volume: types.Real):
         """

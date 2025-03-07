@@ -19,7 +19,7 @@ class Iints(FmeshOption_, keyword='iints'):
         'count': types.Integer,
     }
 
-    _REGEX = re.compile(r'iints( \S+)')
+    _REGEX = re.compile(rf'iints( {types.Integer._REGEX.pattern})')
 
     def __init__(self, count: types.Integer):
         """

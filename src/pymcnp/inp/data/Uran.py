@@ -16,12 +16,12 @@ class Uran(DataOption_, keyword='uran'):
     """
 
     _ATTRS = {
-        'transformations': types.Tuple[types.StochasticEntry],
+        'transformations': types.Tuple[types.Stochastic],
     }
 
-    _REGEX = re.compile(rf'uran(( {types.StochasticEntry._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'uran(( {types.Stochastic._REGEX.pattern})+)')
 
-    def __init__(self, transformations: types.Tuple[types.StochasticEntry]):
+    def __init__(self, transformations: types.Tuple[types.Stochastic]):
         """
         Initializes ``Uran``.
 
@@ -41,4 +41,4 @@ class Uran(DataOption_, keyword='uran'):
             ]
         )
 
-        self.transformations: typing.Final[types.Tuple[types.StochasticEntry]] = transformations
+        self.transformations: typing.Final[types.Tuple[types.Stochastic]] = transformations

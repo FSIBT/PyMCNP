@@ -18,7 +18,7 @@ class Za(DataOption_, keyword='za'):
         'anything': types.String,
     }
 
-    _REGEX = re.compile(r'za( \S+)?')
+    _REGEX = re.compile(rf'za( {types.String._REGEX.pattern})?')
 
     def __init__(self, anything: types.String = None):
         """

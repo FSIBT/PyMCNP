@@ -19,7 +19,7 @@ class Bflcl(CellOption_, keyword='bflcl'):
         'number': types.Integer,
     }
 
-    _REGEX = re.compile(r'bflcl( \S+)')
+    _REGEX = re.compile(rf'bflcl( {types.Integer._REGEX.pattern})')
 
     def __init__(self, number: types.Integer):
         """

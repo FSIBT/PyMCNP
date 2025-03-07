@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class SdefOption_(Option_):
@@ -13,7 +14,7 @@ class SdefOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        r'cel( \S+)|sur( \S+)|erg( \S+)|tme( \S+)|tme( \S+)|dir( \S+)|vec( \S+)( \S+)( \S+)|nrm( \S+)|pos(( \S+)+)|rad( \S+)|ext( \S+)|axs( \S+)( \S+)( \S+)|ccc( \S+)|ara( \S+)|wgt( \S+)|eff( \S+)|par( \S+)|dat( \S+)( \S+)( \S+)|loc( \S+)( \S+)( \S+)|bem( \S+)( \S+)( \S+)|bap( \S+)( \S+)( \S+)|tr( \S+)|tr( \S+)|x( \S+)|y( \S+)|z( \S+)'
+        rf'cel( {types.Integer._REGEX.pattern})|sur( {types.Integer._REGEX.pattern})|erg( {types.Real._REGEX.pattern})|tme( {types.Real._REGEX.pattern})|tme( {types.EmbeddedDistributionNumber._REGEX.pattern})|dir( {types.Real._REGEX.pattern})|vec( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})|nrm( {types.Integer._REGEX.pattern})|pos(( {types.Real._REGEX.pattern})+)|rad( {types.Real._REGEX.pattern})|ext( {types.Real._REGEX.pattern})|axs( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})|ccc( {types.Integer._REGEX.pattern})|ara( {types.Real._REGEX.pattern})|wgt( {types.Real._REGEX.pattern})|eff( {types.Real._REGEX.pattern})|par( {types.String._REGEX.pattern})|dat( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})|loc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})|bem( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})|bap( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})|tr( {types.Integer._REGEX.pattern})|tr( {types.Integer._REGEX.pattern})|x( {types.Real._REGEX.pattern})|y( {types.Real._REGEX.pattern})|z( {types.Real._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

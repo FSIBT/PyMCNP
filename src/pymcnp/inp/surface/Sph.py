@@ -23,7 +23,9 @@ class Sph(SurfaceOption_, keyword='sph'):
         'r': types.Real,
     }
 
-    _REGEX = re.compile(r'sph( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'sph( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(self, vx: types.Real, vy: types.Real, vz: types.Real, r: types.Real):
         """

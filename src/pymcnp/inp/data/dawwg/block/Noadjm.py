@@ -19,7 +19,7 @@ class Noadjm(BlockOption_, keyword='noadjm'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'noadjm( \S+)')
+    _REGEX = re.compile(rf'noadjm( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

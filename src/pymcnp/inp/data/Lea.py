@@ -26,7 +26,9 @@ class Lea(DataOption_, keyword='lea'):
         'nofis': types.Integer,
     }
 
-    _REGEX = re.compile(r'lea( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'lea( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})'
+    )
 
     def __init__(
         self,

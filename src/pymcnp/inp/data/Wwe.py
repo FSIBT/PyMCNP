@@ -20,7 +20,7 @@ class Wwe(DataOption_, keyword='wwe'):
         'bounds': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'wwe:(\S+)(( \S+)+)')
+    _REGEX = re.compile(rf'wwe:(\S+)(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, designator: types.Designator, bounds: types.Tuple[types.Real]):
         """

@@ -25,7 +25,9 @@ class Tx(SurfaceOption_, keyword='tx'):
         'c': types.Real,
     }
 
-    _REGEX = re.compile(r'tx( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'tx( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(
         self,
