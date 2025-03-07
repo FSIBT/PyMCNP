@@ -17,12 +17,14 @@ class Fill_1(CellOption_, keyword='fill'):
 
     _ATTRS = {
         'universe': types.Integer,
-        'transformation': types.TransformationEntry,
+        'transformation': types.Transformation,
     }
 
-    _REGEX = re.compile(rf'fill( \S+)( {types.TransformationEntry._REGEX.pattern})?')
+    _REGEX = re.compile(
+        rf'fill( {types.Integer._REGEX.pattern})( {types.Transformation._REGEX.pattern})?'
+    )
 
-    def __init__(self, universe: types.Integer, transformation: types.TransformationEntry = None):
+    def __init__(self, universe: types.Integer, transformation: types.Transformation = None):
         """
         Initializes ``Fill_1``.
 
@@ -45,4 +47,4 @@ class Fill_1(CellOption_, keyword='fill'):
         )
 
         self.universe: typing.Final[types.Integer] = universe
-        self.transformation: typing.Final[types.TransformationEntry] = transformation
+        self.transformation: typing.Final[types.Transformation] = transformation

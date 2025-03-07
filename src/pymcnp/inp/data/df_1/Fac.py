@@ -19,7 +19,7 @@ class Fac(Df_1Option_, keyword='fac'):
         'normalization': types.Integer,
     }
 
-    _REGEX = re.compile(r'fac( \S+)')
+    _REGEX = re.compile(rf'fac( {types.Integer._REGEX.pattern})')
 
     def __init__(self, normalization: types.Integer):
         """

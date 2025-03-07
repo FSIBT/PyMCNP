@@ -19,7 +19,7 @@ class Idum(DataOption_, keyword='idum'):
         'intergers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(r'idum(( \S+)+)')
+    _REGEX = re.compile(rf'idum(( {types.Integer._REGEX.pattern})+)')
 
     def __init__(self, intergers: types.Tuple[types.Integer]):
         """

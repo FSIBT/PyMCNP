@@ -4,7 +4,7 @@ from . import ptrac
 from . import utils
 from .Inp import Inp
 from .InpBuilder import InpBuilder
-from .InpBuilder import GeometryEntryBuilder
+from .InpBuilder import GeometryBuilder
 from .InpBuilder import CellBuilder
 from .InpBuilder import CellOptionBuilder
 from .InpBuilder import SurfaceBuilder
@@ -23,7 +23,7 @@ __all__ = [
     'utils',
     'Inp',
     'InpBuilder',
-    'GeometryEntryBuilder',
+    'GeometryBuilder',
     'CellBuilder',
     'CellOptionBuilder',
     'SurfaceBuilder',

@@ -19,7 +19,7 @@ class Astop(BlockOption_, keyword='astop'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'astop( \S+)')
+    _REGEX = re.compile(rf'astop( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

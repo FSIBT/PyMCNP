@@ -16,12 +16,12 @@ class Dgeb(ActOption_, keyword='dgeb'):
     """
 
     _ATTRS = {
-        'biases': types.Tuple[types.BiasEntry],
+        'biases': types.Tuple[types.Bias],
     }
 
-    _REGEX = re.compile(rf'dgeb(( {types.BiasEntry._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'dgeb(( {types.Bias._REGEX.pattern})+)')
 
-    def __init__(self, biases: types.Tuple[types.BiasEntry]):
+    def __init__(self, biases: types.Tuple[types.Bias]):
         """
         Initializes ``Dgeb``.
 
@@ -41,4 +41,4 @@ class Dgeb(ActOption_, keyword='dgeb'):
             ]
         )
 
-        self.biases: typing.Final[types.Tuple[types.BiasEntry]] = biases
+        self.biases: typing.Final[types.Tuple[types.Bias]] = biases

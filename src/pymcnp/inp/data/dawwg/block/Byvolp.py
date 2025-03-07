@@ -19,7 +19,7 @@ class Byvolp(BlockOption_, keyword='byvolp'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'byvolp( \S+)')
+    _REGEX = re.compile(rf'byvolp( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

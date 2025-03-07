@@ -19,7 +19,7 @@ class Maxstep(BfldOption_, keyword='maxstep'):
         'size': types.Real,
     }
 
-    _REGEX = re.compile(r'maxstep( \S+)')
+    _REGEX = re.compile(rf'maxstep( {types.Real._REGEX.pattern})')
 
     def __init__(self, size: types.Real):
         """

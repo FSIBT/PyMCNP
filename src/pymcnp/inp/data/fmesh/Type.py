@@ -19,7 +19,7 @@ class Type(FmeshOption_, keyword='type'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'type( \S+)')
+    _REGEX = re.compile(rf'type( {types.String._REGEX.pattern})')
 
     def __init__(self, setting: types.String):
         """

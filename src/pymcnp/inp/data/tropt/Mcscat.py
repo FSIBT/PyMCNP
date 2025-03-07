@@ -19,7 +19,7 @@ class Mcscat(TroptOption_, keyword='mcscat'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'mcscat( \S+)')
+    _REGEX = re.compile(rf'mcscat( {types.String._REGEX.pattern})')
 
     def __init__(self, setting: types.String):
         """

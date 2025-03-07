@@ -19,7 +19,7 @@ class Ntichi(BlockOption_, keyword='ntichi'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'ntichi( \S+)')
+    _REGEX = re.compile(rf'ntichi( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

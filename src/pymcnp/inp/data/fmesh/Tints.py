@@ -19,7 +19,7 @@ class Tints(FmeshOption_, keyword='tints'):
         'count': types.Integer,
     }
 
-    _REGEX = re.compile(r'tints( \S+)')
+    _REGEX = re.compile(rf'tints( {types.Integer._REGEX.pattern})')
 
     def __init__(self, count: types.Integer):
         """

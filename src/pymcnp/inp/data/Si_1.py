@@ -21,7 +21,9 @@ class Si_1(DataOption_, keyword='si'):
         'information': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'si(\S+)( \S+)(( \S+)+)')
+    _REGEX = re.compile(
+        rf'si(\S+)( {types.String._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
+    )
 
     def __init__(
         self, suffix: types.Integer, option: types.String, information: types.Tuple[types.Real]

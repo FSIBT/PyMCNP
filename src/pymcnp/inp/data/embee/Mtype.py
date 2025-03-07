@@ -19,7 +19,7 @@ class Mtype(EmbeeOption_, keyword='mtype'):
         'kind': types.String,
     }
 
-    _REGEX = re.compile(r'mtype( \S+)')
+    _REGEX = re.compile(rf'mtype( {types.String._REGEX.pattern})')
 
     def __init__(self, kind: types.String):
         """

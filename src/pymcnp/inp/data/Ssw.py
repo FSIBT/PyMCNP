@@ -22,7 +22,9 @@ class Ssw(DataOption_, keyword='ssw'):
         'options': types.Tuple[ssw.SswOption_],
     }
 
-    _REGEX = re.compile(rf'ssw(( \S+)+)(( \S+)+)(( ({ssw.SswOption_._REGEX.pattern}))+)?')
+    _REGEX = re.compile(
+        rf'ssw(( {types.Integer._REGEX.pattern})+)(( {types.Integer._REGEX.pattern})+)(( ({ssw.SswOption_._REGEX.pattern}))+)?'
+    )
 
     def __init__(
         self,

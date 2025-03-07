@@ -26,7 +26,9 @@ class Phys_0(DataOption_, keyword='phys:n'):
         'i_els_model': types.Integer,
     }
 
-    _REGEX = re.compile(r'phys:n( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'phys:n( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})'
+    )
 
     def __init__(
         self,

@@ -19,7 +19,7 @@ class U(DataOption_, keyword='u'):
         'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(r'u(( \S+)+)')
+    _REGEX = re.compile(rf'u(( {types.Integer._REGEX.pattern})+)')
 
     def __init__(self, numbers: types.Tuple[types.Integer]):
         """

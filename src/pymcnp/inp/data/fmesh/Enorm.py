@@ -19,7 +19,7 @@ class Enorm(FmeshOption_, keyword='enorm'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'enorm( \S+)')
+    _REGEX = re.compile(rf'enorm( {types.String._REGEX.pattern})')
 
     def __init__(self, setting: types.String):
         """

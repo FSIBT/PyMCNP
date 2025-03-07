@@ -19,7 +19,7 @@ class Ibback(BlockOption_, keyword='ibback'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'ibback( \S+)')
+    _REGEX = re.compile(rf'ibback( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

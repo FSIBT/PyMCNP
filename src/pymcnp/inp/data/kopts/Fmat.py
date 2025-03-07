@@ -19,7 +19,7 @@ class Fmat(KoptsOption_, keyword='fmat'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'fmat( \S+)')
+    _REGEX = re.compile(rf'fmat( {types.String._REGEX.pattern})')
 
     def __init__(self, setting: types.String):
         """

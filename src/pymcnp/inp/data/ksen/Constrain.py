@@ -19,7 +19,7 @@ class Constrain(KsenOption_, keyword='constrain'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'constrain( \S+)')
+    _REGEX = re.compile(rf'constrain( {types.String._REGEX.pattern})')
 
     def __init__(self, setting: types.String):
         """

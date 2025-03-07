@@ -20,7 +20,7 @@ class Fk(StopOption_, keyword='fk'):
         'suffix': types.Integer,
     }
 
-    _REGEX = re.compile(r'fk(\S+)( \S+)')
+    _REGEX = re.compile(rf'fk(\S+)( {types.Integer._REGEX.pattern})')
 
     def __init__(self, e: types.Integer, suffix: types.Integer):
         """

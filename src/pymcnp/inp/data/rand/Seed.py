@@ -19,7 +19,7 @@ class Seed(RandOption_, keyword='seed'):
         'seed': types.Integer,
     }
 
-    _REGEX = re.compile(r'seed( \S+)')
+    _REGEX = re.compile(rf'seed( {types.Integer._REGEX.pattern})')
 
     def __init__(self, seed: types.Integer):
         """

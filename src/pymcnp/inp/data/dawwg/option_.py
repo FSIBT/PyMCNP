@@ -4,6 +4,7 @@ import typing
 from . import block
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class DawwgOption_(Option_):
@@ -14,7 +15,7 @@ class DawwgOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'points( \S+)|block( \S+)(( ({block.BlockOption_._REGEX.pattern}))+)?|xsec( \S+)'
+        rf'points( {types.String._REGEX.pattern})|block( {types.Integer._REGEX.pattern})(( ({block.BlockOption_._REGEX.pattern}))+)?|xsec( {types.Integer._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

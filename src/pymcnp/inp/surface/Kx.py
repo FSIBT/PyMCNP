@@ -22,7 +22,9 @@ class Kx(SurfaceOption_, keyword='kx'):
         'plusminus_1': types.Real,
     }
 
-    _REGEX = re.compile(r'kx( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'kx( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(self, x: types.Real, t_squared: types.Real, plusminus_1: types.Real):
         """

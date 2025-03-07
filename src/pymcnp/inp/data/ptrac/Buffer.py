@@ -19,7 +19,7 @@ class Buffer(PtracOption_, keyword='buffer'):
         'storage': types.Integer,
     }
 
-    _REGEX = re.compile(r'buffer( \S+)')
+    _REGEX = re.compile(rf'buffer( {types.Integer._REGEX.pattern})')
 
     def __init__(self, storage: types.Integer):
         """

@@ -16,12 +16,12 @@ class Pikmt(DataOption_, keyword='pikmt'):
     """
 
     _ATTRS = {
-        'biases': types.Tuple[types.PhotonBiasEntry],
+        'biases': types.Tuple[types.PhotonBias],
     }
 
-    _REGEX = re.compile(rf'pikmt(( {types.PhotonBiasEntry._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'pikmt(( {types.PhotonBias._REGEX.pattern})+)')
 
-    def __init__(self, biases: types.Tuple[types.PhotonBiasEntry]):
+    def __init__(self, biases: types.Tuple[types.PhotonBias]):
         """
         Initializes ``Pikmt``.
 
@@ -41,4 +41,4 @@ class Pikmt(DataOption_, keyword='pikmt'):
             ]
         )
 
-        self.biases: typing.Final[types.Tuple[types.PhotonBiasEntry]] = biases
+        self.biases: typing.Final[types.Tuple[types.PhotonBias]] = biases

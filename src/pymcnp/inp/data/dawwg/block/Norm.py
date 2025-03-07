@@ -19,7 +19,7 @@ class Norm(BlockOption_, keyword='norm'):
         'setting': types.Real,
     }
 
-    _REGEX = re.compile(r'norm( \S+)')
+    _REGEX = re.compile(rf'norm( {types.Real._REGEX.pattern})')
 
     def __init__(self, setting: types.Real):
         """

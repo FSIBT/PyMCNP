@@ -19,7 +19,7 @@ class Nreact(TroptOption_, keyword='nreact'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'nreact( \S+)')
+    _REGEX = re.compile(rf'nreact( {types.String._REGEX.pattern})')
 
     def __init__(self, setting: types.String):
         """

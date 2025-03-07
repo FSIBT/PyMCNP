@@ -19,7 +19,7 @@ class Nosigf(BlockOption_, keyword='nosigf'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'nosigf( \S+)')
+    _REGEX = re.compile(rf'nosigf( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

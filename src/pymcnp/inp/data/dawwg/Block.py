@@ -21,7 +21,9 @@ class Block(DawwgOption_, keyword='block'):
         'options': types.Tuple[block.BlockOption_],
     }
 
-    _REGEX = re.compile(rf'block( \S+)(( ({block.BlockOption_._REGEX.pattern}))+)?')
+    _REGEX = re.compile(
+        rf'block( {types.Integer._REGEX.pattern})(( ({block.BlockOption_._REGEX.pattern}))+)?'
+    )
 
     def __init__(self, setting: types.Integer, options: types.Tuple[block.BlockOption_] = None):
         """

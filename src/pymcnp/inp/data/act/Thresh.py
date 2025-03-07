@@ -19,7 +19,7 @@ class Thresh(ActOption_, keyword='thresh'):
         'fraction': types.Real,
     }
 
-    _REGEX = re.compile(r'thresh( \S+)')
+    _REGEX = re.compile(rf'thresh( {types.Real._REGEX.pattern})')
 
     def __init__(self, fraction: types.Real):
         """

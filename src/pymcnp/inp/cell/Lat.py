@@ -19,7 +19,7 @@ class Lat(CellOption_, keyword='lat'):
         'shape': types.Integer,
     }
 
-    _REGEX = re.compile(r'lat( \S+)')
+    _REGEX = re.compile(rf'lat( {types.Integer._REGEX.pattern})')
 
     def __init__(self, shape: types.Integer):
         """

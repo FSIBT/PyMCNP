@@ -22,7 +22,9 @@ class Ksen(DataOption_, keyword='ksen'):
         'options': types.Tuple[ksen.KsenOption_],
     }
 
-    _REGEX = re.compile(rf'ksen(\S+)( \S+)(( ({ksen.KsenOption_._REGEX.pattern}))+)?')
+    _REGEX = re.compile(
+        rf'ksen(\S+)( {types.String._REGEX.pattern})(( ({ksen.KsenOption_._REGEX.pattern}))+)?'
+    )
 
     def __init__(
         self,

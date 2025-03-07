@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class RandOption_(Option_):
@@ -12,7 +13,9 @@ class RandOption_(Option_):
 
     _KEYWORD = ''
     _SUBCLASSES = {}
-    _REGEX = re.compile(r'stride( \S+)|seed( \S+)|hist( \S+)|gen( \S+)')
+    _REGEX = re.compile(
+        rf'stride( {types.Integer._REGEX.pattern})|seed( {types.Integer._REGEX.pattern})|hist( {types.Integer._REGEX.pattern})|gen( {types.Integer._REGEX.pattern})'
+    )
 
     def __init_subclass__(cls, keyword: str):
         cls._KEYWORD: typing.Final[str] = keyword

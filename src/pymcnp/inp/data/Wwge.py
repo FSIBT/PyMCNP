@@ -19,7 +19,7 @@ class Wwge(DataOption_, keyword='wwge'):
         'bounds': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'wwge(( \S+)+)')
+    _REGEX = re.compile(rf'wwge(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, bounds: types.Tuple[types.Real]):
         """

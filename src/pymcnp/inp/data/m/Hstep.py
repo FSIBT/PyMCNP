@@ -19,7 +19,7 @@ class Hstep(MOption_, keyword='hstep'):
         'step': types.Integer,
     }
 
-    _REGEX = re.compile(r'hstep( \S+)')
+    _REGEX = re.compile(rf'hstep( {types.Integer._REGEX.pattern})')
 
     def __init__(self, step: types.Integer):
         """

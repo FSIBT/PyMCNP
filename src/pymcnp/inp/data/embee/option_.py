@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class EmbeeOption_(Option_):
@@ -13,7 +14,7 @@ class EmbeeOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        r'energy( \S+)|factor( \S+)|embed( \S+)|mtype( \S+)|time( \S+)|atom( \S+)|list( \S+)|mat( \S+)'
+        rf'energy( {types.Real._REGEX.pattern})|factor( {types.Real._REGEX.pattern})|embed( {types.Integer._REGEX.pattern})|mtype( {types.String._REGEX.pattern})|time( {types.Real._REGEX.pattern})|atom( {types.String._REGEX.pattern})|list( {types.Real._REGEX.pattern})|mat( {types.Integer._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

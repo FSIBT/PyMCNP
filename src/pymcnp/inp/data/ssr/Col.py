@@ -19,7 +19,7 @@ class Col(SsrOption_, keyword='col'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'col( \S+)')
+    _REGEX = re.compile(rf'col( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

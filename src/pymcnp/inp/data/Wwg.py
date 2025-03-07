@@ -26,7 +26,9 @@ class Wwg(DataOption_, keyword='wwg'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'wwg( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'wwg( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Integer._REGEX.pattern})'
+    )
 
     def __init__(
         self,

@@ -19,7 +19,7 @@ class Axs(SsrOption_, keyword='axs'):
         'cosines': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'axs(( \S+)+)')
+    _REGEX = re.compile(rf'axs(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, cosines: types.Tuple[types.Real]):
         """

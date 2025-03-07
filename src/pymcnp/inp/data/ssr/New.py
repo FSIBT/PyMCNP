@@ -19,7 +19,7 @@ class New(SsrOption_, keyword='new'):
         'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(r'new(( \S+)+)')
+    _REGEX = re.compile(rf'new(( {types.Integer._REGEX.pattern})+)')
 
     def __init__(self, numbers: types.Tuple[types.Integer]):
         """

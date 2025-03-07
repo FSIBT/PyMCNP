@@ -19,7 +19,7 @@ class Trcl_0(CellOption_, keyword='trcl'):
         'transformation': types.Integer,
     }
 
-    _REGEX = re.compile(r'trcl( \S+)')
+    _REGEX = re.compile(rf'trcl( {types.Integer._REGEX.pattern})')
 
     def __init__(self, transformation: types.Integer):
         """

@@ -23,7 +23,9 @@ class Prdmp(DataOption_, keyword='prdmp'):
         'dmmp': types.Integer,
     }
 
-    _REGEX = re.compile(r'prdmp( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'prdmp( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})'
+    )
 
     def __init__(
         self,

@@ -19,7 +19,7 @@ class Origin(MeshOption_, keyword='origin'):
         'point': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'origin(( \S+)+)')
+    _REGEX = re.compile(rf'origin(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, point: types.Tuple[types.Real]):
         """

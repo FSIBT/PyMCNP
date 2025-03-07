@@ -19,7 +19,7 @@ class Ibfrnt(BlockOption_, keyword='ibfrnt'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'ibfrnt( \S+)')
+    _REGEX = re.compile(rf'ibfrnt( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

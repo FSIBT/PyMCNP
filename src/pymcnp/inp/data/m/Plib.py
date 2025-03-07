@@ -19,7 +19,7 @@ class Plib(MOption_, keyword='plib'):
         'abx': types.String,
     }
 
-    _REGEX = re.compile(r'plib( \S+)')
+    _REGEX = re.compile(rf'plib( {types.String._REGEX.pattern})')
 
     def __init__(self, abx: types.String):
         """

@@ -19,7 +19,7 @@ class Tmesh(FmeshOption_, keyword='tmesh'):
         'time': types.Real,
     }
 
-    _REGEX = re.compile(r'tmesh( \S+)')
+    _REGEX = re.compile(rf'tmesh( {types.Real._REGEX.pattern})')
 
     def __init__(self, time: types.Real):
         """

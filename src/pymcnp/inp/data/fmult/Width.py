@@ -19,7 +19,7 @@ class Width(FmultOption_, keyword='width'):
         'width': types.Real,
     }
 
-    _REGEX = re.compile(r'width( \S+)')
+    _REGEX = re.compile(rf'width( {types.Real._REGEX.pattern})')
 
     def __init__(self, width: types.Real):
         """

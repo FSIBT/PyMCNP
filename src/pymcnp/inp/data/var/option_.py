@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class VarOption_(Option_):
@@ -12,7 +13,7 @@ class VarOption_(Option_):
 
     _KEYWORD = ''
     _SUBCLASSES = {}
-    _REGEX = re.compile(r'rr( \S+)')
+    _REGEX = re.compile(rf'rr( {types.String._REGEX.pattern})')
 
     def __init_subclass__(cls, keyword: str):
         cls._KEYWORD: typing.Final[str] = keyword

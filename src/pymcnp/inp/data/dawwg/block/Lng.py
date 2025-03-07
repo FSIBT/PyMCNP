@@ -19,7 +19,7 @@ class Lng(BlockOption_, keyword='lng'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'lng( \S+)')
+    _REGEX = re.compile(rf'lng( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

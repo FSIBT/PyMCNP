@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class KoptsOption_(Option_):
@@ -13,7 +14,7 @@ class KoptsOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        r'fmatreduce( \S+)|blocksize( \S+)|precursor( \S+)|fmatspace( \S+)|fmataccel( \S+)|kinetics( \S+)|fmatskpt( \S+)|fmatncyc( \S+)|ksental( \S+)|fmatnx( \S+)|fmatny( \S+)|fmatnz( \S+)|fmat( \S+)'
+        rf'fmatreduce( {types.String._REGEX.pattern})|blocksize( {types.Integer._REGEX.pattern})|precursor( {types.String._REGEX.pattern})|fmatspace( {types.Real._REGEX.pattern})|fmataccel( {types.String._REGEX.pattern})|kinetics( {types.String._REGEX.pattern})|fmatskpt( {types.Real._REGEX.pattern})|fmatncyc( {types.Real._REGEX.pattern})|ksental( {types.String._REGEX.pattern})|fmatnx( {types.Real._REGEX.pattern})|fmatny( {types.Real._REGEX.pattern})|fmatnz( {types.Real._REGEX.pattern})|fmat( {types.String._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

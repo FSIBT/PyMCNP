@@ -19,7 +19,7 @@ class Ibt(BlockOption_, keyword='ibt'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'ibt( \S+)')
+    _REGEX = re.compile(rf'ibt( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

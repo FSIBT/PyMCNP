@@ -19,7 +19,7 @@ class Linear(KpertOption_, keyword='linear'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'linear( \S+)')
+    _REGEX = re.compile(rf'linear( {types.String._REGEX.pattern})')
 
     def __init__(self, setting: types.String):
         """

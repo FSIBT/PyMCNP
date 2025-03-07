@@ -19,7 +19,7 @@ class Rho(PertOption_, keyword='rho'):
         'density': types.Real,
     }
 
-    _REGEX = re.compile(r'rho( \S+)')
+    _REGEX = re.compile(rf'rho( {types.Real._REGEX.pattern})')
 
     def __init__(self, density: types.Real):
         """

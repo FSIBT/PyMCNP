@@ -19,7 +19,7 @@ class Debug(EmbedOption_, keyword='debug'):
         'parameter': types.String,
     }
 
-    _REGEX = re.compile(r'debug( \S+)')
+    _REGEX = re.compile(rf'debug( {types.String._REGEX.pattern})')
 
     def __init__(self, parameter: types.String):
         """

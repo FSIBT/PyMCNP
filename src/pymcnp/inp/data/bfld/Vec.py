@@ -19,7 +19,7 @@ class Vec(BfldOption_, keyword='vec'):
         'vector': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'vec(( \S+)+)')
+    _REGEX = re.compile(rf'vec(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, vector: types.Tuple[types.Real]):
         """

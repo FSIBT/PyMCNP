@@ -14,7 +14,7 @@ class CellOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'bflcl( \S+)|nonu( \S+)|trcl( \S+)|trcl( {types.TransformationEntry._REGEX.pattern})|fill( \S+)( \S+)?|fill( \S+)( {types.TransformationEntry._REGEX.pattern})?|fill( {types.IndexEntry._REGEX.pattern})( {types.IndexEntry._REGEX.pattern})( {types.IndexEntry._REGEX.pattern})(( \S+)+)|elpt:(\S+)( \S+)|cosy( \S+)|imp:(\S+)( \S+)|vol( \S+)|pwt( \S+)|ext:(\S+)( \S+)|fcl:(\S+)( \S+)|wwn(\S+):(\S+)( \S+)|dxc(\S+):(\S+)( \S+)|tmp(\S+)( \S+)|lat( \S+)|tmp(\S+)( \S+)|tmp( \S+)|unc:(\S+)( \S+)|pd(\S+)( \S+)|u( \S+)'
+        rf'bflcl( {types.Integer._REGEX.pattern})|nonu( {types.Integer._REGEX.pattern})|trcl( {types.Integer._REGEX.pattern})|trcl( {types.Transformation._REGEX.pattern})|fill( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})?|fill( {types.Integer._REGEX.pattern})( {types.Transformation._REGEX.pattern})?|fill( {types.Index._REGEX.pattern})( {types.Index._REGEX.pattern})( {types.Index._REGEX.pattern})(( {types.Integer._REGEX.pattern})+)|elpt:(\S+)( {types.Real._REGEX.pattern})|cosy( {types.Integer._REGEX.pattern})|imp:(\S+)( {types.Real._REGEX.pattern})|vol( {types.Real._REGEX.pattern})|pwt( {types.Real._REGEX.pattern})|ext:(\S+)( {types.String._REGEX.pattern})|fcl:(\S+)( {types.Real._REGEX.pattern})|wwn(\S+):(\S+)( {types.Real._REGEX.pattern})|dxc(\S+):(\S+)( {types.Real._REGEX.pattern})|tmp(\S+)( {types.Real._REGEX.pattern})|lat( {types.Integer._REGEX.pattern})|tmp(\S+)(( {types.Real._REGEX.pattern})+)|tmp(( {types.Real._REGEX.pattern})+)|unc:(\S+)( {types.Integer._REGEX.pattern})|pd(\S+)( {types.Real._REGEX.pattern})|u( {types.Integer._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

@@ -19,7 +19,7 @@ class Value(PtracOption_, keyword='value'):
         'cutoff': types.Real,
     }
 
-    _REGEX = re.compile(r'value( \S+)')
+    _REGEX = re.compile(rf'value( {types.Real._REGEX.pattern})')
 
     def __init__(self, cutoff: types.Real):
         """

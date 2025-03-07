@@ -19,7 +19,7 @@ class Energy(EmbeeOption_, keyword='energy'):
         'factor': types.Real,
     }
 
-    _REGEX = re.compile(r'energy( \S+)')
+    _REGEX = re.compile(rf'energy( {types.Real._REGEX.pattern})')
 
     def __init__(self, factor: types.Real):
         """

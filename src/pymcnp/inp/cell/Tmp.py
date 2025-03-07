@@ -20,7 +20,7 @@ class Tmp(CellOption_, keyword='tmp'):
         'temperature': types.Real,
     }
 
-    _REGEX = re.compile(r'tmp(\S+)( \S+)')
+    _REGEX = re.compile(rf'tmp(\S+)( {types.Real._REGEX.pattern})')
 
     def __init__(self, suffix: types.Integer, temperature: types.Real):
         """

@@ -19,7 +19,7 @@ class Mphys(DataOption_, keyword='mphys'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'mphys( \S+)?')
+    _REGEX = re.compile(rf'mphys( {types.String._REGEX.pattern})?')
 
     def __init__(self, setting: types.String = None):
         """

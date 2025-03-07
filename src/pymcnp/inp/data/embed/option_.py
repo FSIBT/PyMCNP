@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class EmbedOption_(Option_):
@@ -13,7 +14,7 @@ class EmbedOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        r'background( \S+)|mcnpumfile( \S+)|calcvols( \S+)|filetype( \S+)|meshgeo( \S+)|gmvfile( \S+)|mgeoin( \S+)|meeout( \S+)|length( \S+)|meein( \S+)|debug( \S+)'
+        rf'background( {types.Integer._REGEX.pattern})|mcnpumfile( {types.String._REGEX.pattern})|calcvols( {types.String._REGEX.pattern})|filetype( {types.String._REGEX.pattern})|meshgeo( {types.String._REGEX.pattern})|gmvfile( {types.String._REGEX.pattern})|mgeoin( {types.String._REGEX.pattern})|meeout( {types.String._REGEX.pattern})|length( {types.Real._REGEX.pattern})|meein( {types.String._REGEX.pattern})|debug( {types.String._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

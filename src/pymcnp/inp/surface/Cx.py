@@ -20,7 +20,7 @@ class Cx(SurfaceOption_, keyword='cx'):
         'r': types.Real,
     }
 
-    _REGEX = re.compile(r'cx( \S+)')
+    _REGEX = re.compile(rf'cx( {types.Real._REGEX.pattern})')
 
     def __init__(self, r: types.Real):
         """

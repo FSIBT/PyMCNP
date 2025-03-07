@@ -19,7 +19,7 @@ class Nrm(SdefOption_, keyword='nrm'):
         'sign': types.Integer,
     }
 
-    _REGEX = re.compile(r'nrm( \S+)')
+    _REGEX = re.compile(rf'nrm( {types.Integer._REGEX.pattern})')
 
     def __init__(self, sign: types.Integer):
         """

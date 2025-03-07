@@ -19,7 +19,7 @@ class Cofi(T_1Option_, keyword='cofi'):
         'time': types.Real,
     }
 
-    _REGEX = re.compile(r'cofi( \S+)')
+    _REGEX = re.compile(rf'cofi( {types.Real._REGEX.pattern})')
 
     def __init__(self, time: types.Real):
         """

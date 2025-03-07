@@ -25,7 +25,9 @@ class Rpp(SurfaceOption_, keyword='rpp'):
         'zmax': types.Real,
     }
 
-    _REGEX = re.compile(r'rpp( \S+)( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'rpp( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(
         self,

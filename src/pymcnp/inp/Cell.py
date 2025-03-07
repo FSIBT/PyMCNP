@@ -19,7 +19,7 @@ class Cell(Card_):
         'number': types.Integer,
         'material': types.Integer,
         'density': types.Real,
-        'geometry': types.GeometryEntry,
+        'geometry': types.Geometry,
         'options': types.Tuple[cell.CellOption_],
     }
 
@@ -32,7 +32,7 @@ class Cell(Card_):
         number: types.Integer,
         material: types.Integer,
         density: types.Integer,
-        geometry: types.GeometryEntry,
+        geometry: types.Geometry,
         options: types.Tuple[cell.CellOption_] = None,
     ):
         """

@@ -21,7 +21,9 @@ class Df_0(DataOption_, keyword='df'):
         'values': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'df(\S+)( \S+)(( \S+)+)')
+    _REGEX = re.compile(
+        rf'df(\S+)( {types.String._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
+    )
 
     def __init__(
         self, suffix: types.Integer, method: types.String, values: types.Tuple[types.Real]

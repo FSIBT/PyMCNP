@@ -19,7 +19,7 @@ class Cosy(CellOption_, keyword='cosy'):
         'number': types.Integer,
     }
 
-    _REGEX = re.compile(r'cosy( \S+)')
+    _REGEX = re.compile(rf'cosy( {types.Integer._REGEX.pattern})')
 
     def __init__(self, number: types.Integer):
         """

@@ -19,7 +19,7 @@ class Cel(SsrOption_, keyword='cel'):
         'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(r'cel(( \S+)+)')
+    _REGEX = re.compile(rf'cel(( {types.Integer._REGEX.pattern})+)')
 
     def __init__(self, numbers: types.Tuple[types.Integer]):
         """

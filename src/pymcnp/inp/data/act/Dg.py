@@ -19,7 +19,7 @@ class Dg(ActOption_, keyword='dg'):
         'source': types.String,
     }
 
-    _REGEX = re.compile(r'dg( \S+)')
+    _REGEX = re.compile(rf'dg( {types.String._REGEX.pattern})')
 
     def __init__(self, source: types.String):
         """

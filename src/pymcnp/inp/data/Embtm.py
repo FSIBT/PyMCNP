@@ -20,7 +20,7 @@ class Embtm(DataOption_, keyword='embtm'):
         'multipliers': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'embtm(\S+)(( \S+)+)')
+    _REGEX = re.compile(rf'embtm(\S+)(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, suffix: types.Integer, multipliers: types.Tuple[types.Real]):
         """

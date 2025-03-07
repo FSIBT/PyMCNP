@@ -19,7 +19,7 @@ class Nonu(CellOption_, keyword='nonu'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'nonu( \S+)')
+    _REGEX = re.compile(rf'nonu( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

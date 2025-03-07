@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class SsrOption_(Option_):
@@ -13,7 +14,7 @@ class SsrOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        r'old(( \S+)+)|cel(( \S+)+)|new(( \S+)+)|pty(( \S+)+)|col( \S+)|wgt( \S+)|psc( \S+)|axs(( \S+)+)|ext( \S+)|poa( \S+)|bcw( \S+)( \S+)( \S+)|tr( \S+)|tr( \S+)'
+        rf'old(( {types.Integer._REGEX.pattern})+)|cel(( {types.Integer._REGEX.pattern})+)|new(( {types.Integer._REGEX.pattern})+)|pty(( {types.Designator._REGEX.pattern})+)|col( {types.Integer._REGEX.pattern})|wgt( {types.Real._REGEX.pattern})|psc( {types.Real._REGEX.pattern})|axs(( {types.Real._REGEX.pattern})+)|ext( {types.DistributionNumber._REGEX.pattern})|poa( {types.Real._REGEX.pattern})|bcw( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})|tr( {types.DistributionNumber._REGEX.pattern})|tr( {types.Integer._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

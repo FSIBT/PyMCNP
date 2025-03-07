@@ -20,7 +20,7 @@ class Cz(SurfaceOption_, keyword='cz'):
         'r': types.Real,
     }
 
-    _REGEX = re.compile(r'cz( \S+)')
+    _REGEX = re.compile(rf'cz( {types.Real._REGEX.pattern})')
 
     def __init__(self, r: types.Real):
         """

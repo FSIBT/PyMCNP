@@ -19,7 +19,7 @@ class Factor(EmbeeOption_, keyword='factor'):
         'constant': types.Real,
     }
 
-    _REGEX = re.compile(r'factor( \S+)')
+    _REGEX = re.compile(rf'factor( {types.Real._REGEX.pattern})')
 
     def __init__(self, constant: types.Real):
         """

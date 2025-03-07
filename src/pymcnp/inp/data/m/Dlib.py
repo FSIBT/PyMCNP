@@ -19,7 +19,7 @@ class Dlib(MOption_, keyword='dlib'):
         'abx': types.String,
     }
 
-    _REGEX = re.compile(r'dlib( \S+)')
+    _REGEX = re.compile(rf'dlib( {types.String._REGEX.pattern})')
 
     def __init__(self, abx: types.String):
         """

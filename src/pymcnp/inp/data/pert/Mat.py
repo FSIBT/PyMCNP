@@ -19,7 +19,7 @@ class Mat(PertOption_, keyword='mat'):
         'material': types.Integer,
     }
 
-    _REGEX = re.compile(r'mat( \S+)')
+    _REGEX = re.compile(rf'mat( {types.Integer._REGEX.pattern})')
 
     def __init__(self, material: types.Integer):
         """

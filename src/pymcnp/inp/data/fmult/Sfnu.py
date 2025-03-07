@@ -19,7 +19,7 @@ class Sfnu(FmultOption_, keyword='sfnu'):
         'distribution': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'sfnu(( \S+)+)')
+    _REGEX = re.compile(rf'sfnu(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, distribution: types.Tuple[types.Real]):
         """

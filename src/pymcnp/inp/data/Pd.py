@@ -21,7 +21,7 @@ class Pd(DataOption_, keyword='pd'):
         'probabilities': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'pd(\S+):(\S+)(( \S+)+)')
+    _REGEX = re.compile(rf'pd(\S+):(\S+)(( {types.Real._REGEX.pattern})+)')
 
     def __init__(
         self,

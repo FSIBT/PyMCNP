@@ -19,7 +19,7 @@ class Points(DawwgOption_, keyword='points'):
         'name': types.String,
     }
 
-    _REGEX = re.compile(r'points( \S+)')
+    _REGEX = re.compile(rf'points( {types.String._REGEX.pattern})')
 
     def __init__(self, name: types.String):
         """

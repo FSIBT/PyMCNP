@@ -19,7 +19,7 @@ class Kmesh(FmeshOption_, keyword='kmesh'):
         'locations': types.Real,
     }
 
-    _REGEX = re.compile(r'kmesh( \S+)')
+    _REGEX = re.compile(rf'kmesh( {types.Real._REGEX.pattern})')
 
     def __init__(self, locations: types.Real):
         """

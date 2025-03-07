@@ -14,7 +14,7 @@ class PtracOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'surface(( \S+)+)|buffer( \S+)|filter(( {types.PtracFilterEntry._REGEX.pattern})+)|write( \S+)|conic( \S+)|event( \S+)|tally(( \S+)+)|value( \S+)|file( \S+)|meph( \S+)|type(( \S+)+)|cell(( \S+)+)|max( \S+)|nps(( \S+)+)'
+        rf'surface(( {types.Integer._REGEX.pattern})+)|buffer( {types.Integer._REGEX.pattern})|filter(( {types.PtracFilter._REGEX.pattern})+)|write( {types.String._REGEX.pattern})|conic( {types.String._REGEX.pattern})|event( {types.String._REGEX.pattern})|tally(( {types.Integer._REGEX.pattern})+)|value( {types.Real._REGEX.pattern})|file( {types.String._REGEX.pattern})|meph( {types.Integer._REGEX.pattern})|type(( {types.Designator._REGEX.pattern})+)|cell(( {types.Integer._REGEX.pattern})+)|max( {types.Integer._REGEX.pattern})|nps(( {types.Integer._REGEX.pattern})+)'
     )
 
     def __init_subclass__(cls, keyword: str):

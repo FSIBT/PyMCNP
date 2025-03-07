@@ -19,7 +19,7 @@ class X(SdefOption_, keyword='x'):
         'x_coordinate': types.Real,
     }
 
-    _REGEX = re.compile(r'x( \S+)')
+    _REGEX = re.compile(rf'x( {types.Real._REGEX.pattern})')
 
     def __init__(self, x_coordinate: types.Real):
         """

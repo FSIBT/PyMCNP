@@ -20,7 +20,7 @@ class Fill_0(CellOption_, keyword='fill'):
         'transformation': types.Integer,
     }
 
-    _REGEX = re.compile(r'fill( \S+)( \S+)?')
+    _REGEX = re.compile(rf'fill( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})?')
 
     def __init__(self, universe: types.Integer, transformation: types.Integer = None):
         """

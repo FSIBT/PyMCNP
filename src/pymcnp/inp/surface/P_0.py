@@ -23,7 +23,9 @@ class P_0(SurfaceOption_, keyword='p'):
         'd': types.Real,
     }
 
-    _REGEX = re.compile(r'p( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'p( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(self, a: types.Real, b: types.Real, c: types.Real, d: types.Real):
         """

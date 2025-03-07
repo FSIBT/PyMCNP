@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class Df_1Option_(Option_):
@@ -12,7 +13,9 @@ class Df_1Option_(Option_):
 
     _KEYWORD = ''
     _SUBCLASSES = {}
-    _REGEX = re.compile(r'fac( \S+)|int( \S+)|iu( \S+)|ic( \S+)')
+    _REGEX = re.compile(
+        rf'fac( {types.Integer._REGEX.pattern})|int( {types.String._REGEX.pattern})|iu( {types.Integer._REGEX.pattern})|ic( {types.Integer._REGEX.pattern})'
+    )
 
     def __init_subclass__(cls, keyword: str):
         cls._KEYWORD: typing.Final[str] = keyword

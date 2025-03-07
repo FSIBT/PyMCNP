@@ -3,6 +3,7 @@ import typing
 
 
 from ...option_ import Option_
+from ....utils import types
 
 
 class PertOption_(Option_):
@@ -13,7 +14,7 @@ class PertOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        r'method( \S+)|cell(( \S+)+)|mat( \S+)|rho( \S+)|erg( \S+)( \S+)|rxn(( \S+)+)'
+        rf'method( {types.Integer._REGEX.pattern})|cell(( {types.Integer._REGEX.pattern})+)|mat( {types.Integer._REGEX.pattern})|rho( {types.Real._REGEX.pattern})|erg( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})|rxn(( {types.Integer._REGEX.pattern})+)'
     )
 
     def __init_subclass__(cls, keyword: str):

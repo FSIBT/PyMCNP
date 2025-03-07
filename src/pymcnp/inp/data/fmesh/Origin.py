@@ -21,7 +21,9 @@ class Origin(FmeshOption_, keyword='origin'):
         'z': types.Real,
     }
 
-    _REGEX = re.compile(r'origin( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'origin( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(self, x: types.Real, y: types.Real, z: types.Real):
         """

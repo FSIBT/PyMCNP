@@ -19,7 +19,7 @@ class Area(DataOption_, keyword='area'):
         'areas': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'area(( \S+)+)')
+    _REGEX = re.compile(rf'area(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, areas: types.Tuple[types.Real]):
         """

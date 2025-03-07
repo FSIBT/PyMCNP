@@ -19,7 +19,7 @@ class Kints(FmeshOption_, keyword='kints'):
         'count': types.Integer,
     }
 
-    _REGEX = re.compile(r'kints( \S+)')
+    _REGEX = re.compile(rf'kints( {types.Integer._REGEX.pattern})')
 
     def __init__(self, count: types.Integer):
         """

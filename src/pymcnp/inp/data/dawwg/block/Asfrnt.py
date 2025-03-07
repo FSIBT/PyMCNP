@@ -19,7 +19,7 @@ class Asfrnt(BlockOption_, keyword='asfrnt'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'asfrnt( \S+)')
+    _REGEX = re.compile(rf'asfrnt( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

@@ -19,7 +19,7 @@ class Isct(BlockOption_, keyword='isct'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'isct( \S+)')
+    _REGEX = re.compile(rf'isct( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

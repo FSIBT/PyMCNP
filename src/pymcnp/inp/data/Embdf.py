@@ -20,7 +20,7 @@ class Embdf(DataOption_, keyword='embdf'):
         'multipliers': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'embdf(\S+)(( \S+)+)')
+    _REGEX = re.compile(rf'embdf(\S+)(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, suffix: types.Integer, multipliers: types.Tuple[types.Real]):
         """

@@ -344,7 +344,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='transformation',
-                            type='types.TransformationEntry',
+                            type='types.Transformation',
                             description='Cell transformation.',
                         ),
                     ],
@@ -392,7 +392,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='transformation',
-                            type='types.TransformationEntry',
+                            type='types.Transformation',
                             description='Cell fill transformation',
                             optional=True,
                         ),
@@ -404,17 +404,17 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='i',
-                            type='types.IndexEntry',
+                            type='types.Index',
                             description='Lattice parameter #1',
                         ),
                         AttributeScheme(
                             name='j',
-                            type='types.IndexEntry',
+                            type='types.Index',
                             description='Lattice parameter #2',
                         ),
                         AttributeScheme(
                             name='k',
-                            type='types.IndexEntry',
+                            type='types.Index',
                             description='Lattice parameter #3',
                         ),
                         AttributeScheme(
@@ -452,7 +452,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='temperature',
-                            type='tuple[types.Real]',
+                            type='types.Tuple[types.Real]',
                             description='Temperature at time index',
                             restriction='min(temperature) > 0',
                         ),
@@ -464,7 +464,7 @@ cards = ElementScheme(
                     attributes=(
                         AttributeScheme(
                             name='temperature',
-                            type='tuple[types.Real]',
+                            type='types.Tuple[types.Real]',
                             description='Temperature at time index',
                             restriction='min(temperature) > 0',
                         ),
@@ -2670,7 +2670,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='transformations',
-                            type='types.Tuple[types.StochasticEntry]',
+                            type='types.Tuple[types.Stochastic]',
                             description='Tuple of stochastic transformations',
                         ),
                     ],
@@ -3853,7 +3853,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='substances',
-                            type='types.Tuple[types.SubstanceEntry]',
+                            type='types.Tuple[types.Substance]',
                             description='Tuple of material constituents',
                         ),
                         AttributeScheme(
@@ -4081,7 +4081,7 @@ cards = ElementScheme(
                 ]
                 subcomments = [f"{element}-{zaid.a:03}" for zaid, _ in zaids]
                 entries = [
-                    types.SubstanceEntry(
+                    types.Substance(
                         zaid,
                         types.Real(
                             (-1 if atomic_or_weight else 1)
@@ -4182,7 +4182,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='weight_ratios',
-                            type='types.Tuple[types.SubstanceEntry]',
+                            type='types.Tuple[types.Substance]',
                             description='Tuple of atomic weight ratios',
                         ),
                     ],
@@ -4198,7 +4198,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='weight_ratios',
-                            type='types.Tuple[types.SubstanceEntry]',
+                            type='types.Tuple[types.Substance]',
                             description='Tuple of atomic weight ratios',
                         ),
                     ],
@@ -4706,7 +4706,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='biases',
-                                    type='types.Tuple[types.BiasEntry]',
+                                    type='types.Tuple[types.Bias]',
                                     description='Delayed neutron energy biases',
                                 ),
                             ],
@@ -4717,7 +4717,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='biases',
-                                    type='types.Tuple[types.BiasEntry]',
+                                    type='types.Tuple[types.Bias]',
                                     description='Delayed neutron energy biases',
                                 ),
                             ],
@@ -5960,7 +5960,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='ijs',
-                            type='types.Tuple[types.IndependentDependentEntry]',
+                            type='types.Tuple[types.IndependentDependent]',
                             description='Dependent source independent & dependent variables',
                         ),
                     ],
@@ -5983,7 +5983,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='vss',
-                            type='types.Tuple[types.IndependentDependentEntry]',
+                            type='types.Tuple[types.IndependentDependent]',
                             description='Dependent source independent & dependent variables',
                         ),
                     ],
@@ -6000,7 +6000,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='comment',
-                            type='types.Tuple[str]',
+                            type='types.Tuple[types.String]',
                             description='source comment',
                         ),
                     ],
@@ -6296,7 +6296,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='locations',
-                            type='types.Tuple[types.LocationEntry]',
+                            type='types.Tuple[types.Location]',
                             description='Tuple of inital source points',
                         ),
                     ],
@@ -6564,7 +6564,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='spheres',
-                            type='types.Tuple[types.SphereEntry]',
+                            type='types.Tuple[types.Sphere]',
                             description='Detector points',
                         ),
                         AttributeScheme(
@@ -6598,7 +6598,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='rings',
-                            type='types.Tuple[types.RingEntry]',
+                            type='types.Tuple[types.Ring]',
                             description='Detector points',
                         ),
                         AttributeScheme(
@@ -8875,7 +8875,7 @@ cards = ElementScheme(
                 #        attributes=[
                 #            AttributeScheme(
                 #                name='vectors',
-                #                type='types.Tuple[vect.VectEntry_Vector]',
+                #                type='types.Tuple[vect.Vect_Vector]',
                 #                description='Vectrors for EXT',
                 #            ),
                 #        ],
@@ -8907,52 +8907,52 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='spheres_1',
-                            type='types.ShellEntry',
+                            type='types.Shell',
                             description='DXTRAN spheres #1',
                         ),
                         AttributeScheme(
                             name='spheres_2',
-                            type='types.ShellEntry',
+                            type='types.Shell',
                             description='DXTRAN spheres #2',
                         ),
                         AttributeScheme(
                             name='spheres_3',
-                            type='types.ShellEntry',
+                            type='types.Shell',
                             description='DXTRAN spheres #3',
                         ),
                         AttributeScheme(
                             name='spheres_4',
-                            type='types.ShellEntry',
+                            type='types.Shell',
                             description='DXTRAN spheres #4',
                         ),
                         AttributeScheme(
                             name='spheres_5',
-                            type='types.ShellEntry',
+                            type='types.Shell',
                             description='DXTRAN spheres #5',
                         ),
                         AttributeScheme(
                             name='spheres_6',
-                            type='types.ShellEntry',
+                            type='types.Shell',
                             description='DXTRAN spheres #6',
                         ),
                         AttributeScheme(
                             name='spheres_7',
-                            type='types.ShellEntry',
+                            type='types.Shell',
                             description='DXTRAN spheres #7',
                         ),
                         AttributeScheme(
                             name='spheres_8',
-                            type='types.ShellEntry',
+                            type='types.Shell',
                             description='DXTRAN spheres #8',
                         ),
                         AttributeScheme(
                             name='spheres_9',
-                            type='types.ShellEntry',
+                            type='types.Shell',
                             description='DXTRAN spheres #9',
                         ),
                         AttributeScheme(
                             name='spheres_10',
-                            type='types.ShellEntry',
+                            type='types.Shell',
                             description='DXTRAN spheres #10',
                         ),
                         AttributeScheme(
@@ -8983,7 +8983,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='diagnostics',
-                            type='types.Tuple[types.DiagnosticEntry]',
+                            type='types.Tuple[types.Diagnostic]',
                             description='Detector diagnostic entries',
                         ),
                     ],
@@ -9297,7 +9297,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='biases',
-                            type='types.Tuple[types.PhotonBiasEntry]',
+                            type='types.Tuple[types.PhotonBias]',
                             description='Biases for proton production',
                         ),
                     ],
@@ -9562,7 +9562,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='variables',
-                                    type='types.Tuple[types.PtracFilterEntry]',
+                                    type='types.Tuple[types.PtracFilter]',
                                     description='MCNP6 variables for filtering',
                                 ),
                             ],
@@ -10318,7 +10318,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='creations',
-                            type='types.Tuple[types.FileEntry]',
+                            type='types.Tuple[types.File]',
                             description='Files to create',
                         ),
                     ],

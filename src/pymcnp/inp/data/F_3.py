@@ -22,7 +22,9 @@ class F_3(DataOption_, keyword='f'):
         't': types.String,
     }
 
-    _REGEX = re.compile(r'f(\S+):(\S+)(( \S+)+)( \S+)?')
+    _REGEX = re.compile(
+        rf'f(\S+):(\S+)(( {types.Integer._REGEX.pattern})+)( {types.String._REGEX.pattern})?'
+    )
 
     def __init__(
         self,

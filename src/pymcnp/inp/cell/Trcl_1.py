@@ -16,12 +16,12 @@ class Trcl_1(CellOption_, keyword='trcl'):
     """
 
     _ATTRS = {
-        'transformation': types.TransformationEntry,
+        'transformation': types.Transformation,
     }
 
-    _REGEX = re.compile(rf'trcl( {types.TransformationEntry._REGEX.pattern})')
+    _REGEX = re.compile(rf'trcl( {types.Transformation._REGEX.pattern})')
 
-    def __init__(self, transformation: types.TransformationEntry):
+    def __init__(self, transformation: types.Transformation):
         """
         Initializes ``Trcl_1``.
 
@@ -41,4 +41,4 @@ class Trcl_1(CellOption_, keyword='trcl'):
             ]
         )
 
-        self.transformation: typing.Final[types.TransformationEntry] = transformation
+        self.transformation: typing.Final[types.Transformation] = transformation

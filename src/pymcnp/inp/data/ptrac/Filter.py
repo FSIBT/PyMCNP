@@ -16,12 +16,12 @@ class Filter(PtracOption_, keyword='filter'):
     """
 
     _ATTRS = {
-        'variables': types.Tuple[types.PtracFilterEntry],
+        'variables': types.Tuple[types.PtracFilter],
     }
 
-    _REGEX = re.compile(rf'filter(( {types.PtracFilterEntry._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'filter(( {types.PtracFilter._REGEX.pattern})+)')
 
-    def __init__(self, variables: types.Tuple[types.PtracFilterEntry]):
+    def __init__(self, variables: types.Tuple[types.PtracFilter]):
         """
         Initializes ``Filter``.
 
@@ -41,4 +41,4 @@ class Filter(PtracOption_, keyword='filter'):
             ]
         )
 
-        self.variables: typing.Final[types.Tuple[types.PtracFilterEntry]] = variables
+        self.variables: typing.Final[types.Tuple[types.PtracFilter]] = variables

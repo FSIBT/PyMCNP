@@ -19,7 +19,7 @@ class Meph(PtracOption_, keyword='meph'):
         'events': types.Integer,
     }
 
-    _REGEX = re.compile(r'meph( \S+)')
+    _REGEX = re.compile(rf'meph( {types.Integer._REGEX.pattern})')
 
     def __init__(self, events: types.Integer):
         """

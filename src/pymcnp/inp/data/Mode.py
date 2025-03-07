@@ -19,7 +19,7 @@ class Mode(DataOption_, keyword='mode'):
         'particles': types.Tuple[types.Designator],
     }
 
-    _REGEX = re.compile(r'mode(( \S+)+)')
+    _REGEX = re.compile(rf'mode(( {types.Designator._REGEX.pattern})+)')
 
     def __init__(self, particles: types.Tuple[types.Designator]):
         """

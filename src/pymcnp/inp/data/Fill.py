@@ -19,7 +19,7 @@ class Fill(DataOption_, keyword='fill'):
         'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(r'fill(( \S+)+)')
+    _REGEX = re.compile(rf'fill(( {types.Integer._REGEX.pattern})+)')
 
     def __init__(self, numbers: types.Tuple[types.Integer]):
         """

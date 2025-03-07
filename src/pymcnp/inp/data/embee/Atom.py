@@ -19,7 +19,7 @@ class Atom(EmbeeOption_, keyword='atom'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'atom( \S+)')
+    _REGEX = re.compile(rf'atom( {types.String._REGEX.pattern})')
 
     def __init__(self, setting: types.String):
         """

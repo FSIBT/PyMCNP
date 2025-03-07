@@ -21,7 +21,9 @@ class Ds_0(DataOption_, keyword='ds'):
         'js': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(r'ds(\S+)( \S+)(( \S+)+)')
+    _REGEX = re.compile(
+        rf'ds(\S+)( {types.String._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
+    )
 
     def __init__(self, suffix: types.Integer, option: types.String, js: types.Tuple[types.Real]):
         """

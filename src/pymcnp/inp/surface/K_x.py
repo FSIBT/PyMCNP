@@ -24,7 +24,9 @@ class K_x(SurfaceOption_, keyword='k/x'):
         'plusminus_1': types.Real,
     }
 
-    _REGEX = re.compile(r'k/x( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'k/x( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(
         self,

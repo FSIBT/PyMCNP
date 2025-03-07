@@ -19,7 +19,7 @@ class Wgt(SdefOption_, keyword='wgt'):
         'weight': types.Real,
     }
 
-    _REGEX = re.compile(r'wgt( \S+)')
+    _REGEX = re.compile(rf'wgt( {types.Real._REGEX.pattern})')
 
     def __init__(self, weight: types.Real):
         """

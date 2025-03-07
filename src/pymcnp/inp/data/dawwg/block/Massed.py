@@ -19,7 +19,7 @@ class Massed(BlockOption_, keyword='massed'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'massed( \S+)')
+    _REGEX = re.compile(rf'massed( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

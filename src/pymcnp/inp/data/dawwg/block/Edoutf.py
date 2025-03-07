@@ -19,7 +19,7 @@ class Edoutf(BlockOption_, keyword='edoutf'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'edoutf( \S+)')
+    _REGEX = re.compile(rf'edoutf( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

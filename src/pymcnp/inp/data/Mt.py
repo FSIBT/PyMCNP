@@ -20,7 +20,7 @@ class Mt(DataOption_, keyword='mt'):
         'identifier': types.String,
     }
 
-    _REGEX = re.compile(r'mt(\S+)( \S+)')
+    _REGEX = re.compile(rf'mt(\S+)( {types.String._REGEX.pattern})')
 
     def __init__(self, suffix: types.Integer, identifier: types.String):
         """

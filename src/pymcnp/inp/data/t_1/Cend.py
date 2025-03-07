@@ -19,7 +19,7 @@ class Cend(T_1Option_, keyword='cend'):
         'time': types.Real,
     }
 
-    _REGEX = re.compile(r'cend( \S+)')
+    _REGEX = re.compile(rf'cend( {types.Real._REGEX.pattern})')
 
     def __init__(self, time: types.Real):
         """

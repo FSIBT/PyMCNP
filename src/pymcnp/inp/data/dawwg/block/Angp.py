@@ -19,7 +19,7 @@ class Angp(BlockOption_, keyword='angp'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(r'angp( \S+)')
+    _REGEX = re.compile(rf'angp( {types.Integer._REGEX.pattern})')
 
     def __init__(self, setting: types.Integer):
         """

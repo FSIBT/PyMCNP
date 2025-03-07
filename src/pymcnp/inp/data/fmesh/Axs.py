@@ -21,7 +21,9 @@ class Axs(FmeshOption_, keyword='axs'):
         'z': types.Real,
     }
 
-    _REGEX = re.compile(r'axs( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(
+        rf'axs( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+    )
 
     def __init__(self, x: types.Real, y: types.Real, z: types.Real):
         """

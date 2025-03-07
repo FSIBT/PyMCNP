@@ -19,7 +19,7 @@ class Event(PtracOption_, keyword='event'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'event( \S+)')
+    _REGEX = re.compile(rf'event( {types.String._REGEX.pattern})')
 
     def __init__(self, setting: types.String):
         """

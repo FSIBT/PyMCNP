@@ -16,12 +16,12 @@ class Ksrc(DataOption_, keyword='ksrc'):
     """
 
     _ATTRS = {
-        'locations': types.Tuple[types.LocationEntry],
+        'locations': types.Tuple[types.Location],
     }
 
-    _REGEX = re.compile(rf'ksrc(( {types.LocationEntry._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'ksrc(( {types.Location._REGEX.pattern})+)')
 
-    def __init__(self, locations: types.Tuple[types.LocationEntry]):
+    def __init__(self, locations: types.Tuple[types.Location]):
         """
         Initializes ``Ksrc``.
 
@@ -41,4 +41,4 @@ class Ksrc(DataOption_, keyword='ksrc'):
             ]
         )
 
-        self.locations: typing.Final[types.Tuple[types.LocationEntry]] = locations
+        self.locations: typing.Final[types.Tuple[types.Location]] = locations
