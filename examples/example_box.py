@@ -1,38 +1,79 @@
 import pymcnp
 
 
-def get_inp(RADIUS_AIR, RADIUS_SHIELD, RADIUS_LEAD):
-    BOX_AIR = pymcnp.inp.SurfaceOption__Rpp.from_mcnp(
-        f'rpp {-RADIUS_AIR} {RADIUS_AIR} {-RADIUS_AIR} {RADIUS_AIR} {-RADIUS_AIR} {RADIUS_AIR}'
+def get_inp(radius_air, radius_shield, radius_lead):
+    inp = pymcnp.InpBuilder(title='Box Example')
+
+    geometry_air = pymcnp.GeometryBuilder('11')
+    geometry_shield = pymcnp.GeometryBuilder('12')
+    geometry_lead = pymcnp.GeometryBuilder('13')
+    geometry_world = pymcnp.GeometryBuilder('14')
+
+    cell_air = pymcnp.CellBuilder(number=1, material=21, density=0.5, geometry=geometry_air)
+
+    cell_shield = pymcnp.CellBuilder(
+        number=2, material=22, density=0.5, geometry=geometry_shield & geometry_air
     )
-    BOX_SHIELD = pymcnp.inp.SurfaceOption__Rpp.from_mcnp(
-        f'rpp {-RADIUS_SHIELD} {RADIUS_SHIELD} {-RADIUS_SHIELD} {RADIUS_SHIELD} {-RADIUS_SHIELD} {RADIUS_SHIELD}'
-    )
-    BOX_LEAD = pymcnp.inp.SurfaceOption__Rpp.from_mcnp(
-        f'rpp {-RADIUS_LEAD} {RADIUS_LEAD} {-RADIUS_LEAD} {RADIUS_LEAD} {-RADIUS_LEAD} {RADIUS_LEAD}'
+
+    cell_lead = pymcnp.CellBuilder(
+        number=3, material=23, density=0.5, geometry=geometry_lead & geometry_shield
     )
 
-    MATERIAL_AIR = pymcnp.inp.DataOption__M.from_formula(1, {'N2': 0.8, 'O2': 0.2})
-    MATERIAL_SHIELD = pymcnp.inp.DataOption__M.from_formula(2, {'TiO2': 0.5, 'PbO': 0.5})
-    MATERIAL_LEAD = pymcnp.inp.DataOption__M.from_formula(3, {'Pb': 1})
+    cell_world = pymcnp.CellBuilder(number=4, material=0, geometry=geometry_world)
 
-    return f"""
-Box Example
-10 1 0.5 20
-11 2 0.5 21:20
-12 3 0.5 22:21
-13 0     23
+    inp.append(cell_air)
+    inp.append(cell_shield)
+    inp.append(cell_lead)
+    inp.append(cell_world)
 
-20 {BOX_AIR}
-21 {BOX_SHIELD}
-22 {BOX_LEAD}
-23 SO {RADIUS_AIR + RADIUS_SHIELD + RADIUS_LEAD + 1}
+    surface_air = pymcnp.SurfaceBuilder(
+        number=11,
+        mnemonic='rpp',
+        parameter=f'{-radius_air} {radius_air} {-radius_air} {radius_air} {-radius_air} {radius_air}',
+    )
+    surface_shield = pymcnp.SurfaceBuilder(
+        number=12,
+        mnemonic='rpp',
+        parameter=f'{-radius_shield} {radius_shield} {-radius_shield} {radius_shield} {-radius_shield} {radius_shield}',
+    )
+    surface_lead = pymcnp.SurfaceBuilder(
+        number=13,
+        mnemonic='rpp',
+        parameter=f'{-radius_lead} {radius_lead} {-radius_lead} {radius_lead} {-radius_lead} {radius_lead}',
+    )
+    surface_world = pymcnp.SurfaceBuilder(
+        number=14,
+        mnemonic='so',
+        parameter=f'{radius_air + radius_shield + radius_lead + 1}',
+    )
 
-{MATERIAL_AIR}
-{MATERIAL_SHIELD}
-{MATERIAL_LEAD}
-SDEF X=0 Y=0 Z=0 ERG=2.2
-"""[1:-1]
+    inp.append(surface_air)
+    inp.append(surface_shield)
+    inp.append(surface_lead)
+    inp.append(surface_world)
+
+    material_air = pymcnp.DataBuilder.unbuild(
+        pymcnp.inp.Data(pymcnp.inp.data.M.from_formula(21, {'N2': 0.8, 'O2': 0.2}))
+    )
+    material_shield = pymcnp.DataBuilder.unbuild(
+        pymcnp.inp.Data(pymcnp.inp.data.M.from_formula(22, {'TiO2': 0.5, 'PbO': 0.5}))
+    )
+    material_lead = pymcnp.DataBuilder.unbuild(
+        pymcnp.inp.Data(pymcnp.inp.data.M.from_formula(23, {'Pb': 1}))
+    )
+
+    sdef = pymcnp.DataBuilder(
+        mnemonic='sdef',
+        parameter='x=0 y=0 z=0 erg=2.2',
+    )
+
+    inp.append(material_air)
+    inp.append(material_shield)
+    inp.append(material_lead)
+    inp.append(sdef)
+
+    return inp.build()
 
 
-print(get_inp(60, 15, 1))
+inp = get_inp(60, 15, 1)
+print(inp)

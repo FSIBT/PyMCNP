@@ -1,3 +1,4 @@
+import math
 import dataclasses
 
 from . import inp
@@ -16,6 +17,20 @@ class GeometryBuilder:
     """
 
     infix: str
+
+    @staticmethod
+    def unbuild(geometry: types.Geometry):
+        """
+        Generates ``GeometryBuilder`` from ``Geometry``.
+
+        Parameter:
+            geoemtry: ``Geometry`` to unbuild.
+
+        Returns:
+            ``GeometryBuilder`` for ``Geometry``.
+        """
+
+        return GeometryBuilder(infix=geometry.infix)
 
     def __and__(a, b):
         """
@@ -81,6 +96,25 @@ class CellOptionBuilder:
     suffix: str = ''
     designator: str = ''
 
+    @staticmethod
+    def unbuild(option: inp.cell.CellOption_):
+        """
+        Generates ``CellOptionBuilder`` from ``CellOption_``.
+
+        Parameter:
+            option: ``CellOption_`` to unbuild.
+
+        Returns:
+            ``CellOptionBuilder`` for ``CellOption_``.
+        """
+
+        return CellOptionBuilder(
+            mnemonic=option._KEYWORD,
+            parameter=option.value.to_mcnp(),
+            suffix=option.suffix.to_mcnp() if hasattr(option, 'suffix') else '',
+            designator=option.designator.to_mcnp() if hasattr(option, 'designator') else '',
+        )
+
     def build(self):
         """
         Builds ``CellOptionBuilder`` into ``CellOption_``.
@@ -123,6 +157,39 @@ class CellBuilder:
     density: float | types.Real = None
     atoms_or_grams: bool = True
 
+    def append(self, option: CellOptionBuilder):
+        """
+        Stores ``Option_`` in ``CellBuilder``,
+
+        Parameters:
+            option: ``Option_`` to add.
+        """
+
+        self.options[
+            f'{option.mnemonic}{option.suffix if hasattr(option, "suffix") else ""}:{option.designator if hasattr(option, "designator") else ""}'
+        ] = option
+
+    @staticmethod
+    def unbuild(cell: inp.Cell):
+        """
+        Generates ``CellBuilder`` from ``Cell``.
+
+        Parameter:
+            cell: ``Cell` to unbuild.
+
+        Returns:
+            ``CellBuilder`` for ``Cell``.
+        """
+
+        return CellBuilder(
+            number=cell.number.value,
+            material=cell.material.value,
+            density=math.abs(cell.density.value),
+            atoms_or_grams=cell.density > 0,
+            options={option._KEYWORD: CellOptionBuilder.unbuild(option) for option in cell.options},
+            geometry=GeometryBuilder.unbuild(cell.geometry),
+        )
+
     def build(self):
         """
         Builds ``CellBuilder`` into ``Cell``.
@@ -138,7 +205,7 @@ class CellBuilder:
             if self.density
             else None,
             geometry=self.geometry.build(),
-            options=types.Tuple([option.build() for option in self.options]),
+            options=types.Tuple([option.build() for option in self.options.values()]),
         )
 
 
@@ -159,6 +226,26 @@ class SurfaceBuilder:
     parameter: str
     prefix: str = None
     transform: int = None
+
+    @staticmethod
+    def unbuild(surface: inp.Surface):
+        """
+        Generates ``SurfaceBuilder`` from ``Surface``.
+
+        Parameter:
+            surface: ``Surface` to unbuild.
+
+        Returns:
+            ``SurfaceBuilder`` for ``Surface``.
+        """
+
+        return SurfaceBuilder(
+            number=surface.number.value,
+            parameter=surface.option.value.to_mcnp(),
+            transform=surface.transform.value,
+            mnemonic=surface.option._KEYWORD,
+            prefix=surface.prefix,
+        )
 
     def build(self):
         """
@@ -204,6 +291,27 @@ class DataBuilder:
     suffix: str = ''
     designator: str = ''
 
+    @staticmethod
+    def unbuild(data: inp.Data):
+        """
+        Generates ``DataBuilder`` from ``Data``.
+
+        Parameter:
+            data: ``Data` to unbuild.
+
+        Returns:
+            ``DataBuilder`` for ``Data``.
+        """
+
+        return DataBuilder(
+            mnemonic=data.option._KEYWORD,
+            parameter=data.option.value.to_mcnp(),
+            suffix=data.option.suffix.to_mcnp() if hasattr(data.option, 'suffix') else '',
+            designator=data.option.designator.to_mcnp()
+            if hasattr(data.option, 'designator')
+            else '',
+        )
+
     def build(self):
         """
         Builds ``DataBuilder`` into ``Data``.
@@ -246,9 +354,9 @@ class InpBuilder:
     """
 
     title: str
-    cells: tuple[CellBuilder] = tuple()
-    surfaces: tuple[SurfaceBuilder] = tuple()
-    data: tuple[DataBuilder] = tuple()
+    cells: dict[str, CellBuilder] = dataclasses.field(default_factory=lambda: ({}))
+    surfaces: dict[str, SurfaceBuilder] = dataclasses.field(default_factory=lambda: ({}))
+    data: dict[str, DataBuilder] = dataclasses.field(default_factory=lambda: ({}))
     message: str = ''
     other: str = ''
 
@@ -261,11 +369,11 @@ class InpBuilder:
         """
 
         if isinstance(card, CellBuilder):
-            self.cells = (*self.cells, card)
+            self.cells[card.number] = card
         elif isinstance(card, SurfaceBuilder):
-            self.surfaces = (*self.surfaces, card)
+            self.surfaces[card.number] = card
         elif isinstance(card, DataBuilder):
-            self.data = (*self.data, card)
+            self.data[card.mnemonic + card.suffix if hasattr(card, 'suffix') else ''] = card
 
     def build(self):
         """
@@ -279,10 +387,10 @@ class InpBuilder:
             title=self.title,
             message=self.message,
             other=self.other,
-            cells=types.Tuple([cell.build() for cell in self.cells]),
+            cells=types.Tuple([cell.build() for cell in self.cells.values()]),
             cells_comments=types.Tuple([]),
-            surfaces=types.Tuple([surface.build() for surface in self.surfaces]),
+            surfaces=types.Tuple([surface.build() for surface in self.surfaces.values()]),
             surfaces_comments=types.Tuple([]),
-            data=types.Tuple([data.build() for data in self.data]),
+            data=types.Tuple([data.build() for data in self.data.values()]),
             data_comments=types.Tuple([]),
         )

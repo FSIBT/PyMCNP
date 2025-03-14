@@ -25,7 +25,7 @@ class Test_{CAMEL(parent_name)}{CAMEL(element.name)}:
     Tests ``{CAMEL(parent_name)}{CAMEL(element.name)}``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``{CAMEL(parent_name)}{CAMEL(element.name)}.from_mcnp``.
         """
@@ -58,41 +58,13 @@ def get_tests(element, mod, parent_name):
 for card in inp_data.cards.options:
     tests = get_tests(card, '', '')
 
-    res = f'''
+    res = f"""
 import pymcnp
-
-import pytest
-
-
-class _Test_FromMcnp:
-    """
-    Tests ``McnpElement_.from_mcnp``.
-    """
-
-    element: pymcnp.utils._object.McnpElement_
-    EXAMPLE_VALID: list[str]
-    EXAMPLE_INVALID: list[str]
-
-    def test_valid(self):
-        """
-        Tests ``EXAMPLES_VALID``.
-        """
-
-        for example in self.EXAMPLES_VALID:
-            self.element.from_mcnp(example)
-
-    def test_invalid(self):
-        """
-        Tests ``EXAMPLES_INVALID``.
-        """
-
-        for example in self.EXAMPLES_INVALID:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                self.element.from_mcnp(example)
+import _utils
 
 
 {'\n\n'.join(tests)}
-'''[1:]
+"""[1:]
 
     path_file = pathlib.Path(__file__).parent.parent / 'tests' / f'test_{card.name}.py'
     with path_file.open('w') as file:

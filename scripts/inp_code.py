@@ -50,7 +50,7 @@ def ATTRS_REGEX(element):
                 o += f'(( {{{attribute.type[12:-1]}._REGEX.pattern}})+)'
         else:
             if 'Option_' in attribute.type:
-                o += f'( {{{SNAKE(element.name)}.{CAMEL(element.name)}Option_._REGEX.pattern}})'
+                o += f'( ({{{SNAKE(element.name)}.{CAMEL(element.name)}Option_._REGEX.pattern}}))'
             else:
                 o += f'( {{{attribute.type}._REGEX.pattern}})'
 
