@@ -33,10 +33,6 @@ class Card_(_object.McnpElement_):
         if not tokens:
             raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
-        print(source)
-        print(cls._REGEX.pattern)
-        print(tokens.groups())
-
         attrs = {}
         for i, (name, attr) in enumerate(cls._ATTRS.items()):
             if isinstance(attr, types.GenericAlias):

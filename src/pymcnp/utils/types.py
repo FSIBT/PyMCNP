@@ -1460,7 +1460,7 @@ class Location(_object.McnpElement_):
         z: Location z-coordinate.
     """
 
-    _REGEX = re.compile(r'( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(r'(\S+) (\S+) (\S+)')
 
     def __init__(self, x: Real, y: Real, z: Real):
         """
@@ -1505,7 +1505,7 @@ class Location(_object.McnpElement_):
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = Location._REGEX.match(' ' + source)
+        tokens = Location._REGEX.match(source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -2197,7 +2197,7 @@ class Index(_object.McnpElement_):
         upper: Upper index.
     """
 
-    _REGEX = re.compile(r'( \S+):( \S+)')
+    _REGEX = re.compile(r'(\S+):(\S+)')
 
     def __init__(self, lower: Integer, upper: Integer):
         """
