@@ -1,33 +1,5 @@
 import pymcnp
-
-import pytest
-
-
-class _Test_FromMcnp:
-    """
-    Tests ``McnpElement_.from_mcnp``.
-    """
-
-    element: pymcnp.utils._object.McnpElement_
-    EXAMPLE_VALID: list[str]
-    EXAMPLE_INVALID: list[str]
-
-    def test_valid(self):
-        """
-        Tests ``EXAMPLES_VALID``.
-        """
-
-        for example in self.EXAMPLES_VALID:
-            self.element.from_mcnp(example)
-
-    def test_invalid(self):
-        """
-        Tests ``EXAMPLES_INVALID``.
-        """
-
-        for example in self.EXAMPLES_INVALID:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                self.element.from_mcnp(example)
+import _utils
 
 
 class Test_Cell:
@@ -35,13 +7,26 @@ class Test_Cell:
     Tests ``Cell``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Cell.from_mcnp``.
         """
 
         element = pymcnp.inp.Cell
-        EXAMPLES_VALID = []
+        EXAMPLES_VALID = [
+            '3 0 -1 2 -4 $ definition of cell 3',
+            '5 0 #3',
+            '5 0 #(-1 2 -4)',
+            '5 0 (+1 : -2 : +4)',
+            '2 3 -3.7 -1 IMP:N=2 IMP:P=4',
+            '10 16 -4.2 1 -2 3 IMP:N=4 IMP:P=8 EXT:N=-0.4',
+            '1 0 -17',
+            '1 0 1 -2 -3 4 -5 6 fill=1',
+            '2 0 -7 1 -3 8 u=1 fill=2 lat=1',
+            '3 0 -11 u=-2',
+            '4 0 11 u=2',
+            '5 0 -1:2:3:-4:5:-6',
+        ]
         EXAMPLES_INVALID = []
 
 
@@ -50,7 +35,7 @@ class Test_CellImp:
     Tests ``Imp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Imp.from_mcnp``.
         """
@@ -69,7 +54,7 @@ class Test_CellVol:
     Tests ``Vol``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Vol.from_mcnp``.
         """
@@ -92,7 +77,7 @@ class Test_CellPwt:
     Tests ``Pwt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Pwt.from_mcnp``.
         """
@@ -111,7 +96,7 @@ class Test_CellExt:
     Tests ``Ext``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Ext.from_mcnp``.
         """
@@ -130,7 +115,7 @@ class Test_CellFcl:
     Tests ``Fcl``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Fcl.from_mcnp``.
         """
@@ -153,7 +138,7 @@ class Test_CellWwn:
     Tests ``Wwn``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Wwn.from_mcnp``.
         """
@@ -174,7 +159,7 @@ class Test_CellDxc:
     Tests ``Dxc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Dxc.from_mcnp``.
         """
@@ -195,7 +180,7 @@ class Test_CellNonu:
     Tests ``Nonu``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Nonu.from_mcnp``.
         """
@@ -218,7 +203,7 @@ class Test_CellPd:
     Tests ``Pd``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Pd.from_mcnp``.
         """
@@ -241,7 +226,7 @@ class Test_CellTmp:
     Tests ``Tmp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Tmp.from_mcnp``.
         """
@@ -265,7 +250,7 @@ class Test_CellU:
     Tests ``U``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``U.from_mcnp``.
         """
@@ -290,7 +275,7 @@ class Test_CellTrcl_0:
     Tests ``Trcl_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Trcl_0.from_mcnp``.
         """
@@ -313,7 +298,7 @@ class Test_CellTrcl_1:
     Tests ``Trcl_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Trcl_1.from_mcnp``.
         """
@@ -328,7 +313,7 @@ class Test_CellLat:
     Tests ``Lat``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Lat.from_mcnp``.
         """
@@ -349,7 +334,7 @@ class Test_CellFill_0:
     Tests ``Fill_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Fill_0.from_mcnp``.
         """
@@ -367,7 +352,7 @@ class Test_CellFill_0:
             'fill=-1',
             'fill=-1 1',
             'fill=1 -1',
-            'fill=1 91232', 
+            'fill=1 91232',
         ]
 
 
@@ -376,7 +361,7 @@ class Test_CellFill_1:
     Tests ``Fill_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Fill_1.from_mcnp``.
         """
@@ -391,7 +376,7 @@ class Test_CellFill_2:
     Tests ``Fill_2``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Fill_2.from_mcnp``.
         """
@@ -406,7 +391,7 @@ class Test_CellElpt:
     Tests ``Elpt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Elpt.from_mcnp``.
         """
@@ -425,7 +410,7 @@ class Test_CellTmp_0:
     Tests ``Tmp_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Tmp_0.from_mcnp``.
         """
@@ -440,7 +425,7 @@ class Test_CellTmp_1:
     Tests ``Tmp_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Tmp_1.from_mcnp``.
         """
@@ -455,7 +440,7 @@ class Test_CellCosy:
     Tests ``Cosy``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Cosy.from_mcnp``.
         """
@@ -481,7 +466,7 @@ class Test_CellBflcl:
     Tests ``Bflcl``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Bflcl.from_mcnp``.
         """
@@ -504,7 +489,7 @@ class Test_CellUnc:
     Tests ``Unc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Unc.from_mcnp``.
         """

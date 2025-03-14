@@ -24,7 +24,7 @@ class Cell(Card_):
     }
 
     _REGEX = re.compile(
-        rf'\A(\S+)( \S+)((?<! 0) \S+|(?<= 0))( [^a-z]+)(( {cell.CellOption_._REGEX.pattern})+)?\Z'
+        rf'\A(\S+)( \S+)((?<! 0) \S+|(?<= 0))( [^a-z]+)( ({cell.CellOption_._REGEX.pattern}))*\Z'
     )
 
     def __init__(

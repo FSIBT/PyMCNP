@@ -945,9 +945,10 @@ class Geometry(_object.McnpElement_):
         """
 
         temp = re.sub(r' 0+', '', infix)
-        temp = re.sub(r' +', '*', temp)
-        temp = re.sub(r' ?([()]) ?', r'\1', temp)
+        temp = re.sub(r' +', ' ', temp)
+        temp = re.sub(r'\+', '', temp)
         temp = re.sub(r' ?: ?', '+', temp)
+        temp = re.sub(r' ', '*', temp)
         temp = re.sub(r'#', '-', temp)
 
         try:

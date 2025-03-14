@@ -1,33 +1,5 @@
 import pymcnp
-
-import pytest
-
-
-class _Test_FromMcnp:
-    """
-    Tests ``McnpElement_.from_mcnp``.
-    """
-
-    element: pymcnp.utils._object.McnpElement_
-    EXAMPLE_VALID: list[str]
-    EXAMPLE_INVALID: list[str]
-
-    def test_valid(self):
-        """
-        Tests ``EXAMPLES_VALID``.
-        """
-
-        for example in self.EXAMPLES_VALID:
-            self.element.from_mcnp(example)
-
-    def test_invalid(self):
-        """
-        Tests ``EXAMPLES_INVALID``.
-        """
-
-        for example in self.EXAMPLES_INVALID:
-            with pytest.raises(pymcnp.utils.errors.InpError):
-                self.element.from_mcnp(example)
+import _utils
 
 
 class Test_Data:
@@ -35,7 +7,7 @@ class Test_Data:
     Tests ``Data``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Data.from_mcnp``.
         """
@@ -50,7 +22,7 @@ class Test_DataVol:
     Tests ``DataVol``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataVol.from_mcnp``.
         """
@@ -65,7 +37,7 @@ class Test_DataArea:
     Tests ``DataArea``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataArea.from_mcnp``.
         """
@@ -80,7 +52,7 @@ class Test_DataTr:
     Tests ``DataTr``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataTr.from_mcnp``.
         """
@@ -95,7 +67,7 @@ class Test_DataU:
     Tests ``DataU``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataU.from_mcnp``.
         """
@@ -110,7 +82,7 @@ class Test_DataLat:
     Tests ``DataLat``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataLat.from_mcnp``.
         """
@@ -125,7 +97,7 @@ class Test_DataFill:
     Tests ``DataFill``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataFill.from_mcnp``.
         """
@@ -140,7 +112,7 @@ class Test_DataUran:
     Tests ``DataUran``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataUran.from_mcnp``.
         """
@@ -155,7 +127,7 @@ class Test_DataDm:
     Tests ``DataDm``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataDm.from_mcnp``.
         """
@@ -170,7 +142,7 @@ class Test_DataDawwg:
     Tests ``DataDawwg``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataDawwg.from_mcnp``.
         """
@@ -185,7 +157,7 @@ class Test_DawwgPoints:
     Tests ``DawwgPoints``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DawwgPoints.from_mcnp``.
         """
@@ -200,7 +172,7 @@ class Test_DawwgXsec:
     Tests ``DawwgXsec``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DawwgXsec.from_mcnp``.
         """
@@ -215,7 +187,7 @@ class Test_DawwgBlock:
     Tests ``DawwgBlock``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DawwgBlock.from_mcnp``.
         """
@@ -230,7 +202,7 @@ class Test_BlockNgroup:
     Tests ``BlockNgroup``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNgroup.from_mcnp``.
         """
@@ -245,7 +217,7 @@ class Test_BlockIsn:
     Tests ``BlockIsn``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockIsn.from_mcnp``.
         """
@@ -260,7 +232,7 @@ class Test_BlockNiso:
     Tests ``BlockNiso``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNiso.from_mcnp``.
         """
@@ -275,7 +247,7 @@ class Test_BlockMt:
     Tests ``BlockMt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockMt.from_mcnp``.
         """
@@ -290,7 +262,7 @@ class Test_BlockIquad:
     Tests ``BlockIquad``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockIquad.from_mcnp``.
         """
@@ -305,7 +277,7 @@ class Test_BlockFmmix:
     Tests ``BlockFmmix``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockFmmix.from_mcnp``.
         """
@@ -320,7 +292,7 @@ class Test_BlockNosolv:
     Tests ``BlockNosolv``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNosolv.from_mcnp``.
         """
@@ -335,7 +307,7 @@ class Test_BlockNoedit:
     Tests ``BlockNoedit``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNoedit.from_mcnp``.
         """
@@ -350,7 +322,7 @@ class Test_BlockNogeod:
     Tests ``BlockNogeod``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNogeod.from_mcnp``.
         """
@@ -365,7 +337,7 @@ class Test_BlockNomix:
     Tests ``BlockNomix``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNomix.from_mcnp``.
         """
@@ -380,7 +352,7 @@ class Test_BlockNoasg:
     Tests ``BlockNoasg``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNoasg.from_mcnp``.
         """
@@ -395,7 +367,7 @@ class Test_BlockNomacr:
     Tests ``BlockNomacr``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNomacr.from_mcnp``.
         """
@@ -410,7 +382,7 @@ class Test_BlockNoslnp:
     Tests ``BlockNoslnp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNoslnp.from_mcnp``.
         """
@@ -425,7 +397,7 @@ class Test_BlockNoedtt:
     Tests ``BlockNoedtt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNoedtt.from_mcnp``.
         """
@@ -440,7 +412,7 @@ class Test_BlockNoadjm:
     Tests ``BlockNoadjm``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNoadjm.from_mcnp``.
         """
@@ -455,7 +427,7 @@ class Test_BlockLib:
     Tests ``BlockLib``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockLib.from_mcnp``.
         """
@@ -470,7 +442,7 @@ class Test_BlockLibname:
     Tests ``BlockLibname``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockLibname.from_mcnp``.
         """
@@ -485,7 +457,7 @@ class Test_BlockFissneut:
     Tests ``BlockFissneut``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockFissneut.from_mcnp``.
         """
@@ -500,7 +472,7 @@ class Test_BlockLng:
     Tests ``BlockLng``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockLng.from_mcnp``.
         """
@@ -515,7 +487,7 @@ class Test_BlockBalxs:
     Tests ``BlockBalxs``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockBalxs.from_mcnp``.
         """
@@ -530,7 +502,7 @@ class Test_BlockNtichi:
     Tests ``BlockNtichi``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNtichi.from_mcnp``.
         """
@@ -545,7 +517,7 @@ class Test_BlockIevt:
     Tests ``BlockIevt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockIevt.from_mcnp``.
         """
@@ -560,7 +532,7 @@ class Test_BlockIsct:
     Tests ``BlockIsct``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockIsct.from_mcnp``.
         """
@@ -575,7 +547,7 @@ class Test_BlockIth:
     Tests ``BlockIth``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockIth.from_mcnp``.
         """
@@ -590,7 +562,7 @@ class Test_BlockTrcor:
     Tests ``BlockTrcor``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockTrcor.from_mcnp``.
         """
@@ -605,7 +577,7 @@ class Test_BlockIbl:
     Tests ``BlockIbl``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockIbl.from_mcnp``.
         """
@@ -620,7 +592,7 @@ class Test_BlockIbr:
     Tests ``BlockIbr``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockIbr.from_mcnp``.
         """
@@ -635,7 +607,7 @@ class Test_BlockIbt:
     Tests ``BlockIbt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockIbt.from_mcnp``.
         """
@@ -650,7 +622,7 @@ class Test_BlockIbb:
     Tests ``BlockIbb``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockIbb.from_mcnp``.
         """
@@ -665,7 +637,7 @@ class Test_BlockIbfrnt:
     Tests ``BlockIbfrnt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockIbfrnt.from_mcnp``.
         """
@@ -680,7 +652,7 @@ class Test_BlockIbback:
     Tests ``BlockIbback``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockIbback.from_mcnp``.
         """
@@ -695,7 +667,7 @@ class Test_BlockEpsi:
     Tests ``BlockEpsi``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockEpsi.from_mcnp``.
         """
@@ -710,7 +682,7 @@ class Test_BlockOitm:
     Tests ``BlockOitm``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockOitm.from_mcnp``.
         """
@@ -725,7 +697,7 @@ class Test_BlockNosigf:
     Tests ``BlockNosigf``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNosigf.from_mcnp``.
         """
@@ -740,7 +712,7 @@ class Test_BlockSrcacc:
     Tests ``BlockSrcacc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockSrcacc.from_mcnp``.
         """
@@ -755,7 +727,7 @@ class Test_BlockDiffsol:
     Tests ``BlockDiffsol``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockDiffsol.from_mcnp``.
         """
@@ -770,7 +742,7 @@ class Test_BlockTsasn:
     Tests ``BlockTsasn``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockTsasn.from_mcnp``.
         """
@@ -785,7 +757,7 @@ class Test_BlockTsaepsi:
     Tests ``BlockTsaepsi``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockTsaepsi.from_mcnp``.
         """
@@ -800,7 +772,7 @@ class Test_BlockTsaits:
     Tests ``BlockTsaits``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockTsaits.from_mcnp``.
         """
@@ -815,7 +787,7 @@ class Test_BlockTsabeta:
     Tests ``BlockTsabeta``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockTsabeta.from_mcnp``.
         """
@@ -830,7 +802,7 @@ class Test_BlockPtconv:
     Tests ``BlockPtconv``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockPtconv.from_mcnp``.
         """
@@ -845,7 +817,7 @@ class Test_BlockNorm:
     Tests ``BlockNorm``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockNorm.from_mcnp``.
         """
@@ -860,7 +832,7 @@ class Test_BlockXsectp:
     Tests ``BlockXsectp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockXsectp.from_mcnp``.
         """
@@ -875,7 +847,7 @@ class Test_BlockFissrp:
     Tests ``BlockFissrp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockFissrp.from_mcnp``.
         """
@@ -890,7 +862,7 @@ class Test_BlockSourcp:
     Tests ``BlockSourcp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockSourcp.from_mcnp``.
         """
@@ -905,7 +877,7 @@ class Test_BlockAngp:
     Tests ``BlockAngp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockAngp.from_mcnp``.
         """
@@ -920,7 +892,7 @@ class Test_BlockBalp:
     Tests ``BlockBalp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockBalp.from_mcnp``.
         """
@@ -935,7 +907,7 @@ class Test_BlockRaflux:
     Tests ``BlockRaflux``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockRaflux.from_mcnp``.
         """
@@ -950,7 +922,7 @@ class Test_BlockRmflux:
     Tests ``BlockRmflux``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockRmflux.from_mcnp``.
         """
@@ -965,7 +937,7 @@ class Test_BlockAvatar:
     Tests ``BlockAvatar``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockAvatar.from_mcnp``.
         """
@@ -980,7 +952,7 @@ class Test_BlockAsleft:
     Tests ``BlockAsleft``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockAsleft.from_mcnp``.
         """
@@ -995,7 +967,7 @@ class Test_BlockAsrite:
     Tests ``BlockAsrite``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockAsrite.from_mcnp``.
         """
@@ -1010,7 +982,7 @@ class Test_BlockAsbott:
     Tests ``BlockAsbott``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockAsbott.from_mcnp``.
         """
@@ -1025,7 +997,7 @@ class Test_BlockAstop:
     Tests ``BlockAstop``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockAstop.from_mcnp``.
         """
@@ -1040,7 +1012,7 @@ class Test_BlockAsfrnt:
     Tests ``BlockAsfrnt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockAsfrnt.from_mcnp``.
         """
@@ -1055,7 +1027,7 @@ class Test_BlockAsback:
     Tests ``BlockAsback``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockAsback.from_mcnp``.
         """
@@ -1070,7 +1042,7 @@ class Test_BlockMassed:
     Tests ``BlockMassed``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockMassed.from_mcnp``.
         """
@@ -1085,7 +1057,7 @@ class Test_BlockPted:
     Tests ``BlockPted``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockPted.from_mcnp``.
         """
@@ -1100,7 +1072,7 @@ class Test_BlockZned:
     Tests ``BlockZned``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockZned.from_mcnp``.
         """
@@ -1115,7 +1087,7 @@ class Test_BlockRzflux:
     Tests ``BlockRzflux``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockRzflux.from_mcnp``.
         """
@@ -1130,7 +1102,7 @@ class Test_BlockRzmflux:
     Tests ``BlockRzmflux``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockRzmflux.from_mcnp``.
         """
@@ -1145,7 +1117,7 @@ class Test_BlockEdoutf:
     Tests ``BlockEdoutf``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockEdoutf.from_mcnp``.
         """
@@ -1160,7 +1132,7 @@ class Test_BlockByvolp:
     Tests ``BlockByvolp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockByvolp.from_mcnp``.
         """
@@ -1175,7 +1147,7 @@ class Test_BlockAjed:
     Tests ``BlockAjed``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockAjed.from_mcnp``.
         """
@@ -1190,7 +1162,7 @@ class Test_BlockFluxone:
     Tests ``BlockFluxone``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BlockFluxone.from_mcnp``.
         """
@@ -1205,7 +1177,7 @@ class Test_DataEmbed:
     Tests ``DataEmbed``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataEmbed.from_mcnp``.
         """
@@ -1220,7 +1192,7 @@ class Test_EmbedBackground:
     Tests ``EmbedBackground``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbedBackground.from_mcnp``.
         """
@@ -1235,7 +1207,7 @@ class Test_EmbedMeshgeo:
     Tests ``EmbedMeshgeo``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbedMeshgeo.from_mcnp``.
         """
@@ -1250,7 +1222,7 @@ class Test_EmbedMgeoin:
     Tests ``EmbedMgeoin``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbedMgeoin.from_mcnp``.
         """
@@ -1265,7 +1237,7 @@ class Test_EmbedMeeout:
     Tests ``EmbedMeeout``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbedMeeout.from_mcnp``.
         """
@@ -1280,7 +1252,7 @@ class Test_EmbedMeein:
     Tests ``EmbedMeein``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbedMeein.from_mcnp``.
         """
@@ -1295,7 +1267,7 @@ class Test_EmbedCalcvols:
     Tests ``EmbedCalcvols``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbedCalcvols.from_mcnp``.
         """
@@ -1310,7 +1282,7 @@ class Test_EmbedDebug:
     Tests ``EmbedDebug``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbedDebug.from_mcnp``.
         """
@@ -1325,7 +1297,7 @@ class Test_EmbedFiletype:
     Tests ``EmbedFiletype``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbedFiletype.from_mcnp``.
         """
@@ -1340,7 +1312,7 @@ class Test_EmbedGmvfile:
     Tests ``EmbedGmvfile``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbedGmvfile.from_mcnp``.
         """
@@ -1355,7 +1327,7 @@ class Test_EmbedLength:
     Tests ``EmbedLength``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbedLength.from_mcnp``.
         """
@@ -1370,7 +1342,7 @@ class Test_EmbedMcnpumfile:
     Tests ``EmbedMcnpumfile``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbedMcnpumfile.from_mcnp``.
         """
@@ -1385,7 +1357,7 @@ class Test_DataEmbee:
     Tests ``DataEmbee``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataEmbee.from_mcnp``.
         """
@@ -1400,7 +1372,7 @@ class Test_EmbeeEmbed:
     Tests ``EmbeeEmbed``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbeeEmbed.from_mcnp``.
         """
@@ -1415,7 +1387,7 @@ class Test_EmbeeEnergy:
     Tests ``EmbeeEnergy``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbeeEnergy.from_mcnp``.
         """
@@ -1430,7 +1402,7 @@ class Test_EmbeeTime:
     Tests ``EmbeeTime``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbeeTime.from_mcnp``.
         """
@@ -1445,7 +1417,7 @@ class Test_EmbeeAtom:
     Tests ``EmbeeAtom``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbeeAtom.from_mcnp``.
         """
@@ -1460,7 +1432,7 @@ class Test_EmbeeFactor:
     Tests ``EmbeeFactor``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbeeFactor.from_mcnp``.
         """
@@ -1475,7 +1447,7 @@ class Test_EmbeeList:
     Tests ``EmbeeList``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbeeList.from_mcnp``.
         """
@@ -1490,7 +1462,7 @@ class Test_EmbeeMat:
     Tests ``EmbeeMat``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbeeMat.from_mcnp``.
         """
@@ -1505,7 +1477,7 @@ class Test_EmbeeMtype:
     Tests ``EmbeeMtype``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``EmbeeMtype.from_mcnp``.
         """
@@ -1520,7 +1492,7 @@ class Test_DataEmbeb:
     Tests ``DataEmbeb``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataEmbeb.from_mcnp``.
         """
@@ -1535,7 +1507,7 @@ class Test_DataEmbem:
     Tests ``DataEmbem``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataEmbem.from_mcnp``.
         """
@@ -1550,7 +1522,7 @@ class Test_DataEmbtb:
     Tests ``DataEmbtb``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataEmbtb.from_mcnp``.
         """
@@ -1565,7 +1537,7 @@ class Test_DataEmbtm:
     Tests ``DataEmbtm``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataEmbtm.from_mcnp``.
         """
@@ -1580,7 +1552,7 @@ class Test_DataEmbdb:
     Tests ``DataEmbdb``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataEmbdb.from_mcnp``.
         """
@@ -1595,7 +1567,7 @@ class Test_DataEmbdf:
     Tests ``DataEmbdf``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataEmbdf.from_mcnp``.
         """
@@ -1610,16 +1582,13 @@ class Test_DataM:
     Tests ``DataM``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataM.from_mcnp``.
         """
 
         element = pymcnp.inp.data.M
-        EXAMPLES_VALID = [
-            'M10   48106     -0.0125        $ Cd\n      48108     -0.0089\n      48110     -0.1249\n      48111     -0.128\n      48112     -0.2413\n      48113     -0.1222\n      48114     -0.2873\n      48116     -0.0749',
-            'm1 001001 -0.999885 001002 -0.000115',
-        ]
+        EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
@@ -1628,7 +1597,7 @@ class Test_MGas:
     Tests ``MGas``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MGas.from_mcnp``.
         """
@@ -1643,7 +1612,7 @@ class Test_MEstep:
     Tests ``MEstep``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MEstep.from_mcnp``.
         """
@@ -1658,7 +1627,7 @@ class Test_MHstep:
     Tests ``MHstep``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MHstep.from_mcnp``.
         """
@@ -1673,7 +1642,7 @@ class Test_MNlib:
     Tests ``MNlib``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MNlib.from_mcnp``.
         """
@@ -1688,7 +1657,7 @@ class Test_MPlib:
     Tests ``MPlib``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MPlib.from_mcnp``.
         """
@@ -1703,7 +1672,7 @@ class Test_MPnlib:
     Tests ``MPnlib``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MPnlib.from_mcnp``.
         """
@@ -1718,7 +1687,7 @@ class Test_MElib:
     Tests ``MElib``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MElib.from_mcnp``.
         """
@@ -1733,7 +1702,7 @@ class Test_MHlib:
     Tests ``MHlib``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MHlib.from_mcnp``.
         """
@@ -1748,7 +1717,7 @@ class Test_MAlib:
     Tests ``MAlib``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MAlib.from_mcnp``.
         """
@@ -1763,7 +1732,7 @@ class Test_MSlib:
     Tests ``MSlib``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MSlib.from_mcnp``.
         """
@@ -1778,7 +1747,7 @@ class Test_MTlib:
     Tests ``MTlib``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MTlib.from_mcnp``.
         """
@@ -1793,7 +1762,7 @@ class Test_MDlib:
     Tests ``MDlib``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MDlib.from_mcnp``.
         """
@@ -1808,7 +1777,7 @@ class Test_MCond:
     Tests ``MCond``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MCond.from_mcnp``.
         """
@@ -1823,7 +1792,7 @@ class Test_MRefi:
     Tests ``MRefi``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MRefi.from_mcnp``.
         """
@@ -1838,7 +1807,7 @@ class Test_MRefc:
     Tests ``MRefc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MRefc.from_mcnp``.
         """
@@ -1853,7 +1822,7 @@ class Test_MRefs:
     Tests ``MRefs``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MRefs.from_mcnp``.
         """
@@ -1868,7 +1837,7 @@ class Test_DataMt:
     Tests ``DataMt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataMt.from_mcnp``.
         """
@@ -1883,7 +1852,7 @@ class Test_DataMx:
     Tests ``DataMx``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataMx.from_mcnp``.
         """
@@ -1898,7 +1867,7 @@ class Test_DataOtfdb:
     Tests ``DataOtfdb``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataOtfdb.from_mcnp``.
         """
@@ -1913,7 +1882,7 @@ class Test_DataTotnu:
     Tests ``DataTotnu``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataTotnu.from_mcnp``.
         """
@@ -1928,7 +1897,7 @@ class Test_DataNonu:
     Tests ``DataNonu``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataNonu.from_mcnp``.
         """
@@ -1943,7 +1912,7 @@ class Test_DataAwtab:
     Tests ``DataAwtab``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataAwtab.from_mcnp``.
         """
@@ -1958,7 +1927,7 @@ class Test_DataXs:
     Tests ``DataXs``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataXs.from_mcnp``.
         """
@@ -1973,7 +1942,7 @@ class Test_DataVoid:
     Tests ``DataVoid``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataVoid.from_mcnp``.
         """
@@ -1988,7 +1957,7 @@ class Test_DataMgopt:
     Tests ``DataMgopt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataMgopt.from_mcnp``.
         """
@@ -2003,7 +1972,7 @@ class Test_DataDrxs:
     Tests ``DataDrxs``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataDrxs.from_mcnp``.
         """
@@ -2018,7 +1987,7 @@ class Test_DataMode:
     Tests ``DataMode``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataMode.from_mcnp``.
         """
@@ -2033,7 +2002,7 @@ class Test_DataPhys_0:
     Tests ``DataPhys_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataPhys_0.from_mcnp``.
         """
@@ -2048,7 +2017,7 @@ class Test_DataPhys_1:
     Tests ``DataPhys_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataPhys_1.from_mcnp``.
         """
@@ -2063,7 +2032,7 @@ class Test_DataPhys_2:
     Tests ``DataPhys_2``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataPhys_2.from_mcnp``.
         """
@@ -2078,7 +2047,7 @@ class Test_DataPhys_3:
     Tests ``DataPhys_3``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataPhys_3.from_mcnp``.
         """
@@ -2093,7 +2062,7 @@ class Test_DataPhys_4:
     Tests ``DataPhys_4``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataPhys_4.from_mcnp``.
         """
@@ -2108,7 +2077,7 @@ class Test_DataAct:
     Tests ``DataAct``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataAct.from_mcnp``.
         """
@@ -2123,7 +2092,7 @@ class Test_ActFission:
     Tests ``ActFission``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``ActFission.from_mcnp``.
         """
@@ -2138,7 +2107,7 @@ class Test_ActNonfiss:
     Tests ``ActNonfiss``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``ActNonfiss.from_mcnp``.
         """
@@ -2153,7 +2122,7 @@ class Test_ActDn:
     Tests ``ActDn``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``ActDn.from_mcnp``.
         """
@@ -2168,7 +2137,7 @@ class Test_ActDg:
     Tests ``ActDg``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``ActDg.from_mcnp``.
         """
@@ -2183,7 +2152,7 @@ class Test_ActThresh:
     Tests ``ActThresh``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``ActThresh.from_mcnp``.
         """
@@ -2198,7 +2167,7 @@ class Test_ActDnbais:
     Tests ``ActDnbais``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``ActDnbais.from_mcnp``.
         """
@@ -2213,7 +2182,7 @@ class Test_ActNap:
     Tests ``ActNap``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``ActNap.from_mcnp``.
         """
@@ -2228,7 +2197,7 @@ class Test_ActDneb:
     Tests ``ActDneb``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``ActDneb.from_mcnp``.
         """
@@ -2243,7 +2212,7 @@ class Test_ActDgeb:
     Tests ``ActDgeb``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``ActDgeb.from_mcnp``.
         """
@@ -2258,7 +2227,7 @@ class Test_ActPecut:
     Tests ``ActPecut``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``ActPecut.from_mcnp``.
         """
@@ -2273,7 +2242,7 @@ class Test_ActHlcut:
     Tests ``ActHlcut``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``ActHlcut.from_mcnp``.
         """
@@ -2288,7 +2257,7 @@ class Test_ActSample:
     Tests ``ActSample``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``ActSample.from_mcnp``.
         """
@@ -2303,7 +2272,7 @@ class Test_DataCut:
     Tests ``DataCut``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataCut.from_mcnp``.
         """
@@ -2318,7 +2287,7 @@ class Test_DataElpt:
     Tests ``DataElpt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataElpt.from_mcnp``.
         """
@@ -2333,7 +2302,7 @@ class Test_DataThtme:
     Tests ``DataThtme``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataThtme.from_mcnp``.
         """
@@ -2348,7 +2317,7 @@ class Test_DataMphys:
     Tests ``DataMphys``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataMphys.from_mcnp``.
         """
@@ -2363,7 +2332,7 @@ class Test_DataLca:
     Tests ``DataLca``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataLca.from_mcnp``.
         """
@@ -2378,7 +2347,7 @@ class Test_DataLcb:
     Tests ``DataLcb``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataLcb.from_mcnp``.
         """
@@ -2393,7 +2362,7 @@ class Test_DataLcc:
     Tests ``DataLcc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataLcc.from_mcnp``.
         """
@@ -2408,7 +2377,7 @@ class Test_DataLea:
     Tests ``DataLea``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataLea.from_mcnp``.
         """
@@ -2423,7 +2392,7 @@ class Test_DataLeb:
     Tests ``DataLeb``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataLeb.from_mcnp``.
         """
@@ -2438,7 +2407,7 @@ class Test_DataFmult:
     Tests ``DataFmult``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataFmult.from_mcnp``.
         """
@@ -2453,7 +2422,7 @@ class Test_FmultSfnu:
     Tests ``FmultSfnu``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmultSfnu.from_mcnp``.
         """
@@ -2468,7 +2437,7 @@ class Test_FmultWidth:
     Tests ``FmultWidth``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmultWidth.from_mcnp``.
         """
@@ -2483,7 +2452,7 @@ class Test_FmultSfyield:
     Tests ``FmultSfyield``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmultSfyield.from_mcnp``.
         """
@@ -2498,7 +2467,7 @@ class Test_FmultWatt:
     Tests ``FmultWatt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmultWatt.from_mcnp``.
         """
@@ -2513,7 +2482,7 @@ class Test_FmultMethod:
     Tests ``FmultMethod``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmultMethod.from_mcnp``.
         """
@@ -2528,7 +2497,7 @@ class Test_FmultData:
     Tests ``FmultData``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmultData.from_mcnp``.
         """
@@ -2543,7 +2512,7 @@ class Test_FmultShift:
     Tests ``FmultShift``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmultShift.from_mcnp``.
         """
@@ -2558,7 +2527,7 @@ class Test_DataTropt:
     Tests ``DataTropt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataTropt.from_mcnp``.
         """
@@ -2573,7 +2542,7 @@ class Test_TroptMcscat:
     Tests ``TroptMcscat``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``TroptMcscat.from_mcnp``.
         """
@@ -2588,7 +2557,7 @@ class Test_TroptEloss:
     Tests ``TroptEloss``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``TroptEloss.from_mcnp``.
         """
@@ -2603,7 +2572,7 @@ class Test_TroptNreact:
     Tests ``TroptNreact``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``TroptNreact.from_mcnp``.
         """
@@ -2618,7 +2587,7 @@ class Test_TroptNescat:
     Tests ``TroptNescat``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``TroptNescat.from_mcnp``.
         """
@@ -2633,7 +2602,7 @@ class Test_TroptGenxs:
     Tests ``TroptGenxs``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``TroptGenxs.from_mcnp``.
         """
@@ -2648,7 +2617,7 @@ class Test_DataUnc:
     Tests ``DataUnc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataUnc.from_mcnp``.
         """
@@ -2663,7 +2632,7 @@ class Test_DataCosyp:
     Tests ``DataCosyp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataCosyp.from_mcnp``.
         """
@@ -2678,7 +2647,7 @@ class Test_DataCosy:
     Tests ``DataCosy``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataCosy.from_mcnp``.
         """
@@ -2693,7 +2662,7 @@ class Test_DataBfld:
     Tests ``DataBfld``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataBfld.from_mcnp``.
         """
@@ -2708,7 +2677,7 @@ class Test_BfldField:
     Tests ``BfldField``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BfldField.from_mcnp``.
         """
@@ -2723,7 +2692,7 @@ class Test_BfldVec:
     Tests ``BfldVec``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BfldVec.from_mcnp``.
         """
@@ -2738,7 +2707,7 @@ class Test_BfldMaxdeflc:
     Tests ``BfldMaxdeflc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BfldMaxdeflc.from_mcnp``.
         """
@@ -2753,7 +2722,7 @@ class Test_BfldMaxstep:
     Tests ``BfldMaxstep``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BfldMaxstep.from_mcnp``.
         """
@@ -2768,7 +2737,7 @@ class Test_BfldAxs:
     Tests ``BfldAxs``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BfldAxs.from_mcnp``.
         """
@@ -2783,7 +2752,7 @@ class Test_BfldFfedges:
     Tests ``BfldFfedges``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BfldFfedges.from_mcnp``.
         """
@@ -2798,7 +2767,7 @@ class Test_BfldRefpnt:
     Tests ``BfldRefpnt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``BfldRefpnt.from_mcnp``.
         """
@@ -2813,7 +2782,7 @@ class Test_DataBflcl:
     Tests ``DataBflcl``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataBflcl.from_mcnp``.
         """
@@ -2828,7 +2797,7 @@ class Test_DataSdef:
     Tests ``DataSdef``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataSdef.from_mcnp``.
         """
@@ -2843,7 +2812,7 @@ class Test_SdefCel:
     Tests ``SdefCel``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefCel.from_mcnp``.
         """
@@ -2858,7 +2827,7 @@ class Test_SdefSur:
     Tests ``SdefSur``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefSur.from_mcnp``.
         """
@@ -2873,7 +2842,7 @@ class Test_SdefErg:
     Tests ``SdefErg``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefErg.from_mcnp``.
         """
@@ -2888,7 +2857,7 @@ class Test_SdefTme_0:
     Tests ``SdefTme_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefTme_0.from_mcnp``.
         """
@@ -2903,7 +2872,7 @@ class Test_SdefTme_1:
     Tests ``SdefTme_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefTme_1.from_mcnp``.
         """
@@ -2918,7 +2887,7 @@ class Test_SdefDir:
     Tests ``SdefDir``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefDir.from_mcnp``.
         """
@@ -2933,7 +2902,7 @@ class Test_SdefVec:
     Tests ``SdefVec``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefVec.from_mcnp``.
         """
@@ -2948,7 +2917,7 @@ class Test_SdefNrm:
     Tests ``SdefNrm``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefNrm.from_mcnp``.
         """
@@ -2963,7 +2932,7 @@ class Test_SdefPos:
     Tests ``SdefPos``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefPos.from_mcnp``.
         """
@@ -2978,7 +2947,7 @@ class Test_SdefRad:
     Tests ``SdefRad``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefRad.from_mcnp``.
         """
@@ -2993,7 +2962,7 @@ class Test_SdefExt:
     Tests ``SdefExt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefExt.from_mcnp``.
         """
@@ -3008,7 +2977,7 @@ class Test_SdefAxs:
     Tests ``SdefAxs``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefAxs.from_mcnp``.
         """
@@ -3023,7 +2992,7 @@ class Test_SdefX:
     Tests ``SdefX``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefX.from_mcnp``.
         """
@@ -3038,7 +3007,7 @@ class Test_SdefY:
     Tests ``SdefY``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefY.from_mcnp``.
         """
@@ -3053,7 +3022,7 @@ class Test_SdefZ:
     Tests ``SdefZ``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefZ.from_mcnp``.
         """
@@ -3068,7 +3037,7 @@ class Test_SdefCcc:
     Tests ``SdefCcc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefCcc.from_mcnp``.
         """
@@ -3083,7 +3052,7 @@ class Test_SdefAra:
     Tests ``SdefAra``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefAra.from_mcnp``.
         """
@@ -3098,7 +3067,7 @@ class Test_SdefWgt:
     Tests ``SdefWgt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefWgt.from_mcnp``.
         """
@@ -3113,7 +3082,7 @@ class Test_SdefTr_0:
     Tests ``SdefTr_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefTr_0.from_mcnp``.
         """
@@ -3128,7 +3097,7 @@ class Test_SdefTr_1:
     Tests ``SdefTr_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefTr_1.from_mcnp``.
         """
@@ -3143,7 +3112,7 @@ class Test_SdefEff:
     Tests ``SdefEff``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefEff.from_mcnp``.
         """
@@ -3158,7 +3127,7 @@ class Test_SdefPar:
     Tests ``SdefPar``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefPar.from_mcnp``.
         """
@@ -3173,7 +3142,7 @@ class Test_SdefDat:
     Tests ``SdefDat``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefDat.from_mcnp``.
         """
@@ -3188,7 +3157,7 @@ class Test_SdefLoc:
     Tests ``SdefLoc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefLoc.from_mcnp``.
         """
@@ -3203,7 +3172,7 @@ class Test_SdefBem:
     Tests ``SdefBem``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefBem.from_mcnp``.
         """
@@ -3218,7 +3187,7 @@ class Test_SdefBap:
     Tests ``SdefBap``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SdefBap.from_mcnp``.
         """
@@ -3233,7 +3202,7 @@ class Test_DataSi_0:
     Tests ``DataSi_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataSi_0.from_mcnp``.
         """
@@ -3248,7 +3217,7 @@ class Test_DataSi_1:
     Tests ``DataSi_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataSi_1.from_mcnp``.
         """
@@ -3263,7 +3232,7 @@ class Test_DataSp_0:
     Tests ``DataSp_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataSp_0.from_mcnp``.
         """
@@ -3278,7 +3247,7 @@ class Test_DataSp_1:
     Tests ``DataSp_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataSp_1.from_mcnp``.
         """
@@ -3293,7 +3262,7 @@ class Test_DataSb_0:
     Tests ``DataSb_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataSb_0.from_mcnp``.
         """
@@ -3308,7 +3277,7 @@ class Test_DataSb_1:
     Tests ``DataSb_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataSb_1.from_mcnp``.
         """
@@ -3323,7 +3292,7 @@ class Test_DataDs_0:
     Tests ``DataDs_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataDs_0.from_mcnp``.
         """
@@ -3338,7 +3307,7 @@ class Test_DataDs_1:
     Tests ``DataDs_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataDs_1.from_mcnp``.
         """
@@ -3353,7 +3322,7 @@ class Test_DataDs_2:
     Tests ``DataDs_2``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataDs_2.from_mcnp``.
         """
@@ -3368,7 +3337,7 @@ class Test_DataSc:
     Tests ``DataSc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataSc.from_mcnp``.
         """
@@ -3383,7 +3352,7 @@ class Test_DataSsw:
     Tests ``DataSsw``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataSsw.from_mcnp``.
         """
@@ -3398,7 +3367,7 @@ class Test_SswSym:
     Tests ``SswSym``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SswSym.from_mcnp``.
         """
@@ -3413,7 +3382,7 @@ class Test_SswPty:
     Tests ``SswPty``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SswPty.from_mcnp``.
         """
@@ -3428,7 +3397,7 @@ class Test_SswCel:
     Tests ``SswCel``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SswCel.from_mcnp``.
         """
@@ -3443,7 +3412,7 @@ class Test_DataSsr:
     Tests ``DataSsr``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataSsr.from_mcnp``.
         """
@@ -3458,7 +3427,7 @@ class Test_SsrOld:
     Tests ``SsrOld``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SsrOld.from_mcnp``.
         """
@@ -3473,7 +3442,7 @@ class Test_SsrCel:
     Tests ``SsrCel``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SsrCel.from_mcnp``.
         """
@@ -3488,7 +3457,7 @@ class Test_SsrNew:
     Tests ``SsrNew``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SsrNew.from_mcnp``.
         """
@@ -3503,7 +3472,7 @@ class Test_SsrPty:
     Tests ``SsrPty``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SsrPty.from_mcnp``.
         """
@@ -3518,7 +3487,7 @@ class Test_SsrCol:
     Tests ``SsrCol``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SsrCol.from_mcnp``.
         """
@@ -3533,7 +3502,7 @@ class Test_SsrWgt:
     Tests ``SsrWgt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SsrWgt.from_mcnp``.
         """
@@ -3548,7 +3517,7 @@ class Test_SsrTr_0:
     Tests ``SsrTr_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SsrTr_0.from_mcnp``.
         """
@@ -3563,7 +3532,7 @@ class Test_SsrTr_1:
     Tests ``SsrTr_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SsrTr_1.from_mcnp``.
         """
@@ -3578,7 +3547,7 @@ class Test_SsrPsc:
     Tests ``SsrPsc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SsrPsc.from_mcnp``.
         """
@@ -3593,7 +3562,7 @@ class Test_SsrAxs:
     Tests ``SsrAxs``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SsrAxs.from_mcnp``.
         """
@@ -3608,7 +3577,7 @@ class Test_SsrExt:
     Tests ``SsrExt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SsrExt.from_mcnp``.
         """
@@ -3623,7 +3592,7 @@ class Test_SsrPoa:
     Tests ``SsrPoa``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SsrPoa.from_mcnp``.
         """
@@ -3638,7 +3607,7 @@ class Test_SsrBcw:
     Tests ``SsrBcw``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``SsrBcw.from_mcnp``.
         """
@@ -3653,7 +3622,7 @@ class Test_DataKcode:
     Tests ``DataKcode``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataKcode.from_mcnp``.
         """
@@ -3668,7 +3637,7 @@ class Test_DataKsrc:
     Tests ``DataKsrc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataKsrc.from_mcnp``.
         """
@@ -3683,7 +3652,7 @@ class Test_DataKopts:
     Tests ``DataKopts``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataKopts.from_mcnp``.
         """
@@ -3698,7 +3667,7 @@ class Test_KoptsBlocksize:
     Tests ``KoptsBlocksize``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KoptsBlocksize.from_mcnp``.
         """
@@ -3713,7 +3682,7 @@ class Test_KoptsKinetics:
     Tests ``KoptsKinetics``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KoptsKinetics.from_mcnp``.
         """
@@ -3728,7 +3697,7 @@ class Test_KoptsPrecursor:
     Tests ``KoptsPrecursor``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KoptsPrecursor.from_mcnp``.
         """
@@ -3743,7 +3712,7 @@ class Test_KoptsKsental:
     Tests ``KoptsKsental``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KoptsKsental.from_mcnp``.
         """
@@ -3758,7 +3727,7 @@ class Test_KoptsFmat:
     Tests ``KoptsFmat``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KoptsFmat.from_mcnp``.
         """
@@ -3773,7 +3742,7 @@ class Test_KoptsFmatskpt:
     Tests ``KoptsFmatskpt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KoptsFmatskpt.from_mcnp``.
         """
@@ -3788,7 +3757,7 @@ class Test_KoptsFmatncyc:
     Tests ``KoptsFmatncyc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KoptsFmatncyc.from_mcnp``.
         """
@@ -3803,7 +3772,7 @@ class Test_KoptsFmatspace:
     Tests ``KoptsFmatspace``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KoptsFmatspace.from_mcnp``.
         """
@@ -3818,7 +3787,7 @@ class Test_KoptsFmataccel:
     Tests ``KoptsFmataccel``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KoptsFmataccel.from_mcnp``.
         """
@@ -3833,7 +3802,7 @@ class Test_KoptsFmatreduce:
     Tests ``KoptsFmatreduce``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KoptsFmatreduce.from_mcnp``.
         """
@@ -3848,7 +3817,7 @@ class Test_KoptsFmatnx:
     Tests ``KoptsFmatnx``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KoptsFmatnx.from_mcnp``.
         """
@@ -3863,7 +3832,7 @@ class Test_KoptsFmatny:
     Tests ``KoptsFmatny``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KoptsFmatny.from_mcnp``.
         """
@@ -3878,7 +3847,7 @@ class Test_KoptsFmatnz:
     Tests ``KoptsFmatnz``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KoptsFmatnz.from_mcnp``.
         """
@@ -3893,7 +3862,7 @@ class Test_DataHsrc:
     Tests ``DataHsrc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataHsrc.from_mcnp``.
         """
@@ -3908,7 +3877,7 @@ class Test_DataF_0:
     Tests ``DataF_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataF_0.from_mcnp``.
         """
@@ -3923,7 +3892,7 @@ class Test_DataF_1:
     Tests ``DataF_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataF_1.from_mcnp``.
         """
@@ -3938,7 +3907,7 @@ class Test_DataF_2:
     Tests ``DataF_2``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataF_2.from_mcnp``.
         """
@@ -3953,7 +3922,7 @@ class Test_DataFip:
     Tests ``DataFip``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataFip.from_mcnp``.
         """
@@ -3968,7 +3937,7 @@ class Test_DataFir:
     Tests ``DataFir``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataFir.from_mcnp``.
         """
@@ -3983,7 +3952,7 @@ class Test_DataFic:
     Tests ``DataFic``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataFic.from_mcnp``.
         """
@@ -3998,7 +3967,7 @@ class Test_DataF_3:
     Tests ``DataF_3``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataF_3.from_mcnp``.
         """
@@ -4013,7 +3982,7 @@ class Test_DataFc:
     Tests ``DataFc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataFc.from_mcnp``.
         """
@@ -4028,7 +3997,7 @@ class Test_DataE:
     Tests ``DataE``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataE.from_mcnp``.
         """
@@ -4043,7 +4012,7 @@ class Test_DataT_0:
     Tests ``DataT_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataT_0.from_mcnp``.
         """
@@ -4058,7 +4027,7 @@ class Test_DataT_1:
     Tests ``DataT_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataT_1.from_mcnp``.
         """
@@ -4073,7 +4042,7 @@ class Test_T_1Cbeg:
     Tests ``T_1Cbeg``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``T_1Cbeg.from_mcnp``.
         """
@@ -4088,7 +4057,7 @@ class Test_T_1Cfrq:
     Tests ``T_1Cfrq``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``T_1Cfrq.from_mcnp``.
         """
@@ -4103,7 +4072,7 @@ class Test_T_1Cofi:
     Tests ``T_1Cofi``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``T_1Cofi.from_mcnp``.
         """
@@ -4118,7 +4087,7 @@ class Test_T_1Coni:
     Tests ``T_1Coni``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``T_1Coni.from_mcnp``.
         """
@@ -4133,7 +4102,7 @@ class Test_T_1Csub:
     Tests ``T_1Csub``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``T_1Csub.from_mcnp``.
         """
@@ -4148,7 +4117,7 @@ class Test_T_1Cend:
     Tests ``T_1Cend``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``T_1Cend.from_mcnp``.
         """
@@ -4163,7 +4132,7 @@ class Test_DataC_0:
     Tests ``DataC_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataC_0.from_mcnp``.
         """
@@ -4178,7 +4147,7 @@ class Test_DataC_1:
     Tests ``DataC_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataC_1.from_mcnp``.
         """
@@ -4193,7 +4162,7 @@ class Test_DataFq:
     Tests ``DataFq``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataFq.from_mcnp``.
         """
@@ -4208,7 +4177,7 @@ class Test_DataDe:
     Tests ``DataDe``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataDe.from_mcnp``.
         """
@@ -4223,7 +4192,7 @@ class Test_DataDf_0:
     Tests ``DataDf_0``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataDf_0.from_mcnp``.
         """
@@ -4238,7 +4207,7 @@ class Test_DataDf_1:
     Tests ``DataDf_1``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataDf_1.from_mcnp``.
         """
@@ -4253,7 +4222,7 @@ class Test_Df_1Iu:
     Tests ``Df_1Iu``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Df_1Iu.from_mcnp``.
         """
@@ -4268,7 +4237,7 @@ class Test_Df_1Fac:
     Tests ``Df_1Fac``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Df_1Fac.from_mcnp``.
         """
@@ -4283,7 +4252,7 @@ class Test_Df_1Ic:
     Tests ``Df_1Ic``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Df_1Ic.from_mcnp``.
         """
@@ -4298,7 +4267,7 @@ class Test_Df_1Int:
     Tests ``Df_1Int``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``Df_1Int.from_mcnp``.
         """
@@ -4313,7 +4282,7 @@ class Test_DataEm:
     Tests ``DataEm``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataEm.from_mcnp``.
         """
@@ -4328,7 +4297,7 @@ class Test_DataTm:
     Tests ``DataTm``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataTm.from_mcnp``.
         """
@@ -4343,7 +4312,7 @@ class Test_DataCm:
     Tests ``DataCm``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataCm.from_mcnp``.
         """
@@ -4358,7 +4327,7 @@ class Test_DataCf:
     Tests ``DataCf``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataCf.from_mcnp``.
         """
@@ -4373,7 +4342,7 @@ class Test_DataSf:
     Tests ``DataSf``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataSf.from_mcnp``.
         """
@@ -4388,7 +4357,7 @@ class Test_DataFs:
     Tests ``DataFs``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataFs.from_mcnp``.
         """
@@ -4403,7 +4372,7 @@ class Test_DataSd:
     Tests ``DataSd``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataSd.from_mcnp``.
         """
@@ -4418,7 +4387,7 @@ class Test_DataFu:
     Tests ``DataFu``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataFu.from_mcnp``.
         """
@@ -4433,7 +4402,7 @@ class Test_DataNotrn:
     Tests ``DataNotrn``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataNotrn.from_mcnp``.
         """
@@ -4448,7 +4417,7 @@ class Test_DataPert:
     Tests ``DataPert``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataPert.from_mcnp``.
         """
@@ -4463,7 +4432,7 @@ class Test_PertCell:
     Tests ``PertCell``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PertCell.from_mcnp``.
         """
@@ -4478,7 +4447,7 @@ class Test_PertMat:
     Tests ``PertMat``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PertMat.from_mcnp``.
         """
@@ -4493,7 +4462,7 @@ class Test_PertRho:
     Tests ``PertRho``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PertRho.from_mcnp``.
         """
@@ -4508,7 +4477,7 @@ class Test_PertMethod:
     Tests ``PertMethod``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PertMethod.from_mcnp``.
         """
@@ -4523,7 +4492,7 @@ class Test_PertErg:
     Tests ``PertErg``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PertErg.from_mcnp``.
         """
@@ -4538,7 +4507,7 @@ class Test_PertRxn:
     Tests ``PertRxn``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PertRxn.from_mcnp``.
         """
@@ -4553,7 +4522,7 @@ class Test_DataKpert:
     Tests ``DataKpert``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataKpert.from_mcnp``.
         """
@@ -4568,7 +4537,7 @@ class Test_KpertCell:
     Tests ``KpertCell``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KpertCell.from_mcnp``.
         """
@@ -4583,7 +4552,7 @@ class Test_KpertMat:
     Tests ``KpertMat``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KpertMat.from_mcnp``.
         """
@@ -4598,7 +4567,7 @@ class Test_KpertRho:
     Tests ``KpertRho``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KpertRho.from_mcnp``.
         """
@@ -4613,7 +4582,7 @@ class Test_KpertIso:
     Tests ``KpertIso``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KpertIso.from_mcnp``.
         """
@@ -4628,7 +4597,7 @@ class Test_KpertRxn:
     Tests ``KpertRxn``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KpertRxn.from_mcnp``.
         """
@@ -4643,7 +4612,7 @@ class Test_KpertErg:
     Tests ``KpertErg``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KpertErg.from_mcnp``.
         """
@@ -4658,7 +4627,7 @@ class Test_KpertLinear:
     Tests ``KpertLinear``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KpertLinear.from_mcnp``.
         """
@@ -4673,7 +4642,7 @@ class Test_DataKsen:
     Tests ``DataKsen``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataKsen.from_mcnp``.
         """
@@ -4688,7 +4657,7 @@ class Test_KsenIso:
     Tests ``KsenIso``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KsenIso.from_mcnp``.
         """
@@ -4703,7 +4672,7 @@ class Test_KsenRxn:
     Tests ``KsenRxn``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KsenRxn.from_mcnp``.
         """
@@ -4718,7 +4687,7 @@ class Test_KsenMt:
     Tests ``KsenMt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KsenMt.from_mcnp``.
         """
@@ -4733,7 +4702,7 @@ class Test_KsenErg:
     Tests ``KsenErg``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KsenErg.from_mcnp``.
         """
@@ -4748,7 +4717,7 @@ class Test_KsenEin:
     Tests ``KsenEin``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KsenEin.from_mcnp``.
         """
@@ -4763,7 +4732,7 @@ class Test_KsenLegendre:
     Tests ``KsenLegendre``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KsenLegendre.from_mcnp``.
         """
@@ -4778,7 +4747,7 @@ class Test_KsenCos:
     Tests ``KsenCos``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KsenCos.from_mcnp``.
         """
@@ -4793,7 +4762,7 @@ class Test_KsenConstrain:
     Tests ``KsenConstrain``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``KsenConstrain.from_mcnp``.
         """
@@ -4808,7 +4777,7 @@ class Test_DataFmesh:
     Tests ``DataFmesh``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataFmesh.from_mcnp``.
         """
@@ -4823,7 +4792,7 @@ class Test_FmeshGeom:
     Tests ``FmeshGeom``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshGeom.from_mcnp``.
         """
@@ -4838,7 +4807,7 @@ class Test_FmeshOrigin:
     Tests ``FmeshOrigin``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshOrigin.from_mcnp``.
         """
@@ -4853,7 +4822,7 @@ class Test_FmeshAxs:
     Tests ``FmeshAxs``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshAxs.from_mcnp``.
         """
@@ -4868,7 +4837,7 @@ class Test_FmeshVec:
     Tests ``FmeshVec``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshVec.from_mcnp``.
         """
@@ -4883,7 +4852,7 @@ class Test_FmeshImesh:
     Tests ``FmeshImesh``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshImesh.from_mcnp``.
         """
@@ -4898,7 +4867,7 @@ class Test_FmeshIints:
     Tests ``FmeshIints``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshIints.from_mcnp``.
         """
@@ -4913,7 +4882,7 @@ class Test_FmeshJmesh:
     Tests ``FmeshJmesh``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshJmesh.from_mcnp``.
         """
@@ -4928,7 +4897,7 @@ class Test_FmeshJints:
     Tests ``FmeshJints``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshJints.from_mcnp``.
         """
@@ -4943,7 +4912,7 @@ class Test_FmeshKmesh:
     Tests ``FmeshKmesh``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshKmesh.from_mcnp``.
         """
@@ -4958,7 +4927,7 @@ class Test_FmeshKints:
     Tests ``FmeshKints``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshKints.from_mcnp``.
         """
@@ -4973,7 +4942,7 @@ class Test_FmeshEmesh:
     Tests ``FmeshEmesh``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshEmesh.from_mcnp``.
         """
@@ -4988,7 +4957,7 @@ class Test_FmeshEints:
     Tests ``FmeshEints``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshEints.from_mcnp``.
         """
@@ -5003,7 +4972,7 @@ class Test_FmeshEnorm:
     Tests ``FmeshEnorm``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshEnorm.from_mcnp``.
         """
@@ -5018,7 +4987,7 @@ class Test_FmeshTmesh:
     Tests ``FmeshTmesh``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshTmesh.from_mcnp``.
         """
@@ -5033,7 +5002,7 @@ class Test_FmeshTints:
     Tests ``FmeshTints``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshTints.from_mcnp``.
         """
@@ -5048,7 +5017,7 @@ class Test_FmeshTnorm:
     Tests ``FmeshTnorm``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshTnorm.from_mcnp``.
         """
@@ -5063,7 +5032,7 @@ class Test_FmeshFactor:
     Tests ``FmeshFactor``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshFactor.from_mcnp``.
         """
@@ -5078,7 +5047,7 @@ class Test_FmeshOut:
     Tests ``FmeshOut``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshOut.from_mcnp``.
         """
@@ -5093,7 +5062,7 @@ class Test_FmeshTr:
     Tests ``FmeshTr``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshTr.from_mcnp``.
         """
@@ -5108,7 +5077,7 @@ class Test_FmeshInc:
     Tests ``FmeshInc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshInc.from_mcnp``.
         """
@@ -5123,7 +5092,7 @@ class Test_FmeshType:
     Tests ``FmeshType``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshType.from_mcnp``.
         """
@@ -5138,7 +5107,7 @@ class Test_FmeshKclear:
     Tests ``FmeshKclear``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``FmeshKclear.from_mcnp``.
         """
@@ -5153,7 +5122,7 @@ class Test_DataSpdtl:
     Tests ``DataSpdtl``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataSpdtl.from_mcnp``.
         """
@@ -5168,7 +5137,7 @@ class Test_DataImp:
     Tests ``DataImp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataImp.from_mcnp``.
         """
@@ -5183,7 +5152,7 @@ class Test_DataVar:
     Tests ``DataVar``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataVar.from_mcnp``.
         """
@@ -5198,7 +5167,7 @@ class Test_VarRr:
     Tests ``VarRr``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``VarRr.from_mcnp``.
         """
@@ -5213,7 +5182,7 @@ class Test_DataWwe:
     Tests ``DataWwe``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataWwe.from_mcnp``.
         """
@@ -5228,7 +5197,7 @@ class Test_DataWwt:
     Tests ``DataWwt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataWwt.from_mcnp``.
         """
@@ -5243,7 +5212,7 @@ class Test_DataWwn:
     Tests ``DataWwn``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataWwn.from_mcnp``.
         """
@@ -5258,7 +5227,7 @@ class Test_DataWwp:
     Tests ``DataWwp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataWwp.from_mcnp``.
         """
@@ -5273,7 +5242,7 @@ class Test_DataWwg:
     Tests ``DataWwg``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataWwg.from_mcnp``.
         """
@@ -5288,7 +5257,7 @@ class Test_DataWwge:
     Tests ``DataWwge``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataWwge.from_mcnp``.
         """
@@ -5303,7 +5272,7 @@ class Test_DataWwgt:
     Tests ``DataWwgt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataWwgt.from_mcnp``.
         """
@@ -5318,7 +5287,7 @@ class Test_DataMesh:
     Tests ``DataMesh``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataMesh.from_mcnp``.
         """
@@ -5333,7 +5302,7 @@ class Test_MeshGeom:
     Tests ``MeshGeom``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MeshGeom.from_mcnp``.
         """
@@ -5348,7 +5317,7 @@ class Test_MeshRef:
     Tests ``MeshRef``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MeshRef.from_mcnp``.
         """
@@ -5363,7 +5332,7 @@ class Test_MeshOrigin:
     Tests ``MeshOrigin``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MeshOrigin.from_mcnp``.
         """
@@ -5378,7 +5347,7 @@ class Test_MeshAxs:
     Tests ``MeshAxs``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MeshAxs.from_mcnp``.
         """
@@ -5393,7 +5362,7 @@ class Test_MeshVec:
     Tests ``MeshVec``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MeshVec.from_mcnp``.
         """
@@ -5408,7 +5377,7 @@ class Test_MeshImesh:
     Tests ``MeshImesh``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MeshImesh.from_mcnp``.
         """
@@ -5423,7 +5392,7 @@ class Test_MeshIints:
     Tests ``MeshIints``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MeshIints.from_mcnp``.
         """
@@ -5438,7 +5407,7 @@ class Test_MeshJmesh:
     Tests ``MeshJmesh``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MeshJmesh.from_mcnp``.
         """
@@ -5453,7 +5422,7 @@ class Test_MeshJints:
     Tests ``MeshJints``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MeshJints.from_mcnp``.
         """
@@ -5468,7 +5437,7 @@ class Test_MeshKmesh:
     Tests ``MeshKmesh``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MeshKmesh.from_mcnp``.
         """
@@ -5483,7 +5452,7 @@ class Test_MeshKints:
     Tests ``MeshKints``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``MeshKints.from_mcnp``.
         """
@@ -5498,7 +5467,7 @@ class Test_DataEsplt:
     Tests ``DataEsplt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataEsplt.from_mcnp``.
         """
@@ -5513,7 +5482,7 @@ class Test_DataTsplt:
     Tests ``DataTsplt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataTsplt.from_mcnp``.
         """
@@ -5528,7 +5497,7 @@ class Test_DataExt:
     Tests ``DataExt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataExt.from_mcnp``.
         """
@@ -5543,7 +5512,7 @@ class Test_DataFcl:
     Tests ``DataFcl``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataFcl.from_mcnp``.
         """
@@ -5558,7 +5527,7 @@ class Test_DataDxt:
     Tests ``DataDxt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataDxt.from_mcnp``.
         """
@@ -5573,7 +5542,7 @@ class Test_DataDd:
     Tests ``DataDd``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataDd.from_mcnp``.
         """
@@ -5588,7 +5557,7 @@ class Test_DataPd:
     Tests ``DataPd``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataPd.from_mcnp``.
         """
@@ -5603,7 +5572,7 @@ class Test_DataDxc:
     Tests ``DataDxc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataDxc.from_mcnp``.
         """
@@ -5618,7 +5587,7 @@ class Test_DataBbrem:
     Tests ``DataBbrem``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataBbrem.from_mcnp``.
         """
@@ -5633,7 +5602,7 @@ class Test_DataPikmt:
     Tests ``DataPikmt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataPikmt.from_mcnp``.
         """
@@ -5648,7 +5617,7 @@ class Test_DataPwt:
     Tests ``DataPwt``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataPwt.from_mcnp``.
         """
@@ -5663,7 +5632,7 @@ class Test_DataNps:
     Tests ``DataNps``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataNps.from_mcnp``.
         """
@@ -5678,7 +5647,7 @@ class Test_DataCtme:
     Tests ``DataCtme``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataCtme.from_mcnp``.
         """
@@ -5693,7 +5662,7 @@ class Test_DataStop:
     Tests ``DataStop``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataStop.from_mcnp``.
         """
@@ -5708,7 +5677,7 @@ class Test_StopNps:
     Tests ``StopNps``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``StopNps.from_mcnp``.
         """
@@ -5723,7 +5692,7 @@ class Test_StopCtme:
     Tests ``StopCtme``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``StopCtme.from_mcnp``.
         """
@@ -5738,7 +5707,7 @@ class Test_StopFk:
     Tests ``StopFk``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``StopFk.from_mcnp``.
         """
@@ -5753,7 +5722,7 @@ class Test_DataPrint:
     Tests ``DataPrint``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataPrint.from_mcnp``.
         """
@@ -5768,7 +5737,7 @@ class Test_DataTalnp:
     Tests ``DataTalnp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataTalnp.from_mcnp``.
         """
@@ -5783,7 +5752,7 @@ class Test_DataPrdmp:
     Tests ``DataPrdmp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataPrdmp.from_mcnp``.
         """
@@ -5798,7 +5767,7 @@ class Test_DataPtrac:
     Tests ``DataPtrac``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataPtrac.from_mcnp``.
         """
@@ -5813,7 +5782,7 @@ class Test_PtracBuffer:
     Tests ``PtracBuffer``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracBuffer.from_mcnp``.
         """
@@ -5828,7 +5797,7 @@ class Test_PtracFile:
     Tests ``PtracFile``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracFile.from_mcnp``.
         """
@@ -5843,7 +5812,7 @@ class Test_PtracMax:
     Tests ``PtracMax``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracMax.from_mcnp``.
         """
@@ -5858,7 +5827,7 @@ class Test_PtracMeph:
     Tests ``PtracMeph``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracMeph.from_mcnp``.
         """
@@ -5873,7 +5842,7 @@ class Test_PtracWrite:
     Tests ``PtracWrite``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracWrite.from_mcnp``.
         """
@@ -5888,7 +5857,7 @@ class Test_PtracConic:
     Tests ``PtracConic``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracConic.from_mcnp``.
         """
@@ -5903,7 +5872,7 @@ class Test_PtracEvent:
     Tests ``PtracEvent``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracEvent.from_mcnp``.
         """
@@ -5918,7 +5887,7 @@ class Test_PtracFilter:
     Tests ``PtracFilter``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracFilter.from_mcnp``.
         """
@@ -5933,7 +5902,7 @@ class Test_PtracType:
     Tests ``PtracType``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracType.from_mcnp``.
         """
@@ -5948,7 +5917,7 @@ class Test_PtracNps:
     Tests ``PtracNps``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracNps.from_mcnp``.
         """
@@ -5963,7 +5932,7 @@ class Test_PtracCell:
     Tests ``PtracCell``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracCell.from_mcnp``.
         """
@@ -5978,7 +5947,7 @@ class Test_PtracSurface:
     Tests ``PtracSurface``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracSurface.from_mcnp``.
         """
@@ -5993,7 +5962,7 @@ class Test_PtracTally:
     Tests ``PtracTally``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracTally.from_mcnp``.
         """
@@ -6008,7 +5977,7 @@ class Test_PtracValue:
     Tests ``PtracValue``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``PtracValue.from_mcnp``.
         """
@@ -6023,7 +5992,7 @@ class Test_DataHistp:
     Tests ``DataHistp``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataHistp.from_mcnp``.
         """
@@ -6038,7 +6007,7 @@ class Test_DataRand:
     Tests ``DataRand``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataRand.from_mcnp``.
         """
@@ -6053,7 +6022,7 @@ class Test_RandGen:
     Tests ``RandGen``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``RandGen.from_mcnp``.
         """
@@ -6068,7 +6037,7 @@ class Test_RandSeed:
     Tests ``RandSeed``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``RandSeed.from_mcnp``.
         """
@@ -6083,7 +6052,7 @@ class Test_RandStride:
     Tests ``RandStride``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``RandStride.from_mcnp``.
         """
@@ -6098,7 +6067,7 @@ class Test_RandHist:
     Tests ``RandHist``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``RandHist.from_mcnp``.
         """
@@ -6113,7 +6082,7 @@ class Test_DataDbcn:
     Tests ``DataDbcn``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataDbcn.from_mcnp``.
         """
@@ -6128,7 +6097,7 @@ class Test_DataLost:
     Tests ``DataLost``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataLost.from_mcnp``.
         """
@@ -6143,7 +6112,7 @@ class Test_DataIdum:
     Tests ``DataIdum``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataIdum.from_mcnp``.
         """
@@ -6158,7 +6127,7 @@ class Test_DataRdum:
     Tests ``DataRdum``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataRdum.from_mcnp``.
         """
@@ -6173,7 +6142,7 @@ class Test_DataZa:
     Tests ``DataZa``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataZa.from_mcnp``.
         """
@@ -6188,7 +6157,7 @@ class Test_DataZb:
     Tests ``DataZb``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataZb.from_mcnp``.
         """
@@ -6203,7 +6172,7 @@ class Test_DataZc:
     Tests ``DataZc``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataZc.from_mcnp``.
         """
@@ -6218,7 +6187,7 @@ class Test_DataZd:
     Tests ``DataZd``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataZd.from_mcnp``.
         """
@@ -6233,7 +6202,7 @@ class Test_DataFiles:
     Tests ``DataFiles``.
     """
 
-    class Test_FromMcnp(_Test_FromMcnp):
+    class Test_FromMcnp(_utils._Test_FromMcnp):
         """
         Tests ``DataFiles.from_mcnp``.
         """

@@ -26,7 +26,7 @@ class Surface(Card_):
         'option': surface.SurfaceOption_,
     }
 
-    _REGEX = re.compile(rf'\A(\+|\*)?(\S+)( \S+)? ( {surface.SurfaceOption_._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\A(\+|\*)?(\S+)( \S+)?( ({surface.SurfaceOption_._REGEX.pattern}))\Z')
 
     def __init__(
         self,
