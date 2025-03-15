@@ -44,15 +44,15 @@ class Px(SurfaceOption_, keyword='px'):
 
         self.d: typing.Final[types.Real] = d
 
-        def to_pyvista(self):
-            """
-            Generates ``pyvista.PolyData`` from ``Px``.
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``Px``.
 
-            Returns:
-                ``pyvista.PolyData`` for ``Px``
-            """
+        Returns:
+            ``pyvista.PolyData`` for ``Px``
+        """
 
-            vis = _visualization.McnpVisualization.get_plane(1, 0, 0, self.d.value)
-            vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = _visualization.McnpVisualization.get_plane(1, 0, 0, self.d.value)
+        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
 
-            return vis.data
+        return vis

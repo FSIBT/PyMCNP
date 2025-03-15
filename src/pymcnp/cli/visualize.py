@@ -1,37 +1,51 @@
 """
 Usage:
-    pymcnp visualize <file>
+    pymcnp visualize <inp> [ options ]
+
+Options:
+    -c --cells           Visualize cells.
+    -s --surfaces        Visualize surfaces.
 """
+
+import pathlib
 
 from docopt import docopt
 
 from . import _io
-from .. import files
+from ..Inp import Inp
+from ..utils import errors
+from ..utils import _visualization
 
 
 def main() -> None:
     """
     Executes the ``pymcnp visualize`` command.
-
-    ``pymcnp visualize`` visualizes INP files using PyVISTA.
     """
 
-    _io.warning()
+    _io.disclaimer()
 
     # Processing CLI arguments.
     args = docopt(__doc__)
-    inp = args['<file>']
+    inp = pathlib.Path(args['<inp>'])
 
     # Reading INP file(s).
     try:
-        inp = files.inp.Inp.from_mcnp_file(inp)
-    except files.utils.errors.InpError as err:
-        _io.error(err.__str__())
-    except FileNotFoundError:
-        _io.error(f'[red][bold]IoError:[/][/] ``{inp}`` not found.')
+        inp = Inp.from_mcnp_file(inp)
+    except errors.InpError as err:
+        _io.error(str(err))
+        exit(1)
+    except errors.CliError as err:
+        _io.error(str(err))
+        exit(2)
 
     # Visualizing!
-    data = inp.to_pyvista()
-    data.plot()
+    surfaces = {surface.number: surface.to_pyvista() for surface in inp.surfaces}
+
+    if args['--cells']:
+        vis = inp.cells.to_pyvista(surfaces)
+        vis.data.plot()
+    else:
+        vis = sum(surfaces.values(), _visualization.McnpVisualization())
+        vis.data.plot()
 
     _io.done()

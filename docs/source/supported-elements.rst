@@ -105,7 +105,7 @@ INP.Data.Cross-Section File                                           Full
 INP.Data.Material Void                                                Full
 INP.Data.Multigroup Adjoint Transport Option_                          None
 INP.Data.Discrete.Reaction Cross Section                              None
-INP.Data.Physics Option_s                                              None
+INP.Data.Physics Options                                              None
 INP.Data.Activation Control                                           None
 INP.Data.Cutoffs                                                      None
 INP.Data.Cell Cutoffs                                                 None
@@ -117,7 +117,7 @@ INP.Data.Lcc                                                          None
 INP.Data.Lea                                                          None
 INP.Data.Leb                                                          None
 INP.Data.Multiplicity Constants                                       None
-INP.Data.Transport Option_s                                            None
+INP.Data.Transport Options                                            None
 INP.Data.Uncollided Secondaries                                       None
 INP.Data.Cosyp                                                        None
 INP.Data.Cosy                                                         None
@@ -133,7 +133,7 @@ INP.Data.Source Comment                                               None
 INP.Data.Surface Source Write                                         None
 INP.Data.Surface Source Read                                          None
 INP.Data.Criticality Source                                           None
-INP.Data.Criticaliy Calculations Option_s                              None
+INP.Data.Criticaliy Calculations Options                              None
 INP.Data.Mesh for Shannon Entropy                                     None
 INP.Data.Depletion/Burnup                                             None
 INP.Data.Source                                                       None

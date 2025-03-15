@@ -84,21 +84,21 @@ class Rpp(SurfaceOption_, keyword='rpp'):
         self.zmin: typing.Final[types.Real] = zmin
         self.zmax: typing.Final[types.Real] = zmax
 
-        def to_pyvista(self):
-            """
-            Generates ``pyvista.PolyData`` from ``Rpp``.
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``Rpp``.
 
-            Returns:
-                ``pyvista.PolyData`` for ``Rpp``
-            """
+        Returns:
+            ``pyvista.PolyData`` for ``Rpp``
+        """
 
-            vis = _visualization.McnpVisualization.get_parallelipiped(
-                self.xmin.value,
-                self.xmax.value,
-                self.ymin.value,
-                self.ymax.value,
-                self.zmin.value,
-                self.zmax.value,
-            )
+        vis = _visualization.McnpVisualization.get_parallelipiped(
+            self.xmin.value,
+            self.xmax.value,
+            self.ymin.value,
+            self.ymax.value,
+            self.zmin.value,
+            self.zmax.value,
+        )
 
-            return vis.data
+        return vis

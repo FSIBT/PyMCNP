@@ -2,48 +2,44 @@
 Usage:
     pymcnp plot [-n number] [--pdf] <input>
 
-Option_s:
-    -n number --number=<number>   Which tally should be converted.
-    --pdf                         Save as pdf
+Options:
+    -n --number=<number>        Which tally should be converted.
+    --pdf                       Save as pdf.
 """
 
-from pathlib import Path
-import sys
+import pathlib
 
 from docopt import docopt
 from matplotlib import pyplot as plt
-from rich import print
 
-import pymcnp
 from . import _io
+from .. import outp
 
 
 def main() -> None:
     """
     Executes the ``pymcnp plot`` command.
-
-    ``pymcnp plot`` plots MCNP output data.
     """
 
-    _io.warning()
+    _io.disclaimer()
 
     args = docopt(__doc__)
 
     N = args['--number']
-    file_in = Path(args['<input>'])
+    file_in = pathlib.Path(args['<input>'])
 
     if not file_in.is_file():
         print(f'[red]Error[/] Cannot access file {file_in}')
-        sys.exit(1)
+        exit(1)
 
-    x = pymcnp.read_output(file_in)
+    x = outp.read_output(file_in)
     N = int(N) if N is not None else 0
 
     try:
         df = x.read_tally(N)
     except IndexError:
         print('[red]Error[/] Tally number out of range')
-        sys.exit(2)
+        exit(2)
 
     plt.figure()
 
@@ -66,7 +62,7 @@ def main() -> None:
     plt.legend()
 
     if args['--pdf']:
-        output_filename = Path(f'{file_in.stem}_tally_{N}.pdf')
+        output_filename = pathlib.Path(f'{file_in.stem}_tally_{N}.pdf')
         if output_filename.is_file():
             print('[orange3]Warning[/] Overwriting output file')
         plt.savefig(output_filename)

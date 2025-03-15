@@ -145,4 +145,4 @@ class Box(SurfaceOption_, keyword='box'):
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 
-        return vis.data
+        return vis

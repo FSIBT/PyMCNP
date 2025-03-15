@@ -147,27 +147,27 @@ class Rhp(SurfaceOption_, keyword='rhp'):
         self.t2: typing.Final[types.Real] = t2
         self.t3: typing.Final[types.Real] = t3
 
-        def to_pyvista(self):
-            """
-            Generates ``pyvista.PolyData`` from ``Rhp``.
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``Rhp``.
 
-            Returns:
-                ``pyvista.PolyData`` for ``Rhp``
-            """
+        Returns:
+            ``pyvista.PolyData`` for ``Rhp``
+        """
 
-            v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-            h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
-            r = _visualization.Vector(self.r1.value, self.r2.value, self.r3.value)
-            s = _visualization.Vector(self.s1.value, self.s2.value, self.s3.value)
-            t = _visualization.Vector(self.t1.value, self.t2.value, self.t3.value)
+        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
+        r = _visualization.Vector(self.r1.value, self.r2.value, self.r3.value)
+        s = _visualization.Vector(self.s1.value, self.s2.value, self.s3.value)
+        t = _visualization.Vector(self.t1.value, self.t2.value, self.t3.value)
 
-            cross = v * _visualization.Vector(0, 0, 1)
-            angle = v & _visualization.Vector(0, 0, 1)
+        cross = v * _visualization.Vector(0, 0, 1)
+        angle = v & _visualization.Vector(0, 0, 1)
 
-            vis = _visualization.McnpVisualization.get_cylinder_hexagon(
-                h.norm(), r.apothem(), s.apothem(), t.apothem()
-            )
-            vis = vis.add_rotation(cross, angle, (0, 0, 0))
-            vis = vis.add_translation(v)
+        vis = _visualization.McnpVisualization.get_cylinder_hexagon(
+            h.norm(), r.apothem(), s.apothem(), t.apothem()
+        )
+        vis = vis.add_rotation(cross, angle, (0, 0, 0))
+        vis = vis.add_translation(v)
 
-            return vis.data
+        return vis

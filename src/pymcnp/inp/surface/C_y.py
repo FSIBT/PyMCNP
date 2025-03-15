@@ -70,4 +70,4 @@ class C_y(SurfaceOption_, keyword='c/y'):
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(self.x.value, 0, self.z.value))
 
-        return vis.data
+        return vis

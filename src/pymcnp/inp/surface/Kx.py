@@ -58,18 +58,18 @@ class Kx(SurfaceOption_, keyword='kx'):
         self.t_squared: typing.Final[types.Real] = t_squared
         self.plusminus_1: typing.Final[types.Real] = plusminus_1
 
-        def to_pyvista(self):
-            """
-            Generates ``pyvista.PolyData`` from ``Kx``.
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``Kx``.
 
-            Returns:
-                ``pyvista.PolyData`` for ``Kx``.
-            """
+        Returns:
+            ``pyvista.PolyData`` for ``Kx``.
+        """
 
-            vis = _visualization.McnpVisualization.get_cone_quadratic(
-                self.t_squared.value ** (1 / 2), self.plusminus_1.value
-            )
-            vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-            vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
+        vis = _visualization.McnpVisualization.get_cone_quadratic(
+            self.t_squared.value ** (1 / 2), self.plusminus_1.value
+        )
+        vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
 
-            return vis.data
+        return vis

@@ -1,5 +1,7 @@
 import re
 
+import pyvista
+
 from . import cell
 from .card_ import Card_
 from ..utils import types
@@ -75,3 +77,11 @@ class Cell(Card_):
         return _parser.postprocess_continuation_line(
             f'{self.number} {self.material} {self.density or ""} {self.geometry} {self.options or ""}'
         )
+
+    def to_pyvista(self, surfaces: dict[int, pyvista.PolyData]):
+        """
+        Generates ``pyvista.PolyData`` from ``Cell``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``Cell``
+        """
