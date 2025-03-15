@@ -55,4 +55,4 @@ class Cy(SurfaceOption_, keyword='cy'):
         vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
 
-        return vis.data
+        return vis

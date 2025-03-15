@@ -54,4 +54,4 @@ class Cz(SurfaceOption_, keyword='cz'):
 
         vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
 
-        return vis.data
+        return vis

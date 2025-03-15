@@ -1,35 +1,67 @@
-"""
-'_utils'
-"""
-
 import datetime
 
 import rich
 import rich.panel
 
 
+def print(msg: str):
+    """
+    Wraps ``rich.print``.
+    """
+
+    rich.print(msg)
+
+
+def info(msg: str):
+    """
+    Prints error panel.
+    """
+
+    rich.print(rich.panel.Panel(f'[bold][deep_sky_blue1]Info:[/][/] {msg}'))
+
+
+def error(msg: str):
+    """
+    Prints error panel.
+    """
+
+    rich.print(rich.panel.Panel(f'[bold][red]Error:[/][/] {msg}'))
+
+
+def warning(msg: str):
+    """
+    Prints error panel.
+    """
+
+    rich.print(rich.panel.Panel(f'[bold][gold3]Warning:[/][/] {msg}'))
+
+
 def get_timestamp() -> str:
+    """
+    Gets current timestamp.
+
+    Returns:
+        Current timestamp "YYYY-MM-DD--HH-MM-SS".
+    """
+
     return datetime.datetime.today().strftime('%Y-%m-%d--%H-%M-%S')
 
 
-def error(msg):
-    rich.print(rich.panel.Panel(msg))
-    exit(1)
-
-
-def print(msg):
-    rich.print(rich.panel.Panel(msg))
-
-
 def done():
-    rich.print(rich.panel.Panel('[deep_sky_blue1][bold]Info:[/][/] Done!'))
+    """
+    Prints done message.
+    """
+
+    info('Done!')
 
 
-def warning():
-    rich.print(
-        rich.panel.Panel(
-            '[bold][gold3]Warning:[/][/] PyMCNP is just getting started! '
-            'Please, double check the output to make sure everything works. '
-            'If you find errors, please, report them on [link=https://github.com/FSIBT/PyMCNP/issues]GitHub[/link].'
-        )
+def disclaimer():
+    """
+    Prints disclaimer message.
+    """
+
+    warning(
+        'PyMCNP is in active development! '
+        'Please, double check eveything works. '
+        'Reports error on [underline][link=https://github.com/FSIBT/PyMCNP/issues]GitHub[/][/].'
     )

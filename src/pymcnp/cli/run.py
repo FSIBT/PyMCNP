@@ -1,204 +1,155 @@
 """
 Usage:
-    pymcnp run <file>... [ options ]
+    pymcnp run <inp>... [ options ]
 
-Option_s:
+Options:
     -c --command=<command>        Command to run.
-    -s --hosts=<host>...          External hosts.
+    -p --path=<path>              Working directory.
 """
 
 import os
 import shutil
 import pathlib
 import subprocess
-from types import ModuleType
 
 from docopt import docopt
 
 from . import _io
-from . import hooks
-from . import _errors
-from .. import files
-
-
-EXECUTABLE = """
-import importlib
-import subprocess
-
-
-def main():
-    prehook = importlib.import_module('prehook')
-    posthook = importlib.import_module('posthook')
-
-    path = "{path}"
-    command = "{command}"
-
-    prehook.main(path)
-    subprocess.run(command, shell=True)
-    posthook.main(path)
-
-
-if __name__ == '__main__':
-    main()
-"""
+from ..Inp import Inp
+from ..utils import errors
 
 
 class Run:
     """
-    Represents collection of MCNP runs.
+    Runs MCNP files.
 
     Attributes:
-        inps: ``Inp`` objects.
-        path: Working directory.
-        command: Terminal command.
-        prehook: Prehook module with ``main`` function.
-        posthook: Posthook module with ``main`` function.
-        path_directory: Path to batch run directory
-        path_subdirectories: List of paths to run directories.
+        inps: Files to run.
+        command: Command to run.
     """
 
-    PREHOOK_EMPTY = hooks.empty
-    POSTHOOK_EMPTY = hooks.empty
-    PREHOOK_NPS = hooks.nps
-    POSTHOOK_CLEAN = hooks.clean
-
-    def __init__(
-        self,
-        inps: list[files.inp.Inp],
-        path: pathlib.Path,
-        prehook: ModuleType = PREHOOK_EMPTY,
-        posthook: ModuleType = POSTHOOK_EMPTY,
-        command: str = 'mcnp6',
-    ):
+    def __init__(self, *inps: Inp, command='mcnp6'):
         """
         Initializes ``Run``.
 
         Parameters:
-            inps: ``Inp`` objects.
-            path: Working directory.
-            command: Terminal command.
-            prehook: Prehook module with ``main`` function.
-            posthook: Posthook module with ``main`` function.
-
-        Raises:
-            CliError: INVALID_INP.
-            CliError: INVALID_PATH.
-            CliError: INVALID_PREHOOK.
-            CliError: INVALID_POSTHOOK.
-            CliError: INVALID_COMMAND.
+            inps: Files to run.
+            command: Command to run.
         """
 
-        if inps is None:
-            raise _errors.CliError(_errors.CliCode.INVALID_INP, str(inps))
+        if inps is None or None in inps:
+            raise errors.CliError(errors.CliCode.SEMANTICS_INP, inps)
 
-        for inp in inps:
-            if inp is None:
-                raise _errors.CliError(_errors.CliCode.INVALID_INP, str(inp))
+        if command is None or not (shutil.which(command)):
+            raise errors.CliError(errors.CliCode.SEMANTICS_COMMAND, command)
 
-        if path is None:
-            raise _errors.CliError(_errors.CliCode.INVALID_PATH, str(path))
-
-        if prehook is None or not hasattr(prehook, 'main'):
-            raise _errors.CliError(_errors.CliCode.INVALID_PREHOOK, str(prehook))
-
-        if posthook is None or not hasattr(posthook, 'main'):
-            raise _errors.CliError(_errors.CliCode.INVALID_POSTHOOK, str(posthook))
-
-        if command is None:
-            raise _errors.CliError(_errors.CliCode.INVALID_COMMAND, str(command))
-
-        if shutil.which(command) is None:
-            raise _errors.CliError(_errors.CliCode.INVALID_COMMAND, str(command))
-
-        if shutil.which('parallel') is None:
-            raise _errors.CliError(_errors.CliCode.INVALID_COMMAND, 'parallel')
-
-        # Storing arguments.
-        self.command = command
         self.inps = inps
-        self.prehook = prehook
-        self.posthook = posthook
+        self.command = command
 
-        # Initializing paths.
-        timestamp = _io.get_timestamp()
-        self.path_directory = path / f'pymcnp-{timestamp}'
-        self.path_subdirectories = []
-
-        for i, inp in enumerate(self.inps):
-            self.path_subdirectories.append(self.path_directory / f'run-{i}')
-
-    def run(self, hosts: list[str] = []):
+    def prehook_file(self, path: pathlib.Path):
         """
-        Runs MCNP INP pymcnp.
+        Runs before a file.
 
         Parameters:
-            hosts: List of hostnames on which to execute.
+            path: Path to run directory.
         """
 
-        # Creating directories.
-        self.path_directory.mkdir()
+        pass
 
-        for i, (inp, path_subdirectory) in enumerate(zip(self.inps, self.path_subdirectories)):
-            path_inp = path_subdirectory / 'inp.i'
-            path_script = path_subdirectory / 'script.py'
-            path_prehook = path_subdirectory / 'prehook.py'
-            path_posthook = path_subdirectory / 'posthook.py'
+    def posthook_file(self, path: pathlib.Path):
+        """
+        Runs after a file.
 
-            command = f'{self.command} {path_inp}'
+        Parameters:
+            path: Path to run directory.
+        """
 
-            path_subdirectory.mkdir()
-            inp.to_mcnp_file(path_inp)
-            path_script.write_text(EXECUTABLE.format(path=self.path_directory, command=command))
-            shutil.copy(pathlib.Path(self.prehook.__file__), path_prehook)
-            shutil.copy(pathlib.Path(self.posthook.__file__), path_posthook)
+        pass
 
-        # Running!
-        param_files = ' '.join(
-            str(subdirectory).split('/')[-1] for subdirectory in self.path_subdirectories
-        )
+    def prehook_batch(self, path: pathlib.Path):
+        """
+        Runs before the batch.
 
-        if hosts == []:
-            command = f'parallel python3 {{}}/script.py ::: {param_files}'
-        else:
-            param_hosts = ' '.join(hosts)
-            command = f'parallel -S {param_hosts} --transferfile {{}} --return {{}} python3 {{}}/{self.command}.py ::: {param_files}'
+        Parameters:
+            path: Path to batch directory.
+        """
 
-        subprocess.run(command, cwd=self.path_directory, shell=True)
+        pass
+
+    def posthook_batch(self, path: pathlib.Path):
+        """
+        Runs after the batch.
+
+        Parameters:
+            path: Path to batch directory.
+        """
+
+        pass
+
+    def run(self, path: pathlib.Path):
+        """
+        Runs a file.
+
+        Parameters:
+            inp: File to run.
+            path: Directory for run.
+        """
+
+        directory = path / f'pymcnp-{_io.get_timestamp()}'
+        directory.mkdir()
+
+        self.prehook_batch(directory)
+
+        processes = []
+        for i, inp in enumerate(self.inps):
+            subdirectory = directory / f'run-{i}'
+            path_input = subdirectory / f'run-{i}.inp'
+            path_output = subdirectory / f'run-{i}.outp'
+            path_ptrac = subdirectory / f'run-{i}.ptrac'
+
+            subdirectory.mkdir()
+            with path_input.open('w') as file:
+                file.write(inp.to_mcnp())
+
+            self.prehook_file(subdirectory)
+            process = subprocess.Popen(
+                [f'{self.command}', f'inp={path_input} outp={path_output} ptrac={path_ptrac}']
+            )
+            processes.append((process, subdirectory))
+
+        for process, subdirectory in processes:
+            process.wait()
+            self.posthook_file(subdirectory)
+
+        self.posthook_batch(directory)
 
 
 def main() -> None:
     """
     Executes the ``pymcnp run`` command.
-
-    ``pymcnp run`` runs INP pymcnp.
     """
 
-    _io.warning()
+    _io.disclaimer()
 
     # Processing CLI arguments.
     args = docopt(__doc__)
-    inps = args['<file>']
-    hosts = args['--hosts'] if args['--hosts'] else []
+    path = args['--path'] if args['--path'] else os.getcwd()
     command = args['--command'] if args['--command'] else 'mcnp6'
 
-    # Reading INP files.
+    # Reading INP file(s).
     try:
-        inps = [files.inp.Inp.from_mcnp_file(inp) for inp in inps]
-    except files.utils.errors.InpError as err:
-        _io.error(err.__str__())
-    except FileNotFoundError:
-        _io.error(f'[red][bold]IoError:[/][/] {inps} File not found.')
+        inps = map(Inp.from_mcnp_file, map(pathlib.Path, args['<inp>']))
+    except errors.InpError as err:
+        _io.error(str(err))
+        exit(1)
+    except errors.CliError as err:
+        _io.error(str(err))
+        exit(2)
 
     # Running!
     try:
-        Run(
-            inps,
-            pathlib.Path(os.getcwd()),
-            prehook=Run.PREHOOK_EMPTY,
-            posthook=Run.POSTHOOK_CLEAN,
-            command=command,
-        ).run(hosts)
-    except _errors.CliError as err:
+        Run(*inps, command=command).run(pathlib.Path(path))
+    except errors.CliError as err:
         _io.error(err.__str__())
 
     _io.done()

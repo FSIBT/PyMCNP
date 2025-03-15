@@ -1,3 +1,4 @@
+from . import cli
 from . import inp
 from . import outp
 from . import ptrac
@@ -17,6 +18,7 @@ read_input = Inp.from_mcnp_file
 read_ptrac = Ptrac.from_mcnp_file
 
 __all__ = [
+    'cli',
     'inp',
     'outp',
     'ptrac',

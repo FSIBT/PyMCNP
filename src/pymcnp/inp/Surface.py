@@ -76,3 +76,13 @@ class Surface(Card_):
         return _parser.postprocess_continuation_line(
             f'{self.prefix or ""}{self.number} {self.transform or ""} {self.option}'
         )
+
+    def to_pyvista(self):
+        """
+        Generates ``pyvista.PolyData`` from ``Surface``.
+
+        Returns:
+            ``pyvista.PolyData`` for ``Surface``
+        """
+
+        return self.option.to_pyvista()

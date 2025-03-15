@@ -113,10 +113,7 @@ class CliCode(enum.Enum):
 
     SEMANTICS_INP = 0
     SEMANTICS_PATH = 1
-
-    SEMANTICS_PREHOOK = 10
-    SEMANTICS_POSTHOOK = 11
-    SEMANTICS_COMMAND = 12
+    SEMANTICS_COMMAND = 2
 
 
 class McnpError(_Error):

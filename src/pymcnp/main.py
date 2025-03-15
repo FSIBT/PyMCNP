@@ -26,7 +26,9 @@ import pymcnp
 
 
 def main() -> None:
-    """The command line interface to PyMCNP."""
+    """
+    Runs the PyMCNP command line interface.
+    """
 
     args = docopt(__doc__, options_first=True)
 
