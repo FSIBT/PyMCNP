@@ -1,8 +1,5 @@
 import re
 
-from . import errors
-from . import _object
-
 
 """ Preprocessing Functions """
 
@@ -70,32 +67,6 @@ def preprocess_ptrac(string: str):
     string = _preprocess_case(string)
 
     return string
-
-
-""" Processing Functions """
-
-
-def process_inpoption_(registry: _object.McnpRegistry_, string: str):
-    """ """
-
-    for match in registry._REGEX.finditer(string):
-        submatch = filter(lambda submatch: submatch is not None, match.groups())
-        next(submatch)
-        val = next(submatch)
-        key = next(submatch)
-
-        error = None
-        for form in registry[key]:
-            try:
-                yield form.from_mcnp(val)
-            except errors.InpError as err:
-                if 1000 <= err.code.value < 2000:
-                    error = err
-                else:
-                    raise err
-
-        if error:
-            raise error
 
 
 """ Postprocessing Functions """
