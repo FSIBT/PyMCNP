@@ -42,6 +42,30 @@ class McnpCode(enum.Enum):
     SEMANTICS_TYPE_VALUE = 1000
 
 
+class MeshtalCode(enum.Enum):
+    """
+    Represents MESHTAL error codes.
+
+    Notes:
+        0xxx - Syntax
+        1xxx - Semantics
+        x0xx - Meshtal
+        x1xx - Elements
+    """
+
+    SYNTAX_PTRAC = 0
+
+    SYNTAX_BLOCK = 101
+    SYNTAX_LINE = 102
+    SYNTAX_KEYWORD = 103
+
+    SEMANTICS_MESHTAL_HEADER = 1000
+    SEMANTICS_MESHTAL_HISTORY = 1001
+
+    SEMANTICS_BLOCK_VALUE = 1100
+    SEMANTICS_LINE_VALUE = 1101
+
+
 class PtracCode(enum.Enum):
     """
     Represents PTRAC error codes.
@@ -114,6 +138,10 @@ class CliCode(enum.Enum):
     SEMANTICS_INP = 0
     SEMANTICS_PATH = 1
     SEMANTICS_COMMAND = 2
+
+
+class MeshtalError(_Error):
+    pass
 
 
 class McnpError(_Error):

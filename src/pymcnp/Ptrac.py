@@ -1,8 +1,4 @@
-"""
-Contains classes representing PTRAC file.
-"""
-
-from typing import Generator
+import typing
 
 from . import ptrac
 from .utils import errors
@@ -15,19 +11,25 @@ class Ptrac(_object.McnpFile_):
 
     Attributes:
         header: PTRAC header.
-        history: PTRAC history.
+        histories: PTRAC histories.
     """
 
-    def __init__(self, header: ptrac.Header, histories: Generator[ptrac.History, None, None]):
+    def __init__(
+        self, header: ptrac.Header, histories: typing.Generator[ptrac.History, None, None]
+    ):
         """
         Initializes ``Ptrac``.
 
         Parameters:
             header: PTRAC header.
-            history: PTRAC history.
+            histories: PTRAC histories.
 
         Returns:
             ``Ptrac``.
+
+        Raises:
+            PtracError: SEMANTICS_PTRAC_HEADER.
+            PtracError: SEMANTICS_PTRAC_HISTORY.
         """
 
         if header is None:
@@ -36,8 +38,8 @@ class Ptrac(_object.McnpFile_):
         if histories is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_PTRAC_HISTORY)
 
-        self.header: ptrac.Header = header
-        self.histories: Generator[ptrac.History, None, None] = histories
+        self.header: typing.Final[ptrac.Header] = header
+        self.histories: typing.Final[typing.Generator[ptrac.History, None, None]] = histories
 
     @staticmethod
     def from_mcnp(source: str):
@@ -54,7 +56,7 @@ class Ptrac(_object.McnpFile_):
         header, lines = ptrac.Header.from_mcnp(source)
 
         def histories(lines):
-            while histories:
+            while lines:
                 history, lines = ptrac.History.from_mcnp(lines, header)
                 yield history
             return

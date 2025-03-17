@@ -2,10 +2,10 @@
 Contains the ``ELEMENTS`` constant of ``Istopes-NIST-2`` data.
 """
 
-from typing import Final
+import typing
 
 
-ELEMENTS: Final[dict[str, dict]] = {
+ELEMENTS: typing.Final[dict[str, dict]] = {
     'H': {
         'z': 1,
         'mass': {

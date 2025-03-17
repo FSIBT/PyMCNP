@@ -2,16 +2,16 @@
 Contains classes and functions for generating CADQUERY.
 """
 
-from typing import Final
 import math
+import typing
 
 import numpy
 import pyvista
 
 
-_BOUND: Final[float] = 500
-_RESOLUTION: Final[int] = 100
-_UNBOUNDED_SIZE: Final[float] = 1000
+_BOUND: typing.Final[float] = 500
+_RESOLUTION: typing.Final[int] = 100
+_UNBOUNDED_SIZE: typing.Final[float] = 1000
 
 
 class Vector:
@@ -29,9 +29,9 @@ class Vector:
         Initializes ``Vector``.
         """
 
-        self.x: Final[float] = x
-        self.y: Final[float] = y
-        self.z: Final[float] = z
+        self.x: typing.Final[float] = x
+        self.y: typing.Final[float] = y
+        self.z: typing.Final[float] = z
 
     def norm(self) -> float:
         """
@@ -154,7 +154,7 @@ class McnpVisualization:
         Initializes ``McnpVisualization``.
         """
 
-        self.data: Final[pyvista.PolyData] = data
+        self.data: typing.Final[pyvista.PolyData] = data
 
     @staticmethod
     def get_plane(a: float, b: float, c: float, d: float):

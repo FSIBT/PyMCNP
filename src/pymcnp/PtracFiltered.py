@@ -21,7 +21,7 @@ class PtracFiltered:
         self.ptrac: Ptrac = ptrac
 
     @staticmethod
-    def filter_source(event: ptrac.history.EventType) -> bool:
+    def check_source(event: ptrac.history.EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC source events.
 
@@ -32,7 +32,7 @@ class PtracFiltered:
         raise NotImplementedError
 
     @staticmethod
-    def filter_bank(event: ptrac.history.EventType) -> bool:
+    def check_bank(event: ptrac.history.EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC bank events.
 
@@ -43,7 +43,7 @@ class PtracFiltered:
         raise NotImplementedError
 
     @staticmethod
-    def filter_surface(event: ptrac.history.EventType) -> bool:
+    def check_surface(event: ptrac.history.EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC surface events.
 
@@ -54,7 +54,7 @@ class PtracFiltered:
         raise NotImplementedError
 
     @staticmethod
-    def filter_collision(event: ptrac.history.EventType) -> bool:
+    def check_collision(event: ptrac.history.EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC collision events.
 
@@ -65,7 +65,7 @@ class PtracFiltered:
         raise NotImplementedError
 
     @staticmethod
-    def filter_terminal(event: ptrac.history.EventType) -> bool:
+    def check_terminal(event: ptrac.history.EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC terminal events.
 
@@ -76,7 +76,7 @@ class PtracFiltered:
         raise NotImplementedError
 
     @staticmethod
-    def filter_flag(event: ptrac.history.EventType) -> bool:
+    def check_flag(event: ptrac.history.EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC flag events.
 
@@ -96,22 +96,21 @@ class PtracFiltered:
                 for event in self.ptracFile.history.events:
                     match event.event_type:
                         case ptrac.history.EventType.SOURCE:
-                            _filter = self.filter_source
+                            check = self.check_source
                         case ptrac.history.EventType.SURFACE:
-                            _filter = self.filter_surface
+                            check = self.check_surface
                         case ptrac.history.EventType.COLLISION:
-                            _filter = self.filter_collision
+                            check = self.check_collision
                         case ptrac.history.EventType.TERMINAL:
-                            _filter = self.filter_terminal
+                            check = self.check_terminal
                         case ptrac.history.EventType.FLAG:
-                            _filter = self.filter_flag
+                            check = self.check_flag
                         case _:
-                            _filter = self.filter_bank
+                            check = self.check_bank
 
-                    if _filter(event):
+                    if check(event):
                         yield event
                     else:
                         continue
-            return
 
         return histories
