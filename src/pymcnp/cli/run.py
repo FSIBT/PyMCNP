@@ -86,7 +86,7 @@ class Run:
 
         pass
 
-    def run(self, path: pathlib.Path):
+    def run(self, path: str | pathlib.Path):
         """
         Runs a file.
 
@@ -95,7 +95,7 @@ class Run:
             path: Directory for run.
         """
 
-        directory = path / f'pymcnp-{_io.get_timestamp()}'
+        directory = pathlib.Path(path) / f'pymcnp-{_io.get_timestamp()}'
         directory.mkdir()
 
         self.prehook_batch(directory)
