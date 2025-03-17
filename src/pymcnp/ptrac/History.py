@@ -20,14 +20,12 @@ class History(_object.McnpElement_):
     """
 
     _REGEX = re.compile(
-        r'\S(.{10})(.{10})(.{10})(.{10})(.{10})(.{13})\n'
-        r'([\S\s]+)(?:\n\S9000)(.+\n){2}'
-        r'([\S\s]+)'
+        r'\s(.{10})(.{10})(.{10})(.{13})\n' r'(.+\n)*?((?:       9000).+?)\n(.+?)\n' r'((.+\n)*)'
     )
 
     def __init__(
         self,
-        i_line: tuple,
+        i_line: types.Tuple[types.Integer, history.EventType, types.Real],
         events: typing.Generator,
     ):
         """
@@ -47,8 +45,10 @@ class History(_object.McnpElement_):
         if events is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, events)
 
-        self.i_line: typing.Final[tuple] = i_line
-        self.events: typing.Final[typing.Generator] = (events,)
+        self.i_line: typing.Final[types.Tuple[types.Integer, history.EventType, types.Real]] = (
+            i_line
+        )
+        self.events: typing.Final[typing.Generator] = events
 
     @staticmethod
     def from_mcnp(source: str, header: Header) -> tuple[History, str]:
@@ -63,22 +63,22 @@ class History(_object.McnpElement_):
             ``History``.
 
         Raises:
-            PtracERror: SYNTAX_HISTORY.
+            PtracError: SYNTAX_BLOCK.
         """
 
         source = _parser.preprocess_ptrac(source)
         tokens = History._REGEX.match(source)
 
         if not tokens:
-            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY, source)
+            raise errors.PtracError(errors.PtracCode.SYNTAX_BLOCK, source)
 
         i_line = types.Tuple(
-            types.Integer(tokens[1]),
-            history.EventType(tokens[2]),
-            types.Integer(tokens[3]),
-            types.Integer(tokens[4]),
-            types.Integer(tokens[5]),
-            types.Real(tokens[6]),
+            [
+                types.Integer(tokens[1]),
+                history.EventType(tokens[2].strip()),
+                types.Integer(tokens[3]),
+                types.Real(tokens[4]),
+            ]
         )
 
         def events(next_type, lines):
@@ -130,19 +130,9 @@ class History(_object.McnpElement_):
                 yield (j_line, p_line)
                 next_type = j_line.next_type
 
-        events = events(i_line[2], (tokens[7] + tokens[8]).split('\n'))
+        events = events(i_line[2], [tokens[5], tokens[6]])
 
         return (
             History(i_line, events),
-            tokens[10],
+            tokens[8],
         )
-
-    def to_mcnp(self):
-        """
-        Generates PTRAC from ``History``.
-
-        Returns:
-            INP for ``History``.
-        """
-
-        assert False, "I'm working on it!"

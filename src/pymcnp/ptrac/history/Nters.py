@@ -8,23 +8,23 @@ class Nters(keyword_.HistoryKeyword_):
     Represents PTRAC event NTER variables.
     """
 
-    ESCAPE = 1
-    ENERGY_CUTOFF = 2
-    TIME_CUTOFF = 3
-    WEIGHT_WINDOW = 4
-    CELL_IMPORTANCE = 5
-    WEIGHT_CUTOFF = 6
-    ENERGY_IMPORTANCE = 7
-    DXTRAN = 8
-    FORCED_COLLISION = 9
-    EXPONENTIAL_TRANSFROM = 10
-    NTER_11 = 11
-    NTER_12 = 12
-    NTER_13 = 13
-    NTER_14 = 14
-    NTER_15 = 15
-    NTER_16 = 16
-    NTER_17 = 17
+    ESCAPE = '1'
+    ENERGY_CUTOFF = '2'
+    TIME_CUTOFF = '3'
+    WEIGHT_WINDOW = '4'
+    CELL_IMPORTANCE = '5'
+    WEIGHT_CUTOFF = '6'
+    ENERGY_IMPORTANCE = '7'
+    DXTRAN = '8'
+    FORCED_COLLISION = '9'
+    EXPONENTIAL_TRANSFROM = '10'
+    NTER_11 = '11'
+    NTER_12 = '12'
+    NTER_13 = '13'
+    NTER_14 = '14'
+    NTER_15 = '15'
+    NTER_16 = '16'
+    NTER_17 = '17'
 
     @staticmethod
     def from_mcnp(source: int):
