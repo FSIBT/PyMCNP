@@ -25,14 +25,6 @@ class McnpElement_:
         return (a.__dict__ if a else None) == (b.__dict__ if b else None)
 
 
-class McnpRegistry_(McnpElement_):
-    """
-    Represents generic MCNP syntax elements with subclass registries.
-    """
-
-    _SUBCLASSES: dict[str, list[McnpElement_]]
-
-
 class McnpFile_(McnpElement_):
     """
     Represents generic MCNP files.
