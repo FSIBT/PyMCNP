@@ -92,12 +92,12 @@ class Inp(_object.McnpFile_):
 
         self.message: typing.Final[types.String] = message
         self.title: typing.Final[types.String] = title
-        self.cells: types.Tuple[inp.Cell] = cells
-        self.cells_comments: types.Tuple[inp.Comment] = cells_comments
-        self.surfaces: types.Tuple[inp.Surface] = surfaces
-        self.surfaces_comments: types.Tuple[inp.Comment] = surfaces_comments
-        self.data: types.Tuple[inp.Data] = data
-        self.data_comments: types.Tuple[inp.Comment] = data_comments
+        self.cells: typing.Final[types.Tuple[inp.Cell]] = cells
+        self.cells_comments: typing.Final[types.Tuple[inp.Comment]] = cells_comments
+        self.surfaces: typing.Final[types.Tuple[inp.Surface]] = surfaces
+        self.surfaces_comments: typing.Final[types.Tuple[inp.Comment]] = surfaces_comments
+        self.data: typing.Final[types.Tuple[inp.Data]] = data
+        self.data_comments: typing.Final[types.Tuple[inp.Comment]] = data_comments
         self.other: typing.Final[types.String] = other
 
     @staticmethod
