@@ -98,9 +98,9 @@ class Trc(SurfaceOption_, keyword='trc'):
         self.r1: typing.Final[types.Real] = r1
         self.r2: typing.Final[types.Real] = r2
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Trc``.
+        Generates ``Visualization`` from ``Trc``.
 
         Returns:
             ``pyvista.PolyData`` for ``Trc``
@@ -111,7 +111,7 @@ class Trc(SurfaceOption_, keyword='trc'):
         cross = h * _visualization.Vector(0, 0, 1)
         angle = h & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.McnpVisualization.get_cone_truncated(
+        vis = _visualization.Visualization.get_cone_truncated(
             h.norm(), self.r1.value, self.r2.value
         )
         vis = vis.add_rotation(cross, angle, (0, 0, 0))

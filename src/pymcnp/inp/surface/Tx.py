@@ -84,15 +84,15 @@ class Tx(SurfaceOption_, keyword='tx'):
         self.b: typing.Final[types.Real] = b
         self.c: typing.Final[types.Real] = c
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Tx``.
+        Generates ``Visualization`` from ``Tx``.
 
         Returns:
             ``pyvista.PolyData`` for ``Tx``
         """
 
-        vis = _visualization.McnpVisualization.get_torus(self.b.value, self.c.value, self.a.value)
+        vis = _visualization.Visualization.get_torus(self.b.value, self.c.value, self.a.value)
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
 

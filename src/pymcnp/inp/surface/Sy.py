@@ -50,15 +50,15 @@ class Sy(SurfaceOption_, keyword='sy'):
         self.y: typing.Final[types.Real] = y
         self.r: typing.Final[types.Real] = r
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Sy``.
+        Generates ``Visualization`` from ``Sy``.
 
         Returns:
             ``pyvista.PolyData`` for ``Sy``
         """
 
-        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(self.r.value)
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(0, self.y.value, 0))
 

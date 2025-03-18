@@ -84,15 +84,15 @@ class Tz(SurfaceOption_, keyword='tz'):
         self.b: typing.Final[types.Real] = b
         self.c: typing.Final[types.Real] = c
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Tz``.
+        Generates ``Visualization`` from ``Tz``.
 
         Returns:
             ``pyvista.PolyData`` for ``Tz``
         """
 
-        vis = _visualization.McnpVisualization.get_torus(self.b.value, self.c.value, self.a.value)
+        vis = _visualization.Visualization.get_torus(self.b.value, self.c.value, self.a.value)
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
 
         return vis

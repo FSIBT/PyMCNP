@@ -147,9 +147,9 @@ class Rhp(SurfaceOption_, keyword='rhp'):
         self.t2: typing.Final[types.Real] = t2
         self.t3: typing.Final[types.Real] = t3
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Rhp``.
+        Generates ``Visualization`` from ``Rhp``.
 
         Returns:
             ``pyvista.PolyData`` for ``Rhp``
@@ -164,7 +164,7 @@ class Rhp(SurfaceOption_, keyword='rhp'):
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.McnpVisualization.get_cylinder_hexagon(
+        vis = _visualization.Visualization.get_cylinder_hexagon(
             h.norm(), r.apothem(), s.apothem(), t.apothem()
         )
         vis = vis.add_rotation(cross, angle, (0, 0, 0))

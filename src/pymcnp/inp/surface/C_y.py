@@ -58,15 +58,15 @@ class C_y(SurfaceOption_, keyword='c/y'):
         self.z: typing.Final[types.Real] = z
         self.r: typing.Final[types.Real] = r
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``C_y``.
+        Generates ``Visualization`` from ``C_y``.
 
         Returns:
             ``pyvista.PolyData`` for ``C_y``.
         """
 
-        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(self.x.value, 0, self.z.value))
 

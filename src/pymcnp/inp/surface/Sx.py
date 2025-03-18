@@ -50,15 +50,15 @@ class Sx(SurfaceOption_, keyword='sx'):
         self.x: typing.Final[types.Real] = x
         self.r: typing.Final[types.Real] = r
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Sx``.
+        Generates ``Visualization`` from ``Sx``.
 
         Returns:
             ``pyvista.PolyData`` for ``Sx``
         """
 
-        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(self.r.value)
         vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
 
         return vis

@@ -126,9 +126,9 @@ class Rec(SurfaceOption_, keyword='rec'):
         self.v2y: typing.Final[types.Real] = v2y
         self.v2z: typing.Final[types.Real] = v2z
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Rec``.
+        Generates ``Visualization`` from ``Rec``.
 
         Returns:
             ``pyvista.PolyData`` for ``Rec``
@@ -142,7 +142,7 @@ class Rec(SurfaceOption_, keyword='rec'):
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.McnpVisualization.get_cylinder_ellipse(h.norm(), v1.norm(), v2.norm())
+        vis = _visualization.Visualization.get_cylinder_ellipse(h.norm(), v1.norm(), v2.norm())
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 

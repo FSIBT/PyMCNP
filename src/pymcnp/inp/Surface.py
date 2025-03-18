@@ -77,12 +77,12 @@ class Surface(Card_):
             f'{self.prefix or ""}{self.number} {self.transform or ""} {self.option}'
         )
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Surface``.
+        Generates ``Visualization`` from ``Surface``.
 
         Returns:
             ``pyvista.PolyData`` for ``Surface``
         """
 
-        return self.option.to_pyvista()
+        return self.option.draw()

@@ -44,15 +44,15 @@ class Py(SurfaceOption_, keyword='py'):
 
         self.d: typing.Final[types.Real] = d
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Py``.
+        Generates ``Visualization`` from ``Py``.
 
         Returns:
             ``pyvista.PolyData`` for ``Py``
         """
 
-        vis = _visualization.McnpVisualization.get_plane(0, 1, 0, self.d.value)
+        vis = _visualization.Visualization.get_plane(0, 1, 0, self.d.value)
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
 
         return vis

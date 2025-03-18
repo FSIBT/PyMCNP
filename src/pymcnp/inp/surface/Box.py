@@ -126,9 +126,9 @@ class Box(SurfaceOption_, keyword='box'):
         self.a3y: typing.Final[types.Real] = a3y
         self.a3z: typing.Final[types.Real] = a3z
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Box``.
+        Generates ``Visualization`` from ``Box``.
 
         Returns:
             ``pyvista.PolyData`` for ``Box``.
@@ -141,7 +141,7 @@ class Box(SurfaceOption_, keyword='box'):
         cross = _visualization.Vector(1, 0, 0) * a1
         angle = _visualization.Vector(1, 0, 0) & a1
 
-        vis = _visualization.McnpVisualization.get_box(a1.norm(), a2.norm(), a3.norm())
+        vis = _visualization.Visualization.get_box(a1.norm(), a2.norm(), a3.norm())
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 

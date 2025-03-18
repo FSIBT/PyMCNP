@@ -4,5 +4,5 @@ import pymcnp
 
 
 inp = pymcnp.Inp.from_mcnp_file(pathlib.Path(__file__).parent / 'data/input_files/png.i')
-vista = inp.to_pyvista()
+vista = inp.draw()
 vista.plot()

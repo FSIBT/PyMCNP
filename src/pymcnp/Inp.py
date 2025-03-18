@@ -202,17 +202,17 @@ class Inp(_object.McnpFile_):
 
         return source
 
-    def to_pyvista(self) -> pyvista.PolyData:
+    def draw(self) -> pyvista.PolyData:
         """
-        Generates ``pyvista.PolyData`` from ``Inp``.
+        Generates ``Visualization`` from ``Inp``.
 
         Returns:
             ``pyvista.PolyData`` for ``Inp``.
         """
 
-        vis = _visualization.McnpVisualization()
+        vis = _visualization.Visualization()
 
         for surface in self.surfaces:
-            vis += _visualization.McnpVisualization(surface.to_pyvista())
+            vis += _visualization.Visualization(surface.draw())
 
         return vis.data

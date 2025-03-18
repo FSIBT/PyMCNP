@@ -551,15 +551,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Px``.
+        Generates ``Visualization`` from ``Px``.
 
         Returns:
             ``pyvista.PolyData`` for ``Px``
         """
 
-        vis = _visualization.McnpVisualization.get_plane(
+        vis = _visualization.Visualization.get_plane(
             self.a.value, self.b.value, self.c.value, self.d.value
         )
 
@@ -617,9 +617,9 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``P0``.
+        Generates ``Visualization`` from ``P0``.
 
         Returns:
             ``pyvista.PolyData`` for ``P1``
@@ -629,7 +629,7 @@ cards = ElementScheme(
         b = _visualization.Vector(self.x3 - self.x1, self.y3 - self.y1, self.z3 - self.z1)
         n = a * b
 
-        vis = _visualization.McnpVisualization.get_plane(
+        vis = _visualization.Visualization.get_plane(
             n.x, n.y, n.z, n.x * self.x1 + n.y * self.y1 + n.z * self.z1
         )
 
@@ -647,15 +647,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Px``.
+        Generates ``Visualization`` from ``Px``.
 
         Returns:
             ``pyvista.PolyData`` for ``Px``
         """
 
-        vis = _visualization.McnpVisualization.get_plane(1, 0, 0, self.d.value)
+        vis = _visualization.Visualization.get_plane(1, 0, 0, self.d.value)
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
 
         return vis
@@ -672,15 +672,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Py``.
+        Generates ``Visualization`` from ``Py``.
 
         Returns:
             ``pyvista.PolyData`` for ``Py``
         """
 
-        vis = _visualization.McnpVisualization.get_plane(0, 1, 0, self.d.value)
+        vis = _visualization.Visualization.get_plane(0, 1, 0, self.d.value)
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
 
         return vis
@@ -697,15 +697,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Pz``.
+        Generates ``Visualization`` from ``Pz``.
 
         Returns:
             ``pyvista.PolyData`` for ``Pz``
         """
 
-        vis = _visualization.McnpVisualization.get_plane(0, 0, 1, self.d.value)
+        vis = _visualization.Visualization.get_plane(0, 0, 1, self.d.value)
 
         return vis
     ''',
@@ -721,15 +721,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``So``.
+        Generates ``Visualization`` from ``So``.
 
         Returns:
             ``pyvista.PolyData`` for ``So``
         """
 
-        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(self.r.value)
 
         return vis
     ''',
@@ -760,15 +760,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``S``.
+        Generates ``Visualization`` from ``S``.
 
         Returns:
             ``pyvista.PolyData`` for ``S``
         """
 
-        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(self.r.value)
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
 
         return vis
@@ -790,15 +790,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Sx``.
+        Generates ``Visualization`` from ``Sx``.
 
         Returns:
             ``pyvista.PolyData`` for ``Sx``
         """
 
-        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(self.r.value)
         vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
 
         return vis
@@ -820,15 +820,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Sy``.
+        Generates ``Visualization`` from ``Sy``.
 
         Returns:
             ``pyvista.PolyData`` for ``Sy``
         """
 
-        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(self.r.value)
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(0, self.y.value, 0))
 
@@ -851,15 +851,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Sz``.
+        Generates ``Visualization`` from ``Sz``.
 
         Returns:
             ``pyvista.PolyData`` for ``Sz``
         """
 
-        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(self.r.value)
         vis = vis.add_translation(_visualization.Vector(0, 0, self.z.value))
 
         return vis
@@ -886,15 +886,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``C_x``.
+        Generates ``Visualization`` from ``C_x``.
 
         Returns:
             ``pyvista.PolyData`` for ``C_x``.
         """
 
-        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(0, self.y.value, self.z.value))
 
@@ -922,15 +922,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``C_y``.
+        Generates ``Visualization`` from ``C_y``.
 
         Returns:
             ``pyvista.PolyData`` for ``C_y``.
         """
 
-        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(self.x.value, 0, self.z.value))
 
@@ -958,14 +958,14 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``C_z``.
+        Generates ``Visualization`` from ``C_z``.
         Returns:
             ``pyvista.PolyData`` for ``C_z``.
         """
 
-        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, 0))
 
@@ -983,15 +983,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Cx``.
+        Generates ``Visualization`` from ``Cx``.
 
         Returns:
             ``pyvista.PolyData`` for ``Cx``.
         """
 
-        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
 
         return vis
@@ -1008,15 +1008,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Cy``.
+        Generates ``Visualization`` from ``Cy``.
 
         Returns:
             ``pyvista.PolyData`` for ``Cy``.
         """
 
-        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
 
         return vis
@@ -1033,15 +1033,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Cz``.
+        Generates ``Visualization`` from ``Cz``.
 
         Returns:
             ``pyvista.PolyData`` for ``Cz``.
         """
 
-        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
 
         return vis
     ''',
@@ -1077,15 +1077,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``K_x``.
+        Generates ``Visualization`` from ``K_x``.
 
         Returns:
             ``pyvista.PolyData`` for ``K_x``.
         """
 
-        vis = _visualization.McnpVisualization.get_cone_quadratic(
+        vis = _visualization.Visualization.get_cone_quadratic(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
@@ -1125,15 +1125,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``K_y``.
+        Generates ``Visualization`` from ``K_y``.
 
         Returns:
             ``pyvista.PolyData`` for ``K_y``.
         """
 
-        vis = _visualization.McnpVisualization.get_cone_quadratic(
+        vis = _visualization.Visualization.get_cone_quadratic(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
@@ -1173,15 +1173,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``K_z``.
+        Generates ``Visualization`` from ``K_z``.
 
         Returns:
             ``pyvista.PolyData`` for ``K_z``.
         """
 
-        vis = _visualization.McnpVisualization.get_cone_quadratic(
+        vis = _visualization.Visualization.get_cone_quadratic(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
@@ -1210,15 +1210,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Kx``.
+        Generates ``Visualization`` from ``Kx``.
 
         Returns:
             ``pyvista.PolyData`` for ``Kx``.
         """
 
-        vis = _visualization.McnpVisualization.get_cone_quadratic(
+        vis = _visualization.Visualization.get_cone_quadratic(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
@@ -1248,15 +1248,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Ky``.
+        Generates ``Visualization`` from ``Ky``.
 
         Returns:
             ``pyvista.PolyData`` for ``Ky``.
         """
 
-        vis = _visualization.McnpVisualization.get_cone_quadratic(
+        vis = _visualization.Visualization.get_cone_quadratic(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
@@ -1286,15 +1286,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Kz``.
+        Generates ``Visualization`` from ``Kz``.
 
         Returns:
             ``pyvista.PolyData`` for ``Kz``.
         """
 
-        vis = _visualization.McnpVisualization.get_cone_quadratic(
+        vis = _visualization.Visualization.get_cone_quadratic(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_translation(_visualization.Vector(0, 0, self.z.value))
@@ -1450,15 +1450,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Tx``.
+        Generates ``Visualization`` from ``Tx``.
 
         Returns:
             ``pyvista.PolyData`` for ``Tx``
         """
 
-        vis = _visualization.McnpVisualization.get_torus(self.b.value, self.c.value, self.a.value)
+        vis = _visualization.Visualization.get_torus(self.b.value, self.c.value, self.a.value)
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
 
@@ -1501,15 +1501,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Ty``.
+        Generates ``Visualization`` from ``Ty``.
 
         Returns:
             ``pyvista.PolyData`` for ``Ty``
         """
 
-        vis = _visualization.McnpVisualization.get_torus(self.b.value, self.c.value, self.a.value)
+        vis = _visualization.Visualization.get_torus(self.b.value, self.c.value, self.a.value)
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
 
@@ -1552,15 +1552,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Tz``.
+        Generates ``Visualization`` from ``Tz``.
 
         Returns:
             ``pyvista.PolyData`` for ``Tz``
         """
 
-        vis = _visualization.McnpVisualization.get_torus(self.b.value, self.c.value, self.a.value)
+        vis = _visualization.Visualization.get_torus(self.b.value, self.c.value, self.a.value)
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
 
         return vis
@@ -1740,9 +1740,9 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Box``.
+        Generates ``Visualization`` from ``Box``.
 
         Returns:
             ``pyvista.PolyData`` for ``Box``.
@@ -1755,7 +1755,7 @@ cards = ElementScheme(
         cross = _visualization.Vector(1, 0, 0) * a1
         angle = _visualization.Vector(1, 0, 0) & a1
 
-        vis = _visualization.McnpVisualization.get_box(a1.norm(), a2.norm(), a3.norm())
+        vis = _visualization.Visualization.get_box(a1.norm(), a2.norm(), a3.norm())
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 
@@ -1798,15 +1798,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Rpp``.
+        Generates ``Visualization`` from ``Rpp``.
 
         Returns:
             ``pyvista.PolyData`` for ``Rpp``
         """
 
-        vis = _visualization.McnpVisualization.get_parallelipiped(
+        vis = _visualization.Visualization.get_parallelipiped(
             self.xmin.value,
             self.xmax.value,
             self.ymin.value,
@@ -1844,15 +1844,15 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Sph``.
+        Generates ``Visualization`` from ``Sph``.
 
         Returns:
             ``pyvista.PolyData`` for ``Sph``
         """
 
-        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(self.r.value)
         vis = vis.add_translation(
             _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
         )
@@ -1901,9 +1901,9 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Rcc``.
+        Generates ``Visualization`` from ``Rcc``.
 
         Returns:
             ``pyvista.PolyData`` for ``Rcc``
@@ -1915,7 +1915,7 @@ cards = ElementScheme(
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.McnpVisualization.get_cylinder_circle(h.norm(), self.r.value)
+        vis = _visualization.Visualization.get_cylinder_circle(h.norm(), self.r.value)
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 
@@ -2003,9 +2003,9 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Rhp``.
+        Generates ``Visualization`` from ``Rhp``.
 
         Returns:
             ``pyvista.PolyData`` for ``Rhp``
@@ -2020,7 +2020,7 @@ cards = ElementScheme(
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.McnpVisualization.get_cylinder_hexagon(
+        vis = _visualization.Visualization.get_cylinder_hexagon(
             h.norm(), r.apothem(), s.apothem(), t.apothem()
         )
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
@@ -2095,9 +2095,9 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Rec``.
+        Generates ``Visualization`` from ``Rec``.
 
         Returns:
             ``pyvista.PolyData`` for ``Rec``
@@ -2111,7 +2111,7 @@ cards = ElementScheme(
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.McnpVisualization.get_cylinder_ellipse(h.norm(), v1.norm(), v2.norm())
+        vis = _visualization.Visualization.get_cylinder_ellipse(h.norm(), v1.norm(), v2.norm())
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 
@@ -2164,9 +2164,9 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Trc``.
+        Generates ``Visualization`` from ``Trc``.
 
         Returns:
             ``pyvista.PolyData`` for ``Trc``
@@ -2177,7 +2177,7 @@ cards = ElementScheme(
         cross = h * _visualization.Vector(0, 0, 1)
         angle = h & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.McnpVisualization.get_cone_truncated(
+        vis = _visualization.Visualization.get_cone_truncated(
             h.norm(), self.r1.value, self.r2.value
         )
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
@@ -2229,9 +2229,9 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Ell``.
+        Generates ``Visualization`` from ``Ell``.
 
         Returns:
             ``pyvista.PolyData`` for ``Ell``.
@@ -2255,7 +2255,7 @@ cards = ElementScheme(
             cross = v2 * _visualization.Vector(1, 0, 0)
             angle = v2 & _visualization.Vector(1, 0, 0)
 
-        vis = _visualization.McnpVisualization.get_ellipsoid(major_length, minor_length)
+        vis = _visualization.Visualization.get_ellipsoid(major_length, minor_length)
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(center)
 
@@ -2328,9 +2328,9 @@ cards = ElementScheme(
                         ),
                     ],
                     extra='''
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Wed``.
+        Generates ``Visualization`` from ``Wed``.
 
         Returns:
             ``pyvista.PolyData`` for ``Wed``
@@ -2344,7 +2344,7 @@ cards = ElementScheme(
         cross = _visualization.Vector(1, 0, 0) * v1
         angle = _visualization.Vector(1, 0, 0) & v1
 
-        vis = _visualization.McnpVisualization.get_wedge(v1.norm(), v2.norm(), v3.norm())
+        vis = _visualization.Visualization.get_wedge(v1.norm(), v2.norm(), v3.norm())
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 

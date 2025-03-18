@@ -91,9 +91,9 @@ class Ell(SurfaceOption_, keyword='ell'):
         self.v2z: typing.Final[types.Real] = v2z
         self.rm: typing.Final[types.Real] = rm
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Ell``.
+        Generates ``Visualization`` from ``Ell``.
 
         Returns:
             ``pyvista.PolyData`` for ``Ell``.
@@ -117,7 +117,7 @@ class Ell(SurfaceOption_, keyword='ell'):
             cross = v2 * _visualization.Vector(1, 0, 0)
             angle = v2 & _visualization.Vector(1, 0, 0)
 
-        vis = _visualization.McnpVisualization.get_ellipsoid(major_length, minor_length)
+        vis = _visualization.Visualization.get_ellipsoid(major_length, minor_length)
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(center)
 

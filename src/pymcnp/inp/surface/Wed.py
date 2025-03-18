@@ -126,9 +126,9 @@ class Wed(SurfaceOption_, keyword='wed'):
         self.v3y: typing.Final[types.Real] = v3y
         self.v3z: typing.Final[types.Real] = v3z
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Wed``.
+        Generates ``Visualization`` from ``Wed``.
 
         Returns:
             ``pyvista.PolyData`` for ``Wed``
@@ -142,7 +142,7 @@ class Wed(SurfaceOption_, keyword='wed'):
         cross = _visualization.Vector(1, 0, 0) * v1
         angle = _visualization.Vector(1, 0, 0) & v1
 
-        vis = _visualization.McnpVisualization.get_wedge(v1.norm(), v2.norm(), v3.norm())
+        vis = _visualization.Visualization.get_wedge(v1.norm(), v2.norm(), v3.norm())
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 
