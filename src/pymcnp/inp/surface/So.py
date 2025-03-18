@@ -44,14 +44,14 @@ class So(SurfaceOption_, keyword='so'):
 
         self.r: typing.Final[types.Real] = r
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``So``.
+        Generates ``Visualization`` from ``So``.
 
         Returns:
             ``pyvista.PolyData`` for ``So``
         """
 
-        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(self.r.value)
 
         return vis

@@ -44,14 +44,14 @@ class Pz(SurfaceOption_, keyword='pz'):
 
         self.d: typing.Final[types.Real] = d
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Pz``.
+        Generates ``Visualization`` from ``Pz``.
 
         Returns:
             ``pyvista.PolyData`` for ``Pz``
         """
 
-        vis = _visualization.McnpVisualization.get_plane(0, 0, 1, self.d.value)
+        vis = _visualization.Visualization.get_plane(0, 0, 1, self.d.value)
 
         return vis

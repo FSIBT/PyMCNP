@@ -44,15 +44,15 @@ class Cy(SurfaceOption_, keyword='cy'):
 
         self.r: typing.Final[types.Real] = r
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Cy``.
+        Generates ``Visualization`` from ``Cy``.
 
         Returns:
             ``pyvista.PolyData`` for ``Cy``.
         """
 
-        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
 
         return vis

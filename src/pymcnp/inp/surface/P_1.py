@@ -105,9 +105,9 @@ class P_1(SurfaceOption_, keyword='p'):
         self.y3: typing.Final[types.Real] = y3
         self.z3: typing.Final[types.Real] = z3
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``P0``.
+        Generates ``Visualization`` from ``P0``.
 
         Returns:
             ``pyvista.PolyData`` for ``P1``
@@ -117,7 +117,7 @@ class P_1(SurfaceOption_, keyword='p'):
         b = _visualization.Vector(self.x3 - self.x1, self.y3 - self.y1, self.z3 - self.z1)
         n = a * b
 
-        vis = _visualization.McnpVisualization.get_plane(
+        vis = _visualization.Visualization.get_plane(
             n.x, n.y, n.z, n.x * self.x1 + n.y * self.y1 + n.z * self.z1
         )
 

@@ -7,6 +7,7 @@ from .card_ import Card_
 from ..utils import types
 from ..utils import errors
 from ..utils import _parser
+from ..utils import _visualization
 
 
 class Cell(Card_):
@@ -78,10 +79,22 @@ class Cell(Card_):
             f'{self.number} {self.material} {self.density or ""} {self.geometry} {self.options or ""}'
         )
 
-    def to_pyvista(self, surfaces: dict[int, pyvista.PolyData]):
+    def draw(self, surfaces: dict[int, _visualization.Visualization]):
         """
-        Generates ``pyvista.PolyData`` from ``Cell``.
+        Generates ``Visualization`` from ``Cell``.
 
         Returns:
             ``pyvista.PolyData`` for ``Cell``
         """
+
+        temp = re.sub(r' 0+', '', self.geometry.infix)
+        temp = re.sub(r' +', ' ', temp)
+        temp = re.sub(r'\+', '', temp)
+        temp = re.sub(r' ?: ?', '|', temp)
+        temp = re.sub(r' ', '&', temp)
+        temp = re.sub(r'(\d+)', r'surfaces[\1]', temp)
+
+        if '-' in temp or '#' in temp:
+            assert False, "I'm working on it!"
+
+        return eval(temp)

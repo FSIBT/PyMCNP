@@ -39,13 +39,13 @@ def main() -> None:
         exit(2)
 
     # Visualizing!
-    surfaces = {surface.number: surface.to_pyvista() for surface in inp.surfaces}
+    surfaces = {surface.number: surface.draw() for surface in inp.surfaces}
 
     if args['--cells']:
-        vis = inp.cells.to_pyvista(surfaces)
+        vis = inp.cells.draw(surfaces)
         vis.data.plot()
     else:
-        vis = sum(surfaces.values(), _visualization.McnpVisualization())
+        vis = sum(surfaces.values(), _visualization.Visualization())
         vis.data.plot()
 
     _io.done()

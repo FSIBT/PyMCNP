@@ -13,6 +13,8 @@ _BOUND: typing.Final[float] = 500
 _RESOLUTION: typing.Final[int] = 100
 _UNBOUNDED_SIZE: typing.Final[float] = 1000
 
+pyvista.global_theme.allow_empty_mesh = True
+
 
 class Vector:
     """
@@ -141,7 +143,7 @@ class Vector:
             return numpy.degrees(numpy.arccos(a @ b))
 
 
-class McnpVisualization:
+class Visualization:
     """
     Represents PyMCNP visualizations of cells, surfaces, etc.
 
@@ -151,7 +153,7 @@ class McnpVisualization:
 
     def __init__(self, data: pyvista.PolyData = pyvista.PolyData()):
         """
-        Initializes ``McnpVisualization``.
+        Initializes ``Visualization``.
         """
 
         self.data: typing.Final[pyvista.PolyData] = data
@@ -168,7 +170,7 @@ class McnpVisualization:
             d: Plane equation parameter #4.
 
         Returns:
-            ``McnpVisualization`` plane.
+            ``Visualization`` plane.
         """
 
         if c == 0 and b == 0 and a == 0:
@@ -188,7 +190,7 @@ class McnpVisualization:
         else:
             point = (0, 0, d)
 
-        return McnpVisualization(
+        return Visualization(
             pyvista.Plane(
                 center=point,
                 direction=(a, b, c),
@@ -208,10 +210,10 @@ class McnpVisualization:
             c: Box side length #3.
 
         Returns:
-            ``McnpVisualization`` box.
+            ``Visualization`` box.
         """
 
-        return McnpVisualization(
+        return Visualization(
             pyvista.Box(
                 bounds=(0, a, 0, b, 0, c),
             )
@@ -233,10 +235,10 @@ class McnpVisualization:
             zmax: Parllelipied upper z bound.
 
         Returns:
-            ``McnpVisualization`` parallelipiped.
+            ``Visualization`` parallelipiped.
         """
 
-        return McnpVisualization(
+        return Visualization(
             pyvista.Box(
                 bounds=(xmin, xmax, ymin, ymax, zmin, zmax),
             )
@@ -251,10 +253,10 @@ class McnpVisualization:
             r: Sphere radius.
 
         Returns:
-            ``McnpVisualization`` sphere.
+            ``Visualization`` sphere.
         """
 
-        return McnpVisualization(
+        return Visualization(
             pyvista.Sphere(
                 radius=r,
                 center=(0.0, 0.0, 0.0),
@@ -270,10 +272,10 @@ class McnpVisualization:
             r: Circular cylinder radius.
 
         Returns:
-            ``McnpVisualization`` circular cylinder.
+            ``Visualization`` circular cylinder.
         """
 
-        return McnpVisualization(
+        return Visualization(
             pyvista.Cylinder(
                 radius=r,
                 height=_UNBOUNDED_SIZE,
@@ -292,10 +294,10 @@ class McnpVisualization:
             h: Circular cylinder height.
 
         Returns:
-            ``McnpVisualization`` circular cylinder.
+            ``Visualization`` circular cylinder.
         """
 
-        return McnpVisualization(
+        return Visualization(
             pyvista.Cylinder(
                 radius=r,
                 height=h,
@@ -314,10 +316,10 @@ class McnpVisualization:
             h: Elliptical cylinder height.
 
         Returns:
-            ``McnpVisualization`` elliptical cylinder.
+            ``Visualization`` elliptical cylinder.
         """
 
-        return McnpVisualization(
+        return Visualization(
             pyvista.ParametricSuperEllipsoid(
                 xradius=a,
                 yradius=b,
@@ -338,7 +340,7 @@ class McnpVisualization:
             h: Hexagon height.
 
         Returns:
-            ``McnpVisualization`` hexagonal prism.
+            ``Visualization`` hexagonal prism.
         """
 
         points = [
@@ -358,7 +360,7 @@ class McnpVisualization:
 
         cells = [len(points), *list(range(len(points)))]
 
-        return McnpVisualization(
+        return Visualization(
             pyvista.UnstructuredGrid(
                 cells,
                 [pyvista.CellType.HEXAGONAL_PRISM],
@@ -375,10 +377,10 @@ class McnpVisualization:
             r: Cone radius.
 
         Returns:
-            ``McnpVisualization`` cone.
+            ``Visualization`` cone.
         """
 
-        return McnpVisualization(
+        return Visualization(
             pyvista.Cone(
                 direction=(0.0, 0.0, 1),
                 radius=r,
@@ -397,7 +399,7 @@ class McnpVisualization:
             sign: Cone sheet.
 
         Returns:
-            ``McnpVisualization`` cone.
+            ``Visualization`` cone.
         """
 
         points = [(0, 0, 0), (_UNBOUNDED_SIZE, 0, _UNBOUNDED_SIZE * sign / m)]
@@ -408,7 +410,7 @@ class McnpVisualization:
             points,
         )
 
-        return McnpVisualization(
+        return Visualization(
             line.extract_surface().extrude_rotate(resolution=_RESOLUTION, capping=False)
         )
 
@@ -423,14 +425,14 @@ class McnpVisualization:
             r2: Truncated cone radius #2.
 
         Returns:
-            ``McnpVisualization`` truncated cone.
+            ``Visualization`` truncated cone.
         """
 
         points = [[0, 0, 0], [r1, 0, 0], [r2, 0, h], [0, 0, h]]
         cells = [len(points), *list(range(len(points)))]
         trapazoid = pyvista.UnstructuredGrid(cells, [pyvista.CellType.QUAD], points)
 
-        return McnpVisualization(
+        return Visualization(
             trapazoid.extract_surface().extrude_rotate(capping=True, resolution=_RESOLUTION)
         )
 
@@ -444,10 +446,10 @@ class McnpVisualization:
             b: Ellipsoid minor axis length.
 
         Returns:
-            ``McnpVisualization`` ellipsoid.
+            ``Visualization`` ellipsoid.
         """
 
-        return McnpVisualization(
+        return Visualization(
             pyvista.ParametricEllipsoid(
                 xradius=a,
                 yradius=b,
@@ -466,7 +468,7 @@ class McnpVisualization:
             h: Wedge height.
 
         Returns:
-            ``McnpVisualization`` wedge.
+            ``Visualization`` wedge.
         """
 
         points = [
@@ -479,7 +481,7 @@ class McnpVisualization:
         ]
         cells = [len(points), *list(range(len(points)))]
 
-        return McnpVisualization(
+        return Visualization(
             pyvista.UnstructuredGrid(
                 cells,
                 [pyvista.CellType.WEDGE],
@@ -497,7 +499,7 @@ class McnpVisualization:
             faces: List of four vertex indicies.
 
         Returns:
-            ``McnpVisualization`` polyhedron.
+            ``Visualization`` polyhedron.
         """
 
         vertices = numpy.array([[vertex.x, vertex.y, vertex.z] for vertex in vertices])
@@ -530,32 +532,32 @@ class McnpVisualization:
 
     def add_translation(self, vector: Vector):
         """
-        Translates ``McnpVisualization`` instances.
+        Translates ``Visualization`` instances.
 
         Parameters:
             vector: Translation vector.
 
         Returns:
-            Translated ``McnpVisualization``.
+            Translated ``Visualization``.
         """
 
-        return McnpVisualization(self.data.translate(xyz=(vector.x, vector.y, vector.z)))
+        return Visualization(self.data.translate(xyz=(vector.x, vector.y, vector.z)))
 
     def add_rotation(self, axis: Vector, angle: float, center: tuple[float]):
         """
-        Translates ``McnpVisualization`` instances.
+        Translates ``Visualization`` instances.
 
         Parameters:
             center: Center of rotation.
 
         Returns:
-            Rotated ``McnpVisualization``.
+            Rotated ``Visualization``.
         """
 
         if axis.x == 0 and axis.y == 0 and axis.z == 0:
             return self
         else:
-            return McnpVisualization(
+            return Visualization(
                 self.data.rotate_vector(
                     vector=(axis.x, axis.y, axis.z),
                     angle=angle,
@@ -568,23 +570,78 @@ class McnpVisualization:
         Bounds ``PyMcnpVisualuzation`` inside the bounding cube.
 
         Returns:
-            Rotated ``McnpVisualization``.
+            Rotated ``Visualization``.
         """
 
         bound = pyvista.Cube(center=(0, 0, 0), x_length=_BOUND, y_length=_BOUND, z_length=_BOUND)
 
-        return McnpVisualization(self.data.clip_box(bound, invert=False))
+        return Visualization(self.data.clip_box(bound, invert=False))
+
+    def plot(self):
+        """
+        Runs ``PyVisualization``.
+        """
+
+        plot = pyvista.Plotter()
+        plot.add_mesh(self.data)
+        plot.show()
 
     def __add__(a, b):
         """
-        Adds ``McnpVisualization`` instances.
+        Adds ``Visualization`` instances.
 
         Parameters:
             a: Addend #1.
             b: Addend #2.
 
         Returns:
-            Merged ``McnpVisualization``.
+            Merged ``Visualization``.
         """
 
-        return McnpVisualization(pyvista.merge([a.data, b.data], merge_points=False))
+        return Visualization(pyvista.merge([a.data, b.data], merge_points=False))
+
+    def __and__(a, b):
+        """
+        Unites ``Visualization``.
+
+        Parameters:
+            a: Operand #1.
+            b: Operand #2.
+
+        Returns:
+            ``Visualization`` union.
+        """
+
+        return Visualization(pyvista.merge([a.data, b.data], merge_points=True))
+
+    def __or__(a, b):
+        """
+        Intersects ``Visualization``.
+
+        Parameters:
+            a: Operand #1.
+            b: Operand #2.
+
+        Returns:
+            ``Visualization`` intersection.
+        """
+
+        if not a.data.is_all_triangles:
+            a.data = a.data.triangulate()
+        if not b.data.is_all_triangles:
+            b.data = b.data.triangulate()
+
+        return Visualization(a.data.intersection(b.data)[0])
+
+    def __invert__(a):
+        """
+        Inverts ``Visualization``.
+
+        Parameters:
+            a: Operand #1.
+
+        Returns:
+            ``Visualization`` complement.
+        """
+
+        return Visualization(a.data.flip_normals())

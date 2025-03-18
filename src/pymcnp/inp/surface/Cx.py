@@ -44,15 +44,15 @@ class Cx(SurfaceOption_, keyword='cx'):
 
         self.r: typing.Final[types.Real] = r
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Cx``.
+        Generates ``Visualization`` from ``Cx``.
 
         Returns:
             ``pyvista.PolyData`` for ``Cx``.
         """
 
-        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
 
         return vis

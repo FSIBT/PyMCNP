@@ -58,15 +58,15 @@ class Ky(SurfaceOption_, keyword='ky'):
         self.t_squared: typing.Final[types.Real] = t_squared
         self.plusminus_1: typing.Final[types.Real] = plusminus_1
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Ky``.
+        Generates ``Visualization`` from ``Ky``.
 
         Returns:
             ``pyvista.PolyData`` for ``Ky``.
         """
 
-        vis = _visualization.McnpVisualization.get_cone_quadratic(
+        vis = _visualization.Visualization.get_cone_quadratic(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))

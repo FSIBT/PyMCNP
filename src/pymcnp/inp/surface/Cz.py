@@ -44,14 +44,14 @@ class Cz(SurfaceOption_, keyword='cz'):
 
         self.r: typing.Final[types.Real] = r
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Cz``.
+        Generates ``Visualization`` from ``Cz``.
 
         Returns:
             ``pyvista.PolyData`` for ``Cz``.
         """
 
-        vis = _visualization.McnpVisualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
 
         return vis

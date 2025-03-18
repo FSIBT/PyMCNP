@@ -91,9 +91,9 @@ class Rcc(SurfaceOption_, keyword='rcc'):
         self.hz: typing.Final[types.Real] = hz
         self.r: typing.Final[types.Real] = r
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Rcc``.
+        Generates ``Visualization`` from ``Rcc``.
 
         Returns:
             ``pyvista.PolyData`` for ``Rcc``
@@ -105,7 +105,7 @@ class Rcc(SurfaceOption_, keyword='rcc'):
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.McnpVisualization.get_cylinder_circle(h.norm(), self.r.value)
+        vis = _visualization.Visualization.get_cylinder_circle(h.norm(), self.r.value)
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 

@@ -50,15 +50,15 @@ class Sz(SurfaceOption_, keyword='sz'):
         self.z: typing.Final[types.Real] = z
         self.r: typing.Final[types.Real] = r
 
-    def to_pyvista(self):
+    def draw(self):
         """
-        Generates ``pyvista.PolyData`` from ``Sz``.
+        Generates ``Visualization`` from ``Sz``.
 
         Returns:
             ``pyvista.PolyData`` for ``Sz``
         """
 
-        vis = _visualization.McnpVisualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(self.r.value)
         vis = vis.add_translation(_visualization.Vector(0, 0, self.z.value))
 
         return vis
