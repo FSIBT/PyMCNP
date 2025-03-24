@@ -22,7 +22,7 @@ class Fmesh(DataOption_, keyword='fmesh'):
         'options': types.Tuple[fmesh.FmeshOption_],
     }
 
-    _REGEX = re.compile(rf'fmesh(\S+):(\S+)(( ({fmesh.FmeshOption_._REGEX.pattern}))+)?')
+    _REGEX = re.compile(rf'fmesh(\d+):(\S+)(( ({fmesh.FmeshOption_._REGEX.pattern}))+)?')
 
     def __init__(
         self,

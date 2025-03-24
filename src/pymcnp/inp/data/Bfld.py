@@ -23,7 +23,7 @@ class Bfld(DataOption_, keyword='bfld'):
     }
 
     _REGEX = re.compile(
-        rf'bfld(\S+)( {types.String._REGEX.pattern})(( ({bfld.BfldOption_._REGEX.pattern}))+)?'
+        rf'bfld(\d+)( {types.String._REGEX.pattern})(( ({bfld.BfldOption_._REGEX.pattern}))+)?'
     )
 
     def __init__(

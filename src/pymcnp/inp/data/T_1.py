@@ -21,7 +21,7 @@ class T_1(DataOption_, keyword='t'):
         'options': types.Tuple[t_1.T_1Option_],
     }
 
-    _REGEX = re.compile(rf't(\S+)(( ({t_1.T_1Option_._REGEX.pattern}))+)')
+    _REGEX = re.compile(rf't(\d+)(( ({t_1.T_1Option_._REGEX.pattern}))+)')
 
     def __init__(self, suffix: types.Integer, options: types.Tuple[t_1.T_1Option_]):
         """

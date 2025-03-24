@@ -165,7 +165,7 @@ class {CAMEL(element.name)}Option_(Option_):
     _KEYWORD = ""
     _SUBCLASSES = {{}}
     _REGEX = re.compile(
-        rf"{r'|'.join(f"{option.mnemonic}{r'(\S+)' if has_suffix(option) else ''}{r':(\S+)' if has_designator(option) else ''}{ATTRS_REGEX(option)}" for option in sorted(element.options, reverse=True, key=lambda scheme: len(scheme.mnemonic)))}"
+        rf"{r'|'.join(f"{option.mnemonic}{r'(\d+)' if has_suffix(option) else ''}{r':(\S+)' if has_designator(option) else ''}{ATTRS_REGEX(option)}" for option in sorted(element.options, reverse=True, key=lambda scheme: len(scheme.mnemonic)))}"
     )
 
     def __init_subclass__(cls, keyword: str):
@@ -207,7 +207,7 @@ class {CAMEL(element.name)}({f"{CAMEL(parent_name)}Option_, keyword='{element.mn
 
     _ATTRS = {{{ATTRS_DICT(element)}}}
 
-    _REGEX = re.compile(rf"{element.mnemonic}{r"(\S+)" if has_suffix(element) else ""}{r":(\S+)" if has_designator(element) else ""}{ATTRS_REGEX(element)}")
+    _REGEX = re.compile(rf"{element.mnemonic}{r"(\d+)" if has_suffix(element) else ""}{r":(\S+)" if has_designator(element) else ""}{ATTRS_REGEX(element)}")
     
     def __init__(self, {ATTRS_PARAM(element)}):
         """

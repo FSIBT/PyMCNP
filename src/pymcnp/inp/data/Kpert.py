@@ -21,7 +21,7 @@ class Kpert(DataOption_, keyword='kpert'):
         'options': types.Tuple[kpert.KpertOption_],
     }
 
-    _REGEX = re.compile(rf'kpert(\S+)(( ({kpert.KpertOption_._REGEX.pattern}))+)?')
+    _REGEX = re.compile(rf'kpert(\d+)(( ({kpert.KpertOption_._REGEX.pattern}))+)?')
 
     def __init__(self, suffix: types.Integer, options: types.Tuple[kpert.KpertOption_] = None):
         """

@@ -20,7 +20,7 @@ class Embeb(DataOption_, keyword='embeb'):
         'bounds': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'embeb(\S+)(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'embeb(\d+)(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, suffix: types.Integer, bounds: types.Tuple[types.Real]):
         """

@@ -21,7 +21,7 @@ class Dxc(CellOption_, keyword='dxc'):
         'probability': types.Real,
     }
 
-    _REGEX = re.compile(rf'dxc(\S+):(\S+)( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'dxc(\d+):(\S+)( {types.Real._REGEX.pattern})')
 
     def __init__(
         self, suffix: types.Integer, designator: types.Designator, probability: types.Real

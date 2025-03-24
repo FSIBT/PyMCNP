@@ -20,7 +20,7 @@ class Embdb(DataOption_, keyword='embdb'):
         'bounds': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'embdb(\S+)(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'embdb(\d+)(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, suffix: types.Integer, bounds: types.Tuple[types.Real]):
         """

@@ -20,7 +20,7 @@ class Pd(CellOption_, keyword='pd'):
         'probability': types.Real,
     }
 
-    _REGEX = re.compile(rf'pd(\S+)( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'pd(\d+)( {types.Real._REGEX.pattern})')
 
     def __init__(self, suffix: types.Integer, probability: types.Real):
         """

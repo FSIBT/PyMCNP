@@ -23,7 +23,7 @@ class E(DataOption_, keyword='e'):
     }
 
     _REGEX = re.compile(
-        rf'e(\S+)(( {types.Real._REGEX.pattern})+)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?'
+        rf'e(\d+)(( {types.Real._REGEX.pattern})+)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?'
     )
 
     def __init__(

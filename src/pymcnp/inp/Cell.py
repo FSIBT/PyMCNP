@@ -1,6 +1,5 @@
 import re
 
-import pyvista
 
 from . import cell
 from .card_ import Card_

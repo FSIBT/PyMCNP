@@ -23,7 +23,7 @@ class Ksen(DataOption_, keyword='ksen'):
     }
 
     _REGEX = re.compile(
-        rf'ksen(\S+)( {types.String._REGEX.pattern})(( ({ksen.KsenOption_._REGEX.pattern}))+)?'
+        rf'ksen(\d+)( {types.String._REGEX.pattern})(( ({ksen.KsenOption_._REGEX.pattern}))+)?'
     )
 
     def __init__(

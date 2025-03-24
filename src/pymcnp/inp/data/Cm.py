@@ -20,7 +20,7 @@ class Cm(DataOption_, keyword='cm'):
         'multipliers': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'cm(\S+)(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'cm(\d+)(( {types.Real._REGEX.pattern})+)')
 
     def __init__(self, suffix: types.Integer, multipliers: types.Tuple[types.Real]):
         """
