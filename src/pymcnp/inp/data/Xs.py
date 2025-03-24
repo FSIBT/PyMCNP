@@ -20,7 +20,7 @@ class Xs(DataOption_, keyword='xs'):
         'weight_ratios': types.Tuple[types.Substance],
     }
 
-    _REGEX = re.compile(rf'xs(\S+)(( {types.Substance._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'xs(\d+)(( {types.Substance._REGEX.pattern})+)')
 
     def __init__(self, suffix: types.Integer, weight_ratios: types.Tuple[types.Substance]):
         """

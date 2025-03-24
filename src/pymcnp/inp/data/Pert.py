@@ -22,7 +22,7 @@ class Pert(DataOption_, keyword='pert'):
         'options': types.Tuple[pert.PertOption_],
     }
 
-    _REGEX = re.compile(rf'pert(\S+):(\S+)(( ({pert.PertOption_._REGEX.pattern}))+)?')
+    _REGEX = re.compile(rf'pert(\d+):(\S+)(( ({pert.PertOption_._REGEX.pattern}))+)?')
 
     def __init__(
         self,

@@ -22,7 +22,7 @@ class De(DataOption_, keyword='de'):
     }
 
     _REGEX = re.compile(
-        rf'de(\S+)( {types.String._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
+        rf'de(\d+)( {types.String._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
     )
 
     def __init__(

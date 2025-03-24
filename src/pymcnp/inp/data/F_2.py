@@ -24,7 +24,7 @@ class F_2(DataOption_, keyword='f'):
     }
 
     _REGEX = re.compile(
-        rf'f(\S+):(\S+)( {types.String._REGEX.pattern})(( {types.Ring._REGEX.pattern})+)( {types.String._REGEX.pattern})?'
+        rf'f(\d+):(\S+)( {types.String._REGEX.pattern})(( {types.Ring._REGEX.pattern})+)( {types.String._REGEX.pattern})?'
     )
 
     def __init__(

@@ -22,7 +22,7 @@ class Ds_1(DataOption_, keyword='ds'):
     }
 
     _REGEX = re.compile(
-        rf'ds(\S+)( {types.String._REGEX.pattern})(( {types.IndependentDependent._REGEX.pattern})+)'
+        rf'ds(\d+)( {types.String._REGEX.pattern})(( {types.IndependentDependent._REGEX.pattern})+)'
     )
 
     def __init__(

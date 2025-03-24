@@ -22,7 +22,7 @@ class Sp_0(DataOption_, keyword='sp'):
     }
 
     _REGEX = re.compile(
-        rf'sp(\S+)( {types.String._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
+        rf'sp(\d+)( {types.String._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
     )
 
     def __init__(

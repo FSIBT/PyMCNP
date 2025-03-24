@@ -23,7 +23,7 @@ class F_1(DataOption_, keyword='f'):
     }
 
     _REGEX = re.compile(
-        rf'f(\S+):(\S+)(( {types.Sphere._REGEX.pattern})+)( {types.String._REGEX.pattern})?'
+        rf'f(\d+):(\S+)(( {types.Sphere._REGEX.pattern})+)( {types.String._REGEX.pattern})?'
     )
 
     def __init__(
