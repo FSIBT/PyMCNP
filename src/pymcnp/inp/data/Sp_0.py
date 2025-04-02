@@ -21,12 +21,13 @@ class Sp_0(DataOption_, keyword='sp'):
         'probabilities': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(
-        rf'\Asp(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern})+?)\Z'
-    )
+    _REGEX = re.compile(rf'\Asp(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(
-        self, suffix: types.Integer, probabilities: types.Tuple[types.Real], option: types.String = None,
+        self,
+        suffix: types.Integer,
+        probabilities: types.Tuple[types.Real],
+        option: types.String = None,
     ):
         """
         Initializes ``Sp_0``.

@@ -2551,7 +2551,7 @@ cards = ElementScheme(
                     ],
                 ),
                 ElementScheme(
-                    name='tr',
+                    name='tr_0',
                     mnemonic='tr',
                     attributes=[
                         AttributeScheme(
@@ -2625,6 +2625,213 @@ cards = ElementScheme(
                             type='types.Integer',
                             description='Coordinate system setting',
                             restriction='system == -1 or system == 1',
+                            optional=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='tr_1',
+                    mnemonic='tr',
+                    attributes=[
+                        AttributeScheme(
+                            name='suffix',
+                            type='types.Integer',
+                            description='Data card option suffix',
+                            restriction='1 <= suffix <= 999',
+                        ),
+                        AttributeScheme(
+                            name='x',
+                            type='types.Real',
+                            description='Displacement vector x component',
+                        ),
+                        AttributeScheme(
+                            name='y',
+                            type='types.Real',
+                            description='Displacement vector y component',
+                        ),
+                        AttributeScheme(
+                            name='z',
+                            type='types.Real',
+                            description='Displacement vector z component',
+                        ),
+                        AttributeScheme(
+                            name='xx',
+                            type='types.Real',
+                            description="Rotation matrix xx' component",
+                        ),
+                        AttributeScheme(
+                            name='xy',
+                            type='types.Real',
+                            description="Rotation matrix xy' component",
+                        ),
+                        AttributeScheme(
+                            name='xz',
+                            type='types.Real',
+                            description="Rotation matrix xz' component",
+                        ),
+                        AttributeScheme(
+                            name='yx',
+                            type='types.Real',
+                            description="Rotation matrix yx' component",
+                        ),
+                        AttributeScheme(
+                            name='yy',
+                            type='types.Real',
+                            description="Rotation matrix yy' component",
+                        ),
+                        AttributeScheme(
+                            name='yz',
+                            type='types.Real',
+                            description="Rotation matrix yz' component",
+                        ),
+                        AttributeScheme(
+                            name='system',
+                            type='types.Integer',
+                            description='Coordinate system setting',
+                            restriction='system == -1 or system == 1',
+                            optional=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='tr_2',
+                    mnemonic='tr',
+                    attributes=[
+                        AttributeScheme(
+                            name='suffix',
+                            type='types.Integer',
+                            description='Data card option suffix',
+                            restriction='1 <= suffix <= 999',
+                        ),
+                        AttributeScheme(
+                            name='x',
+                            type='types.Real',
+                            description='Displacement vector x component',
+                        ),
+                        AttributeScheme(
+                            name='y',
+                            type='types.Real',
+                            description='Displacement vector y component',
+                        ),
+                        AttributeScheme(
+                            name='z',
+                            type='types.Real',
+                            description='Displacement vector z component',
+                        ),
+                        AttributeScheme(
+                            name='xx',
+                            type='types.Real',
+                            description="Rotation matrix xx' component",
+                        ),
+                        AttributeScheme(
+                            name='xy',
+                            type='types.Real',
+                            description="Rotation matrix xy' component",
+                        ),
+                        AttributeScheme(
+                            name='xz',
+                            type='types.Real',
+                            description="Rotation matrix xz' component",
+                        ),
+                        AttributeScheme(
+                            name='yx',
+                            type='types.Real',
+                            description="Rotation matrix yx' component",
+                        ),
+                        AttributeScheme(
+                            name='yy',
+                            type='types.Real',
+                            description="Rotation matrix yy' component",
+                        ),
+                        AttributeScheme(
+                            name='system',
+                            type='types.Integer',
+                            description='Coordinate system setting',
+                            restriction='system == -1 or system == 1',
+                            optional=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='tr_3',
+                    mnemonic='tr',
+                    attributes=[
+                        AttributeScheme(
+                            name='suffix',
+                            type='types.Integer',
+                            description='Data card option suffix',
+                            restriction='1 <= suffix <= 999',
+                        ),
+                        AttributeScheme(
+                            name='x',
+                            type='types.Real',
+                            description='Displacement vector x component',
+                        ),
+                        AttributeScheme(
+                            name='y',
+                            type='types.Real',
+                            description='Displacement vector y component',
+                        ),
+                        AttributeScheme(
+                            name='z',
+                            type='types.Real',
+                            description='Displacement vector z component',
+                        ),
+                        AttributeScheme(
+                            name='xx',
+                            type='types.Real',
+                            description="Rotation matrix xx' component",
+                        ),
+                        AttributeScheme(
+                            name='xy',
+                            type='types.Real',
+                            description="Rotation matrix xy' component",
+                        ),
+                        AttributeScheme(
+                            name='xz',
+                            type='types.Real',
+                            description="Rotation matrix xz' component",
+                        ),
+                        AttributeScheme(
+                            name='system',
+                            type='types.Integer',
+                            description='Coordinate system setting',
+                            restriction='system == -1 or system == 1',
+                            optional=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='tr_4',
+                    mnemonic='tr',
+                    attributes=[
+                        AttributeScheme(
+                            name='suffix',
+                            type='types.Integer',
+                            description='Data card option suffix',
+                            restriction='1 <= suffix <= 999',
+                        ),
+                        AttributeScheme(
+                            name='x',
+                            type='types.Real',
+                            description='Displacement vector x component',
+                        ),
+                        AttributeScheme(
+                            name='y',
+                            type='types.Real',
+                            description='Displacement vector y component',
+                        ),
+                        AttributeScheme(
+                            name='z',
+                            type='types.Real',
+                            description='Displacement vector z component',
+                        ),
+                        AttributeScheme(
+                            name='system',
+                            type='types.Integer',
+                            description='Coordinate system setting',
+                            restriction='system == -1 or system == 1',
+                            optional=True,
                         ),
                     ],
                 ),

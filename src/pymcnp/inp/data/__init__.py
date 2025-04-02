@@ -24,7 +24,11 @@ from . import ptrac
 from . import rand
 from .Vol import Vol
 from .Area import Area
-from .Tr import Tr
+from .Tr_0 import Tr_0
+from .Tr_1 import Tr_1
+from .Tr_2 import Tr_2
+from .Tr_3 import Tr_3
+from .Tr_4 import Tr_4
 from .U import U
 from .Lat import Lat
 from .Fill import Fill
@@ -188,7 +192,11 @@ __all__ = [
     'rand',
     'Vol',
     'Area',
-    'Tr',
+    'Tr_0',
+    'Tr_1',
+    'Tr_2',
+    'Tr_3',
+    'Tr_4',
     'U',
     'Lat',
     'Fill',

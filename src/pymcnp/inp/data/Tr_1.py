@@ -7,9 +7,9 @@ from ...utils import types
 from ...utils import errors
 
 
-class Tr(DataOption_, keyword='tr'):
+class Tr_1(DataOption_, keyword='tr'):
     """
-    Represents INP tr elements.
+    Represents INP tr_1 elements.
 
     Attributes:
         InpError: SEMANTICS_OPTION_VALUE.
@@ -26,14 +26,11 @@ class Tr(DataOption_, keyword='tr'):
         'yx': types.Real,
         'yy': types.Real,
         'yz': types.Real,
-        'zx': types.Real,
-        'zy': types.Real,
-        'zz': types.Real,
         'system': types.Integer,
     }
 
     _REGEX = re.compile(
-        rf'\Atr(\d+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Atr(\d+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})?\Z'
     )
 
     def __init__(
@@ -48,13 +45,10 @@ class Tr(DataOption_, keyword='tr'):
         yx: types.Real,
         yy: types.Real,
         yz: types.Real,
-        zx: types.Real,
-        zy: types.Real,
-        zz: types.Real,
-        system: types.Integer,
+        system: types.Integer = None,
     ):
         """
-        Initializes ``Tr``.
+        Initializes ``Tr_1``.
 
         Parameters:
             suffix: Data card option suffix.
@@ -67,9 +61,6 @@ class Tr(DataOption_, keyword='tr'):
             yx: Rotation matrix yx' component.
             yy: Rotation matrix yy' component.
             yz: Rotation matrix yz' component.
-            zx: Rotation matrix zx' component.
-            zy: Rotation matrix zy' component.
-            zz: Rotation matrix zz' component.
             system: Coordinate system setting.
 
         Raises:
@@ -96,13 +87,7 @@ class Tr(DataOption_, keyword='tr'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, yy)
         if yz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, yz)
-        if zx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zx)
-        if zy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zy)
-        if zz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zz)
-        if system is None or not (system == -1 or system == 1):
+        if system is not None and not (system == -1 or system == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, system)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -116,9 +101,6 @@ class Tr(DataOption_, keyword='tr'):
                 yx,
                 yy,
                 yz,
-                zx,
-                zy,
-                zz,
                 system,
             ]
         )
@@ -133,7 +115,4 @@ class Tr(DataOption_, keyword='tr'):
         self.yx: typing.Final[types.Real] = yx
         self.yy: typing.Final[types.Real] = yy
         self.yz: typing.Final[types.Real] = yz
-        self.zx: typing.Final[types.Real] = zx
-        self.zy: typing.Final[types.Real] = zy
-        self.zz: typing.Final[types.Real] = zz
         self.system: typing.Final[types.Integer] = system
