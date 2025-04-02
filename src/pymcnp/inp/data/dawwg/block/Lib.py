@@ -19,7 +19,7 @@ class Lib(BlockOption_, keyword='lib'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'lib( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Alib( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

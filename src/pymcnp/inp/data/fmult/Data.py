@@ -19,7 +19,7 @@ class Data(FmultOption_, keyword='data'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'data( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Adata( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

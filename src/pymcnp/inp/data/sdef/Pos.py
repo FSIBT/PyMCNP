@@ -19,7 +19,7 @@ class Pos(SdefOption_, keyword='pos'):
         'vector': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'pos(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Apos((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, vector: types.Tuple[types.Real]):
         """

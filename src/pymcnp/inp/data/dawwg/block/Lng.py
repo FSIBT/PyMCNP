@@ -19,7 +19,7 @@ class Lng(BlockOption_, keyword='lng'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'lng( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Alng( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

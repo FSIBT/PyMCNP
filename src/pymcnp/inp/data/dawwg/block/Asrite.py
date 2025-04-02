@@ -19,7 +19,7 @@ class Asrite(BlockOption_, keyword='asrite'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'asrite( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aasrite( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

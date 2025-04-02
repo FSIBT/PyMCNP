@@ -19,7 +19,7 @@ class Ext(SsrOption_, keyword='ext'):
         'number': types.DistributionNumber,
     }
 
-    _REGEX = re.compile(rf'ext( {types.DistributionNumber._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aext( {types.DistributionNumber._REGEX.pattern})\Z')
 
     def __init__(self, number: types.DistributionNumber):
         """

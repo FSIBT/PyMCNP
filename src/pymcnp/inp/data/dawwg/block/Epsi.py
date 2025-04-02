@@ -19,7 +19,7 @@ class Epsi(BlockOption_, keyword='epsi'):
         'setting': types.Real,
     }
 
-    _REGEX = re.compile(rf'epsi( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aepsi( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Real):
         """

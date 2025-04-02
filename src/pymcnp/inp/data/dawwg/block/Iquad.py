@@ -19,7 +19,7 @@ class Iquad(BlockOption_, keyword='iquad'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'iquad( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aiquad( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

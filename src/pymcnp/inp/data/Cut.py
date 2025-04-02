@@ -24,7 +24,7 @@ class Cut(DataOption_, keyword='cut'):
     }
 
     _REGEX = re.compile(
-        rf'cut( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+        rf'\Acut( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(

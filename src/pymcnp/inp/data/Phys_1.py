@@ -25,7 +25,7 @@ class Phys_1(DataOption_, keyword='phys:p'):
     }
 
     _REGEX = re.compile(
-        rf'phys:p( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})'
+        rf'\Aphys:p( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
     )
 
     def __init__(

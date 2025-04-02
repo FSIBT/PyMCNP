@@ -19,7 +19,7 @@ class Tropt(DataOption_, keyword='tropt'):
         'options': types.Tuple[tropt.TroptOption_],
     }
 
-    _REGEX = re.compile(rf'tropt(( ({tropt.TroptOption_._REGEX.pattern}))+)?')
+    _REGEX = re.compile(rf'\Atropt((?: (?:{tropt.TroptOption_._REGEX.pattern}))+?)?\Z')
 
     def __init__(self, options: types.Tuple[tropt.TroptOption_] = None):
         """

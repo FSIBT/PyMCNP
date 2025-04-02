@@ -117,6 +117,11 @@ class Integer(int, _object.McnpElement_):
 
         source, comments = _parser.preprocess_inp(source)
 
+        if '-' in source[1:] and 'e' not in source:
+            source = source[0] + 'e-'.join(source[1:].split('-'))
+        if '+' in source[1:] and 'e' not in source:
+            source = source[0] + 'e+'.join(source[1:].split('+'))
+
         try:
             return Integer(int(float(source)))
         except ValueError:
@@ -178,6 +183,11 @@ class Real(float, _object.McnpElement_):
         """
 
         source, comments = _parser.preprocess_inp(source)
+
+        if '-' in source[1:] and 'e' not in source:
+            source = source[0] + 'e-'.join(source[1:].split('-'))
+        if '+' in source[1:] and 'e' not in source:
+            source = source[0] + 'e+'.join(source[1:].split('+'))
 
         try:
             return Real(float(source))
@@ -1388,7 +1398,7 @@ class IndependentDependent(_object.McnpElement_):
         dependent: Dependent source dependent variable.
     """
 
-    _REGEX = re.compile(r'( \S+)( \S+)')
+    _REGEX = re.compile(r'(\S+) (\S+)')
 
     def __init__(self, independent: Real, dependent: Real):
         """
@@ -1429,7 +1439,7 @@ class IndependentDependent(_object.McnpElement_):
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = IndependentDependent._REGEX.match(' ' + source)
+        tokens = IndependentDependent._REGEX.match(source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -1539,7 +1549,7 @@ class File(_object.McnpElement_):
         length: Record length of file to create.
     """
 
-    _REGEX = re.compile(r'( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+) (\S+)')
 
     def __init__(
         self,
@@ -1599,7 +1609,7 @@ class File(_object.McnpElement_):
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = File._REGEX.match(' ' + source)
+        tokens = File._REGEX.match(source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -1632,7 +1642,7 @@ class Diagnostic(_object.McnpElement_):
         printing_setting: Criterion for printing diagnostics for large contributions for DXTRAN.
     """
 
-    _REGEX = re.compile(r'( \S+)( \S+)')
+    _REGEX = re.compile(r'(\S+) (\S+)')
 
     def __init__(self, playing_setting: Real, printing_setting: Real):
         """
@@ -1673,7 +1683,7 @@ class Diagnostic(_object.McnpElement_):
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = Diagnostic._REGEX.match(' ' + source)
+        tokens = Diagnostic._REGEX.match(source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -1704,7 +1714,7 @@ class Ring(_object.McnpElement_):
         excludion_radius: Ring radius.
     """
 
-    _REGEX = re.compile(r'( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(r'(\S+) (\S+) (\S+)')
 
     def __init__(
         self,
@@ -1754,7 +1764,7 @@ class Ring(_object.McnpElement_):
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = Ring._REGEX.match(' ' + source)
+        tokens = Ring._REGEX.match(source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -1787,7 +1797,7 @@ class Sphere(_object.McnpElement_):
         ro: Sphere exclusion radius.
     """
 
-    _REGEX = re.compile(r'( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+)')
 
     def __init__(
         self,
@@ -1818,7 +1828,7 @@ class Sphere(_object.McnpElement_):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, y)
         if z is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, z)
-        if ro is None or not (ro != 0):
+        if ro is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, ro)
 
         self.x: typing.Final[Real] = x
@@ -1842,7 +1852,7 @@ class Sphere(_object.McnpElement_):
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = Sphere._REGEX.match(' ' + source)
+        tokens = Sphere._REGEX.match(source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -1877,7 +1887,7 @@ class Shell(_object.McnpElement_):
         outer_radius: Outer sphere radius.
     """
 
-    _REGEX = re.compile(r'( \S+)( \S+)( \S+)( \S+)( \S+)')
+    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+) (\S+)')
 
     def __init__(
         self,
@@ -1937,7 +1947,7 @@ class Shell(_object.McnpElement_):
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = Shell._REGEX.match(' ' + source)
+        tokens = Shell._REGEX.match(source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -1970,7 +1980,7 @@ class Reaction(_object.McnpElement_):
         pmt: MT reaction frequency control.
     """
 
-    _REGEX = re.compile(r'( \S+)( \S+)')
+    _REGEX = re.compile(r'(\S+) (\S+)')
 
     def __init__(self, mt: Zaid, pmt: Integer):
         """
@@ -2011,7 +2021,7 @@ class Reaction(_object.McnpElement_):
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = Reaction._REGEX.match(' ' + source)
+        tokens = Reaction._REGEX.match(source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -2042,7 +2052,7 @@ class PtracFilter(_object.McnpElement_):
         variable: Variable name for PBL derived structure.
     """
 
-    _REGEX = re.compile(r'( \S+)( \S+)?( \S+)')
+    _REGEX = re.compile(r'(\S+) (\S+)? (\S+)')
 
     def __init__(self, lower: Real, variable: String, upper: Real = None):
         """
@@ -2087,7 +2097,7 @@ class PtracFilter(_object.McnpElement_):
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = PtracFilter._REGEX.match(' ' + source)
+        tokens = PtracFilter._REGEX.match(source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -2119,7 +2129,7 @@ class PhotonBias(_object.McnpElement_):
         reactions: Bias MT reactions.
     """
 
-    _REGEX = re.compile(r'( \S+)( \S+)((( \S+)( \S+))+)')
+    _REGEX = re.compile(r'(\S+) (\S+)((?: \S+ \S+)+)')
 
     def __init__(self, zaid: Zaid, ipiki: Integer, reactions: tuple[Reaction]):
         """
@@ -2164,7 +2174,7 @@ class PhotonBias(_object.McnpElement_):
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = PhotonBias._REGEX.match(' ' + source)
+        tokens = PhotonBias._REGEX.match(source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -2238,7 +2248,7 @@ class Index(_object.McnpElement_):
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = Index._REGEX.match(' ' + source)
+        tokens = Index._REGEX.match(source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)

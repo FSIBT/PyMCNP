@@ -19,7 +19,7 @@ class U(CellOption_, keyword='u'):
         'number': types.Integer,
     }
 
-    _REGEX = re.compile(rf'u( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Au( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, number: types.Integer):
         """

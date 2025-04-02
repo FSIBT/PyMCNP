@@ -23,7 +23,7 @@ class Fill_2(CellOption_, keyword='fill'):
     }
 
     _REGEX = re.compile(
-        rf'fill( {types.Index._REGEX.pattern})( {types.Index._REGEX.pattern})( {types.Index._REGEX.pattern})(( {types.Integer._REGEX.pattern})+)'
+        rf'\Afill( {types.Index._REGEX.pattern})( {types.Index._REGEX.pattern})( {types.Index._REGEX.pattern})((?: {types.Integer._REGEX.pattern})+?)\Z'
     )
 
     def __init__(

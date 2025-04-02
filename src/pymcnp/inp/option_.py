@@ -40,6 +40,8 @@ class Option_(_object.McnpElement_):
                     continue
             except errors.InpError:
                 continue
+        else:
+            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         if not (tokens := subcls._REGEX.match(source)):
             raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)

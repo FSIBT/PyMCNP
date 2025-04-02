@@ -19,7 +19,7 @@ class Fmatnz(KoptsOption_, keyword='fmatnz'):
         'fmat_nz': types.Real,
     }
 
-    _REGEX = re.compile(rf'fmatnz( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Afmatnz( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, fmat_nz: types.Real):
         """

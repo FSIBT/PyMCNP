@@ -20,21 +20,23 @@ class Vol(DataOption_, keyword='vol'):
         'volumes': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'vol( {types.String._REGEX.pattern})?(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(
+        rf'\Avol( no)?((?: {types.Real._REGEX.pattern})+?)\Z'
+    )
 
     def __init__(self, volumes: types.Tuple[types.Real], no: types.String = None):
         """
         Initializes ``Vol``.
 
         Parameters:
-            no: Calculation on/off.
+            no: Volume calculation on/off.
             volumes: Tuple of cell volumes.
 
         Raises:
             InpError: SEMANTICS_OPTION_VALUE.
         """
 
-        if no is not None and not (no == 'no'):
+        if no is not None and no not in {'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, no)
         if volumes is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, volumes)

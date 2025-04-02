@@ -19,7 +19,7 @@ class Out(FmeshOption_, keyword='out'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'out( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aout( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

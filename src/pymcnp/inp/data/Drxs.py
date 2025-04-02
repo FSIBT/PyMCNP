@@ -18,7 +18,7 @@ class Drxs(DataOption_, keyword='drxs'):
         'zaids': types.Tuple[types.Zaid],
     }
 
-    _REGEX = re.compile(rf'drxs(( {types.Zaid._REGEX.pattern})+)?')
+    _REGEX = re.compile(rf'\Adrxs((?: {types.Zaid._REGEX.pattern})+?)?\Z')
 
     def __init__(self, zaids: types.Tuple[types.Zaid] = None):
         """

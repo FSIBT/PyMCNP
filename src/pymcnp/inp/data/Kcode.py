@@ -27,7 +27,7 @@ class Kcode(DataOption_, keyword='kcode'):
     }
 
     _REGEX = re.compile(
-        rf'kcode( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})'
+        rf'\Akcode( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
     )
 
     def __init__(

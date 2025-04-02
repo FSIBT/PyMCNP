@@ -19,7 +19,7 @@ class Dneb(ActOption_, keyword='dneb'):
         'biases': types.Tuple[types.Bias],
     }
 
-    _REGEX = re.compile(rf'dneb(( {types.Bias._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Adneb((?: {types.Bias._REGEX.pattern})+?)\Z')
 
     def __init__(self, biases: types.Tuple[types.Bias]):
         """

@@ -19,7 +19,7 @@ class Fmataccel(KoptsOption_, keyword='fmataccel'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'fmataccel( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Afmataccel( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

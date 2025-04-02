@@ -16,7 +16,7 @@ def _preprocess_whitespace(string: str):
     """ """
 
     string = re.sub(r' +', ' ', string)
-    string = re.sub(r'\n *\n', '\n\n', string)
+    string = re.sub(r'\n \n', '\n\n', string)
     string = re.sub(r' = | =|= |=', ' ', string)
     string = re.sub(r'\t', '    ', string)
 
@@ -27,7 +27,7 @@ def _preprocess_continuation(string: str):
     """ """
 
     string = string.strip()
-    string = re.sub(r'\n +|& *\n +', ' ', string)
+    string = re.sub(r'\n +|& *\n *', ' ', string)
 
     return string
 
@@ -55,6 +55,7 @@ def preprocess_inp(string: str):
 
     string, comments = _preprocess_comments(string)
     string = _preprocess_case(string)
+    string = _preprocess_whitespace(string)
     string = _preprocess_continuation(string)
     string = _preprocess_whitespace(string)
 

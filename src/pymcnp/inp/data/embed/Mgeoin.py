@@ -19,7 +19,7 @@ class Mgeoin(EmbedOption_, keyword='mgeoin'):
         'filename': types.String,
     }
 
-    _REGEX = re.compile(rf'mgeoin( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Amgeoin( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, filename: types.String):
         """

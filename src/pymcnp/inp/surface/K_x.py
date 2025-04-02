@@ -25,7 +25,7 @@ class K_x(SurfaceOption_, keyword='k/x'):
     }
 
     _REGEX = re.compile(
-        rf'k/x( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+        rf'\Ak/x( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(

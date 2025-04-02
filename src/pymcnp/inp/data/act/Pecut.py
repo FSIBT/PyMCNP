@@ -19,7 +19,7 @@ class Pecut(ActOption_, keyword='pecut'):
         'cutoff': types.Real,
     }
 
-    _REGEX = re.compile(rf'pecut( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Apecut( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, cutoff: types.Real):
         """

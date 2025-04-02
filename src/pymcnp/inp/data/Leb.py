@@ -23,7 +23,7 @@ class Leb(DataOption_, keyword='leb'):
     }
 
     _REGEX = re.compile(
-        rf'leb( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+        rf'\Aleb( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(self, yzere: types.Real, bzere: types.Real, yzero: types.Real, bzero: types.Real):

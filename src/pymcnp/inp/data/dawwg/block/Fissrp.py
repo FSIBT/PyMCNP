@@ -19,7 +19,7 @@ class Fissrp(BlockOption_, keyword='fissrp'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'fissrp( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Afissrp( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

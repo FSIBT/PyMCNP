@@ -19,7 +19,7 @@ class Tally(PtracOption_, keyword='tally'):
         'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'tally(( {types.Integer._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Atally((?: {types.Integer._REGEX.pattern})+?)\Z')
 
     def __init__(self, numbers: types.Tuple[types.Integer]):
         """

@@ -19,7 +19,7 @@ class Fission(ActOption_, keyword='fission'):
         'kind': types.String,
     }
 
-    _REGEX = re.compile(rf'fission( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Afission( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, kind: types.String):
         """

@@ -20,7 +20,7 @@ class Wwt(DataOption_, keyword='wwt'):
         'bounds': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'wwt:(\S+)(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Awwt:(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, designator: types.Designator, bounds: types.Tuple[types.Real]):
         """

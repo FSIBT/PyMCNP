@@ -2528,8 +2528,8 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='no',
                             type='types.String',
-                            description='Calculation on/off',
-                            restriction='no == "no"',
+                            description='Volume calculation on/off',
+                            restriction='no in {"no"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -5841,6 +5841,7 @@ cards = ElementScheme(
                             type='types.String',
                             description='Probability kind setting',
                             restriction='option in {"d", "c", "v", "w"}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='probabilities',
@@ -5888,6 +5889,7 @@ cards = ElementScheme(
                             type='types.String',
                             description='Bias kind setting',
                             restriction='option in {"d", "c", "v", "w"}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='biases',
@@ -5934,6 +5936,7 @@ cards = ElementScheme(
                             type='types.String',
                             description='Dependent variable setting',
                             restriction='option in {"h", "l", "s"}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='js',
@@ -5952,12 +5955,7 @@ cards = ElementScheme(
                             description='Data card option suffix',
                             restriction='1 <= suffix <= 999',
                         ),
-                        AttributeScheme(
-                            name='t',
-                            type='types.String',
-                            description='Dependent source T option',
-                            restriction='t in {"t"}',
-                        ),
+                        # t
                         AttributeScheme(
                             name='ijs',
                             type='types.Tuple[types.IndependentDependent]',
@@ -5975,12 +5973,7 @@ cards = ElementScheme(
                             description='Data card option suffix',
                             restriction='1 <= suffix <= 999',
                         ),
-                        AttributeScheme(
-                            name='q',
-                            type='types.String',
-                            description='Dependent source Q option',
-                            restriction='q in {"q"}',
-                        ),
+                        # q
                         AttributeScheme(
                             name='vss',
                             type='types.Tuple[types.IndependentDependent]',
@@ -7138,6 +7131,7 @@ cards = ElementScheme(
                             type='types.String',
                             description='Interpolation method for energy table',
                             restriction='method in {"log", "lin"}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='values',
@@ -7161,6 +7155,7 @@ cards = ElementScheme(
                             type='types.String',
                             description='Interpolation method for dose function table',
                             restriction='method in {"log", "lin"}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='values',
@@ -9549,10 +9544,10 @@ cards = ElementScheme(
                             mnemonic='event',
                             attributes=[
                                 AttributeScheme(
-                                    name='setting',
-                                    type='types.String',
+                                    name='settings',
+                                    type='types.Tuple[types.String]',
                                     description='Specifies the type of events written to the PTRAC file',
-                                    restriction='setting in {"src", "bnk", "sur", "col", "ter", "cap"}',
+                                    restriction='all(map(lambda setting: setting in {"src", "bnk", "sur", "col", "ter", "cap"}, settings))',
                                 ),
                             ],
                         ),

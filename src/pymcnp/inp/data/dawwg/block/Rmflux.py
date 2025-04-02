@@ -19,7 +19,7 @@ class Rmflux(BlockOption_, keyword='rmflux'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'rmflux( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Armflux( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

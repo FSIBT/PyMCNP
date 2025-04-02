@@ -19,7 +19,7 @@ class Dn(ActOption_, keyword='dn'):
         'source': types.String,
     }
 
-    _REGEX = re.compile(rf'dn( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Adn( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, source: types.String):
         """

@@ -19,7 +19,7 @@ class Tnorm(FmeshOption_, keyword='tnorm'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'tnorm( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Atnorm( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

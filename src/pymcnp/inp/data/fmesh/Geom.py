@@ -19,7 +19,7 @@ class Geom(FmeshOption_, keyword='geom'):
         'geometry': types.String,
     }
 
-    _REGEX = re.compile(rf'geom( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Ageom( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, geometry: types.String):
         """

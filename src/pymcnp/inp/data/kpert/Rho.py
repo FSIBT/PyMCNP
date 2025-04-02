@@ -19,7 +19,7 @@ class Rho(KpertOption_, keyword='rho'):
         'densities': types.Tuple[types.Zaid],
     }
 
-    _REGEX = re.compile(rf'rho(( {types.Zaid._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Arho((?: {types.Zaid._REGEX.pattern})+?)\Z')
 
     def __init__(self, densities: types.Tuple[types.Zaid]):
         """

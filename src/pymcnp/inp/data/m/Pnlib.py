@@ -19,7 +19,7 @@ class Pnlib(MOption_, keyword='pnlib'):
         'abx': types.String,
     }
 
-    _REGEX = re.compile(rf'pnlib( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Apnlib( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, abx: types.String):
         """

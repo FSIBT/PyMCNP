@@ -21,7 +21,7 @@ class Wwn(DataOption_, keyword='wwn'):
         'bounds': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'wwn(\d+):(\S+)(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Awwn(\d+):(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(
         self, suffix: types.Integer, designator: types.Designator, bounds: types.Tuple[types.Real]

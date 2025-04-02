@@ -19,7 +19,7 @@ class Mt(BlockOption_, keyword='mt'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'mt( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Amt( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

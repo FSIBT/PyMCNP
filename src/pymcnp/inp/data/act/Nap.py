@@ -19,7 +19,7 @@ class Nap(ActOption_, keyword='nap'):
         'count': types.Integer,
     }
 
-    _REGEX = re.compile(rf'nap( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Anap( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, count: types.Integer):
         """

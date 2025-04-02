@@ -23,7 +23,7 @@ class F_3(DataOption_, keyword='f'):
     }
 
     _REGEX = re.compile(
-        rf'f(\d+):(\S+)(( {types.Integer._REGEX.pattern})+)( {types.String._REGEX.pattern})?'
+        rf'\Af(\d*[8]):(\S+)((?: {types.Integer._REGEX.pattern})+?)( t)?\Z'
     )
 
     def __init__(

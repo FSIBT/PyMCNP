@@ -19,7 +19,7 @@ class Refi(MOption_, keyword='refi'):
         'refractive_index': types.Real,
     }
 
-    _REGEX = re.compile(rf'refi( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Arefi( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, refractive_index: types.Real):
         """

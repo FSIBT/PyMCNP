@@ -19,7 +19,7 @@ class Iso(KsenOption_, keyword='iso'):
         'zaids': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'iso(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Aiso((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, zaids: types.Tuple[types.Real]):
         """

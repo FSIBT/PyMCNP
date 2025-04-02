@@ -20,7 +20,7 @@ class Dd(DataOption_, keyword='dd'):
         'diagnostics': types.Tuple[types.Diagnostic],
     }
 
-    _REGEX = re.compile(rf'dd(\d+)(( {types.Diagnostic._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Add(\d+)((?: {types.Diagnostic._REGEX.pattern})+?)\Z')
 
     def __init__(self, suffix: types.Integer, diagnostics: types.Tuple[types.Diagnostic]):
         """

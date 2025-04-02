@@ -19,7 +19,7 @@ class Pwt(CellOption_, keyword='pwt'):
         'weight': types.Real,
     }
 
-    _REGEX = re.compile(rf'pwt( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Apwt( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, weight: types.Real):
         """

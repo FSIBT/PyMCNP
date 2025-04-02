@@ -19,7 +19,7 @@ class Cos(KsenOption_, keyword='cos'):
         'cosines': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'cos(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Acos((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, cosines: types.Tuple[types.Real]):
         """

@@ -19,7 +19,7 @@ class Sourcp(BlockOption_, keyword='sourcp'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'sourcp( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Asourcp( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

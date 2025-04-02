@@ -20,7 +20,7 @@ class Watt(FmultOption_, keyword='watt'):
         'b': types.Real,
     }
 
-    _REGEX = re.compile(rf'watt( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Awatt( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, a: types.Real, b: types.Real):
         """

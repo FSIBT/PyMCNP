@@ -19,7 +19,7 @@ class Mcnpumfile(EmbedOption_, keyword='mcnpumfile'):
         'filename': types.String,
     }
 
-    _REGEX = re.compile(rf'mcnpumfile( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Amcnpumfile( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, filename: types.String):
         """

@@ -22,7 +22,7 @@ class Origin(FmeshOption_, keyword='origin'):
     }
 
     _REGEX = re.compile(
-        rf'origin( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+        rf'\Aorigin( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(self, x: types.Real, y: types.Real, z: types.Real):

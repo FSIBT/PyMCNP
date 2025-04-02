@@ -19,7 +19,7 @@ class Write(PtracOption_, keyword='write'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'write( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Awrite( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

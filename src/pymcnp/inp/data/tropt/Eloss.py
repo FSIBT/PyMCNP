@@ -19,7 +19,7 @@ class Eloss(TroptOption_, keyword='eloss'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'eloss( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aeloss( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

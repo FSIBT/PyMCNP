@@ -22,11 +22,11 @@ class Sb_0(DataOption_, keyword='sb'):
     }
 
     _REGEX = re.compile(
-        rf'sb(\d+)( {types.String._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
+        rf'\Asb(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern})+?)\Z'
     )
 
     def __init__(
-        self, suffix: types.Integer, option: types.String, biases: types.Tuple[types.Real]
+        self, suffix: types.Integer, biases: types.Tuple[types.Real], option: types.String = None
     ):
         """
         Initializes ``Sb_0``.
@@ -42,7 +42,7 @@ class Sb_0(DataOption_, keyword='sb'):
 
         if suffix is None or not (1 <= suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
-        if option is None or option not in {'d', 'c', 'v', 'w'}:
+        if option is not None and option not in {'d', 'c', 'v', 'w'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, option)
         if biases is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, biases)

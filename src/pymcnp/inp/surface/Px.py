@@ -20,7 +20,7 @@ class Px(SurfaceOption_, keyword='px'):
         'd': types.Real,
     }
 
-    _REGEX = re.compile(rf'px( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Apx( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, d: types.Real):
         """

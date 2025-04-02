@@ -22,7 +22,7 @@ class Loc(SdefOption_, keyword='loc'):
     }
 
     _REGEX = re.compile(
-        rf'loc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+        rf'\Aloc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(self, latitude: types.Real, longitude: types.Real, altitude: types.Real):

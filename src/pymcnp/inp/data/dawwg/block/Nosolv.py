@@ -19,7 +19,7 @@ class Nosolv(BlockOption_, keyword='nosolv'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'nosolv( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Anosolv( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

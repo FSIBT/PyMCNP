@@ -23,7 +23,7 @@ class Cosyp(DataOption_, keyword='cosyp'):
     }
 
     _REGEX = re.compile(
-        rf'cosyp( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
+        rf'\Acosyp( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})((?: {types.Real._REGEX.pattern})+?)\Z'
     )
 
     def __init__(

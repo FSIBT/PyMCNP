@@ -19,7 +19,7 @@ class Kinetics(KoptsOption_, keyword='kinetics'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'kinetics( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Akinetics( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

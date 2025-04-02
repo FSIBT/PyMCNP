@@ -19,7 +19,7 @@ class Dnbais(ActOption_, keyword='dnbais'):
         'count': types.Integer,
     }
 
-    _REGEX = re.compile(rf'dnbais( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Adnbais( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, count: types.Integer):
         """

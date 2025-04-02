@@ -19,7 +19,7 @@ class Method(FmultOption_, keyword='method'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'method( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Amethod( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

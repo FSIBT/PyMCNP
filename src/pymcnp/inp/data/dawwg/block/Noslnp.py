@@ -19,7 +19,7 @@ class Noslnp(BlockOption_, keyword='noslnp'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'noslnp( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Anoslnp( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

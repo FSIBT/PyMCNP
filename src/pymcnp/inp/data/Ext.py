@@ -20,7 +20,7 @@ class Ext(DataOption_, keyword='ext'):
         'stretching': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'ext:(\S+)(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Aext:(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, designator: types.Designator, stretching: types.Tuple[types.Real]):
         """

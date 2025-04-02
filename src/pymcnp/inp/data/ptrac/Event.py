@@ -16,29 +16,33 @@ class Event(PtracOption_, keyword='event'):
     """
 
     _ATTRS = {
-        'setting': types.String,
+        'settings': types.Tuple[types.String],
     }
 
-    _REGEX = re.compile(rf'event( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aevent((?: {types.String._REGEX.pattern})+?)\Z')
 
-    def __init__(self, setting: types.String):
+    def __init__(self, settings: types.Tuple[types.String]):
         """
         Initializes ``Event``.
 
         Parameters:
-            setting: Specifies the type of events written to the PTRAC file.
+            settings: Specifies the type of events written to the PTRAC file.
 
         Raises:
             InpError: SEMANTICS_OPTION_VALUE.
         """
 
-        if setting is None or setting not in {'src', 'bnk', 'sur', 'col', 'ter', 'cap'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
+        if settings is None or not (
+            all(
+                map(lambda setting: setting in {'src', 'bnk', 'sur', 'col', 'ter', 'cap'}, settings)
+            )
+        ):
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, settings)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                setting,
+                settings,
             ]
         )
 
-        self.setting: typing.Final[types.String] = setting
+        self.settings: typing.Final[types.Tuple[types.String]] = settings

@@ -19,7 +19,7 @@ class List(EmbeeOption_, keyword='list'):
         'reactions': types.Real,
     }
 
-    _REGEX = re.compile(rf'list( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Alist( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, reactions: types.Real):
         """

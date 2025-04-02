@@ -20,7 +20,7 @@ class Py(SurfaceOption_, keyword='py'):
         'd': types.Real,
     }
 
-    _REGEX = re.compile(rf'py( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Apy( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, d: types.Real):
         """

@@ -19,7 +19,7 @@ class Dgeb(ActOption_, keyword='dgeb'):
         'biases': types.Tuple[types.Bias],
     }
 
-    _REGEX = re.compile(rf'dgeb(( {types.Bias._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Adgeb((?: {types.Bias._REGEX.pattern})+?)\Z')
 
     def __init__(self, biases: types.Tuple[types.Bias]):
         """

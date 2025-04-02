@@ -17,23 +17,17 @@ class Ds_1(DataOption_, keyword='ds'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        't': types.String,
         'ijs': types.Tuple[types.IndependentDependent],
     }
 
-    _REGEX = re.compile(
-        rf'ds(\d+)( {types.String._REGEX.pattern})(( {types.IndependentDependent._REGEX.pattern})+)'
-    )
+    _REGEX = re.compile(rf'\Ads(\d+)((?: {types.IndependentDependent._REGEX.pattern})+?)\Z')
 
-    def __init__(
-        self, suffix: types.Integer, t: types.String, ijs: types.Tuple[types.IndependentDependent]
-    ):
+    def __init__(self, suffix: types.Integer, ijs: types.Tuple[types.IndependentDependent]):
         """
         Initializes ``Ds_1``.
 
         Parameters:
             suffix: Data card option suffix.
-            t: Dependent source T option.
             ijs: Dependent source independent & dependent variables.
 
         Raises:
@@ -42,18 +36,14 @@ class Ds_1(DataOption_, keyword='ds'):
 
         if suffix is None or not (1 <= suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
-        if t is None or t not in {'t'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, t)
         if ijs is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ijs)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                t,
                 ijs,
             ]
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.t: typing.Final[types.String] = t
         self.ijs: typing.Final[types.Tuple[types.IndependentDependent]] = ijs

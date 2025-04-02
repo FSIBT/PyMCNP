@@ -19,7 +19,7 @@ class Bflcl(DataOption_, keyword='bflcl'):
         'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'bflcl(( {types.Integer._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Abflcl((?: {types.Integer._REGEX.pattern})+?)\Z')
 
     def __init__(self, numbers: types.Tuple[types.Integer]):
         """

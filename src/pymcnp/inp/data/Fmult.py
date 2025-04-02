@@ -22,7 +22,7 @@ class Fmult(DataOption_, keyword='fmult'):
     }
 
     _REGEX = re.compile(
-        rf'fmult( {types.Zaid._REGEX.pattern})(( ({fmult.FmultOption_._REGEX.pattern}))+)?'
+        rf'\Afmult( {types.Zaid._REGEX.pattern})((?: (?:{fmult.FmultOption_._REGEX.pattern}))+?)?\Z'
     )
 
     def __init__(self, zaid: types.Zaid, options: types.Tuple[fmult.FmultOption_] = None):

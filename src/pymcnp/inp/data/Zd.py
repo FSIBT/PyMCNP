@@ -18,7 +18,7 @@ class Zd(DataOption_, keyword='zd'):
         'anything': types.String,
     }
 
-    _REGEX = re.compile(rf'zd( {types.String._REGEX.pattern})?')
+    _REGEX = re.compile(rf'\Azd( {types.String._REGEX.pattern})?\Z')
 
     def __init__(self, anything: types.String = None):
         """

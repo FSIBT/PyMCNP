@@ -22,10 +22,12 @@ class Ds_0(DataOption_, keyword='ds'):
     }
 
     _REGEX = re.compile(
-        rf'ds(\d+)( {types.String._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
+        rf'\Ads(\d+)( {types.String._REGEX.pattern})?((?: {types.Real._REGEX.pattern})+?)\Z'
     )
 
-    def __init__(self, suffix: types.Integer, option: types.String, js: types.Tuple[types.Real]):
+    def __init__(
+        self, suffix: types.Integer, js: types.Tuple[types.Real], option: types.String = None
+    ):
         """
         Initializes ``Ds_0``.
 
@@ -40,7 +42,7 @@ class Ds_0(DataOption_, keyword='ds'):
 
         if suffix is None or not (1 <= suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
-        if option is None or option not in {'h', 'l', 's'}:
+        if option is not None and option not in {'h', 'l', 's'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, option)
         if js is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, js)

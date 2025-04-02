@@ -19,7 +19,7 @@ class Ptconv(BlockOption_, keyword='ptconv'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'ptconv( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aptconv( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

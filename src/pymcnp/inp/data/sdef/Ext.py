@@ -19,7 +19,7 @@ class Ext(SdefOption_, keyword='ext'):
         'distance_cosine': types.Real,
     }
 
-    _REGEX = re.compile(rf'ext( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aext( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, distance_cosine: types.Real):
         """

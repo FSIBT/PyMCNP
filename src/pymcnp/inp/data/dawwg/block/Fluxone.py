@@ -19,7 +19,7 @@ class Fluxone(BlockOption_, keyword='fluxone'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'fluxone( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Afluxone( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

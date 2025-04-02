@@ -23,7 +23,7 @@ class Kz(SurfaceOption_, keyword='kz'):
     }
 
     _REGEX = re.compile(
-        rf'kz( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+        rf'\Akz( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(self, z: types.Real, t_squared: types.Real, plusminus_1: types.Real):

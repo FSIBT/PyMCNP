@@ -19,7 +19,7 @@ class Tme_0(SdefOption_, keyword='tme'):
         'time': types.Real,
     }
 
-    _REGEX = re.compile(rf'tme( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Atme( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, time: types.Real):
         """

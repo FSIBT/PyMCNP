@@ -19,7 +19,7 @@ class Thtme(DataOption_, keyword='thtme'):
         'times': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'thtme(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Athtme((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, times: types.Tuple[types.Real]):
         """

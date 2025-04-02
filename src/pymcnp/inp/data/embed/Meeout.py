@@ -19,7 +19,7 @@ class Meeout(EmbedOption_, keyword='meeout'):
         'filename': types.String,
     }
 
-    _REGEX = re.compile(rf'meeout( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Ameeout( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, filename: types.String):
         """

@@ -19,7 +19,7 @@ class Dir(SdefOption_, keyword='dir'):
         'cosine': types.Real,
     }
 
-    _REGEX = re.compile(rf'dir( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Adir( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, cosine: types.Real):
         """

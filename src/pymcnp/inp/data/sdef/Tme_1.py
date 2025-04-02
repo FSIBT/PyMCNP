@@ -19,7 +19,7 @@ class Tme_1(SdefOption_, keyword='tme'):
         'time': types.EmbeddedDistributionNumber,
     }
 
-    _REGEX = re.compile(rf'tme( {types.EmbeddedDistributionNumber._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Atme( {types.EmbeddedDistributionNumber._REGEX.pattern})\Z')
 
     def __init__(self, time: types.EmbeddedDistributionNumber):
         """

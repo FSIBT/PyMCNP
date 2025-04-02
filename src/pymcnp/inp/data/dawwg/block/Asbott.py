@@ -19,7 +19,7 @@ class Asbott(BlockOption_, keyword='asbott'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'asbott( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aasbott( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

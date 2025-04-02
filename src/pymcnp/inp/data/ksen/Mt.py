@@ -19,7 +19,7 @@ class Mt(KsenOption_, keyword='mt'):
         'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'mt(( {types.Integer._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Amt((?: {types.Integer._REGEX.pattern})+?)\Z')
 
     def __init__(self, numbers: types.Tuple[types.Integer]):
         """

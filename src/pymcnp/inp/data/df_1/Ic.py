@@ -19,7 +19,7 @@ class Ic(Df_1Option_, keyword='ic'):
         'function': types.Integer,
     }
 
-    _REGEX = re.compile(rf'ic( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aic( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, function: types.Integer):
         """

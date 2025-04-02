@@ -19,7 +19,7 @@ class Ajed(BlockOption_, keyword='ajed'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'ajed( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aajed( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

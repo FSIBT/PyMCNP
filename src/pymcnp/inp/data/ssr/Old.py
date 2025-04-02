@@ -19,7 +19,7 @@ class Old(SsrOption_, keyword='old'):
         'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'old(( {types.Integer._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Aold((?: {types.Integer._REGEX.pattern})+?)\Z')
 
     def __init__(self, numbers: types.Tuple[types.Integer]):
         """

@@ -23,7 +23,7 @@ class Fu(DataOption_, keyword='fu'):
     }
 
     _REGEX = re.compile(
-        rf'fu(\d+)(( {types.Real._REGEX.pattern})+)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?'
+        rf'\Afu(\d+)((?: {types.Real._REGEX.pattern})+?)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?\Z'
     )
 
     def __init__(

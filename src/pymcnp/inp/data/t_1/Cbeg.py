@@ -19,7 +19,7 @@ class Cbeg(T_1Option_, keyword='cbeg'):
         'time': types.Real,
     }
 
-    _REGEX = re.compile(rf'cbeg( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Acbeg( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, time: types.Real):
         """

@@ -19,7 +19,7 @@ class Srcacc(BlockOption_, keyword='srcacc'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'srcacc( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Asrcacc( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

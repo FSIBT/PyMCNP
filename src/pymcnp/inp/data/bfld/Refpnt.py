@@ -19,7 +19,7 @@ class Refpnt(BfldOption_, keyword='refpnt'):
         'point': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'refpnt(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Arefpnt((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, point: types.Tuple[types.Real]):
         """

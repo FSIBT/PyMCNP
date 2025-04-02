@@ -19,7 +19,7 @@ class Embed(DataOption_, keyword='embed'):
         'options': types.Tuple[embed.EmbedOption_],
     }
 
-    _REGEX = re.compile(rf'embed(( ({embed.EmbedOption_._REGEX.pattern}))+)?')
+    _REGEX = re.compile(rf'\Aembed((?: (?:{embed.EmbedOption_._REGEX.pattern}))+?)?\Z')
 
     def __init__(self, options: types.Tuple[embed.EmbedOption_] = None):
         """
