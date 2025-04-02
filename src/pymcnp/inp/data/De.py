@@ -21,9 +21,7 @@ class De(DataOption_, keyword='de'):
         'values': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(
-        rf'\Ade(\d+)( (?:log|lin))?((?: {types.Real._REGEX.pattern})+?)\Z'
-    )
+    _REGEX = re.compile(rf'\Ade(\d+)( (?:log|lin))?((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(
         self, suffix: types.Integer, values: types.Tuple[types.Real], method: types.String = None

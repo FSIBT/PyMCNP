@@ -21,9 +21,7 @@ class Df_0(DataOption_, keyword='df'):
         'values': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(
-        rf'\Adf(\d+)( (?:log|lin))?((?: {types.Real._REGEX.pattern})+?)\Z'
-    )
+    _REGEX = re.compile(rf'\Adf(\d+)( (?:log|lin))?((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(
         self, suffix: types.Integer, values: types.Tuple[types.Real], method: types.String = None

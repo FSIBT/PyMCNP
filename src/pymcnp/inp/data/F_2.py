@@ -23,9 +23,7 @@ class F_2(DataOption_, keyword='f'):
         'nd': types.String,
     }
 
-    _REGEX = re.compile(
-        rf'\Af(\d*[5])([xyz]):(\S+)((?: {types.Ring._REGEX.pattern})+?)( nd)?\Z'
-    )
+    _REGEX = re.compile(rf'\Af(\d*[5])([xyz]):(\S+)((?: {types.Ring._REGEX.pattern})+?)( nd)?\Z')
 
     def __init__(
         self,
