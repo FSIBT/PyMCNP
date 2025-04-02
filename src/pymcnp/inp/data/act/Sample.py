@@ -19,7 +19,7 @@ class Sample(ActOption_, keyword='sample'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'sample( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Asample( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

@@ -19,7 +19,7 @@ class Refc(MOption_, keyword='refc'):
         'coefficents': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'refc(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Arefc((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, coefficents: types.Tuple[types.Real]):
         """

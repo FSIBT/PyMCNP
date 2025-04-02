@@ -20,7 +20,7 @@ class Em(DataOption_, keyword='em'):
         'multipliers': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'em(\d+)(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Aem(\d+)((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, suffix: types.Integer, multipliers: types.Tuple[types.Real]):
         """

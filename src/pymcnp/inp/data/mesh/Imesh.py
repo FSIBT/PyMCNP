@@ -19,7 +19,7 @@ class Imesh(MeshOption_, keyword='imesh'):
         'vector': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'imesh(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Aimesh((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, vector: types.Tuple[types.Real]):
         """

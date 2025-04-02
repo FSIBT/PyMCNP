@@ -19,7 +19,7 @@ class Ssr(DataOption_, keyword='ssr'):
         'options': types.Tuple[ssr.SsrOption_],
     }
 
-    _REGEX = re.compile(rf'ssr(( ({ssr.SsrOption_._REGEX.pattern}))+)?')
+    _REGEX = re.compile(rf'\Assr((?: (?:{ssr.SsrOption_._REGEX.pattern}))+?)?\Z')
 
     def __init__(self, options: types.Tuple[ssr.SsrOption_] = None):
         """

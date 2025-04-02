@@ -23,7 +23,7 @@ class C_0(DataOption_, keyword='c'):
     }
 
     _REGEX = re.compile(
-        rf'c(\d+)(( {types.Real._REGEX.pattern})+)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?'
+        rf'\Ac(\d+)((?: {types.Real._REGEX.pattern})+?)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?\Z'
     )
 
     def __init__(

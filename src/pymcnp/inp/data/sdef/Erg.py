@@ -19,7 +19,7 @@ class Erg(SdefOption_, keyword='erg'):
         'energy': types.Real,
     }
 
-    _REGEX = re.compile(rf'erg( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aerg( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, energy: types.Real):
         """

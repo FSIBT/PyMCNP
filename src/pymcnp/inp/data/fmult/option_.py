@@ -14,7 +14,7 @@ class FmultOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'sfyield( {types.Real._REGEX.pattern})|method( {types.Integer._REGEX.pattern})|width( {types.Real._REGEX.pattern})|shift( {types.Integer._REGEX.pattern})|sfnu(( {types.Real._REGEX.pattern})+)|watt( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})|data( {types.Integer._REGEX.pattern})'
+        rf'sfyield( {types.Real._REGEX.pattern})|method( {types.Integer._REGEX.pattern})|width( {types.Real._REGEX.pattern})|shift( {types.Integer._REGEX.pattern})|sfnu((?: {types.Real._REGEX.pattern})+?)|watt( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})|data( {types.Integer._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

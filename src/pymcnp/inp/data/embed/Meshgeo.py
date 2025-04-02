@@ -19,7 +19,7 @@ class Meshgeo(EmbedOption_, keyword='meshgeo'):
         'form': types.String,
     }
 
-    _REGEX = re.compile(rf'meshgeo( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Ameshgeo( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, form: types.String):
         """

@@ -19,7 +19,7 @@ class Noasg(BlockOption_, keyword='noasg'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'noasg( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Anoasg( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

@@ -22,7 +22,7 @@ class Sb_1(DataOption_, keyword='sb'):
     }
 
     _REGEX = re.compile(
-        rf'sb( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?'
+        rf'\Asb( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?\Z'
     )
 
     def __init__(self, function: types.Integer, a: types.Real, b: types.Real = None):

@@ -19,7 +19,7 @@ class Diffsol(BlockOption_, keyword='diffsol'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'diffsol( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Adiffsol( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

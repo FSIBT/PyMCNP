@@ -19,7 +19,7 @@ class Fmatreduce(KoptsOption_, keyword='fmatreduce'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'fmatreduce( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Afmatreduce( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

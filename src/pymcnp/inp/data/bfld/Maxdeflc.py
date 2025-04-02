@@ -19,7 +19,7 @@ class Maxdeflc(BfldOption_, keyword='maxdeflc'):
         'angle': types.Real,
     }
 
-    _REGEX = re.compile(rf'maxdeflc( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Amaxdeflc( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, angle: types.Real):
         """

@@ -19,7 +19,7 @@ class Factor(FmeshOption_, keyword='factor'):
         'multiple': types.Real,
     }
 
-    _REGEX = re.compile(rf'factor( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Afactor( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, multiple: types.Real):
         """

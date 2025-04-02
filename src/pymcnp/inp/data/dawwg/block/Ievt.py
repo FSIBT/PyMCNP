@@ -19,7 +19,7 @@ class Ievt(BlockOption_, keyword='ievt'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'ievt( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aievt( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

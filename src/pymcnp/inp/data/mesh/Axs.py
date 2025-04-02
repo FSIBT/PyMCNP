@@ -19,7 +19,7 @@ class Axs(MeshOption_, keyword='axs'):
         'vector': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'axs(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Aaxs((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, vector: types.Tuple[types.Real]):
         """

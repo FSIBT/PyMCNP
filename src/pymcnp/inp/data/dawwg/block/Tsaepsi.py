@@ -19,7 +19,7 @@ class Tsaepsi(BlockOption_, keyword='tsaepsi'):
         'setting': types.Real,
     }
 
-    _REGEX = re.compile(rf'tsaepsi( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Atsaepsi( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Real):
         """

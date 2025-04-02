@@ -19,7 +19,7 @@ class Legendre(KsenOption_, keyword='legendre'):
         'number': types.Integer,
     }
 
-    _REGEX = re.compile(rf'legendre( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Alegendre( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, number: types.Integer):
         """

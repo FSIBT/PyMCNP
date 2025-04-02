@@ -19,7 +19,7 @@ class Emesh(FmeshOption_, keyword='emesh'):
         'energy': types.Real,
     }
 
-    _REGEX = re.compile(rf'emesh( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aemesh( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, energy: types.Real):
         """

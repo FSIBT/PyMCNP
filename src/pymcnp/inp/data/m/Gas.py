@@ -19,7 +19,7 @@ class Gas(MOption_, keyword='gas'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'gas( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Agas( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

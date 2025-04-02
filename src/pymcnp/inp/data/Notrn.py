@@ -16,7 +16,7 @@ class Notrn(DataOption_, keyword='notrn'):
 
     _ATTRS = {}
 
-    _REGEX = re.compile(r'notrn')
+    _REGEX = re.compile(r'\Anotrn\Z')
 
     def __init__(
         self,

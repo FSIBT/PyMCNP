@@ -22,11 +22,11 @@ class Sp_0(DataOption_, keyword='sp'):
     }
 
     _REGEX = re.compile(
-        rf'sp(\d+)( {types.String._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
+        rf'\Asp(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern})+?)\Z'
     )
 
     def __init__(
-        self, suffix: types.Integer, option: types.String, probabilities: types.Tuple[types.Real]
+        self, suffix: types.Integer, probabilities: types.Tuple[types.Real], option: types.String = None,
     ):
         """
         Initializes ``Sp_0``.
@@ -42,7 +42,7 @@ class Sp_0(DataOption_, keyword='sp'):
 
         if suffix is None or not (1 <= suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
-        if option is None or option not in {'d', 'c', 'v', 'w'}:
+        if option is not None and option not in {'d', 'c', 'v', 'w'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, option)
         if probabilities is None or not (
             filter(lambda entry: not (0 <= entry <= 1), probabilities)

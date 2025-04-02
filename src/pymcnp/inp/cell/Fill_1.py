@@ -21,7 +21,7 @@ class Fill_1(CellOption_, keyword='fill'):
     }
 
     _REGEX = re.compile(
-        rf'fill( {types.Integer._REGEX.pattern})( {types.Transformation._REGEX.pattern})?'
+        rf'\Afill( {types.Integer._REGEX.pattern})( {types.Transformation._REGEX.pattern})?\Z'
     )
 
     def __init__(self, universe: types.Integer, transformation: types.Transformation = None):

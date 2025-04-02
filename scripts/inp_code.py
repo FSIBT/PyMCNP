@@ -43,14 +43,14 @@ def ATTRS_REGEX(element):
 
         if 'Tuple' in attribute.type:
             if 'Option_' in attribute.type:
-                o += (
-                    f'(( ({{{SNAKE(element.name)}.{CAMEL(element.name)}Option_._REGEX.pattern}}))+)'
-                )
+                o += f'((?: (?:{{{SNAKE(element.name)}.{CAMEL(element.name)}Option_._REGEX.pattern}}))+?)'
             else:
-                o += f'(( {{{attribute.type[12:-1]}._REGEX.pattern}})+)'
+                o += f'((?: {{{attribute.type[12:-1]}._REGEX.pattern}})+?)'
         else:
             if 'Option_' in attribute.type:
-                o += f'( ({{{SNAKE(element.name)}.{CAMEL(element.name)}Option_._REGEX.pattern}}))'
+                o += f'( (?:{{{SNAKE(element.name)}.{CAMEL(element.name)}Option_._REGEX.pattern}}))'
+            elif attribute.type == 'types.Boolean':
+                o += f'( {attribute.restriction})'
             else:
                 o += f'( {{{attribute.type}._REGEX.pattern}})'
 
@@ -207,7 +207,7 @@ class {CAMEL(element.name)}({f"{CAMEL(parent_name)}Option_, keyword='{element.mn
 
     _ATTRS = {{{ATTRS_DICT(element)}}}
 
-    _REGEX = re.compile(rf"{element.mnemonic}{r"(\d+)" if has_suffix(element) else ""}{r":(\S+)" if has_designator(element) else ""}{ATTRS_REGEX(element)}")
+    _REGEX = re.compile(rf"\\A{element.mnemonic}{r"(\d+)" if has_suffix(element) else ""}{r":(\S+)" if has_designator(element) else ""}{ATTRS_REGEX(element)}\\Z")
     
     def __init__(self, {ATTRS_PARAM(element)}):
         """

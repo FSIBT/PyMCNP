@@ -19,7 +19,7 @@ class Ein(KsenOption_, keyword='ein'):
         'energies': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'ein(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Aein((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, energies: types.Tuple[types.Real]):
         """

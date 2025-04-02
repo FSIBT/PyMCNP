@@ -19,7 +19,7 @@ class Xsec(DawwgOption_, keyword='xsec'):
         'count': types.Integer,
     }
 
-    _REGEX = re.compile(rf'xsec( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Axsec( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, count: types.Integer):
         """

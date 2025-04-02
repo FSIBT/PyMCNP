@@ -33,7 +33,7 @@ class Dxt(DataOption_, keyword='dxt'):
     }
 
     _REGEX = re.compile(
-        rf'dxt:(\S+)( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+        rf'\Adxt:(\S+)( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(

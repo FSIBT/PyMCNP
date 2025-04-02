@@ -22,7 +22,7 @@ class Sp_1(DataOption_, keyword='sp'):
     }
 
     _REGEX = re.compile(
-        rf'sp( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?'
+        rf'\Asp( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?\Z'
     )
 
     def __init__(self, function: types.Integer, a: types.Real, b: types.Real = None):

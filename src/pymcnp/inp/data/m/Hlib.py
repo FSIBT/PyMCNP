@@ -19,7 +19,7 @@ class Hlib(MOption_, keyword='hlib'):
         'abx': types.String,
     }
 
-    _REGEX = re.compile(rf'hlib( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Ahlib( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, abx: types.String):
         """

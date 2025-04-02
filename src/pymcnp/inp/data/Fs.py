@@ -23,7 +23,7 @@ class Fs(DataOption_, keyword='fs'):
     }
 
     _REGEX = re.compile(
-        rf'fs(\d+)(( {types.Integer._REGEX.pattern})+)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?'
+        rf'\Afs(\d+)((?: {types.Integer._REGEX.pattern})+?)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?\Z'
     )
 
     def __init__(

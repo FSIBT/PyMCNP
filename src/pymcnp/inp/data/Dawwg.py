@@ -19,7 +19,7 @@ class Dawwg(DataOption_, keyword='dawwg'):
         'options': types.Tuple[dawwg.DawwgOption_],
     }
 
-    _REGEX = re.compile(rf'dawwg(( ({dawwg.DawwgOption_._REGEX.pattern}))+)?')
+    _REGEX = re.compile(rf'\Adawwg((?: (?:{dawwg.DawwgOption_._REGEX.pattern}))+?)?\Z')
 
     def __init__(self, options: types.Tuple[dawwg.DawwgOption_] = None):
         """

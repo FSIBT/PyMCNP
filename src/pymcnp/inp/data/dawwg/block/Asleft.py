@@ -19,7 +19,7 @@ class Asleft(BlockOption_, keyword='asleft'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'asleft( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aasleft( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

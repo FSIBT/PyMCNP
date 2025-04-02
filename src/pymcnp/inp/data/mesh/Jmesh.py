@@ -19,7 +19,7 @@ class Jmesh(MeshOption_, keyword='jmesh'):
         'vector': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'jmesh(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Ajmesh((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, vector: types.Tuple[types.Real]):
         """

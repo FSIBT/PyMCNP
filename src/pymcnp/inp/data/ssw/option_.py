@@ -14,7 +14,7 @@ class SswOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'sym( {types.Integer._REGEX.pattern})|pty(( {types.Designator._REGEX.pattern})+)|cel(( {types.Integer._REGEX.pattern})+)'
+        rf'sym( {types.Integer._REGEX.pattern})|pty((?: {types.Designator._REGEX.pattern})+?)|cel((?: {types.Integer._REGEX.pattern})+?)'
     )
 
     def __init_subclass__(cls, keyword: str):

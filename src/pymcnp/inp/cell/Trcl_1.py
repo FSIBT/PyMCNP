@@ -19,7 +19,7 @@ class Trcl_1(CellOption_, keyword='trcl'):
         'transformation': types.Transformation,
     }
 
-    _REGEX = re.compile(rf'trcl( {types.Transformation._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Atrcl( {types.Transformation._REGEX.pattern})\Z')
 
     def __init__(self, transformation: types.Transformation):
         """

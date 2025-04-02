@@ -19,7 +19,7 @@ class Wwgt(DataOption_, keyword='wwgt'):
         'bounds': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'wwgt(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Awwgt((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, bounds: types.Tuple[types.Real]):
         """

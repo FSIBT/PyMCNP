@@ -19,7 +19,7 @@ class Pwt(DataOption_, keyword='pwt'):
         'weights': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'pwt(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Apwt((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, weights: types.Tuple[types.Real]):
         """

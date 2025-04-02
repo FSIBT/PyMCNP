@@ -19,7 +19,7 @@ class Time(EmbeeOption_, keyword='time'):
         'factor': types.Real,
     }
 
-    _REGEX = re.compile(rf'time( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Atime( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, factor: types.Real):
         """

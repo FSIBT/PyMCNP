@@ -22,11 +22,11 @@ class De(DataOption_, keyword='de'):
     }
 
     _REGEX = re.compile(
-        rf'de(\d+)( {types.String._REGEX.pattern})(( {types.Real._REGEX.pattern})+)'
+        rf'\Ade(\d+)( (?:log|lin))?((?: {types.Real._REGEX.pattern})+?)\Z'
     )
 
     def __init__(
-        self, suffix: types.Integer, method: types.String, values: types.Tuple[types.Real]
+        self, suffix: types.Integer, values: types.Tuple[types.Real], method: types.String = None
     ):
         """
         Initializes ``De``.
@@ -42,7 +42,7 @@ class De(DataOption_, keyword='de'):
 
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
-        if method is None or method not in {'log', 'lin'}:
+        if method is not None and method not in {'log', 'lin'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, method)
         if values is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, values)

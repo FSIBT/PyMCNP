@@ -19,7 +19,7 @@ class Sd(DataOption_, keyword='sd'):
         'information': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'sd(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Asd((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, information: types.Tuple[types.Real]):
         """

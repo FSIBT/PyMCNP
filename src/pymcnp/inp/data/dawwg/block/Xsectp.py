@@ -19,7 +19,7 @@ class Xsectp(BlockOption_, keyword='xsectp'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'xsectp( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Axsectp( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

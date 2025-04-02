@@ -19,7 +19,7 @@ class Void(DataOption_, keyword='void'):
         'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'void(( {types.Integer._REGEX.pattern})+)?')
+    _REGEX = re.compile(rf'\Avoid((?: {types.Integer._REGEX.pattern})+?)?\Z')
 
     def __init__(self, numbers: types.Tuple[types.Integer] = None):
         """

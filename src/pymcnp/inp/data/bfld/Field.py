@@ -19,7 +19,7 @@ class Field(BfldOption_, keyword='field'):
         'strength_gradient': types.Real,
     }
 
-    _REGEX = re.compile(rf'field( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Afield( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, strength_gradient: types.Real):
         """

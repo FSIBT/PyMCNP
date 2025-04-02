@@ -22,7 +22,7 @@ class Si_0(DataOption_, keyword='si'):
     }
 
     _REGEX = re.compile(
-        rf'si(\d+)( {types.String._REGEX.pattern})(( {types.DistributionNumber._REGEX.pattern})+)'
+        rf'\Asi(\d+)( {types.String._REGEX.pattern})((?: {types.DistributionNumber._REGEX.pattern})+?)\Z'
     )
 
     def __init__(

@@ -19,7 +19,7 @@ class Ctme(StopOption_, keyword='ctme'):
         'tme': types.Real,
     }
 
-    _REGEX = re.compile(rf'ctme( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Actme( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, tme: types.Real):
         """

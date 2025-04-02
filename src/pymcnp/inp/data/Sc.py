@@ -20,7 +20,7 @@ class Sc(DataOption_, keyword='sc'):
         'comment': types.Tuple[types.String],
     }
 
-    _REGEX = re.compile(rf'sc(\d+)(( {types.String._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Asc(\d+)((?: {types.String._REGEX.pattern})+?)\Z')
 
     def __init__(self, suffix: types.Integer, comment: types.Tuple[types.String]):
         """

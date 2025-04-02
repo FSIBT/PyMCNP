@@ -23,7 +23,7 @@ class C_z(SurfaceOption_, keyword='c/z'):
     }
 
     _REGEX = re.compile(
-        rf'c/z( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+        rf'\Ac/z( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(self, x: types.Real, y: types.Real, r: types.Real):

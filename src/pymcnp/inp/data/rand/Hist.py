@@ -19,7 +19,7 @@ class Hist(RandOption_, keyword='hist'):
         'hist': types.Integer,
     }
 
-    _REGEX = re.compile(rf'hist( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Ahist( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, hist: types.Integer):
         """

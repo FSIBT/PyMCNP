@@ -20,7 +20,7 @@ class Histp(DataOption_, keyword='histp'):
     }
 
     _REGEX = re.compile(
-        rf'histp( {types.Integer._REGEX.pattern})?(( {types.Integer._REGEX.pattern})+)?'
+        rf'\Ahistp( {types.Integer._REGEX.pattern})?((?: {types.Integer._REGEX.pattern})+?)?\Z'
     )
 
     def __init__(self, lhist: types.Integer = None, cells: types.Tuple[types.Integer] = None):

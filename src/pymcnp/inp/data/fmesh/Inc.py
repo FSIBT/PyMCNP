@@ -20,7 +20,7 @@ class Inc(FmeshOption_, keyword='inc'):
         'upper': types.Real,
     }
 
-    _REGEX = re.compile(rf'inc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?')
+    _REGEX = re.compile(rf'\Ainc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?\Z')
 
     def __init__(self, lower: types.Real, upper: types.Real = None):
         """

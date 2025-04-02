@@ -19,7 +19,7 @@ class Ref(MeshOption_, keyword='ref'):
         'point': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'ref(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Aref((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, point: types.Tuple[types.Real]):
         """

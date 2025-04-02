@@ -19,7 +19,7 @@ class Ffedges(BfldOption_, keyword='ffedges'):
         'numbers': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'ffedges(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Affedges((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, numbers: types.Tuple[types.Real]):
         """

@@ -21,7 +21,7 @@ class Sz(SurfaceOption_, keyword='sz'):
         'r': types.Real,
     }
 
-    _REGEX = re.compile(rf'sz( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Asz( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, z: types.Real, r: types.Real):
         """

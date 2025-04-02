@@ -19,7 +19,7 @@ class Noedit(BlockOption_, keyword='noedit'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'noedit( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Anoedit( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

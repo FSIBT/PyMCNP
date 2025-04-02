@@ -19,7 +19,7 @@ class Unc(DataOption_, keyword='unc'):
         'settings': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'unc(( {types.Integer._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Aunc((?: {types.Integer._REGEX.pattern})+?)\Z')
 
     def __init__(self, settings: types.Tuple[types.Integer]):
         """

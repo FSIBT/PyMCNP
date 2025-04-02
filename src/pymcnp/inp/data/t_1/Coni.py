@@ -19,7 +19,7 @@ class Coni(T_1Option_, keyword='coni'):
         'time': types.Real,
     }
 
-    _REGEX = re.compile(rf'coni( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aconi( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, time: types.Real):
         """

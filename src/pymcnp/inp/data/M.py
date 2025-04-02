@@ -25,7 +25,7 @@ class M(DataOption_, keyword='m'):
     }
 
     _REGEX = re.compile(
-        rf'm(\d+)(( {types.Substance._REGEX.pattern})+)(( ({m.MOption_._REGEX.pattern}))+)?'
+        rf'\Am(\d+)((?: {types.Substance._REGEX.pattern})+?)((?: (?:{m.MOption_._REGEX.pattern}))+?)?\Z'
     )
 
     def __init__(

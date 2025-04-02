@@ -21,7 +21,7 @@ class Embee(DataOption_, keyword='embee'):
         'options': types.Tuple[embee.EmbeeOption_],
     }
 
-    _REGEX = re.compile(rf'embee(\d+)(( ({embee.EmbeeOption_._REGEX.pattern}))+)?')
+    _REGEX = re.compile(rf'\Aembee(\d+)((?: (?:{embee.EmbeeOption_._REGEX.pattern}))+?)?\Z')
 
     def __init__(self, suffix: types.Integer, options: types.Tuple[embee.EmbeeOption_] = None):
         """

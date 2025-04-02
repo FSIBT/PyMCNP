@@ -19,7 +19,7 @@ class Iu(Df_1Option_, keyword='iu'):
         'units': types.Integer,
     }
 
-    _REGEX = re.compile(rf'iu( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aiu( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, units: types.Integer):
         """

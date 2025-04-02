@@ -19,7 +19,7 @@ class Tlib(MOption_, keyword='tlib'):
         'abx': types.String,
     }
 
-    _REGEX = re.compile(rf'tlib( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Atlib( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, abx: types.String):
         """

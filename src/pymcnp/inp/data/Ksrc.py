@@ -19,7 +19,7 @@ class Ksrc(DataOption_, keyword='ksrc'):
         'locations': types.Tuple[types.Location],
     }
 
-    _REGEX = re.compile(rf'ksrc(( {types.Location._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Aksrc((?: {types.Location._REGEX.pattern})+?)\Z')
 
     def __init__(self, locations: types.Tuple[types.Location]):
         """

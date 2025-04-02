@@ -19,7 +19,7 @@ class Fmatskpt(KoptsOption_, keyword='fmatskpt'):
         'fmat_skip': types.Real,
     }
 
-    _REGEX = re.compile(rf'fmatskpt( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Afmatskpt( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, fmat_skip: types.Real):
         """

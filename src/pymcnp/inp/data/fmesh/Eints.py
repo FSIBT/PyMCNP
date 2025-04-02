@@ -19,7 +19,7 @@ class Eints(FmeshOption_, keyword='eints'):
         'count': types.Integer,
     }
 
-    _REGEX = re.compile(rf'eints( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aeints( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, count: types.Integer):
         """

@@ -19,7 +19,7 @@ class Cfrq(T_1Option_, keyword='cfrq'):
         'frequency': types.Real,
     }
 
-    _REGEX = re.compile(rf'cfrq( {types.Real._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Acfrq( {types.Real._REGEX.pattern})\Z')
 
     def __init__(self, frequency: types.Real):
         """

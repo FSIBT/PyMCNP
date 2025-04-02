@@ -19,7 +19,7 @@ class Trcl_0(CellOption_, keyword='trcl'):
         'transformation': types.Integer,
     }
 
-    _REGEX = re.compile(rf'trcl( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Atrcl( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, transformation: types.Integer):
         """

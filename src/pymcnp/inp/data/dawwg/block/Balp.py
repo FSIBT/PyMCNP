@@ -19,7 +19,7 @@ class Balp(BlockOption_, keyword='balp'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'balp( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Abalp( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

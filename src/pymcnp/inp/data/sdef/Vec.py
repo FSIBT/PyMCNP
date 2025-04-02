@@ -22,7 +22,7 @@ class Vec(SdefOption_, keyword='vec'):
     }
 
     _REGEX = re.compile(
-        rf'vec( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+        rf'\Avec( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(self, x: types.Real, y: types.Real, z: types.Real):

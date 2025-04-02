@@ -19,7 +19,7 @@ class Points(DawwgOption_, keyword='points'):
         'name': types.String,
     }
 
-    _REGEX = re.compile(rf'points( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Apoints( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, name: types.String):
         """

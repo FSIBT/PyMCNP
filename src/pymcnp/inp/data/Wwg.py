@@ -27,7 +27,7 @@ class Wwg(DataOption_, keyword='wwg'):
     }
 
     _REGEX = re.compile(
-        rf'wwg( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Integer._REGEX.pattern})'
+        rf'\Awwg( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
     )
 
     def __init__(

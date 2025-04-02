@@ -19,7 +19,7 @@ class Rr(VarOption_, keyword='rr'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'rr( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Arr( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

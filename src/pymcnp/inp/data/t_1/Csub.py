@@ -19,7 +19,7 @@ class Csub(T_1Option_, keyword='csub'):
         'count': types.Integer,
     }
 
-    _REGEX = re.compile(rf'csub( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Acsub( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, count: types.Integer):
         """

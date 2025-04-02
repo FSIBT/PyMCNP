@@ -19,7 +19,7 @@ class Cosy(DataOption_, keyword='cosy'):
         'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'cosy(( {types.Integer._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Acosy((?: {types.Integer._REGEX.pattern})+?)\Z')
 
     def __init__(self, numbers: types.Tuple[types.Integer]):
         """

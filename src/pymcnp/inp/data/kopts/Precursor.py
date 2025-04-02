@@ -19,7 +19,7 @@ class Precursor(KoptsOption_, keyword='precursor'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'precursor( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aprecursor( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

@@ -20,7 +20,7 @@ class Tmp_0(CellOption_, keyword='tmp'):
         'temperature': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'tmp(\d+)(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Atmp(\d+)((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, suffix: types.Integer, temperature: types.Tuple[types.Real]):
         """

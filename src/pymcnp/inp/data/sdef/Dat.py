@@ -22,7 +22,7 @@ class Dat(SdefOption_, keyword='dat'):
     }
 
     _REGEX = re.compile(
-        rf'dat( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})'
+        rf'\Adat( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
     )
 
     def __init__(self, month: types.Integer, day: types.Integer, year: types.Integer):

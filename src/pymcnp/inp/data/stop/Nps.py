@@ -20,7 +20,9 @@ class Nps(StopOption_, keyword='nps'):
         'npsmg': types.Integer,
     }
 
-    _REGEX = re.compile(rf'nps( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})?')
+    _REGEX = re.compile(
+        rf'\Anps( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})?\Z'
+    )
 
     def __init__(self, npp: types.Integer, npsmg: types.Integer = None):
         """

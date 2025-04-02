@@ -19,7 +19,7 @@ class Noedtt(BlockOption_, keyword='noedtt'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'noedtt( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Anoedtt( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

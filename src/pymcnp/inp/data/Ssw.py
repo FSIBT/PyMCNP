@@ -23,7 +23,7 @@ class Ssw(DataOption_, keyword='ssw'):
     }
 
     _REGEX = re.compile(
-        rf'ssw(( {types.Integer._REGEX.pattern})+)(( {types.Integer._REGEX.pattern})+)(( ({ssw.SswOption_._REGEX.pattern}))+)?'
+        rf'\Assw((?: {types.Integer._REGEX.pattern})+?)((?: {types.Integer._REGEX.pattern})+?)((?: (?:{ssw.SswOption_._REGEX.pattern}))+?)?\Z'
     )
 
     def __init__(

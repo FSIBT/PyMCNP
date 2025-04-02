@@ -28,7 +28,7 @@ class Fq(DataOption_, keyword='fq'):
     }
 
     _REGEX = re.compile(
-        rf'fq(\d+)( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})'
+        rf'\Afq(\d+)( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})\Z'
     )
 
     def __init__(

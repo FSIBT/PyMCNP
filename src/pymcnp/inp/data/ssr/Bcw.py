@@ -22,7 +22,7 @@ class Bcw(SsrOption_, keyword='bcw'):
     }
 
     _REGEX = re.compile(
-        rf'bcw( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})'
+        rf'\Abcw( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(self, radius: types.Real, zb: types.Real, ze: types.Real):

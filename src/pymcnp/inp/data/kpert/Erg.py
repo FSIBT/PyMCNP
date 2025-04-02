@@ -19,7 +19,7 @@ class Erg(KpertOption_, keyword='erg'):
         'energies': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'erg(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Aerg((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, energies: types.Tuple[types.Real]):
         """

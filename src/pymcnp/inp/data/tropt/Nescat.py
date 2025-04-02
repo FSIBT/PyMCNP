@@ -19,7 +19,7 @@ class Nescat(TroptOption_, keyword='nescat'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'nescat( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Anescat( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

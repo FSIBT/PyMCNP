@@ -19,7 +19,7 @@ class Elpt(DataOption_, keyword='elpt'):
         'cutoffs': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'elpt(( {types.Real._REGEX.pattern})+)')
+    _REGEX = re.compile(rf'\Aelpt((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(self, cutoffs: types.Tuple[types.Real]):
         """

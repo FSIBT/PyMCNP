@@ -19,7 +19,7 @@ class Conic(PtracOption_, keyword='conic'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'conic( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aconic( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.String):
         """

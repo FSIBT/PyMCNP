@@ -19,7 +19,7 @@ class Alib(MOption_, keyword='alib'):
         'abx': types.String,
     }
 
-    _REGEX = re.compile(rf'alib( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aalib( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, abx: types.String):
         """

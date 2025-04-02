@@ -19,7 +19,7 @@ class Fissneut(BlockOption_, keyword='fissneut'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'fissneut( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Afissneut( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """

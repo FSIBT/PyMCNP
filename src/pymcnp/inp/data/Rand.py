@@ -19,7 +19,7 @@ class Rand(DataOption_, keyword='rand'):
         'options': types.Tuple[rand.RandOption_],
     }
 
-    _REGEX = re.compile(rf'rand(( ({rand.RandOption_._REGEX.pattern}))+)?')
+    _REGEX = re.compile(rf'\Arand((?: (?:{rand.RandOption_._REGEX.pattern}))+?)?\Z')
 
     def __init__(self, options: types.Tuple[rand.RandOption_] = None):
         """

@@ -19,7 +19,7 @@ class Genxs(TroptOption_, keyword='genxs'):
         'filename': types.String,
     }
 
-    _REGEX = re.compile(rf'genxs( {types.String._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Agenxs( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, filename: types.String):
         """

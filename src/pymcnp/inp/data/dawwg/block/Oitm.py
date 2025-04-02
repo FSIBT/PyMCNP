@@ -19,7 +19,7 @@ class Oitm(BlockOption_, keyword='oitm'):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'oitm( {types.Integer._REGEX.pattern})')
+    _REGEX = re.compile(rf'\Aoitm( {types.Integer._REGEX.pattern})\Z')
 
     def __init__(self, setting: types.Integer):
         """
