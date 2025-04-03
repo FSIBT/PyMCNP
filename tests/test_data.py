@@ -4232,6 +4232,21 @@ class Test_DataFq:
         EXAMPLES_INVALID = []
 
 
+class Test_DataFm:
+    """
+    Tests ``DataFm``.
+    """
+
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        """
+        Tests ``DataDe.from_mcnp``.
+        """
+
+        element = pymcnp.inp.data.Fm
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
 class Test_DataDe:
     """
     Tests ``DataDe``.
@@ -4453,6 +4468,21 @@ class Test_DataFu:
         """
 
         element = pymcnp.inp.data.Fu
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_DataFt:
+    """
+    Tests ``DataFt``.
+    """
+
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        """
+        Tests ``DataDe.from_mcnp``.
+        """
+
+        element = pymcnp.inp.data.Ft
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
