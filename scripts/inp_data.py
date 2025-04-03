@@ -7324,6 +7324,24 @@ cards = ElementScheme(
                     ],
                 ),
                 ElementScheme(
+                    name='fm',
+                    mnemonic='fm',
+                    attributes=[
+                        AttributeScheme(
+                            name='suffix',
+                            type='types.Integer',
+                            description='Data card option suffix',
+                            restriction='suffix <= 99_999_999',
+                        ),
+                        AttributeScheme(
+                            name='bins',
+                            type='types.String',
+                            description='Tally multiplier bins',
+                            restriction='',
+                        ),
+                    ],
+                ),
+                ElementScheme(
                     name='de',
                     mnemonic='de',
                     attributes=[
@@ -7597,6 +7615,24 @@ cards = ElementScheme(
                             description='Notation to make bin values cumulative',
                             restriction='c in {"c"}',
                             optional=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='ft',
+                    mnemonic='ft',
+                    attributes=[
+                        AttributeScheme(
+                            name='suffix',
+                            type='types.Integer',
+                            description='Data card option suffix',
+                            restriction='suffix <= 99_999_999',
+                        ),
+                        AttributeScheme(
+                            name='treatments',
+                            type='types.String',
+                            description='Tally special treatments',
+                            restriction='',
                         ),
                     ],
                 ),
@@ -9521,13 +9557,13 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='npp',
-                            type='types.IntegerOrJump',
+                            type='types.Integer',
                             description='Total number of histories to run',
                             restriction='npp > 0',
                         ),
                         AttributeScheme(
                             name='npsmg',
-                            type='types.IntegerOrJump',
+                            type='types.Integer',
                             description='Number of history with direct source contributions',
                             restriction='npsmg > 0',
                             optional=True,
