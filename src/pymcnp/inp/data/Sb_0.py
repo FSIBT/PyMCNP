@@ -57,6 +57,6 @@ class Sb_0(DataOption_, keyword='sb'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.option: typing.Final[types.String] = option
         self.biases: typing.Final[types.Tuple[types.RealOrJump]] = biases

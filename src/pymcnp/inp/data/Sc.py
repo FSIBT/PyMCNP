@@ -45,5 +45,5 @@ class Sc(DataOption_, keyword='sc'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.comment: typing.Final[types.Tuple[types.String]] = comment

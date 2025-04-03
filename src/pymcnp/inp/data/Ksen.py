@@ -56,6 +56,6 @@ class Ksen(DataOption_, keyword='ksen'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.sen: typing.Final[types.String] = sen
         self.options: typing.Final[types.Tuple[ksen.KsenOption_]] = options

@@ -54,6 +54,6 @@ class Wwn(DataOption_, keyword='wwn'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
         self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds

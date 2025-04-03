@@ -57,6 +57,6 @@ class Df_0(DataOption_, keyword='df'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.method: typing.Final[types.String] = method
         self.values: typing.Final[types.Tuple[types.RealOrJump]] = values

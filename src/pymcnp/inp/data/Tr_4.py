@@ -69,7 +69,7 @@ class Tr_4(DataOption_, keyword='tr'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.x: typing.Final[types.RealOrJump] = x
         self.y: typing.Final[types.RealOrJump] = y
         self.z: typing.Final[types.RealOrJump] = z

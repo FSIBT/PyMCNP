@@ -65,7 +65,7 @@ class Fs(DataOption_, keyword='fs'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers
         self.t: typing.Final[types.String] = t
         self.c: typing.Final[types.String] = c

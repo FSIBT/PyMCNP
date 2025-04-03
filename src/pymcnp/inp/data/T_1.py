@@ -46,5 +46,5 @@ class T_1(DataOption_, keyword='t'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.options: typing.Final[types.Tuple[t_1.T_1Option_]] = options

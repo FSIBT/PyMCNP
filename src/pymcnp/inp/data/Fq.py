@@ -93,7 +93,7 @@ class Fq(DataOption_, keyword='fq'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.a1: typing.Final[types.String] = a1
         self.a2: typing.Final[types.String] = a2
         self.a3: typing.Final[types.String] = a3

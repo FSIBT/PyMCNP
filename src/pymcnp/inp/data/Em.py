@@ -45,5 +45,5 @@ class Em(DataOption_, keyword='em'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.multipliers: typing.Final[types.Tuple[types.RealOrJump]] = multipliers

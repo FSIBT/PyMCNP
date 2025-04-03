@@ -24,10 +24,7 @@ class Mx(DataOption_, keyword='mx'):
     _REGEX = re.compile(rf'\Amx(\d+):(\S+)((?: {types.Zaid._REGEX.pattern})+?)\Z')
 
     def __init__(
-        self,
-        suffix: types.Integer,
-        designator: types.Designator,
-        zaids: types.Tuple[types.Zaid],
+        self, suffix: types.Integer, designator: types.Designator, zaids: types.Tuple[types.Zaid]
     ):
         """
         Initializes ``Mx``.
@@ -54,6 +51,6 @@ class Mx(DataOption_, keyword='mx'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
         self.zaids: typing.Final[types.Tuple[types.Zaid]] = zaids

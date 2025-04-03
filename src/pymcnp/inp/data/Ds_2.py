@@ -45,5 +45,5 @@ class Ds_2(DataOption_, keyword='ds'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.vss: typing.Final[types.Tuple[types.IndependentDependent]] = vss
