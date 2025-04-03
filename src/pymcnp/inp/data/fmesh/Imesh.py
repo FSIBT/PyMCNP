@@ -16,12 +16,12 @@ class Imesh(FmeshOption_, keyword='imesh'):
     """
 
     _ATTRS = {
-        'locations': types.Real,
+        'locations': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aimesh( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aimesh( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, locations: types.Real):
+    def __init__(self, locations: types.RealOrJump):
         """
         Initializes ``Imesh``.
 
@@ -41,4 +41,4 @@ class Imesh(FmeshOption_, keyword='imesh'):
             ]
         )
 
-        self.locations: typing.Final[types.Real] = locations
+        self.locations: typing.Final[types.RealOrJump] = locations

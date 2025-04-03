@@ -16,12 +16,12 @@ class Z(SdefOption_, keyword='z'):
     """
 
     _ATTRS = {
-        'z_coordinate': types.Real,
+        'z_coordinate': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Az( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Az( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, z_coordinate: types.Real):
+    def __init__(self, z_coordinate: types.RealOrJump):
         """
         Initializes ``Z``.
 
@@ -41,4 +41,4 @@ class Z(SdefOption_, keyword='z'):
             ]
         )
 
-        self.z_coordinate: typing.Final[types.Real] = z_coordinate
+        self.z_coordinate: typing.Final[types.RealOrJump] = z_coordinate

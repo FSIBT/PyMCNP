@@ -16,16 +16,18 @@ class Sb_1(DataOption_, keyword='sb'):
     """
 
     _ATTRS = {
-        'function': types.Integer,
-        'a': types.Real,
-        'b': types.Real,
+        'function': types.IntegerOrJump,
+        'a': types.RealOrJump,
+        'b': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Asb( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?\Z'
+        rf'\Asb( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})?\Z'
     )
 
-    def __init__(self, function: types.Integer, a: types.Real, b: types.Real = None):
+    def __init__(
+        self, function: types.IntegerOrJump, a: types.RealOrJump, b: types.RealOrJump = None
+    ):
         """
         Initializes ``Sb_1``.
 
@@ -51,6 +53,6 @@ class Sb_1(DataOption_, keyword='sb'):
             ]
         )
 
-        self.function: typing.Final[types.Integer] = function
-        self.a: typing.Final[types.Real] = a
-        self.b: typing.Final[types.Real] = b
+        self.function: typing.Final[types.IntegerOrJump] = function
+        self.a: typing.Final[types.RealOrJump] = a
+        self.b: typing.Final[types.RealOrJump] = b

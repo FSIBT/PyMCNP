@@ -16,12 +16,12 @@ class Asfrnt(BlockOption_, keyword='asfrnt'):
     """
 
     _ATTRS = {
-        'setting': types.Integer,
+        'setting': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aasfrnt( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aasfrnt( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.Integer):
+    def __init__(self, setting: types.IntegerOrJump):
         """
         Initializes ``Asfrnt``.
 
@@ -41,4 +41,4 @@ class Asfrnt(BlockOption_, keyword='asfrnt'):
             ]
         )
 
-        self.setting: typing.Final[types.Integer] = setting
+        self.setting: typing.Final[types.IntegerOrJump] = setting

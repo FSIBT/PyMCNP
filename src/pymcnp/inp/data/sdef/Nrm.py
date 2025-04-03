@@ -16,12 +16,12 @@ class Nrm(SdefOption_, keyword='nrm'):
     """
 
     _ATTRS = {
-        'sign': types.Integer,
+        'sign': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Anrm( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Anrm( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, sign: types.Integer):
+    def __init__(self, sign: types.IntegerOrJump):
         """
         Initializes ``Nrm``.
 
@@ -41,4 +41,4 @@ class Nrm(SdefOption_, keyword='nrm'):
             ]
         )
 
-        self.sign: typing.Final[types.Integer] = sign
+        self.sign: typing.Final[types.IntegerOrJump] = sign

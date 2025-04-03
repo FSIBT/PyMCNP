@@ -16,12 +16,12 @@ class Rmflux(BlockOption_, keyword='rmflux'):
     """
 
     _ATTRS = {
-        'setting': types.Integer,
+        'setting': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Armflux( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Armflux( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.Integer):
+    def __init__(self, setting: types.IntegerOrJump):
         """
         Initializes ``Rmflux``.
 
@@ -41,4 +41,4 @@ class Rmflux(BlockOption_, keyword='rmflux'):
             ]
         )
 
-        self.setting: typing.Final[types.Integer] = setting
+        self.setting: typing.Final[types.IntegerOrJump] = setting

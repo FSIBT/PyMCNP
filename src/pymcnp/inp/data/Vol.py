@@ -17,12 +17,14 @@ class Vol(DataOption_, keyword='vol'):
 
     _ATTRS = {
         'no': types.String,
-        'volumes': types.Tuple[types.Real],
+        'volumes': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Avol( no)?((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(
+        rf'\Avol( no)?((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
+    )
 
-    def __init__(self, volumes: types.Tuple[types.Real], no: types.String = None):
+    def __init__(self, volumes: types.Tuple[types.RealOrJump], no: types.String = None):
         """
         Initializes ``Vol``.
 
@@ -47,4 +49,4 @@ class Vol(DataOption_, keyword='vol'):
         )
 
         self.no: typing.Final[types.String] = no
-        self.volumes: typing.Final[types.Tuple[types.Real]] = volumes
+        self.volumes: typing.Final[types.Tuple[types.RealOrJump]] = volumes

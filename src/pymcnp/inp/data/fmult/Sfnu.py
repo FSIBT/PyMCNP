@@ -16,12 +16,12 @@ class Sfnu(FmultOption_, keyword='sfnu'):
     """
 
     _ATTRS = {
-        'distribution': types.Tuple[types.Real],
+        'distribution': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Asfnu((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Asfnu((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, distribution: types.Tuple[types.Real]):
+    def __init__(self, distribution: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Sfnu``.
 
@@ -41,4 +41,4 @@ class Sfnu(FmultOption_, keyword='sfnu'):
             ]
         )
 
-        self.distribution: typing.Final[types.Tuple[types.Real]] = distribution
+        self.distribution: typing.Final[types.Tuple[types.RealOrJump]] = distribution

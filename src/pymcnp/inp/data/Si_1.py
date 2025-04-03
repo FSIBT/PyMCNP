@@ -18,15 +18,18 @@ class Si_1(DataOption_, keyword='si'):
     _ATTRS = {
         'suffix': types.Integer,
         'option': types.String,
-        'information': types.Tuple[types.Real],
+        'information': types.Tuple[types.RealOrJump],
     }
 
     _REGEX = re.compile(
-        rf'\Asi(\d+)( {types.String._REGEX.pattern})((?: {types.Real._REGEX.pattern})+?)\Z'
+        rf'\Asi(\d+)( {types.String._REGEX.pattern})((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
     )
 
     def __init__(
-        self, suffix: types.Integer, option: types.String, information: types.Tuple[types.Real]
+        self,
+        suffix: types.Integer,
+        option: types.String,
+        information: types.Tuple[types.RealOrJump],
     ):
         """
         Initializes ``Si_1``.
@@ -54,6 +57,6 @@ class Si_1(DataOption_, keyword='si'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.option: typing.Final[types.String] = option
-        self.information: typing.Final[types.Tuple[types.Real]] = information
+        self.information: typing.Final[types.Tuple[types.RealOrJump]] = information

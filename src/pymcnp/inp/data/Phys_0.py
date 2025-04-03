@@ -16,30 +16,30 @@ class Phys_0(DataOption_, keyword='phys:n'):
     """
 
     _ATTRS = {
-        'emax': types.Real,
-        'emcnf': types.Real,
-        'iunr': types.Real,
-        'coilf': types.Real,
-        'cutn': types.Integer,
-        'ngam': types.Integer,
-        'i_int_model': types.Integer,
-        'i_els_model': types.Integer,
+        'emax': types.RealOrJump,
+        'emcnf': types.RealOrJump,
+        'iunr': types.RealOrJump,
+        'coilf': types.RealOrJump,
+        'cutn': types.IntegerOrJump,
+        'ngam': types.IntegerOrJump,
+        'i_int_model': types.IntegerOrJump,
+        'i_els_model': types.IntegerOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Aphys:n( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Aphys:n( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        emax: types.Real,
-        emcnf: types.Real,
-        iunr: types.Real,
-        coilf: types.Real,
-        cutn: types.Integer,
-        ngam: types.Integer,
-        i_int_model: types.Integer,
-        i_els_model: types.Integer,
+        emax: types.RealOrJump,
+        emcnf: types.RealOrJump,
+        iunr: types.RealOrJump,
+        coilf: types.RealOrJump,
+        cutn: types.IntegerOrJump,
+        ngam: types.IntegerOrJump,
+        i_int_model: types.IntegerOrJump,
+        i_els_model: types.IntegerOrJump,
     ):
         """
         Initializes ``Phys_0``.
@@ -88,11 +88,11 @@ class Phys_0(DataOption_, keyword='phys:n'):
             ]
         )
 
-        self.emax: typing.Final[types.Real] = emax
-        self.emcnf: typing.Final[types.Real] = emcnf
-        self.iunr: typing.Final[types.Real] = iunr
-        self.coilf: typing.Final[types.Real] = coilf
-        self.cutn: typing.Final[types.Integer] = cutn
-        self.ngam: typing.Final[types.Integer] = ngam
-        self.i_int_model: typing.Final[types.Integer] = i_int_model
-        self.i_els_model: typing.Final[types.Integer] = i_els_model
+        self.emax: typing.Final[types.RealOrJump] = emax
+        self.emcnf: typing.Final[types.RealOrJump] = emcnf
+        self.iunr: typing.Final[types.RealOrJump] = iunr
+        self.coilf: typing.Final[types.RealOrJump] = coilf
+        self.cutn: typing.Final[types.IntegerOrJump] = cutn
+        self.ngam: typing.Final[types.IntegerOrJump] = ngam
+        self.i_int_model: typing.Final[types.IntegerOrJump] = i_int_model
+        self.i_els_model: typing.Final[types.IntegerOrJump] = i_els_model

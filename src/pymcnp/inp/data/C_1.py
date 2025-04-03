@@ -17,19 +17,19 @@ class C_1(DataOption_, keyword='[*]c'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'bounds': types.Tuple[types.Real],
+        'bounds': types.Tuple[types.RealOrJump],
         't': types.String,
         'c': types.String,
     }
 
     _REGEX = re.compile(
-        rf'\A[*]c(\d+)((?: {types.Real._REGEX.pattern})+?)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?\Z'
+        rf'\A[*]c(\d+)((?: {types.RealOrJump._REGEX.pattern})+?)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
-        bounds: types.Tuple[types.Real],
+        bounds: types.Tuple[types.RealOrJump],
         t: types.String = None,
         c: types.String = None,
     ):
@@ -59,7 +59,7 @@ class C_1(DataOption_, keyword='[*]c'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds
         self.t: typing.Final[types.String] = t
         self.c: typing.Final[types.String] = c

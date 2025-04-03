@@ -58,7 +58,7 @@ class M(DataOption_, keyword='m'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.substances: typing.Final[types.Tuple[types.Substance]] = substances
         self.options: typing.Final[types.Tuple[m.MOption_]] = options
 
@@ -100,7 +100,7 @@ class M(DataOption_, keyword='m'):
                 entries = [
                     types.Substance(
                         zaid,
-                        types.Real(
+                        types.RealOrJump(
                             (-1 if atomic_or_weight else 1)
                             * mixture_fraction
                             * compound_fraction
@@ -113,7 +113,7 @@ class M(DataOption_, keyword='m'):
                 comments += subcomments
                 substances += entries
 
-        material = M(types.Integer(number), types.Tuple(substances))
+        material = M(types.IntegerOrJump(number), types.Tuple(substances))
         material.comment = tuple(comments)
 
         return material

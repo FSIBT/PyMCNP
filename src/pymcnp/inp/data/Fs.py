@@ -17,19 +17,19 @@ class Fs(DataOption_, keyword='fs'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'numbers': types.Tuple[types.Integer],
+        'numbers': types.Tuple[types.IntegerOrJump],
         't': types.String,
         'c': types.String,
     }
 
     _REGEX = re.compile(
-        rf'\Afs(\d+)((?: {types.Integer._REGEX.pattern})+?)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?\Z'
+        rf'\Afs(\d+)((?: {types.IntegerOrJump._REGEX.pattern})+?)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
-        numbers: types.Tuple[types.Integer],
+        numbers: types.Tuple[types.IntegerOrJump],
         t: types.String = None,
         c: types.String = None,
     ):
@@ -65,7 +65,7 @@ class Fs(DataOption_, keyword='fs'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.numbers: typing.Final[types.Tuple[types.Integer]] = numbers
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers
         self.t: typing.Final[types.String] = t
         self.c: typing.Final[types.String] = c

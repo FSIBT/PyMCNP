@@ -16,12 +16,12 @@ class Max(PtracOption_, keyword='max'):
     """
 
     _ATTRS = {
-        'events': types.Integer,
+        'events': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Amax( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Amax( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, events: types.Integer):
+    def __init__(self, events: types.IntegerOrJump):
         """
         Initializes ``Max``.
 
@@ -41,4 +41,4 @@ class Max(PtracOption_, keyword='max'):
             ]
         )
 
-        self.events: typing.Final[types.Integer] = events
+        self.events: typing.Final[types.IntegerOrJump] = events

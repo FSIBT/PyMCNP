@@ -16,12 +16,12 @@ class Nps(PtracOption_, keyword='nps'):
     """
 
     _ATTRS = {
-        'particles': types.Tuple[types.Integer],
+        'particles': types.Tuple[types.IntegerOrJump],
     }
 
-    _REGEX = re.compile(rf'\Anps((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Anps((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, particles: types.Tuple[types.Integer]):
+    def __init__(self, particles: types.Tuple[types.IntegerOrJump]):
         """
         Initializes ``Nps``.
 
@@ -41,4 +41,4 @@ class Nps(PtracOption_, keyword='nps'):
             ]
         )
 
-        self.particles: typing.Final[types.Tuple[types.Integer]] = particles
+        self.particles: typing.Final[types.Tuple[types.IntegerOrJump]] = particles

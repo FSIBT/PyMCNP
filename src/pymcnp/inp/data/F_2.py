@@ -23,7 +23,9 @@ class F_2(DataOption_, keyword='f'):
         'nd': types.String,
     }
 
-    _REGEX = re.compile(rf'\Af(\d*[5])([xyz]):(\S+)((?: {types.Ring._REGEX.pattern})+?)( nd)?\Z')
+    _REGEX = re.compile(
+        rf'\Af(\d*[5])([xyz]):(\S+)((?: {types.Ring._REGEX.pattern})+?)( {types.String._REGEX.pattern})?\Z'
+    )
 
     def __init__(
         self,
@@ -64,7 +66,7 @@ class F_2(DataOption_, keyword='f'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.a: typing.Final[types.String] = a
         self.designator: typing.Final[types.Designator] = designator
         self.rings: typing.Final[types.Tuple[types.Ring]] = rings

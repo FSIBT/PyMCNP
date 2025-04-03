@@ -14,7 +14,7 @@ class KoptsOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'fmatreduce( {types.String._REGEX.pattern})|blocksize( {types.Integer._REGEX.pattern})|precursor( {types.String._REGEX.pattern})|fmatspace( {types.Real._REGEX.pattern})|fmataccel( {types.String._REGEX.pattern})|kinetics( {types.String._REGEX.pattern})|fmatskpt( {types.Real._REGEX.pattern})|fmatncyc( {types.Real._REGEX.pattern})|ksental( {types.String._REGEX.pattern})|fmatnx( {types.Real._REGEX.pattern})|fmatny( {types.Real._REGEX.pattern})|fmatnz( {types.Real._REGEX.pattern})|fmat( {types.String._REGEX.pattern})'
+        rf'fmatreduce( {types.String._REGEX.pattern})|blocksize( {types.IntegerOrJump._REGEX.pattern})|precursor( {types.String._REGEX.pattern})|fmatspace( {types.RealOrJump._REGEX.pattern})|fmataccel( {types.String._REGEX.pattern})|kinetics( {types.String._REGEX.pattern})|fmatskpt( {types.RealOrJump._REGEX.pattern})|fmatncyc( {types.RealOrJump._REGEX.pattern})|ksental( {types.String._REGEX.pattern})|fmatnx( {types.RealOrJump._REGEX.pattern})|fmatny( {types.RealOrJump._REGEX.pattern})|fmatnz( {types.RealOrJump._REGEX.pattern})|fmat( {types.String._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

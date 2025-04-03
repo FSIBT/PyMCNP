@@ -53,6 +53,6 @@ class Pert(DataOption_, keyword='pert'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.designator: typing.Final[types.Designator] = designator
         self.options: typing.Final[types.Tuple[pert.PertOption_]] = options

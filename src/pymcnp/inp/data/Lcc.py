@@ -16,30 +16,30 @@ class Lcc(DataOption_, keyword='lcc'):
     """
 
     _ATTRS = {
-        'stincl': types.Real,
-        'v0incl': types.Real,
-        'xfoisaincl': types.Real,
-        'npaulincl': types.Integer,
-        'nosurfincl': types.Integer,
-        'ecutincl': types.Real,
-        'ebankincl': types.Real,
-        'ebankabia': types.Real,
+        'stincl': types.RealOrJump,
+        'v0incl': types.RealOrJump,
+        'xfoisaincl': types.RealOrJump,
+        'npaulincl': types.IntegerOrJump,
+        'nosurfincl': types.IntegerOrJump,
+        'ecutincl': types.RealOrJump,
+        'ebankincl': types.RealOrJump,
+        'ebankabia': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Alcc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Alcc( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        stincl: types.Real,
-        v0incl: types.Real,
-        xfoisaincl: types.Real,
-        npaulincl: types.Integer,
-        nosurfincl: types.Integer,
-        ecutincl: types.Real,
-        ebankincl: types.Real,
-        ebankabia: types.Real,
+        stincl: types.RealOrJump,
+        v0incl: types.RealOrJump,
+        xfoisaincl: types.RealOrJump,
+        npaulincl: types.IntegerOrJump,
+        nosurfincl: types.IntegerOrJump,
+        ecutincl: types.RealOrJump,
+        ebankincl: types.RealOrJump,
+        ebankabia: types.RealOrJump,
     ):
         """
         Initializes ``Lcc``.
@@ -90,11 +90,11 @@ class Lcc(DataOption_, keyword='lcc'):
             ]
         )
 
-        self.stincl: typing.Final[types.Real] = stincl
-        self.v0incl: typing.Final[types.Real] = v0incl
-        self.xfoisaincl: typing.Final[types.Real] = xfoisaincl
-        self.npaulincl: typing.Final[types.Integer] = npaulincl
-        self.nosurfincl: typing.Final[types.Integer] = nosurfincl
-        self.ecutincl: typing.Final[types.Real] = ecutincl
-        self.ebankincl: typing.Final[types.Real] = ebankincl
-        self.ebankabia: typing.Final[types.Real] = ebankabia
+        self.stincl: typing.Final[types.RealOrJump] = stincl
+        self.v0incl: typing.Final[types.RealOrJump] = v0incl
+        self.xfoisaincl: typing.Final[types.RealOrJump] = xfoisaincl
+        self.npaulincl: typing.Final[types.IntegerOrJump] = npaulincl
+        self.nosurfincl: typing.Final[types.IntegerOrJump] = nosurfincl
+        self.ecutincl: typing.Final[types.RealOrJump] = ecutincl
+        self.ebankincl: typing.Final[types.RealOrJump] = ebankincl
+        self.ebankabia: typing.Final[types.RealOrJump] = ebankabia

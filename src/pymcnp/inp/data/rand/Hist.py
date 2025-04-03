@@ -16,12 +16,12 @@ class Hist(RandOption_, keyword='hist'):
     """
 
     _ATTRS = {
-        'hist': types.Integer,
+        'hist': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Ahist( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ahist( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, hist: types.Integer):
+    def __init__(self, hist: types.IntegerOrJump):
         """
         Initializes ``Hist``.
 
@@ -41,4 +41,4 @@ class Hist(RandOption_, keyword='hist'):
             ]
         )
 
-        self.hist: typing.Final[types.Integer] = hist
+        self.hist: typing.Final[types.IntegerOrJump] = hist

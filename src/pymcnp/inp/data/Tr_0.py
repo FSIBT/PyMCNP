@@ -17,41 +17,41 @@ class Tr_0(DataOption_, keyword='tr'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'x': types.Real,
-        'y': types.Real,
-        'z': types.Real,
-        'xx': types.Real,
-        'xy': types.Real,
-        'xz': types.Real,
-        'yx': types.Real,
-        'yy': types.Real,
-        'yz': types.Real,
-        'zx': types.Real,
-        'zy': types.Real,
-        'zz': types.Real,
-        'system': types.Integer,
+        'x': types.RealOrJump,
+        'y': types.RealOrJump,
+        'z': types.RealOrJump,
+        'xx': types.RealOrJump,
+        'xy': types.RealOrJump,
+        'xz': types.RealOrJump,
+        'yx': types.RealOrJump,
+        'yy': types.RealOrJump,
+        'yz': types.RealOrJump,
+        'zx': types.RealOrJump,
+        'zy': types.RealOrJump,
+        'zz': types.RealOrJump,
+        'system': types.IntegerOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Atr(\d+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})?\Z'
+        rf'\Atr(\d+)( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
-        x: types.Real,
-        y: types.Real,
-        z: types.Real,
-        xx: types.Real,
-        xy: types.Real,
-        xz: types.Real,
-        yx: types.Real,
-        yy: types.Real,
-        yz: types.Real,
-        zx: types.Real,
-        zy: types.Real,
-        zz: types.Real,
-        system: types.Integer = None,
+        x: types.RealOrJump,
+        y: types.RealOrJump,
+        z: types.RealOrJump,
+        xx: types.RealOrJump,
+        xy: types.RealOrJump,
+        xz: types.RealOrJump,
+        yx: types.RealOrJump,
+        yy: types.RealOrJump,
+        yz: types.RealOrJump,
+        zx: types.RealOrJump,
+        zy: types.RealOrJump,
+        zz: types.RealOrJump,
+        system: types.IntegerOrJump = None,
     ):
         """
         Initializes ``Tr_0``.
@@ -123,17 +123,17 @@ class Tr_0(DataOption_, keyword='tr'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.x: typing.Final[types.Real] = x
-        self.y: typing.Final[types.Real] = y
-        self.z: typing.Final[types.Real] = z
-        self.xx: typing.Final[types.Real] = xx
-        self.xy: typing.Final[types.Real] = xy
-        self.xz: typing.Final[types.Real] = xz
-        self.yx: typing.Final[types.Real] = yx
-        self.yy: typing.Final[types.Real] = yy
-        self.yz: typing.Final[types.Real] = yz
-        self.zx: typing.Final[types.Real] = zx
-        self.zy: typing.Final[types.Real] = zy
-        self.zz: typing.Final[types.Real] = zz
-        self.system: typing.Final[types.Integer] = system
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.x: typing.Final[types.RealOrJump] = x
+        self.y: typing.Final[types.RealOrJump] = y
+        self.z: typing.Final[types.RealOrJump] = z
+        self.xx: typing.Final[types.RealOrJump] = xx
+        self.xy: typing.Final[types.RealOrJump] = xy
+        self.xz: typing.Final[types.RealOrJump] = xz
+        self.yx: typing.Final[types.RealOrJump] = yx
+        self.yy: typing.Final[types.RealOrJump] = yy
+        self.yz: typing.Final[types.RealOrJump] = yz
+        self.zx: typing.Final[types.RealOrJump] = zx
+        self.zy: typing.Final[types.RealOrJump] = zy
+        self.zz: typing.Final[types.RealOrJump] = zz
+        self.system: typing.Final[types.IntegerOrJump] = system

@@ -16,12 +16,12 @@ class Mat(PertOption_, keyword='mat'):
     """
 
     _ATTRS = {
-        'material': types.Integer,
+        'material': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Amat( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Amat( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, material: types.Integer):
+    def __init__(self, material: types.IntegerOrJump):
         """
         Initializes ``Mat``.
 
@@ -41,4 +41,4 @@ class Mat(PertOption_, keyword='mat'):
             ]
         )
 
-        self.material: typing.Final[types.Integer] = material
+        self.material: typing.Final[types.IntegerOrJump] = material

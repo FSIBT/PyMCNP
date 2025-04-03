@@ -16,12 +16,12 @@ class Area(DataOption_, keyword='area'):
     """
 
     _ATTRS = {
-        'areas': types.Tuple[types.Real],
+        'areas': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aarea((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aarea((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, areas: types.Tuple[types.Real]):
+    def __init__(self, areas: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Area``.
 
@@ -41,4 +41,4 @@ class Area(DataOption_, keyword='area'):
             ]
         )
 
-        self.areas: typing.Final[types.Tuple[types.Real]] = areas
+        self.areas: typing.Final[types.Tuple[types.RealOrJump]] = areas

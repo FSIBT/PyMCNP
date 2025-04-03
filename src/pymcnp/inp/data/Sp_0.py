@@ -18,15 +18,17 @@ class Sp_0(DataOption_, keyword='sp'):
     _ATTRS = {
         'suffix': types.Integer,
         'option': types.String,
-        'probabilities': types.Tuple[types.Real],
+        'probabilities': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Asp(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(
+        rf'\Asp(\d+)( [dcvw])?((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
+    )
 
     def __init__(
         self,
         suffix: types.Integer,
-        probabilities: types.Tuple[types.Real],
+        probabilities: types.Tuple[types.RealOrJump],
         option: types.String = None,
     ):
         """
@@ -57,6 +59,6 @@ class Sp_0(DataOption_, keyword='sp'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.option: typing.Final[types.String] = option
-        self.probabilities: typing.Final[types.Tuple[types.Real]] = probabilities
+        self.probabilities: typing.Final[types.Tuple[types.RealOrJump]] = probabilities

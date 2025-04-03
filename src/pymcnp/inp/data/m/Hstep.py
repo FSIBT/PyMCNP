@@ -16,12 +16,12 @@ class Hstep(MOption_, keyword='hstep'):
     """
 
     _ATTRS = {
-        'step': types.Integer,
+        'step': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Ahstep( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ahstep( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, step: types.Integer):
+    def __init__(self, step: types.IntegerOrJump):
         """
         Initializes ``Hstep``.
 
@@ -41,4 +41,4 @@ class Hstep(MOption_, keyword='hstep'):
             ]
         )
 
-        self.step: typing.Final[types.Integer] = step
+        self.step: typing.Final[types.IntegerOrJump] = step

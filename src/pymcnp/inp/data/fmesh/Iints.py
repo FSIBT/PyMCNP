@@ -16,12 +16,12 @@ class Iints(FmeshOption_, keyword='iints'):
     """
 
     _ATTRS = {
-        'count': types.Integer,
+        'count': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aiints( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aiints( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, count: types.Integer):
+    def __init__(self, count: types.IntegerOrJump):
         """
         Initializes ``Iints``.
 
@@ -41,4 +41,4 @@ class Iints(FmeshOption_, keyword='iints'):
             ]
         )
 
-        self.count: typing.Final[types.Integer] = count
+        self.count: typing.Final[types.IntegerOrJump] = count

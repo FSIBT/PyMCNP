@@ -16,12 +16,12 @@ class Elpt(DataOption_, keyword='elpt'):
     """
 
     _ATTRS = {
-        'cutoffs': types.Tuple[types.Real],
+        'cutoffs': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aelpt((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aelpt((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, cutoffs: types.Tuple[types.Real]):
+    def __init__(self, cutoffs: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Elpt``.
 
@@ -41,4 +41,4 @@ class Elpt(DataOption_, keyword='elpt'):
             ]
         )
 
-        self.cutoffs: typing.Final[types.Tuple[types.Real]] = cutoffs
+        self.cutoffs: typing.Final[types.Tuple[types.RealOrJump]] = cutoffs

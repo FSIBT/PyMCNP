@@ -16,12 +16,12 @@ class Ara(SdefOption_, keyword='ara'):
     """
 
     _ATTRS = {
-        'area': types.Real,
+        'area': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aara( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aara( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, area: types.Real):
+    def __init__(self, area: types.RealOrJump):
         """
         Initializes ``Ara``.
 
@@ -41,4 +41,4 @@ class Ara(SdefOption_, keyword='ara'):
             ]
         )
 
-        self.area: typing.Final[types.Real] = area
+        self.area: typing.Final[types.RealOrJump] = area

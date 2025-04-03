@@ -2534,7 +2534,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='volumes',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Tuple of cell volumes',
                         ),
                     ],
@@ -2545,7 +2545,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='areas',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Tuple of surface areas',
                         ),
                     ],
@@ -2562,67 +2562,67 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='x',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector x component',
                         ),
                         AttributeScheme(
                             name='y',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector y component',
                         ),
                         AttributeScheme(
                             name='z',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector z component',
                         ),
                         AttributeScheme(
                             name='xx',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix xx' component",
                         ),
                         AttributeScheme(
                             name='xy',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix xy' component",
                         ),
                         AttributeScheme(
                             name='xz',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix xz' component",
                         ),
                         AttributeScheme(
                             name='yx',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix yx' component",
                         ),
                         AttributeScheme(
                             name='yy',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix yy' component",
                         ),
                         AttributeScheme(
                             name='yz',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix yz' component",
                         ),
                         AttributeScheme(
                             name='zx',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix zx' component",
                         ),
                         AttributeScheme(
                             name='zy',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix zy' component",
                         ),
                         AttributeScheme(
                             name='zz',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix zz' component",
                         ),
                         AttributeScheme(
                             name='system',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Coordinate system setting',
                             restriction='system == -1 or system == 1',
                             optional=True,
@@ -2641,52 +2641,52 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='x',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector x component',
                         ),
                         AttributeScheme(
                             name='y',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector y component',
                         ),
                         AttributeScheme(
                             name='z',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector z component',
                         ),
                         AttributeScheme(
                             name='xx',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix xx' component",
                         ),
                         AttributeScheme(
                             name='xy',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix xy' component",
                         ),
                         AttributeScheme(
                             name='xz',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix xz' component",
                         ),
                         AttributeScheme(
                             name='yx',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix yx' component",
                         ),
                         AttributeScheme(
                             name='yy',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix yy' component",
                         ),
                         AttributeScheme(
                             name='yz',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix yz' component",
                         ),
                         AttributeScheme(
                             name='system',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Coordinate system setting',
                             restriction='system == -1 or system == 1',
                             optional=True,
@@ -2705,47 +2705,47 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='x',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector x component',
                         ),
                         AttributeScheme(
                             name='y',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector y component',
                         ),
                         AttributeScheme(
                             name='z',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector z component',
                         ),
                         AttributeScheme(
                             name='xx',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix xx' component",
                         ),
                         AttributeScheme(
                             name='xy',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix xy' component",
                         ),
                         AttributeScheme(
                             name='xz',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix xz' component",
                         ),
                         AttributeScheme(
                             name='yx',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix yx' component",
                         ),
                         AttributeScheme(
                             name='yy',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix yy' component",
                         ),
                         AttributeScheme(
                             name='system',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Coordinate system setting',
                             restriction='system == -1 or system == 1',
                             optional=True,
@@ -2764,37 +2764,37 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='x',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector x component',
                         ),
                         AttributeScheme(
                             name='y',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector y component',
                         ),
                         AttributeScheme(
                             name='z',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector z component',
                         ),
                         AttributeScheme(
                             name='xx',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix xx' component",
                         ),
                         AttributeScheme(
                             name='xy',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix xy' component",
                         ),
                         AttributeScheme(
                             name='xz',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description="Rotation matrix xz' component",
                         ),
                         AttributeScheme(
                             name='system',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Coordinate system setting',
                             restriction='system == -1 or system == 1',
                             optional=True,
@@ -2813,22 +2813,22 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='x',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector x component',
                         ),
                         AttributeScheme(
                             name='y',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector y component',
                         ),
                         AttributeScheme(
                             name='z',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Displacement vector z component',
                         ),
                         AttributeScheme(
                             name='system',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Coordinate system setting',
                             restriction='system == -1 or system == 1',
                             optional=True,
@@ -2841,7 +2841,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='numbers',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Tuple of cell numbers',
                             restriction='filter(lambda entry: not (1 <= entry <= 99_999_999), numbers)',
                         ),
@@ -2853,7 +2853,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='type',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Tuple of lattice types',
                             restriction='filter(lambda entry: not (entry == 1 or entry == 2), type)',
                         ),
@@ -2865,7 +2865,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='numbers',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Tuple of universe numbers',
                             restriction='filter(lambda entry: not (0 <= entry <= 99_999_999), numbers)',
                         ),
@@ -2922,7 +2922,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='count',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of sample points for each direction in each mesh',
                                 ),
                             ],
@@ -2933,7 +2933,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='setting',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Destination of key-value pairs',
                                     restriction='setting.value in {1, 3, 5, 6}',
                                 ),
@@ -2951,7 +2951,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='value',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Number of energy groups',
                                         ),
                                     ],
@@ -2962,7 +2962,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Sn order',
                                         ),
                                     ],
@@ -2973,7 +2973,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Number of isotopes',
                                         ),
                                     ],
@@ -2984,7 +2984,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Number of materials',
                                         ),
                                     ],
@@ -2995,7 +2995,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Quadrature',
                                             restriction='setting.value in {1, 2, 3, 4, 5, 6, 7, 8, 9}',
                                         ),
@@ -3007,7 +3007,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Read composition from LNK3DNT on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3019,7 +3019,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Suppress solver module on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3031,7 +3031,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Suppress edit module on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3043,7 +3043,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Suppress writing GEODST on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3055,7 +3055,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Suppress writing mixing on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3067,7 +3067,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Suppress writing ASGMAT on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3079,7 +3079,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Suppress writing MACRXS on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3091,7 +3091,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Suppress writing SOLINP on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3103,7 +3103,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Suppress writing EDITIT on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3115,7 +3115,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Suppress writing ADJMAC on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3149,7 +3149,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Fission neutron flag',
                                         ),
                                     ],
@@ -3160,7 +3160,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Number of the last neutron group',
                                         ),
                                     ],
@@ -3171,7 +3171,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Cross-section balance control',
                                             restriction='setting.value in {-1, 0, 1}',
                                         ),
@@ -3183,7 +3183,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='MENDF fission fraction',
                                         ),
                                     ],
@@ -3194,7 +3194,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Calculation type',
                                             restriction='setting in {0, 1, 2, 3, 4}',
                                         ),
@@ -3206,7 +3206,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Legendre order',
                                         ),
                                     ],
@@ -3217,7 +3217,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Direction/adjoint calculation control',
                                             restriction='setting in {0, 1}',
                                         ),
@@ -3241,7 +3241,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Left boundary condition',
                                         ),
                                     ],
@@ -3252,7 +3252,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Right boudary condition',
                                         ),
                                     ],
@@ -3263,7 +3263,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Top boudary condition',
                                         ),
                                     ],
@@ -3274,7 +3274,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Bottom  boudary condition',
                                         ),
                                     ],
@@ -3285,7 +3285,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Front boudary condition',
                                         ),
                                     ],
@@ -3296,7 +3296,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Back boudary condition',
                                         ),
                                     ],
@@ -3307,7 +3307,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Real',
+                                            type='types.RealOrJump',
                                             description='Convergence precision',
                                         ),
                                     ],
@@ -3318,7 +3318,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Maximum outer iteration count',
                                         ),
                                     ],
@@ -3329,7 +3329,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Inhibit fission multiplication on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3364,7 +3364,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Sn order for lower order TSA sweeps',
                                         ),
                                     ],
@@ -3375,7 +3375,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Real',
+                                            type='types.RealOrJump',
                                             description='Convergence criteria for TSA sweeps',
                                         ),
                                     ],
@@ -3386,7 +3386,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Maximum TSA iteration count',
                                         ),
                                     ],
@@ -3397,7 +3397,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Real',
+                                            type='types.RealOrJump',
                                             description='Scattering cross-section reduction for TSA',
                                         ),
                                     ],
@@ -3408,7 +3408,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Special criticality convergence scheme on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3420,7 +3420,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Real',
+                                            type='types.RealOrJump',
                                             description='Norm',
                                         ),
                                     ],
@@ -3431,7 +3431,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Cross-section print flag',
                                             restriction='setting in {0, 1, 2}',
                                         ),
@@ -3443,7 +3443,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Print fission source rate on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3455,7 +3455,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Source print flag',
                                             restriction='setting in {0, 1, 2, 3}',
                                         ),
@@ -3467,7 +3467,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Print angular flux on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3479,7 +3479,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Print coarse-mesh balance tables on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3491,7 +3491,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Prepare angular flux file on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3503,7 +3503,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Prepare flux moments file on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3515,7 +3515,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Prepare special XMFLUXA file on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3527,7 +3527,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Right-going flux at plane i',
                                         ),
                                     ],
@@ -3538,7 +3538,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Left-going flux at plane i',
                                         ),
                                     ],
@@ -3549,7 +3549,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Top-going flux at plane j',
                                         ),
                                     ],
@@ -3560,7 +3560,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Bottom-going flux at plane j',
                                         ),
                                     ],
@@ -3571,7 +3571,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Back-going flux at plane k',
                                         ),
                                     ],
@@ -3582,7 +3582,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Front-going flux at plane k',
                                         ),
                                     ],
@@ -3593,7 +3593,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Mass edits on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3605,7 +3605,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Edits by fine mesh on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3617,7 +3617,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Edits by zone on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3629,7 +3629,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Write a-flux file on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3641,7 +3641,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Write b-flux file on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3653,7 +3653,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='ASCII output files control',
                                             restriction='setting in {-3, -2, -1, 0, 1, 2, 3}',
                                         ),
@@ -3665,7 +3665,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Printed point reactions rates on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3677,7 +3677,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Regular/adjoint edits control',
                                             restriction='setting in {0, 1}',
                                         ),
@@ -3689,7 +3689,7 @@ cards = ElementScheme(
                                     attributes=[
                                         AttributeScheme(
                                             name='setting',
-                                            type='types.Integer',
+                                            type='types.IntegerOrJump',
                                             description='Flux override on/off',
                                             restriction='setting.value in {0, 1}',
                                         ),
@@ -3717,7 +3717,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Background pseudo-cell number',
                                     restriction='1 <= number <= 99_999_999',
                                 ),
@@ -3821,7 +3821,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='factor',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Conversion factor to centimeters for all mesh dimentions',
                                     restriction='factor > 0',
                                 ),
@@ -3863,7 +3863,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Embedded mesh universe number',
                                     restriction='0 <= number <= 99_999_999',
                                 ),
@@ -3875,7 +3875,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='factor',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Multiplicative conversion factor for energy-related output',
                                     restriction='factor > 0',
                                 ),
@@ -3887,7 +3887,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='factor',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Multiplicative conversion factor for time-related output',
                                     restriction='factor > 0',
                                 ),
@@ -3911,7 +3911,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='constant',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Multiplicative constant',
                                 ),
                             ],
@@ -3922,7 +3922,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='reactions',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='List of reactions',
                                 ),
                             ],
@@ -3933,7 +3933,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Material number',
                                     restriction='0 <= number <= 99_999_999',
                                 ),
@@ -3964,7 +3964,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='bounds',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Tuple of upper energy bounds',
                         ),
                     ],
@@ -3980,7 +3980,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='multipliers',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Tuple of energy multipliers',
                         ),
                     ],
@@ -3996,7 +3996,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='bounds',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Tuple of upper time bounds',
                         ),
                     ],
@@ -4012,7 +4012,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='multipliers',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Tuple of time multipliers',
                         ),
                     ],
@@ -4028,7 +4028,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='bounds',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Tuple of upper dose energy bounds',
                         ),
                     ],
@@ -4044,7 +4044,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='multipliers',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Tuple of dose energy multipliers',
                         ),
                     ],
@@ -4089,7 +4089,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='step',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of electron sub-step per energy step',
                                     restriction='step >= 0',
                                 ),
@@ -4101,7 +4101,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='step',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of proton sub-step per energy step',
                                     restriction='step >= 0',
                                 ),
@@ -4212,7 +4212,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='setting',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Conduction state for EL03 electron-transport evaluation',
                                 ),
                             ],
@@ -4223,7 +4223,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='refractive_index',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Refractive index constant',
                                 ),
                             ],
@@ -4234,7 +4234,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='coefficents',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Cauchy coefficents',
                                 ),
                             ],
@@ -4245,7 +4245,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='coefficents',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Sellmeier coefficents',
                                 ),
                             ],
@@ -4290,7 +4290,7 @@ cards = ElementScheme(
                 entries = [
                     types.Substance(
                         zaid,
-                        types.Real(
+                        types.RealOrJump(
                             (-1 if atomic_or_weight else 1)
                             * mixture_fraction
                             * compound_fraction
@@ -4303,7 +4303,7 @@ cards = ElementScheme(
                 comments += subcomments
                 substances += entries
 
-        material = M(types.Integer(number), types.Tuple(substances))
+        material = M(types.IntegerOrJump(number), types.Tuple(substances))
         material.comment = tuple(comments)
 
         return material
@@ -4376,7 +4376,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='settings',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Tuple of fission settings',
                             restriction='filter(lambda entry: not (entry == 0 or entry == 1 or entry == 2), settings)',
                             optional=True,
@@ -4416,7 +4416,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='numbers',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Tuple of cell numbers',
                             restriction='filter(lambda entry: not (1 <= entry <= 99_999_999), numbers)',
                             optional=True,
@@ -4435,35 +4435,35 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='igm',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Total number of energy groups for all kinds of particle',
                             restriction='igm >= 0',
                         ),
                         AttributeScheme(
                             name='iplt',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Weight windows usage indicator',
                             restriction='iplt == 0 or iplt == 1 or iplt == 2',
                         ),
                         AttributeScheme(
                             name='iab',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Adjoint biasing for adjoint problems contorls',
                             restriction='iab == 0 or iab == 1 or iab == 2',
                         ),
                         AttributeScheme(
                             name='icw',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Name of the reference cell for generated weight windows',
                         ),
                         AttributeScheme(
                             name='fnw',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Normalization value for generated weight windows',
                         ),
                         AttributeScheme(
                             name='rim',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Generated weight windows compression limit',
                         ),
                     ],
@@ -4498,45 +4498,45 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='emax',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Upper limit for neutron energy',
                         ),
                         AttributeScheme(
                             name='emcnf',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Analog energy limit',
                         ),
                         AttributeScheme(
                             name='iunr',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Unresolved resonanace controls',
                             restriction='iunr in {0, 1}',
                         ),
                         AttributeScheme(
                             name='coilf',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Light-ion and heavy-ion recoil and NCIA control',
                         ),
                         AttributeScheme(
                             name='cutn',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Table-based physics cutoff controls',
                         ),
                         AttributeScheme(
                             name='ngam',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Secondary photon production controls',
                             restriction='ngam in {0, 1, 2}',
                         ),
                         AttributeScheme(
                             name='i_int_model',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Treataement of nuclear interactions controls',
                             restriction='i_int_model in {-1, 0, 1, 2}',
                         ),
                         AttributeScheme(
                             name='i_els_model',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Treatment of nuclear elastic scattering controls',
                             restriction='i_els_model in {-1, 0}',
                         ),
@@ -4549,36 +4549,36 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='emcpf',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Upper energy limit for photon treatment',
                         ),
                         AttributeScheme(
                             name='ides',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Generation of elections by photon controls',
                             restriction='ides in {0, 1}',
                         ),
                         AttributeScheme(
                             name='nocoh',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Coherent Thomson scattering controls',
                             restriction='nocoh in {0, 1}',
                         ),
                         AttributeScheme(
                             name='ispn',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Photonuclear particle production controls',
                             restriction='ispn in {-1, 0, 1}',
                         ),
                         AttributeScheme(
                             name='nodop',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Photon Doppler energy broadening controls',
                             restriction='nodop in {0, 1}',
                         ),
                         AttributeScheme(
                             name='fism',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Selection of photofission method controls',
                             restriction='fism in {0, 1}',
                         ),
@@ -4591,82 +4591,82 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='emax',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Upper limit for electron energy',
                         ),
                         AttributeScheme(
                             name='ides',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Photon electron production controls',
                             restriction='ides in {0, 1}',
                         ),
                         AttributeScheme(
                             name='iphot',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Electron photon production controls',
                             restriction='iphot in {0, 1}',
                         ),
                         AttributeScheme(
                             name='ibad',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Bremsstrahlung angular distribution method controls',
                             restriction='ibad in {0, 1}',
                         ),
                         AttributeScheme(
                             name='istrg',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Electron continuous-energy straggling controls',
                             restriction='istrg in {0, 1}',
                         ),
                         AttributeScheme(
                             name='bnum',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bremsstrahlung photon production controls',
                         ),
                         AttributeScheme(
                             name='xnum',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Sampling of electron-induced x-rays controls',
                             restriction='xnum >= 0',
                         ),
                         AttributeScheme(
                             name='rnok',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Knock-on electron creation controls',
                             restriction='rnok >= 0',
                         ),
                         AttributeScheme(
                             name='enum',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Photon-induced secondary electron creation controls',
                             restriction='enum >= 0',
                         ),
                         AttributeScheme(
                             name='numb',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Bremsstrahlung electron creation controls',
                             restriction='i_mcs_model >= 0',
                         ),
                         AttributeScheme(
                             name='i_mcs_model',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Choice of Coulomb scattering model controls',
                             restriction='i_mcs_model in {-1, 0}',
                         ),
                         AttributeScheme(
                             name='efac',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Stopping power energy spacing controls',
                             restriction='0.8 <= efac <= 0.99',
                         ),
                         AttributeScheme(
                             name='electron_method_boundary',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Single-event transport start sontrols',
                         ),
                         AttributeScheme(
                             name='ckvnum',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Crenkov photon emission scalar',
                             restriction='0 <= ckvnum < 1',
                         ),
@@ -4679,63 +4679,63 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='emax',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Upper proton energy limit',
                         ),
                         AttributeScheme(
-                            name='ean', type='types.Real', description='Analog energy limit'
+                            name='ean', type='types.RealOrJump', description='Analog energy limit'
                         ),
                         AttributeScheme(
                             name='tabl',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Table-based physics cutoff',
                             restriction='tabl == -1 or tabl >= 0',
                         ),
                         AttributeScheme(
                             name='istrg',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Charged-particle straggling controls',
                             restriction='istrg in {0, 1}',
                         ),
                         AttributeScheme(
                             name='recl',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Light ion recoil control',
                             restriction='0 <= recl <= 1',
                         ),
                         AttributeScheme(
                             name='i_mcs_model',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Choice of Coulomb scattering model controls',
                             restriction='i_mcs_model in {-1, 0, 1, 2}',
                         ),
                         AttributeScheme(
                             name='i_int_model',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Treatment of nuclear interactions controls',
                             restriction='i_int_model in {-1, 0, 1, 2}',
                         ),
                         AttributeScheme(
                             name='i_els_model',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Treatment of nuclear elastic scattering controls',
                             restriction='i_els_model in {-1, 0}',
                         ),
                         AttributeScheme(
                             name='efac',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Stopping power energy spacing',
                             restriction='0.8 <= efac <= 0.99',
                         ),
                         AttributeScheme(
                             name='ckvnum',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Crenkov photon emission scalar',
                             restriction='0 <= ckvnum < 1',
                         ),
                         AttributeScheme(
                             name='drp',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Lower energy delta-ray cutoff',
                             restriction='drp >= 0 or drp == -1',
                         ),
@@ -4753,59 +4753,59 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='emax',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Upper energy limit',
                         ),
                         AttributeScheme(
                             name='istrg',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Charged-particle straggling controls',
                             restriction='istrg in {0, 1}',
                         ),
                         AttributeScheme(
                             name='xmunum',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Selection of muonic x-ray controls',
                             restriction='xmunum in {-1, 1}',
                         ),
                         AttributeScheme(
                             name='xmugam',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Probability for emitting k-shell photon',
                         ),
                         AttributeScheme(
                             name='i_mcs_model',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Choice of Coulomb scattering model controls',
                             restriction='i_mcs_model in {-1, 0, 1, 2}',
                         ),
                         AttributeScheme(
                             name='i_int_model',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Treatment of nuclear interactions controls',
                             restriction='i_int_model in {-1, 0, 1, 2}',
                         ),
                         AttributeScheme(
                             name='i_els_model',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Treatment of nuclear elastic scattering controls',
                             restriction='i_els_model in {-1, 0}',
                         ),
                         AttributeScheme(
                             name='efac',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Stopping power energy spacing',
                             restriction='0.8 <= efac <= 0.99',
                         ),
                         AttributeScheme(
                             name='ckvnum',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Crenkov photon emission scalar',
                             restriction='0 <= ckvnum < 1',
                         ),
                         AttributeScheme(
                             name='drp',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Lower energy delta-ray cutoff',
                             restriction='drp >= 0 or drp == -1',
                         ),
@@ -4877,7 +4877,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='fraction',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Fraction of highest-amplitude discrete delayed-gamma lines retained',
                                     restriction='0 <= fraction <= 1',
                                 ),
@@ -4889,7 +4889,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='count',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Maximum number of neutrons generated per reaction',
                                     restriction='0 <= count <= 10',
                                 ),
@@ -4901,7 +4901,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='count',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of activation products',
                                     restriction='0 <= count',
                                 ),
@@ -4935,7 +4935,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='cutoff',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Delayed-gamma energy cutoff',
                                 ),
                             ],
@@ -4946,7 +4946,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='cutoff',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Spontaneous-decay half-life threshold',
                                 ),
                             ],
@@ -4971,27 +4971,27 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='time_cutoff',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Time cutoff in shakes',
                         ),
                         AttributeScheme(
                             name='energy_cutoff',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Lower energy cutoff',
                         ),
                         AttributeScheme(
                             name='weight_cutoff1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Weight cutoff #1',
                         ),
                         AttributeScheme(
                             name='weight_cutoff2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Weight cutoff #2',
                         ),
                         AttributeScheme(
                             name='source_weight',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Minimum source weight',
                         ),
                     ],
@@ -5002,7 +5002,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='cutoffs',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Tuple of cell lower energy cutoffs',
                         ),
                     ],
@@ -5013,7 +5013,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='times',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Tuple of times when thermal temperatures are specified',
                             restriction='filter(lambda entry: not (entry <= 99), times)',
                         ),
@@ -5038,66 +5038,66 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='ielas',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Elastic scattering controls',
                             restriction='ielas == 0 or ielas == 1 or ielas == 2',
                         ),
                         AttributeScheme(
                             name='ipreg',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='pre-equilibrium model',
                             restriction='ipreg == 0 or ipreg == 1 or ipreg == 2 or ipreg == 3',
                         ),
                         AttributeScheme(
                             name='iexisa',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Model choice controls',
                             restriction='iexisa == 0 or iexisa == 1 or iexisa == 2',
                         ),
                         AttributeScheme(
                             name='ichoic',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='ISABEL intranuclear cascade model control',
                         ),
                         AttributeScheme(
                             name='jcoul',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Coulomb barrier for incident charged particle controls',
                             restriction='jcoul == 0 or jcoul == 1',
                         ),
                         AttributeScheme(
                             name='nexite',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Subtract nuclear recoil energy to get excitation energy',
                             restriction='nexite == 0 or nexite == 1',
                         ),
                         AttributeScheme(
                             name='npidk',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Cutoff interact/terminate control',
                             restriction='npidk == 0 or npidk == 1',
                         ),
                         AttributeScheme(
                             name='noact',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Particle transport settings',
                             restriction='noact == -2 or noact == -1 or noact == 0 or noact == 1 or noact == 2',
                         ),
                         AttributeScheme(
                             name='icem',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Choose alternative physics model',
                             restriction='icem == 0 or icem == 1 or icem == 2',
                         ),
                         AttributeScheme(
                             name='ilaq',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Choose light ion and nucleon physics modules',
                             restriction='ilaq == 0 or ilaq == 1',
                         ),
                         AttributeScheme(
                             name='nevtype',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Choose number of evaporation particles for GEM2',
                         ),
                     ],
@@ -5108,42 +5108,42 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='flenb1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Kinetic energy for nucleons CEM/Bertini/INCL',
                         ),
                         AttributeScheme(
                             name='flenb2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Kinetic energy for nucleons LAQGSM03.03',
                         ),
                         AttributeScheme(
                             name='flenb3',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Kinetic energy for pions CEM/Bertini/INCL',
                         ),
                         AttributeScheme(
                             name='flenb4',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Kinetic energy for pions LAQGSM03.03',
                         ),
                         AttributeScheme(
                             name='flenb5',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Kinetic energy for nucleons ISABEL',
                         ),
                         AttributeScheme(
                             name='flenb6',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Kinetic energy for appropriate model',
                         ),
                         AttributeScheme(
                             name='cotfe',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Cutoff kinetic energy for particle escape',
                         ),
                         AttributeScheme(
                             name='film0',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Maximum correction allowed for masss-energy balancing',
                         ),
                     ],
@@ -5154,44 +5154,44 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='stincl',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Rescaling factor of the cascade duration',
                         ),
                         AttributeScheme(
                             name='v0incl',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Potential depth',
                         ),
                         AttributeScheme(
                             name='xfoisaincl',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Maximum impact parameter for Pauli blocking',
                         ),
                         AttributeScheme(
                             name='npaulincl',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Pauli blocking parameter setting',
                             restriction='npaulincl == 0 or npaulincl == -1 or npaulincl == 1',
                         ),
                         AttributeScheme(
                             name='nosurfincl',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Difuse nuclear surface based on Wood-Saxon density setting',
                             restriction='xfoisaincl == -2 or xfoisaincl == -1 or xfoisaincl == 0 or xfoisaincl == 1',
                         ),
                         AttributeScheme(
                             name='ecutincl',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bertini model energy below this energy',
                         ),
                         AttributeScheme(
                             name='ebankincl',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='INCL bank particles below this energy',
                         ),
                         AttributeScheme(
                             name='ebankabia',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='ABLA bank particles below this energy',
                         ),
                     ],
@@ -5202,49 +5202,49 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='ipht',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Generation of de-excitation photons setting',
                             restriction='ipht.value in {0, 1}',
                         ),
                         AttributeScheme(
                             name='icc',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Level of physics for PHT physics setting',
                             restriction='icc.value in {0, 1, 2, 3, 4}',
                         ),
                         AttributeScheme(
                             name='nobalc',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Mass-energy balancing in cascade setting',
                             restriction='nobalc.value in {0, 1}',
                         ),
                         AttributeScheme(
                             name='nobale',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Mass-energy balancing in evaporation setting',
                             restriction='nobale.value in {0, 1}',
                         ),
                         AttributeScheme(
                             name='ifbrk',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Mass-energy balancing in Fermi-breakup setting',
                             restriction='ifbrk.value in {0, 1}',
                         ),
                         AttributeScheme(
                             name='ilvden',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Level-density model setting',
                             restriction='ilvden.value in {0, 1, -1}',
                         ),
                         AttributeScheme(
                             name='ievap',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Evaporation and fission model setting',
                             restriction='ievap.value in {0, 1, -1, 2}',
                         ),
                         AttributeScheme(
                             name='nofis',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Fission setting',
                             restriction='nofis.value in {0, 1}',
                         ),
@@ -5256,25 +5256,25 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='yzere',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Y0 parameter in level-density formula for Z≤70',
                             restriction='yzere > 0',
                         ),
                         AttributeScheme(
                             name='bzere',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='B0 parameter in level-density formula for Z≤70',
                             restriction='bzere > 0',
                         ),
                         AttributeScheme(
                             name='yzero',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Y0 parameter in level-density formula for Z≥71',
                             restriction='yzero > 0',
                         ),
                         AttributeScheme(
                             name='bzero',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='B0 parameter in level-density formula for Z≥70',
                             restriction='bzero > 0',
                         ),
@@ -5303,7 +5303,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='distribution',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='V bar for or of cumulative distribution the sampling spontaneous fission',
                                 ),
                             ],
@@ -5314,7 +5314,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='width',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Width for sampling spontaneous fission',
                                 ),
                             ],
@@ -5325,7 +5325,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='fission_yield',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Spontaneous fission yield',
                                 ),
                             ],
@@ -5336,12 +5336,12 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='a',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Watt energy spectrum parameters a',
                                 ),
                                 AttributeScheme(
                                     name='b',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Watt energy spectrum parameters b',
                                 ),
                             ],
@@ -5352,7 +5352,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='setting',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Gaussian sampling algorithm setting',
                                     restriction='setting.value in {0, 1, 3, 5, 6, 7}',
                                 ),
@@ -5364,7 +5364,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='setting',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Sampling method setting',
                                     restriction='setting.value in {0, 1, 2, 3}',
                                 ),
@@ -5376,7 +5376,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='setting',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Shift method setting',
                                     restriction='setting.value in {0, 1, 2, 3, 4}',
                                 ),
@@ -5463,7 +5463,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='settings',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Tuple of uncollided secondary settings',
                             restriction='filter(lambda entry: not (entry.value in {0, 1}), settings)',
                         ),
@@ -5475,24 +5475,24 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='prefix',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Prefix number of the COSY map files',
                         ),
                         AttributeScheme(
                             name='axsh',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Horiztonal axis orientation',
                             restriction='axsh.value in {1, 2, 3}',
                         ),
                         AttributeScheme(
                             name='axsv',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Vertical axis orientation',
                             restriction='axsv.value in {1, 2, 3}',
                         ),
                         AttributeScheme(
                             name='emaps',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Tuple of operating beam energies',
                         ),
                     ],
@@ -5503,7 +5503,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='numbers',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Tuple of COSY map numbers',
                         ),
                     ],
@@ -5537,7 +5537,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='strength_gradient',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Magnetic field strength/gradient',
                                 ),
                             ],
@@ -5548,7 +5548,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='vector',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Direction of mangentic field or plane corresponding to the x-axis of the quadrapole',
                                 ),
                             ],
@@ -5559,7 +5559,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='angle',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Maximum deflection angles',
                                 ),
                             ],
@@ -5570,7 +5570,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='size',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Maximum step size',
                                 ),
                             ],
@@ -5581,7 +5581,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='vector',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Direction of the cosines of the quadropole beam axis',
                                 ),
                             ],
@@ -5592,7 +5592,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Surface numbers to apply field fringe edges',
                                 ),
                             ],
@@ -5603,7 +5603,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='point',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Point anywhere on the quadrapole beam',
                                 ),
                             ],
@@ -5616,7 +5616,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='numbers',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Tuple of BFLD map numbers',
                         ),
                     ],
@@ -5639,7 +5639,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Cell number',
                                     restriction='0 <= number <= 99_999_999',
                                 ),
@@ -5651,7 +5651,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Surface number',
                                     restriction='0 <= number <= 99_999_999',
                                 ),
@@ -5663,7 +5663,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='energy',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Kinetic energy',
                                 ),
                             ],
@@ -5674,7 +5674,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='time',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Time in shakes',
                                 ),
                             ],
@@ -5696,7 +5696,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='cosine',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Cosine of the angle between VEC and particle',
                                 ),
                             ],
@@ -5707,17 +5707,17 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='x',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Reference vector for DIR x-component',
                                 ),
                                 AttributeScheme(
                                     name='y',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Reference vector for DIR y-component',
                                 ),
                                 AttributeScheme(
                                     name='z',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Reference vector for DIR z-component',
                                 ),
                             ],
@@ -5728,7 +5728,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='sign',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Sign of the surface normal',
                                 ),
                             ],
@@ -5739,7 +5739,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='vector',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Reference point for position sampling in vector notation',
                                 ),
                             ],
@@ -5750,7 +5750,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='radial_distance',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Radial distance fo the position from POS or AXS',
                                 ),
                             ],
@@ -5761,7 +5761,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='distance_cosine',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Distance for POS along AXS or Cosine of angle from AXS',
                                 ),
                             ],
@@ -5772,17 +5772,17 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='x',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Reference vector for EXT and RAD x-component',
                                 ),
                                 AttributeScheme(
                                     name='y',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Reference vector for EXT and RAD y-component',
                                 ),
                                 AttributeScheme(
                                     name='z',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Reference vector for EXT and RAD z-component',
                                 ),
                             ],
@@ -5793,7 +5793,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='x_coordinate',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='X-cordinate of position',
                                 ),
                             ],
@@ -5804,7 +5804,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='y_coordinate',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Y-cordinate of position',
                                 ),
                             ],
@@ -5815,7 +5815,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='z_coordinate',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Z-cordinate of position',
                                 ),
                             ],
@@ -5826,7 +5826,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Cookie-cutter cell number',
                                     restriction='0 <= number <= 99_999_999',
                                 ),
@@ -5838,7 +5838,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='area',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Area of surface',
                                 ),
                             ],
@@ -5849,7 +5849,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='weight',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Particle weight',
                                 ),
                             ],
@@ -5860,7 +5860,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Particle weight',
                                 ),
                             ],
@@ -5871,7 +5871,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Particle weight',
                                 ),
                             ],
@@ -5882,7 +5882,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='criterion',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Rejection efficiency criterion for position sampling',
                                 ),
                             ],
@@ -5904,19 +5904,19 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='month',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Month for cosmic-ray & background sources',
                                     restriction='1 <= month <= 12',
                                 ),
                                 AttributeScheme(
                                     name='day',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Day for cosmic-ray & background sources',
                                     restriction='1 <= day <= 31',
                                 ),
                                 AttributeScheme(
                                     name='year',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Year for cosmic-ray & background sources',
                                     restriction='1 <= year <= 9999',
                                 ),
@@ -5928,19 +5928,19 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='latitude',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Latitude for cosmic source',
                                     restriction='-90 <= latitude <= 90',
                                 ),
                                 AttributeScheme(
                                     name='longitude',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Longitude for cosmic source',
                                     restriction='-180 <= longitude <= 180',
                                 ),
                                 AttributeScheme(
                                     name='altitude',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Altitude for cosmic source',
                                     restriction='0 <= altitude',
                                 ),
@@ -5952,17 +5952,17 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='exn',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Normalized beam emittance parameter for x coordinates',
                                 ),
                                 AttributeScheme(
                                     name='eyn',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Normalized beam emittance parameter for x coordinates',
                                 ),
                                 AttributeScheme(
                                     name='bml',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Distance from the aperture to the spot',
                                     restriction='bml >= 0',
                                 ),
@@ -5974,17 +5974,17 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='ba1',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Beam aperture half-width in the x transverse direction',
                                 ),
                                 AttributeScheme(
                                     name='ba2',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Beam aperture half-width in the y transverse direction',
                                 ),
                                 AttributeScheme(
                                     name='u',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Unused, arrbirary value',
                                 ),
                             ],
@@ -6028,7 +6028,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='information',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Particle source information',
                         ),
                     ],
@@ -6052,7 +6052,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='probabilities',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Particle source probabilities',
                             restriction='filter(lambda entry: not (0 <= entry <= 1), probabilities)',
                         ),
@@ -6064,18 +6064,18 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='function',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Built-in function designator',
                             restriction='function in {-2, -3, -4, -5, -6, -7, -21, -31, -41}',
                         ),
                         AttributeScheme(
                             name='a',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Built-in function parameter #1',
                         ),
                         AttributeScheme(
                             name='b',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Built-in function parameter #2',
                             optional=True,
                         ),
@@ -6100,7 +6100,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='biases',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Particle source biases',
                         ),
                     ],
@@ -6111,18 +6111,18 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='function',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Built-in function designator',
                             restriction='function in {-2, -3, -4, -5, -6, -7, -21, -31, -41}',
                         ),
                         AttributeScheme(
                             name='a',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Built-in function parameter #1',
                         ),
                         AttributeScheme(
                             name='b',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Built-in function parameter #2',
                             optional=True,
                         ),
@@ -6147,7 +6147,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='js',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Depdented source dependent variables',
                         ),
                     ],
@@ -6211,12 +6211,12 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='surfaces',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Problem surfaces',
                         ),
                         AttributeScheme(
                             name='cells',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Problem cells',
                         ),
                         AttributeScheme(
@@ -6233,7 +6233,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='setting',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Symmetric option flag',
                                     restriction='setting in {0, 1, 2}',
                                 ),
@@ -6256,7 +6256,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='cfs',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='Cells from which KCODE neutrons are written',
                                     restriction='filter(lambda entry: not (1 <= entry <= 99_999_999),         cfs)',
                                 ),
@@ -6282,7 +6282,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='Tuple of surface numbers from subset of surfaces on SSW card',
                                     restriction='filter(lambda entry: not (1 <= entry <= 99_999_999),         numbers)',
                                 ),
@@ -6294,7 +6294,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='Tuple of cell from subset of cells on SSW card',
                                     restriction='filter(lambda entry: not (1 <= entry <= 99_999_999),         numbers)',
                                 ),
@@ -6306,7 +6306,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='Tuple of surface numbers to start run',
                                     restriction='filter(lambda entry: not (1 <= entry <= 99_999_999),         numbers)',
                                 ),
@@ -6329,7 +6329,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='setting',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Collision option setting',
                                     restriction='setting.value in {-1, 0, 1}',
                                 ),
@@ -6341,7 +6341,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='constant',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Particle weight multiplier',
                                 ),
                             ],
@@ -6363,7 +6363,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Particle weight',
                                 ),
                             ],
@@ -6374,7 +6374,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='constant',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Constant for approximation in PSC evaluation',
                                     restriction='constant >= 0',
                                 ),
@@ -6386,7 +6386,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='cosines',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Direction cosines defining',
                                 ),
                             ],
@@ -6408,7 +6408,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='angle',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Angle within which particles accepeted for transport',
                                 ),
                             ],
@@ -6419,18 +6419,18 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='radius',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Radius of cylindrical window',
                                 ),
                                 AttributeScheme(
                                     name='zb',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Bottom of cylindrical window',
                                     restriction='0 < zb',
                                 ),
                                 AttributeScheme(
                                     name='ze',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Top of cylindrical window',
                                     restriction='0 < zb < ze',
                                 ),
@@ -6444,47 +6444,47 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='nsrck',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Number of source histories per cycle',
                             restriction='nsrck >= 0',
                         ),
                         AttributeScheme(
                             name='rkk',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Initial guess of keff',
                         ),
                         AttributeScheme(
                             name='ikz',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Number of cycles to be skipped before beginning tally accumulation',
                         ),
                         AttributeScheme(
                             name='kct',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Total number of cycles to be done',
                             restriction='kct > 0',
                         ),
                         AttributeScheme(
                             name='msrk',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Number of source points to allocate for',
                             restriction='msrk < 40 * nsrck',
                         ),
                         AttributeScheme(
                             name='knrm',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Normalization of tallies setting',
                             restriction='knrm.value in {0, 1}',
                         ),
                         AttributeScheme(
                             name='mrkp',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Maximum number of cycle values on MCTAL or RUNTPE files',
                             restriction='mrkp > 0',
                         ),
                         AttributeScheme(
                             name='kc8',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Number of cylces for average setting',
                             restriction='kc8.value in {0, 1}',
                         ),
@@ -6519,7 +6519,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='ncy',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of cycles in every outer iteration',
                                     restriction='ncy >= 2',
                                 ),
@@ -6579,7 +6579,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='fmat_skip',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='fmat_skip',
                                 ),
                             ],
@@ -6590,7 +6590,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='fmat_ncyc',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='fmat_ncyc',
                                 ),
                             ],
@@ -6601,7 +6601,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='fmat_space',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='fmat_space',
                                 ),
                             ],
@@ -6636,7 +6636,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='fmat_nx',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='fmat_nx',
                                 ),
                             ],
@@ -6647,7 +6647,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='fmat_ny',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='fmat_ny',
                                 ),
                             ],
@@ -6658,7 +6658,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='fmat_nz',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='fmat_nz',
                                 ),
                             ],
@@ -6671,50 +6671,50 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='x_number',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Number of mesh intervals in x direction',
                             restriction='x_number > 0',
                         ),
                         AttributeScheme(
                             name='x_minimum',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Minimum x-value for mesh',
                         ),
                         AttributeScheme(
                             name='x_maximum',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Maximum x-value for mesh',
                         ),
                         AttributeScheme(
                             name='y_number',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Number of mesh intervals in y direction',
                             restriction='y_number > 0',
                         ),
                         AttributeScheme(
                             name='y_minimum',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Minimum y-value for mesh',
                         ),
                         AttributeScheme(
                             name='y_maximum',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Maximum y-value for mesh',
                         ),
                         AttributeScheme(
                             name='z_number',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Number of mesh intervals in z direction',
                             restriction='z_number > 0',
                         ),
                         AttributeScheme(
                             name='z_minimum',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Minimum z-value for mesh',
                         ),
                         AttributeScheme(
                             name='z_maximum',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Maximum z-value for mesh',
                         ),
                     ],
@@ -6736,7 +6736,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='problems',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Problem numbers of surface or cell',
                         ),
                         AttributeScheme(
@@ -6826,55 +6826,55 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='x1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Pinhole center x-coordinate',
                         ),
                         AttributeScheme(
                             name='y1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Pinhole center y-coordinate',
                         ),
                         AttributeScheme(
                             name='z1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Pinhole center z-coordinate',
                         ),
                         AttributeScheme(
                             name='ro',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Pinhole exclusion radius',
                             restriction='ro == 0',
                         ),
                         AttributeScheme(
                             name='x2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Reference direction x-coordinate',
                         ),
                         AttributeScheme(
                             name='y2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Reference direction y-coordinate',
                         ),
                         AttributeScheme(
                             name='z2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Reference direction z-coordinate',
                         ),
                         AttributeScheme(
                             name='f1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Cylindrical collimator radius',
                             restriction='f1 >= 0',
                         ),
                         AttributeScheme(
                             name='f2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Pinhole radius in the direction perpendiuclar to the reference direction',
                             restriction='f2 >= 0',
                         ),
                         AttributeScheme(
                             name='f3',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Distance between pinhole and and detector grid',
                             restriction='f3 >= 0',
                         ),
@@ -6897,54 +6897,54 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='x1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Rectangular grid center x-coordinate',
                         ),
                         AttributeScheme(
                             name='y1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Rectangular grid center y-coordinate',
                         ),
                         AttributeScheme(
                             name='z1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Rectangular grid center z-coordinate',
                         ),
                         AttributeScheme(
                             name='ro',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Rectangular grid exclusion radius',
                             restriction='ro == 0',
                         ),
                         AttributeScheme(
                             name='x2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Reference direction x-coordinate',
                         ),
                         AttributeScheme(
                             name='y2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Reference direction y-coordinate',
                         ),
                         AttributeScheme(
                             name='z2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Reference direction z-coordinate',
                         ),
                         AttributeScheme(
                             name='f1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Source contributions on/off',
                             restriction='f1 in {0, -1}',
                         ),
                         AttributeScheme(
                             name='f2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Radial view of field',
                         ),
                         AttributeScheme(
                             name='f3',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Contribution offset setting',
                             restriction='f2 in {0, -1}',
                         ),
@@ -6967,55 +6967,55 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='x1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Cylindrical grid center x-coordinate',
                         ),
                         AttributeScheme(
                             name='y1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Cylindrical grid center y-coordinate',
                         ),
                         AttributeScheme(
                             name='z1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Cylindrical grid center z-coordinate',
                         ),
                         AttributeScheme(
                             name='ro',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Cylindrical grid exclusion radius',
                             restriction='ro == 0',
                         ),
                         AttributeScheme(
                             name='x2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Reference direction x-coordinate',
                         ),
                         AttributeScheme(
                             name='y2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Reference direction y-coordinate',
                         ),
                         AttributeScheme(
                             name='z2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Reference direction z-coordinate',
                         ),
                         AttributeScheme(
                             name='f1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Source contributions on/off',
                             restriction='f1 in {0, -1}',
                         ),
                         AttributeScheme(
                             name='f2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Radial view of field',
                             restriction='f2 != 0',
                         ),
                         AttributeScheme(
                             name='f3',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Contribution offset setting',
                             restriction='f2 in {0, -1}',
                         ),
@@ -7038,7 +7038,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='problems',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Problem numbers of cell',
                         ),
                         AttributeScheme(
@@ -7077,7 +7077,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='bounds',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Upper energy bounds for bin',
                         ),
                         AttributeScheme(
@@ -7105,7 +7105,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='bounds',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Upper time bounds for bin',
                         ),
                         AttributeScheme(
@@ -7144,7 +7144,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='time',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Reference starting time',
                                 )
                             ],
@@ -7155,7 +7155,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='frequency',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Frequency of cycling',
                                 )
                             ],
@@ -7166,7 +7166,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='time',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Dead time interval',
                                 )
                             ],
@@ -7177,7 +7177,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='time',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Alive time interval',
                                 )
                             ],
@@ -7188,7 +7188,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='count',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of subdivisions to use',
                                 )
                             ],
@@ -7199,7 +7199,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='time',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Reference ending time',
                                 )
                             ],
@@ -7217,7 +7217,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='bounds',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Upper cosine bounds for bin',
                         ),
                         AttributeScheme(
@@ -7245,7 +7245,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='bounds',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Upper angle limit for bin',
                             restriction='bounds[-1] == 0 and max(bounds) <= 180',
                         ),
@@ -7342,7 +7342,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='values',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Energy values',
                         ),
                     ],
@@ -7366,7 +7366,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='values',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Dose function values',
                         ),
                     ],
@@ -7394,7 +7394,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='units',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Control units',
                                     restriction='units in {1, 2}',
                                 )
@@ -7406,7 +7406,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='normalization',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Normalization factor for dose',
                                     restriction='normalization >= -3',
                                 )
@@ -7418,7 +7418,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='function',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Standard dose function',
                                     restriction='function in {10, 20, 31, 32, 33, 34, 35, 40, 99}',
                                 )
@@ -7450,7 +7450,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='multipliers',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Energy bin multiplier to apply',
                         ),
                     ],
@@ -7467,7 +7467,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='multipliers',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Time bin multiplier to apply',
                         ),
                     ],
@@ -7484,7 +7484,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='multipliers',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Cosine bin multiplier to apply',
                         ),
                     ],
@@ -7501,7 +7501,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='numbers',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Tallies for problem cell numbers to flag',
                             restriction='filter(lambda entry: not (0 <= entry <= 99_999_999), numbers)',
                         ),
@@ -7519,7 +7519,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='numbers',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Tallies for problem surface numbers to flag',
                             restriction='filter(lambda entry: not (0 <= entry <= 99_999_999), numbers)',
                         ),
@@ -7537,7 +7537,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='numbers',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Signed problem number of a segmenting surface.',
                             restriction='filter(lambda entry: not (-99_999_999 <= numbers <= 99_999_999), numbers)',
                         ),
@@ -7563,7 +7563,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='information',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Area, volume, or mass by segmented, surface/cell',
                         ),
                     ],
@@ -7580,7 +7580,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='bounds',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Input parameters for user bins',
                             restriction='filter(lambda entry: not (entry > -1), bounds)',
                         ),
@@ -7634,7 +7634,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='List of cells',
                                     restriction='filter(lambda entry: not (1 <= entry <= 99_999_999), numbers)',
                                 ),
@@ -7646,7 +7646,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='material',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Material number to fill cells',
                                     restriction='0 <= material <= 99_999_999',
                                 ),
@@ -7658,7 +7658,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='density',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Perturbed density',
                                 ),
                             ],
@@ -7669,7 +7669,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='setting',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Printing and specifies setting',
                                     restriction='setting in {+1, -1, +2, -2, +3, -3}',
                                 ),
@@ -7681,12 +7681,12 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='energy_lower_bound',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Lower bound for energy pertubation',
                                 ),
                                 AttributeScheme(
                                     name='energy_upper_bound',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Upper bound for energy pertubation',
                                 ),
                             ],
@@ -7697,7 +7697,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='ENDF/B reaction number',
                                 ),
                             ],
@@ -7728,7 +7728,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='List of cells',
                                     restriction='filter(lambda entry: not (1 <= entry <= 99_999_999), numbers)',
                                 ),
@@ -7740,7 +7740,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='List of materials',
                                     restriction='filter(lambda entry: not (0 <= entry <= 99_999_999), numbers)',
                                 ),
@@ -7763,7 +7763,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='zaids',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='List of ZAIDs for pertubation',
                                 ),
                             ],
@@ -7774,7 +7774,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='List of reaction numbers for pertubation',
                                 ),
                             ],
@@ -7785,7 +7785,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='energies',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='List of energies',
                                 ),
                             ],
@@ -7833,7 +7833,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='zaids',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='List of ZAIDs for pertubation',
                                 ),
                             ],
@@ -7844,7 +7844,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='List of reaction numbers for pertubation',
                                 ),
                             ],
@@ -7855,7 +7855,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='List of reaction numbers for pertubation',
                                 ),
                             ],
@@ -7866,7 +7866,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='energies',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='List of energies',
                                 ),
                             ],
@@ -7877,7 +7877,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='energies',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='List of ranges for incident energies',
                                 ),
                             ],
@@ -7888,7 +7888,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Order of Legendre moments to calculate sensitivities',
                                 ),
                             ],
@@ -7899,7 +7899,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='cosines',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Range of direction-change cosines',
                                 ),
                             ],
@@ -7959,17 +7959,17 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='x',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Origin x coordinate',
                                 ),
                                 AttributeScheme(
                                     name='y',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Origin y coordinate',
                                 ),
                                 AttributeScheme(
                                     name='z',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Origin z coordinate',
                                 ),
                             ],
@@ -7980,17 +7980,17 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='x',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Cylindrical mesh axis vector x component',
                                 ),
                                 AttributeScheme(
                                     name='y',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Cylindrical mesh axis vector y component',
                                 ),
                                 AttributeScheme(
                                     name='z',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Cylindrical mesh axis vector z component',
                                 ),
                             ],
@@ -8001,17 +8001,17 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='x',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Plane vector x component',
                                 ),
                                 AttributeScheme(
                                     name='y',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Plane vector y component',
                                 ),
                                 AttributeScheme(
                                     name='z',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Plane vector z component',
                                 ),
                             ],
@@ -8022,7 +8022,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='locations',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Locations of mesh points x/r for rectangular/cylindrical geometry',
                                 ),
                             ],
@@ -8033,7 +8033,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='count',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of mesh points x/r for rectangular/cylindrical geometry',
                                 ),
                             ],
@@ -8044,7 +8044,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='locations',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Locations of mesh points y/z for rectangular/cylindrical geometry',
                                 ),
                             ],
@@ -8055,7 +8055,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='count',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of mesh points y/z for rectangular/cylindrical geometry',
                                 ),
                             ],
@@ -8066,7 +8066,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='locations',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Locations of mesh points z/theta for rectangular/cylindrical geometry',
                                 ),
                             ],
@@ -8077,7 +8077,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='count',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of mesh points z/theta for rectangular/cylindrical geometry',
                                 ),
                             ],
@@ -8088,7 +8088,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='energy',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Values of mesh points in energy',
                                 ),
                             ],
@@ -8099,7 +8099,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='count',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of mesh points for each mesh energy',
                                 ),
                             ],
@@ -8122,7 +8122,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='time',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Values of mesh points in time',
                                 ),
                             ],
@@ -8133,7 +8133,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='count',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of mesh points for each mesh time',
                                 ),
                             ],
@@ -8156,7 +8156,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='multiple',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Multiplicative factor for each mesh',
                                 ),
                             ],
@@ -8179,7 +8179,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Transformation applied to the mesh',
                                     restriction='1 <= number <= 999',
                                 ),
@@ -8191,12 +8191,12 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='lower',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Collision for FMESH tally lower bound',
                                 ),
                                 AttributeScheme(
                                     name='upper',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Collision for FMESH tally upper bound',
                                     optional=True,
                                 ),
@@ -8220,7 +8220,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='count',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='KCODE cycles between zeros',
                                 ),
                             ],
@@ -8233,22 +8233,22 @@ cards = ElementScheme(
                 #        attributes=[
                 #            AttributeScheme(
                 #                name='ic',
-                #                type='types.Integer',
+                #                type='types.IntegerOrJump',
                 #                description='Conversion coefficent',
                 #            ),
                 #            AttributeScheme(
                 #                name='int',
-                #                type='types.Integer',
+                #                type='types.IntegerOrJump',
                 #                description='Interpolation method',
                 #            ),
                 #            AttributeScheme(
                 #                name='iu',
-                #                type='types.Integer',
+                #                type='types.IntegerOrJump',
                 #                description='Units of resuts',
                 #            ),
                 #            AttributeScheme(
                 #                name='fac',
-                #                type='types.Real',
+                #                type='types.RealOrJump',
                 #                description='Normalization of factor for dose',
                 #            ),
                 #        ],
@@ -8275,7 +8275,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='importances',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Cell importance',
                         ),
                     ],
@@ -8317,7 +8317,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='bounds',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Upper energy/time bound',
                         ),
                     ],
@@ -8333,7 +8333,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='bounds',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Upper time bound',
                         ),
                     ],
@@ -8355,7 +8355,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='bounds',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Lower weight bound',
                         ),
                     ],
@@ -8371,57 +8371,57 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='wupn',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Multiplier to define the weight window upper limit',
                             restriction='wupn >= 2',
                         ),
                         AttributeScheme(
                             name='wsurvn',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Multiplier to define the maximum Russian roulette survival weight within the window',
                             restriction='1 < wsurvn',
                         ),
                         AttributeScheme(
                             name='mxspln',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Maximum number of integer splits',
                             restriction='1 < mxspln',
                         ),
                         AttributeScheme(
                             name='mwhere',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Controls where to check a particle’s weight',
                             restriction='mwhere.value in {-1, 0, 1}',
                         ),
                         AttributeScheme(
                             name='switchn',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Controls where to get the lower weight-window bounds',
                         ),
                         AttributeScheme(
                             name='mtime',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Energy/time-dependent window setting',
                         ),
                         AttributeScheme(
                             name='wnrom',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Weight-window normalization factor',
                         ),
                         AttributeScheme(
                             name='etsplt',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='ESLPT & TSPLT split/roulette on/off',
                             restriction='etsplt.value in {0, 1}',
                         ),
                         AttributeScheme(
                             name='wu',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Limits the maximum lower weight-window bound for any particle, energy, or time',
                         ),
                         AttributeScheme(
                             name='nmfp',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Limits the maximum lower weight-window bound for any particle, energy, or time',
                         ),
                     ],
@@ -8432,19 +8432,19 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='tally',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Problem tally number',
                             restriction='tally <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='cell',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Cell-based or mesh-based weight window generator',
                             restriction='cell <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='lower',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Value of the generated lower weight-window bound for cell',
                         ),
                         AttributeScheme(
@@ -8469,7 +8469,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='setting',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Energy- or time-dependent weight window toggle',
                             restriction='setting.value in {0, 1}',
                         ),
@@ -8481,7 +8481,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='bounds',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Upper energy bound for weight-window group to be generated',
                         ),
                     ],
@@ -8492,7 +8492,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='bounds',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Upper time bound for weight-window group to be generated',
                         ),
                     ],
@@ -8527,7 +8527,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='point',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Mesh reference point',
                                 ),
                             ],
@@ -8538,7 +8538,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='point',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Mesh origin point',
                                 ),
                             ],
@@ -8549,7 +8549,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='vector',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Vector giving the direction of the polar axis',
                                 ),
                             ],
@@ -8560,7 +8560,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='vector',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Vector giving the direction of the polar axis',
                                 ),
                             ],
@@ -8571,7 +8571,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='vector',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Locations of the coarse meshes in the x/r directions',
                                 ),
                             ],
@@ -8582,7 +8582,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of fine meshes within corresponding coarse meshes in the x/r directions',
                                 ),
                             ],
@@ -8593,7 +8593,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='vector',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Locations of the coarse meshes in the y/z directions',
                                 ),
                             ],
@@ -8604,7 +8604,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of fine meshes within corresponding coarse meshes in the y/z directions',
                                 ),
                             ],
@@ -8615,7 +8615,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='vector',
-                                    type='types.Tuple[types.Real]',
+                                    type='types.Tuple[types.RealOrJump]',
                                     description='Locations of the coarse meshes in the z/theta directions',
                                 ),
                             ],
@@ -8626,7 +8626,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of fine meshes within corresponding coarse meshes in the z/theta directions',
                                 ),
                             ],
@@ -8644,202 +8644,202 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='ratio_1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #1',
                         ),
                         AttributeScheme(
                             name='energy_1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #1',
                         ),
                         AttributeScheme(
                             name='ratio_2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #2',
                         ),
                         AttributeScheme(
                             name='energy_2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #2',
                         ),
                         AttributeScheme(
                             name='ratio_3',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #3',
                         ),
                         AttributeScheme(
                             name='energy_3',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #3',
                         ),
                         AttributeScheme(
                             name='ratio_4',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #4',
                         ),
                         AttributeScheme(
                             name='energy_4',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #4',
                         ),
                         AttributeScheme(
                             name='ratio_5',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #5',
                         ),
                         AttributeScheme(
                             name='energy_5',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #5',
                         ),
                         AttributeScheme(
                             name='ratio_6',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #6',
                         ),
                         AttributeScheme(
                             name='energy_6',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #6',
                         ),
                         AttributeScheme(
                             name='ratio_7',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #7',
                         ),
                         AttributeScheme(
                             name='energy_7',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #7',
                         ),
                         AttributeScheme(
                             name='ratio_8',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #8',
                         ),
                         AttributeScheme(
                             name='energy_8',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #8',
                         ),
                         AttributeScheme(
                             name='ratio_9',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #9',
                         ),
                         AttributeScheme(
                             name='energy_9',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #9',
                         ),
                         AttributeScheme(
                             name='ratio_10',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #10',
                         ),
                         AttributeScheme(
                             name='energy_10',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #10',
                         ),
                         AttributeScheme(
                             name='ratio_11',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #11',
                         ),
                         AttributeScheme(
                             name='energy_11',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #11',
                         ),
                         AttributeScheme(
                             name='ratio_12',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #12',
                         ),
                         AttributeScheme(
                             name='energy_12',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #12',
                         ),
                         AttributeScheme(
                             name='ratio_13',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #13',
                         ),
                         AttributeScheme(
                             name='energy_13',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #13',
                         ),
                         AttributeScheme(
                             name='ratio_14',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #14',
                         ),
                         AttributeScheme(
                             name='energy_14',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #14',
                         ),
                         AttributeScheme(
                             name='ratio_15',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #15',
                         ),
                         AttributeScheme(
                             name='energy_15',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #15',
                         ),
                         AttributeScheme(
                             name='ratio_16',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #16',
                         ),
                         AttributeScheme(
                             name='energy_16',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #16',
                         ),
                         AttributeScheme(
                             name='ratio_17',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #17',
                         ),
                         AttributeScheme(
                             name='energy_17',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #17',
                         ),
                         AttributeScheme(
                             name='ratio_18',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #18',
                         ),
                         AttributeScheme(
                             name='energy_18',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #18',
                         ),
                         AttributeScheme(
                             name='ratio_19',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #19',
                         ),
                         AttributeScheme(
                             name='energy_19',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #19',
                         ),
                         AttributeScheme(
                             name='ratio_20',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #20',
                         ),
                         AttributeScheme(
                             name='energy_20',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette energy #20',
                         ),
                     ],
@@ -8855,202 +8855,202 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='ratio_1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #1',
                         ),
                         AttributeScheme(
                             name='time_1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #1',
                         ),
                         AttributeScheme(
                             name='ratio_2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #2',
                         ),
                         AttributeScheme(
                             name='time_2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #2',
                         ),
                         AttributeScheme(
                             name='ratio_3',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #3',
                         ),
                         AttributeScheme(
                             name='time_3',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #3',
                         ),
                         AttributeScheme(
                             name='ratio_4',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #4',
                         ),
                         AttributeScheme(
                             name='time_4',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #4',
                         ),
                         AttributeScheme(
                             name='ratio_5',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #5',
                         ),
                         AttributeScheme(
                             name='time_5',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #5',
                         ),
                         AttributeScheme(
                             name='ratio_6',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #6',
                         ),
                         AttributeScheme(
                             name='time_6',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #6',
                         ),
                         AttributeScheme(
                             name='ratio_7',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #7',
                         ),
                         AttributeScheme(
                             name='time_7',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #7',
                         ),
                         AttributeScheme(
                             name='ratio_8',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #8',
                         ),
                         AttributeScheme(
                             name='time_8',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #8',
                         ),
                         AttributeScheme(
                             name='ratio_9',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #9',
                         ),
                         AttributeScheme(
                             name='time_9',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #9',
                         ),
                         AttributeScheme(
                             name='ratio_10',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #10',
                         ),
                         AttributeScheme(
                             name='time_10',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #10',
                         ),
                         AttributeScheme(
                             name='ratio_11',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #11',
                         ),
                         AttributeScheme(
                             name='time_11',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #11',
                         ),
                         AttributeScheme(
                             name='ratio_12',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #12',
                         ),
                         AttributeScheme(
                             name='time_12',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #12',
                         ),
                         AttributeScheme(
                             name='ratio_13',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #13',
                         ),
                         AttributeScheme(
                             name='time_13',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #13',
                         ),
                         AttributeScheme(
                             name='ratio_14',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #14',
                         ),
                         AttributeScheme(
                             name='time_14',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #14',
                         ),
                         AttributeScheme(
                             name='ratio_15',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #15',
                         ),
                         AttributeScheme(
                             name='time_15',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #15',
                         ),
                         AttributeScheme(
                             name='ratio_16',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #16',
                         ),
                         AttributeScheme(
                             name='time_16',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #16',
                         ),
                         AttributeScheme(
                             name='ratio_17',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #17',
                         ),
                         AttributeScheme(
                             name='time_17',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #17',
                         ),
                         AttributeScheme(
                             name='ratio_18',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #18',
                         ),
                         AttributeScheme(
                             name='time_18',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #18',
                         ),
                         AttributeScheme(
                             name='ratio_19',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #19',
                         ),
                         AttributeScheme(
                             name='time_19',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #19',
                         ),
                         AttributeScheme(
                             name='ratio_20',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette ratio #20',
                         ),
                         AttributeScheme(
                             name='time_20',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Splitting/roulette time #20',
                         ),
                     ],
@@ -9066,7 +9066,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='stretching',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Stretching direction for the cell',
                         ),
                     ],
@@ -9093,7 +9093,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='control',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Forced-collision control for cell',
                         ),
                     ],
@@ -9159,17 +9159,17 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='cutoff_1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Upper weight cutoff in the spheres',
                         ),
                         AttributeScheme(
                             name='cutoff_2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Lower weight cutoff in the spheres',
                         ),
                         AttributeScheme(
                             name='weight',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Minimum photon weight',
                         ),
                     ],
@@ -9207,7 +9207,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='probabilities',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Probability of contribution to DXTRAN',
                             restriction='filter(lambda entry: not (0 <= entry <= 1), probabilities)',
                         ),
@@ -9230,7 +9230,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='probabilities',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Probability of contribution to DXTRAN',
                             restriction='filter(lambda entry: not (0 <= entry <= 1), probabilities)',
                         ),
@@ -9242,252 +9242,252 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='bias_1',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #1 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_2',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #2 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_3',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #3 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_4',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #4 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_5',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #5 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_6',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #6 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_7',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #7 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_8',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #8 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_9',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #9 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_10',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #10 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_11',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #11 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_12',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #12 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_13',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #13 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_14',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #14 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_15',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #15 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_16',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #16 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_17',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #17 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_18',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #18 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_19',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #19 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_20',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #20 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_21',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #21 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_22',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #22 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_23',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #23 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_24',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #24 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_25',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #25 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_26',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #26 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_27',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #27 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_28',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #28 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_29',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #29 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_30',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #30 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_31',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #31 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_32',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #32 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_33',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #33 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_34',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #34 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_35',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #35 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_36',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #36 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_37',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #37 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_38',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #38 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_39',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #39 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_40',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #40 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_41',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #41 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_42',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #42 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_43',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #43 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_44',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #44 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_45',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #45 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_46',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #46 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_47',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #47 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_48',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #48 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='bias_49',
-                            type='types.Real',
+                            type='types.RealOrJump',
                             description='Bias factor #49 for bremsstrahlung specturm',
                         ),
                         AttributeScheme(
                             name='materials',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Material to bias',
                             restriction='filter(lambda entry: not (0 <= entry <= 99_999_999), materials)',
                         ),
@@ -9510,7 +9510,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='weights',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Relative threshold weight of photons produced at neutron collisions in cell',
                         ),
                     ],
@@ -9521,13 +9521,13 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='npp',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Total number of histories to run',
                             restriction='npp > 0',
                         ),
                         AttributeScheme(
                             name='npsmg',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Number of history with direct source contributions',
                             restriction='npsmg > 0',
                             optional=True,
@@ -9540,7 +9540,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='tme',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='maximum amount of minutes for Monte Carlo calculation',
                             restriction='tme >= 0',
                         ),
@@ -9564,12 +9564,12 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='npp',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Total number of histories before stop',
                                 ),
                                 AttributeScheme(
                                     name='npsmg',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of histories before stop',
                                     optional=True,
                                 ),
@@ -9581,7 +9581,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='tme',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Computer time before stop',
                                 ),
                             ],
@@ -9592,7 +9592,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='e',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Tally fluctuation relative error before stop',
                                 ),
                                 AttributeScheme(
@@ -9611,7 +9611,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='tables',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Tables to print',
                             restriction='filter(lambda entry: not (entry.value in {10, 20, 30, 32, 35, 38, 40, 41, 44, 50, 55, 60, 62, 70, 72, 80, 85, 86, 87, 90, 95, 98, 100, 102, 110, 115, 117, 118, 120, 126, 128, 130, 140, 150, 160, 161, 162, 163, 170, 175, 178, 180, 190, 198, 200, 210, 220, -10, -20, -30, -32, -35, -38, -40, -41, -44, -50, -55, -60, -62, -70, -72, -80, -85, -86, -87, -90, -95, -98, -100, -102, -110, -115, -117, -118, -120, -126, -128, -130, -140, -150, -160, -161, -162, -163, -170, -175, -178, -180, -190, -198, -200, -210, -220}), tables)',
                             optional=True,
@@ -9624,7 +9624,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='tallies',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Tallies to exclude from output',
                             restriction='filter(lambda entry: not (1 <= entry <= 99_999_999), tallies)',
                             optional=True,
@@ -9637,27 +9637,27 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='ndp',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Increment for printing tallies',
                         ),
                         AttributeScheme(
                             name='ndm',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Increment for dumping to RUNTPE file',
                         ),
                         AttributeScheme(
                             name='mct',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Controls printing of MCTAL file',
                         ),
                         AttributeScheme(
                             name='ndmp',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Maximum number of dumps on RUNTPE file',
                         ),
                         AttributeScheme(
                             name='dmmp',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Controls frequently of tally fluctuation chart',
                         ),
                     ],
@@ -9680,7 +9680,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='storage',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Amount of storage available for filtered events',
                                     restriction='storage > 0',
                                 ),
@@ -9704,7 +9704,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='events',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Maximum number of events to write',
                                     restriction='events != 0',
                                 ),
@@ -9716,7 +9716,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='events',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Maximum number of events per history to write',
                                     restriction='events > 0',
                                 ),
@@ -9786,7 +9786,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='particles',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='Sets the range of particle histories for which events will be output',
                                 ),
                             ],
@@ -9797,7 +9797,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='List of cell numbers for filtering',
                                     restriction='filter(lambda entry: not (1 <= entry <= 99_999_999), numbers)',
                                 ),
@@ -9809,7 +9809,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='List of surface numbers for filtering',
                                     restriction='filter(lambda entry: not (1 <= entry <= 99_999_999), numbers)',
                                 ),
@@ -9821,7 +9821,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='numbers',
-                                    type='types.Tuple[types.Integer]',
+                                    type='types.Tuple[types.IntegerOrJump]',
                                     description='List of tally numbers for filtering',
                                     restriction='filter(lambda entry: not (entry != 0), numbers)',
                                 ),
@@ -9833,7 +9833,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='cutoff',
-                                    type='types.Real',
+                                    type='types.RealOrJump',
                                     description='Specifies tally cutoff above which history events will be written.',
                                 ),
                             ],
@@ -9846,13 +9846,13 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='lhist',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Number of words written to a HISTP file',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='cells',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Cell numbers',
                             optional=True,
                         ),
@@ -9876,7 +9876,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='setting',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Type of pseudorandom number generator',
                                     restriction='setting.value in {1, 2, 3, 4}',
                                 ),
@@ -9888,7 +9888,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='seed',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Random number generator seed',
                                     restriction='seed.value % 2 == 1',
                                 ),
@@ -9900,7 +9900,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='stride',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Number of random numbers between source particle',
                                 ),
                             ],
@@ -9911,7 +9911,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='hist',
-                                    type='types.Integer',
+                                    type='types.IntegerOrJump',
                                     description='Starting pseudorandom number',
                                 ),
                             ],
@@ -9924,504 +9924,504 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='x1',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Obsolete; pseudorandom number for the first particle history',
                             restriction='x1 >= 0',
                         ),
                         AttributeScheme(
                             name='x2',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Debug print interval',
                         ),
                         AttributeScheme(
                             name='x3',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Lower history number inclusive limit for logging',
                         ),
                         AttributeScheme(
                             name='x4',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Upper history number inclusive limit for logging',
                         ),
                         AttributeScheme(
                             name='x5',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Maximnum number of events per history for logging',
                         ),
                         AttributeScheme(
                             name='x6',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Detector/DXTRAN underflow limit',
                             restriction='50 <= x6 <= 200',
                         ),
                         AttributeScheme(
                             name='x7',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Volume and sufrace area printing on/off',
                         ),
                         AttributeScheme(
                             name='x8',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Obsolete; starting history offset',
                         ),
                         AttributeScheme(
                             name='x9',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Distance allowed between cpincident repeated-structures',
                         ),
                         AttributeScheme(
                             name='x10',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Half-life threshold for stable nuclides',
                         ),
                         AttributeScheme(
                             name='x11',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Collision event lost particle logging on/off',
                         ),
                         AttributeScheme(
                             name='x12',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Expected number of random numbers',
                         ),
                         AttributeScheme(
                             name='x13',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Obsolete; random number stride',
                         ),
                         AttributeScheme(
                             name='x14',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Obsolete; random number multiplier',
                         ),
                         AttributeScheme(
                             name='x15',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Usual selection of statistics quantities printing on/off',
                         ),
                         AttributeScheme(
                             name='x16',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='History score grid accumulation scaling',
                         ),
                         AttributeScheme(
                             name='x17',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Angular treatment for secondary particles setting',
                         ),
                         AttributeScheme(
                             name='x18',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Energy-indexing alogrithm for election transport settings',
                         ),
                         AttributeScheme(
                             name='x19',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; Quadratic polynomical interpolation parameter',
                         ),
                         AttributeScheme(
                             name='x20',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x21',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x22',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unsued',
                         ),
                         AttributeScheme(
                             name='x23',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Pulse-height tally variance reducation tress setting',
                         ),
                         AttributeScheme(
                             name='x24',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Grazing contribution cutoff for surface fluxx tallies settings',
                         ),
                         AttributeScheme(
                             name='x25',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x26',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x27',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Antiparticle promotion settings',
                         ),
                         AttributeScheme(
                             name='x28',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Bank size',
                         ),
                         AttributeScheme(
                             name='x29',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x30',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x31',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x32',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='GENXS behavior setting',
                         ),
                         AttributeScheme(
                             name='x33',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Additional interpolation/smoothing method for heavy ions on/off',
                         ),
                         AttributeScheme(
                             name='x34',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; Muon-induced gammas bug parameter',
                         ),
                         AttributeScheme(
                             name='x35',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Slight spreading of nuclear exitation on/off',
                         ),
                         AttributeScheme(
                             name='x36',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='User-provided data for muon-induced gamma rays on/off',
                         ),
                         AttributeScheme(
                             name='x37',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Mimumum of internal bremsstrahlung spectrum',
                         ),
                         AttributeScheme(
                             name='x38',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Barashenkov/Polanski data file on/off',
                         ),
                         AttributeScheme(
                             name='x39',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Default S(α,β) smoothing behavior on/off',
                         ),
                         AttributeScheme(
                             name='x40',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; MCPLIB and XSDIR lines writing setting',
                         ),
                         AttributeScheme(
                             name='x41',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; Phonton/election data printing setting',
                         ),
                         AttributeScheme(
                             name='x42',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Model cross section setting',
                         ),
                         AttributeScheme(
                             name='x43',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; Photo form-factor interpolation setting',
                         ),
                         AttributeScheme(
                             name='x44',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; Coherent scattering in isolation setting',
                         ),
                         AttributeScheme(
                             name='x45',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='MCNP6/MCNPX elastic scattering method selector',
                         ),
                         AttributeScheme(
                             name='x46',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='CEM-to_LAQGSM photonuclear energy boundary setting',
                         ),
                         AttributeScheme(
                             name='x47',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Cosmic-rasy spectra setting',
                         ),
                         AttributeScheme(
                             name='x48',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='MCNP6 threading on/off',
                         ),
                         AttributeScheme(
                             name='x49',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Normal input checking on/off',
                         ),
                         AttributeScheme(
                             name='x50',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='TFC priting setting',
                         ),
                         AttributeScheme(
                             name='x51',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; Photon-induced fluoresence on/off',
                         ),
                         AttributeScheme(
                             name='x52',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; Compton-induced relaxation on/off',
                         ),
                         AttributeScheme(
                             name='x53',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Photoelectric relazation data setting',
                         ),
                         AttributeScheme(
                             name='x54',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Sampling method for ENDF Law 9 setting',
                         ),
                         AttributeScheme(
                             name='x55',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Spontaneous decay integration time',
                         ),
                         AttributeScheme(
                             name='x56',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x57',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x58',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x59',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x60',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Print number of calls to each high-energy model',
                         ),
                         AttributeScheme(
                             name='x61',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; models of knock-on electron angles',
                         ),
                         AttributeScheme(
                             name='x62',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; single-event electrons excitation energy loss debugger',
                         ),
                         AttributeScheme(
                             name='x63',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x64',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; single-event electrons angular deflaction debugger',
                         ),
                         AttributeScheme(
                             name='x65',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; single-event ionization and treat deflection dubgger',
                         ),
                         AttributeScheme(
                             name='x66',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; single-event bremsstrahlung photon angles setting',
                         ),
                         AttributeScheme(
                             name='x67',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Particle histories setting for detectors and DXTRAN',
                         ),
                         AttributeScheme(
                             name='x68',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x69',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='LJA array size setting',
                         ),
                         AttributeScheme(
                             name='x70',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; interaction models setting',
                         ),
                         AttributeScheme(
                             name='x71',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Model photonuclear capability on/off',
                         ),
                         AttributeScheme(
                             name='x72',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Log-log/linear interpolation in ELXS_MOD setting',
                         ),
                         AttributeScheme(
                             name='x73',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x74',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x75',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Print extra info for F-matrix calculation on/off',
                         ),
                         AttributeScheme(
                             name='x76',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Print array storage info after setup on/off',
                         ),
                         AttributeScheme(
                             name='x77',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Has-based cross-section serach bin number',
                         ),
                         AttributeScheme(
                             name='x78',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; S(A,B) method old/new setting',
                         ),
                         AttributeScheme(
                             name='x79',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='MT for absorption and fission setting',
                         ),
                         AttributeScheme(
                             name='x80',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x81',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; interpolation for electron elastic scatter setting',
                         ),
                         AttributeScheme(
                             name='x82',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; interpolation for electron elastic scatter setting',
                         ),
                         AttributeScheme(
                             name='x83',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; interpolation for electron partial x-s setting',
                         ),
                         AttributeScheme(
                             name='x84',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; interpolation for electron bremsstrahlung energy setting',
                         ),
                         AttributeScheme(
                             name='x85',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; interpolation for electron bremsstrahlung energy setting',
                         ),
                         AttributeScheme(
                             name='x86',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; interpolation for electron excitation setting',
                         ),
                         AttributeScheme(
                             name='x87',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; interpolation for electron knock-on energy setting',
                         ),
                         AttributeScheme(
                             name='x88',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; interpolation for electron knock-on energy setting',
                         ),
                         AttributeScheme(
                             name='x89',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Developer; interpolation for electron ionization x-s setting',
                         ),
                         AttributeScheme(
                             name='x90',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Mximum number of terms for Goudsmit-Saunderson distribution',
                         ),
                         AttributeScheme(
                             name='x91',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Minimum ROC curve count value',
                         ),
                         AttributeScheme(
                             name='x92',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Maximum ROC curve count value',
                         ),
                         AttributeScheme(
                             name='x93',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x94',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x95',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x96',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x97',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x98',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x99',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Unused',
                         ),
                         AttributeScheme(
                             name='x100',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Coincident-surface method old/new setting',
                         ),
                     ],
@@ -10432,13 +10432,13 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='lost1',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Number of particles which can be lost before job termination',
                             restriction='lost1 >= 0',
                         ),
                         AttributeScheme(
                             name='lost2',
-                            type='types.Integer',
+                            type='types.IntegerOrJump',
                             description='Maximum number of debug prints for lost particles.',
                             restriction='lost2 >= 0',
                         ),
@@ -10450,7 +10450,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='intergers',
-                            type='types.Tuple[types.Integer]',
+                            type='types.Tuple[types.IntegerOrJump]',
                             description='Integer array',
                         ),
                     ],
@@ -10461,7 +10461,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='floats',
-                            type='types.Tuple[types.Real]',
+                            type='types.Tuple[types.RealOrJump]',
                             description='Floating point array',
                         ),
                     ],

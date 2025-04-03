@@ -16,12 +16,12 @@ class X(SdefOption_, keyword='x'):
     """
 
     _ATTRS = {
-        'x_coordinate': types.Real,
+        'x_coordinate': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Ax( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ax( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, x_coordinate: types.Real):
+    def __init__(self, x_coordinate: types.RealOrJump):
         """
         Initializes ``X``.
 
@@ -41,4 +41,4 @@ class X(SdefOption_, keyword='x'):
             ]
         )
 
-        self.x_coordinate: typing.Final[types.Real] = x_coordinate
+        self.x_coordinate: typing.Final[types.RealOrJump] = x_coordinate

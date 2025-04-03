@@ -16,30 +16,30 @@ class Lea(DataOption_, keyword='lea'):
     """
 
     _ATTRS = {
-        'ipht': types.Integer,
-        'icc': types.Integer,
-        'nobalc': types.Integer,
-        'nobale': types.Integer,
-        'ifbrk': types.Integer,
-        'ilvden': types.Integer,
-        'ievap': types.Integer,
-        'nofis': types.Integer,
+        'ipht': types.IntegerOrJump,
+        'icc': types.IntegerOrJump,
+        'nobalc': types.IntegerOrJump,
+        'nobale': types.IntegerOrJump,
+        'ifbrk': types.IntegerOrJump,
+        'ilvden': types.IntegerOrJump,
+        'ievap': types.IntegerOrJump,
+        'nofis': types.IntegerOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Alea( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Alea( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        ipht: types.Integer,
-        icc: types.Integer,
-        nobalc: types.Integer,
-        nobale: types.Integer,
-        ifbrk: types.Integer,
-        ilvden: types.Integer,
-        ievap: types.Integer,
-        nofis: types.Integer,
+        ipht: types.IntegerOrJump,
+        icc: types.IntegerOrJump,
+        nobalc: types.IntegerOrJump,
+        nobale: types.IntegerOrJump,
+        ifbrk: types.IntegerOrJump,
+        ilvden: types.IntegerOrJump,
+        ievap: types.IntegerOrJump,
+        nofis: types.IntegerOrJump,
     ):
         """
         Initializes ``Lea``.
@@ -88,11 +88,11 @@ class Lea(DataOption_, keyword='lea'):
             ]
         )
 
-        self.ipht: typing.Final[types.Integer] = ipht
-        self.icc: typing.Final[types.Integer] = icc
-        self.nobalc: typing.Final[types.Integer] = nobalc
-        self.nobale: typing.Final[types.Integer] = nobale
-        self.ifbrk: typing.Final[types.Integer] = ifbrk
-        self.ilvden: typing.Final[types.Integer] = ilvden
-        self.ievap: typing.Final[types.Integer] = ievap
-        self.nofis: typing.Final[types.Integer] = nofis
+        self.ipht: typing.Final[types.IntegerOrJump] = ipht
+        self.icc: typing.Final[types.IntegerOrJump] = icc
+        self.nobalc: typing.Final[types.IntegerOrJump] = nobalc
+        self.nobale: typing.Final[types.IntegerOrJump] = nobale
+        self.ifbrk: typing.Final[types.IntegerOrJump] = ifbrk
+        self.ilvden: typing.Final[types.IntegerOrJump] = ilvden
+        self.ievap: typing.Final[types.IntegerOrJump] = ievap
+        self.nofis: typing.Final[types.IntegerOrJump] = nofis

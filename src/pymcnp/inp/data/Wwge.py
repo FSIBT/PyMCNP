@@ -16,12 +16,12 @@ class Wwge(DataOption_, keyword='wwge'):
     """
 
     _ATTRS = {
-        'bounds': types.Tuple[types.Real],
+        'bounds': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Awwge((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Awwge((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, bounds: types.Tuple[types.Real]):
+    def __init__(self, bounds: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Wwge``.
 
@@ -41,4 +41,4 @@ class Wwge(DataOption_, keyword='wwge'):
             ]
         )
 
-        self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
+        self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds

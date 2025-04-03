@@ -14,7 +14,7 @@ class ActOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'fission( {types.String._REGEX.pattern})|nonfiss( {types.String._REGEX.pattern})|thresh( {types.Real._REGEX.pattern})|dnbais( {types.Integer._REGEX.pattern})|sample( {types.String._REGEX.pattern})|pecut( {types.Real._REGEX.pattern})|hlcut( {types.Real._REGEX.pattern})|dneb((?: {types.Bias._REGEX.pattern})+?)|dgeb((?: {types.Bias._REGEX.pattern})+?)|nap( {types.Integer._REGEX.pattern})|dn( {types.String._REGEX.pattern})|dg( {types.String._REGEX.pattern})'
+        rf'fission( {types.String._REGEX.pattern})|nonfiss( {types.String._REGEX.pattern})|thresh( {types.RealOrJump._REGEX.pattern})|dnbais( {types.IntegerOrJump._REGEX.pattern})|sample( {types.String._REGEX.pattern})|pecut( {types.RealOrJump._REGEX.pattern})|hlcut( {types.RealOrJump._REGEX.pattern})|dneb((?: {types.Bias._REGEX.pattern})+?)|dgeb((?: {types.Bias._REGEX.pattern})+?)|nap( {types.IntegerOrJump._REGEX.pattern})|dn( {types.String._REGEX.pattern})|dg( {types.String._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

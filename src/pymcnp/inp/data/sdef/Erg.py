@@ -16,12 +16,12 @@ class Erg(SdefOption_, keyword='erg'):
     """
 
     _ATTRS = {
-        'energy': types.Real,
+        'energy': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aerg( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aerg( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, energy: types.Real):
+    def __init__(self, energy: types.RealOrJump):
         """
         Initializes ``Erg``.
 
@@ -41,4 +41,4 @@ class Erg(SdefOption_, keyword='erg'):
             ]
         )
 
-        self.energy: typing.Final[types.Real] = energy
+        self.energy: typing.Final[types.RealOrJump] = energy

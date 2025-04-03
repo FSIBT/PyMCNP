@@ -16,13 +16,15 @@ class Erg(PertOption_, keyword='erg'):
     """
 
     _ATTRS = {
-        'energy_lower_bound': types.Real,
-        'energy_upper_bound': types.Real,
+        'energy_lower_bound': types.RealOrJump,
+        'energy_upper_bound': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aerg( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(
+        rf'\Aerg( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
+    )
 
-    def __init__(self, energy_lower_bound: types.Real, energy_upper_bound: types.Real):
+    def __init__(self, energy_lower_bound: types.RealOrJump, energy_upper_bound: types.RealOrJump):
         """
         Initializes ``Erg``.
 
@@ -46,5 +48,5 @@ class Erg(PertOption_, keyword='erg'):
             ]
         )
 
-        self.energy_lower_bound: typing.Final[types.Real] = energy_lower_bound
-        self.energy_upper_bound: typing.Final[types.Real] = energy_upper_bound
+        self.energy_lower_bound: typing.Final[types.RealOrJump] = energy_lower_bound
+        self.energy_upper_bound: typing.Final[types.RealOrJump] = energy_upper_bound

@@ -16,12 +16,12 @@ class Sourcp(BlockOption_, keyword='sourcp'):
     """
 
     _ATTRS = {
-        'setting': types.Integer,
+        'setting': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Asourcp( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Asourcp( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.Integer):
+    def __init__(self, setting: types.IntegerOrJump):
         """
         Initializes ``Sourcp``.
 
@@ -41,4 +41,4 @@ class Sourcp(BlockOption_, keyword='sourcp'):
             ]
         )
 
-        self.setting: typing.Final[types.Integer] = setting
+        self.setting: typing.Final[types.IntegerOrJump] = setting

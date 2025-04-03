@@ -16,12 +16,12 @@ class Refc(MOption_, keyword='refc'):
     """
 
     _ATTRS = {
-        'coefficents': types.Tuple[types.Real],
+        'coefficents': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Arefc((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Arefc((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, coefficents: types.Tuple[types.Real]):
+    def __init__(self, coefficents: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Refc``.
 
@@ -41,4 +41,4 @@ class Refc(MOption_, keyword='refc'):
             ]
         )
 
-        self.coefficents: typing.Final[types.Tuple[types.Real]] = coefficents
+        self.coefficents: typing.Final[types.Tuple[types.RealOrJump]] = coefficents

@@ -14,7 +14,7 @@ class MeshOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'origin((?: {types.Real._REGEX.pattern})+?)|imesh((?: {types.Real._REGEX.pattern})+?)|iints( {types.Integer._REGEX.pattern})|jmesh((?: {types.Real._REGEX.pattern})+?)|jints( {types.Integer._REGEX.pattern})|kmesh((?: {types.Real._REGEX.pattern})+?)|kints( {types.Integer._REGEX.pattern})|geom( {types.String._REGEX.pattern})|ref((?: {types.Real._REGEX.pattern})+?)|axs((?: {types.Real._REGEX.pattern})+?)|vec((?: {types.Real._REGEX.pattern})+?)'
+        rf'origin((?: {types.RealOrJump._REGEX.pattern})+?)|imesh((?: {types.RealOrJump._REGEX.pattern})+?)|iints( {types.IntegerOrJump._REGEX.pattern})|jmesh((?: {types.RealOrJump._REGEX.pattern})+?)|jints( {types.IntegerOrJump._REGEX.pattern})|kmesh((?: {types.RealOrJump._REGEX.pattern})+?)|kints( {types.IntegerOrJump._REGEX.pattern})|geom( {types.String._REGEX.pattern})|ref((?: {types.RealOrJump._REGEX.pattern})+?)|axs((?: {types.RealOrJump._REGEX.pattern})+?)|vec((?: {types.RealOrJump._REGEX.pattern})+?)'
     )
 
     def __init_subclass__(cls, keyword: str):

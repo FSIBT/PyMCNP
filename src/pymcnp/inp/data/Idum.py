@@ -16,12 +16,12 @@ class Idum(DataOption_, keyword='idum'):
     """
 
     _ATTRS = {
-        'intergers': types.Tuple[types.Integer],
+        'intergers': types.Tuple[types.IntegerOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aidum((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aidum((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, intergers: types.Tuple[types.Integer]):
+    def __init__(self, intergers: types.Tuple[types.IntegerOrJump]):
         """
         Initializes ``Idum``.
 
@@ -41,4 +41,4 @@ class Idum(DataOption_, keyword='idum'):
             ]
         )
 
-        self.intergers: typing.Final[types.Tuple[types.Integer]] = intergers
+        self.intergers: typing.Final[types.Tuple[types.IntegerOrJump]] = intergers

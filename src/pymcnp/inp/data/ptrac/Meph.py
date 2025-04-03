@@ -16,12 +16,12 @@ class Meph(PtracOption_, keyword='meph'):
     """
 
     _ATTRS = {
-        'events': types.Integer,
+        'events': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Ameph( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ameph( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, events: types.Integer):
+    def __init__(self, events: types.IntegerOrJump):
         """
         Initializes ``Meph``.
 
@@ -41,4 +41,4 @@ class Meph(PtracOption_, keyword='meph'):
             ]
         )
 
-        self.events: typing.Final[types.Integer] = events
+        self.events: typing.Final[types.IntegerOrJump] = events

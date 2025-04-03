@@ -17,12 +17,12 @@ class Wwt(DataOption_, keyword='wwt'):
 
     _ATTRS = {
         'designator': types.Designator,
-        'bounds': types.Tuple[types.Real],
+        'bounds': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Awwt:(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Awwt:(\S+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, designator: types.Designator, bounds: types.Tuple[types.Real]):
+    def __init__(self, designator: types.Designator, bounds: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Wwt``.
 
@@ -46,4 +46,4 @@ class Wwt(DataOption_, keyword='wwt'):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
+        self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds

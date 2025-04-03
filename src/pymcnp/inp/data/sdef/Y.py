@@ -16,12 +16,12 @@ class Y(SdefOption_, keyword='y'):
     """
 
     _ATTRS = {
-        'y_coordinate': types.Real,
+        'y_coordinate': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Ay( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ay( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, y_coordinate: types.Real):
+    def __init__(self, y_coordinate: types.RealOrJump):
         """
         Initializes ``Y``.
 
@@ -41,4 +41,4 @@ class Y(SdefOption_, keyword='y'):
             ]
         )
 
-        self.y_coordinate: typing.Final[types.Real] = y_coordinate
+        self.y_coordinate: typing.Final[types.RealOrJump] = y_coordinate

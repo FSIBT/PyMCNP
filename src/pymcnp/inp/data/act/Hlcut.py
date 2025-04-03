@@ -16,12 +16,12 @@ class Hlcut(ActOption_, keyword='hlcut'):
     """
 
     _ATTRS = {
-        'cutoff': types.Real,
+        'cutoff': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Ahlcut( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ahlcut( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, cutoff: types.Real):
+    def __init__(self, cutoff: types.RealOrJump):
         """
         Initializes ``Hlcut``.
 
@@ -41,4 +41,4 @@ class Hlcut(ActOption_, keyword='hlcut'):
             ]
         )
 
-        self.cutoff: typing.Final[types.Real] = cutoff
+        self.cutoff: typing.Final[types.RealOrJump] = cutoff

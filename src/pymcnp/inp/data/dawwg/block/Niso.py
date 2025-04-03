@@ -16,12 +16,12 @@ class Niso(BlockOption_, keyword='niso'):
     """
 
     _ATTRS = {
-        'setting': types.Integer,
+        'setting': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aniso( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aniso( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.Integer):
+    def __init__(self, setting: types.IntegerOrJump):
         """
         Initializes ``Niso``.
 
@@ -41,4 +41,4 @@ class Niso(BlockOption_, keyword='niso'):
             ]
         )
 
-        self.setting: typing.Final[types.Integer] = setting
+        self.setting: typing.Final[types.IntegerOrJump] = setting

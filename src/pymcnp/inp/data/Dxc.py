@@ -18,16 +18,16 @@ class Dxc(DataOption_, keyword='dxc'):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'probabilities': types.Tuple[types.Real],
+        'probabilities': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Adxc(\d+):(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Adxc(\d+):(\S+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
     def __init__(
         self,
         suffix: types.Integer,
         designator: types.Designator,
-        probabilities: types.Tuple[types.Real],
+        probabilities: types.Tuple[types.RealOrJump],
     ):
         """
         Initializes ``Dxc``.
@@ -56,6 +56,6 @@ class Dxc(DataOption_, keyword='dxc'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.designator: typing.Final[types.Designator] = designator
-        self.probabilities: typing.Final[types.Tuple[types.Real]] = probabilities
+        self.probabilities: typing.Final[types.Tuple[types.RealOrJump]] = probabilities

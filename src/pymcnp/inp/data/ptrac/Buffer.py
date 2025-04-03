@@ -16,12 +16,12 @@ class Buffer(PtracOption_, keyword='buffer'):
     """
 
     _ATTRS = {
-        'storage': types.Integer,
+        'storage': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Abuffer( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Abuffer( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, storage: types.Integer):
+    def __init__(self, storage: types.IntegerOrJump):
         """
         Initializes ``Buffer``.
 
@@ -41,4 +41,4 @@ class Buffer(PtracOption_, keyword='buffer'):
             ]
         )
 
-        self.storage: typing.Final[types.Integer] = storage
+        self.storage: typing.Final[types.IntegerOrJump] = storage

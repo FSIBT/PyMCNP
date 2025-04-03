@@ -16,12 +16,12 @@ class Eff(SdefOption_, keyword='eff'):
     """
 
     _ATTRS = {
-        'criterion': types.Real,
+        'criterion': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aeff( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aeff( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, criterion: types.Real):
+    def __init__(self, criterion: types.RealOrJump):
         """
         Initializes ``Eff``.
 
@@ -41,4 +41,4 @@ class Eff(SdefOption_, keyword='eff'):
             ]
         )
 
-        self.criterion: typing.Final[types.Real] = criterion
+        self.criterion: typing.Final[types.RealOrJump] = criterion

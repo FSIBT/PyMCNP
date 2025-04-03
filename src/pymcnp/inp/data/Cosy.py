@@ -16,12 +16,12 @@ class Cosy(DataOption_, keyword='cosy'):
     """
 
     _ATTRS = {
-        'numbers': types.Tuple[types.Integer],
+        'numbers': types.Tuple[types.IntegerOrJump],
     }
 
-    _REGEX = re.compile(rf'\Acosy((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Acosy((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, numbers: types.Tuple[types.Integer]):
+    def __init__(self, numbers: types.Tuple[types.IntegerOrJump]):
         """
         Initializes ``Cosy``.
 
@@ -41,4 +41,4 @@ class Cosy(DataOption_, keyword='cosy'):
             ]
         )
 
-        self.numbers: typing.Final[types.Tuple[types.Integer]] = numbers
+        self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers

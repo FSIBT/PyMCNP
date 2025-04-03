@@ -16,12 +16,12 @@ class Pos(SdefOption_, keyword='pos'):
     """
 
     _ATTRS = {
-        'vector': types.Tuple[types.Real],
+        'vector': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Apos((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Apos((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, vector: types.Tuple[types.Real]):
+    def __init__(self, vector: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Pos``.
 
@@ -41,4 +41,4 @@ class Pos(SdefOption_, keyword='pos'):
             ]
         )
 
-        self.vector: typing.Final[types.Tuple[types.Real]] = vector
+        self.vector: typing.Final[types.Tuple[types.RealOrJump]] = vector

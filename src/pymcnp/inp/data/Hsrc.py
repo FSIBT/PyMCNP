@@ -16,32 +16,32 @@ class Hsrc(DataOption_, keyword='hsrc'):
     """
 
     _ATTRS = {
-        'x_number': types.Integer,
-        'x_minimum': types.Real,
-        'x_maximum': types.Real,
-        'y_number': types.Integer,
-        'y_minimum': types.Real,
-        'y_maximum': types.Real,
-        'z_number': types.Integer,
-        'z_minimum': types.Real,
-        'z_maximum': types.Real,
+        'x_number': types.IntegerOrJump,
+        'x_minimum': types.RealOrJump,
+        'x_maximum': types.RealOrJump,
+        'y_number': types.IntegerOrJump,
+        'y_minimum': types.RealOrJump,
+        'y_maximum': types.RealOrJump,
+        'z_number': types.IntegerOrJump,
+        'z_minimum': types.RealOrJump,
+        'z_maximum': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Ahsrc( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Ahsrc( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        x_number: types.Integer,
-        x_minimum: types.Real,
-        x_maximum: types.Real,
-        y_number: types.Integer,
-        y_minimum: types.Real,
-        y_maximum: types.Real,
-        z_number: types.Integer,
-        z_minimum: types.Real,
-        z_maximum: types.Real,
+        x_number: types.IntegerOrJump,
+        x_minimum: types.RealOrJump,
+        x_maximum: types.RealOrJump,
+        y_number: types.IntegerOrJump,
+        y_minimum: types.RealOrJump,
+        y_maximum: types.RealOrJump,
+        z_number: types.IntegerOrJump,
+        z_minimum: types.RealOrJump,
+        z_maximum: types.RealOrJump,
     ):
         """
         Initializes ``Hsrc``.
@@ -94,12 +94,12 @@ class Hsrc(DataOption_, keyword='hsrc'):
             ]
         )
 
-        self.x_number: typing.Final[types.Integer] = x_number
-        self.x_minimum: typing.Final[types.Real] = x_minimum
-        self.x_maximum: typing.Final[types.Real] = x_maximum
-        self.y_number: typing.Final[types.Integer] = y_number
-        self.y_minimum: typing.Final[types.Real] = y_minimum
-        self.y_maximum: typing.Final[types.Real] = y_maximum
-        self.z_number: typing.Final[types.Integer] = z_number
-        self.z_minimum: typing.Final[types.Real] = z_minimum
-        self.z_maximum: typing.Final[types.Real] = z_maximum
+        self.x_number: typing.Final[types.IntegerOrJump] = x_number
+        self.x_minimum: typing.Final[types.RealOrJump] = x_minimum
+        self.x_maximum: typing.Final[types.RealOrJump] = x_maximum
+        self.y_number: typing.Final[types.IntegerOrJump] = y_number
+        self.y_minimum: typing.Final[types.RealOrJump] = y_minimum
+        self.y_maximum: typing.Final[types.RealOrJump] = y_maximum
+        self.z_number: typing.Final[types.IntegerOrJump] = z_number
+        self.z_minimum: typing.Final[types.RealOrJump] = z_minimum
+        self.z_maximum: typing.Final[types.RealOrJump] = z_maximum

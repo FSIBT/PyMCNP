@@ -16,12 +16,12 @@ class Ein(KsenOption_, keyword='ein'):
     """
 
     _ATTRS = {
-        'energies': types.Tuple[types.Real],
+        'energies': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aein((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aein((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, energies: types.Tuple[types.Real]):
+    def __init__(self, energies: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Ein``.
 
@@ -41,4 +41,4 @@ class Ein(KsenOption_, keyword='ein'):
             ]
         )
 
-        self.energies: typing.Final[types.Tuple[types.Real]] = energies
+        self.energies: typing.Final[types.Tuple[types.RealOrJump]] = energies

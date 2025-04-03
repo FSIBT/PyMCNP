@@ -16,12 +16,12 @@ class Width(FmultOption_, keyword='width'):
     """
 
     _ATTRS = {
-        'width': types.Real,
+        'width': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Awidth( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Awidth( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, width: types.Real):
+    def __init__(self, width: types.RealOrJump):
         """
         Initializes ``Width``.
 
@@ -41,4 +41,4 @@ class Width(FmultOption_, keyword='width'):
             ]
         )
 
-        self.width: typing.Final[types.Real] = width
+        self.width: typing.Final[types.RealOrJump] = width

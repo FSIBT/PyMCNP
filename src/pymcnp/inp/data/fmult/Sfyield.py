@@ -16,12 +16,12 @@ class Sfyield(FmultOption_, keyword='sfyield'):
     """
 
     _ATTRS = {
-        'fission_yield': types.Real,
+        'fission_yield': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Asfyield( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Asfyield( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, fission_yield: types.Real):
+    def __init__(self, fission_yield: types.RealOrJump):
         """
         Initializes ``Sfyield``.
 
@@ -41,4 +41,4 @@ class Sfyield(FmultOption_, keyword='sfyield'):
             ]
         )
 
-        self.fission_yield: typing.Final[types.Real] = fission_yield
+        self.fission_yield: typing.Final[types.RealOrJump] = fission_yield

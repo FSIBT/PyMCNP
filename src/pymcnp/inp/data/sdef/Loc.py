@@ -16,16 +16,18 @@ class Loc(SdefOption_, keyword='loc'):
     """
 
     _ATTRS = {
-        'latitude': types.Real,
-        'longitude': types.Real,
-        'altitude': types.Real,
+        'latitude': types.RealOrJump,
+        'longitude': types.RealOrJump,
+        'altitude': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Aloc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Aloc( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
-    def __init__(self, latitude: types.Real, longitude: types.Real, altitude: types.Real):
+    def __init__(
+        self, latitude: types.RealOrJump, longitude: types.RealOrJump, altitude: types.RealOrJump
+    ):
         """
         Initializes ``Loc``.
 
@@ -53,6 +55,6 @@ class Loc(SdefOption_, keyword='loc'):
             ]
         )
 
-        self.latitude: typing.Final[types.Real] = latitude
-        self.longitude: typing.Final[types.Real] = longitude
-        self.altitude: typing.Final[types.Real] = altitude
+        self.latitude: typing.Final[types.RealOrJump] = latitude
+        self.longitude: typing.Final[types.RealOrJump] = longitude
+        self.altitude: typing.Final[types.RealOrJump] = altitude

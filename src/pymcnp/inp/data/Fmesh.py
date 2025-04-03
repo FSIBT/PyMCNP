@@ -53,6 +53,6 @@ class Fmesh(DataOption_, keyword='fmesh'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.designator: typing.Final[types.Designator] = designator
         self.options: typing.Final[types.Tuple[fmesh.FmeshOption_]] = options

@@ -16,12 +16,12 @@ class Pwt(DataOption_, keyword='pwt'):
     """
 
     _ATTRS = {
-        'weights': types.Tuple[types.Real],
+        'weights': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Apwt((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Apwt((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, weights: types.Tuple[types.Real]):
+    def __init__(self, weights: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Pwt``.
 
@@ -41,4 +41,4 @@ class Pwt(DataOption_, keyword='pwt'):
             ]
         )
 
-        self.weights: typing.Final[types.Tuple[types.Real]] = weights
+        self.weights: typing.Final[types.Tuple[types.RealOrJump]] = weights

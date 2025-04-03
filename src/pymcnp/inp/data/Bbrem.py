@@ -16,114 +16,114 @@ class Bbrem(DataOption_, keyword='bbrem'):
     """
 
     _ATTRS = {
-        'bias_1': types.Real,
-        'bias_2': types.Real,
-        'bias_3': types.Real,
-        'bias_4': types.Real,
-        'bias_5': types.Real,
-        'bias_6': types.Real,
-        'bias_7': types.Real,
-        'bias_8': types.Real,
-        'bias_9': types.Real,
-        'bias_10': types.Real,
-        'bias_11': types.Real,
-        'bias_12': types.Real,
-        'bias_13': types.Real,
-        'bias_14': types.Real,
-        'bias_15': types.Real,
-        'bias_16': types.Real,
-        'bias_17': types.Real,
-        'bias_18': types.Real,
-        'bias_19': types.Real,
-        'bias_20': types.Real,
-        'bias_21': types.Real,
-        'bias_22': types.Real,
-        'bias_23': types.Real,
-        'bias_24': types.Real,
-        'bias_25': types.Real,
-        'bias_26': types.Real,
-        'bias_27': types.Real,
-        'bias_28': types.Real,
-        'bias_29': types.Real,
-        'bias_30': types.Real,
-        'bias_31': types.Real,
-        'bias_32': types.Real,
-        'bias_33': types.Real,
-        'bias_34': types.Real,
-        'bias_35': types.Real,
-        'bias_36': types.Real,
-        'bias_37': types.Real,
-        'bias_38': types.Real,
-        'bias_39': types.Real,
-        'bias_40': types.Real,
-        'bias_41': types.Real,
-        'bias_42': types.Real,
-        'bias_43': types.Real,
-        'bias_44': types.Real,
-        'bias_45': types.Real,
-        'bias_46': types.Real,
-        'bias_47': types.Real,
-        'bias_48': types.Real,
-        'bias_49': types.Real,
-        'materials': types.Tuple[types.Integer],
+        'bias_1': types.RealOrJump,
+        'bias_2': types.RealOrJump,
+        'bias_3': types.RealOrJump,
+        'bias_4': types.RealOrJump,
+        'bias_5': types.RealOrJump,
+        'bias_6': types.RealOrJump,
+        'bias_7': types.RealOrJump,
+        'bias_8': types.RealOrJump,
+        'bias_9': types.RealOrJump,
+        'bias_10': types.RealOrJump,
+        'bias_11': types.RealOrJump,
+        'bias_12': types.RealOrJump,
+        'bias_13': types.RealOrJump,
+        'bias_14': types.RealOrJump,
+        'bias_15': types.RealOrJump,
+        'bias_16': types.RealOrJump,
+        'bias_17': types.RealOrJump,
+        'bias_18': types.RealOrJump,
+        'bias_19': types.RealOrJump,
+        'bias_20': types.RealOrJump,
+        'bias_21': types.RealOrJump,
+        'bias_22': types.RealOrJump,
+        'bias_23': types.RealOrJump,
+        'bias_24': types.RealOrJump,
+        'bias_25': types.RealOrJump,
+        'bias_26': types.RealOrJump,
+        'bias_27': types.RealOrJump,
+        'bias_28': types.RealOrJump,
+        'bias_29': types.RealOrJump,
+        'bias_30': types.RealOrJump,
+        'bias_31': types.RealOrJump,
+        'bias_32': types.RealOrJump,
+        'bias_33': types.RealOrJump,
+        'bias_34': types.RealOrJump,
+        'bias_35': types.RealOrJump,
+        'bias_36': types.RealOrJump,
+        'bias_37': types.RealOrJump,
+        'bias_38': types.RealOrJump,
+        'bias_39': types.RealOrJump,
+        'bias_40': types.RealOrJump,
+        'bias_41': types.RealOrJump,
+        'bias_42': types.RealOrJump,
+        'bias_43': types.RealOrJump,
+        'bias_44': types.RealOrJump,
+        'bias_45': types.RealOrJump,
+        'bias_46': types.RealOrJump,
+        'bias_47': types.RealOrJump,
+        'bias_48': types.RealOrJump,
+        'bias_49': types.RealOrJump,
+        'materials': types.Tuple[types.IntegerOrJump],
     }
 
     _REGEX = re.compile(
-        rf'\Abbrem( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})((?: {types.Integer._REGEX.pattern})+?)\Z'
+        rf'\Abbrem( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z'
     )
 
     def __init__(
         self,
-        bias_1: types.Real,
-        bias_2: types.Real,
-        bias_3: types.Real,
-        bias_4: types.Real,
-        bias_5: types.Real,
-        bias_6: types.Real,
-        bias_7: types.Real,
-        bias_8: types.Real,
-        bias_9: types.Real,
-        bias_10: types.Real,
-        bias_11: types.Real,
-        bias_12: types.Real,
-        bias_13: types.Real,
-        bias_14: types.Real,
-        bias_15: types.Real,
-        bias_16: types.Real,
-        bias_17: types.Real,
-        bias_18: types.Real,
-        bias_19: types.Real,
-        bias_20: types.Real,
-        bias_21: types.Real,
-        bias_22: types.Real,
-        bias_23: types.Real,
-        bias_24: types.Real,
-        bias_25: types.Real,
-        bias_26: types.Real,
-        bias_27: types.Real,
-        bias_28: types.Real,
-        bias_29: types.Real,
-        bias_30: types.Real,
-        bias_31: types.Real,
-        bias_32: types.Real,
-        bias_33: types.Real,
-        bias_34: types.Real,
-        bias_35: types.Real,
-        bias_36: types.Real,
-        bias_37: types.Real,
-        bias_38: types.Real,
-        bias_39: types.Real,
-        bias_40: types.Real,
-        bias_41: types.Real,
-        bias_42: types.Real,
-        bias_43: types.Real,
-        bias_44: types.Real,
-        bias_45: types.Real,
-        bias_46: types.Real,
-        bias_47: types.Real,
-        bias_48: types.Real,
-        bias_49: types.Real,
-        materials: types.Tuple[types.Integer],
+        bias_1: types.RealOrJump,
+        bias_2: types.RealOrJump,
+        bias_3: types.RealOrJump,
+        bias_4: types.RealOrJump,
+        bias_5: types.RealOrJump,
+        bias_6: types.RealOrJump,
+        bias_7: types.RealOrJump,
+        bias_8: types.RealOrJump,
+        bias_9: types.RealOrJump,
+        bias_10: types.RealOrJump,
+        bias_11: types.RealOrJump,
+        bias_12: types.RealOrJump,
+        bias_13: types.RealOrJump,
+        bias_14: types.RealOrJump,
+        bias_15: types.RealOrJump,
+        bias_16: types.RealOrJump,
+        bias_17: types.RealOrJump,
+        bias_18: types.RealOrJump,
+        bias_19: types.RealOrJump,
+        bias_20: types.RealOrJump,
+        bias_21: types.RealOrJump,
+        bias_22: types.RealOrJump,
+        bias_23: types.RealOrJump,
+        bias_24: types.RealOrJump,
+        bias_25: types.RealOrJump,
+        bias_26: types.RealOrJump,
+        bias_27: types.RealOrJump,
+        bias_28: types.RealOrJump,
+        bias_29: types.RealOrJump,
+        bias_30: types.RealOrJump,
+        bias_31: types.RealOrJump,
+        bias_32: types.RealOrJump,
+        bias_33: types.RealOrJump,
+        bias_34: types.RealOrJump,
+        bias_35: types.RealOrJump,
+        bias_36: types.RealOrJump,
+        bias_37: types.RealOrJump,
+        bias_38: types.RealOrJump,
+        bias_39: types.RealOrJump,
+        bias_40: types.RealOrJump,
+        bias_41: types.RealOrJump,
+        bias_42: types.RealOrJump,
+        bias_43: types.RealOrJump,
+        bias_44: types.RealOrJump,
+        bias_45: types.RealOrJump,
+        bias_46: types.RealOrJump,
+        bias_47: types.RealOrJump,
+        bias_48: types.RealOrJump,
+        bias_49: types.RealOrJump,
+        materials: types.Tuple[types.IntegerOrJump],
     ):
         """
         Initializes ``Bbrem``.
@@ -342,53 +342,53 @@ class Bbrem(DataOption_, keyword='bbrem'):
             ]
         )
 
-        self.bias_1: typing.Final[types.Real] = bias_1
-        self.bias_2: typing.Final[types.Real] = bias_2
-        self.bias_3: typing.Final[types.Real] = bias_3
-        self.bias_4: typing.Final[types.Real] = bias_4
-        self.bias_5: typing.Final[types.Real] = bias_5
-        self.bias_6: typing.Final[types.Real] = bias_6
-        self.bias_7: typing.Final[types.Real] = bias_7
-        self.bias_8: typing.Final[types.Real] = bias_8
-        self.bias_9: typing.Final[types.Real] = bias_9
-        self.bias_10: typing.Final[types.Real] = bias_10
-        self.bias_11: typing.Final[types.Real] = bias_11
-        self.bias_12: typing.Final[types.Real] = bias_12
-        self.bias_13: typing.Final[types.Real] = bias_13
-        self.bias_14: typing.Final[types.Real] = bias_14
-        self.bias_15: typing.Final[types.Real] = bias_15
-        self.bias_16: typing.Final[types.Real] = bias_16
-        self.bias_17: typing.Final[types.Real] = bias_17
-        self.bias_18: typing.Final[types.Real] = bias_18
-        self.bias_19: typing.Final[types.Real] = bias_19
-        self.bias_20: typing.Final[types.Real] = bias_20
-        self.bias_21: typing.Final[types.Real] = bias_21
-        self.bias_22: typing.Final[types.Real] = bias_22
-        self.bias_23: typing.Final[types.Real] = bias_23
-        self.bias_24: typing.Final[types.Real] = bias_24
-        self.bias_25: typing.Final[types.Real] = bias_25
-        self.bias_26: typing.Final[types.Real] = bias_26
-        self.bias_27: typing.Final[types.Real] = bias_27
-        self.bias_28: typing.Final[types.Real] = bias_28
-        self.bias_29: typing.Final[types.Real] = bias_29
-        self.bias_30: typing.Final[types.Real] = bias_30
-        self.bias_31: typing.Final[types.Real] = bias_31
-        self.bias_32: typing.Final[types.Real] = bias_32
-        self.bias_33: typing.Final[types.Real] = bias_33
-        self.bias_34: typing.Final[types.Real] = bias_34
-        self.bias_35: typing.Final[types.Real] = bias_35
-        self.bias_36: typing.Final[types.Real] = bias_36
-        self.bias_37: typing.Final[types.Real] = bias_37
-        self.bias_38: typing.Final[types.Real] = bias_38
-        self.bias_39: typing.Final[types.Real] = bias_39
-        self.bias_40: typing.Final[types.Real] = bias_40
-        self.bias_41: typing.Final[types.Real] = bias_41
-        self.bias_42: typing.Final[types.Real] = bias_42
-        self.bias_43: typing.Final[types.Real] = bias_43
-        self.bias_44: typing.Final[types.Real] = bias_44
-        self.bias_45: typing.Final[types.Real] = bias_45
-        self.bias_46: typing.Final[types.Real] = bias_46
-        self.bias_47: typing.Final[types.Real] = bias_47
-        self.bias_48: typing.Final[types.Real] = bias_48
-        self.bias_49: typing.Final[types.Real] = bias_49
-        self.materials: typing.Final[types.Tuple[types.Integer]] = materials
+        self.bias_1: typing.Final[types.RealOrJump] = bias_1
+        self.bias_2: typing.Final[types.RealOrJump] = bias_2
+        self.bias_3: typing.Final[types.RealOrJump] = bias_3
+        self.bias_4: typing.Final[types.RealOrJump] = bias_4
+        self.bias_5: typing.Final[types.RealOrJump] = bias_5
+        self.bias_6: typing.Final[types.RealOrJump] = bias_6
+        self.bias_7: typing.Final[types.RealOrJump] = bias_7
+        self.bias_8: typing.Final[types.RealOrJump] = bias_8
+        self.bias_9: typing.Final[types.RealOrJump] = bias_9
+        self.bias_10: typing.Final[types.RealOrJump] = bias_10
+        self.bias_11: typing.Final[types.RealOrJump] = bias_11
+        self.bias_12: typing.Final[types.RealOrJump] = bias_12
+        self.bias_13: typing.Final[types.RealOrJump] = bias_13
+        self.bias_14: typing.Final[types.RealOrJump] = bias_14
+        self.bias_15: typing.Final[types.RealOrJump] = bias_15
+        self.bias_16: typing.Final[types.RealOrJump] = bias_16
+        self.bias_17: typing.Final[types.RealOrJump] = bias_17
+        self.bias_18: typing.Final[types.RealOrJump] = bias_18
+        self.bias_19: typing.Final[types.RealOrJump] = bias_19
+        self.bias_20: typing.Final[types.RealOrJump] = bias_20
+        self.bias_21: typing.Final[types.RealOrJump] = bias_21
+        self.bias_22: typing.Final[types.RealOrJump] = bias_22
+        self.bias_23: typing.Final[types.RealOrJump] = bias_23
+        self.bias_24: typing.Final[types.RealOrJump] = bias_24
+        self.bias_25: typing.Final[types.RealOrJump] = bias_25
+        self.bias_26: typing.Final[types.RealOrJump] = bias_26
+        self.bias_27: typing.Final[types.RealOrJump] = bias_27
+        self.bias_28: typing.Final[types.RealOrJump] = bias_28
+        self.bias_29: typing.Final[types.RealOrJump] = bias_29
+        self.bias_30: typing.Final[types.RealOrJump] = bias_30
+        self.bias_31: typing.Final[types.RealOrJump] = bias_31
+        self.bias_32: typing.Final[types.RealOrJump] = bias_32
+        self.bias_33: typing.Final[types.RealOrJump] = bias_33
+        self.bias_34: typing.Final[types.RealOrJump] = bias_34
+        self.bias_35: typing.Final[types.RealOrJump] = bias_35
+        self.bias_36: typing.Final[types.RealOrJump] = bias_36
+        self.bias_37: typing.Final[types.RealOrJump] = bias_37
+        self.bias_38: typing.Final[types.RealOrJump] = bias_38
+        self.bias_39: typing.Final[types.RealOrJump] = bias_39
+        self.bias_40: typing.Final[types.RealOrJump] = bias_40
+        self.bias_41: typing.Final[types.RealOrJump] = bias_41
+        self.bias_42: typing.Final[types.RealOrJump] = bias_42
+        self.bias_43: typing.Final[types.RealOrJump] = bias_43
+        self.bias_44: typing.Final[types.RealOrJump] = bias_44
+        self.bias_45: typing.Final[types.RealOrJump] = bias_45
+        self.bias_46: typing.Final[types.RealOrJump] = bias_46
+        self.bias_47: typing.Final[types.RealOrJump] = bias_47
+        self.bias_48: typing.Final[types.RealOrJump] = bias_48
+        self.bias_49: typing.Final[types.RealOrJump] = bias_49
+        self.materials: typing.Final[types.Tuple[types.IntegerOrJump]] = materials

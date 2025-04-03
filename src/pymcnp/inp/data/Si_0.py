@@ -57,6 +57,6 @@ class Si_0(DataOption_, keyword='si'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.option: typing.Final[types.String] = option
         self.information: typing.Final[types.Tuple[types.DistributionNumber]] = information

@@ -16,12 +16,12 @@ class Maxstep(BfldOption_, keyword='maxstep'):
     """
 
     _ATTRS = {
-        'size': types.Real,
+        'size': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Amaxstep( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Amaxstep( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, size: types.Real):
+    def __init__(self, size: types.RealOrJump):
         """
         Initializes ``Maxstep``.
 
@@ -41,4 +41,4 @@ class Maxstep(BfldOption_, keyword='maxstep'):
             ]
         )
 
-        self.size: typing.Final[types.Real] = size
+        self.size: typing.Final[types.RealOrJump] = size

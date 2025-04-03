@@ -16,24 +16,24 @@ class Cut(DataOption_, keyword='cut'):
     """
 
     _ATTRS = {
-        'time_cutoff': types.Real,
-        'energy_cutoff': types.Real,
-        'weight_cutoff1': types.Real,
-        'weight_cutoff2': types.Real,
-        'source_weight': types.Real,
+        'time_cutoff': types.RealOrJump,
+        'energy_cutoff': types.RealOrJump,
+        'weight_cutoff1': types.RealOrJump,
+        'weight_cutoff2': types.RealOrJump,
+        'source_weight': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Acut( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Acut( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        time_cutoff: types.Real,
-        energy_cutoff: types.Real,
-        weight_cutoff1: types.Real,
-        weight_cutoff2: types.Real,
-        source_weight: types.Real,
+        time_cutoff: types.RealOrJump,
+        energy_cutoff: types.RealOrJump,
+        weight_cutoff1: types.RealOrJump,
+        weight_cutoff2: types.RealOrJump,
+        source_weight: types.RealOrJump,
     ):
         """
         Initializes ``Cut``.
@@ -70,8 +70,8 @@ class Cut(DataOption_, keyword='cut'):
             ]
         )
 
-        self.time_cutoff: typing.Final[types.Real] = time_cutoff
-        self.energy_cutoff: typing.Final[types.Real] = energy_cutoff
-        self.weight_cutoff1: typing.Final[types.Real] = weight_cutoff1
-        self.weight_cutoff2: typing.Final[types.Real] = weight_cutoff2
-        self.source_weight: typing.Final[types.Real] = source_weight
+        self.time_cutoff: typing.Final[types.RealOrJump] = time_cutoff
+        self.energy_cutoff: typing.Final[types.RealOrJump] = energy_cutoff
+        self.weight_cutoff1: typing.Final[types.RealOrJump] = weight_cutoff1
+        self.weight_cutoff2: typing.Final[types.RealOrJump] = weight_cutoff2
+        self.source_weight: typing.Final[types.RealOrJump] = source_weight

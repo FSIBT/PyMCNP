@@ -16,12 +16,12 @@ class Fmatncyc(KoptsOption_, keyword='fmatncyc'):
     """
 
     _ATTRS = {
-        'fmat_ncyc': types.Real,
+        'fmat_ncyc': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Afmatncyc( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afmatncyc( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, fmat_ncyc: types.Real):
+    def __init__(self, fmat_ncyc: types.RealOrJump):
         """
         Initializes ``Fmatncyc``.
 
@@ -41,4 +41,4 @@ class Fmatncyc(KoptsOption_, keyword='fmatncyc'):
             ]
         )
 
-        self.fmat_ncyc: typing.Final[types.Real] = fmat_ncyc
+        self.fmat_ncyc: typing.Final[types.RealOrJump] = fmat_ncyc

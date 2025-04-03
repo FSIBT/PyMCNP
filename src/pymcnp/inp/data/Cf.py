@@ -17,12 +17,12 @@ class Cf(DataOption_, keyword='cf'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'numbers': types.Tuple[types.Integer],
+        'numbers': types.Tuple[types.IntegerOrJump],
     }
 
-    _REGEX = re.compile(rf'\Acf(\d+)((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Acf(\d+)((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, numbers: types.Tuple[types.Integer]):
+    def __init__(self, suffix: types.Integer, numbers: types.Tuple[types.IntegerOrJump]):
         """
         Initializes ``Cf``.
 
@@ -45,5 +45,5 @@ class Cf(DataOption_, keyword='cf'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.numbers: typing.Final[types.Tuple[types.Integer]] = numbers
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers

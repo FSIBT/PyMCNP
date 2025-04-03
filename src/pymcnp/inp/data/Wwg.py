@@ -16,30 +16,30 @@ class Wwg(DataOption_, keyword='wwg'):
     """
 
     _ATTRS = {
-        'tally': types.Integer,
-        'cell': types.Integer,
-        'lower': types.Real,
+        'tally': types.IntegerOrJump,
+        'cell': types.IntegerOrJump,
+        'lower': types.RealOrJump,
         'j1': types.Jump,
         'j2': types.Jump,
         'j3': types.Jump,
         'j4': types.Jump,
-        'setting': types.Integer,
+        'setting': types.IntegerOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Awwg( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Awwg( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        tally: types.Integer,
-        cell: types.Integer,
-        lower: types.Real,
+        tally: types.IntegerOrJump,
+        cell: types.IntegerOrJump,
+        lower: types.RealOrJump,
         j1: types.Jump,
         j2: types.Jump,
         j3: types.Jump,
         j4: types.Jump,
-        setting: types.Integer,
+        setting: types.IntegerOrJump,
     ):
         """
         Initializes ``Wwg``.
@@ -88,11 +88,11 @@ class Wwg(DataOption_, keyword='wwg'):
             ]
         )
 
-        self.tally: typing.Final[types.Integer] = tally
-        self.cell: typing.Final[types.Integer] = cell
-        self.lower: typing.Final[types.Real] = lower
+        self.tally: typing.Final[types.IntegerOrJump] = tally
+        self.cell: typing.Final[types.IntegerOrJump] = cell
+        self.lower: typing.Final[types.RealOrJump] = lower
         self.j1: typing.Final[types.Jump] = j1
         self.j2: typing.Final[types.Jump] = j2
         self.j3: typing.Final[types.Jump] = j3
         self.j4: typing.Final[types.Jump] = j4
-        self.setting: typing.Final[types.Integer] = setting
+        self.setting: typing.Final[types.IntegerOrJump] = setting

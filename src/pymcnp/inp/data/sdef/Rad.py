@@ -16,12 +16,12 @@ class Rad(SdefOption_, keyword='rad'):
     """
 
     _ATTRS = {
-        'radial_distance': types.Real,
+        'radial_distance': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Arad( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Arad( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, radial_distance: types.Real):
+    def __init__(self, radial_distance: types.RealOrJump):
         """
         Initializes ``Rad``.
 
@@ -41,4 +41,4 @@ class Rad(SdefOption_, keyword='rad'):
             ]
         )
 
-        self.radial_distance: typing.Final[types.Real] = radial_distance
+        self.radial_distance: typing.Final[types.RealOrJump] = radial_distance

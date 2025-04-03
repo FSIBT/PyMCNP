@@ -16,12 +16,12 @@ class Noedtt(BlockOption_, keyword='noedtt'):
     """
 
     _ATTRS = {
-        'setting': types.Integer,
+        'setting': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Anoedtt( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Anoedtt( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.Integer):
+    def __init__(self, setting: types.IntegerOrJump):
         """
         Initializes ``Noedtt``.
 
@@ -41,4 +41,4 @@ class Noedtt(BlockOption_, keyword='noedtt'):
             ]
         )
 
-        self.setting: typing.Final[types.Integer] = setting
+        self.setting: typing.Final[types.IntegerOrJump] = setting

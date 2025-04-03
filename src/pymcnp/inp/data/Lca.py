@@ -16,36 +16,36 @@ class Lca(DataOption_, keyword='lca'):
     """
 
     _ATTRS = {
-        'ielas': types.Integer,
-        'ipreg': types.Integer,
-        'iexisa': types.Integer,
-        'ichoic': types.Integer,
-        'jcoul': types.Integer,
-        'nexite': types.Integer,
-        'npidk': types.Integer,
-        'noact': types.Integer,
-        'icem': types.Integer,
-        'ilaq': types.Integer,
-        'nevtype': types.Integer,
+        'ielas': types.IntegerOrJump,
+        'ipreg': types.IntegerOrJump,
+        'iexisa': types.IntegerOrJump,
+        'ichoic': types.IntegerOrJump,
+        'jcoul': types.IntegerOrJump,
+        'nexite': types.IntegerOrJump,
+        'npidk': types.IntegerOrJump,
+        'noact': types.IntegerOrJump,
+        'icem': types.IntegerOrJump,
+        'ilaq': types.IntegerOrJump,
+        'nevtype': types.IntegerOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Alca( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Alca( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        ielas: types.Integer,
-        ipreg: types.Integer,
-        iexisa: types.Integer,
-        ichoic: types.Integer,
-        jcoul: types.Integer,
-        nexite: types.Integer,
-        npidk: types.Integer,
-        noact: types.Integer,
-        icem: types.Integer,
-        ilaq: types.Integer,
-        nevtype: types.Integer,
+        ielas: types.IntegerOrJump,
+        ipreg: types.IntegerOrJump,
+        iexisa: types.IntegerOrJump,
+        ichoic: types.IntegerOrJump,
+        jcoul: types.IntegerOrJump,
+        nexite: types.IntegerOrJump,
+        npidk: types.IntegerOrJump,
+        noact: types.IntegerOrJump,
+        icem: types.IntegerOrJump,
+        ilaq: types.IntegerOrJump,
+        nevtype: types.IntegerOrJump,
     ):
         """
         Initializes ``Lca``.
@@ -108,14 +108,14 @@ class Lca(DataOption_, keyword='lca'):
             ]
         )
 
-        self.ielas: typing.Final[types.Integer] = ielas
-        self.ipreg: typing.Final[types.Integer] = ipreg
-        self.iexisa: typing.Final[types.Integer] = iexisa
-        self.ichoic: typing.Final[types.Integer] = ichoic
-        self.jcoul: typing.Final[types.Integer] = jcoul
-        self.nexite: typing.Final[types.Integer] = nexite
-        self.npidk: typing.Final[types.Integer] = npidk
-        self.noact: typing.Final[types.Integer] = noact
-        self.icem: typing.Final[types.Integer] = icem
-        self.ilaq: typing.Final[types.Integer] = ilaq
-        self.nevtype: typing.Final[types.Integer] = nevtype
+        self.ielas: typing.Final[types.IntegerOrJump] = ielas
+        self.ipreg: typing.Final[types.IntegerOrJump] = ipreg
+        self.iexisa: typing.Final[types.IntegerOrJump] = iexisa
+        self.ichoic: typing.Final[types.IntegerOrJump] = ichoic
+        self.jcoul: typing.Final[types.IntegerOrJump] = jcoul
+        self.nexite: typing.Final[types.IntegerOrJump] = nexite
+        self.npidk: typing.Final[types.IntegerOrJump] = npidk
+        self.noact: typing.Final[types.IntegerOrJump] = noact
+        self.icem: typing.Final[types.IntegerOrJump] = icem
+        self.ilaq: typing.Final[types.IntegerOrJump] = ilaq
+        self.nevtype: typing.Final[types.IntegerOrJump] = nevtype

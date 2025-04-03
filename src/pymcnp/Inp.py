@@ -129,24 +129,33 @@ class Inp(_object.McnpFile_):
         for line in tokens[3].strip().split('\n'):
             try:
                 cells_comments.append(inp.Comment.from_mcnp(line))
+                break
             except errors.InpError:
-                cells.append(inp.Cell.from_mcnp(line))
+                pass
+
+            cells.append(inp.Cell.from_mcnp(line))
 
         surfaces = []
         surfaces_comments = []
         for line in tokens[4].strip().split('\n'):
             try:
                 surfaces_comments.append(inp.Comment.from_mcnp(line))
+                break
             except errors.InpError:
-                surfaces.append(inp.Surface.from_mcnp(line))
+                pass
+
+            surfaces.append(inp.Surface.from_mcnp(line))
 
         data = []
         data_comments = []
         for line in tokens[5].strip().split('\n'):
             try:
                 data_comments.append(inp.Comment.from_mcnp(line))
+                break
             except errors.InpError:
-                data.append(inp.Data.from_mcnp(line))
+                pass
+
+            data.append(inp.Data.from_mcnp(line))
 
         other = types.String.from_mcnp(tokens[6]) if tokens[6] else None
 

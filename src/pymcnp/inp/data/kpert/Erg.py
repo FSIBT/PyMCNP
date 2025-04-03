@@ -16,12 +16,12 @@ class Erg(KpertOption_, keyword='erg'):
     """
 
     _ATTRS = {
-        'energies': types.Tuple[types.Real],
+        'energies': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aerg((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aerg((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, energies: types.Tuple[types.Real]):
+    def __init__(self, energies: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Erg``.
 
@@ -41,4 +41,4 @@ class Erg(KpertOption_, keyword='erg'):
             ]
         )
 
-        self.energies: typing.Final[types.Tuple[types.Real]] = energies
+        self.energies: typing.Final[types.Tuple[types.RealOrJump]] = energies

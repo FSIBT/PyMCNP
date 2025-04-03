@@ -14,7 +14,7 @@ class Df_1Option_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'fac( {types.Integer._REGEX.pattern})|int( {types.String._REGEX.pattern})|iu( {types.Integer._REGEX.pattern})|ic( {types.Integer._REGEX.pattern})'
+        rf'fac( {types.IntegerOrJump._REGEX.pattern})|int( {types.String._REGEX.pattern})|iu( {types.IntegerOrJump._REGEX.pattern})|ic( {types.IntegerOrJump._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

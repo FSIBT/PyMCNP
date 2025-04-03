@@ -16,12 +16,12 @@ class Imesh(MeshOption_, keyword='imesh'):
     """
 
     _ATTRS = {
-        'vector': types.Tuple[types.Real],
+        'vector': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aimesh((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aimesh((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, vector: types.Tuple[types.Real]):
+    def __init__(self, vector: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Imesh``.
 
@@ -41,4 +41,4 @@ class Imesh(MeshOption_, keyword='imesh'):
             ]
         )
 
-        self.vector: typing.Final[types.Tuple[types.Real]] = vector
+        self.vector: typing.Final[types.Tuple[types.RealOrJump]] = vector

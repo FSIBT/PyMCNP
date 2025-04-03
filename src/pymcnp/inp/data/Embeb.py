@@ -17,12 +17,12 @@ class Embeb(DataOption_, keyword='embeb'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'bounds': types.Tuple[types.Real],
+        'bounds': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aembeb(\d+)((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aembeb(\d+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, bounds: types.Tuple[types.Real]):
+    def __init__(self, suffix: types.Integer, bounds: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Embeb``.
 
@@ -45,5 +45,5 @@ class Embeb(DataOption_, keyword='embeb'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds

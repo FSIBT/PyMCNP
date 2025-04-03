@@ -16,17 +16,23 @@ class Leb(DataOption_, keyword='leb'):
     """
 
     _ATTRS = {
-        'yzere': types.Real,
-        'bzere': types.Real,
-        'yzero': types.Real,
-        'bzero': types.Real,
+        'yzere': types.RealOrJump,
+        'bzere': types.RealOrJump,
+        'yzero': types.RealOrJump,
+        'bzero': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Aleb( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Aleb( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
-    def __init__(self, yzere: types.Real, bzere: types.Real, yzero: types.Real, bzero: types.Real):
+    def __init__(
+        self,
+        yzere: types.RealOrJump,
+        bzere: types.RealOrJump,
+        yzero: types.RealOrJump,
+        bzero: types.RealOrJump,
+    ):
         """
         Initializes ``Leb``.
 
@@ -58,7 +64,7 @@ class Leb(DataOption_, keyword='leb'):
             ]
         )
 
-        self.yzere: typing.Final[types.Real] = yzere
-        self.bzere: typing.Final[types.Real] = bzere
-        self.yzero: typing.Final[types.Real] = yzero
-        self.bzero: typing.Final[types.Real] = bzero
+        self.yzere: typing.Final[types.RealOrJump] = yzere
+        self.bzere: typing.Final[types.RealOrJump] = bzere
+        self.yzero: typing.Final[types.RealOrJump] = yzero
+        self.bzero: typing.Final[types.RealOrJump] = bzero

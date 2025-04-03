@@ -16,12 +16,12 @@ class Tme_0(SdefOption_, keyword='tme'):
     """
 
     _ATTRS = {
-        'time': types.Real,
+        'time': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Atme( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Atme( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, time: types.Real):
+    def __init__(self, time: types.RealOrJump):
         """
         Initializes ``Tme_0``.
 
@@ -41,4 +41,4 @@ class Tme_0(SdefOption_, keyword='tme'):
             ]
         )
 
-        self.time: typing.Final[types.Real] = time
+        self.time: typing.Final[types.RealOrJump] = time

@@ -16,16 +16,16 @@ class Axs(SdefOption_, keyword='axs'):
     """
 
     _ATTRS = {
-        'x': types.Real,
-        'y': types.Real,
-        'z': types.Real,
+        'x': types.RealOrJump,
+        'y': types.RealOrJump,
+        'z': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Aaxs( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Aaxs( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
-    def __init__(self, x: types.Real, y: types.Real, z: types.Real):
+    def __init__(self, x: types.RealOrJump, y: types.RealOrJump, z: types.RealOrJump):
         """
         Initializes ``Axs``.
 
@@ -53,6 +53,6 @@ class Axs(SdefOption_, keyword='axs'):
             ]
         )
 
-        self.x: typing.Final[types.Real] = x
-        self.y: typing.Final[types.Real] = y
-        self.z: typing.Final[types.Real] = z
+        self.x: typing.Final[types.RealOrJump] = x
+        self.y: typing.Final[types.RealOrJump] = y
+        self.z: typing.Final[types.RealOrJump] = z

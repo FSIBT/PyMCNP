@@ -16,12 +16,12 @@ class Tmesh(FmeshOption_, keyword='tmesh'):
     """
 
     _ATTRS = {
-        'time': types.Real,
+        'time': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Atmesh( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Atmesh( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, time: types.Real):
+    def __init__(self, time: types.RealOrJump):
         """
         Initializes ``Tmesh``.
 
@@ -41,4 +41,4 @@ class Tmesh(FmeshOption_, keyword='tmesh'):
             ]
         )
 
-        self.time: typing.Final[types.Real] = time
+        self.time: typing.Final[types.RealOrJump] = time

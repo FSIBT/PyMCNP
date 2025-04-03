@@ -16,12 +16,12 @@ class Noslnp(BlockOption_, keyword='noslnp'):
     """
 
     _ATTRS = {
-        'setting': types.Integer,
+        'setting': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Anoslnp( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Anoslnp( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.Integer):
+    def __init__(self, setting: types.IntegerOrJump):
         """
         Initializes ``Noslnp``.
 
@@ -41,4 +41,4 @@ class Noslnp(BlockOption_, keyword='noslnp'):
             ]
         )
 
-        self.setting: typing.Final[types.Integer] = setting
+        self.setting: typing.Final[types.IntegerOrJump] = setting

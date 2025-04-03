@@ -18,15 +18,18 @@ class Ds_0(DataOption_, keyword='ds'):
     _ATTRS = {
         'suffix': types.Integer,
         'option': types.String,
-        'js': types.Tuple[types.Real],
+        'js': types.Tuple[types.RealOrJump],
     }
 
     _REGEX = re.compile(
-        rf'\Ads(\d+)( {types.String._REGEX.pattern})?((?: {types.Real._REGEX.pattern})+?)\Z'
+        rf'\Ads(\d+)( [hls])?((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
     )
 
     def __init__(
-        self, suffix: types.Integer, js: types.Tuple[types.Real], option: types.String = None
+        self,
+        suffix: types.Integer,
+        js: types.Tuple[types.RealOrJump],
+        option: types.String = None,
     ):
         """
         Initializes ``Ds_0``.
@@ -54,6 +57,6 @@ class Ds_0(DataOption_, keyword='ds'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.option: typing.Final[types.String] = option
-        self.js: typing.Final[types.Tuple[types.Real]] = js
+        self.js: typing.Final[types.Tuple[types.RealOrJump]] = js

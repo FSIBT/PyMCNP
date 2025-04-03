@@ -17,35 +17,35 @@ class Phys_4(DataOption_, keyword='phys'):
 
     _ATTRS = {
         'designator': types.Designator,
-        'emax': types.Real,
-        'istrg': types.Integer,
-        'xmunum': types.Integer,
-        'xmugam': types.Real,
-        'i_mcs_model': types.Integer,
-        'i_int_model': types.Integer,
-        'i_els_model': types.Integer,
-        'efac': types.Real,
-        'ckvnum': types.Real,
-        'drp': types.Real,
+        'emax': types.RealOrJump,
+        'istrg': types.IntegerOrJump,
+        'xmunum': types.IntegerOrJump,
+        'xmugam': types.RealOrJump,
+        'i_mcs_model': types.IntegerOrJump,
+        'i_int_model': types.IntegerOrJump,
+        'i_els_model': types.IntegerOrJump,
+        'efac': types.RealOrJump,
+        'ckvnum': types.RealOrJump,
+        'drp': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Aphys:(\S+)( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Aphys:(\S+)( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
         designator: types.Designator,
-        emax: types.Real,
-        istrg: types.Integer,
-        xmunum: types.Integer,
-        xmugam: types.Real,
-        i_mcs_model: types.Integer,
-        i_int_model: types.Integer,
-        i_els_model: types.Integer,
-        efac: types.Real,
-        ckvnum: types.Real,
-        drp: types.Real,
+        emax: types.RealOrJump,
+        istrg: types.IntegerOrJump,
+        xmunum: types.IntegerOrJump,
+        xmugam: types.RealOrJump,
+        i_mcs_model: types.IntegerOrJump,
+        i_int_model: types.IntegerOrJump,
+        i_els_model: types.IntegerOrJump,
+        efac: types.RealOrJump,
+        ckvnum: types.RealOrJump,
+        drp: types.RealOrJump,
     ):
         """
         Initializes ``Phys_4``.
@@ -106,13 +106,13 @@ class Phys_4(DataOption_, keyword='phys'):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.emax: typing.Final[types.Real] = emax
-        self.istrg: typing.Final[types.Integer] = istrg
-        self.xmunum: typing.Final[types.Integer] = xmunum
-        self.xmugam: typing.Final[types.Real] = xmugam
-        self.i_mcs_model: typing.Final[types.Integer] = i_mcs_model
-        self.i_int_model: typing.Final[types.Integer] = i_int_model
-        self.i_els_model: typing.Final[types.Integer] = i_els_model
-        self.efac: typing.Final[types.Real] = efac
-        self.ckvnum: typing.Final[types.Real] = ckvnum
-        self.drp: typing.Final[types.Real] = drp
+        self.emax: typing.Final[types.RealOrJump] = emax
+        self.istrg: typing.Final[types.IntegerOrJump] = istrg
+        self.xmunum: typing.Final[types.IntegerOrJump] = xmunum
+        self.xmugam: typing.Final[types.RealOrJump] = xmugam
+        self.i_mcs_model: typing.Final[types.IntegerOrJump] = i_mcs_model
+        self.i_int_model: typing.Final[types.IntegerOrJump] = i_int_model
+        self.i_els_model: typing.Final[types.IntegerOrJump] = i_els_model
+        self.efac: typing.Final[types.RealOrJump] = efac
+        self.ckvnum: typing.Final[types.RealOrJump] = ckvnum
+        self.drp: typing.Final[types.RealOrJump] = drp

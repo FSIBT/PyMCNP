@@ -17,12 +17,12 @@ class Embdb(DataOption_, keyword='embdb'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'bounds': types.Tuple[types.Real],
+        'bounds': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aembdb(\d+)((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aembdb(\d+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, bounds: types.Tuple[types.Real]):
+    def __init__(self, suffix: types.Integer, bounds: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Embdb``.
 
@@ -45,5 +45,5 @@ class Embdb(DataOption_, keyword='embdb'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds

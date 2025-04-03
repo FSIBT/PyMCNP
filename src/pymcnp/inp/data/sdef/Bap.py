@@ -16,16 +16,16 @@ class Bap(SdefOption_, keyword='bap'):
     """
 
     _ATTRS = {
-        'ba1': types.Real,
-        'ba2': types.Real,
-        'u': types.Real,
+        'ba1': types.RealOrJump,
+        'ba2': types.RealOrJump,
+        'u': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Abap( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Abap( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
-    def __init__(self, ba1: types.Real, ba2: types.Real, u: types.Real):
+    def __init__(self, ba1: types.RealOrJump, ba2: types.RealOrJump, u: types.RealOrJump):
         """
         Initializes ``Bap``.
 
@@ -53,6 +53,6 @@ class Bap(SdefOption_, keyword='bap'):
             ]
         )
 
-        self.ba1: typing.Final[types.Real] = ba1
-        self.ba2: typing.Final[types.Real] = ba2
-        self.u: typing.Final[types.Real] = u
+        self.ba1: typing.Final[types.RealOrJump] = ba1
+        self.ba2: typing.Final[types.RealOrJump] = ba2
+        self.u: typing.Final[types.RealOrJump] = u

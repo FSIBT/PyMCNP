@@ -16,12 +16,12 @@ class Iso(KsenOption_, keyword='iso'):
     """
 
     _ATTRS = {
-        'zaids': types.Tuple[types.Real],
+        'zaids': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aiso((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aiso((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, zaids: types.Tuple[types.Real]):
+    def __init__(self, zaids: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Iso``.
 
@@ -41,4 +41,4 @@ class Iso(KsenOption_, keyword='iso'):
             ]
         )
 
-        self.zaids: typing.Final[types.Tuple[types.Real]] = zaids
+        self.zaids: typing.Final[types.Tuple[types.RealOrJump]] = zaids

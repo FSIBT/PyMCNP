@@ -16,12 +16,12 @@ class Sur(SdefOption_, keyword='sur'):
     """
 
     _ATTRS = {
-        'number': types.Integer,
+        'number': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Asur( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Asur( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, number: types.Integer):
+    def __init__(self, number: types.IntegerOrJump):
         """
         Initializes ``Sur``.
 
@@ -41,4 +41,4 @@ class Sur(SdefOption_, keyword='sur'):
             ]
         )
 
-        self.number: typing.Final[types.Integer] = number
+        self.number: typing.Final[types.IntegerOrJump] = number

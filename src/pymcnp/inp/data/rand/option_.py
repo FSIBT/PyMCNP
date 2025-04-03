@@ -14,7 +14,7 @@ class RandOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'stride( {types.Integer._REGEX.pattern})|seed( {types.Integer._REGEX.pattern})|hist( {types.Integer._REGEX.pattern})|gen( {types.Integer._REGEX.pattern})'
+        rf'stride( {types.IntegerOrJump._REGEX.pattern})|seed( {types.IntegerOrJump._REGEX.pattern})|hist( {types.IntegerOrJump._REGEX.pattern})|gen( {types.IntegerOrJump._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

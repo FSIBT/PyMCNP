@@ -17,95 +17,95 @@ class Tsplt(DataOption_, keyword='tsplt'):
 
     _ATTRS = {
         'designator': types.Designator,
-        'ratio_1': types.Real,
-        'time_1': types.Real,
-        'ratio_2': types.Real,
-        'time_2': types.Real,
-        'ratio_3': types.Real,
-        'time_3': types.Real,
-        'ratio_4': types.Real,
-        'time_4': types.Real,
-        'ratio_5': types.Real,
-        'time_5': types.Real,
-        'ratio_6': types.Real,
-        'time_6': types.Real,
-        'ratio_7': types.Real,
-        'time_7': types.Real,
-        'ratio_8': types.Real,
-        'time_8': types.Real,
-        'ratio_9': types.Real,
-        'time_9': types.Real,
-        'ratio_10': types.Real,
-        'time_10': types.Real,
-        'ratio_11': types.Real,
-        'time_11': types.Real,
-        'ratio_12': types.Real,
-        'time_12': types.Real,
-        'ratio_13': types.Real,
-        'time_13': types.Real,
-        'ratio_14': types.Real,
-        'time_14': types.Real,
-        'ratio_15': types.Real,
-        'time_15': types.Real,
-        'ratio_16': types.Real,
-        'time_16': types.Real,
-        'ratio_17': types.Real,
-        'time_17': types.Real,
-        'ratio_18': types.Real,
-        'time_18': types.Real,
-        'ratio_19': types.Real,
-        'time_19': types.Real,
-        'ratio_20': types.Real,
-        'time_20': types.Real,
+        'ratio_1': types.RealOrJump,
+        'time_1': types.RealOrJump,
+        'ratio_2': types.RealOrJump,
+        'time_2': types.RealOrJump,
+        'ratio_3': types.RealOrJump,
+        'time_3': types.RealOrJump,
+        'ratio_4': types.RealOrJump,
+        'time_4': types.RealOrJump,
+        'ratio_5': types.RealOrJump,
+        'time_5': types.RealOrJump,
+        'ratio_6': types.RealOrJump,
+        'time_6': types.RealOrJump,
+        'ratio_7': types.RealOrJump,
+        'time_7': types.RealOrJump,
+        'ratio_8': types.RealOrJump,
+        'time_8': types.RealOrJump,
+        'ratio_9': types.RealOrJump,
+        'time_9': types.RealOrJump,
+        'ratio_10': types.RealOrJump,
+        'time_10': types.RealOrJump,
+        'ratio_11': types.RealOrJump,
+        'time_11': types.RealOrJump,
+        'ratio_12': types.RealOrJump,
+        'time_12': types.RealOrJump,
+        'ratio_13': types.RealOrJump,
+        'time_13': types.RealOrJump,
+        'ratio_14': types.RealOrJump,
+        'time_14': types.RealOrJump,
+        'ratio_15': types.RealOrJump,
+        'time_15': types.RealOrJump,
+        'ratio_16': types.RealOrJump,
+        'time_16': types.RealOrJump,
+        'ratio_17': types.RealOrJump,
+        'time_17': types.RealOrJump,
+        'ratio_18': types.RealOrJump,
+        'time_18': types.RealOrJump,
+        'ratio_19': types.RealOrJump,
+        'time_19': types.RealOrJump,
+        'ratio_20': types.RealOrJump,
+        'time_20': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Atsplt:(\S+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Atsplt:(\S+)( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
         designator: types.Designator,
-        ratio_1: types.Real,
-        time_1: types.Real,
-        ratio_2: types.Real,
-        time_2: types.Real,
-        ratio_3: types.Real,
-        time_3: types.Real,
-        ratio_4: types.Real,
-        time_4: types.Real,
-        ratio_5: types.Real,
-        time_5: types.Real,
-        ratio_6: types.Real,
-        time_6: types.Real,
-        ratio_7: types.Real,
-        time_7: types.Real,
-        ratio_8: types.Real,
-        time_8: types.Real,
-        ratio_9: types.Real,
-        time_9: types.Real,
-        ratio_10: types.Real,
-        time_10: types.Real,
-        ratio_11: types.Real,
-        time_11: types.Real,
-        ratio_12: types.Real,
-        time_12: types.Real,
-        ratio_13: types.Real,
-        time_13: types.Real,
-        ratio_14: types.Real,
-        time_14: types.Real,
-        ratio_15: types.Real,
-        time_15: types.Real,
-        ratio_16: types.Real,
-        time_16: types.Real,
-        ratio_17: types.Real,
-        time_17: types.Real,
-        ratio_18: types.Real,
-        time_18: types.Real,
-        ratio_19: types.Real,
-        time_19: types.Real,
-        ratio_20: types.Real,
-        time_20: types.Real,
+        ratio_1: types.RealOrJump,
+        time_1: types.RealOrJump,
+        ratio_2: types.RealOrJump,
+        time_2: types.RealOrJump,
+        ratio_3: types.RealOrJump,
+        time_3: types.RealOrJump,
+        ratio_4: types.RealOrJump,
+        time_4: types.RealOrJump,
+        ratio_5: types.RealOrJump,
+        time_5: types.RealOrJump,
+        ratio_6: types.RealOrJump,
+        time_6: types.RealOrJump,
+        ratio_7: types.RealOrJump,
+        time_7: types.RealOrJump,
+        ratio_8: types.RealOrJump,
+        time_8: types.RealOrJump,
+        ratio_9: types.RealOrJump,
+        time_9: types.RealOrJump,
+        ratio_10: types.RealOrJump,
+        time_10: types.RealOrJump,
+        ratio_11: types.RealOrJump,
+        time_11: types.RealOrJump,
+        ratio_12: types.RealOrJump,
+        time_12: types.RealOrJump,
+        ratio_13: types.RealOrJump,
+        time_13: types.RealOrJump,
+        ratio_14: types.RealOrJump,
+        time_14: types.RealOrJump,
+        ratio_15: types.RealOrJump,
+        time_15: types.RealOrJump,
+        ratio_16: types.RealOrJump,
+        time_16: types.RealOrJump,
+        ratio_17: types.RealOrJump,
+        time_17: types.RealOrJump,
+        ratio_18: types.RealOrJump,
+        time_18: types.RealOrJump,
+        ratio_19: types.RealOrJump,
+        time_19: types.RealOrJump,
+        ratio_20: types.RealOrJump,
+        time_20: types.RealOrJump,
     ):
         """
         Initializes ``Tsplt``.
@@ -286,43 +286,43 @@ class Tsplt(DataOption_, keyword='tsplt'):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.ratio_1: typing.Final[types.Real] = ratio_1
-        self.time_1: typing.Final[types.Real] = time_1
-        self.ratio_2: typing.Final[types.Real] = ratio_2
-        self.time_2: typing.Final[types.Real] = time_2
-        self.ratio_3: typing.Final[types.Real] = ratio_3
-        self.time_3: typing.Final[types.Real] = time_3
-        self.ratio_4: typing.Final[types.Real] = ratio_4
-        self.time_4: typing.Final[types.Real] = time_4
-        self.ratio_5: typing.Final[types.Real] = ratio_5
-        self.time_5: typing.Final[types.Real] = time_5
-        self.ratio_6: typing.Final[types.Real] = ratio_6
-        self.time_6: typing.Final[types.Real] = time_6
-        self.ratio_7: typing.Final[types.Real] = ratio_7
-        self.time_7: typing.Final[types.Real] = time_7
-        self.ratio_8: typing.Final[types.Real] = ratio_8
-        self.time_8: typing.Final[types.Real] = time_8
-        self.ratio_9: typing.Final[types.Real] = ratio_9
-        self.time_9: typing.Final[types.Real] = time_9
-        self.ratio_10: typing.Final[types.Real] = ratio_10
-        self.time_10: typing.Final[types.Real] = time_10
-        self.ratio_11: typing.Final[types.Real] = ratio_11
-        self.time_11: typing.Final[types.Real] = time_11
-        self.ratio_12: typing.Final[types.Real] = ratio_12
-        self.time_12: typing.Final[types.Real] = time_12
-        self.ratio_13: typing.Final[types.Real] = ratio_13
-        self.time_13: typing.Final[types.Real] = time_13
-        self.ratio_14: typing.Final[types.Real] = ratio_14
-        self.time_14: typing.Final[types.Real] = time_14
-        self.ratio_15: typing.Final[types.Real] = ratio_15
-        self.time_15: typing.Final[types.Real] = time_15
-        self.ratio_16: typing.Final[types.Real] = ratio_16
-        self.time_16: typing.Final[types.Real] = time_16
-        self.ratio_17: typing.Final[types.Real] = ratio_17
-        self.time_17: typing.Final[types.Real] = time_17
-        self.ratio_18: typing.Final[types.Real] = ratio_18
-        self.time_18: typing.Final[types.Real] = time_18
-        self.ratio_19: typing.Final[types.Real] = ratio_19
-        self.time_19: typing.Final[types.Real] = time_19
-        self.ratio_20: typing.Final[types.Real] = ratio_20
-        self.time_20: typing.Final[types.Real] = time_20
+        self.ratio_1: typing.Final[types.RealOrJump] = ratio_1
+        self.time_1: typing.Final[types.RealOrJump] = time_1
+        self.ratio_2: typing.Final[types.RealOrJump] = ratio_2
+        self.time_2: typing.Final[types.RealOrJump] = time_2
+        self.ratio_3: typing.Final[types.RealOrJump] = ratio_3
+        self.time_3: typing.Final[types.RealOrJump] = time_3
+        self.ratio_4: typing.Final[types.RealOrJump] = ratio_4
+        self.time_4: typing.Final[types.RealOrJump] = time_4
+        self.ratio_5: typing.Final[types.RealOrJump] = ratio_5
+        self.time_5: typing.Final[types.RealOrJump] = time_5
+        self.ratio_6: typing.Final[types.RealOrJump] = ratio_6
+        self.time_6: typing.Final[types.RealOrJump] = time_6
+        self.ratio_7: typing.Final[types.RealOrJump] = ratio_7
+        self.time_7: typing.Final[types.RealOrJump] = time_7
+        self.ratio_8: typing.Final[types.RealOrJump] = ratio_8
+        self.time_8: typing.Final[types.RealOrJump] = time_8
+        self.ratio_9: typing.Final[types.RealOrJump] = ratio_9
+        self.time_9: typing.Final[types.RealOrJump] = time_9
+        self.ratio_10: typing.Final[types.RealOrJump] = ratio_10
+        self.time_10: typing.Final[types.RealOrJump] = time_10
+        self.ratio_11: typing.Final[types.RealOrJump] = ratio_11
+        self.time_11: typing.Final[types.RealOrJump] = time_11
+        self.ratio_12: typing.Final[types.RealOrJump] = ratio_12
+        self.time_12: typing.Final[types.RealOrJump] = time_12
+        self.ratio_13: typing.Final[types.RealOrJump] = ratio_13
+        self.time_13: typing.Final[types.RealOrJump] = time_13
+        self.ratio_14: typing.Final[types.RealOrJump] = ratio_14
+        self.time_14: typing.Final[types.RealOrJump] = time_14
+        self.ratio_15: typing.Final[types.RealOrJump] = ratio_15
+        self.time_15: typing.Final[types.RealOrJump] = time_15
+        self.ratio_16: typing.Final[types.RealOrJump] = ratio_16
+        self.time_16: typing.Final[types.RealOrJump] = time_16
+        self.ratio_17: typing.Final[types.RealOrJump] = ratio_17
+        self.time_17: typing.Final[types.RealOrJump] = time_17
+        self.ratio_18: typing.Final[types.RealOrJump] = ratio_18
+        self.time_18: typing.Final[types.RealOrJump] = time_18
+        self.ratio_19: typing.Final[types.RealOrJump] = ratio_19
+        self.time_19: typing.Final[types.RealOrJump] = time_19
+        self.ratio_20: typing.Final[types.RealOrJump] = ratio_20
+        self.time_20: typing.Final[types.RealOrJump] = time_20

@@ -16,12 +16,12 @@ class Rdum(DataOption_, keyword='rdum'):
     """
 
     _ATTRS = {
-        'floats': types.Tuple[types.Real],
+        'floats': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Ardum((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Ardum((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, floats: types.Tuple[types.Real]):
+    def __init__(self, floats: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Rdum``.
 
@@ -41,4 +41,4 @@ class Rdum(DataOption_, keyword='rdum'):
             ]
         )
 
-        self.floats: typing.Final[types.Tuple[types.Real]] = floats
+        self.floats: typing.Final[types.Tuple[types.RealOrJump]] = floats

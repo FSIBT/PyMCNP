@@ -16,24 +16,24 @@ class Prdmp(DataOption_, keyword='prdmp'):
     """
 
     _ATTRS = {
-        'ndp': types.Integer,
-        'ndm': types.Integer,
-        'mct': types.Integer,
-        'ndmp': types.Integer,
-        'dmmp': types.Integer,
+        'ndp': types.IntegerOrJump,
+        'ndm': types.IntegerOrJump,
+        'mct': types.IntegerOrJump,
+        'ndmp': types.IntegerOrJump,
+        'dmmp': types.IntegerOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Aprdmp( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Aprdmp( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        ndp: types.Integer,
-        ndm: types.Integer,
-        mct: types.Integer,
-        ndmp: types.Integer,
-        dmmp: types.Integer,
+        ndp: types.IntegerOrJump,
+        ndm: types.IntegerOrJump,
+        mct: types.IntegerOrJump,
+        ndmp: types.IntegerOrJump,
+        dmmp: types.IntegerOrJump,
     ):
         """
         Initializes ``Prdmp``.
@@ -70,8 +70,8 @@ class Prdmp(DataOption_, keyword='prdmp'):
             ]
         )
 
-        self.ndp: typing.Final[types.Integer] = ndp
-        self.ndm: typing.Final[types.Integer] = ndm
-        self.mct: typing.Final[types.Integer] = mct
-        self.ndmp: typing.Final[types.Integer] = ndmp
-        self.dmmp: typing.Final[types.Integer] = dmmp
+        self.ndp: typing.Final[types.IntegerOrJump] = ndp
+        self.ndm: typing.Final[types.IntegerOrJump] = ndm
+        self.mct: typing.Final[types.IntegerOrJump] = mct
+        self.ndmp: typing.Final[types.IntegerOrJump] = ndmp
+        self.dmmp: typing.Final[types.IntegerOrJump] = dmmp

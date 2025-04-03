@@ -16,12 +16,12 @@ class Unc(DataOption_, keyword='unc'):
     """
 
     _ATTRS = {
-        'settings': types.Tuple[types.Integer],
+        'settings': types.Tuple[types.IntegerOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aunc((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aunc((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, settings: types.Tuple[types.Integer]):
+    def __init__(self, settings: types.Tuple[types.IntegerOrJump]):
         """
         Initializes ``Unc``.
 
@@ -41,4 +41,4 @@ class Unc(DataOption_, keyword='unc'):
             ]
         )
 
-        self.settings: typing.Final[types.Tuple[types.Integer]] = settings
+        self.settings: typing.Final[types.Tuple[types.IntegerOrJump]] = settings

@@ -16,12 +16,12 @@ class Estep(MOption_, keyword='estep'):
     """
 
     _ATTRS = {
-        'step': types.Integer,
+        'step': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aestep( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aestep( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, step: types.Integer):
+    def __init__(self, step: types.IntegerOrJump):
         """
         Initializes ``Estep``.
 
@@ -41,4 +41,4 @@ class Estep(MOption_, keyword='estep'):
             ]
         )
 
-        self.step: typing.Final[types.Integer] = step
+        self.step: typing.Final[types.IntegerOrJump] = step

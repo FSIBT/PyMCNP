@@ -16,12 +16,12 @@ class Iu(Df_1Option_, keyword='iu'):
     """
 
     _ATTRS = {
-        'units': types.Integer,
+        'units': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aiu( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aiu( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, units: types.Integer):
+    def __init__(self, units: types.IntegerOrJump):
         """
         Initializes ``Iu``.
 
@@ -41,4 +41,4 @@ class Iu(Df_1Option_, keyword='iu'):
             ]
         )
 
-        self.units: typing.Final[types.Integer] = units
+        self.units: typing.Final[types.IntegerOrJump] = units

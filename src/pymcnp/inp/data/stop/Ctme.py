@@ -16,12 +16,12 @@ class Ctme(StopOption_, keyword='ctme'):
     """
 
     _ATTRS = {
-        'tme': types.Real,
+        'tme': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Actme( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Actme( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, tme: types.Real):
+    def __init__(self, tme: types.RealOrJump):
         """
         Initializes ``Ctme``.
 
@@ -41,4 +41,4 @@ class Ctme(StopOption_, keyword='ctme'):
             ]
         )
 
-        self.tme: typing.Final[types.Real] = tme
+        self.tme: typing.Final[types.RealOrJump] = tme

@@ -22,7 +22,9 @@ class F_1(DataOption_, keyword='f'):
         'nd': types.String,
     }
 
-    _REGEX = re.compile(rf'\Af(\d*[5]):(\S+)((?: {types.Sphere._REGEX.pattern})+?)( nd)?\Z')
+    _REGEX = re.compile(
+        rf'\Af(\d*[5]):(\S+)((?: {types.Sphere._REGEX.pattern})+?)( {types.String._REGEX.pattern})?\Z'
+    )
 
     def __init__(
         self,
@@ -58,7 +60,7 @@ class F_1(DataOption_, keyword='f'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.designator: typing.Final[types.Designator] = designator
         self.spheres: typing.Final[types.Tuple[types.Sphere]] = spheres
         self.nd: typing.Final[types.String] = nd

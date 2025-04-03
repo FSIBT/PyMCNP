@@ -16,42 +16,42 @@ class Phys_2(DataOption_, keyword='phys:e'):
     """
 
     _ATTRS = {
-        'emax': types.Real,
-        'ides': types.Integer,
-        'iphot': types.Integer,
-        'ibad': types.Integer,
-        'istrg': types.Integer,
-        'bnum': types.Real,
-        'xnum': types.Real,
-        'rnok': types.Integer,
-        'enum': types.Integer,
-        'numb': types.Integer,
-        'i_mcs_model': types.Integer,
-        'efac': types.Real,
-        'electron_method_boundary': types.Real,
-        'ckvnum': types.Real,
+        'emax': types.RealOrJump,
+        'ides': types.IntegerOrJump,
+        'iphot': types.IntegerOrJump,
+        'ibad': types.IntegerOrJump,
+        'istrg': types.IntegerOrJump,
+        'bnum': types.RealOrJump,
+        'xnum': types.RealOrJump,
+        'rnok': types.IntegerOrJump,
+        'enum': types.IntegerOrJump,
+        'numb': types.IntegerOrJump,
+        'i_mcs_model': types.IntegerOrJump,
+        'efac': types.RealOrJump,
+        'electron_method_boundary': types.RealOrJump,
+        'ckvnum': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Aphys:e( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Aphys:e( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        emax: types.Real,
-        ides: types.Integer,
-        iphot: types.Integer,
-        ibad: types.Integer,
-        istrg: types.Integer,
-        bnum: types.Real,
-        xnum: types.Real,
-        rnok: types.Integer,
-        enum: types.Integer,
-        numb: types.Integer,
-        i_mcs_model: types.Integer,
-        efac: types.Real,
-        electron_method_boundary: types.Real,
-        ckvnum: types.Real,
+        emax: types.RealOrJump,
+        ides: types.IntegerOrJump,
+        iphot: types.IntegerOrJump,
+        ibad: types.IntegerOrJump,
+        istrg: types.IntegerOrJump,
+        bnum: types.RealOrJump,
+        xnum: types.RealOrJump,
+        rnok: types.IntegerOrJump,
+        enum: types.IntegerOrJump,
+        numb: types.IntegerOrJump,
+        i_mcs_model: types.IntegerOrJump,
+        efac: types.RealOrJump,
+        electron_method_boundary: types.RealOrJump,
+        ckvnum: types.RealOrJump,
     ):
         """
         Initializes ``Phys_2``.
@@ -124,17 +124,17 @@ class Phys_2(DataOption_, keyword='phys:e'):
             ]
         )
 
-        self.emax: typing.Final[types.Real] = emax
-        self.ides: typing.Final[types.Integer] = ides
-        self.iphot: typing.Final[types.Integer] = iphot
-        self.ibad: typing.Final[types.Integer] = ibad
-        self.istrg: typing.Final[types.Integer] = istrg
-        self.bnum: typing.Final[types.Real] = bnum
-        self.xnum: typing.Final[types.Real] = xnum
-        self.rnok: typing.Final[types.Integer] = rnok
-        self.enum: typing.Final[types.Integer] = enum
-        self.numb: typing.Final[types.Integer] = numb
-        self.i_mcs_model: typing.Final[types.Integer] = i_mcs_model
-        self.efac: typing.Final[types.Real] = efac
-        self.electron_method_boundary: typing.Final[types.Real] = electron_method_boundary
-        self.ckvnum: typing.Final[types.Real] = ckvnum
+        self.emax: typing.Final[types.RealOrJump] = emax
+        self.ides: typing.Final[types.IntegerOrJump] = ides
+        self.iphot: typing.Final[types.IntegerOrJump] = iphot
+        self.ibad: typing.Final[types.IntegerOrJump] = ibad
+        self.istrg: typing.Final[types.IntegerOrJump] = istrg
+        self.bnum: typing.Final[types.RealOrJump] = bnum
+        self.xnum: typing.Final[types.RealOrJump] = xnum
+        self.rnok: typing.Final[types.IntegerOrJump] = rnok
+        self.enum: typing.Final[types.IntegerOrJump] = enum
+        self.numb: typing.Final[types.IntegerOrJump] = numb
+        self.i_mcs_model: typing.Final[types.IntegerOrJump] = i_mcs_model
+        self.efac: typing.Final[types.RealOrJump] = efac
+        self.electron_method_boundary: typing.Final[types.RealOrJump] = electron_method_boundary
+        self.ckvnum: typing.Final[types.RealOrJump] = ckvnum

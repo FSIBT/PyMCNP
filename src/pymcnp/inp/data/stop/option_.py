@@ -14,7 +14,7 @@ class StopOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'ctme( {types.Real._REGEX.pattern})|nps( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})?|fk(\d+)( {types.Integer._REGEX.pattern})'
+        rf'ctme( {types.RealOrJump._REGEX.pattern})|nps( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})?|fk(\d+)( {types.IntegerOrJump._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

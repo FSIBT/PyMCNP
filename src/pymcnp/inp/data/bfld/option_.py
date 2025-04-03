@@ -14,7 +14,7 @@ class BfldOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'maxdeflc( {types.Real._REGEX.pattern})|maxstep( {types.Real._REGEX.pattern})|ffedges((?: {types.Real._REGEX.pattern})+?)|refpnt((?: {types.Real._REGEX.pattern})+?)|field( {types.Real._REGEX.pattern})|vec((?: {types.Real._REGEX.pattern})+?)|axs((?: {types.Real._REGEX.pattern})+?)'
+        rf'maxdeflc( {types.RealOrJump._REGEX.pattern})|maxstep( {types.RealOrJump._REGEX.pattern})|ffedges((?: {types.RealOrJump._REGEX.pattern})+?)|refpnt((?: {types.RealOrJump._REGEX.pattern})+?)|field( {types.RealOrJump._REGEX.pattern})|vec((?: {types.RealOrJump._REGEX.pattern})+?)|axs((?: {types.RealOrJump._REGEX.pattern})+?)'
     )
 
     def __init_subclass__(cls, keyword: str):

@@ -16,12 +16,12 @@ class Ctme(DataOption_, keyword='ctme'):
     """
 
     _ATTRS = {
-        'tme': types.Integer,
+        'tme': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Actme( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Actme( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, tme: types.Integer):
+    def __init__(self, tme: types.IntegerOrJump):
         """
         Initializes ``Ctme``.
 
@@ -41,4 +41,4 @@ class Ctme(DataOption_, keyword='ctme'):
             ]
         )
 
-        self.tme: typing.Final[types.Integer] = tme
+        self.tme: typing.Final[types.IntegerOrJump] = tme

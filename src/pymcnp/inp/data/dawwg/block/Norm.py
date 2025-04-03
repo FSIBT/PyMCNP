@@ -16,12 +16,12 @@ class Norm(BlockOption_, keyword='norm'):
     """
 
     _ATTRS = {
-        'setting': types.Real,
+        'setting': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Anorm( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Anorm( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.Real):
+    def __init__(self, setting: types.RealOrJump):
         """
         Initializes ``Norm``.
 
@@ -41,4 +41,4 @@ class Norm(BlockOption_, keyword='norm'):
             ]
         )
 
-        self.setting: typing.Final[types.Real] = setting
+        self.setting: typing.Final[types.RealOrJump] = setting

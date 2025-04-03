@@ -16,22 +16,22 @@ class Cosyp(DataOption_, keyword='cosyp'):
     """
 
     _ATTRS = {
-        'prefix': types.Integer,
-        'axsh': types.Integer,
-        'axsv': types.Integer,
-        'emaps': types.Tuple[types.Real],
+        'prefix': types.IntegerOrJump,
+        'axsh': types.IntegerOrJump,
+        'axsv': types.IntegerOrJump,
+        'emaps': types.Tuple[types.RealOrJump],
     }
 
     _REGEX = re.compile(
-        rf'\Acosyp( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})((?: {types.Real._REGEX.pattern})+?)\Z'
+        rf'\Acosyp( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
     )
 
     def __init__(
         self,
-        prefix: types.Integer,
-        axsh: types.Integer,
-        axsv: types.Integer,
-        emaps: types.Tuple[types.Real],
+        prefix: types.IntegerOrJump,
+        axsh: types.IntegerOrJump,
+        axsv: types.IntegerOrJump,
+        emaps: types.Tuple[types.RealOrJump],
     ):
         """
         Initializes ``Cosyp``.
@@ -64,7 +64,7 @@ class Cosyp(DataOption_, keyword='cosyp'):
             ]
         )
 
-        self.prefix: typing.Final[types.Integer] = prefix
-        self.axsh: typing.Final[types.Integer] = axsh
-        self.axsv: typing.Final[types.Integer] = axsv
-        self.emaps: typing.Final[types.Tuple[types.Real]] = emaps
+        self.prefix: typing.Final[types.IntegerOrJump] = prefix
+        self.axsh: typing.Final[types.IntegerOrJump] = axsh
+        self.axsv: typing.Final[types.IntegerOrJump] = axsv
+        self.emaps: typing.Final[types.Tuple[types.RealOrJump]] = emaps

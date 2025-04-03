@@ -16,12 +16,12 @@ class Cos(KsenOption_, keyword='cos'):
     """
 
     _ATTRS = {
-        'cosines': types.Tuple[types.Real],
+        'cosines': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Acos((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Acos((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, cosines: types.Tuple[types.Real]):
+    def __init__(self, cosines: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Cos``.
 
@@ -41,4 +41,4 @@ class Cos(KsenOption_, keyword='cos'):
             ]
         )
 
-        self.cosines: typing.Final[types.Tuple[types.Real]] = cosines
+        self.cosines: typing.Final[types.Tuple[types.RealOrJump]] = cosines

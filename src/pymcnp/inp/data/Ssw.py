@@ -17,19 +17,19 @@ class Ssw(DataOption_, keyword='ssw'):
     """
 
     _ATTRS = {
-        'surfaces': types.Tuple[types.Integer],
-        'cells': types.Tuple[types.Integer],
+        'surfaces': types.Tuple[types.IntegerOrJump],
+        'cells': types.Tuple[types.IntegerOrJump],
         'options': types.Tuple[ssw.SswOption_],
     }
 
     _REGEX = re.compile(
-        rf'\Assw((?: {types.Integer._REGEX.pattern})+?)((?: {types.Integer._REGEX.pattern})+?)((?: (?:{ssw.SswOption_._REGEX.pattern}))+?)?\Z'
+        rf'\Assw((?: {types.IntegerOrJump._REGEX.pattern})+?)((?: {types.IntegerOrJump._REGEX.pattern})+?)((?: (?:{ssw.SswOption_._REGEX.pattern}))+?)?\Z'
     )
 
     def __init__(
         self,
-        surfaces: types.Tuple[types.Integer],
-        cells: types.Tuple[types.Integer],
+        surfaces: types.Tuple[types.IntegerOrJump],
+        cells: types.Tuple[types.IntegerOrJump],
         options: types.Tuple[ssw.SswOption_] = None,
     ):
         """
@@ -57,6 +57,6 @@ class Ssw(DataOption_, keyword='ssw'):
             ]
         )
 
-        self.surfaces: typing.Final[types.Tuple[types.Integer]] = surfaces
-        self.cells: typing.Final[types.Tuple[types.Integer]] = cells
+        self.surfaces: typing.Final[types.Tuple[types.IntegerOrJump]] = surfaces
+        self.cells: typing.Final[types.Tuple[types.IntegerOrJump]] = cells
         self.options: typing.Final[types.Tuple[ssw.SswOption_]] = options

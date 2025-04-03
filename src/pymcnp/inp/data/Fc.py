@@ -45,5 +45,5 @@ class Fc(DataOption_, keyword='fc'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.info: typing.Final[types.String] = info

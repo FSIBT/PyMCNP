@@ -16,12 +16,12 @@ class Cfrq(T_1Option_, keyword='cfrq'):
     """
 
     _ATTRS = {
-        'frequency': types.Real,
+        'frequency': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Acfrq( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Acfrq( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, frequency: types.Real):
+    def __init__(self, frequency: types.RealOrJump):
         """
         Initializes ``Cfrq``.
 
@@ -41,4 +41,4 @@ class Cfrq(T_1Option_, keyword='cfrq'):
             ]
         )
 
-        self.frequency: typing.Final[types.Real] = frequency
+        self.frequency: typing.Final[types.RealOrJump] = frequency

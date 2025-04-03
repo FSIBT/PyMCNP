@@ -18,17 +18,19 @@ class F_3(DataOption_, keyword='f'):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'problems': types.Tuple[types.Integer],
+        'problems': types.Tuple[types.IntegerOrJump],
         't': types.String,
     }
 
-    _REGEX = re.compile(rf'\Af(\d*[8]):(\S+)((?: {types.Integer._REGEX.pattern})+?)( t)?\Z')
+    _REGEX = re.compile(
+        rf'\Af(\d*[8]):(\S+)((?: {types.IntegerOrJump._REGEX.pattern})+?)( {types.String._REGEX.pattern})?\Z'
+    )
 
     def __init__(
         self,
         suffix: types.Integer,
         designator: types.Designator,
-        problems: types.Tuple[types.Integer],
+        problems: types.Tuple[types.IntegerOrJump],
         t: types.String = None,
     ):
         """
@@ -58,7 +60,7 @@ class F_3(DataOption_, keyword='f'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.designator: typing.Final[types.Designator] = designator
-        self.problems: typing.Final[types.Tuple[types.Integer]] = problems
+        self.problems: typing.Final[types.Tuple[types.IntegerOrJump]] = problems
         self.t: typing.Final[types.String] = t

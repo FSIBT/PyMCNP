@@ -14,7 +14,7 @@ class KsenOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'constrain( {types.String._REGEX.pattern})|legendre( {types.Integer._REGEX.pattern})|iso((?: {types.Real._REGEX.pattern})+?)|rxn((?: {types.Integer._REGEX.pattern})+?)|erg((?: {types.Real._REGEX.pattern})+?)|ein((?: {types.Real._REGEX.pattern})+?)|cos((?: {types.Real._REGEX.pattern})+?)|mt((?: {types.Integer._REGEX.pattern})+?)'
+        rf'constrain( {types.String._REGEX.pattern})|legendre( {types.IntegerOrJump._REGEX.pattern})|iso((?: {types.RealOrJump._REGEX.pattern})+?)|rxn((?: {types.IntegerOrJump._REGEX.pattern})+?)|erg((?: {types.RealOrJump._REGEX.pattern})+?)|ein((?: {types.RealOrJump._REGEX.pattern})+?)|cos((?: {types.RealOrJump._REGEX.pattern})+?)|mt((?: {types.IntegerOrJump._REGEX.pattern})+?)'
     )
 
     def __init_subclass__(cls, keyword: str):

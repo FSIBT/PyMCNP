@@ -18,13 +18,18 @@ class De(DataOption_, keyword='de'):
     _ATTRS = {
         'suffix': types.Integer,
         'method': types.String,
-        'values': types.Tuple[types.Real],
+        'values': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Ade(\d+)( (?:log|lin))?((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(
+        rf'\Ade(\d+)( (?:log|lin))?((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
+    )
 
     def __init__(
-        self, suffix: types.Integer, values: types.Tuple[types.Real], method: types.String = None
+        self,
+        suffix: types.Integer,
+        values: types.Tuple[types.RealOrJump],
+        method: types.String = None,
     ):
         """
         Initializes ``De``.
@@ -52,6 +57,6 @@ class De(DataOption_, keyword='de'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.method: typing.Final[types.String] = method
-        self.values: typing.Final[types.Tuple[types.Real]] = values
+        self.values: typing.Final[types.Tuple[types.RealOrJump]] = values

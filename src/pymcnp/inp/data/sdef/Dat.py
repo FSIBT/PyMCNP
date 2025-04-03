@@ -16,16 +16,18 @@ class Dat(SdefOption_, keyword='dat'):
     """
 
     _ATTRS = {
-        'month': types.Integer,
-        'day': types.Integer,
-        'year': types.Integer,
+        'month': types.IntegerOrJump,
+        'day': types.IntegerOrJump,
+        'year': types.IntegerOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Adat( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Adat( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
     )
 
-    def __init__(self, month: types.Integer, day: types.Integer, year: types.Integer):
+    def __init__(
+        self, month: types.IntegerOrJump, day: types.IntegerOrJump, year: types.IntegerOrJump
+    ):
         """
         Initializes ``Dat``.
 
@@ -53,6 +55,6 @@ class Dat(SdefOption_, keyword='dat'):
             ]
         )
 
-        self.month: typing.Final[types.Integer] = month
-        self.day: typing.Final[types.Integer] = day
-        self.year: typing.Final[types.Integer] = year
+        self.month: typing.Final[types.IntegerOrJump] = month
+        self.day: typing.Final[types.IntegerOrJump] = day
+        self.year: typing.Final[types.IntegerOrJump] = year

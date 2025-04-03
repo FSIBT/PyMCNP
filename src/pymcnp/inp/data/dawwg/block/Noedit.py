@@ -16,12 +16,12 @@ class Noedit(BlockOption_, keyword='noedit'):
     """
 
     _ATTRS = {
-        'setting': types.Integer,
+        'setting': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Anoedit( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Anoedit( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.Integer):
+    def __init__(self, setting: types.IntegerOrJump):
         """
         Initializes ``Noedit``.
 
@@ -41,4 +41,4 @@ class Noedit(BlockOption_, keyword='noedit'):
             ]
         )
 
-        self.setting: typing.Final[types.Integer] = setting
+        self.setting: typing.Final[types.IntegerOrJump] = setting

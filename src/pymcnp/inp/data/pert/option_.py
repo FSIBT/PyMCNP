@@ -14,7 +14,7 @@ class PertOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'method( {types.Integer._REGEX.pattern})|cell((?: {types.Integer._REGEX.pattern})+?)|mat( {types.Integer._REGEX.pattern})|rho( {types.Real._REGEX.pattern})|erg( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})|rxn((?: {types.Integer._REGEX.pattern})+?)'
+        rf'method( {types.IntegerOrJump._REGEX.pattern})|cell((?: {types.IntegerOrJump._REGEX.pattern})+?)|mat( {types.IntegerOrJump._REGEX.pattern})|rho( {types.RealOrJump._REGEX.pattern})|erg( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})|rxn((?: {types.IntegerOrJump._REGEX.pattern})+?)'
     )
 
     def __init_subclass__(cls, keyword: str):

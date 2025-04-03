@@ -17,12 +17,12 @@ class Embem(DataOption_, keyword='embem'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'multipliers': types.Tuple[types.Real],
+        'multipliers': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aembem(\d+)((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aembem(\d+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, multipliers: types.Tuple[types.Real]):
+    def __init__(self, suffix: types.Integer, multipliers: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Embem``.
 
@@ -45,5 +45,5 @@ class Embem(DataOption_, keyword='embem'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.multipliers: typing.Final[types.Tuple[types.Real]] = multipliers
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.multipliers: typing.Final[types.Tuple[types.RealOrJump]] = multipliers
