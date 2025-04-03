@@ -27,13 +27,13 @@ class Dxt(DataOption_, keyword='dxt'):
         'spheres_8': types.Shell,
         'spheres_9': types.Shell,
         'spheres_10': types.Shell,
-        'cutoff_1': types.Real,
-        'cutoff_2': types.Real,
-        'weight': types.Real,
+        'cutoff_1': types.RealOrJump,
+        'cutoff_2': types.RealOrJump,
+        'weight': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Adxt:(\S+)( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Adxt:(\S+)( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
@@ -49,9 +49,9 @@ class Dxt(DataOption_, keyword='dxt'):
         spheres_8: types.Shell,
         spheres_9: types.Shell,
         spheres_10: types.Shell,
-        cutoff_1: types.Real,
-        cutoff_2: types.Real,
-        weight: types.Real,
+        cutoff_1: types.RealOrJump,
+        cutoff_2: types.RealOrJump,
+        weight: types.RealOrJump,
     ):
         """
         Initializes ``Dxt``.
@@ -134,6 +134,6 @@ class Dxt(DataOption_, keyword='dxt'):
         self.spheres_8: typing.Final[types.Shell] = spheres_8
         self.spheres_9: typing.Final[types.Shell] = spheres_9
         self.spheres_10: typing.Final[types.Shell] = spheres_10
-        self.cutoff_1: typing.Final[types.Real] = cutoff_1
-        self.cutoff_2: typing.Final[types.Real] = cutoff_2
-        self.weight: typing.Final[types.Real] = weight
+        self.cutoff_1: typing.Final[types.RealOrJump] = cutoff_1
+        self.cutoff_2: typing.Final[types.RealOrJump] = cutoff_2
+        self.weight: typing.Final[types.RealOrJump] = weight

@@ -16,12 +16,12 @@ class Dir(SdefOption_, keyword='dir'):
     """
 
     _ATTRS = {
-        'cosine': types.Real,
+        'cosine': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Adir( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Adir( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, cosine: types.Real):
+    def __init__(self, cosine: types.RealOrJump):
         """
         Initializes ``Dir``.
 
@@ -41,4 +41,4 @@ class Dir(SdefOption_, keyword='dir'):
             ]
         )
 
-        self.cosine: typing.Final[types.Real] = cosine
+        self.cosine: typing.Final[types.RealOrJump] = cosine

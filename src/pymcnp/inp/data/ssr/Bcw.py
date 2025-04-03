@@ -16,16 +16,16 @@ class Bcw(SsrOption_, keyword='bcw'):
     """
 
     _ATTRS = {
-        'radius': types.Real,
-        'zb': types.Real,
-        'ze': types.Real,
+        'radius': types.RealOrJump,
+        'zb': types.RealOrJump,
+        'ze': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Abcw( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Abcw( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
-    def __init__(self, radius: types.Real, zb: types.Real, ze: types.Real):
+    def __init__(self, radius: types.RealOrJump, zb: types.RealOrJump, ze: types.RealOrJump):
         """
         Initializes ``Bcw``.
 
@@ -53,6 +53,6 @@ class Bcw(SsrOption_, keyword='bcw'):
             ]
         )
 
-        self.radius: typing.Final[types.Real] = radius
-        self.zb: typing.Final[types.Real] = zb
-        self.ze: typing.Final[types.Real] = ze
+        self.radius: typing.Final[types.RealOrJump] = radius
+        self.zb: typing.Final[types.RealOrJump] = zb
+        self.ze: typing.Final[types.RealOrJump] = ze

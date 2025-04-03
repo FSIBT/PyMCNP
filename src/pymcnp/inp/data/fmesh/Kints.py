@@ -16,12 +16,12 @@ class Kints(FmeshOption_, keyword='kints'):
     """
 
     _ATTRS = {
-        'count': types.Integer,
+        'count': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Akints( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Akints( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, count: types.Integer):
+    def __init__(self, count: types.IntegerOrJump):
         """
         Initializes ``Kints``.
 
@@ -41,4 +41,4 @@ class Kints(FmeshOption_, keyword='kints'):
             ]
         )
 
-        self.count: typing.Final[types.Integer] = count
+        self.count: typing.Final[types.IntegerOrJump] = count

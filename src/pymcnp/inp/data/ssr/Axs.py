@@ -16,12 +16,12 @@ class Axs(SsrOption_, keyword='axs'):
     """
 
     _ATTRS = {
-        'cosines': types.Tuple[types.Real],
+        'cosines': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aaxs((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aaxs((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, cosines: types.Tuple[types.Real]):
+    def __init__(self, cosines: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Axs``.
 
@@ -41,4 +41,4 @@ class Axs(SsrOption_, keyword='axs'):
             ]
         )
 
-        self.cosines: typing.Final[types.Tuple[types.Real]] = cosines
+        self.cosines: typing.Final[types.Tuple[types.RealOrJump]] = cosines

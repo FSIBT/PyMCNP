@@ -16,12 +16,12 @@ class Blocksize(KoptsOption_, keyword='blocksize'):
     """
 
     _ATTRS = {
-        'ncy': types.Integer,
+        'ncy': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Ablocksize( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ablocksize( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, ncy: types.Integer):
+    def __init__(self, ncy: types.IntegerOrJump):
         """
         Initializes ``Blocksize``.
 
@@ -41,4 +41,4 @@ class Blocksize(KoptsOption_, keyword='blocksize'):
             ]
         )
 
-        self.ncy: typing.Final[types.Integer] = ncy
+        self.ncy: typing.Final[types.IntegerOrJump] = ncy

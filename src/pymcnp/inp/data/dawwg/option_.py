@@ -15,7 +15,7 @@ class DawwgOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'points( {types.String._REGEX.pattern})|block( {types.Integer._REGEX.pattern})((?: (?:{block.BlockOption_._REGEX.pattern}))+?)?|xsec( {types.Integer._REGEX.pattern})'
+        rf'points( {types.String._REGEX.pattern})|block( {types.IntegerOrJump._REGEX.pattern})((?: (?:{block.BlockOption_._REGEX.pattern}))+?)?|xsec( {types.IntegerOrJump._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

@@ -16,12 +16,12 @@ class Mt(KsenOption_, keyword='mt'):
     """
 
     _ATTRS = {
-        'numbers': types.Tuple[types.Integer],
+        'numbers': types.Tuple[types.IntegerOrJump],
     }
 
-    _REGEX = re.compile(rf'\Amt((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Amt((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, numbers: types.Tuple[types.Integer]):
+    def __init__(self, numbers: types.Tuple[types.IntegerOrJump]):
         """
         Initializes ``Mt``.
 
@@ -41,4 +41,4 @@ class Mt(KsenOption_, keyword='mt'):
             ]
         )
 
-        self.numbers: typing.Final[types.Tuple[types.Integer]] = numbers
+        self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers

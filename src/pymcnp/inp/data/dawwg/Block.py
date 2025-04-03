@@ -17,15 +17,17 @@ class Block(DawwgOption_, keyword='block'):
     """
 
     _ATTRS = {
-        'setting': types.Integer,
+        'setting': types.IntegerOrJump,
         'options': types.Tuple[block.BlockOption_],
     }
 
     _REGEX = re.compile(
-        rf'\Ablock( {types.Integer._REGEX.pattern})((?: (?:{block.BlockOption_._REGEX.pattern}))+?)?\Z'
+        rf'\Ablock( {types.IntegerOrJump._REGEX.pattern})((?: (?:{block.BlockOption_._REGEX.pattern}))+?)?\Z'
     )
 
-    def __init__(self, setting: types.Integer, options: types.Tuple[block.BlockOption_] = None):
+    def __init__(
+        self, setting: types.IntegerOrJump, options: types.Tuple[block.BlockOption_] = None
+    ):
         """
         Initializes ``Block``.
 
@@ -47,5 +49,5 @@ class Block(DawwgOption_, keyword='block'):
             ]
         )
 
-        self.setting: typing.Final[types.Integer] = setting
+        self.setting: typing.Final[types.IntegerOrJump] = setting
         self.options: typing.Final[types.Tuple[block.BlockOption_]] = options

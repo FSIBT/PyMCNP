@@ -16,12 +16,12 @@ class Fmatnx(KoptsOption_, keyword='fmatnx'):
     """
 
     _ATTRS = {
-        'fmat_nx': types.Real,
+        'fmat_nx': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Afmatnx( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afmatnx( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, fmat_nx: types.Real):
+    def __init__(self, fmat_nx: types.RealOrJump):
         """
         Initializes ``Fmatnx``.
 
@@ -41,4 +41,4 @@ class Fmatnx(KoptsOption_, keyword='fmatnx'):
             ]
         )
 
-        self.fmat_nx: typing.Final[types.Real] = fmat_nx
+        self.fmat_nx: typing.Final[types.RealOrJump] = fmat_nx

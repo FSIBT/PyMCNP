@@ -16,26 +16,26 @@ class Phys_1(DataOption_, keyword='phys:p'):
     """
 
     _ATTRS = {
-        'emcpf': types.Real,
-        'ides': types.Integer,
-        'nocoh': types.Integer,
-        'ispn': types.Integer,
-        'nodop': types.Integer,
-        'fism': types.Integer,
+        'emcpf': types.RealOrJump,
+        'ides': types.IntegerOrJump,
+        'nocoh': types.IntegerOrJump,
+        'ispn': types.IntegerOrJump,
+        'nodop': types.IntegerOrJump,
+        'fism': types.IntegerOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Aphys:p( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Aphys:p( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        emcpf: types.Real,
-        ides: types.Integer,
-        nocoh: types.Integer,
-        ispn: types.Integer,
-        nodop: types.Integer,
-        fism: types.Integer,
+        emcpf: types.RealOrJump,
+        ides: types.IntegerOrJump,
+        nocoh: types.IntegerOrJump,
+        ispn: types.IntegerOrJump,
+        nodop: types.IntegerOrJump,
+        fism: types.IntegerOrJump,
     ):
         """
         Initializes ``Phys_1``.
@@ -76,9 +76,9 @@ class Phys_1(DataOption_, keyword='phys:p'):
             ]
         )
 
-        self.emcpf: typing.Final[types.Real] = emcpf
-        self.ides: typing.Final[types.Integer] = ides
-        self.nocoh: typing.Final[types.Integer] = nocoh
-        self.ispn: typing.Final[types.Integer] = ispn
-        self.nodop: typing.Final[types.Integer] = nodop
-        self.fism: typing.Final[types.Integer] = fism
+        self.emcpf: typing.Final[types.RealOrJump] = emcpf
+        self.ides: typing.Final[types.IntegerOrJump] = ides
+        self.nocoh: typing.Final[types.IntegerOrJump] = nocoh
+        self.ispn: typing.Final[types.IntegerOrJump] = ispn
+        self.nodop: typing.Final[types.IntegerOrJump] = nodop
+        self.fism: typing.Final[types.IntegerOrJump] = fism

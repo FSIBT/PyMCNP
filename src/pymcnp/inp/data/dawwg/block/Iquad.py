@@ -16,12 +16,12 @@ class Iquad(BlockOption_, keyword='iquad'):
     """
 
     _ATTRS = {
-        'setting': types.Integer,
+        'setting': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aiquad( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aiquad( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.Integer):
+    def __init__(self, setting: types.IntegerOrJump):
         """
         Initializes ``Iquad``.
 
@@ -41,4 +41,4 @@ class Iquad(BlockOption_, keyword='iquad'):
             ]
         )
 
-        self.setting: typing.Final[types.Integer] = setting
+        self.setting: typing.Final[types.IntegerOrJump] = setting

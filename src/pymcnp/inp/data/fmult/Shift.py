@@ -16,12 +16,12 @@ class Shift(FmultOption_, keyword='shift'):
     """
 
     _ATTRS = {
-        'setting': types.Integer,
+        'setting': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Ashift( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ashift( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.Integer):
+    def __init__(self, setting: types.IntegerOrJump):
         """
         Initializes ``Shift``.
 
@@ -41,4 +41,4 @@ class Shift(FmultOption_, keyword='shift'):
             ]
         )
 
-        self.setting: typing.Final[types.Integer] = setting
+        self.setting: typing.Final[types.IntegerOrJump] = setting

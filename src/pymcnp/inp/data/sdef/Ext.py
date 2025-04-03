@@ -16,12 +16,12 @@ class Ext(SdefOption_, keyword='ext'):
     """
 
     _ATTRS = {
-        'distance_cosine': types.Real,
+        'distance_cosine': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aext( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aext( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, distance_cosine: types.Real):
+    def __init__(self, distance_cosine: types.RealOrJump):
         """
         Initializes ``Ext``.
 
@@ -41,4 +41,4 @@ class Ext(SdefOption_, keyword='ext'):
             ]
         )
 
-        self.distance_cosine: typing.Final[types.Real] = distance_cosine
+        self.distance_cosine: typing.Final[types.RealOrJump] = distance_cosine

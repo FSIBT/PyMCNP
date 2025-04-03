@@ -55,6 +55,11 @@ class Option_(_object.McnpElement_):
             else:
                 attrs[name] = attr.from_mcnp(tokens[i + 1]) if tokens[i + 1] else None
 
+        # print(attrs)
+        # print(tokens.groups())
+        # print(source)
+        # print(subcls._REGEX.pattern)
+
         return subcls(**attrs)
 
     def to_mcnp(self):

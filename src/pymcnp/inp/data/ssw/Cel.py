@@ -16,12 +16,12 @@ class Cel(SswOption_, keyword='cel'):
     """
 
     _ATTRS = {
-        'cfs': types.Tuple[types.Integer],
+        'cfs': types.Tuple[types.IntegerOrJump],
     }
 
-    _REGEX = re.compile(rf'\Acel((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Acel((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, cfs: types.Tuple[types.Integer]):
+    def __init__(self, cfs: types.Tuple[types.IntegerOrJump]):
         """
         Initializes ``Cel``.
 
@@ -41,4 +41,4 @@ class Cel(SswOption_, keyword='cel'):
             ]
         )
 
-        self.cfs: typing.Final[types.Tuple[types.Integer]] = cfs
+        self.cfs: typing.Final[types.Tuple[types.IntegerOrJump]] = cfs

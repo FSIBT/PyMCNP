@@ -16,12 +16,12 @@ class Fac(Df_1Option_, keyword='fac'):
     """
 
     _ATTRS = {
-        'normalization': types.Integer,
+        'normalization': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Afac( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afac( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, normalization: types.Integer):
+    def __init__(self, normalization: types.IntegerOrJump):
         """
         Initializes ``Fac``.
 
@@ -41,4 +41,4 @@ class Fac(Df_1Option_, keyword='fac'):
             ]
         )
 
-        self.normalization: typing.Final[types.Integer] = normalization
+        self.normalization: typing.Final[types.IntegerOrJump] = normalization

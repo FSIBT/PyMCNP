@@ -16,12 +16,12 @@ class Ffedges(BfldOption_, keyword='ffedges'):
     """
 
     _ATTRS = {
-        'numbers': types.Tuple[types.Real],
+        'numbers': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Affedges((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Affedges((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, numbers: types.Tuple[types.Real]):
+    def __init__(self, numbers: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Ffedges``.
 
@@ -41,4 +41,4 @@ class Ffedges(BfldOption_, keyword='ffedges'):
             ]
         )
 
-        self.numbers: typing.Final[types.Tuple[types.Real]] = numbers
+        self.numbers: typing.Final[types.Tuple[types.RealOrJump]] = numbers

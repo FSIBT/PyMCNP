@@ -18,13 +18,18 @@ class Sb_0(DataOption_, keyword='sb'):
     _ATTRS = {
         'suffix': types.Integer,
         'option': types.String,
-        'biases': types.Tuple[types.Real],
+        'biases': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Asb(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(
+        rf'\Asb(\d+)( [dcvw])?((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
+    )
 
     def __init__(
-        self, suffix: types.Integer, biases: types.Tuple[types.Real], option: types.String = None
+        self,
+        suffix: types.Integer,
+        biases: types.Tuple[types.RealOrJump],
+        option: types.String = None,
     ):
         """
         Initializes ``Sb_0``.
@@ -52,6 +57,6 @@ class Sb_0(DataOption_, keyword='sb'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.option: typing.Final[types.String] = option
-        self.biases: typing.Final[types.Tuple[types.Real]] = biases
+        self.biases: typing.Final[types.Tuple[types.RealOrJump]] = biases

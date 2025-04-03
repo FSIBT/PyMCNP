@@ -16,12 +16,12 @@ class Kmesh(FmeshOption_, keyword='kmesh'):
     """
 
     _ATTRS = {
-        'locations': types.Real,
+        'locations': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Akmesh( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Akmesh( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, locations: types.Real):
+    def __init__(self, locations: types.RealOrJump):
         """
         Initializes ``Kmesh``.
 
@@ -41,4 +41,4 @@ class Kmesh(FmeshOption_, keyword='kmesh'):
             ]
         )
 
-        self.locations: typing.Final[types.Real] = locations
+        self.locations: typing.Final[types.RealOrJump] = locations

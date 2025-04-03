@@ -16,16 +16,16 @@ class Bem(SdefOption_, keyword='bem'):
     """
 
     _ATTRS = {
-        'exn': types.Real,
-        'eyn': types.Real,
-        'bml': types.Real,
+        'exn': types.RealOrJump,
+        'eyn': types.RealOrJump,
+        'bml': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Abem( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Abem( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
-    def __init__(self, exn: types.Real, eyn: types.Real, bml: types.Real):
+    def __init__(self, exn: types.RealOrJump, eyn: types.RealOrJump, bml: types.RealOrJump):
         """
         Initializes ``Bem``.
 
@@ -53,6 +53,6 @@ class Bem(SdefOption_, keyword='bem'):
             ]
         )
 
-        self.exn: typing.Final[types.Real] = exn
-        self.eyn: typing.Final[types.Real] = eyn
-        self.bml: typing.Final[types.Real] = bml
+        self.exn: typing.Final[types.RealOrJump] = exn
+        self.eyn: typing.Final[types.RealOrJump] = eyn
+        self.bml: typing.Final[types.RealOrJump] = bml

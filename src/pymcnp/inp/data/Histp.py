@@ -15,15 +15,17 @@ class Histp(DataOption_, keyword='histp'):
     """
 
     _ATTRS = {
-        'lhist': types.Integer,
-        'cells': types.Tuple[types.Integer],
+        'lhist': types.IntegerOrJump,
+        'cells': types.Tuple[types.IntegerOrJump],
     }
 
     _REGEX = re.compile(
-        rf'\Ahistp( {types.Integer._REGEX.pattern})?((?: {types.Integer._REGEX.pattern})+?)?\Z'
+        rf'\Ahistp( {types.IntegerOrJump._REGEX.pattern})?((?: {types.IntegerOrJump._REGEX.pattern})+?)?\Z'
     )
 
-    def __init__(self, lhist: types.Integer = None, cells: types.Tuple[types.Integer] = None):
+    def __init__(
+        self, lhist: types.IntegerOrJump = None, cells: types.Tuple[types.IntegerOrJump] = None
+    ):
         """
         Initializes ``Histp``.
 
@@ -42,5 +44,5 @@ class Histp(DataOption_, keyword='histp'):
             ]
         )
 
-        self.lhist: typing.Final[types.Integer] = lhist
-        self.cells: typing.Final[types.Tuple[types.Integer]] = cells
+        self.lhist: typing.Final[types.IntegerOrJump] = lhist
+        self.cells: typing.Final[types.Tuple[types.IntegerOrJump]] = cells

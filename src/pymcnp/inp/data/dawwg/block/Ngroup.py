@@ -16,12 +16,12 @@ class Ngroup(BlockOption_, keyword='ngroup'):
     """
 
     _ATTRS = {
-        'value': types.Integer,
+        'value': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Angroup( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Angroup( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, value: types.Integer):
+    def __init__(self, value: types.IntegerOrJump):
         """
         Initializes ``Ngroup``.
 
@@ -41,4 +41,4 @@ class Ngroup(BlockOption_, keyword='ngroup'):
             ]
         )
 
-        self.value: typing.Final[types.Integer] = value
+        self.value: typing.Final[types.IntegerOrJump] = value

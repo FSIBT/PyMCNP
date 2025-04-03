@@ -16,12 +16,12 @@ class Coni(T_1Option_, keyword='coni'):
     """
 
     _ATTRS = {
-        'time': types.Real,
+        'time': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aconi( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aconi( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, time: types.Real):
+    def __init__(self, time: types.RealOrJump):
         """
         Initializes ``Coni``.
 
@@ -41,4 +41,4 @@ class Coni(T_1Option_, keyword='coni'):
             ]
         )
 
-        self.time: typing.Final[types.Real] = time
+        self.time: typing.Final[types.RealOrJump] = time

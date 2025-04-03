@@ -16,13 +16,15 @@ class Inc(FmeshOption_, keyword='inc'):
     """
 
     _ATTRS = {
-        'lower': types.Real,
-        'upper': types.Real,
+        'lower': types.RealOrJump,
+        'upper': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Ainc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?\Z')
+    _REGEX = re.compile(
+        rf'\Ainc( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})?\Z'
+    )
 
-    def __init__(self, lower: types.Real, upper: types.Real = None):
+    def __init__(self, lower: types.RealOrJump, upper: types.RealOrJump = None):
         """
         Initializes ``Inc``.
 
@@ -44,5 +46,5 @@ class Inc(FmeshOption_, keyword='inc'):
             ]
         )
 
-        self.lower: typing.Final[types.Real] = lower
-        self.upper: typing.Final[types.Real] = upper
+        self.lower: typing.Final[types.RealOrJump] = lower
+        self.upper: typing.Final[types.RealOrJump] = upper

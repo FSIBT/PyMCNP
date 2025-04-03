@@ -16,13 +16,13 @@ class Fk(StopOption_, keyword='fk'):
     """
 
     _ATTRS = {
-        'e': types.Integer,
+        'e': types.IntegerOrJump,
         'suffix': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Afk(\d+)( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afk(\d+)( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, e: types.Integer, suffix: types.Integer):
+    def __init__(self, e: types.IntegerOrJump, suffix: types.Integer):
         """
         Initializes ``Fk``.
 
@@ -45,5 +45,5 @@ class Fk(StopOption_, keyword='fk'):
             ]
         )
 
-        self.e: typing.Final[types.Integer] = e
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.e: typing.Final[types.IntegerOrJump] = e
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix

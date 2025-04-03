@@ -14,7 +14,7 @@ class T_1Option_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'cbeg( {types.Real._REGEX.pattern})|cfrq( {types.Real._REGEX.pattern})|cofi( {types.Real._REGEX.pattern})|coni( {types.Real._REGEX.pattern})|csub( {types.Integer._REGEX.pattern})|cend( {types.Real._REGEX.pattern})'
+        rf'cbeg( {types.RealOrJump._REGEX.pattern})|cfrq( {types.RealOrJump._REGEX.pattern})|cofi( {types.RealOrJump._REGEX.pattern})|coni( {types.RealOrJump._REGEX.pattern})|csub( {types.IntegerOrJump._REGEX.pattern})|cend( {types.RealOrJump._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

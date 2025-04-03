@@ -16,12 +16,12 @@ class Cend(T_1Option_, keyword='cend'):
     """
 
     _ATTRS = {
-        'time': types.Real,
+        'time': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Acend( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Acend( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, time: types.Real):
+    def __init__(self, time: types.RealOrJump):
         """
         Initializes ``Cend``.
 
@@ -41,4 +41,4 @@ class Cend(T_1Option_, keyword='cend'):
             ]
         )
 
-        self.time: typing.Final[types.Real] = time
+        self.time: typing.Final[types.RealOrJump] = time

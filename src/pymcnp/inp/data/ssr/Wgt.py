@@ -16,12 +16,12 @@ class Wgt(SsrOption_, keyword='wgt'):
     """
 
     _ATTRS = {
-        'constant': types.Real,
+        'constant': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Awgt( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Awgt( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, constant: types.Real):
+    def __init__(self, constant: types.RealOrJump):
         """
         Initializes ``Wgt``.
 
@@ -41,4 +41,4 @@ class Wgt(SsrOption_, keyword='wgt'):
             ]
         )
 
-        self.constant: typing.Final[types.Real] = constant
+        self.constant: typing.Final[types.RealOrJump] = constant

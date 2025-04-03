@@ -16,12 +16,12 @@ class Psc(SsrOption_, keyword='psc'):
     """
 
     _ATTRS = {
-        'constant': types.Real,
+        'constant': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Apsc( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Apsc( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, constant: types.Real):
+    def __init__(self, constant: types.RealOrJump):
         """
         Initializes ``Psc``.
 
@@ -41,4 +41,4 @@ class Psc(SsrOption_, keyword='psc'):
             ]
         )
 
-        self.constant: typing.Final[types.Real] = constant
+        self.constant: typing.Final[types.RealOrJump] = constant

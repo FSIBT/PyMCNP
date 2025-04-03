@@ -16,15 +16,15 @@ class Lost(DataOption_, keyword='lost'):
     """
 
     _ATTRS = {
-        'lost1': types.Integer,
-        'lost2': types.Integer,
+        'lost1': types.IntegerOrJump,
+        'lost2': types.IntegerOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Alost( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Alost( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
     )
 
-    def __init__(self, lost1: types.Integer, lost2: types.Integer):
+    def __init__(self, lost1: types.IntegerOrJump, lost2: types.IntegerOrJump):
         """
         Initializes ``Lost``.
 
@@ -48,5 +48,5 @@ class Lost(DataOption_, keyword='lost'):
             ]
         )
 
-        self.lost1: typing.Final[types.Integer] = lost1
-        self.lost2: typing.Final[types.Integer] = lost2
+        self.lost1: typing.Final[types.IntegerOrJump] = lost1
+        self.lost2: typing.Final[types.IntegerOrJump] = lost2

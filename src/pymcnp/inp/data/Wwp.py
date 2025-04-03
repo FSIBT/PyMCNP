@@ -17,35 +17,35 @@ class Wwp(DataOption_, keyword='wwp'):
 
     _ATTRS = {
         'designator': types.Designator,
-        'wupn': types.Real,
-        'wsurvn': types.Real,
-        'mxspln': types.Real,
-        'mwhere': types.Integer,
-        'switchn': types.Real,
-        'mtime': types.Integer,
-        'wnrom': types.Real,
-        'etsplt': types.Integer,
-        'wu': types.Real,
-        'nmfp': types.Real,
+        'wupn': types.RealOrJump,
+        'wsurvn': types.RealOrJump,
+        'mxspln': types.RealOrJump,
+        'mwhere': types.IntegerOrJump,
+        'switchn': types.RealOrJump,
+        'mtime': types.IntegerOrJump,
+        'wnrom': types.RealOrJump,
+        'etsplt': types.IntegerOrJump,
+        'wu': types.RealOrJump,
+        'nmfp': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Awwp:(\S+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Awwp:(\S+)( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
         designator: types.Designator,
-        wupn: types.Real,
-        wsurvn: types.Real,
-        mxspln: types.Real,
-        mwhere: types.Integer,
-        switchn: types.Real,
-        mtime: types.Integer,
-        wnrom: types.Real,
-        etsplt: types.Integer,
-        wu: types.Real,
-        nmfp: types.Real,
+        wupn: types.RealOrJump,
+        wsurvn: types.RealOrJump,
+        mxspln: types.RealOrJump,
+        mwhere: types.IntegerOrJump,
+        switchn: types.RealOrJump,
+        mtime: types.IntegerOrJump,
+        wnrom: types.RealOrJump,
+        etsplt: types.IntegerOrJump,
+        wu: types.RealOrJump,
+        nmfp: types.RealOrJump,
     ):
         """
         Initializes ``Wwp``.
@@ -106,13 +106,13 @@ class Wwp(DataOption_, keyword='wwp'):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.wupn: typing.Final[types.Real] = wupn
-        self.wsurvn: typing.Final[types.Real] = wsurvn
-        self.mxspln: typing.Final[types.Real] = mxspln
-        self.mwhere: typing.Final[types.Integer] = mwhere
-        self.switchn: typing.Final[types.Real] = switchn
-        self.mtime: typing.Final[types.Integer] = mtime
-        self.wnrom: typing.Final[types.Real] = wnrom
-        self.etsplt: typing.Final[types.Integer] = etsplt
-        self.wu: typing.Final[types.Real] = wu
-        self.nmfp: typing.Final[types.Real] = nmfp
+        self.wupn: typing.Final[types.RealOrJump] = wupn
+        self.wsurvn: typing.Final[types.RealOrJump] = wsurvn
+        self.mxspln: typing.Final[types.RealOrJump] = mxspln
+        self.mwhere: typing.Final[types.IntegerOrJump] = mwhere
+        self.switchn: typing.Final[types.RealOrJump] = switchn
+        self.mtime: typing.Final[types.IntegerOrJump] = mtime
+        self.wnrom: typing.Final[types.RealOrJump] = wnrom
+        self.etsplt: typing.Final[types.IntegerOrJump] = etsplt
+        self.wu: typing.Final[types.RealOrJump] = wu
+        self.nmfp: typing.Final[types.RealOrJump] = nmfp

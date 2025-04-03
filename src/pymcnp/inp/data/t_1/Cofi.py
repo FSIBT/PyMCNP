@@ -16,12 +16,12 @@ class Cofi(T_1Option_, keyword='cofi'):
     """
 
     _ATTRS = {
-        'time': types.Real,
+        'time': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Acofi( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Acofi( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, time: types.Real):
+    def __init__(self, time: types.RealOrJump):
         """
         Initializes ``Cofi``.
 
@@ -41,4 +41,4 @@ class Cofi(T_1Option_, keyword='cofi'):
             ]
         )
 
-        self.time: typing.Final[types.Real] = time
+        self.time: typing.Final[types.RealOrJump] = time

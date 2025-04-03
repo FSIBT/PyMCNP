@@ -16,12 +16,12 @@ class Dnbais(ActOption_, keyword='dnbais'):
     """
 
     _ATTRS = {
-        'count': types.Integer,
+        'count': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Adnbais( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Adnbais( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, count: types.Integer):
+    def __init__(self, count: types.IntegerOrJump):
         """
         Initializes ``Dnbais``.
 
@@ -41,4 +41,4 @@ class Dnbais(ActOption_, keyword='dnbais'):
             ]
         )
 
-        self.count: typing.Final[types.Integer] = count
+        self.count: typing.Final[types.IntegerOrJump] = count

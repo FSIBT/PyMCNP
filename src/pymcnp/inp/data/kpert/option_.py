@@ -14,7 +14,7 @@ class KpertOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'linear( {types.String._REGEX.pattern})|cell((?: {types.Integer._REGEX.pattern})+?)|mat((?: {types.Integer._REGEX.pattern})+?)|rho((?: {types.Zaid._REGEX.pattern})+?)|iso((?: {types.Real._REGEX.pattern})+?)|rxn((?: {types.Integer._REGEX.pattern})+?)|erg((?: {types.Real._REGEX.pattern})+?)'
+        rf'linear( {types.String._REGEX.pattern})|cell((?: {types.IntegerOrJump._REGEX.pattern})+?)|mat((?: {types.IntegerOrJump._REGEX.pattern})+?)|rho((?: {types.Zaid._REGEX.pattern})+?)|iso((?: {types.RealOrJump._REGEX.pattern})+?)|rxn((?: {types.IntegerOrJump._REGEX.pattern})+?)|erg((?: {types.RealOrJump._REGEX.pattern})+?)'
     )
 
     def __init_subclass__(cls, keyword: str):

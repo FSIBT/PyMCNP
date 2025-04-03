@@ -16,12 +16,12 @@ class Thtme(DataOption_, keyword='thtme'):
     """
 
     _ATTRS = {
-        'times': types.Tuple[types.Real],
+        'times': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Athtme((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Athtme((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, times: types.Tuple[types.Real]):
+    def __init__(self, times: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Thtme``.
 
@@ -41,4 +41,4 @@ class Thtme(DataOption_, keyword='thtme'):
             ]
         )
 
-        self.times: typing.Final[types.Tuple[types.Real]] = times
+        self.times: typing.Final[types.Tuple[types.RealOrJump]] = times

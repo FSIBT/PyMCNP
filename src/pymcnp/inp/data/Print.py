@@ -16,12 +16,12 @@ class Print(DataOption_, keyword='print'):
     """
 
     _ATTRS = {
-        'tables': types.Tuple[types.Integer],
+        'tables': types.Tuple[types.IntegerOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aprint((?: {types.Integer._REGEX.pattern})+?)?\Z')
+    _REGEX = re.compile(rf'\Aprint((?: {types.IntegerOrJump._REGEX.pattern})+?)?\Z')
 
-    def __init__(self, tables: types.Tuple[types.Integer] = None):
+    def __init__(self, tables: types.Tuple[types.IntegerOrJump] = None):
         """
         Initializes ``Print``.
 
@@ -142,4 +142,4 @@ class Print(DataOption_, keyword='print'):
             ]
         )
 
-        self.tables: typing.Final[types.Tuple[types.Integer]] = tables
+        self.tables: typing.Final[types.Tuple[types.IntegerOrJump]] = tables

@@ -16,12 +16,12 @@ class Kmesh(MeshOption_, keyword='kmesh'):
     """
 
     _ATTRS = {
-        'vector': types.Tuple[types.Real],
+        'vector': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Akmesh((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Akmesh((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, vector: types.Tuple[types.Real]):
+    def __init__(self, vector: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Kmesh``.
 
@@ -41,4 +41,4 @@ class Kmesh(MeshOption_, keyword='kmesh'):
             ]
         )
 
-        self.vector: typing.Final[types.Tuple[types.Real]] = vector
+        self.vector: typing.Final[types.Tuple[types.RealOrJump]] = vector

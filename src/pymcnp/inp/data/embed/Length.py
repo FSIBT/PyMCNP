@@ -16,12 +16,12 @@ class Length(EmbedOption_, keyword='length'):
     """
 
     _ATTRS = {
-        'factor': types.Real,
+        'factor': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Alength( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Alength( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, factor: types.Real):
+    def __init__(self, factor: types.RealOrJump):
         """
         Initializes ``Length``.
 
@@ -41,4 +41,4 @@ class Length(EmbedOption_, keyword='length'):
             ]
         )
 
-        self.factor: typing.Final[types.Real] = factor
+        self.factor: typing.Final[types.RealOrJump] = factor

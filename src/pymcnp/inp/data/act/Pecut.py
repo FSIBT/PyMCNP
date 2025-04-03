@@ -16,12 +16,12 @@ class Pecut(ActOption_, keyword='pecut'):
     """
 
     _ATTRS = {
-        'cutoff': types.Real,
+        'cutoff': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Apecut( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Apecut( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, cutoff: types.Real):
+    def __init__(self, cutoff: types.RealOrJump):
         """
         Initializes ``Pecut``.
 
@@ -41,4 +41,4 @@ class Pecut(ActOption_, keyword='pecut'):
             ]
         )
 
-        self.cutoff: typing.Final[types.Real] = cutoff
+        self.cutoff: typing.Final[types.RealOrJump] = cutoff

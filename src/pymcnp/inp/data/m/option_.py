@@ -14,7 +14,7 @@ class MOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'estep( {types.Integer._REGEX.pattern})|hstep( {types.Integer._REGEX.pattern})|pnlib( {types.String._REGEX.pattern})|nlib( {types.String._REGEX.pattern})|plib( {types.String._REGEX.pattern})|elib( {types.String._REGEX.pattern})|hlib( {types.String._REGEX.pattern})|alib( {types.String._REGEX.pattern})|slib( {types.String._REGEX.pattern})|tlib( {types.String._REGEX.pattern})|dlib( {types.String._REGEX.pattern})|cond( {types.Real._REGEX.pattern})|refi( {types.Real._REGEX.pattern})|refc((?: {types.Real._REGEX.pattern})+?)|refs((?: {types.Real._REGEX.pattern})+?)|gas( {types.String._REGEX.pattern})'
+        rf'estep( {types.IntegerOrJump._REGEX.pattern})|hstep( {types.IntegerOrJump._REGEX.pattern})|pnlib( {types.String._REGEX.pattern})|nlib( {types.String._REGEX.pattern})|plib( {types.String._REGEX.pattern})|elib( {types.String._REGEX.pattern})|hlib( {types.String._REGEX.pattern})|alib( {types.String._REGEX.pattern})|slib( {types.String._REGEX.pattern})|tlib( {types.String._REGEX.pattern})|dlib( {types.String._REGEX.pattern})|cond( {types.RealOrJump._REGEX.pattern})|refi( {types.RealOrJump._REGEX.pattern})|refc((?: {types.RealOrJump._REGEX.pattern})+?)|refs((?: {types.RealOrJump._REGEX.pattern})+?)|gas( {types.String._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

@@ -16,12 +16,12 @@ class Poa(SsrOption_, keyword='poa'):
     """
 
     _ATTRS = {
-        'angle': types.Real,
+        'angle': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Apoa( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Apoa( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, angle: types.Real):
+    def __init__(self, angle: types.RealOrJump):
         """
         Initializes ``Poa``.
 
@@ -41,4 +41,4 @@ class Poa(SsrOption_, keyword='poa'):
             ]
         )
 
-        self.angle: typing.Final[types.Real] = angle
+        self.angle: typing.Final[types.RealOrJump] = angle

@@ -45,5 +45,5 @@ class Mt(DataOption_, keyword='mt'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.identifier: typing.Final[types.String] = identifier

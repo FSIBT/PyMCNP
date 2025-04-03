@@ -17,27 +17,27 @@ class Mgopt(DataOption_, keyword='mgopt'):
 
     _ATTRS = {
         'mcal': types.String,
-        'igm': types.Integer,
-        'iplt': types.Integer,
-        'iab': types.Integer,
-        'icw': types.Integer,
-        'fnw': types.Real,
-        'rim': types.Real,
+        'igm': types.IntegerOrJump,
+        'iplt': types.IntegerOrJump,
+        'iab': types.IntegerOrJump,
+        'icw': types.IntegerOrJump,
+        'fnw': types.RealOrJump,
+        'rim': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Amgopt( {types.String._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Amgopt( {types.String._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
         mcal: types.String,
-        igm: types.Integer,
-        iplt: types.Integer,
-        iab: types.Integer,
-        icw: types.Integer,
-        fnw: types.Real,
-        rim: types.Real,
+        igm: types.IntegerOrJump,
+        iplt: types.IntegerOrJump,
+        iab: types.IntegerOrJump,
+        icw: types.IntegerOrJump,
+        fnw: types.RealOrJump,
+        rim: types.RealOrJump,
     ):
         """
         Initializes ``Mgopt``.
@@ -83,9 +83,9 @@ class Mgopt(DataOption_, keyword='mgopt'):
         )
 
         self.mcal: typing.Final[types.String] = mcal
-        self.igm: typing.Final[types.Integer] = igm
-        self.iplt: typing.Final[types.Integer] = iplt
-        self.iab: typing.Final[types.Integer] = iab
-        self.icw: typing.Final[types.Integer] = icw
-        self.fnw: typing.Final[types.Real] = fnw
-        self.rim: typing.Final[types.Real] = rim
+        self.igm: typing.Final[types.IntegerOrJump] = igm
+        self.iplt: typing.Final[types.IntegerOrJump] = iplt
+        self.iab: typing.Final[types.IntegerOrJump] = iab
+        self.icw: typing.Final[types.IntegerOrJump] = icw
+        self.fnw: typing.Final[types.RealOrJump] = fnw
+        self.rim: typing.Final[types.RealOrJump] = rim

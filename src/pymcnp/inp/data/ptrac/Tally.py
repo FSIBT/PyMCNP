@@ -16,12 +16,12 @@ class Tally(PtracOption_, keyword='tally'):
     """
 
     _ATTRS = {
-        'numbers': types.Tuple[types.Integer],
+        'numbers': types.Tuple[types.IntegerOrJump],
     }
 
-    _REGEX = re.compile(rf'\Atally((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Atally((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, numbers: types.Tuple[types.Integer]):
+    def __init__(self, numbers: types.Tuple[types.IntegerOrJump]):
         """
         Initializes ``Tally``.
 
@@ -41,4 +41,4 @@ class Tally(PtracOption_, keyword='tally'):
             ]
         )
 
-        self.numbers: typing.Final[types.Tuple[types.Integer]] = numbers
+        self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers

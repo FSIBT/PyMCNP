@@ -16,12 +16,12 @@ class Refi(MOption_, keyword='refi'):
     """
 
     _ATTRS = {
-        'refractive_index': types.Real,
+        'refractive_index': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Arefi( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Arefi( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, refractive_index: types.Real):
+    def __init__(self, refractive_index: types.RealOrJump):
         """
         Initializes ``Refi``.
 
@@ -41,4 +41,4 @@ class Refi(MOption_, keyword='refi'):
             ]
         )
 
-        self.refractive_index: typing.Final[types.Real] = refractive_index
+        self.refractive_index: typing.Final[types.RealOrJump] = refractive_index

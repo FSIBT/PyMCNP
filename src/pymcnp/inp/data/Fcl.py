@@ -17,12 +17,12 @@ class Fcl(DataOption_, keyword='fcl'):
 
     _ATTRS = {
         'designator': types.Designator,
-        'control': types.Tuple[types.Real],
+        'control': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Afcl:(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Afcl:(\S+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, designator: types.Designator, control: types.Tuple[types.Real]):
+    def __init__(self, designator: types.Designator, control: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Fcl``.
 
@@ -46,4 +46,4 @@ class Fcl(DataOption_, keyword='fcl'):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.control: typing.Final[types.Tuple[types.Real]] = control
+        self.control: typing.Final[types.Tuple[types.RealOrJump]] = control

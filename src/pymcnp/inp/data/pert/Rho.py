@@ -16,12 +16,12 @@ class Rho(PertOption_, keyword='rho'):
     """
 
     _ATTRS = {
-        'density': types.Real,
+        'density': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Arho( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Arho( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, density: types.Real):
+    def __init__(self, density: types.RealOrJump):
         """
         Initializes ``Rho``.
 
@@ -41,4 +41,4 @@ class Rho(PertOption_, keyword='rho'):
             ]
         )
 
-        self.density: typing.Final[types.Real] = density
+        self.density: typing.Final[types.RealOrJump] = density

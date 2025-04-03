@@ -16,12 +16,12 @@ class Ic(Df_1Option_, keyword='ic'):
     """
 
     _ATTRS = {
-        'function': types.Integer,
+        'function': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aic( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aic( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, function: types.Integer):
+    def __init__(self, function: types.IntegerOrJump):
         """
         Initializes ``Ic``.
 
@@ -41,4 +41,4 @@ class Ic(Df_1Option_, keyword='ic'):
             ]
         )
 
-        self.function: typing.Final[types.Integer] = function
+        self.function: typing.Final[types.IntegerOrJump] = function

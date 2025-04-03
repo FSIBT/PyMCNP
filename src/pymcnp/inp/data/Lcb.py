@@ -16,30 +16,30 @@ class Lcb(DataOption_, keyword='lcb'):
     """
 
     _ATTRS = {
-        'flenb1': types.Real,
-        'flenb2': types.Real,
-        'flenb3': types.Real,
-        'flenb4': types.Real,
-        'flenb5': types.Real,
-        'flenb6': types.Real,
-        'cotfe': types.Real,
-        'film0': types.Real,
+        'flenb1': types.RealOrJump,
+        'flenb2': types.RealOrJump,
+        'flenb3': types.RealOrJump,
+        'flenb4': types.RealOrJump,
+        'flenb5': types.RealOrJump,
+        'flenb6': types.RealOrJump,
+        'cotfe': types.RealOrJump,
+        'film0': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Alcb( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Alcb( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        flenb1: types.Real,
-        flenb2: types.Real,
-        flenb3: types.Real,
-        flenb4: types.Real,
-        flenb5: types.Real,
-        flenb6: types.Real,
-        cotfe: types.Real,
-        film0: types.Real,
+        flenb1: types.RealOrJump,
+        flenb2: types.RealOrJump,
+        flenb3: types.RealOrJump,
+        flenb4: types.RealOrJump,
+        flenb5: types.RealOrJump,
+        flenb6: types.RealOrJump,
+        cotfe: types.RealOrJump,
+        film0: types.RealOrJump,
     ):
         """
         Initializes ``Lcb``.
@@ -88,11 +88,11 @@ class Lcb(DataOption_, keyword='lcb'):
             ]
         )
 
-        self.flenb1: typing.Final[types.Real] = flenb1
-        self.flenb2: typing.Final[types.Real] = flenb2
-        self.flenb3: typing.Final[types.Real] = flenb3
-        self.flenb4: typing.Final[types.Real] = flenb4
-        self.flenb5: typing.Final[types.Real] = flenb5
-        self.flenb6: typing.Final[types.Real] = flenb6
-        self.cotfe: typing.Final[types.Real] = cotfe
-        self.film0: typing.Final[types.Real] = film0
+        self.flenb1: typing.Final[types.RealOrJump] = flenb1
+        self.flenb2: typing.Final[types.RealOrJump] = flenb2
+        self.flenb3: typing.Final[types.RealOrJump] = flenb3
+        self.flenb4: typing.Final[types.RealOrJump] = flenb4
+        self.flenb5: typing.Final[types.RealOrJump] = flenb5
+        self.flenb6: typing.Final[types.RealOrJump] = flenb6
+        self.cotfe: typing.Final[types.RealOrJump] = cotfe
+        self.film0: typing.Final[types.RealOrJump] = film0

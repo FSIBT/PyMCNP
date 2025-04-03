@@ -16,12 +16,12 @@ class Angp(BlockOption_, keyword='angp'):
     """
 
     _ATTRS = {
-        'setting': types.Integer,
+        'setting': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aangp( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aangp( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.Integer):
+    def __init__(self, setting: types.IntegerOrJump):
         """
         Initializes ``Angp``.
 
@@ -41,4 +41,4 @@ class Angp(BlockOption_, keyword='angp'):
             ]
         )
 
-        self.setting: typing.Final[types.Integer] = setting
+        self.setting: typing.Final[types.IntegerOrJump] = setting

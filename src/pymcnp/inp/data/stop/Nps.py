@@ -16,15 +16,15 @@ class Nps(StopOption_, keyword='nps'):
     """
 
     _ATTRS = {
-        'npp': types.Integer,
-        'npsmg': types.Integer,
+        'npp': types.IntegerOrJump,
+        'npsmg': types.IntegerOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Anps( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})?\Z'
+        rf'\Anps( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})?\Z'
     )
 
-    def __init__(self, npp: types.Integer, npsmg: types.Integer = None):
+    def __init__(self, npp: types.IntegerOrJump, npsmg: types.IntegerOrJump = None):
         """
         Initializes ``Nps``.
 
@@ -46,5 +46,5 @@ class Nps(StopOption_, keyword='nps'):
             ]
         )
 
-        self.npp: typing.Final[types.Integer] = npp
-        self.npsmg: typing.Final[types.Integer] = npsmg
+        self.npp: typing.Final[types.IntegerOrJump] = npp
+        self.npsmg: typing.Final[types.IntegerOrJump] = npsmg

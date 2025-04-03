@@ -16,13 +16,15 @@ class Watt(FmultOption_, keyword='watt'):
     """
 
     _ATTRS = {
-        'a': types.Real,
-        'b': types.Real,
+        'a': types.RealOrJump,
+        'b': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Awatt( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(
+        rf'\Awatt( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
+    )
 
-    def __init__(self, a: types.Real, b: types.Real):
+    def __init__(self, a: types.RealOrJump, b: types.RealOrJump):
         """
         Initializes ``Watt``.
 
@@ -46,5 +48,5 @@ class Watt(FmultOption_, keyword='watt'):
             ]
         )
 
-        self.a: typing.Final[types.Real] = a
-        self.b: typing.Final[types.Real] = b
+        self.a: typing.Final[types.RealOrJump] = a
+        self.b: typing.Final[types.RealOrJump] = b

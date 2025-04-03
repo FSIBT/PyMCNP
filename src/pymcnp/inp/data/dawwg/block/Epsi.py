@@ -16,12 +16,12 @@ class Epsi(BlockOption_, keyword='epsi'):
     """
 
     _ATTRS = {
-        'setting': types.Real,
+        'setting': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aepsi( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aepsi( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.Real):
+    def __init__(self, setting: types.RealOrJump):
         """
         Initializes ``Epsi``.
 
@@ -41,4 +41,4 @@ class Epsi(BlockOption_, keyword='epsi'):
             ]
         )
 
-        self.setting: typing.Final[types.Real] = setting
+        self.setting: typing.Final[types.RealOrJump] = setting

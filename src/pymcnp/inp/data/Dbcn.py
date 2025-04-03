@@ -16,214 +16,214 @@ class Dbcn(DataOption_, keyword='dbcn'):
     """
 
     _ATTRS = {
-        'x1': types.Integer,
-        'x2': types.Integer,
-        'x3': types.Integer,
-        'x4': types.Integer,
-        'x5': types.Integer,
-        'x6': types.Integer,
-        'x7': types.Integer,
-        'x8': types.Integer,
-        'x9': types.Integer,
-        'x10': types.Integer,
-        'x11': types.Integer,
-        'x12': types.Integer,
-        'x13': types.Integer,
-        'x14': types.Integer,
-        'x15': types.Integer,
-        'x16': types.Integer,
-        'x17': types.Integer,
-        'x18': types.Integer,
-        'x19': types.Integer,
-        'x20': types.Integer,
-        'x21': types.Integer,
-        'x22': types.Integer,
-        'x23': types.Integer,
-        'x24': types.Integer,
-        'x25': types.Integer,
-        'x26': types.Integer,
-        'x27': types.Integer,
-        'x28': types.Integer,
-        'x29': types.Integer,
-        'x30': types.Integer,
-        'x31': types.Integer,
-        'x32': types.Integer,
-        'x33': types.Integer,
-        'x34': types.Integer,
-        'x35': types.Integer,
-        'x36': types.Integer,
-        'x37': types.Integer,
-        'x38': types.Integer,
-        'x39': types.Integer,
-        'x40': types.Integer,
-        'x41': types.Integer,
-        'x42': types.Integer,
-        'x43': types.Integer,
-        'x44': types.Integer,
-        'x45': types.Integer,
-        'x46': types.Integer,
-        'x47': types.Integer,
-        'x48': types.Integer,
-        'x49': types.Integer,
-        'x50': types.Integer,
-        'x51': types.Integer,
-        'x52': types.Integer,
-        'x53': types.Integer,
-        'x54': types.Integer,
-        'x55': types.Integer,
-        'x56': types.Integer,
-        'x57': types.Integer,
-        'x58': types.Integer,
-        'x59': types.Integer,
-        'x60': types.Integer,
-        'x61': types.Integer,
-        'x62': types.Integer,
-        'x63': types.Integer,
-        'x64': types.Integer,
-        'x65': types.Integer,
-        'x66': types.Integer,
-        'x67': types.Integer,
-        'x68': types.Integer,
-        'x69': types.Integer,
-        'x70': types.Integer,
-        'x71': types.Integer,
-        'x72': types.Integer,
-        'x73': types.Integer,
-        'x74': types.Integer,
-        'x75': types.Integer,
-        'x76': types.Integer,
-        'x77': types.Integer,
-        'x78': types.Integer,
-        'x79': types.Integer,
-        'x80': types.Integer,
-        'x81': types.Integer,
-        'x82': types.Integer,
-        'x83': types.Integer,
-        'x84': types.Integer,
-        'x85': types.Integer,
-        'x86': types.Integer,
-        'x87': types.Integer,
-        'x88': types.Integer,
-        'x89': types.Integer,
-        'x90': types.Integer,
-        'x91': types.Integer,
-        'x92': types.Integer,
-        'x93': types.Integer,
-        'x94': types.Integer,
-        'x95': types.Integer,
-        'x96': types.Integer,
-        'x97': types.Integer,
-        'x98': types.Integer,
-        'x99': types.Integer,
-        'x100': types.Integer,
+        'x1': types.IntegerOrJump,
+        'x2': types.IntegerOrJump,
+        'x3': types.IntegerOrJump,
+        'x4': types.IntegerOrJump,
+        'x5': types.IntegerOrJump,
+        'x6': types.IntegerOrJump,
+        'x7': types.IntegerOrJump,
+        'x8': types.IntegerOrJump,
+        'x9': types.IntegerOrJump,
+        'x10': types.IntegerOrJump,
+        'x11': types.IntegerOrJump,
+        'x12': types.IntegerOrJump,
+        'x13': types.IntegerOrJump,
+        'x14': types.IntegerOrJump,
+        'x15': types.IntegerOrJump,
+        'x16': types.IntegerOrJump,
+        'x17': types.IntegerOrJump,
+        'x18': types.IntegerOrJump,
+        'x19': types.IntegerOrJump,
+        'x20': types.IntegerOrJump,
+        'x21': types.IntegerOrJump,
+        'x22': types.IntegerOrJump,
+        'x23': types.IntegerOrJump,
+        'x24': types.IntegerOrJump,
+        'x25': types.IntegerOrJump,
+        'x26': types.IntegerOrJump,
+        'x27': types.IntegerOrJump,
+        'x28': types.IntegerOrJump,
+        'x29': types.IntegerOrJump,
+        'x30': types.IntegerOrJump,
+        'x31': types.IntegerOrJump,
+        'x32': types.IntegerOrJump,
+        'x33': types.IntegerOrJump,
+        'x34': types.IntegerOrJump,
+        'x35': types.IntegerOrJump,
+        'x36': types.IntegerOrJump,
+        'x37': types.IntegerOrJump,
+        'x38': types.IntegerOrJump,
+        'x39': types.IntegerOrJump,
+        'x40': types.IntegerOrJump,
+        'x41': types.IntegerOrJump,
+        'x42': types.IntegerOrJump,
+        'x43': types.IntegerOrJump,
+        'x44': types.IntegerOrJump,
+        'x45': types.IntegerOrJump,
+        'x46': types.IntegerOrJump,
+        'x47': types.IntegerOrJump,
+        'x48': types.IntegerOrJump,
+        'x49': types.IntegerOrJump,
+        'x50': types.IntegerOrJump,
+        'x51': types.IntegerOrJump,
+        'x52': types.IntegerOrJump,
+        'x53': types.IntegerOrJump,
+        'x54': types.IntegerOrJump,
+        'x55': types.IntegerOrJump,
+        'x56': types.IntegerOrJump,
+        'x57': types.IntegerOrJump,
+        'x58': types.IntegerOrJump,
+        'x59': types.IntegerOrJump,
+        'x60': types.IntegerOrJump,
+        'x61': types.IntegerOrJump,
+        'x62': types.IntegerOrJump,
+        'x63': types.IntegerOrJump,
+        'x64': types.IntegerOrJump,
+        'x65': types.IntegerOrJump,
+        'x66': types.IntegerOrJump,
+        'x67': types.IntegerOrJump,
+        'x68': types.IntegerOrJump,
+        'x69': types.IntegerOrJump,
+        'x70': types.IntegerOrJump,
+        'x71': types.IntegerOrJump,
+        'x72': types.IntegerOrJump,
+        'x73': types.IntegerOrJump,
+        'x74': types.IntegerOrJump,
+        'x75': types.IntegerOrJump,
+        'x76': types.IntegerOrJump,
+        'x77': types.IntegerOrJump,
+        'x78': types.IntegerOrJump,
+        'x79': types.IntegerOrJump,
+        'x80': types.IntegerOrJump,
+        'x81': types.IntegerOrJump,
+        'x82': types.IntegerOrJump,
+        'x83': types.IntegerOrJump,
+        'x84': types.IntegerOrJump,
+        'x85': types.IntegerOrJump,
+        'x86': types.IntegerOrJump,
+        'x87': types.IntegerOrJump,
+        'x88': types.IntegerOrJump,
+        'x89': types.IntegerOrJump,
+        'x90': types.IntegerOrJump,
+        'x91': types.IntegerOrJump,
+        'x92': types.IntegerOrJump,
+        'x93': types.IntegerOrJump,
+        'x94': types.IntegerOrJump,
+        'x95': types.IntegerOrJump,
+        'x96': types.IntegerOrJump,
+        'x97': types.IntegerOrJump,
+        'x98': types.IntegerOrJump,
+        'x99': types.IntegerOrJump,
+        'x100': types.IntegerOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Adbcn( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Adbcn( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        x1: types.Integer,
-        x2: types.Integer,
-        x3: types.Integer,
-        x4: types.Integer,
-        x5: types.Integer,
-        x6: types.Integer,
-        x7: types.Integer,
-        x8: types.Integer,
-        x9: types.Integer,
-        x10: types.Integer,
-        x11: types.Integer,
-        x12: types.Integer,
-        x13: types.Integer,
-        x14: types.Integer,
-        x15: types.Integer,
-        x16: types.Integer,
-        x17: types.Integer,
-        x18: types.Integer,
-        x19: types.Integer,
-        x20: types.Integer,
-        x21: types.Integer,
-        x22: types.Integer,
-        x23: types.Integer,
-        x24: types.Integer,
-        x25: types.Integer,
-        x26: types.Integer,
-        x27: types.Integer,
-        x28: types.Integer,
-        x29: types.Integer,
-        x30: types.Integer,
-        x31: types.Integer,
-        x32: types.Integer,
-        x33: types.Integer,
-        x34: types.Integer,
-        x35: types.Integer,
-        x36: types.Integer,
-        x37: types.Integer,
-        x38: types.Integer,
-        x39: types.Integer,
-        x40: types.Integer,
-        x41: types.Integer,
-        x42: types.Integer,
-        x43: types.Integer,
-        x44: types.Integer,
-        x45: types.Integer,
-        x46: types.Integer,
-        x47: types.Integer,
-        x48: types.Integer,
-        x49: types.Integer,
-        x50: types.Integer,
-        x51: types.Integer,
-        x52: types.Integer,
-        x53: types.Integer,
-        x54: types.Integer,
-        x55: types.Integer,
-        x56: types.Integer,
-        x57: types.Integer,
-        x58: types.Integer,
-        x59: types.Integer,
-        x60: types.Integer,
-        x61: types.Integer,
-        x62: types.Integer,
-        x63: types.Integer,
-        x64: types.Integer,
-        x65: types.Integer,
-        x66: types.Integer,
-        x67: types.Integer,
-        x68: types.Integer,
-        x69: types.Integer,
-        x70: types.Integer,
-        x71: types.Integer,
-        x72: types.Integer,
-        x73: types.Integer,
-        x74: types.Integer,
-        x75: types.Integer,
-        x76: types.Integer,
-        x77: types.Integer,
-        x78: types.Integer,
-        x79: types.Integer,
-        x80: types.Integer,
-        x81: types.Integer,
-        x82: types.Integer,
-        x83: types.Integer,
-        x84: types.Integer,
-        x85: types.Integer,
-        x86: types.Integer,
-        x87: types.Integer,
-        x88: types.Integer,
-        x89: types.Integer,
-        x90: types.Integer,
-        x91: types.Integer,
-        x92: types.Integer,
-        x93: types.Integer,
-        x94: types.Integer,
-        x95: types.Integer,
-        x96: types.Integer,
-        x97: types.Integer,
-        x98: types.Integer,
-        x99: types.Integer,
-        x100: types.Integer,
+        x1: types.IntegerOrJump,
+        x2: types.IntegerOrJump,
+        x3: types.IntegerOrJump,
+        x4: types.IntegerOrJump,
+        x5: types.IntegerOrJump,
+        x6: types.IntegerOrJump,
+        x7: types.IntegerOrJump,
+        x8: types.IntegerOrJump,
+        x9: types.IntegerOrJump,
+        x10: types.IntegerOrJump,
+        x11: types.IntegerOrJump,
+        x12: types.IntegerOrJump,
+        x13: types.IntegerOrJump,
+        x14: types.IntegerOrJump,
+        x15: types.IntegerOrJump,
+        x16: types.IntegerOrJump,
+        x17: types.IntegerOrJump,
+        x18: types.IntegerOrJump,
+        x19: types.IntegerOrJump,
+        x20: types.IntegerOrJump,
+        x21: types.IntegerOrJump,
+        x22: types.IntegerOrJump,
+        x23: types.IntegerOrJump,
+        x24: types.IntegerOrJump,
+        x25: types.IntegerOrJump,
+        x26: types.IntegerOrJump,
+        x27: types.IntegerOrJump,
+        x28: types.IntegerOrJump,
+        x29: types.IntegerOrJump,
+        x30: types.IntegerOrJump,
+        x31: types.IntegerOrJump,
+        x32: types.IntegerOrJump,
+        x33: types.IntegerOrJump,
+        x34: types.IntegerOrJump,
+        x35: types.IntegerOrJump,
+        x36: types.IntegerOrJump,
+        x37: types.IntegerOrJump,
+        x38: types.IntegerOrJump,
+        x39: types.IntegerOrJump,
+        x40: types.IntegerOrJump,
+        x41: types.IntegerOrJump,
+        x42: types.IntegerOrJump,
+        x43: types.IntegerOrJump,
+        x44: types.IntegerOrJump,
+        x45: types.IntegerOrJump,
+        x46: types.IntegerOrJump,
+        x47: types.IntegerOrJump,
+        x48: types.IntegerOrJump,
+        x49: types.IntegerOrJump,
+        x50: types.IntegerOrJump,
+        x51: types.IntegerOrJump,
+        x52: types.IntegerOrJump,
+        x53: types.IntegerOrJump,
+        x54: types.IntegerOrJump,
+        x55: types.IntegerOrJump,
+        x56: types.IntegerOrJump,
+        x57: types.IntegerOrJump,
+        x58: types.IntegerOrJump,
+        x59: types.IntegerOrJump,
+        x60: types.IntegerOrJump,
+        x61: types.IntegerOrJump,
+        x62: types.IntegerOrJump,
+        x63: types.IntegerOrJump,
+        x64: types.IntegerOrJump,
+        x65: types.IntegerOrJump,
+        x66: types.IntegerOrJump,
+        x67: types.IntegerOrJump,
+        x68: types.IntegerOrJump,
+        x69: types.IntegerOrJump,
+        x70: types.IntegerOrJump,
+        x71: types.IntegerOrJump,
+        x72: types.IntegerOrJump,
+        x73: types.IntegerOrJump,
+        x74: types.IntegerOrJump,
+        x75: types.IntegerOrJump,
+        x76: types.IntegerOrJump,
+        x77: types.IntegerOrJump,
+        x78: types.IntegerOrJump,
+        x79: types.IntegerOrJump,
+        x80: types.IntegerOrJump,
+        x81: types.IntegerOrJump,
+        x82: types.IntegerOrJump,
+        x83: types.IntegerOrJump,
+        x84: types.IntegerOrJump,
+        x85: types.IntegerOrJump,
+        x86: types.IntegerOrJump,
+        x87: types.IntegerOrJump,
+        x88: types.IntegerOrJump,
+        x89: types.IntegerOrJump,
+        x90: types.IntegerOrJump,
+        x91: types.IntegerOrJump,
+        x92: types.IntegerOrJump,
+        x93: types.IntegerOrJump,
+        x94: types.IntegerOrJump,
+        x95: types.IntegerOrJump,
+        x96: types.IntegerOrJump,
+        x97: types.IntegerOrJump,
+        x98: types.IntegerOrJump,
+        x99: types.IntegerOrJump,
+        x100: types.IntegerOrJump,
     ):
         """
         Initializes ``Dbcn``.
@@ -640,103 +640,103 @@ class Dbcn(DataOption_, keyword='dbcn'):
             ]
         )
 
-        self.x1: typing.Final[types.Integer] = x1
-        self.x2: typing.Final[types.Integer] = x2
-        self.x3: typing.Final[types.Integer] = x3
-        self.x4: typing.Final[types.Integer] = x4
-        self.x5: typing.Final[types.Integer] = x5
-        self.x6: typing.Final[types.Integer] = x6
-        self.x7: typing.Final[types.Integer] = x7
-        self.x8: typing.Final[types.Integer] = x8
-        self.x9: typing.Final[types.Integer] = x9
-        self.x10: typing.Final[types.Integer] = x10
-        self.x11: typing.Final[types.Integer] = x11
-        self.x12: typing.Final[types.Integer] = x12
-        self.x13: typing.Final[types.Integer] = x13
-        self.x14: typing.Final[types.Integer] = x14
-        self.x15: typing.Final[types.Integer] = x15
-        self.x16: typing.Final[types.Integer] = x16
-        self.x17: typing.Final[types.Integer] = x17
-        self.x18: typing.Final[types.Integer] = x18
-        self.x19: typing.Final[types.Integer] = x19
-        self.x20: typing.Final[types.Integer] = x20
-        self.x21: typing.Final[types.Integer] = x21
-        self.x22: typing.Final[types.Integer] = x22
-        self.x23: typing.Final[types.Integer] = x23
-        self.x24: typing.Final[types.Integer] = x24
-        self.x25: typing.Final[types.Integer] = x25
-        self.x26: typing.Final[types.Integer] = x26
-        self.x27: typing.Final[types.Integer] = x27
-        self.x28: typing.Final[types.Integer] = x28
-        self.x29: typing.Final[types.Integer] = x29
-        self.x30: typing.Final[types.Integer] = x30
-        self.x31: typing.Final[types.Integer] = x31
-        self.x32: typing.Final[types.Integer] = x32
-        self.x33: typing.Final[types.Integer] = x33
-        self.x34: typing.Final[types.Integer] = x34
-        self.x35: typing.Final[types.Integer] = x35
-        self.x36: typing.Final[types.Integer] = x36
-        self.x37: typing.Final[types.Integer] = x37
-        self.x38: typing.Final[types.Integer] = x38
-        self.x39: typing.Final[types.Integer] = x39
-        self.x40: typing.Final[types.Integer] = x40
-        self.x41: typing.Final[types.Integer] = x41
-        self.x42: typing.Final[types.Integer] = x42
-        self.x43: typing.Final[types.Integer] = x43
-        self.x44: typing.Final[types.Integer] = x44
-        self.x45: typing.Final[types.Integer] = x45
-        self.x46: typing.Final[types.Integer] = x46
-        self.x47: typing.Final[types.Integer] = x47
-        self.x48: typing.Final[types.Integer] = x48
-        self.x49: typing.Final[types.Integer] = x49
-        self.x50: typing.Final[types.Integer] = x50
-        self.x51: typing.Final[types.Integer] = x51
-        self.x52: typing.Final[types.Integer] = x52
-        self.x53: typing.Final[types.Integer] = x53
-        self.x54: typing.Final[types.Integer] = x54
-        self.x55: typing.Final[types.Integer] = x55
-        self.x56: typing.Final[types.Integer] = x56
-        self.x57: typing.Final[types.Integer] = x57
-        self.x58: typing.Final[types.Integer] = x58
-        self.x59: typing.Final[types.Integer] = x59
-        self.x60: typing.Final[types.Integer] = x60
-        self.x61: typing.Final[types.Integer] = x61
-        self.x62: typing.Final[types.Integer] = x62
-        self.x63: typing.Final[types.Integer] = x63
-        self.x64: typing.Final[types.Integer] = x64
-        self.x65: typing.Final[types.Integer] = x65
-        self.x66: typing.Final[types.Integer] = x66
-        self.x67: typing.Final[types.Integer] = x67
-        self.x68: typing.Final[types.Integer] = x68
-        self.x69: typing.Final[types.Integer] = x69
-        self.x70: typing.Final[types.Integer] = x70
-        self.x71: typing.Final[types.Integer] = x71
-        self.x72: typing.Final[types.Integer] = x72
-        self.x73: typing.Final[types.Integer] = x73
-        self.x74: typing.Final[types.Integer] = x74
-        self.x75: typing.Final[types.Integer] = x75
-        self.x76: typing.Final[types.Integer] = x76
-        self.x77: typing.Final[types.Integer] = x77
-        self.x78: typing.Final[types.Integer] = x78
-        self.x79: typing.Final[types.Integer] = x79
-        self.x80: typing.Final[types.Integer] = x80
-        self.x81: typing.Final[types.Integer] = x81
-        self.x82: typing.Final[types.Integer] = x82
-        self.x83: typing.Final[types.Integer] = x83
-        self.x84: typing.Final[types.Integer] = x84
-        self.x85: typing.Final[types.Integer] = x85
-        self.x86: typing.Final[types.Integer] = x86
-        self.x87: typing.Final[types.Integer] = x87
-        self.x88: typing.Final[types.Integer] = x88
-        self.x89: typing.Final[types.Integer] = x89
-        self.x90: typing.Final[types.Integer] = x90
-        self.x91: typing.Final[types.Integer] = x91
-        self.x92: typing.Final[types.Integer] = x92
-        self.x93: typing.Final[types.Integer] = x93
-        self.x94: typing.Final[types.Integer] = x94
-        self.x95: typing.Final[types.Integer] = x95
-        self.x96: typing.Final[types.Integer] = x96
-        self.x97: typing.Final[types.Integer] = x97
-        self.x98: typing.Final[types.Integer] = x98
-        self.x99: typing.Final[types.Integer] = x99
-        self.x100: typing.Final[types.Integer] = x100
+        self.x1: typing.Final[types.IntegerOrJump] = x1
+        self.x2: typing.Final[types.IntegerOrJump] = x2
+        self.x3: typing.Final[types.IntegerOrJump] = x3
+        self.x4: typing.Final[types.IntegerOrJump] = x4
+        self.x5: typing.Final[types.IntegerOrJump] = x5
+        self.x6: typing.Final[types.IntegerOrJump] = x6
+        self.x7: typing.Final[types.IntegerOrJump] = x7
+        self.x8: typing.Final[types.IntegerOrJump] = x8
+        self.x9: typing.Final[types.IntegerOrJump] = x9
+        self.x10: typing.Final[types.IntegerOrJump] = x10
+        self.x11: typing.Final[types.IntegerOrJump] = x11
+        self.x12: typing.Final[types.IntegerOrJump] = x12
+        self.x13: typing.Final[types.IntegerOrJump] = x13
+        self.x14: typing.Final[types.IntegerOrJump] = x14
+        self.x15: typing.Final[types.IntegerOrJump] = x15
+        self.x16: typing.Final[types.IntegerOrJump] = x16
+        self.x17: typing.Final[types.IntegerOrJump] = x17
+        self.x18: typing.Final[types.IntegerOrJump] = x18
+        self.x19: typing.Final[types.IntegerOrJump] = x19
+        self.x20: typing.Final[types.IntegerOrJump] = x20
+        self.x21: typing.Final[types.IntegerOrJump] = x21
+        self.x22: typing.Final[types.IntegerOrJump] = x22
+        self.x23: typing.Final[types.IntegerOrJump] = x23
+        self.x24: typing.Final[types.IntegerOrJump] = x24
+        self.x25: typing.Final[types.IntegerOrJump] = x25
+        self.x26: typing.Final[types.IntegerOrJump] = x26
+        self.x27: typing.Final[types.IntegerOrJump] = x27
+        self.x28: typing.Final[types.IntegerOrJump] = x28
+        self.x29: typing.Final[types.IntegerOrJump] = x29
+        self.x30: typing.Final[types.IntegerOrJump] = x30
+        self.x31: typing.Final[types.IntegerOrJump] = x31
+        self.x32: typing.Final[types.IntegerOrJump] = x32
+        self.x33: typing.Final[types.IntegerOrJump] = x33
+        self.x34: typing.Final[types.IntegerOrJump] = x34
+        self.x35: typing.Final[types.IntegerOrJump] = x35
+        self.x36: typing.Final[types.IntegerOrJump] = x36
+        self.x37: typing.Final[types.IntegerOrJump] = x37
+        self.x38: typing.Final[types.IntegerOrJump] = x38
+        self.x39: typing.Final[types.IntegerOrJump] = x39
+        self.x40: typing.Final[types.IntegerOrJump] = x40
+        self.x41: typing.Final[types.IntegerOrJump] = x41
+        self.x42: typing.Final[types.IntegerOrJump] = x42
+        self.x43: typing.Final[types.IntegerOrJump] = x43
+        self.x44: typing.Final[types.IntegerOrJump] = x44
+        self.x45: typing.Final[types.IntegerOrJump] = x45
+        self.x46: typing.Final[types.IntegerOrJump] = x46
+        self.x47: typing.Final[types.IntegerOrJump] = x47
+        self.x48: typing.Final[types.IntegerOrJump] = x48
+        self.x49: typing.Final[types.IntegerOrJump] = x49
+        self.x50: typing.Final[types.IntegerOrJump] = x50
+        self.x51: typing.Final[types.IntegerOrJump] = x51
+        self.x52: typing.Final[types.IntegerOrJump] = x52
+        self.x53: typing.Final[types.IntegerOrJump] = x53
+        self.x54: typing.Final[types.IntegerOrJump] = x54
+        self.x55: typing.Final[types.IntegerOrJump] = x55
+        self.x56: typing.Final[types.IntegerOrJump] = x56
+        self.x57: typing.Final[types.IntegerOrJump] = x57
+        self.x58: typing.Final[types.IntegerOrJump] = x58
+        self.x59: typing.Final[types.IntegerOrJump] = x59
+        self.x60: typing.Final[types.IntegerOrJump] = x60
+        self.x61: typing.Final[types.IntegerOrJump] = x61
+        self.x62: typing.Final[types.IntegerOrJump] = x62
+        self.x63: typing.Final[types.IntegerOrJump] = x63
+        self.x64: typing.Final[types.IntegerOrJump] = x64
+        self.x65: typing.Final[types.IntegerOrJump] = x65
+        self.x66: typing.Final[types.IntegerOrJump] = x66
+        self.x67: typing.Final[types.IntegerOrJump] = x67
+        self.x68: typing.Final[types.IntegerOrJump] = x68
+        self.x69: typing.Final[types.IntegerOrJump] = x69
+        self.x70: typing.Final[types.IntegerOrJump] = x70
+        self.x71: typing.Final[types.IntegerOrJump] = x71
+        self.x72: typing.Final[types.IntegerOrJump] = x72
+        self.x73: typing.Final[types.IntegerOrJump] = x73
+        self.x74: typing.Final[types.IntegerOrJump] = x74
+        self.x75: typing.Final[types.IntegerOrJump] = x75
+        self.x76: typing.Final[types.IntegerOrJump] = x76
+        self.x77: typing.Final[types.IntegerOrJump] = x77
+        self.x78: typing.Final[types.IntegerOrJump] = x78
+        self.x79: typing.Final[types.IntegerOrJump] = x79
+        self.x80: typing.Final[types.IntegerOrJump] = x80
+        self.x81: typing.Final[types.IntegerOrJump] = x81
+        self.x82: typing.Final[types.IntegerOrJump] = x82
+        self.x83: typing.Final[types.IntegerOrJump] = x83
+        self.x84: typing.Final[types.IntegerOrJump] = x84
+        self.x85: typing.Final[types.IntegerOrJump] = x85
+        self.x86: typing.Final[types.IntegerOrJump] = x86
+        self.x87: typing.Final[types.IntegerOrJump] = x87
+        self.x88: typing.Final[types.IntegerOrJump] = x88
+        self.x89: typing.Final[types.IntegerOrJump] = x89
+        self.x90: typing.Final[types.IntegerOrJump] = x90
+        self.x91: typing.Final[types.IntegerOrJump] = x91
+        self.x92: typing.Final[types.IntegerOrJump] = x92
+        self.x93: typing.Final[types.IntegerOrJump] = x93
+        self.x94: typing.Final[types.IntegerOrJump] = x94
+        self.x95: typing.Final[types.IntegerOrJump] = x95
+        self.x96: typing.Final[types.IntegerOrJump] = x96
+        self.x97: typing.Final[types.IntegerOrJump] = x97
+        self.x98: typing.Final[types.IntegerOrJump] = x98
+        self.x99: typing.Final[types.IntegerOrJump] = x99
+        self.x100: typing.Final[types.IntegerOrJump] = x100

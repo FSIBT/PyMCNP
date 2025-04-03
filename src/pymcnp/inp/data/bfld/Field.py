@@ -16,12 +16,12 @@ class Field(BfldOption_, keyword='field'):
     """
 
     _ATTRS = {
-        'strength_gradient': types.Real,
+        'strength_gradient': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Afield( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afield( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, strength_gradient: types.Real):
+    def __init__(self, strength_gradient: types.RealOrJump):
         """
         Initializes ``Field``.
 
@@ -41,4 +41,4 @@ class Field(BfldOption_, keyword='field'):
             ]
         )
 
-        self.strength_gradient: typing.Final[types.Real] = strength_gradient
+        self.strength_gradient: typing.Final[types.RealOrJump] = strength_gradient

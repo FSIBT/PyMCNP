@@ -16,12 +16,12 @@ class Seed(RandOption_, keyword='seed'):
     """
 
     _ATTRS = {
-        'seed': types.Integer,
+        'seed': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aseed( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aseed( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, seed: types.Integer):
+    def __init__(self, seed: types.IntegerOrJump):
         """
         Initializes ``Seed``.
 
@@ -41,4 +41,4 @@ class Seed(RandOption_, keyword='seed'):
             ]
         )
 
-        self.seed: typing.Final[types.Integer] = seed
+        self.seed: typing.Final[types.IntegerOrJump] = seed

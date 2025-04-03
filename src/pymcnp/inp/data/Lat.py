@@ -16,12 +16,12 @@ class Lat(DataOption_, keyword='lat'):
     """
 
     _ATTRS = {
-        'type': types.Tuple[types.Integer],
+        'type': types.Tuple[types.IntegerOrJump],
     }
 
-    _REGEX = re.compile(rf'\Alat((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Alat((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, type: types.Tuple[types.Integer]):
+    def __init__(self, type: types.Tuple[types.IntegerOrJump]):
         """
         Initializes ``Lat``.
 
@@ -41,4 +41,4 @@ class Lat(DataOption_, keyword='lat'):
             ]
         )
 
-        self.type: typing.Final[types.Tuple[types.Integer]] = type
+        self.type: typing.Final[types.Tuple[types.IntegerOrJump]] = type

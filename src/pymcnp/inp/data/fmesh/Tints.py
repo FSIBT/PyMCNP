@@ -16,12 +16,12 @@ class Tints(FmeshOption_, keyword='tints'):
     """
 
     _ATTRS = {
-        'count': types.Integer,
+        'count': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Atints( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Atints( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, count: types.Integer):
+    def __init__(self, count: types.IntegerOrJump):
         """
         Initializes ``Tints``.
 
@@ -41,4 +41,4 @@ class Tints(FmeshOption_, keyword='tints'):
             ]
         )
 
-        self.count: typing.Final[types.Integer] = count
+        self.count: typing.Final[types.IntegerOrJump] = count

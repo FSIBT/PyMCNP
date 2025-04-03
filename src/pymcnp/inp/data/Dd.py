@@ -45,5 +45,5 @@ class Dd(DataOption_, keyword='dd'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.diagnostics: typing.Final[types.Tuple[types.Diagnostic]] = diagnostics

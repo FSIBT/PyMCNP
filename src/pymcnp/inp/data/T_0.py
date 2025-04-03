@@ -17,19 +17,19 @@ class T_0(DataOption_, keyword='t'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'bounds': types.Tuple[types.Real],
+        'bounds': types.Tuple[types.RealOrJump],
         'nt': types.String,
         'c': types.String,
     }
 
     _REGEX = re.compile(
-        rf'\At(\d+)((?: {types.Real._REGEX.pattern})+?)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?\Z'
+        rf'\At(\d+)((?: {types.RealOrJump._REGEX.pattern})+?)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
-        bounds: types.Tuple[types.Real],
+        bounds: types.Tuple[types.RealOrJump],
         nt: types.String = None,
         c: types.String = None,
     ):
@@ -59,7 +59,7 @@ class T_0(DataOption_, keyword='t'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds
         self.nt: typing.Final[types.String] = nt
         self.c: typing.Final[types.String] = c

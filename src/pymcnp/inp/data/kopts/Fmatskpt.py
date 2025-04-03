@@ -16,12 +16,12 @@ class Fmatskpt(KoptsOption_, keyword='fmatskpt'):
     """
 
     _ATTRS = {
-        'fmat_skip': types.Real,
+        'fmat_skip': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Afmatskpt( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afmatskpt( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, fmat_skip: types.Real):
+    def __init__(self, fmat_skip: types.RealOrJump):
         """
         Initializes ``Fmatskpt``.
 
@@ -41,4 +41,4 @@ class Fmatskpt(KoptsOption_, keyword='fmatskpt'):
             ]
         )
 
-        self.fmat_skip: typing.Final[types.Real] = fmat_skip
+        self.fmat_skip: typing.Final[types.RealOrJump] = fmat_skip

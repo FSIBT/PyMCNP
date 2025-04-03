@@ -17,95 +17,95 @@ class Esplt(DataOption_, keyword='esplt'):
 
     _ATTRS = {
         'designator': types.Designator,
-        'ratio_1': types.Real,
-        'energy_1': types.Real,
-        'ratio_2': types.Real,
-        'energy_2': types.Real,
-        'ratio_3': types.Real,
-        'energy_3': types.Real,
-        'ratio_4': types.Real,
-        'energy_4': types.Real,
-        'ratio_5': types.Real,
-        'energy_5': types.Real,
-        'ratio_6': types.Real,
-        'energy_6': types.Real,
-        'ratio_7': types.Real,
-        'energy_7': types.Real,
-        'ratio_8': types.Real,
-        'energy_8': types.Real,
-        'ratio_9': types.Real,
-        'energy_9': types.Real,
-        'ratio_10': types.Real,
-        'energy_10': types.Real,
-        'ratio_11': types.Real,
-        'energy_11': types.Real,
-        'ratio_12': types.Real,
-        'energy_12': types.Real,
-        'ratio_13': types.Real,
-        'energy_13': types.Real,
-        'ratio_14': types.Real,
-        'energy_14': types.Real,
-        'ratio_15': types.Real,
-        'energy_15': types.Real,
-        'ratio_16': types.Real,
-        'energy_16': types.Real,
-        'ratio_17': types.Real,
-        'energy_17': types.Real,
-        'ratio_18': types.Real,
-        'energy_18': types.Real,
-        'ratio_19': types.Real,
-        'energy_19': types.Real,
-        'ratio_20': types.Real,
-        'energy_20': types.Real,
+        'ratio_1': types.RealOrJump,
+        'energy_1': types.RealOrJump,
+        'ratio_2': types.RealOrJump,
+        'energy_2': types.RealOrJump,
+        'ratio_3': types.RealOrJump,
+        'energy_3': types.RealOrJump,
+        'ratio_4': types.RealOrJump,
+        'energy_4': types.RealOrJump,
+        'ratio_5': types.RealOrJump,
+        'energy_5': types.RealOrJump,
+        'ratio_6': types.RealOrJump,
+        'energy_6': types.RealOrJump,
+        'ratio_7': types.RealOrJump,
+        'energy_7': types.RealOrJump,
+        'ratio_8': types.RealOrJump,
+        'energy_8': types.RealOrJump,
+        'ratio_9': types.RealOrJump,
+        'energy_9': types.RealOrJump,
+        'ratio_10': types.RealOrJump,
+        'energy_10': types.RealOrJump,
+        'ratio_11': types.RealOrJump,
+        'energy_11': types.RealOrJump,
+        'ratio_12': types.RealOrJump,
+        'energy_12': types.RealOrJump,
+        'ratio_13': types.RealOrJump,
+        'energy_13': types.RealOrJump,
+        'ratio_14': types.RealOrJump,
+        'energy_14': types.RealOrJump,
+        'ratio_15': types.RealOrJump,
+        'energy_15': types.RealOrJump,
+        'ratio_16': types.RealOrJump,
+        'energy_16': types.RealOrJump,
+        'ratio_17': types.RealOrJump,
+        'energy_17': types.RealOrJump,
+        'ratio_18': types.RealOrJump,
+        'energy_18': types.RealOrJump,
+        'ratio_19': types.RealOrJump,
+        'energy_19': types.RealOrJump,
+        'ratio_20': types.RealOrJump,
+        'energy_20': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Aesplt:(\S+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Aesplt:(\S+)( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
         designator: types.Designator,
-        ratio_1: types.Real,
-        energy_1: types.Real,
-        ratio_2: types.Real,
-        energy_2: types.Real,
-        ratio_3: types.Real,
-        energy_3: types.Real,
-        ratio_4: types.Real,
-        energy_4: types.Real,
-        ratio_5: types.Real,
-        energy_5: types.Real,
-        ratio_6: types.Real,
-        energy_6: types.Real,
-        ratio_7: types.Real,
-        energy_7: types.Real,
-        ratio_8: types.Real,
-        energy_8: types.Real,
-        ratio_9: types.Real,
-        energy_9: types.Real,
-        ratio_10: types.Real,
-        energy_10: types.Real,
-        ratio_11: types.Real,
-        energy_11: types.Real,
-        ratio_12: types.Real,
-        energy_12: types.Real,
-        ratio_13: types.Real,
-        energy_13: types.Real,
-        ratio_14: types.Real,
-        energy_14: types.Real,
-        ratio_15: types.Real,
-        energy_15: types.Real,
-        ratio_16: types.Real,
-        energy_16: types.Real,
-        ratio_17: types.Real,
-        energy_17: types.Real,
-        ratio_18: types.Real,
-        energy_18: types.Real,
-        ratio_19: types.Real,
-        energy_19: types.Real,
-        ratio_20: types.Real,
-        energy_20: types.Real,
+        ratio_1: types.RealOrJump,
+        energy_1: types.RealOrJump,
+        ratio_2: types.RealOrJump,
+        energy_2: types.RealOrJump,
+        ratio_3: types.RealOrJump,
+        energy_3: types.RealOrJump,
+        ratio_4: types.RealOrJump,
+        energy_4: types.RealOrJump,
+        ratio_5: types.RealOrJump,
+        energy_5: types.RealOrJump,
+        ratio_6: types.RealOrJump,
+        energy_6: types.RealOrJump,
+        ratio_7: types.RealOrJump,
+        energy_7: types.RealOrJump,
+        ratio_8: types.RealOrJump,
+        energy_8: types.RealOrJump,
+        ratio_9: types.RealOrJump,
+        energy_9: types.RealOrJump,
+        ratio_10: types.RealOrJump,
+        energy_10: types.RealOrJump,
+        ratio_11: types.RealOrJump,
+        energy_11: types.RealOrJump,
+        ratio_12: types.RealOrJump,
+        energy_12: types.RealOrJump,
+        ratio_13: types.RealOrJump,
+        energy_13: types.RealOrJump,
+        ratio_14: types.RealOrJump,
+        energy_14: types.RealOrJump,
+        ratio_15: types.RealOrJump,
+        energy_15: types.RealOrJump,
+        ratio_16: types.RealOrJump,
+        energy_16: types.RealOrJump,
+        ratio_17: types.RealOrJump,
+        energy_17: types.RealOrJump,
+        ratio_18: types.RealOrJump,
+        energy_18: types.RealOrJump,
+        ratio_19: types.RealOrJump,
+        energy_19: types.RealOrJump,
+        ratio_20: types.RealOrJump,
+        energy_20: types.RealOrJump,
     ):
         """
         Initializes ``Esplt``.
@@ -286,43 +286,43 @@ class Esplt(DataOption_, keyword='esplt'):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.ratio_1: typing.Final[types.Real] = ratio_1
-        self.energy_1: typing.Final[types.Real] = energy_1
-        self.ratio_2: typing.Final[types.Real] = ratio_2
-        self.energy_2: typing.Final[types.Real] = energy_2
-        self.ratio_3: typing.Final[types.Real] = ratio_3
-        self.energy_3: typing.Final[types.Real] = energy_3
-        self.ratio_4: typing.Final[types.Real] = ratio_4
-        self.energy_4: typing.Final[types.Real] = energy_4
-        self.ratio_5: typing.Final[types.Real] = ratio_5
-        self.energy_5: typing.Final[types.Real] = energy_5
-        self.ratio_6: typing.Final[types.Real] = ratio_6
-        self.energy_6: typing.Final[types.Real] = energy_6
-        self.ratio_7: typing.Final[types.Real] = ratio_7
-        self.energy_7: typing.Final[types.Real] = energy_7
-        self.ratio_8: typing.Final[types.Real] = ratio_8
-        self.energy_8: typing.Final[types.Real] = energy_8
-        self.ratio_9: typing.Final[types.Real] = ratio_9
-        self.energy_9: typing.Final[types.Real] = energy_9
-        self.ratio_10: typing.Final[types.Real] = ratio_10
-        self.energy_10: typing.Final[types.Real] = energy_10
-        self.ratio_11: typing.Final[types.Real] = ratio_11
-        self.energy_11: typing.Final[types.Real] = energy_11
-        self.ratio_12: typing.Final[types.Real] = ratio_12
-        self.energy_12: typing.Final[types.Real] = energy_12
-        self.ratio_13: typing.Final[types.Real] = ratio_13
-        self.energy_13: typing.Final[types.Real] = energy_13
-        self.ratio_14: typing.Final[types.Real] = ratio_14
-        self.energy_14: typing.Final[types.Real] = energy_14
-        self.ratio_15: typing.Final[types.Real] = ratio_15
-        self.energy_15: typing.Final[types.Real] = energy_15
-        self.ratio_16: typing.Final[types.Real] = ratio_16
-        self.energy_16: typing.Final[types.Real] = energy_16
-        self.ratio_17: typing.Final[types.Real] = ratio_17
-        self.energy_17: typing.Final[types.Real] = energy_17
-        self.ratio_18: typing.Final[types.Real] = ratio_18
-        self.energy_18: typing.Final[types.Real] = energy_18
-        self.ratio_19: typing.Final[types.Real] = ratio_19
-        self.energy_19: typing.Final[types.Real] = energy_19
-        self.ratio_20: typing.Final[types.Real] = ratio_20
-        self.energy_20: typing.Final[types.Real] = energy_20
+        self.ratio_1: typing.Final[types.RealOrJump] = ratio_1
+        self.energy_1: typing.Final[types.RealOrJump] = energy_1
+        self.ratio_2: typing.Final[types.RealOrJump] = ratio_2
+        self.energy_2: typing.Final[types.RealOrJump] = energy_2
+        self.ratio_3: typing.Final[types.RealOrJump] = ratio_3
+        self.energy_3: typing.Final[types.RealOrJump] = energy_3
+        self.ratio_4: typing.Final[types.RealOrJump] = ratio_4
+        self.energy_4: typing.Final[types.RealOrJump] = energy_4
+        self.ratio_5: typing.Final[types.RealOrJump] = ratio_5
+        self.energy_5: typing.Final[types.RealOrJump] = energy_5
+        self.ratio_6: typing.Final[types.RealOrJump] = ratio_6
+        self.energy_6: typing.Final[types.RealOrJump] = energy_6
+        self.ratio_7: typing.Final[types.RealOrJump] = ratio_7
+        self.energy_7: typing.Final[types.RealOrJump] = energy_7
+        self.ratio_8: typing.Final[types.RealOrJump] = ratio_8
+        self.energy_8: typing.Final[types.RealOrJump] = energy_8
+        self.ratio_9: typing.Final[types.RealOrJump] = ratio_9
+        self.energy_9: typing.Final[types.RealOrJump] = energy_9
+        self.ratio_10: typing.Final[types.RealOrJump] = ratio_10
+        self.energy_10: typing.Final[types.RealOrJump] = energy_10
+        self.ratio_11: typing.Final[types.RealOrJump] = ratio_11
+        self.energy_11: typing.Final[types.RealOrJump] = energy_11
+        self.ratio_12: typing.Final[types.RealOrJump] = ratio_12
+        self.energy_12: typing.Final[types.RealOrJump] = energy_12
+        self.ratio_13: typing.Final[types.RealOrJump] = ratio_13
+        self.energy_13: typing.Final[types.RealOrJump] = energy_13
+        self.ratio_14: typing.Final[types.RealOrJump] = ratio_14
+        self.energy_14: typing.Final[types.RealOrJump] = energy_14
+        self.ratio_15: typing.Final[types.RealOrJump] = ratio_15
+        self.energy_15: typing.Final[types.RealOrJump] = energy_15
+        self.ratio_16: typing.Final[types.RealOrJump] = ratio_16
+        self.energy_16: typing.Final[types.RealOrJump] = energy_16
+        self.ratio_17: typing.Final[types.RealOrJump] = ratio_17
+        self.energy_17: typing.Final[types.RealOrJump] = energy_17
+        self.ratio_18: typing.Final[types.RealOrJump] = ratio_18
+        self.energy_18: typing.Final[types.RealOrJump] = energy_18
+        self.ratio_19: typing.Final[types.RealOrJump] = ratio_19
+        self.energy_19: typing.Final[types.RealOrJump] = energy_19
+        self.ratio_20: typing.Final[types.RealOrJump] = ratio_20
+        self.energy_20: typing.Final[types.RealOrJump] = energy_20

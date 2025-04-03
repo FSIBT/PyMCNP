@@ -17,12 +17,12 @@ class Imp(DataOption_, keyword='imp'):
 
     _ATTRS = {
         'designator': types.Designator,
-        'importances': types.Tuple[types.Real],
+        'importances': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aimp:(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aimp:(\S+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, designator: types.Designator, importances: types.Tuple[types.Real]):
+    def __init__(self, designator: types.Designator, importances: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Imp``.
 
@@ -46,4 +46,4 @@ class Imp(DataOption_, keyword='imp'):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.importances: typing.Final[types.Tuple[types.Real]] = importances
+        self.importances: typing.Final[types.Tuple[types.RealOrJump]] = importances

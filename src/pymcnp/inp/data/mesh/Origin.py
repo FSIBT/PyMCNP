@@ -16,12 +16,12 @@ class Origin(MeshOption_, keyword='origin'):
     """
 
     _ATTRS = {
-        'point': types.Tuple[types.Real],
+        'point': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aorigin((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aorigin((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, point: types.Tuple[types.Real]):
+    def __init__(self, point: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Origin``.
 
@@ -41,4 +41,4 @@ class Origin(MeshOption_, keyword='origin'):
             ]
         )
 
-        self.point: typing.Final[types.Tuple[types.Real]] = point
+        self.point: typing.Final[types.Tuple[types.RealOrJump]] = point

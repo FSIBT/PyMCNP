@@ -16,12 +16,12 @@ class Nonu(DataOption_, keyword='nonu'):
     """
 
     _ATTRS = {
-        'settings': types.Tuple[types.Integer],
+        'settings': types.Tuple[types.IntegerOrJump],
     }
 
-    _REGEX = re.compile(rf'\Anonu((?: {types.Integer._REGEX.pattern})+?)?\Z')
+    _REGEX = re.compile(rf'\Anonu((?: {types.IntegerOrJump._REGEX.pattern})+?)?\Z')
 
-    def __init__(self, settings: types.Tuple[types.Integer] = None):
+    def __init__(self, settings: types.Tuple[types.IntegerOrJump] = None):
         """
         Initializes ``Nonu``.
 
@@ -43,4 +43,4 @@ class Nonu(DataOption_, keyword='nonu'):
             ]
         )
 
-        self.settings: typing.Final[types.Tuple[types.Integer]] = settings
+        self.settings: typing.Final[types.Tuple[types.IntegerOrJump]] = settings

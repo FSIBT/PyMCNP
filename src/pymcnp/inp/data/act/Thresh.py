@@ -16,12 +16,12 @@ class Thresh(ActOption_, keyword='thresh'):
     """
 
     _ATTRS = {
-        'fraction': types.Real,
+        'fraction': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Athresh( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Athresh( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, fraction: types.Real):
+    def __init__(self, fraction: types.RealOrJump):
         """
         Initializes ``Thresh``.
 
@@ -41,4 +41,4 @@ class Thresh(ActOption_, keyword='thresh'):
             ]
         )
 
-        self.fraction: typing.Final[types.Real] = fraction
+        self.fraction: typing.Final[types.RealOrJump] = fraction

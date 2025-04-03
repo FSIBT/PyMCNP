@@ -16,12 +16,12 @@ class List(EmbeeOption_, keyword='list'):
     """
 
     _ATTRS = {
-        'reactions': types.Real,
+        'reactions': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Alist( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Alist( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, reactions: types.Real):
+    def __init__(self, reactions: types.RealOrJump):
         """
         Initializes ``List``.
 
@@ -41,4 +41,4 @@ class List(EmbeeOption_, keyword='list'):
             ]
         )
 
-        self.reactions: typing.Final[types.Real] = reactions
+        self.reactions: typing.Final[types.RealOrJump] = reactions

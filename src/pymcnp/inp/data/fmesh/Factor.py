@@ -16,12 +16,12 @@ class Factor(FmeshOption_, keyword='factor'):
     """
 
     _ATTRS = {
-        'multiple': types.Real,
+        'multiple': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Afactor( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afactor( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, multiple: types.Real):
+    def __init__(self, multiple: types.RealOrJump):
         """
         Initializes ``Factor``.
 
@@ -41,4 +41,4 @@ class Factor(FmeshOption_, keyword='factor'):
             ]
         )
 
-        self.multiple: typing.Final[types.Real] = multiple
+        self.multiple: typing.Final[types.RealOrJump] = multiple

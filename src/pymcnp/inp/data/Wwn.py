@@ -18,13 +18,16 @@ class Wwn(DataOption_, keyword='wwn'):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'bounds': types.Tuple[types.Real],
+        'bounds': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Awwn(\d+):(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Awwn(\d+):(\S+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
     def __init__(
-        self, suffix: types.Integer, designator: types.Designator, bounds: types.Tuple[types.Real]
+        self,
+        suffix: types.Integer,
+        designator: types.Designator,
+        bounds: types.Tuple[types.RealOrJump],
     ):
         """
         Initializes ``Wwn``.
@@ -51,6 +54,6 @@ class Wwn(DataOption_, keyword='wwn'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.designator: typing.Final[types.Designator] = designator
-        self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
+        self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds

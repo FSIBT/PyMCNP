@@ -16,12 +16,12 @@ class Wgt(SdefOption_, keyword='wgt'):
     """
 
     _ATTRS = {
-        'weight': types.Real,
+        'weight': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Awgt( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Awgt( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, weight: types.Real):
+    def __init__(self, weight: types.RealOrJump):
         """
         Initializes ``Wgt``.
 
@@ -41,4 +41,4 @@ class Wgt(SdefOption_, keyword='wgt'):
             ]
         )
 
-        self.weight: typing.Final[types.Real] = weight
+        self.weight: typing.Final[types.RealOrJump] = weight

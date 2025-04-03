@@ -16,12 +16,12 @@ class Sd(DataOption_, keyword='sd'):
     """
 
     _ATTRS = {
-        'information': types.Tuple[types.Real],
+        'information': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Asd((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Asd((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, information: types.Tuple[types.Real]):
+    def __init__(self, information: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Sd``.
 
@@ -41,4 +41,4 @@ class Sd(DataOption_, keyword='sd'):
             ]
         )
 
-        self.information: typing.Final[types.Tuple[types.Real]] = information
+        self.information: typing.Final[types.Tuple[types.RealOrJump]] = information

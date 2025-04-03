@@ -16,12 +16,12 @@ class Talnp(DataOption_, keyword='talnp'):
     """
 
     _ATTRS = {
-        'tallies': types.Tuple[types.Integer],
+        'tallies': types.Tuple[types.IntegerOrJump],
     }
 
-    _REGEX = re.compile(rf'\Atalnp((?: {types.Integer._REGEX.pattern})+?)?\Z')
+    _REGEX = re.compile(rf'\Atalnp((?: {types.IntegerOrJump._REGEX.pattern})+?)?\Z')
 
-    def __init__(self, tallies: types.Tuple[types.Integer] = None):
+    def __init__(self, tallies: types.Tuple[types.IntegerOrJump] = None):
         """
         Initializes ``Talnp``.
 
@@ -43,4 +43,4 @@ class Talnp(DataOption_, keyword='talnp'):
             ]
         )
 
-        self.tallies: typing.Final[types.Tuple[types.Integer]] = tallies
+        self.tallies: typing.Final[types.Tuple[types.IntegerOrJump]] = tallies

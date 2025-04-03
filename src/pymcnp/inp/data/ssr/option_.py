@@ -14,7 +14,7 @@ class SsrOption_(Option_):
     _KEYWORD = ''
     _SUBCLASSES = {}
     _REGEX = re.compile(
-        rf'old((?: {types.Integer._REGEX.pattern})+?)|cel((?: {types.Integer._REGEX.pattern})+?)|new((?: {types.Integer._REGEX.pattern})+?)|pty((?: {types.Designator._REGEX.pattern})+?)|col( {types.Integer._REGEX.pattern})|wgt( {types.Real._REGEX.pattern})|psc( {types.Real._REGEX.pattern})|axs((?: {types.Real._REGEX.pattern})+?)|ext( {types.DistributionNumber._REGEX.pattern})|poa( {types.Real._REGEX.pattern})|bcw( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})|tr( {types.DistributionNumber._REGEX.pattern})|tr( {types.Integer._REGEX.pattern})'
+        rf'old((?: {types.IntegerOrJump._REGEX.pattern})+?)|cel((?: {types.IntegerOrJump._REGEX.pattern})+?)|new((?: {types.IntegerOrJump._REGEX.pattern})+?)|pty((?: {types.Designator._REGEX.pattern})+?)|col( {types.IntegerOrJump._REGEX.pattern})|wgt( {types.RealOrJump._REGEX.pattern})|psc( {types.RealOrJump._REGEX.pattern})|axs((?: {types.RealOrJump._REGEX.pattern})+?)|ext( {types.DistributionNumber._REGEX.pattern})|poa( {types.RealOrJump._REGEX.pattern})|bcw( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})|tr( {types.DistributionNumber._REGEX.pattern})|tr( {types.IntegerOrJump._REGEX.pattern})'
     )
 
     def __init_subclass__(cls, keyword: str):

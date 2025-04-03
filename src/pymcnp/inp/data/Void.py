@@ -16,12 +16,12 @@ class Void(DataOption_, keyword='void'):
     """
 
     _ATTRS = {
-        'numbers': types.Tuple[types.Integer],
+        'numbers': types.Tuple[types.IntegerOrJump],
     }
 
-    _REGEX = re.compile(rf'\Avoid((?: {types.Integer._REGEX.pattern})+?)?\Z')
+    _REGEX = re.compile(rf'\Avoid((?: {types.IntegerOrJump._REGEX.pattern})+?)?\Z')
 
-    def __init__(self, numbers: types.Tuple[types.Integer] = None):
+    def __init__(self, numbers: types.Tuple[types.IntegerOrJump] = None):
         """
         Initializes ``Void``.
 
@@ -43,4 +43,4 @@ class Void(DataOption_, keyword='void'):
             ]
         )
 
-        self.numbers: typing.Final[types.Tuple[types.Integer]] = numbers
+        self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers

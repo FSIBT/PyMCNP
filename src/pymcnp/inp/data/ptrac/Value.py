@@ -16,12 +16,12 @@ class Value(PtracOption_, keyword='value'):
     """
 
     _ATTRS = {
-        'cutoff': types.Real,
+        'cutoff': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Avalue( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Avalue( {types.RealOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, cutoff: types.Real):
+    def __init__(self, cutoff: types.RealOrJump):
         """
         Initializes ``Value``.
 
@@ -41,4 +41,4 @@ class Value(PtracOption_, keyword='value'):
             ]
         )
 
-        self.cutoff: typing.Final[types.Real] = cutoff
+        self.cutoff: typing.Final[types.RealOrJump] = cutoff

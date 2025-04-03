@@ -17,12 +17,12 @@ class Ext(DataOption_, keyword='ext'):
 
     _ATTRS = {
         'designator': types.Designator,
-        'stretching': types.Tuple[types.Real],
+        'stretching': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(rf'\Aext:(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aext:(\S+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
-    def __init__(self, designator: types.Designator, stretching: types.Tuple[types.Real]):
+    def __init__(self, designator: types.Designator, stretching: types.Tuple[types.RealOrJump]):
         """
         Initializes ``Ext``.
 
@@ -46,4 +46,4 @@ class Ext(DataOption_, keyword='ext'):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.stretching: typing.Final[types.Tuple[types.Real]] = stretching
+        self.stretching: typing.Final[types.Tuple[types.RealOrJump]] = stretching

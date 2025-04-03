@@ -46,5 +46,5 @@ class Df_1(DataOption_, keyword='df'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.options: typing.Final[types.Tuple[df_1.Df_1Option_]] = options

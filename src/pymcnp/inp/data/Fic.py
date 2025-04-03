@@ -18,36 +18,36 @@ class Fic(DataOption_, keyword='fic'):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'x1': types.Real,
-        'y1': types.Real,
-        'z1': types.Real,
-        'ro': types.Real,
-        'x2': types.Real,
-        'y2': types.Real,
-        'z2': types.Real,
-        'f1': types.Real,
-        'f2': types.Real,
-        'f3': types.Real,
+        'x1': types.RealOrJump,
+        'y1': types.RealOrJump,
+        'z1': types.RealOrJump,
+        'ro': types.RealOrJump,
+        'x2': types.RealOrJump,
+        'y2': types.RealOrJump,
+        'z2': types.RealOrJump,
+        'f1': types.RealOrJump,
+        'f2': types.RealOrJump,
+        'f3': types.RealOrJump,
     }
 
     _REGEX = re.compile(
-        rf'\Afic(\d+):(\S+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Afic(\d+):(\S+)( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
         designator: types.Designator,
-        x1: types.Real,
-        y1: types.Real,
-        z1: types.Real,
-        ro: types.Real,
-        x2: types.Real,
-        y2: types.Real,
-        z2: types.Real,
-        f1: types.Real,
-        f2: types.Real,
-        f3: types.Real,
+        x1: types.RealOrJump,
+        y1: types.RealOrJump,
+        z1: types.RealOrJump,
+        ro: types.RealOrJump,
+        x2: types.RealOrJump,
+        y2: types.RealOrJump,
+        z2: types.RealOrJump,
+        f1: types.RealOrJump,
+        f2: types.RealOrJump,
+        f3: types.RealOrJump,
     ):
         """
         Initializes ``Fic``.
@@ -110,15 +110,15 @@ class Fic(DataOption_, keyword='fic'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.designator: typing.Final[types.Designator] = designator
-        self.x1: typing.Final[types.Real] = x1
-        self.y1: typing.Final[types.Real] = y1
-        self.z1: typing.Final[types.Real] = z1
-        self.ro: typing.Final[types.Real] = ro
-        self.x2: typing.Final[types.Real] = x2
-        self.y2: typing.Final[types.Real] = y2
-        self.z2: typing.Final[types.Real] = z2
-        self.f1: typing.Final[types.Real] = f1
-        self.f2: typing.Final[types.Real] = f2
-        self.f3: typing.Final[types.Real] = f3
+        self.x1: typing.Final[types.RealOrJump] = x1
+        self.y1: typing.Final[types.RealOrJump] = y1
+        self.z1: typing.Final[types.RealOrJump] = z1
+        self.ro: typing.Final[types.RealOrJump] = ro
+        self.x2: typing.Final[types.RealOrJump] = x2
+        self.y2: typing.Final[types.RealOrJump] = y2
+        self.z2: typing.Final[types.RealOrJump] = z2
+        self.f1: typing.Final[types.RealOrJump] = f1
+        self.f2: typing.Final[types.RealOrJump] = f2
+        self.f3: typing.Final[types.RealOrJump] = f3

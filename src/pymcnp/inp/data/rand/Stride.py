@@ -16,12 +16,12 @@ class Stride(RandOption_, keyword='stride'):
     """
 
     _ATTRS = {
-        'stride': types.Integer,
+        'stride': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Astride( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Astride( {types.IntegerOrJump._REGEX.pattern})\Z')
 
-    def __init__(self, stride: types.Integer):
+    def __init__(self, stride: types.IntegerOrJump):
         """
         Initializes ``Stride``.
 
@@ -41,4 +41,4 @@ class Stride(RandOption_, keyword='stride'):
             ]
         )
 
-        self.stride: typing.Final[types.Integer] = stride
+        self.stride: typing.Final[types.IntegerOrJump] = stride

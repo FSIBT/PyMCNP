@@ -23,7 +23,9 @@ class Kpert(DataOption_, keyword='kpert'):
 
     _REGEX = re.compile(rf'\Akpert(\d+)((?: (?:{kpert.KpertOption_._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, suffix: types.Integer, options: types.Tuple[kpert.KpertOption_] = None):
+    def __init__(
+        self, suffix: types.Integer, options: types.Tuple[kpert.KpertOption_] = None
+    ):
         """
         Initializes ``Kpert``.
 
@@ -44,5 +46,5 @@ class Kpert(DataOption_, keyword='kpert'):
             ]
         )
 
-        self.suffix: typing.Final[types.Integer] = suffix
+        self.suffix: typing.Final[types.IntegerOrJump] = suffix
         self.options: typing.Final[types.Tuple[kpert.KpertOption_]] = options
