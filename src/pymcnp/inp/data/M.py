@@ -58,7 +58,7 @@ class M(DataOption_, keyword='m'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.substances: typing.Final[types.Tuple[types.Substance]] = substances
         self.options: typing.Final[types.Tuple[m.MOption_]] = options
 

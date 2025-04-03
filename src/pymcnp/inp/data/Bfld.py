@@ -56,6 +56,6 @@ class Bfld(DataOption_, keyword='bfld'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.kind: typing.Final[types.String] = kind
         self.options: typing.Final[types.Tuple[bfld.BfldOption_]] = options

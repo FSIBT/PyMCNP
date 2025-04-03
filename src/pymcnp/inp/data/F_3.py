@@ -60,7 +60,7 @@ class F_3(DataOption_, keyword='f'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
         self.problems: typing.Final[types.Tuple[types.IntegerOrJump]] = problems
         self.t: typing.Final[types.String] = t

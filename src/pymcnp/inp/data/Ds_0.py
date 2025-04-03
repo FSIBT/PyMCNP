@@ -26,10 +26,7 @@ class Ds_0(DataOption_, keyword='ds'):
     )
 
     def __init__(
-        self,
-        suffix: types.Integer,
-        js: types.Tuple[types.RealOrJump],
-        option: types.String = None,
+        self, suffix: types.Integer, js: types.Tuple[types.RealOrJump], option: types.String = None
     ):
         """
         Initializes ``Ds_0``.
@@ -57,6 +54,6 @@ class Ds_0(DataOption_, keyword='ds'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.option: typing.Final[types.String] = option
         self.js: typing.Final[types.Tuple[types.RealOrJump]] = js

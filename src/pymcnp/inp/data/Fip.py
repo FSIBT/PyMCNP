@@ -110,7 +110,7 @@ class Fip(DataOption_, keyword='fip'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
         self.x1: typing.Final[types.RealOrJump] = x1
         self.y1: typing.Final[types.RealOrJump] = y1

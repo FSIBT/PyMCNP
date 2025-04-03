@@ -59,6 +59,6 @@ class Sp_0(DataOption_, keyword='sp'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.option: typing.Final[types.String] = option
         self.probabilities: typing.Final[types.Tuple[types.RealOrJump]] = probabilities

@@ -45,5 +45,5 @@ class Embdb(DataOption_, keyword='embdb'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds

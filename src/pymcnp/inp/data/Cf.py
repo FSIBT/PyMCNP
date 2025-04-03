@@ -45,5 +45,5 @@ class Cf(DataOption_, keyword='cf'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers

@@ -46,4 +46,4 @@ class Fk(StopOption_, keyword='fk'):
         )
 
         self.e: typing.Final[types.IntegerOrJump] = e
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix

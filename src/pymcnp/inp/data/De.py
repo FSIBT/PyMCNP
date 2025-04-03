@@ -57,6 +57,6 @@ class De(DataOption_, keyword='de'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.method: typing.Final[types.String] = method
         self.values: typing.Final[types.Tuple[types.RealOrJump]] = values

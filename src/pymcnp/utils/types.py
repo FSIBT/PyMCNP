@@ -2277,7 +2277,7 @@ class IntegerOrJump(_object.McnpElement_):
         value: Integer value or jump.
     """
 
-    _REGEX = re.compile(rf'(?:[-+0-9.eE]+)|(?:\d*j)')
+    _REGEX = re.compile(r'(?:[-+0-9.eE]+)|(?:\d*j)')
 
     def __init__(self, value: int | Jump):
         """
@@ -2344,7 +2344,7 @@ class RealOrJump(_object.McnpElement_):
         value: Real value or jump.
     """
 
-    _REGEX = re.compile(rf'(?:[-+0-9.eE]+)|(?:\d*j)')
+    _REGEX = re.compile(r'(?:[-+0-9.eE]+)|(?:\d*j)')
 
     def __init__(self, value: int | Jump):
         """

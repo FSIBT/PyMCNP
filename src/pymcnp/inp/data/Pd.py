@@ -56,6 +56,6 @@ class Pd(DataOption_, keyword='pd'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
         self.probabilities: typing.Final[types.Tuple[types.RealOrJump]] = probabilities

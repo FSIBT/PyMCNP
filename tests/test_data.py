@@ -47,9 +47,9 @@ class Test_DataArea:
         EXAMPLES_INVALID = []
 
 
-class Test_DataTr:
+class Test_DataTr_0:
     """
-    Tests ``DataTr``.
+    Tests ``DataTr_0``.
     """
 
     class Test_FromMcnp(_utils._Test_FromMcnp):
@@ -57,7 +57,67 @@ class Test_DataTr:
         Tests ``DataTr.from_mcnp``.
         """
 
-        element = pymcnp.inp.data.Tr
+        element = pymcnp.inp.data.Tr_0
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_DataTr_1:
+    """
+    Tests ``DataTr_1``.
+    """
+
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        """
+        Tests ``DataTr.from_mcnp``.
+        """
+
+        element = pymcnp.inp.data.Tr_1
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_DataTr_2:
+    """
+    Tests ``DataTr_2``.
+    """
+
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        """
+        Tests ``DataTr.from_mcnp``.
+        """
+
+        element = pymcnp.inp.data.Tr_2
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_DataTr_3:
+    """
+    Tests ``DataTr_3``.
+    """
+
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        """
+        Tests ``DataTr.from_mcnp``.
+        """
+
+        element = pymcnp.inp.data.Tr_3
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_DataTr_4:
+    """
+    Tests ``DataTr_4``.
+    """
+
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        """
+        Tests ``DataTr.from_mcnp``.
+        """
+
+        element = pymcnp.inp.data.Tr_4
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 

@@ -63,7 +63,7 @@ class Fu(DataOption_, keyword='fu'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds
         self.nt: typing.Final[types.String] = nt
         self.c: typing.Final[types.String] = c

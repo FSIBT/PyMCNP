@@ -45,5 +45,5 @@ class Xs(DataOption_, keyword='xs'):
             ]
         )
 
-        self.suffix: typing.Final[types.IntegerOrJump] = suffix
+        self.suffix: typing.Final[types.Integer] = suffix
         self.weight_ratios: typing.Final[types.Tuple[types.Substance]] = weight_ratios
