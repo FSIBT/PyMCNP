@@ -7,23 +7,23 @@ from ...utils import types
 from ...utils import errors
 
 
-class Trcl_1(CellOption_, keyword='trcl'):
+class Trcl_3(CellOption_, keyword='trcl'):
     """
-    Represents INP trcl_1 elements.
+    Represents INP trcl_3 elements.
 
     Attributes:
         InpError: SEMANTICS_OPTION_VALUE.
     """
 
     _ATTRS = {
-        'transformation': types.Transformation_0,
+        'transformation': types.Transformation_2,
     }
 
-    _REGEX = re.compile(rf'\Atrcl( {types.Transformation_0._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Atrcl( {types.Transformation_2._REGEX.pattern})\Z')
 
-    def __init__(self, transformation: types.Transformation_0):
+    def __init__(self, transformation: types.Transformation_2):
         """
-        Initializes ``Trcl_1``.
+        Initializes ``Trcl_3``.
 
         Parameters:
             transformation: Cell transformation..
@@ -41,4 +41,4 @@ class Trcl_1(CellOption_, keyword='trcl'):
             ]
         )
 
-        self.transformation: typing.Final[types.Transformation_0] = transformation
+        self.transformation: typing.Final[types.Transformation_2] = transformation

@@ -91,7 +91,7 @@ class EventType(keyword_.HistoryKeyword_):
             PtracError: SYNTAX_HISTORY_KEYWORD.
         """
 
-        source = _parser.Preprocessor.preprocess_ptrac(source)
+        source = _parser.preprocess_ptrac(source)
 
         try:
             return EventType(int(source))

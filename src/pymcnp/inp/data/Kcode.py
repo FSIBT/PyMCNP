@@ -16,30 +16,30 @@ class Kcode(DataOption_, keyword='kcode'):
     """
 
     _ATTRS = {
-        'nsrck': types.IntegerOrJump,
-        'rkk': types.RealOrJump,
-        'ikz': types.IntegerOrJump,
-        'kct': types.IntegerOrJump,
-        'msrk': types.IntegerOrJump,
-        'knrm': types.IntegerOrJump,
-        'mrkp': types.IntegerOrJump,
-        'kc8': types.IntegerOrJump,
+        'nsrck': types.Integer,
+        'rkk': types.Real,
+        'ikz': types.Integer,
+        'kct': types.Integer,
+        'msrk': types.Integer,
+        'knrm': types.Integer,
+        'mrkp': types.Integer,
+        'kc8': types.Integer,
     }
 
     _REGEX = re.compile(
-        rf'\Akcode( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
+        rf'\Akcode( {types.Integer._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
-        nsrck: types.IntegerOrJump,
-        rkk: types.RealOrJump,
-        ikz: types.IntegerOrJump,
-        kct: types.IntegerOrJump,
-        msrk: types.IntegerOrJump,
-        knrm: types.IntegerOrJump,
-        mrkp: types.IntegerOrJump,
-        kc8: types.IntegerOrJump,
+        nsrck: types.Integer = None,
+        rkk: types.Real = None,
+        ikz: types.Integer = None,
+        kct: types.Integer = None,
+        msrk: types.Integer = None,
+        knrm: types.Integer = None,
+        mrkp: types.Integer = None,
+        kc8: types.Integer = None,
     ):
         """
         Initializes ``Kcode``.
@@ -58,21 +58,17 @@ class Kcode(DataOption_, keyword='kcode'):
             InpError: SEMANTICS_OPTION_VALUE.
         """
 
-        if nsrck is None or not (nsrck >= 0):
+        if nsrck is not None and not (nsrck >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nsrck)
-        if rkk is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, rkk)
-        if ikz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ikz)
-        if kct is None or not (kct > 0):
+        if kct is not None and not (kct > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kct)
-        if msrk is None or not (msrk < 40 * nsrck):
+        if msrk is not None and not (msrk < 40 * nsrck):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, msrk)
-        if knrm is None or knrm.value not in {0, 1}:
+        if knrm is not None and knrm.value not in {0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, knrm)
-        if mrkp is None or not (mrkp > 0):
+        if mrkp is not None and not (mrkp > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, mrkp)
-        if kc8 is None or kc8.value not in {0, 1}:
+        if kc8 is not None and kc8.value not in {0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kc8)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -88,11 +84,11 @@ class Kcode(DataOption_, keyword='kcode'):
             ]
         )
 
-        self.nsrck: typing.Final[types.IntegerOrJump] = nsrck
-        self.rkk: typing.Final[types.RealOrJump] = rkk
-        self.ikz: typing.Final[types.IntegerOrJump] = ikz
-        self.kct: typing.Final[types.IntegerOrJump] = kct
-        self.msrk: typing.Final[types.IntegerOrJump] = msrk
-        self.knrm: typing.Final[types.IntegerOrJump] = knrm
-        self.mrkp: typing.Final[types.IntegerOrJump] = mrkp
-        self.kc8: typing.Final[types.IntegerOrJump] = kc8
+        self.nsrck: typing.Final[types.Integer] = nsrck
+        self.rkk: typing.Final[types.Real] = rkk
+        self.ikz: typing.Final[types.Integer] = ikz
+        self.kct: typing.Final[types.Integer] = kct
+        self.msrk: typing.Final[types.Integer] = msrk
+        self.knrm: typing.Final[types.Integer] = knrm
+        self.mrkp: typing.Final[types.Integer] = mrkp
+        self.kc8: typing.Final[types.Integer] = kc8

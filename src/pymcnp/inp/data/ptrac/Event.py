@@ -19,7 +19,7 @@ class Event(PtracOption_, keyword='event'):
         'settings': types.Tuple[types.String],
     }
 
-    _REGEX = re.compile(rf'\Aevent((?: {types.String._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aevent ((?:{types.String._REGEX.pattern})+?)\Z')
 
     def __init__(self, settings: types.Tuple[types.String]):
         """
@@ -32,11 +32,7 @@ class Event(PtracOption_, keyword='event'):
             InpError: SEMANTICS_OPTION_VALUE.
         """
 
-        if settings is None or not (
-            all(
-                map(lambda setting: setting in {'src', 'bnk', 'sur', 'col', 'ter', 'cap'}, settings)
-            )
-        ):
+        if settings is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, settings)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

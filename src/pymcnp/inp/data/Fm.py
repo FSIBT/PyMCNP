@@ -20,7 +20,7 @@ class Fm(DataOption_, keyword='fm'):
         'bins': types.String,
     }
 
-    _REGEX = re.compile(rf'\Afm(\d+)( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afm(\d+)( [\S\s]+)\Z')
 
     def __init__(self, suffix: types.Integer, bins: types.String):
         """

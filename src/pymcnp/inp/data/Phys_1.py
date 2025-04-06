@@ -25,17 +25,17 @@ class Phys_1(DataOption_, keyword='phys:p'):
     }
 
     _REGEX = re.compile(
-        rf'\Aphys:p( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
+        rf'\Aphys:p( {types.RealOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
-        emcpf: types.RealOrJump,
-        ides: types.IntegerOrJump,
-        nocoh: types.IntegerOrJump,
-        ispn: types.IntegerOrJump,
-        nodop: types.IntegerOrJump,
-        fism: types.IntegerOrJump,
+        emcpf: types.RealOrJump = None,
+        ides: types.IntegerOrJump = None,
+        nocoh: types.IntegerOrJump = None,
+        ispn: types.IntegerOrJump = None,
+        nodop: types.IntegerOrJump = None,
+        fism: types.IntegerOrJump = None,
     ):
         """
         Initializes ``Phys_1``.
@@ -52,17 +52,15 @@ class Phys_1(DataOption_, keyword='phys:p'):
             InpError: SEMANTICS_OPTION_VALUE.
         """
 
-        if emcpf is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, emcpf)
-        if ides is None or ides not in {0, 1}:
+        if ides is not None and not (isinstance(ides.value, types.Jump) or ides.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ides)
-        if nocoh is None or nocoh not in {0, 1}:
+        if nocoh is not None and not (isinstance(nocoh.value, types.Jump) or nocoh.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nocoh)
-        if ispn is None or ispn not in {-1, 0, 1}:
+        if ispn is not None and not (isinstance(ispn.value, types.Jump) or ispn.value in {-1, 0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ispn)
-        if nodop is None or nodop not in {0, 1}:
+        if nodop is not None and not (isinstance(nodop.value, types.Jump) or nodop.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nodop)
-        if fism is None or fism not in {0, 1}:
+        if fism is not None and not (isinstance(fism.value, types.Jump) or fism.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fism)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
