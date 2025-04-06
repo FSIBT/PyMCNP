@@ -7,7 +7,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Rad(SdefOption_, keyword='rad'):
+class Rad_0(SdefOption_, keyword='rad'):
     """
     Represents INP rad elements.
 
@@ -23,7 +23,7 @@ class Rad(SdefOption_, keyword='rad'):
 
     def __init__(self, radial_distance: types.RealOrJump):
         """
-        Initializes ``Rad``.
+        Initializes ``Rad_0``.
 
         Parameters:
             radial_distance: Radial distance fo the position from POS or AXS.

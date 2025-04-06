@@ -7,9 +7,9 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fill_1(CellOption_, keyword='fill'):
+class Fill_5(CellOption_, keyword='fill'):
     """
-    Represents INP fill_1 elements.
+    Represents INP fill_5 elements.
 
     Attributes:
         InpError: SEMANTICS_OPTION_VALUE.
@@ -17,16 +17,16 @@ class Fill_1(CellOption_, keyword='fill'):
 
     _ATTRS = {
         'universe': types.Integer,
-        'transformation': types.Transformation_0,
+        'transformation': types.Transformation_4,
     }
 
     _REGEX = re.compile(
-        rf'\Afill( {types.Integer._REGEX.pattern})( {types.Transformation_0._REGEX.pattern}| [(]{types.Transformation_0._REGEX.pattern}[)])?\Z'
+        rf'\Afill( {types.Integer._REGEX.pattern})( {types.Transformation_4._REGEX.pattern}| [(]{types.Transformation_4._REGEX.pattern}[)])?\Z'
     )
 
-    def __init__(self, universe: types.Integer, transformation: types.Transformation_0 = None):
+    def __init__(self, universe: types.Integer, transformation: types.Transformation_4 = None):
         """
-        Initializes ``Fill_1``.
+        Initializes ``Fill_5``.
 
         Parameters:
             universe: Cell fill universe number.
@@ -47,4 +47,4 @@ class Fill_1(CellOption_, keyword='fill'):
         )
 
         self.universe: typing.Final[types.Integer] = universe
-        self.transformation: typing.Final[types.Transformation_0] = transformation
+        self.transformation: typing.Final[types.Transformation_4] = transformation

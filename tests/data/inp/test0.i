@@ -10,7 +10,7 @@ c
      imp:n=1
      imp:p=0.5
      lat 1 
-     fill= 0:1 0:1 0:0 1 0 1 5
+     fill= 0:1 0:1 0:0 1 0 0 1 (5)
 3 3 -1
       1000 1005 -1010
      imp:n,p=1
@@ -20,7 +20,7 @@ c
      fill=1
 5 0 
       #99
-      imp:n,p=3
+      imp:n,p=3 fill=1 (1 0.0 0.0)
 c foo end comment
 
 C surfaces
@@ -31,23 +31,25 @@ C surfaces
 C data
 C materials
 C UO2 5 atpt enriched
-m1        92235           5 &
-     92238          95
+m1        92235.80c           5 &
+92238.80c          95
 c testing comments
 sc1 This is a high quality source comment
 Fc5 Such a good tally comment.
 C Iron
-m2        26054        5.85
-          26056       91.75
-          26057       2.12
-          26058       0.28
+m2        26054.80c        5.85
+          26056.80c       91.75
+          26057.80c        2.12
+          26058.80c        0.28
 C water
-m3        1001          2
-           8016         1
-MT3 lwtr
-TR5 0.0 0.0 1.0 1 1 2 3 4 5 2 1 3 1
+m3        1001.80c           2
+           8016.80c           1
+MT3 lwtr.23t
+TR5 0.0 0.0 1.0
 C execution
 ksrc 0 0 0
+kcode 100000 1.000 50 1050
+phys:p j 1 2j 1
 mode n p
 vol NO 2J 1 1.5 J
 E0 1 10 100

@@ -4,6 +4,21 @@ import re
 """ Preprocessing Functions """
 
 
+def _preprocess_horizontal(string: str):
+    """ """
+
+    tokens = re.split(r'( \d+j)', string)
+
+    string = ''
+    for i, token in enumerate(tokens):
+        if (match := re.match(r'( \d+)j', token)):
+            string += int(match[1]) * ' j'
+        else:
+            string += token
+
+    return string
+
+
 def _preprocess_case(string: str):
     """ """
 
@@ -58,6 +73,7 @@ def preprocess_inp(string: str):
     string = _preprocess_whitespace(string)
     string = _preprocess_continuation(string)
     string = _preprocess_whitespace(string)
+    string = _preprocess_horizontal(string)
 
     return string, comments
 

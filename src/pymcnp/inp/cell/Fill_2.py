@@ -16,53 +16,35 @@ class Fill_2(CellOption_, keyword='fill'):
     """
 
     _ATTRS = {
-        'i': types.Index,
-        'j': types.Index,
-        'k': types.Index,
-        'universes': types.Tuple[types.Integer],
+        'universe': types.Integer,
+        'transformation': types.Transformation_1,
     }
 
     _REGEX = re.compile(
-        rf'\Afill( {types.Index._REGEX.pattern})( {types.Index._REGEX.pattern})( {types.Index._REGEX.pattern})((?: {types.Integer._REGEX.pattern})+?)\Z'
+        rf'\Afill( {types.Integer._REGEX.pattern})( {types.Transformation_1._REGEX.pattern}| [(]{types.Transformation_1._REGEX.pattern}[)])?\Z'
     )
 
-    def __init__(
-        self, i: types.Index, j: types.Index, k: types.Index, universes: types.Tuple[types.Integer]
-    ):
+    def __init__(self, universe: types.Integer, transformation: types.Transformation_1 = None):
         """
         Initializes ``Fill_2``.
 
         Parameters:
-            i: Lattice parameter #1.
-            j: Lattice parameter #2.
-            k: Lattice parameter #3.
-            universes: Fill universe numbers.
+            universe: Cell fill universe number.
+            transformation: Cell fill transformation.
 
         Raises:
             InpError: SEMANTICS_OPTION_VALUE.
         """
 
-        if i is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, i)
-        if j is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, j)
-        if k is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, k)
-        if universes is None or not (
-            len(universes) == (i.upper - i.lower) * (j.upper - j.lower) * (k.upper - k.lower)
-        ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, universes)
+        if universe is None or not (0 <= universe <= 99_999_999):
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, universe)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                i,
-                j,
-                k,
-                universes,
+                universe,
+                transformation,
             ]
         )
 
-        self.i: typing.Final[types.Index] = i
-        self.j: typing.Final[types.Index] = j
-        self.k: typing.Final[types.Index] = k
-        self.universes: typing.Final[types.Tuple[types.Integer]] = universes
+        self.universe: typing.Final[types.Integer] = universe
+        self.transformation: typing.Final[types.Transformation_1] = transformation

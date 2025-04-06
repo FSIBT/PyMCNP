@@ -2,14 +2,17 @@ from .option_ import SdefOption_
 
 from .Cel import Cel
 from .Sur import Sur
-from .Erg import Erg
+from .Erg_0 import Erg_0
+from .Erg_1 import Erg_1
 from .Tme_0 import Tme_0
 from .Tme_1 import Tme_1
-from .Dir import Dir
+from .Dir_0 import Dir_0
+from .Dir_1 import Dir_1
 from .Vec import Vec
 from .Nrm import Nrm
 from .Pos import Pos
-from .Rad import Rad
+from .Rad_0 import Rad_0
+from .Rad_1 import Rad_1
 from .Ext import Ext
 from .Axs import Axs
 from .X import X
@@ -31,14 +34,17 @@ __all__ = [
     'SdefOption_',
     'Cel',
     'Sur',
-    'Erg',
+    'Erg_0',
+    'Erg_1',
     'Tme_0',
     'Tme_1',
-    'Dir',
+    'Dir_0',
+    'Dir_1',
     'Vec',
     'Nrm',
     'Pos',
-    'Rad',
+    'Rad_0',
+    'Rad_1',
     'Ext',
     'Axs',
     'X',

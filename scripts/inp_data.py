@@ -344,7 +344,51 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='transformation',
-                            type='types.Transformation',
+                            type='types.Transformation_0',
+                            description='Cell transformation.',
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='trcl_2',
+                    mnemonic='trcl',
+                    attributes=[
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Transformation_1',
+                            description='Cell transformation.',
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='trcl_3',
+                    mnemonic='trcl',
+                    attributes=[
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Transformation_2',
+                            description='Cell transformation.',
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='trcl_4',
+                    mnemonic='trcl',
+                    attributes=[
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Transformation_3',
+                            description='Cell transformation.',
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='trcl_5',
+                    mnemonic='trcl',
+                    attributes=[
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Transformation_4',
                             description='Cell transformation.',
                         ),
                     ],
@@ -392,7 +436,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='transformation',
-                            type='types.Transformation',
+                            type='types.Transformation_0',
                             description='Cell fill transformation',
                             optional=True,
                         ),
@@ -400,6 +444,78 @@ cards = ElementScheme(
                 ),
                 ElementScheme(
                     name='fill_2',
+                    mnemonic='fill',
+                    attributes=[
+                        AttributeScheme(
+                            name='universe',
+                            type='types.Integer',
+                            description='Cell fill universe number',
+                            restriction='0 <= universe <= 99_999_999',
+                        ),
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Transformation_1',
+                            description='Cell fill transformation',
+                            optional=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='fill_3',
+                    mnemonic='fill',
+                    attributes=[
+                        AttributeScheme(
+                            name='universe',
+                            type='types.Integer',
+                            description='Cell fill universe number',
+                            restriction='0 <= universe <= 99_999_999',
+                        ),
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Transformation_2',
+                            description='Cell fill transformation',
+                            optional=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='fill_4',
+                    mnemonic='fill',
+                    attributes=[
+                        AttributeScheme(
+                            name='universe',
+                            type='types.Integer',
+                            description='Cell fill universe number',
+                            restriction='0 <= universe <= 99_999_999',
+                        ),
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Transformation_3',
+                            description='Cell fill transformation',
+                            optional=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='fill_5',
+                    mnemonic='fill',
+                    attributes=[
+                        AttributeScheme(
+                            name='universe',
+                            type='types.Integer',
+                            description='Cell fill universe number',
+                            restriction='0 <= universe <= 99_999_999',
+                        ),
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Transformation_4',
+                            description='Cell fill transformation',
+                            optional=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='fill_6',
                     mnemonic='fill',
                     attributes=[
                         AttributeScheme(
@@ -423,6 +539,12 @@ cards = ElementScheme(
                             description='Fill universe numbers',
                             restriction='len(universes) == (i.upper - i.lower) * (j.upper - j.lower) * (k.upper - k.lower)',
                         ),
+                        AttributeScheme(
+                            name='m',
+                            type='types.Integer',
+                            description='Displacement vector origin',
+                            optional=True,
+                        )
                     ],
                 ),
                 ElementScheme(
@@ -4556,31 +4678,31 @@ cards = ElementScheme(
                             name='ides',
                             type='types.IntegerOrJump',
                             description='Generation of elections by photon controls',
-                            restriction='ides in {0, 1}',
+                            restriction='isinstance(types.Jump, ides) and ides in {0, 1}',
                         ),
                         AttributeScheme(
                             name='nocoh',
                             type='types.IntegerOrJump',
                             description='Coherent Thomson scattering controls',
-                            restriction='nocoh in {0, 1}',
+                            restriction='isinstance(types.Jump, nocoh) and nocoh in {0, 1}',
                         ),
                         AttributeScheme(
                             name='ispn',
                             type='types.IntegerOrJump',
                             description='Photonuclear particle production controls',
-                            restriction='ispn in {-1, 0, 1}',
+                            restriction='isinstance(types.Jump, ispn) and ispn in {-1, 0, 1}',
                         ),
                         AttributeScheme(
                             name='nodop',
                             type='types.IntegerOrJump',
                             description='Photon Doppler energy broadening controls',
-                            restriction='nodop in {0, 1}',
+                            restriction='isinstance(types.Jump, nodop) and nodop in {0, 1}',
                         ),
                         AttributeScheme(
                             name='fism',
                             type='types.IntegerOrJump',
                             description='Selection of photofission method controls',
-                            restriction='fism in {0, 1}',
+                            restriction='isinstance(types.Jump, fism) and fism in {0, 1}',
                         ),
                     ],
                 ),
@@ -6447,46 +6569,54 @@ cards = ElementScheme(
                             type='types.IntegerOrJump',
                             description='Number of source histories per cycle',
                             restriction='nsrck >= 0',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='rkk',
                             type='types.RealOrJump',
                             description='Initial guess of keff',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='ikz',
                             type='types.IntegerOrJump',
                             description='Number of cycles to be skipped before beginning tally accumulation',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='kct',
                             type='types.IntegerOrJump',
                             description='Total number of cycles to be done',
                             restriction='kct > 0',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='msrk',
-                            type='types.IntegerOrJump',
+                            type='types.Integer',
                             description='Number of source points to allocate for',
                             restriction='msrk < 40 * nsrck',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='knrm',
                             type='types.IntegerOrJump',
                             description='Normalization of tallies setting',
-                            restriction='knrm.value in {0, 1}',
+                            restriction='knrm in {0, 1}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='mrkp',
                             type='types.IntegerOrJump',
                             description='Maximum number of cycle values on MCTAL or RUNTPE files',
                             restriction='mrkp > 0',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='kc8',
                             type='types.IntegerOrJump',
                             description='Number of cylces for average setting',
-                            restriction='kc8.value in {0, 1}',
+                            restriction='kc8 in {0, 1}',
+                            optional=True,
                         ),
                     ],
                 ),

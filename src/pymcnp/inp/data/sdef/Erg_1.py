@@ -7,7 +7,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Erg(SdefOption_, keyword='erg'):
+class Erg_1(SdefOption_, keyword='erg'):
     """
     Represents INP erg elements.
 
@@ -16,14 +16,14 @@ class Erg(SdefOption_, keyword='erg'):
     """
 
     _ATTRS = {
-        'energy': types.RealOrJump,
+        'energy': types.DistributionNumber,
     }
 
-    _REGEX = re.compile(rf'\Aerg( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aerg( {types.DistributionNumber._REGEX.pattern})\Z')
 
-    def __init__(self, energy: types.RealOrJump):
+    def __init__(self, energy: types.DistributionNumber):
         """
-        Initializes ``Erg``.
+        Initializes ``Erg_1``.
 
         Parameters:
             energy: Kinetic energy.
@@ -41,4 +41,4 @@ class Erg(SdefOption_, keyword='erg'):
             ]
         )
 
-        self.energy: typing.Final[types.RealOrJump] = energy
+        self.energy: typing.Final[types.DistributionNumber] = energy

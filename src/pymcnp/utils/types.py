@@ -633,7 +633,7 @@ class DistributionNumber(_object.McnpElement_):
             McnpError: SYNTAX_TYPE.
         """
 
-        source = _parser.Preprocessor.process_inp(source)
+        source, comments = _parser.preprocess_inp(source)
         match = re.match(r'\A[dD](\d|\d\d|\d\d\d)\Z', source)
 
         if match is None:
@@ -1146,7 +1146,7 @@ class Bias(_object.McnpElement_):
         return f'{self.weight} {self.energy}'
 
 
-class Transformation(_object.McnpElement_):
+class Transformation_0(_object.McnpElement_):
     """
     Represents MCNP transformations.
 
@@ -1167,7 +1167,7 @@ class Transformation(_object.McnpElement_):
     """
 
     _REGEX = re.compile(
-        r'(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) '
+        r'(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?'
     )
 
     def __init__(
@@ -1184,10 +1184,10 @@ class Transformation(_object.McnpElement_):
         zx: Real,
         zy: Real,
         zz: Real,
-        m: Real,
+        m: Real = None,
     ):
         """
-        Initializes ``Transformation``.
+        Initializes ``Transformation_0``.
 
         Parameters:
             o1: Transformation displacement vector x-coordinate.
@@ -1205,7 +1205,7 @@ class Transformation(_object.McnpElement_):
             m: Transformation coordinate system setting.
 
         Returns:
-            ``Trcl1Transformation``.
+            ``Transformation_0``.
 
         Raises:
             McnpError: SEMANTICS_TYPE_VALUE.
@@ -1235,7 +1235,7 @@ class Transformation(_object.McnpElement_):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, zy)
         if zz is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, zz)
-        if m is None or m not in {-1, 1}:
+        if m is not None and m not in {-1, 1}:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, m)
 
         self.o1: typing.Final[Real] = o1
@@ -1255,20 +1255,20 @@ class Transformation(_object.McnpElement_):
     @staticmethod
     def from_mcnp(source: str):
         """
-        Generates ``Transformation`` from INP.
+        Generates ``Transformation_0`` from INP.
 
         Parameters:
-            INP for ``Transformation``.
+            INP for ``Transformation_0``.
 
         Returns:
-            ``Transformation``.
+            ``Transformation_0``.
 
         Raises:
             McnpError: SYNTAX_TYPE.
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = Transformation._REGEX.match(source)
+        tokens = Transformation_0._REGEX.match(source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -1285,19 +1285,473 @@ class Transformation(_object.McnpElement_):
         zx = Real.from_mcnp(tokens[10])
         zy = Real.from_mcnp(tokens[11])
         zz = Real.from_mcnp(tokens[12])
-        m = Real.from_mcnp(tokens[13])
+        m = Real.from_mcnp(tokens[13]) if tokens[13] else None
 
-        return Transformation(o1, o2, o3, xx, xy, xz, yx, yy, yz, zx, zy, zz, m)
+        return Transformation_0(o1, o2, o3, xx, xy, xz, yx, yy, yz, zx, zy, zz, m)
 
     def to_mcnp(self):
         """
-        Generates INP from ``Transformation``.
+        Generates INP from ``Transformation_0``.
 
         Returns:
-            INP for ``Transformation``.
+            INP for ``Transformation_0``.
         """
 
         return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.zx} {self.zy} {self.zz} {self.m}'
+
+
+class Transformation_1(_object.McnpElement_):
+    """
+    Represents MCNP transformations.
+
+    Attributes:
+        o1: Transformation displacement vector x-coordinate.
+        o2: Transformation displacement vector y-coordinate.
+        o3: Transformation displacement vector z-coordinate.
+        xx: Transformation rotation matrix xx-entry.
+        xy: Transformation rotation matrix xy-entry.
+        xz: Transformation rotation matrix xz-entry.
+        yx: Transformation rotation matrix yx-entry.
+        yy: Transformation rotation matrix yy-entry.
+        yz: Transformation rotation matrix yz-entry.
+        m: Transformation coordinate system setting.
+    """
+
+    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?')
+
+    def __init__(
+        self,
+        o1: Real,
+        o2: Real,
+        o3: Real,
+        xx: Real,
+        xy: Real,
+        xz: Real,
+        yx: Real,
+        yy: Real,
+        yz: Real,
+        m: Real = None,
+    ):
+        """
+        Initializes ``Transformation_1``.
+
+        Parameters:
+            o1: Transformation displacement vector x-coordinate.
+            o2: Transformation displacement vector y-coordinate.
+            o3: Transformation displacement vector z-coordinate.
+            xx: Transformation rotation matrix xx-entry.
+            xy: Transformation rotation matrix xy-entry.
+            xz: Transformation rotation matrix xz-entry.
+            yx: Transformation rotation matrix yx-entry.
+            yy: Transformation rotation matrix yy-entry.
+            yz: Transformation rotation matrix yz-entry.
+            m: Transformation coordinate system setting.
+
+        Returns:
+            ``Transformation_1``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if o1 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o1)
+        if o2 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o2)
+        if o3 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o3)
+        if xx is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xx)
+        if xy is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xy)
+        if xz is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xz)
+        if yx is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yx)
+        if yy is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yy)
+        if yz is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yz)
+        if m is not None and m not in {-1, 1}:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, m)
+
+        self.o1: typing.Final[Real] = o1
+        self.o2: typing.Final[Real] = o2
+        self.o3: typing.Final[Real] = o3
+        self.xx: typing.Final[Real] = xx
+        self.xy: typing.Final[Real] = xy
+        self.xz: typing.Final[Real] = xz
+        self.yx: typing.Final[Real] = yx
+        self.yy: typing.Final[Real] = yy
+        self.yz: typing.Final[Real] = yz
+        self.m: typing.Final[Real] = m
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``Transformation_1`` from INP.
+
+        Parameters:
+            INP for ``Transformation_1``.
+
+        Returns:
+            ``Transformation_1``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = Transformation_1._REGEX.match(source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        o1 = Real.from_mcnp(tokens[1])
+        o2 = Real.from_mcnp(tokens[2])
+        o3 = Real.from_mcnp(tokens[3])
+        xx = Real.from_mcnp(tokens[4])
+        xy = Real.from_mcnp(tokens[5])
+        xz = Real.from_mcnp(tokens[6])
+        yx = Real.from_mcnp(tokens[7])
+        yy = Real.from_mcnp(tokens[8])
+        yz = Real.from_mcnp(tokens[9])
+        m = Real.from_mcnp(tokens[10]) if tokens[10] else None
+
+        return Transformation_1(o1, o2, o3, xx, xy, xz, yx, yy, yz, m)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``Transformation_1``.
+
+        Returns:
+            INP for ``Transformation_1``.
+        """
+
+        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.m}'
+
+
+class Transformation_2(_object.McnpElement_):
+    """
+    Represents MCNP transformations.
+
+    Attributes:
+        o1: Transformation displacement vector x-coordinate.
+        o2: Transformation displacement vector y-coordinate.
+        o3: Transformation displacement vector z-coordinate.
+        xx: Transformation rotation matrix xx-entry.
+        xy: Transformation rotation matrix xy-entry.
+        xz: Transformation rotation matrix xz-entry.
+        yx: Transformation rotation matrix yx-entry.
+        yy: Transformation rotation matrix yy-entry.
+        m: Transformation coordinate system setting.
+    """
+
+    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?')
+
+    def __init__(
+        self,
+        o1: Real,
+        o2: Real,
+        o3: Real,
+        xx: Real,
+        xy: Real,
+        xz: Real,
+        yx: Real,
+        yy: Real,
+        m: Real = None,
+    ):
+        """
+        Initializes ``Transformation_2``.
+
+        Parameters:
+            o1: Transformation displacement vector x-coordinate.
+            o2: Transformation displacement vector y-coordinate.
+            o3: Transformation displacement vector z-coordinate.
+            xx: Transformation rotation matrix xx-entry.
+            xy: Transformation rotation matrix xy-entry.
+            xz: Transformation rotation matrix xz-entry.
+            yx: Transformation rotation matrix yx-entry.
+            yy: Transformation rotation matrix yy-entry.
+            m: Transformation coordinate system setting.
+
+        Returns:
+            ``Transformation_2``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if o1 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o1)
+        if o2 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o2)
+        if o3 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o3)
+        if xx is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xx)
+        if xy is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xy)
+        if xz is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xz)
+        if yx is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yx)
+        if yy is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yy)
+        if m is not None and m not in {-1, 1}:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, m)
+
+        self.o1: typing.Final[Real] = o1
+        self.o2: typing.Final[Real] = o2
+        self.o3: typing.Final[Real] = o3
+        self.xx: typing.Final[Real] = xx
+        self.xy: typing.Final[Real] = xy
+        self.xz: typing.Final[Real] = xz
+        self.yx: typing.Final[Real] = yx
+        self.yy: typing.Final[Real] = yy
+        self.m: typing.Final[Real] = m
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``Transformation_2`` from INP.
+
+        Parameters:
+            INP for ``Transformation_2``.
+
+        Returns:
+            ``Transformation_2``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = Transformation_2._REGEX.match(source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        o1 = Real.from_mcnp(tokens[1])
+        o2 = Real.from_mcnp(tokens[2])
+        o3 = Real.from_mcnp(tokens[3])
+        xx = Real.from_mcnp(tokens[4])
+        xy = Real.from_mcnp(tokens[5])
+        xz = Real.from_mcnp(tokens[6])
+        yx = Real.from_mcnp(tokens[7])
+        yy = Real.from_mcnp(tokens[8])
+        m = Real.from_mcnp(tokens[9]) if tokens[9] else None
+
+        return Transformation_2(o1, o2, o3, xx, xy, xz, yx, yy, m)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``Transformation_2``.
+
+        Returns:
+            INP for ``Transformation_2``.
+        """
+
+        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.m}'
+
+
+class Transformation_3(_object.McnpElement_):
+    """
+    Represents MCNP transformations.
+
+    Attributes:
+        o1: Transformation displacement vector x-coordinate.
+        o2: Transformation displacement vector y-coordinate.
+        o3: Transformation displacement vector z-coordinate.
+        xx: Transformation rotation matrix xx-entry.
+        xy: Transformation rotation matrix xy-entry.
+        xz: Transformation rotation matrix xz-entry.
+        m: Transformation coordinate system setting.
+    """
+
+    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?')
+
+    def __init__(
+        self,
+        o1: Real,
+        o2: Real,
+        o3: Real,
+        xx: Real,
+        xy: Real,
+        xz: Real,
+        m: Real = None,
+    ):
+        """
+        Initializes ``Transformation_3``.
+
+        Parameters:
+            o1: Transformation displacement vector x-coordinate.
+            o2: Transformation displacement vector y-coordinate.
+            o3: Transformation displacement vector z-coordinate.
+            xx: Transformation rotation matrix xx-entry.
+            xy: Transformation rotation matrix xy-entry.
+            xz: Transformation rotation matrix xz-entry.
+            m: Transformation coordinate system setting.
+
+        Returns:
+            ``Transformation_3``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if o1 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o1)
+        if o2 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o2)
+        if o3 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o3)
+        if xx is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xx)
+        if xy is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xy)
+        if xz is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xz)
+        if m is not None and m not in {-1, 1}:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, m)
+
+        self.o1: typing.Final[Real] = o1
+        self.o2: typing.Final[Real] = o2
+        self.o3: typing.Final[Real] = o3
+        self.xx: typing.Final[Real] = xx
+        self.xy: typing.Final[Real] = xy
+        self.xz: typing.Final[Real] = xz
+        self.m: typing.Final[Real] = m
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``Transformation_3`` from INP.
+
+        Parameters:
+            INP for ``Transformation_3``.
+
+        Returns:
+            ``Transformation_3``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = Transformation_3._REGEX.match(source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        o1 = Real.from_mcnp(tokens[1])
+        o2 = Real.from_mcnp(tokens[2])
+        o3 = Real.from_mcnp(tokens[3])
+        xx = Real.from_mcnp(tokens[4])
+        xy = Real.from_mcnp(tokens[5])
+        xz = Real.from_mcnp(tokens[6])
+        m = Real.from_mcnp(tokens[7]) if tokens[7] else None
+
+        return Transformation_3(o1, o2, o3, xx, xy, xz, m)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``Transformation_3``.
+
+        Returns:
+            INP for ``Transformation_3``.
+        """
+
+        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.m}'
+
+
+class Transformation_4(_object.McnpElement_):
+    """
+    Represents MCNP transformations.
+
+    Attributes:
+        o1: Transformation displacement vector x-coordinate.
+        o2: Transformation displacement vector y-coordinate.
+        o3: Transformation displacement vector z-coordinate.
+        m: Transformation coordinate system setting.
+    """
+
+    _REGEX = re.compile(r'(\S+) (\S+) (\S+)( \S+)?')
+
+    def __init__(
+        self,
+        o1: Real,
+        o2: Real,
+        o3: Real,
+        m: Real = None,
+    ):
+        """
+        Initializes ``Transformation_4``.
+
+        Parameters:
+            o1: Transformation displacement vector x-coordinate.
+            o2: Transformation displacement vector y-coordinate.
+            o3: Transformation displacement vector z-coordinate.
+            m: Transformation coordinate system setting.
+
+        Returns:
+            ``Transformation_4``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE_VALUE.
+        """
+
+        if o1 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o1)
+        if o2 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o2)
+        if o3 is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o3)
+        if m is not None and m not in {-1, 1}:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, m)
+
+        self.o1: typing.Final[Real] = o1
+        self.o2: typing.Final[Real] = o2
+        self.o3: typing.Final[Real] = o3
+        self.m: typing.Final[Real] = m
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``Transformation_4`` from INP.
+
+        Parameters:
+            INP for ``Transformation_4``.
+
+        Returns:
+            ``Transformation_4``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = Transformation_4._REGEX.match(source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        o1 = Real.from_mcnp(tokens[1])
+        o2 = Real.from_mcnp(tokens[2])
+        o3 = Real.from_mcnp(tokens[3])
+        m = Real.from_mcnp(tokens[7]) if tokens[7] else None
+
+        return Transformation_4(o1, o2, o3, m)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``Transformation_4``.
+
+        Returns:
+            INP for ``Transformation_4``.
+        """
+
+        return f'{self.o1} {self.o2} {self.o3} {self.m}'
 
 
 class Stochastic(_object.McnpElement_):
@@ -2052,7 +2506,7 @@ class PtracFilter(_object.McnpElement_):
         variable: Variable name for PBL derived structure.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+)? (\S+)')
+    _REGEX = re.compile(r'(\S+),(\S+)(,\S+)?')
 
     def __init__(self, lower: Real, variable: String, upper: Real = None):
         """
@@ -2072,10 +2526,10 @@ class PtracFilter(_object.McnpElement_):
 
         if lower is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, lower)
-        if upper is not None and not (upper >= lower):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, upper)
-        if variable is None or variable not in {''}:
+        if variable is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, variable)
+        if upper is not None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, upper)
 
         self.lower: typing.Final[Real] = lower
         self.upper: typing.Final[Real] = upper
@@ -2103,8 +2557,8 @@ class PtracFilter(_object.McnpElement_):
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
         lower = Real.from_mcnp(tokens[1])
-        upper = Real.from_mcnp(tokens[2]) if tokens[2] else None
-        variable = String.from_mcnp(tokens[3])
+        variable = String.from_mcnp(tokens[2])
+        upper = String.from_mcnp(tokens[3]) if tokens[3] else None
 
         return PtracFilter(lower, variable, upper)
 
@@ -2277,7 +2731,7 @@ class IntegerOrJump(_object.McnpElement_):
         value: Integer value or jump.
     """
 
-    _REGEX = re.compile(r'(?:[-+0-9.eE]+)|(?:\d*j)')
+    _REGEX = re.compile(r'(?:[-+0-9.eE]+|\d*j|j)')
 
     def __init__(self, value: int | Jump):
         """
@@ -2344,7 +2798,7 @@ class RealOrJump(_object.McnpElement_):
         value: Real value or jump.
     """
 
-    _REGEX = re.compile(r'(?:[-+0-9.eE]+)|(?:\d*j)')
+    _REGEX = re.compile(r'(?:[-+0-9.eE]+|\d*j|j)')
 
     def __init__(self, value: int | Jump):
         """

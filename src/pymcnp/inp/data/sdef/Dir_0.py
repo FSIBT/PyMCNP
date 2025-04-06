@@ -7,7 +7,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Dir(SdefOption_, keyword='dir'):
+class Dir_0(SdefOption_, keyword='dir'):
     """
     Represents INP dir elements.
 
@@ -23,7 +23,7 @@ class Dir(SdefOption_, keyword='dir'):
 
     def __init__(self, cosine: types.RealOrJump):
         """
-        Initializes ``Dir``.
+        Initializes ``Dir_0``.
 
         Parameters:
             cosine: Cosine of the angle between VEC and particle.

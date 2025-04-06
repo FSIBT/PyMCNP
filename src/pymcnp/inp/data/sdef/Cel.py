@@ -32,7 +32,7 @@ class Cel(SdefOption_, keyword='cel'):
             InpError: SEMANTICS_OPTION_VALUE.
         """
 
-        if number is None or not (0 <= number <= 99_999_999):
+        if number is None or not (isinstance(number.value, types.Jump) or 0 <= number.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, number)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

@@ -129,7 +129,7 @@ class Inp(_object.McnpFile_):
         for line in tokens[3].strip().split('\n'):
             try:
                 cells_comments.append(inp.Comment.from_mcnp(line))
-                break
+                continue
             except errors.InpError:
                 pass
 
@@ -140,7 +140,7 @@ class Inp(_object.McnpFile_):
         for line in tokens[4].strip().split('\n'):
             try:
                 surfaces_comments.append(inp.Comment.from_mcnp(line))
-                break
+                continue
             except errors.InpError:
                 pass
 
@@ -151,7 +151,7 @@ class Inp(_object.McnpFile_):
         for line in tokens[5].strip().split('\n'):
             try:
                 data_comments.append(inp.Comment.from_mcnp(line))
-                break
+                continue
             except errors.InpError:
                 pass
 

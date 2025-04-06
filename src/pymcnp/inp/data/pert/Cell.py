@@ -15,7 +15,9 @@ class Cell(PertOption_, keyword='cell'):
         InpError: SEMANTICS_OPTION_VALUE.
     """
 
-    _ATTRS = types.Tuple[types.Integer]
+    _ATTRS = {
+        'numbers': types.Tuple[types.Integer],
+    }
 
     _REGEX = re.compile(r'cell(( \S+)+)')
 

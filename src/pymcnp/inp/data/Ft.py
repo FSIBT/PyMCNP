@@ -20,7 +20,7 @@ class Ft(DataOption_, keyword='ft'):
         'treatments': types.String,
     }
 
-    _REGEX = re.compile(rf'\Aft(\d+)( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aft(\d+)( [\S\s]+)\Z')
 
     def __init__(self, suffix: types.Integer, treatments: types.String):
         """
