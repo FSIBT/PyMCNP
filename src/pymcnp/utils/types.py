@@ -2731,9 +2731,9 @@ class IntegerOrJump(_object.McnpElement_):
         value: Integer value or jump.
     """
 
-    _REGEX = re.compile(r'(?:[-+0-9.eE]+|\d*j|j)')
+    _REGEX = re.compile(r'(?:[-+0-9.eE]+|\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r)')
 
-    def __init__(self, value: int | Jump):
+    def __init__(self, value: int | Repeat | Insert | Multiply | Jump | Log):
         """
         Initializes ``IntegerOrJump``.
 
@@ -2770,7 +2770,27 @@ class IntegerOrJump(_object.McnpElement_):
         source, comments = _parser.preprocess_inp(source)
 
         try:
+            return IntegerOrJump(Repeat.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return IntegerOrJump(Insert.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return IntegerOrJump(Multiply.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
             return IntegerOrJump(Jump.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return IntegerOrJump(Log.from_mcnp(source))
         except errors.McnpError:
             pass
 
@@ -2798,9 +2818,9 @@ class RealOrJump(_object.McnpElement_):
         value: Real value or jump.
     """
 
-    _REGEX = re.compile(r'(?:[-+0-9.eE]+|\d*j|j)')
+    _REGEX = re.compile(r'(?:[-+0-9.eE]+|\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r)')
 
-    def __init__(self, value: int | Jump):
+    def __init__(self, value: int | Repeat | Insert | Multiply | Jump | Log):
         """
         Initializes ``RealOrJump``.
 
@@ -2837,7 +2857,27 @@ class RealOrJump(_object.McnpElement_):
         source, comments = _parser.preprocess_inp(source)
 
         try:
+            return RealOrJump(Repeat.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return RealOrJump(Insert.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return RealOrJump(Multiply.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
             return RealOrJump(Jump.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return RealOrJump(Log.from_mcnp(source))
         except errors.McnpError:
             pass
 
