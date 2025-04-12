@@ -2897,17 +2897,32 @@ class Test_SdefSur:
         EXAMPLES_INVALID = []
 
 
-class Test_SdefErg:
+class Test_SdefErg_0:
     """
-    Tests ``SdefErg``.
+    Tests ``SdefErg_0``.
     """
 
     class Test_FromMcnp(_utils._Test_FromMcnp):
         """
-        Tests ``SdefErg.from_mcnp``.
+        Tests ``SdefErg_0.from_mcnp``.
         """
 
-        element = pymcnp.inp.data.sdef.Erg
+        element = pymcnp.inp.data.sdef.Erg_0
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_SdefErg_1:
+    """
+    Tests ``SdefErg_1``.
+    """
+
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        """
+        Tests ``SdefErg_1.from_mcnp``.
+        """
+
+        element = pymcnp.inp.data.sdef.Erg_1
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
@@ -2942,17 +2957,32 @@ class Test_SdefTme_1:
         EXAMPLES_INVALID = []
 
 
-class Test_SdefDir:
+class Test_SdefDir_0:
     """
-    Tests ``SdefDir``.
+    Tests ``SdefDir_0``.
     """
 
     class Test_FromMcnp(_utils._Test_FromMcnp):
         """
-        Tests ``SdefDir.from_mcnp``.
+        Tests ``SdefDir_0.from_mcnp``.
         """
 
-        element = pymcnp.inp.data.sdef.Dir
+        element = pymcnp.inp.data.sdef.Dir_0
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_SdefDir_1:
+    """
+    Tests ``SdefDir_1``.
+    """
+
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        """
+        Tests ``SdefDir_1.from_mcnp``.
+        """
+
+        element = pymcnp.inp.data.sdef.Dir_1
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
@@ -3002,17 +3032,32 @@ class Test_SdefPos:
         EXAMPLES_INVALID = []
 
 
-class Test_SdefRad:
+class Test_SdefRad_0:
     """
-    Tests ``SdefRad``.
+    Tests ``SdefRad_0``.
     """
 
     class Test_FromMcnp(_utils._Test_FromMcnp):
         """
-        Tests ``SdefRad.from_mcnp``.
+        Tests ``SdefRad_0.from_mcnp``.
         """
 
-        element = pymcnp.inp.data.sdef.Rad
+        element = pymcnp.inp.data.sdef.Rad_0
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_SdefRad_1:
+    """
+    Tests ``SdefRad_1``.
+    """
+
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        """
+        Tests ``SdefRad_1.from_mcnp``.
+        """
+
+        element = pymcnp.inp.data.sdef.Rad_1
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
