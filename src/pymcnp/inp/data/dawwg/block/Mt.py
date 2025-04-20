@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Mt(BlockOption_, keyword='mt'):
     Represents INP mt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Number of materials.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Mt(BlockOption_, keyword='mt'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class MtBuilder:
+    """
+    Builds ``Mt``.
+
+    Attributes:
+        setting: Number of materials.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``MtBuilder`` into ``Mt``.
+
+        Returns:
+            ``Mt`` for ``MtBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Mt(
+            setting=setting,
+        )

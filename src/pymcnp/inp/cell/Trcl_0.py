@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import CellOption_
@@ -9,10 +10,10 @@ from ...utils import errors
 
 class Trcl_0(CellOption_, keyword='trcl'):
     """
-    Represents INP trcl_0 elements.
+    Represents INP trcl variation #0 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        transformation: Cell transformation number.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Trcl_0(CellOption_, keyword='trcl'):
         )
 
         self.transformation: typing.Final[types.Integer] = transformation
+
+
+@dataclasses.dataclass
+class TrclBuilder_0:
+    """
+    Builds ``Trcl_0``.
+
+    Attributes:
+        transformation: Cell transformation number.
+    """
+
+    transformation: str | int | types.Integer
+
+    def build(self):
+        """
+        Builds ``TrclBuilder_0`` into ``Trcl_0``.
+
+        Returns:
+            ``Trcl_0`` for ``TrclBuilder_0``.
+        """
+
+        if isinstance(self.transformation, types.Integer):
+            transformation = self.transformation
+        elif isinstance(self.transformation, int):
+            transformation = types.Integer(self.transformation)
+        elif isinstance(self.transformation, str):
+            transformation = types.Integer.from_mcnp(self.transformation)
+
+        return Trcl_0(
+            transformation=transformation,
+        )

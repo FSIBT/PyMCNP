@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Type(FmeshOption_, keyword='type'):
     Represents INP type elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Tally quantity.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Type(FmeshOption_, keyword='type'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class TypeBuilder:
+    """
+    Builds ``Type``.
+
+    Attributes:
+        setting: Tally quantity.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``TypeBuilder`` into ``Type``.
+
+        Returns:
+            ``Type`` for ``TypeBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Type(
+            setting=setting,
+        )

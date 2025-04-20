@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbedOption_
@@ -12,7 +13,7 @@ class Mgeoin(EmbedOption_, keyword='mgeoin'):
     Represents INP mgeoin elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        filename: Name of the input file containing the mesh description.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Mgeoin(EmbedOption_, keyword='mgeoin'):
         )
 
         self.filename: typing.Final[types.String] = filename
+
+
+@dataclasses.dataclass
+class MgeoinBuilder:
+    """
+    Builds ``Mgeoin``.
+
+    Attributes:
+        filename: Name of the input file containing the mesh description.
+    """
+
+    filename: str | types.String
+
+    def build(self):
+        """
+        Builds ``MgeoinBuilder`` into ``Mgeoin``.
+
+        Returns:
+            ``Mgeoin`` for ``MgeoinBuilder``.
+        """
+
+        if isinstance(self.filename, types.String):
+            filename = self.filename
+        elif isinstance(self.filename, str):
+            filename = types.String.from_mcnp(self.filename)
+
+        return Mgeoin(
+            filename=filename,
+        )

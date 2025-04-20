@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Diffsol(BlockOption_, keyword='diffsol'):
     Represents INP diffsol elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Diffusion operator solver.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Diffsol(BlockOption_, keyword='diffsol'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class DiffsolBuilder:
+    """
+    Builds ``Diffsol``.
+
+    Attributes:
+        setting: Diffusion operator solver.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``DiffsolBuilder`` into ``Diffsol``.
+
+        Returns:
+            ``Diffsol`` for ``DiffsolBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Diffsol(
+            setting=setting,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -9,10 +10,14 @@ from ...utils import errors
 
 class F_2(DataOption_, keyword='f'):
     """
-    Represents INP f_2 elements.
+    Represents INP f variation #2 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        a: Letter.
+        designator: Data card particle designator.
+        rings: Detector points.
+        nd: Total/average specified surfaces/cells option.
     """
 
     _ATTRS = {
@@ -71,3 +76,72 @@ class F_2(DataOption_, keyword='f'):
         self.designator: typing.Final[types.Designator] = designator
         self.rings: typing.Final[types.Tuple[types.Ring]] = rings
         self.nd: typing.Final[types.String] = nd
+
+
+@dataclasses.dataclass
+class FBuilder_2:
+    """
+    Builds ``F_2``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        a: Letter.
+        designator: Data card particle designator.
+        rings: Detector points.
+        nd: Total/average specified surfaces/cells option.
+    """
+
+    suffix: str | int | types.Integer
+    a: str | types.String
+    designator: str | types.Designator
+    rings: list[str] | list[types.Ring]
+    nd: str | types.String = None
+
+    def build(self):
+        """
+        Builds ``FBuilder_2`` into ``F_2``.
+
+        Returns:
+            ``F_2`` for ``FBuilder_2``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        if isinstance(self.a, types.String):
+            a = self.a
+        elif isinstance(self.a, str):
+            a = types.String.from_mcnp(self.a)
+
+        if isinstance(self.designator, types.Designator):
+            designator = self.designator
+        elif isinstance(self.designator, str):
+            designator = types.Designator.from_mcnp(self.designator)
+
+        rings = []
+        for item in self.rings:
+            if isinstance(item, types.Ring):
+                rings.append(item)
+            elif isinstance(item, str):
+                rings.append(types.Ring.from_mcnp(item))
+            else:
+                rings.append(item.build())
+        rings = types.Tuple(rings)
+
+        nd = None
+        if isinstance(self.nd, types.String):
+            nd = self.nd
+        elif isinstance(self.nd, str):
+            nd = types.String.from_mcnp(self.nd)
+
+        return F_2(
+            suffix=suffix,
+            a=a,
+            designator=designator,
+            rings=rings,
+            nd=nd,
+        )

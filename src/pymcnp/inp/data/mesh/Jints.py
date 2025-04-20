@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MeshOption_
@@ -12,7 +13,7 @@ class Jints(MeshOption_, keyword='jints'):
     Represents INP jints elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Number of fine meshes within corresponding coarse meshes in the y/z directions.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Jints(MeshOption_, keyword='jints'):
         )
 
         self.number: typing.Final[types.IntegerOrJump] = number
+
+
+@dataclasses.dataclass
+class JintsBuilder:
+    """
+    Builds ``Jints``.
+
+    Attributes:
+        number: Number of fine meshes within corresponding coarse meshes in the y/z directions.
+    """
+
+    number: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``JintsBuilder`` into ``Jints``.
+
+        Returns:
+            ``Jints`` for ``JintsBuilder``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.IntegerOrJump(self.number)
+        elif isinstance(self.number, str):
+            number = types.IntegerOrJump.from_mcnp(self.number)
+
+        return Jints(
+            number=number,
+        )

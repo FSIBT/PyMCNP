@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import ActOption_
@@ -12,7 +13,7 @@ class Dn(ActOption_, keyword='dn'):
     Represents INP dn elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        source: Delayed neutron data source.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Dn(ActOption_, keyword='dn'):
         )
 
         self.source: typing.Final[types.String] = source
+
+
+@dataclasses.dataclass
+class DnBuilder:
+    """
+    Builds ``Dn``.
+
+    Attributes:
+        source: Delayed neutron data source.
+    """
+
+    source: str | types.String
+
+    def build(self):
+        """
+        Builds ``DnBuilder`` into ``Dn``.
+
+        Returns:
+            ``Dn`` for ``DnBuilder``.
+        """
+
+        if isinstance(self.source, types.String):
+            source = self.source
+        elif isinstance(self.source, str):
+            source = types.String.from_mcnp(self.source)
+
+        return Dn(
+            source=source,
+        )

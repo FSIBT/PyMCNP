@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Ptconv(BlockOption_, keyword='ptconv'):
     Represents INP ptconv elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Special criticality convergence scheme on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Ptconv(BlockOption_, keyword='ptconv'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class PtconvBuilder:
+    """
+    Builds ``Ptconv``.
+
+    Attributes:
+        setting: Special criticality convergence scheme on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``PtconvBuilder`` into ``Ptconv``.
+
+        Returns:
+            ``Ptconv`` for ``PtconvBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Ptconv(
+            setting=setting,
+        )

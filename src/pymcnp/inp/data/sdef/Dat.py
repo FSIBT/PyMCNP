@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -12,7 +13,9 @@ class Dat(SdefOption_, keyword='dat'):
     Represents INP dat elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        month: Month for cosmic-ray & background sources.
+        day: Day for cosmic-ray & background sources.
+        year: Year for cosmic-ray & background sources.
     """
 
     _ATTRS = {
@@ -58,3 +61,54 @@ class Dat(SdefOption_, keyword='dat'):
         self.month: typing.Final[types.IntegerOrJump] = month
         self.day: typing.Final[types.IntegerOrJump] = day
         self.year: typing.Final[types.IntegerOrJump] = year
+
+
+@dataclasses.dataclass
+class DatBuilder:
+    """
+    Builds ``Dat``.
+
+    Attributes:
+        month: Month for cosmic-ray & background sources.
+        day: Day for cosmic-ray & background sources.
+        year: Year for cosmic-ray & background sources.
+    """
+
+    month: str | int | types.IntegerOrJump
+    day: str | int | types.IntegerOrJump
+    year: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``DatBuilder`` into ``Dat``.
+
+        Returns:
+            ``Dat`` for ``DatBuilder``.
+        """
+
+        if isinstance(self.month, types.Integer):
+            month = self.month
+        elif isinstance(self.month, int):
+            month = types.IntegerOrJump(self.month)
+        elif isinstance(self.month, str):
+            month = types.IntegerOrJump.from_mcnp(self.month)
+
+        if isinstance(self.day, types.Integer):
+            day = self.day
+        elif isinstance(self.day, int):
+            day = types.IntegerOrJump(self.day)
+        elif isinstance(self.day, str):
+            day = types.IntegerOrJump.from_mcnp(self.day)
+
+        if isinstance(self.year, types.Integer):
+            year = self.year
+        elif isinstance(self.year, int):
+            year = types.IntegerOrJump(self.year)
+        elif isinstance(self.year, str):
+            year = types.IntegerOrJump.from_mcnp(self.year)
+
+        return Dat(
+            month=month,
+            day=day,
+            year=year,
+        )

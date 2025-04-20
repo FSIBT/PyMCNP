@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from . import kpert
@@ -13,7 +14,8 @@ class Kpert(DataOption_, keyword='kpert'):
     Represents INP kpert elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
@@ -46,3 +48,47 @@ class Kpert(DataOption_, keyword='kpert'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.options: typing.Final[types.Tuple[kpert.KpertOption_]] = options
+
+
+@dataclasses.dataclass
+class KpertBuilder:
+    """
+    Builds ``Kpert``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        options: Dictionary of options.
+    """
+
+    suffix: str | int | types.Integer
+    options: list[str] | list[kpert.KpertOption_] = None
+
+    def build(self):
+        """
+        Builds ``KpertBuilder`` into ``Kpert``.
+
+        Returns:
+            ``Kpert`` for ``KpertBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        options = []
+        for item in self.options:
+            if isinstance(item, kpert.KpertOption_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(kpert.KpertOption_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return Kpert(
+            suffix=suffix,
+            options=options,
+        )

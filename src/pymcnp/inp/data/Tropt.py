@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from . import tropt
@@ -12,7 +13,7 @@ class Tropt(DataOption_, keyword='tropt'):
     Represents INP tropt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
@@ -39,3 +40,37 @@ class Tropt(DataOption_, keyword='tropt'):
         )
 
         self.options: typing.Final[types.Tuple[tropt.TroptOption_]] = options
+
+
+@dataclasses.dataclass
+class TroptBuilder:
+    """
+    Builds ``Tropt``.
+
+    Attributes:
+        options: Dictionary of options.
+    """
+
+    options: list[str] | list[tropt.TroptOption_] = None
+
+    def build(self):
+        """
+        Builds ``TroptBuilder`` into ``Tropt``.
+
+        Returns:
+            ``Tropt`` for ``TroptBuilder``.
+        """
+
+        options = []
+        for item in self.options:
+            if isinstance(item, tropt.TroptOption_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(tropt.TroptOption_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return Tropt(
+            options=options,
+        )

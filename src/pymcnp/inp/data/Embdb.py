@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,8 @@ class Embdb(DataOption_, keyword='embdb'):
     Represents INP embdb elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        bounds: Tuple of upper dose energy bounds.
     """
 
     _ATTRS = {
@@ -47,3 +49,47 @@ class Embdb(DataOption_, keyword='embdb'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds
+
+
+@dataclasses.dataclass
+class EmbdbBuilder:
+    """
+    Builds ``Embdb``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        bounds: Tuple of upper dose energy bounds.
+    """
+
+    suffix: str | int | types.Integer
+    bounds: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``EmbdbBuilder`` into ``Embdb``.
+
+        Returns:
+            ``Embdb`` for ``EmbdbBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        bounds = []
+        for item in self.bounds:
+            if isinstance(item, types.RealOrJump):
+                bounds.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                bounds.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                bounds.append(types.RealOrJump.from_mcnp(item))
+        bounds = types.Tuple(bounds)
+
+        return Embdb(
+            suffix=suffix,
+            bounds=bounds,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Raflux(BlockOption_, keyword='raflux'):
     Represents INP raflux elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Prepare angular flux file on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Raflux(BlockOption_, keyword='raflux'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class RafluxBuilder:
+    """
+    Builds ``Raflux``.
+
+    Attributes:
+        setting: Prepare angular flux file on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``RafluxBuilder`` into ``Raflux``.
+
+        Returns:
+            ``Raflux`` for ``RafluxBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Raflux(
+            setting=setting,
+        )

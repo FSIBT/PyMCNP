@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,8 @@ class Sz(SurfaceOption_, keyword='sz'):
     Represents INP sz elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        z: On-z-axis sphere center z component.
+        r: On-z-axis sphere radius.
     """
 
     _ATTRS = {
@@ -62,3 +64,44 @@ class Sz(SurfaceOption_, keyword='sz'):
         vis = vis.add_translation(_visualization.Vector(0, 0, self.z.value))
 
         return vis
+
+
+@dataclasses.dataclass
+class SzBuilder:
+    """
+    Builds ``Sz``.
+
+    Attributes:
+        z: On-z-axis sphere center z component.
+        r: On-z-axis sphere radius.
+    """
+
+    z: str | float | types.Real
+    r: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``SzBuilder`` into ``Sz``.
+
+        Returns:
+            ``Sz`` for ``SzBuilder``.
+        """
+
+        if isinstance(self.z, types.Real):
+            z = self.z
+        elif isinstance(self.z, float) or isinstance(self.z, int):
+            z = types.Real(self.z)
+        elif isinstance(self.z, str):
+            z = types.Real.from_mcnp(self.z)
+
+        if isinstance(self.r, types.Real):
+            r = self.r
+        elif isinstance(self.r, float) or isinstance(self.r, int):
+            r = types.Real(self.r)
+        elif isinstance(self.r, str):
+            r = types.Real.from_mcnp(self.r)
+
+        return Sz(
+            z=z,
+            r=r,
+        )

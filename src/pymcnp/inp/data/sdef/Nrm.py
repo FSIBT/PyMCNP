@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -12,7 +13,7 @@ class Nrm(SdefOption_, keyword='nrm'):
     Represents INP nrm elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        sign: Sign of the surface normal.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Nrm(SdefOption_, keyword='nrm'):
         )
 
         self.sign: typing.Final[types.IntegerOrJump] = sign
+
+
+@dataclasses.dataclass
+class NrmBuilder:
+    """
+    Builds ``Nrm``.
+
+    Attributes:
+        sign: Sign of the surface normal.
+    """
+
+    sign: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``NrmBuilder`` into ``Nrm``.
+
+        Returns:
+            ``Nrm`` for ``NrmBuilder``.
+        """
+
+        if isinstance(self.sign, types.Integer):
+            sign = self.sign
+        elif isinstance(self.sign, int):
+            sign = types.IntegerOrJump(self.sign)
+        elif isinstance(self.sign, str):
+            sign = types.IntegerOrJump.from_mcnp(self.sign)
+
+        return Nrm(
+            sign=sign,
+        )

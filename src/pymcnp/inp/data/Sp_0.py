@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -9,10 +10,12 @@ from ...utils import errors
 
 class Sp_0(DataOption_, keyword='sp'):
     """
-    Represents INP sp_0 elements.
+    Represents INP sp variation #0 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        option: Probability kind setting.
+        probabilities: Particle source probabilities.
     """
 
     _ATTRS = {
@@ -62,3 +65,56 @@ class Sp_0(DataOption_, keyword='sp'):
         self.suffix: typing.Final[types.Integer] = suffix
         self.option: typing.Final[types.String] = option
         self.probabilities: typing.Final[types.Tuple[types.RealOrJump]] = probabilities
+
+
+@dataclasses.dataclass
+class SpBuilder_0:
+    """
+    Builds ``Sp_0``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        option: Probability kind setting.
+        probabilities: Particle source probabilities.
+    """
+
+    suffix: str | int | types.Integer
+    probabilities: list[str] | list[float] | list[types.RealOrJump]
+    option: str | types.String = None
+
+    def build(self):
+        """
+        Builds ``SpBuilder_0`` into ``Sp_0``.
+
+        Returns:
+            ``Sp_0`` for ``SpBuilder_0``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        option = None
+        if isinstance(self.option, types.String):
+            option = self.option
+        elif isinstance(self.option, str):
+            option = types.String.from_mcnp(self.option)
+
+        probabilities = []
+        for item in self.probabilities:
+            if isinstance(item, types.RealOrJump):
+                probabilities.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                probabilities.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                probabilities.append(types.RealOrJump.from_mcnp(item))
+        probabilities = types.Tuple(probabilities)
+
+        return Sp_0(
+            suffix=suffix,
+            option=option,
+            probabilities=probabilities,
+        )

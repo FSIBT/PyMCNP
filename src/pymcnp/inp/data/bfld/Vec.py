@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BfldOption_
@@ -12,7 +13,7 @@ class Vec(BfldOption_, keyword='vec'):
     Represents INP vec elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        vector: Direction of mangentic field or plane corresponding to the x-axis of the quadrapole.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Vec(BfldOption_, keyword='vec'):
         )
 
         self.vector: typing.Final[types.Tuple[types.RealOrJump]] = vector
+
+
+@dataclasses.dataclass
+class VecBuilder:
+    """
+    Builds ``Vec``.
+
+    Attributes:
+        vector: Direction of mangentic field or plane corresponding to the x-axis of the quadrapole.
+    """
+
+    vector: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``VecBuilder`` into ``Vec``.
+
+        Returns:
+            ``Vec`` for ``VecBuilder``.
+        """
+
+        vector = []
+        for item in self.vector:
+            if isinstance(item, types.RealOrJump):
+                vector.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                vector.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                vector.append(types.RealOrJump.from_mcnp(item))
+        vector = types.Tuple(vector)
+
+        return Vec(
+            vector=vector,
+        )

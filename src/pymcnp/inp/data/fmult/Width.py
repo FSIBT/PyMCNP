@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmultOption_
@@ -12,7 +13,7 @@ class Width(FmultOption_, keyword='width'):
     Represents INP width elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        width: Width for sampling spontaneous fission.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Width(FmultOption_, keyword='width'):
         )
 
         self.width: typing.Final[types.RealOrJump] = width
+
+
+@dataclasses.dataclass
+class WidthBuilder:
+    """
+    Builds ``Width``.
+
+    Attributes:
+        width: Width for sampling spontaneous fission.
+    """
+
+    width: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``WidthBuilder`` into ``Width``.
+
+        Returns:
+            ``Width`` for ``WidthBuilder``.
+        """
+
+        if isinstance(self.width, types.Real):
+            width = self.width
+        elif isinstance(self.width, float) or isinstance(self.width, int):
+            width = types.RealOrJump(self.width)
+        elif isinstance(self.width, str):
+            width = types.RealOrJump.from_mcnp(self.width)
+
+        return Width(
+            width=width,
+        )

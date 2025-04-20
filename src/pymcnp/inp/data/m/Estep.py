@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MOption_
@@ -12,7 +13,7 @@ class Estep(MOption_, keyword='estep'):
     Represents INP estep elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        step: Number of electron sub-step per energy step.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Estep(MOption_, keyword='estep'):
         )
 
         self.step: typing.Final[types.IntegerOrJump] = step
+
+
+@dataclasses.dataclass
+class EstepBuilder:
+    """
+    Builds ``Estep``.
+
+    Attributes:
+        step: Number of electron sub-step per energy step.
+    """
+
+    step: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``EstepBuilder`` into ``Estep``.
+
+        Returns:
+            ``Estep`` for ``EstepBuilder``.
+        """
+
+        if isinstance(self.step, types.Integer):
+            step = self.step
+        elif isinstance(self.step, int):
+            step = types.IntegerOrJump(self.step)
+        elif isinstance(self.step, str):
+            step = types.IntegerOrJump.from_mcnp(self.step)
+
+        return Estep(
+            step=step,
+        )

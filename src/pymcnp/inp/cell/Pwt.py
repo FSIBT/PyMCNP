@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import CellOption_
@@ -12,7 +13,7 @@ class Pwt(CellOption_, keyword='pwt'):
     Represents INP pwt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        weight: Cell weight of photons produced at neutron collisions.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Pwt(CellOption_, keyword='pwt'):
         )
 
         self.weight: typing.Final[types.Real] = weight
+
+
+@dataclasses.dataclass
+class PwtBuilder:
+    """
+    Builds ``Pwt``.
+
+    Attributes:
+        weight: Cell weight of photons produced at neutron collisions.
+    """
+
+    weight: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``PwtBuilder`` into ``Pwt``.
+
+        Returns:
+            ``Pwt`` for ``PwtBuilder``.
+        """
+
+        if isinstance(self.weight, types.Real):
+            weight = self.weight
+        elif isinstance(self.weight, float) or isinstance(self.weight, int):
+            weight = types.Real(self.weight)
+        elif isinstance(self.weight, str):
+            weight = types.Real.from_mcnp(self.weight)
+
+        return Pwt(
+            weight=weight,
+        )

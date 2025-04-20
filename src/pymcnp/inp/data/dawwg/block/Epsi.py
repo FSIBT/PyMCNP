@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Epsi(BlockOption_, keyword='epsi'):
     Represents INP epsi elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Convergence precision.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Epsi(BlockOption_, keyword='epsi'):
         )
 
         self.setting: typing.Final[types.RealOrJump] = setting
+
+
+@dataclasses.dataclass
+class EpsiBuilder:
+    """
+    Builds ``Epsi``.
+
+    Attributes:
+        setting: Convergence precision.
+    """
+
+    setting: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``EpsiBuilder`` into ``Epsi``.
+
+        Returns:
+            ``Epsi`` for ``EpsiBuilder``.
+        """
+
+        if isinstance(self.setting, types.Real):
+            setting = self.setting
+        elif isinstance(self.setting, float) or isinstance(self.setting, int):
+            setting = types.RealOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.RealOrJump.from_mcnp(self.setting)
+
+        return Epsi(
+            setting=setting,
+        )

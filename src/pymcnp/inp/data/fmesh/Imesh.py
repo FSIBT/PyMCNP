@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Imesh(FmeshOption_, keyword='imesh'):
     Represents INP imesh elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        locations: Locations of mesh points x/r for rectangular/cylindrical geometry.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Imesh(FmeshOption_, keyword='imesh'):
         )
 
         self.locations: typing.Final[types.RealOrJump] = locations
+
+
+@dataclasses.dataclass
+class ImeshBuilder:
+    """
+    Builds ``Imesh``.
+
+    Attributes:
+        locations: Locations of mesh points x/r for rectangular/cylindrical geometry.
+    """
+
+    locations: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``ImeshBuilder`` into ``Imesh``.
+
+        Returns:
+            ``Imesh`` for ``ImeshBuilder``.
+        """
+
+        if isinstance(self.locations, types.Real):
+            locations = self.locations
+        elif isinstance(self.locations, float) or isinstance(self.locations, int):
+            locations = types.RealOrJump(self.locations)
+        elif isinstance(self.locations, str):
+            locations = types.RealOrJump.from_mcnp(self.locations)
+
+        return Imesh(
+            locations=locations,
+        )

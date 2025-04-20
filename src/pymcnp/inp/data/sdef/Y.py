@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -12,7 +13,7 @@ class Y(SdefOption_, keyword='y'):
     Represents INP y elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        y_coordinate: Y-cordinate of position.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Y(SdefOption_, keyword='y'):
         )
 
         self.y_coordinate: typing.Final[types.RealOrJump] = y_coordinate
+
+
+@dataclasses.dataclass
+class YBuilder:
+    """
+    Builds ``Y``.
+
+    Attributes:
+        y_coordinate: Y-cordinate of position.
+    """
+
+    y_coordinate: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``YBuilder`` into ``Y``.
+
+        Returns:
+            ``Y`` for ``YBuilder``.
+        """
+
+        if isinstance(self.y_coordinate, types.Real):
+            y_coordinate = self.y_coordinate
+        elif isinstance(self.y_coordinate, float) or isinstance(self.y_coordinate, int):
+            y_coordinate = types.RealOrJump(self.y_coordinate)
+        elif isinstance(self.y_coordinate, str):
+            y_coordinate = types.RealOrJump.from_mcnp(self.y_coordinate)
+
+        return Y(
+            y_coordinate=y_coordinate,
+        )

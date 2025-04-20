@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbeeOption_
@@ -12,7 +13,7 @@ class List(EmbeeOption_, keyword='list'):
     Represents INP list elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        reactions: List of reactions.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class List(EmbeeOption_, keyword='list'):
         )
 
         self.reactions: typing.Final[types.RealOrJump] = reactions
+
+
+@dataclasses.dataclass
+class ListBuilder:
+    """
+    Builds ``List``.
+
+    Attributes:
+        reactions: List of reactions.
+    """
+
+    reactions: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``ListBuilder`` into ``List``.
+
+        Returns:
+            ``List`` for ``ListBuilder``.
+        """
+
+        if isinstance(self.reactions, types.Real):
+            reactions = self.reactions
+        elif isinstance(self.reactions, float) or isinstance(self.reactions, int):
+            reactions = types.RealOrJump(self.reactions)
+        elif isinstance(self.reactions, str):
+            reactions = types.RealOrJump.from_mcnp(self.reactions)
+
+        return List(
+            reactions=reactions,
+        )

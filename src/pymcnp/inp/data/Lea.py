@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,14 @@ class Lea(DataOption_, keyword='lea'):
     Represents INP lea elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        ipht: Generation of de-excitation photons setting.
+        icc: Level of physics for PHT physics setting.
+        nobalc: Mass-energy balancing in cascade setting.
+        nobale: Mass-energy balancing in evaporation setting.
+        ifbrk: Mass-energy balancing in Fermi-breakup setting.
+        ilvden: Level-density model setting.
+        ievap: Evaporation and fission model setting.
+        nofis: Fission setting.
     """
 
     _ATTRS = {
@@ -96,3 +104,104 @@ class Lea(DataOption_, keyword='lea'):
         self.ilvden: typing.Final[types.IntegerOrJump] = ilvden
         self.ievap: typing.Final[types.IntegerOrJump] = ievap
         self.nofis: typing.Final[types.IntegerOrJump] = nofis
+
+
+@dataclasses.dataclass
+class LeaBuilder:
+    """
+    Builds ``Lea``.
+
+    Attributes:
+        ipht: Generation of de-excitation photons setting.
+        icc: Level of physics for PHT physics setting.
+        nobalc: Mass-energy balancing in cascade setting.
+        nobale: Mass-energy balancing in evaporation setting.
+        ifbrk: Mass-energy balancing in Fermi-breakup setting.
+        ilvden: Level-density model setting.
+        ievap: Evaporation and fission model setting.
+        nofis: Fission setting.
+    """
+
+    ipht: str | int | types.IntegerOrJump
+    icc: str | int | types.IntegerOrJump
+    nobalc: str | int | types.IntegerOrJump
+    nobale: str | int | types.IntegerOrJump
+    ifbrk: str | int | types.IntegerOrJump
+    ilvden: str | int | types.IntegerOrJump
+    ievap: str | int | types.IntegerOrJump
+    nofis: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``LeaBuilder`` into ``Lea``.
+
+        Returns:
+            ``Lea`` for ``LeaBuilder``.
+        """
+
+        if isinstance(self.ipht, types.Integer):
+            ipht = self.ipht
+        elif isinstance(self.ipht, int):
+            ipht = types.IntegerOrJump(self.ipht)
+        elif isinstance(self.ipht, str):
+            ipht = types.IntegerOrJump.from_mcnp(self.ipht)
+
+        if isinstance(self.icc, types.Integer):
+            icc = self.icc
+        elif isinstance(self.icc, int):
+            icc = types.IntegerOrJump(self.icc)
+        elif isinstance(self.icc, str):
+            icc = types.IntegerOrJump.from_mcnp(self.icc)
+
+        if isinstance(self.nobalc, types.Integer):
+            nobalc = self.nobalc
+        elif isinstance(self.nobalc, int):
+            nobalc = types.IntegerOrJump(self.nobalc)
+        elif isinstance(self.nobalc, str):
+            nobalc = types.IntegerOrJump.from_mcnp(self.nobalc)
+
+        if isinstance(self.nobale, types.Integer):
+            nobale = self.nobale
+        elif isinstance(self.nobale, int):
+            nobale = types.IntegerOrJump(self.nobale)
+        elif isinstance(self.nobale, str):
+            nobale = types.IntegerOrJump.from_mcnp(self.nobale)
+
+        if isinstance(self.ifbrk, types.Integer):
+            ifbrk = self.ifbrk
+        elif isinstance(self.ifbrk, int):
+            ifbrk = types.IntegerOrJump(self.ifbrk)
+        elif isinstance(self.ifbrk, str):
+            ifbrk = types.IntegerOrJump.from_mcnp(self.ifbrk)
+
+        if isinstance(self.ilvden, types.Integer):
+            ilvden = self.ilvden
+        elif isinstance(self.ilvden, int):
+            ilvden = types.IntegerOrJump(self.ilvden)
+        elif isinstance(self.ilvden, str):
+            ilvden = types.IntegerOrJump.from_mcnp(self.ilvden)
+
+        if isinstance(self.ievap, types.Integer):
+            ievap = self.ievap
+        elif isinstance(self.ievap, int):
+            ievap = types.IntegerOrJump(self.ievap)
+        elif isinstance(self.ievap, str):
+            ievap = types.IntegerOrJump.from_mcnp(self.ievap)
+
+        if isinstance(self.nofis, types.Integer):
+            nofis = self.nofis
+        elif isinstance(self.nofis, int):
+            nofis = types.IntegerOrJump(self.nofis)
+        elif isinstance(self.nofis, str):
+            nofis = types.IntegerOrJump.from_mcnp(self.nofis)
+
+        return Lea(
+            ipht=ipht,
+            icc=icc,
+            nobalc=nobalc,
+            nobale=nobale,
+            ifbrk=ifbrk,
+            ilvden=ilvden,
+            ievap=ievap,
+            nofis=nofis,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,8 @@ class Ext(DataOption_, keyword='ext'):
     Represents INP ext elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        designator: Data card particle designator.
+        stretching: Stretching direction for the cell.
     """
 
     _ATTRS = {
@@ -47,3 +49,45 @@ class Ext(DataOption_, keyword='ext'):
 
         self.designator: typing.Final[types.Designator] = designator
         self.stretching: typing.Final[types.Tuple[types.RealOrJump]] = stretching
+
+
+@dataclasses.dataclass
+class ExtBuilder:
+    """
+    Builds ``Ext``.
+
+    Attributes:
+        designator: Data card particle designator.
+        stretching: Stretching direction for the cell.
+    """
+
+    designator: str | types.Designator
+    stretching: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``ExtBuilder`` into ``Ext``.
+
+        Returns:
+            ``Ext`` for ``ExtBuilder``.
+        """
+
+        if isinstance(self.designator, types.Designator):
+            designator = self.designator
+        elif isinstance(self.designator, str):
+            designator = types.Designator.from_mcnp(self.designator)
+
+        stretching = []
+        for item in self.stretching:
+            if isinstance(item, types.RealOrJump):
+                stretching.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                stretching.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                stretching.append(types.RealOrJump.from_mcnp(item))
+        stretching = types.Tuple(stretching)
+
+        return Ext(
+            designator=designator,
+            stretching=stretching,
+        )

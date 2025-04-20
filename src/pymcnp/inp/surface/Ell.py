@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,13 @@ class Ell(SurfaceOption_, keyword='ell'):
     Represents INP ell elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        v1x: Ellipsoid focus #1 or center x component.
+        v1y: Ellipsoid focus #1 or center y component.
+        v1z: Ellipsoid focus #1 or center z component.
+        v2x: Ellipsoid focus #2 or major axis x component.
+        v2y: Ellipsoid focus #2 or major axis y component.
+        v2z: Ellipsoid focus #2 or major axis z component.
+        rm: Ellipsoid major/minor axis radius length.
     """
 
     _ATTRS = {
@@ -122,3 +129,94 @@ class Ell(SurfaceOption_, keyword='ell'):
         vis = vis.add_translation(center)
 
         return vis
+
+
+@dataclasses.dataclass
+class EllBuilder:
+    """
+    Builds ``Ell``.
+
+    Attributes:
+        v1x: Ellipsoid focus #1 or center x component.
+        v1y: Ellipsoid focus #1 or center y component.
+        v1z: Ellipsoid focus #1 or center z component.
+        v2x: Ellipsoid focus #2 or major axis x component.
+        v2y: Ellipsoid focus #2 or major axis y component.
+        v2z: Ellipsoid focus #2 or major axis z component.
+        rm: Ellipsoid major/minor axis radius length.
+    """
+
+    v1x: str | float | types.Real
+    v1y: str | float | types.Real
+    v1z: str | float | types.Real
+    v2x: str | float | types.Real
+    v2y: str | float | types.Real
+    v2z: str | float | types.Real
+    rm: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``EllBuilder`` into ``Ell``.
+
+        Returns:
+            ``Ell`` for ``EllBuilder``.
+        """
+
+        if isinstance(self.v1x, types.Real):
+            v1x = self.v1x
+        elif isinstance(self.v1x, float) or isinstance(self.v1x, int):
+            v1x = types.Real(self.v1x)
+        elif isinstance(self.v1x, str):
+            v1x = types.Real.from_mcnp(self.v1x)
+
+        if isinstance(self.v1y, types.Real):
+            v1y = self.v1y
+        elif isinstance(self.v1y, float) or isinstance(self.v1y, int):
+            v1y = types.Real(self.v1y)
+        elif isinstance(self.v1y, str):
+            v1y = types.Real.from_mcnp(self.v1y)
+
+        if isinstance(self.v1z, types.Real):
+            v1z = self.v1z
+        elif isinstance(self.v1z, float) or isinstance(self.v1z, int):
+            v1z = types.Real(self.v1z)
+        elif isinstance(self.v1z, str):
+            v1z = types.Real.from_mcnp(self.v1z)
+
+        if isinstance(self.v2x, types.Real):
+            v2x = self.v2x
+        elif isinstance(self.v2x, float) or isinstance(self.v2x, int):
+            v2x = types.Real(self.v2x)
+        elif isinstance(self.v2x, str):
+            v2x = types.Real.from_mcnp(self.v2x)
+
+        if isinstance(self.v2y, types.Real):
+            v2y = self.v2y
+        elif isinstance(self.v2y, float) or isinstance(self.v2y, int):
+            v2y = types.Real(self.v2y)
+        elif isinstance(self.v2y, str):
+            v2y = types.Real.from_mcnp(self.v2y)
+
+        if isinstance(self.v2z, types.Real):
+            v2z = self.v2z
+        elif isinstance(self.v2z, float) or isinstance(self.v2z, int):
+            v2z = types.Real(self.v2z)
+        elif isinstance(self.v2z, str):
+            v2z = types.Real.from_mcnp(self.v2z)
+
+        if isinstance(self.rm, types.Real):
+            rm = self.rm
+        elif isinstance(self.rm, float) or isinstance(self.rm, int):
+            rm = types.Real(self.rm)
+        elif isinstance(self.rm, str):
+            rm = types.Real.from_mcnp(self.rm)
+
+        return Ell(
+            v1x=v1x,
+            v1y=v1y,
+            v1z=v1z,
+            v2x=v2x,
+            v2y=v2y,
+            v2z=v2z,
+            rm=rm,
+        )

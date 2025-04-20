@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SsrOption_
@@ -12,7 +13,7 @@ class Poa(SsrOption_, keyword='poa'):
     Represents INP poa elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        angle: Angle within which particles accepeted for transport.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Poa(SsrOption_, keyword='poa'):
         )
 
         self.angle: typing.Final[types.RealOrJump] = angle
+
+
+@dataclasses.dataclass
+class PoaBuilder:
+    """
+    Builds ``Poa``.
+
+    Attributes:
+        angle: Angle within which particles accepeted for transport.
+    """
+
+    angle: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``PoaBuilder`` into ``Poa``.
+
+        Returns:
+            ``Poa`` for ``PoaBuilder``.
+        """
+
+        if isinstance(self.angle, types.Real):
+            angle = self.angle
+        elif isinstance(self.angle, float) or isinstance(self.angle, int):
+            angle = types.RealOrJump(self.angle)
+        elif isinstance(self.angle, str):
+            angle = types.RealOrJump.from_mcnp(self.angle)
+
+        return Poa(
+            angle=angle,
+        )

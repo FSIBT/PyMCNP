@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,8 @@ class Cm(DataOption_, keyword='cm'):
     Represents INP cm elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        multipliers: Cosine bin multiplier to apply.
     """
 
     _ATTRS = {
@@ -47,3 +49,47 @@ class Cm(DataOption_, keyword='cm'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.multipliers: typing.Final[types.Tuple[types.RealOrJump]] = multipliers
+
+
+@dataclasses.dataclass
+class CmBuilder:
+    """
+    Builds ``Cm``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        multipliers: Cosine bin multiplier to apply.
+    """
+
+    suffix: str | int | types.Integer
+    multipliers: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``CmBuilder`` into ``Cm``.
+
+        Returns:
+            ``Cm`` for ``CmBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        multipliers = []
+        for item in self.multipliers:
+            if isinstance(item, types.RealOrJump):
+                multipliers.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                multipliers.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                multipliers.append(types.RealOrJump.from_mcnp(item))
+        multipliers = types.Tuple(multipliers)
+
+        return Cm(
+            suffix=suffix,
+            multipliers=multipliers,
+        )

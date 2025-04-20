@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,7 @@ class Cy(SurfaceOption_, keyword='cy'):
     Represents INP cy elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        r: On-y-axis cylinder radius.
     """
 
     _ATTRS = {
@@ -56,3 +57,34 @@ class Cy(SurfaceOption_, keyword='cy'):
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
 
         return vis
+
+
+@dataclasses.dataclass
+class CyBuilder:
+    """
+    Builds ``Cy``.
+
+    Attributes:
+        r: On-y-axis cylinder radius.
+    """
+
+    r: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``CyBuilder`` into ``Cy``.
+
+        Returns:
+            ``Cy`` for ``CyBuilder``.
+        """
+
+        if isinstance(self.r, types.Real):
+            r = self.r
+        elif isinstance(self.r, float) or isinstance(self.r, int):
+            r = types.Real(self.r)
+        elif isinstance(self.r, str):
+            r = types.Real.from_mcnp(self.r)
+
+        return Cy(
+            r=r,
+        )

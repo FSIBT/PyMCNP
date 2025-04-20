@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MeshOption_
@@ -12,7 +13,7 @@ class Ref(MeshOption_, keyword='ref'):
     Represents INP ref elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        point: Mesh reference point.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Ref(MeshOption_, keyword='ref'):
         )
 
         self.point: typing.Final[types.Tuple[types.RealOrJump]] = point
+
+
+@dataclasses.dataclass
+class RefBuilder:
+    """
+    Builds ``Ref``.
+
+    Attributes:
+        point: Mesh reference point.
+    """
+
+    point: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``RefBuilder`` into ``Ref``.
+
+        Returns:
+            ``Ref`` for ``RefBuilder``.
+        """
+
+        point = []
+        for item in self.point:
+            if isinstance(item, types.RealOrJump):
+                point.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                point.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                point.append(types.RealOrJump.from_mcnp(item))
+        point = types.Tuple(point)
+
+        return Ref(
+            point=point,
+        )

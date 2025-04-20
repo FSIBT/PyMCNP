@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Nomacr(BlockOption_, keyword='nomacr'):
     Represents INP nomacr elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Suppress writing MACRXS on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Nomacr(BlockOption_, keyword='nomacr'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class NomacrBuilder:
+    """
+    Builds ``Nomacr``.
+
+    Attributes:
+        setting: Suppress writing MACRXS on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``NomacrBuilder`` into ``Nomacr``.
+
+        Returns:
+            ``Nomacr`` for ``NomacrBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Nomacr(
+            setting=setting,
+        )

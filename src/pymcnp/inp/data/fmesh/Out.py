@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Out(FmeshOption_, keyword='out'):
     Represents INP out elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Output format.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Out(FmeshOption_, keyword='out'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class OutBuilder:
+    """
+    Builds ``Out``.
+
+    Attributes:
+        setting: Output format.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``OutBuilder`` into ``Out``.
+
+        Returns:
+            ``Out`` for ``OutBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Out(
+            setting=setting,
+        )

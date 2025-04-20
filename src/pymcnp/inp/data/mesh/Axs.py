@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MeshOption_
@@ -12,7 +13,7 @@ class Axs(MeshOption_, keyword='axs'):
     Represents INP axs elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        vector: Vector giving the direction of the polar axis.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Axs(MeshOption_, keyword='axs'):
         )
 
         self.vector: typing.Final[types.Tuple[types.RealOrJump]] = vector
+
+
+@dataclasses.dataclass
+class AxsBuilder:
+    """
+    Builds ``Axs``.
+
+    Attributes:
+        vector: Vector giving the direction of the polar axis.
+    """
+
+    vector: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``AxsBuilder`` into ``Axs``.
+
+        Returns:
+            ``Axs`` for ``AxsBuilder``.
+        """
+
+        vector = []
+        for item in self.vector:
+            if isinstance(item, types.RealOrJump):
+                vector.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                vector.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                vector.append(types.RealOrJump.from_mcnp(item))
+        vector = types.Tuple(vector)
+
+        return Axs(
+            vector=vector,
+        )

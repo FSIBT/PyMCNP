@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import RandOption_
@@ -12,7 +13,7 @@ class Seed(RandOption_, keyword='seed'):
     Represents INP seed elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        seed: Random number generator seed.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Seed(RandOption_, keyword='seed'):
         )
 
         self.seed: typing.Final[types.IntegerOrJump] = seed
+
+
+@dataclasses.dataclass
+class SeedBuilder:
+    """
+    Builds ``Seed``.
+
+    Attributes:
+        seed: Random number generator seed.
+    """
+
+    seed: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``SeedBuilder`` into ``Seed``.
+
+        Returns:
+            ``Seed`` for ``SeedBuilder``.
+        """
+
+        if isinstance(self.seed, types.Integer):
+            seed = self.seed
+        elif isinstance(self.seed, int):
+            seed = types.IntegerOrJump(self.seed)
+        elif isinstance(self.seed, str):
+            seed = types.IntegerOrJump.from_mcnp(self.seed)
+
+        return Seed(
+            seed=seed,
+        )

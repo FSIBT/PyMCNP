@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -9,10 +10,10 @@ from ....utils import errors
 
 class Rad_1(SdefOption_, keyword='rad'):
     """
-    Represents INP rad elements.
+    Represents INP rad variation #1 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        radial_distance: Radial distance fo the position from POS or AXS.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Rad_1(SdefOption_, keyword='rad'):
         )
 
         self.radial_distance: typing.Final[types.DistributionNumber] = radial_distance
+
+
+@dataclasses.dataclass
+class RadBuilder_1:
+    """
+    Builds ``Rad_1``.
+
+    Attributes:
+        radial_distance: Radial distance fo the position from POS or AXS.
+    """
+
+    radial_distance: str | types.DistributionNumber
+
+    def build(self):
+        """
+        Builds ``RadBuilder_1`` into ``Rad_1``.
+
+        Returns:
+            ``Rad_1`` for ``RadBuilder_1``.
+        """
+
+        if isinstance(self.radial_distance, types.DistributionNumber):
+            radial_distance = self.radial_distance
+        elif isinstance(self.radial_distance, str):
+            radial_distance = types.DistributionNumber.from_mcnp(self.radial_distance)
+
+        return Rad_1(
+            radial_distance=radial_distance,
+        )

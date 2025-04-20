@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Talnp(DataOption_, keyword='talnp'):
     Represents INP talnp elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        tallies: Tallies to exclude from output.
     """
 
     _ATTRS = {
@@ -44,3 +45,37 @@ class Talnp(DataOption_, keyword='talnp'):
         )
 
         self.tallies: typing.Final[types.Tuple[types.IntegerOrJump]] = tallies
+
+
+@dataclasses.dataclass
+class TalnpBuilder:
+    """
+    Builds ``Talnp``.
+
+    Attributes:
+        tallies: Tallies to exclude from output.
+    """
+
+    tallies: list[str] | list[int] | list[types.IntegerOrJump] = None
+
+    def build(self):
+        """
+        Builds ``TalnpBuilder`` into ``Talnp``.
+
+        Returns:
+            ``Talnp`` for ``TalnpBuilder``.
+        """
+
+        tallies = []
+        for item in self.tallies:
+            if isinstance(item, types.IntegerOrJump):
+                tallies.append(item)
+            elif isinstance(item, int):
+                tallies.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                tallies.append(types.IntegerOrJump.from_mcnp(item))
+        tallies = types.Tuple(tallies)
+
+        return Talnp(
+            tallies=tallies,
+        )

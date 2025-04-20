@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Emesh(FmeshOption_, keyword='emesh'):
     Represents INP emesh elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        energy: Values of mesh points in energy.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Emesh(FmeshOption_, keyword='emesh'):
         )
 
         self.energy: typing.Final[types.RealOrJump] = energy
+
+
+@dataclasses.dataclass
+class EmeshBuilder:
+    """
+    Builds ``Emesh``.
+
+    Attributes:
+        energy: Values of mesh points in energy.
+    """
+
+    energy: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``EmeshBuilder`` into ``Emesh``.
+
+        Returns:
+            ``Emesh`` for ``EmeshBuilder``.
+        """
+
+        if isinstance(self.energy, types.Real):
+            energy = self.energy
+        elif isinstance(self.energy, float) or isinstance(self.energy, int):
+            energy = types.RealOrJump(self.energy)
+        elif isinstance(self.energy, str):
+            energy = types.RealOrJump.from_mcnp(self.energy)
+
+        return Emesh(
+            energy=energy,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Unc(DataOption_, keyword='unc'):
     Represents INP unc elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        settings: Tuple of uncollided secondary settings.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Unc(DataOption_, keyword='unc'):
         )
 
         self.settings: typing.Final[types.Tuple[types.IntegerOrJump]] = settings
+
+
+@dataclasses.dataclass
+class UncBuilder:
+    """
+    Builds ``Unc``.
+
+    Attributes:
+        settings: Tuple of uncollided secondary settings.
+    """
+
+    settings: list[str] | list[int] | list[types.IntegerOrJump]
+
+    def build(self):
+        """
+        Builds ``UncBuilder`` into ``Unc``.
+
+        Returns:
+            ``Unc`` for ``UncBuilder``.
+        """
+
+        settings = []
+        for item in self.settings:
+            if isinstance(item, types.IntegerOrJump):
+                settings.append(item)
+            elif isinstance(item, int):
+                settings.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                settings.append(types.IntegerOrJump.from_mcnp(item))
+        settings = types.Tuple(settings)
+
+        return Unc(
+            settings=settings,
+        )

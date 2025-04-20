@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SswOption_
@@ -12,7 +13,7 @@ class Cel(SswOption_, keyword='cel'):
     Represents INP cel elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        cfs: Cells from which KCODE neutrons are written.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Cel(SswOption_, keyword='cel'):
         )
 
         self.cfs: typing.Final[types.Tuple[types.IntegerOrJump]] = cfs
+
+
+@dataclasses.dataclass
+class CelBuilder:
+    """
+    Builds ``Cel``.
+
+    Attributes:
+        cfs: Cells from which KCODE neutrons are written.
+    """
+
+    cfs: list[str] | list[int] | list[types.IntegerOrJump]
+
+    def build(self):
+        """
+        Builds ``CelBuilder`` into ``Cel``.
+
+        Returns:
+            ``Cel`` for ``CelBuilder``.
+        """
+
+        cfs = []
+        for item in self.cfs:
+            if isinstance(item, types.IntegerOrJump):
+                cfs.append(item)
+            elif isinstance(item, int):
+                cfs.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                cfs.append(types.IntegerOrJump.from_mcnp(item))
+        cfs = types.Tuple(cfs)
+
+        return Cel(
+            cfs=cfs,
+        )

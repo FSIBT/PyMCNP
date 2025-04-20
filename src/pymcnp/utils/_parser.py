@@ -11,7 +11,7 @@ def _preprocess_horizontal(string: str):
 
     string = ''
     for i, token in enumerate(tokens):
-        if (match := re.match(r'( \d+)j', token)):
+        if match := re.match(r'( \d+)j', token):
             string += int(match[1]) * ' j'
         else:
             string += token

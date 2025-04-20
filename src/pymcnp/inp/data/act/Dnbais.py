@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import ActOption_
@@ -12,7 +13,7 @@ class Dnbais(ActOption_, keyword='dnbais'):
     Represents INP dnbais elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        count: Maximum number of neutrons generated per reaction.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Dnbais(ActOption_, keyword='dnbais'):
         )
 
         self.count: typing.Final[types.IntegerOrJump] = count
+
+
+@dataclasses.dataclass
+class DnbaisBuilder:
+    """
+    Builds ``Dnbais``.
+
+    Attributes:
+        count: Maximum number of neutrons generated per reaction.
+    """
+
+    count: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``DnbaisBuilder`` into ``Dnbais``.
+
+        Returns:
+            ``Dnbais`` for ``DnbaisBuilder``.
+        """
+
+        if isinstance(self.count, types.Integer):
+            count = self.count
+        elif isinstance(self.count, int):
+            count = types.IntegerOrJump(self.count)
+        elif isinstance(self.count, str):
+            count = types.IntegerOrJump.from_mcnp(self.count)
+
+        return Dnbais(
+            count=count,
+        )

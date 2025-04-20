@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Pted(BlockOption_, keyword='pted'):
     Represents INP pted elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Edits by fine mesh on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Pted(BlockOption_, keyword='pted'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class PtedBuilder:
+    """
+    Builds ``Pted``.
+
+    Attributes:
+        setting: Edits by fine mesh on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``PtedBuilder`` into ``Pted``.
+
+        Returns:
+            ``Pted`` for ``PtedBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Pted(
+            setting=setting,
+        )

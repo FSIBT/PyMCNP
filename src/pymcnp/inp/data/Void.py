@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Void(DataOption_, keyword='void'):
     Represents INP void elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        numbers: Tuple of cell numbers.
     """
 
     _ATTRS = {
@@ -44,3 +45,37 @@ class Void(DataOption_, keyword='void'):
         )
 
         self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers
+
+
+@dataclasses.dataclass
+class VoidBuilder:
+    """
+    Builds ``Void``.
+
+    Attributes:
+        numbers: Tuple of cell numbers.
+    """
+
+    numbers: list[str] | list[int] | list[types.IntegerOrJump] = None
+
+    def build(self):
+        """
+        Builds ``VoidBuilder`` into ``Void``.
+
+        Returns:
+            ``Void`` for ``VoidBuilder``.
+        """
+
+        numbers = []
+        for item in self.numbers:
+            if isinstance(item, types.IntegerOrJump):
+                numbers.append(item)
+            elif isinstance(item, int):
+                numbers.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                numbers.append(types.IntegerOrJump.from_mcnp(item))
+        numbers = types.Tuple(numbers)
+
+        return Void(
+            numbers=numbers,
+        )

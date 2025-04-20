@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import ActOption_
@@ -12,7 +13,7 @@ class Nap(ActOption_, keyword='nap'):
     Represents INP nap elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        count: Number of activation products.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Nap(ActOption_, keyword='nap'):
         )
 
         self.count: typing.Final[types.IntegerOrJump] = count
+
+
+@dataclasses.dataclass
+class NapBuilder:
+    """
+    Builds ``Nap``.
+
+    Attributes:
+        count: Number of activation products.
+    """
+
+    count: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``NapBuilder`` into ``Nap``.
+
+        Returns:
+            ``Nap`` for ``NapBuilder``.
+        """
+
+        if isinstance(self.count, types.Integer):
+            count = self.count
+        elif isinstance(self.count, int):
+            count = types.IntegerOrJump(self.count)
+        elif isinstance(self.count, str):
+            count = types.IntegerOrJump.from_mcnp(self.count)
+
+        return Nap(
+            count=count,
+        )

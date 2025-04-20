@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import VarOption_
@@ -12,7 +13,7 @@ class Rr(VarOption_, keyword='rr'):
     Represents INP rr elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Roulette game for weight windows and cell/energy/time importance off/no.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Rr(VarOption_, keyword='rr'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class RrBuilder:
+    """
+    Builds ``Rr``.
+
+    Attributes:
+        setting: Roulette game for weight windows and cell/energy/time importance off/no.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``RrBuilder`` into ``Rr``.
+
+        Returns:
+            ``Rr`` for ``RrBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Rr(
+            setting=setting,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbedOption_
@@ -12,7 +13,7 @@ class Mcnpumfile(EmbedOption_, keyword='mcnpumfile'):
     Represents INP mcnpumfile elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        filename: Name of the MCNPUM output file.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Mcnpumfile(EmbedOption_, keyword='mcnpumfile'):
         )
 
         self.filename: typing.Final[types.String] = filename
+
+
+@dataclasses.dataclass
+class McnpumfileBuilder:
+    """
+    Builds ``Mcnpumfile``.
+
+    Attributes:
+        filename: Name of the MCNPUM output file.
+    """
+
+    filename: str | types.String
+
+    def build(self):
+        """
+        Builds ``McnpumfileBuilder`` into ``Mcnpumfile``.
+
+        Returns:
+            ``Mcnpumfile`` for ``McnpumfileBuilder``.
+        """
+
+        if isinstance(self.filename, types.String):
+            filename = self.filename
+        elif isinstance(self.filename, str):
+            filename = types.String.from_mcnp(self.filename)
+
+        return Mcnpumfile(
+            filename=filename,
+        )

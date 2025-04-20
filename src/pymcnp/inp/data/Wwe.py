@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,8 @@ class Wwe(DataOption_, keyword='wwe'):
     Represents INP wwe elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        designator: Data card particle designator.
+        bounds: Upper energy/time bound.
     """
 
     _ATTRS = {
@@ -47,3 +49,45 @@ class Wwe(DataOption_, keyword='wwe'):
 
         self.designator: typing.Final[types.Designator] = designator
         self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds
+
+
+@dataclasses.dataclass
+class WweBuilder:
+    """
+    Builds ``Wwe``.
+
+    Attributes:
+        designator: Data card particle designator.
+        bounds: Upper energy/time bound.
+    """
+
+    designator: str | types.Designator
+    bounds: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``WweBuilder`` into ``Wwe``.
+
+        Returns:
+            ``Wwe`` for ``WweBuilder``.
+        """
+
+        if isinstance(self.designator, types.Designator):
+            designator = self.designator
+        elif isinstance(self.designator, str):
+            designator = types.Designator.from_mcnp(self.designator)
+
+        bounds = []
+        for item in self.bounds:
+            if isinstance(item, types.RealOrJump):
+                bounds.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                bounds.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                bounds.append(types.RealOrJump.from_mcnp(item))
+        bounds = types.Tuple(bounds)
+
+        return Wwe(
+            designator=designator,
+            bounds=bounds,
+        )

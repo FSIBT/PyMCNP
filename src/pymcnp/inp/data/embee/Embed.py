@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbeeOption_
@@ -12,7 +13,7 @@ class Embed(EmbeeOption_, keyword='embed'):
     Represents INP embed elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Embedded mesh universe number.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Embed(EmbeeOption_, keyword='embed'):
         )
 
         self.number: typing.Final[types.IntegerOrJump] = number
+
+
+@dataclasses.dataclass
+class EmbedBuilder:
+    """
+    Builds ``Embed``.
+
+    Attributes:
+        number: Embedded mesh universe number.
+    """
+
+    number: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``EmbedBuilder`` into ``Embed``.
+
+        Returns:
+            ``Embed`` for ``EmbedBuilder``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.IntegerOrJump(self.number)
+        elif isinstance(self.number, str):
+            number = types.IntegerOrJump.from_mcnp(self.number)
+
+        return Embed(
+            number=number,
+        )

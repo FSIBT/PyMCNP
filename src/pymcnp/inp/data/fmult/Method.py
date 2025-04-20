@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmultOption_
@@ -12,7 +13,7 @@ class Method(FmultOption_, keyword='method'):
     Represents INP method elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Gaussian sampling algorithm setting.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Method(FmultOption_, keyword='method'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class MethodBuilder:
+    """
+    Builds ``Method``.
+
+    Attributes:
+        setting: Gaussian sampling algorithm setting.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``MethodBuilder`` into ``Method``.
+
+        Returns:
+            ``Method`` for ``MethodBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Method(
+            setting=setting,
+        )

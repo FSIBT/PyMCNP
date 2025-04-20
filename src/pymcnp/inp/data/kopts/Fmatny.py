@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KoptsOption_
@@ -12,7 +13,7 @@ class Fmatny(KoptsOption_, keyword='fmatny'):
     Represents INP fmatny elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        fmat_ny: fmat_ny.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Fmatny(KoptsOption_, keyword='fmatny'):
         )
 
         self.fmat_ny: typing.Final[types.RealOrJump] = fmat_ny
+
+
+@dataclasses.dataclass
+class FmatnyBuilder:
+    """
+    Builds ``Fmatny``.
+
+    Attributes:
+        fmat_ny: fmat_ny.
+    """
+
+    fmat_ny: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``FmatnyBuilder`` into ``Fmatny``.
+
+        Returns:
+            ``Fmatny`` for ``FmatnyBuilder``.
+        """
+
+        if isinstance(self.fmat_ny, types.Real):
+            fmat_ny = self.fmat_ny
+        elif isinstance(self.fmat_ny, float) or isinstance(self.fmat_ny, int):
+            fmat_ny = types.RealOrJump(self.fmat_ny)
+        elif isinstance(self.fmat_ny, str):
+            fmat_ny = types.RealOrJump.from_mcnp(self.fmat_ny)
+
+        return Fmatny(
+            fmat_ny=fmat_ny,
+        )

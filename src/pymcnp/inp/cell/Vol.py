@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import CellOption_
@@ -12,7 +13,7 @@ class Vol(CellOption_, keyword='vol'):
     Represents INP vol elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        volume: Cell volume.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Vol(CellOption_, keyword='vol'):
         )
 
         self.volume: typing.Final[types.Real] = volume
+
+
+@dataclasses.dataclass
+class VolBuilder:
+    """
+    Builds ``Vol``.
+
+    Attributes:
+        volume: Cell volume.
+    """
+
+    volume: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``VolBuilder`` into ``Vol``.
+
+        Returns:
+            ``Vol`` for ``VolBuilder``.
+        """
+
+        if isinstance(self.volume, types.Real):
+            volume = self.volume
+        elif isinstance(self.volume, float) or isinstance(self.volume, int):
+            volume = types.Real(self.volume)
+        elif isinstance(self.volume, str):
+            volume = types.Real.from_mcnp(self.volume)
+
+        return Vol(
+            volume=volume,
+        )

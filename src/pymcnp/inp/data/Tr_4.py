@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -9,10 +10,14 @@ from ...utils import errors
 
 class Tr_4(DataOption_, keyword='tr'):
     """
-    Represents INP tr_4 elements.
+    Represents INP tr variation #4 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        x: Displacement vector x component.
+        y: Displacement vector y component.
+        z: Displacement vector z component.
+        system: Coordinate system setting.
     """
 
     _ATTRS = {
@@ -74,3 +79,75 @@ class Tr_4(DataOption_, keyword='tr'):
         self.y: typing.Final[types.RealOrJump] = y
         self.z: typing.Final[types.RealOrJump] = z
         self.system: typing.Final[types.IntegerOrJump] = system
+
+
+@dataclasses.dataclass
+class TrBuilder_4:
+    """
+    Builds ``Tr_4``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        x: Displacement vector x component.
+        y: Displacement vector y component.
+        z: Displacement vector z component.
+        system: Coordinate system setting.
+    """
+
+    suffix: str | int | types.Integer
+    x: str | float | types.RealOrJump
+    y: str | float | types.RealOrJump
+    z: str | float | types.RealOrJump
+    system: str | int | types.IntegerOrJump = None
+
+    def build(self):
+        """
+        Builds ``TrBuilder_4`` into ``Tr_4``.
+
+        Returns:
+            ``Tr_4`` for ``TrBuilder_4``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        if isinstance(self.x, types.Real):
+            x = self.x
+        elif isinstance(self.x, float) or isinstance(self.x, int):
+            x = types.RealOrJump(self.x)
+        elif isinstance(self.x, str):
+            x = types.RealOrJump.from_mcnp(self.x)
+
+        if isinstance(self.y, types.Real):
+            y = self.y
+        elif isinstance(self.y, float) or isinstance(self.y, int):
+            y = types.RealOrJump(self.y)
+        elif isinstance(self.y, str):
+            y = types.RealOrJump.from_mcnp(self.y)
+
+        if isinstance(self.z, types.Real):
+            z = self.z
+        elif isinstance(self.z, float) or isinstance(self.z, int):
+            z = types.RealOrJump(self.z)
+        elif isinstance(self.z, str):
+            z = types.RealOrJump.from_mcnp(self.z)
+
+        system = None
+        if isinstance(self.system, types.Integer):
+            system = self.system
+        elif isinstance(self.system, int):
+            system = types.IntegerOrJump(self.system)
+        elif isinstance(self.system, str):
+            system = types.IntegerOrJump.from_mcnp(self.system)
+
+        return Tr_4(
+            suffix=suffix,
+            x=x,
+            y=y,
+            z=z,
+            system=system,
+        )

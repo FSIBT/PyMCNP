@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import TroptOption_
@@ -12,7 +13,7 @@ class Eloss(TroptOption_, keyword='eloss'):
     Represents INP eloss elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Slowing down energy losses setting.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Eloss(TroptOption_, keyword='eloss'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class ElossBuilder:
+    """
+    Builds ``Eloss``.
+
+    Attributes:
+        setting: Slowing down energy losses setting.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``ElossBuilder`` into ``Eloss``.
+
+        Returns:
+            ``Eloss`` for ``ElossBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Eloss(
+            setting=setting,
+        )

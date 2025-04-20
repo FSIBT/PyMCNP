@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbeeOption_
@@ -12,7 +13,7 @@ class Factor(EmbeeOption_, keyword='factor'):
     Represents INP factor elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        constant: Multiplicative constant.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Factor(EmbeeOption_, keyword='factor'):
         )
 
         self.constant: typing.Final[types.RealOrJump] = constant
+
+
+@dataclasses.dataclass
+class FactorBuilder:
+    """
+    Builds ``Factor``.
+
+    Attributes:
+        constant: Multiplicative constant.
+    """
+
+    constant: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``FactorBuilder`` into ``Factor``.
+
+        Returns:
+            ``Factor`` for ``FactorBuilder``.
+        """
+
+        if isinstance(self.constant, types.Real):
+            constant = self.constant
+        elif isinstance(self.constant, float) or isinstance(self.constant, int):
+            constant = types.RealOrJump(self.constant)
+        elif isinstance(self.constant, str):
+            constant = types.RealOrJump.from_mcnp(self.constant)
+
+        return Factor(
+            constant=constant,
+        )

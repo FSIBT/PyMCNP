@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,9 @@ class Kx(SurfaceOption_, keyword='kx'):
     Represents INP kx elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        x: On-x-axis cone center x component.
+        t_squared: On-x-axis cone t^2 coefficent.
+        plusminus_1: On-x-axis cone sheet selector.
     """
 
     _ATTRS = {
@@ -73,3 +76,54 @@ class Kx(SurfaceOption_, keyword='kx'):
         vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
 
         return vis
+
+
+@dataclasses.dataclass
+class KxBuilder:
+    """
+    Builds ``Kx``.
+
+    Attributes:
+        x: On-x-axis cone center x component.
+        t_squared: On-x-axis cone t^2 coefficent.
+        plusminus_1: On-x-axis cone sheet selector.
+    """
+
+    x: str | float | types.Real
+    t_squared: str | float | types.Real
+    plusminus_1: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``KxBuilder`` into ``Kx``.
+
+        Returns:
+            ``Kx`` for ``KxBuilder``.
+        """
+
+        if isinstance(self.x, types.Real):
+            x = self.x
+        elif isinstance(self.x, float) or isinstance(self.x, int):
+            x = types.Real(self.x)
+        elif isinstance(self.x, str):
+            x = types.Real.from_mcnp(self.x)
+
+        if isinstance(self.t_squared, types.Real):
+            t_squared = self.t_squared
+        elif isinstance(self.t_squared, float) or isinstance(self.t_squared, int):
+            t_squared = types.Real(self.t_squared)
+        elif isinstance(self.t_squared, str):
+            t_squared = types.Real.from_mcnp(self.t_squared)
+
+        if isinstance(self.plusminus_1, types.Real):
+            plusminus_1 = self.plusminus_1
+        elif isinstance(self.plusminus_1, float) or isinstance(self.plusminus_1, int):
+            plusminus_1 = types.Real(self.plusminus_1)
+        elif isinstance(self.plusminus_1, str):
+            plusminus_1 = types.Real.from_mcnp(self.plusminus_1)
+
+        return Kx(
+            x=x,
+            t_squared=t_squared,
+            plusminus_1=plusminus_1,
+        )

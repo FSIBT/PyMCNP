@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Idum(DataOption_, keyword='idum'):
     Represents INP idum elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        intergers: Integer array.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Idum(DataOption_, keyword='idum'):
         )
 
         self.intergers: typing.Final[types.Tuple[types.IntegerOrJump]] = intergers
+
+
+@dataclasses.dataclass
+class IdumBuilder:
+    """
+    Builds ``Idum``.
+
+    Attributes:
+        intergers: Integer array.
+    """
+
+    intergers: list[str] | list[int] | list[types.IntegerOrJump]
+
+    def build(self):
+        """
+        Builds ``IdumBuilder`` into ``Idum``.
+
+        Returns:
+            ``Idum`` for ``IdumBuilder``.
+        """
+
+        intergers = []
+        for item in self.intergers:
+            if isinstance(item, types.IntegerOrJump):
+                intergers.append(item)
+            elif isinstance(item, int):
+                intergers.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                intergers.append(types.IntegerOrJump.from_mcnp(item))
+        intergers = types.Tuple(intergers)
+
+        return Idum(
+            intergers=intergers,
+        )

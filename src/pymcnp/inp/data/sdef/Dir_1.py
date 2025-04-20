@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -9,10 +10,10 @@ from ....utils import errors
 
 class Dir_1(SdefOption_, keyword='dir'):
     """
-    Represents INP dir elements.
+    Represents INP dir variation #1 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        cosine: Cosine of the angle between VEC and particle.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Dir_1(SdefOption_, keyword='dir'):
         )
 
         self.cosine: typing.Final[types.DistributionNumber] = cosine
+
+
+@dataclasses.dataclass
+class DirBuilder_1:
+    """
+    Builds ``Dir_1``.
+
+    Attributes:
+        cosine: Cosine of the angle between VEC and particle.
+    """
+
+    cosine: str | types.DistributionNumber
+
+    def build(self):
+        """
+        Builds ``DirBuilder_1`` into ``Dir_1``.
+
+        Returns:
+            ``Dir_1`` for ``DirBuilder_1``.
+        """
+
+        if isinstance(self.cosine, types.DistributionNumber):
+            cosine = self.cosine
+        elif isinstance(self.cosine, str):
+            cosine = types.DistributionNumber.from_mcnp(self.cosine)
+
+        return Dir_1(
+            cosine=cosine,
+        )

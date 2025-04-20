@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import Df_1Option_
@@ -12,7 +13,7 @@ class Ic(Df_1Option_, keyword='ic'):
     Represents INP ic elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        function: Standard dose function.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Ic(Df_1Option_, keyword='ic'):
         )
 
         self.function: typing.Final[types.IntegerOrJump] = function
+
+
+@dataclasses.dataclass
+class IcBuilder:
+    """
+    Builds ``Ic``.
+
+    Attributes:
+        function: Standard dose function.
+    """
+
+    function: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``IcBuilder`` into ``Ic``.
+
+        Returns:
+            ``Ic`` for ``IcBuilder``.
+        """
+
+        if isinstance(self.function, types.Integer):
+            function = self.function
+        elif isinstance(self.function, int):
+            function = types.IntegerOrJump(self.function)
+        elif isinstance(self.function, str):
+            function = types.IntegerOrJump.from_mcnp(self.function)
+
+        return Ic(
+            function=function,
+        )

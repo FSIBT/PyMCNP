@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,9 @@ class Axs(FmeshOption_, keyword='axs'):
     Represents INP axs elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        x: Cylindrical mesh axis vector x component.
+        y: Cylindrical mesh axis vector y component.
+        z: Cylindrical mesh axis vector z component.
     """
 
     _ATTRS = {
@@ -56,3 +59,54 @@ class Axs(FmeshOption_, keyword='axs'):
         self.x: typing.Final[types.RealOrJump] = x
         self.y: typing.Final[types.RealOrJump] = y
         self.z: typing.Final[types.RealOrJump] = z
+
+
+@dataclasses.dataclass
+class AxsBuilder:
+    """
+    Builds ``Axs``.
+
+    Attributes:
+        x: Cylindrical mesh axis vector x component.
+        y: Cylindrical mesh axis vector y component.
+        z: Cylindrical mesh axis vector z component.
+    """
+
+    x: str | float | types.RealOrJump
+    y: str | float | types.RealOrJump
+    z: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``AxsBuilder`` into ``Axs``.
+
+        Returns:
+            ``Axs`` for ``AxsBuilder``.
+        """
+
+        if isinstance(self.x, types.Real):
+            x = self.x
+        elif isinstance(self.x, float) or isinstance(self.x, int):
+            x = types.RealOrJump(self.x)
+        elif isinstance(self.x, str):
+            x = types.RealOrJump.from_mcnp(self.x)
+
+        if isinstance(self.y, types.Real):
+            y = self.y
+        elif isinstance(self.y, float) or isinstance(self.y, int):
+            y = types.RealOrJump(self.y)
+        elif isinstance(self.y, str):
+            y = types.RealOrJump.from_mcnp(self.y)
+
+        if isinstance(self.z, types.Real):
+            z = self.z
+        elif isinstance(self.z, float) or isinstance(self.z, int):
+            z = types.RealOrJump(self.z)
+        elif isinstance(self.z, str):
+            z = types.RealOrJump.from_mcnp(self.z)
+
+        return Axs(
+            x=x,
+            y=y,
+            z=z,
+        )

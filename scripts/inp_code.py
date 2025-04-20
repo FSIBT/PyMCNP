@@ -60,6 +60,53 @@ def ATTRS_REGEX(element):
     return o
 
 
+def ATTRS_DATACLASS(element, t):
+    a = []
+    b = []
+
+    for attribute in element.attributes:
+        if attribute.optional:
+            if attribute.type.startswith('types.Tuple'):
+                if 'types.Integer' in attribute.type:
+                    b += [
+                        f'{attribute.name}: list[str] | list[int] | list[{attribute.type[12:-1]}] = None'
+                    ]
+                elif 'types.Real' in attribute.type:
+                    b += [
+                        f'{attribute.name}: list[str] | list[float] | list[{attribute.type[12:-1]}] = None'
+                    ]
+                else:
+                    b += [f'{attribute.name}: list[str] | list[{attribute.type[12:-1]}] = None']
+            else:
+                if 'types.Integer' in attribute.type:
+                    b += [f'{attribute.name}: str | int | {attribute.type} = None']
+                elif 'types.Real' in attribute.type:
+                    b += [f'{attribute.name}: str | float | {attribute.type} = None']
+                else:
+                    b += [f'{attribute.name}: str | {attribute.type} = None']
+        else:
+            if attribute.type.startswith('types.Tuple'):
+                if 'types.Integer' in attribute.type:
+                    a += [
+                        f'{attribute.name}: list[str] | list[int] | list[{attribute.type[12:-1]}]'
+                    ]
+                elif 'types.Real' in attribute.type:
+                    a += [
+                        f'{attribute.name}: list[str] | list[float] | list[{attribute.type[12:-1]}]'
+                    ]
+                else:
+                    a += [f'{attribute.name}: list[str] | list[{attribute.type[12:-1]}]']
+            else:
+                if 'types.Integer' in attribute.type:
+                    a += [f'{attribute.name}: str | int | {attribute.type}']
+                elif 'types.Real' in attribute.type:
+                    a += [f'{attribute.name}: str | float | {attribute.type}']
+                else:
+                    a += [f'{attribute.name}: str | {attribute.type}']
+
+    return f'\n{TABS(t)}'.join(a + b).strip()
+
+
 def ATTRS_DICT(element):
     a = ''
     b = ''
@@ -129,17 +176,88 @@ def ATTRS_COMMENT(element, t):
     return o.strip()
 
 
+def ATTRS_BUILDER(element, t):
+    o = ''
+
+    for attribute in element.attributes:
+        if attribute.type.startswith('types.Tuple'):
+            o += f'{TABS(t)}{attribute.name} = []\n'
+            o += f'{TABS(t)}for item in self.{attribute.name}:\n'
+
+            if 'types.Integer' in attribute.type:
+                o += f'{TABS(t)}    if isinstance(item, {attribute.type[12:-1]}):\n'
+                o += f'{TABS(t)}        {attribute.name}.append(item)\n'
+                o += f'{TABS(t)}    elif isinstance(item, int):\n'
+                o += f'{TABS(t)}        {attribute.name}.append({attribute.type[12:-1]}(item))\n'
+                o += f'{TABS(t)}    elif isinstance(item, str):\n'
+                o += f'{TABS(t)}        {attribute.name}.append({attribute.type[12:-1]}.from_mcnp(item))\n'
+            elif 'types.Real' in attribute.type:
+                o += f'{TABS(t)}    if isinstance(item, {attribute.type[12:-1]}):\n'
+                o += f'{TABS(t)}        {attribute.name}.append(item)\n'
+                o += f'{TABS(t)}    elif isinstance(item, float) or isinstance(item, int):\n'
+                o += f'{TABS(t)}        {attribute.name}.append({attribute.type[12:-1]}(item))\n'
+                o += f'{TABS(t)}    elif isinstance(item, str):\n'
+                o += f'{TABS(t)}        {attribute.name}.append({attribute.type[12:-1]}.from_mcnp(item))\n'
+            else:
+                o += f'{TABS(t)}    if isinstance(item, {attribute.type[12:-1]}):\n'
+                o += f'{TABS(t)}        {attribute.name}.append(item)\n'
+                o += f'{TABS(t)}    elif isinstance(item, str):\n'
+                o += f'{TABS(t)}        {attribute.name}.append({attribute.type[12:-1]}.from_mcnp(item))\n'
+                o += f'{TABS(t)}    else:\n'
+                o += f'{TABS(t)}        {attribute.name}.append(item.build())\n'
+
+            o += f'{TABS(t)}{attribute.name} = types.Tuple({attribute.name})\n'
+        else:
+            if attribute.optional:
+                o += f'{TABS(t)}{attribute.name} = None\n'
+
+            if 'types.Integer' in attribute.type:
+                o += f'{TABS(t)}if isinstance(self.{attribute.name}, types.Integer):\n'
+                o += f'{TABS(t)}    {attribute.name} = self.{attribute.name}\n'
+                o += f'{TABS(t)}elif isinstance(self.{attribute.name}, int):\n'
+                o += f'{TABS(t)}    {attribute.name} = {attribute.type}(self.{attribute.name})\n'
+                o += f'{TABS(t)}elif isinstance(self.{attribute.name}, str):\n'
+                o += f'{TABS(t)}    {attribute.name} = {attribute.type}.from_mcnp(self.{attribute.name})\n'
+            elif 'types.Real' in attribute.type:
+                o += f'{TABS(t)}if isinstance(self.{attribute.name}, types.Real):\n'
+                o += f'{TABS(t)}    {attribute.name} = self.{attribute.name}\n'
+                o += f'{TABS(t)}elif isinstance(self.{attribute.name}, float) or isinstance(self.{attribute.name}, int):\n'
+                o += f'{TABS(t)}    {attribute.name} = {attribute.type}(self.{attribute.name})\n'
+                o += f'{TABS(t)}elif isinstance(self.{attribute.name}, str):\n'
+                o += f'{TABS(t)}    {attribute.name} = {attribute.type}.from_mcnp(self.{attribute.name})\n'
+            else:
+                o += f'{TABS(t)}if isinstance(self.{attribute.name}, {attribute.type}):\n'
+                o += f'{TABS(t)}    {attribute.name} = self.{attribute.name}\n'
+                o += f'{TABS(t)}elif isinstance(self.{attribute.name}, str):\n'
+                o += f'{TABS(t)}    {attribute.name} = {attribute.type}.from_mcnp(self.{attribute.name})\n'
+
+        o += '\n'
+
+    return o.strip()
+
+
+def ATTRS_ASSIGN(element, t):
+    o = ''
+
+    for attribute in element.attributes:
+        o += f'{TABS(t)}{attribute.name}={attribute.name},\n'
+
+    return o.strip()
+
+
 # ELEMENT #
 def INIT(element):
     return f"""
 from .option_ import {CAMEL(element.name)}Option_
 {''.join(f"from . import {SNAKE(option.name)}\n" if option.options else "" for option in element.options)[:-1]}
 {''.join(f'from .{CAMEL(option.name)} import {CAMEL(option.name)}\n' for option in element.options)[:-1]}
+{''.join(f'from .{CAMEL(option.name)} import {CAMEL(option.name).split('_')[0]}Builder{f"_{CAMEL(option.name).split('_')[1]}" if len(CAMEL(option.name).split('_')) - 1 else ""}\n' for option in element.options)[:-1]}
 
 __all__ = [
     "{CAMEL(element.name)}Option_",
     {''.join(f'\t"{SNAKE(option.name)}",\n' if option.options else "" for option in element.options).strip()}
     {''.join(f'\t"{CAMEL(option.name)}",\n' for option in element.options).strip()}
+    {''.join(f'\t"{CAMEL(option.name).split('_')[0]}Builder{f"_{CAMEL(option.name).split('_')[1]}" if len(CAMEL(option.name).split('_')) - 1 else ""}",\n' for option in element.options)[:-1].strip()}
 ]
 """[1:-1]
 
@@ -185,6 +303,7 @@ def ELEMENT(element, parent_name, depth):
     return f'''
 import re
 import typing
+import dataclasses
 
 import molmass
 
@@ -199,10 +318,10 @@ from {"." * depth}utils import _visualization
 
 class {CAMEL(element.name)}({f"{CAMEL(parent_name)}Option_, keyword='{element.mnemonic}'" if parent_name else "Card_"}):
     """
-    Represents INP {element.name} elements.
+    Represents INP {element.name.split('_')[0]}{f" variation #{element.name.split('_')[1]}"if len(element.name.split('_')) - 1 else ""} elements.
 
     Attributes:
-        InpError: {element.error}.
+        {ATTRS_COMMENT(element, 2)}
     """
 
     _ATTRS = {{{ATTRS_DICT(element)}}}
@@ -225,7 +344,31 @@ class {CAMEL(element.name)}({f"{CAMEL(parent_name)}Option_, keyword='{element.mn
         self.value: typing.Final[types.Tuple] = types.Tuple([{ATTRS_LIST(element)}])\n
         {ATTRS_STORE(element, 2)}
 
-    {element.extra}
+    {element.extra.strip()}
+@dataclasses.dataclass
+class {CAMEL(element.name).split('_')[0]}Builder{f"_{CAMEL(element.name).split('_')[1]}" if len(CAMEL(element.name).split('_')) - 1 else ""}:
+    """
+    Builds ``{CAMEL(element.name)}``.
+
+    Attributes:
+        {ATTRS_COMMENT(element, 2)}
+    """
+
+    {ATTRS_DATACLASS(element, 1)}
+
+    def build(self):
+        """
+        Builds ``{CAMEL(element.name).split('_')[0]}Builder{f"_{CAMEL(element.name).split('_')[1]}" if len(CAMEL(element.name).split('_')) - 1 else ""}`` into ``{CAMEL(element.name)}``.
+
+        Returns:
+            ``{CAMEL(element.name)}`` for ``{CAMEL(element.name).split('_')[0]}Builder{f"_{CAMEL(element.name).split('_')[1]}" if len(CAMEL(element.name).split('_')) - 1 else ""}``.
+        """
+
+        {ATTRS_BUILDER(element, 2)}
+
+        return {CAMEL(element.name)}(
+            {ATTRS_ASSIGN(element, 3)}
+        )
 '''[1:]
 
 
@@ -246,11 +389,13 @@ def build_element(element, parent_name, path_dir, depth):
 
             build_element(option, element.name, path_subdir, depth + 1)
 
-    if element.name not in {'cell', 'surface', 'comment'} and parent_name != '':
+    if parent_name != 'alsdkjfhalsdkjf':
         path_file = path_dir / f'{CAMEL(element.name)}.py'
         with path_file.open('w') as file:
             file.write(ELEMENT(element, parent_name, depth - 1))
 
 
 for card in inp_data.cards.options:
-    build_element(card, '', pathlib.Path(__file__).parent.parent / 'src/pymcnp/inp', 3)
+    build_element(
+        card, 'alsdkjfhalsdkjf', pathlib.Path(__file__).parent.parent / 'src/pymcnp/inp', 3
+    )

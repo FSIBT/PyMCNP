@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from . import stop
@@ -12,7 +13,7 @@ class Stop(DataOption_, keyword='stop'):
     Represents INP stop elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
@@ -39,3 +40,37 @@ class Stop(DataOption_, keyword='stop'):
         )
 
         self.options: typing.Final[types.Tuple[stop.StopOption_]] = options
+
+
+@dataclasses.dataclass
+class StopBuilder:
+    """
+    Builds ``Stop``.
+
+    Attributes:
+        options: Dictionary of options.
+    """
+
+    options: list[str] | list[stop.StopOption_] = None
+
+    def build(self):
+        """
+        Builds ``StopBuilder`` into ``Stop``.
+
+        Returns:
+            ``Stop`` for ``StopBuilder``.
+        """
+
+        options = []
+        for item in self.options:
+            if isinstance(item, stop.StopOption_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(stop.StopOption_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return Stop(
+            options=options,
+        )

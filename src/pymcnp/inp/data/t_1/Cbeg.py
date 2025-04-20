@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import T_1Option_
@@ -12,7 +13,7 @@ class Cbeg(T_1Option_, keyword='cbeg'):
     Represents INP cbeg elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        time: Reference starting time.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Cbeg(T_1Option_, keyword='cbeg'):
         )
 
         self.time: typing.Final[types.RealOrJump] = time
+
+
+@dataclasses.dataclass
+class CbegBuilder:
+    """
+    Builds ``Cbeg``.
+
+    Attributes:
+        time: Reference starting time.
+    """
+
+    time: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``CbegBuilder`` into ``Cbeg``.
+
+        Returns:
+            ``Cbeg`` for ``CbegBuilder``.
+        """
+
+        if isinstance(self.time, types.Real):
+            time = self.time
+        elif isinstance(self.time, float) or isinstance(self.time, int):
+            time = types.RealOrJump(self.time)
+        elif isinstance(self.time, str):
+            time = types.RealOrJump.from_mcnp(self.time)
+
+        return Cbeg(
+            time=time,
+        )

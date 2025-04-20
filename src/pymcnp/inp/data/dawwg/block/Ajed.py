@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Ajed(BlockOption_, keyword='ajed'):
     Represents INP ajed elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Regular/adjoint edits control.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Ajed(BlockOption_, keyword='ajed'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class AjedBuilder:
+    """
+    Builds ``Ajed``.
+
+    Attributes:
+        setting: Regular/adjoint edits control.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``AjedBuilder`` into ``Ajed``.
+
+        Returns:
+            ``Ajed`` for ``AjedBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Ajed(
+            setting=setting,
+        )

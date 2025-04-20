@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Lng(BlockOption_, keyword='lng'):
     Represents INP lng elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Number of the last neutron group.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Lng(BlockOption_, keyword='lng'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class LngBuilder:
+    """
+    Builds ``Lng``.
+
+    Attributes:
+        setting: Number of the last neutron group.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``LngBuilder`` into ``Lng``.
+
+        Returns:
+            ``Lng`` for ``LngBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Lng(
+            setting=setting,
+        )

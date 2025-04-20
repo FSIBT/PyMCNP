@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,13 @@ class Rcc(SurfaceOption_, keyword='rcc'):
     Represents INP rcc elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        vx: Circular cylinder macrobody position vector x component.
+        vy: Circular cylinder macrobody position vector y component.
+        vz: Circular cylinder macrobody position vector z component.
+        hx: Circular cylinder macrobody height vector x component.
+        hy: Circular cylinder macrobody height vector y component.
+        hz: Circular cylinder macrobody height vector z component.
+        r: Circular cylinder macrobody radius.
     """
 
     _ATTRS = {
@@ -110,3 +117,94 @@ class Rcc(SurfaceOption_, keyword='rcc'):
         vis = vis.add_translation(v)
 
         return vis
+
+
+@dataclasses.dataclass
+class RccBuilder:
+    """
+    Builds ``Rcc``.
+
+    Attributes:
+        vx: Circular cylinder macrobody position vector x component.
+        vy: Circular cylinder macrobody position vector y component.
+        vz: Circular cylinder macrobody position vector z component.
+        hx: Circular cylinder macrobody height vector x component.
+        hy: Circular cylinder macrobody height vector y component.
+        hz: Circular cylinder macrobody height vector z component.
+        r: Circular cylinder macrobody radius.
+    """
+
+    vx: str | float | types.Real
+    vy: str | float | types.Real
+    vz: str | float | types.Real
+    hx: str | float | types.Real
+    hy: str | float | types.Real
+    hz: str | float | types.Real
+    r: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``RccBuilder`` into ``Rcc``.
+
+        Returns:
+            ``Rcc`` for ``RccBuilder``.
+        """
+
+        if isinstance(self.vx, types.Real):
+            vx = self.vx
+        elif isinstance(self.vx, float) or isinstance(self.vx, int):
+            vx = types.Real(self.vx)
+        elif isinstance(self.vx, str):
+            vx = types.Real.from_mcnp(self.vx)
+
+        if isinstance(self.vy, types.Real):
+            vy = self.vy
+        elif isinstance(self.vy, float) or isinstance(self.vy, int):
+            vy = types.Real(self.vy)
+        elif isinstance(self.vy, str):
+            vy = types.Real.from_mcnp(self.vy)
+
+        if isinstance(self.vz, types.Real):
+            vz = self.vz
+        elif isinstance(self.vz, float) or isinstance(self.vz, int):
+            vz = types.Real(self.vz)
+        elif isinstance(self.vz, str):
+            vz = types.Real.from_mcnp(self.vz)
+
+        if isinstance(self.hx, types.Real):
+            hx = self.hx
+        elif isinstance(self.hx, float) or isinstance(self.hx, int):
+            hx = types.Real(self.hx)
+        elif isinstance(self.hx, str):
+            hx = types.Real.from_mcnp(self.hx)
+
+        if isinstance(self.hy, types.Real):
+            hy = self.hy
+        elif isinstance(self.hy, float) or isinstance(self.hy, int):
+            hy = types.Real(self.hy)
+        elif isinstance(self.hy, str):
+            hy = types.Real.from_mcnp(self.hy)
+
+        if isinstance(self.hz, types.Real):
+            hz = self.hz
+        elif isinstance(self.hz, float) or isinstance(self.hz, int):
+            hz = types.Real(self.hz)
+        elif isinstance(self.hz, str):
+            hz = types.Real.from_mcnp(self.hz)
+
+        if isinstance(self.r, types.Real):
+            r = self.r
+        elif isinstance(self.r, float) or isinstance(self.r, int):
+            r = types.Real(self.r)
+        elif isinstance(self.r, str):
+            r = types.Real.from_mcnp(self.r)
+
+        return Rcc(
+            vx=vx,
+            vy=vy,
+            vz=vz,
+            hx=hx,
+            hy=hy,
+            hz=hz,
+            r=r,
+        )

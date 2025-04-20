@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,10 @@ class Fs(DataOption_, keyword='fs'):
     Represents INP fs elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        numbers: Signed problem number of a segmenting surface..
+        t: Notation to provide totals.
+        c: Notation to make bin values cumulative.
     """
 
     _ATTRS = {
@@ -69,3 +73,65 @@ class Fs(DataOption_, keyword='fs'):
         self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers
         self.t: typing.Final[types.String] = t
         self.c: typing.Final[types.String] = c
+
+
+@dataclasses.dataclass
+class FsBuilder:
+    """
+    Builds ``Fs``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        numbers: Signed problem number of a segmenting surface..
+        t: Notation to provide totals.
+        c: Notation to make bin values cumulative.
+    """
+
+    suffix: str | int | types.Integer
+    numbers: list[str] | list[int] | list[types.IntegerOrJump]
+    t: str | types.String = None
+    c: str | types.String = None
+
+    def build(self):
+        """
+        Builds ``FsBuilder`` into ``Fs``.
+
+        Returns:
+            ``Fs`` for ``FsBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        numbers = []
+        for item in self.numbers:
+            if isinstance(item, types.IntegerOrJump):
+                numbers.append(item)
+            elif isinstance(item, int):
+                numbers.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                numbers.append(types.IntegerOrJump.from_mcnp(item))
+        numbers = types.Tuple(numbers)
+
+        t = None
+        if isinstance(self.t, types.String):
+            t = self.t
+        elif isinstance(self.t, str):
+            t = types.String.from_mcnp(self.t)
+
+        c = None
+        if isinstance(self.c, types.String):
+            c = self.c
+        elif isinstance(self.c, str):
+            c = types.String.from_mcnp(self.c)
+
+        return Fs(
+            suffix=suffix,
+            numbers=numbers,
+            t=t,
+            c=c,
+        )

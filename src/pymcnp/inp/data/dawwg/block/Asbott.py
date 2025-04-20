@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Asbott(BlockOption_, keyword='asbott'):
     Represents INP asbott elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Top-going flux at plane j.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Asbott(BlockOption_, keyword='asbott'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class AsbottBuilder:
+    """
+    Builds ``Asbott``.
+
+    Attributes:
+        setting: Top-going flux at plane j.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``AsbottBuilder`` into ``Asbott``.
+
+        Returns:
+            ``Asbott`` for ``AsbottBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Asbott(
+            setting=setting,
+        )

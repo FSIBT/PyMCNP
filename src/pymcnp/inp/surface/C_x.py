@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,9 @@ class C_x(SurfaceOption_, keyword='c/x'):
     Represents INP c/x elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        y: Parallel-to-x-axis cylinder center y component.
+        z: Parallel-to-x-axis cylinder center z component.
+        r: Parallel-to-x-axis cylinder radius.
     """
 
     _ATTRS = {
@@ -71,3 +74,54 @@ class C_x(SurfaceOption_, keyword='c/x'):
         vis = vis.add_translation(_visualization.Vector(0, self.y.value, self.z.value))
 
         return vis
+
+
+@dataclasses.dataclass
+class CBuilder_x:
+    """
+    Builds ``C_x``.
+
+    Attributes:
+        y: Parallel-to-x-axis cylinder center y component.
+        z: Parallel-to-x-axis cylinder center z component.
+        r: Parallel-to-x-axis cylinder radius.
+    """
+
+    y: str | float | types.Real
+    z: str | float | types.Real
+    r: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``CBuilder_x`` into ``C_x``.
+
+        Returns:
+            ``C_x`` for ``CBuilder_x``.
+        """
+
+        if isinstance(self.y, types.Real):
+            y = self.y
+        elif isinstance(self.y, float) or isinstance(self.y, int):
+            y = types.Real(self.y)
+        elif isinstance(self.y, str):
+            y = types.Real.from_mcnp(self.y)
+
+        if isinstance(self.z, types.Real):
+            z = self.z
+        elif isinstance(self.z, float) or isinstance(self.z, int):
+            z = types.Real(self.z)
+        elif isinstance(self.z, str):
+            z = types.Real.from_mcnp(self.z)
+
+        if isinstance(self.r, types.Real):
+            r = self.r
+        elif isinstance(self.r, float) or isinstance(self.r, int):
+            r = types.Real(self.r)
+        elif isinstance(self.r, str):
+            r = types.Real.from_mcnp(self.r)
+
+        return C_x(
+            y=y,
+            z=z,
+            r=r,
+        )

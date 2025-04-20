@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbeeOption_
@@ -12,7 +13,7 @@ class Atom(EmbeeOption_, keyword='atom'):
     Represents INP atom elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Flag to multiply by atom density.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Atom(EmbeeOption_, keyword='atom'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class AtomBuilder:
+    """
+    Builds ``Atom``.
+
+    Attributes:
+        setting: Flag to multiply by atom density.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``AtomBuilder`` into ``Atom``.
+
+        Returns:
+            ``Atom`` for ``AtomBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Atom(
+            setting=setting,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import TroptOption_
@@ -12,7 +13,7 @@ class Nescat(TroptOption_, keyword='nescat'):
     Represents INP nescat elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Nuclear elastic scattering setting.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Nescat(TroptOption_, keyword='nescat'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class NescatBuilder:
+    """
+    Builds ``Nescat``.
+
+    Attributes:
+        setting: Nuclear elastic scattering setting.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``NescatBuilder`` into ``Nescat``.
+
+        Returns:
+            ``Nescat`` for ``NescatBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Nescat(
+            setting=setting,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbeeOption_
@@ -12,7 +13,7 @@ class Mat(EmbeeOption_, keyword='mat'):
     Represents INP mat elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Material number.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Mat(EmbeeOption_, keyword='mat'):
         )
 
         self.number: typing.Final[types.IntegerOrJump] = number
+
+
+@dataclasses.dataclass
+class MatBuilder:
+    """
+    Builds ``Mat``.
+
+    Attributes:
+        number: Material number.
+    """
+
+    number: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``MatBuilder`` into ``Mat``.
+
+        Returns:
+            ``Mat`` for ``MatBuilder``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.IntegerOrJump(self.number)
+        elif isinstance(self.number, str):
+            number = types.IntegerOrJump.from_mcnp(self.number)
+
+        return Mat(
+            number=number,
+        )

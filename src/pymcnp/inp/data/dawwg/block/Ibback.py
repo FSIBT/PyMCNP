@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Ibback(BlockOption_, keyword='ibback'):
     Represents INP ibback elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Back boudary condition.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Ibback(BlockOption_, keyword='ibback'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class IbbackBuilder:
+    """
+    Builds ``Ibback``.
+
+    Attributes:
+        setting: Back boudary condition.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``IbbackBuilder`` into ``Ibback``.
+
+        Returns:
+            ``Ibback`` for ``IbbackBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Ibback(
+            setting=setting,
+        )

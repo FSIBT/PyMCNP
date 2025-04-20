@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import RandOption_
@@ -12,7 +13,7 @@ class Hist(RandOption_, keyword='hist'):
     Represents INP hist elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        hist: Starting pseudorandom number.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Hist(RandOption_, keyword='hist'):
         )
 
         self.hist: typing.Final[types.IntegerOrJump] = hist
+
+
+@dataclasses.dataclass
+class HistBuilder:
+    """
+    Builds ``Hist``.
+
+    Attributes:
+        hist: Starting pseudorandom number.
+    """
+
+    hist: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``HistBuilder`` into ``Hist``.
+
+        Returns:
+            ``Hist`` for ``HistBuilder``.
+        """
+
+        if isinstance(self.hist, types.Integer):
+            hist = self.hist
+        elif isinstance(self.hist, int):
+            hist = types.IntegerOrJump(self.hist)
+        elif isinstance(self.hist, str):
+            hist = types.IntegerOrJump.from_mcnp(self.hist)
+
+        return Hist(
+            hist=hist,
+        )

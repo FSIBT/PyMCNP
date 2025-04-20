@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Zned(BlockOption_, keyword='zned'):
     Represents INP zned elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Edits by zone on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Zned(BlockOption_, keyword='zned'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class ZnedBuilder:
+    """
+    Builds ``Zned``.
+
+    Attributes:
+        setting: Edits by zone on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``ZnedBuilder`` into ``Zned``.
+
+        Returns:
+            ``Zned`` for ``ZnedBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Zned(
+            setting=setting,
+        )

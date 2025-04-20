@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KoptsOption_
@@ -12,7 +13,7 @@ class Fmataccel(KoptsOption_, keyword='fmataccel'):
     Represents INP fmataccel elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: fmataccel.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Fmataccel(KoptsOption_, keyword='fmataccel'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class FmataccelBuilder:
+    """
+    Builds ``Fmataccel``.
+
+    Attributes:
+        setting: fmataccel.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``FmataccelBuilder`` into ``Fmataccel``.
+
+        Returns:
+            ``Fmataccel`` for ``FmataccelBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Fmataccel(
+            setting=setting,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Factor(FmeshOption_, keyword='factor'):
     Represents INP factor elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        multiple: Multiplicative factor for each mesh.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Factor(FmeshOption_, keyword='factor'):
         )
 
         self.multiple: typing.Final[types.RealOrJump] = multiple
+
+
+@dataclasses.dataclass
+class FactorBuilder:
+    """
+    Builds ``Factor``.
+
+    Attributes:
+        multiple: Multiplicative factor for each mesh.
+    """
+
+    multiple: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``FactorBuilder`` into ``Factor``.
+
+        Returns:
+            ``Factor`` for ``FactorBuilder``.
+        """
+
+        if isinstance(self.multiple, types.Real):
+            multiple = self.multiple
+        elif isinstance(self.multiple, float) or isinstance(self.multiple, int):
+            multiple = types.RealOrJump(self.multiple)
+        elif isinstance(self.multiple, str):
+            multiple = types.RealOrJump.from_mcnp(self.multiple)
+
+        return Factor(
+            multiple=multiple,
+        )

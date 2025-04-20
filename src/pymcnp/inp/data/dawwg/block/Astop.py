@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Astop(BlockOption_, keyword='astop'):
     Represents INP astop elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Bottom-going flux at plane j.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Astop(BlockOption_, keyword='astop'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class AstopBuilder:
+    """
+    Builds ``Astop``.
+
+    Attributes:
+        setting: Bottom-going flux at plane j.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``AstopBuilder`` into ``Astop``.
+
+        Returns:
+            ``Astop`` for ``AstopBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Astop(
+            setting=setting,
+        )

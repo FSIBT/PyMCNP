@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -10,10 +11,18 @@ from ...utils import _visualization
 
 class P_1(SurfaceOption_, keyword='p'):
     """
-    Represents INP p_1 elements.
+    Represents INP p variation #1 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        x1: point-defined general plane x-coordinate #1.
+        y1: point-defined general plane y-coordinate #1.
+        z1: point-defined general plane z-coordinate #1.
+        x2: point-defined general plane x-coordinate #2.
+        y2: point-defined general plane y-coordinate #2.
+        z2: point-defined general plane z-coordinate #2.
+        x3: point-defined general plane x-coordinate #3.
+        y3: point-defined general plane y-coordinate #3.
+        z3: point-defined general plane z-coordinate #3.
     """
 
     _ATTRS = {
@@ -122,3 +131,114 @@ class P_1(SurfaceOption_, keyword='p'):
         )
 
         return vis
+
+
+@dataclasses.dataclass
+class PBuilder_1:
+    """
+    Builds ``P_1``.
+
+    Attributes:
+        x1: point-defined general plane x-coordinate #1.
+        y1: point-defined general plane y-coordinate #1.
+        z1: point-defined general plane z-coordinate #1.
+        x2: point-defined general plane x-coordinate #2.
+        y2: point-defined general plane y-coordinate #2.
+        z2: point-defined general plane z-coordinate #2.
+        x3: point-defined general plane x-coordinate #3.
+        y3: point-defined general plane y-coordinate #3.
+        z3: point-defined general plane z-coordinate #3.
+    """
+
+    x1: str | float | types.Real
+    y1: str | float | types.Real
+    z1: str | float | types.Real
+    x2: str | float | types.Real
+    y2: str | float | types.Real
+    z2: str | float | types.Real
+    x3: str | float | types.Real
+    y3: str | float | types.Real
+    z3: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``PBuilder_1`` into ``P_1``.
+
+        Returns:
+            ``P_1`` for ``PBuilder_1``.
+        """
+
+        if isinstance(self.x1, types.Real):
+            x1 = self.x1
+        elif isinstance(self.x1, float) or isinstance(self.x1, int):
+            x1 = types.Real(self.x1)
+        elif isinstance(self.x1, str):
+            x1 = types.Real.from_mcnp(self.x1)
+
+        if isinstance(self.y1, types.Real):
+            y1 = self.y1
+        elif isinstance(self.y1, float) or isinstance(self.y1, int):
+            y1 = types.Real(self.y1)
+        elif isinstance(self.y1, str):
+            y1 = types.Real.from_mcnp(self.y1)
+
+        if isinstance(self.z1, types.Real):
+            z1 = self.z1
+        elif isinstance(self.z1, float) or isinstance(self.z1, int):
+            z1 = types.Real(self.z1)
+        elif isinstance(self.z1, str):
+            z1 = types.Real.from_mcnp(self.z1)
+
+        if isinstance(self.x2, types.Real):
+            x2 = self.x2
+        elif isinstance(self.x2, float) or isinstance(self.x2, int):
+            x2 = types.Real(self.x2)
+        elif isinstance(self.x2, str):
+            x2 = types.Real.from_mcnp(self.x2)
+
+        if isinstance(self.y2, types.Real):
+            y2 = self.y2
+        elif isinstance(self.y2, float) or isinstance(self.y2, int):
+            y2 = types.Real(self.y2)
+        elif isinstance(self.y2, str):
+            y2 = types.Real.from_mcnp(self.y2)
+
+        if isinstance(self.z2, types.Real):
+            z2 = self.z2
+        elif isinstance(self.z2, float) or isinstance(self.z2, int):
+            z2 = types.Real(self.z2)
+        elif isinstance(self.z2, str):
+            z2 = types.Real.from_mcnp(self.z2)
+
+        if isinstance(self.x3, types.Real):
+            x3 = self.x3
+        elif isinstance(self.x3, float) or isinstance(self.x3, int):
+            x3 = types.Real(self.x3)
+        elif isinstance(self.x3, str):
+            x3 = types.Real.from_mcnp(self.x3)
+
+        if isinstance(self.y3, types.Real):
+            y3 = self.y3
+        elif isinstance(self.y3, float) or isinstance(self.y3, int):
+            y3 = types.Real(self.y3)
+        elif isinstance(self.y3, str):
+            y3 = types.Real.from_mcnp(self.y3)
+
+        if isinstance(self.z3, types.Real):
+            z3 = self.z3
+        elif isinstance(self.z3, float) or isinstance(self.z3, int):
+            z3 = types.Real(self.z3)
+        elif isinstance(self.z3, str):
+            z3 = types.Real.from_mcnp(self.z3)
+
+        return P_1(
+            x1=x1,
+            y1=y1,
+            z1=z1,
+            x2=x2,
+            y2=y2,
+            z2=z2,
+            x3=x3,
+            y3=y3,
+            z3=z3,
+        )

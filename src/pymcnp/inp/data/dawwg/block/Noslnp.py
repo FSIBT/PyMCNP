@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Noslnp(BlockOption_, keyword='noslnp'):
     Represents INP noslnp elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Suppress writing SOLINP on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Noslnp(BlockOption_, keyword='noslnp'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class NoslnpBuilder:
+    """
+    Builds ``Noslnp``.
+
+    Attributes:
+        setting: Suppress writing SOLINP on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``NoslnpBuilder`` into ``Noslnp``.
+
+        Returns:
+            ``Noslnp`` for ``NoslnpBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Noslnp(
+            setting=setting,
+        )

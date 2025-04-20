@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BfldOption_
@@ -12,7 +13,7 @@ class Ffedges(BfldOption_, keyword='ffedges'):
     Represents INP ffedges elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        numbers: Surface numbers to apply field fringe edges.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Ffedges(BfldOption_, keyword='ffedges'):
         )
 
         self.numbers: typing.Final[types.Tuple[types.RealOrJump]] = numbers
+
+
+@dataclasses.dataclass
+class FfedgesBuilder:
+    """
+    Builds ``Ffedges``.
+
+    Attributes:
+        numbers: Surface numbers to apply field fringe edges.
+    """
+
+    numbers: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``FfedgesBuilder`` into ``Ffedges``.
+
+        Returns:
+            ``Ffedges`` for ``FfedgesBuilder``.
+        """
+
+        numbers = []
+        for item in self.numbers:
+            if isinstance(item, types.RealOrJump):
+                numbers.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                numbers.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                numbers.append(types.RealOrJump.from_mcnp(item))
+        numbers = types.Tuple(numbers)
+
+        return Ffedges(
+            numbers=numbers,
+        )

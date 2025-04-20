@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,8 @@ class Fm(DataOption_, keyword='fm'):
     Represents INP fm elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        bins: Tally multiplier bins.
     """
 
     _ATTRS = {
@@ -47,3 +49,42 @@ class Fm(DataOption_, keyword='fm'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.bins: typing.Final[types.String] = bins
+
+
+@dataclasses.dataclass
+class FmBuilder:
+    """
+    Builds ``Fm``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        bins: Tally multiplier bins.
+    """
+
+    suffix: str | int | types.Integer
+    bins: str | types.String
+
+    def build(self):
+        """
+        Builds ``FmBuilder`` into ``Fm``.
+
+        Returns:
+            ``Fm`` for ``FmBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        if isinstance(self.bins, types.String):
+            bins = self.bins
+        elif isinstance(self.bins, str):
+            bins = types.String.from_mcnp(self.bins)
+
+        return Fm(
+            suffix=suffix,
+            bins=bins,
+        )

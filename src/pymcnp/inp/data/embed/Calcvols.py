@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbedOption_
@@ -12,7 +13,7 @@ class Calcvols(EmbedOption_, keyword='calcvols'):
     Represents INP calcvols elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Yes/no calculate the inferred geometry cell information.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Calcvols(EmbedOption_, keyword='calcvols'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class CalcvolsBuilder:
+    """
+    Builds ``Calcvols``.
+
+    Attributes:
+        setting: Yes/no calculate the inferred geometry cell information.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``CalcvolsBuilder`` into ``Calcvols``.
+
+        Returns:
+            ``Calcvols`` for ``CalcvolsBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Calcvols(
+            setting=setting,
+        )

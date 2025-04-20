@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KoptsOption_
@@ -12,7 +13,7 @@ class Kinetics(KoptsOption_, keyword='kinetics'):
     Represents INP kinetics elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Yes/No calculate point-kinetics parameters.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Kinetics(KoptsOption_, keyword='kinetics'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class KineticsBuilder:
+    """
+    Builds ``Kinetics``.
+
+    Attributes:
+        setting: Yes/No calculate point-kinetics parameters.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``KineticsBuilder`` into ``Kinetics``.
+
+        Returns:
+            ``Kinetics`` for ``KineticsBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Kinetics(
+            setting=setting,
+        )

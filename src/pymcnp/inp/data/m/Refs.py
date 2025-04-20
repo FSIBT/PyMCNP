@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MOption_
@@ -12,7 +13,7 @@ class Refs(MOption_, keyword='refs'):
     Represents INP refs elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        coefficents: Sellmeier coefficents.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Refs(MOption_, keyword='refs'):
         )
 
         self.coefficents: typing.Final[types.Tuple[types.RealOrJump]] = coefficents
+
+
+@dataclasses.dataclass
+class RefsBuilder:
+    """
+    Builds ``Refs``.
+
+    Attributes:
+        coefficents: Sellmeier coefficents.
+    """
+
+    coefficents: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``RefsBuilder`` into ``Refs``.
+
+        Returns:
+            ``Refs`` for ``RefsBuilder``.
+        """
+
+        coefficents = []
+        for item in self.coefficents:
+            if isinstance(item, types.RealOrJump):
+                coefficents.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                coefficents.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                coefficents.append(types.RealOrJump.from_mcnp(item))
+        coefficents = types.Tuple(coefficents)
+
+        return Refs(
+            coefficents=coefficents,
+        )

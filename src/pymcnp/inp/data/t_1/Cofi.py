@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import T_1Option_
@@ -12,7 +13,7 @@ class Cofi(T_1Option_, keyword='cofi'):
     Represents INP cofi elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        time: Dead time interval.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Cofi(T_1Option_, keyword='cofi'):
         )
 
         self.time: typing.Final[types.RealOrJump] = time
+
+
+@dataclasses.dataclass
+class CofiBuilder:
+    """
+    Builds ``Cofi``.
+
+    Attributes:
+        time: Dead time interval.
+    """
+
+    time: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``CofiBuilder`` into ``Cofi``.
+
+        Returns:
+            ``Cofi`` for ``CofiBuilder``.
+        """
+
+        if isinstance(self.time, types.Real):
+            time = self.time
+        elif isinstance(self.time, float) or isinstance(self.time, int):
+            time = types.RealOrJump(self.time)
+        elif isinstance(self.time, str):
+            time = types.RealOrJump.from_mcnp(self.time)
+
+        return Cofi(
+            time=time,
+        )

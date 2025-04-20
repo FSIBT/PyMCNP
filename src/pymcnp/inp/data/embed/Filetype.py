@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbedOption_
@@ -12,7 +13,7 @@ class Filetype(EmbedOption_, keyword='filetype'):
     Represents INP filetype elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        kind: File type for the elemental edit output file.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Filetype(EmbedOption_, keyword='filetype'):
         )
 
         self.kind: typing.Final[types.String] = kind
+
+
+@dataclasses.dataclass
+class FiletypeBuilder:
+    """
+    Builds ``Filetype``.
+
+    Attributes:
+        kind: File type for the elemental edit output file.
+    """
+
+    kind: str | types.String
+
+    def build(self):
+        """
+        Builds ``FiletypeBuilder`` into ``Filetype``.
+
+        Returns:
+            ``Filetype`` for ``FiletypeBuilder``.
+        """
+
+        if isinstance(self.kind, types.String):
+            kind = self.kind
+        elif isinstance(self.kind, str):
+            kind = types.String.from_mcnp(self.kind)
+
+        return Filetype(
+            kind=kind,
+        )

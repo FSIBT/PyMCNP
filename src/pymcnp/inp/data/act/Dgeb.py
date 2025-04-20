@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import ActOption_
@@ -12,7 +13,7 @@ class Dgeb(ActOption_, keyword='dgeb'):
     Represents INP dgeb elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        biases: Delayed neutron energy biases.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Dgeb(ActOption_, keyword='dgeb'):
         )
 
         self.biases: typing.Final[types.Tuple[types.Bias]] = biases
+
+
+@dataclasses.dataclass
+class DgebBuilder:
+    """
+    Builds ``Dgeb``.
+
+    Attributes:
+        biases: Delayed neutron energy biases.
+    """
+
+    biases: list[str] | list[types.Bias]
+
+    def build(self):
+        """
+        Builds ``DgebBuilder`` into ``Dgeb``.
+
+        Returns:
+            ``Dgeb`` for ``DgebBuilder``.
+        """
+
+        biases = []
+        for item in self.biases:
+            if isinstance(item, types.Bias):
+                biases.append(item)
+            elif isinstance(item, str):
+                biases.append(types.Bias.from_mcnp(item))
+            else:
+                biases.append(item.build())
+        biases = types.Tuple(biases)
+
+        return Dgeb(
+            biases=biases,
+        )

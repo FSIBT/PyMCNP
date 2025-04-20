@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Wwge(DataOption_, keyword='wwge'):
     Represents INP wwge elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        bounds: Upper energy bound for weight-window group to be generated.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Wwge(DataOption_, keyword='wwge'):
         )
 
         self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds
+
+
+@dataclasses.dataclass
+class WwgeBuilder:
+    """
+    Builds ``Wwge``.
+
+    Attributes:
+        bounds: Upper energy bound for weight-window group to be generated.
+    """
+
+    bounds: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``WwgeBuilder`` into ``Wwge``.
+
+        Returns:
+            ``Wwge`` for ``WwgeBuilder``.
+        """
+
+        bounds = []
+        for item in self.bounds:
+            if isinstance(item, types.RealOrJump):
+                bounds.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                bounds.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                bounds.append(types.RealOrJump.from_mcnp(item))
+        bounds = types.Tuple(bounds)
+
+        return Wwge(
+            bounds=bounds,
+        )

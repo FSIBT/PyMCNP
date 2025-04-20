@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Norm(BlockOption_, keyword='norm'):
     Represents INP norm elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Norm.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Norm(BlockOption_, keyword='norm'):
         )
 
         self.setting: typing.Final[types.RealOrJump] = setting
+
+
+@dataclasses.dataclass
+class NormBuilder:
+    """
+    Builds ``Norm``.
+
+    Attributes:
+        setting: Norm.
+    """
+
+    setting: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``NormBuilder`` into ``Norm``.
+
+        Returns:
+            ``Norm`` for ``NormBuilder``.
+        """
+
+        if isinstance(self.setting, types.Real):
+            setting = self.setting
+        elif isinstance(self.setting, float) or isinstance(self.setting, int):
+            setting = types.RealOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.RealOrJump.from_mcnp(self.setting)
+
+        return Norm(
+            setting=setting,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import ActOption_
@@ -12,7 +13,7 @@ class Fission(ActOption_, keyword='fission'):
     Represents INP fission elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        kind: Type of delayed particle(s) to be produced from residuals created by fission.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Fission(ActOption_, keyword='fission'):
         )
 
         self.kind: typing.Final[types.String] = kind
+
+
+@dataclasses.dataclass
+class FissionBuilder:
+    """
+    Builds ``Fission``.
+
+    Attributes:
+        kind: Type of delayed particle(s) to be produced from residuals created by fission.
+    """
+
+    kind: str | types.String
+
+    def build(self):
+        """
+        Builds ``FissionBuilder`` into ``Fission``.
+
+        Returns:
+            ``Fission`` for ``FissionBuilder``.
+        """
+
+        if isinstance(self.kind, types.String):
+            kind = self.kind
+        elif isinstance(self.kind, str):
+            kind = types.String.from_mcnp(self.kind)
+
+        return Fission(
+            kind=kind,
+        )

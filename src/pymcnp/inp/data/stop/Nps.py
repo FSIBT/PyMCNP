@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import StopOption_
@@ -12,7 +13,8 @@ class Nps(StopOption_, keyword='nps'):
     Represents INP nps elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        npp: Total number of histories before stop.
+        npsmg: Number of histories before stop.
     """
 
     _ATTRS = {
@@ -48,3 +50,45 @@ class Nps(StopOption_, keyword='nps'):
 
         self.npp: typing.Final[types.IntegerOrJump] = npp
         self.npsmg: typing.Final[types.IntegerOrJump] = npsmg
+
+
+@dataclasses.dataclass
+class NpsBuilder:
+    """
+    Builds ``Nps``.
+
+    Attributes:
+        npp: Total number of histories before stop.
+        npsmg: Number of histories before stop.
+    """
+
+    npp: str | int | types.IntegerOrJump
+    npsmg: str | int | types.IntegerOrJump = None
+
+    def build(self):
+        """
+        Builds ``NpsBuilder`` into ``Nps``.
+
+        Returns:
+            ``Nps`` for ``NpsBuilder``.
+        """
+
+        if isinstance(self.npp, types.Integer):
+            npp = self.npp
+        elif isinstance(self.npp, int):
+            npp = types.IntegerOrJump(self.npp)
+        elif isinstance(self.npp, str):
+            npp = types.IntegerOrJump.from_mcnp(self.npp)
+
+        npsmg = None
+        if isinstance(self.npsmg, types.Integer):
+            npsmg = self.npsmg
+        elif isinstance(self.npsmg, int):
+            npsmg = types.IntegerOrJump(self.npsmg)
+        elif isinstance(self.npsmg, str):
+            npsmg = types.IntegerOrJump.from_mcnp(self.npsmg)
+
+        return Nps(
+            npp=npp,
+            npsmg=npsmg,
+        )

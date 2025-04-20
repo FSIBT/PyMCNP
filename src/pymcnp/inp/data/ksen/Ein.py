@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KsenOption_
@@ -12,7 +13,7 @@ class Ein(KsenOption_, keyword='ein'):
     Represents INP ein elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        energies: List of ranges for incident energies.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Ein(KsenOption_, keyword='ein'):
         )
 
         self.energies: typing.Final[types.Tuple[types.RealOrJump]] = energies
+
+
+@dataclasses.dataclass
+class EinBuilder:
+    """
+    Builds ``Ein``.
+
+    Attributes:
+        energies: List of ranges for incident energies.
+    """
+
+    energies: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``EinBuilder`` into ``Ein``.
+
+        Returns:
+            ``Ein`` for ``EinBuilder``.
+        """
+
+        energies = []
+        for item in self.energies:
+            if isinstance(item, types.RealOrJump):
+                energies.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                energies.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                energies.append(types.RealOrJump.from_mcnp(item))
+        energies = types.Tuple(energies)
+
+        return Ein(
+            energies=energies,
+        )

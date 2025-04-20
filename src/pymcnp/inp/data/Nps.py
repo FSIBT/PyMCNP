@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,8 @@ class Nps(DataOption_, keyword='nps'):
     Represents INP nps elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        npp: Total number of histories to run.
+        npsmg: Number of history with direct source contributions.
     """
 
     _ATTRS = {
@@ -50,3 +52,45 @@ class Nps(DataOption_, keyword='nps'):
 
         self.npp: typing.Final[types.Integer] = npp
         self.npsmg: typing.Final[types.Integer] = npsmg
+
+
+@dataclasses.dataclass
+class NpsBuilder:
+    """
+    Builds ``Nps``.
+
+    Attributes:
+        npp: Total number of histories to run.
+        npsmg: Number of history with direct source contributions.
+    """
+
+    npp: str | int | types.Integer
+    npsmg: str | int | types.Integer = None
+
+    def build(self):
+        """
+        Builds ``NpsBuilder`` into ``Nps``.
+
+        Returns:
+            ``Nps`` for ``NpsBuilder``.
+        """
+
+        if isinstance(self.npp, types.Integer):
+            npp = self.npp
+        elif isinstance(self.npp, int):
+            npp = types.Integer(self.npp)
+        elif isinstance(self.npp, str):
+            npp = types.Integer.from_mcnp(self.npp)
+
+        npsmg = None
+        if isinstance(self.npsmg, types.Integer):
+            npsmg = self.npsmg
+        elif isinstance(self.npsmg, int):
+            npsmg = types.Integer(self.npsmg)
+        elif isinstance(self.npsmg, str):
+            npsmg = types.Integer.from_mcnp(self.npsmg)
+
+        return Nps(
+            npp=npp,
+            npsmg=npsmg,
+        )

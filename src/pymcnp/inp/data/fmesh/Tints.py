@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Tints(FmeshOption_, keyword='tints'):
     Represents INP tints elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        count: Number of mesh points for each mesh time.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Tints(FmeshOption_, keyword='tints'):
         )
 
         self.count: typing.Final[types.IntegerOrJump] = count
+
+
+@dataclasses.dataclass
+class TintsBuilder:
+    """
+    Builds ``Tints``.
+
+    Attributes:
+        count: Number of mesh points for each mesh time.
+    """
+
+    count: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``TintsBuilder`` into ``Tints``.
+
+        Returns:
+            ``Tints`` for ``TintsBuilder``.
+        """
+
+        if isinstance(self.count, types.Integer):
+            count = self.count
+        elif isinstance(self.count, int):
+            count = types.IntegerOrJump(self.count)
+        elif isinstance(self.count, str):
+            count = types.IntegerOrJump.from_mcnp(self.count)
+
+        return Tints(
+            count=count,
+        )

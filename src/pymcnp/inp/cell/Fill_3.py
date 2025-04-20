@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import CellOption_
@@ -9,10 +10,11 @@ from ...utils import errors
 
 class Fill_3(CellOption_, keyword='fill'):
     """
-    Represents INP fill_3 elements.
+    Represents INP fill variation #3 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        universe: Cell fill universe number.
+        transformation: Cell fill transformation.
     """
 
     _ATTRS = {
@@ -48,3 +50,43 @@ class Fill_3(CellOption_, keyword='fill'):
 
         self.universe: typing.Final[types.Integer] = universe
         self.transformation: typing.Final[types.Transformation_2] = transformation
+
+
+@dataclasses.dataclass
+class FillBuilder_3:
+    """
+    Builds ``Fill_3``.
+
+    Attributes:
+        universe: Cell fill universe number.
+        transformation: Cell fill transformation.
+    """
+
+    universe: str | int | types.Integer
+    transformation: str | types.Transformation_2 = None
+
+    def build(self):
+        """
+        Builds ``FillBuilder_3`` into ``Fill_3``.
+
+        Returns:
+            ``Fill_3`` for ``FillBuilder_3``.
+        """
+
+        if isinstance(self.universe, types.Integer):
+            universe = self.universe
+        elif isinstance(self.universe, int):
+            universe = types.Integer(self.universe)
+        elif isinstance(self.universe, str):
+            universe = types.Integer.from_mcnp(self.universe)
+
+        transformation = None
+        if isinstance(self.transformation, types.Transformation_2):
+            transformation = self.transformation
+        elif isinstance(self.transformation, str):
+            transformation = types.Transformation_2.from_mcnp(self.transformation)
+
+        return Fill_3(
+            universe=universe,
+            transformation=transformation,
+        )

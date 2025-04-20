@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MOption_
@@ -12,7 +13,7 @@ class Refi(MOption_, keyword='refi'):
     Represents INP refi elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        refractive_index: Refractive index constant.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Refi(MOption_, keyword='refi'):
         )
 
         self.refractive_index: typing.Final[types.RealOrJump] = refractive_index
+
+
+@dataclasses.dataclass
+class RefiBuilder:
+    """
+    Builds ``Refi``.
+
+    Attributes:
+        refractive_index: Refractive index constant.
+    """
+
+    refractive_index: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``RefiBuilder`` into ``Refi``.
+
+        Returns:
+            ``Refi`` for ``RefiBuilder``.
+        """
+
+        if isinstance(self.refractive_index, types.Real):
+            refractive_index = self.refractive_index
+        elif isinstance(self.refractive_index, float) or isinstance(self.refractive_index, int):
+            refractive_index = types.RealOrJump(self.refractive_index)
+        elif isinstance(self.refractive_index, str):
+            refractive_index = types.RealOrJump.from_mcnp(self.refractive_index)
+
+        return Refi(
+            refractive_index=refractive_index,
+        )

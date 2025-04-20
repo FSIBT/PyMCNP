@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Dm(DataOption_, keyword='dm'):
     Represents INP dm elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        zaids: Tuple of ZAID aliases.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Dm(DataOption_, keyword='dm'):
         )
 
         self.zaids: typing.Final[types.Tuple[types.Zaid]] = zaids
+
+
+@dataclasses.dataclass
+class DmBuilder:
+    """
+    Builds ``Dm``.
+
+    Attributes:
+        zaids: Tuple of ZAID aliases.
+    """
+
+    zaids: list[str] | list[types.Zaid]
+
+    def build(self):
+        """
+        Builds ``DmBuilder`` into ``Dm``.
+
+        Returns:
+            ``Dm`` for ``DmBuilder``.
+        """
+
+        zaids = []
+        for item in self.zaids:
+            if isinstance(item, types.Zaid):
+                zaids.append(item)
+            elif isinstance(item, str):
+                zaids.append(types.Zaid.from_mcnp(item))
+            else:
+                zaids.append(item.build())
+        zaids = types.Tuple(zaids)
+
+        return Dm(
+            zaids=zaids,
+        )

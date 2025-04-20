@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Tsaepsi(BlockOption_, keyword='tsaepsi'):
     Represents INP tsaepsi elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Convergence criteria for TSA sweeps.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Tsaepsi(BlockOption_, keyword='tsaepsi'):
         )
 
         self.setting: typing.Final[types.RealOrJump] = setting
+
+
+@dataclasses.dataclass
+class TsaepsiBuilder:
+    """
+    Builds ``Tsaepsi``.
+
+    Attributes:
+        setting: Convergence criteria for TSA sweeps.
+    """
+
+    setting: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``TsaepsiBuilder`` into ``Tsaepsi``.
+
+        Returns:
+            ``Tsaepsi`` for ``TsaepsiBuilder``.
+        """
+
+        if isinstance(self.setting, types.Real):
+            setting = self.setting
+        elif isinstance(self.setting, float) or isinstance(self.setting, int):
+            setting = types.RealOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.RealOrJump.from_mcnp(self.setting)
+
+        return Tsaepsi(
+            setting=setting,
+        )

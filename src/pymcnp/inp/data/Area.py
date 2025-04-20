@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Area(DataOption_, keyword='area'):
     Represents INP area elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        areas: Tuple of surface areas.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Area(DataOption_, keyword='area'):
         )
 
         self.areas: typing.Final[types.Tuple[types.RealOrJump]] = areas
+
+
+@dataclasses.dataclass
+class AreaBuilder:
+    """
+    Builds ``Area``.
+
+    Attributes:
+        areas: Tuple of surface areas.
+    """
+
+    areas: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``AreaBuilder`` into ``Area``.
+
+        Returns:
+            ``Area`` for ``AreaBuilder``.
+        """
+
+        areas = []
+        for item in self.areas:
+            if isinstance(item, types.RealOrJump):
+                areas.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                areas.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                areas.append(types.RealOrJump.from_mcnp(item))
+        areas = types.Tuple(areas)
+
+        return Area(
+            areas=areas,
+        )

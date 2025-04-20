@@ -544,7 +544,7 @@ cards = ElementScheme(
                             type='types.Integer',
                             description='Displacement vector origin',
                             optional=True,
-                        )
+                        ),
                     ],
                 ),
                 ElementScheme(
@@ -5780,12 +5780,23 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='erg',
+                            name='erg_0',
                             mnemonic='erg',
                             attributes=[
                                 AttributeScheme(
                                     name='energy',
                                     type='types.RealOrJump',
+                                    description='Kinetic energy',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='erg_1',
+                            mnemonic='erg',
+                            attributes=[
+                                AttributeScheme(
+                                    name='energy',
+                                    type='types.DistributionNumber',
                                     description='Kinetic energy',
                                 ),
                             ],
@@ -5813,12 +5824,23 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='dir',
+                            name='dir_0',
                             mnemonic='dir',
                             attributes=[
                                 AttributeScheme(
                                     name='cosine',
                                     type='types.RealOrJump',
+                                    description='Cosine of the angle between VEC and particle',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='dir_1',
+                            mnemonic='dir',
+                            attributes=[
+                                AttributeScheme(
+                                    name='cosine',
+                                    type='types.DistributionNumber',
                                     description='Cosine of the angle between VEC and particle',
                                 ),
                             ],
@@ -5867,12 +5889,23 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
-                            name='rad',
+                            name='rad_0',
                             mnemonic='rad',
                             attributes=[
                                 AttributeScheme(
                                     name='radial_distance',
                                     type='types.RealOrJump',
+                                    description='Radial distance fo the position from POS or AXS',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
+                            name='rad_1',
+                            mnemonic='rad',
+                            attributes=[
+                                AttributeScheme(
+                                    name='radial_distance',
+                                    type='types.DistributionNumber',
                                     description='Radial distance fo the position from POS or AXS',
                                 ),
                             ],

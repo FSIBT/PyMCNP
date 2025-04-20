@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Nosolv(BlockOption_, keyword='nosolv'):
     Represents INP nosolv elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Suppress solver module on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Nosolv(BlockOption_, keyword='nosolv'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class NosolvBuilder:
+    """
+    Builds ``Nosolv``.
+
+    Attributes:
+        setting: Suppress solver module on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``NosolvBuilder`` into ``Nosolv``.
+
+        Returns:
+            ``Nosolv`` for ``NosolvBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Nosolv(
+            setting=setting,
+        )

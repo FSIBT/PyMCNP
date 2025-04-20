@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Spdtl(DataOption_, keyword='spdtl'):
     Represents INP spdtl elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        keyword: keyword in {"force", "off"}.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Spdtl(DataOption_, keyword='spdtl'):
         )
 
         self.keyword: typing.Final[types.String] = keyword
+
+
+@dataclasses.dataclass
+class SpdtlBuilder:
+    """
+    Builds ``Spdtl``.
+
+    Attributes:
+        keyword: keyword in {"force", "off"}.
+    """
+
+    keyword: str | types.String
+
+    def build(self):
+        """
+        Builds ``SpdtlBuilder`` into ``Spdtl``.
+
+        Returns:
+            ``Spdtl`` for ``SpdtlBuilder``.
+        """
+
+        if isinstance(self.keyword, types.String):
+            keyword = self.keyword
+        elif isinstance(self.keyword, str):
+            keyword = types.String.from_mcnp(self.keyword)
+
+        return Spdtl(
+            keyword=keyword,
+        )

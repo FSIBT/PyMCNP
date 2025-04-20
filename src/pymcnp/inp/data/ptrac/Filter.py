@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import PtracOption_
@@ -12,7 +13,7 @@ class Filter(PtracOption_, keyword='filter'):
     Represents INP filter elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        variables: MCNP6 variables for filtering.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Filter(PtracOption_, keyword='filter'):
         )
 
         self.variables: typing.Final[types.Tuple[types.PtracFilter]] = variables
+
+
+@dataclasses.dataclass
+class FilterBuilder:
+    """
+    Builds ``Filter``.
+
+    Attributes:
+        variables: MCNP6 variables for filtering.
+    """
+
+    variables: list[str] | list[types.PtracFilter]
+
+    def build(self):
+        """
+        Builds ``FilterBuilder`` into ``Filter``.
+
+        Returns:
+            ``Filter`` for ``FilterBuilder``.
+        """
+
+        variables = []
+        for item in self.variables:
+            if isinstance(item, types.PtracFilter):
+                variables.append(item)
+            elif isinstance(item, str):
+                variables.append(types.PtracFilter.from_mcnp(item))
+            else:
+                variables.append(item.build())
+        variables = types.Tuple(variables)
+
+        return Filter(
+            variables=variables,
+        )

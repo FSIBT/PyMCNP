@@ -4,6 +4,10 @@ from .Iu import Iu
 from .Fac import Fac
 from .Ic import Ic
 from .Int import Int
+from .Iu import IuBuilder
+from .Fac import FacBuilder
+from .Ic import IcBuilder
+from .Int import IntBuilder
 
 __all__ = [
     'Df_1Option_',
@@ -11,4 +15,8 @@ __all__ = [
     'Fac',
     'Ic',
     'Int',
+    'IuBuilder',
+    'FacBuilder',
+    'IcBuilder',
+    'IntBuilder',
 ]

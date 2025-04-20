@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -11,7 +12,7 @@ class Zc(DataOption_, keyword='zc'):
     Represents INP zc elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        anything: Any parameters.
     """
 
     _ATTRS = {
@@ -38,3 +39,33 @@ class Zc(DataOption_, keyword='zc'):
         )
 
         self.anything: typing.Final[types.String] = anything
+
+
+@dataclasses.dataclass
+class ZcBuilder:
+    """
+    Builds ``Zc``.
+
+    Attributes:
+        anything: Any parameters.
+    """
+
+    anything: str | types.String = None
+
+    def build(self):
+        """
+        Builds ``ZcBuilder`` into ``Zc``.
+
+        Returns:
+            ``Zc`` for ``ZcBuilder``.
+        """
+
+        anything = None
+        if isinstance(self.anything, types.String):
+            anything = self.anything
+        elif isinstance(self.anything, str):
+            anything = types.String.from_mcnp(self.anything)
+
+        return Zc(
+            anything=anything,
+        )

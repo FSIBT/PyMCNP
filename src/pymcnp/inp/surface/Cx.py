@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,7 @@ class Cx(SurfaceOption_, keyword='cx'):
     Represents INP cx elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        r: On-x-axis cylinder radius.
     """
 
     _ATTRS = {
@@ -56,3 +57,34 @@ class Cx(SurfaceOption_, keyword='cx'):
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
 
         return vis
+
+
+@dataclasses.dataclass
+class CxBuilder:
+    """
+    Builds ``Cx``.
+
+    Attributes:
+        r: On-x-axis cylinder radius.
+    """
+
+    r: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``CxBuilder`` into ``Cx``.
+
+        Returns:
+            ``Cx`` for ``CxBuilder``.
+        """
+
+        if isinstance(self.r, types.Real):
+            r = self.r
+        elif isinstance(self.r, float) or isinstance(self.r, int):
+            r = types.Real(self.r)
+        elif isinstance(self.r, str):
+            r = types.Real.from_mcnp(self.r)
+
+        return Cx(
+            r=r,
+        )

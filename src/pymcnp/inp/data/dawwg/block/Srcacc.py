@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Srcacc(BlockOption_, keyword='srcacc'):
     Represents INP srcacc elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Transport accelerations.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Srcacc(BlockOption_, keyword='srcacc'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class SrcaccBuilder:
+    """
+    Builds ``Srcacc``.
+
+    Attributes:
+        setting: Transport accelerations.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``SrcaccBuilder`` into ``Srcacc``.
+
+        Returns:
+            ``Srcacc`` for ``SrcaccBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Srcacc(
+            setting=setting,
+        )

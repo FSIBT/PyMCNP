@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Fissneut(BlockOption_, keyword='fissneut'):
     Represents INP fissneut elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Fission neutron flag.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Fissneut(BlockOption_, keyword='fissneut'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class FissneutBuilder:
+    """
+    Builds ``Fissneut``.
+
+    Attributes:
+        setting: Fission neutron flag.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``FissneutBuilder`` into ``Fissneut``.
+
+        Returns:
+            ``Fissneut`` for ``FissneutBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Fissneut(
+            setting=setting,
+        )

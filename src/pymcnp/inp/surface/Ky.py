@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,9 @@ class Ky(SurfaceOption_, keyword='ky'):
     Represents INP ky elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        y: On-y-axis cone center y component.
+        t_squared: On-y-axis cone t^2 coefficent.
+        plusminus_1: On-y-axis cone sheet selector.
     """
 
     _ATTRS = {
@@ -73,3 +76,54 @@ class Ky(SurfaceOption_, keyword='ky'):
         vis = vis.add_translation(_visualization.Vector(0, self.y.value, 0))
 
         return vis
+
+
+@dataclasses.dataclass
+class KyBuilder:
+    """
+    Builds ``Ky``.
+
+    Attributes:
+        y: On-y-axis cone center y component.
+        t_squared: On-y-axis cone t^2 coefficent.
+        plusminus_1: On-y-axis cone sheet selector.
+    """
+
+    y: str | float | types.Real
+    t_squared: str | float | types.Real
+    plusminus_1: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``KyBuilder`` into ``Ky``.
+
+        Returns:
+            ``Ky`` for ``KyBuilder``.
+        """
+
+        if isinstance(self.y, types.Real):
+            y = self.y
+        elif isinstance(self.y, float) or isinstance(self.y, int):
+            y = types.Real(self.y)
+        elif isinstance(self.y, str):
+            y = types.Real.from_mcnp(self.y)
+
+        if isinstance(self.t_squared, types.Real):
+            t_squared = self.t_squared
+        elif isinstance(self.t_squared, float) or isinstance(self.t_squared, int):
+            t_squared = types.Real(self.t_squared)
+        elif isinstance(self.t_squared, str):
+            t_squared = types.Real.from_mcnp(self.t_squared)
+
+        if isinstance(self.plusminus_1, types.Real):
+            plusminus_1 = self.plusminus_1
+        elif isinstance(self.plusminus_1, float) or isinstance(self.plusminus_1, int):
+            plusminus_1 = types.Real(self.plusminus_1)
+        elif isinstance(self.plusminus_1, str):
+            plusminus_1 = types.Real.from_mcnp(self.plusminus_1)
+
+        return Ky(
+            y=y,
+            t_squared=t_squared,
+            plusminus_1=plusminus_1,
+        )

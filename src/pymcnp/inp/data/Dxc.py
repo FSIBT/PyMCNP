@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,9 @@ class Dxc(DataOption_, keyword='dxc'):
     Represents INP dxc elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        designator: Data card particle designator.
+        probabilities: Probability of contribution to DXTRAN.
     """
 
     _ATTRS = {
@@ -59,3 +62,55 @@ class Dxc(DataOption_, keyword='dxc'):
         self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
         self.probabilities: typing.Final[types.Tuple[types.RealOrJump]] = probabilities
+
+
+@dataclasses.dataclass
+class DxcBuilder:
+    """
+    Builds ``Dxc``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        designator: Data card particle designator.
+        probabilities: Probability of contribution to DXTRAN.
+    """
+
+    suffix: str | int | types.Integer
+    designator: str | types.Designator
+    probabilities: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``DxcBuilder`` into ``Dxc``.
+
+        Returns:
+            ``Dxc`` for ``DxcBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        if isinstance(self.designator, types.Designator):
+            designator = self.designator
+        elif isinstance(self.designator, str):
+            designator = types.Designator.from_mcnp(self.designator)
+
+        probabilities = []
+        for item in self.probabilities:
+            if isinstance(item, types.RealOrJump):
+                probabilities.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                probabilities.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                probabilities.append(types.RealOrJump.from_mcnp(item))
+        probabilities = types.Tuple(probabilities)
+
+        return Dxc(
+            suffix=suffix,
+            designator=designator,
+            probabilities=probabilities,
+        )

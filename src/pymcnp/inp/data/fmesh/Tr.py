@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Tr(FmeshOption_, keyword='tr'):
     Represents INP tr elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Transformation applied to the mesh.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Tr(FmeshOption_, keyword='tr'):
         )
 
         self.number: typing.Final[types.IntegerOrJump] = number
+
+
+@dataclasses.dataclass
+class TrBuilder:
+    """
+    Builds ``Tr``.
+
+    Attributes:
+        number: Transformation applied to the mesh.
+    """
+
+    number: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``TrBuilder`` into ``Tr``.
+
+        Returns:
+            ``Tr`` for ``TrBuilder``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.IntegerOrJump(self.number)
+        elif isinstance(self.number, str):
+            number = types.IntegerOrJump.from_mcnp(self.number)
+
+        return Tr(
+            number=number,
+        )

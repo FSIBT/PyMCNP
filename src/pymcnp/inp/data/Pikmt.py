@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Pikmt(DataOption_, keyword='pikmt'):
     Represents INP pikmt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        biases: Biases for proton production.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Pikmt(DataOption_, keyword='pikmt'):
         )
 
         self.biases: typing.Final[types.Tuple[types.PhotonBias]] = biases
+
+
+@dataclasses.dataclass
+class PikmtBuilder:
+    """
+    Builds ``Pikmt``.
+
+    Attributes:
+        biases: Biases for proton production.
+    """
+
+    biases: list[str] | list[types.PhotonBias]
+
+    def build(self):
+        """
+        Builds ``PikmtBuilder`` into ``Pikmt``.
+
+        Returns:
+            ``Pikmt`` for ``PikmtBuilder``.
+        """
+
+        biases = []
+        for item in self.biases:
+            if isinstance(item, types.PhotonBias):
+                biases.append(item)
+            elif isinstance(item, str):
+                biases.append(types.PhotonBias.from_mcnp(item))
+            else:
+                biases.append(item.build())
+        biases = types.Tuple(biases)
+
+        return Pikmt(
+            biases=biases,
+        )

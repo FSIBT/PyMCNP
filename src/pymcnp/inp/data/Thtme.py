@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Thtme(DataOption_, keyword='thtme'):
     Represents INP thtme elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        times: Tuple of times when thermal temperatures are specified.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Thtme(DataOption_, keyword='thtme'):
         )
 
         self.times: typing.Final[types.Tuple[types.RealOrJump]] = times
+
+
+@dataclasses.dataclass
+class ThtmeBuilder:
+    """
+    Builds ``Thtme``.
+
+    Attributes:
+        times: Tuple of times when thermal temperatures are specified.
+    """
+
+    times: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``ThtmeBuilder`` into ``Thtme``.
+
+        Returns:
+            ``Thtme`` for ``ThtmeBuilder``.
+        """
+
+        times = []
+        for item in self.times:
+            if isinstance(item, types.RealOrJump):
+                times.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                times.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                times.append(types.RealOrJump.from_mcnp(item))
+        times = types.Tuple(times)
+
+        return Thtme(
+            times=times,
+        )

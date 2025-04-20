@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -12,7 +13,16 @@ class Sq(SurfaceOption_, keyword='sq'):
     Represents INP sq elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        a: Oblique special quadratic A coefficent.
+        b: Oblique special quadratic B coefficent.
+        c: Oblique special quadratic C coefficent.
+        d: Oblique special quadratic D coefficent.
+        e: Oblique special quadratic E coefficent.
+        f: Oblique special quadratic F coefficent.
+        g: Oblique special quadratic G coefficent.
+        x: Oblique special quadratic center x component.
+        y: Oblique special quadratic center y component.
+        z: Oblique special quadratic center z component.
     """
 
     _ATTRS = {
@@ -110,3 +120,124 @@ class Sq(SurfaceOption_, keyword='sq'):
         self.x: typing.Final[types.Real] = x
         self.y: typing.Final[types.Real] = y
         self.z: typing.Final[types.Real] = z
+
+
+@dataclasses.dataclass
+class SqBuilder:
+    """
+    Builds ``Sq``.
+
+    Attributes:
+        a: Oblique special quadratic A coefficent.
+        b: Oblique special quadratic B coefficent.
+        c: Oblique special quadratic C coefficent.
+        d: Oblique special quadratic D coefficent.
+        e: Oblique special quadratic E coefficent.
+        f: Oblique special quadratic F coefficent.
+        g: Oblique special quadratic G coefficent.
+        x: Oblique special quadratic center x component.
+        y: Oblique special quadratic center y component.
+        z: Oblique special quadratic center z component.
+    """
+
+    a: str | float | types.Real
+    b: str | float | types.Real
+    c: str | float | types.Real
+    d: str | float | types.Real
+    e: str | float | types.Real
+    f: str | float | types.Real
+    g: str | float | types.Real
+    x: str | float | types.Real
+    y: str | float | types.Real
+    z: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``SqBuilder`` into ``Sq``.
+
+        Returns:
+            ``Sq`` for ``SqBuilder``.
+        """
+
+        if isinstance(self.a, types.Real):
+            a = self.a
+        elif isinstance(self.a, float) or isinstance(self.a, int):
+            a = types.Real(self.a)
+        elif isinstance(self.a, str):
+            a = types.Real.from_mcnp(self.a)
+
+        if isinstance(self.b, types.Real):
+            b = self.b
+        elif isinstance(self.b, float) or isinstance(self.b, int):
+            b = types.Real(self.b)
+        elif isinstance(self.b, str):
+            b = types.Real.from_mcnp(self.b)
+
+        if isinstance(self.c, types.Real):
+            c = self.c
+        elif isinstance(self.c, float) or isinstance(self.c, int):
+            c = types.Real(self.c)
+        elif isinstance(self.c, str):
+            c = types.Real.from_mcnp(self.c)
+
+        if isinstance(self.d, types.Real):
+            d = self.d
+        elif isinstance(self.d, float) or isinstance(self.d, int):
+            d = types.Real(self.d)
+        elif isinstance(self.d, str):
+            d = types.Real.from_mcnp(self.d)
+
+        if isinstance(self.e, types.Real):
+            e = self.e
+        elif isinstance(self.e, float) or isinstance(self.e, int):
+            e = types.Real(self.e)
+        elif isinstance(self.e, str):
+            e = types.Real.from_mcnp(self.e)
+
+        if isinstance(self.f, types.Real):
+            f = self.f
+        elif isinstance(self.f, float) or isinstance(self.f, int):
+            f = types.Real(self.f)
+        elif isinstance(self.f, str):
+            f = types.Real.from_mcnp(self.f)
+
+        if isinstance(self.g, types.Real):
+            g = self.g
+        elif isinstance(self.g, float) or isinstance(self.g, int):
+            g = types.Real(self.g)
+        elif isinstance(self.g, str):
+            g = types.Real.from_mcnp(self.g)
+
+        if isinstance(self.x, types.Real):
+            x = self.x
+        elif isinstance(self.x, float) or isinstance(self.x, int):
+            x = types.Real(self.x)
+        elif isinstance(self.x, str):
+            x = types.Real.from_mcnp(self.x)
+
+        if isinstance(self.y, types.Real):
+            y = self.y
+        elif isinstance(self.y, float) or isinstance(self.y, int):
+            y = types.Real(self.y)
+        elif isinstance(self.y, str):
+            y = types.Real.from_mcnp(self.y)
+
+        if isinstance(self.z, types.Real):
+            z = self.z
+        elif isinstance(self.z, float) or isinstance(self.z, int):
+            z = types.Real(self.z)
+        elif isinstance(self.z, str):
+            z = types.Real.from_mcnp(self.z)
+
+        return Sq(
+            a=a,
+            b=b,
+            c=c,
+            d=d,
+            e=e,
+            f=f,
+            g=g,
+            x=x,
+            y=y,
+            z=z,
+        )

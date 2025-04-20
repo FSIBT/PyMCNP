@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Ctme(DataOption_, keyword='ctme'):
     Represents INP ctme elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        tme: maximum amount of minutes for Monte Carlo calculation.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Ctme(DataOption_, keyword='ctme'):
         )
 
         self.tme: typing.Final[types.IntegerOrJump] = tme
+
+
+@dataclasses.dataclass
+class CtmeBuilder:
+    """
+    Builds ``Ctme``.
+
+    Attributes:
+        tme: maximum amount of minutes for Monte Carlo calculation.
+    """
+
+    tme: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``CtmeBuilder`` into ``Ctme``.
+
+        Returns:
+            ``Ctme`` for ``CtmeBuilder``.
+        """
+
+        if isinstance(self.tme, types.Integer):
+            tme = self.tme
+        elif isinstance(self.tme, int):
+            tme = types.IntegerOrJump(self.tme)
+        elif isinstance(self.tme, str):
+            tme = types.IntegerOrJump.from_mcnp(self.tme)
+
+        return Ctme(
+            tme=tme,
+        )

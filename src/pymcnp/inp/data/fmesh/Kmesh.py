@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Kmesh(FmeshOption_, keyword='kmesh'):
     Represents INP kmesh elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        locations: Locations of mesh points z/theta for rectangular/cylindrical geometry.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Kmesh(FmeshOption_, keyword='kmesh'):
         )
 
         self.locations: typing.Final[types.RealOrJump] = locations
+
+
+@dataclasses.dataclass
+class KmeshBuilder:
+    """
+    Builds ``Kmesh``.
+
+    Attributes:
+        locations: Locations of mesh points z/theta for rectangular/cylindrical geometry.
+    """
+
+    locations: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``KmeshBuilder`` into ``Kmesh``.
+
+        Returns:
+            ``Kmesh`` for ``KmeshBuilder``.
+        """
+
+        if isinstance(self.locations, types.Real):
+            locations = self.locations
+        elif isinstance(self.locations, float) or isinstance(self.locations, int):
+            locations = types.RealOrJump(self.locations)
+        elif isinstance(self.locations, str):
+            locations = types.RealOrJump.from_mcnp(self.locations)
+
+        return Kmesh(
+            locations=locations,
+        )

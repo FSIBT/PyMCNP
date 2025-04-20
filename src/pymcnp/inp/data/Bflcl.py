@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Bflcl(DataOption_, keyword='bflcl'):
     Represents INP bflcl elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        numbers: Tuple of BFLD map numbers.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Bflcl(DataOption_, keyword='bflcl'):
         )
 
         self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers
+
+
+@dataclasses.dataclass
+class BflclBuilder:
+    """
+    Builds ``Bflcl``.
+
+    Attributes:
+        numbers: Tuple of BFLD map numbers.
+    """
+
+    numbers: list[str] | list[int] | list[types.IntegerOrJump]
+
+    def build(self):
+        """
+        Builds ``BflclBuilder`` into ``Bflcl``.
+
+        Returns:
+            ``Bflcl`` for ``BflclBuilder``.
+        """
+
+        numbers = []
+        for item in self.numbers:
+            if isinstance(item, types.IntegerOrJump):
+                numbers.append(item)
+            elif isinstance(item, int):
+                numbers.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                numbers.append(types.IntegerOrJump.from_mcnp(item))
+        numbers = types.Tuple(numbers)
+
+        return Bflcl(
+            numbers=numbers,
+        )

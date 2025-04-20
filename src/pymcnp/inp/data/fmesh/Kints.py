@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Kints(FmeshOption_, keyword='kints'):
     Represents INP kints elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        count: Number of mesh points z/theta for rectangular/cylindrical geometry.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Kints(FmeshOption_, keyword='kints'):
         )
 
         self.count: typing.Final[types.IntegerOrJump] = count
+
+
+@dataclasses.dataclass
+class KintsBuilder:
+    """
+    Builds ``Kints``.
+
+    Attributes:
+        count: Number of mesh points z/theta for rectangular/cylindrical geometry.
+    """
+
+    count: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``KintsBuilder`` into ``Kints``.
+
+        Returns:
+            ``Kints`` for ``KintsBuilder``.
+        """
+
+        if isinstance(self.count, types.Integer):
+            count = self.count
+        elif isinstance(self.count, int):
+            count = types.IntegerOrJump(self.count)
+        elif isinstance(self.count, str):
+            count = types.IntegerOrJump.from_mcnp(self.count)
+
+        return Kints(
+            count=count,
+        )

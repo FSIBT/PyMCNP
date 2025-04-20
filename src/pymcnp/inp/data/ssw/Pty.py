@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SswOption_
@@ -12,7 +13,7 @@ class Pty(SswOption_, keyword='pty'):
     Represents INP pty elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        tracks: Tracks to record.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Pty(SswOption_, keyword='pty'):
         )
 
         self.tracks: typing.Final[types.Tuple[types.Designator]] = tracks
+
+
+@dataclasses.dataclass
+class PtyBuilder:
+    """
+    Builds ``Pty``.
+
+    Attributes:
+        tracks: Tracks to record.
+    """
+
+    tracks: list[str] | list[types.Designator]
+
+    def build(self):
+        """
+        Builds ``PtyBuilder`` into ``Pty``.
+
+        Returns:
+            ``Pty`` for ``PtyBuilder``.
+        """
+
+        tracks = []
+        for item in self.tracks:
+            if isinstance(item, types.Designator):
+                tracks.append(item)
+            elif isinstance(item, str):
+                tracks.append(types.Designator.from_mcnp(item))
+            else:
+                tracks.append(item.build())
+        tracks = types.Tuple(tracks)
+
+        return Pty(
+            tracks=tracks,
+        )

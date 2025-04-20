@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbeeOption_
@@ -12,7 +13,7 @@ class Time(EmbeeOption_, keyword='time'):
     Represents INP time elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        factor: Multiplicative conversion factor for time-related output.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Time(EmbeeOption_, keyword='time'):
         )
 
         self.factor: typing.Final[types.RealOrJump] = factor
+
+
+@dataclasses.dataclass
+class TimeBuilder:
+    """
+    Builds ``Time``.
+
+    Attributes:
+        factor: Multiplicative conversion factor for time-related output.
+    """
+
+    factor: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``TimeBuilder`` into ``Time``.
+
+        Returns:
+            ``Time`` for ``TimeBuilder``.
+        """
+
+        if isinstance(self.factor, types.Real):
+            factor = self.factor
+        elif isinstance(self.factor, float) or isinstance(self.factor, int):
+            factor = types.RealOrJump(self.factor)
+        elif isinstance(self.factor, str):
+            factor = types.RealOrJump.from_mcnp(self.factor)
+
+        return Time(
+            factor=factor,
+        )

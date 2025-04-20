@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import PtracOption_
@@ -12,7 +13,7 @@ class Max(PtracOption_, keyword='max'):
     Represents INP max elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        events: Maximum number of events to write.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Max(PtracOption_, keyword='max'):
         )
 
         self.events: typing.Final[types.IntegerOrJump] = events
+
+
+@dataclasses.dataclass
+class MaxBuilder:
+    """
+    Builds ``Max``.
+
+    Attributes:
+        events: Maximum number of events to write.
+    """
+
+    events: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``MaxBuilder`` into ``Max``.
+
+        Returns:
+            ``Max`` for ``MaxBuilder``.
+        """
+
+        if isinstance(self.events, types.Integer):
+            events = self.events
+        elif isinstance(self.events, int):
+            events = types.IntegerOrJump(self.events)
+        elif isinstance(self.events, str):
+            events = types.IntegerOrJump.from_mcnp(self.events)
+
+        return Max(
+            events=events,
+        )

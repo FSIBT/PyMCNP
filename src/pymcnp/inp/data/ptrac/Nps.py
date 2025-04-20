@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import PtracOption_
@@ -12,7 +13,7 @@ class Nps(PtracOption_, keyword='nps'):
     Represents INP nps elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        particles: Sets the range of particle histories for which events will be output.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Nps(PtracOption_, keyword='nps'):
         )
 
         self.particles: typing.Final[types.Tuple[types.IntegerOrJump]] = particles
+
+
+@dataclasses.dataclass
+class NpsBuilder:
+    """
+    Builds ``Nps``.
+
+    Attributes:
+        particles: Sets the range of particle histories for which events will be output.
+    """
+
+    particles: list[str] | list[int] | list[types.IntegerOrJump]
+
+    def build(self):
+        """
+        Builds ``NpsBuilder`` into ``Nps``.
+
+        Returns:
+            ``Nps`` for ``NpsBuilder``.
+        """
+
+        particles = []
+        for item in self.particles:
+            if isinstance(item, types.IntegerOrJump):
+                particles.append(item)
+            elif isinstance(item, int):
+                particles.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                particles.append(types.IntegerOrJump.from_mcnp(item))
+        particles = types.Tuple(particles)
+
+        return Nps(
+            particles=particles,
+        )

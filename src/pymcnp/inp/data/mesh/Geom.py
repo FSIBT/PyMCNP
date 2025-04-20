@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MeshOption_
@@ -12,7 +13,7 @@ class Geom(MeshOption_, keyword='geom'):
     Represents INP geom elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        geometry: Controls mesh geometry type.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Geom(MeshOption_, keyword='geom'):
         )
 
         self.geometry: typing.Final[types.String] = geometry
+
+
+@dataclasses.dataclass
+class GeomBuilder:
+    """
+    Builds ``Geom``.
+
+    Attributes:
+        geometry: Controls mesh geometry type.
+    """
+
+    geometry: str | types.String
+
+    def build(self):
+        """
+        Builds ``GeomBuilder`` into ``Geom``.
+
+        Returns:
+            ``Geom`` for ``GeomBuilder``.
+        """
+
+        if isinstance(self.geometry, types.String):
+            geometry = self.geometry
+        elif isinstance(self.geometry, str):
+            geometry = types.String.from_mcnp(self.geometry)
+
+        return Geom(
+            geometry=geometry,
+        )

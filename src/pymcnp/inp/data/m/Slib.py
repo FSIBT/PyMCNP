@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MOption_
@@ -12,7 +13,7 @@ class Slib(MOption_, keyword='slib'):
     Represents INP slib elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        abx: Default helion table identifier.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Slib(MOption_, keyword='slib'):
         )
 
         self.abx: typing.Final[types.String] = abx
+
+
+@dataclasses.dataclass
+class SlibBuilder:
+    """
+    Builds ``Slib``.
+
+    Attributes:
+        abx: Default helion table identifier.
+    """
+
+    abx: str | types.String
+
+    def build(self):
+        """
+        Builds ``SlibBuilder`` into ``Slib``.
+
+        Returns:
+            ``Slib`` for ``SlibBuilder``.
+        """
+
+        if isinstance(self.abx, types.String):
+            abx = self.abx
+        elif isinstance(self.abx, str):
+            abx = types.String.from_mcnp(self.abx)
+
+        return Slib(
+            abx=abx,
+        )

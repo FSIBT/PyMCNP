@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import PtracOption_
@@ -12,7 +13,7 @@ class Write(PtracOption_, keyword='write'):
     Represents INP write elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Controls what particle parameters are written.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Write(PtracOption_, keyword='write'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class WriteBuilder:
+    """
+    Builds ``Write``.
+
+    Attributes:
+        setting: Controls what particle parameters are written.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``WriteBuilder`` into ``Write``.
+
+        Returns:
+            ``Write`` for ``WriteBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Write(
+            setting=setting,
+        )

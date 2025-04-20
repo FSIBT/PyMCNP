@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Jmesh(FmeshOption_, keyword='jmesh'):
     Represents INP jmesh elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        locations: Locations of mesh points y/z for rectangular/cylindrical geometry.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Jmesh(FmeshOption_, keyword='jmesh'):
         )
 
         self.locations: typing.Final[types.RealOrJump] = locations
+
+
+@dataclasses.dataclass
+class JmeshBuilder:
+    """
+    Builds ``Jmesh``.
+
+    Attributes:
+        locations: Locations of mesh points y/z for rectangular/cylindrical geometry.
+    """
+
+    locations: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``JmeshBuilder`` into ``Jmesh``.
+
+        Returns:
+            ``Jmesh`` for ``JmeshBuilder``.
+        """
+
+        if isinstance(self.locations, types.Real):
+            locations = self.locations
+        elif isinstance(self.locations, float) or isinstance(self.locations, int):
+            locations = types.RealOrJump(self.locations)
+        elif isinstance(self.locations, str):
+            locations = types.RealOrJump.from_mcnp(self.locations)
+
+        return Jmesh(
+            locations=locations,
+        )

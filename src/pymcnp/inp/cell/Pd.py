@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import CellOption_
@@ -12,7 +13,8 @@ class Pd(CellOption_, keyword='pd'):
     Represents INP pd elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Cell option suffix.
+        probability: Cell probability of DXTRAN contribution.
     """
 
     _ATTRS = {
@@ -47,3 +49,44 @@ class Pd(CellOption_, keyword='pd'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.probability: typing.Final[types.Real] = probability
+
+
+@dataclasses.dataclass
+class PdBuilder:
+    """
+    Builds ``Pd``.
+
+    Attributes:
+        suffix: Cell option suffix.
+        probability: Cell probability of DXTRAN contribution.
+    """
+
+    suffix: str | int | types.Integer
+    probability: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``PdBuilder`` into ``Pd``.
+
+        Returns:
+            ``Pd`` for ``PdBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        if isinstance(self.probability, types.Real):
+            probability = self.probability
+        elif isinstance(self.probability, float) or isinstance(self.probability, int):
+            probability = types.Real(self.probability)
+        elif isinstance(self.probability, str):
+            probability = types.Real.from_mcnp(self.probability)
+
+        return Pd(
+            suffix=suffix,
+            probability=probability,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KoptsOption_
@@ -12,7 +13,7 @@ class Fmatspace(KoptsOption_, keyword='fmatspace'):
     Represents INP fmatspace elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        fmat_space: fmat_space.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Fmatspace(KoptsOption_, keyword='fmatspace'):
         )
 
         self.fmat_space: typing.Final[types.RealOrJump] = fmat_space
+
+
+@dataclasses.dataclass
+class FmatspaceBuilder:
+    """
+    Builds ``Fmatspace``.
+
+    Attributes:
+        fmat_space: fmat_space.
+    """
+
+    fmat_space: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``FmatspaceBuilder`` into ``Fmatspace``.
+
+        Returns:
+            ``Fmatspace`` for ``FmatspaceBuilder``.
+        """
+
+        if isinstance(self.fmat_space, types.Real):
+            fmat_space = self.fmat_space
+        elif isinstance(self.fmat_space, float) or isinstance(self.fmat_space, int):
+            fmat_space = types.RealOrJump(self.fmat_space)
+        elif isinstance(self.fmat_space, str):
+            fmat_space = types.RealOrJump.from_mcnp(self.fmat_space)
+
+        return Fmatspace(
+            fmat_space=fmat_space,
+        )

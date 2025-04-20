@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Tnorm(FmeshOption_, keyword='tnorm'):
     Represents INP tnorm elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Tally results divided by time yes/no.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Tnorm(FmeshOption_, keyword='tnorm'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class TnormBuilder:
+    """
+    Builds ``Tnorm``.
+
+    Attributes:
+        setting: Tally results divided by time yes/no.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``TnormBuilder`` into ``Tnorm``.
+
+        Returns:
+            ``Tnorm`` for ``TnormBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Tnorm(
+            setting=setting,
+        )

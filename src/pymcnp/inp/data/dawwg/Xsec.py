@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DawwgOption_
@@ -12,7 +13,7 @@ class Xsec(DawwgOption_, keyword='xsec'):
     Represents INP xsec elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        count: Number of sample points for each direction in each mesh.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Xsec(DawwgOption_, keyword='xsec'):
         )
 
         self.count: typing.Final[types.IntegerOrJump] = count
+
+
+@dataclasses.dataclass
+class XsecBuilder:
+    """
+    Builds ``Xsec``.
+
+    Attributes:
+        count: Number of sample points for each direction in each mesh.
+    """
+
+    count: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``XsecBuilder`` into ``Xsec``.
+
+        Returns:
+            ``Xsec`` for ``XsecBuilder``.
+        """
+
+        if isinstance(self.count, types.Integer):
+            count = self.count
+        elif isinstance(self.count, int):
+            count = types.IntegerOrJump(self.count)
+        elif isinstance(self.count, str):
+            count = types.IntegerOrJump.from_mcnp(self.count)
+
+        return Xsec(
+            count=count,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from . import bfld
@@ -13,7 +14,9 @@ class Bfld(DataOption_, keyword='bfld'):
     Represents INP bfld elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        kind: Magnetic field type.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
@@ -59,3 +62,55 @@ class Bfld(DataOption_, keyword='bfld'):
         self.suffix: typing.Final[types.Integer] = suffix
         self.kind: typing.Final[types.String] = kind
         self.options: typing.Final[types.Tuple[bfld.BfldOption_]] = options
+
+
+@dataclasses.dataclass
+class BfldBuilder:
+    """
+    Builds ``Bfld``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        kind: Magnetic field type.
+        options: Dictionary of options.
+    """
+
+    suffix: str | int | types.Integer
+    kind: str | types.String
+    options: list[str] | list[bfld.BfldOption_] = None
+
+    def build(self):
+        """
+        Builds ``BfldBuilder`` into ``Bfld``.
+
+        Returns:
+            ``Bfld`` for ``BfldBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        if isinstance(self.kind, types.String):
+            kind = self.kind
+        elif isinstance(self.kind, str):
+            kind = types.String.from_mcnp(self.kind)
+
+        options = []
+        for item in self.options:
+            if isinstance(item, bfld.BfldOption_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(bfld.BfldOption_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return Bfld(
+            suffix=suffix,
+            kind=kind,
+            options=options,
+        )

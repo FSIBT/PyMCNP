@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .card_ import Card_
@@ -11,7 +12,7 @@ class Comment(Card_):
     Represents INP comment elements.
 
     Attributes:
-        InpError: SEMANTICS_CARD_VALUE.
+        text: comment text.
     """
 
     _ATTRS = {'text': types.String}
@@ -30,3 +31,30 @@ class Comment(Card_):
         """
 
         self.text: typing.Final[types.String] = text
+
+
+@dataclasses.dataclass
+class CommentBuilder:
+    """
+    Builds ``Comment``.
+
+    Attributes:
+        text: comment text.
+    """
+
+    number: str | types.String
+
+    def build(self):
+        """
+        Builds ``CommentBuilder`` into ``Comment``.
+
+        Returns:
+            ``Comment`` for ``CommentBuilder``.
+        """
+
+        if isinstance(self.text, str):
+            text = types.String(self.text)
+        elif isinstance(self.text, types.String):
+            text = self.text
+
+        return Comment(text=text)

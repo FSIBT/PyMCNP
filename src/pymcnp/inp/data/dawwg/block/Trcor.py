@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Trcor(BlockOption_, keyword='trcor'):
     Represents INP trcor elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Trcor.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Trcor(BlockOption_, keyword='trcor'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class TrcorBuilder:
+    """
+    Builds ``Trcor``.
+
+    Attributes:
+        setting: Trcor.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``TrcorBuilder`` into ``Trcor``.
+
+        Returns:
+            ``Trcor`` for ``TrcorBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Trcor(
+            setting=setting,
+        )

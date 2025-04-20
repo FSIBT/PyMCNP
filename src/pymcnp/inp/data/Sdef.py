@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from . import sdef
@@ -12,7 +13,7 @@ class Sdef(DataOption_, keyword='sdef'):
     Represents INP sdef elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
@@ -39,3 +40,37 @@ class Sdef(DataOption_, keyword='sdef'):
         )
 
         self.options: typing.Final[types.Tuple[sdef.SdefOption_]] = options
+
+
+@dataclasses.dataclass
+class SdefBuilder:
+    """
+    Builds ``Sdef``.
+
+    Attributes:
+        options: Dictionary of options.
+    """
+
+    options: list[str] | list[sdef.SdefOption_] = None
+
+    def build(self):
+        """
+        Builds ``SdefBuilder`` into ``Sdef``.
+
+        Returns:
+            ``Sdef`` for ``SdefBuilder``.
+        """
+
+        options = []
+        for item in self.options:
+            if isinstance(item, sdef.SdefOption_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(sdef.SdefOption_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return Sdef(
+            options=options,
+        )

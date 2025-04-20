@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Iquad(BlockOption_, keyword='iquad'):
     Represents INP iquad elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Quadrature.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Iquad(BlockOption_, keyword='iquad'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class IquadBuilder:
+    """
+    Builds ``Iquad``.
+
+    Attributes:
+        setting: Quadrature.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``IquadBuilder`` into ``Iquad``.
+
+        Returns:
+            ``Iquad`` for ``IquadBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Iquad(
+            setting=setting,
+        )

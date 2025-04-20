@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -9,10 +10,17 @@ from ...utils import errors
 
 class Phys_0(DataOption_, keyword='phys:n'):
     """
-    Represents INP phys_0 elements.
+    Represents INP phys variation #0 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        emax: Upper limit for neutron energy.
+        emcnf: Analog energy limit.
+        iunr: Unresolved resonanace controls.
+        coilf: Light-ion and heavy-ion recoil and NCIA control.
+        cutn: Table-based physics cutoff controls.
+        ngam: Secondary photon production controls.
+        i_int_model: Treataement of nuclear interactions controls.
+        i_els_model: Treatment of nuclear elastic scattering controls.
     """
 
     _ATTRS = {
@@ -96,3 +104,104 @@ class Phys_0(DataOption_, keyword='phys:n'):
         self.ngam: typing.Final[types.IntegerOrJump] = ngam
         self.i_int_model: typing.Final[types.IntegerOrJump] = i_int_model
         self.i_els_model: typing.Final[types.IntegerOrJump] = i_els_model
+
+
+@dataclasses.dataclass
+class PhysBuilder_0:
+    """
+    Builds ``Phys_0``.
+
+    Attributes:
+        emax: Upper limit for neutron energy.
+        emcnf: Analog energy limit.
+        iunr: Unresolved resonanace controls.
+        coilf: Light-ion and heavy-ion recoil and NCIA control.
+        cutn: Table-based physics cutoff controls.
+        ngam: Secondary photon production controls.
+        i_int_model: Treataement of nuclear interactions controls.
+        i_els_model: Treatment of nuclear elastic scattering controls.
+    """
+
+    emax: str | float | types.RealOrJump
+    emcnf: str | float | types.RealOrJump
+    iunr: str | float | types.RealOrJump
+    coilf: str | float | types.RealOrJump
+    cutn: str | int | types.IntegerOrJump
+    ngam: str | int | types.IntegerOrJump
+    i_int_model: str | int | types.IntegerOrJump
+    i_els_model: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``PhysBuilder_0`` into ``Phys_0``.
+
+        Returns:
+            ``Phys_0`` for ``PhysBuilder_0``.
+        """
+
+        if isinstance(self.emax, types.Real):
+            emax = self.emax
+        elif isinstance(self.emax, float) or isinstance(self.emax, int):
+            emax = types.RealOrJump(self.emax)
+        elif isinstance(self.emax, str):
+            emax = types.RealOrJump.from_mcnp(self.emax)
+
+        if isinstance(self.emcnf, types.Real):
+            emcnf = self.emcnf
+        elif isinstance(self.emcnf, float) or isinstance(self.emcnf, int):
+            emcnf = types.RealOrJump(self.emcnf)
+        elif isinstance(self.emcnf, str):
+            emcnf = types.RealOrJump.from_mcnp(self.emcnf)
+
+        if isinstance(self.iunr, types.Real):
+            iunr = self.iunr
+        elif isinstance(self.iunr, float) or isinstance(self.iunr, int):
+            iunr = types.RealOrJump(self.iunr)
+        elif isinstance(self.iunr, str):
+            iunr = types.RealOrJump.from_mcnp(self.iunr)
+
+        if isinstance(self.coilf, types.Real):
+            coilf = self.coilf
+        elif isinstance(self.coilf, float) or isinstance(self.coilf, int):
+            coilf = types.RealOrJump(self.coilf)
+        elif isinstance(self.coilf, str):
+            coilf = types.RealOrJump.from_mcnp(self.coilf)
+
+        if isinstance(self.cutn, types.Integer):
+            cutn = self.cutn
+        elif isinstance(self.cutn, int):
+            cutn = types.IntegerOrJump(self.cutn)
+        elif isinstance(self.cutn, str):
+            cutn = types.IntegerOrJump.from_mcnp(self.cutn)
+
+        if isinstance(self.ngam, types.Integer):
+            ngam = self.ngam
+        elif isinstance(self.ngam, int):
+            ngam = types.IntegerOrJump(self.ngam)
+        elif isinstance(self.ngam, str):
+            ngam = types.IntegerOrJump.from_mcnp(self.ngam)
+
+        if isinstance(self.i_int_model, types.Integer):
+            i_int_model = self.i_int_model
+        elif isinstance(self.i_int_model, int):
+            i_int_model = types.IntegerOrJump(self.i_int_model)
+        elif isinstance(self.i_int_model, str):
+            i_int_model = types.IntegerOrJump.from_mcnp(self.i_int_model)
+
+        if isinstance(self.i_els_model, types.Integer):
+            i_els_model = self.i_els_model
+        elif isinstance(self.i_els_model, int):
+            i_els_model = types.IntegerOrJump(self.i_els_model)
+        elif isinstance(self.i_els_model, str):
+            i_els_model = types.IntegerOrJump.from_mcnp(self.i_els_model)
+
+        return Phys_0(
+            emax=emax,
+            emcnf=emcnf,
+            iunr=iunr,
+            coilf=coilf,
+            cutn=cutn,
+            ngam=ngam,
+            i_int_model=i_int_model,
+            i_els_model=i_els_model,
+        )

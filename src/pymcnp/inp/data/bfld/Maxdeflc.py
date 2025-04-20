@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BfldOption_
@@ -12,7 +13,7 @@ class Maxdeflc(BfldOption_, keyword='maxdeflc'):
     Represents INP maxdeflc elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        angle: Maximum deflection angles.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Maxdeflc(BfldOption_, keyword='maxdeflc'):
         )
 
         self.angle: typing.Final[types.RealOrJump] = angle
+
+
+@dataclasses.dataclass
+class MaxdeflcBuilder:
+    """
+    Builds ``Maxdeflc``.
+
+    Attributes:
+        angle: Maximum deflection angles.
+    """
+
+    angle: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``MaxdeflcBuilder`` into ``Maxdeflc``.
+
+        Returns:
+            ``Maxdeflc`` for ``MaxdeflcBuilder``.
+        """
+
+        if isinstance(self.angle, types.Real):
+            angle = self.angle
+        elif isinstance(self.angle, float) or isinstance(self.angle, int):
+            angle = types.RealOrJump(self.angle)
+        elif isinstance(self.angle, str):
+            angle = types.RealOrJump.from_mcnp(self.angle)
+
+        return Maxdeflc(
+            angle=angle,
+        )

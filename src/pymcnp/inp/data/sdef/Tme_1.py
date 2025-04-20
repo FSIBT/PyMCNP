@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -9,10 +10,10 @@ from ....utils import errors
 
 class Tme_1(SdefOption_, keyword='tme'):
     """
-    Represents INP tme_1 elements.
+    Represents INP tme variation #1 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        time: Time in shakes.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Tme_1(SdefOption_, keyword='tme'):
         )
 
         self.time: typing.Final[types.EmbeddedDistributionNumber] = time
+
+
+@dataclasses.dataclass
+class TmeBuilder_1:
+    """
+    Builds ``Tme_1``.
+
+    Attributes:
+        time: Time in shakes.
+    """
+
+    time: str | types.EmbeddedDistributionNumber
+
+    def build(self):
+        """
+        Builds ``TmeBuilder_1`` into ``Tme_1``.
+
+        Returns:
+            ``Tme_1`` for ``TmeBuilder_1``.
+        """
+
+        if isinstance(self.time, types.EmbeddedDistributionNumber):
+            time = self.time
+        elif isinstance(self.time, str):
+            time = types.EmbeddedDistributionNumber.from_mcnp(self.time)
+
+        return Tme_1(
+            time=time,
+        )

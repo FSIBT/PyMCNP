@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import Df_1Option_
@@ -12,7 +13,7 @@ class Int(Df_1Option_, keyword='int'):
     Represents INP int elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        interpolation: Energy interpolation.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Int(Df_1Option_, keyword='int'):
         )
 
         self.interpolation: typing.Final[types.String] = interpolation
+
+
+@dataclasses.dataclass
+class IntBuilder:
+    """
+    Builds ``Int``.
+
+    Attributes:
+        interpolation: Energy interpolation.
+    """
+
+    interpolation: str | types.String
+
+    def build(self):
+        """
+        Builds ``IntBuilder`` into ``Int``.
+
+        Returns:
+            ``Int`` for ``IntBuilder``.
+        """
+
+        if isinstance(self.interpolation, types.String):
+            interpolation = self.interpolation
+        elif isinstance(self.interpolation, str):
+            interpolation = types.String.from_mcnp(self.interpolation)
+
+        return Int(
+            interpolation=interpolation,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Enorm(FmeshOption_, keyword='enorm'):
     Represents INP enorm elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Tally results divided by energy yes/no.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Enorm(FmeshOption_, keyword='enorm'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class EnormBuilder:
+    """
+    Builds ``Enorm``.
+
+    Attributes:
+        setting: Tally results divided by energy yes/no.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``EnormBuilder`` into ``Enorm``.
+
+        Returns:
+            ``Enorm`` for ``EnormBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Enorm(
+            setting=setting,
+        )

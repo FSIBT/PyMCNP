@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -12,7 +13,7 @@ class Pos(SdefOption_, keyword='pos'):
     Represents INP pos elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        vector: Reference point for position sampling in vector notation.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Pos(SdefOption_, keyword='pos'):
         )
 
         self.vector: typing.Final[types.Tuple[types.RealOrJump]] = vector
+
+
+@dataclasses.dataclass
+class PosBuilder:
+    """
+    Builds ``Pos``.
+
+    Attributes:
+        vector: Reference point for position sampling in vector notation.
+    """
+
+    vector: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``PosBuilder`` into ``Pos``.
+
+        Returns:
+            ``Pos`` for ``PosBuilder``.
+        """
+
+        vector = []
+        for item in self.vector:
+            if isinstance(item, types.RealOrJump):
+                vector.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                vector.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                vector.append(types.RealOrJump.from_mcnp(item))
+        vector = types.Tuple(vector)
+
+        return Pos(
+            vector=vector,
+        )

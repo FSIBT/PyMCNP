@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Print(DataOption_, keyword='print'):
     Represents INP print elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        tables: Tables to print.
     """
 
     _ATTRS = {
@@ -143,3 +144,37 @@ class Print(DataOption_, keyword='print'):
         )
 
         self.tables: typing.Final[types.Tuple[types.IntegerOrJump]] = tables
+
+
+@dataclasses.dataclass
+class PrintBuilder:
+    """
+    Builds ``Print``.
+
+    Attributes:
+        tables: Tables to print.
+    """
+
+    tables: list[str] | list[int] | list[types.IntegerOrJump] = None
+
+    def build(self):
+        """
+        Builds ``PrintBuilder`` into ``Print``.
+
+        Returns:
+            ``Print`` for ``PrintBuilder``.
+        """
+
+        tables = []
+        for item in self.tables:
+            if isinstance(item, types.IntegerOrJump):
+                tables.append(item)
+            elif isinstance(item, int):
+                tables.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                tables.append(types.IntegerOrJump.from_mcnp(item))
+        tables = types.Tuple(tables)
+
+        return Print(
+            tables=tables,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SsrOption_
@@ -12,7 +13,7 @@ class Wgt(SsrOption_, keyword='wgt'):
     Represents INP wgt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        constant: Particle weight multiplier.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Wgt(SsrOption_, keyword='wgt'):
         )
 
         self.constant: typing.Final[types.RealOrJump] = constant
+
+
+@dataclasses.dataclass
+class WgtBuilder:
+    """
+    Builds ``Wgt``.
+
+    Attributes:
+        constant: Particle weight multiplier.
+    """
+
+    constant: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``WgtBuilder`` into ``Wgt``.
+
+        Returns:
+            ``Wgt`` for ``WgtBuilder``.
+        """
+
+        if isinstance(self.constant, types.Real):
+            constant = self.constant
+        elif isinstance(self.constant, float) or isinstance(self.constant, int):
+            constant = types.RealOrJump(self.constant)
+        elif isinstance(self.constant, str):
+            constant = types.RealOrJump.from_mcnp(self.constant)
+
+        return Wgt(
+            constant=constant,
+        )

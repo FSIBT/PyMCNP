@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import CellOption_
@@ -12,7 +13,8 @@ class Elpt(CellOption_, keyword='elpt'):
     Represents INP elpt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        designator: Cell particle designator.
+        cutoff: Cell energy cutoff.
     """
 
     _ATTRS = {
@@ -47,3 +49,42 @@ class Elpt(CellOption_, keyword='elpt'):
 
         self.designator: typing.Final[types.Designator] = designator
         self.cutoff: typing.Final[types.Real] = cutoff
+
+
+@dataclasses.dataclass
+class ElptBuilder:
+    """
+    Builds ``Elpt``.
+
+    Attributes:
+        designator: Cell particle designator.
+        cutoff: Cell energy cutoff.
+    """
+
+    designator: str | types.Designator
+    cutoff: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``ElptBuilder`` into ``Elpt``.
+
+        Returns:
+            ``Elpt`` for ``ElptBuilder``.
+        """
+
+        if isinstance(self.designator, types.Designator):
+            designator = self.designator
+        elif isinstance(self.designator, str):
+            designator = types.Designator.from_mcnp(self.designator)
+
+        if isinstance(self.cutoff, types.Real):
+            cutoff = self.cutoff
+        elif isinstance(self.cutoff, float) or isinstance(self.cutoff, int):
+            cutoff = types.Real(self.cutoff)
+        elif isinstance(self.cutoff, str):
+            cutoff = types.Real.from_mcnp(self.cutoff)
+
+        return Elpt(
+            designator=designator,
+            cutoff=cutoff,
+        )

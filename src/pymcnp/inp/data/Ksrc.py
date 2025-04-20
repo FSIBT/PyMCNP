@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Ksrc(DataOption_, keyword='ksrc'):
     Represents INP ksrc elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        locations: Tuple of inital source points.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Ksrc(DataOption_, keyword='ksrc'):
         )
 
         self.locations: typing.Final[types.Tuple[types.Location]] = locations
+
+
+@dataclasses.dataclass
+class KsrcBuilder:
+    """
+    Builds ``Ksrc``.
+
+    Attributes:
+        locations: Tuple of inital source points.
+    """
+
+    locations: list[str] | list[types.Location]
+
+    def build(self):
+        """
+        Builds ``KsrcBuilder`` into ``Ksrc``.
+
+        Returns:
+            ``Ksrc`` for ``KsrcBuilder``.
+        """
+
+        locations = []
+        for item in self.locations:
+            if isinstance(item, types.Location):
+                locations.append(item)
+            elif isinstance(item, str):
+                locations.append(types.Location.from_mcnp(item))
+            else:
+                locations.append(item.build())
+        locations = types.Tuple(locations)
+
+        return Ksrc(
+            locations=locations,
+        )

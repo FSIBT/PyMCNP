@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,8 @@ class Mt(DataOption_, keyword='mt'):
     Represents INP mt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        identifier: Corresponding S(α,β) identifier.
     """
 
     _ATTRS = {
@@ -47,3 +49,42 @@ class Mt(DataOption_, keyword='mt'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.identifier: typing.Final[types.String] = identifier
+
+
+@dataclasses.dataclass
+class MtBuilder:
+    """
+    Builds ``Mt``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        identifier: Corresponding S(α,β) identifier.
+    """
+
+    suffix: str | int | types.Integer
+    identifier: str | types.String
+
+    def build(self):
+        """
+        Builds ``MtBuilder`` into ``Mt``.
+
+        Returns:
+            ``Mt`` for ``MtBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        if isinstance(self.identifier, types.String):
+            identifier = self.identifier
+        elif isinstance(self.identifier, str):
+            identifier = types.String.from_mcnp(self.identifier)
+
+        return Mt(
+            suffix=suffix,
+            identifier=identifier,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import PtracOption_
@@ -12,7 +13,7 @@ class Meph(PtracOption_, keyword='meph'):
     Represents INP meph elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        events: Maximum number of events per history to write.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Meph(PtracOption_, keyword='meph'):
         )
 
         self.events: typing.Final[types.IntegerOrJump] = events
+
+
+@dataclasses.dataclass
+class MephBuilder:
+    """
+    Builds ``Meph``.
+
+    Attributes:
+        events: Maximum number of events per history to write.
+    """
+
+    events: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``MephBuilder`` into ``Meph``.
+
+        Returns:
+            ``Meph`` for ``MephBuilder``.
+        """
+
+        if isinstance(self.events, types.Integer):
+            events = self.events
+        elif isinstance(self.events, int):
+            events = types.IntegerOrJump(self.events)
+        elif isinstance(self.events, str):
+            events = types.IntegerOrJump.from_mcnp(self.events)
+
+        return Meph(
+            events=events,
+        )

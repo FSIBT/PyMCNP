@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmultOption_
@@ -12,7 +13,8 @@ class Watt(FmultOption_, keyword='watt'):
     Represents INP watt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        a: Watt energy spectrum parameters a.
+        b: Watt energy spectrum parameters b.
     """
 
     _ATTRS = {
@@ -50,3 +52,44 @@ class Watt(FmultOption_, keyword='watt'):
 
         self.a: typing.Final[types.RealOrJump] = a
         self.b: typing.Final[types.RealOrJump] = b
+
+
+@dataclasses.dataclass
+class WattBuilder:
+    """
+    Builds ``Watt``.
+
+    Attributes:
+        a: Watt energy spectrum parameters a.
+        b: Watt energy spectrum parameters b.
+    """
+
+    a: str | float | types.RealOrJump
+    b: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``WattBuilder`` into ``Watt``.
+
+        Returns:
+            ``Watt`` for ``WattBuilder``.
+        """
+
+        if isinstance(self.a, types.Real):
+            a = self.a
+        elif isinstance(self.a, float) or isinstance(self.a, int):
+            a = types.RealOrJump(self.a)
+        elif isinstance(self.a, str):
+            a = types.RealOrJump.from_mcnp(self.a)
+
+        if isinstance(self.b, types.Real):
+            b = self.b
+        elif isinstance(self.b, float) or isinstance(self.b, int):
+            b = types.RealOrJump(self.b)
+        elif isinstance(self.b, str):
+            b = types.RealOrJump.from_mcnp(self.b)
+
+        return Watt(
+            a=a,
+            b=b,
+        )

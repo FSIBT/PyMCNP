@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,7 @@ class Pz(SurfaceOption_, keyword='pz'):
     Represents INP pz elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        d: Normal-to-the-z-axis plane D coefficent.
     """
 
     _ATTRS = {
@@ -55,3 +56,34 @@ class Pz(SurfaceOption_, keyword='pz'):
         vis = _visualization.Visualization.get_plane(0, 0, 1, self.d.value)
 
         return vis
+
+
+@dataclasses.dataclass
+class PzBuilder:
+    """
+    Builds ``Pz``.
+
+    Attributes:
+        d: Normal-to-the-z-axis plane D coefficent.
+    """
+
+    d: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``PzBuilder`` into ``Pz``.
+
+        Returns:
+            ``Pz`` for ``PzBuilder``.
+        """
+
+        if isinstance(self.d, types.Real):
+            d = self.d
+        elif isinstance(self.d, float) or isinstance(self.d, int):
+            d = types.Real(self.d)
+        elif isinstance(self.d, str):
+            d = types.Real.from_mcnp(self.d)
+
+        return Pz(
+            d=d,
+        )

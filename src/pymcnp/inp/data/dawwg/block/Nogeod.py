@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Nogeod(BlockOption_, keyword='nogeod'):
     Represents INP nogeod elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Suppress writing GEODST on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Nogeod(BlockOption_, keyword='nogeod'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class NogeodBuilder:
+    """
+    Builds ``Nogeod``.
+
+    Attributes:
+        setting: Suppress writing GEODST on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``NogeodBuilder`` into ``Nogeod``.
+
+        Returns:
+            ``Nogeod`` for ``NogeodBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Nogeod(
+            setting=setting,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SswOption_
@@ -12,7 +13,7 @@ class Sym(SswOption_, keyword='sym'):
     Represents INP sym elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Symmetric option flag.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Sym(SswOption_, keyword='sym'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class SymBuilder:
+    """
+    Builds ``Sym``.
+
+    Attributes:
+        setting: Symmetric option flag.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``SymBuilder`` into ``Sym``.
+
+        Returns:
+            ``Sym`` for ``SymBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Sym(
+            setting=setting,
+        )

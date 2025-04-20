@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -9,10 +10,10 @@ from ....utils import errors
 
 class Tr_0(SdefOption_, keyword='tr'):
     """
-    Represents INP tr_0 elements.
+    Represents INP tr variation #0 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Particle weight.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Tr_0(SdefOption_, keyword='tr'):
         )
 
         self.number: typing.Final[types.IntegerOrJump] = number
+
+
+@dataclasses.dataclass
+class TrBuilder_0:
+    """
+    Builds ``Tr_0``.
+
+    Attributes:
+        number: Particle weight.
+    """
+
+    number: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``TrBuilder_0`` into ``Tr_0``.
+
+        Returns:
+            ``Tr_0`` for ``TrBuilder_0``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.IntegerOrJump(self.number)
+        elif isinstance(self.number, str):
+            number = types.IntegerOrJump.from_mcnp(self.number)
+
+        return Tr_0(
+            number=number,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Balxs(BlockOption_, keyword='balxs'):
     Represents INP balxs elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Cross-section balance control.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Balxs(BlockOption_, keyword='balxs'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class BalxsBuilder:
+    """
+    Builds ``Balxs``.
+
+    Attributes:
+        setting: Cross-section balance control.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``BalxsBuilder`` into ``Balxs``.
+
+        Returns:
+            ``Balxs`` for ``BalxsBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Balxs(
+            setting=setting,
+        )

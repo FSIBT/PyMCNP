@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from . import dawwg
@@ -12,7 +13,7 @@ class Dawwg(DataOption_, keyword='dawwg'):
     Represents INP dawwg elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
@@ -39,3 +40,37 @@ class Dawwg(DataOption_, keyword='dawwg'):
         )
 
         self.options: typing.Final[types.Tuple[dawwg.DawwgOption_]] = options
+
+
+@dataclasses.dataclass
+class DawwgBuilder:
+    """
+    Builds ``Dawwg``.
+
+    Attributes:
+        options: Dictionary of options.
+    """
+
+    options: list[str] | list[dawwg.DawwgOption_] = None
+
+    def build(self):
+        """
+        Builds ``DawwgBuilder`` into ``Dawwg``.
+
+        Returns:
+            ``Dawwg`` for ``DawwgBuilder``.
+        """
+
+        options = []
+        for item in self.options:
+            if isinstance(item, dawwg.DawwgOption_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(dawwg.DawwgOption_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return Dawwg(
+            options=options,
+        )
