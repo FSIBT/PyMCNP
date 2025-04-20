@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import StopOption_
@@ -12,7 +13,8 @@ class Fk(StopOption_, keyword='fk'):
     Represents INP fk elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        e: Tally fluctuation relative error before stop.
+        suffix: Data card option option suffix.
     """
 
     _ATTRS = {
@@ -47,3 +49,44 @@ class Fk(StopOption_, keyword='fk'):
 
         self.e: typing.Final[types.IntegerOrJump] = e
         self.suffix: typing.Final[types.Integer] = suffix
+
+
+@dataclasses.dataclass
+class FkBuilder:
+    """
+    Builds ``Fk``.
+
+    Attributes:
+        e: Tally fluctuation relative error before stop.
+        suffix: Data card option option suffix.
+    """
+
+    e: str | int | types.IntegerOrJump
+    suffix: str | int | types.Integer
+
+    def build(self):
+        """
+        Builds ``FkBuilder`` into ``Fk``.
+
+        Returns:
+            ``Fk`` for ``FkBuilder``.
+        """
+
+        if isinstance(self.e, types.Integer):
+            e = self.e
+        elif isinstance(self.e, int):
+            e = types.IntegerOrJump(self.e)
+        elif isinstance(self.e, str):
+            e = types.IntegerOrJump.from_mcnp(self.e)
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        return Fk(
+            e=e,
+            suffix=suffix,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import CellOption_
@@ -9,10 +10,10 @@ from ...utils import errors
 
 class Tmp_1(CellOption_, keyword='tmp'):
     """
-    Represents INP tmp_1 elements.
+    Represents INP tmp variation #1 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        temperature: Temperature at time index.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Tmp_1(CellOption_, keyword='tmp'):
         )
 
         self.temperature: typing.Final[types.Tuple[types.Real]] = temperature
+
+
+@dataclasses.dataclass
+class TmpBuilder_1:
+    """
+    Builds ``Tmp_1``.
+
+    Attributes:
+        temperature: Temperature at time index.
+    """
+
+    temperature: list[str] | list[float] | list[types.Real]
+
+    def build(self):
+        """
+        Builds ``TmpBuilder_1`` into ``Tmp_1``.
+
+        Returns:
+            ``Tmp_1`` for ``TmpBuilder_1``.
+        """
+
+        temperature = []
+        for item in self.temperature:
+            if isinstance(item, types.Real):
+                temperature.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                temperature.append(types.Real(item))
+            elif isinstance(item, str):
+                temperature.append(types.Real.from_mcnp(item))
+        temperature = types.Tuple(temperature)
+
+        return Tmp_1(
+            temperature=temperature,
+        )

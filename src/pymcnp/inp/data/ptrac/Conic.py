@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import PtracOption_
@@ -12,7 +13,7 @@ class Conic(PtracOption_, keyword='conic'):
     Represents INP conic elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Activates a PTRAC file format specifically for coincidence tally scoring.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Conic(PtracOption_, keyword='conic'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class ConicBuilder:
+    """
+    Builds ``Conic``.
+
+    Attributes:
+        setting: Activates a PTRAC file format specifically for coincidence tally scoring.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``ConicBuilder`` into ``Conic``.
+
+        Returns:
+            ``Conic`` for ``ConicBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Conic(
+            setting=setting,
+        )

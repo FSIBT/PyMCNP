@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Otfdb(DataOption_, keyword='otfdb'):
     Represents INP otfdb elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        zaids: Identifiers for the broadening tables.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Otfdb(DataOption_, keyword='otfdb'):
         )
 
         self.zaids: typing.Final[types.Tuple[types.Zaid]] = zaids
+
+
+@dataclasses.dataclass
+class OtfdbBuilder:
+    """
+    Builds ``Otfdb``.
+
+    Attributes:
+        zaids: Identifiers for the broadening tables.
+    """
+
+    zaids: list[str] | list[types.Zaid]
+
+    def build(self):
+        """
+        Builds ``OtfdbBuilder`` into ``Otfdb``.
+
+        Returns:
+            ``Otfdb`` for ``OtfdbBuilder``.
+        """
+
+        zaids = []
+        for item in self.zaids:
+            if isinstance(item, types.Zaid):
+                zaids.append(item)
+            elif isinstance(item, str):
+                zaids.append(types.Zaid.from_mcnp(item))
+            else:
+                zaids.append(item.build())
+        zaids = types.Tuple(zaids)
+
+        return Otfdb(
+            zaids=zaids,
+        )

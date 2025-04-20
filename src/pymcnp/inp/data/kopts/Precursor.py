@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KoptsOption_
@@ -12,7 +13,7 @@ class Precursor(KoptsOption_, keyword='precursor'):
     Represents INP precursor elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Yes/No detailed precursor information.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Precursor(KoptsOption_, keyword='precursor'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class PrecursorBuilder:
+    """
+    Builds ``Precursor``.
+
+    Attributes:
+        setting: Yes/No detailed precursor information.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``PrecursorBuilder`` into ``Precursor``.
+
+        Returns:
+            ``Precursor`` for ``PrecursorBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Precursor(
+            setting=setting,
+        )

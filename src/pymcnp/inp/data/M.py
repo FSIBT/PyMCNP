@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 import molmass
 
@@ -15,7 +16,9 @@ class M(DataOption_, keyword='m'):
     Represents INP m elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        substances: Tuple of material constituents.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
@@ -117,3 +120,60 @@ class M(DataOption_, keyword='m'):
         material.comment = tuple(comments)
 
         return material
+
+
+@dataclasses.dataclass
+class MBuilder:
+    """
+    Builds ``M``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        substances: Tuple of material constituents.
+        options: Dictionary of options.
+    """
+
+    suffix: str | int | types.Integer
+    substances: list[str] | list[types.Substance]
+    options: list[str] | list[m.MOption_] = None
+
+    def build(self):
+        """
+        Builds ``MBuilder`` into ``M``.
+
+        Returns:
+            ``M`` for ``MBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        substances = []
+        for item in self.substances:
+            if isinstance(item, types.Substance):
+                substances.append(item)
+            elif isinstance(item, str):
+                substances.append(types.Substance.from_mcnp(item))
+            else:
+                substances.append(item.build())
+        substances = types.Tuple(substances)
+
+        options = []
+        for item in self.options:
+            if isinstance(item, m.MOption_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(m.MOption_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return M(
+            suffix=suffix,
+            substances=substances,
+            options=options,
+        )

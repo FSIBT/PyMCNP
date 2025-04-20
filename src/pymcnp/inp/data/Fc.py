@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,8 @@ class Fc(DataOption_, keyword='fc'):
     Represents INP fc elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        info: Title for tally in output and MCTAL file.
     """
 
     _ATTRS = {
@@ -47,3 +49,42 @@ class Fc(DataOption_, keyword='fc'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.info: typing.Final[types.String] = info
+
+
+@dataclasses.dataclass
+class FcBuilder:
+    """
+    Builds ``Fc``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        info: Title for tally in output and MCTAL file.
+    """
+
+    suffix: str | int | types.Integer
+    info: str | types.String
+
+    def build(self):
+        """
+        Builds ``FcBuilder`` into ``Fc``.
+
+        Returns:
+            ``Fc`` for ``FcBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        if isinstance(self.info, types.String):
+            info = self.info
+        elif isinstance(self.info, str):
+            info = types.String.from_mcnp(self.info)
+
+        return Fc(
+            suffix=suffix,
+            info=info,
+        )

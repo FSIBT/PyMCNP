@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Oitm(BlockOption_, keyword='oitm'):
     Represents INP oitm elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Maximum outer iteration count.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Oitm(BlockOption_, keyword='oitm'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class OitmBuilder:
+    """
+    Builds ``Oitm``.
+
+    Attributes:
+        setting: Maximum outer iteration count.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``OitmBuilder`` into ``Oitm``.
+
+        Returns:
+            ``Oitm`` for ``OitmBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Oitm(
+            setting=setting,
+        )

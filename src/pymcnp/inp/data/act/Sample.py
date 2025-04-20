@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import ActOption_
@@ -12,7 +13,7 @@ class Sample(ActOption_, keyword='sample'):
     Represents INP sample elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Flag for correlated or uncorrelated.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Sample(ActOption_, keyword='sample'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class SampleBuilder:
+    """
+    Builds ``Sample``.
+
+    Attributes:
+        setting: Flag for correlated or uncorrelated.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``SampleBuilder`` into ``Sample``.
+
+        Returns:
+            ``Sample`` for ``SampleBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Sample(
+            setting=setting,
+        )

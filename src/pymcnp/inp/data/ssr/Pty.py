@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SsrOption_
@@ -12,7 +13,7 @@ class Pty(SsrOption_, keyword='pty'):
     Represents INP pty elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        particles: Tuple of designators.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Pty(SsrOption_, keyword='pty'):
         )
 
         self.particles: typing.Final[types.Tuple[types.Designator]] = particles
+
+
+@dataclasses.dataclass
+class PtyBuilder:
+    """
+    Builds ``Pty``.
+
+    Attributes:
+        particles: Tuple of designators.
+    """
+
+    particles: list[str] | list[types.Designator]
+
+    def build(self):
+        """
+        Builds ``PtyBuilder`` into ``Pty``.
+
+        Returns:
+            ``Pty`` for ``PtyBuilder``.
+        """
+
+        particles = []
+        for item in self.particles:
+            if isinstance(item, types.Designator):
+                particles.append(item)
+            elif isinstance(item, str):
+                particles.append(types.Designator.from_mcnp(item))
+            else:
+                particles.append(item.build())
+        particles = types.Tuple(particles)
+
+        return Pty(
+            particles=particles,
+        )

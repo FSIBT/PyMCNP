@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmultOption_
@@ -12,7 +13,7 @@ class Shift(FmultOption_, keyword='shift'):
     Represents INP shift elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Shift method setting.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Shift(FmultOption_, keyword='shift'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class ShiftBuilder:
+    """
+    Builds ``Shift``.
+
+    Attributes:
+        setting: Shift method setting.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``ShiftBuilder`` into ``Shift``.
+
+        Returns:
+            ``Shift`` for ``ShiftBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Shift(
+            setting=setting,
+        )

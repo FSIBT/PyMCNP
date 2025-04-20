@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from . import ssw
@@ -13,7 +14,9 @@ class Ssw(DataOption_, keyword='ssw'):
     Represents INP ssw elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        surfaces: Problem surfaces.
+        cells: Problem cells.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
@@ -60,3 +63,63 @@ class Ssw(DataOption_, keyword='ssw'):
         self.surfaces: typing.Final[types.Tuple[types.IntegerOrJump]] = surfaces
         self.cells: typing.Final[types.Tuple[types.IntegerOrJump]] = cells
         self.options: typing.Final[types.Tuple[ssw.SswOption_]] = options
+
+
+@dataclasses.dataclass
+class SswBuilder:
+    """
+    Builds ``Ssw``.
+
+    Attributes:
+        surfaces: Problem surfaces.
+        cells: Problem cells.
+        options: Dictionary of options.
+    """
+
+    surfaces: list[str] | list[int] | list[types.IntegerOrJump]
+    cells: list[str] | list[int] | list[types.IntegerOrJump]
+    options: list[str] | list[ssw.SswOption_] = None
+
+    def build(self):
+        """
+        Builds ``SswBuilder`` into ``Ssw``.
+
+        Returns:
+            ``Ssw`` for ``SswBuilder``.
+        """
+
+        surfaces = []
+        for item in self.surfaces:
+            if isinstance(item, types.IntegerOrJump):
+                surfaces.append(item)
+            elif isinstance(item, int):
+                surfaces.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                surfaces.append(types.IntegerOrJump.from_mcnp(item))
+        surfaces = types.Tuple(surfaces)
+
+        cells = []
+        for item in self.cells:
+            if isinstance(item, types.IntegerOrJump):
+                cells.append(item)
+            elif isinstance(item, int):
+                cells.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                cells.append(types.IntegerOrJump.from_mcnp(item))
+        cells = types.Tuple(cells)
+
+        options = []
+        for item in self.options:
+            if isinstance(item, ssw.SswOption_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(ssw.SswOption_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return Ssw(
+            surfaces=surfaces,
+            cells=cells,
+            options=options,
+        )

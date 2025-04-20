@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -12,7 +13,7 @@ class Par(SdefOption_, keyword='par'):
     Represents INP par elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        kind: Source particle type.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Par(SdefOption_, keyword='par'):
         )
 
         self.kind: typing.Final[types.String] = kind
+
+
+@dataclasses.dataclass
+class ParBuilder:
+    """
+    Builds ``Par``.
+
+    Attributes:
+        kind: Source particle type.
+    """
+
+    kind: str | types.String
+
+    def build(self):
+        """
+        Builds ``ParBuilder`` into ``Par``.
+
+        Returns:
+            ``Par`` for ``ParBuilder``.
+        """
+
+        if isinstance(self.kind, types.String):
+            kind = self.kind
+        elif isinstance(self.kind, str):
+            kind = types.String.from_mcnp(self.kind)
+
+        return Par(
+            kind=kind,
+        )

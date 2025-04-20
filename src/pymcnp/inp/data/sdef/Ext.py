@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -12,7 +13,7 @@ class Ext(SdefOption_, keyword='ext'):
     Represents INP ext elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        distance_cosine: Distance for POS along AXS or Cosine of angle from AXS.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Ext(SdefOption_, keyword='ext'):
         )
 
         self.distance_cosine: typing.Final[types.RealOrJump] = distance_cosine
+
+
+@dataclasses.dataclass
+class ExtBuilder:
+    """
+    Builds ``Ext``.
+
+    Attributes:
+        distance_cosine: Distance for POS along AXS or Cosine of angle from AXS.
+    """
+
+    distance_cosine: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``ExtBuilder`` into ``Ext``.
+
+        Returns:
+            ``Ext`` for ``ExtBuilder``.
+        """
+
+        if isinstance(self.distance_cosine, types.Real):
+            distance_cosine = self.distance_cosine
+        elif isinstance(self.distance_cosine, float) or isinstance(self.distance_cosine, int):
+            distance_cosine = types.RealOrJump(self.distance_cosine)
+        elif isinstance(self.distance_cosine, str):
+            distance_cosine = types.RealOrJump.from_mcnp(self.distance_cosine)
+
+        return Ext(
+            distance_cosine=distance_cosine,
+        )

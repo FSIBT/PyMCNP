@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KsenOption_
@@ -12,7 +13,7 @@ class Iso(KsenOption_, keyword='iso'):
     Represents INP iso elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        zaids: List of ZAIDs for pertubation.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Iso(KsenOption_, keyword='iso'):
         )
 
         self.zaids: typing.Final[types.Tuple[types.RealOrJump]] = zaids
+
+
+@dataclasses.dataclass
+class IsoBuilder:
+    """
+    Builds ``Iso``.
+
+    Attributes:
+        zaids: List of ZAIDs for pertubation.
+    """
+
+    zaids: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``IsoBuilder`` into ``Iso``.
+
+        Returns:
+            ``Iso`` for ``IsoBuilder``.
+        """
+
+        zaids = []
+        for item in self.zaids:
+            if isinstance(item, types.RealOrJump):
+                zaids.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                zaids.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                zaids.append(types.RealOrJump.from_mcnp(item))
+        zaids = types.Tuple(zaids)
+
+        return Iso(
+            zaids=zaids,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import T_1Option_
@@ -12,7 +13,7 @@ class Csub(T_1Option_, keyword='csub'):
     Represents INP csub elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        count: Number of subdivisions to use.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Csub(T_1Option_, keyword='csub'):
         )
 
         self.count: typing.Final[types.IntegerOrJump] = count
+
+
+@dataclasses.dataclass
+class CsubBuilder:
+    """
+    Builds ``Csub``.
+
+    Attributes:
+        count: Number of subdivisions to use.
+    """
+
+    count: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``CsubBuilder`` into ``Csub``.
+
+        Returns:
+            ``Csub`` for ``CsubBuilder``.
+        """
+
+        if isinstance(self.count, types.Integer):
+            count = self.count
+        elif isinstance(self.count, int):
+            count = types.IntegerOrJump(self.count)
+        elif isinstance(self.count, str):
+            count = types.IntegerOrJump.from_mcnp(self.count)
+
+        return Csub(
+            count=count,
+        )

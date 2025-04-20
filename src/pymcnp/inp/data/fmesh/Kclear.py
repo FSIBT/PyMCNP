@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Kclear(FmeshOption_, keyword='kclear'):
     Represents INP kclear elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        count: KCODE cycles between zeros.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Kclear(FmeshOption_, keyword='kclear'):
         )
 
         self.count: typing.Final[types.IntegerOrJump] = count
+
+
+@dataclasses.dataclass
+class KclearBuilder:
+    """
+    Builds ``Kclear``.
+
+    Attributes:
+        count: KCODE cycles between zeros.
+    """
+
+    count: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``KclearBuilder`` into ``Kclear``.
+
+        Returns:
+            ``Kclear`` for ``KclearBuilder``.
+        """
+
+        if isinstance(self.count, types.Integer):
+            count = self.count
+        elif isinstance(self.count, int):
+            count = types.IntegerOrJump(self.count)
+        elif isinstance(self.count, str):
+            count = types.IntegerOrJump.from_mcnp(self.count)
+
+        return Kclear(
+            count=count,
+        )

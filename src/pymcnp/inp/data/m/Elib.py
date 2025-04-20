@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MOption_
@@ -12,7 +13,7 @@ class Elib(MOption_, keyword='elib'):
     Represents INP elib elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        abx: Default electron table identifier.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Elib(MOption_, keyword='elib'):
         )
 
         self.abx: typing.Final[types.String] = abx
+
+
+@dataclasses.dataclass
+class ElibBuilder:
+    """
+    Builds ``Elib``.
+
+    Attributes:
+        abx: Default electron table identifier.
+    """
+
+    abx: str | types.String
+
+    def build(self):
+        """
+        Builds ``ElibBuilder`` into ``Elib``.
+
+        Returns:
+            ``Elib`` for ``ElibBuilder``.
+        """
+
+        if isinstance(self.abx, types.String):
+            abx = self.abx
+        elif isinstance(self.abx, str):
+            abx = types.String.from_mcnp(self.abx)
+
+        return Elib(
+            abx=abx,
+        )

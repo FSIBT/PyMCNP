@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Isn(BlockOption_, keyword='isn'):
     Represents INP isn elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Sn order.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Isn(BlockOption_, keyword='isn'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class IsnBuilder:
+    """
+    Builds ``Isn``.
+
+    Attributes:
+        setting: Sn order.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``IsnBuilder`` into ``Isn``.
+
+        Returns:
+            ``Isn`` for ``IsnBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Isn(
+            setting=setting,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import ActOption_
@@ -12,7 +13,7 @@ class Hlcut(ActOption_, keyword='hlcut'):
     Represents INP hlcut elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        cutoff: Spontaneous-decay half-life threshold.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Hlcut(ActOption_, keyword='hlcut'):
         )
 
         self.cutoff: typing.Final[types.RealOrJump] = cutoff
+
+
+@dataclasses.dataclass
+class HlcutBuilder:
+    """
+    Builds ``Hlcut``.
+
+    Attributes:
+        cutoff: Spontaneous-decay half-life threshold.
+    """
+
+    cutoff: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``HlcutBuilder`` into ``Hlcut``.
+
+        Returns:
+            ``Hlcut`` for ``HlcutBuilder``.
+        """
+
+        if isinstance(self.cutoff, types.Real):
+            cutoff = self.cutoff
+        elif isinstance(self.cutoff, float) or isinstance(self.cutoff, int):
+            cutoff = types.RealOrJump(self.cutoff)
+        elif isinstance(self.cutoff, str):
+            cutoff = types.RealOrJump.from_mcnp(self.cutoff)
+
+        return Hlcut(
+            cutoff=cutoff,
+        )

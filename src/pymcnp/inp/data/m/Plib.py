@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MOption_
@@ -12,7 +13,7 @@ class Plib(MOption_, keyword='plib'):
     Represents INP plib elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        abx: Default photoatomic table identifier.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Plib(MOption_, keyword='plib'):
         )
 
         self.abx: typing.Final[types.String] = abx
+
+
+@dataclasses.dataclass
+class PlibBuilder:
+    """
+    Builds ``Plib``.
+
+    Attributes:
+        abx: Default photoatomic table identifier.
+    """
+
+    abx: str | types.String
+
+    def build(self):
+        """
+        Builds ``PlibBuilder`` into ``Plib``.
+
+        Returns:
+            ``Plib`` for ``PlibBuilder``.
+        """
+
+        if isinstance(self.abx, types.String):
+            abx = self.abx
+        elif isinstance(self.abx, str):
+            abx = types.String.from_mcnp(self.abx)
+
+        return Plib(
+            abx=abx,
+        )

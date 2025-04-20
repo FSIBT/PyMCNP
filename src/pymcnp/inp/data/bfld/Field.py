@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BfldOption_
@@ -12,7 +13,7 @@ class Field(BfldOption_, keyword='field'):
     Represents INP field elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        strength_gradient: Magnetic field strength/gradient.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Field(BfldOption_, keyword='field'):
         )
 
         self.strength_gradient: typing.Final[types.RealOrJump] = strength_gradient
+
+
+@dataclasses.dataclass
+class FieldBuilder:
+    """
+    Builds ``Field``.
+
+    Attributes:
+        strength_gradient: Magnetic field strength/gradient.
+    """
+
+    strength_gradient: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``FieldBuilder`` into ``Field``.
+
+        Returns:
+            ``Field`` for ``FieldBuilder``.
+        """
+
+        if isinstance(self.strength_gradient, types.Real):
+            strength_gradient = self.strength_gradient
+        elif isinstance(self.strength_gradient, float) or isinstance(self.strength_gradient, int):
+            strength_gradient = types.RealOrJump(self.strength_gradient)
+        elif isinstance(self.strength_gradient, str):
+            strength_gradient = types.RealOrJump.from_mcnp(self.strength_gradient)
+
+        return Field(
+            strength_gradient=strength_gradient,
+        )

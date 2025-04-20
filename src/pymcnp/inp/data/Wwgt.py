@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Wwgt(DataOption_, keyword='wwgt'):
     Represents INP wwgt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        bounds: Upper time bound for weight-window group to be generated.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Wwgt(DataOption_, keyword='wwgt'):
         )
 
         self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds
+
+
+@dataclasses.dataclass
+class WwgtBuilder:
+    """
+    Builds ``Wwgt``.
+
+    Attributes:
+        bounds: Upper time bound for weight-window group to be generated.
+    """
+
+    bounds: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``WwgtBuilder`` into ``Wwgt``.
+
+        Returns:
+            ``Wwgt`` for ``WwgtBuilder``.
+        """
+
+        bounds = []
+        for item in self.bounds:
+            if isinstance(item, types.RealOrJump):
+                bounds.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                bounds.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                bounds.append(types.RealOrJump.from_mcnp(item))
+        bounds = types.Tuple(bounds)
+
+        return Wwgt(
+            bounds=bounds,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Elpt(DataOption_, keyword='elpt'):
     Represents INP elpt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        cutoffs: Tuple of cell lower energy cutoffs.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Elpt(DataOption_, keyword='elpt'):
         )
 
         self.cutoffs: typing.Final[types.Tuple[types.RealOrJump]] = cutoffs
+
+
+@dataclasses.dataclass
+class ElptBuilder:
+    """
+    Builds ``Elpt``.
+
+    Attributes:
+        cutoffs: Tuple of cell lower energy cutoffs.
+    """
+
+    cutoffs: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``ElptBuilder`` into ``Elpt``.
+
+        Returns:
+            ``Elpt`` for ``ElptBuilder``.
+        """
+
+        cutoffs = []
+        for item in self.cutoffs:
+            if isinstance(item, types.RealOrJump):
+                cutoffs.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                cutoffs.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                cutoffs.append(types.RealOrJump.from_mcnp(item))
+        cutoffs = types.Tuple(cutoffs)
+
+        return Elpt(
+            cutoffs=cutoffs,
+        )

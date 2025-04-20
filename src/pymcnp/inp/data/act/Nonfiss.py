@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import ActOption_
@@ -12,7 +13,7 @@ class Nonfiss(ActOption_, keyword='nonfiss'):
     Represents INP nonfiss elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        kind: Type of delayed particle(s) to be produced by simple multi-particle reaction.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Nonfiss(ActOption_, keyword='nonfiss'):
         )
 
         self.kind: typing.Final[types.String] = kind
+
+
+@dataclasses.dataclass
+class NonfissBuilder:
+    """
+    Builds ``Nonfiss``.
+
+    Attributes:
+        kind: Type of delayed particle(s) to be produced by simple multi-particle reaction.
+    """
+
+    kind: str | types.String
+
+    def build(self):
+        """
+        Builds ``NonfissBuilder`` into ``Nonfiss``.
+
+        Returns:
+            ``Nonfiss`` for ``NonfissBuilder``.
+        """
+
+        if isinstance(self.kind, types.String):
+            kind = self.kind
+        elif isinstance(self.kind, str):
+            kind = types.String.from_mcnp(self.kind)
+
+        return Nonfiss(
+            kind=kind,
+        )

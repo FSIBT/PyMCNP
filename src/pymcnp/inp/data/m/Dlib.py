@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MOption_
@@ -12,7 +13,7 @@ class Dlib(MOption_, keyword='dlib'):
     Represents INP dlib elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        abx: Default deuteron table identifier.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Dlib(MOption_, keyword='dlib'):
         )
 
         self.abx: typing.Final[types.String] = abx
+
+
+@dataclasses.dataclass
+class DlibBuilder:
+    """
+    Builds ``Dlib``.
+
+    Attributes:
+        abx: Default deuteron table identifier.
+    """
+
+    abx: str | types.String
+
+    def build(self):
+        """
+        Builds ``DlibBuilder`` into ``Dlib``.
+
+        Returns:
+            ``Dlib`` for ``DlibBuilder``.
+        """
+
+        if isinstance(self.abx, types.String):
+            abx = self.abx
+        elif isinstance(self.abx, str):
+            abx = types.String.from_mcnp(self.abx)
+
+        return Dlib(
+            abx=abx,
+        )

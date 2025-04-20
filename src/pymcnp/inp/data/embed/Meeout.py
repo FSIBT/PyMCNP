@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbedOption_
@@ -12,7 +13,7 @@ class Meeout(EmbedOption_, keyword='meeout'):
     Represents INP meeout elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        filename: Name assigned to EEOUT, the elemental edit output file.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Meeout(EmbedOption_, keyword='meeout'):
         )
 
         self.filename: typing.Final[types.String] = filename
+
+
+@dataclasses.dataclass
+class MeeoutBuilder:
+    """
+    Builds ``Meeout``.
+
+    Attributes:
+        filename: Name assigned to EEOUT, the elemental edit output file.
+    """
+
+    filename: str | types.String
+
+    def build(self):
+        """
+        Builds ``MeeoutBuilder`` into ``Meeout``.
+
+        Returns:
+            ``Meeout`` for ``MeeoutBuilder``.
+        """
+
+        if isinstance(self.filename, types.String):
+            filename = self.filename
+        elif isinstance(self.filename, str):
+            filename = types.String.from_mcnp(self.filename)
+
+        return Meeout(
+            filename=filename,
+        )

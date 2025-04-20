@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import T_1Option_
@@ -12,7 +13,7 @@ class Cfrq(T_1Option_, keyword='cfrq'):
     Represents INP cfrq elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        frequency: Frequency of cycling.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Cfrq(T_1Option_, keyword='cfrq'):
         )
 
         self.frequency: typing.Final[types.RealOrJump] = frequency
+
+
+@dataclasses.dataclass
+class CfrqBuilder:
+    """
+    Builds ``Cfrq``.
+
+    Attributes:
+        frequency: Frequency of cycling.
+    """
+
+    frequency: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``CfrqBuilder`` into ``Cfrq``.
+
+        Returns:
+            ``Cfrq`` for ``CfrqBuilder``.
+        """
+
+        if isinstance(self.frequency, types.Real):
+            frequency = self.frequency
+        elif isinstance(self.frequency, float) or isinstance(self.frequency, int):
+            frequency = types.RealOrJump(self.frequency)
+        elif isinstance(self.frequency, str):
+            frequency = types.RealOrJump.from_mcnp(self.frequency)
+
+        return Cfrq(
+            frequency=frequency,
+        )

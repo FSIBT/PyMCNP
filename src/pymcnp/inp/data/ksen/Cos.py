@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KsenOption_
@@ -12,7 +13,7 @@ class Cos(KsenOption_, keyword='cos'):
     Represents INP cos elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        cosines: Range of direction-change cosines.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Cos(KsenOption_, keyword='cos'):
         )
 
         self.cosines: typing.Final[types.Tuple[types.RealOrJump]] = cosines
+
+
+@dataclasses.dataclass
+class CosBuilder:
+    """
+    Builds ``Cos``.
+
+    Attributes:
+        cosines: Range of direction-change cosines.
+    """
+
+    cosines: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``CosBuilder`` into ``Cos``.
+
+        Returns:
+            ``Cos`` for ``CosBuilder``.
+        """
+
+        cosines = []
+        for item in self.cosines:
+            if isinstance(item, types.RealOrJump):
+                cosines.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                cosines.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                cosines.append(types.RealOrJump.from_mcnp(item))
+        cosines = types.Tuple(cosines)
+
+        return Cos(
+            cosines=cosines,
+        )

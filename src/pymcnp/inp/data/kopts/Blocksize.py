@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KoptsOption_
@@ -12,7 +13,7 @@ class Blocksize(KoptsOption_, keyword='blocksize'):
     Represents INP blocksize elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        ncy: Number of cycles in every outer iteration.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Blocksize(KoptsOption_, keyword='blocksize'):
         )
 
         self.ncy: typing.Final[types.IntegerOrJump] = ncy
+
+
+@dataclasses.dataclass
+class BlocksizeBuilder:
+    """
+    Builds ``Blocksize``.
+
+    Attributes:
+        ncy: Number of cycles in every outer iteration.
+    """
+
+    ncy: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``BlocksizeBuilder`` into ``Blocksize``.
+
+        Returns:
+            ``Blocksize`` for ``BlocksizeBuilder``.
+        """
+
+        if isinstance(self.ncy, types.Integer):
+            ncy = self.ncy
+        elif isinstance(self.ncy, int):
+            ncy = types.IntegerOrJump(self.ncy)
+        elif isinstance(self.ncy, str):
+            ncy = types.IntegerOrJump.from_mcnp(self.ncy)
+
+        return Blocksize(
+            ncy=ncy,
+        )

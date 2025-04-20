@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -12,7 +13,9 @@ class Bem(SdefOption_, keyword='bem'):
     Represents INP bem elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        exn: Normalized beam emittance parameter for x coordinates.
+        eyn: Normalized beam emittance parameter for x coordinates.
+        bml: Distance from the aperture to the spot.
     """
 
     _ATTRS = {
@@ -56,3 +59,54 @@ class Bem(SdefOption_, keyword='bem'):
         self.exn: typing.Final[types.RealOrJump] = exn
         self.eyn: typing.Final[types.RealOrJump] = eyn
         self.bml: typing.Final[types.RealOrJump] = bml
+
+
+@dataclasses.dataclass
+class BemBuilder:
+    """
+    Builds ``Bem``.
+
+    Attributes:
+        exn: Normalized beam emittance parameter for x coordinates.
+        eyn: Normalized beam emittance parameter for x coordinates.
+        bml: Distance from the aperture to the spot.
+    """
+
+    exn: str | float | types.RealOrJump
+    eyn: str | float | types.RealOrJump
+    bml: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``BemBuilder`` into ``Bem``.
+
+        Returns:
+            ``Bem`` for ``BemBuilder``.
+        """
+
+        if isinstance(self.exn, types.Real):
+            exn = self.exn
+        elif isinstance(self.exn, float) or isinstance(self.exn, int):
+            exn = types.RealOrJump(self.exn)
+        elif isinstance(self.exn, str):
+            exn = types.RealOrJump.from_mcnp(self.exn)
+
+        if isinstance(self.eyn, types.Real):
+            eyn = self.eyn
+        elif isinstance(self.eyn, float) or isinstance(self.eyn, int):
+            eyn = types.RealOrJump(self.eyn)
+        elif isinstance(self.eyn, str):
+            eyn = types.RealOrJump.from_mcnp(self.eyn)
+
+        if isinstance(self.bml, types.Real):
+            bml = self.bml
+        elif isinstance(self.bml, float) or isinstance(self.bml, int):
+            bml = types.RealOrJump(self.bml)
+        elif isinstance(self.bml, str):
+            bml = types.RealOrJump.from_mcnp(self.bml)
+
+        return Bem(
+            exn=exn,
+            eyn=eyn,
+            bml=bml,
+        )

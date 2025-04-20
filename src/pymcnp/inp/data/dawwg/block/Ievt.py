@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Ievt(BlockOption_, keyword='ievt'):
     Represents INP ievt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Calculation type.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Ievt(BlockOption_, keyword='ievt'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class IevtBuilder:
+    """
+    Builds ``Ievt``.
+
+    Attributes:
+        setting: Calculation type.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``IevtBuilder`` into ``Ievt``.
+
+        Returns:
+            ``Ievt`` for ``IevtBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Ievt(
+            setting=setting,
+        )

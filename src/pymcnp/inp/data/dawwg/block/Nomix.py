@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Nomix(BlockOption_, keyword='nomix'):
     Represents INP nomix elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Suppress writing mixing on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Nomix(BlockOption_, keyword='nomix'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class NomixBuilder:
+    """
+    Builds ``Nomix``.
+
+    Attributes:
+        setting: Suppress writing mixing on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``NomixBuilder`` into ``Nomix``.
+
+        Returns:
+            ``Nomix`` for ``NomixBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Nomix(
+            setting=setting,
+        )

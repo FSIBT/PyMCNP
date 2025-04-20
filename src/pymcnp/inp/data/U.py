@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class U(DataOption_, keyword='u'):
     Represents INP u elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        numbers: Tuple of cell numbers.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class U(DataOption_, keyword='u'):
         )
 
         self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers
+
+
+@dataclasses.dataclass
+class UBuilder:
+    """
+    Builds ``U``.
+
+    Attributes:
+        numbers: Tuple of cell numbers.
+    """
+
+    numbers: list[str] | list[int] | list[types.IntegerOrJump]
+
+    def build(self):
+        """
+        Builds ``UBuilder`` into ``U``.
+
+        Returns:
+            ``U`` for ``UBuilder``.
+        """
+
+        numbers = []
+        for item in self.numbers:
+            if isinstance(item, types.IntegerOrJump):
+                numbers.append(item)
+            elif isinstance(item, int):
+                numbers.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                numbers.append(types.IntegerOrJump.from_mcnp(item))
+        numbers = types.Tuple(numbers)
+
+        return U(
+            numbers=numbers,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,8 @@ class Inc(FmeshOption_, keyword='inc'):
     Represents INP inc elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        lower: Collision for FMESH tally lower bound.
+        upper: Collision for FMESH tally upper bound.
     """
 
     _ATTRS = {
@@ -48,3 +50,45 @@ class Inc(FmeshOption_, keyword='inc'):
 
         self.lower: typing.Final[types.RealOrJump] = lower
         self.upper: typing.Final[types.RealOrJump] = upper
+
+
+@dataclasses.dataclass
+class IncBuilder:
+    """
+    Builds ``Inc``.
+
+    Attributes:
+        lower: Collision for FMESH tally lower bound.
+        upper: Collision for FMESH tally upper bound.
+    """
+
+    lower: str | float | types.RealOrJump
+    upper: str | float | types.RealOrJump = None
+
+    def build(self):
+        """
+        Builds ``IncBuilder`` into ``Inc``.
+
+        Returns:
+            ``Inc`` for ``IncBuilder``.
+        """
+
+        if isinstance(self.lower, types.Real):
+            lower = self.lower
+        elif isinstance(self.lower, float) or isinstance(self.lower, int):
+            lower = types.RealOrJump(self.lower)
+        elif isinstance(self.lower, str):
+            lower = types.RealOrJump.from_mcnp(self.lower)
+
+        upper = None
+        if isinstance(self.upper, types.Real):
+            upper = self.upper
+        elif isinstance(self.upper, float) or isinstance(self.upper, int):
+            upper = types.RealOrJump(self.upper)
+        elif isinstance(self.upper, str):
+            upper = types.RealOrJump.from_mcnp(self.upper)
+
+        return Inc(
+            lower=lower,
+            upper=upper,
+        )

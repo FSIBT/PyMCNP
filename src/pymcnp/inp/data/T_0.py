@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -9,10 +10,13 @@ from ...utils import errors
 
 class T_0(DataOption_, keyword='t'):
     """
-    Represents INP t_0 elements.
+    Represents INP t variation #0 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        bounds: Upper time bounds for bin.
+        nt: Notation to inhibit automatic totaling.
+        c: Notation to make bin values cumulative.
     """
 
     _ATTRS = {
@@ -63,3 +67,65 @@ class T_0(DataOption_, keyword='t'):
         self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds
         self.nt: typing.Final[types.String] = nt
         self.c: typing.Final[types.String] = c
+
+
+@dataclasses.dataclass
+class TBuilder_0:
+    """
+    Builds ``T_0``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        bounds: Upper time bounds for bin.
+        nt: Notation to inhibit automatic totaling.
+        c: Notation to make bin values cumulative.
+    """
+
+    suffix: str | int | types.Integer
+    bounds: list[str] | list[float] | list[types.RealOrJump]
+    nt: str | types.String = None
+    c: str | types.String = None
+
+    def build(self):
+        """
+        Builds ``TBuilder_0`` into ``T_0``.
+
+        Returns:
+            ``T_0`` for ``TBuilder_0``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        bounds = []
+        for item in self.bounds:
+            if isinstance(item, types.RealOrJump):
+                bounds.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                bounds.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                bounds.append(types.RealOrJump.from_mcnp(item))
+        bounds = types.Tuple(bounds)
+
+        nt = None
+        if isinstance(self.nt, types.String):
+            nt = self.nt
+        elif isinstance(self.nt, str):
+            nt = types.String.from_mcnp(self.nt)
+
+        c = None
+        if isinstance(self.c, types.String):
+            c = self.c
+        elif isinstance(self.c, str):
+            c = types.String.from_mcnp(self.c)
+
+        return T_0(
+            suffix=suffix,
+            bounds=bounds,
+            nt=nt,
+            c=c,
+        )

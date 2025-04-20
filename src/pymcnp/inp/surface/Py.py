@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,7 @@ class Py(SurfaceOption_, keyword='py'):
     Represents INP py elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        d: Normal-to-the-y-axis plane D coefficent.
     """
 
     _ATTRS = {
@@ -56,3 +57,34 @@ class Py(SurfaceOption_, keyword='py'):
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
 
         return vis
+
+
+@dataclasses.dataclass
+class PyBuilder:
+    """
+    Builds ``Py``.
+
+    Attributes:
+        d: Normal-to-the-y-axis plane D coefficent.
+    """
+
+    d: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``PyBuilder`` into ``Py``.
+
+        Returns:
+            ``Py`` for ``PyBuilder``.
+        """
+
+        if isinstance(self.d, types.Real):
+            d = self.d
+        elif isinstance(self.d, float) or isinstance(self.d, int):
+            d = types.Real(self.d)
+        elif isinstance(self.d, str):
+            d = types.Real.from_mcnp(self.d)
+
+        return Py(
+            d=d,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SsrOption_
@@ -12,7 +13,7 @@ class Old(SsrOption_, keyword='old'):
     Represents INP old elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        numbers: Tuple of surface numbers from subset of surfaces on SSW card.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Old(SsrOption_, keyword='old'):
         )
 
         self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers
+
+
+@dataclasses.dataclass
+class OldBuilder:
+    """
+    Builds ``Old``.
+
+    Attributes:
+        numbers: Tuple of surface numbers from subset of surfaces on SSW card.
+    """
+
+    numbers: list[str] | list[int] | list[types.IntegerOrJump]
+
+    def build(self):
+        """
+        Builds ``OldBuilder`` into ``Old``.
+
+        Returns:
+            ``Old`` for ``OldBuilder``.
+        """
+
+        numbers = []
+        for item in self.numbers:
+            if isinstance(item, types.IntegerOrJump):
+                numbers.append(item)
+            elif isinstance(item, int):
+                numbers.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                numbers.append(types.IntegerOrJump.from_mcnp(item))
+        numbers = types.Tuple(numbers)
+
+        return Old(
+            numbers=numbers,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MeshOption_
@@ -12,7 +13,7 @@ class Imesh(MeshOption_, keyword='imesh'):
     Represents INP imesh elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        vector: Locations of the coarse meshes in the x/r directions.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Imesh(MeshOption_, keyword='imesh'):
         )
 
         self.vector: typing.Final[types.Tuple[types.RealOrJump]] = vector
+
+
+@dataclasses.dataclass
+class ImeshBuilder:
+    """
+    Builds ``Imesh``.
+
+    Attributes:
+        vector: Locations of the coarse meshes in the x/r directions.
+    """
+
+    vector: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``ImeshBuilder`` into ``Imesh``.
+
+        Returns:
+            ``Imesh`` for ``ImeshBuilder``.
+        """
+
+        vector = []
+        for item in self.vector:
+            if isinstance(item, types.RealOrJump):
+                vector.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                vector.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                vector.append(types.RealOrJump.from_mcnp(item))
+        vector = types.Tuple(vector)
+
+        return Imesh(
+            vector=vector,
+        )

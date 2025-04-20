@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DawwgOption_
@@ -12,7 +13,7 @@ class Points(DawwgOption_, keyword='points'):
     Represents INP points elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        name: Cross section library.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Points(DawwgOption_, keyword='points'):
         )
 
         self.name: typing.Final[types.String] = name
+
+
+@dataclasses.dataclass
+class PointsBuilder:
+    """
+    Builds ``Points``.
+
+    Attributes:
+        name: Cross section library.
+    """
+
+    name: str | types.String
+
+    def build(self):
+        """
+        Builds ``PointsBuilder`` into ``Points``.
+
+        Returns:
+            ``Points`` for ``PointsBuilder``.
+        """
+
+        if isinstance(self.name, types.String):
+            name = self.name
+        elif isinstance(self.name, str):
+            name = types.String.from_mcnp(self.name)
+
+        return Points(
+            name=name,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MOption_
@@ -12,7 +13,7 @@ class Alib(MOption_, keyword='alib'):
     Represents INP alib elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        abx: Default alpha table identifier.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Alib(MOption_, keyword='alib'):
         )
 
         self.abx: typing.Final[types.String] = abx
+
+
+@dataclasses.dataclass
+class AlibBuilder:
+    """
+    Builds ``Alib``.
+
+    Attributes:
+        abx: Default alpha table identifier.
+    """
+
+    abx: str | types.String
+
+    def build(self):
+        """
+        Builds ``AlibBuilder`` into ``Alib``.
+
+        Returns:
+            ``Alib`` for ``AlibBuilder``.
+        """
+
+        if isinstance(self.abx, types.String):
+            abx = self.abx
+        elif isinstance(self.abx, str):
+            abx = types.String.from_mcnp(self.abx)
+
+        return Alib(
+            abx=abx,
+        )

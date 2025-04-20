@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -11,7 +12,8 @@ class Histp(DataOption_, keyword='histp'):
     Represents INP histp elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        lhist: Number of words written to a HISTP file.
+        cells: Cell numbers.
     """
 
     _ATTRS = {
@@ -46,3 +48,48 @@ class Histp(DataOption_, keyword='histp'):
 
         self.lhist: typing.Final[types.IntegerOrJump] = lhist
         self.cells: typing.Final[types.Tuple[types.IntegerOrJump]] = cells
+
+
+@dataclasses.dataclass
+class HistpBuilder:
+    """
+    Builds ``Histp``.
+
+    Attributes:
+        lhist: Number of words written to a HISTP file.
+        cells: Cell numbers.
+    """
+
+    lhist: str | int | types.IntegerOrJump = None
+    cells: list[str] | list[int] | list[types.IntegerOrJump] = None
+
+    def build(self):
+        """
+        Builds ``HistpBuilder`` into ``Histp``.
+
+        Returns:
+            ``Histp`` for ``HistpBuilder``.
+        """
+
+        lhist = None
+        if isinstance(self.lhist, types.Integer):
+            lhist = self.lhist
+        elif isinstance(self.lhist, int):
+            lhist = types.IntegerOrJump(self.lhist)
+        elif isinstance(self.lhist, str):
+            lhist = types.IntegerOrJump.from_mcnp(self.lhist)
+
+        cells = []
+        for item in self.cells:
+            if isinstance(item, types.IntegerOrJump):
+                cells.append(item)
+            elif isinstance(item, int):
+                cells.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                cells.append(types.IntegerOrJump.from_mcnp(item))
+        cells = types.Tuple(cells)
+
+        return Histp(
+            lhist=lhist,
+            cells=cells,
+        )

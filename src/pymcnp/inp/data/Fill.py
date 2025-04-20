@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Fill(DataOption_, keyword='fill'):
     Represents INP fill elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        numbers: Tuple of universe numbers.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Fill(DataOption_, keyword='fill'):
         )
 
         self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers
+
+
+@dataclasses.dataclass
+class FillBuilder:
+    """
+    Builds ``Fill``.
+
+    Attributes:
+        numbers: Tuple of universe numbers.
+    """
+
+    numbers: list[str] | list[int] | list[types.IntegerOrJump]
+
+    def build(self):
+        """
+        Builds ``FillBuilder`` into ``Fill``.
+
+        Returns:
+            ``Fill`` for ``FillBuilder``.
+        """
+
+        numbers = []
+        for item in self.numbers:
+            if isinstance(item, types.IntegerOrJump):
+                numbers.append(item)
+            elif isinstance(item, int):
+                numbers.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                numbers.append(types.IntegerOrJump.from_mcnp(item))
+        numbers = types.Tuple(numbers)
+
+        return Fill(
+            numbers=numbers,
+        )

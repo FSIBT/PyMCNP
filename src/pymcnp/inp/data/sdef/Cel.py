@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -12,7 +13,7 @@ class Cel(SdefOption_, keyword='cel'):
     Represents INP cel elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Cell number.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Cel(SdefOption_, keyword='cel'):
         )
 
         self.number: typing.Final[types.IntegerOrJump] = number
+
+
+@dataclasses.dataclass
+class CelBuilder:
+    """
+    Builds ``Cel``.
+
+    Attributes:
+        number: Cell number.
+    """
+
+    number: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``CelBuilder`` into ``Cel``.
+
+        Returns:
+            ``Cel`` for ``CelBuilder``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.IntegerOrJump(self.number)
+        elif isinstance(self.number, str):
+            number = types.IntegerOrJump.from_mcnp(self.number)
+
+        return Cel(
+            number=number,
+        )

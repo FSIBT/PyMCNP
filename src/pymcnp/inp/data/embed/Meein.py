@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbedOption_
@@ -12,7 +13,7 @@ class Meein(EmbedOption_, keyword='meein'):
     Represents INP meein elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        filename: Name of the EEOUT results file to read.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Meein(EmbedOption_, keyword='meein'):
         )
 
         self.filename: typing.Final[types.String] = filename
+
+
+@dataclasses.dataclass
+class MeeinBuilder:
+    """
+    Builds ``Meein``.
+
+    Attributes:
+        filename: Name of the EEOUT results file to read.
+    """
+
+    filename: str | types.String
+
+    def build(self):
+        """
+        Builds ``MeeinBuilder`` into ``Meein``.
+
+        Returns:
+            ``Meein`` for ``MeeinBuilder``.
+        """
+
+        if isinstance(self.filename, types.String):
+            filename = self.filename
+        elif isinstance(self.filename, str):
+            filename = types.String.from_mcnp(self.filename)
+
+        return Meein(
+            filename=filename,
+        )

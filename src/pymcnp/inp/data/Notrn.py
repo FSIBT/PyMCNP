@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -11,7 +12,7 @@ class Notrn(DataOption_, keyword='notrn'):
     Represents INP notrn elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+
     """
 
     _ATTRS = {}
@@ -32,3 +33,23 @@ class Notrn(DataOption_, keyword='notrn'):
         """
 
         self.value: typing.Final[types.Tuple] = types.Tuple([])
+
+
+@dataclasses.dataclass
+class NotrnBuilder:
+    """
+    Builds ``Notrn``.
+
+    Attributes:
+
+    """
+
+    def build(self):
+        """
+        Builds ``NotrnBuilder`` into ``Notrn``.
+
+        Returns:
+            ``Notrn`` for ``NotrnBuilder``.
+        """
+
+        return Notrn()

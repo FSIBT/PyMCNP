@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Tsasn(BlockOption_, keyword='tsasn'):
     Represents INP tsasn elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Sn order for lower order TSA sweeps.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Tsasn(BlockOption_, keyword='tsasn'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class TsasnBuilder:
+    """
+    Builds ``Tsasn``.
+
+    Attributes:
+        setting: Sn order for lower order TSA sweeps.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``TsasnBuilder`` into ``Tsasn``.
+
+        Returns:
+            ``Tsasn`` for ``TsasnBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Tsasn(
+            setting=setting,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Rzmflux(BlockOption_, keyword='rzmflux'):
     Represents INP rzmflux elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Write b-flux file on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Rzmflux(BlockOption_, keyword='rzmflux'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class RzmfluxBuilder:
+    """
+    Builds ``Rzmflux``.
+
+    Attributes:
+        setting: Write b-flux file on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``RzmfluxBuilder`` into ``Rzmflux``.
+
+        Returns:
+            ``Rzmflux`` for ``RzmfluxBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Rzmflux(
+            setting=setting,
+        )

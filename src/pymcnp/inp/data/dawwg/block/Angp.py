@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Angp(BlockOption_, keyword='angp'):
     Represents INP angp elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Print angular flux on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Angp(BlockOption_, keyword='angp'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class AngpBuilder:
+    """
+    Builds ``Angp``.
+
+    Attributes:
+        setting: Print angular flux on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``AngpBuilder`` into ``Angp``.
+
+        Returns:
+            ``Angp`` for ``AngpBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Angp(
+            setting=setting,
+        )

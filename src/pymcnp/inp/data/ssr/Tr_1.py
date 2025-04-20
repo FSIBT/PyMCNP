@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SsrOption_
@@ -9,10 +10,10 @@ from ....utils import errors
 
 class Tr_1(SsrOption_, keyword='tr'):
     """
-    Represents INP tr_1 elements.
+    Represents INP tr variation #1 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Particle weight.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Tr_1(SsrOption_, keyword='tr'):
         )
 
         self.number: typing.Final[types.IntegerOrJump] = number
+
+
+@dataclasses.dataclass
+class TrBuilder_1:
+    """
+    Builds ``Tr_1``.
+
+    Attributes:
+        number: Particle weight.
+    """
+
+    number: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``TrBuilder_1`` into ``Tr_1``.
+
+        Returns:
+            ``Tr_1`` for ``TrBuilder_1``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.IntegerOrJump(self.number)
+        elif isinstance(self.number, str):
+            number = types.IntegerOrJump.from_mcnp(self.number)
+
+        return Tr_1(
+            number=number,
+        )

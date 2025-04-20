@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import CellOption_
@@ -12,7 +13,7 @@ class U(CellOption_, keyword='u'):
     Represents INP u elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Cell universe number.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class U(CellOption_, keyword='u'):
         )
 
         self.number: typing.Final[types.Integer] = number
+
+
+@dataclasses.dataclass
+class UBuilder:
+    """
+    Builds ``U``.
+
+    Attributes:
+        number: Cell universe number.
+    """
+
+    number: str | int | types.Integer
+
+    def build(self):
+        """
+        Builds ``UBuilder`` into ``U``.
+
+        Returns:
+            ``U`` for ``UBuilder``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.Integer(self.number)
+        elif isinstance(self.number, str):
+            number = types.Integer.from_mcnp(self.number)
+
+        return U(
+            number=number,
+        )

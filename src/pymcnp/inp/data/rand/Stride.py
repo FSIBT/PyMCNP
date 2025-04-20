@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import RandOption_
@@ -12,7 +13,7 @@ class Stride(RandOption_, keyword='stride'):
     Represents INP stride elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        stride: Number of random numbers between source particle.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Stride(RandOption_, keyword='stride'):
         )
 
         self.stride: typing.Final[types.IntegerOrJump] = stride
+
+
+@dataclasses.dataclass
+class StrideBuilder:
+    """
+    Builds ``Stride``.
+
+    Attributes:
+        stride: Number of random numbers between source particle.
+    """
+
+    stride: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``StrideBuilder`` into ``Stride``.
+
+        Returns:
+            ``Stride`` for ``StrideBuilder``.
+        """
+
+        if isinstance(self.stride, types.Integer):
+            stride = self.stride
+        elif isinstance(self.stride, int):
+            stride = types.IntegerOrJump(self.stride)
+        elif isinstance(self.stride, str):
+            stride = types.IntegerOrJump.from_mcnp(self.stride)
+
+        return Stride(
+            stride=stride,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Asfrnt(BlockOption_, keyword='asfrnt'):
     Represents INP asfrnt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Back-going flux at plane k.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Asfrnt(BlockOption_, keyword='asfrnt'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class AsfrntBuilder:
+    """
+    Builds ``Asfrnt``.
+
+    Attributes:
+        setting: Back-going flux at plane k.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``AsfrntBuilder`` into ``Asfrnt``.
+
+        Returns:
+            ``Asfrnt`` for ``AsfrntBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Asfrnt(
+            setting=setting,
+        )

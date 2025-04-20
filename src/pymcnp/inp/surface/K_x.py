@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,11 @@ class K_x(SurfaceOption_, keyword='k/x'):
     Represents INP k/x elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        x: Parallel-to-x-axis cone center x component.
+        y: Parallel-to-x-axis cone center y component.
+        z: Parallel-to-x-axis cone center z component.
+        t_squared: Parallel-to-x-axis cone t^2 coefficent.
+        plusminus_1: Parallel-to-x-axis cone sheet selector.
     """
 
     _ATTRS = {
@@ -92,3 +97,74 @@ class K_x(SurfaceOption_, keyword='k/x'):
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
 
         return vis
+
+
+@dataclasses.dataclass
+class KBuilder_x:
+    """
+    Builds ``K_x``.
+
+    Attributes:
+        x: Parallel-to-x-axis cone center x component.
+        y: Parallel-to-x-axis cone center y component.
+        z: Parallel-to-x-axis cone center z component.
+        t_squared: Parallel-to-x-axis cone t^2 coefficent.
+        plusminus_1: Parallel-to-x-axis cone sheet selector.
+    """
+
+    x: str | float | types.Real
+    y: str | float | types.Real
+    z: str | float | types.Real
+    t_squared: str | float | types.Real
+    plusminus_1: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``KBuilder_x`` into ``K_x``.
+
+        Returns:
+            ``K_x`` for ``KBuilder_x``.
+        """
+
+        if isinstance(self.x, types.Real):
+            x = self.x
+        elif isinstance(self.x, float) or isinstance(self.x, int):
+            x = types.Real(self.x)
+        elif isinstance(self.x, str):
+            x = types.Real.from_mcnp(self.x)
+
+        if isinstance(self.y, types.Real):
+            y = self.y
+        elif isinstance(self.y, float) or isinstance(self.y, int):
+            y = types.Real(self.y)
+        elif isinstance(self.y, str):
+            y = types.Real.from_mcnp(self.y)
+
+        if isinstance(self.z, types.Real):
+            z = self.z
+        elif isinstance(self.z, float) or isinstance(self.z, int):
+            z = types.Real(self.z)
+        elif isinstance(self.z, str):
+            z = types.Real.from_mcnp(self.z)
+
+        if isinstance(self.t_squared, types.Real):
+            t_squared = self.t_squared
+        elif isinstance(self.t_squared, float) or isinstance(self.t_squared, int):
+            t_squared = types.Real(self.t_squared)
+        elif isinstance(self.t_squared, str):
+            t_squared = types.Real.from_mcnp(self.t_squared)
+
+        if isinstance(self.plusminus_1, types.Real):
+            plusminus_1 = self.plusminus_1
+        elif isinstance(self.plusminus_1, float) or isinstance(self.plusminus_1, int):
+            plusminus_1 = types.Real(self.plusminus_1)
+        elif isinstance(self.plusminus_1, str):
+            plusminus_1 = types.Real.from_mcnp(self.plusminus_1)
+
+        return K_x(
+            x=x,
+            y=y,
+            z=z,
+            t_squared=t_squared,
+            plusminus_1=plusminus_1,
+        )

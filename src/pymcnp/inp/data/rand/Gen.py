@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import RandOption_
@@ -12,7 +13,7 @@ class Gen(RandOption_, keyword='gen'):
     Represents INP gen elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Type of pseudorandom number generator.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Gen(RandOption_, keyword='gen'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class GenBuilder:
+    """
+    Builds ``Gen``.
+
+    Attributes:
+        setting: Type of pseudorandom number generator.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``GenBuilder`` into ``Gen``.
+
+        Returns:
+            ``Gen`` for ``GenBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Gen(
+            setting=setting,
+        )

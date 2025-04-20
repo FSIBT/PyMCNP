@@ -8,12 +8,7 @@ from .cli.run import Run
 # INP
 from . import inp
 from .Inp import Inp
-from .InpBuilder import InpBuilder
-from .InpBuilder import GeometryBuilder
-from .InpBuilder import CellBuilder
-from .InpBuilder import CellOptionBuilder
-from .InpBuilder import SurfaceBuilder
-from .InpBuilder import DataBuilder
+from .Inp import InpBuilder
 
 # PTRAC
 from . import ptrac
@@ -39,11 +34,6 @@ __all__ = [
     'inp',
     'Inp',
     'InpBuilder',
-    'GeometryBuilder',
-    'CellBuilder',
-    'CellOptionBuilder',
-    'SurfaceBuilder',
-    'DataBuilder',
     'ptrac',
     'Ptrac',
     'PtracFiltered',

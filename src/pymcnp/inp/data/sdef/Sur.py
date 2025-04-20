@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -12,7 +13,7 @@ class Sur(SdefOption_, keyword='sur'):
     Represents INP sur elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Surface number.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Sur(SdefOption_, keyword='sur'):
         )
 
         self.number: typing.Final[types.IntegerOrJump] = number
+
+
+@dataclasses.dataclass
+class SurBuilder:
+    """
+    Builds ``Sur``.
+
+    Attributes:
+        number: Surface number.
+    """
+
+    number: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``SurBuilder`` into ``Sur``.
+
+        Returns:
+            ``Sur`` for ``SurBuilder``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.IntegerOrJump(self.number)
+        elif isinstance(self.number, str):
+            number = types.IntegerOrJump.from_mcnp(self.number)
+
+        return Sur(
+            number=number,
+        )

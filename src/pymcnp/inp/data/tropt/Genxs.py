@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import TroptOption_
@@ -12,7 +13,7 @@ class Genxs(TroptOption_, keyword='genxs'):
     Represents INP genxs elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        filename: Cross section generation setting.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Genxs(TroptOption_, keyword='genxs'):
         )
 
         self.filename: typing.Final[types.String] = filename
+
+
+@dataclasses.dataclass
+class GenxsBuilder:
+    """
+    Builds ``Genxs``.
+
+    Attributes:
+        filename: Cross section generation setting.
+    """
+
+    filename: str | types.String
+
+    def build(self):
+        """
+        Builds ``GenxsBuilder`` into ``Genxs``.
+
+        Returns:
+            ``Genxs`` for ``GenxsBuilder``.
+        """
+
+        if isinstance(self.filename, types.String):
+            filename = self.filename
+        elif isinstance(self.filename, str):
+            filename = types.String.from_mcnp(self.filename)
+
+        return Genxs(
+            filename=filename,
+        )

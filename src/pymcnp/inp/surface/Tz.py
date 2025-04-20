@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,12 @@ class Tz(SurfaceOption_, keyword='tz'):
     Represents INP tz elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        x: Parallel-to-z-axis tori center x component.
+        y: Parallel-to-z-axis tori center y component.
+        z: Parallel-to-z-axis tori center z component.
+        a: Parallel-to-z-axis tori A coefficent.
+        b: Parallel-to-z-axis tori B coefficent.
+        c: Parallel-to-z-axis tori C coefficent.
     """
 
     _ATTRS = {
@@ -96,3 +102,84 @@ class Tz(SurfaceOption_, keyword='tz'):
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
 
         return vis
+
+
+@dataclasses.dataclass
+class TzBuilder:
+    """
+    Builds ``Tz``.
+
+    Attributes:
+        x: Parallel-to-z-axis tori center x component.
+        y: Parallel-to-z-axis tori center y component.
+        z: Parallel-to-z-axis tori center z component.
+        a: Parallel-to-z-axis tori A coefficent.
+        b: Parallel-to-z-axis tori B coefficent.
+        c: Parallel-to-z-axis tori C coefficent.
+    """
+
+    x: str | float | types.Real
+    y: str | float | types.Real
+    z: str | float | types.Real
+    a: str | float | types.Real
+    b: str | float | types.Real
+    c: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``TzBuilder`` into ``Tz``.
+
+        Returns:
+            ``Tz`` for ``TzBuilder``.
+        """
+
+        if isinstance(self.x, types.Real):
+            x = self.x
+        elif isinstance(self.x, float) or isinstance(self.x, int):
+            x = types.Real(self.x)
+        elif isinstance(self.x, str):
+            x = types.Real.from_mcnp(self.x)
+
+        if isinstance(self.y, types.Real):
+            y = self.y
+        elif isinstance(self.y, float) or isinstance(self.y, int):
+            y = types.Real(self.y)
+        elif isinstance(self.y, str):
+            y = types.Real.from_mcnp(self.y)
+
+        if isinstance(self.z, types.Real):
+            z = self.z
+        elif isinstance(self.z, float) or isinstance(self.z, int):
+            z = types.Real(self.z)
+        elif isinstance(self.z, str):
+            z = types.Real.from_mcnp(self.z)
+
+        if isinstance(self.a, types.Real):
+            a = self.a
+        elif isinstance(self.a, float) or isinstance(self.a, int):
+            a = types.Real(self.a)
+        elif isinstance(self.a, str):
+            a = types.Real.from_mcnp(self.a)
+
+        if isinstance(self.b, types.Real):
+            b = self.b
+        elif isinstance(self.b, float) or isinstance(self.b, int):
+            b = types.Real(self.b)
+        elif isinstance(self.b, str):
+            b = types.Real.from_mcnp(self.b)
+
+        if isinstance(self.c, types.Real):
+            c = self.c
+        elif isinstance(self.c, float) or isinstance(self.c, int):
+            c = types.Real(self.c)
+        elif isinstance(self.c, str):
+            c = types.Real.from_mcnp(self.c)
+
+        return Tz(
+            x=x,
+            y=y,
+            z=z,
+            a=a,
+            b=b,
+            c=c,
+        )

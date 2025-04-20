@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Eints(FmeshOption_, keyword='eints'):
     Represents INP eints elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        count: Number of mesh points for each mesh energy.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Eints(FmeshOption_, keyword='eints'):
         )
 
         self.count: typing.Final[types.IntegerOrJump] = count
+
+
+@dataclasses.dataclass
+class EintsBuilder:
+    """
+    Builds ``Eints``.
+
+    Attributes:
+        count: Number of mesh points for each mesh energy.
+    """
+
+    count: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``EintsBuilder`` into ``Eints``.
+
+        Returns:
+            ``Eints`` for ``EintsBuilder``.
+        """
+
+        if isinstance(self.count, types.Integer):
+            count = self.count
+        elif isinstance(self.count, int):
+            count = types.IntegerOrJump(self.count)
+        elif isinstance(self.count, str):
+            count = types.IntegerOrJump.from_mcnp(self.count)
+
+        return Eints(
+            count=count,
+        )

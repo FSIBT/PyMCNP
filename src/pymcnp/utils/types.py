@@ -1,6 +1,7 @@
 import re
 import enum
 import typing
+import dataclasses
 
 from . import errors
 from . import _parser
@@ -1002,6 +1003,86 @@ class Geometry(_object.McnpElement_):
         """
 
         return self.infix
+
+
+@dataclasses.dataclass
+class GeometryBuilder:
+    """
+    Builds ``Geometry``.
+
+    Attributes:
+        infix: Geometry infix formula.
+    """
+
+    infix: str
+
+    def __and__(a, b):
+        """
+        Unites ``GeometryBuilder``.
+
+        Parameters:
+            a: Operand #1.
+            b: Operand #2.
+
+        Returns:
+            ``GeometryBuilder`` union.
+        """
+
+        return GeometryBuilder(infix=f'({a.infix}):({b.infix})')
+
+    def __or__(a, b):
+        """
+        Intersects ``GeometryBuilder``.
+
+        Parameters:
+            a: Operand #1.
+            b: Operand #2.
+
+        Returns:
+            ``GeometryBuilder`` intersection.
+        """
+
+        return GeometryBuilder(infix=f'({a.infix}) ({b.infix})')
+
+    def __neg__(self):
+        """
+        Negatives ``GeometryBuilder``.
+
+        Returns:
+            ``GeometryBuilder`` negative.
+        """
+
+        return GeometryBuilder(infix=f'-({self.infix})')
+
+    def __pos__(self):
+        """
+        Positives ``GeometryBuilder``.
+
+        Returns:
+            ``GeometryBuilder`` positive.
+        """
+
+        return GeometryBuilder(infix=f'+({self.infix})')
+
+    def __invert__(self):
+        """
+        Inverts ``GeometryBuilder``.
+
+        Returns:
+            ``GeometryBuilder`` complement.
+        """
+
+        return GeometryBuilder(infix=f'#({self.infix})')
+
+    def build(self):
+        """
+        Builds ``GeometryBuilder`` into ``Geometry``.
+
+        Returns:
+            ``Geometry`` for ``GeometryBuilder``.
+        """
+
+        return Geometry(infix=String(self.infix))
 
 
 class Substance(_object.McnpElement_):

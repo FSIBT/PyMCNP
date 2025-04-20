@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbedOption_
@@ -12,7 +13,7 @@ class Background(EmbedOption_, keyword='background'):
     Represents INP background elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Background pseudo-cell number.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Background(EmbedOption_, keyword='background'):
         )
 
         self.number: typing.Final[types.IntegerOrJump] = number
+
+
+@dataclasses.dataclass
+class BackgroundBuilder:
+    """
+    Builds ``Background``.
+
+    Attributes:
+        number: Background pseudo-cell number.
+    """
+
+    number: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``BackgroundBuilder`` into ``Background``.
+
+        Returns:
+            ``Background`` for ``BackgroundBuilder``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.IntegerOrJump(self.number)
+        elif isinstance(self.number, str):
+            number = types.IntegerOrJump.from_mcnp(self.number)
+
+        return Background(
+            number=number,
+        )

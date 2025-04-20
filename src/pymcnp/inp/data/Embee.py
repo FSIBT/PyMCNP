@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from . import embee
@@ -13,7 +14,8 @@ class Embee(DataOption_, keyword='embee'):
     Represents INP embee elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
@@ -46,3 +48,47 @@ class Embee(DataOption_, keyword='embee'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.options: typing.Final[types.Tuple[embee.EmbeeOption_]] = options
+
+
+@dataclasses.dataclass
+class EmbeeBuilder:
+    """
+    Builds ``Embee``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        options: Dictionary of options.
+    """
+
+    suffix: str | int | types.Integer
+    options: list[str] | list[embee.EmbeeOption_] = None
+
+    def build(self):
+        """
+        Builds ``EmbeeBuilder`` into ``Embee``.
+
+        Returns:
+            ``Embee`` for ``EmbeeBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        options = []
+        for item in self.options:
+            if isinstance(item, embee.EmbeeOption_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(embee.EmbeeOption_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return Embee(
+            suffix=suffix,
+            options=options,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Ngroup(BlockOption_, keyword='ngroup'):
     Represents INP ngroup elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        value: Number of energy groups.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Ngroup(BlockOption_, keyword='ngroup'):
         )
 
         self.value: typing.Final[types.IntegerOrJump] = value
+
+
+@dataclasses.dataclass
+class NgroupBuilder:
+    """
+    Builds ``Ngroup``.
+
+    Attributes:
+        value: Number of energy groups.
+    """
+
+    value: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``NgroupBuilder`` into ``Ngroup``.
+
+        Returns:
+            ``Ngroup`` for ``NgroupBuilder``.
+        """
+
+        if isinstance(self.value, types.Integer):
+            value = self.value
+        elif isinstance(self.value, int):
+            value = types.IntegerOrJump(self.value)
+        elif isinstance(self.value, str):
+            value = types.IntegerOrJump.from_mcnp(self.value)
+
+        return Ngroup(
+            value=value,
+        )

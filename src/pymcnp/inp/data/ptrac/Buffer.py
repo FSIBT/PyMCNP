@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import PtracOption_
@@ -12,7 +13,7 @@ class Buffer(PtracOption_, keyword='buffer'):
     Represents INP buffer elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        storage: Amount of storage available for filtered events.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Buffer(PtracOption_, keyword='buffer'):
         )
 
         self.storage: typing.Final[types.IntegerOrJump] = storage
+
+
+@dataclasses.dataclass
+class BufferBuilder:
+    """
+    Builds ``Buffer``.
+
+    Attributes:
+        storage: Amount of storage available for filtered events.
+    """
+
+    storage: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``BufferBuilder`` into ``Buffer``.
+
+        Returns:
+            ``Buffer`` for ``BufferBuilder``.
+        """
+
+        if isinstance(self.storage, types.Integer):
+            storage = self.storage
+        elif isinstance(self.storage, int):
+            storage = types.IntegerOrJump(self.storage)
+        elif isinstance(self.storage, str):
+            storage = types.IntegerOrJump.from_mcnp(self.storage)
+
+        return Buffer(
+            storage=storage,
+        )

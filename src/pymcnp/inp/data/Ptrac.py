@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from . import ptrac
@@ -12,7 +13,7 @@ class Ptrac(DataOption_, keyword='ptrac'):
     Represents INP ptrac elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
@@ -39,3 +40,37 @@ class Ptrac(DataOption_, keyword='ptrac'):
         )
 
         self.options: typing.Final[types.Tuple[ptrac.PtracOption_]] = options
+
+
+@dataclasses.dataclass
+class PtracBuilder:
+    """
+    Builds ``Ptrac``.
+
+    Attributes:
+        options: Dictionary of options.
+    """
+
+    options: list[str] | list[ptrac.PtracOption_] = None
+
+    def build(self):
+        """
+        Builds ``PtracBuilder`` into ``Ptrac``.
+
+        Returns:
+            ``Ptrac`` for ``PtracBuilder``.
+        """
+
+        options = []
+        for item in self.options:
+            if isinstance(item, ptrac.PtracOption_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(ptrac.PtracOption_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return Ptrac(
+            options=options,
+        )

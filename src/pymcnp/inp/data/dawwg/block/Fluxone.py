@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Fluxone(BlockOption_, keyword='fluxone'):
     Represents INP fluxone elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Flux override on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Fluxone(BlockOption_, keyword='fluxone'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class FluxoneBuilder:
+    """
+    Builds ``Fluxone``.
+
+    Attributes:
+        setting: Flux override on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``FluxoneBuilder`` into ``Fluxone``.
+
+        Returns:
+            ``Fluxone`` for ``FluxoneBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Fluxone(
+            setting=setting,
+        )

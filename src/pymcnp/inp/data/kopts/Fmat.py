@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KoptsOption_
@@ -12,7 +13,7 @@ class Fmat(KoptsOption_, keyword='fmat'):
     Represents INP fmat elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Yes/No FMAT.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Fmat(KoptsOption_, keyword='fmat'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class FmatBuilder:
+    """
+    Builds ``Fmat``.
+
+    Attributes:
+        setting: Yes/No FMAT.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``FmatBuilder`` into ``Fmat``.
+
+        Returns:
+            ``Fmat`` for ``FmatBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Fmat(
+            setting=setting,
+        )

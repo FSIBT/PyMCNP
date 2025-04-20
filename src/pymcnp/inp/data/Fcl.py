@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,8 @@ class Fcl(DataOption_, keyword='fcl'):
     Represents INP fcl elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        designator: Data card particle designator.
+        control: Forced-collision control for cell.
     """
 
     _ATTRS = {
@@ -47,3 +49,45 @@ class Fcl(DataOption_, keyword='fcl'):
 
         self.designator: typing.Final[types.Designator] = designator
         self.control: typing.Final[types.Tuple[types.RealOrJump]] = control
+
+
+@dataclasses.dataclass
+class FclBuilder:
+    """
+    Builds ``Fcl``.
+
+    Attributes:
+        designator: Data card particle designator.
+        control: Forced-collision control for cell.
+    """
+
+    designator: str | types.Designator
+    control: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``FclBuilder`` into ``Fcl``.
+
+        Returns:
+            ``Fcl`` for ``FclBuilder``.
+        """
+
+        if isinstance(self.designator, types.Designator):
+            designator = self.designator
+        elif isinstance(self.designator, str):
+            designator = types.Designator.from_mcnp(self.designator)
+
+        control = []
+        for item in self.control:
+            if isinstance(item, types.RealOrJump):
+                control.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                control.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                control.append(types.RealOrJump.from_mcnp(item))
+        control = types.Tuple(control)
+
+        return Fcl(
+            designator=designator,
+            control=control,
+        )

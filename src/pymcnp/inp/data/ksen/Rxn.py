@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KsenOption_
@@ -12,7 +13,7 @@ class Rxn(KsenOption_, keyword='rxn'):
     Represents INP rxn elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        numbers: List of reaction numbers for pertubation.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Rxn(KsenOption_, keyword='rxn'):
         )
 
         self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers
+
+
+@dataclasses.dataclass
+class RxnBuilder:
+    """
+    Builds ``Rxn``.
+
+    Attributes:
+        numbers: List of reaction numbers for pertubation.
+    """
+
+    numbers: list[str] | list[int] | list[types.IntegerOrJump]
+
+    def build(self):
+        """
+        Builds ``RxnBuilder`` into ``Rxn``.
+
+        Returns:
+            ``Rxn`` for ``RxnBuilder``.
+        """
+
+        numbers = []
+        for item in self.numbers:
+            if isinstance(item, types.IntegerOrJump):
+                numbers.append(item)
+            elif isinstance(item, int):
+                numbers.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                numbers.append(types.IntegerOrJump.from_mcnp(item))
+        numbers = types.Tuple(numbers)
+
+        return Rxn(
+            numbers=numbers,
+        )

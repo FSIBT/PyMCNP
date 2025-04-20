@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from . import df_1
@@ -10,10 +11,11 @@ from ...utils import errors
 
 class Df_1(DataOption_, keyword='df'):
     """
-    Represents INP df_1 elements.
+    Represents INP df variation #1 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
@@ -48,3 +50,47 @@ class Df_1(DataOption_, keyword='df'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.options: typing.Final[types.Tuple[df_1.Df_1Option_]] = options
+
+
+@dataclasses.dataclass
+class DfBuilder_1:
+    """
+    Builds ``Df_1``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        options: Dictionary of options.
+    """
+
+    suffix: str | int | types.Integer
+    options: list[str] | list[df_1.Df_1Option_]
+
+    def build(self):
+        """
+        Builds ``DfBuilder_1`` into ``Df_1``.
+
+        Returns:
+            ``Df_1`` for ``DfBuilder_1``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        options = []
+        for item in self.options:
+            if isinstance(item, df_1.Df_1Option_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(df_1.Df_1Option_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return Df_1(
+            suffix=suffix,
+            options=options,
+        )

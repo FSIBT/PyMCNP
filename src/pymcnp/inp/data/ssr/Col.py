@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SsrOption_
@@ -12,7 +13,7 @@ class Col(SsrOption_, keyword='col'):
     Represents INP col elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Collision option setting.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Col(SsrOption_, keyword='col'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class ColBuilder:
+    """
+    Builds ``Col``.
+
+    Attributes:
+        setting: Collision option setting.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``ColBuilder`` into ``Col``.
+
+        Returns:
+            ``Col`` for ``ColBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Col(
+            setting=setting,
+        )

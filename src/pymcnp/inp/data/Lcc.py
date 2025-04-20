@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,14 @@ class Lcc(DataOption_, keyword='lcc'):
     Represents INP lcc elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        stincl: Rescaling factor of the cascade duration.
+        v0incl: Potential depth.
+        xfoisaincl: Maximum impact parameter for Pauli blocking.
+        npaulincl: Pauli blocking parameter setting.
+        nosurfincl: Difuse nuclear surface based on Wood-Saxon density setting.
+        ecutincl: Bertini model energy below this energy.
+        ebankincl: INCL bank particles below this energy.
+        ebankabia: ABLA bank particles below this energy.
     """
 
     _ATTRS = {
@@ -98,3 +106,104 @@ class Lcc(DataOption_, keyword='lcc'):
         self.ecutincl: typing.Final[types.RealOrJump] = ecutincl
         self.ebankincl: typing.Final[types.RealOrJump] = ebankincl
         self.ebankabia: typing.Final[types.RealOrJump] = ebankabia
+
+
+@dataclasses.dataclass
+class LccBuilder:
+    """
+    Builds ``Lcc``.
+
+    Attributes:
+        stincl: Rescaling factor of the cascade duration.
+        v0incl: Potential depth.
+        xfoisaincl: Maximum impact parameter for Pauli blocking.
+        npaulincl: Pauli blocking parameter setting.
+        nosurfincl: Difuse nuclear surface based on Wood-Saxon density setting.
+        ecutincl: Bertini model energy below this energy.
+        ebankincl: INCL bank particles below this energy.
+        ebankabia: ABLA bank particles below this energy.
+    """
+
+    stincl: str | float | types.RealOrJump
+    v0incl: str | float | types.RealOrJump
+    xfoisaincl: str | float | types.RealOrJump
+    npaulincl: str | int | types.IntegerOrJump
+    nosurfincl: str | int | types.IntegerOrJump
+    ecutincl: str | float | types.RealOrJump
+    ebankincl: str | float | types.RealOrJump
+    ebankabia: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``LccBuilder`` into ``Lcc``.
+
+        Returns:
+            ``Lcc`` for ``LccBuilder``.
+        """
+
+        if isinstance(self.stincl, types.Real):
+            stincl = self.stincl
+        elif isinstance(self.stincl, float) or isinstance(self.stincl, int):
+            stincl = types.RealOrJump(self.stincl)
+        elif isinstance(self.stincl, str):
+            stincl = types.RealOrJump.from_mcnp(self.stincl)
+
+        if isinstance(self.v0incl, types.Real):
+            v0incl = self.v0incl
+        elif isinstance(self.v0incl, float) or isinstance(self.v0incl, int):
+            v0incl = types.RealOrJump(self.v0incl)
+        elif isinstance(self.v0incl, str):
+            v0incl = types.RealOrJump.from_mcnp(self.v0incl)
+
+        if isinstance(self.xfoisaincl, types.Real):
+            xfoisaincl = self.xfoisaincl
+        elif isinstance(self.xfoisaincl, float) or isinstance(self.xfoisaincl, int):
+            xfoisaincl = types.RealOrJump(self.xfoisaincl)
+        elif isinstance(self.xfoisaincl, str):
+            xfoisaincl = types.RealOrJump.from_mcnp(self.xfoisaincl)
+
+        if isinstance(self.npaulincl, types.Integer):
+            npaulincl = self.npaulincl
+        elif isinstance(self.npaulincl, int):
+            npaulincl = types.IntegerOrJump(self.npaulincl)
+        elif isinstance(self.npaulincl, str):
+            npaulincl = types.IntegerOrJump.from_mcnp(self.npaulincl)
+
+        if isinstance(self.nosurfincl, types.Integer):
+            nosurfincl = self.nosurfincl
+        elif isinstance(self.nosurfincl, int):
+            nosurfincl = types.IntegerOrJump(self.nosurfincl)
+        elif isinstance(self.nosurfincl, str):
+            nosurfincl = types.IntegerOrJump.from_mcnp(self.nosurfincl)
+
+        if isinstance(self.ecutincl, types.Real):
+            ecutincl = self.ecutincl
+        elif isinstance(self.ecutincl, float) or isinstance(self.ecutincl, int):
+            ecutincl = types.RealOrJump(self.ecutincl)
+        elif isinstance(self.ecutincl, str):
+            ecutincl = types.RealOrJump.from_mcnp(self.ecutincl)
+
+        if isinstance(self.ebankincl, types.Real):
+            ebankincl = self.ebankincl
+        elif isinstance(self.ebankincl, float) or isinstance(self.ebankincl, int):
+            ebankincl = types.RealOrJump(self.ebankincl)
+        elif isinstance(self.ebankincl, str):
+            ebankincl = types.RealOrJump.from_mcnp(self.ebankincl)
+
+        if isinstance(self.ebankabia, types.Real):
+            ebankabia = self.ebankabia
+        elif isinstance(self.ebankabia, float) or isinstance(self.ebankabia, int):
+            ebankabia = types.RealOrJump(self.ebankabia)
+        elif isinstance(self.ebankabia, str):
+            ebankabia = types.RealOrJump.from_mcnp(self.ebankabia)
+
+        return Lcc(
+            stincl=stincl,
+            v0incl=v0incl,
+            xfoisaincl=xfoisaincl,
+            npaulincl=npaulincl,
+            nosurfincl=nosurfincl,
+            ecutincl=ecutincl,
+            ebankincl=ebankincl,
+            ebankabia=ebankabia,
+        )

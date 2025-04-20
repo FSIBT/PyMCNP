@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import PertOption_
@@ -12,7 +13,7 @@ class Mat(PertOption_, keyword='mat'):
     Represents INP mat elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        material: Material number to fill cells.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Mat(PertOption_, keyword='mat'):
         )
 
         self.material: typing.Final[types.IntegerOrJump] = material
+
+
+@dataclasses.dataclass
+class MatBuilder:
+    """
+    Builds ``Mat``.
+
+    Attributes:
+        material: Material number to fill cells.
+    """
+
+    material: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``MatBuilder`` into ``Mat``.
+
+        Returns:
+            ``Mat`` for ``MatBuilder``.
+        """
+
+        if isinstance(self.material, types.Integer):
+            material = self.material
+        elif isinstance(self.material, int):
+            material = types.IntegerOrJump(self.material)
+        elif isinstance(self.material, str):
+            material = types.IntegerOrJump.from_mcnp(self.material)
+
+        return Mat(
+            material=material,
+        )

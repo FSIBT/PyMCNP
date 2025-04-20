@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KsenOption_
@@ -12,7 +13,7 @@ class Legendre(KsenOption_, keyword='legendre'):
     Represents INP legendre elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Order of Legendre moments to calculate sensitivities.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Legendre(KsenOption_, keyword='legendre'):
         )
 
         self.number: typing.Final[types.IntegerOrJump] = number
+
+
+@dataclasses.dataclass
+class LegendreBuilder:
+    """
+    Builds ``Legendre``.
+
+    Attributes:
+        number: Order of Legendre moments to calculate sensitivities.
+    """
+
+    number: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``LegendreBuilder`` into ``Legendre``.
+
+        Returns:
+            ``Legendre`` for ``LegendreBuilder``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.IntegerOrJump(self.number)
+        elif isinstance(self.number, str):
+            number = types.IntegerOrJump.from_mcnp(self.number)
+
+        return Legendre(
+            number=number,
+        )

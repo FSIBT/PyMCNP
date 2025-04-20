@@ -1,7 +1,9 @@
 import re
+import dataclasses
 
 
 from . import cell
+from . import data
 from .card_ import Card_
 from ..utils import types
 from ..utils import errors
@@ -97,3 +99,94 @@ class Cell(Card_):
             assert False, "I'm working on it!"
 
         return eval(temp)
+
+
+@dataclasses.dataclass
+class CellBuilder:
+    """
+    Builds ``Cell``.
+
+    Attributes:
+        number: cell number.
+        material: cell material.
+        density: cell density.
+        geometry: cell geometry.
+        options: cell options.
+        atoms_or_grams: density sign.
+    """
+
+    number: str | int | types.Integer
+    material: str | int | types.Integer | data.MBuilder
+    geometry: str | types.Geometry | types.GeometryBuilder
+    options: list[str] | list[cell.CellOption_] = dataclasses.field(default_factory=lambda: ({}))
+    density: str | float | types.Real = None
+    atoms_or_grams: bool = True
+
+    def append(self, option: str | cell.CellOption_):
+        """
+        Stores ``Option_`` in ``CellBuilder``,
+
+        Parameters:
+            option: ``Option_`` to add.
+        """
+
+        self.options.append(option)
+
+    def build(self):
+        """
+        Builds ``CellBuilder`` into ``Cell``.
+
+        Returns:
+            ``Cell`` for ``CellBuilder``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.Integer(self.number)
+        elif isinstance(self.number, str):
+            number = types.Integer.from_mcnp(self.number)
+
+        if isinstance(self.material, types.Integer):
+            material = self.material
+        elif isinstance(self.material, int):
+            material = types.Integer(self.material)
+        elif isinstance(self.material, str):
+            material = types.Integer.from_mcnp(self.material)
+        elif isinstance(self.material, data.MBuilder):
+            material = self.material.build().suffix
+
+        density = None
+        if isinstance(self.density, types.Real):
+            density = self.density
+        elif isinstance(self.density, int) or isinstance(self.density, float):
+            density = types.Real(self.density)
+        elif isinstance(self.density, str):
+            density = types.Real.from_mcnp(self.density)
+        if density and not self.atoms_or_grams:
+            density *= -1
+
+        if isinstance(self.geometry, types.Geometry):
+            geometry = self.geometry
+        elif isinstance(self.geometry, str):
+            geometry = types.Geometry.from_mcnp(self.geometry)
+        elif isinstance(self.geometry, types.GeometryBuilder):
+            geometry = self.geometry.build()
+
+        options = []
+        for item in self.options:
+            if isinstance(item, cell.CellOption_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(cell.CellOption_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return Cell(
+            number=number,
+            material=material,
+            density=density,
+            geometry=geometry,
+            options=options,
+        )

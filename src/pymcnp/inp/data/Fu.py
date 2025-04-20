@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,10 @@ class Fu(DataOption_, keyword='fu'):
     Represents INP fu elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        bounds: Input parameters for user bins.
+        nt: Notation to inhibit automatic totaling.
+        c: Notation to make bin values cumulative.
     """
 
     _ATTRS = {
@@ -67,3 +71,65 @@ class Fu(DataOption_, keyword='fu'):
         self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds
         self.nt: typing.Final[types.String] = nt
         self.c: typing.Final[types.String] = c
+
+
+@dataclasses.dataclass
+class FuBuilder:
+    """
+    Builds ``Fu``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        bounds: Input parameters for user bins.
+        nt: Notation to inhibit automatic totaling.
+        c: Notation to make bin values cumulative.
+    """
+
+    suffix: str | int | types.Integer
+    bounds: list[str] | list[float] | list[types.RealOrJump]
+    nt: str | types.String = None
+    c: str | types.String = None
+
+    def build(self):
+        """
+        Builds ``FuBuilder`` into ``Fu``.
+
+        Returns:
+            ``Fu`` for ``FuBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        bounds = []
+        for item in self.bounds:
+            if isinstance(item, types.RealOrJump):
+                bounds.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                bounds.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                bounds.append(types.RealOrJump.from_mcnp(item))
+        bounds = types.Tuple(bounds)
+
+        nt = None
+        if isinstance(self.nt, types.String):
+            nt = self.nt
+        elif isinstance(self.nt, str):
+            nt = types.String.from_mcnp(self.nt)
+
+        c = None
+        if isinstance(self.c, types.String):
+            c = self.c
+        elif isinstance(self.c, str):
+            c = types.String.from_mcnp(self.c)
+
+        return Fu(
+            suffix=suffix,
+            bounds=bounds,
+            nt=nt,
+            c=c,
+        )

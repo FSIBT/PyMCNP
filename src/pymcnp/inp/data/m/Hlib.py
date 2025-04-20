@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MOption_
@@ -12,7 +13,7 @@ class Hlib(MOption_, keyword='hlib'):
     Represents INP hlib elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        abx: Default proton table identifier.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Hlib(MOption_, keyword='hlib'):
         )
 
         self.abx: typing.Final[types.String] = abx
+
+
+@dataclasses.dataclass
+class HlibBuilder:
+    """
+    Builds ``Hlib``.
+
+    Attributes:
+        abx: Default proton table identifier.
+    """
+
+    abx: str | types.String
+
+    def build(self):
+        """
+        Builds ``HlibBuilder`` into ``Hlib``.
+
+        Returns:
+            ``Hlib`` for ``HlibBuilder``.
+        """
+
+        if isinstance(self.abx, types.String):
+            abx = self.abx
+        elif isinstance(self.abx, str):
+            abx = types.String.from_mcnp(self.abx)
+
+        return Hlib(
+            abx=abx,
+        )

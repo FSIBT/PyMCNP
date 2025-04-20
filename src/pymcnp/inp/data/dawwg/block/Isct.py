@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Isct(BlockOption_, keyword='isct'):
     Represents INP isct elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Legendre order.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Isct(BlockOption_, keyword='isct'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class IsctBuilder:
+    """
+    Builds ``Isct``.
+
+    Attributes:
+        setting: Legendre order.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``IsctBuilder`` into ``Isct``.
+
+        Returns:
+            ``Isct`` for ``IsctBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Isct(
+            setting=setting,
+        )

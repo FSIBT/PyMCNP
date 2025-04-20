@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbedOption_
@@ -12,7 +13,7 @@ class Debug(EmbedOption_, keyword='debug'):
     Represents INP debug elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        parameter: Debug parameter.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Debug(EmbedOption_, keyword='debug'):
         )
 
         self.parameter: typing.Final[types.String] = parameter
+
+
+@dataclasses.dataclass
+class DebugBuilder:
+    """
+    Builds ``Debug``.
+
+    Attributes:
+        parameter: Debug parameter.
+    """
+
+    parameter: str | types.String
+
+    def build(self):
+        """
+        Builds ``DebugBuilder`` into ``Debug``.
+
+        Returns:
+            ``Debug`` for ``DebugBuilder``.
+        """
+
+        if isinstance(self.parameter, types.String):
+            parameter = self.parameter
+        elif isinstance(self.parameter, str):
+            parameter = types.String.from_mcnp(self.parameter)
+
+        return Debug(
+            parameter=parameter,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import CellOption_
@@ -12,7 +13,7 @@ class Cosy(CellOption_, keyword='cosy'):
     Represents INP cosy elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Cell cosy map number.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Cosy(CellOption_, keyword='cosy'):
         )
 
         self.number: typing.Final[types.Integer] = number
+
+
+@dataclasses.dataclass
+class CosyBuilder:
+    """
+    Builds ``Cosy``.
+
+    Attributes:
+        number: Cell cosy map number.
+    """
+
+    number: str | int | types.Integer
+
+    def build(self):
+        """
+        Builds ``CosyBuilder`` into ``Cosy``.
+
+        Returns:
+            ``Cosy`` for ``CosyBuilder``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.Integer(self.number)
+        elif isinstance(self.number, str):
+            number = types.Integer.from_mcnp(self.number)
+
+        return Cosy(
+            number=number,
+        )

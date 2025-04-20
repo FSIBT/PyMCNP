@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Mode(DataOption_, keyword='mode'):
     Represents INP mode elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        particles: Tuple of particle designators.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Mode(DataOption_, keyword='mode'):
         )
 
         self.particles: typing.Final[types.Tuple[types.Designator]] = particles
+
+
+@dataclasses.dataclass
+class ModeBuilder:
+    """
+    Builds ``Mode``.
+
+    Attributes:
+        particles: Tuple of particle designators.
+    """
+
+    particles: list[str] | list[types.Designator]
+
+    def build(self):
+        """
+        Builds ``ModeBuilder`` into ``Mode``.
+
+        Returns:
+            ``Mode`` for ``ModeBuilder``.
+        """
+
+        particles = []
+        for item in self.particles:
+            if isinstance(item, types.Designator):
+                particles.append(item)
+            elif isinstance(item, str):
+                particles.append(types.Designator.from_mcnp(item))
+            else:
+                particles.append(item.build())
+        particles = types.Tuple(particles)
+
+        return Mode(
+            particles=particles,
+        )

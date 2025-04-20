@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KpertOption_
@@ -12,7 +13,7 @@ class Linear(KpertOption_, keyword='linear'):
     Represents INP linear elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Pertubated fission source on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Linear(KpertOption_, keyword='linear'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class LinearBuilder:
+    """
+    Builds ``Linear``.
+
+    Attributes:
+        setting: Pertubated fission source on/off.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``LinearBuilder`` into ``Linear``.
+
+        Returns:
+            ``Linear`` for ``LinearBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Linear(
+            setting=setting,
+        )

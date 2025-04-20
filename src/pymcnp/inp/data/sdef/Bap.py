@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -12,7 +13,9 @@ class Bap(SdefOption_, keyword='bap'):
     Represents INP bap elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        ba1: Beam aperture half-width in the x transverse direction.
+        ba2: Beam aperture half-width in the y transverse direction.
+        u: Unused, arrbirary value.
     """
 
     _ATTRS = {
@@ -56,3 +59,54 @@ class Bap(SdefOption_, keyword='bap'):
         self.ba1: typing.Final[types.RealOrJump] = ba1
         self.ba2: typing.Final[types.RealOrJump] = ba2
         self.u: typing.Final[types.RealOrJump] = u
+
+
+@dataclasses.dataclass
+class BapBuilder:
+    """
+    Builds ``Bap``.
+
+    Attributes:
+        ba1: Beam aperture half-width in the x transverse direction.
+        ba2: Beam aperture half-width in the y transverse direction.
+        u: Unused, arrbirary value.
+    """
+
+    ba1: str | float | types.RealOrJump
+    ba2: str | float | types.RealOrJump
+    u: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``BapBuilder`` into ``Bap``.
+
+        Returns:
+            ``Bap`` for ``BapBuilder``.
+        """
+
+        if isinstance(self.ba1, types.Real):
+            ba1 = self.ba1
+        elif isinstance(self.ba1, float) or isinstance(self.ba1, int):
+            ba1 = types.RealOrJump(self.ba1)
+        elif isinstance(self.ba1, str):
+            ba1 = types.RealOrJump.from_mcnp(self.ba1)
+
+        if isinstance(self.ba2, types.Real):
+            ba2 = self.ba2
+        elif isinstance(self.ba2, float) or isinstance(self.ba2, int):
+            ba2 = types.RealOrJump(self.ba2)
+        elif isinstance(self.ba2, str):
+            ba2 = types.RealOrJump.from_mcnp(self.ba2)
+
+        if isinstance(self.u, types.Real):
+            u = self.u
+        elif isinstance(self.u, float) or isinstance(self.u, int):
+            u = types.RealOrJump(self.u)
+        elif isinstance(self.u, str):
+            u = types.RealOrJump.from_mcnp(self.u)
+
+        return Bap(
+            ba1=ba1,
+            ba2=ba2,
+            u=u,
+        )

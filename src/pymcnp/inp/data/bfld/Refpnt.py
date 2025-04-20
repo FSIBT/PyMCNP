@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BfldOption_
@@ -12,7 +13,7 @@ class Refpnt(BfldOption_, keyword='refpnt'):
     Represents INP refpnt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        point: Point anywhere on the quadrapole beam.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Refpnt(BfldOption_, keyword='refpnt'):
         )
 
         self.point: typing.Final[types.Tuple[types.RealOrJump]] = point
+
+
+@dataclasses.dataclass
+class RefpntBuilder:
+    """
+    Builds ``Refpnt``.
+
+    Attributes:
+        point: Point anywhere on the quadrapole beam.
+    """
+
+    point: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``RefpntBuilder`` into ``Refpnt``.
+
+        Returns:
+            ``Refpnt`` for ``RefpntBuilder``.
+        """
+
+        point = []
+        for item in self.point:
+            if isinstance(item, types.RealOrJump):
+                point.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                point.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                point.append(types.RealOrJump.from_mcnp(item))
+        point = types.Tuple(point)
+
+        return Refpnt(
+            point=point,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Rdum(DataOption_, keyword='rdum'):
     Represents INP rdum elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        floats: Floating point array.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Rdum(DataOption_, keyword='rdum'):
         )
 
         self.floats: typing.Final[types.Tuple[types.RealOrJump]] = floats
+
+
+@dataclasses.dataclass
+class RdumBuilder:
+    """
+    Builds ``Rdum``.
+
+    Attributes:
+        floats: Floating point array.
+    """
+
+    floats: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``RdumBuilder`` into ``Rdum``.
+
+        Returns:
+            ``Rdum`` for ``RdumBuilder``.
+        """
+
+        floats = []
+        for item in self.floats:
+            if isinstance(item, types.RealOrJump):
+                floats.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                floats.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                floats.append(types.RealOrJump.from_mcnp(item))
+        floats = types.Tuple(floats)
+
+        return Rdum(
+            floats=floats,
+        )

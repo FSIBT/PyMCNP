@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BfldOption_
@@ -12,7 +13,7 @@ class Maxstep(BfldOption_, keyword='maxstep'):
     Represents INP maxstep elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        size: Maximum step size.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Maxstep(BfldOption_, keyword='maxstep'):
         )
 
         self.size: typing.Final[types.RealOrJump] = size
+
+
+@dataclasses.dataclass
+class MaxstepBuilder:
+    """
+    Builds ``Maxstep``.
+
+    Attributes:
+        size: Maximum step size.
+    """
+
+    size: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``MaxstepBuilder`` into ``Maxstep``.
+
+        Returns:
+            ``Maxstep`` for ``MaxstepBuilder``.
+        """
+
+        if isinstance(self.size, types.Real):
+            size = self.size
+        elif isinstance(self.size, float) or isinstance(self.size, int):
+            size = types.RealOrJump(self.size)
+        elif isinstance(self.size, str):
+            size = types.RealOrJump.from_mcnp(self.size)
+
+        return Maxstep(
+            size=size,
+        )

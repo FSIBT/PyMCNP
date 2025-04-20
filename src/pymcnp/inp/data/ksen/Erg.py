@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KsenOption_
@@ -12,7 +13,7 @@ class Erg(KsenOption_, keyword='erg'):
     Represents INP erg elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        energies: List of energies.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Erg(KsenOption_, keyword='erg'):
         )
 
         self.energies: typing.Final[types.Tuple[types.RealOrJump]] = energies
+
+
+@dataclasses.dataclass
+class ErgBuilder:
+    """
+    Builds ``Erg``.
+
+    Attributes:
+        energies: List of energies.
+    """
+
+    energies: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``ErgBuilder`` into ``Erg``.
+
+        Returns:
+            ``Erg`` for ``ErgBuilder``.
+        """
+
+        energies = []
+        for item in self.energies:
+            if isinstance(item, types.RealOrJump):
+                energies.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                energies.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                energies.append(types.RealOrJump.from_mcnp(item))
+        energies = types.Tuple(energies)
+
+        return Erg(
+            energies=energies,
+        )

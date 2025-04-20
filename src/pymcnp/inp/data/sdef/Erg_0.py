@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -9,10 +10,10 @@ from ....utils import errors
 
 class Erg_0(SdefOption_, keyword='erg'):
     """
-    Represents INP erg elements.
+    Represents INP erg variation #0 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        energy: Kinetic energy.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Erg_0(SdefOption_, keyword='erg'):
         )
 
         self.energy: typing.Final[types.RealOrJump] = energy
+
+
+@dataclasses.dataclass
+class ErgBuilder_0:
+    """
+    Builds ``Erg_0``.
+
+    Attributes:
+        energy: Kinetic energy.
+    """
+
+    energy: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``ErgBuilder_0`` into ``Erg_0``.
+
+        Returns:
+            ``Erg_0`` for ``ErgBuilder_0``.
+        """
+
+        if isinstance(self.energy, types.Real):
+            energy = self.energy
+        elif isinstance(self.energy, float) or isinstance(self.energy, int):
+            energy = types.RealOrJump(self.energy)
+        elif isinstance(self.energy, str):
+            energy = types.RealOrJump.from_mcnp(self.energy)
+
+        return Erg_0(
+            energy=energy,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KsenOption_
@@ -12,7 +13,7 @@ class Constrain(KsenOption_, keyword='constrain'):
     Represents INP constrain elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Renormalize sensitivity distribution on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Constrain(KsenOption_, keyword='constrain'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class ConstrainBuilder:
+    """
+    Builds ``Constrain``.
+
+    Attributes:
+        setting: Renormalize sensitivity distribution on/off.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``ConstrainBuilder`` into ``Constrain``.
+
+        Returns:
+            ``Constrain`` for ``ConstrainBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Constrain(
+            setting=setting,
+        )

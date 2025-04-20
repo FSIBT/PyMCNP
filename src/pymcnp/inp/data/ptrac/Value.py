@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import PtracOption_
@@ -12,7 +13,7 @@ class Value(PtracOption_, keyword='value'):
     Represents INP value elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        cutoff: Specifies tally cutoff above which history events will be written..
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Value(PtracOption_, keyword='value'):
         )
 
         self.cutoff: typing.Final[types.RealOrJump] = cutoff
+
+
+@dataclasses.dataclass
+class ValueBuilder:
+    """
+    Builds ``Value``.
+
+    Attributes:
+        cutoff: Specifies tally cutoff above which history events will be written..
+    """
+
+    cutoff: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``ValueBuilder`` into ``Value``.
+
+        Returns:
+            ``Value`` for ``ValueBuilder``.
+        """
+
+        if isinstance(self.cutoff, types.Real):
+            cutoff = self.cutoff
+        elif isinstance(self.cutoff, float) or isinstance(self.cutoff, int):
+            cutoff = types.RealOrJump(self.cutoff)
+        elif isinstance(self.cutoff, str):
+            cutoff = types.RealOrJump.from_mcnp(self.cutoff)
+
+        return Value(
+            cutoff=cutoff,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import PertOption_
@@ -12,7 +13,7 @@ class Rho(PertOption_, keyword='rho'):
     Represents INP rho elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        density: Perturbed density.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Rho(PertOption_, keyword='rho'):
         )
 
         self.density: typing.Final[types.RealOrJump] = density
+
+
+@dataclasses.dataclass
+class RhoBuilder:
+    """
+    Builds ``Rho``.
+
+    Attributes:
+        density: Perturbed density.
+    """
+
+    density: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``RhoBuilder`` into ``Rho``.
+
+        Returns:
+            ``Rho`` for ``RhoBuilder``.
+        """
+
+        if isinstance(self.density, types.Real):
+            density = self.density
+        elif isinstance(self.density, float) or isinstance(self.density, int):
+            density = types.RealOrJump(self.density)
+        elif isinstance(self.density, str):
+            density = types.RealOrJump.from_mcnp(self.density)
+
+        return Rho(
+            density=density,
+        )

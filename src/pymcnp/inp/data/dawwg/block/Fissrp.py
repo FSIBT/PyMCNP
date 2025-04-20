@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Fissrp(BlockOption_, keyword='fissrp'):
     Represents INP fissrp elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Print fission source rate on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Fissrp(BlockOption_, keyword='fissrp'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class FissrpBuilder:
+    """
+    Builds ``Fissrp``.
+
+    Attributes:
+        setting: Print fission source rate on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``FissrpBuilder`` into ``Fissrp``.
+
+        Returns:
+            ``Fissrp`` for ``FissrpBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Fissrp(
+            setting=setting,
+        )

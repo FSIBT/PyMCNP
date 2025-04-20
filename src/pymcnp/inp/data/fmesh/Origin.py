@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,9 @@ class Origin(FmeshOption_, keyword='origin'):
     Represents INP origin elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        x: Origin x coordinate.
+        y: Origin y coordinate.
+        z: Origin z coordinate.
     """
 
     _ATTRS = {
@@ -56,3 +59,54 @@ class Origin(FmeshOption_, keyword='origin'):
         self.x: typing.Final[types.RealOrJump] = x
         self.y: typing.Final[types.RealOrJump] = y
         self.z: typing.Final[types.RealOrJump] = z
+
+
+@dataclasses.dataclass
+class OriginBuilder:
+    """
+    Builds ``Origin``.
+
+    Attributes:
+        x: Origin x coordinate.
+        y: Origin y coordinate.
+        z: Origin z coordinate.
+    """
+
+    x: str | float | types.RealOrJump
+    y: str | float | types.RealOrJump
+    z: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``OriginBuilder`` into ``Origin``.
+
+        Returns:
+            ``Origin`` for ``OriginBuilder``.
+        """
+
+        if isinstance(self.x, types.Real):
+            x = self.x
+        elif isinstance(self.x, float) or isinstance(self.x, int):
+            x = types.RealOrJump(self.x)
+        elif isinstance(self.x, str):
+            x = types.RealOrJump.from_mcnp(self.x)
+
+        if isinstance(self.y, types.Real):
+            y = self.y
+        elif isinstance(self.y, float) or isinstance(self.y, int):
+            y = types.RealOrJump(self.y)
+        elif isinstance(self.y, str):
+            y = types.RealOrJump.from_mcnp(self.y)
+
+        if isinstance(self.z, types.Real):
+            z = self.z
+        elif isinstance(self.z, float) or isinstance(self.z, int):
+            z = types.RealOrJump(self.z)
+        elif isinstance(self.z, str):
+            z = types.RealOrJump.from_mcnp(self.z)
+
+        return Origin(
+            x=x,
+            y=y,
+            z=z,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmultOption_
@@ -12,7 +13,7 @@ class Sfnu(FmultOption_, keyword='sfnu'):
     Represents INP sfnu elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        distribution: V bar for or of cumulative distribution the sampling spontaneous fission.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Sfnu(FmultOption_, keyword='sfnu'):
         )
 
         self.distribution: typing.Final[types.Tuple[types.RealOrJump]] = distribution
+
+
+@dataclasses.dataclass
+class SfnuBuilder:
+    """
+    Builds ``Sfnu``.
+
+    Attributes:
+        distribution: V bar for or of cumulative distribution the sampling spontaneous fission.
+    """
+
+    distribution: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``SfnuBuilder`` into ``Sfnu``.
+
+        Returns:
+            ``Sfnu`` for ``SfnuBuilder``.
+        """
+
+        distribution = []
+        for item in self.distribution:
+            if isinstance(item, types.RealOrJump):
+                distribution.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                distribution.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                distribution.append(types.RealOrJump.from_mcnp(item))
+        distribution = types.Tuple(distribution)
+
+        return Sfnu(
+            distribution=distribution,
+        )

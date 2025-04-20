@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,7 @@ class So(SurfaceOption_, keyword='so'):
     Represents INP so elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        r: Origin-centered sphere radius.
     """
 
     _ATTRS = {
@@ -55,3 +56,34 @@ class So(SurfaceOption_, keyword='so'):
         vis = _visualization.Visualization.get_sphere(self.r.value)
 
         return vis
+
+
+@dataclasses.dataclass
+class SoBuilder:
+    """
+    Builds ``So``.
+
+    Attributes:
+        r: Origin-centered sphere radius.
+    """
+
+    r: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``SoBuilder`` into ``So``.
+
+        Returns:
+            ``So`` for ``SoBuilder``.
+        """
+
+        if isinstance(self.r, types.Real):
+            r = self.r
+        elif isinstance(self.r, float) or isinstance(self.r, int):
+            r = types.Real(self.r)
+        elif isinstance(self.r, str):
+            r = types.Real.from_mcnp(self.r)
+
+        return So(
+            r=r,
+        )

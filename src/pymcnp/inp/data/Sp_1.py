@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -9,10 +10,12 @@ from ...utils import errors
 
 class Sp_1(DataOption_, keyword='sp'):
     """
-    Represents INP sp_1 elements.
+    Represents INP sp variation #1 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        function: Built-in function designator.
+        a: Built-in function parameter #1.
+        b: Built-in function parameter #2.
     """
 
     _ATTRS = {
@@ -56,3 +59,55 @@ class Sp_1(DataOption_, keyword='sp'):
         self.function: typing.Final[types.IntegerOrJump] = function
         self.a: typing.Final[types.RealOrJump] = a
         self.b: typing.Final[types.RealOrJump] = b
+
+
+@dataclasses.dataclass
+class SpBuilder_1:
+    """
+    Builds ``Sp_1``.
+
+    Attributes:
+        function: Built-in function designator.
+        a: Built-in function parameter #1.
+        b: Built-in function parameter #2.
+    """
+
+    function: str | int | types.IntegerOrJump
+    a: str | float | types.RealOrJump
+    b: str | float | types.RealOrJump = None
+
+    def build(self):
+        """
+        Builds ``SpBuilder_1`` into ``Sp_1``.
+
+        Returns:
+            ``Sp_1`` for ``SpBuilder_1``.
+        """
+
+        if isinstance(self.function, types.Integer):
+            function = self.function
+        elif isinstance(self.function, int):
+            function = types.IntegerOrJump(self.function)
+        elif isinstance(self.function, str):
+            function = types.IntegerOrJump.from_mcnp(self.function)
+
+        if isinstance(self.a, types.Real):
+            a = self.a
+        elif isinstance(self.a, float) or isinstance(self.a, int):
+            a = types.RealOrJump(self.a)
+        elif isinstance(self.a, str):
+            a = types.RealOrJump.from_mcnp(self.a)
+
+        b = None
+        if isinstance(self.b, types.Real):
+            b = self.b
+        elif isinstance(self.b, float) or isinstance(self.b, int):
+            b = types.RealOrJump(self.b)
+        elif isinstance(self.b, str):
+            b = types.RealOrJump.from_mcnp(self.b)
+
+        return Sp_1(
+            function=function,
+            a=a,
+            b=b,
+        )

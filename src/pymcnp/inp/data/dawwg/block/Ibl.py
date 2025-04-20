@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Ibl(BlockOption_, keyword='ibl'):
     Represents INP ibl elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Left boundary condition.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Ibl(BlockOption_, keyword='ibl'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class IblBuilder:
+    """
+    Builds ``Ibl``.
+
+    Attributes:
+        setting: Left boundary condition.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``IblBuilder`` into ``Ibl``.
+
+        Returns:
+            ``Ibl`` for ``IblBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Ibl(
+            setting=setting,
+        )

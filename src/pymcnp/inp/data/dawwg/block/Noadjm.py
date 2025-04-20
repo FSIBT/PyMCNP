@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Noadjm(BlockOption_, keyword='noadjm'):
     Represents INP noadjm elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Suppress writing ADJMAC on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Noadjm(BlockOption_, keyword='noadjm'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class NoadjmBuilder:
+    """
+    Builds ``Noadjm``.
+
+    Attributes:
+        setting: Suppress writing ADJMAC on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``NoadjmBuilder`` into ``Noadjm``.
+
+        Returns:
+            ``Noadjm`` for ``NoadjmBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Noadjm(
+            setting=setting,
+        )

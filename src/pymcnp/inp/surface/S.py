@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,10 @@ class S(SurfaceOption_, keyword='s'):
     Represents INP s elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        x: General sphere center x component.
+        y: General sphere center y component.
+        z: General sphere center z component.
+        r: General sphere radius.
     """
 
     _ATTRS = {
@@ -76,3 +80,64 @@ class S(SurfaceOption_, keyword='s'):
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
 
         return vis
+
+
+@dataclasses.dataclass
+class SBuilder:
+    """
+    Builds ``S``.
+
+    Attributes:
+        x: General sphere center x component.
+        y: General sphere center y component.
+        z: General sphere center z component.
+        r: General sphere radius.
+    """
+
+    x: str | float | types.Real
+    y: str | float | types.Real
+    z: str | float | types.Real
+    r: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``SBuilder`` into ``S``.
+
+        Returns:
+            ``S`` for ``SBuilder``.
+        """
+
+        if isinstance(self.x, types.Real):
+            x = self.x
+        elif isinstance(self.x, float) or isinstance(self.x, int):
+            x = types.Real(self.x)
+        elif isinstance(self.x, str):
+            x = types.Real.from_mcnp(self.x)
+
+        if isinstance(self.y, types.Real):
+            y = self.y
+        elif isinstance(self.y, float) or isinstance(self.y, int):
+            y = types.Real(self.y)
+        elif isinstance(self.y, str):
+            y = types.Real.from_mcnp(self.y)
+
+        if isinstance(self.z, types.Real):
+            z = self.z
+        elif isinstance(self.z, float) or isinstance(self.z, int):
+            z = types.Real(self.z)
+        elif isinstance(self.z, str):
+            z = types.Real.from_mcnp(self.z)
+
+        if isinstance(self.r, types.Real):
+            r = self.r
+        elif isinstance(self.r, float) or isinstance(self.r, int):
+            r = types.Real(self.r)
+        elif isinstance(self.r, str):
+            r = types.Real.from_mcnp(self.r)
+
+        return S(
+            x=x,
+            y=y,
+            z=z,
+            r=r,
+        )

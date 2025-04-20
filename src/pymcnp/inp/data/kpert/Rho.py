@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KpertOption_
@@ -12,7 +13,7 @@ class Rho(KpertOption_, keyword='rho'):
     Represents INP rho elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        densities: List of densities.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Rho(KpertOption_, keyword='rho'):
         )
 
         self.densities: typing.Final[types.Tuple[types.Zaid]] = densities
+
+
+@dataclasses.dataclass
+class RhoBuilder:
+    """
+    Builds ``Rho``.
+
+    Attributes:
+        densities: List of densities.
+    """
+
+    densities: list[str] | list[types.Zaid]
+
+    def build(self):
+        """
+        Builds ``RhoBuilder`` into ``Rho``.
+
+        Returns:
+            ``Rho`` for ``RhoBuilder``.
+        """
+
+        densities = []
+        for item in self.densities:
+            if isinstance(item, types.Zaid):
+                densities.append(item)
+            elif isinstance(item, str):
+                densities.append(types.Zaid.from_mcnp(item))
+            else:
+                densities.append(item.build())
+        densities = types.Tuple(densities)
+
+        return Rho(
+            densities=densities,
+        )

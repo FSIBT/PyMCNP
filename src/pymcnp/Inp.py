@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 import pyvista
 
@@ -225,3 +226,81 @@ class Inp(_object.McnpFile_):
             vis += _visualization.Visualization(surface.draw())
 
         return vis.data
+
+
+@dataclasses.dataclass
+class InpBuilder:
+    """
+    Builds ``Inp``.
+
+    Attributes:
+        message: INP message.
+        title: INP title.
+        cells: INP cell card block.
+        surfaces: INP surface card block.
+        data: INP data card block.
+        other: INP other block.
+    """
+
+    title: str
+    cells: dict[str, str | inp.Cell | inp.CellBuilder] = dataclasses.field(
+        default_factory=lambda _: {}
+    )
+    surfaces: dict[str, str | inp.Surface | inp.SurfaceBuilder] = dataclasses.field(
+        default_factory=lambda _: {}
+    )
+    data: dict[str, str | inp.Data | inp.DataBuilder] = dataclasses.field(
+        default_factory=lambda _: {}
+    )
+    message: str = ''
+    other: str = ''
+
+    def build(self):
+        """
+        Builds ``InpBuilder`` into ``Inp``.
+
+        Returns:
+            ``Inp`` for ``InpBuilder``.
+        """
+
+        cells = []
+        for item in self.cells.values():
+            if isinstance(item, inp.Cell):
+                cells.append(item)
+            elif isinstance(item, str):
+                cells.append(inp.Cell.from_mcnp(item))
+            else:
+                cells.append(item.build())
+        cells = types.Tuple(cells)
+
+        surfaces = []
+        for item in self.surfaces.values():
+            if isinstance(item, inp.Surface):
+                surfaces.append(item)
+            elif isinstance(item, str):
+                surfaces.append(inp.Surface.from_mcnp(item))
+            else:
+                surfaces.append(item.build())
+        surfaces = types.Tuple(surfaces)
+
+        data = []
+        for item in self.data.values():
+            if isinstance(item, inp.Surface):
+                data.append(item)
+            elif isinstance(item, str):
+                data.append(inp.Data.from_mcnp(item))
+            else:
+                data.append(item.build())
+        data = types.Tuple(data)
+
+        return Inp(
+            title=self.title,
+            message=self.message,
+            other=self.other,
+            cells=cells,
+            cells_comments=types.Tuple([]),
+            surfaces=surfaces,
+            surfaces_comments=types.Tuple([]),
+            data=data,
+            data_comments=types.Tuple([]),
+        )

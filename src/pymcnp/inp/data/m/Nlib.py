@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MOption_
@@ -12,7 +13,7 @@ class Nlib(MOption_, keyword='nlib'):
     Represents INP nlib elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        abx: Default neutron table identifier.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Nlib(MOption_, keyword='nlib'):
         )
 
         self.abx: typing.Final[types.String] = abx
+
+
+@dataclasses.dataclass
+class NlibBuilder:
+    """
+    Builds ``Nlib``.
+
+    Attributes:
+        abx: Default neutron table identifier.
+    """
+
+    abx: str | types.String
+
+    def build(self):
+        """
+        Builds ``NlibBuilder`` into ``Nlib``.
+
+        Returns:
+            ``Nlib`` for ``NlibBuilder``.
+        """
+
+        if isinstance(self.abx, types.String):
+            abx = self.abx
+        elif isinstance(self.abx, str):
+            abx = types.String.from_mcnp(self.abx)
+
+        return Nlib(
+            abx=abx,
+        )

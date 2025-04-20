@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Mphys(DataOption_, keyword='mphys'):
     Represents INP mphys elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Physics models on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,33 @@ class Mphys(DataOption_, keyword='mphys'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class MphysBuilder:
+    """
+    Builds ``Mphys``.
+
+    Attributes:
+        setting: Physics models on/off.
+    """
+
+    setting: str | types.String = None
+
+    def build(self):
+        """
+        Builds ``MphysBuilder`` into ``Mphys``.
+
+        Returns:
+            ``Mphys`` for ``MphysBuilder``.
+        """
+
+        setting = None
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Mphys(
+            setting=setting,
+        )

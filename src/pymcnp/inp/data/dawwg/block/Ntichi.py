@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Ntichi(BlockOption_, keyword='ntichi'):
     Represents INP ntichi elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: MENDF fission fraction.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Ntichi(BlockOption_, keyword='ntichi'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class NtichiBuilder:
+    """
+    Builds ``Ntichi``.
+
+    Attributes:
+        setting: MENDF fission fraction.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``NtichiBuilder`` into ``Ntichi``.
+
+        Returns:
+            ``Ntichi`` for ``NtichiBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Ntichi(
+            setting=setting,
+        )

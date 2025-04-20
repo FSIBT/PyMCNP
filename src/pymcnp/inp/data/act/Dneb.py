@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import ActOption_
@@ -12,7 +13,7 @@ class Dneb(ActOption_, keyword='dneb'):
     Represents INP dneb elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        biases: Delayed neutron energy biases.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Dneb(ActOption_, keyword='dneb'):
         )
 
         self.biases: typing.Final[types.Tuple[types.Bias]] = biases
+
+
+@dataclasses.dataclass
+class DnebBuilder:
+    """
+    Builds ``Dneb``.
+
+    Attributes:
+        biases: Delayed neutron energy biases.
+    """
+
+    biases: list[str] | list[types.Bias]
+
+    def build(self):
+        """
+        Builds ``DnebBuilder`` into ``Dneb``.
+
+        Returns:
+            ``Dneb`` for ``DnebBuilder``.
+        """
+
+        biases = []
+        for item in self.biases:
+            if isinstance(item, types.Bias):
+                biases.append(item)
+            elif isinstance(item, str):
+                biases.append(types.Bias.from_mcnp(item))
+            else:
+                biases.append(item.build())
+        biases = types.Tuple(biases)
+
+        return Dneb(
+            biases=biases,
+        )

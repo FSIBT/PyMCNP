@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Nonu(DataOption_, keyword='nonu'):
     Represents INP nonu elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        settings: Tuple of fission settings.
     """
 
     _ATTRS = {
@@ -44,3 +45,37 @@ class Nonu(DataOption_, keyword='nonu'):
         )
 
         self.settings: typing.Final[types.Tuple[types.IntegerOrJump]] = settings
+
+
+@dataclasses.dataclass
+class NonuBuilder:
+    """
+    Builds ``Nonu``.
+
+    Attributes:
+        settings: Tuple of fission settings.
+    """
+
+    settings: list[str] | list[int] | list[types.IntegerOrJump] = None
+
+    def build(self):
+        """
+        Builds ``NonuBuilder`` into ``Nonu``.
+
+        Returns:
+            ``Nonu`` for ``NonuBuilder``.
+        """
+
+        settings = []
+        for item in self.settings:
+            if isinstance(item, types.IntegerOrJump):
+                settings.append(item)
+            elif isinstance(item, int):
+                settings.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                settings.append(types.IntegerOrJump.from_mcnp(item))
+        settings = types.Tuple(settings)
+
+        return Nonu(
+            settings=settings,
+        )

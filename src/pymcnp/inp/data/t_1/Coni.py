@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import T_1Option_
@@ -12,7 +13,7 @@ class Coni(T_1Option_, keyword='coni'):
     Represents INP coni elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        time: Alive time interval.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Coni(T_1Option_, keyword='coni'):
         )
 
         self.time: typing.Final[types.RealOrJump] = time
+
+
+@dataclasses.dataclass
+class ConiBuilder:
+    """
+    Builds ``Coni``.
+
+    Attributes:
+        time: Alive time interval.
+    """
+
+    time: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``ConiBuilder`` into ``Coni``.
+
+        Returns:
+            ``Coni`` for ``ConiBuilder``.
+        """
+
+        if isinstance(self.time, types.Real):
+            time = self.time
+        elif isinstance(self.time, float) or isinstance(self.time, int):
+            time = types.RealOrJump(self.time)
+        elif isinstance(self.time, str):
+            time = types.RealOrJump.from_mcnp(self.time)
+
+        return Coni(
+            time=time,
+        )

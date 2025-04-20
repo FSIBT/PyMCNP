@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,8 @@ class Sx(SurfaceOption_, keyword='sx'):
     Represents INP sx elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        x: On-x-axis sphere center x component.
+        r: On-x-axis sphere radius.
     """
 
     _ATTRS = {
@@ -62,3 +64,44 @@ class Sx(SurfaceOption_, keyword='sx'):
         vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
 
         return vis
+
+
+@dataclasses.dataclass
+class SxBuilder:
+    """
+    Builds ``Sx``.
+
+    Attributes:
+        x: On-x-axis sphere center x component.
+        r: On-x-axis sphere radius.
+    """
+
+    x: str | float | types.Real
+    r: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``SxBuilder`` into ``Sx``.
+
+        Returns:
+            ``Sx`` for ``SxBuilder``.
+        """
+
+        if isinstance(self.x, types.Real):
+            x = self.x
+        elif isinstance(self.x, float) or isinstance(self.x, int):
+            x = types.Real(self.x)
+        elif isinstance(self.x, str):
+            x = types.Real.from_mcnp(self.x)
+
+        if isinstance(self.r, types.Real):
+            r = self.r
+        elif isinstance(self.r, float) or isinstance(self.r, int):
+            r = types.Real(self.r)
+        elif isinstance(self.r, str):
+            r = types.Real.from_mcnp(self.r)
+
+        return Sx(
+            x=x,
+            r=r,
+        )

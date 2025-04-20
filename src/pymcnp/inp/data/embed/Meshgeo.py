@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbedOption_
@@ -12,7 +13,7 @@ class Meshgeo(EmbedOption_, keyword='meshgeo'):
     Represents INP meshgeo elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        form: Format specification of the embedded mesh input file.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Meshgeo(EmbedOption_, keyword='meshgeo'):
         )
 
         self.form: typing.Final[types.String] = form
+
+
+@dataclasses.dataclass
+class MeshgeoBuilder:
+    """
+    Builds ``Meshgeo``.
+
+    Attributes:
+        form: Format specification of the embedded mesh input file.
+    """
+
+    form: str | types.String
+
+    def build(self):
+        """
+        Builds ``MeshgeoBuilder`` into ``Meshgeo``.
+
+        Returns:
+            ``Meshgeo`` for ``MeshgeoBuilder``.
+        """
+
+        if isinstance(self.form, types.String):
+            form = self.form
+        elif isinstance(self.form, str):
+            form = types.String.from_mcnp(self.form)
+
+        return Meshgeo(
+            form=form,
+        )

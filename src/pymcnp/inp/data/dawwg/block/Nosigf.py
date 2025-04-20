@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Nosigf(BlockOption_, keyword='nosigf'):
     Represents INP nosigf elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Inhibit fission multiplication on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Nosigf(BlockOption_, keyword='nosigf'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class NosigfBuilder:
+    """
+    Builds ``Nosigf``.
+
+    Attributes:
+        setting: Inhibit fission multiplication on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``NosigfBuilder`` into ``Nosigf``.
+
+        Returns:
+            ``Nosigf`` for ``NosigfBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Nosigf(
+            setting=setting,
+        )

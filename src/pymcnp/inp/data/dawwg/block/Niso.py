@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Niso(BlockOption_, keyword='niso'):
     Represents INP niso elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Number of isotopes.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Niso(BlockOption_, keyword='niso'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class NisoBuilder:
+    """
+    Builds ``Niso``.
+
+    Attributes:
+        setting: Number of isotopes.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``NisoBuilder`` into ``Niso``.
+
+        Returns:
+            ``Niso`` for ``NisoBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Niso(
+            setting=setting,
+        )

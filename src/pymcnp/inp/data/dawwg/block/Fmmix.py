@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Fmmix(BlockOption_, keyword='fmmix'):
     Represents INP fmmix elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Read composition from LNK3DNT on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Fmmix(BlockOption_, keyword='fmmix'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class FmmixBuilder:
+    """
+    Builds ``Fmmix``.
+
+    Attributes:
+        setting: Read composition from LNK3DNT on/off.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``FmmixBuilder`` into ``Fmmix``.
+
+        Returns:
+            ``Fmmix`` for ``FmmixBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Fmmix(
+            setting=setting,
+        )

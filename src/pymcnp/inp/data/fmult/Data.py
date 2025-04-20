@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmultOption_
@@ -12,7 +13,7 @@ class Data(FmultOption_, keyword='data'):
     Represents INP data elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Sampling method setting.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Data(FmultOption_, keyword='data'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class DataBuilder:
+    """
+    Builds ``Data``.
+
+    Attributes:
+        setting: Sampling method setting.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``DataBuilder`` into ``Data``.
+
+        Returns:
+            ``Data`` for ``DataBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Data(
+            setting=setting,
+        )

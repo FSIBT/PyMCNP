@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 from . import surface
 from .card_ import Card_
@@ -86,3 +87,164 @@ class Surface(Card_):
         """
 
         return self.option.draw()
+
+
+@dataclasses.dataclass
+class SurfaceBuilder:
+    """
+    Builds ``Surface``.
+
+    Attributes:
+        number: INP surface number.
+        transform: INP surface transformation.
+        option: INP surface option.
+        prefix: INP surface kind setting.
+    """
+
+    number: str | int | types.Integer
+    option: (
+        str
+        | surface.SurfaceOption_
+        | surface.PBuilder_0
+        | surface.PBuilder_1
+        | surface.PxBuilder
+        | surface.PyBuilder
+        | surface.PzBuilder
+        | surface.SoBuilder
+        | surface.SBuilder
+        | surface.SxBuilder
+        | surface.SyBuilder
+        | surface.SzBuilder
+        | surface.CBuilder_x
+        | surface.CBuilder_y
+        | surface.CBuilder_z
+        | surface.CxBuilder
+        | surface.CyBuilder
+        | surface.CzBuilder
+        | surface.KBuilder_x
+        | surface.KBuilder_y
+        | surface.KBuilder_z
+        | surface.KxBuilder
+        | surface.KyBuilder
+        | surface.KzBuilder
+        | surface.SqBuilder
+        | surface.GqBuilder
+        | surface.TxBuilder
+        | surface.TyBuilder
+        | surface.TzBuilder
+        | surface.XBuilder
+        | surface.YBuilder
+        | surface.ZBuilder
+        | surface.BoxBuilder
+        | surface.RppBuilder
+        | surface.SphBuilder
+        | surface.RccBuilder
+        | surface.RhpBuilder
+        | surface.RecBuilder
+        | surface.TrcBuilder
+        | surface.EllBuilder
+        | surface.WedBuilder
+        | surface.ArbBuilder
+    )
+
+    transform: str | int | types.Integer = None
+    prefix: str = None
+
+    def __and__(a, b):
+        """
+        Unites ``SurfaceBuilder``.
+
+        Parameters:
+            a: Operand #1.
+            b: Operand #2.
+
+        Returns:
+            ``SurfaceBuilder`` union.
+        """
+
+        return types.GeometryBuilder(infix=f'{a.number}:{b.number}')
+
+    def __or__(a, b):
+        """
+        Intersects ``SurfaceBuilder``.
+
+        Parameters:
+            a: Operand #1.
+            b: Operand #2.
+
+        Returns:
+            ``SurfaceBuilder`` intersection.
+        """
+
+        return types.GeometryBuilder(infix=f'{a.number} {b.number}')
+
+    def __neg__(self):
+        """
+        Negatives ``SurfaceBuilder``.
+
+        Returns:
+            ``SurfaceBuilder`` negative.
+        """
+
+        return types.GeometryBuilder(infix=f'-{self.number}')
+
+    def __pos__(self):
+        """
+        Positives ``SurfaceBuilder``.
+
+        Returns:
+            ``SurfaceBuilder`` positive.
+        """
+
+        return types.GeometryBuilder(infix=f'+{self.number}')
+
+    def __invert__(self):
+        """
+        Inverts ``SurfaceBuilder``.
+
+        Returns:
+            ``SurfaceBuilder`` complement.
+        """
+
+        return types.GeometryBuilder(infix=f'#{self.number}')
+
+    def build(self):
+        """
+        Builds ``SurfaceBuilder`` into ``Surface``.
+
+        Returns:
+            ``Surface`` for ``SurfaceBuilder``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.Integer(self.number)
+        elif isinstance(self.number, str):
+            number = types.Integer.from_mcnp(self.number)
+
+        transform = None
+        if isinstance(self.transform, types.Integer):
+            transform = self.transform
+        elif isinstance(self.transform, int):
+            transform = types.Integer(self.transform)
+        elif isinstance(self.transform, str):
+            transform = types.Integer.from_mcnp(self.transform)
+
+        prefix = None
+        if isinstance(self.prefix, str):
+            prefix = self.prefix
+
+        if isinstance(self.option, str):
+            option = types.Surface.from_mcnp(self.option)
+        elif isinstance(self.option, surface.SurfaceOption_):
+            option = self.option
+        else:
+            option = self.option.build()
+
+        return Surface(
+            number=number,
+            option=option,
+            transform=transform,
+            prefix=prefix,
+        )

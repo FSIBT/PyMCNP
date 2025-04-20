@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -9,10 +10,10 @@ from ....utils import errors
 
 class Tme_0(SdefOption_, keyword='tme'):
     """
-    Represents INP tme_0 elements.
+    Represents INP tme variation #0 elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        time: Time in shakes.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Tme_0(SdefOption_, keyword='tme'):
         )
 
         self.time: typing.Final[types.RealOrJump] = time
+
+
+@dataclasses.dataclass
+class TmeBuilder_0:
+    """
+    Builds ``Tme_0``.
+
+    Attributes:
+        time: Time in shakes.
+    """
+
+    time: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``TmeBuilder_0`` into ``Tme_0``.
+
+        Returns:
+            ``Tme_0`` for ``TmeBuilder_0``.
+        """
+
+        if isinstance(self.time, types.Real):
+            time = self.time
+        elif isinstance(self.time, float) or isinstance(self.time, int):
+            time = types.RealOrJump(self.time)
+        elif isinstance(self.time, str):
+            time = types.RealOrJump.from_mcnp(self.time)
+
+        return Tme_0(
+            time=time,
+        )

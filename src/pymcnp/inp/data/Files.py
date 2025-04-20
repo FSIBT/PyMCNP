@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Files(DataOption_, keyword='files'):
     Represents INP files elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        creations: Files to create.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Files(DataOption_, keyword='files'):
         )
 
         self.creations: typing.Final[types.Tuple[types.File]] = creations
+
+
+@dataclasses.dataclass
+class FilesBuilder:
+    """
+    Builds ``Files``.
+
+    Attributes:
+        creations: Files to create.
+    """
+
+    creations: list[str] | list[types.File]
+
+    def build(self):
+        """
+        Builds ``FilesBuilder`` into ``Files``.
+
+        Returns:
+            ``Files`` for ``FilesBuilder``.
+        """
+
+        creations = []
+        for item in self.creations:
+            if isinstance(item, types.File):
+                creations.append(item)
+            elif isinstance(item, str):
+                creations.append(types.File.from_mcnp(item))
+            else:
+                creations.append(item.build())
+        creations = types.Tuple(creations)
+
+        return Files(
+            creations=creations,
+        )

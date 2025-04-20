@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,8 @@ class Imp(DataOption_, keyword='imp'):
     Represents INP imp elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        designator: Data card particle designator.
+        importances: Cell importance.
     """
 
     _ATTRS = {
@@ -47,3 +49,45 @@ class Imp(DataOption_, keyword='imp'):
 
         self.designator: typing.Final[types.Designator] = designator
         self.importances: typing.Final[types.Tuple[types.RealOrJump]] = importances
+
+
+@dataclasses.dataclass
+class ImpBuilder:
+    """
+    Builds ``Imp``.
+
+    Attributes:
+        designator: Data card particle designator.
+        importances: Cell importance.
+    """
+
+    designator: str | types.Designator
+    importances: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``ImpBuilder`` into ``Imp``.
+
+        Returns:
+            ``Imp`` for ``ImpBuilder``.
+        """
+
+        if isinstance(self.designator, types.Designator):
+            designator = self.designator
+        elif isinstance(self.designator, str):
+            designator = types.Designator.from_mcnp(self.designator)
+
+        importances = []
+        for item in self.importances:
+            if isinstance(item, types.RealOrJump):
+                importances.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                importances.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                importances.append(types.RealOrJump.from_mcnp(item))
+        importances = types.Tuple(importances)
+
+        return Imp(
+            designator=designator,
+            importances=importances,
+        )

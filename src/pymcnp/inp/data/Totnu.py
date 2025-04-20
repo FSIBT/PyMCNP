@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Totnu(DataOption_, keyword='totnu'):
     Represents INP totnu elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        no: Delay fission sampling on/off.
     """
 
     _ATTRS = {
@@ -42,3 +43,33 @@ class Totnu(DataOption_, keyword='totnu'):
         )
 
         self.no: typing.Final[types.String] = no
+
+
+@dataclasses.dataclass
+class TotnuBuilder:
+    """
+    Builds ``Totnu``.
+
+    Attributes:
+        no: Delay fission sampling on/off.
+    """
+
+    no: str | types.String = None
+
+    def build(self):
+        """
+        Builds ``TotnuBuilder`` into ``Totnu``.
+
+        Returns:
+            ``Totnu`` for ``TotnuBuilder``.
+        """
+
+        no = None
+        if isinstance(self.no, types.String):
+            no = self.no
+        elif isinstance(self.no, str):
+            no = types.String.from_mcnp(self.no)
+
+        return Totnu(
+            no=no,
+        )

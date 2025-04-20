@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import PtracOption_
@@ -12,7 +13,7 @@ class Event(PtracOption_, keyword='event'):
     Represents INP event elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        settings: Specifies the type of events written to the PTRAC file.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Event(PtracOption_, keyword='event'):
         )
 
         self.settings: typing.Final[types.Tuple[types.String]] = settings
+
+
+@dataclasses.dataclass
+class EventBuilder:
+    """
+    Builds ``Event``.
+
+    Attributes:
+        settings: Specifies the type of events written to the PTRAC file.
+    """
+
+    settings: list[str] | list[types.String]
+
+    def build(self):
+        """
+        Builds ``EventBuilder`` into ``Event``.
+
+        Returns:
+            ``Event`` for ``EventBuilder``.
+        """
+
+        settings = []
+        for item in self.settings:
+            if isinstance(item, types.String):
+                settings.append(item)
+            elif isinstance(item, str):
+                settings.append(types.String.from_mcnp(item))
+            else:
+                settings.append(item.build())
+        settings = types.Tuple(settings)
+
+        return Event(
+            settings=settings,
+        )

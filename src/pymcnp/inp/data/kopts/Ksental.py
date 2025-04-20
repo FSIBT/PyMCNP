@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KoptsOption_
@@ -12,7 +13,7 @@ class Ksental(KoptsOption_, keyword='ksental'):
     Represents INP ksental elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        fileopt: Format of sensity profiles output file.
     """
 
     _ATTRS = {
@@ -44,3 +45,32 @@ class Ksental(KoptsOption_, keyword='ksental'):
         )
 
         self.fileopt: typing.Final[types.String] = fileopt
+
+
+@dataclasses.dataclass
+class KsentalBuilder:
+    """
+    Builds ``Ksental``.
+
+    Attributes:
+        fileopt: Format of sensity profiles output file.
+    """
+
+    fileopt: str | types.String
+
+    def build(self):
+        """
+        Builds ``KsentalBuilder`` into ``Ksental``.
+
+        Returns:
+            ``Ksental`` for ``KsentalBuilder``.
+        """
+
+        if isinstance(self.fileopt, types.String):
+            fileopt = self.fileopt
+        elif isinstance(self.fileopt, str):
+            fileopt = types.String.from_mcnp(self.fileopt)
+
+        return Ksental(
+            fileopt=fileopt,
+        )

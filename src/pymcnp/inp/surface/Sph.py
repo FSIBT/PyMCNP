@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,10 @@ class Sph(SurfaceOption_, keyword='sph'):
     Represents INP sph elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        vx: Sphere macrobody position vector x component.
+        vy: Sphere macrobody position vector y component.
+        vz: Sphere macrobody position vector z component.
+        r: Sphere macrobody radius.
     """
 
     _ATTRS = {
@@ -78,3 +82,64 @@ class Sph(SurfaceOption_, keyword='sph'):
         )
 
         return vis
+
+
+@dataclasses.dataclass
+class SphBuilder:
+    """
+    Builds ``Sph``.
+
+    Attributes:
+        vx: Sphere macrobody position vector x component.
+        vy: Sphere macrobody position vector y component.
+        vz: Sphere macrobody position vector z component.
+        r: Sphere macrobody radius.
+    """
+
+    vx: str | float | types.Real
+    vy: str | float | types.Real
+    vz: str | float | types.Real
+    r: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``SphBuilder`` into ``Sph``.
+
+        Returns:
+            ``Sph`` for ``SphBuilder``.
+        """
+
+        if isinstance(self.vx, types.Real):
+            vx = self.vx
+        elif isinstance(self.vx, float) or isinstance(self.vx, int):
+            vx = types.Real(self.vx)
+        elif isinstance(self.vx, str):
+            vx = types.Real.from_mcnp(self.vx)
+
+        if isinstance(self.vy, types.Real):
+            vy = self.vy
+        elif isinstance(self.vy, float) or isinstance(self.vy, int):
+            vy = types.Real(self.vy)
+        elif isinstance(self.vy, str):
+            vy = types.Real.from_mcnp(self.vy)
+
+        if isinstance(self.vz, types.Real):
+            vz = self.vz
+        elif isinstance(self.vz, float) or isinstance(self.vz, int):
+            vz = types.Real(self.vz)
+        elif isinstance(self.vz, str):
+            vz = types.Real.from_mcnp(self.vz)
+
+        if isinstance(self.r, types.Real):
+            r = self.r
+        elif isinstance(self.r, float) or isinstance(self.r, int):
+            r = types.Real(self.r)
+        elif isinstance(self.r, str):
+            r = types.Real.from_mcnp(self.r)
+
+        return Sph(
+            vx=vx,
+            vy=vy,
+            vz=vz,
+            r=r,
+        )

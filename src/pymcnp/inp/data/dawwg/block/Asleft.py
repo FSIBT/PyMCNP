@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Asleft(BlockOption_, keyword='asleft'):
     Represents INP asleft elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Right-going flux at plane i.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Asleft(BlockOption_, keyword='asleft'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class AsleftBuilder:
+    """
+    Builds ``Asleft``.
+
+    Attributes:
+        setting: Right-going flux at plane i.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``AsleftBuilder`` into ``Asleft``.
+
+        Returns:
+            ``Asleft`` for ``AsleftBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Asleft(
+            setting=setting,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,7 @@ class Px(SurfaceOption_, keyword='px'):
     Represents INP px elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        d: Normal-to-the-x-axis plane D coefficent.
     """
 
     _ATTRS = {
@@ -56,3 +57,34 @@ class Px(SurfaceOption_, keyword='px'):
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
 
         return vis
+
+
+@dataclasses.dataclass
+class PxBuilder:
+    """
+    Builds ``Px``.
+
+    Attributes:
+        d: Normal-to-the-x-axis plane D coefficent.
+    """
+
+    d: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``PxBuilder`` into ``Px``.
+
+        Returns:
+            ``Px`` for ``PxBuilder``.
+        """
+
+        if isinstance(self.d, types.Real):
+            d = self.d
+        elif isinstance(self.d, float) or isinstance(self.d, int):
+            d = types.Real(self.d)
+        elif isinstance(self.d, str):
+            d = types.Real.from_mcnp(self.d)
+
+        return Px(
+            d=d,
+        )

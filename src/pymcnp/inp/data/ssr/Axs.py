@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SsrOption_
@@ -12,7 +13,7 @@ class Axs(SsrOption_, keyword='axs'):
     Represents INP axs elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        cosines: Direction cosines defining.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Axs(SsrOption_, keyword='axs'):
         )
 
         self.cosines: typing.Final[types.Tuple[types.RealOrJump]] = cosines
+
+
+@dataclasses.dataclass
+class AxsBuilder:
+    """
+    Builds ``Axs``.
+
+    Attributes:
+        cosines: Direction cosines defining.
+    """
+
+    cosines: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``AxsBuilder`` into ``Axs``.
+
+        Returns:
+            ``Axs`` for ``AxsBuilder``.
+        """
+
+        cosines = []
+        for item in self.cosines:
+            if isinstance(item, types.RealOrJump):
+                cosines.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                cosines.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                cosines.append(types.RealOrJump.from_mcnp(item))
+        cosines = types.Tuple(cosines)
+
+        return Axs(
+            cosines=cosines,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KoptsOption_
@@ -12,7 +13,7 @@ class Fmatskpt(KoptsOption_, keyword='fmatskpt'):
     Represents INP fmatskpt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        fmat_skip: fmat_skip.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Fmatskpt(KoptsOption_, keyword='fmatskpt'):
         )
 
         self.fmat_skip: typing.Final[types.RealOrJump] = fmat_skip
+
+
+@dataclasses.dataclass
+class FmatskptBuilder:
+    """
+    Builds ``Fmatskpt``.
+
+    Attributes:
+        fmat_skip: fmat_skip.
+    """
+
+    fmat_skip: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``FmatskptBuilder`` into ``Fmatskpt``.
+
+        Returns:
+            ``Fmatskpt`` for ``FmatskptBuilder``.
+        """
+
+        if isinstance(self.fmat_skip, types.Real):
+            fmat_skip = self.fmat_skip
+        elif isinstance(self.fmat_skip, float) or isinstance(self.fmat_skip, int):
+            fmat_skip = types.RealOrJump(self.fmat_skip)
+        elif isinstance(self.fmat_skip, str):
+            fmat_skip = types.RealOrJump.from_mcnp(self.fmat_skip)
+
+        return Fmatskpt(
+            fmat_skip=fmat_skip,
+        )

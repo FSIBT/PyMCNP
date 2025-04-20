@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,8 @@ class Sy(SurfaceOption_, keyword='sy'):
     Represents INP sy elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        y: On-y-axis sphere center y component.
+        r: On-y-axis sphere radius.
     """
 
     _ATTRS = {
@@ -63,3 +65,44 @@ class Sy(SurfaceOption_, keyword='sy'):
         vis = vis.add_translation(_visualization.Vector(0, self.y.value, 0))
 
         return vis
+
+
+@dataclasses.dataclass
+class SyBuilder:
+    """
+    Builds ``Sy``.
+
+    Attributes:
+        y: On-y-axis sphere center y component.
+        r: On-y-axis sphere radius.
+    """
+
+    y: str | float | types.Real
+    r: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``SyBuilder`` into ``Sy``.
+
+        Returns:
+            ``Sy`` for ``SyBuilder``.
+        """
+
+        if isinstance(self.y, types.Real):
+            y = self.y
+        elif isinstance(self.y, float) or isinstance(self.y, int):
+            y = types.Real(self.y)
+        elif isinstance(self.y, str):
+            y = types.Real.from_mcnp(self.y)
+
+        if isinstance(self.r, types.Real):
+            r = self.r
+        elif isinstance(self.r, float) or isinstance(self.r, int):
+            r = types.Real(self.r)
+        elif isinstance(self.r, str):
+            r = types.Real.from_mcnp(self.r)
+
+        return Sy(
+            y=y,
+            r=r,
+        )

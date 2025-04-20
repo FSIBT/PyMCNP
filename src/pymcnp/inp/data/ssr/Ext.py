@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SsrOption_
@@ -12,7 +13,7 @@ class Ext(SsrOption_, keyword='ext'):
     Represents INP ext elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Distribution number for baising sampling.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Ext(SsrOption_, keyword='ext'):
         )
 
         self.number: typing.Final[types.DistributionNumber] = number
+
+
+@dataclasses.dataclass
+class ExtBuilder:
+    """
+    Builds ``Ext``.
+
+    Attributes:
+        number: Distribution number for baising sampling.
+    """
+
+    number: str | types.DistributionNumber
+
+    def build(self):
+        """
+        Builds ``ExtBuilder`` into ``Ext``.
+
+        Returns:
+            ``Ext`` for ``ExtBuilder``.
+        """
+
+        if isinstance(self.number, types.DistributionNumber):
+            number = self.number
+        elif isinstance(self.number, str):
+            number = types.DistributionNumber.from_mcnp(self.number)
+
+        return Ext(
+            number=number,
+        )

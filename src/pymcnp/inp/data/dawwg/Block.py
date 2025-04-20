@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from . import block
@@ -13,7 +14,8 @@ class Block(DawwgOption_, keyword='block'):
     Represents INP block elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Destination of key-value pairs.
+        options: Dictionary of dawwg block options.
     """
 
     _ATTRS = {
@@ -51,3 +53,47 @@ class Block(DawwgOption_, keyword='block'):
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
         self.options: typing.Final[types.Tuple[block.BlockOption_]] = options
+
+
+@dataclasses.dataclass
+class BlockBuilder:
+    """
+    Builds ``Block``.
+
+    Attributes:
+        setting: Destination of key-value pairs.
+        options: Dictionary of dawwg block options.
+    """
+
+    setting: str | int | types.IntegerOrJump
+    options: list[str] | list[block.BlockOption_] = None
+
+    def build(self):
+        """
+        Builds ``BlockBuilder`` into ``Block``.
+
+        Returns:
+            ``Block`` for ``BlockBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        options = []
+        for item in self.options:
+            if isinstance(item, block.BlockOption_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(block.BlockOption_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return Block(
+            setting=setting,
+            options=options,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,9 @@ class De(DataOption_, keyword='de'):
     Represents INP de elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        suffix: Data card option suffix.
+        method: Interpolation method for energy table.
+        values: Energy values.
     """
 
     _ATTRS = {
@@ -60,3 +63,56 @@ class De(DataOption_, keyword='de'):
         self.suffix: typing.Final[types.Integer] = suffix
         self.method: typing.Final[types.String] = method
         self.values: typing.Final[types.Tuple[types.RealOrJump]] = values
+
+
+@dataclasses.dataclass
+class DeBuilder:
+    """
+    Builds ``De``.
+
+    Attributes:
+        suffix: Data card option suffix.
+        method: Interpolation method for energy table.
+        values: Energy values.
+    """
+
+    suffix: str | int | types.Integer
+    values: list[str] | list[float] | list[types.RealOrJump]
+    method: str | types.String = None
+
+    def build(self):
+        """
+        Builds ``DeBuilder`` into ``De``.
+
+        Returns:
+            ``De`` for ``DeBuilder``.
+        """
+
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
+
+        method = None
+        if isinstance(self.method, types.String):
+            method = self.method
+        elif isinstance(self.method, str):
+            method = types.String.from_mcnp(self.method)
+
+        values = []
+        for item in self.values:
+            if isinstance(item, types.RealOrJump):
+                values.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                values.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                values.append(types.RealOrJump.from_mcnp(item))
+        values = types.Tuple(values)
+
+        return De(
+            suffix=suffix,
+            method=method,
+            values=values,
+        )

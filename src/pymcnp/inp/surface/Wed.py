@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,18 @@ class Wed(SurfaceOption_, keyword='wed'):
     Represents INP wed elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        vx: Wedge position vector x component.
+        vy: Wedge position vector y component.
+        vz: Wedge position vector z component.
+        v1x: Wedge side vector #1 x component.
+        v1y: Wedge side vector #1 y component.
+        v1z: Wedge side vector #1 z component.
+        v2x: Wedge side vector #2 x component.
+        v2y: Wedge side vector #2 y component.
+        v2z: Wedge side vector #2 z component.
+        v3x: Wedge height vector x component.
+        v3y: Wedge height vector y component.
+        v3z: Wedge height vector z component.
     """
 
     _ATTRS = {
@@ -147,3 +159,144 @@ class Wed(SurfaceOption_, keyword='wed'):
         vis = vis.add_translation(v)
 
         return vis
+
+
+@dataclasses.dataclass
+class WedBuilder:
+    """
+    Builds ``Wed``.
+
+    Attributes:
+        vx: Wedge position vector x component.
+        vy: Wedge position vector y component.
+        vz: Wedge position vector z component.
+        v1x: Wedge side vector #1 x component.
+        v1y: Wedge side vector #1 y component.
+        v1z: Wedge side vector #1 z component.
+        v2x: Wedge side vector #2 x component.
+        v2y: Wedge side vector #2 y component.
+        v2z: Wedge side vector #2 z component.
+        v3x: Wedge height vector x component.
+        v3y: Wedge height vector y component.
+        v3z: Wedge height vector z component.
+    """
+
+    vx: str | float | types.Real
+    vy: str | float | types.Real
+    vz: str | float | types.Real
+    v1x: str | float | types.Real
+    v1y: str | float | types.Real
+    v1z: str | float | types.Real
+    v2x: str | float | types.Real
+    v2y: str | float | types.Real
+    v2z: str | float | types.Real
+    v3x: str | float | types.Real
+    v3y: str | float | types.Real
+    v3z: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``WedBuilder`` into ``Wed``.
+
+        Returns:
+            ``Wed`` for ``WedBuilder``.
+        """
+
+        if isinstance(self.vx, types.Real):
+            vx = self.vx
+        elif isinstance(self.vx, float) or isinstance(self.vx, int):
+            vx = types.Real(self.vx)
+        elif isinstance(self.vx, str):
+            vx = types.Real.from_mcnp(self.vx)
+
+        if isinstance(self.vy, types.Real):
+            vy = self.vy
+        elif isinstance(self.vy, float) or isinstance(self.vy, int):
+            vy = types.Real(self.vy)
+        elif isinstance(self.vy, str):
+            vy = types.Real.from_mcnp(self.vy)
+
+        if isinstance(self.vz, types.Real):
+            vz = self.vz
+        elif isinstance(self.vz, float) or isinstance(self.vz, int):
+            vz = types.Real(self.vz)
+        elif isinstance(self.vz, str):
+            vz = types.Real.from_mcnp(self.vz)
+
+        if isinstance(self.v1x, types.Real):
+            v1x = self.v1x
+        elif isinstance(self.v1x, float) or isinstance(self.v1x, int):
+            v1x = types.Real(self.v1x)
+        elif isinstance(self.v1x, str):
+            v1x = types.Real.from_mcnp(self.v1x)
+
+        if isinstance(self.v1y, types.Real):
+            v1y = self.v1y
+        elif isinstance(self.v1y, float) or isinstance(self.v1y, int):
+            v1y = types.Real(self.v1y)
+        elif isinstance(self.v1y, str):
+            v1y = types.Real.from_mcnp(self.v1y)
+
+        if isinstance(self.v1z, types.Real):
+            v1z = self.v1z
+        elif isinstance(self.v1z, float) or isinstance(self.v1z, int):
+            v1z = types.Real(self.v1z)
+        elif isinstance(self.v1z, str):
+            v1z = types.Real.from_mcnp(self.v1z)
+
+        if isinstance(self.v2x, types.Real):
+            v2x = self.v2x
+        elif isinstance(self.v2x, float) or isinstance(self.v2x, int):
+            v2x = types.Real(self.v2x)
+        elif isinstance(self.v2x, str):
+            v2x = types.Real.from_mcnp(self.v2x)
+
+        if isinstance(self.v2y, types.Real):
+            v2y = self.v2y
+        elif isinstance(self.v2y, float) or isinstance(self.v2y, int):
+            v2y = types.Real(self.v2y)
+        elif isinstance(self.v2y, str):
+            v2y = types.Real.from_mcnp(self.v2y)
+
+        if isinstance(self.v2z, types.Real):
+            v2z = self.v2z
+        elif isinstance(self.v2z, float) or isinstance(self.v2z, int):
+            v2z = types.Real(self.v2z)
+        elif isinstance(self.v2z, str):
+            v2z = types.Real.from_mcnp(self.v2z)
+
+        if isinstance(self.v3x, types.Real):
+            v3x = self.v3x
+        elif isinstance(self.v3x, float) or isinstance(self.v3x, int):
+            v3x = types.Real(self.v3x)
+        elif isinstance(self.v3x, str):
+            v3x = types.Real.from_mcnp(self.v3x)
+
+        if isinstance(self.v3y, types.Real):
+            v3y = self.v3y
+        elif isinstance(self.v3y, float) or isinstance(self.v3y, int):
+            v3y = types.Real(self.v3y)
+        elif isinstance(self.v3y, str):
+            v3y = types.Real.from_mcnp(self.v3y)
+
+        if isinstance(self.v3z, types.Real):
+            v3z = self.v3z
+        elif isinstance(self.v3z, float) or isinstance(self.v3z, int):
+            v3z = types.Real(self.v3z)
+        elif isinstance(self.v3z, str):
+            v3z = types.Real.from_mcnp(self.v3z)
+
+        return Wed(
+            vx=vx,
+            vy=vy,
+            vz=vz,
+            v1x=v1x,
+            v1y=v1y,
+            v1z=v1z,
+            v2x=v2x,
+            v2y=v2y,
+            v2z=v2z,
+            v3x=v3x,
+            v3y=v3y,
+            v3z=v3z,
+        )

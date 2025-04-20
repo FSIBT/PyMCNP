@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import KoptsOption_
@@ -12,7 +13,7 @@ class Fmatncyc(KoptsOption_, keyword='fmatncyc'):
     Represents INP fmatncyc elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        fmat_ncyc: fmat_ncyc.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Fmatncyc(KoptsOption_, keyword='fmatncyc'):
         )
 
         self.fmat_ncyc: typing.Final[types.RealOrJump] = fmat_ncyc
+
+
+@dataclasses.dataclass
+class FmatncycBuilder:
+    """
+    Builds ``Fmatncyc``.
+
+    Attributes:
+        fmat_ncyc: fmat_ncyc.
+    """
+
+    fmat_ncyc: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``FmatncycBuilder`` into ``Fmatncyc``.
+
+        Returns:
+            ``Fmatncyc`` for ``FmatncycBuilder``.
+        """
+
+        if isinstance(self.fmat_ncyc, types.Real):
+            fmat_ncyc = self.fmat_ncyc
+        elif isinstance(self.fmat_ncyc, float) or isinstance(self.fmat_ncyc, int):
+            fmat_ncyc = types.RealOrJump(self.fmat_ncyc)
+        elif isinstance(self.fmat_ncyc, str):
+            fmat_ncyc = types.RealOrJump.from_mcnp(self.fmat_ncyc)
+
+        return Fmatncyc(
+            fmat_ncyc=fmat_ncyc,
+        )

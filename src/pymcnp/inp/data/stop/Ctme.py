@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import StopOption_
@@ -12,7 +13,7 @@ class Ctme(StopOption_, keyword='ctme'):
     Represents INP ctme elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        tme: Computer time before stop.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Ctme(StopOption_, keyword='ctme'):
         )
 
         self.tme: typing.Final[types.RealOrJump] = tme
+
+
+@dataclasses.dataclass
+class CtmeBuilder:
+    """
+    Builds ``Ctme``.
+
+    Attributes:
+        tme: Computer time before stop.
+    """
+
+    tme: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``CtmeBuilder`` into ``Ctme``.
+
+        Returns:
+            ``Ctme`` for ``CtmeBuilder``.
+        """
+
+        if isinstance(self.tme, types.Real):
+            tme = self.tme
+        elif isinstance(self.tme, float) or isinstance(self.tme, int):
+            tme = types.RealOrJump(self.tme)
+        elif isinstance(self.tme, str):
+            tme = types.RealOrJump.from_mcnp(self.tme)
+
+        return Ctme(
+            tme=tme,
+        )

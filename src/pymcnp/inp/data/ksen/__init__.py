@@ -8,6 +8,14 @@ from .Ein import Ein
 from .Legendre import Legendre
 from .Cos import Cos
 from .Constrain import Constrain
+from .Iso import IsoBuilder
+from .Rxn import RxnBuilder
+from .Mt import MtBuilder
+from .Erg import ErgBuilder
+from .Ein import EinBuilder
+from .Legendre import LegendreBuilder
+from .Cos import CosBuilder
+from .Constrain import ConstrainBuilder
 
 __all__ = [
     'KsenOption_',
@@ -19,4 +27,12 @@ __all__ = [
     'Legendre',
     'Cos',
     'Constrain',
+    'IsoBuilder',
+    'RxnBuilder',
+    'MtBuilder',
+    'ErgBuilder',
+    'EinBuilder',
+    'LegendreBuilder',
+    'CosBuilder',
+    'ConstrainBuilder',
 ]

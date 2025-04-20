@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import PertOption_
@@ -12,7 +13,8 @@ class Erg(PertOption_, keyword='erg'):
     Represents INP erg elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        energy_lower_bound: Lower bound for energy pertubation.
+        energy_upper_bound: Upper bound for energy pertubation.
     """
 
     _ATTRS = {
@@ -50,3 +52,44 @@ class Erg(PertOption_, keyword='erg'):
 
         self.energy_lower_bound: typing.Final[types.RealOrJump] = energy_lower_bound
         self.energy_upper_bound: typing.Final[types.RealOrJump] = energy_upper_bound
+
+
+@dataclasses.dataclass
+class ErgBuilder:
+    """
+    Builds ``Erg``.
+
+    Attributes:
+        energy_lower_bound: Lower bound for energy pertubation.
+        energy_upper_bound: Upper bound for energy pertubation.
+    """
+
+    energy_lower_bound: str | float | types.RealOrJump
+    energy_upper_bound: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``ErgBuilder`` into ``Erg``.
+
+        Returns:
+            ``Erg`` for ``ErgBuilder``.
+        """
+
+        if isinstance(self.energy_lower_bound, types.Real):
+            energy_lower_bound = self.energy_lower_bound
+        elif isinstance(self.energy_lower_bound, float) or isinstance(self.energy_lower_bound, int):
+            energy_lower_bound = types.RealOrJump(self.energy_lower_bound)
+        elif isinstance(self.energy_lower_bound, str):
+            energy_lower_bound = types.RealOrJump.from_mcnp(self.energy_lower_bound)
+
+        if isinstance(self.energy_upper_bound, types.Real):
+            energy_upper_bound = self.energy_upper_bound
+        elif isinstance(self.energy_upper_bound, float) or isinstance(self.energy_upper_bound, int):
+            energy_upper_bound = types.RealOrJump(self.energy_upper_bound)
+        elif isinstance(self.energy_upper_bound, str):
+            energy_upper_bound = types.RealOrJump.from_mcnp(self.energy_upper_bound)
+
+        return Erg(
+            energy_lower_bound=energy_lower_bound,
+            energy_upper_bound=energy_upper_bound,
+        )

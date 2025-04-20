@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -12,7 +13,7 @@ class Ara(SdefOption_, keyword='ara'):
     Represents INP ara elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        area: Area of surface.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Ara(SdefOption_, keyword='ara'):
         )
 
         self.area: typing.Final[types.RealOrJump] = area
+
+
+@dataclasses.dataclass
+class AraBuilder:
+    """
+    Builds ``Ara``.
+
+    Attributes:
+        area: Area of surface.
+    """
+
+    area: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``AraBuilder`` into ``Ara``.
+
+        Returns:
+            ``Ara`` for ``AraBuilder``.
+        """
+
+        if isinstance(self.area, types.Real):
+            area = self.area
+        elif isinstance(self.area, float) or isinstance(self.area, int):
+            area = types.RealOrJump(self.area)
+        elif isinstance(self.area, str):
+            area = types.RealOrJump.from_mcnp(self.area)
+
+        return Ara(
+            area=area,
+        )

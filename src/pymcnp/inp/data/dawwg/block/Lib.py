@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Lib(BlockOption_, keyword='lib'):
     Represents INP lib elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Name of cross-section file.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class Lib(BlockOption_, keyword='lib'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class LibBuilder:
+    """
+    Builds ``Lib``.
+
+    Attributes:
+        setting: Name of cross-section file.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``LibBuilder`` into ``Lib``.
+
+        Returns:
+            ``Lib`` for ``LibBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return Lib(
+            setting=setting,
+        )

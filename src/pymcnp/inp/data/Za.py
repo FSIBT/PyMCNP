@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -11,7 +12,7 @@ class Za(DataOption_, keyword='za'):
     Represents INP za elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        anything: Any parameters.
     """
 
     _ATTRS = {
@@ -38,3 +39,33 @@ class Za(DataOption_, keyword='za'):
         )
 
         self.anything: typing.Final[types.String] = anything
+
+
+@dataclasses.dataclass
+class ZaBuilder:
+    """
+    Builds ``Za``.
+
+    Attributes:
+        anything: Any parameters.
+    """
+
+    anything: str | types.String = None
+
+    def build(self):
+        """
+        Builds ``ZaBuilder`` into ``Za``.
+
+        Returns:
+            ``Za`` for ``ZaBuilder``.
+        """
+
+        anything = None
+        if isinstance(self.anything, types.String):
+            anything = self.anything
+        elif isinstance(self.anything, str):
+            anything = types.String.from_mcnp(self.anything)
+
+        return Za(
+            anything=anything,
+        )

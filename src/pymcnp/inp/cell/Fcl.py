@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import CellOption_
@@ -12,7 +13,8 @@ class Fcl(CellOption_, keyword='fcl'):
     Represents INP fcl elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        designator: Cell particle designator.
+        control: Cell forced-collision control.
     """
 
     _ATTRS = {
@@ -47,3 +49,42 @@ class Fcl(CellOption_, keyword='fcl'):
 
         self.designator: typing.Final[types.Designator] = designator
         self.control: typing.Final[types.Real] = control
+
+
+@dataclasses.dataclass
+class FclBuilder:
+    """
+    Builds ``Fcl``.
+
+    Attributes:
+        designator: Cell particle designator.
+        control: Cell forced-collision control.
+    """
+
+    designator: str | types.Designator
+    control: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``FclBuilder`` into ``Fcl``.
+
+        Returns:
+            ``Fcl`` for ``FclBuilder``.
+        """
+
+        if isinstance(self.designator, types.Designator):
+            designator = self.designator
+        elif isinstance(self.designator, str):
+            designator = types.Designator.from_mcnp(self.designator)
+
+        if isinstance(self.control, types.Real):
+            control = self.control
+        elif isinstance(self.control, float) or isinstance(self.control, int):
+            control = types.Real(self.control)
+        elif isinstance(self.control, str):
+            control = types.Real.from_mcnp(self.control)
+
+        return Fcl(
+            designator=designator,
+            control=control,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -12,7 +13,7 @@ class Wgt(SdefOption_, keyword='wgt'):
     Represents INP wgt elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        weight: Particle weight.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Wgt(SdefOption_, keyword='wgt'):
         )
 
         self.weight: typing.Final[types.RealOrJump] = weight
+
+
+@dataclasses.dataclass
+class WgtBuilder:
+    """
+    Builds ``Wgt``.
+
+    Attributes:
+        weight: Particle weight.
+    """
+
+    weight: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``WgtBuilder`` into ``Wgt``.
+
+        Returns:
+            ``Wgt`` for ``WgtBuilder``.
+        """
+
+        if isinstance(self.weight, types.Real):
+            weight = self.weight
+        elif isinstance(self.weight, float) or isinstance(self.weight, int):
+            weight = types.RealOrJump(self.weight)
+        elif isinstance(self.weight, str):
+            weight = types.RealOrJump.from_mcnp(self.weight)
+
+        return Wgt(
+            weight=weight,
+        )

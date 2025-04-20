@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from . import act
@@ -12,7 +13,7 @@ class Act(DataOption_, keyword='act'):
     Represents INP act elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
@@ -39,3 +40,37 @@ class Act(DataOption_, keyword='act'):
         )
 
         self.options: typing.Final[types.Tuple[act.ActOption_]] = options
+
+
+@dataclasses.dataclass
+class ActBuilder:
+    """
+    Builds ``Act``.
+
+    Attributes:
+        options: Dictionary of options.
+    """
+
+    options: list[str] | list[act.ActOption_] = None
+
+    def build(self):
+        """
+        Builds ``ActBuilder`` into ``Act``.
+
+        Returns:
+            ``Act`` for ``ActBuilder``.
+        """
+
+        options = []
+        for item in self.options:
+            if isinstance(item, act.ActOption_):
+                options.append(item)
+            elif isinstance(item, str):
+                options.append(act.ActOption_.from_mcnp(item))
+            else:
+                options.append(item.build())
+        options = types.Tuple(options)
+
+        return Act(
+            options=options,
+        )

@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Tsaits(BlockOption_, keyword='tsaits'):
     Represents INP tsaits elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Maximum TSA iteration count.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Tsaits(BlockOption_, keyword='tsaits'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class TsaitsBuilder:
+    """
+    Builds ``Tsaits``.
+
+    Attributes:
+        setting: Maximum TSA iteration count.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``TsaitsBuilder`` into ``Tsaits``.
+
+        Returns:
+            ``Tsaits`` for ``TsaitsBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Tsaits(
+            setting=setting,
+        )

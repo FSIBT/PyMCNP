@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import EmbeeOption_
@@ -12,7 +13,7 @@ class Energy(EmbeeOption_, keyword='energy'):
     Represents INP energy elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        factor: Multiplicative conversion factor for energy-related output.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Energy(EmbeeOption_, keyword='energy'):
         )
 
         self.factor: typing.Final[types.RealOrJump] = factor
+
+
+@dataclasses.dataclass
+class EnergyBuilder:
+    """
+    Builds ``Energy``.
+
+    Attributes:
+        factor: Multiplicative conversion factor for energy-related output.
+    """
+
+    factor: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``EnergyBuilder`` into ``Energy``.
+
+        Returns:
+            ``Energy`` for ``EnergyBuilder``.
+        """
+
+        if isinstance(self.factor, types.Real):
+            factor = self.factor
+        elif isinstance(self.factor, float) or isinstance(self.factor, int):
+            factor = types.RealOrJump(self.factor)
+        elif isinstance(self.factor, str):
+            factor = types.RealOrJump.from_mcnp(self.factor)
+
+        return Energy(
+            factor=factor,
+        )

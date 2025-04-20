@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SdefOption_
@@ -12,7 +13,7 @@ class Ccc(SdefOption_, keyword='ccc'):
     Represents INP ccc elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        number: Cookie-cutter cell number.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Ccc(SdefOption_, keyword='ccc'):
         )
 
         self.number: typing.Final[types.IntegerOrJump] = number
+
+
+@dataclasses.dataclass
+class CccBuilder:
+    """
+    Builds ``Ccc``.
+
+    Attributes:
+        number: Cookie-cutter cell number.
+    """
+
+    number: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``CccBuilder`` into ``Ccc``.
+
+        Returns:
+            ``Ccc`` for ``CccBuilder``.
+        """
+
+        if isinstance(self.number, types.Integer):
+            number = self.number
+        elif isinstance(self.number, int):
+            number = types.IntegerOrJump(self.number)
+        elif isinstance(self.number, str):
+            number = types.IntegerOrJump.from_mcnp(self.number)
+
+        return Ccc(
+            number=number,
+        )

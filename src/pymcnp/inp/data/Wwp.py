@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,17 @@ class Wwp(DataOption_, keyword='wwp'):
     Represents INP wwp elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        designator: Data card particle designator.
+        wupn: Multiplier to define the weight window upper limit.
+        wsurvn: Multiplier to define the maximum Russian roulette survival weight within the window.
+        mxspln: Maximum number of integer splits.
+        mwhere: Controls where to check a particle’s weight.
+        switchn: Controls where to get the lower weight-window bounds.
+        mtime: Energy/time-dependent window setting.
+        wnrom: Weight-window normalization factor.
+        etsplt: ESLPT & TSPLT split/roulette on/off.
+        wu: Limits the maximum lower weight-window bound for any particle, energy, or time.
+        nmfp: Limits the maximum lower weight-window bound for any particle, energy, or time.
     """
 
     _ATTRS = {
@@ -116,3 +127,132 @@ class Wwp(DataOption_, keyword='wwp'):
         self.etsplt: typing.Final[types.IntegerOrJump] = etsplt
         self.wu: typing.Final[types.RealOrJump] = wu
         self.nmfp: typing.Final[types.RealOrJump] = nmfp
+
+
+@dataclasses.dataclass
+class WwpBuilder:
+    """
+    Builds ``Wwp``.
+
+    Attributes:
+        designator: Data card particle designator.
+        wupn: Multiplier to define the weight window upper limit.
+        wsurvn: Multiplier to define the maximum Russian roulette survival weight within the window.
+        mxspln: Maximum number of integer splits.
+        mwhere: Controls where to check a particle’s weight.
+        switchn: Controls where to get the lower weight-window bounds.
+        mtime: Energy/time-dependent window setting.
+        wnrom: Weight-window normalization factor.
+        etsplt: ESLPT & TSPLT split/roulette on/off.
+        wu: Limits the maximum lower weight-window bound for any particle, energy, or time.
+        nmfp: Limits the maximum lower weight-window bound for any particle, energy, or time.
+    """
+
+    designator: str | types.Designator
+    wupn: str | float | types.RealOrJump
+    wsurvn: str | float | types.RealOrJump
+    mxspln: str | float | types.RealOrJump
+    mwhere: str | int | types.IntegerOrJump
+    switchn: str | float | types.RealOrJump
+    mtime: str | int | types.IntegerOrJump
+    wnrom: str | float | types.RealOrJump
+    etsplt: str | int | types.IntegerOrJump
+    wu: str | float | types.RealOrJump
+    nmfp: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``WwpBuilder`` into ``Wwp``.
+
+        Returns:
+            ``Wwp`` for ``WwpBuilder``.
+        """
+
+        if isinstance(self.designator, types.Designator):
+            designator = self.designator
+        elif isinstance(self.designator, str):
+            designator = types.Designator.from_mcnp(self.designator)
+
+        if isinstance(self.wupn, types.Real):
+            wupn = self.wupn
+        elif isinstance(self.wupn, float) or isinstance(self.wupn, int):
+            wupn = types.RealOrJump(self.wupn)
+        elif isinstance(self.wupn, str):
+            wupn = types.RealOrJump.from_mcnp(self.wupn)
+
+        if isinstance(self.wsurvn, types.Real):
+            wsurvn = self.wsurvn
+        elif isinstance(self.wsurvn, float) or isinstance(self.wsurvn, int):
+            wsurvn = types.RealOrJump(self.wsurvn)
+        elif isinstance(self.wsurvn, str):
+            wsurvn = types.RealOrJump.from_mcnp(self.wsurvn)
+
+        if isinstance(self.mxspln, types.Real):
+            mxspln = self.mxspln
+        elif isinstance(self.mxspln, float) or isinstance(self.mxspln, int):
+            mxspln = types.RealOrJump(self.mxspln)
+        elif isinstance(self.mxspln, str):
+            mxspln = types.RealOrJump.from_mcnp(self.mxspln)
+
+        if isinstance(self.mwhere, types.Integer):
+            mwhere = self.mwhere
+        elif isinstance(self.mwhere, int):
+            mwhere = types.IntegerOrJump(self.mwhere)
+        elif isinstance(self.mwhere, str):
+            mwhere = types.IntegerOrJump.from_mcnp(self.mwhere)
+
+        if isinstance(self.switchn, types.Real):
+            switchn = self.switchn
+        elif isinstance(self.switchn, float) or isinstance(self.switchn, int):
+            switchn = types.RealOrJump(self.switchn)
+        elif isinstance(self.switchn, str):
+            switchn = types.RealOrJump.from_mcnp(self.switchn)
+
+        if isinstance(self.mtime, types.Integer):
+            mtime = self.mtime
+        elif isinstance(self.mtime, int):
+            mtime = types.IntegerOrJump(self.mtime)
+        elif isinstance(self.mtime, str):
+            mtime = types.IntegerOrJump.from_mcnp(self.mtime)
+
+        if isinstance(self.wnrom, types.Real):
+            wnrom = self.wnrom
+        elif isinstance(self.wnrom, float) or isinstance(self.wnrom, int):
+            wnrom = types.RealOrJump(self.wnrom)
+        elif isinstance(self.wnrom, str):
+            wnrom = types.RealOrJump.from_mcnp(self.wnrom)
+
+        if isinstance(self.etsplt, types.Integer):
+            etsplt = self.etsplt
+        elif isinstance(self.etsplt, int):
+            etsplt = types.IntegerOrJump(self.etsplt)
+        elif isinstance(self.etsplt, str):
+            etsplt = types.IntegerOrJump.from_mcnp(self.etsplt)
+
+        if isinstance(self.wu, types.Real):
+            wu = self.wu
+        elif isinstance(self.wu, float) or isinstance(self.wu, int):
+            wu = types.RealOrJump(self.wu)
+        elif isinstance(self.wu, str):
+            wu = types.RealOrJump.from_mcnp(self.wu)
+
+        if isinstance(self.nmfp, types.Real):
+            nmfp = self.nmfp
+        elif isinstance(self.nmfp, float) or isinstance(self.nmfp, int):
+            nmfp = types.RealOrJump(self.nmfp)
+        elif isinstance(self.nmfp, str):
+            nmfp = types.RealOrJump.from_mcnp(self.nmfp)
+
+        return Wwp(
+            designator=designator,
+            wupn=wupn,
+            wsurvn=wsurvn,
+            mxspln=mxspln,
+            mwhere=mwhere,
+            switchn=switchn,
+            mtime=mtime,
+            wnrom=wnrom,
+            etsplt=etsplt,
+            wu=wu,
+            nmfp=nmfp,
+        )

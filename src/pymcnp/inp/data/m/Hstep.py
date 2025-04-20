@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MOption_
@@ -12,7 +13,7 @@ class Hstep(MOption_, keyword='hstep'):
     Represents INP hstep elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        step: Number of proton sub-step per energy step.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Hstep(MOption_, keyword='hstep'):
         )
 
         self.step: typing.Final[types.IntegerOrJump] = step
+
+
+@dataclasses.dataclass
+class HstepBuilder:
+    """
+    Builds ``Hstep``.
+
+    Attributes:
+        step: Number of proton sub-step per energy step.
+    """
+
+    step: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``HstepBuilder`` into ``Hstep``.
+
+        Returns:
+            ``Hstep`` for ``HstepBuilder``.
+        """
+
+        if isinstance(self.step, types.Integer):
+            step = self.step
+        elif isinstance(self.step, int):
+            step = types.IntegerOrJump(self.step)
+        elif isinstance(self.step, str):
+            step = types.IntegerOrJump.from_mcnp(self.step)
+
+        return Hstep(
+            step=step,
+        )

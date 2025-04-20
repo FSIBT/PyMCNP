@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import DataOption_
@@ -12,7 +13,7 @@ class Lat(DataOption_, keyword='lat'):
     Represents INP lat elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        type: Tuple of lattice types.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Lat(DataOption_, keyword='lat'):
         )
 
         self.type: typing.Final[types.Tuple[types.IntegerOrJump]] = type
+
+
+@dataclasses.dataclass
+class LatBuilder:
+    """
+    Builds ``Lat``.
+
+    Attributes:
+        type: Tuple of lattice types.
+    """
+
+    type: list[str] | list[int] | list[types.IntegerOrJump]
+
+    def build(self):
+        """
+        Builds ``LatBuilder`` into ``Lat``.
+
+        Returns:
+            ``Lat`` for ``LatBuilder``.
+        """
+
+        type = []
+        for item in self.type:
+            if isinstance(item, types.IntegerOrJump):
+                type.append(item)
+            elif isinstance(item, int):
+                type.append(types.IntegerOrJump(item))
+            elif isinstance(item, str):
+                type.append(types.IntegerOrJump.from_mcnp(item))
+        type = types.Tuple(type)
+
+        return Lat(
+            type=type,
+        )

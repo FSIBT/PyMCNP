@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import FmeshOption_
@@ -12,7 +13,7 @@ class Tmesh(FmeshOption_, keyword='tmesh'):
     Represents INP tmesh elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        time: Values of mesh points in time.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Tmesh(FmeshOption_, keyword='tmesh'):
         )
 
         self.time: typing.Final[types.RealOrJump] = time
+
+
+@dataclasses.dataclass
+class TmeshBuilder:
+    """
+    Builds ``Tmesh``.
+
+    Attributes:
+        time: Values of mesh points in time.
+    """
+
+    time: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``TmeshBuilder`` into ``Tmesh``.
+
+        Returns:
+            ``Tmesh`` for ``TmeshBuilder``.
+        """
+
+        if isinstance(self.time, types.Real):
+            time = self.time
+        elif isinstance(self.time, float) or isinstance(self.time, int):
+            time = types.RealOrJump(self.time)
+        elif isinstance(self.time, str):
+            time = types.RealOrJump.from_mcnp(self.time)
+
+        return Tmesh(
+            time=time,
+        )

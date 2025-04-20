@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import CellOption_
@@ -12,7 +13,7 @@ class Nonu(CellOption_, keyword='nonu'):
     Represents INP nonu elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Cell fission setting.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Nonu(CellOption_, keyword='nonu'):
         )
 
         self.setting: typing.Final[types.Integer] = setting
+
+
+@dataclasses.dataclass
+class NonuBuilder:
+    """
+    Builds ``Nonu``.
+
+    Attributes:
+        setting: Cell fission setting.
+    """
+
+    setting: str | int | types.Integer
+
+    def build(self):
+        """
+        Builds ``NonuBuilder`` into ``Nonu``.
+
+        Returns:
+            ``Nonu`` for ``NonuBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.Integer(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.Integer.from_mcnp(self.setting)
+
+        return Nonu(
+            setting=setting,
+        )

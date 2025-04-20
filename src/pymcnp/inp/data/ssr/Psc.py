@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SsrOption_
@@ -12,7 +13,7 @@ class Psc(SsrOption_, keyword='psc'):
     Represents INP psc elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        constant: Constant for approximation in PSC evaluation.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Psc(SsrOption_, keyword='psc'):
         )
 
         self.constant: typing.Final[types.RealOrJump] = constant
+
+
+@dataclasses.dataclass
+class PscBuilder:
+    """
+    Builds ``Psc``.
+
+    Attributes:
+        constant: Constant for approximation in PSC evaluation.
+    """
+
+    constant: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``PscBuilder`` into ``Psc``.
+
+        Returns:
+            ``Psc`` for ``PscBuilder``.
+        """
+
+        if isinstance(self.constant, types.Real):
+            constant = self.constant
+        elif isinstance(self.constant, float) or isinstance(self.constant, int):
+            constant = types.RealOrJump(self.constant)
+        elif isinstance(self.constant, str):
+            constant = types.RealOrJump.from_mcnp(self.constant)
+
+        return Psc(
+            constant=constant,
+        )

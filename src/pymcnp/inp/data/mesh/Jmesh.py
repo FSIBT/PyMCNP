@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import MeshOption_
@@ -12,7 +13,7 @@ class Jmesh(MeshOption_, keyword='jmesh'):
     Represents INP jmesh elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        vector: Locations of the coarse meshes in the y/z directions.
     """
 
     _ATTRS = {
@@ -42,3 +43,37 @@ class Jmesh(MeshOption_, keyword='jmesh'):
         )
 
         self.vector: typing.Final[types.Tuple[types.RealOrJump]] = vector
+
+
+@dataclasses.dataclass
+class JmeshBuilder:
+    """
+    Builds ``Jmesh``.
+
+    Attributes:
+        vector: Locations of the coarse meshes in the y/z directions.
+    """
+
+    vector: list[str] | list[float] | list[types.RealOrJump]
+
+    def build(self):
+        """
+        Builds ``JmeshBuilder`` into ``Jmesh``.
+
+        Returns:
+            ``Jmesh`` for ``JmeshBuilder``.
+        """
+
+        vector = []
+        for item in self.vector:
+            if isinstance(item, types.RealOrJump):
+                vector.append(item)
+            elif isinstance(item, float) or isinstance(item, int):
+                vector.append(types.RealOrJump(item))
+            elif isinstance(item, str):
+                vector.append(types.RealOrJump.from_mcnp(item))
+        vector = types.Tuple(vector)
+
+        return Jmesh(
+            vector=vector,
+        )

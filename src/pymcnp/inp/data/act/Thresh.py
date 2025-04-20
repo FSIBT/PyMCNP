@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import ActOption_
@@ -12,7 +13,7 @@ class Thresh(ActOption_, keyword='thresh'):
     Represents INP thresh elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        fraction: Fraction of highest-amplitude discrete delayed-gamma lines retained.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Thresh(ActOption_, keyword='thresh'):
         )
 
         self.fraction: typing.Final[types.RealOrJump] = fraction
+
+
+@dataclasses.dataclass
+class ThreshBuilder:
+    """
+    Builds ``Thresh``.
+
+    Attributes:
+        fraction: Fraction of highest-amplitude discrete delayed-gamma lines retained.
+    """
+
+    fraction: str | float | types.RealOrJump
+
+    def build(self):
+        """
+        Builds ``ThreshBuilder`` into ``Thresh``.
+
+        Returns:
+            ``Thresh`` for ``ThreshBuilder``.
+        """
+
+        if isinstance(self.fraction, types.Real):
+            fraction = self.fraction
+        elif isinstance(self.fraction, float) or isinstance(self.fraction, int):
+            fraction = types.RealOrJump(self.fraction)
+        elif isinstance(self.fraction, str):
+            fraction = types.RealOrJump.from_mcnp(self.fraction)
+
+        return Thresh(
+            fraction=fraction,
+        )

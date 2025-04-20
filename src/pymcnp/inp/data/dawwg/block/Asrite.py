@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import BlockOption_
@@ -12,7 +13,7 @@ class Asrite(BlockOption_, keyword='asrite'):
     Represents INP asrite elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: Left-going flux at plane i.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Asrite(BlockOption_, keyword='asrite'):
         )
 
         self.setting: typing.Final[types.IntegerOrJump] = setting
+
+
+@dataclasses.dataclass
+class AsriteBuilder:
+    """
+    Builds ``Asrite``.
+
+    Attributes:
+        setting: Left-going flux at plane i.
+    """
+
+    setting: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``AsriteBuilder`` into ``Asrite``.
+
+        Returns:
+            ``Asrite`` for ``AsriteBuilder``.
+        """
+
+        if isinstance(self.setting, types.Integer):
+            setting = self.setting
+        elif isinstance(self.setting, int):
+            setting = types.IntegerOrJump(self.setting)
+        elif isinstance(self.setting, str):
+            setting = types.IntegerOrJump.from_mcnp(self.setting)
+
+        return Asrite(
+            setting=setting,
+        )

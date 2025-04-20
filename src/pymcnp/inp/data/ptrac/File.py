@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import PtracOption_
@@ -12,7 +13,7 @@ class File(PtracOption_, keyword='file'):
     Represents INP file elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        setting: PTRAC file type.
     """
 
     _ATTRS = {
@@ -42,3 +43,32 @@ class File(PtracOption_, keyword='file'):
         )
 
         self.setting: typing.Final[types.String] = setting
+
+
+@dataclasses.dataclass
+class FileBuilder:
+    """
+    Builds ``File``.
+
+    Attributes:
+        setting: PTRAC file type.
+    """
+
+    setting: str | types.String
+
+    def build(self):
+        """
+        Builds ``FileBuilder`` into ``File``.
+
+        Returns:
+            ``File`` for ``FileBuilder``.
+        """
+
+        if isinstance(self.setting, types.String):
+            setting = self.setting
+        elif isinstance(self.setting, str):
+            setting = types.String.from_mcnp(self.setting)
+
+        return File(
+            setting=setting,
+        )

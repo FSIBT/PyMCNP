@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import Df_1Option_
@@ -12,7 +13,7 @@ class Fac(Df_1Option_, keyword='fac'):
     Represents INP fac elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        normalization: Normalization factor for dose.
     """
 
     _ATTRS = {
@@ -42,3 +43,34 @@ class Fac(Df_1Option_, keyword='fac'):
         )
 
         self.normalization: typing.Final[types.IntegerOrJump] = normalization
+
+
+@dataclasses.dataclass
+class FacBuilder:
+    """
+    Builds ``Fac``.
+
+    Attributes:
+        normalization: Normalization factor for dose.
+    """
+
+    normalization: str | int | types.IntegerOrJump
+
+    def build(self):
+        """
+        Builds ``FacBuilder`` into ``Fac``.
+
+        Returns:
+            ``Fac`` for ``FacBuilder``.
+        """
+
+        if isinstance(self.normalization, types.Integer):
+            normalization = self.normalization
+        elif isinstance(self.normalization, int):
+            normalization = types.IntegerOrJump(self.normalization)
+        elif isinstance(self.normalization, str):
+            normalization = types.IntegerOrJump.from_mcnp(self.normalization)
+
+        return Fac(
+            normalization=normalization,
+        )

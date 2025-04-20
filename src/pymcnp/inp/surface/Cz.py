@@ -1,5 +1,6 @@
 import re
 import typing
+import dataclasses
 
 
 from .option_ import SurfaceOption_
@@ -13,7 +14,7 @@ class Cz(SurfaceOption_, keyword='cz'):
     Represents INP cz elements.
 
     Attributes:
-        InpError: SEMANTICS_OPTION_VALUE.
+        r: On-z-axis cylinder radius.
     """
 
     _ATTRS = {
@@ -55,3 +56,34 @@ class Cz(SurfaceOption_, keyword='cz'):
         vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
 
         return vis
+
+
+@dataclasses.dataclass
+class CzBuilder:
+    """
+    Builds ``Cz``.
+
+    Attributes:
+        r: On-z-axis cylinder radius.
+    """
+
+    r: str | float | types.Real
+
+    def build(self):
+        """
+        Builds ``CzBuilder`` into ``Cz``.
+
+        Returns:
+            ``Cz`` for ``CzBuilder``.
+        """
+
+        if isinstance(self.r, types.Real):
+            r = self.r
+        elif isinstance(self.r, float) or isinstance(self.r, int):
+            r = types.Real(self.r)
+        elif isinstance(self.r, str):
+            r = types.Real.from_mcnp(self.r)
+
+        return Cz(
+            r=r,
+        )
