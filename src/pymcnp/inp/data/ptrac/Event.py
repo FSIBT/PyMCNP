@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import PtracOption_
+from ._option import PtracOption
 from ....utils import types
 from ....utils import errors
 
 
-class Event(PtracOption_, keyword='event'):
+class Event(PtracOption, keyword='event'):
     """
     Represents INP event elements.
 

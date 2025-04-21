@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Lost(DataOption_, keyword='lost'):
+class Lost(DataOption, keyword='lost'):
     """
     Represents INP lost elements.
 

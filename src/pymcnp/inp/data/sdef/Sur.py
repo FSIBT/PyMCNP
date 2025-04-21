@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SdefOption_
+from ._option import SdefOption
 from ....utils import types
 from ....utils import errors
 
 
-class Sur(SdefOption_, keyword='sur'):
+class Sur(SdefOption, keyword='sur'):
     """
     Represents INP sur elements.
 

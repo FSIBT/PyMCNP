@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Iquad(BlockOption_, keyword='iquad'):
+class Iquad(BlockOption, keyword='iquad'):
     """
     Represents INP iquad elements.
 

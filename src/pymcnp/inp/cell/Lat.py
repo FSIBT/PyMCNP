@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import CellOption_
+from ._option import CellOption
 from ...utils import types
 from ...utils import errors
 
 
-class Lat(CellOption_, keyword='lat'):
+class Lat(CellOption, keyword='lat'):
     """
     Represents INP lat elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import EmbeeOption_
+from ._option import EmbeeOption
 from ....utils import types
 from ....utils import errors
 
 
-class Energy(EmbeeOption_, keyword='energy'):
+class Energy(EmbeeOption, keyword='energy'):
     """
     Represents INP energy elements.
 

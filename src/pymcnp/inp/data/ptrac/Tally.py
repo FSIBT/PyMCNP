@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import PtracOption_
+from ._option import PtracOption
 from ....utils import types
 from ....utils import errors
 
 
-class Tally(PtracOption_, keyword='tally'):
+class Tally(PtracOption, keyword='tally'):
     """
     Represents INP tally elements.
 

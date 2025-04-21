@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SsrOption_
+from ._option import SsrOption
 from ....utils import types
 from ....utils import errors
 
 
-class Bcw(SsrOption_, keyword='bcw'):
+class Bcw(SsrOption, keyword='bcw'):
     """
     Represents INP bcw elements.
 

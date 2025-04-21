@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Df_0(DataOption_, keyword='df'):
+class Df_0(DataOption, keyword='df'):
     """
     Represents INP df variation #0 elements.
 
@@ -24,9 +24,7 @@ class Df_0(DataOption_, keyword='df'):
         'values': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(
-        rf'\Adf(\d+)( (?:log|lin))?((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
-    )
+    _REGEX = re.compile(rf'\Adf(\d+)( (?:log|lin))?((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
     def __init__(
         self,

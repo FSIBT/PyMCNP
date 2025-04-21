@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SdefOption_
+from ._option import SdefOption
 from ....utils import types
 from ....utils import errors
 
 
-class Par(SdefOption_, keyword='par'):
+class Par(SdefOption, keyword='par'):
     """
     Represents INP par elements.
 

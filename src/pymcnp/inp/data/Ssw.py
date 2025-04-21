@@ -4,12 +4,12 @@ import dataclasses
 
 
 from . import ssw
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Ssw(DataOption_, keyword='ssw'):
+class Ssw(DataOption, keyword='ssw'):
     """
     Represents INP ssw elements.
 
@@ -22,18 +22,18 @@ class Ssw(DataOption_, keyword='ssw'):
     _ATTRS = {
         'surfaces': types.Tuple[types.IntegerOrJump],
         'cells': types.Tuple[types.IntegerOrJump],
-        'options': types.Tuple[ssw.SswOption_],
+        'options': types.Tuple[ssw.SswOption],
     }
 
     _REGEX = re.compile(
-        rf'\Assw((?: {types.IntegerOrJump._REGEX.pattern})+?)((?: {types.IntegerOrJump._REGEX.pattern})+?)((?: (?:{ssw.SswOption_._REGEX.pattern}))+?)?\Z'
+        rf'\Assw((?: {types.IntegerOrJump._REGEX.pattern})+?)((?: {types.IntegerOrJump._REGEX.pattern})+?)((?: (?:{ssw.SswOption._REGEX.pattern}))+?)?\Z'
     )
 
     def __init__(
         self,
         surfaces: types.Tuple[types.IntegerOrJump],
         cells: types.Tuple[types.IntegerOrJump],
-        options: types.Tuple[ssw.SswOption_] = None,
+        options: types.Tuple[ssw.SswOption] = None,
     ):
         """
         Initializes ``Ssw``.
@@ -62,7 +62,7 @@ class Ssw(DataOption_, keyword='ssw'):
 
         self.surfaces: typing.Final[types.Tuple[types.IntegerOrJump]] = surfaces
         self.cells: typing.Final[types.Tuple[types.IntegerOrJump]] = cells
-        self.options: typing.Final[types.Tuple[ssw.SswOption_]] = options
+        self.options: typing.Final[types.Tuple[ssw.SswOption]] = options
 
 
 @dataclasses.dataclass
@@ -78,7 +78,7 @@ class SswBuilder:
 
     surfaces: list[str] | list[int] | list[types.IntegerOrJump]
     cells: list[str] | list[int] | list[types.IntegerOrJump]
-    options: list[str] | list[ssw.SswOption_] = None
+    options: list[str] | list[ssw.SswOption] = None
 
     def build(self):
         """
@@ -110,10 +110,10 @@ class SswBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, ssw.SswOption_):
+            if isinstance(item, ssw.SswOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(ssw.SswOption_.from_mcnp(item))
+                options.append(ssw.SswOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

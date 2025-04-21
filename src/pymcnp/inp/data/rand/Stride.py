@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import RandOption_
+from ._option import RandOption
 from ....utils import types
 from ....utils import errors
 
 
-class Stride(RandOption_, keyword='stride'):
+class Stride(RandOption, keyword='stride'):
     """
     Represents INP stride elements.
 

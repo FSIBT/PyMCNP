@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Ds_0(DataOption_, keyword='ds'):
+class Ds_0(DataOption, keyword='ds'):
     """
     Represents INP ds variation #0 elements.
 
@@ -24,9 +24,7 @@ class Ds_0(DataOption_, keyword='ds'):
         'js': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(
-        rf'\Ads(\d+)( [hls])?((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
-    )
+    _REGEX = re.compile(rf'\Ads(\d+)( [hls])?((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
     def __init__(
         self, suffix: types.Integer, js: types.Tuple[types.RealOrJump], option: types.String = None

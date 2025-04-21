@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import MeshOption_
+from ._option import MeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Geom(MeshOption_, keyword='geom'):
+class Geom(MeshOption, keyword='geom'):
     """
     Represents INP geom elements.
 

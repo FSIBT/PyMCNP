@@ -1,4 +1,4 @@
-from .option_ import SswOption_
+from ._option import SswOption
 
 from .Sym import Sym
 from .Pty import Pty
@@ -8,7 +8,7 @@ from .Pty import PtyBuilder
 from .Cel import CelBuilder
 
 __all__ = [
-    'SswOption_',
+    'SswOption',
     'Sym',
     'Pty',
     'Cel',

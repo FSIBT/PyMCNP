@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BfldOption_
+from ._option import BfldOption
 from ....utils import types
 from ....utils import errors
 
 
-class Maxdeflc(BfldOption_, keyword='maxdeflc'):
+class Maxdeflc(BfldOption, keyword='maxdeflc'):
     """
     Represents INP maxdeflc elements.
 

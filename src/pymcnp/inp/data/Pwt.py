@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Pwt(DataOption_, keyword='pwt'):
+class Pwt(DataOption, keyword='pwt'):
     """
     Represents INP pwt elements.
 

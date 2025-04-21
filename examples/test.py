@@ -97,8 +97,8 @@ cols = [
     'tally_name',
     'tally_type',
     'particle',
-    'line_.HistoryLine_tart',
-    'line_.HistoryLine_nd',
+    '_line.HistoryLinetart',
+    '_line.HistoryLinend',
     'description',
     'nps',
     'other',
@@ -114,13 +114,13 @@ for info, data in zip(tly_info_idx, lnp):
     data_end = data[1]
     info_lst = all_lines[info_start:info_end]
     info_dict = parse_info(info_lst)
-    info_dict['line_.HistoryLine_tart'] = data_start
-    info_dict['line_.HistoryLine_nd'] = data_end
+    info_dict['_line.HistoryLinetart'] = data_start
+    info_dict['_line.HistoryLinend'] = data_end
     df.loc[len(df)] = info_dict
 
 
-s = df['line_.HistoryLine_tart'][0]
-e = df['line_.HistoryLine_nd'][0]
+s = df['_line.HistoryLinetart'][0]
+e = df['_line.HistoryLinend'][0]
 corpus = all_lines[s:e]
 corpus_np = np.array([x.split() for x in corpus], dtype=float)
 df1 = pd.DataFrame(columns=['energy', 'cts', 'error'], data=corpus_np)

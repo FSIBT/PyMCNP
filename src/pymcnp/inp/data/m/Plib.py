@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import MOption_
+from ._option import MOption
 from ....utils import types
 from ....utils import errors
 
 
-class Plib(MOption_, keyword='plib'):
+class Plib(MOption, keyword='plib'):
     """
     Represents INP plib elements.
 

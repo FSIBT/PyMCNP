@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Kcode(DataOption_, keyword='kcode'):
+class Kcode(DataOption, keyword='kcode'):
     """
     Represents INP kcode elements.
 
@@ -70,7 +70,11 @@ class Kcode(DataOption_, keyword='kcode'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nsrck)
         if kct is not None and not (isinstance(kct.value, types.Jump) or kct.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kct)
-        if msrk is not None and not (isinstance(msrk.value, types.Jump) or isinstance(nsrck.value, types.Jump) or msrk.value < 40 * nsrck.value):
+        if msrk is not None and not (
+            isinstance(msrk.value, types.Jump)
+            or isinstance(nsrck.value, types.Jump)
+            or msrk.value < 40 * nsrck.value
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, msrk)
         if knrm is not None and not (isinstance(knrm.value, types.Jump) or knrm.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, knrm)

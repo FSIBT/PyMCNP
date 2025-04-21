@@ -4,11 +4,11 @@ import dataclasses
 
 
 from . import ssr
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Ssr(DataOption_, keyword='ssr'):
+class Ssr(DataOption, keyword='ssr'):
     """
     Represents INP ssr elements.
 
@@ -17,12 +17,12 @@ class Ssr(DataOption_, keyword='ssr'):
     """
 
     _ATTRS = {
-        'options': types.Tuple[ssr.SsrOption_],
+        'options': types.Tuple[ssr.SsrOption],
     }
 
-    _REGEX = re.compile(rf'\Assr((?: (?:{ssr.SsrOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Assr((?: (?:{ssr.SsrOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[ssr.SsrOption_] = None):
+    def __init__(self, options: types.Tuple[ssr.SsrOption] = None):
         """
         Initializes ``Ssr``.
 
@@ -39,7 +39,7 @@ class Ssr(DataOption_, keyword='ssr'):
             ]
         )
 
-        self.options: typing.Final[types.Tuple[ssr.SsrOption_]] = options
+        self.options: typing.Final[types.Tuple[ssr.SsrOption]] = options
 
 
 @dataclasses.dataclass
@@ -51,7 +51,7 @@ class SsrBuilder:
         options: Dictionary of options.
     """
 
-    options: list[str] | list[ssr.SsrOption_] = None
+    options: list[str] | list[ssr.SsrOption] = None
 
     def build(self):
         """
@@ -63,10 +63,10 @@ class SsrBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, ssr.SsrOption_):
+            if isinstance(item, ssr.SsrOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(ssr.SsrOption_.from_mcnp(item))
+                options.append(ssr.SsrOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

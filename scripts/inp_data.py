@@ -146,7 +146,7 @@ cards = ElementScheme(
                 ),
                 AttributeScheme(
                     name='options',
-                    type='types.Tuple[cell.CellOption_]',
+                    type='types.Tuple[cell.CellOption]',
                     description='cell options',
                     optional=True,
                 ),
@@ -642,7 +642,7 @@ cards = ElementScheme(
             attributes=[
                 AttributeScheme(
                     name='options',
-                    type='surface.SurfaceOption_',
+                    type='surface.SurfaceOption',
                     description='Help Me!',
                 ),
             ],
@@ -2638,7 +2638,7 @@ cards = ElementScheme(
             attributes=[
                 AttributeScheme(
                     name='option',
-                    type='data.DataOption_',
+                    type='data.DataOption',
                     description='Help Me!',
                 ),
             ],
@@ -3021,7 +3021,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[dawwg.DawwgOption_]',
+                            type='types.Tuple[dawwg.DawwgOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -3061,7 +3061,7 @@ cards = ElementScheme(
                                 ),
                                 AttributeScheme(
                                     name='options',
-                                    type='types.Tuple[block.BlockOption_]',
+                                    type='types.Tuple[block.BlockOption]',
                                     description='Dictionary of dawwg block options',
                                     optional=True,
                                 ),
@@ -3827,7 +3827,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[embed.EmbedOption_]',
+                            type='types.Tuple[embed.EmbedOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -3973,7 +3973,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[embee.EmbeeOption_]',
+                            type='types.Tuple[embee.EmbeeOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -4187,7 +4187,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[m.MOption_]',
+                            type='types.Tuple[m.MOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -4939,7 +4939,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[act.ActOption_]',
+                            type='types.Tuple[act.ActOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -5413,7 +5413,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[fmult.FmultOption_]',
+                            type='types.Tuple[fmult.FmultOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -5512,7 +5512,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[tropt.TroptOption_]',
+                            type='types.Tuple[tropt.TroptOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -5647,7 +5647,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[bfld.BfldOption_]',
+                            type='types.Tuple[bfld.BfldOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -5749,7 +5749,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[sdef.SdefOption_]',
+                            type='types.Tuple[sdef.SdefOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -6376,7 +6376,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[ssw.SswOption_]',
+                            type='types.Tuple[ssw.SswOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -6425,7 +6425,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[ssr.SsrOption_]',
+                            type='types.Tuple[ssr.SsrOption]',
                             description='Dictionary of options',
                             optional=True,
                         )
@@ -6670,7 +6670,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[kopts.KoptsOption_]',
+                            type='types.Tuple[kopts.KoptsOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -7296,7 +7296,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[t_1.T_1Option_]',
+                            type='types.Tuple[t_1.T_1Option]',
                             description='Data card options',
                         ),
                     ],
@@ -7564,7 +7564,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[df_1.Df_1Option_]',
+                            type='types.Tuple[df_1.Df_1Option]',
                             description='Dictionary of options',
                         ),
                     ],
@@ -7821,7 +7821,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[pert.PertOption_]',
+                            type='types.Tuple[pert.PertOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -7915,7 +7915,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[kpert.KpertOption_]',
+                            type='types.Tuple[kpert.KpertOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -8020,7 +8020,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[ksen.KsenOption_]',
+                            type='types.Tuple[ksen.KsenOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -8134,7 +8134,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[fmesh.FmeshOption_]',
+                            type='types.Tuple[fmesh.FmeshOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -8485,7 +8485,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[var.VarOption_]',
+                            type='types.Tuple[var.VarOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -8702,7 +8702,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[mesh.MeshOption_]',
+                            type='types.Tuple[mesh.MeshOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -9751,7 +9751,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[stop.StopOption_]',
+                            type='types.Tuple[stop.StopOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -9867,7 +9867,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[ptrac.PtracOption_]',
+                            type='types.Tuple[ptrac.PtracOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -10063,7 +10063,7 @@ cards = ElementScheme(
                     attributes=[
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[rand.RandOption_]',
+                            type='types.Tuple[rand.RandOption]',
                             description='Dictionary of options',
                             optional=True,
                         ),

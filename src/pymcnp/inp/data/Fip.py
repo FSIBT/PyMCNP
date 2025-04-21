@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Fip(DataOption_, keyword='fip'):
+class Fip(DataOption, keyword='fip'):
     """
     Represents INP fip elements.
 

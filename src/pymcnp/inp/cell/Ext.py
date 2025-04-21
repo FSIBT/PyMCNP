@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import CellOption_
+from ._option import CellOption
 from ...utils import types
 from ...utils import errors
 
 
-class Ext(CellOption_, keyword='ext'):
+class Ext(CellOption, keyword='ext'):
     """
     Represents INP ext elements.
 

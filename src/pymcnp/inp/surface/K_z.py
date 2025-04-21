@@ -3,13 +3,13 @@ import typing
 import dataclasses
 
 
-from .option_ import SurfaceOption_
+from ._option import SurfaceOption
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class K_z(SurfaceOption_, keyword='k/z'):
+class K_z(SurfaceOption, keyword='k/z'):
     """
     Represents INP k/z elements.
 
@@ -99,7 +99,7 @@ class K_z(SurfaceOption_, keyword='k/z'):
 
 
 @dataclasses.dataclass
-class KBuilder_z:
+class K_zBuilder:
     """
     Builds ``K_z``.
 
@@ -119,10 +119,10 @@ class KBuilder_z:
 
     def build(self):
         """
-        Builds ``KBuilder_z`` into ``K_z``.
+        Builds ``K_zBuilder`` into ``K_z``.
 
         Returns:
-            ``K_z`` for ``KBuilder_z``.
+            ``K_z`` for ``K_zBuilder``.
         """
 
         if isinstance(self.x, types.Real):

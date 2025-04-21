@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import CellOption_
+from ._option import CellOption
 from ...utils import types
 from ...utils import errors
 
 
-class Imp(CellOption_, keyword='imp'):
+class Imp(CellOption, keyword='imp'):
     """
     Represents INP imp elements.
 

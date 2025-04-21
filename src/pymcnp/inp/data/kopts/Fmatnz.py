@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KoptsOption_
+from ._option import KoptsOption
 from ....utils import types
 from ....utils import errors
 
 
-class Fmatnz(KoptsOption_, keyword='fmatnz'):
+class Fmatnz(KoptsOption, keyword='fmatnz'):
     """
     Represents INP fmatnz elements.
 

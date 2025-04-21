@@ -4,11 +4,11 @@ import dataclasses
 
 
 from . import dawwg
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Dawwg(DataOption_, keyword='dawwg'):
+class Dawwg(DataOption, keyword='dawwg'):
     """
     Represents INP dawwg elements.
 
@@ -17,12 +17,12 @@ class Dawwg(DataOption_, keyword='dawwg'):
     """
 
     _ATTRS = {
-        'options': types.Tuple[dawwg.DawwgOption_],
+        'options': types.Tuple[dawwg.DawwgOption],
     }
 
-    _REGEX = re.compile(rf'\Adawwg((?: (?:{dawwg.DawwgOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Adawwg((?: (?:{dawwg.DawwgOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[dawwg.DawwgOption_] = None):
+    def __init__(self, options: types.Tuple[dawwg.DawwgOption] = None):
         """
         Initializes ``Dawwg``.
 
@@ -39,7 +39,7 @@ class Dawwg(DataOption_, keyword='dawwg'):
             ]
         )
 
-        self.options: typing.Final[types.Tuple[dawwg.DawwgOption_]] = options
+        self.options: typing.Final[types.Tuple[dawwg.DawwgOption]] = options
 
 
 @dataclasses.dataclass
@@ -51,7 +51,7 @@ class DawwgBuilder:
         options: Dictionary of options.
     """
 
-    options: list[str] | list[dawwg.DawwgOption_] = None
+    options: list[str] | list[dawwg.DawwgOption] = None
 
     def build(self):
         """
@@ -63,10 +63,10 @@ class DawwgBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, dawwg.DawwgOption_):
+            if isinstance(item, dawwg.DawwgOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(dawwg.DawwgOption_.from_mcnp(item))
+                options.append(dawwg.DawwgOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

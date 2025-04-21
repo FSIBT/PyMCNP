@@ -1,4 +1,4 @@
-from .option_ import ActOption_
+from ._option import ActOption
 
 from .Fission import Fission
 from .Nonfiss import Nonfiss
@@ -26,7 +26,7 @@ from .Hlcut import HlcutBuilder
 from .Sample import SampleBuilder
 
 __all__ = [
-    'ActOption_',
+    'ActOption',
     'Fission',
     'Nonfiss',
     'Dn',

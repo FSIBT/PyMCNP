@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Cf(DataOption_, keyword='cf'):
+class Cf(DataOption, keyword='cf'):
     """
     Represents INP cf elements.
 

@@ -3,13 +3,13 @@ import typing
 import dataclasses
 
 from . import surface
-from .card_ import Card_
+from ._card import Card
 from ..utils import types
 from ..utils import errors
 from ..utils import _parser
 
 
-class Surface(Card_):
+class Surface(Card):
     """
     Represents INP surface cards.
 
@@ -24,15 +24,15 @@ class Surface(Card_):
         'prefix': types.String,
         'number': types.Integer,
         'transform': types.Integer,
-        'option': surface.SurfaceOption_,
+        'option': surface.SurfaceOption,
     }
 
-    _REGEX = re.compile(rf'\A(\+|\*)?(\S+)( \S+)?( ({surface.SurfaceOption_._REGEX.pattern}))\Z')
+    _REGEX = re.compile(rf'\A(\+|\*)?(\S+)( \S+)?( ({surface.SurfaceOption._REGEX.pattern}))\Z')
 
     def __init__(
         self,
         number: types.Integer,
-        option: surface.SurfaceOption_,
+        option: surface.SurfaceOption,
         transform: types.Integer = None,
         prefix: str = None,
     ):
@@ -63,7 +63,7 @@ class Surface(Card_):
 
         self.number: typing.Final[types.Integer] = number
         self.transform: typing.Final[types.Integer] = transform
-        self.option: typing.Final[surface.SurfaceOption_] = option
+        self.option: typing.Final[surface.SurfaceOption] = option
         self.prefix: typing.Final[str] = prefix
 
     def to_mcnp(self):
@@ -104,7 +104,7 @@ class SurfaceBuilder:
     number: str | int | types.Integer
     option: (
         str
-        | surface.SurfaceOption_
+        | surface.SurfaceOption
         | surface.PBuilder_0
         | surface.PBuilder_1
         | surface.PxBuilder
@@ -115,15 +115,15 @@ class SurfaceBuilder:
         | surface.SxBuilder
         | surface.SyBuilder
         | surface.SzBuilder
-        | surface.CBuilder_x
-        | surface.CBuilder_y
-        | surface.CBuilder_z
+        | surface.C_xBuilder
+        | surface.C_yBuilder
+        | surface.C_zBuilder
         | surface.CxBuilder
         | surface.CyBuilder
         | surface.CzBuilder
-        | surface.KBuilder_x
-        | surface.KBuilder_y
-        | surface.KBuilder_z
+        | surface.K_xBuilder
+        | surface.K_yBuilder
+        | surface.K_zBuilder
         | surface.KxBuilder
         | surface.KyBuilder
         | surface.KzBuilder
@@ -237,7 +237,7 @@ class SurfaceBuilder:
 
         if isinstance(self.option, str):
             option = types.Surface.from_mcnp(self.option)
-        elif isinstance(self.option, surface.SurfaceOption_):
+        elif isinstance(self.option, surface.SurfaceOption):
             option = self.option
         else:
             option = self.option.build()

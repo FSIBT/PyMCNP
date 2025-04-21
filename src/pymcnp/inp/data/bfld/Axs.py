@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BfldOption_
+from ._option import BfldOption
 from ....utils import types
 from ....utils import errors
 
 
-class Axs(BfldOption_, keyword='axs'):
+class Axs(BfldOption, keyword='axs'):
     """
     Represents INP axs elements.
 

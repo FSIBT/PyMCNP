@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class F_3(DataOption_, keyword='f'):
+class F_3(DataOption, keyword='f'):
     """
     Represents INP f variation #3 elements.
 

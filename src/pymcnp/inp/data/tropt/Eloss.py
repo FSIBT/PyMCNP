@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import TroptOption_
+from ._option import TroptOption
 from ....utils import types
 from ....utils import errors
 
 
-class Eloss(TroptOption_, keyword='eloss'):
+class Eloss(TroptOption, keyword='eloss'):
     """
     Represents INP eloss elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import PtracOption_
+from ._option import PtracOption
 from ....utils import types
 from ....utils import errors
 
 
-class Conic(PtracOption_, keyword='conic'):
+class Conic(PtracOption, keyword='conic'):
     """
     Represents INP conic elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SdefOption_
+from ._option import SdefOption
 from ....utils import types
 from ....utils import errors
 
 
-class Dat(SdefOption_, keyword='dat'):
+class Dat(SdefOption, keyword='dat'):
     """
     Represents INP dat elements.
 

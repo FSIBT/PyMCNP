@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KoptsOption_
+from ._option import KoptsOption
 from ....utils import types
 from ....utils import errors
 
 
-class Fmataccel(KoptsOption_, keyword='fmataccel'):
+class Fmataccel(KoptsOption, keyword='fmataccel'):
     """
     Represents INP fmataccel elements.
 

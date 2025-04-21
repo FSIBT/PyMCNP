@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import CellOption_
+from ._option import CellOption
 from ...utils import types
 from ...utils import errors
 
 
-class Bflcl(CellOption_, keyword='bflcl'):
+class Bflcl(CellOption, keyword='bflcl'):
     """
     Represents INP bflcl elements.
 

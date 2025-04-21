@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Totnu(DataOption_, keyword='totnu'):
+class Totnu(DataOption, keyword='totnu'):
     """
     Represents INP totnu elements.
 

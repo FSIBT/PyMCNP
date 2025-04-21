@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Lng(BlockOption_, keyword='lng'):
+class Lng(BlockOption, keyword='lng'):
     """
     Represents INP lng elements.
 

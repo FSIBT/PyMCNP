@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SsrOption_
+from ._option import SsrOption
 from ....utils import types
 from ....utils import errors
 
 
-class New(SsrOption_, keyword='new'):
+class New(SsrOption, keyword='new'):
     """
     Represents INP new elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Asfrnt(BlockOption_, keyword='asfrnt'):
+class Asfrnt(BlockOption, keyword='asfrnt'):
     """
     Represents INP asfrnt elements.
 

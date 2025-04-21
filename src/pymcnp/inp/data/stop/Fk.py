@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import StopOption_
+from ._option import StopOption
 from ....utils import types
 from ....utils import errors
 
 
-class Fk(StopOption_, keyword='fk'):
+class Fk(StopOption, keyword='fk'):
     """
     Represents INP fk elements.
 

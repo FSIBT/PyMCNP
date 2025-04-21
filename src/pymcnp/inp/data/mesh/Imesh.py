@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import MeshOption_
+from ._option import MeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Imesh(MeshOption_, keyword='imesh'):
+class Imesh(MeshOption, keyword='imesh'):
     """
     Represents INP imesh elements.
 

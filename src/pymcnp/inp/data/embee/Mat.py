@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import EmbeeOption_
+from ._option import EmbeeOption
 from ....utils import types
 from ....utils import errors
 
 
-class Mat(EmbeeOption_, keyword='mat'):
+class Mat(EmbeeOption, keyword='mat'):
     """
     Represents INP mat elements.
 

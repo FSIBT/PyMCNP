@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import CellOption_
+from ._option import CellOption
 from ...utils import types
 from ...utils import errors
 
 
-class Trcl_1(CellOption_, keyword='trcl'):
+class Trcl_1(CellOption, keyword='trcl'):
     """
     Represents INP trcl variation #1 elements.
 

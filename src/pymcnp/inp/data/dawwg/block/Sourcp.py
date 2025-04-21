@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Sourcp(BlockOption_, keyword='sourcp'):
+class Sourcp(BlockOption, keyword='sourcp'):
     """
     Represents INP sourcp elements.
 

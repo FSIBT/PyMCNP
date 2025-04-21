@@ -1,4 +1,4 @@
-from .option_ import SdefOption_
+from ._option import SdefOption
 
 from .Cel import Cel
 from .Sur import Sur
@@ -60,7 +60,7 @@ from .Bem import BemBuilder
 from .Bap import BapBuilder
 
 __all__ = [
-    'SdefOption_',
+    'SdefOption',
     'Cel',
     'Sur',
     'Erg_0',

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Mphys(DataOption_, keyword='mphys'):
+class Mphys(DataOption, keyword='mphys'):
     """
     Represents INP mphys elements.
 

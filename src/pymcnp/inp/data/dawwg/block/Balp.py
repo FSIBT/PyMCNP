@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Balp(BlockOption_, keyword='balp'):
+class Balp(BlockOption, keyword='balp'):
     """
     Represents INP balp elements.
 

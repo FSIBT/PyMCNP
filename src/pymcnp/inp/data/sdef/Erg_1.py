@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SdefOption_
+from ._option import SdefOption
 from ....utils import types
 from ....utils import errors
 
 
-class Erg_1(SdefOption_, keyword='erg'):
+class Erg_1(SdefOption, keyword='erg'):
     """
     Represents INP erg variation #1 elements.
 

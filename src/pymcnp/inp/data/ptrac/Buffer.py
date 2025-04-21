@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import PtracOption_
+from ._option import PtracOption
 from ....utils import types
 from ....utils import errors
 
 
-class Buffer(PtracOption_, keyword='buffer'):
+class Buffer(PtracOption, keyword='buffer'):
     """
     Represents INP buffer elements.
 

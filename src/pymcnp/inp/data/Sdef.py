@@ -4,11 +4,11 @@ import dataclasses
 
 
 from . import sdef
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Sdef(DataOption_, keyword='sdef'):
+class Sdef(DataOption, keyword='sdef'):
     """
     Represents INP sdef elements.
 
@@ -17,12 +17,12 @@ class Sdef(DataOption_, keyword='sdef'):
     """
 
     _ATTRS = {
-        'options': types.Tuple[sdef.SdefOption_],
+        'options': types.Tuple[sdef.SdefOption],
     }
 
-    _REGEX = re.compile(rf'\Asdef((?: (?:{sdef.SdefOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Asdef((?: (?:{sdef.SdefOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[sdef.SdefOption_] = None):
+    def __init__(self, options: types.Tuple[sdef.SdefOption] = None):
         """
         Initializes ``Sdef``.
 
@@ -39,7 +39,7 @@ class Sdef(DataOption_, keyword='sdef'):
             ]
         )
 
-        self.options: typing.Final[types.Tuple[sdef.SdefOption_]] = options
+        self.options: typing.Final[types.Tuple[sdef.SdefOption]] = options
 
 
 @dataclasses.dataclass
@@ -51,7 +51,7 @@ class SdefBuilder:
         options: Dictionary of options.
     """
 
-    options: list[str] | list[sdef.SdefOption_] = None
+    options: list[str] | list[sdef.SdefOption] = None
 
     def build(self):
         """
@@ -63,10 +63,10 @@ class SdefBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, sdef.SdefOption_):
+            if isinstance(item, sdef.SdefOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(sdef.SdefOption_.from_mcnp(item))
+                options.append(sdef.SdefOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

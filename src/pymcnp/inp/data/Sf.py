@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Sf(DataOption_, keyword='sf'):
+class Sf(DataOption, keyword='sf'):
     """
     Represents INP sf elements.
 

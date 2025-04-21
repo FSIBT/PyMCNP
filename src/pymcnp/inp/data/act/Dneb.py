@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import ActOption_
+from ._option import ActOption
 from ....utils import types
 from ....utils import errors
 
 
-class Dneb(ActOption_, keyword='dneb'):
+class Dneb(ActOption, keyword='dneb'):
     """
     Represents INP dneb elements.
 

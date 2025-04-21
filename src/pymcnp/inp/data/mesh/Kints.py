@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import MeshOption_
+from ._option import MeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Kints(MeshOption_, keyword='kints'):
+class Kints(MeshOption, keyword='kints'):
     """
     Represents INP kints elements.
 

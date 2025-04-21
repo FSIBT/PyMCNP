@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import CellOption_
+from ._option import CellOption
 from ...utils import types
 from ...utils import errors
 
 
-class Fill_1(CellOption_, keyword='fill'):
+class Fill_1(CellOption, keyword='fill'):
     """
     Represents INP fill variation #1 elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmeshOption_
+from ._option import FmeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Out(FmeshOption_, keyword='out'):
+class Out(FmeshOption, keyword='out'):
     """
     Represents INP out elements.
 

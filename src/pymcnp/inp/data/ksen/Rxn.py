@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KsenOption_
+from ._option import KsenOption
 from ....utils import types
 from ....utils import errors
 
 
-class Rxn(KsenOption_, keyword='rxn'):
+class Rxn(KsenOption, keyword='rxn'):
     """
     Represents INP rxn elements.
 

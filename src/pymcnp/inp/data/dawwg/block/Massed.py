@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Massed(BlockOption_, keyword='massed'):
+class Massed(BlockOption, keyword='massed'):
     """
     Represents INP massed elements.
 

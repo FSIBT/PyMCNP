@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import RandOption_
+from ._option import RandOption
 from ....utils import types
 from ....utils import errors
 
 
-class Hist(RandOption_, keyword='hist'):
+class Hist(RandOption, keyword='hist'):
     """
     Represents INP hist elements.
 

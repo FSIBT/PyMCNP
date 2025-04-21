@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import CellOption_
+from ._option import CellOption
 from ...utils import types
 from ...utils import errors
 
 
-class Tmp_0(CellOption_, keyword='tmp'):
+class Tmp_0(CellOption, keyword='tmp'):
     """
     Represents INP tmp variation #0 elements.
 

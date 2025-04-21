@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import TroptOption_
+from ._option import TroptOption
 from ....utils import types
 from ....utils import errors
 
 
-class Nreact(TroptOption_, keyword='nreact'):
+class Nreact(TroptOption, keyword='nreact'):
     """
     Represents INP nreact elements.
 

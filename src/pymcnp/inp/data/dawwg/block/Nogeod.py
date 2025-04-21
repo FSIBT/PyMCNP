@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Nogeod(BlockOption_, keyword='nogeod'):
+class Nogeod(BlockOption, keyword='nogeod'):
     """
     Represents INP nogeod elements.
 

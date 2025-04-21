@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import TroptOption_
+from ._option import TroptOption
 from ....utils import types
 from ....utils import errors
 
 
-class Nescat(TroptOption_, keyword='nescat'):
+class Nescat(TroptOption, keyword='nescat'):
     """
     Represents INP nescat elements.
 

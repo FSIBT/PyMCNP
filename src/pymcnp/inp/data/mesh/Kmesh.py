@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import MeshOption_
+from ._option import MeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Kmesh(MeshOption_, keyword='kmesh'):
+class Kmesh(MeshOption, keyword='kmesh'):
     """
     Represents INP kmesh elements.
 

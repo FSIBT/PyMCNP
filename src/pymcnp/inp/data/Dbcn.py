@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Dbcn(DataOption_, keyword='dbcn'):
+class Dbcn(DataOption, keyword='dbcn'):
     """
     Represents INP dbcn elements.
 

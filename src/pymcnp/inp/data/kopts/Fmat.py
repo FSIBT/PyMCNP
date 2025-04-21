@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KoptsOption_
+from ._option import KoptsOption
 from ....utils import types
 from ....utils import errors
 
 
-class Fmat(KoptsOption_, keyword='fmat'):
+class Fmat(KoptsOption, keyword='fmat'):
     """
     Represents INP fmat elements.
 

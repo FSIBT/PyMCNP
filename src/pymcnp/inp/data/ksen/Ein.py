@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KsenOption_
+from ._option import KsenOption
 from ....utils import types
 from ....utils import errors
 
 
-class Ein(KsenOption_, keyword='ein'):
+class Ein(KsenOption, keyword='ein'):
     """
     Represents INP ein elements.
 

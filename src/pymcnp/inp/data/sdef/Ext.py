@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SdefOption_
+from ._option import SdefOption
 from ....utils import types
 from ....utils import errors
 
 
-class Ext(SdefOption_, keyword='ext'):
+class Ext(SdefOption, keyword='ext'):
     """
     Represents INP ext elements.
 

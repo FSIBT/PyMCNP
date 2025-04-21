@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import EmbedOption_
+from ._option import EmbedOption
 from ....utils import types
 from ....utils import errors
 
 
-class Length(EmbedOption_, keyword='length'):
+class Length(EmbedOption, keyword='length'):
     """
     Represents INP length elements.
 

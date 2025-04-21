@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Drxs(DataOption_, keyword='drxs'):
+class Drxs(DataOption, keyword='drxs'):
     """
     Represents INP drxs elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import Df_1Option_
+from ._option import Df_1Option
 from ....utils import types
 from ....utils import errors
 
 
-class Iu(Df_1Option_, keyword='iu'):
+class Iu(Df_1Option, keyword='iu'):
     """
     Represents INP iu elements.
 

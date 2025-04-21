@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import PertOption_
+from ._option import PertOption
 from ....utils import types
 from ....utils import errors
 
 
-class Rho(PertOption_, keyword='rho'):
+class Rho(PertOption, keyword='rho'):
     """
     Represents INP rho elements.
 

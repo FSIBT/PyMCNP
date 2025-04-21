@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SurfaceOption_
+from ._option import SurfaceOption
 from ...utils import types
 from ...utils import errors
 
 
-class Arb(SurfaceOption_, keyword='arb'):
+class Arb(SurfaceOption, keyword='arb'):
     """
     Represents INP arb elements.
 

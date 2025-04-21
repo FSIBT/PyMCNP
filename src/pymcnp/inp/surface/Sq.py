@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SurfaceOption_
+from ._option import SurfaceOption
 from ...utils import types
 from ...utils import errors
 
 
-class Sq(SurfaceOption_, keyword='sq'):
+class Sq(SurfaceOption, keyword='sq'):
     """
     Represents INP sq elements.
 

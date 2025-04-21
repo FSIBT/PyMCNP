@@ -1,4 +1,4 @@
-from .option_ import PertOption_
+from ._option import PertOption
 
 from .Cell import Cell
 from .Mat import Mat
@@ -14,7 +14,7 @@ from .Erg import ErgBuilder
 from .Rxn import RxnBuilder
 
 __all__ = [
-    'PertOption_',
+    'PertOption',
     'Cell',
     'Mat',
     'Rho',

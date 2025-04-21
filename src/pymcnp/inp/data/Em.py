@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Em(DataOption_, keyword='em'):
+class Em(DataOption, keyword='em'):
     """
     Represents INP em elements.
 

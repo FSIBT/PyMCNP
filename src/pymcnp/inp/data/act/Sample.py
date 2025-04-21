@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import ActOption_
+from ._option import ActOption
 from ....utils import types
 from ....utils import errors
 
 
-class Sample(ActOption_, keyword='sample'):
+class Sample(ActOption, keyword='sample'):
     """
     Represents INP sample elements.
 

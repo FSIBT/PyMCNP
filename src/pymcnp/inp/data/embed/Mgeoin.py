@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import EmbedOption_
+from ._option import EmbedOption
 from ....utils import types
 from ....utils import errors
 
 
-class Mgeoin(EmbedOption_, keyword='mgeoin'):
+class Mgeoin(EmbedOption, keyword='mgeoin'):
     """
     Represents INP mgeoin elements.
 

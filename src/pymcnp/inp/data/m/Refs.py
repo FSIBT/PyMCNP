@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import MOption_
+from ._option import MOption
 from ....utils import types
 from ....utils import errors
 
 
-class Refs(MOption_, keyword='refs'):
+class Refs(MOption, keyword='refs'):
     """
     Represents INP refs elements.
 

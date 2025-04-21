@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Noasg(BlockOption_, keyword='noasg'):
+class Noasg(BlockOption, keyword='noasg'):
     """
     Represents INP noasg elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import ActOption_
+from ._option import ActOption
 from ....utils import types
 from ....utils import errors
 
 
-class Dn(ActOption_, keyword='dn'):
+class Dn(ActOption, keyword='dn'):
     """
     Represents INP dn elements.
 

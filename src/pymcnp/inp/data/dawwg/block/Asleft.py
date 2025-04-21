@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Asleft(BlockOption_, keyword='asleft'):
+class Asleft(BlockOption, keyword='asleft'):
     """
     Represents INP asleft elements.
 

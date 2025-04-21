@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import ActOption_
+from ._option import ActOption
 from ....utils import types
 from ....utils import errors
 
 
-class Pecut(ActOption_, keyword='pecut'):
+class Pecut(ActOption, keyword='pecut'):
     """
     Represents INP pecut elements.
 

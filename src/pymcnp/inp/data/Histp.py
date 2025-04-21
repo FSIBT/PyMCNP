@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Histp(DataOption_, keyword='histp'):
+class Histp(DataOption, keyword='histp'):
     """
     Represents INP histp elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import PtracOption_
+from ._option import PtracOption
 from ....utils import types
 from ....utils import errors
 
 
-class Value(PtracOption_, keyword='value'):
+class Value(PtracOption, keyword='value'):
     """
     Represents INP value elements.
 

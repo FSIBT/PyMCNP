@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KoptsOption_
+from ._option import KoptsOption
 from ....utils import types
 from ....utils import errors
 
 
-class Fmatskpt(KoptsOption_, keyword='fmatskpt'):
+class Fmatskpt(KoptsOption, keyword='fmatskpt'):
     """
     Represents INP fmatskpt elements.
 

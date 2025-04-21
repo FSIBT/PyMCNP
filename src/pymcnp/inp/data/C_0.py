@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class C_0(DataOption_, keyword='c'):
+class C_0(DataOption, keyword='c'):
     """
     Represents INP c variation #0 elements.
 

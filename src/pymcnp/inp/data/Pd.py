@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Pd(DataOption_, keyword='pd'):
+class Pd(DataOption, keyword='pd'):
     """
     Represents INP pd elements.
 

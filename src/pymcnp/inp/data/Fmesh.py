@@ -4,12 +4,12 @@ import dataclasses
 
 
 from . import fmesh
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Fmesh(DataOption_, keyword='fmesh'):
+class Fmesh(DataOption, keyword='fmesh'):
     """
     Represents INP fmesh elements.
 
@@ -22,16 +22,16 @@ class Fmesh(DataOption_, keyword='fmesh'):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'options': types.Tuple[fmesh.FmeshOption_],
+        'options': types.Tuple[fmesh.FmeshOption],
     }
 
-    _REGEX = re.compile(rf'\Afmesh(\d+):(\S+)((?: (?:{fmesh.FmeshOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Afmesh(\d+):(\S+)((?: (?:{fmesh.FmeshOption._REGEX.pattern}))+?)?\Z')
 
     def __init__(
         self,
         suffix: types.Integer,
         designator: types.Designator,
-        options: types.Tuple[fmesh.FmeshOption_] = None,
+        options: types.Tuple[fmesh.FmeshOption] = None,
     ):
         """
         Initializes ``Fmesh``.
@@ -58,7 +58,7 @@ class Fmesh(DataOption_, keyword='fmesh'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
-        self.options: typing.Final[types.Tuple[fmesh.FmeshOption_]] = options
+        self.options: typing.Final[types.Tuple[fmesh.FmeshOption]] = options
 
 
 @dataclasses.dataclass
@@ -74,7 +74,7 @@ class FmeshBuilder:
 
     suffix: str | int | types.Integer
     designator: str | types.Designator
-    options: list[str] | list[fmesh.FmeshOption_] = None
+    options: list[str] | list[fmesh.FmeshOption] = None
 
     def build(self):
         """
@@ -98,10 +98,10 @@ class FmeshBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, fmesh.FmeshOption_):
+            if isinstance(item, fmesh.FmeshOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(fmesh.FmeshOption_.from_mcnp(item))
+                options.append(fmesh.FmeshOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

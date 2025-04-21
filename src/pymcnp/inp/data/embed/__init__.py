@@ -1,4 +1,4 @@
-from .option_ import EmbedOption_
+from ._option import EmbedOption
 
 from .Background import Background
 from .Meshgeo import Meshgeo
@@ -24,7 +24,7 @@ from .Length import LengthBuilder
 from .Mcnpumfile import McnpumfileBuilder
 
 __all__ = [
-    'EmbedOption_',
+    'EmbedOption',
     'Background',
     'Meshgeo',
     'Mgeoin',

@@ -4,12 +4,12 @@ import dataclasses
 
 
 from . import pert
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Pert(DataOption_, keyword='pert'):
+class Pert(DataOption, keyword='pert'):
     """
     Represents INP pert elements.
 
@@ -22,16 +22,16 @@ class Pert(DataOption_, keyword='pert'):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'options': types.Tuple[pert.PertOption_],
+        'options': types.Tuple[pert.PertOption],
     }
 
-    _REGEX = re.compile(rf'\Apert(\d+):(\S+)((?: (?:{pert.PertOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Apert(\d+):(\S+)((?: (?:{pert.PertOption._REGEX.pattern}))+?)?\Z')
 
     def __init__(
         self,
         suffix: types.Integer,
         designator: types.Designator,
-        options: types.Tuple[pert.PertOption_] = None,
+        options: types.Tuple[pert.PertOption] = None,
     ):
         """
         Initializes ``Pert``.
@@ -58,7 +58,7 @@ class Pert(DataOption_, keyword='pert'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
-        self.options: typing.Final[types.Tuple[pert.PertOption_]] = options
+        self.options: typing.Final[types.Tuple[pert.PertOption]] = options
 
 
 @dataclasses.dataclass
@@ -74,7 +74,7 @@ class PertBuilder:
 
     suffix: str | int | types.Integer
     designator: str | types.Designator
-    options: list[str] | list[pert.PertOption_] = None
+    options: list[str] | list[pert.PertOption] = None
 
     def build(self):
         """
@@ -98,10 +98,10 @@ class PertBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, pert.PertOption_):
+            if isinstance(item, pert.PertOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(pert.PertOption_.from_mcnp(item))
+                options.append(pert.PertOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

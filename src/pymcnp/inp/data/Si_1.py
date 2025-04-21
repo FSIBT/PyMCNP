@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Si_1(DataOption_, keyword='si'):
+class Si_1(DataOption, keyword='si'):
     """
     Represents INP si variation #1 elements.
 

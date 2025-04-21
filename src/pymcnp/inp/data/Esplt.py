@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Esplt(DataOption_, keyword='esplt'):
+class Esplt(DataOption, keyword='esplt'):
     """
     Represents INP esplt elements.
 

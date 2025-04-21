@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import MeshOption_
+from ._option import MeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Ref(MeshOption_, keyword='ref'):
+class Ref(MeshOption, keyword='ref'):
     """
     Represents INP ref elements.
 

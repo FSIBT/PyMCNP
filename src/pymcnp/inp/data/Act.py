@@ -4,11 +4,11 @@ import dataclasses
 
 
 from . import act
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Act(DataOption_, keyword='act'):
+class Act(DataOption, keyword='act'):
     """
     Represents INP act elements.
 
@@ -17,12 +17,12 @@ class Act(DataOption_, keyword='act'):
     """
 
     _ATTRS = {
-        'options': types.Tuple[act.ActOption_],
+        'options': types.Tuple[act.ActOption],
     }
 
-    _REGEX = re.compile(rf'\Aact((?: (?:{act.ActOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Aact((?: (?:{act.ActOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[act.ActOption_] = None):
+    def __init__(self, options: types.Tuple[act.ActOption] = None):
         """
         Initializes ``Act``.
 
@@ -39,7 +39,7 @@ class Act(DataOption_, keyword='act'):
             ]
         )
 
-        self.options: typing.Final[types.Tuple[act.ActOption_]] = options
+        self.options: typing.Final[types.Tuple[act.ActOption]] = options
 
 
 @dataclasses.dataclass
@@ -51,7 +51,7 @@ class ActBuilder:
         options: Dictionary of options.
     """
 
-    options: list[str] | list[act.ActOption_] = None
+    options: list[str] | list[act.ActOption] = None
 
     def build(self):
         """
@@ -63,10 +63,10 @@ class ActBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, act.ActOption_):
+            if isinstance(item, act.ActOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(act.ActOption_.from_mcnp(item))
+                options.append(act.ActOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SdefOption_
+from ._option import SdefOption
 from ....utils import types
 from ....utils import errors
 
 
-class Vec(SdefOption_, keyword='vec'):
+class Vec(SdefOption, keyword='vec'):
     """
     Represents INP vec elements.
 

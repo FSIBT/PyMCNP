@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import Df_1Option_
+from ._option import Df_1Option
 from ....utils import types
 from ....utils import errors
 
 
-class Int(Df_1Option_, keyword='int'):
+class Int(Df_1Option, keyword='int'):
     """
     Represents INP int elements.
 

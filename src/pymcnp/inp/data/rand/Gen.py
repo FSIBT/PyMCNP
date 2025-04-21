@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import RandOption_
+from ._option import RandOption
 from ....utils import types
 from ....utils import errors
 
 
-class Gen(RandOption_, keyword='gen'):
+class Gen(RandOption, keyword='gen'):
     """
     Represents INP gen elements.
 

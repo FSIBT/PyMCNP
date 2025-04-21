@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import PertOption_
+from ._option import PertOption
 from ....utils import types
 from ....utils import errors
 
 
-class Mat(PertOption_, keyword='mat'):
+class Mat(PertOption, keyword='mat'):
     """
     Represents INP mat elements.
 

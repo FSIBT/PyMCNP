@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmultOption_
+from ._option import FmultOption
 from ....utils import types
 from ....utils import errors
 
 
-class Sfyield(FmultOption_, keyword='sfyield'):
+class Sfyield(FmultOption, keyword='sfyield'):
     """
     Represents INP sfyield elements.
 

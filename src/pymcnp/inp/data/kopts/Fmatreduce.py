@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KoptsOption_
+from ._option import KoptsOption
 from ....utils import types
 from ....utils import errors
 
 
-class Fmatreduce(KoptsOption_, keyword='fmatreduce'):
+class Fmatreduce(KoptsOption, keyword='fmatreduce'):
     """
     Represents INP fmatreduce elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import CellOption_
+from ._option import CellOption
 from ...utils import types
 from ...utils import errors
 
 
-class U(CellOption_, keyword='u'):
+class U(CellOption, keyword='u'):
     """
     Represents INP u elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SdefOption_
+from ._option import SdefOption
 from ....utils import types
 from ....utils import errors
 
 
-class Ccc(SdefOption_, keyword='ccc'):
+class Ccc(SdefOption, keyword='ccc'):
     """
     Represents INP ccc elements.
 

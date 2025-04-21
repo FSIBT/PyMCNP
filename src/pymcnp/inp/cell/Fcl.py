@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import CellOption_
+from ._option import CellOption
 from ...utils import types
 from ...utils import errors
 
 
-class Fcl(CellOption_, keyword='fcl'):
+class Fcl(CellOption, keyword='fcl'):
     """
     Represents INP fcl elements.
 

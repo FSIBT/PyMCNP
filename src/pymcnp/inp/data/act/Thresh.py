@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import ActOption_
+from ._option import ActOption
 from ....utils import types
 from ....utils import errors
 
 
-class Thresh(ActOption_, keyword='thresh'):
+class Thresh(ActOption, keyword='thresh'):
     """
     Represents INP thresh elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmeshOption_
+from ._option import FmeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Origin(FmeshOption_, keyword='origin'):
+class Origin(FmeshOption, keyword='origin'):
     """
     Represents INP origin elements.
 

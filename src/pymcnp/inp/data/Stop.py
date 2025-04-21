@@ -4,11 +4,11 @@ import dataclasses
 
 
 from . import stop
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Stop(DataOption_, keyword='stop'):
+class Stop(DataOption, keyword='stop'):
     """
     Represents INP stop elements.
 
@@ -17,12 +17,12 @@ class Stop(DataOption_, keyword='stop'):
     """
 
     _ATTRS = {
-        'options': types.Tuple[stop.StopOption_],
+        'options': types.Tuple[stop.StopOption],
     }
 
-    _REGEX = re.compile(rf'\Astop((?: (?:{stop.StopOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Astop((?: (?:{stop.StopOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[stop.StopOption_] = None):
+    def __init__(self, options: types.Tuple[stop.StopOption] = None):
         """
         Initializes ``Stop``.
 
@@ -39,7 +39,7 @@ class Stop(DataOption_, keyword='stop'):
             ]
         )
 
-        self.options: typing.Final[types.Tuple[stop.StopOption_]] = options
+        self.options: typing.Final[types.Tuple[stop.StopOption]] = options
 
 
 @dataclasses.dataclass
@@ -51,7 +51,7 @@ class StopBuilder:
         options: Dictionary of options.
     """
 
-    options: list[str] | list[stop.StopOption_] = None
+    options: list[str] | list[stop.StopOption] = None
 
     def build(self):
         """
@@ -63,10 +63,10 @@ class StopBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, stop.StopOption_):
+            if isinstance(item, stop.StopOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(stop.StopOption_.from_mcnp(item))
+                options.append(stop.StopOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

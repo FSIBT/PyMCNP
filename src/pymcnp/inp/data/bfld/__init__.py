@@ -1,4 +1,4 @@
-from .option_ import BfldOption_
+from ._option import BfldOption
 
 from .Field import Field
 from .Vec import Vec
@@ -16,7 +16,7 @@ from .Ffedges import FfedgesBuilder
 from .Refpnt import RefpntBuilder
 
 __all__ = [
-    'BfldOption_',
+    'BfldOption',
     'Field',
     'Vec',
     'Maxdeflc',

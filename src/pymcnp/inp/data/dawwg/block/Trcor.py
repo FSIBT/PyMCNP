@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Trcor(BlockOption_, keyword='trcor'):
+class Trcor(BlockOption, keyword='trcor'):
     """
     Represents INP trcor elements.
 

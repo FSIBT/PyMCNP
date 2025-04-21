@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Fir(DataOption_, keyword='fir'):
+class Fir(DataOption, keyword='fir'):
     """
     Represents INP fir elements.
 

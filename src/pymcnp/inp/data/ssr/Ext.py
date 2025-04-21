@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SsrOption_
+from ._option import SsrOption
 from ....utils import types
 from ....utils import errors
 
 
-class Ext(SsrOption_, keyword='ext'):
+class Ext(SsrOption, keyword='ext'):
     """
     Represents INP ext elements.
 

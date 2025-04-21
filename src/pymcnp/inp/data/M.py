@@ -5,13 +5,13 @@ import dataclasses
 import molmass
 
 from . import m
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 from ...utils import _elements
 
 
-class M(DataOption_, keyword='m'):
+class M(DataOption, keyword='m'):
     """
     Represents INP m elements.
 
@@ -24,18 +24,18 @@ class M(DataOption_, keyword='m'):
     _ATTRS = {
         'suffix': types.Integer,
         'substances': types.Tuple[types.Substance],
-        'options': types.Tuple[m.MOption_],
+        'options': types.Tuple[m.MOption],
     }
 
     _REGEX = re.compile(
-        rf'\Am(\d+)((?: {types.Substance._REGEX.pattern})+?)((?: (?:{m.MOption_._REGEX.pattern}))+?)?\Z'
+        rf'\Am(\d+)((?: {types.Substance._REGEX.pattern})+?)((?: (?:{m.MOption._REGEX.pattern}))+?)?\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
         substances: types.Tuple[types.Substance],
-        options: types.Tuple[m.MOption_] = None,
+        options: types.Tuple[m.MOption] = None,
     ):
         """
         Initializes ``M``.
@@ -63,7 +63,7 @@ class M(DataOption_, keyword='m'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.substances: typing.Final[types.Tuple[types.Substance]] = substances
-        self.options: typing.Final[types.Tuple[m.MOption_]] = options
+        self.options: typing.Final[types.Tuple[m.MOption]] = options
 
     @staticmethod
     def from_formula(number: int, formulas: dict[str, float], atomic_or_weight: bool = True):
@@ -135,7 +135,7 @@ class MBuilder:
 
     suffix: str | int | types.Integer
     substances: list[str] | list[types.Substance]
-    options: list[str] | list[m.MOption_] = None
+    options: list[str] | list[m.MOption] = None
 
     def build(self):
         """
@@ -164,10 +164,10 @@ class MBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, m.MOption_):
+            if isinstance(item, m.MOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(m.MOption_.from_mcnp(item))
+                options.append(m.MOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

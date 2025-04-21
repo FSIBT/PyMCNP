@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class De(DataOption_, keyword='de'):
+class De(DataOption, keyword='de'):
     """
     Represents INP de elements.
 
@@ -24,9 +24,7 @@ class De(DataOption_, keyword='de'):
         'values': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(
-        rf'\Ade(\d+)( (?:log|lin))?((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
-    )
+    _REGEX = re.compile(rf'\Ade(\d+)( (?:log|lin))?((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
     def __init__(
         self,

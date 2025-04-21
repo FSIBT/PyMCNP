@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Files(DataOption_, keyword='files'):
+class Files(DataOption, keyword='files'):
     """
     Represents INP files elements.
 

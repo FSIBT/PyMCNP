@@ -4,11 +4,11 @@ import dataclasses
 
 
 from . import embed
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Embed(DataOption_, keyword='embed'):
+class Embed(DataOption, keyword='embed'):
     """
     Represents INP embed elements.
 
@@ -17,12 +17,12 @@ class Embed(DataOption_, keyword='embed'):
     """
 
     _ATTRS = {
-        'options': types.Tuple[embed.EmbedOption_],
+        'options': types.Tuple[embed.EmbedOption],
     }
 
-    _REGEX = re.compile(rf'\Aembed((?: (?:{embed.EmbedOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Aembed((?: (?:{embed.EmbedOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[embed.EmbedOption_] = None):
+    def __init__(self, options: types.Tuple[embed.EmbedOption] = None):
         """
         Initializes ``Embed``.
 
@@ -39,7 +39,7 @@ class Embed(DataOption_, keyword='embed'):
             ]
         )
 
-        self.options: typing.Final[types.Tuple[embed.EmbedOption_]] = options
+        self.options: typing.Final[types.Tuple[embed.EmbedOption]] = options
 
 
 @dataclasses.dataclass
@@ -51,7 +51,7 @@ class EmbedBuilder:
         options: Dictionary of options.
     """
 
-    options: list[str] | list[embed.EmbedOption_] = None
+    options: list[str] | list[embed.EmbedOption] = None
 
     def build(self):
         """
@@ -63,10 +63,10 @@ class EmbedBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, embed.EmbedOption_):
+            if isinstance(item, embed.EmbedOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(embed.EmbedOption_.from_mcnp(item))
+                options.append(embed.EmbedOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

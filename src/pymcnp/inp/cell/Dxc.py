@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import CellOption_
+from ._option import CellOption
 from ...utils import types
 from ...utils import errors
 
 
-class Dxc(CellOption_, keyword='dxc'):
+class Dxc(CellOption, keyword='dxc'):
     """
     Represents INP dxc elements.
 

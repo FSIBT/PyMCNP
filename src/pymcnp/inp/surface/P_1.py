@@ -3,13 +3,13 @@ import typing
 import dataclasses
 
 
-from .option_ import SurfaceOption_
+from ._option import SurfaceOption
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class P_1(SurfaceOption_, keyword='p'):
+class P_1(SurfaceOption, keyword='p'):
     """
     Represents INP p variation #1 elements.
 

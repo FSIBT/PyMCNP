@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Zc(DataOption_, keyword='zc'):
+class Zc(DataOption, keyword='zc'):
     """
     Represents INP zc elements.
 

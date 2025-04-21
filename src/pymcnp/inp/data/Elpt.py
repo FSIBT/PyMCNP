@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Elpt(DataOption_, keyword='elpt'):
+class Elpt(DataOption, keyword='elpt'):
     """
     Represents INP elpt elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Fm(DataOption_, keyword='fm'):
+class Fm(DataOption, keyword='fm'):
     """
     Represents INP fm elements.
 
@@ -22,7 +22,7 @@ class Fm(DataOption_, keyword='fm'):
         'bins': types.String,
     }
 
-    _REGEX = re.compile(rf'\Afm(\d+)( [\S\s]+)\Z')
+    _REGEX = re.compile(r'\Afm(\d+)( [\S\s]+)\Z')
 
     def __init__(self, suffix: types.Integer, bins: types.String):
         """

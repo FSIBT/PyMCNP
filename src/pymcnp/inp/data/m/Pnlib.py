@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import MOption_
+from ._option import MOption
 from ....utils import types
 from ....utils import errors
 
 
-class Pnlib(MOption_, keyword='pnlib'):
+class Pnlib(MOption, keyword='pnlib'):
     """
     Represents INP pnlib elements.
 

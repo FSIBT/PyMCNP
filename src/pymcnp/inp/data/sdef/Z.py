@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SdefOption_
+from ._option import SdefOption
 from ....utils import types
 from ....utils import errors
 
 
-class Z(SdefOption_, keyword='z'):
+class Z(SdefOption, keyword='z'):
     """
     Represents INP z elements.
 

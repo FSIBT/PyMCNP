@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import MeshOption_
+from ._option import MeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Jmesh(MeshOption_, keyword='jmesh'):
+class Jmesh(MeshOption, keyword='jmesh'):
     """
     Represents INP jmesh elements.
 

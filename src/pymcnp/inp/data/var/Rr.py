@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import VarOption_
+from ._option import VarOption
 from ....utils import types
 from ....utils import errors
 
 
-class Rr(VarOption_, keyword='rr'):
+class Rr(VarOption, keyword='rr'):
     """
     Represents INP rr elements.
 

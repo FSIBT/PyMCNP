@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import PtracOption_
+from ._option import PtracOption
 from ....utils import types
 from ....utils import errors
 
 
-class Filter(PtracOption_, keyword='filter'):
+class Filter(PtracOption, keyword='filter'):
     """
     Represents INP filter elements.
 

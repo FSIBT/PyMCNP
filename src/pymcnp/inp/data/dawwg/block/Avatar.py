@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Avatar(BlockOption_, keyword='avatar'):
+class Avatar(BlockOption, keyword='avatar'):
     """
     Represents INP avatar elements.
 

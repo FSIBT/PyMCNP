@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KpertOption_
+from ._option import KpertOption
 from ....utils import types
 from ....utils import errors
 
 
-class Rho(KpertOption_, keyword='rho'):
+class Rho(KpertOption, keyword='rho'):
     """
     Represents INP rho elements.
 

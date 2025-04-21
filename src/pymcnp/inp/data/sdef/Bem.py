@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SdefOption_
+from ._option import SdefOption
 from ....utils import types
 from ....utils import errors
 
 
-class Bem(SdefOption_, keyword='bem'):
+class Bem(SdefOption, keyword='bem'):
     """
     Represents INP bem elements.
 

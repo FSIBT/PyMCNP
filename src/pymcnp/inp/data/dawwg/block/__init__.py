@@ -1,4 +1,4 @@
-from .option_ import BlockOption_
+from ._option import BlockOption
 
 from .Ngroup import Ngroup
 from .Isn import Isn
@@ -132,7 +132,7 @@ from .Ajed import AjedBuilder
 from .Fluxone import FluxoneBuilder
 
 __all__ = [
-    'BlockOption_',
+    'BlockOption',
     'Ngroup',
     'Isn',
     'Niso',

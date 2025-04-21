@@ -4,12 +4,12 @@ import dataclasses
 
 
 from . import bfld
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Bfld(DataOption_, keyword='bfld'):
+class Bfld(DataOption, keyword='bfld'):
     """
     Represents INP bfld elements.
 
@@ -22,18 +22,18 @@ class Bfld(DataOption_, keyword='bfld'):
     _ATTRS = {
         'suffix': types.Integer,
         'kind': types.String,
-        'options': types.Tuple[bfld.BfldOption_],
+        'options': types.Tuple[bfld.BfldOption],
     }
 
     _REGEX = re.compile(
-        rf'\Abfld(\d+)( {types.String._REGEX.pattern})((?: (?:{bfld.BfldOption_._REGEX.pattern}))+?)?\Z'
+        rf'\Abfld(\d+)( {types.String._REGEX.pattern})((?: (?:{bfld.BfldOption._REGEX.pattern}))+?)?\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
         kind: types.String,
-        options: types.Tuple[bfld.BfldOption_] = None,
+        options: types.Tuple[bfld.BfldOption] = None,
     ):
         """
         Initializes ``Bfld``.
@@ -61,7 +61,7 @@ class Bfld(DataOption_, keyword='bfld'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.kind: typing.Final[types.String] = kind
-        self.options: typing.Final[types.Tuple[bfld.BfldOption_]] = options
+        self.options: typing.Final[types.Tuple[bfld.BfldOption]] = options
 
 
 @dataclasses.dataclass
@@ -77,7 +77,7 @@ class BfldBuilder:
 
     suffix: str | int | types.Integer
     kind: str | types.String
-    options: list[str] | list[bfld.BfldOption_] = None
+    options: list[str] | list[bfld.BfldOption] = None
 
     def build(self):
         """
@@ -101,10 +101,10 @@ class BfldBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, bfld.BfldOption_):
+            if isinstance(item, bfld.BfldOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(bfld.BfldOption_.from_mcnp(item))
+                options.append(bfld.BfldOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KsenOption_
+from ._option import KsenOption
 from ....utils import types
 from ....utils import errors
 
 
-class Mt(KsenOption_, keyword='mt'):
+class Mt(KsenOption, keyword='mt'):
     """
     Represents INP mt elements.
 

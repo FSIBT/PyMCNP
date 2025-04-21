@@ -1,4 +1,4 @@
-from .option_ import StopOption_
+from ._option import StopOption
 
 from .Nps import Nps
 from .Ctme import Ctme
@@ -8,7 +8,7 @@ from .Ctme import CtmeBuilder
 from .Fk import FkBuilder
 
 __all__ = [
-    'StopOption_',
+    'StopOption',
     'Nps',
     'Ctme',
     'Fk',

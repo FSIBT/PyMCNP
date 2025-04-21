@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import EmbedOption_
+from ._option import EmbedOption
 from ....utils import types
 from ....utils import errors
 
 
-class Calcvols(EmbedOption_, keyword='calcvols'):
+class Calcvols(EmbedOption, keyword='calcvols'):
     """
     Represents INP calcvols elements.
 

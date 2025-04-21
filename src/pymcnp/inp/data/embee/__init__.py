@@ -1,4 +1,4 @@
-from .option_ import EmbeeOption_
+from ._option import EmbeeOption
 
 from .Embed import Embed
 from .Energy import Energy
@@ -18,7 +18,7 @@ from .Mat import MatBuilder
 from .Mtype import MtypeBuilder
 
 __all__ = [
-    'EmbeeOption_',
+    'EmbeeOption',
     'Embed',
     'Energy',
     'Time',

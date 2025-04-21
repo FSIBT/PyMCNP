@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Rzflux(BlockOption_, keyword='rzflux'):
+class Rzflux(BlockOption, keyword='rzflux'):
     """
     Represents INP rzflux elements.
 

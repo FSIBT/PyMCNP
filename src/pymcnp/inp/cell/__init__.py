@@ -1,4 +1,4 @@
-from .option_ import CellOption_
+from ._option import CellOption
 
 from .Imp import Imp
 from .Vol import Vol
@@ -64,7 +64,7 @@ from .Bflcl import BflclBuilder
 from .Unc import UncBuilder
 
 __all__ = [
-    'CellOption_',
+    'CellOption',
     'Imp',
     'Vol',
     'Pwt',

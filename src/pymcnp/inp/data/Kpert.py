@@ -4,12 +4,12 @@ import dataclasses
 
 
 from . import kpert
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Kpert(DataOption_, keyword='kpert'):
+class Kpert(DataOption, keyword='kpert'):
     """
     Represents INP kpert elements.
 
@@ -20,12 +20,12 @@ class Kpert(DataOption_, keyword='kpert'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'options': types.Tuple[kpert.KpertOption_],
+        'options': types.Tuple[kpert.KpertOption],
     }
 
-    _REGEX = re.compile(rf'\Akpert(\d+)((?: (?:{kpert.KpertOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Akpert(\d+)((?: (?:{kpert.KpertOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, suffix: types.Integer, options: types.Tuple[kpert.KpertOption_] = None):
+    def __init__(self, suffix: types.Integer, options: types.Tuple[kpert.KpertOption] = None):
         """
         Initializes ``Kpert``.
 
@@ -47,7 +47,7 @@ class Kpert(DataOption_, keyword='kpert'):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.options: typing.Final[types.Tuple[kpert.KpertOption_]] = options
+        self.options: typing.Final[types.Tuple[kpert.KpertOption]] = options
 
 
 @dataclasses.dataclass
@@ -61,7 +61,7 @@ class KpertBuilder:
     """
 
     suffix: str | int | types.Integer
-    options: list[str] | list[kpert.KpertOption_] = None
+    options: list[str] | list[kpert.KpertOption] = None
 
     def build(self):
         """
@@ -80,10 +80,10 @@ class KpertBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, kpert.KpertOption_):
+            if isinstance(item, kpert.KpertOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(kpert.KpertOption_.from_mcnp(item))
+                options.append(kpert.KpertOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

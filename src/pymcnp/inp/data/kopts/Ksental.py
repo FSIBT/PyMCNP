@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KoptsOption_
+from ._option import KoptsOption
 from ....utils import types
 from ....utils import errors
 
 
-class Ksental(KoptsOption_, keyword='ksental'):
+class Ksental(KoptsOption, keyword='ksental'):
     """
     Represents INP ksental elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmeshOption_
+from ._option import FmeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Tints(FmeshOption_, keyword='tints'):
+class Tints(FmeshOption, keyword='tints'):
     """
     Represents INP tints elements.
 

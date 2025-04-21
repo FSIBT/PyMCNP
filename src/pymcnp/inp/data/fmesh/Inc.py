@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmeshOption_
+from ._option import FmeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Inc(FmeshOption_, keyword='inc'):
+class Inc(FmeshOption, keyword='inc'):
     """
     Represents INP inc elements.
 

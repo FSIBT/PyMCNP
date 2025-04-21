@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Vol(DataOption_, keyword='vol'):
+class Vol(DataOption, keyword='vol'):
     """
     Represents INP vol elements.
 
@@ -22,9 +22,7 @@ class Vol(DataOption_, keyword='vol'):
         'volumes': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(
-        rf'\Avol( no)?((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
-    )
+    _REGEX = re.compile(rf'\Avol( no)?((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
     def __init__(self, volumes: types.Tuple[types.RealOrJump], no: types.String = None):
         """

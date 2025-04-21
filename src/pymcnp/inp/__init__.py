@@ -1,5 +1,5 @@
-from .card_ import Card_
-from .option_ import Option_
+from ._card import Card
+from ._option import Option
 from . import cell
 from . import surface
 from . import data
@@ -13,8 +13,8 @@ from .Data import DataBuilder
 from .Comment import CommentBuilder
 
 __all__ = [
-    'Card_',
-    'Option_',
+    'Card',
+    'Option',
     'cell',
     'surface',
     'data',

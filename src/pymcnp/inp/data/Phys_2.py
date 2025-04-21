@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Phys_2(DataOption_, keyword='phys:e'):
+class Phys_2(DataOption, keyword='phys:e'):
     """
     Represents INP phys variation #2 elements.
 

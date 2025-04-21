@@ -17,15 +17,15 @@ from .PtracFiltered import PtracFiltered
 from .PtracProcessed import PtracProcessed
 
 # MESTHAL
-## from . import meshtal
+from . import meshtal
 from .Meshtal import Meshtal
-## from .Meshtal import MeshtalFiltered
-## from .Meshtal import MeshtalProcessed
+from .MeshtalFiltered import MeshtalFiltered
+from .MeshtalProcessed import MeshtalProcessed
 
 # Files
 read_input = Inp.from_mcnp_file
 read_ptrac = Ptrac.from_mcnp_file
-# read_meshtal = Meshtal.from_mcnp_file
+read_meshtal = Meshtal.from_mcnp_file
 
 __all__ = [
     'types',
