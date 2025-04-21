@@ -4,12 +4,12 @@ import dataclasses
 
 
 from . import fmult
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Fmult(DataOption_, keyword='fmult'):
+class Fmult(DataOption, keyword='fmult'):
     """
     Represents INP fmult elements.
 
@@ -20,14 +20,14 @@ class Fmult(DataOption_, keyword='fmult'):
 
     _ATTRS = {
         'zaid': types.Zaid,
-        'options': types.Tuple[fmult.FmultOption_],
+        'options': types.Tuple[fmult.FmultOption],
     }
 
     _REGEX = re.compile(
-        rf'\Afmult( {types.Zaid._REGEX.pattern})((?: (?:{fmult.FmultOption_._REGEX.pattern}))+?)?\Z'
+        rf'\Afmult( {types.Zaid._REGEX.pattern})((?: (?:{fmult.FmultOption._REGEX.pattern}))+?)?\Z'
     )
 
-    def __init__(self, zaid: types.Zaid, options: types.Tuple[fmult.FmultOption_] = None):
+    def __init__(self, zaid: types.Zaid, options: types.Tuple[fmult.FmultOption] = None):
         """
         Initializes ``Fmult``.
 
@@ -50,7 +50,7 @@ class Fmult(DataOption_, keyword='fmult'):
         )
 
         self.zaid: typing.Final[types.Zaid] = zaid
-        self.options: typing.Final[types.Tuple[fmult.FmultOption_]] = options
+        self.options: typing.Final[types.Tuple[fmult.FmultOption]] = options
 
 
 @dataclasses.dataclass
@@ -64,7 +64,7 @@ class FmultBuilder:
     """
 
     zaid: str | types.Zaid
-    options: list[str] | list[fmult.FmultOption_] = None
+    options: list[str] | list[fmult.FmultOption] = None
 
     def build(self):
         """
@@ -81,10 +81,10 @@ class FmultBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, fmult.FmultOption_):
+            if isinstance(item, fmult.FmultOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(fmult.FmultOption_.from_mcnp(item))
+                options.append(fmult.FmultOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

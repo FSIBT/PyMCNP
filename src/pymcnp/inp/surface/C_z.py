@@ -3,13 +3,13 @@ import typing
 import dataclasses
 
 
-from .option_ import SurfaceOption_
+from ._option import SurfaceOption
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class C_z(SurfaceOption_, keyword='c/z'):
+class C_z(SurfaceOption, keyword='c/z'):
     """
     Represents INP c/z elements.
 
@@ -76,7 +76,7 @@ class C_z(SurfaceOption_, keyword='c/z'):
 
 
 @dataclasses.dataclass
-class CBuilder_z:
+class C_zBuilder:
     """
     Builds ``C_z``.
 
@@ -92,10 +92,10 @@ class CBuilder_z:
 
     def build(self):
         """
-        Builds ``CBuilder_z`` into ``C_z``.
+        Builds ``C_zBuilder`` into ``C_z``.
 
         Returns:
-            ``C_z`` for ``CBuilder_z``.
+            ``C_z`` for ``C_zBuilder``.
         """
 
         if isinstance(self.x, types.Real):

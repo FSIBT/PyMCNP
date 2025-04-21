@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import MOption_
+from ._option import MOption
 from ....utils import types
 from ....utils import errors
 
 
-class Cond(MOption_, keyword='cond'):
+class Cond(MOption, keyword='cond'):
     """
     Represents INP cond elements.
 

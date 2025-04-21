@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KpertOption_
+from ._option import KpertOption
 from ....utils import types
 from ....utils import errors
 
 
-class Erg(KpertOption_, keyword='erg'):
+class Erg(KpertOption, keyword='erg'):
     """
     Represents INP erg elements.
 

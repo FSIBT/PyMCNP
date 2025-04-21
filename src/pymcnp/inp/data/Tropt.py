@@ -4,11 +4,11 @@ import dataclasses
 
 
 from . import tropt
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Tropt(DataOption_, keyword='tropt'):
+class Tropt(DataOption, keyword='tropt'):
     """
     Represents INP tropt elements.
 
@@ -17,12 +17,12 @@ class Tropt(DataOption_, keyword='tropt'):
     """
 
     _ATTRS = {
-        'options': types.Tuple[tropt.TroptOption_],
+        'options': types.Tuple[tropt.TroptOption],
     }
 
-    _REGEX = re.compile(rf'\Atropt((?: (?:{tropt.TroptOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Atropt((?: (?:{tropt.TroptOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[tropt.TroptOption_] = None):
+    def __init__(self, options: types.Tuple[tropt.TroptOption] = None):
         """
         Initializes ``Tropt``.
 
@@ -39,7 +39,7 @@ class Tropt(DataOption_, keyword='tropt'):
             ]
         )
 
-        self.options: typing.Final[types.Tuple[tropt.TroptOption_]] = options
+        self.options: typing.Final[types.Tuple[tropt.TroptOption]] = options
 
 
 @dataclasses.dataclass
@@ -51,7 +51,7 @@ class TroptBuilder:
         options: Dictionary of options.
     """
 
-    options: list[str] | list[tropt.TroptOption_] = None
+    options: list[str] | list[tropt.TroptOption] = None
 
     def build(self):
         """
@@ -63,10 +63,10 @@ class TroptBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, tropt.TroptOption_):
+            if isinstance(item, tropt.TroptOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(tropt.TroptOption_.from_mcnp(item))
+                options.append(tropt.TroptOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

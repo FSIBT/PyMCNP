@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import EmbeeOption_
+from ._option import EmbeeOption
 from ....utils import types
 from ....utils import errors
 
 
-class Embed(EmbeeOption_, keyword='embed'):
+class Embed(EmbeeOption, keyword='embed'):
     """
     Represents INP embed elements.
 

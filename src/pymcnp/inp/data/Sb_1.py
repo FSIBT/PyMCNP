@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Sb_1(DataOption_, keyword='sb'):
+class Sb_1(DataOption, keyword='sb'):
     """
     Represents INP sb variation #1 elements.
 

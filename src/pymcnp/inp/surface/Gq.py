@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SurfaceOption_
+from ._option import SurfaceOption
 from ...utils import types
 from ...utils import errors
 
 
-class Gq(SurfaceOption_, keyword='gq'):
+class Gq(SurfaceOption, keyword='gq'):
     """
     Represents INP gq elements.
 

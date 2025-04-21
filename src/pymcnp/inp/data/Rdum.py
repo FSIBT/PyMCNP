@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Rdum(DataOption_, keyword='rdum'):
+class Rdum(DataOption, keyword='rdum'):
     """
     Represents INP rdum elements.
 

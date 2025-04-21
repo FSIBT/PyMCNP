@@ -1,7 +1,7 @@
-from .keyword_ import HistoryKeyword_
+from ._keyword import HistoryKeyword
 from .Nters import Nters
 from .EventType import EventType
-from .line_ import HistoryLine_
+from ._line import HistoryLine
 from .J_0 import J_0
 from .J_1 import J_1
 from .J_2 import J_2
@@ -14,10 +14,10 @@ from .P_0 import P_0
 from .P_1 import P_1
 
 __all__ = [
-    'HistoryKeyword_',
+    'HistoryKeyword',
     'Nters',
     'EventType',
-    'HistoryLine_',
+    'HistoryLine',
     'J_0',
     'J_1',
     'J_2',

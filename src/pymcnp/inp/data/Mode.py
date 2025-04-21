@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Mode(DataOption_, keyword='mode'):
+class Mode(DataOption, keyword='mode'):
     """
     Represents INP mode elements.
 

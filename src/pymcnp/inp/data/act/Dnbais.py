@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import ActOption_
+from ._option import ActOption
 from ....utils import types
 from ....utils import errors
 
 
-class Dnbais(ActOption_, keyword='dnbais'):
+class Dnbais(ActOption, keyword='dnbais'):
     """
     Represents INP dnbais elements.
 

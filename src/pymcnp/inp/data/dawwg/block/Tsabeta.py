@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Tsabeta(BlockOption_, keyword='tsabeta'):
+class Tsabeta(BlockOption, keyword='tsabeta'):
     """
     Represents INP tsabeta elements.
 

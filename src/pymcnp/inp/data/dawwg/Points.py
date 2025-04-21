@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DawwgOption_
+from ._option import DawwgOption
 from ....utils import types
 from ....utils import errors
 
 
-class Points(DawwgOption_, keyword='points'):
+class Points(DawwgOption, keyword='points'):
     """
     Represents INP points elements.
 

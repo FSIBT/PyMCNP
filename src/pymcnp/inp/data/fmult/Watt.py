@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmultOption_
+from ._option import FmultOption
 from ....utils import types
 from ....utils import errors
 
 
-class Watt(FmultOption_, keyword='watt'):
+class Watt(FmultOption, keyword='watt'):
     """
     Represents INP watt elements.
 

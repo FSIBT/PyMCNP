@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmultOption_
+from ._option import FmultOption
 from ....utils import types
 from ....utils import errors
 
 
-class Sfnu(FmultOption_, keyword='sfnu'):
+class Sfnu(FmultOption, keyword='sfnu'):
     """
     Represents INP sfnu elements.
 

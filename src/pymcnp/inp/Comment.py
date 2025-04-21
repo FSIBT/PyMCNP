@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from .card_ import Card_
+from ._card import Card
 from ..utils import types
 
 
-class Comment(Card_):
+class Comment(Card):
     """
     Represents INP comment elements.
 

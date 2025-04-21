@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SdefOption_
+from ._option import SdefOption
 from ....utils import types
 from ....utils import errors
 
 
-class Rad_0(SdefOption_, keyword='rad'):
+class Rad_0(SdefOption, keyword='rad'):
     """
     Represents INP rad variation #0 elements.
 

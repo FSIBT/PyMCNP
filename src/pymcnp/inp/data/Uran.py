@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Uran(DataOption_, keyword='uran'):
+class Uran(DataOption, keyword='uran'):
     """
     Represents INP uran elements.
 

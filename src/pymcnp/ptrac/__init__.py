@@ -1,15 +1,15 @@
-from .block_ import Block_
+from ._block import Block
 from .Header import Header
 from .History import History
 from . import history
-from .line_ import Line_
-from .keyword_ import Keyword_
+from ._line import Line
+from ._keyword import Keyword
 
 __all__ = [
-    'Block_',
+    'Block',
     'Header',
     'History',
     'history',
-    'Line_',
-    'Keyword_',
+    'Line',
+    'Keyword',
 ]

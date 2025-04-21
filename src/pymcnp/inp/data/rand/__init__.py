@@ -1,4 +1,4 @@
-from .option_ import RandOption_
+from ._option import RandOption
 
 from .Gen import Gen
 from .Seed import Seed
@@ -10,7 +10,7 @@ from .Stride import StrideBuilder
 from .Hist import HistBuilder
 
 __all__ = [
-    'RandOption_',
+    'RandOption',
     'Gen',
     'Seed',
     'Stride',

@@ -4,12 +4,12 @@ import dataclasses
 
 
 from . import ksen
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Ksen(DataOption_, keyword='ksen'):
+class Ksen(DataOption, keyword='ksen'):
     """
     Represents INP ksen elements.
 
@@ -22,18 +22,18 @@ class Ksen(DataOption_, keyword='ksen'):
     _ATTRS = {
         'suffix': types.Integer,
         'sen': types.String,
-        'options': types.Tuple[ksen.KsenOption_],
+        'options': types.Tuple[ksen.KsenOption],
     }
 
     _REGEX = re.compile(
-        rf'\Aksen(\d+)( {types.String._REGEX.pattern})((?: (?:{ksen.KsenOption_._REGEX.pattern}))+?)?\Z'
+        rf'\Aksen(\d+)( {types.String._REGEX.pattern})((?: (?:{ksen.KsenOption._REGEX.pattern}))+?)?\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
         sen: types.String,
-        options: types.Tuple[ksen.KsenOption_] = None,
+        options: types.Tuple[ksen.KsenOption] = None,
     ):
         """
         Initializes ``Ksen``.
@@ -61,7 +61,7 @@ class Ksen(DataOption_, keyword='ksen'):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.sen: typing.Final[types.String] = sen
-        self.options: typing.Final[types.Tuple[ksen.KsenOption_]] = options
+        self.options: typing.Final[types.Tuple[ksen.KsenOption]] = options
 
 
 @dataclasses.dataclass
@@ -77,7 +77,7 @@ class KsenBuilder:
 
     suffix: str | int | types.Integer
     sen: str | types.String
-    options: list[str] | list[ksen.KsenOption_] = None
+    options: list[str] | list[ksen.KsenOption] = None
 
     def build(self):
         """
@@ -101,10 +101,10 @@ class KsenBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, ksen.KsenOption_):
+            if isinstance(item, ksen.KsenOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(ksen.KsenOption_.from_mcnp(item))
+                options.append(ksen.KsenOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

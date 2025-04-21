@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Xs(DataOption_, keyword='xs'):
+class Xs(DataOption, keyword='xs'):
     """
     Represents INP xs elements.
 

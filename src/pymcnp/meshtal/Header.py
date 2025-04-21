@@ -2,12 +2,12 @@ from __future__ import annotations
 import re
 import typing
 
-from . import block_
+from . import _block
 from ..utils import types
 from ..utils import errors
 
 
-class Header(block_.Block_):
+class Header(_block.Block):
     """
     Represents MESHTAL header blocks.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Mgopt(DataOption_, keyword='mgopt'):
+class Mgopt(DataOption, keyword='mgopt'):
     """
     Represents INP mgopt elements.
 

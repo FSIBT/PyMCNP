@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import EmbedOption_
+from ._option import EmbedOption
 from ....utils import types
 from ....utils import errors
 
 
-class Debug(EmbedOption_, keyword='debug'):
+class Debug(EmbedOption, keyword='debug'):
     """
     Represents INP debug elements.
 

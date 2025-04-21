@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Fc(DataOption_, keyword='fc'):
+class Fc(DataOption, keyword='fc'):
     """
     Represents INP fc elements.
 
@@ -22,7 +22,7 @@ class Fc(DataOption_, keyword='fc'):
         'info': types.String,
     }
 
-    _REGEX = re.compile(rf'\Afc(\d+)( [\S\s]+)\Z')
+    _REGEX = re.compile(r'\Afc(\d+)( [\S\s]+)\Z')
 
     def __init__(self, suffix: types.Integer, info: types.String):
         """

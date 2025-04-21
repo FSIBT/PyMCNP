@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Fu(DataOption_, keyword='fu'):
+class Fu(DataOption, keyword='fu'):
     """
     Represents INP fu elements.
 
@@ -26,9 +26,7 @@ class Fu(DataOption_, keyword='fu'):
         'c': types.String,
     }
 
-    _REGEX = re.compile(
-        rf'\Afu(\d+)((?: {types.RealOrJump._REGEX.pattern})+?)( nt)?( c)?\Z'
-    )
+    _REGEX = re.compile(rf'\Afu(\d+)((?: {types.RealOrJump._REGEX.pattern})+?)( nt)?( c)?\Z')
 
     def __init__(
         self,

@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Notrn(DataOption_, keyword='notrn'):
+class Notrn(DataOption, keyword='notrn'):
     """
     Represents INP notrn elements.
 

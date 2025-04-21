@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Phys_1(DataOption_, keyword='phys:p'):
+class Phys_1(DataOption, keyword='phys:p'):
     """
     Represents INP phys variation #1 elements.
 
@@ -62,7 +62,9 @@ class Phys_1(DataOption_, keyword='phys:p'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ides)
         if nocoh is not None and not (isinstance(nocoh.value, types.Jump) or nocoh.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nocoh)
-        if ispn is not None and not (isinstance(ispn.value, types.Jump) or ispn.value in {-1, 0, 1}):
+        if ispn is not None and not (
+            isinstance(ispn.value, types.Jump) or ispn.value in {-1, 0, 1}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ispn)
         if nodop is not None and not (isinstance(nodop.value, types.Jump) or nodop.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nodop)

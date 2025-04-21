@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmeshOption_
+from ._option import FmeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Tnorm(FmeshOption_, keyword='tnorm'):
+class Tnorm(FmeshOption, keyword='tnorm'):
     """
     Represents INP tnorm elements.
 

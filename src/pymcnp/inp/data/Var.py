@@ -4,11 +4,11 @@ import dataclasses
 
 
 from . import var
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Var(DataOption_, keyword='var'):
+class Var(DataOption, keyword='var'):
     """
     Represents INP var elements.
 
@@ -17,12 +17,12 @@ class Var(DataOption_, keyword='var'):
     """
 
     _ATTRS = {
-        'options': types.Tuple[var.VarOption_],
+        'options': types.Tuple[var.VarOption],
     }
 
-    _REGEX = re.compile(rf'\Avar((?: (?:{var.VarOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Avar((?: (?:{var.VarOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[var.VarOption_] = None):
+    def __init__(self, options: types.Tuple[var.VarOption] = None):
         """
         Initializes ``Var``.
 
@@ -39,7 +39,7 @@ class Var(DataOption_, keyword='var'):
             ]
         )
 
-        self.options: typing.Final[types.Tuple[var.VarOption_]] = options
+        self.options: typing.Final[types.Tuple[var.VarOption]] = options
 
 
 @dataclasses.dataclass
@@ -51,7 +51,7 @@ class VarBuilder:
         options: Dictionary of options.
     """
 
-    options: list[str] | list[var.VarOption_] = None
+    options: list[str] | list[var.VarOption] = None
 
     def build(self):
         """
@@ -63,10 +63,10 @@ class VarBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, var.VarOption_):
+            if isinstance(item, var.VarOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(var.VarOption_.from_mcnp(item))
+                options.append(var.VarOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

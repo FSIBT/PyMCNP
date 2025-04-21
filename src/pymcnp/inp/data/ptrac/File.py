@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import PtracOption_
+from ._option import PtracOption
 from ....utils import types
 from ....utils import errors
 
 
-class File(PtracOption_, keyword='file'):
+class File(PtracOption, keyword='file'):
     """
     Represents INP file elements.
 

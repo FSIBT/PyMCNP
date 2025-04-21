@@ -4,11 +4,11 @@ import dataclasses
 
 
 from . import kopts
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Kopts(DataOption_, keyword='kopts'):
+class Kopts(DataOption, keyword='kopts'):
     """
     Represents INP kopts elements.
 
@@ -17,12 +17,12 @@ class Kopts(DataOption_, keyword='kopts'):
     """
 
     _ATTRS = {
-        'options': types.Tuple[kopts.KoptsOption_],
+        'options': types.Tuple[kopts.KoptsOption],
     }
 
-    _REGEX = re.compile(rf'\Akopts((?: (?:{kopts.KoptsOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Akopts((?: (?:{kopts.KoptsOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[kopts.KoptsOption_] = None):
+    def __init__(self, options: types.Tuple[kopts.KoptsOption] = None):
         """
         Initializes ``Kopts``.
 
@@ -39,7 +39,7 @@ class Kopts(DataOption_, keyword='kopts'):
             ]
         )
 
-        self.options: typing.Final[types.Tuple[kopts.KoptsOption_]] = options
+        self.options: typing.Final[types.Tuple[kopts.KoptsOption]] = options
 
 
 @dataclasses.dataclass
@@ -51,7 +51,7 @@ class KoptsBuilder:
         options: Dictionary of options.
     """
 
-    options: list[str] | list[kopts.KoptsOption_] = None
+    options: list[str] | list[kopts.KoptsOption] = None
 
     def build(self):
         """
@@ -63,10 +63,10 @@ class KoptsBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, kopts.KoptsOption_):
+            if isinstance(item, kopts.KoptsOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(kopts.KoptsOption_.from_mcnp(item))
+                options.append(kopts.KoptsOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

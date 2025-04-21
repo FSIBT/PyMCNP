@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Isct(BlockOption_, keyword='isct'):
+class Isct(BlockOption, keyword='isct'):
     """
     Represents INP isct elements.
 

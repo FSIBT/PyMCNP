@@ -13,7 +13,7 @@ Commands:
     visualize  Create a 3D visualization of an input file.
     convert    Convert the output of an MCNP run into a pandas dataframe.
     plot       Plot the output of an MCNP simulation.
-    help       Show help for a specific command
+    help       Show help for a specific command.
 
 PyMCNP helps you create, modify, and run MCNP simulations and aparse its output.
 """

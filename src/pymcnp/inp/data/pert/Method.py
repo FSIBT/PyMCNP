@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import PertOption_
+from ._option import PertOption
 from ....utils import types
 from ....utils import errors
 
 
-class Method(PertOption_, keyword='method'):
+class Method(PertOption, keyword='method'):
     """
     Represents INP method elements.
 

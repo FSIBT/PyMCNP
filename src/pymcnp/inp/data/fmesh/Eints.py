@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmeshOption_
+from ._option import FmeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Eints(FmeshOption_, keyword='eints'):
+class Eints(FmeshOption, keyword='eints'):
     """
     Represents INP eints elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SsrOption_
+from ._option import SsrOption
 from ....utils import types
 from ....utils import errors
 
 
-class Old(SsrOption_, keyword='old'):
+class Old(SsrOption, keyword='old'):
     """
     Represents INP old elements.
 

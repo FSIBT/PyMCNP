@@ -1,4 +1,4 @@
-from .option_ import TroptOption_
+from ._option import TroptOption
 
 from .Mcscat import Mcscat
 from .Eloss import Eloss
@@ -12,7 +12,7 @@ from .Nescat import NescatBuilder
 from .Genxs import GenxsBuilder
 
 __all__ = [
-    'TroptOption_',
+    'TroptOption',
     'Mcscat',
     'Eloss',
     'Nreact',

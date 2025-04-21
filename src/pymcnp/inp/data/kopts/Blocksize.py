@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KoptsOption_
+from ._option import KoptsOption
 from ....utils import types
 from ....utils import errors
 
 
-class Blocksize(KoptsOption_, keyword='blocksize'):
+class Blocksize(KoptsOption, keyword='blocksize'):
     """
     Represents INP blocksize elements.
 

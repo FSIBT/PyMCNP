@@ -3,13 +3,13 @@ import typing
 import dataclasses
 
 from . import data
-from .card_ import Card_
+from ._card import Card
 from ..utils import types
 from ..utils import errors
 from ..utils import _parser
 
 
-class Data(Card_):
+class Data(Card):
     """
     Represents INP data elements.
 
@@ -17,11 +17,11 @@ class Data(Card_):
         InpError: SEMANTICS_CARD_VALUE.
     """
 
-    _ATTRS = {'option': data.DataOption_}
+    _ATTRS = {'option': data.DataOption}
 
-    _REGEX = re.compile(rf'({data.DataOption_._REGEX.pattern})')
+    _REGEX = re.compile(rf'({data.DataOption._REGEX.pattern})')
 
-    def __init__(self, option: data.DataOption_):
+    def __init__(self, option: data.DataOption):
         """
         Initializes ``Data``.
 
@@ -35,7 +35,7 @@ class Data(Card_):
         if option is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, option)
 
-        self.option: typing.Final[data.DataOption_] = option
+        self.option: typing.Final[data.DataOption] = option
 
     def to_mcnp(self):
         """
@@ -59,7 +59,7 @@ class DataBuilder:
 
     option: (
         str
-        | data.DataOption_
+        | data.DataOption
         | data.VolBuilder
         | data.AreaBuilder
         | data.TrBuilder_0
@@ -216,7 +216,7 @@ class DataBuilder:
 
         if isinstance(self.option, str):
             option = types.Data.from_mcnp(self.option)
-        elif isinstance(self.option, data.DataOption_):
+        elif isinstance(self.option, data.DataOption):
             option = self.data
         else:
             option = self.data.build()

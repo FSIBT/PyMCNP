@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Spdtl(DataOption_, keyword='spdtl'):
+class Spdtl(DataOption, keyword='spdtl'):
     """
     Represents INP spdtl elements.
 

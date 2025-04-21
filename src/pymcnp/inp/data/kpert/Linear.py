@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KpertOption_
+from ._option import KpertOption
 from ....utils import types
 from ....utils import errors
 
 
-class Linear(KpertOption_, keyword='linear'):
+class Linear(KpertOption, keyword='linear'):
     """
     Represents INP linear elements.
 

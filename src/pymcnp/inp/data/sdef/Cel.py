@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SdefOption_
+from ._option import SdefOption
 from ....utils import types
 from ....utils import errors
 
 
-class Cel(SdefOption_, keyword='cel'):
+class Cel(SdefOption, keyword='cel'):
     """
     Represents INP cel elements.
 
@@ -33,7 +33,9 @@ class Cel(SdefOption_, keyword='cel'):
             InpError: SEMANTICS_OPTION_VALUE.
         """
 
-        if number is None or not (isinstance(number.value, types.Jump) or 0 <= number.value <= 99_999_999):
+        if number is None or not (
+            isinstance(number.value, types.Jump) or 0 <= number.value <= 99_999_999
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, number)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

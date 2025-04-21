@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import ActOption_
+from ._option import ActOption
 from ....utils import types
 from ....utils import errors
 
 
-class Fission(ActOption_, keyword='fission'):
+class Fission(ActOption, keyword='fission'):
     """
     Represents INP fission elements.
 

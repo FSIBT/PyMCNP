@@ -4,11 +4,11 @@ import dataclasses
 
 
 from . import rand
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Rand(DataOption_, keyword='rand'):
+class Rand(DataOption, keyword='rand'):
     """
     Represents INP rand elements.
 
@@ -17,12 +17,12 @@ class Rand(DataOption_, keyword='rand'):
     """
 
     _ATTRS = {
-        'options': types.Tuple[rand.RandOption_],
+        'options': types.Tuple[rand.RandOption],
     }
 
-    _REGEX = re.compile(rf'\Arand((?: (?:{rand.RandOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Arand((?: (?:{rand.RandOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[rand.RandOption_] = None):
+    def __init__(self, options: types.Tuple[rand.RandOption] = None):
         """
         Initializes ``Rand``.
 
@@ -39,7 +39,7 @@ class Rand(DataOption_, keyword='rand'):
             ]
         )
 
-        self.options: typing.Final[types.Tuple[rand.RandOption_]] = options
+        self.options: typing.Final[types.Tuple[rand.RandOption]] = options
 
 
 @dataclasses.dataclass
@@ -51,7 +51,7 @@ class RandBuilder:
         options: Dictionary of options.
     """
 
-    options: list[str] | list[rand.RandOption_] = None
+    options: list[str] | list[rand.RandOption] = None
 
     def build(self):
         """
@@ -63,10 +63,10 @@ class RandBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, rand.RandOption_):
+            if isinstance(item, rand.RandOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(rand.RandOption_.from_mcnp(item))
+                options.append(rand.RandOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

@@ -91,7 +91,6 @@ class Run:
         Runs a file.
 
         Parameters:
-            inp: File to run.
             path: Directory for run.
         """
 

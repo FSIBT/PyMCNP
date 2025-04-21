@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DawwgOption_
+from ._option import DawwgOption
 from ....utils import types
 from ....utils import errors
 
 
-class Xsec(DawwgOption_, keyword='xsec'):
+class Xsec(DawwgOption, keyword='xsec'):
     """
     Represents INP xsec elements.
 

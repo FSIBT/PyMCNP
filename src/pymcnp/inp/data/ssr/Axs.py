@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SsrOption_
+from ._option import SsrOption
 from ....utils import types
 from ....utils import errors
 
 
-class Axs(SsrOption_, keyword='axs'):
+class Axs(SsrOption, keyword='axs'):
     """
     Represents INP axs elements.
 

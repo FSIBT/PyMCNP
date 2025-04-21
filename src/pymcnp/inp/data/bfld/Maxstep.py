@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BfldOption_
+from ._option import BfldOption
 from ....utils import types
 from ....utils import errors
 
 
-class Maxstep(BfldOption_, keyword='maxstep'):
+class Maxstep(BfldOption, keyword='maxstep'):
     """
     Represents INP maxstep elements.
 

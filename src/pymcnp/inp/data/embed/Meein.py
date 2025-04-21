@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import EmbedOption_
+from ._option import EmbedOption
 from ....utils import types
 from ....utils import errors
 
 
-class Meein(EmbedOption_, keyword='meein'):
+class Meein(EmbedOption, keyword='meein'):
     """
     Represents INP meein elements.
 

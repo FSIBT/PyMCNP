@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import CellOption_
+from ._option import CellOption
 from ...utils import types
 from ...utils import errors
 
 
-class Wwn(CellOption_, keyword='wwn'):
+class Wwn(CellOption, keyword='wwn'):
     """
     Represents INP wwn elements.
 

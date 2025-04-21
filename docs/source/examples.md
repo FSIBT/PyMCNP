@@ -1,7 +1,5 @@
 # Examples
 
-For examples using the command line, see the [Comand Line Interface](cli.rst).
-
 ## Loading a file
 
     import pymcnp
@@ -19,10 +17,9 @@ use the universal `modify` function.
 	filename = "/path/to/data/input.i'
 	data = pymcnp.read_input(filename)
 	
-	pymcnp.modify(x.data.card_s['nps'], npp=100_000)
+	pymcnp.modify(x.data._cards['nps'], npp=100_000)
 
 	data.to_mcnp_file('/path/to/data/new_file_name.i')
-
 
 However, dor common operations, we have specific helper functions, so
 the above can also be done using:
@@ -127,9 +124,7 @@ the data of a specific one and easily plot it.
 Creates the following image:
 ![F1F8 Tally plot](./images/Example-F1F8-tally.png)
 
-
 ### Energy and time
-
 
     file = "data/output_files/png_e.o"
     out = pymcnp.outp.ReadOutput(file)

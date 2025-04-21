@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KoptsOption_
+from ._option import KoptsOption
 from ....utils import types
 from ....utils import errors
 
 
-class Precursor(KoptsOption_, keyword='precursor'):
+class Precursor(KoptsOption, keyword='precursor'):
     """
     Represents INP precursor elements.
 

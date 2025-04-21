@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Otfdb(DataOption_, keyword='otfdb'):
+class Otfdb(DataOption, keyword='otfdb'):
     """
     Represents INP otfdb elements.
 

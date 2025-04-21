@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Raflux(BlockOption_, keyword='raflux'):
+class Raflux(BlockOption, keyword='raflux'):
     """
     Represents INP raflux elements.
 

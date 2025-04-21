@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import MeshOption_
+from ._option import MeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Axs(MeshOption_, keyword='axs'):
+class Axs(MeshOption, keyword='axs'):
     """
     Represents INP axs elements.
 

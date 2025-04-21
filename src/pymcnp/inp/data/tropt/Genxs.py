@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import TroptOption_
+from ._option import TroptOption
 from ....utils import types
 from ....utils import errors
 
 
-class Genxs(TroptOption_, keyword='genxs'):
+class Genxs(TroptOption, keyword='genxs'):
     """
     Represents INP genxs elements.
 

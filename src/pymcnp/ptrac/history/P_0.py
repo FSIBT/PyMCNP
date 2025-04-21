@@ -1,13 +1,13 @@
 import re
 import typing
 
-from . import line_
+from . import _line
 from ...utils import types
 from ...utils import errors
 from ...utils import _parser
 
 
-class P_0(line_.HistoryLine_):
+class P_0(_line.HistoryLine):
     """
     Represents PTRAC history block p lines form #1.
 

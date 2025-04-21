@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SdefOption_
+from ._option import SdefOption
 from ....utils import types
 from ....utils import errors
 
 
-class Axs(SdefOption_, keyword='axs'):
+class Axs(SdefOption, keyword='axs'):
     """
     Represents INP axs elements.
 

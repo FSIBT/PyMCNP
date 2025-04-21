@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmeshOption_
+from ._option import FmeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Tmesh(FmeshOption_, keyword='tmesh'):
+class Tmesh(FmeshOption, keyword='tmesh'):
     """
     Represents INP tmesh elements.
 

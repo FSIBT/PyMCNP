@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Cosy(DataOption_, keyword='cosy'):
+class Cosy(DataOption, keyword='cosy'):
     """
     Represents INP cosy elements.
 

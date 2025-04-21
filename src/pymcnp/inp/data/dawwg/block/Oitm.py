@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Oitm(BlockOption_, keyword='oitm'):
+class Oitm(BlockOption, keyword='oitm'):
     """
     Represents INP oitm elements.
 

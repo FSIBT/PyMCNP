@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import TroptOption_
+from ._option import TroptOption
 from ....utils import types
 from ....utils import errors
 
 
-class Mcscat(TroptOption_, keyword='mcscat'):
+class Mcscat(TroptOption, keyword='mcscat'):
     """
     Represents INP mcscat elements.
 

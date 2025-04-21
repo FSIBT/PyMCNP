@@ -3,13 +3,13 @@ import typing
 import dataclasses
 
 
-from .option_ import SurfaceOption_
+from ._option import SurfaceOption
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Rec(SurfaceOption_, keyword='rec'):
+class Rec(SurfaceOption, keyword='rec'):
     """
     Represents INP rec elements.
 

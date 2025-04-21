@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import RandOption_
+from ._option import RandOption
 from ....utils import types
 from ....utils import errors
 
 
-class Seed(RandOption_, keyword='seed'):
+class Seed(RandOption, keyword='seed'):
     """
     Represents INP seed elements.
 

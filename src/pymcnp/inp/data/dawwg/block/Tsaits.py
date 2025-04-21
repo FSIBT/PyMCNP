@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Tsaits(BlockOption_, keyword='tsaits'):
+class Tsaits(BlockOption, keyword='tsaits'):
     """
     Represents INP tsaits elements.
 

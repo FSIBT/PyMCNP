@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SsrOption_
+from ._option import SsrOption
 from ....utils import types
 from ....utils import errors
 
 
-class Col(SsrOption_, keyword='col'):
+class Col(SsrOption, keyword='col'):
     """
     Represents INP col elements.
 

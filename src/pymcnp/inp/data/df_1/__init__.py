@@ -1,4 +1,4 @@
-from .option_ import Df_1Option_
+from ._option import Df_1Option
 
 from .Iu import Iu
 from .Fac import Fac
@@ -10,7 +10,7 @@ from .Ic import IcBuilder
 from .Int import IntBuilder
 
 __all__ = [
-    'Df_1Option_',
+    'Df_1Option',
     'Iu',
     'Fac',
     'Ic',

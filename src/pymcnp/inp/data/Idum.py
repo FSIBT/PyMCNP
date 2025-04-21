@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Idum(DataOption_, keyword='idum'):
+class Idum(DataOption, keyword='idum'):
     """
     Represents INP idum elements.
 

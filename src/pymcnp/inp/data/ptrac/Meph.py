@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import PtracOption_
+from ._option import PtracOption
 from ....utils import types
 from ....utils import errors
 
 
-class Meph(PtracOption_, keyword='meph'):
+class Meph(PtracOption, keyword='meph'):
     """
     Represents INP meph elements.
 

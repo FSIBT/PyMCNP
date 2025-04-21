@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Void(DataOption_, keyword='void'):
+class Void(DataOption, keyword='void'):
     """
     Represents INP void elements.
 

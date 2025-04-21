@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Lib(BlockOption_, keyword='lib'):
+class Lib(BlockOption, keyword='lib'):
     """
     Represents INP lib elements.
 

@@ -1,14 +1,14 @@
 import re
 import typing
 
-from . import line_
+from . import _line
 from .EventType import EventType
 from ...utils import types
 from ...utils import errors
 from ...utils import _parser
 
 
-class J_2(line_.HistoryLine_):
+class J_2(_line.HistoryLine):
     """
     Represents PTRAC history block j lines form #2a.
 

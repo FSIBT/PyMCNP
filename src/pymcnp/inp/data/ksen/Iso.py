@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KsenOption_
+from ._option import KsenOption
 from ....utils import types
 from ....utils import errors
 
 
-class Iso(KsenOption_, keyword='iso'):
+class Iso(KsenOption, keyword='iso'):
     """
     Represents INP iso elements.
 

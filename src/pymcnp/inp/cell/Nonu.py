@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import CellOption_
+from ._option import CellOption
 from ...utils import types
 from ...utils import errors
 
 
-class Nonu(CellOption_, keyword='nonu'):
+class Nonu(CellOption, keyword='nonu'):
     """
     Represents INP nonu elements.
 

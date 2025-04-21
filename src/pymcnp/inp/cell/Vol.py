@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import CellOption_
+from ._option import CellOption
 from ...utils import types
 from ...utils import errors
 
 
-class Vol(CellOption_, keyword='vol'):
+class Vol(CellOption, keyword='vol'):
     """
     Represents INP vol elements.
 

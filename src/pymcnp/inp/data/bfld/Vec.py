@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BfldOption_
+from ._option import BfldOption
 from ....utils import types
 from ....utils import errors
 
 
-class Vec(BfldOption_, keyword='vec'):
+class Vec(BfldOption, keyword='vec'):
     """
     Represents INP vec elements.
 

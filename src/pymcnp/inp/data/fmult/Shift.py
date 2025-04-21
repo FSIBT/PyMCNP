@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmultOption_
+from ._option import FmultOption
 from ....utils import types
 from ....utils import errors
 
 
-class Shift(FmultOption_, keyword='shift'):
+class Shift(FmultOption, keyword='shift'):
     """
     Represents INP shift elements.
 

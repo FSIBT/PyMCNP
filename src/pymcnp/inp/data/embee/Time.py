@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import EmbeeOption_
+from ._option import EmbeeOption
 from ....utils import types
 from ....utils import errors
 
 
-class Time(EmbeeOption_, keyword='time'):
+class Time(EmbeeOption, keyword='time'):
     """
     Represents INP time elements.
 

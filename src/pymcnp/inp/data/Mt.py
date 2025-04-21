@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Mt(DataOption_, keyword='mt'):
+class Mt(DataOption, keyword='mt'):
     """
     Represents INP mt elements.
 

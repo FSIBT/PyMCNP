@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import StopOption_
+from ._option import StopOption
 from ....utils import types
 from ....utils import errors
 
 
-class Nps(StopOption_, keyword='nps'):
+class Nps(StopOption, keyword='nps'):
     """
     Represents INP nps elements.
 

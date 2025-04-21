@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Fissrp(BlockOption_, keyword='fissrp'):
+class Fissrp(BlockOption, keyword='fissrp'):
     """
     Represents INP fissrp elements.
 

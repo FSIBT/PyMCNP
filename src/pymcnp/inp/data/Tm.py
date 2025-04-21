@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Tm(DataOption_, keyword='tm'):
+class Tm(DataOption, keyword='tm'):
     """
     Represents INP tm elements.
 

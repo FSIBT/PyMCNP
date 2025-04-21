@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import ActOption_
+from ._option import ActOption
 from ....utils import types
 from ....utils import errors
 
 
-class Nap(ActOption_, keyword='nap'):
+class Nap(ActOption, keyword='nap'):
     """
     Represents INP nap elements.
 

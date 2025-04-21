@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import T_1Option_
+from ._option import T_1Option
 from ....utils import types
 from ....utils import errors
 
 
-class Cfrq(T_1Option_, keyword='cfrq'):
+class Cfrq(T_1Option, keyword='cfrq'):
     """
     Represents INP cfrq elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import EmbeeOption_
+from ._option import EmbeeOption
 from ....utils import types
 from ....utils import errors
 
 
-class Atom(EmbeeOption_, keyword='atom'):
+class Atom(EmbeeOption, keyword='atom'):
     """
     Represents INP atom elements.
 

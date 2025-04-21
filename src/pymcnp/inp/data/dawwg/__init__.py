@@ -1,4 +1,4 @@
-from .option_ import DawwgOption_
+from ._option import DawwgOption
 from . import block
 from .Points import Points
 from .Xsec import Xsec
@@ -8,7 +8,7 @@ from .Xsec import XsecBuilder
 from .Block import BlockBuilder
 
 __all__ = [
-    'DawwgOption_',
+    'DawwgOption',
     'block',
     'Points',
     'Xsec',

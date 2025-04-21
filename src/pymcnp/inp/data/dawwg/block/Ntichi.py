@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Ntichi(BlockOption_, keyword='ntichi'):
+class Ntichi(BlockOption, keyword='ntichi'):
     """
     Represents INP ntichi elements.
 

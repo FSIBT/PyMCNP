@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Tsplt(DataOption_, keyword='tsplt'):
+class Tsplt(DataOption, keyword='tsplt'):
     """
     Represents INP tsplt elements.
 

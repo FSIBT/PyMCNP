@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Ibb(BlockOption_, keyword='ibb'):
+class Ibb(BlockOption, keyword='ibb'):
     """
     Represents INP ibb elements.
 

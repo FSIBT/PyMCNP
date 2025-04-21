@@ -3,13 +3,13 @@ import typing
 import dataclasses
 
 
-from .option_ import SurfaceOption_
+from ._option import SurfaceOption
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Tx(SurfaceOption_, keyword='tx'):
+class Tx(SurfaceOption, keyword='tx'):
     """
     Represents INP tx elements.
 

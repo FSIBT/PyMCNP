@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Sc(DataOption_, keyword='sc'):
+class Sc(DataOption, keyword='sc'):
     """
     Represents INP sc elements.
 

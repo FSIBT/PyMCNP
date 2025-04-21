@@ -3,13 +3,13 @@ import typing
 import dataclasses
 
 
-from .option_ import SurfaceOption_
+from ._option import SurfaceOption
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Trc(SurfaceOption_, keyword='trc'):
+class Trc(SurfaceOption, keyword='trc'):
     """
     Represents INP trc elements.
 

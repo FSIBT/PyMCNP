@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmultOption_
+from ._option import FmultOption
 from ....utils import types
 from ....utils import errors
 
 
-class Data(FmultOption_, keyword='data'):
+class Data(FmultOption, keyword='data'):
     """
     Represents INP data elements.
 

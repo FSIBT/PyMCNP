@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Dm(DataOption_, keyword='dm'):
+class Dm(DataOption, keyword='dm'):
     """
     Represents INP dm elements.
 

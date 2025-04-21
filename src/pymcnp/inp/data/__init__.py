@@ -1,4 +1,4 @@
-from .option_ import DataOption_
+from ._option import DataOption
 from . import dawwg
 from . import embed
 from . import embee
@@ -312,7 +312,7 @@ from .Zd import ZdBuilder
 from .Files import FilesBuilder
 
 __all__ = [
-    'DataOption_',
+    'DataOption',
     'dawwg',
     'embed',
     'embee',

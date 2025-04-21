@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Embeb(DataOption_, keyword='embeb'):
+class Embeb(DataOption, keyword='embeb'):
     """
     Represents INP embeb elements.
 

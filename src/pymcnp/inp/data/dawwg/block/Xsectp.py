@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Xsectp(BlockOption_, keyword='xsectp'):
+class Xsectp(BlockOption, keyword='xsectp'):
     """
     Represents INP xsectp elements.
 

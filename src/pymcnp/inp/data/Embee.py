@@ -4,12 +4,12 @@ import dataclasses
 
 
 from . import embee
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Embee(DataOption_, keyword='embee'):
+class Embee(DataOption, keyword='embee'):
     """
     Represents INP embee elements.
 
@@ -20,12 +20,12 @@ class Embee(DataOption_, keyword='embee'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'options': types.Tuple[embee.EmbeeOption_],
+        'options': types.Tuple[embee.EmbeeOption],
     }
 
-    _REGEX = re.compile(rf'\Aembee(\d+)((?: (?:{embee.EmbeeOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Aembee(\d+)((?: (?:{embee.EmbeeOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, suffix: types.Integer, options: types.Tuple[embee.EmbeeOption_] = None):
+    def __init__(self, suffix: types.Integer, options: types.Tuple[embee.EmbeeOption] = None):
         """
         Initializes ``Embee``.
 
@@ -47,7 +47,7 @@ class Embee(DataOption_, keyword='embee'):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.options: typing.Final[types.Tuple[embee.EmbeeOption_]] = options
+        self.options: typing.Final[types.Tuple[embee.EmbeeOption]] = options
 
 
 @dataclasses.dataclass
@@ -61,7 +61,7 @@ class EmbeeBuilder:
     """
 
     suffix: str | int | types.Integer
-    options: list[str] | list[embee.EmbeeOption_] = None
+    options: list[str] | list[embee.EmbeeOption] = None
 
     def build(self):
         """
@@ -80,10 +80,10 @@ class EmbeeBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, embee.EmbeeOption_):
+            if isinstance(item, embee.EmbeeOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(embee.EmbeeOption_.from_mcnp(item))
+                options.append(embee.EmbeeOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Zned(BlockOption_, keyword='zned'):
+class Zned(BlockOption, keyword='zned'):
     """
     Represents INP zned elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Prdmp(DataOption_, keyword='prdmp'):
+class Prdmp(DataOption, keyword='prdmp'):
     """
     Represents INP prdmp elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Embdf(DataOption_, keyword='embdf'):
+class Embdf(DataOption, keyword='embdf'):
     """
     Represents INP embdf elements.
 

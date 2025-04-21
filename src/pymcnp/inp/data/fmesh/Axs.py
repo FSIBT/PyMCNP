@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmeshOption_
+from ._option import FmeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Axs(FmeshOption_, keyword='axs'):
+class Axs(FmeshOption, keyword='axs'):
     """
     Represents INP axs elements.
 

@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SdefOption_
+from ._option import SdefOption
 from ....utils import types
 from ....utils import errors
 
 
-class Y(SdefOption_, keyword='y'):
+class Y(SdefOption, keyword='y'):
     """
     Represents INP y elements.
 

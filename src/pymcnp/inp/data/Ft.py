@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Ft(DataOption_, keyword='ft'):
+class Ft(DataOption, keyword='ft'):
     """
     Represents INP ft elements.
 
@@ -22,7 +22,7 @@ class Ft(DataOption_, keyword='ft'):
         'treatments': types.String,
     }
 
-    _REGEX = re.compile(rf'\Aft(\d+)( [\S\s]+)\Z')
+    _REGEX = re.compile(r'\Aft(\d+)( [\S\s]+)\Z')
 
     def __init__(self, suffix: types.Integer, treatments: types.String):
         """

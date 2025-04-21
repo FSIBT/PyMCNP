@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Sp_0(DataOption_, keyword='sp'):
+class Sp_0(DataOption, keyword='sp'):
     """
     Represents INP sp variation #0 elements.
 
@@ -24,9 +24,7 @@ class Sp_0(DataOption_, keyword='sp'):
         'probabilities': types.Tuple[types.RealOrJump],
     }
 
-    _REGEX = re.compile(
-        rf'\Asp(\d+)( [dcvw])?((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
-    )
+    _REGEX = re.compile(rf'\Asp(\d+)( [dcvw])?((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
 
     def __init__(
         self,

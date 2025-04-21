@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmeshOption_
+from ._option import FmeshOption
 from ....utils import types
 from ....utils import errors
 
 
-class Enorm(FmeshOption_, keyword='enorm'):
+class Enorm(FmeshOption, keyword='enorm'):
     """
     Represents INP enorm elements.
 

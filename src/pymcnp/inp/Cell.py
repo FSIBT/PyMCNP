@@ -4,14 +4,14 @@ import dataclasses
 
 from . import cell
 from . import data
-from .card_ import Card_
+from ._card import Card
 from ..utils import types
 from ..utils import errors
 from ..utils import _parser
 from ..utils import _visualization
 
 
-class Cell(Card_):
+class Cell(Card):
     """
     Represents INP cell cards.
 
@@ -24,11 +24,11 @@ class Cell(Card_):
         'material': types.Integer,
         'density': types.Real,
         'geometry': types.Geometry,
-        'options': types.Tuple[cell.CellOption_],
+        'options': types.Tuple[cell.CellOption],
     }
 
     _REGEX = re.compile(
-        rf'\A(\S+)( \S+)((?<! 0) \S+|(?<= 0))( [^a-z]+)( ({cell.CellOption_._REGEX.pattern}))*\Z'
+        rf'\A(\S+)( \S+)((?<! 0) \S+|(?<= 0))( [^a-z]+)( ({cell.CellOption._REGEX.pattern}))*\Z'
     )
 
     def __init__(
@@ -37,7 +37,7 @@ class Cell(Card_):
         material: types.Integer,
         density: types.Integer,
         geometry: types.Geometry,
-        options: types.Tuple[cell.CellOption_] = None,
+        options: types.Tuple[cell.CellOption] = None,
     ):
         """
         Initializes ``Cell``.
@@ -66,7 +66,7 @@ class Cell(Card_):
         self.material: types.Integer = material
         self.density: types.Integer = density
         self.geometry: types.Geometry = geometry
-        self.options: types.Tuple[cell.CellOption_] = options
+        self.options: types.Tuple[cell.CellOption] = options
 
     def to_mcnp(self):
         """
@@ -118,19 +118,9 @@ class CellBuilder:
     number: str | int | types.Integer
     material: str | int | types.Integer | data.MBuilder
     geometry: str | types.Geometry | types.GeometryBuilder
-    options: list[str] | list[cell.CellOption_] = dataclasses.field(default_factory=lambda: ({}))
+    options: list[str] | list[cell.CellOption] = dataclasses.field(default_factory=lambda: ({}))
     density: str | float | types.Real = None
     atoms_or_grams: bool = True
-
-    def append(self, option: str | cell.CellOption_):
-        """
-        Stores ``Option_`` in ``CellBuilder``,
-
-        Parameters:
-            option: ``Option_`` to add.
-        """
-
-        self.options.append(option)
 
     def build(self):
         """
@@ -175,10 +165,10 @@ class CellBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, cell.CellOption_):
+            if isinstance(item, cell.CellOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(cell.CellOption_.from_mcnp(item))
+                options.append(cell.CellOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

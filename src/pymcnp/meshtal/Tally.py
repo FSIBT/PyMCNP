@@ -1,13 +1,13 @@
 import re
 import typing
 
-from . import line_
+from . import _line
 from .Header import Header
 from ..utils import types
 from ..utils import errors
 
 
-class Tally(line_.Line_):
+class Tally(_line.Line):
     """
     Represents MESHTAL tally line.
 

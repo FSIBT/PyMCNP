@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SswOption_
+from ._option import SswOption
 from ....utils import types
 from ....utils import errors
 
 
-class Pty(SswOption_, keyword='pty'):
+class Pty(SswOption, keyword='pty'):
     """
     Represents INP pty elements.
 

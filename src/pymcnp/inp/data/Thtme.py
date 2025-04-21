@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Thtme(DataOption_, keyword='thtme'):
+class Thtme(DataOption, keyword='thtme'):
     """
     Represents INP thtme elements.
 

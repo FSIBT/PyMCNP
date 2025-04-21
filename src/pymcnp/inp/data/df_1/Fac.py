@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import Df_1Option_
+from ._option import Df_1Option
 from ....utils import types
 from ....utils import errors
 
 
-class Fac(Df_1Option_, keyword='fac'):
+class Fac(Df_1Option, keyword='fac'):
     """
     Represents INP fac elements.
 

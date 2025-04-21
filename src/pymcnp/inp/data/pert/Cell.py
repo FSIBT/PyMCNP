@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import PertOption_
+from ._option import PertOption
 from ....utils import types
 from ....utils import errors
 
 
-class Cell(PertOption_, keyword='cell'):
+class Cell(PertOption, keyword='cell'):
     """
     Represents INP cell elements.
 

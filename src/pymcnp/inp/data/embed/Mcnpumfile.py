@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import EmbedOption_
+from ._option import EmbedOption
 from ....utils import types
 from ....utils import errors
 
 
-class Mcnpumfile(EmbedOption_, keyword='mcnpumfile'):
+class Mcnpumfile(EmbedOption, keyword='mcnpumfile'):
     """
     Represents INP mcnpumfile elements.
 

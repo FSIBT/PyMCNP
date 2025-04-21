@@ -1,4 +1,4 @@
-from .option_ import KpertOption_
+from ._option import KpertOption
 
 from .Cell import Cell
 from .Mat import Mat
@@ -16,7 +16,7 @@ from .Erg import ErgBuilder
 from .Linear import LinearBuilder
 
 __all__ = [
-    'KpertOption_',
+    'KpertOption',
     'Cell',
     'Mat',
     'Rho',

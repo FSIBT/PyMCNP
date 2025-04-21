@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import PtracOption_
+from ._option import PtracOption
 from ....utils import types
 from ....utils import errors
 
 
-class Type(PtracOption_, keyword='type'):
+class Type(PtracOption, keyword='type'):
     """
     Represents INP type elements.
 

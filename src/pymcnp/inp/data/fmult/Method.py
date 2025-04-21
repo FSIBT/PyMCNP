@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import FmultOption_
+from ._option import FmultOption
 from ....utils import types
 from ....utils import errors
 
 
-class Method(FmultOption_, keyword='method'):
+class Method(FmultOption, keyword='method'):
     """
     Represents INP method elements.
 

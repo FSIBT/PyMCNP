@@ -1,9 +1,9 @@
-from . import keyword_
+from . import _keyword
 from ...utils import errors
 from ...utils import _parser
 
 
-class Nters(keyword_.HistoryKeyword_):
+class Nters(_keyword.HistoryKeyword):
     """
     Represents PTRAC event NTER variables.
     """

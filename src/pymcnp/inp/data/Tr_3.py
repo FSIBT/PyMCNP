@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Tr_3(DataOption_, keyword='tr'):
+class Tr_3(DataOption, keyword='tr'):
     """
     Represents INP tr variation #3 elements.
 

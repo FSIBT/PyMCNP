@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import EmbeeOption_
+from ._option import EmbeeOption
 from ....utils import types
 from ....utils import errors
 
 
-class Mtype(EmbeeOption_, keyword='mtype'):
+class Mtype(EmbeeOption, keyword='mtype'):
     """
     Represents INP mtype elements.
 

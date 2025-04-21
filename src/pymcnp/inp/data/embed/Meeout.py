@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import EmbedOption_
+from ._option import EmbedOption
 from ....utils import types
 from ....utils import errors
 
 
-class Meeout(EmbedOption_, keyword='meeout'):
+class Meeout(EmbedOption, keyword='meeout'):
     """
     Represents INP meeout elements.
 

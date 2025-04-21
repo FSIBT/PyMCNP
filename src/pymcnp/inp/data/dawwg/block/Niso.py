@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Niso(BlockOption_, keyword='niso'):
+class Niso(BlockOption, keyword='niso'):
     """
     Represents INP niso elements.
 

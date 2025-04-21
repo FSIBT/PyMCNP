@@ -4,11 +4,11 @@ import dataclasses
 
 
 from . import mesh
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Mesh(DataOption_, keyword='mesh'):
+class Mesh(DataOption, keyword='mesh'):
     """
     Represents INP mesh elements.
 
@@ -17,12 +17,12 @@ class Mesh(DataOption_, keyword='mesh'):
     """
 
     _ATTRS = {
-        'options': types.Tuple[mesh.MeshOption_],
+        'options': types.Tuple[mesh.MeshOption],
     }
 
-    _REGEX = re.compile(rf'\Amesh((?: (?:{mesh.MeshOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Amesh((?: (?:{mesh.MeshOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[mesh.MeshOption_] = None):
+    def __init__(self, options: types.Tuple[mesh.MeshOption] = None):
         """
         Initializes ``Mesh``.
 
@@ -39,7 +39,7 @@ class Mesh(DataOption_, keyword='mesh'):
             ]
         )
 
-        self.options: typing.Final[types.Tuple[mesh.MeshOption_]] = options
+        self.options: typing.Final[types.Tuple[mesh.MeshOption]] = options
 
 
 @dataclasses.dataclass
@@ -51,7 +51,7 @@ class MeshBuilder:
         options: Dictionary of options.
     """
 
-    options: list[str] | list[mesh.MeshOption_] = None
+    options: list[str] | list[mesh.MeshOption] = None
 
     def build(self):
         """
@@ -63,10 +63,10 @@ class MeshBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, mesh.MeshOption_):
+            if isinstance(item, mesh.MeshOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(mesh.MeshOption_.from_mcnp(item))
+                options.append(mesh.MeshOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

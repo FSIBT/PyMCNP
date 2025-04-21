@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SswOption_
+from ._option import SswOption
 from ....utils import types
 from ....utils import errors
 
 
-class Cel(SswOption_, keyword='cel'):
+class Cel(SswOption, keyword='cel'):
     """
     Represents INP cel elements.
 

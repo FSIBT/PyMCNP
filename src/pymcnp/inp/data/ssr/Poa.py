@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SsrOption_
+from ._option import SsrOption
 from ....utils import types
 from ....utils import errors
 
 
-class Poa(SsrOption_, keyword='poa'):
+class Poa(SsrOption, keyword='poa'):
     """
     Represents INP poa elements.
 

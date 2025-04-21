@@ -4,11 +4,11 @@ import dataclasses
 
 
 from . import ptrac
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 
 
-class Ptrac(DataOption_, keyword='ptrac'):
+class Ptrac(DataOption, keyword='ptrac'):
     """
     Represents INP ptrac elements.
 
@@ -17,12 +17,12 @@ class Ptrac(DataOption_, keyword='ptrac'):
     """
 
     _ATTRS = {
-        'options': types.Tuple[ptrac.PtracOption_],
+        'options': types.Tuple[ptrac.PtracOption],
     }
 
-    _REGEX = re.compile(rf'\Aptrac((?: (?:{ptrac.PtracOption_._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Aptrac((?: (?:{ptrac.PtracOption._REGEX.pattern}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[ptrac.PtracOption_] = None):
+    def __init__(self, options: types.Tuple[ptrac.PtracOption] = None):
         """
         Initializes ``Ptrac``.
 
@@ -39,7 +39,7 @@ class Ptrac(DataOption_, keyword='ptrac'):
             ]
         )
 
-        self.options: typing.Final[types.Tuple[ptrac.PtracOption_]] = options
+        self.options: typing.Final[types.Tuple[ptrac.PtracOption]] = options
 
 
 @dataclasses.dataclass
@@ -51,7 +51,7 @@ class PtracBuilder:
         options: Dictionary of options.
     """
 
-    options: list[str] | list[ptrac.PtracOption_] = None
+    options: list[str] | list[ptrac.PtracOption] = None
 
     def build(self):
         """
@@ -63,10 +63,10 @@ class PtracBuilder:
 
         options = []
         for item in self.options:
-            if isinstance(item, ptrac.PtracOption_):
+            if isinstance(item, ptrac.PtracOption):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(ptrac.PtracOption_.from_mcnp(item))
+                options.append(ptrac.PtracOption.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

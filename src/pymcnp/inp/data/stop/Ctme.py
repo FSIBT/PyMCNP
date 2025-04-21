@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import StopOption_
+from ._option import StopOption
 from ....utils import types
 from ....utils import errors
 
 
-class Ctme(StopOption_, keyword='ctme'):
+class Ctme(StopOption, keyword='ctme'):
     """
     Represents INP ctme elements.
 

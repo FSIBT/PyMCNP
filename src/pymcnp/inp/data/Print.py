@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import DataOption_
+from ._option import DataOption
 from ...utils import types
 from ...utils import errors
 
 
-class Print(DataOption_, keyword='print'):
+class Print(DataOption, keyword='print'):
     """
     Represents INP print elements.
 

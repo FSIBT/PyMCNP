@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Norm(BlockOption_, keyword='norm'):
+class Norm(BlockOption, keyword='norm'):
     """
     Represents INP norm elements.
 

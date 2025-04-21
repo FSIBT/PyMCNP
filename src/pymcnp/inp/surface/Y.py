@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SurfaceOption_
+from ._option import SurfaceOption
 from ...utils import types
 from ...utils import errors
 
 
-class Y(SurfaceOption_, keyword='y'):
+class Y(SurfaceOption, keyword='y'):
     """
     Represents INP y elements.
 

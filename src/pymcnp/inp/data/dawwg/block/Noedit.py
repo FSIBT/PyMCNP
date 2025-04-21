@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Noedit(BlockOption_, keyword='noedit'):
+class Noedit(BlockOption, keyword='noedit'):
     """
     Represents INP noedit elements.
 

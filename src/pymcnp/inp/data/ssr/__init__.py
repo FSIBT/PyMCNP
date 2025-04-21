@@ -1,4 +1,4 @@
-from .option_ import SsrOption_
+from ._option import SsrOption
 
 from .Old import Old
 from .Cel import Cel
@@ -28,7 +28,7 @@ from .Poa import PoaBuilder
 from .Bcw import BcwBuilder
 
 __all__ = [
-    'SsrOption_',
+    'SsrOption',
     'Old',
     'Cel',
     'New',

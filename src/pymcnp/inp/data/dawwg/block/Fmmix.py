@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BlockOption_
+from ._option import BlockOption
 from .....utils import types
 from .....utils import errors
 
 
-class Fmmix(BlockOption_, keyword='fmmix'):
+class Fmmix(BlockOption, keyword='fmmix'):
     """
     Represents INP fmmix elements.
 

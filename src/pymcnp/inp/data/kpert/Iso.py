@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import KpertOption_
+from ._option import KpertOption
 from ....utils import types
 from ....utils import errors
 
 
-class Iso(KpertOption_, keyword='iso'):
+class Iso(KpertOption, keyword='iso'):
     """
     Represents INP iso elements.
 

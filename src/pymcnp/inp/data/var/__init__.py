@@ -1,10 +1,10 @@
-from .option_ import VarOption_
+from ._option import VarOption
 
 from .Rr import Rr
 from .Rr import RrBuilder
 
 __all__ = [
-    'VarOption_',
+    'VarOption',
     'Rr',
     'RrBuilder',
 ]

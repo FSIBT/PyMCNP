@@ -1,4 +1,4 @@
-from .option_ import SurfaceOption_
+from ._option import SurfaceOption
 
 from .P_0 import P_0
 from .P_1 import P_1
@@ -50,15 +50,15 @@ from .S import SBuilder
 from .Sx import SxBuilder
 from .Sy import SyBuilder
 from .Sz import SzBuilder
-from .C_x import CBuilder_x
-from .C_y import CBuilder_y
-from .C_z import CBuilder_z
+from .C_x import C_xBuilder
+from .C_y import C_yBuilder
+from .C_z import C_zBuilder
 from .Cx import CxBuilder
 from .Cy import CyBuilder
 from .Cz import CzBuilder
-from .K_x import KBuilder_x
-from .K_y import KBuilder_y
-from .K_z import KBuilder_z
+from .K_x import K_xBuilder
+from .K_y import K_yBuilder
+from .K_z import K_zBuilder
 from .Kx import KxBuilder
 from .Ky import KyBuilder
 from .Kz import KzBuilder
@@ -82,7 +82,7 @@ from .Wed import WedBuilder
 from .Arb import ArbBuilder
 
 __all__ = [
-    'SurfaceOption_',
+    'SurfaceOption',
     'P_0',
     'P_1',
     'Px',
@@ -133,15 +133,15 @@ __all__ = [
     'SxBuilder',
     'SyBuilder',
     'SzBuilder',
-    'CBuilder_x',
-    'CBuilder_y',
-    'CBuilder_z',
+    'C_xBuilder',
+    'C_yBuilder',
+    'C_zBuilder',
     'CxBuilder',
     'CyBuilder',
     'CzBuilder',
-    'KBuilder_x',
-    'KBuilder_y',
-    'KBuilder_z',
+    'K_xBuilder',
+    'K_yBuilder',
+    'K_zBuilder',
     'KxBuilder',
     'KyBuilder',
     'KzBuilder',

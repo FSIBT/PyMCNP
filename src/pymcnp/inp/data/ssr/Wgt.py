@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import SsrOption_
+from ._option import SsrOption
 from ....utils import types
 from ....utils import errors
 
 
-class Wgt(SsrOption_, keyword='wgt'):
+class Wgt(SsrOption, keyword='wgt'):
     """
     Represents INP wgt elements.
 

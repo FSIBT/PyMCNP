@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import BfldOption_
+from ._option import BfldOption
 from ....utils import types
 from ....utils import errors
 
 
-class Refpnt(BfldOption_, keyword='refpnt'):
+class Refpnt(BfldOption, keyword='refpnt'):
     """
     Represents INP refpnt elements.
 

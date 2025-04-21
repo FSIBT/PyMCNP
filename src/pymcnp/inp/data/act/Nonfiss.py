@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from .option_ import ActOption_
+from ._option import ActOption
 from ....utils import types
 from ....utils import errors
 
 
-class Nonfiss(ActOption_, keyword='nonfiss'):
+class Nonfiss(ActOption, keyword='nonfiss'):
     """
     Represents INP nonfiss elements.
 
