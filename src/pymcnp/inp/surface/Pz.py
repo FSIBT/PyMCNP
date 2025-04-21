@@ -31,11 +31,11 @@ class Pz(SurfaceOption, keyword='pz'):
             d: Normal-to-the-z-axis plane D coefficent.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if d is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, d)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, d)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

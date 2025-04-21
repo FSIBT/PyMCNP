@@ -33,13 +33,13 @@ class Fk(StopOption, keyword='fk'):
             suffix: Data card option option suffix.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if e is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, e)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, e)
         if suffix is None or not (suffix <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

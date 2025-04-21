@@ -30,7 +30,7 @@ class Stop(DataOption, keyword='stop'):
             options: Dictionary of options.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

@@ -30,11 +30,11 @@ class Awtab(DataOption, keyword='awtab'):
             weight_ratios: Tuple of atomic weight ratios.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if weight_ratios is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, weight_ratios)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight_ratios)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,11 +30,11 @@ class Tnorm(FmeshOption, keyword='tnorm'):
             setting: Tally results divided by time yes/no.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if setting is None or setting not in {'yes', 'no'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

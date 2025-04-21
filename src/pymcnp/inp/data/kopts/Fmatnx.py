@@ -30,11 +30,11 @@ class Fmatnx(KoptsOption, keyword='fmatnx'):
             fmat_nx: fmat_nx.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if fmat_nx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fmat_nx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_nx)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

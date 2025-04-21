@@ -55,21 +55,21 @@ class Phys_1(DataOption, keyword='phys:p'):
             fism: Selection of photofission method controls.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if ides is not None and not (isinstance(ides.value, types.Jump) or ides.value in {0, 1}):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ides)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ides)
         if nocoh is not None and not (isinstance(nocoh.value, types.Jump) or nocoh.value in {0, 1}):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nocoh)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nocoh)
         if ispn is not None and not (
             isinstance(ispn.value, types.Jump) or ispn.value in {-1, 0, 1}
         ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ispn)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ispn)
         if nodop is not None and not (isinstance(nodop.value, types.Jump) or nodop.value in {0, 1}):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nodop)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nodop)
         if fism is not None and not (isinstance(fism.value, types.Jump) or fism.value in {0, 1}):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fism)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fism)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

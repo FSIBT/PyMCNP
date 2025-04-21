@@ -30,11 +30,11 @@ class Nonfiss(ActOption, keyword='nonfiss'):
             kind: Type of delayed particle(s) to be produced by simple multi-particle reaction.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if kind is None or type not in {'none', 'n,p,e,f,a', 'all'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kind)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

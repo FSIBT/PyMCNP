@@ -33,13 +33,13 @@ class Ext(DataOption, keyword='ext'):
             stretching: Stretching direction for the cell.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if stretching is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, stretching)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, stretching)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

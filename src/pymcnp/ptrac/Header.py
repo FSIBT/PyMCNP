@@ -14,8 +14,8 @@ class Header(_object.McnpElement_):
 
     Attributes:
         code: Simulation name.
-        code_date: Simulation compilation date.
         version: Simulation version.
+        code_date: Simulation compilation date.
         run_date: Simulation run date.
         run_time: Simulation run time.
         title: Simulation title.
@@ -31,8 +31,8 @@ class Header(_object.McnpElement_):
     def __init__(
         self,
         code: types.String,
-        code_date: types.String,
         version: types.String,
+        code_date: types.String,
         run_date: types.String,
         run_time: types.String,
         title: types.String,
@@ -45,8 +45,8 @@ class Header(_object.McnpElement_):
 
         Parameters:
             code: Simulation name.
-            code_date: Simulation compilation date.
             version: Simulation version.
+            code_date: Simulation compilation date.
             run_date: Simulation run date.
             run_time: Simulation run time.
             title: Simulation title.
@@ -55,35 +55,35 @@ class Header(_object.McnpElement_):
             l_line: PTRAC l-line.
 
         Raises:
-            PtracError: SEMANTICS_BLOCK_VALUE.
+            PtracError: SEMANTICS_BLOCK.
         """
 
         if code is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, code)
-
-        if code_date is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, code_date)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, code)
 
         if version is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, version)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, version)
+
+        if code_date is None:
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, code_date)
 
         if run_date is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, run_date)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, run_date)
 
         if run_time is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, run_time)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, run_time)
 
         if title is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, title)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, title)
 
         if v_line is None or None in v_line:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, v_line)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, v_line)
 
         if n_line is None or None in n_line:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, n_line)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, n_line)
 
         if l_line is None or None in l_line:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, l_line)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, l_line)
 
         self.code: typing.Final[types.String] = code
         self.code_date: typing.Final[types.String] = code_date

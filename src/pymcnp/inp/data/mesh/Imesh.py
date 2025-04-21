@@ -30,11 +30,11 @@ class Imesh(MeshOption, keyword='imesh'):
             vector: Locations of the coarse meshes in the x/r directions.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if vector is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vector)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vector)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

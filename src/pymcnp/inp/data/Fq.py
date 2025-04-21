@@ -67,27 +67,27 @@ class Fq(DataOption, keyword='fq'):
             a8: Letters representing tally bin types.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (suffix <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if a1 is None or a1 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1)
         if a2 is None or a2 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a2)
         if a3 is None or a3 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a3)
         if a4 is None or a4 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a4)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a4)
         if a5 is None or a5 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a5)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a5)
         if a6 is None or a6 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a6)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a6)
         if a7 is None or a7 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a7)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a7)
         if a8 is None or a8 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a8)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a8)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

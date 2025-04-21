@@ -30,11 +30,11 @@ class Ngroup(BlockOption, keyword='ngroup'):
             value: Number of energy groups.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if value is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, value)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, value)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

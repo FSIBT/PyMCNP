@@ -30,11 +30,11 @@ class Cfrq(T_1Option, keyword='cfrq'):
             frequency: Frequency of cycling.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if frequency is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, frequency)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, frequency)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -34,13 +34,13 @@ class Sz(SurfaceOption, keyword='sz'):
             r: On-z-axis sphere radius.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)
         if r is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, r)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

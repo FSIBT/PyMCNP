@@ -30,11 +30,11 @@ class Ein(KsenOption, keyword='ein'):
             energies: List of ranges for incident energies.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if energies is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energies)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energies)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

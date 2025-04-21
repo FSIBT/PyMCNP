@@ -34,13 +34,13 @@ class T_1(DataOption, keyword='t'):
             options: Data card options.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if options is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, options)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, options)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

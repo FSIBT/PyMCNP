@@ -51,19 +51,19 @@ class Prdmp(DataOption, keyword='prdmp'):
             dmmp: Controls frequently of tally fluctuation chart.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if ndp is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ndp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ndp)
         if ndm is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ndm)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ndm)
         if mct is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, mct)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mct)
         if ndmp is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ndmp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ndmp)
         if dmmp is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, dmmp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, dmmp)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

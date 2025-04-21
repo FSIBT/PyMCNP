@@ -30,11 +30,11 @@ class Tsaepsi(BlockOption, keyword='tsaepsi'):
             setting: Convergence criteria for TSA sweeps.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if setting is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

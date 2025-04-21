@@ -30,11 +30,11 @@ class Dir_0(SdefOption, keyword='dir'):
             cosine: Cosine of the angle between VEC and particle.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if cosine is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cosine)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cosine)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

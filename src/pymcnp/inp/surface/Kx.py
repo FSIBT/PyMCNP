@@ -39,15 +39,15 @@ class Kx(SurfaceOption, keyword='kx'):
             plusminus_1: On-x-axis cone sheet selector.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
         if t_squared is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, t_squared)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t_squared)
         if plusminus_1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, plusminus_1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, plusminus_1)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

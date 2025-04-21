@@ -30,11 +30,11 @@ class Eff(SdefOption, keyword='eff'):
             criterion: Rejection efficiency criterion for position sampling.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if criterion is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, criterion)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, criterion)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

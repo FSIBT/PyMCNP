@@ -41,15 +41,15 @@ class Sb_0(DataOption, keyword='sb'):
             biases: Particle source biases.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (1 <= suffix <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if option is not None and option not in {'d', 'c', 'v', 'w'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, option)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
         if biases is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, biases)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, biases)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

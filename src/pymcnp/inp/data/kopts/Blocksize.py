@@ -30,11 +30,11 @@ class Blocksize(KoptsOption, keyword='blocksize'):
             ncy: Number of cycles in every outer iteration.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if ncy is None or not (ncy >= 2):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ncy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ncy)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,11 +30,11 @@ class Hstep(MOption, keyword='hstep'):
             step: Number of proton sub-step per energy step.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if step is None or not (step >= 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, step)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, step)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

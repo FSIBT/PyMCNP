@@ -80,33 +80,33 @@ class Rec(SurfaceOption, keyword='rec'):
             v2z: Elliptical cylinder minor axis vector z component.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if vx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
         if vy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
         if vz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
         if hx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hx)
         if hy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hy)
         if hz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hz)
         if v1x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v1x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1x)
         if v1y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v1y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1y)
         if v1z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v1z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1z)
         if v2x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v2x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2x)
         if v2y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v2y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2y)
         if v2z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v2z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2z)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

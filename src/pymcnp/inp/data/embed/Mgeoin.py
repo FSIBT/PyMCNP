@@ -30,11 +30,11 @@ class Mgeoin(EmbedOption, keyword='mgeoin'):
             filename: Name of the input file containing the mesh description.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if filename is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, filename)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, filename)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

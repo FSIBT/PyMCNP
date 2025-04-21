@@ -55,21 +55,21 @@ class Y(SurfaceOption, keyword='y'):
             r3: Y-axisymmetric point-defined surface point #3 radius.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if y1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y1)
         if r1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, r1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r1)
         if y2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y2)
         if r2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, r2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r2)
         if y3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y3)
         if r3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, r3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r3)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

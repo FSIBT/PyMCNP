@@ -63,25 +63,25 @@ class Wwg(DataOption, keyword='wwg'):
             setting: Energy- or time-dependent weight window toggle.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if tally is None or not (tally <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, tally)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tally)
         if cell is None or not (cell <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cell)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cell)
         if lower is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, lower)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lower)
         if j1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, j1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j1)
         if j2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, j2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j2)
         if j3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, j3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j3)
         if j4 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, j4)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j4)
         if setting is None or setting.value not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

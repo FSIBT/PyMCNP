@@ -36,14 +36,14 @@ class History(_object.McnpElement_):
             events: PTRAC history events.
 
         Raises:
-            PtracError: SEMANTICS_BLOCK_VALUE.
+            PtracError: SEMANTICS_BLOCK.
         """
 
         if i_line is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, i_line)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, i_line)
 
         if events is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK_VALUE, events)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, events)
 
         self.i_line: typing.Final[types.Tuple[types.Integer, history.EventType, types.Real]] = (
             i_line

@@ -14,7 +14,7 @@ class Data(Card):
     Represents INP data elements.
 
     Attributes:
-        InpError: SEMANTICS_CARD_VALUE.
+        InpError: SEMANTICS_CARD.
     """
 
     _ATTRS = {'option': data.DataOption}
@@ -29,11 +29,11 @@ class Data(Card):
             option: data option.
 
         Raises:
-            InpError: SEMANTICS_CARD_VALUE.
+            InpError: SEMANTICS_CARD.
         """
 
         if option is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, option)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, option)
 
         self.option: typing.Final[data.DataOption] = option
 

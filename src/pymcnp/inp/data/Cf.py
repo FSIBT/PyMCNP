@@ -33,13 +33,13 @@ class Cf(DataOption, keyword='cf'):
             numbers: Tallies for problem cell numbers to flag.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (suffix <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if numbers is None or not (filter(lambda entry: not (0 <= entry <= 99_999_999), numbers)):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, numbers)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

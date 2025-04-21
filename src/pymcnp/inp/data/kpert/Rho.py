@@ -30,11 +30,11 @@ class Rho(KpertOption, keyword='rho'):
             densities: List of densities.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if densities is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, densities)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, densities)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -49,17 +49,17 @@ class Surface(Card):
             ``Surface``.
 
         Raises:
-            InpError: SEMANTICS_CARD_VALUE.
+            InpError: SEMANTICS_CARD.
         """
 
         if number is None or not (1 <= number <= 99_999_999 if not transform else 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
         if transform is not None and not (0 <= transform <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, transform)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, transform)
         if option is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, option)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, option)
         if prefix is not None and prefix not in {'*', '+'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, prefix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, prefix)
 
         self.number: typing.Final[types.Integer] = number
         self.transform: typing.Final[types.Integer] = transform

@@ -30,11 +30,11 @@ class Ctme(DataOption, keyword='ctme'):
             tme: maximum amount of minutes for Monte Carlo calculation.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if tme is None or not (tme >= 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, tme)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tme)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -44,13 +44,13 @@ class Bfld(DataOption, keyword='bfld'):
             options: Dictionary of options.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if kind is None or type not in {'const', 'quad', 'quadff'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kind)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

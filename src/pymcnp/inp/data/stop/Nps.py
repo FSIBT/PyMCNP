@@ -35,11 +35,11 @@ class Nps(StopOption, keyword='nps'):
             npsmg: Number of histories before stop.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if npp is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, npp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npp)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

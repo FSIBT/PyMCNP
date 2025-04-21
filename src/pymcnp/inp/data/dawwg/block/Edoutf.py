@@ -30,11 +30,11 @@ class Edoutf(BlockOption, keyword='edoutf'):
             setting: ASCII output files control.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if setting is None or setting not in {-3, -2, -1, 0, 1, 2, 3}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

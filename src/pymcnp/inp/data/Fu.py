@@ -45,17 +45,17 @@ class Fu(DataOption, keyword='fu'):
             c: Notation to make bin values cumulative.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (suffix <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if bounds is None or not (filter(lambda entry: not (entry > -1), bounds)):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bounds)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bounds)
         if nt is not None and nt not in {'nt'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nt)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nt)
         if c is not None and c not in {'c'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, c)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

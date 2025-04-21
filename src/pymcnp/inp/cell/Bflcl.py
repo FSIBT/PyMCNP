@@ -30,11 +30,11 @@ class Bflcl(CellOption, keyword='bflcl'):
             number: Cell magnetic field number.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if number is None or not (number >= 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

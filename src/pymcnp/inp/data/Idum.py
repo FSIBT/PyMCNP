@@ -30,11 +30,11 @@ class Idum(DataOption, keyword='idum'):
             intergers: Integer array.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if intergers is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, intergers)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, intergers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

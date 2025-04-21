@@ -30,11 +30,11 @@ class Par(SdefOption, keyword='par'):
             kind: Source particle type.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if kind is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kind)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

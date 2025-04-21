@@ -59,23 +59,23 @@ class Mgopt(DataOption, keyword='mgopt'):
             rim: Generated weight windows compression limit.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if mcal is None or mcal not in {'f', 'a'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, mcal)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mcal)
         if igm is None or not (igm >= 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, igm)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, igm)
         if iplt is None or not (iplt == 0 or iplt == 1 or iplt == 2):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, iplt)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iplt)
         if iab is None or not (iab == 0 or iab == 1 or iab == 2):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, iab)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iab)
         if icw is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, icw)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, icw)
         if fnw is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fnw)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fnw)
         if rim is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, rim)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rim)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

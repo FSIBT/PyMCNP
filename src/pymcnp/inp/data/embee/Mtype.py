@@ -30,7 +30,7 @@ class Mtype(EmbeeOption, keyword='mtype'):
             kind: Multiplier type.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if kind is None or type not in {
@@ -41,7 +41,7 @@ class Mtype(EmbeeOption, keyword='mtype'):
             'source',
             'track',
         }:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kind)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

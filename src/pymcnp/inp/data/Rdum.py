@@ -30,11 +30,11 @@ class Rdum(DataOption, keyword='rdum'):
             floats: Floating point array.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if floats is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, floats)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, floats)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

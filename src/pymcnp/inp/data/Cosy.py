@@ -30,11 +30,11 @@ class Cosy(DataOption, keyword='cosy'):
             numbers: Tuple of COSY map numbers.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if numbers is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, numbers)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

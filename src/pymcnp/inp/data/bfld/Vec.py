@@ -30,11 +30,11 @@ class Vec(BfldOption, keyword='vec'):
             vector: Direction of mangentic field or plane corresponding to the x-axis of the quadrapole.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if vector is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vector)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vector)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

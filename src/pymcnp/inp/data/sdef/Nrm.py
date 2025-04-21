@@ -30,11 +30,11 @@ class Nrm(SdefOption, keyword='nrm'):
             sign: Sign of the surface normal.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if sign is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, sign)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, sign)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -92,39 +92,39 @@ class Rhp(SurfaceOption, keyword='rhp'):
             t3: Hexagonal prism facet #3 vector z component.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if vx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
         if vy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
         if vz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
         if hx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hx)
         if hy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hy)
         if hz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hz)
         if r1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, r1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r1)
         if r2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, r2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r2)
         if r3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, r3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r3)
         if s1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, s1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, s1)
         if s2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, s2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, s2)
         if s3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, s3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, s3)
         if t1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, t1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t1)
         if t2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, t2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t2)
         if t3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, t3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t3)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

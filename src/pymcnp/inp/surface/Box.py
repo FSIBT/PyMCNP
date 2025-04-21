@@ -80,33 +80,33 @@ class Box(SurfaceOption, keyword='box'):
             a3z: Box macrobody vector #3 z component.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if vx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
         if vy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
         if vz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
         if a1x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a1x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1x)
         if a1y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a1y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1y)
         if a1z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a1z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1z)
         if a2x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a2x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a2x)
         if a2y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a2y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a2y)
         if a2z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a2z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a2z)
         if a3x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a3x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a3x)
         if a3y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a3y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a3y)
         if a3z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a3z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a3z)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

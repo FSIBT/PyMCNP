@@ -30,11 +30,11 @@ class Imesh(FmeshOption, keyword='imesh'):
             locations: Locations of mesh points x/r for rectangular/cylindrical geometry.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if locations is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, locations)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, locations)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

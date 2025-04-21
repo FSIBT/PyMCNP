@@ -30,11 +30,11 @@ class Sfnu(FmultOption, keyword='sfnu'):
             distribution: V bar for or of cumulative distribution the sampling spontaneous fission.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if distribution is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, distribution)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, distribution)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

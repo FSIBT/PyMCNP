@@ -40,15 +40,15 @@ class Loc(SdefOption, keyword='loc'):
             altitude: Altitude for cosmic source.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if latitude is None or not (-90 <= latitude <= 90):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, latitude)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, latitude)
         if longitude is None or not (-180 <= longitude <= 180):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, longitude)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, longitude)
         if altitude is None or not (0 <= altitude):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, altitude)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, altitude)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

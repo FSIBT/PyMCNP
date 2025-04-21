@@ -52,35 +52,35 @@ class P_1(_line.HistoryLine):
             tme: Time at the particles position.
 
         Raises:
-            InpError: SEMANTICS_LINE_VALUE.
+            InpError: SEMANTICS_LINE.
         """
 
         if x is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, x)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, x)
 
         if y is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, y)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, y)
 
         if z is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, z)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, z)
 
         if u is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, u)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, u)
 
         if v is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, v)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, v)
 
         if w is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, w)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, w)
 
         if erg is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, erg)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, erg)
 
         if wgt is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, wgt)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, wgt)
 
         if tme is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, tme)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, tme)
 
         self.x: typing.Final[types.Integer] = x
         self.y: typing.Final[types.Integer] = y

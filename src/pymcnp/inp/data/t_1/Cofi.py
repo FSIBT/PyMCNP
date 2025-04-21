@@ -30,11 +30,11 @@ class Cofi(T_1Option, keyword='cofi'):
             time: Dead time interval.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if time is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, time)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

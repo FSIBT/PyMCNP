@@ -87,37 +87,37 @@ class Tr_0(DataOption, keyword='tr'):
             system: Coordinate system setting.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (1 <= suffix <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
         if y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
         if z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)
         if xx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, xx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xx)
         if xy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, xy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xy)
         if xz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, xz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xz)
         if yx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, yx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yx)
         if yy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, yy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yy)
         if yz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, yz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yz)
         if zx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zx)
         if zy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zy)
         if zz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zz)
         if system is not None and not (system == -1 or system == 1):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, system)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, system)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

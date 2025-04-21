@@ -30,11 +30,11 @@ class Max(PtracOption, keyword='max'):
             events: Maximum number of events to write.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if events is None or not (events != 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, events)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, events)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

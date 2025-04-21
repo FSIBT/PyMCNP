@@ -35,11 +35,11 @@ class Inc(FmeshOption, keyword='inc'):
             upper: Collision for FMESH tally upper bound.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if lower is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, lower)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lower)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

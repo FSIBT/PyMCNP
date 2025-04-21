@@ -63,27 +63,27 @@ class Lcc(DataOption, keyword='lcc'):
             ebankabia: ABLA bank particles below this energy.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if stincl is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, stincl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, stincl)
         if v0incl is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v0incl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v0incl)
         if xfoisaincl is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, xfoisaincl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xfoisaincl)
         if npaulincl is None or not (npaulincl == 0 or npaulincl == -1 or npaulincl == 1):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, npaulincl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npaulincl)
         if nosurfincl is None or not (
             xfoisaincl == -2 or xfoisaincl == -1 or xfoisaincl == 0 or xfoisaincl == 1
         ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nosurfincl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nosurfincl)
         if ecutincl is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ecutincl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ecutincl)
         if ebankincl is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ebankincl)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ebankincl)
         if ebankabia is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ebankabia)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ebankabia)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

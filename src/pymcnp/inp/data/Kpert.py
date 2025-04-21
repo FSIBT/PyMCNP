@@ -34,11 +34,11 @@ class Kpert(DataOption, keyword='kpert'):
             options: Dictionary of options.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (0 < suffix <= 10_000):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

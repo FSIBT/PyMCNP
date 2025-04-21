@@ -69,35 +69,35 @@ class Header(_block.Block):
             columns: Tallies heading.
 
         Raises:
-            PtracError: SEMANTICS_BLOCK_VALUE.
+            PtracError: SEMANTICS_BLOCK.
         """
 
         if code is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK_VALUE, code)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, code)
 
         if version is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK_VALUE, version)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, version)
 
         if ld is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK_VALUE, ld)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, ld)
 
         if probid is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK_VALUE, probid)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, probid)
 
         if title is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK_VALUE, title)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, title)
 
         if histories is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK_VALUE, histories)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, histories)
 
         if number is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK_VALUE, number)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, number)
 
         if particle is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK_VALUE, particle)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, particle)
 
         if columns is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK_VALUE, columns)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_BLOCK, columns)
 
         self.code: typing.Final[types.String] = code
         self.version: typing.Final[types.String] = version

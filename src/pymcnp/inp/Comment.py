@@ -27,7 +27,7 @@ class Comment(Card):
             text: comment text.
 
         Raises:
-            InpError: SEMANTICS_CARD_VALUE.
+            InpError: SEMANTICS_CARD.
         """
 
         self.text: typing.Final[types.String] = text

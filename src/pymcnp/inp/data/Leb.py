@@ -47,17 +47,17 @@ class Leb(DataOption, keyword='leb'):
             bzero: B0 parameter in level-density formula for Z≥70.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if yzere is None or not (yzere > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, yzere)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yzere)
         if bzere is None or not (bzere > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bzere)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bzere)
         if yzero is None or not (yzero > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, yzero)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yzero)
         if bzero is None or not (bzero > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bzero)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bzero)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

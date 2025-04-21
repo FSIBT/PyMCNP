@@ -30,11 +30,11 @@ class Trcl_0(CellOption, keyword='trcl'):
             transformation: Cell transformation number.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if transformation is None or not (1 <= transformation <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, transformation)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, transformation)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

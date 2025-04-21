@@ -41,23 +41,23 @@ class J_0(_line.HistoryLine):
             mat: Material numbers of the cells.
 
         Raises:
-            InpError: SEMANTICS_LINE_VALUE.
+            InpError: SEMANTICS_LINE.
         """
 
         if next_type is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, next_type)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, next_type)
 
         if pbl is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, pbl)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, pbl)
 
         if nsr is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, nsr)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, nsr)
 
         if ncl is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, ncl)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, ncl)
 
         if mat is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, mat)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, mat)
 
         self.next_type: typing.Final[EventType] = next_type
         self.pbl: typing.Final[types.Integer] = pbl

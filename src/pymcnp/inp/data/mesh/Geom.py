@@ -30,11 +30,11 @@ class Geom(MeshOption, keyword='geom'):
             geometry: Controls mesh geometry type.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if geometry is None or geometry not in {'xyz', 'rzt', 'rpt'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, geometry)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, geometry)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,11 +30,11 @@ class Jints(FmeshOption, keyword='jints'):
             count: Number of mesh points y/z for rectangular/cylindrical geometry.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if count is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, count)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

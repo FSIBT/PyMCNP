@@ -30,11 +30,11 @@ class Filter(PtracOption, keyword='filter'):
             variables: MCNP6 variables for filtering.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if variables is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, variables)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, variables)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

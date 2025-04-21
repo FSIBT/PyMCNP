@@ -30,11 +30,11 @@ class Tr_1(SsrOption, keyword='tr'):
             number: Particle weight.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if number is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

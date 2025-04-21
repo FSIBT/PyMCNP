@@ -40,15 +40,15 @@ class Dat(SdefOption, keyword='dat'):
             year: Year for cosmic-ray & background sources.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if month is None or not (1 <= month <= 12):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, month)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, month)
         if day is None or not (1 <= day <= 31):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, day)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, day)
         if year is None or not (1 <= year <= 9999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, year)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, year)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

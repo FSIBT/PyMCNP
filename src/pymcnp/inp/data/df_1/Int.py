@@ -30,11 +30,11 @@ class Int(Df_1Option, keyword='int'):
             interpolation: Energy interpolation.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if interpolation is None or interpolation not in {'log', 'lin'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, interpolation)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, interpolation)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,11 +30,11 @@ class Mat(PertOption, keyword='mat'):
             material: Material number to fill cells.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if material is None or not (0 <= material <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, material)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, material)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

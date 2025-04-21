@@ -47,15 +47,15 @@ class F_3(DataOption, keyword='f'):
             t: Average tallies option.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 8):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if problems is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, problems)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, problems)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

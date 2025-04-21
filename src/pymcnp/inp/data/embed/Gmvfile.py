@@ -30,11 +30,11 @@ class Gmvfile(EmbedOption, keyword='gmvfile'):
             filename: Name of the GMV output file.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if filename is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, filename)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, filename)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

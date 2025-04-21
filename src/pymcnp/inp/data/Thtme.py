@@ -30,11 +30,11 @@ class Thtme(DataOption, keyword='thtme'):
             times: Tuple of times when thermal temperatures are specified.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if times is None or not (filter(lambda entry: not (entry <= 99), times)):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, times)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, times)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

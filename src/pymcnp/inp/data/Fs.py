@@ -47,19 +47,19 @@ class Fs(DataOption, keyword='fs'):
             c: Notation to make bin values cumulative.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (suffix <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if numbers is None or not (
             filter(lambda entry: not (-99_999_999 <= numbers <= 99_999_999), numbers)
         ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, numbers)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
         if t is not None and t not in {'t'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, t)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t)
         if c is not None and c not in {'c'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, c)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

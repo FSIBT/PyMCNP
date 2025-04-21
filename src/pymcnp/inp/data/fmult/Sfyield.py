@@ -30,11 +30,11 @@ class Sfyield(FmultOption, keyword='sfyield'):
             fission_yield: Spontaneous fission yield.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if fission_yield is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fission_yield)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fission_yield)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

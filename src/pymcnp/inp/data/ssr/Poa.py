@@ -30,11 +30,11 @@ class Poa(SsrOption, keyword='poa'):
             angle: Angle within which particles accepeted for transport.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if angle is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, angle)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, angle)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

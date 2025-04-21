@@ -39,15 +39,15 @@ class Ky(SurfaceOption, keyword='ky'):
             plusminus_1: On-y-axis cone sheet selector.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
         if t_squared is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, t_squared)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t_squared)
         if plusminus_1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, plusminus_1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, plusminus_1)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

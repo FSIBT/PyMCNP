@@ -30,11 +30,11 @@ class Lat(CellOption, keyword='lat'):
             shape: Cell lattice shape.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if shape is None or shape.value not in {1, 2}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, shape)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, shape)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

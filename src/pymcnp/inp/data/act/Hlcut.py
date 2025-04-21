@@ -30,11 +30,11 @@ class Hlcut(ActOption, keyword='hlcut'):
             cutoff: Spontaneous-decay half-life threshold.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if cutoff is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cutoff)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoff)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

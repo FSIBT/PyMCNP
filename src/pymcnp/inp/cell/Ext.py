@@ -33,13 +33,13 @@ class Ext(CellOption, keyword='ext'):
             stretch: Cell exponential transform stretching specifier.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if stretch is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, stretch)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, stretch)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -29,7 +29,7 @@ class Drxs(DataOption, keyword='drxs'):
             zaids: Tuple of ZAID aliases.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

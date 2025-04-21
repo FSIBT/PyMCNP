@@ -30,11 +30,11 @@ class Hist(RandOption, keyword='hist'):
             hist: Starting pseudorandom number.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if hist is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hist)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hist)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

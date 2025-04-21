@@ -47,17 +47,17 @@ class Cosyp(DataOption, keyword='cosyp'):
             emaps: Tuple of operating beam energies.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if prefix is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, prefix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
         if axsh is None or axsh.value not in {1, 2, 3}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, axsh)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, axsh)
         if axsv is None or axsv.value not in {1, 2, 3}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, axsv)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, axsv)
         if emaps is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, emaps)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, emaps)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

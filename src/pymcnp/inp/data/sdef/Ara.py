@@ -30,11 +30,11 @@ class Ara(SdefOption, keyword='ara'):
             area: Area of surface.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if area is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, area)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, area)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

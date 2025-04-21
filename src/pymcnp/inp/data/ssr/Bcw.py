@@ -38,15 +38,15 @@ class Bcw(SsrOption, keyword='bcw'):
             ze: Top of cylindrical window.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if radius is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, radius)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, radius)
         if zb is None or not (0 < zb):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zb)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zb)
         if ze is None or not (0 < zb < ze):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ze)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ze)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

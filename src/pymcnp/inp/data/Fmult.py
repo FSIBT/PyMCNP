@@ -36,11 +36,11 @@ class Fmult(DataOption, keyword='fmult'):
             options: Dictionary of options.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if zaid is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zaid)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zaid)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

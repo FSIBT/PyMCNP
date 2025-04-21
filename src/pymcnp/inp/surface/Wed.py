@@ -80,33 +80,33 @@ class Wed(SurfaceOption, keyword='wed'):
             v3z: Wedge height vector z component.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if vx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
         if vy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
         if vz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
         if v1x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v1x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1x)
         if v1y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v1y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1y)
         if v1z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v1z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1z)
         if v2x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v2x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2x)
         if v2y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v2y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2y)
         if v2z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v2z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2z)
         if v3x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v3x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v3x)
         if v3y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v3y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v3y)
         if v3z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v3z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v3z)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

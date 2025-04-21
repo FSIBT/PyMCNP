@@ -30,11 +30,11 @@ class Totnu(DataOption, keyword='totnu'):
             no: Delay fission sampling on/off.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if no is not None and not (no == 'no'):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, no)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, no)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

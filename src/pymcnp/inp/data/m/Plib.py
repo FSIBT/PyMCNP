@@ -30,11 +30,11 @@ class Plib(MOption, keyword='plib'):
             abx: Default photoatomic table identifier.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if abx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, abx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, abx)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

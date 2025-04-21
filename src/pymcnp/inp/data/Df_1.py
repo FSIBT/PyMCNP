@@ -34,13 +34,13 @@ class Df_1(DataOption, keyword='df'):
             options: Dictionary of options.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (suffix <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if options is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, options)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, options)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

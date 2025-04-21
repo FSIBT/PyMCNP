@@ -30,11 +30,11 @@ class Refpnt(BfldOption, keyword='refpnt'):
             point: Point anywhere on the quadrapole beam.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if point is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, point)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, point)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

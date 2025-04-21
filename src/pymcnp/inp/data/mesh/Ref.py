@@ -30,11 +30,11 @@ class Ref(MeshOption, keyword='ref'):
             point: Mesh reference point.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if point is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, point)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, point)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

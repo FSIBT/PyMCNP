@@ -63,25 +63,25 @@ class Kcode(DataOption, keyword='kcode'):
             kc8: Number of cylces for average setting.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if nsrck is not None and not (isinstance(nsrck.value, types.Jump) or nsrck.value >= 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nsrck)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nsrck)
         if kct is not None and not (isinstance(kct.value, types.Jump) or kct.value > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kct)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kct)
         if msrk is not None and not (
             isinstance(msrk.value, types.Jump)
             or isinstance(nsrck.value, types.Jump)
             or msrk.value < 40 * nsrck.value
         ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, msrk)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, msrk)
         if knrm is not None and not (isinstance(knrm.value, types.Jump) or knrm.value in {0, 1}):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, knrm)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, knrm)
         if mrkp is not None and not (isinstance(mrkp.value, types.Jump) or mrkp.value > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, mrkp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mrkp)
         if kc8 is not None and not (isinstance(mrkp.value, types.Jump) or kc8.value in {0, 1}):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kc8)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kc8)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

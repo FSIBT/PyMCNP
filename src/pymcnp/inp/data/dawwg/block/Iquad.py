@@ -30,11 +30,11 @@ class Iquad(BlockOption, keyword='iquad'):
             setting: Quadrature.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if setting is None or setting.value not in {1, 2, 3, 4, 5, 6, 7, 8, 9}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

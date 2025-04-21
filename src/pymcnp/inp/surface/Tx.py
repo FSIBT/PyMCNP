@@ -56,21 +56,21 @@ class Tx(SurfaceOption, keyword='tx'):
             c: Parallel-to-x-axis tori C coefficent.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
         if y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
         if z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)
         if a is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
         if b is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, b)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, b)
         if c is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, c)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,11 +30,11 @@ class Sd(DataOption, keyword='sd'):
             information: Area, volume, or mass by segmented, surface/cell.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if information is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, information)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, information)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,11 +30,11 @@ class Width(FmultOption, keyword='width'):
             width: Width for sampling spontaneous fission.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if width is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, width)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, width)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

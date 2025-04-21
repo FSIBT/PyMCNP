@@ -67,27 +67,27 @@ class Hsrc(DataOption, keyword='hsrc'):
             z_maximum: Maximum z-value for mesh.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if x_number is None or not (x_number > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x_number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x_number)
         if x_minimum is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x_minimum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x_minimum)
         if x_maximum is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x_maximum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x_maximum)
         if y_number is None or not (y_number > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y_number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y_number)
         if y_minimum is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y_minimum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y_minimum)
         if y_maximum is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y_maximum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y_maximum)
         if z_number is None or not (z_number > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z_number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z_number)
         if z_minimum is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z_minimum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z_minimum)
         if z_maximum is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z_maximum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z_maximum)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

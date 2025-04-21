@@ -30,11 +30,11 @@ class Axs(SsrOption, keyword='axs'):
             cosines: Direction cosines defining.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if cosines is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cosines)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cosines)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

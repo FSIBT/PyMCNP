@@ -29,7 +29,7 @@ class Za(DataOption, keyword='za'):
             anything: Any parameters.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

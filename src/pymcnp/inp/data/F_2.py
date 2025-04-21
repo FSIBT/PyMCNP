@@ -51,17 +51,17 @@ class F_2(DataOption, keyword='f'):
             nd: Total/average specified surfaces/cells option.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 5):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if a is None or a not in {'x', 'y', 'z'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if rings is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, rings)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rings)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

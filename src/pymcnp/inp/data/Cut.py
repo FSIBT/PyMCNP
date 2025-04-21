@@ -51,19 +51,19 @@ class Cut(DataOption, keyword='cut'):
             source_weight: Minimum source weight.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if time_cutoff is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, time_cutoff)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_cutoff)
         if energy_cutoff is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_cutoff)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_cutoff)
         if weight_cutoff1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, weight_cutoff1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight_cutoff1)
         if weight_cutoff2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, weight_cutoff2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight_cutoff2)
         if source_weight is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, source_weight)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, source_weight)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -33,10 +33,10 @@ class Meshtal(_object.McnpFile_):
         """
 
         if header is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_MESHTAL_HEADER)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_MESHTAL)
 
         if tallies is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_MESHTAL_TALLIES)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_MESHTAL)
 
         self.header: typing.Final[meshtal.Header] = header
         self.tallies: typing.Final[

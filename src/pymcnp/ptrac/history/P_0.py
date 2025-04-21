@@ -34,17 +34,17 @@ class P_0(_line.HistoryLine):
             z: Z coordinate of the particle position.
 
         Raises:
-            InpError: SEMANTICS_LINE_VALUE.
+            InpError: SEMANTICS_LINE.
         """
 
         if x is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, x)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, x)
 
         if y is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, y)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, y)
 
         if z is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, z)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, z)
 
         self.x: typing.Final[types.Integer] = x
         self.y: typing.Final[types.Integer] = y

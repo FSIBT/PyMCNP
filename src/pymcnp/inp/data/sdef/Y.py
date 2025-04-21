@@ -30,11 +30,11 @@ class Y(SdefOption, keyword='y'):
             y_coordinate: Y-cordinate of position.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if y_coordinate is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y_coordinate)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y_coordinate)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,11 +30,11 @@ class Tally(PtracOption, keyword='tally'):
             numbers: List of tally numbers for filtering.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if numbers is None or not (filter(lambda entry: not (entry != 0), numbers)):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, numbers)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
