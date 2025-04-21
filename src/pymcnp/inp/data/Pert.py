@@ -42,13 +42,13 @@ class Pert(DataOption, keyword='pert'):
             options: Dictionary of options.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (suffix <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

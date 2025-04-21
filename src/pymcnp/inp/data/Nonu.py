@@ -30,13 +30,13 @@ class Nonu(DataOption, keyword='nonu'):
             settings: Tuple of fission settings.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if settings is not None and not (
             filter(lambda entry: not (entry == 0 or entry == 1 or entry == 2), settings)
         ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, settings)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, settings)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,11 +30,11 @@ class Eloss(TroptOption, keyword='eloss'):
             setting: Slowing down energy losses setting.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if setting is None or setting not in {'off', 'strag1', 'csda'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

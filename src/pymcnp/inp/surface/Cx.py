@@ -31,11 +31,11 @@ class Cx(SurfaceOption, keyword='cx'):
             r: On-x-axis cylinder radius.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if r is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, r)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

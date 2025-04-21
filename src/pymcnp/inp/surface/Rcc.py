@@ -60,23 +60,23 @@ class Rcc(SurfaceOption, keyword='rcc'):
             r: Circular cylinder macrobody radius.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if vx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
         if vy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
         if vz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
         if hx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hx)
         if hy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hy)
         if hz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hz)
         if r is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, r)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

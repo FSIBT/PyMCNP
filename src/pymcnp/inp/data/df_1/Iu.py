@@ -30,11 +30,11 @@ class Iu(Df_1Option, keyword='iu'):
             units: Control units.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if units is None or units not in {1, 2}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, units)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, units)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

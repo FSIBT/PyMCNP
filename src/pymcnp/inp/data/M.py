@@ -46,13 +46,13 @@ class M(DataOption, keyword='m'):
             options: Dictionary of options.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if substances is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, substances)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, substances)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

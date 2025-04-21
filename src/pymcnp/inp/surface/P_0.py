@@ -42,17 +42,17 @@ class P_0(SurfaceOption, keyword='p'):
             d: Equation-defined general plane D coefficent.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if a is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
         if b is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, b)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, b)
         if c is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, c)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
         if d is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, d)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, d)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

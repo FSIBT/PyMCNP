@@ -30,11 +30,11 @@ class Debug(EmbedOption, keyword='debug'):
             parameter: Debug parameter.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if parameter is None or parameter not in {'echomesh'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, parameter)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, parameter)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

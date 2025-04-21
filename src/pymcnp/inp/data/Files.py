@@ -30,11 +30,11 @@ class Files(DataOption, keyword='files'):
             creations: Files to create.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if creations is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, creations)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, creations)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

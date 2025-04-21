@@ -30,11 +30,11 @@ class Elpt(DataOption, keyword='elpt'):
             cutoffs: Tuple of cell lower energy cutoffs.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if cutoffs is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cutoffs)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoffs)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

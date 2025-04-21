@@ -33,13 +33,13 @@ class Sc(DataOption, keyword='sc'):
             comment: source comment.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (1 <= suffix <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if comment is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, comment)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, comment)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

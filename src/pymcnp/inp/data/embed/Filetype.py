@@ -30,11 +30,11 @@ class Filetype(EmbedOption, keyword='filetype'):
             kind: File type for the elemental edit output file.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if kind is None or type not in {'ascii', 'binary'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, kind)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

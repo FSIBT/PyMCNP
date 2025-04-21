@@ -33,13 +33,13 @@ class Wwt(DataOption, keyword='wwt'):
             bounds: Upper time bound.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if bounds is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bounds)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bounds)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,11 +30,11 @@ class Uran(DataOption, keyword='uran'):
             transformations: Tuple of stochastic transformations.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if transformations is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, transformations)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, transformations)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

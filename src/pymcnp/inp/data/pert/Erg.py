@@ -35,13 +35,13 @@ class Erg(PertOption, keyword='erg'):
             energy_upper_bound: Upper bound for energy pertubation.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if energy_lower_bound is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_lower_bound)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_lower_bound)
         if energy_upper_bound is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy_upper_bound)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_upper_bound)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

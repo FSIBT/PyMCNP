@@ -30,11 +30,11 @@ class Ksrc(DataOption, keyword='ksrc'):
             locations: Tuple of inital source points.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if locations is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, locations)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, locations)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

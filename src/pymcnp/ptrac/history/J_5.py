@@ -48,29 +48,29 @@ class J_5(_line.HistoryLine):
             ncp: Count of collisions per track.
 
         Raises:
-            InpError: SEMANTICS_LINE_VALUE.
+            InpError: SEMANTICS_LINE.
         """
 
         if next_type is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, next_type)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, next_type)
 
         if node is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, node)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, node)
 
         if nsx_nsf_nter is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, nsx_nsf_nter)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, nsx_nsf_nter)
 
         if ntyn_mtp_angle_branch is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, ntyn_mtp_angle_branch)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, ntyn_mtp_angle_branch)
 
         if ncl is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, ncl)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, ncl)
 
         if mat is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, mat)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, mat)
 
         if ncp is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE_VALUE, ncp)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, ncp)
 
         self.next_type: typing.Final[EventType] = next_type
         self.node: typing.Final[types.Integer] = node

@@ -30,11 +30,11 @@ class Rad_1(SdefOption, keyword='rad'):
             radial_distance: Radial distance fo the position from POS or AXS.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if radial_distance is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, radial_distance)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, radial_distance)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

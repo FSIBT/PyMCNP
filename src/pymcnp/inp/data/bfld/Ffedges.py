@@ -30,11 +30,11 @@ class Ffedges(BfldOption, keyword='ffedges'):
             numbers: Surface numbers to apply field fringe edges.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if numbers is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, numbers)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

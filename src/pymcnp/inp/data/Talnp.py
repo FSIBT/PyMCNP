@@ -30,13 +30,13 @@ class Talnp(DataOption, keyword='talnp'):
             tallies: Tallies to exclude from output.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if tallies is not None and not (
             filter(lambda entry: not (1 <= entry <= 99_999_999), tallies)
         ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, tallies)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tallies)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

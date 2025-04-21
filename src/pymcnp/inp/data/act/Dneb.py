@@ -30,11 +30,11 @@ class Dneb(ActOption, keyword='dneb'):
             biases: Delayed neutron energy biases.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if biases is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, biases)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, biases)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

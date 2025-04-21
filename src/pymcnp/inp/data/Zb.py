@@ -29,7 +29,7 @@ class Zb(DataOption, keyword='zb'):
             anything: Any parameters.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

@@ -30,11 +30,11 @@ class Fmmix(BlockOption, keyword='fmmix'):
             setting: Read composition from LNK3DNT on/off.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if setting is None or setting.value not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

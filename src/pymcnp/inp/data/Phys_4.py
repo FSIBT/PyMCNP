@@ -75,31 +75,31 @@ class Phys_4(DataOption, keyword='phys'):
             drp: Lower energy delta-ray cutoff.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if emax is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, emax)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, emax)
         if istrg is None or istrg not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, istrg)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, istrg)
         if xmunum is None or xmunum not in {-1, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, xmunum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xmunum)
         if xmugam is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, xmugam)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xmugam)
         if i_mcs_model is None or i_mcs_model not in {-1, 0, 1, 2}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, i_mcs_model)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
         if i_int_model is None or i_int_model not in {-1, 0, 1, 2}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, i_int_model)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_int_model)
         if i_els_model is None or i_els_model not in {-1, 0}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, i_els_model)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_els_model)
         if efac is None or not (0.8 <= efac <= 0.99):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, efac)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, efac)
         if ckvnum is None or not (0 <= ckvnum < 1):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ckvnum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ckvnum)
         if drp is None or not (drp >= 0 or drp == -1):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, drp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, drp)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

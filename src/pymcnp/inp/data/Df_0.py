@@ -41,15 +41,15 @@ class Df_0(DataOption, keyword='df'):
             values: Dose function values.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (suffix <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if method is not None and method not in {'log', 'lin'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, method)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, method)
         if values is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, values)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, values)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

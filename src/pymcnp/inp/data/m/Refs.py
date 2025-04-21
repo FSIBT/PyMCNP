@@ -30,11 +30,11 @@ class Refs(MOption, keyword='refs'):
             coefficents: Sellmeier coefficents.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if coefficents is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, coefficents)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, coefficents)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

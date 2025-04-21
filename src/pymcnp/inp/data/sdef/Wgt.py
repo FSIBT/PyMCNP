@@ -30,11 +30,11 @@ class Wgt(SdefOption, keyword='wgt'):
             weight: Particle weight.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if weight is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, weight)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -75,31 +75,31 @@ class Wwp(DataOption, keyword='wwp'):
             nmfp: Limits the maximum lower weight-window bound for any particle, energy, or time.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if wupn is None or not (wupn >= 2):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, wupn)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wupn)
         if wsurvn is None or not (1 < wsurvn):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, wsurvn)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wsurvn)
         if mxspln is None or not (1 < mxspln):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, mxspln)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mxspln)
         if mwhere is None or mwhere.value not in {-1, 0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, mwhere)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mwhere)
         if switchn is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, switchn)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, switchn)
         if mtime is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, mtime)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mtime)
         if wnrom is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, wnrom)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wnrom)
         if etsplt is None or etsplt.value not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, etsplt)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, etsplt)
         if wu is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, wu)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wu)
         if nmfp is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nmfp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nmfp)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

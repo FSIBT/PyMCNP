@@ -63,25 +63,25 @@ class Lcb(DataOption, keyword='lcb'):
             film0: Maximum correction allowed for masss-energy balancing.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if flenb1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, flenb1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, flenb1)
         if flenb2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, flenb2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, flenb2)
         if flenb3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, flenb3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, flenb3)
         if flenb4 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, flenb4)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, flenb4)
         if flenb5 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, flenb5)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, flenb5)
         if flenb6 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, flenb6)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, flenb6)
         if cotfe is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cotfe)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cotfe)
         if film0 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, film0)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, film0)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

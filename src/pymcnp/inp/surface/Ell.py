@@ -60,23 +60,23 @@ class Ell(SurfaceOption, keyword='ell'):
             rm: Ellipsoid major/minor axis radius length.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if v1x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v1x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1x)
         if v1y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v1y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1y)
         if v1z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v1z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1z)
         if v2x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v2x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2x)
         if v2y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v2y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2y)
         if v2z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, v2z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2z)
         if rm is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, rm)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rm)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -68,27 +68,27 @@ class P_1(SurfaceOption, keyword='p'):
             z3: point-defined general plane z-coordinate #3.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if x1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x1)
         if y1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y1)
         if z1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z1)
         if x2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x2)
         if y2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y2)
         if z2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z2)
         if x3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x3)
         if y3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y3)
         if z3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z3)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

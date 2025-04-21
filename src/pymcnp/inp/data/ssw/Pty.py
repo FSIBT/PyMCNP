@@ -30,11 +30,11 @@ class Pty(SswOption, keyword='pty'):
             tracks: Tracks to record.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if tracks is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, tracks)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tracks)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

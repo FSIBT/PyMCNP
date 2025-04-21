@@ -33,13 +33,13 @@ class Vol(DataOption, keyword='vol'):
             volumes: Tuple of cell volumes.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if no is not None and no not in {'no'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, no)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, no)
         if volumes is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, volumes)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, volumes)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

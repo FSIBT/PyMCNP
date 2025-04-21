@@ -30,11 +30,11 @@ class Old(SsrOption, keyword='old'):
             numbers: Tuple of surface numbers from subset of surfaces on SSW card.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if numbers is None or not (filter(lambda entry: not (1 <= entry <= 99_999_999), numbers)):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, numbers)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

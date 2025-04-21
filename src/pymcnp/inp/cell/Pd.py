@@ -33,13 +33,13 @@ class Pd(CellOption, keyword='pd'):
             probability: Cell probability of DXTRAN contribution.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if probability is None or not (0 <= probability <= 1):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, probability)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, probability)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

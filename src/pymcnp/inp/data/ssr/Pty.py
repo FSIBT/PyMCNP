@@ -30,11 +30,11 @@ class Pty(SsrOption, keyword='pty'):
             particles: Tuple of designators.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if particles is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, particles)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, particles)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

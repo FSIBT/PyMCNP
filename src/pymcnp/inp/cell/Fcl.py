@@ -33,13 +33,13 @@ class Fcl(CellOption, keyword='fcl'):
             control: Cell forced-collision control.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if control is None or not (-1 <= control <= 1):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, control)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, control)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

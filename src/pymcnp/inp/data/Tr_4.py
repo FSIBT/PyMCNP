@@ -51,19 +51,19 @@ class Tr_4(DataOption, keyword='tr'):
             system: Coordinate system setting.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (1 <= suffix <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
         if y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
         if z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)
         if system is not None and not (system == -1 or system == 1):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, system)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, system)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

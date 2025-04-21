@@ -62,34 +62,29 @@ class Inp(_object.McnpFile_):
             ``Inp``.
 
         Raises:
-            InpError: SEMATNICS_INP_MESSAGE.
-            InpError: SEMATNICS_INP_TITLE.
-            InpError: SEMATNICS_INP_CELLS.
-            InpError: SEMATNICS_INP_SURFACES.
-            InpError: SEMATNICS_INP_DATA.
-            InpError: SEMATNICS_INP_OTHER.
+            InpError: SEMATNICS_INP.
         """
 
         if title is None or not len(title) < 80:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP_TITLE, title)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP, title)
 
         if cells is None or None in cells:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP_CELLS, cells)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP, cells)
 
         if cells_comments is None or None in cells_comments:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP_COMMENTS, cells_comments)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP, cells_comments)
 
         if surfaces is None or None in surfaces:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP_SURFACES, surfaces)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP, surfaces)
 
         if surfaces_comments is None or None in surfaces_comments:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP_COMMENTS, surfaces_comments)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP, surfaces_comments)
 
         if data is None or None in data:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP_DATA, data)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP, data)
 
         if data_comments is None or None in data_comments:
-            raise errors.InpError(errors.InpCode.SEMANTICS_INP_COMMENTS, data_comments)
+            raise errors.InpError(errors.InpCode.SEMANTICS_INP, data_comments)
 
         self.message: typing.Final[types.String] = message
         self.title: typing.Final[types.String] = title

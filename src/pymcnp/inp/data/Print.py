@@ -30,7 +30,7 @@ class Print(DataOption, keyword='print'):
             tables: Tables to print.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if tables is not None and not (
@@ -135,7 +135,7 @@ class Print(DataOption, keyword='print'):
                 tables,
             )
         ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, tables)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tables)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

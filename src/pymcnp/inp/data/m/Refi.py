@@ -30,11 +30,11 @@ class Refi(MOption, keyword='refi'):
             refractive_index: Refractive index constant.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if refractive_index is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, refractive_index)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, refractive_index)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

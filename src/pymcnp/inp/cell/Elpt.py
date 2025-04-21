@@ -33,13 +33,13 @@ class Elpt(CellOption, keyword='elpt'):
             cutoff: Cell energy cutoff.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if cutoff is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cutoff)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoff)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

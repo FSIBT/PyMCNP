@@ -30,11 +30,11 @@ class Fmatncyc(KoptsOption, keyword='fmatncyc'):
             fmat_ncyc: fmat_ncyc.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if fmat_ncyc is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fmat_ncyc)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_ncyc)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

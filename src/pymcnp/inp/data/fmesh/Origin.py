@@ -38,15 +38,15 @@ class Origin(FmeshOption, keyword='origin'):
             z: Origin z coordinate.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
         if y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
         if z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

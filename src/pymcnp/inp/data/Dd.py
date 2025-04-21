@@ -33,13 +33,13 @@ class Dd(DataOption, keyword='dd'):
             diagnostics: Detector diagnostic entries.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if diagnostics is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, diagnostics)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, diagnostics)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

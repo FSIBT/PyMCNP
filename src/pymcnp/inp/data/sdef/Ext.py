@@ -30,11 +30,11 @@ class Ext(SdefOption, keyword='ext'):
             distance_cosine: Distance for POS along AXS or Cosine of angle from AXS.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if distance_cosine is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, distance_cosine)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, distance_cosine)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

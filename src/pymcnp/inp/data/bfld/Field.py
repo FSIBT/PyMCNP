@@ -30,11 +30,11 @@ class Field(BfldOption, keyword='field'):
             strength_gradient: Magnetic field strength/gradient.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if strength_gradient is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, strength_gradient)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, strength_gradient)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,13 +30,13 @@ class Ksental(KoptsOption, keyword='ksental'):
             fileopt: Format of sensity profiles output file.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if fileopt is None or fileopt not in {
             'mctal',
         }:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fileopt)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fileopt)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

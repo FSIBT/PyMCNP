@@ -30,11 +30,11 @@ class Fmatskpt(KoptsOption, keyword='fmatskpt'):
             fmat_skip: fmat_skip.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if fmat_skip is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fmat_skip)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_skip)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

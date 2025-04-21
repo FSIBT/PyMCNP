@@ -38,15 +38,15 @@ class Bap(SdefOption, keyword='bap'):
             u: Unused, arrbirary value.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if ba1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ba1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ba1)
         if ba2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ba2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ba2)
         if u is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, u)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, u)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

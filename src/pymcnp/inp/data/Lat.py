@@ -30,11 +30,11 @@ class Lat(DataOption, keyword='lat'):
             type: Tuple of lattice types.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if type is None or not (filter(lambda entry: not (entry == 1 or entry == 2), type)):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, type)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, type)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

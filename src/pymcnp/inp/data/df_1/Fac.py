@@ -30,11 +30,11 @@ class Fac(Df_1Option, keyword='fac'):
             normalization: Normalization factor for dose.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if normalization is None or not (normalization >= -3):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, normalization)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, normalization)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

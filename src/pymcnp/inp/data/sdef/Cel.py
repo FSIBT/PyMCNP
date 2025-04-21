@@ -30,13 +30,13 @@ class Cel(SdefOption, keyword='cel'):
             number: Cell number.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if number is None or not (
             isinstance(number.value, types.Jump) or 0 <= number.value <= 99_999_999
         ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

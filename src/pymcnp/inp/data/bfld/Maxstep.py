@@ -30,11 +30,11 @@ class Maxstep(BfldOption, keyword='maxstep'):
             size: Maximum step size.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if size is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, size)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, size)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -2,7 +2,7 @@ import enum
 import typing
 
 
-class _Error(Exception):
+class Error(Exception):
     """
     Represents generic PyMCNP errors.
 
@@ -13,14 +13,14 @@ class _Error(Exception):
 
     def __init__(self, code: enum.Enum, info: str):
         """
-        Initializes ``_Error``
+        Initializes ``Error``
 
         Parameters:
             code: Error code.
             info: Error string.
 
         Returns:
-            ``_Error``.
+            ``Error``.
         """
 
         self.code: typing.Final[CliCode] = code
@@ -32,14 +32,13 @@ class McnpCode(enum.Enum):
     Represents MCNP error codes.
 
     Notes:
-        0xxx - Syntax
-        1xxx - Semantics
-        x0xx - Types
+        0x - Syntax
+        1x - Semantics
     """
 
     SYNTAX_TYPE = 0
 
-    SEMANTICS_TYPE_VALUE = 1000
+    SEMANTICS_TYPE = 10
 
 
 class MeshtalCode(enum.Enum):
@@ -47,23 +46,17 @@ class MeshtalCode(enum.Enum):
     Represents MESHTAL error codes.
 
     Notes:
-        0xxx - Syntax
-        1xxx - Semantics
-        x0xx - Meshtal
-        x1xx - Elements
+        0x - Syntax
+        1x - Semantics
     """
 
-    SYNTAX_PTRAC = 0
+    SYNTAX_MESHTAL = 0
+    SYNTAX_BLOCK = 1
+    SYNTAX_LINE = 2
 
-    SYNTAX_BLOCK = 101
-    SYNTAX_LINE = 102
-    SYNTAX_KEYWORD = 103
-
-    SEMANTICS_MESHTAL_HEADER = 1000
-    SEMANTICS_MESHTAL_HISTORY = 1001
-
-    SEMANTICS_BLOCK_VALUE = 1100
-    SEMANTICS_LINE_VALUE = 1101
+    SEMANTICS_MESHTAL = 10
+    SEMANTICS_BLOCK = 11
+    SEMANTICS_LINE = 12
 
 
 class PtracCode(enum.Enum):
@@ -71,24 +64,19 @@ class PtracCode(enum.Enum):
     Represents PTRAC error codes.
 
     Notes:
-        0xxx - Syntax
-        1xxx - Semantics
-        x0xx - Ptrac
-        x1xx - Elements
+        0x - Syntax
+        1x - Semantics
     """
 
     SYNTAX_PTRAC = 0
+    SYNTAX_BLOCK = 1
+    SYNTAX_LINE = 2
+    SYNTAX_KEYWORD = 3
 
-    SYNTAX_BLOCK = 101
-    SYNTAX_LINE = 102
-    SYNTAX_KEYWORD = 103
-
-    SEMANTICS_PTRAC_HEADER = 1000
-    SEMANTICS_PTRAC_HISTORY = 1001
-
-    SEMANTICS_BLOCK_VALUE = 1100
-    SEMANTICS_LINE_VALUE = 1101
-    SEMANTICS_KEYWORD_VALUE = 1102
+    SEMANTICS_PTRAC = 10
+    SEMANTICS_BLOCK = 11
+    SEMANTICS_LINE = 12
+    SEMANTICS_KEYWORD = 13
 
 
 class InpCode(enum.Enum):
@@ -107,22 +95,12 @@ class InpCode(enum.Enum):
     """
 
     SYNTAX_INP = 0
+    SYNTAX_CARD = 1
+    SYNTAX_OPTION = 2
 
-    SYNTAX_CARD = 101
-    SYTNAX_ENTRY = 103
-    SYNTAX_OPTION = 102
-
-    SEMANTICS_INP_MESSAGE = 1000
-    SEMANTICS_INP_TITLE = 1001
-    SEMANTICS_INP_CELLS = 1002
-    SEMANTICS_INP_COMMENTS = 1003
-    SEMANTICS_INP_SURFACES = 1004
-    SEMANTICS_INP_DATA = 1005
-    SEMANTICS_INP_OTHER = 1006
-
-    SEMANTICS_CARD_VALUE = 1101
-    SEMANTICS_ENTRY_VALUE = 1102
-    SEMANTICS_OPTION_VALUE = 1103
+    SEMANTICS_INP = 10
+    SEMANTICS_CARD = 11
+    SEMANTICS_OPTION = 12
 
 
 class CliCode(enum.Enum):
@@ -130,9 +108,7 @@ class CliCode(enum.Enum):
     Represents CLI error codes.
 
     Notes:
-        0xx - Misc
-        1xx - Run
-        2xx - Inp
+        0xxx - Misc
     """
 
     SEMANTICS_INP = 0
@@ -140,21 +116,21 @@ class CliCode(enum.Enum):
     SEMANTICS_COMMAND = 2
 
 
-class MeshtalError(_Error):
     pass
 
 
-class McnpError(_Error):
+class McnpError(Error):
     pass
 
 
-class InpError(_Error):
+class InpError(Error):
     pass
 
 
-class PtracError(_Error):
+class PtracError(Error):
     pass
 
 
-class CliError(_Error):
+class CliError(Error):
+    pass
     pass

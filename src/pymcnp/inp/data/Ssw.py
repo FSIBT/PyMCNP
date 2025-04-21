@@ -44,13 +44,13 @@ class Ssw(DataOption, keyword='ssw'):
             options: Dictionary of options.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if surfaces is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, surfaces)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, surfaces)
         if cells is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cells)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cells)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

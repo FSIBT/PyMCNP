@@ -30,11 +30,11 @@ class Dn(ActOption, keyword='dn'):
             source: Delayed neutron data source.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if source is None or source not in {'model', 'library', 'both', 'prompt'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, source)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, source)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

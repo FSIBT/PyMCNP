@@ -33,13 +33,13 @@ class Tmp(CellOption, keyword='tmp'):
             temperature: Cell temperature at suffix time index.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if temperature is None or not (temperature > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, temperature)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, temperature)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -28,15 +28,14 @@ class Ptrac(_object.McnpFile_):
             ``Ptrac``.
 
         Raises:
-            PtracError: SEMANTICS_PTRAC_HEADER.
-            PtracError: SEMANTICS_PTRAC_HISTORY.
+            PtracError: SEMANTICS_PTRAC.
         """
 
         if header is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_PTRAC_HEADER)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_PTRAC)
 
         if histories is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_PTRAC_HISTORY)
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_PTRAC)
 
         self.header: typing.Final[ptrac.Header] = header
         self.histories: typing.Final[typing.Generator[ptrac.History, None, None]] = histories

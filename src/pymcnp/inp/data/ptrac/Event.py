@@ -30,11 +30,11 @@ class Event(PtracOption, keyword='event'):
             settings: Specifies the type of events written to the PTRAC file.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if settings is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, settings)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, settings)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

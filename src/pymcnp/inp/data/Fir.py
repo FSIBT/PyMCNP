@@ -79,33 +79,33 @@ class Fir(DataOption, keyword='fir'):
             f3: Contribution offset setting.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 5):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if x1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x1)
         if y1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y1)
         if z1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z1)
         if ro is None or not (ro == 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ro)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ro)
         if x2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x2)
         if y2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y2)
         if z2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z2)
         if f1 is None or f1 not in {0, -1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, f1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f1)
         if f2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, f2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f2)
         if f3 is None or f2 not in {0, -1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, f3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f3)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

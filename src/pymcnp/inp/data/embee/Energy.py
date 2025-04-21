@@ -30,11 +30,11 @@ class Energy(EmbeeOption, keyword='energy'):
             factor: Multiplicative conversion factor for energy-related output.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if factor is None or not (factor > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, factor)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, factor)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

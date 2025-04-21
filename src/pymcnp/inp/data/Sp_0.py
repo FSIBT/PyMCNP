@@ -41,17 +41,17 @@ class Sp_0(DataOption, keyword='sp'):
             probabilities: Particle source probabilities.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (1 <= suffix <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if option is not None and option not in {'d', 'c', 'v', 'w'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, option)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
         if probabilities is None or not (
             filter(lambda entry: not (0 <= entry <= 1), probabilities)
         ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, probabilities)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, probabilities)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,11 +30,11 @@ class Cosy(CellOption, keyword='cosy'):
             number: Cell cosy map number.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if number is None or number.value not in {1, 2, 3, 4, 5, 6}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -151,69 +151,69 @@ class Arb(SurfaceOption, keyword='arb'):
             n6: Polyhedron four-digit side specificer #6.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if ax is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ax)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ax)
         if ay is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ay)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ay)
         if az is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, az)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, az)
         if bx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bx)
         if by is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, by)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, by)
         if bz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bz)
         if cx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cx)
         if cy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cy)
         if cz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cz)
         if dx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, dx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, dx)
         if dy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, dy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, dy)
         if dz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, dz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, dz)
         if ex is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ex)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ex)
         if ey is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ey)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ey)
         if ez is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ez)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ez)
         if fx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fx)
         if fy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fy)
         if fz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fz)
         if gx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, gx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, gx)
         if gy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, gy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, gy)
         if gz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, gz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, gz)
         if hx is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hx)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hx)
         if hy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hy)
         if hz is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, hz)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hz)
         if n1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, n1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n1)
         if n2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, n2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n2)
         if n3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, n3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n3)
         if n4 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, n4)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n4)
         if n5 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, n5)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n5)
         if n6 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, n6)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n6)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

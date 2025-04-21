@@ -35,13 +35,13 @@ class Lost(DataOption, keyword='lost'):
             lost2: Maximum number of debug prints for lost particles..
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if lost1 is None or not (lost1 >= 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, lost1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lost1)
         if lost2 is None or not (lost2 >= 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, lost2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lost2)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

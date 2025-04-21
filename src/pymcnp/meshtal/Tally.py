@@ -47,10 +47,10 @@ class Tally(_line.Line):
         """
 
         if result is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_LINE_VALUE, result)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_LINE, result)
 
         if error is None:
-            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_LINE_VALUE, error)
+            raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_LINE, error)
 
         self.x: typing.Final[types.Real] = x
         self.y: typing.Final[types.Real] = y

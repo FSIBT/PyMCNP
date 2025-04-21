@@ -33,13 +33,13 @@ class Mt(DataOption, keyword='mt'):
             identifier: Corresponding S(α,β) identifier.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if identifier is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, identifier)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, identifier)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

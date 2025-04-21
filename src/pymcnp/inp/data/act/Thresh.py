@@ -30,11 +30,11 @@ class Thresh(ActOption, keyword='thresh'):
             fraction: Fraction of highest-amplitude discrete delayed-gamma lines retained.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if fraction is None or not (0 <= fraction <= 1):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fraction)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fraction)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

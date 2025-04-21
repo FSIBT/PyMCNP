@@ -87,37 +87,37 @@ class Dxt(DataOption, keyword='dxt'):
             weight: Minimum photon weight.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if spheres_1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_1)
         if spheres_2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_2)
         if spheres_3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_3)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_3)
         if spheres_4 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_4)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_4)
         if spheres_5 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_5)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_5)
         if spheres_6 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_6)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_6)
         if spheres_7 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_7)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_7)
         if spheres_8 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_8)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_8)
         if spheres_9 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_9)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_9)
         if spheres_10 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, spheres_10)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_10)
         if cutoff_1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cutoff_1)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoff_1)
         if cutoff_2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cutoff_2)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoff_2)
         if weight is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, weight)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

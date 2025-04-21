@@ -40,13 +40,13 @@ class Sp_1(DataOption, keyword='sp'):
             b: Built-in function parameter #2.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if function is None or function not in {-2, -3, -4, -5, -6, -7, -21, -31, -41}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, function)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, function)
         if a is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

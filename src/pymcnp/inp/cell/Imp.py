@@ -33,13 +33,13 @@ class Imp(CellOption, keyword='imp'):
             importance: Cell particle importance.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if importance is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, importance)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, importance)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

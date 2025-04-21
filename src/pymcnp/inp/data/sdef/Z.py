@@ -30,11 +30,11 @@ class Z(SdefOption, keyword='z'):
             z_coordinate: Z-cordinate of position.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if z_coordinate is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, z_coordinate)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z_coordinate)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

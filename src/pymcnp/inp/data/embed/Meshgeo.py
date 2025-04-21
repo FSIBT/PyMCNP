@@ -30,11 +30,11 @@ class Meshgeo(EmbedOption, keyword='meshgeo'):
             form: Format specification of the embedded mesh input file.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if form is None or form not in {'lnk3dnt', 'abaqu', 'mcnpum'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, form)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, form)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

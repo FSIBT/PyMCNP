@@ -47,15 +47,15 @@ class F_0(DataOption, keyword='f'):
             t: Notation to make bin values cumulative.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (suffix <= 99_999_999 and suffix % 10 in {1, 2, 4, 6, 7}):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if problems is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, problems)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, problems)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

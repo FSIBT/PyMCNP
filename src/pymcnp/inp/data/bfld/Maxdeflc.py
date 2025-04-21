@@ -30,11 +30,11 @@ class Maxdeflc(BfldOption, keyword='maxdeflc'):
             angle: Maximum deflection angles.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if angle is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, angle)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, angle)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,11 +30,11 @@ class Buffer(PtracOption, keyword='buffer'):
             storage: Amount of storage available for filtered events.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if storage is None or not (storage > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, storage)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, storage)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

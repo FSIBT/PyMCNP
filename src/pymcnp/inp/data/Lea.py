@@ -63,25 +63,25 @@ class Lea(DataOption, keyword='lea'):
             nofis: Fission setting.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if ipht is None or ipht.value not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ipht)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ipht)
         if icc is None or icc.value not in {0, 1, 2, 3, 4}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, icc)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, icc)
         if nobalc is None or nobalc.value not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nobalc)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nobalc)
         if nobale is None or nobale.value not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nobale)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nobale)
         if ifbrk is None or ifbrk.value not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ifbrk)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ifbrk)
         if ilvden is None or ilvden.value not in {0, 1, -1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ilvden)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ilvden)
         if ievap is None or ievap.value not in {0, 1, -1, 2}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ievap)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ievap)
         if nofis is None or nofis.value not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, nofis)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nofis)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

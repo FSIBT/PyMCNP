@@ -30,11 +30,11 @@ class Stride(RandOption, keyword='stride'):
             stride: Number of random numbers between source particle.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if stride is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, stride)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, stride)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

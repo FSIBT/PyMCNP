@@ -71,29 +71,29 @@ class Gq(SurfaceOption, keyword='gq'):
             k: Oblique special quadratic K coefficent.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if a is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
         if b is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, b)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, b)
         if c is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, c)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
         if d is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, d)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, d)
         if e is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, e)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, e)
         if f is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, f)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f)
         if g is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, g)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, g)
         if h is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, h)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, h)
         if j is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, j)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j)
         if k is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, k)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, k)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

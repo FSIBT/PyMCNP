@@ -30,11 +30,11 @@ class Rho(PertOption, keyword='rho'):
             density: Perturbed density.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if density is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, density)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, density)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

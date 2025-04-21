@@ -87,37 +87,37 @@ class Phys_2(DataOption, keyword='phys:e'):
             ckvnum: Crenkov photon emission scalar.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if emax is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, emax)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, emax)
         if ides is None or ides not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ides)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ides)
         if iphot is None or iphot not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, iphot)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iphot)
         if ibad is None or ibad not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ibad)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ibad)
         if istrg is None or istrg not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, istrg)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, istrg)
         if bnum is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bnum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bnum)
         if xnum is None or not (xnum >= 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, xnum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xnum)
         if rnok is None or not (rnok >= 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, rnok)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rnok)
         if enum is None or not (enum >= 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, enum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, enum)
         if numb is None or not (i_mcs_model >= 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, numb)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numb)
         if i_mcs_model is None or i_mcs_model not in {-1, 0}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, i_mcs_model)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
         if efac is None or not (0.8 <= efac <= 0.99):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, efac)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, efac)
         if electron_method_boundary is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, electron_method_boundary)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, electron_method_boundary)
         if ckvnum is None or not (0 <= ckvnum < 1):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ckvnum)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ckvnum)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

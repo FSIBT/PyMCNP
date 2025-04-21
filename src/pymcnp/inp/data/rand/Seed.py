@@ -30,11 +30,11 @@ class Seed(RandOption, keyword='seed'):
             seed: Random number generator seed.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if seed is None or not (seed.value % 2 == 1):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, seed)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, seed)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

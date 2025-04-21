@@ -51,19 +51,19 @@ class Fill_6(CellOption, keyword='fill'):
             m: Displacement vector origin.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if i is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, i)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i)
         if j is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, j)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j)
         if k is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, k)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, k)
         if universes is None or not (
             len(universes) == (i.upper - i.lower) * (j.upper - j.lower) * (k.upper - k.lower)
         ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, universes)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universes)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

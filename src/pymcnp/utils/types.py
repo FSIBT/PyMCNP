@@ -27,11 +27,11 @@ class Tuple(tuple, _object.McnpElement_):
             ``Tuple``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if value is None or not (value != tuple()):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, value)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
 
         self.value: typing.Final[tuple[type]] = value
 
@@ -93,11 +93,11 @@ class Integer(int, _object.McnpElement_):
             ``Integer``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, value)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
 
         self.value: typing.Final[int] = value
 
@@ -160,11 +160,11 @@ class Real(float, _object.McnpElement_):
             ``Real``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, value)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
 
         self.value: typing.Final[float] = value
 
@@ -227,11 +227,11 @@ class String(str, _object.McnpElement_):
             ``String``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, value)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
 
         self.value: typing.Final[str] = value
 
@@ -286,11 +286,11 @@ class Repeat(_object.McnpElement_):
             ``Repeat``
 
         Raises
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if n is not None and not (n >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, n)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, n)
 
         self.n: typing.Final[int] = n
 
@@ -351,11 +351,11 @@ class Insert(_object.McnpElement_):
             ``Insert``
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if n is not None and not (n >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, n)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, n)
 
         self.n: typing.Final[int] = n
 
@@ -416,11 +416,11 @@ class Multiply(_object.McnpElement_):
             ``Multiply``
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if x is not None and not x:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, x)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, x)
 
         self.x: typing.Final[float] = x
 
@@ -481,11 +481,11 @@ class Jump(_object.McnpElement_):
             ``Jump``
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if n is not None and not (n >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, n)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, n)
 
         self.n: typing.Final[int] = n
 
@@ -546,11 +546,11 @@ class Log(_object.McnpElement_):
             ``Log``
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if n is not None and not (n >= 0):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, n)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, n)
 
         self.n: typing.Final[int] = n
 
@@ -611,11 +611,11 @@ class DistributionNumber(_object.McnpElement_):
             ``DistributionNumber``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if n is None or not (1 <= n <= 999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, n)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, n)
 
         self.n: typing.Final[int] = n
 
@@ -671,11 +671,11 @@ class EmbeddedDistributionNumber(_object.McnpElement_):
             numbers: Distribution numbers.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if numbers is None or None in numbers:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, numbers)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, numbers)
 
         self.numbers: typing.Final[tuple[DistributionNumber]] = numbers
 
@@ -739,16 +739,16 @@ class Zaid(_object.McnpElement_):
             ``Zaid``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
-            McnpError: SEMANTICS_TYPE_VALUE.
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
+            McnpError: SEMANTICS_TYPE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if z is None or not (000 <= z <= 999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, z)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, z)
 
         if a is None or not (000 <= a <= 999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, a)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, a)
 
         self.z: typing.Final[int] = z
         self.a: typing.Final[int] = a
@@ -890,11 +890,11 @@ class Designator(_object.McnpElement_):
             ``Designator``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if particles is None or None in particles:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, particles)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, particles)
 
         self.particles: typing.Final[tuple[Particle]] = particles
 
@@ -952,7 +952,7 @@ class Geometry(_object.McnpElement_):
             ``Geometry``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         temp = re.sub(r' 0+', '', infix)
@@ -965,7 +965,7 @@ class Geometry(_object.McnpElement_):
         try:
             eval(temp)
         except SyntaxError:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, infix)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, infix)
 
         self.infix: typing.typing.Final[String] = infix
 
@@ -1108,13 +1108,13 @@ class Substance(_object.McnpElement_):
             ``Substance``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if zaid is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, zaid)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, zaid)
         if weight_ratio is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, weight_ratio)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, weight_ratio)
 
         self.zaid: typing.Final[Zaid] = zaid
         self.weight_ratio: typing.Final[Real] = weight_ratio
@@ -1179,13 +1179,13 @@ class Bias(_object.McnpElement_):
             ``Bias``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if weight is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, weight)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, weight)
         if energy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, energy)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, energy)
 
         self.weight: typing.Final[Real] = weight
         self.energy: typing.Final[Real] = energy
@@ -1289,35 +1289,35 @@ class Transformation_0(_object.McnpElement_):
             ``Transformation_0``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if o1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o1)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o1)
         if o2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o2)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o2)
         if o3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o3)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o3)
         if xx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xx)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xx)
         if xy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xy)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xy)
         if xz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xz)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xz)
         if yx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yx)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, yx)
         if yy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yy)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, yy)
         if yz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yz)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, yz)
         if zx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, zx)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, zx)
         if zy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, zy)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, zy)
         if zz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, zz)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, zz)
         if m is not None and m not in {-1, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, m)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, m)
 
         self.o1: typing.Final[Real] = o1
         self.o2: typing.Final[Real] = o2
@@ -1432,29 +1432,29 @@ class Transformation_1(_object.McnpElement_):
             ``Transformation_1``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if o1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o1)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o1)
         if o2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o2)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o2)
         if o3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o3)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o3)
         if xx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xx)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xx)
         if xy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xy)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xy)
         if xz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xz)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xz)
         if yx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yx)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, yx)
         if yy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yy)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, yy)
         if yz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yz)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, yz)
         if m is not None and m not in {-1, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, m)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, m)
 
         self.o1: typing.Final[Real] = o1
         self.o2: typing.Final[Real] = o2
@@ -1560,27 +1560,27 @@ class Transformation_2(_object.McnpElement_):
             ``Transformation_2``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if o1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o1)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o1)
         if o2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o2)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o2)
         if o3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o3)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o3)
         if xx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xx)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xx)
         if xy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xy)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xy)
         if xz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xz)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xz)
         if yx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yx)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, yx)
         if yy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, yy)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, yy)
         if m is not None and m not in {-1, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, m)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, m)
 
         self.o1: typing.Final[Real] = o1
         self.o2: typing.Final[Real] = o2
@@ -1678,23 +1678,23 @@ class Transformation_3(_object.McnpElement_):
             ``Transformation_3``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if o1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o1)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o1)
         if o2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o2)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o2)
         if o3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o3)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o3)
         if xx is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xx)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xx)
         if xy is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xy)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xy)
         if xz is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, xz)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xz)
         if m is not None and m not in {-1, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, m)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, m)
 
         self.o1: typing.Final[Real] = o1
         self.o2: typing.Final[Real] = o2
@@ -1779,17 +1779,17 @@ class Transformation_4(_object.McnpElement_):
             ``Transformation_4``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if o1 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o1)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o1)
         if o2 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o2)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o2)
         if o3 is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, o3)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o3)
         if m is not None and m not in {-1, 1}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, m)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, m)
 
         self.o1: typing.Final[Real] = o1
         self.o2: typing.Final[Real] = o2
@@ -1868,17 +1868,17 @@ class Stochastic(_object.McnpElement_):
             ``Stochastic``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if universe is None or not (0 <= universe <= 99_999_999):
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, universe)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, universe)
         if maximum_x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, maximum_x)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, maximum_x)
         if maximum_y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, maximum_y)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, maximum_y)
         if maximum_z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, maximum_z)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, maximum_z)
 
         self.universe: typing.Final[Integer] = universe
         self.maximum_x: typing.Final[Real] = maximum_x
@@ -1947,13 +1947,13 @@ class IndependentDependent(_object.McnpElement_):
             ``IndependentDependent``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if independent is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, independent)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, independent)
         if dependent is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, dependent)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, dependent)
 
         self.independent: typing.Final[Real] = independent
         self.dependent: typing.Final[Real] = dependent
@@ -2020,15 +2020,15 @@ class Location(_object.McnpElement_):
             ``Location``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, x)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, x)
         if y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, y)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, y)
         if z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, z)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, z)
 
         self.x: typing.Final[Real] = x
         self.y: typing.Final[Real] = y
@@ -2108,19 +2108,19 @@ class File(_object.McnpElement_):
             ``File``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if unit is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, unit)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, unit)
         if filename is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, filename)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, filename)
         if access is None or access not in {'sequential', 'direct'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, access)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, access)
         if form is None or format not in {'formatted', 'unformatted'}:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, form)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, form)
         if length is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, length)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, length)
 
         self.unit: typing.Final[Integer] = unit
         self.filename: typing.Final[String] = filename
@@ -2191,13 +2191,13 @@ class Diagnostic(_object.McnpElement_):
             ``Diagnostic``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if playing_setting is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, playing_setting)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, playing_setting)
         if printing_setting is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, printing_setting)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, printing_setting)
 
         self.playing_setting: typing.Final[Real] = playing_setting
         self.printing_setting: typing.Final[Real] = printing_setting
@@ -2269,15 +2269,15 @@ class Ring(_object.McnpElement_):
             ``Ring``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if distance is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, distance)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, distance)
         if radius is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, radius)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, radius)
         if ro is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, ro)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, ro)
 
         self.distance: typing.Final[Real] = distance
         self.radius: typing.Final[Real] = radius
@@ -2354,17 +2354,17 @@ class Sphere(_object.McnpElement_):
             ``Sphere``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, x)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, x)
         if y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, y)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, y)
         if z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, z)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, z)
         if ro is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, ro)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, ro)
 
         self.x: typing.Final[Real] = x
         self.y: typing.Final[Real] = y
@@ -2446,19 +2446,19 @@ class Shell(_object.McnpElement_):
             ``Shell``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if x is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, x)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, x)
         if y is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, y)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, y)
         if z is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, z)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, z)
         if inner_radius is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, inner_radius)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, inner_radius)
         if outer_radius is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, outer_radius)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, outer_radius)
 
         self.x: typing.Final[Real] = x
         self.y: typing.Final[Real] = y
@@ -2529,13 +2529,13 @@ class Reaction(_object.McnpElement_):
             ``Reaction``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if mt is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, mt)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, mt)
         if pmt is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, pmt)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, pmt)
 
         self.mt: typing.Final[Zaid] = mt
         self.pmt: typing.Final[Integer] = pmt
@@ -2602,15 +2602,15 @@ class PtracFilter(_object.McnpElement_):
             ``PtracFilter``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if lower is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, lower)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, lower)
         if variable is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, variable)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, variable)
         if upper is not None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, upper)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, upper)
 
         self.lower: typing.Final[Real] = lower
         self.upper: typing.Final[Real] = upper
@@ -2679,15 +2679,15 @@ class PhotonBias(_object.McnpElement_):
             ``PhotonBias``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if zaid is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, zaid)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, zaid)
         if ipiki is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, ipiki)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, ipiki)
         if reactions is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, reactions)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, reactions)
 
         self.zaid: typing.Final[Zaid] = zaid
         self.ipiki: typing.Final[Integer] = ipiki
@@ -2756,13 +2756,13 @@ class Index(_object.McnpElement_):
             ``Index``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if lower is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, lower)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, lower)
         if upper is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, upper)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, upper)
 
         self.lower: typing.Final[Integer] = lower
         self.upper: typing.Final[Integer] = upper
@@ -2825,11 +2825,11 @@ class IntegerOrJump(_object.McnpElement_):
             ``IntegerOrJump``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, value)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
 
         self.value: typing.Final[int] = value
 
@@ -2912,11 +2912,11 @@ class RealOrJump(_object.McnpElement_):
             ``RealOrJump``.
 
         Raises:
-            McnpError: SEMANTICS_TYPE_VALUE.
+            McnpError: SEMANTICS_TYPE.
         """
 
         if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE_VALUE, value)
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
 
         self.value: typing.Final[int] = value
 

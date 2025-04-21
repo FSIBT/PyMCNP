@@ -30,11 +30,11 @@ class Conic(PtracOption, keyword='conic'):
             setting: Activates a PTRAC file format specifically for coincidence tally scoring.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if setting is None or setting not in {'col', 'lin'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, setting)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

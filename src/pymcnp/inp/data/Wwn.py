@@ -41,15 +41,15 @@ class Wwn(DataOption, keyword='wwn'):
             bounds: Lower weight bound.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (suffix <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if bounds is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bounds)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bounds)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

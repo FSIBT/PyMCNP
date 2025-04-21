@@ -33,13 +33,13 @@ class Ds_2(DataOption, keyword='ds'):
             vss: Dependent source independent & dependent variables.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None or not (1 <= suffix <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if vss is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vss)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vss)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

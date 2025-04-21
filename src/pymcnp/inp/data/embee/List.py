@@ -30,11 +30,11 @@ class List(EmbeeOption, keyword='list'):
             reactions: List of reactions.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if reactions is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, reactions)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, reactions)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

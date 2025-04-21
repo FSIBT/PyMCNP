@@ -63,25 +63,25 @@ class Phys_0(DataOption, keyword='phys:n'):
             i_els_model: Treatment of nuclear elastic scattering controls.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if emax is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, emax)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, emax)
         if emcnf is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, emcnf)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, emcnf)
         if iunr is None or iunr not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, iunr)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iunr)
         if coilf is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, coilf)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, coilf)
         if cutn is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cutn)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutn)
         if ngam is None or ngam not in {0, 1, 2}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ngam)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ngam)
         if i_int_model is None or i_int_model not in {-1, 0, 1, 2}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, i_int_model)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_int_model)
         if i_els_model is None or i_els_model not in {-1, 0}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, i_els_model)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_els_model)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

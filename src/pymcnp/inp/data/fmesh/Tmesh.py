@@ -30,11 +30,11 @@ class Tmesh(FmeshOption, keyword='tmesh'):
             time: Values of mesh points in time.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if time is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, time)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

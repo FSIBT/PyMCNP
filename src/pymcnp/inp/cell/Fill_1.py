@@ -35,11 +35,11 @@ class Fill_1(CellOption, keyword='fill'):
             transformation: Cell fill transformation.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if universe is None or not (0 <= universe <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, universe)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universe)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

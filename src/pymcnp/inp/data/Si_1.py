@@ -43,15 +43,15 @@ class Si_1(DataOption, keyword='si'):
             information: Particle source information.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if option is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, option)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
         if information is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, information)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, information)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

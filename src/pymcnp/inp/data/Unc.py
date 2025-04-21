@@ -30,11 +30,11 @@ class Unc(DataOption, keyword='unc'):
             settings: Tuple of uncollided secondary settings.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if settings is None or not (filter(lambda entry: entry.value not in {0, 1}, settings)):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, settings)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, settings)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

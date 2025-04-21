@@ -30,11 +30,11 @@ class Otfdb(DataOption, keyword='otfdb'):
             zaids: Identifiers for the broadening tables.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if zaids is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zaids)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zaids)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

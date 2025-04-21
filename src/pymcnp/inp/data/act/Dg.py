@@ -30,11 +30,11 @@ class Dg(ActOption, keyword='dg'):
             source: Delayed gamma data source.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if source is None or source not in {'line', 'mg', 'none'}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, source)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, source)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

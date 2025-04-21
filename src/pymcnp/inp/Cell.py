@@ -16,7 +16,7 @@ class Cell(Card):
     Represents INP cell cards.
 
     Attributes:
-        InpError: SEMANTICS_CARD_VALUE.
+        InpError: SEMANTICS_CARD.
     """
 
     _ATTRS = {
@@ -50,17 +50,17 @@ class Cell(Card):
             options: cell options.
 
         Raises:
-            InpError: SEMANTICS_CARD_VALUE.
+            InpError: SEMANTICS_CARD.
         """
 
         if number is None or not (1 <= number <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, number)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
         if material is None or not (0 <= material <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, material)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, material)
         if (density is not None and material == 0) or (density is None and material != 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, density)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, density)
         if geometry is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, geometry)
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, geometry)
 
         self.number: types.Integer = number
         self.material: types.Integer = material

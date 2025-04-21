@@ -30,11 +30,11 @@ class Axs(MeshOption, keyword='axs'):
             vector: Vector giving the direction of the polar axis.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if vector is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, vector)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vector)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

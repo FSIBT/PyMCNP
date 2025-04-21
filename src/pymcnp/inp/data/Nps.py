@@ -35,13 +35,13 @@ class Nps(DataOption, keyword='nps'):
             npsmg: Number of history with direct source contributions.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if npp is None or not (npp > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, npp)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npp)
         if npsmg is not None and not (npsmg > 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, npsmg)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npsmg)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

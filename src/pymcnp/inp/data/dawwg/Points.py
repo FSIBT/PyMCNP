@@ -30,11 +30,11 @@ class Points(DawwgOption, keyword='points'):
             name: Cross section library.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if name is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, name)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, name)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

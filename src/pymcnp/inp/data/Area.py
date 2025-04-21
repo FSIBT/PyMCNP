@@ -30,11 +30,11 @@ class Area(DataOption, keyword='area'):
             areas: Tuple of surface areas.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if areas is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, areas)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, areas)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

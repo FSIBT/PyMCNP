@@ -30,11 +30,11 @@ class Emesh(FmeshOption, keyword='emesh'):
             energy: Values of mesh points in energy.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if energy is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, energy)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

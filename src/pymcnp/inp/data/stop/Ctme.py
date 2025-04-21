@@ -30,11 +30,11 @@ class Ctme(StopOption, keyword='ctme'):
             tme: Computer time before stop.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if tme is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, tme)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tme)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

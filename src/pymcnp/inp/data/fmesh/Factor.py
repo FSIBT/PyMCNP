@@ -30,11 +30,11 @@ class Factor(FmeshOption, keyword='factor'):
             multiple: Multiplicative factor for each mesh.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if multiple is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, multiple)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, multiple)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

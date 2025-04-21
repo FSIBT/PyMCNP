@@ -71,7 +71,7 @@ class ElementScheme:
         mnemonic: str,
         attributes: tuple[AttributeScheme],
         options: tuple[any] = None,
-        error: str = 'SEMANTICS_OPTION_VALUE',
+        error: str = 'SEMANTICS_OPTION',
         extra: str = '',
     ):
         """
@@ -104,7 +104,7 @@ cards = ElementScheme(
     options=[
         ElementScheme(
             name='comment',
-            error='SEMANTICS_CARD_VALUE',
+            error='SEMANTICS_CARD',
             mnemonic='c',
             attributes=[
                 AttributeScheme(
@@ -116,7 +116,7 @@ cards = ElementScheme(
         ),
         ElementScheme(
             name='cell',
-            error='SEMANTICS_CARD_VALUE',
+            error='SEMANTICS_CARD',
             mnemonic='',
             attributes=[
                 AttributeScheme(
@@ -637,7 +637,7 @@ cards = ElementScheme(
         ),
         ElementScheme(
             name='surface',
-            error='SEMANTICS_CARD_VALUE',
+            error='SEMANTICS_CARD',
             mnemonic='',
             attributes=[
                 AttributeScheme(
@@ -2633,7 +2633,7 @@ cards = ElementScheme(
         ),
         ElementScheme(
             name='data',
-            error='SEMANTICS_CARD_VALUE',
+            error='SEMANTICS_CARD',
             mnemonic='',
             attributes=[
                 AttributeScheme(

@@ -30,11 +30,11 @@ class Fmatny(KoptsOption, keyword='fmatny'):
             fmat_ny: fmat_ny.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if fmat_ny is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fmat_ny)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_ny)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

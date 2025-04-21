@@ -39,15 +39,15 @@ class C_z(SurfaceOption, keyword='c/z'):
             r: Parallel-to-z-axis cylinder radius.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if x is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, x)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
         if y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, y)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
         if r is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, r)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

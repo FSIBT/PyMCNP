@@ -35,13 +35,13 @@ class Watt(FmultOption, keyword='watt'):
             b: Watt energy spectrum parameters b.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if a is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, a)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
         if b is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, b)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, b)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

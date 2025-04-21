@@ -30,11 +30,11 @@ class Psc(SsrOption, keyword='psc'):
             constant: Constant for approximation in PSC evaluation.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if constant is None or not (constant >= 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, constant)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, constant)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

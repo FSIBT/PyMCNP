@@ -33,13 +33,13 @@ class Embdf(DataOption, keyword='embdf'):
             multipliers: Tuple of dose energy multipliers.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if suffix is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, suffix)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if multipliers is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, multipliers)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, multipliers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,11 +30,11 @@ class Cel(SswOption, keyword='cel'):
             cfs: Cells from which KCODE neutrons are written.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if cfs is None or not (filter(lambda entry: not (1 <= entry <= 99_999_999), cfs)):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, cfs)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cfs)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

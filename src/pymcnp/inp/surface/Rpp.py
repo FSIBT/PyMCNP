@@ -56,21 +56,21 @@ class Rpp(SurfaceOption, keyword='rpp'):
             zmax: Parallelepiped z termini maximum.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if xmin is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, xmin)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xmin)
         if xmax is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, xmax)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xmax)
         if ymin is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ymin)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ymin)
         if ymax is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, ymax)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ymax)
         if zmin is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zmin)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zmin)
         if zmax is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, zmax)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zmax)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

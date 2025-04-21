@@ -146,14 +146,14 @@ def ATTRS_CHECK(element, parent_name, t):
     for attribute in element.attributes:
         if attribute.restriction:
             if attribute.optional:
-                o += f'{TABS(t)}if {attribute.name} is not None and not ({attribute.restriction}):\n{TABS(t+1)}raise {f"errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, {attribute.name})" if parent_name else f"errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, {attribute.name})"}\n'
+                o += f'{TABS(t)}if {attribute.name} is not None and not ({attribute.restriction}):\n{TABS(t+1)}raise {f"errors.InpError(errors.InpCode.SEMANTICS_OPTION, {attribute.name})" if parent_name else f"errors.InpError(errors.InpCode.SEMANTICS_CARD, {attribute.name})"}\n'
             else:
-                o += f'{TABS(t)}if {attribute.name} is None or not ({attribute.restriction}):\n{TABS(t+1)}raise {f"errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, {attribute.name})" if parent_name else f"errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, {attribute.name})"}\n'
+                o += f'{TABS(t)}if {attribute.name} is None or not ({attribute.restriction}):\n{TABS(t+1)}raise {f"errors.InpError(errors.InpCode.SEMANTICS_OPTION, {attribute.name})" if parent_name else f"errors.InpError(errors.InpCode.SEMANTICS_CARD, {attribute.name})"}\n'
         else:
             if attribute.optional:
                 continue
             else:
-                o += f'{TABS(t)}if {attribute.name} is None:\n{TABS(t+1)}raise {f"errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, {attribute.name})" if parent_name else f"errors.InpError(errors.InpCode.SEMANTICS_CARD_VALUE, {attribute.name})"}\n'
+                o += f'{TABS(t)}if {attribute.name} is None:\n{TABS(t+1)}raise {f"errors.InpError(errors.InpCode.SEMANTICS_OPTION, {attribute.name})" if parent_name else f"errors.InpError(errors.InpCode.SEMANTICS_CARD, {attribute.name})"}\n'
 
     return o.strip()
 

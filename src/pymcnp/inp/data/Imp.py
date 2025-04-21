@@ -33,13 +33,13 @@ class Imp(DataOption, keyword='imp'):
             importances: Cell importance.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, designator)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if importances is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, importances)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, importances)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -30,11 +30,11 @@ class Pwt(DataOption, keyword='pwt'):
             weights: Relative threshold weight of photons produced at neutron collisions in cell.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if weights is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, weights)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weights)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -38,15 +38,15 @@ class Bem(SdefOption, keyword='bem'):
             bml: Distance from the aperture to the spot.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if exn is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, exn)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, exn)
         if eyn is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, eyn)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, eyn)
         if bml is None or not (bml >= 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, bml)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bml)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

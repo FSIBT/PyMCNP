@@ -30,11 +30,11 @@ class Fmatspace(KoptsOption, keyword='fmatspace'):
             fmat_space: fmat_space.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if fmat_space is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, fmat_space)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_space)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

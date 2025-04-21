@@ -30,11 +30,11 @@ class Nap(ActOption, keyword='nap'):
             count: Number of activation products.
 
         Raises:
-            InpError: SEMANTICS_OPTION_VALUE.
+            InpError: SEMANTICS_OPTION.
         """
 
         if count is None or not (0 <= count):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION_VALUE, count)
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
