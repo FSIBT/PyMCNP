@@ -41,22 +41,22 @@ class Phys_3(DataOption, keyword='phys:h'):
     }
 
     _REGEX = re.compile(
-        rf'\Aphys:h( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
+        rf'\Aphys:h( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
-        emax: types.RealOrJump,
-        ean: types.RealOrJump,
-        tabl: types.RealOrJump,
-        istrg: types.IntegerOrJump,
-        recl: types.RealOrJump,
-        i_mcs_model: types.IntegerOrJump,
-        i_int_model: types.IntegerOrJump,
-        i_els_model: types.IntegerOrJump,
-        efac: types.RealOrJump,
-        ckvnum: types.RealOrJump,
-        drp: types.RealOrJump,
+        emax: types.RealOrJump = None,
+        ean: types.RealOrJump = None,
+        tabl: types.RealOrJump = None,
+        istrg: types.IntegerOrJump = None,
+        recl: types.RealOrJump = None,
+        i_mcs_model: types.IntegerOrJump = None,
+        i_int_model: types.IntegerOrJump = None,
+        i_els_model: types.IntegerOrJump = None,
+        efac: types.RealOrJump = None,
+        ckvnum: types.RealOrJump = None,
+        drp: types.RealOrJump = None,
     ):
         """
         Initializes ``Phys_3``.
@@ -78,27 +78,23 @@ class Phys_3(DataOption, keyword='phys:h'):
             InpError: SEMANTICS_OPTION.
         """
 
-        if emax is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, emax)
-        if ean is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ean)
-        if tabl is None or not (tabl == -1 or tabl >= 0):
+        if tabl is None or not (isisntance(tabl, types.Jump) or tabl == -1 or tabl >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tabl)
-        if istrg is None or istrg not in {0, 1}:
+        if istrg is None or not (isinstance(istrg, types.Jump) or istrg in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, istrg)
-        if recl is None or not (0 <= recl <= 1):
+        if recl is None or not (isisntance(recl, types.Jump) or 0 <= recl <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, recl)
-        if i_mcs_model is None or i_mcs_model not in {-1, 0, 1, 2}:
+        if i_mcs_model is None or (isinstance(i_mcs_model, types.Jump) or i_mcs_model in {-1, 0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
-        if i_int_model is None or i_int_model not in {-1, 0, 1, 2}:
+        if i_int_model is None or (isinstance(i_int_model, types.Jump) or i_int_model in {-1, 0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_int_model)
-        if i_els_model is None or i_els_model not in {-1, 0}:
+        if i_els_model is None or (isinstance(i_els_model, types.Jump) or i_els_model in {-1, 0}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_els_model)
-        if efac is None or not (0.8 <= efac <= 0.99):
+        if efac is None or not (isinstance(efac, types.Jump) or 0.8 <= efac <= 0.99):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, efac)
-        if ckvnum is None or not (0 <= ckvnum < 1):
+        if ckvnum is None or not (isisntance(ckvnum, types.Jump) or 0 <= ckvnum < 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ckvnum)
-        if drp is None or not (drp >= 0 or drp == -1):
+        if drp is None or not (isinstance(drp, types.Jump) or drp >= 0 or drp == -1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, drp)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -149,17 +145,17 @@ class PhysBuilder_3:
         drp: Lower energy delta-ray cutoff.
     """
 
-    emax: str | float | types.RealOrJump
-    ean: str | float | types.RealOrJump
-    tabl: str | float | types.RealOrJump
-    istrg: str | int | types.IntegerOrJump
-    recl: str | float | types.RealOrJump
-    i_mcs_model: str | int | types.IntegerOrJump
-    i_int_model: str | int | types.IntegerOrJump
-    i_els_model: str | int | types.IntegerOrJump
-    efac: str | float | types.RealOrJump
-    ckvnum: str | float | types.RealOrJump
-    drp: str | float | types.RealOrJump
+    emax: str | float | types.RealOrJump = None
+    ean: str | float | types.RealOrJump = None
+    tabl: str | float | types.RealOrJump = None
+    istrg: str | int | types.IntegerOrJump = None
+    recl: str | float | types.RealOrJump = None
+    i_mcs_model: str | int | types.IntegerOrJump = None
+    i_int_model: str | int | types.IntegerOrJump = None
+    i_els_model: str | int | types.IntegerOrJump = None
+    efac: str | float | types.RealOrJump = None
+    ckvnum: str | float | types.RealOrJump = None
+    drp: str | float | types.RealOrJump = None
 
     def build(self):
         """

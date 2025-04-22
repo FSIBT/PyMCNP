@@ -36,12 +36,12 @@ class Phys_1(DataOption, keyword='phys:p'):
 
     def __init__(
         self,
-        emcpf: types.RealOrJump,
-        ides: types.IntegerOrJump,
-        nocoh: types.IntegerOrJump,
-        ispn: types.IntegerOrJump,
-        nodop: types.IntegerOrJump,
-        fism: types.IntegerOrJump,
+        emcpf: types.RealOrJump = None,
+        ides: types.IntegerOrJump = None,
+        nocoh: types.IntegerOrJump = None,
+        ispn: types.IntegerOrJump = None,
+        nodop: types.IntegerOrJump = None,
+        fism: types.IntegerOrJump = None,
     ):
         """
         Initializes ``Phys_1``.
@@ -62,9 +62,7 @@ class Phys_1(DataOption, keyword='phys:p'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ides)
         if nocoh is not None and not (isinstance(nocoh.value, types.Jump) or nocoh.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nocoh)
-        if ispn is not None and not (
-            isinstance(ispn.value, types.Jump) or ispn.value in {-1, 0, 1}
-        ):
+        if ispn is not None and not (isinstance(ispn.value, types.Jump) or ispn.value in {-1, 0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ispn)
         if nodop is not None and not (isinstance(nodop.value, types.Jump) or nodop.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nodop)
@@ -104,12 +102,12 @@ class PhysBuilder_1:
         fism: Selection of photofission method controls.
     """
 
-    emcpf: str | float | types.RealOrJump
-    ides: str | int | types.IntegerOrJump
-    nocoh: str | int | types.IntegerOrJump
-    ispn: str | int | types.IntegerOrJump
-    nodop: str | int | types.IntegerOrJump
-    fism: str | int | types.IntegerOrJump
+    emcpf: str | float | types.RealOrJump = None
+    ides: str | int | types.IntegerOrJump = None
+    nocoh: str | int | types.IntegerOrJump = None
+    ispn: str | int | types.IntegerOrJump = None
+    nodop: str | int | types.IntegerOrJump = None
+    fism: str | int | types.IntegerOrJump = None
 
     def build(self):
         """

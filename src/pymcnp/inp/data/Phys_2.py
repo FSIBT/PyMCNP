@@ -47,25 +47,25 @@ class Phys_2(DataOption, keyword='phys:e'):
     }
 
     _REGEX = re.compile(
-        rf'\Aphys:e( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
+        rf'\Aphys:e( {types.RealOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
-        emax: types.RealOrJump,
-        ides: types.IntegerOrJump,
-        iphot: types.IntegerOrJump,
-        ibad: types.IntegerOrJump,
-        istrg: types.IntegerOrJump,
-        bnum: types.RealOrJump,
-        xnum: types.RealOrJump,
-        rnok: types.IntegerOrJump,
-        enum: types.IntegerOrJump,
-        numb: types.IntegerOrJump,
-        i_mcs_model: types.IntegerOrJump,
-        efac: types.RealOrJump,
-        electron_method_boundary: types.RealOrJump,
-        ckvnum: types.RealOrJump,
+        emax: types.RealOrJump = None,
+        ides: types.IntegerOrJump = None,
+        iphot: types.IntegerOrJump = None,
+        ibad: types.IntegerOrJump = None,
+        istrg: types.IntegerOrJump = None,
+        bnum: types.RealOrJump = None,
+        xnum: types.RealOrJump = None,
+        rnok: types.IntegerOrJump = None,
+        enum: types.IntegerOrJump = None,
+        numb: types.IntegerOrJump = None,
+        i_mcs_model: types.IntegerOrJump = None,
+        efac: types.RealOrJump = None,
+        electron_method_boundary: types.RealOrJump = None,
+        ckvnum: types.RealOrJump = None,
     ):
         """
         Initializes ``Phys_2``.
@@ -90,33 +90,27 @@ class Phys_2(DataOption, keyword='phys:e'):
             InpError: SEMANTICS_OPTION.
         """
 
-        if emax is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, emax)
-        if ides is None or ides not in {0, 1}:
+        if ides is not None and not (isinstance(ides, types.Jump) or ides in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ides)
-        if iphot is None or iphot not in {0, 1}:
+        if iphot is not None and not (isinstance(iphot, types.Jump) or iphot in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iphot)
-        if ibad is None or ibad not in {0, 1}:
+        if ibad is not None and not (isinstance(ibad, types.Jump) or ibad in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ibad)
-        if istrg is None or istrg not in {0, 1}:
+        if istrg is not None and not (isinstance(istrg, types.Jump) or istrg in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, istrg)
-        if bnum is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bnum)
-        if xnum is None or not (xnum >= 0):
+        if xnum is not None and not (isinstance(xnum, types.Jump) or xnum >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xnum)
-        if rnok is None or not (rnok >= 0):
+        if rnok is not None and not (isinstance(rnok, types.Jump) or rnok >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rnok)
-        if enum is None or not (enum >= 0):
+        if enum is not None and not (isinstance(enum, types.Jump) or enum >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, enum)
-        if numb is None or not (i_mcs_model >= 0):
+        if numb is not None and not (isinstance(i_mcs_model, types.Jump) or i_mcs_model >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numb)
-        if i_mcs_model is None or i_mcs_model not in {-1, 0}:
+        if i_mcs_model is not None and not (isinstance(i_mcs_model, types.Jump) or i_mcs_model in {-1, 0}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
-        if efac is None or not (0.8 <= efac <= 0.99):
+        if efac is not None and not (isinstance(efac, types.Jump) or 0.8 <= efac <= 0.99):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, efac)
-        if electron_method_boundary is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, electron_method_boundary)
-        if ckvnum is None or not (0 <= ckvnum < 1):
+        if ckvnum is not None and not (isinstance(ckvnum, types.Jump) or 0 <= ckvnum < 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ckvnum)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -176,20 +170,20 @@ class PhysBuilder_2:
         ckvnum: Crenkov photon emission scalar.
     """
 
-    emax: str | float | types.RealOrJump
-    ides: str | int | types.IntegerOrJump
-    iphot: str | int | types.IntegerOrJump
-    ibad: str | int | types.IntegerOrJump
-    istrg: str | int | types.IntegerOrJump
-    bnum: str | float | types.RealOrJump
-    xnum: str | float | types.RealOrJump
-    rnok: str | int | types.IntegerOrJump
-    enum: str | int | types.IntegerOrJump
-    numb: str | int | types.IntegerOrJump
-    i_mcs_model: str | int | types.IntegerOrJump
-    efac: str | float | types.RealOrJump
-    electron_method_boundary: str | float | types.RealOrJump
-    ckvnum: str | float | types.RealOrJump
+    emax: str | float | types.RealOrJump = None
+    ides: str | int | types.IntegerOrJump = None
+    iphot: str | int | types.IntegerOrJump = None
+    ibad: str | int | types.IntegerOrJump = None
+    istrg: str | int | types.IntegerOrJump = None
+    bnum: str | float | types.RealOrJump = None
+    xnum: str | float | types.RealOrJump = None
+    rnok: str | int | types.IntegerOrJump = None
+    enum: str | int | types.IntegerOrJump = None
+    numb: str | int | types.IntegerOrJump = None
+    i_mcs_model: str | int | types.IntegerOrJump = None
+    efac: str | float | types.RealOrJump = None
+    electron_method_boundary: str | float | types.RealOrJump = None
+    ckvnum: str | float | types.RealOrJump = None
 
     def build(self):
         """
