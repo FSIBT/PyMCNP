@@ -33,7 +33,7 @@ class Iu(Df_1Option, keyword='iu'):
             InpError: SEMANTICS_OPTION.
         """
 
-        if units is None or units not in {1, 2}:
+        if units is None or units.value not in {1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, units)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
