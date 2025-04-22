@@ -35,19 +35,19 @@ class Phys_0(DataOption, keyword='phys:n'):
     }
 
     _REGEX = re.compile(
-        rf'\Aphys:n( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
+        rf'\Aphys:n( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
-        emax: types.RealOrJump,
-        emcnf: types.RealOrJump,
-        iunr: types.RealOrJump,
-        coilf: types.RealOrJump,
-        cutn: types.IntegerOrJump,
-        ngam: types.IntegerOrJump,
-        i_int_model: types.IntegerOrJump,
-        i_els_model: types.IntegerOrJump,
+        emax: types.RealOrJump = None,
+        emcnf: types.RealOrJump = None,
+        iunr: types.RealOrJump = None,
+        coilf: types.RealOrJump = None,
+        cutn: types.IntegerOrJump = None,
+        ngam: types.IntegerOrJump = None,
+        i_int_model: types.IntegerOrJump = None,
+        i_els_model: types.IntegerOrJump = None,
     ):
         """
         Initializes ``Phys_0``.
@@ -66,21 +66,13 @@ class Phys_0(DataOption, keyword='phys:n'):
             InpError: SEMANTICS_OPTION.
         """
 
-        if emax is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, emax)
-        if emcnf is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, emcnf)
-        if iunr is None or iunr not in {0, 1}:
+        if iunr is not None and not (isinstance(iunr, types.Jump) or iunr in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iunr)
-        if coilf is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, coilf)
-        if cutn is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutn)
-        if ngam is None or ngam not in {0, 1, 2}:
+        if ngam is not None and not (isisntance(ngam, types.Jump) or ngam in {0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ngam)
-        if i_int_model is None or i_int_model not in {-1, 0, 1, 2}:
+        if i_int_model is not None and (isinstance(i_int_model, types.Jump) or i_int_model in {-1, 0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_int_model)
-        if i_els_model is None or i_els_model not in {-1, 0}:
+        if i_els_model is not None and (isinstance(i_els_model, types.Jump) or i_els_model not in {-1, 0}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_els_model)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -122,14 +114,14 @@ class PhysBuilder_0:
         i_els_model: Treatment of nuclear elastic scattering controls.
     """
 
-    emax: str | float | types.RealOrJump
-    emcnf: str | float | types.RealOrJump
-    iunr: str | float | types.RealOrJump
-    coilf: str | float | types.RealOrJump
-    cutn: str | int | types.IntegerOrJump
-    ngam: str | int | types.IntegerOrJump
-    i_int_model: str | int | types.IntegerOrJump
-    i_els_model: str | int | types.IntegerOrJump
+    emax: str | float | types.RealOrJump = None
+    emcnf: str | float | types.RealOrJump = None
+    iunr: str | float | types.RealOrJump = None
+    coilf: str | float | types.RealOrJump = None
+    cutn: str | int | types.IntegerOrJump = None
+    ngam: str | int | types.IntegerOrJump = None
+    i_int_model: str | int | types.IntegerOrJump = None
+    i_els_model: str | int | types.IntegerOrJump = None
 
     def build(self):
         """
