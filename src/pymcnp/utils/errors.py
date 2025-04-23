@@ -115,7 +115,6 @@ class CliCode(enum.Enum):
     SEMANTICS_PATH = 1
     SEMANTICS_COMMAND = 2
 
-
     pass
 
 

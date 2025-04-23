@@ -68,11 +68,15 @@ class Phys_0(DataOption, keyword='phys:n'):
 
         if iunr is not None and not (isinstance(iunr, types.Jump) or iunr in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iunr)
-        if ngam is not None and not (isisntance(ngam, types.Jump) or ngam in {0, 1, 2}):
+        if ngam is not None and not (isinstance(ngam, types.Jump) or ngam in {0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ngam)
-        if i_int_model is not None and (isinstance(i_int_model, types.Jump) or i_int_model in {-1, 0, 1, 2}):
+        if i_int_model is not None and not (
+            isinstance(i_int_model, types.Jump) or i_int_model in {-1, 0, 1, 2}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_int_model)
-        if i_els_model is not None and (isinstance(i_els_model, types.Jump) or i_els_model not in {-1, 0}):
+        if i_els_model is not None and not (
+            isinstance(i_els_model, types.Jump) or i_els_model in {-1, 0}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_els_model)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -131,6 +135,7 @@ class PhysBuilder_0:
             ``Phys_0`` for ``PhysBuilder_0``.
         """
 
+        emax = None
         if isinstance(self.emax, types.Real):
             emax = self.emax
         elif isinstance(self.emax, float) or isinstance(self.emax, int):
@@ -138,6 +143,7 @@ class PhysBuilder_0:
         elif isinstance(self.emax, str):
             emax = types.RealOrJump.from_mcnp(self.emax)
 
+        emcnf = None
         if isinstance(self.emcnf, types.Real):
             emcnf = self.emcnf
         elif isinstance(self.emcnf, float) or isinstance(self.emcnf, int):
@@ -145,6 +151,7 @@ class PhysBuilder_0:
         elif isinstance(self.emcnf, str):
             emcnf = types.RealOrJump.from_mcnp(self.emcnf)
 
+        iunr = None
         if isinstance(self.iunr, types.Real):
             iunr = self.iunr
         elif isinstance(self.iunr, float) or isinstance(self.iunr, int):
@@ -152,6 +159,7 @@ class PhysBuilder_0:
         elif isinstance(self.iunr, str):
             iunr = types.RealOrJump.from_mcnp(self.iunr)
 
+        coilf = None
         if isinstance(self.coilf, types.Real):
             coilf = self.coilf
         elif isinstance(self.coilf, float) or isinstance(self.coilf, int):
@@ -159,6 +167,7 @@ class PhysBuilder_0:
         elif isinstance(self.coilf, str):
             coilf = types.RealOrJump.from_mcnp(self.coilf)
 
+        cutn = None
         if isinstance(self.cutn, types.Integer):
             cutn = self.cutn
         elif isinstance(self.cutn, int):
@@ -166,6 +175,7 @@ class PhysBuilder_0:
         elif isinstance(self.cutn, str):
             cutn = types.IntegerOrJump.from_mcnp(self.cutn)
 
+        ngam = None
         if isinstance(self.ngam, types.Integer):
             ngam = self.ngam
         elif isinstance(self.ngam, int):
@@ -173,6 +183,7 @@ class PhysBuilder_0:
         elif isinstance(self.ngam, str):
             ngam = types.IntegerOrJump.from_mcnp(self.ngam)
 
+        i_int_model = None
         if isinstance(self.i_int_model, types.Integer):
             i_int_model = self.i_int_model
         elif isinstance(self.i_int_model, int):
@@ -180,6 +191,7 @@ class PhysBuilder_0:
         elif isinstance(self.i_int_model, str):
             i_int_model = types.IntegerOrJump.from_mcnp(self.i_int_model)
 
+        i_els_model = None
         if isinstance(self.i_els_model, types.Integer):
             i_els_model = self.i_els_model
         elif isinstance(self.i_els_model, int):

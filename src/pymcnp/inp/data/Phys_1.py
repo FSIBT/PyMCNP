@@ -62,7 +62,9 @@ class Phys_1(DataOption, keyword='phys:p'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ides)
         if nocoh is not None and not (isinstance(nocoh.value, types.Jump) or nocoh.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nocoh)
-        if ispn is not None and not (isinstance(ispn.value, types.Jump) or ispn.value in {-1, 0, 1}):
+        if ispn is not None and not (
+            isinstance(ispn.value, types.Jump) or ispn.value in {-1, 0, 1}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ispn)
         if nodop is not None and not (isinstance(nodop.value, types.Jump) or nodop.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nodop)
@@ -117,6 +119,7 @@ class PhysBuilder_1:
             ``Phys_1`` for ``PhysBuilder_1``.
         """
 
+        emcpf = None
         if isinstance(self.emcpf, types.Real):
             emcpf = self.emcpf
         elif isinstance(self.emcpf, float) or isinstance(self.emcpf, int):
@@ -124,6 +127,7 @@ class PhysBuilder_1:
         elif isinstance(self.emcpf, str):
             emcpf = types.RealOrJump.from_mcnp(self.emcpf)
 
+        ides = None
         if isinstance(self.ides, types.Integer):
             ides = self.ides
         elif isinstance(self.ides, int):
@@ -131,6 +135,7 @@ class PhysBuilder_1:
         elif isinstance(self.ides, str):
             ides = types.IntegerOrJump.from_mcnp(self.ides)
 
+        nocoh = None
         if isinstance(self.nocoh, types.Integer):
             nocoh = self.nocoh
         elif isinstance(self.nocoh, int):
@@ -138,6 +143,7 @@ class PhysBuilder_1:
         elif isinstance(self.nocoh, str):
             nocoh = types.IntegerOrJump.from_mcnp(self.nocoh)
 
+        ispn = None
         if isinstance(self.ispn, types.Integer):
             ispn = self.ispn
         elif isinstance(self.ispn, int):
@@ -145,6 +151,7 @@ class PhysBuilder_1:
         elif isinstance(self.ispn, str):
             ispn = types.IntegerOrJump.from_mcnp(self.ispn)
 
+        nodop = None
         if isinstance(self.nodop, types.Integer):
             nodop = self.nodop
         elif isinstance(self.nodop, int):
@@ -152,6 +159,7 @@ class PhysBuilder_1:
         elif isinstance(self.nodop, str):
             nodop = types.IntegerOrJump.from_mcnp(self.nodop)
 
+        fism = None
         if isinstance(self.fism, types.Integer):
             fism = self.fism
         elif isinstance(self.fism, int):

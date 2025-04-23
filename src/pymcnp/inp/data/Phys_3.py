@@ -78,23 +78,29 @@ class Phys_3(DataOption, keyword='phys:h'):
             InpError: SEMANTICS_OPTION.
         """
 
-        if tabl is None or not (isisntance(tabl, types.Jump) or tabl == -1 or tabl >= 0):
+        if tabl is not None and not (isinstance(tabl, types.Jump) or tabl == -1 or tabl >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tabl)
-        if istrg is None or not (isinstance(istrg, types.Jump) or istrg in {0, 1}):
+        if istrg is not None and not (isinstance(istrg, types.Jump) or istrg in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, istrg)
-        if recl is None or not (isisntance(recl, types.Jump) or 0 <= recl <= 1):
+        if recl is not None and not (isinstance(recl, types.Jump) or 0 <= recl <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, recl)
-        if i_mcs_model is None or (isinstance(i_mcs_model, types.Jump) or i_mcs_model in {-1, 0, 1, 2}):
+        if i_mcs_model is not None and not (
+            isinstance(i_mcs_model, types.Jump) or i_mcs_model in {-1, 0, 1, 2}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
-        if i_int_model is None or (isinstance(i_int_model, types.Jump) or i_int_model in {-1, 0, 1, 2}):
+        if i_int_model is not None and not (
+            isinstance(i_int_model, types.Jump) or i_int_model in {-1, 0, 1, 2}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_int_model)
-        if i_els_model is None or (isinstance(i_els_model, types.Jump) or i_els_model in {-1, 0}):
+        if i_els_model is not None and not (
+            isinstance(i_els_model, types.Jump) or i_els_model in {-1, 0}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_els_model)
-        if efac is None or not (isinstance(efac, types.Jump) or 0.8 <= efac <= 0.99):
+        if efac is not None and not (isinstance(efac, types.Jump) or 0.8 <= efac <= 0.99):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, efac)
-        if ckvnum is None or not (isisntance(ckvnum, types.Jump) or 0 <= ckvnum < 1):
+        if ckvnum is not None and not (isinstance(ckvnum, types.Jump) or 0 <= ckvnum < 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ckvnum)
-        if drp is None or not (isinstance(drp, types.Jump) or drp >= 0 or drp == -1):
+        if drp is not None and not (isinstance(drp, types.Jump) or drp >= 0 or drp == -1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, drp)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -165,6 +171,7 @@ class PhysBuilder_3:
             ``Phys_3`` for ``PhysBuilder_3``.
         """
 
+        emax = None
         if isinstance(self.emax, types.Real):
             emax = self.emax
         elif isinstance(self.emax, float) or isinstance(self.emax, int):
@@ -172,6 +179,7 @@ class PhysBuilder_3:
         elif isinstance(self.emax, str):
             emax = types.RealOrJump.from_mcnp(self.emax)
 
+        ean = None
         if isinstance(self.ean, types.Real):
             ean = self.ean
         elif isinstance(self.ean, float) or isinstance(self.ean, int):
@@ -179,6 +187,7 @@ class PhysBuilder_3:
         elif isinstance(self.ean, str):
             ean = types.RealOrJump.from_mcnp(self.ean)
 
+        tabl = None
         if isinstance(self.tabl, types.Real):
             tabl = self.tabl
         elif isinstance(self.tabl, float) or isinstance(self.tabl, int):
@@ -186,6 +195,7 @@ class PhysBuilder_3:
         elif isinstance(self.tabl, str):
             tabl = types.RealOrJump.from_mcnp(self.tabl)
 
+        istrg = None
         if isinstance(self.istrg, types.Integer):
             istrg = self.istrg
         elif isinstance(self.istrg, int):
@@ -193,6 +203,7 @@ class PhysBuilder_3:
         elif isinstance(self.istrg, str):
             istrg = types.IntegerOrJump.from_mcnp(self.istrg)
 
+        recl = None
         if isinstance(self.recl, types.Real):
             recl = self.recl
         elif isinstance(self.recl, float) or isinstance(self.recl, int):
@@ -200,6 +211,7 @@ class PhysBuilder_3:
         elif isinstance(self.recl, str):
             recl = types.RealOrJump.from_mcnp(self.recl)
 
+        i_mcs_model = None
         if isinstance(self.i_mcs_model, types.Integer):
             i_mcs_model = self.i_mcs_model
         elif isinstance(self.i_mcs_model, int):
@@ -207,6 +219,7 @@ class PhysBuilder_3:
         elif isinstance(self.i_mcs_model, str):
             i_mcs_model = types.IntegerOrJump.from_mcnp(self.i_mcs_model)
 
+        i_int_model = None
         if isinstance(self.i_int_model, types.Integer):
             i_int_model = self.i_int_model
         elif isinstance(self.i_int_model, int):
@@ -214,6 +227,7 @@ class PhysBuilder_3:
         elif isinstance(self.i_int_model, str):
             i_int_model = types.IntegerOrJump.from_mcnp(self.i_int_model)
 
+        i_els_model = None
         if isinstance(self.i_els_model, types.Integer):
             i_els_model = self.i_els_model
         elif isinstance(self.i_els_model, int):
@@ -221,6 +235,7 @@ class PhysBuilder_3:
         elif isinstance(self.i_els_model, str):
             i_els_model = types.IntegerOrJump.from_mcnp(self.i_els_model)
 
+        efac = None
         if isinstance(self.efac, types.Real):
             efac = self.efac
         elif isinstance(self.efac, float) or isinstance(self.efac, int):
@@ -228,6 +243,7 @@ class PhysBuilder_3:
         elif isinstance(self.efac, str):
             efac = types.RealOrJump.from_mcnp(self.efac)
 
+        ckvnum = None
         if isinstance(self.ckvnum, types.Real):
             ckvnum = self.ckvnum
         elif isinstance(self.ckvnum, float) or isinstance(self.ckvnum, int):
@@ -235,6 +251,7 @@ class PhysBuilder_3:
         elif isinstance(self.ckvnum, str):
             ckvnum = types.RealOrJump.from_mcnp(self.ckvnum)
 
+        drp = None
         if isinstance(self.drp, types.Real):
             drp = self.drp
         elif isinstance(self.drp, float) or isinstance(self.drp, int):

@@ -20,7 +20,7 @@ class Event(PtracOption, keyword='event'):
         'settings': types.Tuple[types.String],
     }
 
-    _REGEX = re.compile(rf'\Aevent ((?:{types.String._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aevent((?: {types.String._REGEX.pattern})+?)\Z')
 
     def __init__(self, settings: types.Tuple[types.String]):
         """

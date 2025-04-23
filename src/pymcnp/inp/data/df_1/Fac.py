@@ -33,7 +33,9 @@ class Fac(Df_1Option, keyword='fac'):
             InpError: SEMANTICS_OPTION.
         """
 
-        if normalization is None or not (normalization >= -3):
+        if normalization is None or not (
+            isinstance(normalization, types.Jump) or normalization.value >= -3
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, normalization)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
