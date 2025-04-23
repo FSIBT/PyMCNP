@@ -30,10 +30,7 @@ class Ksen(DataOption, keyword='ksen'):
     )
 
     def __init__(
-        self,
-        suffix: types.Integer,
-        sen: types.String,
-        options: types.Tuple[ksen.KsenOption] = None,
+        self, suffix: types.Integer, sen: types.String, options: types.Tuple[ksen.KsenOption] = None
     ):
         """
         Initializes ``Ksen``.

@@ -17,12 +17,20 @@ def TABS(t):
     return t * '    '
 
 
-def CAMEL(name: str) -> str:
-    name = re.sub('/', '_', name)
-    if name:
-        return name[0].upper() + name[1:]
+def CAMEL(name: str, more: str = '') -> str:
+    if more:
+        if '_' in name:
+            name = CAMEL(name)
+            return name.split('_')[0] + more + '_' + name.split('_')[1]
+        else:
+            return CAMEL(name) + more
     else:
-        return ''
+        name = re.sub('/', '_', name)
+
+        if name:
+            return name[0].upper() + name[1:]
+        else:
+            return ''
 
 
 def SNAKE(name: str) -> str:
@@ -52,12 +60,22 @@ def ATTRS_REGEX(element):
             elif attribute.type == 'types.Boolean':
                 o += f'( {attribute.restriction})'
             else:
-                o += f'( {{{attribute.type}._REGEX.pattern}})'
+                if attribute.can_paren:
+                    o += f'( {{{attribute.type}._REGEX.pattern}}| [(]{{{attribute.type}._REGEX.pattern}}[)])'
+                else:
+                    o += f'( {{{attribute.type}._REGEX.pattern}})'
 
         if attribute.optional:
             o += '?'
 
     return o
+
+
+def GET_REGEX(element):
+    if element.regex:
+        return element.regex
+    else:
+        return rf"{element.mnemonic}{r"(\d+)" if has_suffix(element) else ""}{r":(\S+)" if has_designator(element) else ""}{ATTRS_REGEX(element)}"
 
 
 def ATTRS_DATACLASS(element, t):
@@ -251,13 +269,13 @@ def INIT(element):
 from ._option import {CAMEL(element.name)}Option
 {''.join(f"from . import {SNAKE(option.name)}\n" if option.options else "" for option in element.options)[:-1]}
 {''.join(f'from .{CAMEL(option.name)} import {CAMEL(option.name)}\n' for option in element.options)[:-1]}
-{''.join(f'from .{CAMEL(option.name)} import {CAMEL(option.name).split('_')[0]}Builder{f"_{CAMEL(option.name).split('_')[1]}" if len(CAMEL(option.name).split('_')) - 1 else ""}\n' for option in element.options)[:-1]}
+{''.join(f'from .{CAMEL(option.name)} import {CAMEL(option.name, "Builder")}\n' for option in element.options)[:-1]}
 
 __all__ = [
     "{CAMEL(element.name)}Option",
     {''.join(f'\t"{SNAKE(option.name)}",\n' if option.options else "" for option in element.options).strip()}
     {''.join(f'\t"{CAMEL(option.name)}",\n' for option in element.options).strip()}
-    {''.join(f'\t"{CAMEL(option.name).split('_')[0]}Builder{f"_{CAMEL(option.name).split('_')[1]}" if len(CAMEL(option.name).split('_')) - 1 else ""}",\n' for option in element.options)[:-1].strip()}
+    {''.join(f'\t"{CAMEL(option.name, "Builder")}",\n' for option in element.options).strip()}
 ]
 """[1:-1]
 
@@ -283,7 +301,7 @@ class {CAMEL(element.name)}Option(Option):
     _KEYWORD = ""
     _SUBCLASSES = {{}}
     _REGEX = re.compile(
-        rf"{r'|'.join(f"{option.mnemonic}{r'(\d+)' if has_suffix(option) else ''}{r':(\S+)' if has_designator(option) else ''}{ATTRS_REGEX(option)}" for option in sorted(element.options, reverse=True, key=lambda scheme: len(scheme.mnemonic)))}"
+        rf"{r'|'.join(GET_REGEX(option) for option in sorted(element.options, reverse=True, key=lambda scheme: len(scheme.mnemonic)))}"
     )
 
     def __init_subclass__(cls, keyword: str):
@@ -326,7 +344,7 @@ class {CAMEL(element.name)}({f"{CAMEL(parent_name)}Option, keyword='{element.mne
 
     _ATTRS = {{{ATTRS_DICT(element)}}}
 
-    _REGEX = re.compile(rf"\\A{element.mnemonic}{r"(\d+)" if has_suffix(element) else ""}{r":(\S+)" if has_designator(element) else ""}{ATTRS_REGEX(element)}\\Z")
+    _REGEX = re.compile(rf"\\A{GET_REGEX(element)}\\Z")
     
     def __init__(self, {ATTRS_PARAM(element)}):
         """
@@ -346,7 +364,7 @@ class {CAMEL(element.name)}({f"{CAMEL(parent_name)}Option, keyword='{element.mne
 
     {element.extra.strip()}
 @dataclasses.dataclass
-class {CAMEL(element.name).split('_')[0]}Builder{f"_{CAMEL(element.name).split('_')[1]}" if len(CAMEL(element.name).split('_')) - 1 else ""}:
+class {CAMEL(element.name, "Builder")}:
     """
     Builds ``{CAMEL(element.name)}``.
 
@@ -358,10 +376,10 @@ class {CAMEL(element.name).split('_')[0]}Builder{f"_{CAMEL(element.name).split('
 
     def build(self):
         """
-        Builds ``{CAMEL(element.name).split('_')[0]}Builder{f"_{CAMEL(element.name).split('_')[1]}" if len(CAMEL(element.name).split('_')) - 1 else ""}`` into ``{CAMEL(element.name)}``.
+        Builds ``{CAMEL(element.name, "Builder")}`` into ``{CAMEL(element.name)}``.
 
         Returns:
-            ``{CAMEL(element.name)}`` for ``{CAMEL(element.name).split('_')[0]}Builder{f"_{CAMEL(element.name).split('_')[1]}" if len(CAMEL(element.name).split('_')) - 1 else ""}``.
+            ``{CAMEL(element.name)}`` for ``{CAMEL(element.name, "Builder")}``.
         """
 
         {ATTRS_BUILDER(element, 2)}

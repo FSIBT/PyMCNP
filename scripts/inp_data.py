@@ -1,9 +1,6 @@
 import typing
 
 
-GET = {}
-
-
 class AttributeScheme:
     """
     Stores INP attribute metadata.
@@ -26,6 +23,7 @@ class AttributeScheme:
         restriction: str = '',
         optional: bool = False,
         extra: str = '',
+        can_paren: bool = False,
     ):
         """
         Initializes ``AttributeScheme``.
@@ -47,8 +45,7 @@ class AttributeScheme:
         self.restriction: typing.Final[str] = restriction
         self.optional: typing.Final[bool] = optional
         self.extra: typing.Final[str] = extra
-
-        GET[name] = self
+        self.can_paren: typing.Final[bool] = can_paren
 
 
 class ElementScheme:
@@ -72,6 +69,7 @@ class ElementScheme:
         attributes: tuple[AttributeScheme],
         options: tuple[any] = None,
         error: str = 'SEMANTICS_OPTION',
+        regex: str = '',
         extra: str = '',
     ):
         """
@@ -95,6 +93,7 @@ class ElementScheme:
         self.options: typing.Final[tuple[ElementScheme]] = options
         self.error: typing.Final[str] = error
         self.extra: typing.Final[str] = extra
+        self.regex: typing.Final[str] = regex
 
 
 cards = ElementScheme(
@@ -421,6 +420,7 @@ cards = ElementScheme(
                             description='Cell fill transformation number',
                             restriction='0 <= transformation <= 999',
                             optional=True,
+                            can_paren=True,
                         ),
                     ),
                 ),
@@ -439,6 +439,7 @@ cards = ElementScheme(
                             type='types.Transformation_0',
                             description='Cell fill transformation',
                             optional=True,
+                            can_paren=True,
                         ),
                     ],
                 ),
@@ -457,6 +458,7 @@ cards = ElementScheme(
                             type='types.Transformation_1',
                             description='Cell fill transformation',
                             optional=True,
+                            can_paren=True,
                         ),
                     ],
                 ),
@@ -475,6 +477,7 @@ cards = ElementScheme(
                             type='types.Transformation_2',
                             description='Cell fill transformation',
                             optional=True,
+                            can_paren=True,
                         ),
                     ],
                 ),
@@ -493,6 +496,7 @@ cards = ElementScheme(
                             type='types.Transformation_3',
                             description='Cell fill transformation',
                             optional=True,
+                            can_paren=True,
                         ),
                     ],
                 ),
@@ -511,6 +515,7 @@ cards = ElementScheme(
                             type='types.Transformation_4',
                             description='Cell fill transformation',
                             optional=True,
+                            can_paren=True,
                         ),
                     ],
                 ),
@@ -544,6 +549,7 @@ cards = ElementScheme(
                             type='types.Integer',
                             description='Displacement vector origin',
                             optional=True,
+                            can_paren=True,
                         ),
                     ],
                 ),
@@ -2646,6 +2652,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='vol',
                     mnemonic='vol',
+                    regex='vol( no)?((?: {types.RealOrJump._REGEX.pattern})+?)',
                     attributes=[
                         AttributeScheme(
                             name='no',
@@ -4622,45 +4629,53 @@ cards = ElementScheme(
                             name='emax',
                             type='types.RealOrJump',
                             description='Upper limit for neutron energy',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='emcnf',
                             type='types.RealOrJump',
                             description='Analog energy limit',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='iunr',
                             type='types.RealOrJump',
                             description='Unresolved resonanace controls',
-                            restriction='iunr in {0, 1}',
+                            restriction='isinstance(iunr, types.Jump) or iunr in {0, 1}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='coilf',
                             type='types.RealOrJump',
                             description='Light-ion and heavy-ion recoil and NCIA control',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='cutn',
                             type='types.IntegerOrJump',
                             description='Table-based physics cutoff controls',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='ngam',
                             type='types.IntegerOrJump',
                             description='Secondary photon production controls',
-                            restriction='ngam in {0, 1, 2}',
+                            restriction='isinstance(ngam, types.Jump) or ngam in {0, 1, 2}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='i_int_model',
                             type='types.IntegerOrJump',
                             description='Treataement of nuclear interactions controls',
-                            restriction='i_int_model in {-1, 0, 1, 2}',
+                            restriction='isinstance(i_int_model, types.Jump) or i_int_model in {-1, 0, 1, 2}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='i_els_model',
                             type='types.IntegerOrJump',
                             description='Treatment of nuclear elastic scattering controls',
-                            restriction='i_els_model in {-1, 0}',
+                            restriction='isinstance(i_els_model, types.Jump) or i_els_model in {-1, 0}',
+                            optional=True,
                         ),
                     ],
                 ),
@@ -4673,36 +4688,42 @@ cards = ElementScheme(
                             name='emcpf',
                             type='types.RealOrJump',
                             description='Upper energy limit for photon treatment',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='ides',
                             type='types.IntegerOrJump',
                             description='Generation of elections by photon controls',
-                            restriction='isinstance(types.Jump, ides) and ides in {0, 1}',
+                            restriction='isinstance(ides.value, types.Jump) or ides.value in {0, 1}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='nocoh',
                             type='types.IntegerOrJump',
                             description='Coherent Thomson scattering controls',
-                            restriction='isinstance(types.Jump, nocoh) and nocoh in {0, 1}',
+                            restriction='isinstance(nocoh.value, types.Jump) or nocoh.value in {0, 1}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='ispn',
                             type='types.IntegerOrJump',
                             description='Photonuclear particle production controls',
-                            restriction='isinstance(types.Jump, ispn) and ispn in {-1, 0, 1}',
+                            restriction='isinstance(ispn.value, types.Jump) or ispn.value in {-1, 0, 1}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='nodop',
                             type='types.IntegerOrJump',
                             description='Photon Doppler energy broadening controls',
-                            restriction='isinstance(types.Jump, nodop) and nodop in {0, 1}',
+                            restriction='isinstance(nodop.value, types.Jump) or nodop.value in {0, 1}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='fism',
                             type='types.IntegerOrJump',
                             description='Selection of photofission method controls',
-                            restriction='isinstance(types.Jump, fism) and fism in {0, 1}',
+                            restriction='isinstance(fism.value, types.Jump) or fism.value in {0, 1}',
+                            optional=True,
                         ),
                     ],
                 ),
@@ -4715,82 +4736,96 @@ cards = ElementScheme(
                             name='emax',
                             type='types.RealOrJump',
                             description='Upper limit for electron energy',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='ides',
                             type='types.IntegerOrJump',
                             description='Photon electron production controls',
-                            restriction='ides in {0, 1}',
+                            restriction='isinstance(ides, types.Jump) or ides in {0, 1}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='iphot',
                             type='types.IntegerOrJump',
                             description='Electron photon production controls',
-                            restriction='iphot in {0, 1}',
+                            restriction='isinstance(iphot, types.Jump) or iphot in {0, 1}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='ibad',
                             type='types.IntegerOrJump',
                             description='Bremsstrahlung angular distribution method controls',
-                            restriction='ibad in {0, 1}',
+                            restriction='isinstance(ibad, types.Jump) or ibad in {0, 1}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='istrg',
                             type='types.IntegerOrJump',
                             description='Electron continuous-energy straggling controls',
-                            restriction='istrg in {0, 1}',
+                            restriction='isinstance(istrg, types.Jump) or istrg in {0, 1}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='bnum',
                             type='types.RealOrJump',
                             description='Bremsstrahlung photon production controls',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='xnum',
                             type='types.RealOrJump',
                             description='Sampling of electron-induced x-rays controls',
-                            restriction='xnum >= 0',
+                            restriction='isinstance(xnum, types.Jump) or xnum >= 0',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='rnok',
                             type='types.IntegerOrJump',
                             description='Knock-on electron creation controls',
-                            restriction='rnok >= 0',
+                            restriction='isinstance(rnok, types.Jump) or rnok >= 0',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='enum',
                             type='types.IntegerOrJump',
                             description='Photon-induced secondary electron creation controls',
-                            restriction='enum >= 0',
+                            restriction='isinstance(enum, types.Jump) or enum >= 0',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='numb',
                             type='types.IntegerOrJump',
                             description='Bremsstrahlung electron creation controls',
-                            restriction='i_mcs_model >= 0',
+                            restriction='isinstance(i_mcs_model, types.Jump) or i_mcs_model >= 0',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='i_mcs_model',
                             type='types.IntegerOrJump',
                             description='Choice of Coulomb scattering model controls',
-                            restriction='i_mcs_model in {-1, 0}',
+                            restriction='isinstance(i_mcs_model, types.Jump) or i_mcs_model in {-1, 0}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='efac',
                             type='types.RealOrJump',
                             description='Stopping power energy spacing controls',
-                            restriction='0.8 <= efac <= 0.99',
+                            restriction='isinstance(efac, types.Jump) or 0.8 <= efac <= 0.99',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='electron_method_boundary',
                             type='types.RealOrJump',
                             description='Single-event transport start sontrols',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='ckvnum',
                             type='types.RealOrJump',
                             description='Crenkov photon emission scalar',
-                            restriction='0 <= ckvnum < 1',
+                            restriction='isinstance(ckvnum, types.Jump) or 0 <= ckvnum < 1',
+                            optional=True,
                         ),
                     ],
                 ),
@@ -4803,63 +4838,76 @@ cards = ElementScheme(
                             name='emax',
                             type='types.RealOrJump',
                             description='Upper proton energy limit',
+                            optional=True,
                         ),
                         AttributeScheme(
-                            name='ean', type='types.RealOrJump', description='Analog energy limit'
+                            name='ean',
+                            type='types.RealOrJump',
+                            description='Analog energy limit',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='tabl',
                             type='types.RealOrJump',
                             description='Table-based physics cutoff',
-                            restriction='tabl == -1 or tabl >= 0',
+                            restriction='isinstance(tabl, types.Jump) or tabl == -1 or tabl >= 0',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='istrg',
                             type='types.IntegerOrJump',
                             description='Charged-particle straggling controls',
-                            restriction='istrg in {0, 1}',
+                            restriction='isinstance(istrg, types.Jump) or istrg in {0, 1}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='recl',
                             type='types.RealOrJump',
                             description='Light ion recoil control',
-                            restriction='0 <= recl <= 1',
+                            restriction='isinstance(recl, types.Jump) or 0 <= recl <= 1',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='i_mcs_model',
                             type='types.IntegerOrJump',
                             description='Choice of Coulomb scattering model controls',
-                            restriction='i_mcs_model in {-1, 0, 1, 2}',
+                            restriction='isinstance(i_mcs_model, types.Jump) or i_mcs_model in {-1, 0, 1, 2}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='i_int_model',
                             type='types.IntegerOrJump',
                             description='Treatment of nuclear interactions controls',
-                            restriction='i_int_model in {-1, 0, 1, 2}',
+                            restriction='isinstance(i_int_model, types.Jump) or i_int_model in {-1, 0, 1, 2}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='i_els_model',
                             type='types.IntegerOrJump',
                             description='Treatment of nuclear elastic scattering controls',
-                            restriction='i_els_model in {-1, 0}',
+                            restriction='isinstance(i_els_model, types.Jump) or i_els_model in {-1, 0}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='efac',
                             type='types.RealOrJump',
                             description='Stopping power energy spacing',
-                            restriction='0.8 <= efac <= 0.99',
+                            restriction='isinstance(efac, types.Jump) or 0.8 <= efac <= 0.99',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='ckvnum',
                             type='types.RealOrJump',
                             description='Crenkov photon emission scalar',
-                            restriction='0 <= ckvnum < 1',
+                            restriction='isinstance(ckvnum, types.Jump) or 0 <= ckvnum < 1',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='drp',
                             type='types.RealOrJump',
                             description='Lower energy delta-ray cutoff',
-                            restriction='drp >= 0 or drp == -1',
+                            restriction='isinstance(drp, types.Jump) or drp >= 0 or drp == -1',
+                            optional=True,
                         ),
                     ],
                 ),
@@ -4877,59 +4925,69 @@ cards = ElementScheme(
                             name='emax',
                             type='types.RealOrJump',
                             description='Upper energy limit',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='istrg',
                             type='types.IntegerOrJump',
                             description='Charged-particle straggling controls',
-                            restriction='istrg in {0, 1}',
+                            restriction='isinstance(istrg, types.Jump) or istrg in {0, 1}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='xmunum',
                             type='types.IntegerOrJump',
                             description='Selection of muonic x-ray controls',
-                            restriction='xmunum in {-1, 1}',
+                            restriction='isinstance(xmunum, types.Jump) or xmunum in {-1, 1}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='xmugam',
                             type='types.RealOrJump',
                             description='Probability for emitting k-shell photon',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='i_mcs_model',
                             type='types.IntegerOrJump',
                             description='Choice of Coulomb scattering model controls',
-                            restriction='i_mcs_model in {-1, 0, 1, 2}',
+                            restriction='isinstance(i_mcs_model, types.Jump) or i_mcs_model in {-1, 0, 1, 2}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='i_int_model',
                             type='types.IntegerOrJump',
                             description='Treatment of nuclear interactions controls',
-                            restriction='i_int_model in {-1, 0, 1, 2}',
+                            restriction='isinstance(i_int_model, types.Jump) or i_int_model in {-1, 0, 1, 2}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='i_els_model',
                             type='types.IntegerOrJump',
                             description='Treatment of nuclear elastic scattering controls',
-                            restriction='i_els_model in {-1, 0}',
+                            restriction='isinstance(i_els_model, types.Jump) or i_els_model in {-1, 0}',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='efac',
                             type='types.RealOrJump',
                             description='Stopping power energy spacing',
-                            restriction='0.8 <= efac <= 0.99',
+                            restriction='isinstance(efac, types.Jump) or 0.8 <= efac <= 0.99',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='ckvnum',
                             type='types.RealOrJump',
                             description='Crenkov photon emission scalar',
-                            restriction='0 <= ckvnum < 1',
+                            restriction='isinstance(ckvnum, types.Jump) or 0 <= ckvnum < 1',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='drp',
                             type='types.RealOrJump',
                             description='Lower energy delta-ray cutoff',
-                            restriction='drp >= 0 or drp == -1',
+                            restriction='isinstance(drp, types.Jump) or drp >= 0 or drp == -1',
+                            optional=True,
                         ),
                     ],
                 ),
@@ -5763,7 +5821,7 @@ cards = ElementScheme(
                                     name='number',
                                     type='types.IntegerOrJump',
                                     description='Cell number',
-                                    restriction='0 <= number <= 99_999_999',
+                                    restriction='isinstance(number.value, types.Jump) or 0 <= number.value <= 99_999_999',
                                 ),
                             ],
                         ),
@@ -6191,6 +6249,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='sp_0',
                     mnemonic='sp',
+                    regex='sp(\\d+)( [dcvw])?((?: {types.RealOrJump._REGEX.pattern})+?)',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -6239,6 +6298,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='sb_0',
                     mnemonic='sb',
+                    regex='sb(\\d+)( [dcvw])?((?: {types.RealOrJump._REGEX.pattern})+?)',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -6286,6 +6346,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='ds_0',
                     mnemonic='ds',
+                    regex='ds(\\d+)( [hls])?((?: {types.RealOrJump._REGEX.pattern})+?)',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -6310,6 +6371,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='ds_1',
                     mnemonic='ds',
+                    regex='ds(\\d+) t((?: {types.IndependentDependent._REGEX.pattern})+?)',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -6328,6 +6390,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='ds_2',
                     mnemonic='ds',
+                    regex='ds(\\d+) q((?: {types.IndependentDependent._REGEX.pattern})+?)',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -6601,7 +6664,7 @@ cards = ElementScheme(
                             name='nsrck',
                             type='types.IntegerOrJump',
                             description='Number of source histories per cycle',
-                            restriction='nsrck >= 0',
+                            restriction='isinstance(nsrck.value, types.Jump) or nsrck.value >= 0',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -6620,35 +6683,35 @@ cards = ElementScheme(
                             name='kct',
                             type='types.IntegerOrJump',
                             description='Total number of cycles to be done',
-                            restriction='kct > 0',
+                            restriction='isinstance(kct.value, types.Jump) or kct.value > 0',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='msrk',
                             type='types.Integer',
                             description='Number of source points to allocate for',
-                            restriction='msrk < 40 * nsrck',
+                            restriction='isinstance(msrk.value, types.Jump) or msrk.value < 40 * (1000 if isinstance(nsrck.value, types.Jump) else nsrck.value)',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='knrm',
                             type='types.IntegerOrJump',
                             description='Normalization of tallies setting',
-                            restriction='knrm in {0, 1}',
+                            restriction='isinstance(knrm.value, types.Jump) or knrm.value in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='mrkp',
                             type='types.IntegerOrJump',
                             description='Maximum number of cycle values on MCTAL or RUNTPE files',
-                            restriction='mrkp > 0',
+                            restriction='isinstance(mrkp.value, types.Jump) or mrkp.value > 0',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='kc8',
                             type='types.IntegerOrJump',
                             description='Number of cylces for average setting',
-                            restriction='kc8 in {0, 1}',
+                            restriction='isinstance(kc8.value, types.Jump) or kc8.value in {0, 1}',
                             optional=True,
                         ),
                     ],
@@ -6885,6 +6948,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='f_0',
                     mnemonic='f',
+                    regex='f(\\d*[123467]):(\\S+)((?: {types.IntegerOrJump._REGEX.pattern})+?)( {types.String._REGEX.pattern})?',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -6913,6 +6977,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='f_1',
                     mnemonic='f',
+                    regex='f(\\d*[5]):(\\S+)((?: {types.Sphere._REGEX.pattern})+?)( {types.String._REGEX.pattern})?',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -6941,6 +7006,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='f_2',
                     mnemonic='f',
+                    regex='f(\\d*[5])([xyz]):(\\S+)((?: {types.Ring._REGEX.pattern})+?)( {types.String._REGEX.pattern})?',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -7187,6 +7253,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='f_3',
                     mnemonic='f',
+                    regex='f(\\d*[8]):(\\S+)((?: {types.IntegerOrJump._REGEX.pattern})+?)( {types.String._REGEX.pattern})?',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -7215,6 +7282,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='fc',
                     mnemonic='fc',
+                    regex='fc(\\d+)( [\\S\\s]+)',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -7489,6 +7557,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='fm',
                     mnemonic='fm',
+                    regex='fm(\\d+)( [\\S\\s]+)',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -7507,6 +7576,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='de',
                     mnemonic='de',
+                    regex='de(\\d+)( (?:log|lin))?((?: {types.RealOrJump._REGEX.pattern})+?)',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -7531,6 +7601,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='df_0',
                     mnemonic='df',
+                    regex='df(\\d+)( (?:log|lin))?((?: {types.RealOrJump._REGEX.pattern})+?)',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -7577,7 +7648,7 @@ cards = ElementScheme(
                                     name='units',
                                     type='types.IntegerOrJump',
                                     description='Control units',
-                                    restriction='units in {1, 2}',
+                                    restriction='isinstance(units, types.Jump) or units.value in {1, 2}',
                                 )
                             ],
                         ),
@@ -7589,7 +7660,7 @@ cards = ElementScheme(
                                     name='normalization',
                                     type='types.IntegerOrJump',
                                     description='Normalization factor for dose',
-                                    restriction='normalization >= -3',
+                                    restriction='isinstance(normalization, types.Jump) or normalization.value >= -3',
                                 )
                             ],
                         ),
@@ -7601,21 +7672,19 @@ cards = ElementScheme(
                                     name='function',
                                     type='types.IntegerOrJump',
                                     description='Standard dose function',
-                                    restriction='function in {10, 20, 31, 32, 33, 34, 35, 40, 99}',
+                                    restriction='isinstance(function, types.Jump) or function.value in {10, 20, 31, 32, 33, 34, 35, 40, 99}',
                                 )
                             ],
                         ),
                         ElementScheme(
-                            name='int',
-                            mnemonic='int',
-                            attributes=[
-                                AttributeScheme(
-                                    name='interpolation',
-                                    type='types.String',
-                                    description='Energy interpolation',
-                                    restriction='interpolation in {"log", "lin"}',
-                                )
-                            ],
+                            name='log',
+                            mnemonic='log',
+                            attributes=[],
+                        ),
+                        ElementScheme(
+                            name='lin',
+                            mnemonic='lin',
+                            attributes=[],
                         ),
                     ],
                 ),
@@ -7752,6 +7821,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='fu',
                     mnemonic='fu',
+                    regex='fu(\\d+)((?: {types.RealOrJump._REGEX.pattern})+?)( nt)?( c)?',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -7784,6 +7854,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='ft',
                     mnemonic='ft',
+                    regex='ft(\\d+)( [\\S\\s]+)',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -9953,7 +10024,6 @@ cards = ElementScheme(
                                     name='settings',
                                     type='types.Tuple[types.String]',
                                     description='Specifies the type of events written to the PTRAC file',
-                                    restriction='all(map(lambda setting: setting in {"src", "bnk", "sur", "col", "ter", "cap"}, settings))',
                                 ),
                             ],
                         ),

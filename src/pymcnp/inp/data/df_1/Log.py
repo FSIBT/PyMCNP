@@ -2,9 +2,9 @@ import re
 import typing
 import dataclasses
 
+
 from ._option import Df_1Option
 from ....utils import types
-from ....utils import errors
 
 
 class Log(Df_1Option, keyword='log'):
@@ -53,5 +53,3 @@ class LogBuilder:
         """
 
         return Log()
-
-

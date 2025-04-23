@@ -16,13 +16,11 @@ __all__ = [
     'Iu',
     'Fac',
     'Ic',
-    'Int',
     'Log',
     'Lin',
     'IuBuilder',
     'FacBuilder',
     'IcBuilder',
-    'IntBuilder',
     'LogBuilder',
     'LinBuilder',
 ]

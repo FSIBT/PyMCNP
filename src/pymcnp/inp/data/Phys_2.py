@@ -106,7 +106,9 @@ class Phys_2(DataOption, keyword='phys:e'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, enum)
         if numb is not None and not (isinstance(i_mcs_model, types.Jump) or i_mcs_model >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numb)
-        if i_mcs_model is not None and not (isinstance(i_mcs_model, types.Jump) or i_mcs_model in {-1, 0}):
+        if i_mcs_model is not None and not (
+            isinstance(i_mcs_model, types.Jump) or i_mcs_model in {-1, 0}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
         if efac is not None and not (isinstance(efac, types.Jump) or 0.8 <= efac <= 0.99):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, efac)
@@ -193,6 +195,7 @@ class PhysBuilder_2:
             ``Phys_2`` for ``PhysBuilder_2``.
         """
 
+        emax = None
         if isinstance(self.emax, types.Real):
             emax = self.emax
         elif isinstance(self.emax, float) or isinstance(self.emax, int):
@@ -200,6 +203,7 @@ class PhysBuilder_2:
         elif isinstance(self.emax, str):
             emax = types.RealOrJump.from_mcnp(self.emax)
 
+        ides = None
         if isinstance(self.ides, types.Integer):
             ides = self.ides
         elif isinstance(self.ides, int):
@@ -207,6 +211,7 @@ class PhysBuilder_2:
         elif isinstance(self.ides, str):
             ides = types.IntegerOrJump.from_mcnp(self.ides)
 
+        iphot = None
         if isinstance(self.iphot, types.Integer):
             iphot = self.iphot
         elif isinstance(self.iphot, int):
@@ -214,6 +219,7 @@ class PhysBuilder_2:
         elif isinstance(self.iphot, str):
             iphot = types.IntegerOrJump.from_mcnp(self.iphot)
 
+        ibad = None
         if isinstance(self.ibad, types.Integer):
             ibad = self.ibad
         elif isinstance(self.ibad, int):
@@ -221,6 +227,7 @@ class PhysBuilder_2:
         elif isinstance(self.ibad, str):
             ibad = types.IntegerOrJump.from_mcnp(self.ibad)
 
+        istrg = None
         if isinstance(self.istrg, types.Integer):
             istrg = self.istrg
         elif isinstance(self.istrg, int):
@@ -228,6 +235,7 @@ class PhysBuilder_2:
         elif isinstance(self.istrg, str):
             istrg = types.IntegerOrJump.from_mcnp(self.istrg)
 
+        bnum = None
         if isinstance(self.bnum, types.Real):
             bnum = self.bnum
         elif isinstance(self.bnum, float) or isinstance(self.bnum, int):
@@ -235,6 +243,7 @@ class PhysBuilder_2:
         elif isinstance(self.bnum, str):
             bnum = types.RealOrJump.from_mcnp(self.bnum)
 
+        xnum = None
         if isinstance(self.xnum, types.Real):
             xnum = self.xnum
         elif isinstance(self.xnum, float) or isinstance(self.xnum, int):
@@ -242,6 +251,7 @@ class PhysBuilder_2:
         elif isinstance(self.xnum, str):
             xnum = types.RealOrJump.from_mcnp(self.xnum)
 
+        rnok = None
         if isinstance(self.rnok, types.Integer):
             rnok = self.rnok
         elif isinstance(self.rnok, int):
@@ -249,6 +259,7 @@ class PhysBuilder_2:
         elif isinstance(self.rnok, str):
             rnok = types.IntegerOrJump.from_mcnp(self.rnok)
 
+        enum = None
         if isinstance(self.enum, types.Integer):
             enum = self.enum
         elif isinstance(self.enum, int):
@@ -256,6 +267,7 @@ class PhysBuilder_2:
         elif isinstance(self.enum, str):
             enum = types.IntegerOrJump.from_mcnp(self.enum)
 
+        numb = None
         if isinstance(self.numb, types.Integer):
             numb = self.numb
         elif isinstance(self.numb, int):
@@ -263,6 +275,7 @@ class PhysBuilder_2:
         elif isinstance(self.numb, str):
             numb = types.IntegerOrJump.from_mcnp(self.numb)
 
+        i_mcs_model = None
         if isinstance(self.i_mcs_model, types.Integer):
             i_mcs_model = self.i_mcs_model
         elif isinstance(self.i_mcs_model, int):
@@ -270,6 +283,7 @@ class PhysBuilder_2:
         elif isinstance(self.i_mcs_model, str):
             i_mcs_model = types.IntegerOrJump.from_mcnp(self.i_mcs_model)
 
+        efac = None
         if isinstance(self.efac, types.Real):
             efac = self.efac
         elif isinstance(self.efac, float) or isinstance(self.efac, int):
@@ -277,6 +291,7 @@ class PhysBuilder_2:
         elif isinstance(self.efac, str):
             efac = types.RealOrJump.from_mcnp(self.efac)
 
+        electron_method_boundary = None
         if isinstance(self.electron_method_boundary, types.Real):
             electron_method_boundary = self.electron_method_boundary
         elif isinstance(self.electron_method_boundary, float) or isinstance(
@@ -286,6 +301,7 @@ class PhysBuilder_2:
         elif isinstance(self.electron_method_boundary, str):
             electron_method_boundary = types.RealOrJump.from_mcnp(self.electron_method_boundary)
 
+        ckvnum = None
         if isinstance(self.ckvnum, types.Real):
             ckvnum = self.ckvnum
         elif isinstance(self.ckvnum, float) or isinstance(self.ckvnum, int):

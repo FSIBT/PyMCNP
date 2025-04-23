@@ -19,21 +19,14 @@ def SNAKE(name: str) -> str:
 
 
 def TEST(element, mod, parent_name):
-    return f'''
+    return f"""
 class Test_{CAMEL(parent_name)}{CAMEL(element.name)}:
-    """
-    Tests ``{CAMEL(parent_name)}{CAMEL(element.name)}``.
-    """
 
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        """
-        Tests ``{CAMEL(parent_name)}{CAMEL(element.name)}.from_mcnp``.
-        """
-
         element = pymcnp.inp.{f"{mod}." if mod else ""}{CAMEL(element.name)}
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
-'''[1:]
+"""[1:]
 
 
 path = pathlib.Path(__file__).parent / '..' / 'tests'

@@ -33,7 +33,10 @@ class Ic(Df_1Option, keyword='ic'):
             InpError: SEMANTICS_OPTION.
         """
 
-        if function is None or function.value not in {10, 20, 31, 32, 33, 34, 35, 40, 99}:
+        if function is None or not (
+            isinstance(function, types.Jump)
+            or function.value in {10, 20, 31, 32, 33, 34, 35, 40, 99}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, function)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

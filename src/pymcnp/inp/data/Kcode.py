@@ -72,15 +72,14 @@ class Kcode(DataOption, keyword='kcode'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kct)
         if msrk is not None and not (
             isinstance(msrk.value, types.Jump)
-            or isinstance(nsrck.value, types.Jump)
-            or msrk.value < 40 * nsrck.value
+            or msrk.value < 40 * (1000 if isinstance(nsrck.value, types.Jump) else nsrck.value)
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, msrk)
         if knrm is not None and not (isinstance(knrm.value, types.Jump) or knrm.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, knrm)
         if mrkp is not None and not (isinstance(mrkp.value, types.Jump) or mrkp.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mrkp)
-        if kc8 is not None and not (isinstance(mrkp.value, types.Jump) or kc8.value in {0, 1}):
+        if kc8 is not None and not (isinstance(kc8.value, types.Jump) or kc8.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kc8)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
