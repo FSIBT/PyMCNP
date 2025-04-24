@@ -34,16 +34,13 @@ class Option(_object.McnpElement_):
             sum(cls._SUBCLASSES.values(), []), reverse=True, key=lambda val: len(val._KEYWORD)
         ):
             try:
-                if subcls._REGEX.match(source):
+                if (tokens := subcls._REGEX.match(source)) and tokens[0] == source:
                     break
                 else:
                     continue
             except errors.InpError:
                 continue
         else:
-            raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
-
-        if not (tokens := subcls._REGEX.match(source)):
             raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         attrs = {}

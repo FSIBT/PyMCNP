@@ -15,7 +15,7 @@ class Block(DawwgOption, keyword='block'):
 
     Attributes:
         setting: Destination of key-value pairs.
-        options: Dictionary of dawwg block options.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
@@ -35,7 +35,7 @@ class Block(DawwgOption, keyword='block'):
 
         Parameters:
             setting: Destination of key-value pairs.
-            options: Dictionary of dawwg block options.
+            options: Dictionary of options.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -62,7 +62,7 @@ class BlockBuilder:
 
     Attributes:
         setting: Destination of key-value pairs.
-        options: Dictionary of dawwg block options.
+        options: Dictionary of options.
     """
 
     setting: str | int | types.IntegerOrJump
