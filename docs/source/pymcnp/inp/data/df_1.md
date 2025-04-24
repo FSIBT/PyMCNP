@@ -16,10 +16,17 @@
    :members:
 ```
 
-### ``Int`` Class
+### ``Log`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.df_1.Int
+.. autoclass:: pymcnp.inp.data.df_1.Log
+   :members:
+```
+
+### ``Lin`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.df_1.Lin
    :members:
 ```
 
@@ -46,10 +53,17 @@
    :members:
 ```
 
-### ``IntBuilder`` Class
+### ``LogBuilder`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.df_1.IntBuilder
+.. autoclass:: pymcnp.inp.data.df_1.LogBuilder
+   :members:
+```
+
+### ``LinBuilder`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.df_1.LinBuilder
    :members:
 ```
 

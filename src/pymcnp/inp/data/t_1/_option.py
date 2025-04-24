@@ -6,7 +6,7 @@ from ..._option import Option
 from ....utils import types
 
 
-class T_1Option(Option):
+class TOption_1(Option):
     """
     Represents generic INP t_1 options.
     """

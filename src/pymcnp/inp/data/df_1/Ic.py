@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from ._option import Df_1Option
+from ._option import DfOption_1
 from ....utils import types
 from ....utils import errors
 
 
-class Ic(Df_1Option, keyword='ic'):
+class Ic(DfOption_1, keyword='ic'):
     """
     Represents INP ic elements.
 

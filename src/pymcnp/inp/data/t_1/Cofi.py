@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from ._option import T_1Option
+from ._option import TOption_1
 from ....utils import types
 from ....utils import errors
 
 
-class Cofi(T_1Option, keyword='cofi'):
+class Cofi(TOption_1, keyword='cofi'):
     """
     Represents INP cofi elements.
 
