@@ -20,12 +20,12 @@ class Df_1(DataOption, keyword='df'):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'options': types.Tuple[df_1.Df_1Option],
+        'options': types.Tuple[df_1.DfOption_1],
     }
 
-    _REGEX = re.compile(rf'\Adf(\d+)((?: (?:{df_1.Df_1Option._REGEX.pattern}))+?)\Z')
+    _REGEX = re.compile(rf'\Adf(\d+)((?: (?:{df_1.DfOption_1._REGEX.pattern}))+?)\Z')
 
-    def __init__(self, suffix: types.Integer, options: types.Tuple[df_1.Df_1Option]):
+    def __init__(self, suffix: types.Integer, options: types.Tuple[df_1.DfOption_1]):
         """
         Initializes ``Df_1``.
 
@@ -49,7 +49,7 @@ class Df_1(DataOption, keyword='df'):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.options: typing.Final[types.Tuple[df_1.Df_1Option]] = options
+        self.options: typing.Final[types.Tuple[df_1.DfOption_1]] = options
 
 
 @dataclasses.dataclass
@@ -63,7 +63,7 @@ class DfBuilder_1:
     """
 
     suffix: str | int | types.Integer
-    options: list[str] | list[df_1.Df_1Option]
+    options: list[str] | list[df_1.DfOption_1]
 
     def build(self):
         """
@@ -82,10 +82,10 @@ class DfBuilder_1:
 
         options = []
         for item in self.options:
-            if isinstance(item, df_1.Df_1Option):
+            if isinstance(item, df_1.DfOption_1):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(df_1.Df_1Option.from_mcnp(item))
+                options.append(df_1.DfOption_1.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

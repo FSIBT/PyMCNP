@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import Df_1Option
+from ._option import DfOption_1
 from ....utils import types
 
 
-class Lin(Df_1Option, keyword='lin'):
+class Lin(DfOption_1, keyword='lin'):
     """
     Represents INP lin elements.
 

@@ -1,4 +1,4 @@
-from ._option import Df_1Option
+from ._option import DfOption_1
 
 from .Iu import Iu
 from .Fac import Fac
@@ -12,7 +12,7 @@ from .Log import LogBuilder
 from .Lin import LinBuilder
 
 __all__ = [
-    'Df_1Option',
+    'DfOption_1',
     'Iu',
     'Fac',
     'Ic',

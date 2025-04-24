@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from ._option import T_1Option
+from ._option import TOption_1
 from ....utils import types
 from ....utils import errors
 
 
-class Cend(T_1Option, keyword='cend'):
+class Cend(TOption_1, keyword='cend'):
     """
     Represents INP cend elements.
 

@@ -15,23 +15,23 @@ class T_1(DataOption, keyword='t'):
 
     Attributes:
         suffix: Data card option suffix.
-        options: Data card options.
+        options: Dictionary of options.
     """
 
     _ATTRS = {
         'suffix': types.Integer,
-        'options': types.Tuple[t_1.T_1Option],
+        'options': types.Tuple[t_1.TOption_1],
     }
 
-    _REGEX = re.compile(rf'\At(\d+)((?: (?:{t_1.T_1Option._REGEX.pattern}))+?)\Z')
+    _REGEX = re.compile(rf'\At(\d+)((?: (?:{t_1.TOption_1._REGEX.pattern}))+?)\Z')
 
-    def __init__(self, suffix: types.Integer, options: types.Tuple[t_1.T_1Option]):
+    def __init__(self, suffix: types.Integer, options: types.Tuple[t_1.TOption_1]):
         """
         Initializes ``T_1``.
 
         Parameters:
             suffix: Data card option suffix.
-            options: Data card options.
+            options: Dictionary of options.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -49,7 +49,7 @@ class T_1(DataOption, keyword='t'):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.options: typing.Final[types.Tuple[t_1.T_1Option]] = options
+        self.options: typing.Final[types.Tuple[t_1.TOption_1]] = options
 
 
 @dataclasses.dataclass
@@ -59,11 +59,11 @@ class TBuilder_1:
 
     Attributes:
         suffix: Data card option suffix.
-        options: Data card options.
+        options: Dictionary of options.
     """
 
     suffix: str | int | types.Integer
-    options: list[str] | list[t_1.T_1Option]
+    options: list[str] | list[t_1.TOption_1]
 
     def build(self):
         """
@@ -82,10 +82,10 @@ class TBuilder_1:
 
         options = []
         for item in self.options:
-            if isinstance(item, t_1.T_1Option):
+            if isinstance(item, t_1.TOption_1):
                 options.append(item)
             elif isinstance(item, str):
-                options.append(t_1.T_1Option.from_mcnp(item))
+                options.append(t_1.TOption_1.from_mcnp(item))
             else:
                 options.append(item.build())
         options = types.Tuple(options)

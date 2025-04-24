@@ -1,4 +1,4 @@
-from ._option import T_1Option
+from ._option import TOption_1
 
 from .Cbeg import Cbeg
 from .Cfrq import Cfrq
@@ -14,7 +14,7 @@ from .Csub import CsubBuilder
 from .Cend import CendBuilder
 
 __all__ = [
-    'T_1Option',
+    'TOption_1',
     'Cbeg',
     'Cfrq',
     'Cofi',

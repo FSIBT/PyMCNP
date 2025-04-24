@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from ._option import T_1Option
+from ._option import TOption_1
 from ....utils import types
 from ....utils import errors
 
 
-class Cbeg(T_1Option, keyword='cbeg'):
+class Cbeg(TOption_1, keyword='cbeg'):
     """
     Represents INP cbeg elements.
 
