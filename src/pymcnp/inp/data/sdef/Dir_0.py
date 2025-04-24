@@ -5,7 +5,6 @@ import dataclasses
 
 from ._option import SdefOption
 from ....utils import types
-from ....utils import errors
 
 
 class Dir_0(SdefOption, keyword='dir'):
@@ -20,9 +19,9 @@ class Dir_0(SdefOption, keyword='dir'):
         'cosine': types.RealOrJump,
     }
 
-    _REGEX = re.compile(rf'\Adir( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Adir( {types.RealOrJump._REGEX.pattern})?\Z')
 
-    def __init__(self, cosine: types.RealOrJump):
+    def __init__(self, cosine: types.RealOrJump = None):
         """
         Initializes ``Dir_0``.
 
@@ -32,9 +31,6 @@ class Dir_0(SdefOption, keyword='dir'):
         Raises:
             InpError: SEMANTICS_OPTION.
         """
-
-        if cosine is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cosine)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -54,7 +50,7 @@ class DirBuilder_0:
         cosine: Cosine of the angle between VEC and particle.
     """
 
-    cosine: str | float | types.RealOrJump
+    cosine: str | float | types.RealOrJump = None
 
     def build(self):
         """
@@ -64,6 +60,7 @@ class DirBuilder_0:
             ``Dir_0`` for ``DirBuilder_0``.
         """
 
+        cosine = None
         if isinstance(self.cosine, types.Real):
             cosine = self.cosine
         elif isinstance(self.cosine, float) or isinstance(self.cosine, int):
