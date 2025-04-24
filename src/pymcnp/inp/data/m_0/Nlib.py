@@ -3,31 +3,31 @@ import typing
 import dataclasses
 
 
-from ._option import MOption
+from ._option import MOption_0
 from ....utils import types
 from ....utils import errors
 
 
-class Alib(MOption, keyword='alib'):
+class Nlib(MOption_0, keyword='nlib'):
     """
-    Represents INP alib elements.
+    Represents INP nlib elements.
 
     Attributes:
-        abx: Default alpha table identifier.
+        abx: Default neutron table identifier.
     """
 
     _ATTRS = {
         'abx': types.String,
     }
 
-    _REGEX = re.compile(rf'\Aalib( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Anlib( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, abx: types.String):
         """
-        Initializes ``Alib``.
+        Initializes ``Nlib``.
 
         Parameters:
-            abx: Default alpha table identifier.
+            abx: Default neutron table identifier.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -46,22 +46,22 @@ class Alib(MOption, keyword='alib'):
 
 
 @dataclasses.dataclass
-class AlibBuilder:
+class NlibBuilder:
     """
-    Builds ``Alib``.
+    Builds ``Nlib``.
 
     Attributes:
-        abx: Default alpha table identifier.
+        abx: Default neutron table identifier.
     """
 
     abx: str | types.String
 
     def build(self):
         """
-        Builds ``AlibBuilder`` into ``Alib``.
+        Builds ``NlibBuilder`` into ``Nlib``.
 
         Returns:
-            ``Alib`` for ``AlibBuilder``.
+            ``Nlib`` for ``NlibBuilder``.
         """
 
         if isinstance(self.abx, types.String):
@@ -69,6 +69,6 @@ class AlibBuilder:
         elif isinstance(self.abx, str):
             abx = types.String.from_mcnp(self.abx)
 
-        return Alib(
+        return Nlib(
             abx=abx,
         )

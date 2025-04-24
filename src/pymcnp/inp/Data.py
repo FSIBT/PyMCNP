@@ -81,7 +81,8 @@ class DataBuilder:
         | data.EmbtmBuilder
         | data.EmbdbBuilder
         | data.EmbdfBuilder
-        | data.MBuilder
+        | data.MBuilder_0
+        | data.MBuilder_1
         | data.MtBuilder
         | data.MxBuilder
         | data.OtfdbBuilder

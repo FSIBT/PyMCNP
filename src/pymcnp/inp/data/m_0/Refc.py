@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption
+from ._option import MOption_0
 from ....utils import types
 from ....utils import errors
 
 
-class Refc(MOption, keyword='refc'):
+class Refc(MOption_0, keyword='refc'):
     """
     Represents INP refc elements.
 

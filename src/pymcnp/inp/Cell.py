@@ -116,7 +116,7 @@ class CellBuilder:
     """
 
     number: str | int | types.Integer
-    material: str | int | types.Integer | data.MBuilder
+    material: str | int | types.Integer | data.MBuilder_0 | data.MBuilder_1
     geometry: str | types.Geometry | types.GeometryBuilder
     options: list[str] | list[cell.CellOption] = dataclasses.field(default_factory=lambda: ({}))
     density: str | float | types.Real = None

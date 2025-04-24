@@ -3,31 +3,31 @@ import typing
 import dataclasses
 
 
-from ._option import MOption
+from ._option import MOption_0
 from ....utils import types
 from ....utils import errors
 
 
-class Nlib(MOption, keyword='nlib'):
+class Tlib(MOption_0, keyword='tlib'):
     """
-    Represents INP nlib elements.
+    Represents INP tlib elements.
 
     Attributes:
-        abx: Default neutron table identifier.
+        abx: Default triton table identifier.
     """
 
     _ATTRS = {
         'abx': types.String,
     }
 
-    _REGEX = re.compile(rf'\Anlib( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Atlib( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, abx: types.String):
         """
-        Initializes ``Nlib``.
+        Initializes ``Tlib``.
 
         Parameters:
-            abx: Default neutron table identifier.
+            abx: Default triton table identifier.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -46,22 +46,22 @@ class Nlib(MOption, keyword='nlib'):
 
 
 @dataclasses.dataclass
-class NlibBuilder:
+class TlibBuilder:
     """
-    Builds ``Nlib``.
+    Builds ``Tlib``.
 
     Attributes:
-        abx: Default neutron table identifier.
+        abx: Default triton table identifier.
     """
 
     abx: str | types.String
 
     def build(self):
         """
-        Builds ``NlibBuilder`` into ``Nlib``.
+        Builds ``TlibBuilder`` into ``Tlib``.
 
         Returns:
-            ``Nlib`` for ``NlibBuilder``.
+            ``Tlib`` for ``TlibBuilder``.
         """
 
         if isinstance(self.abx, types.String):
@@ -69,6 +69,6 @@ class NlibBuilder:
         elif isinstance(self.abx, str):
             abx = types.String.from_mcnp(self.abx)
 
-        return Nlib(
+        return Tlib(
             abx=abx,
         )

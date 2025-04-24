@@ -3,31 +3,31 @@ import typing
 import dataclasses
 
 
-from ._option import MOption
+from ._option import MOption_0
 from ....utils import types
 from ....utils import errors
 
 
-class Estep(MOption, keyword='estep'):
+class Hstep(MOption_0, keyword='hstep'):
     """
-    Represents INP estep elements.
+    Represents INP hstep elements.
 
     Attributes:
-        step: Number of electron sub-step per energy step.
+        step: Number of proton sub-step per energy step.
     """
 
     _ATTRS = {
         'step': types.IntegerOrJump,
     }
 
-    _REGEX = re.compile(rf'\Aestep( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ahstep( {types.IntegerOrJump._REGEX.pattern})\Z')
 
     def __init__(self, step: types.IntegerOrJump):
         """
-        Initializes ``Estep``.
+        Initializes ``Hstep``.
 
         Parameters:
-            step: Number of electron sub-step per energy step.
+            step: Number of proton sub-step per energy step.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -46,22 +46,22 @@ class Estep(MOption, keyword='estep'):
 
 
 @dataclasses.dataclass
-class EstepBuilder:
+class HstepBuilder:
     """
-    Builds ``Estep``.
+    Builds ``Hstep``.
 
     Attributes:
-        step: Number of electron sub-step per energy step.
+        step: Number of proton sub-step per energy step.
     """
 
     step: str | int | types.IntegerOrJump
 
     def build(self):
         """
-        Builds ``EstepBuilder`` into ``Estep``.
+        Builds ``HstepBuilder`` into ``Hstep``.
 
         Returns:
-            ``Estep`` for ``EstepBuilder``.
+            ``Hstep`` for ``HstepBuilder``.
         """
 
         if isinstance(self.step, types.Integer):
@@ -71,6 +71,6 @@ class EstepBuilder:
         elif isinstance(self.step, str):
             step = types.IntegerOrJump.from_mcnp(self.step)
 
-        return Estep(
+        return Hstep(
             step=step,
         )

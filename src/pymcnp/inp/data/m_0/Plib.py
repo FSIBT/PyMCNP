@@ -3,31 +3,31 @@ import typing
 import dataclasses
 
 
-from ._option import MOption
+from ._option import MOption_0
 from ....utils import types
 from ....utils import errors
 
 
-class Tlib(MOption, keyword='tlib'):
+class Plib(MOption_0, keyword='plib'):
     """
-    Represents INP tlib elements.
+    Represents INP plib elements.
 
     Attributes:
-        abx: Default triton table identifier.
+        abx: Default photoatomic table identifier.
     """
 
     _ATTRS = {
         'abx': types.String,
     }
 
-    _REGEX = re.compile(rf'\Atlib( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aplib( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, abx: types.String):
         """
-        Initializes ``Tlib``.
+        Initializes ``Plib``.
 
         Parameters:
-            abx: Default triton table identifier.
+            abx: Default photoatomic table identifier.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -46,22 +46,22 @@ class Tlib(MOption, keyword='tlib'):
 
 
 @dataclasses.dataclass
-class TlibBuilder:
+class PlibBuilder:
     """
-    Builds ``Tlib``.
+    Builds ``Plib``.
 
     Attributes:
-        abx: Default triton table identifier.
+        abx: Default photoatomic table identifier.
     """
 
     abx: str | types.String
 
     def build(self):
         """
-        Builds ``TlibBuilder`` into ``Tlib``.
+        Builds ``PlibBuilder`` into ``Plib``.
 
         Returns:
-            ``Tlib`` for ``TlibBuilder``.
+            ``Plib`` for ``PlibBuilder``.
         """
 
         if isinstance(self.abx, types.String):
@@ -69,6 +69,6 @@ class TlibBuilder:
         elif isinstance(self.abx, str):
             abx = types.String.from_mcnp(self.abx)
 
-        return Tlib(
+        return Plib(
             abx=abx,
         )

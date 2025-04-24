@@ -3,12 +3,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption
+from ._option import MOption_0
 from ....utils import types
 from ....utils import errors
 
 
-class Refi(MOption, keyword='refi'):
+class Refi(MOption_0, keyword='refi'):
     """
     Represents INP refi elements.
 
