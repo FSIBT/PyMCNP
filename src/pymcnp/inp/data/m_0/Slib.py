@@ -3,31 +3,31 @@ import typing
 import dataclasses
 
 
-from ._option import MOption
+from ._option import MOption_0
 from ....utils import types
 from ....utils import errors
 
 
-class Dlib(MOption, keyword='dlib'):
+class Slib(MOption_0, keyword='slib'):
     """
-    Represents INP dlib elements.
+    Represents INP slib elements.
 
     Attributes:
-        abx: Default deuteron table identifier.
+        abx: Default helion table identifier.
     """
 
     _ATTRS = {
         'abx': types.String,
     }
 
-    _REGEX = re.compile(rf'\Adlib( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aslib( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, abx: types.String):
         """
-        Initializes ``Dlib``.
+        Initializes ``Slib``.
 
         Parameters:
-            abx: Default deuteron table identifier.
+            abx: Default helion table identifier.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -46,22 +46,22 @@ class Dlib(MOption, keyword='dlib'):
 
 
 @dataclasses.dataclass
-class DlibBuilder:
+class SlibBuilder:
     """
-    Builds ``Dlib``.
+    Builds ``Slib``.
 
     Attributes:
-        abx: Default deuteron table identifier.
+        abx: Default helion table identifier.
     """
 
     abx: str | types.String
 
     def build(self):
         """
-        Builds ``DlibBuilder`` into ``Dlib``.
+        Builds ``SlibBuilder`` into ``Slib``.
 
         Returns:
-            ``Dlib`` for ``DlibBuilder``.
+            ``Slib`` for ``SlibBuilder``.
         """
 
         if isinstance(self.abx, types.String):
@@ -69,6 +69,6 @@ class DlibBuilder:
         elif isinstance(self.abx, str):
             abx = types.String.from_mcnp(self.abx)
 
-        return Dlib(
+        return Slib(
             abx=abx,
         )

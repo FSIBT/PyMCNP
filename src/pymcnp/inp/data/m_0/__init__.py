@@ -1,4 +1,4 @@
-from ._option import MOption
+from ._option import MOption_0
 
 from .Gas import Gas
 from .Estep import Estep
@@ -34,7 +34,7 @@ from .Refc import RefcBuilder
 from .Refs import RefsBuilder
 
 __all__ = [
-    'MOption',
+    'MOption_0',
     'Gas',
     'Estep',
     'Hstep',

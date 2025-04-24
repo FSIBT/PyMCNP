@@ -2,7 +2,7 @@ from ._option import DataOption
 from . import dawwg
 from . import embed
 from . import embee
-from . import m
+from . import m_0
 from . import act
 from . import fmult
 from . import tropt
@@ -43,7 +43,8 @@ from .Embtb import Embtb
 from .Embtm import Embtm
 from .Embdb import Embdb
 from .Embdf import Embdf
-from .M import M
+from .M_0 import M_0
+from .M_1 import M_1
 from .Mt import Mt
 from .Mx import Mx
 from .Otfdb import Otfdb
@@ -187,7 +188,8 @@ from .Embtb import EmbtbBuilder
 from .Embtm import EmbtmBuilder
 from .Embdb import EmbdbBuilder
 from .Embdf import EmbdfBuilder
-from .M import MBuilder
+from .M_0 import MBuilder_0
+from .M_1 import MBuilder_1
 from .Mt import MtBuilder
 from .Mx import MxBuilder
 from .Otfdb import OtfdbBuilder
@@ -316,7 +318,7 @@ __all__ = [
     'dawwg',
     'embed',
     'embee',
-    'm',
+    'm_0',
     'act',
     'fmult',
     'tropt',
@@ -357,7 +359,8 @@ __all__ = [
     'Embtm',
     'Embdb',
     'Embdf',
-    'M',
+    'M_0',
+    'M_1',
     'Mt',
     'Mx',
     'Otfdb',
@@ -501,7 +504,8 @@ __all__ = [
     'EmbtmBuilder',
     'EmbdbBuilder',
     'EmbdfBuilder',
-    'MBuilder',
+    'MBuilder_0',
+    'MBuilder_1',
     'MtBuilder',
     'MxBuilder',
     'OtfdbBuilder',

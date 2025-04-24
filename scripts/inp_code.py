@@ -51,16 +51,18 @@ def ATTRS_REGEX(element):
 
         if 'Tuple' in attribute.type:
             if 'Option' in attribute.type:
-                o += f'((?: (?:{{{SNAKE(element.name)}.{CAMEL(element.name)}Option._REGEX.pattern}}))+?)'
+                o += f'((?: (?:{{{SNAKE(element.name)}.{CAMEL(element.name, "Option")}._REGEX.pattern}}))+?)'
             else:
                 o += f'((?: {{{attribute.type[12:-1]}._REGEX.pattern}})+?)'
         else:
             if 'Option' in attribute.type:
-                o += f'( (?:{{{SNAKE(element.name)}.{CAMEL(element.name)}Option._REGEX.pattern}}))'
+                o += f'( (?:{{{SNAKE(element.name)}.{CAMEL(element.name, "Option")}._REGEX.pattern}}))'
             elif attribute.type == 'types.Boolean':
                 o += f'( {attribute.restriction})'
             else:
-                if attribute.can_paren:
+                if attribute.can_quote:
+                    o += f'( \\"{{{attribute.type}._REGEX.pattern}}\\")'
+                elif attribute.can_paren:
                     o += f'( {{{attribute.type}._REGEX.pattern}}| [(]{{{attribute.type}._REGEX.pattern}}[)])'
                 else:
                     o += f'( {{{attribute.type}._REGEX.pattern}})'
@@ -266,13 +268,13 @@ def ATTRS_ASSIGN(element, t):
 # ELEMENT #
 def INIT(element):
     return f"""
-from ._option import {CAMEL(element.name)}Option
+from ._option import {CAMEL(element.name, "Option")}
 {''.join(f"from . import {SNAKE(option.name)}\n" if option.options else "" for option in element.options)[:-1]}
 {''.join(f'from .{CAMEL(option.name)} import {CAMEL(option.name)}\n' for option in element.options)[:-1]}
 {''.join(f'from .{CAMEL(option.name)} import {CAMEL(option.name, "Builder")}\n' for option in element.options)[:-1]}
 
 __all__ = [
-    "{CAMEL(element.name)}Option",
+    "{CAMEL(element.name, "Option")}",
     {''.join(f'\t"{SNAKE(option.name)}",\n' if option.options else "" for option in element.options).strip()}
     {''.join(f'\t"{CAMEL(option.name)}",\n' for option in element.options).strip()}
     {''.join(f'\t"{CAMEL(option.name, "Builder")}",\n' for option in element.options).strip()}
@@ -293,7 +295,7 @@ from {"." * depth}utils import _parser
 from {"." * depth}utils import _object
 
 
-class {CAMEL(element.name)}Option(Option):
+class {CAMEL(element.name, "Option")}(Option):
     """
     Represents generic INP {element.name} options.
     """
@@ -326,7 +328,7 @@ import dataclasses
 import molmass
 
 {f"from . import {SNAKE(element.name)}" if element.options else ""}
-{f"from ._option import {CAMEL(parent_name)}Option" if parent_name else "from ._card import Card"}
+{f"from ._option import {CAMEL(parent_name, 'Option')}" if parent_name else "from ._card import Card"}
 from {"." * depth}utils import types
 from {"." * depth}utils import errors
 from {"." * depth}utils import _parser
@@ -334,7 +336,7 @@ from {"." * depth}utils import _elements
 from {"." * depth}utils import _visualization
 
 
-class {CAMEL(element.name)}({f"{CAMEL(parent_name)}Option, keyword='{element.mnemonic}'" if parent_name else "Card"}):
+class {CAMEL(element.name)}({f"{CAMEL(parent_name, 'Option')}, keyword='{element.mnemonic}'" if parent_name else "Card"}):
     """
     Represents INP {element.name.split('_')[0]}{f" variation #{element.name.split('_')[1]}"if len(element.name.split('_')) - 1 else ""} elements.
 

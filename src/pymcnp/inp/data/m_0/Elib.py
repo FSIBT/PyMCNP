@@ -3,31 +3,31 @@ import typing
 import dataclasses
 
 
-from ._option import MOption
+from ._option import MOption_0
 from ....utils import types
 from ....utils import errors
 
 
-class Pnlib(MOption, keyword='pnlib'):
+class Elib(MOption_0, keyword='elib'):
     """
-    Represents INP pnlib elements.
+    Represents INP elib elements.
 
     Attributes:
-        abx: Default photonuclear table identifier.
+        abx: Default electron table identifier.
     """
 
     _ATTRS = {
         'abx': types.String,
     }
 
-    _REGEX = re.compile(rf'\Apnlib( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aelib( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, abx: types.String):
         """
-        Initializes ``Pnlib``.
+        Initializes ``Elib``.
 
         Parameters:
-            abx: Default photonuclear table identifier.
+            abx: Default electron table identifier.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -46,22 +46,22 @@ class Pnlib(MOption, keyword='pnlib'):
 
 
 @dataclasses.dataclass
-class PnlibBuilder:
+class ElibBuilder:
     """
-    Builds ``Pnlib``.
+    Builds ``Elib``.
 
     Attributes:
-        abx: Default photonuclear table identifier.
+        abx: Default electron table identifier.
     """
 
     abx: str | types.String
 
     def build(self):
         """
-        Builds ``PnlibBuilder`` into ``Pnlib``.
+        Builds ``ElibBuilder`` into ``Elib``.
 
         Returns:
-            ``Pnlib`` for ``PnlibBuilder``.
+            ``Elib`` for ``ElibBuilder``.
         """
 
         if isinstance(self.abx, types.String):
@@ -69,6 +69,6 @@ class PnlibBuilder:
         elif isinstance(self.abx, str):
             abx = types.String.from_mcnp(self.abx)
 
-        return Pnlib(
+        return Elib(
             abx=abx,
         )

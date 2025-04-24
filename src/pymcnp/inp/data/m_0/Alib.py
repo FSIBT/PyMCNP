@@ -3,31 +3,31 @@ import typing
 import dataclasses
 
 
-from ._option import MOption
+from ._option import MOption_0
 from ....utils import types
 from ....utils import errors
 
 
-class Hlib(MOption, keyword='hlib'):
+class Alib(MOption_0, keyword='alib'):
     """
-    Represents INP hlib elements.
+    Represents INP alib elements.
 
     Attributes:
-        abx: Default proton table identifier.
+        abx: Default alpha table identifier.
     """
 
     _ATTRS = {
         'abx': types.String,
     }
 
-    _REGEX = re.compile(rf'\Ahlib( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aalib( {types.String._REGEX.pattern})\Z')
 
     def __init__(self, abx: types.String):
         """
-        Initializes ``Hlib``.
+        Initializes ``Alib``.
 
         Parameters:
-            abx: Default proton table identifier.
+            abx: Default alpha table identifier.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -46,22 +46,22 @@ class Hlib(MOption, keyword='hlib'):
 
 
 @dataclasses.dataclass
-class HlibBuilder:
+class AlibBuilder:
     """
-    Builds ``Hlib``.
+    Builds ``Alib``.
 
     Attributes:
-        abx: Default proton table identifier.
+        abx: Default alpha table identifier.
     """
 
     abx: str | types.String
 
     def build(self):
         """
-        Builds ``HlibBuilder`` into ``Hlib``.
+        Builds ``AlibBuilder`` into ``Alib``.
 
         Returns:
-            ``Hlib`` for ``HlibBuilder``.
+            ``Alib`` for ``AlibBuilder``.
         """
 
         if isinstance(self.abx, types.String):
@@ -69,6 +69,6 @@ class HlibBuilder:
         elif isinstance(self.abx, str):
             abx = types.String.from_mcnp(self.abx)
 
-        return Hlib(
+        return Alib(
             abx=abx,
         )

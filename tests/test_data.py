@@ -765,121 +765,128 @@ class Test_DataEmbdf:
         EXAMPLES_INVALID = []
 
 
-class Test_DataM:
+class Test_DataM_0:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.M
+        element = pymcnp.inp.data.M_0
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MGas:
+class Test_M_0Gas:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Gas
+        element = pymcnp.inp.data.m_0.Gas
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MEstep:
+class Test_M_0Estep:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Estep
+        element = pymcnp.inp.data.m_0.Estep
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MHstep:
+class Test_M_0Hstep:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Hstep
+        element = pymcnp.inp.data.m_0.Hstep
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MNlib:
+class Test_M_0Nlib:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Nlib
+        element = pymcnp.inp.data.m_0.Nlib
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MPlib:
+class Test_M_0Plib:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Plib
+        element = pymcnp.inp.data.m_0.Plib
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MPnlib:
+class Test_M_0Pnlib:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Pnlib
+        element = pymcnp.inp.data.m_0.Pnlib
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MElib:
+class Test_M_0Elib:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Elib
+        element = pymcnp.inp.data.m_0.Elib
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MHlib:
+class Test_M_0Hlib:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Hlib
+        element = pymcnp.inp.data.m_0.Hlib
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MAlib:
+class Test_M_0Alib:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Alib
+        element = pymcnp.inp.data.m_0.Alib
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MSlib:
+class Test_M_0Slib:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Slib
+        element = pymcnp.inp.data.m_0.Slib
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MTlib:
+class Test_M_0Tlib:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Tlib
+        element = pymcnp.inp.data.m_0.Tlib
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MDlib:
+class Test_M_0Dlib:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Dlib
+        element = pymcnp.inp.data.m_0.Dlib
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MCond:
+class Test_M_0Cond:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Cond
+        element = pymcnp.inp.data.m_0.Cond
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MRefi:
+class Test_M_0Refi:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Refi
+        element = pymcnp.inp.data.m_0.Refi
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MRefc:
+class Test_M_0Refc:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Refc
+        element = pymcnp.inp.data.m_0.Refc
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
 
-class Test_MRefs:
+class Test_M_0Refs:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.m.Refs
+        element = pymcnp.inp.data.m_0.Refs
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_DataM_1:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.M_1
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 

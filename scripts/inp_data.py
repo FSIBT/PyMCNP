@@ -4194,7 +4194,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='options',
-                            type='types.Tuple[m.MOption]',
+                            type='types.Tuple[m_0.MOption_0]',
                             description='Dictionary of options',
                             optional=True,
                         ),
@@ -4384,7 +4384,7 @@ cards = ElementScheme(
     @staticmethod
     def from_formula(number: int, formulas: dict[str, float], atomic_or_weight: bool = True):
         """
-        Generates ``M`` from INP.
+        Generates ``M_0`` from INP.
 
         Parameters:
             number: Arbitrary material number.
@@ -4392,7 +4392,7 @@ cards = ElementScheme(
             atomic_or_weight: Atomtic/Weight fraction true/false flag.
 
         Returns:
-            ``M`` object.
+            ``M_0`` object.
         """
 
         substances = []
@@ -4432,11 +4432,27 @@ cards = ElementScheme(
                 comments += subcomments
                 substances += entries
 
-        material = M(types.IntegerOrJump(number), types.Tuple(substances))
+        material = M_0(types.IntegerOrJump(number), types.Tuple(substances))
         material.comment = tuple(comments)
 
         return material
     ''',
+                ),
+                ElementScheme(
+                    name='m_1',
+                    mnemonic='m',
+                    attributes=[
+                        AttributeScheme(
+                            name='suffix',
+                            type='types.Integer',
+                            description='Data card option suffix',
+                        ),
+                        AttributeScheme(
+                            name='abx',
+                            type='types.String',
+                            description='Material library',
+                        ),
+                    ],
                 ),
                 ElementScheme(
                     name='mt',

@@ -17,7 +17,7 @@
    data/kopts
    data/kpert
    data/ksen
-   data/m
+   data/m_0
    data/mesh
    data/pert
    data/ptrac
@@ -573,14 +573,21 @@
    :members:
 ```
 
-### ``M`` Class
+### ``M_0`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.M
+.. autoclass:: pymcnp.inp.data.M_0
    :members:
 ```
 
-[m subpackage](data/m)
+[m_0 subpackage](data/m_0)
+
+### ``M_1`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.M_1
+   :members:
+```
 
 ### ``Mesh`` Class
 
@@ -1630,14 +1637,21 @@
    :members:
 ```
 
-### ``MBuilder`` Class
+### ``MBuilder_0`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.MBuilder
+.. autoclass:: pymcnp.inp.data.MBuilder_0
    :members:
 ```
 
-[m subpackage](data/m)
+[m_0 subpackage](data/m_0)
+
+### ``MBuilder_1`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.MBuilder_1
+   :members:
+```
 
 ### ``MeshBuilder`` Class
 
