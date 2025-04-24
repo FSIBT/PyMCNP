@@ -619,6 +619,15 @@
    :members:
 ```
 
+### ``Mplot`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.Mplot
+   :members:
+```
+
+[mplot subpackage](data/mplot)
+
 ### ``Mt`` Class
 
 ```{eval-rst}
@@ -1682,6 +1691,15 @@
 .. autoclass:: pymcnp.inp.data.MphysBuilder
    :members:
 ```
+
+### ``MplotBuilder`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.MplotBuilder
+   :members:
+```
+
+[mplot subpackage](data/mplot)
 
 ### ``MtBuilder`` Class
 

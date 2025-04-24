@@ -23,6 +23,7 @@ from . import var
 from . import mesh
 from . import stop
 from . import ptrac
+from . import mplot
 from . import rand
 
 from .._option import Option
