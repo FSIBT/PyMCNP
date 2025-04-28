@@ -16,6 +16,49 @@ from ..Inp import Inp
 from ..utils import errors
 
 
+class Check:
+    """
+    Checks MCNP files.
+
+    Attribute:
+        path: File to check.
+    """
+
+    def __init__(self, path: str | pathlib.Path):
+        """
+        Initializes ``Check``.
+
+        Attribute:
+            path: File to check.
+
+        Raises:
+            CLIError: SEMANTICS_PATH.
+        """
+
+        if path is None:
+            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, path)
+
+        self.path = pathlib.Path(path)
+
+    def check(self):
+        """
+        Checks a file.
+        """
+
+        with self.path.open('r') as file:
+            current = file.read()
+            correct = Inp.from_mcnp(current).to_mcnp()
+
+            return difflib.unified_diff(current.split('\n'), correct.split('\n'))
+
+    def fix(self):
+        """
+        Fixes a file.
+        """
+
+        Inp.from_mcnp_file(self.path).to_mcnp_file(self.path)
+
+
 def main() -> None:
     """
     Executes the ``pymcnp check`` command.
@@ -29,7 +72,8 @@ def main() -> None:
 
     # Reading INP file.
     try:
-        inp = Inp.from_mcnp_file(file)
+        check = Check(file)
+        check.check()
     except errors.InpError as err:
         _io.error(str(err))
         exit(1)
@@ -37,12 +81,7 @@ def main() -> None:
         _io.error(str(err))
         exit(2)
 
-    # Checking!
-    with open(file, 'r') as file:
-        diff = difflib.unified_diff(file.read().split('\n'), inp.to_mcnp().split('\n'))
-        _io.print('\n'.join(line.rstrip('\n') for line in diff))
-
     if args['--fix']:
-        inp.to_mcnp_file(file)
+        check.fix()
 
     _io.done()
