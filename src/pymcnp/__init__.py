@@ -2,30 +2,25 @@
 from .utils import types
 from .utils import errors
 
-# CLI
 from .cli.run import Run
-
-# INP
 from . import inp
 from .Inp import Inp
 from .Inp import InpBuilder
-
-# PTRAC
 from . import ptrac
 from .Ptrac import Ptrac
 from .PtracFiltered import PtracFiltered
 from .PtracProcessed import PtracProcessed
-
-# MESTHAL
 from . import meshtal
 from .Meshtal import Meshtal
 from .MeshtalFiltered import MeshtalFiltered
 from .MeshtalProcessed import MeshtalProcessed
+# from . import outp
+from .Outp import Outp
 
-# Files
 read_input = Inp.from_mcnp_file
 read_ptrac = Ptrac.from_mcnp_file
 read_meshtal = Meshtal.from_mcnp_file
+read_output = Outp.from_mcnp_file
 
 __all__ = [
     'types',
@@ -42,7 +37,10 @@ __all__ = [
     'Meshtal',
     'MeshtalFiltered',
     'MeshtalProcessed',
+    # 'outp',
+    'Outp',
     'read_input',
     'read_ptrac',
     'read_meshtal',
+    'read_output',
 ]

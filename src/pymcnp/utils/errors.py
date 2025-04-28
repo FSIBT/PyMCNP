@@ -115,6 +115,24 @@ class CliCode(enum.Enum):
     SEMANTICS_PATH = 1
     SEMANTICS_COMMAND = 2
 
+
+class OutpCode(enum.Enum):
+    """
+    Represents OUTP error codes.
+
+    Notes:
+        0xxx - Syntax
+        1xxx - Semantics
+    """
+
+    SYNTAX_OUTP = 0
+    SYNTAX_TABLE = 1
+
+    SEMANTICS_OUTP = 10
+    SEMANTICS_TABLE = 11
+
+
+class MeshtalError(Error):
     pass
 
 
@@ -132,4 +150,7 @@ class PtracError(Error):
 
 class CliError(Error):
     pass
+
+
+class OutpError(Error):
     pass

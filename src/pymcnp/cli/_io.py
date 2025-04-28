@@ -1,7 +1,28 @@
+import pathlib
 import datetime
 
 import rich
 import rich.panel
+
+
+def get_outfile(path: str | pathlib.Path, new: str, old: str) -> str:
+    path = str(path)
+    
+    if path.rsplit('.', maxsplit=1)[0] == old:
+        path = path.rsplit('.', maxsplit=1)[1]
+
+    return pathlib.Path(path + '.' + new)
+
+
+def get_timestamp() -> str:
+    """
+    Gets current timestamp.
+
+    Returns:
+        Current timestamp "YYYY-MM-DD--HH-MM-SS".
+    """
+
+    return datetime.datetime.today().strftime('%Y-%m-%d--%H-%M-%S')
 
 
 def print(msg: str):
@@ -34,17 +55,6 @@ def warning(msg: str):
     """
 
     rich.print(rich.panel.Panel(f'[bold][gold3]Warning:[/][/] {msg}'))
-
-
-def get_timestamp() -> str:
-    """
-    Gets current timestamp.
-
-    Returns:
-        Current timestamp "YYYY-MM-DD--HH-MM-SS".
-    """
-
-    return datetime.datetime.today().strftime('%Y-%m-%d--%H-%M-%S')
 
 
 def done():

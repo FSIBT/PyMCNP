@@ -1,10 +1,9 @@
 """
 Usage:
-    pymcnp plot [-n number] [--pdf] <input>
+    pymcnp plot <outp> <number> [ options ]
 
 Options:
-    -n --number=<number>        Which tally should be converted.
-    --pdf                       Save as pdf.
+    -p --pdf        Write to PDF.
 """
 
 import pathlib
@@ -13,7 +12,76 @@ from docopt import docopt
 from matplotlib import pyplot as plt
 
 from . import _io
-from .. import outp
+from ..Outp import Outp
+from ..utils import errors
+
+
+class Plot:
+    """
+    Plots MCNP files.
+
+    Attribute:
+        path: File to plot.
+    """
+
+    def __init__(self, path: str | pathlib.Path):
+        """
+        Initializes ``Plot``.
+
+        Parameters:
+            path: File to plot.
+
+        Raises:
+            CliError: SEMANTICS_PATH.
+        """
+
+        if path is None:
+            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, path)
+
+        self.path = pathlib.Path(path)
+
+    def to_show(self, number: int):
+        """
+        Plots file in window.
+
+        Parameter:
+            number: Tally number.
+        """
+
+        outp = Outp.from_mcnp_file(self.path)
+        # df = outp.to_dataframe()
+
+        fig, ax = plt.subplots()
+
+        #ax.errorbar(
+        #    df['energy'],
+        #    df['cts'],
+        #    yerr=df['error'] * df['cts'],
+        #    fmt='o',
+        #    label='Error',
+        #    color='orange',
+        #    zorder=1,
+        #)
+        #ax.step(df['energy'], df['cts'], color='blue', where='mid', label='Counts', zorder=2)
+        ax.title('Energy histogram')
+        ax.xlabel('Energy [MeV]')
+        ax.ylabel('Counts/bin/neutron')
+        ax.yscale('log')
+        ax.legend()
+
+        return fig, ax
+
+    def to_pdf(self, number: int):
+        """
+        Plots file in PDF.
+
+        Parameters:
+            number: Tally number.
+        """
+
+        fig, ax = self.to_show(number)
+        path = _io.get_outfile(self.path, 'outp', 'pdf')
+        fig.savefig(path)
 
 
 def main() -> None:
@@ -23,50 +91,32 @@ def main() -> None:
 
     _io.disclaimer()
 
+    # Processing CLI arguments.
     args = docopt(__doc__)
+    number = args['<number>'] or 0
+    path = pathlib.Path(args['<outp>'])
 
-    N = args['--number']
-    file_in = pathlib.Path(args['<input>'])
-
-    if not file_in.is_file():
-        print(f'[red]Error[/] Cannot access file {file_in}')
+    # Processing number.
+    try:
+        number = int(number)
+    except Exception:
+        _io.error(f'``{number}`` invalid number.')
         exit(1)
 
-    x = outp.read_output(file_in)
-    N = int(N) if N is not None else 0
-
+    # Plotting!
     try:
-        df = x.read_tally(N)
-    except IndexError:
-        print('[red]Error[/] Tally number out of range')
+        plot = Plot(path)
+    except errors.OutpError as err:
+        _io.error(str(err))
         exit(2)
-
-    plt.figure()
-
-    plt.errorbar(
-        df['energy'],
-        df['cts'],
-        yerr=df['error'] * df['cts'],
-        fmt='o',
-        label='Error',
-        color='orange',
-        zorder=1,
-    )
-    plt.step(df['energy'], df['cts'], color='blue', where='mid', label='Counts', zorder=2)
-
-    plt.title('Energy histogram')
-    plt.xlabel('Energy [MeV]')
-    plt.ylabel('Counts/bin/neutron')
-
-    plt.yscale('log')
-    plt.legend()
+    except errors.CliError as err:
+        _io.error(str(err))
+        exit(3)
 
     if args['--pdf']:
-        output_filename = pathlib.Path(f'{file_in.stem}_tally_{N}.pdf')
-        if output_filename.is_file():
-            print('[orange3]Warning[/] Overwriting output file')
-        plt.savefig(output_filename)
+        plot.to_pdf(number)
     else:
-        plt.show()
+        fig, ax = plot.plot(number)
+        fig.show()
 
     _io.done()

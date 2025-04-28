@@ -1,9 +1,11 @@
 """
 Usage:
-    pymcnp convert <input> <output> [ options ]
+    pymcnp convert <outp> <number> --csv
+    pymcnp convert <outp> <number> --parquet
 
 Options:
-    -n --number=<number>        Which tally should be converted.
+    -c --csv        Write CSV.
+    -p --parquet    Write PARQUET.
 
 Takes an F1, F4, or F8 output file that can have multiple tallies in it and outputs a specific one as
 a pandas dataframe as parquet or csv file.
@@ -14,7 +16,66 @@ import pathlib
 from docopt import docopt
 
 from . import _io
-from .. import outp
+from ..Outp import Outp
+from ..utils import errors
+
+
+class Convert:
+    """
+    Converts MCNP files.
+
+    Attribute:
+        path: File to convert.
+        number: Tally number.
+    """
+
+    def __init__(self, path: str | pathlib.Path):
+        """
+        Initializes ``Convert``.
+
+        Parameters:
+            path: File to convert.
+
+        Raises:
+            CliError: SEMANTICS_PATH.
+        """
+
+        if path is None:
+            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, path)
+
+        self.path = pathlib.Path(path)
+
+    def to_csv(self, number: int):
+        """
+        Converts file to CSV.
+
+        Parameter:
+            number: Tally to read.
+        """
+
+        outp = Outp.from_mcnp_file(self.path)
+        # df = outp.to_dataframe()
+
+        path = _io.get_outfile(self.path, 'outp', 'csv')
+        with path.open('r') as file:
+            pass
+            # file.write(df.to_csv())
+
+    def to_parquet(self, number: int):
+        """
+        Converts file to PARQUET.
+
+        Parameters:
+            number: Tally to read.
+        """
+
+        outp = Outp.from_mcnp_file(self.path)
+        # df = outp.to_dataframe()
+
+        path = _io.get_outfile(self.path, 'outp', 'parquet')
+        with path.open('r') as file:
+            pass
+            # file.write(df.to_parquet())
 
 
 def main() -> None:
@@ -28,41 +89,27 @@ def main() -> None:
 
     # Processing CLI arguments.
     args = docopt(__doc__)
-    number = args['--number']
-    file_input = pathlib.Path(args['<input>'])
-    file_output = pathlib.Path(args['<output>'])
+    number = args['<number>']
+    file = pathlib.Path(args['<outp>'])
 
-    if number is None:
+    # Processing number.
+    try:
+        number = int(number)
+    except Exception:
         _io.error(f'``{number}`` invalid number.')
         exit(1)
 
-    if not file_input.is_file():
-        _io.error(f'``{file_input}`` not found.')
+    # Reading OUTP file.
+    try:
+        convert = Convert(file)
+    except errors.CliError as err:
+        _io.error(str(err))
         exit(2)
 
-    if not file_output.is_file():
-        _io.error(f'``{file_output}`` not found.')
-        exit(3)
-
-    # Reading OUTP file.
-    x = outp.read_output(file_input)
-    number = int(number)
-
     # Converting!
-    try:
-        df = x.read_tally(number)
-    except IndexError:
-        _io.error('Tally number out of range.')
-        exit(4)
-
-    match file_output.suffix:
-        case '.csv':
-            df.to_csv(file_output)
-            _io.info(f'Saving tally {number} as csv.', file_output)
-        case '.parquet':
-            df.to_parquet(file_output)
-            _io.info(f'Saving tally {number} as parquet.', file_output)
-        case _:
-            _io.info('Currently cannot handle this file type.')
+    if args['--csv']:
+        convert.to_csv(number)
+    elif args['--parquet']:
+        convert.to_parquet(number)
 
     _io.done()

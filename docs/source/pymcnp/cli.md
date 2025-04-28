@@ -14,7 +14,38 @@ Each module contains corresponding classes which enapsulate the subcommands' fun
 enabiling programmatic access to the CLI:
 
 * ``Check``
+* ``Convert``
+* ``Plot``
 * ``Run``
+
+### ``check.Check`` Class
+
+``check`` contains the ``Check`` class which compares MCNP files using ``difflib`` and
+formats them.
+
+```{eval-rst}
+.. autoclass:: pymcnp.cli.check.Check
+   :members:
+```
+
+### ``convert.Convert`` Class
+
+``convert`` contains the ``Convert`` class which converts OUTP files, using ``pandas``, to
+CSV or parquet files.
+
+```{eval-rst}
+.. autoclass:: pymcnp.cli.convert.Convert
+   :members:
+```
+
+### ``plot.Plot`` Class
+
+``plot`` contains the ``Plot`` class which plots OUTP files, using ``matplotlib``.
+
+```{eval-rst}
+.. autoclass:: pymcnp.cli.plot.Plot
+   :members:
+```
 
 ### ``run.Run`` Class
 
