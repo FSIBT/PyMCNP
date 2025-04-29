@@ -1,3 +1,4 @@
+import re
 import typing
 
 from . import ptrac
@@ -13,6 +14,11 @@ class Ptrac(_object.McnpFile_):
         header: PTRAC header.
         histories: PTRAC histories.
     """
+
+    _REGEX = re.compile(
+        rf'({ptrac.Header._REGEX.pattern})'
+        rf'((?:{ptrac.History._REGEX.pattern})+)'
+    )
 
     def __init__(
         self, header: ptrac.Header, histories: typing.Generator[ptrac.History, None, None]
@@ -50,17 +56,18 @@ class Ptrac(_object.McnpFile_):
 
         Returns:
             ``Ptrac``.
+
+        Raises:
+            PtracError: SYNTAX_PTRAC.
         """
 
-        header, lines = ptrac.Header.from_mcnp(source)
+        tokens = Ptrac._REGEX.match(source)
 
-        def histories(lines):
-            while lines:
-                history, lines = ptrac.History.from_mcnp(lines, header)
-                yield history
-            return
+        if not tokens:
+            raise errors.PtracError(errors.PtracCode.SYNTAX_PTRAC, source)
 
-        histories = histories(lines)
+        header = ptrac.Header.from_mcnp(tokens[1])
+        histories = (ptrac.History.from_mcnp(match[0], header) for match in ptrac.History._REGEX.finditer(tokens[10]))
 
         return Ptrac(header, histories)
 
@@ -69,7 +76,7 @@ class Ptrac(_object.McnpFile_):
         Generates PTRAC from ``Ptrac``.
 
         Returns:
-            INP for ``Ptrac``.
+            PTRAC for ``Ptrac``.
         """
 
-        assert False, "I'm working on it!"
+        return self.header.to_mcnp() + '\n'.join(history.to_mcnp() for history in self.histories) + '\n'

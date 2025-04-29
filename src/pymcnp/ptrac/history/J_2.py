@@ -21,7 +21,7 @@ class J_2(_line.HistoryLine):
         mat: Material numbers of the cells.
     """
 
-    _REGEX = re.compile(r'\A(.{4})(.{4})(.{4})(.{4})(.{4})(.{4})\Z')
+    _REGEX = re.compile(r'(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})')
 
     def __init__(
         self,
@@ -44,7 +44,7 @@ class J_2(_line.HistoryLine):
             mat: Material numbers of the cells.
 
         Raises:
-            InpError: SEMANTICS_LINE.
+            PtracError: SEMANTICS_LINE.
         """
 
         if next_type is None:
@@ -86,13 +86,12 @@ class J_2(_line.HistoryLine):
             PtracError: SYNTAX_HISTORY_LINE.
         """
 
-        source = _parser.preprocess_ptrac(source)
         tokens = J_2._REGEX.match(source)
 
         if not tokens:
             raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
 
-        next_type = EventType.from_mcnp(tokens[1])
+        next_type = EventType.from_mcnp(tokens[1].strip())
         node = types.Integer.from_mcnp(tokens[2])
         nsr = types.Integer.from_mcnp(tokens[3])
         ipt = types.Integer.from_mcnp(tokens[4])
@@ -107,3 +106,13 @@ class J_2(_line.HistoryLine):
             ncl,
             mat,
         )
+
+    def to_mcnp(self):
+        """
+        Generates PTRAC from ``J_2``.
+
+        Returns:
+            PTRAC for ``J_2``.
+        """
+
+        f"{self.next_type:>10}{self.node:>10}{self.nsr:>10}{self.ipt:>10}{self.ncl:>10}{self.mat:>10}"

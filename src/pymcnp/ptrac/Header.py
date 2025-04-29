@@ -16,8 +16,7 @@ class Header(_object.McnpElement_):
         code: Simulation name.
         version: Simulation version.
         code_date: Simulation compilation date.
-        run_date: Simulation run date.
-        run_time: Simulation run time.
+        run_datetime: Simulation run datetime.
         title: Simulation title.
         settings: PTRAC input format.
         numbers: PTRAC event variable counts by type.
@@ -25,7 +24,12 @@ class Header(_object.McnpElement_):
     """
 
     _REGEX = re.compile(
-        r'   -1\n(.{8})(.{25})(.{8})(.{19})\n(.{80})\n((?:\s).{12}.{12}.{12}.{12}.{12}.{12}.{12}.{12}.{12}.{12}(?:\n))+((?:\s).{5}.{5}.{5}.{5}.{5}.{5}.{5}.{5}.{5}.{5}.{5}.{5}.{5}.{5}.{5}.{5}.{5}.{5}.{5}.{5}(?:\n))((?:\s)(.{4})+(?:\n))+([\S\s]+)'
+        r'   -1\n'
+        r'(.{8})(.{25})(.{9})(.{18})\n'
+        r'(.{80})\n'
+        r'((?:\s.{120}\n)+)'
+        r'\s(.{100})\n'
+        r'((?:\s(?:.{4})+\n)+)'
     )
 
     def __init__(
@@ -33,8 +37,7 @@ class Header(_object.McnpElement_):
         code: types.String,
         version: types.String,
         code_date: types.String,
-        run_date: types.String,
-        run_time: types.String,
+        run_datetime: types.String,
         title: types.String,
         v_line: types.Tuple[types.Real],
         n_line: types.Tuple[types.Integer],
@@ -47,8 +50,7 @@ class Header(_object.McnpElement_):
             code: Simulation name.
             version: Simulation version.
             code_date: Simulation compilation date.
-            run_date: Simulation run date.
-            run_time: Simulation run time.
+            run_datetime: Simulation run datetime.
             title: Simulation title.
             v_line: PTRAC v-line.
             n_line: PTRAC n-line.
@@ -67,11 +69,8 @@ class Header(_object.McnpElement_):
         if code_date is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, code_date)
 
-        if run_date is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, run_date)
-
-        if run_time is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, run_time)
+        if run_datetime is None:
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, run_datetime)
 
         if title is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, title)
@@ -86,10 +85,9 @@ class Header(_object.McnpElement_):
             raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, l_line)
 
         self.code: typing.Final[types.String] = code
-        self.code_date: typing.Final[types.String] = code_date
         self.version: typing.Final[types.String] = version
-        self.run_date: typing.Final[types.String] = run_date
-        self.run_time: typing.Final[types.String] = run_time
+        self.code_date: typing.Final[types.String] = code_date
+        self.run_datetime: typing.Final[types.String] = run_datetime
         self.title: typing.Final[types.String] = title
         self.v_line: typing.Final[types.Tuple[types.Real]] = v_line
         self.n_line: typing.Final[types.Tuple[types.Integer]] = n_line
@@ -110,7 +108,6 @@ class Header(_object.McnpElement_):
             PtracError: SYNTAX_BLOCK.
         """
 
-        source = _parser.preprocess_ptrac(source)
         tokens = Header._REGEX.match(source)
 
         if not tokens:
@@ -119,14 +116,49 @@ class Header(_object.McnpElement_):
         code = types.String.from_mcnp(tokens[1])
         version = types.String.from_mcnp(tokens[2])
         code_date = types.String.from_mcnp(tokens[3])
-        run_date = types.String.from_mcnp(tokens[4])
-        run_time = types.String.from_mcnp(tokens[5])
-        title = types.String.from_mcnp(tokens[6])
-        v_line = types.Tuple(map(types.Real.from_mcnp, re.split(r'\s+', tokens[7].strip())))
-        n_line = types.Tuple(map(types.Integer.from_mcnp, re.split(r'\s+', tokens[8].strip())))
-        l_line = types.Tuple(map(types.Integer.from_mcnp, re.split(r'\s+', tokens[9].strip())))
+        run_datetime = types.String.from_mcnp(tokens[4])
+        title = types.String.from_mcnp(tokens[5])
+        v_line = types.Tuple([types.Real.from_mcnp(v) for v in re.split(r'\s+|\n', tokens[6].strip())])
+        n_line = types.Tuple([types.Integer.from_mcnp(n) for n in re.split(r'\s+|\n', tokens[7].strip())])
+        l_line = types.Tuple([types.Integer.from_mcnp(l) for l in re.split(r'\s+|\n', tokens[8].strip())])
 
-        return (
-            Header(code, code_date, version, run_date, run_time, title, v_line, n_line, l_line),
-            tokens[10],
+        return Header(
+            code,
+            version,
+            code_date,
+            run_datetime,
+            title,
+            v_line,
+            n_line,
+            l_line
         )
+
+    def to_mcnp(self):
+        """
+        Generates PTRAC from ``Header``.
+
+        Returns:
+            PTRAC for ``Header``.
+        """
+
+        v_line = ' '
+        for i, v in enumerate(self.v_line):
+            v_line += f"{v:>12.4E}"
+
+            if (i + 1) % 10 == 0 and i != 0:
+                v_line += '\n '
+        v_line = v_line[:-1]
+
+        n_line = ' '
+        for i, n in enumerate(self.n_line):
+            n_line += f"{n:>5}"
+
+        l_line = ' '
+        for i, l in enumerate(self.l_line):
+            l_line += f"{l:>4}"
+
+            if (i + 1) % 30 == 0 and i != 0:
+                l_line += '\n '
+
+        return f"   -1\n{self.code:<8}{self.version:<25}{self.code_date:<9}{self.run_datetime:<18}\n{self.title:<80}\n{v_line}{n_line}\n{l_line}\n"
+

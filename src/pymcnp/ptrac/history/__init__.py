@@ -2,6 +2,7 @@ from ._keyword import HistoryKeyword
 from .Nters import Nters
 from .EventType import EventType
 from ._line import HistoryLine
+from .I import I
 from .J_0 import J_0
 from .J_1 import J_1
 from .J_2 import J_2
@@ -18,6 +19,7 @@ __all__ = [
     'Nters',
     'EventType',
     'HistoryLine',
+    'I',
     'J_0',
     'J_1',
     'J_2',

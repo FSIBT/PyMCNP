@@ -88,12 +88,12 @@ class EventType(_keyword.HistoryKeyword):
             ``EventType``.
 
         Raises:
-            PtracError: SYNTAX_HISTORY_KEYWORD.
+            PtracError: SYNTAX_KEYWORD.
         """
 
-        source = _parser.preprocess_ptrac(source)
+
 
         try:
-            return EventType(int(source))
+            return EventType(source)
         except ValueError:
-            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_KEYWORD, source)
+            raise errors.PtracError(errors.PtracCode.SYNTAX_KEYWORD, source)

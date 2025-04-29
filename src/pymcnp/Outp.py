@@ -1,6 +1,5 @@
 import typing
 
-from . import ptrac
 from .utils import types
 from .utils import errors
 from .utils import _object
@@ -54,4 +53,4 @@ class Outp(_object.McnpFile_):
             OUTP for ``Outp``.
         """
 
-        assert False, "I'm working on it!"
+        return '\n'.join(lines)

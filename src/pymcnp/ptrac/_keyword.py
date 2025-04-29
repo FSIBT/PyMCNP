@@ -16,4 +16,4 @@ class Keyword(_object.McnpElement_, str, enum.Enum):
             PTRAC keyword.
         """
 
-        assert False, 'Not Implemented Yet'
+        return self.value

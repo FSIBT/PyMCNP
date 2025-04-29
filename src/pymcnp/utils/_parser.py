@@ -1,4 +1,5 @@
 import re
+import decimal
 
 
 """ Preprocessing Functions """
@@ -104,3 +105,18 @@ def postprocess_continuation_line(string: str):
         length += len(word) + 1
 
     return ' '.join(lines)
+
+
+def postprocess_exponenet(number: decimal.Decimal, percision: int):
+    """ """
+
+    e = number.adjusted() + 1
+
+    s, d, _ = number.as_tuple()
+    s = '-' if s else ' '
+    d = ''.join(map(str, d[:percision]))
+
+    return f"{s}0.{d}E{e:+03}"
+
+    
+

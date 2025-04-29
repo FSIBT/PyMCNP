@@ -1,5 +1,6 @@
 import re
 import typing
+import decimal
 
 from . import _line
 from ...utils import types
@@ -17,13 +18,13 @@ class P_0(_line.HistoryLine):
         z: Z coordinate of the particle position.
     """
 
-    _REGEX = re.compile(r'\A(.{4})(.{4})(.{4})\Z')
+    _REGEX = re.compile(r'(.{13})(.{13})(.{13})')
 
     def __init__(
         self,
-        x: types.Integer,
-        y: types.Integer,
-        z: types.Integer,
+        x: types.Real,
+        y: types.Real,
+        z: types.Real,
     ):
         """
         Initializes ``P_0``.
@@ -34,7 +35,7 @@ class P_0(_line.HistoryLine):
             z: Z coordinate of the particle position.
 
         Raises:
-            InpError: SEMANTICS_LINE.
+            PtracError: SEMANTICS_LINE.
         """
 
         if x is None:
@@ -46,9 +47,9 @@ class P_0(_line.HistoryLine):
         if z is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, z)
 
-        self.x: typing.Final[types.Integer] = x
-        self.y: typing.Final[types.Integer] = y
-        self.z: typing.Final[types.Integer] = z
+        self.x: typing.Final[types.Real] = x
+        self.y: typing.Final[types.Real] = y
+        self.z: typing.Final[types.Real] = z
 
     def from_mcnp(source: str):
         """
@@ -64,18 +65,31 @@ class P_0(_line.HistoryLine):
             PtracError: SYNTAX_HISTORY_LINE.
         """
 
-        source = _parser.preprocess_ptrac(source)
         tokens = P_0._REGEX.match(source)
 
         if not tokens:
             raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
 
-        x = types.Integer.from_mcnp(tokens[1])
-        y = types.Integer.from_mcnp(tokens[2])
-        z = types.Integer.from_mcnp(tokens[3])
+        x = types.Real.from_mcnp(tokens[1])
+        y = types.Real.from_mcnp(tokens[2])
+        z = types.Real.from_mcnp(tokens[3])
 
         return P_0(
             x,
             y,
             z,
         )
+
+    def to_mcnp(self):
+        """
+        Generates PTRAC from ``P_0``.
+
+        Returns:
+            PTRAC for ``P_0``.
+        """
+
+        x = _parser.postprocess_exponenet(self.x.value, 5)
+        y = _parser.postprocess_exponenet(self.y.value, 5)
+        z = _parser.postprocess_exponenet(self.z.value, 5)
+
+        return f"{x} {y} {z}"

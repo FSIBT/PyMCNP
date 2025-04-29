@@ -22,7 +22,7 @@ class J_5(_line.HistoryLine):
         ncp: Count of collisions per track.
     """
 
-    _REGEX = re.compile(r'\A(.{4})(.{4})(.{4})(.{4})(.{4})(.{4})(.{4})\Z')
+    _REGEX = re.compile(r'(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})')
 
     def __init__(
         self,
@@ -48,7 +48,7 @@ class J_5(_line.HistoryLine):
             ncp: Count of collisions per track.
 
         Raises:
-            InpError: SEMANTICS_LINE.
+            PtracError: SEMANTICS_LINE.
         """
 
         if next_type is None:
@@ -94,13 +94,12 @@ class J_5(_line.HistoryLine):
             PtracError: SYNTAX_HISTORY_LINE.
         """
 
-        source = _parser.preprocess_ptrac(source)
         tokens = J_5._REGEX.match(source)
 
         if not tokens:
             raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
 
-        next_type = EventType.from_mcnp(tokens[1])
+        next_type = EventType.from_mcnp(tokens[1].strip())
         node = types.Integer.from_mcnp(tokens[2])
         nsx_nsf_nter = types.Integer.from_mcnp(tokens[3])
         ntyn_mtp_angle_branch = types.Integer.from_mcnp(tokens[4])
@@ -117,3 +116,13 @@ class J_5(_line.HistoryLine):
             mat,
             ncp,
         )
+
+    def to_mcnp(self):
+        """
+        Generates PTRAC from ``J_5``.
+
+        Returns:
+            PTRAC for ``J_5``.
+        """
+
+        return f"{self.next_type:>10}{self.node:>10}{self.nsx_nsf_nter:>10}{self.ntyn_mtp_angle_branch:>10}{self.ncl:>10}{self.mat:>10}{self.ncp:>10}"

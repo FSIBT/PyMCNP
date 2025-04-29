@@ -20,12 +20,13 @@ class History(_object.McnpElement_):
     """
 
     _REGEX = re.compile(
-        r'\s(.{10})(.{10})(.{10})(.{13})\n' r'(.+\n)*?((?:       9000).+?)\n(.+?)\n' r'((.+\n)*)'
+        r'\s(.+)\n'
+        rf'((?:\s(?:(?:{history.J_0._REGEX.pattern})|(?:{history.J_1._REGEX.pattern})|(?:{history.J_2._REGEX.pattern})|(?:{history.J_3._REGEX.pattern})|(?:{history.J_4._REGEX.pattern})|(?:{history.J_5._REGEX.pattern})|(?:{history.J_6._REGEX.pattern})|(?:{history.J_7._REGEX.pattern}))\n\s(?:(?:{history.P_0._REGEX.pattern})|(?:{history.P_1._REGEX.pattern}))\n)+)'
     )
 
     def __init__(
         self,
-        i_line: types.Tuple[types.Integer, history.EventType, types.Real],
+        i_line: history.I,
         events: typing.Generator,
     ):
         """
@@ -66,20 +67,12 @@ class History(_object.McnpElement_):
             PtracError: SYNTAX_BLOCK.
         """
 
-        source = _parser.preprocess_ptrac(source)
         tokens = History._REGEX.match(source)
 
         if not tokens:
             raise errors.PtracError(errors.PtracCode.SYNTAX_BLOCK, source)
 
-        i_line = types.Tuple(
-            [
-                types.Integer(tokens[1]),
-                history.EventType(tokens[2].strip()),
-                types.Integer(tokens[3]),
-                types.Real(tokens[4]),
-            ]
-        )
+        i_line = history.I.from_mcnp(tokens[1])
 
         def events(next_type, lines):
             while next_type != history.EventType.FLAG:
@@ -100,17 +93,17 @@ class History(_object.McnpElement_):
                         assert False
                 else:
                     if next_type == history.EventType.SURFACE:
-                        na = header.n_line
-                        nb = header.n_line
+                        na = header.n_line[5]
+                        nb = header.n_line[6]
                     elif next_type == history.EventType.COLLISION:
-                        na = header.n_line
-                        nb = header.n_line
-                    elif next_type == history.EventType.TERMINATION:
-                        na = header.n_line
-                        nb = header.n_line
+                        na = header.n_line[7]
+                        nb = header.n_line[8]
+                    elif next_type == history.EventType.TERMINAL:
+                        na = header.n_line[9]
+                        nb = header.n_line[10]
                     else:
-                        na = header.n_line
-                        nb = header.n_line
+                        na = header.n_line[3]
+                        nb = header.n_line[4]
 
                     if (na, nb) == (5, 3):
                         j_line = history.J_0.from_mcnp(lines.pop(0))
@@ -130,9 +123,23 @@ class History(_object.McnpElement_):
                 yield (j_line, p_line)
                 next_type = j_line.next_type
 
-        events = events(i_line[2], [tokens[5], tokens[6]])
+        events = events(i_line.event_type, tokens[2][1:].split('\n '))
 
-        return (
-            History(i_line, events),
-            tokens[8],
-        )
+        return History(i_line, events)
+
+    def to_mcnp(self):
+        """
+        Generates PTRAC from ``History``.
+
+        Returns:
+            PTRAC for ``History``.
+        """
+
+        events = ''
+        for j_line, p_line in self.events:
+            events += ' '
+            events += j_line.to_mcnp()
+            events += '\n  '
+            events += p_line.to_mcnp()
+
+        return f' {self.i_line.to_mcnp()}\n{events}'
