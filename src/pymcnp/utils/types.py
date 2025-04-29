@@ -1,6 +1,7 @@
 import re
 import enum
 import typing
+import decimal
 import dataclasses
 
 from . import errors
@@ -149,7 +150,7 @@ class Real(float, _object.McnpElement_):
 
     _REGEX = re.compile(r'[-+0-9.eE]+')
 
-    def __init__(self, value: float):
+    def __init__(self, value: float | decimal.Decimal):
         """
         Initializes ``Real``.
 
@@ -166,7 +167,7 @@ class Real(float, _object.McnpElement_):
         if value is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
 
-        self.value: typing.Final[float] = value
+        self.value: typing.Final[float | decimal.Decimal] = value
 
     @staticmethod
     def from_mcnp(source: str):
@@ -191,7 +192,7 @@ class Real(float, _object.McnpElement_):
             source = source[0] + 'e+'.join(source[1:].split('+'))
 
         try:
-            return Real(float(source))
+            return Real(decimal.Decimal(source))
         except ValueError:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
@@ -249,8 +250,6 @@ class String(str, _object.McnpElement_):
         Raises:
             McnpError: SYNTAX_TYPE.
         """
-
-        source, comments = _parser.preprocess_inp(source)
 
         return String(source)
 

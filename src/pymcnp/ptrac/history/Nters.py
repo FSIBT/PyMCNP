@@ -38,12 +38,11 @@ class Nters(_keyword.HistoryKeyword):
             ``Nters``.
 
         Raises:
-            PtracError: SYNTAX_HISTORY_KEYWORD.
+            PtracError: SYNTAX_KEYWORD.
         """
 
-        source = _parser.preprocess_ptrac(source)
 
         try:
-            return Nters(int(source))
+            return Nters(source)
         except ValueError:
-            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_KEYWORD, source)
+            raise errors.PtracError(errors.PtracCode.SYNTAX_KEYWORD, source)

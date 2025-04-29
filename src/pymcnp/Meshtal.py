@@ -75,4 +75,4 @@ class Meshtal(_object.McnpFile_):
             INP for ``Meshtal``.
         """
 
-        assert False, "I'm working on it!"
+        return header.to_mcnp() + '\n'.join(tallies.to_mcnp())
