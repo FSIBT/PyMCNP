@@ -7,7 +7,7 @@ import rich.panel
 
 def get_outfile(path: str | pathlib.Path, new: str, old: str) -> str:
     path = str(path)
-    
+
     if path.rsplit('.', maxsplit=1)[0] == old:
         path = path.rsplit('.', maxsplit=1)[1]
 

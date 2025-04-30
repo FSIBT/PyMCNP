@@ -1,6 +1,5 @@
 import re
 import typing
-import decimal
 
 from . import _line
 from ...utils import types
@@ -92,4 +91,4 @@ class P_0(_line.HistoryLine):
         y = _parser.postprocess_exponenet(self.y.value, 5)
         z = _parser.postprocess_exponenet(self.z.value, 5)
 
-        return f"{x} {y} {z}"
+        return f'{x} {y} {z}'

@@ -1,4 +1,3 @@
-from __future__ import annotations
 import re
 import typing
 
@@ -6,7 +5,6 @@ from . import history
 from .Header import Header
 from ..utils import types
 from ..utils import errors
-from ..utils import _parser
 from ..utils import _object
 
 
@@ -52,7 +50,7 @@ class History(_object.McnpElement_):
         self.events: typing.Final[typing.Generator] = events
 
     @staticmethod
-    def from_mcnp(source: str, header: Header) -> tuple[History, str]:
+    def from_mcnp(source: str, header: Header):
         """
         Generates ``History`` from PTRAC.
 

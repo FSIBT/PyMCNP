@@ -9,10 +9,8 @@ Options:
 import pathlib
 
 from docopt import docopt
-from matplotlib import pyplot as plt
 
 from . import _io
-from ..Outp import Outp
 from ..utils import errors
 
 
@@ -48,12 +46,10 @@ class Plot:
             number: Tally number.
         """
 
-        outp = Outp.from_mcnp_file(self.path)
+        # outp = Outp.from_mcnp_file(self.path)
         # df = outp.to_dataframe()
-
-        fig, ax = plt.subplots()
-
-        #ax.errorbar(
+        # fig, ax = plt.subplots()
+        # ax.errorbar(
         #    df['energy'],
         #    df['cts'],
         #    yerr=df['error'] * df['cts'],
@@ -61,15 +57,15 @@ class Plot:
         #    label='Error',
         #    color='orange',
         #    zorder=1,
-        #)
-        #ax.step(df['energy'], df['cts'], color='blue', where='mid', label='Counts', zorder=2)
-        ax.title('Energy histogram')
-        ax.xlabel('Energy [MeV]')
-        ax.ylabel('Counts/bin/neutron')
-        ax.yscale('log')
-        ax.legend()
+        # )
+        # ax.step(df['energy'], df['cts'], color='blue', where='mid', label='Counts', zorder=2)
+        # ax.title('Energy histogram')
+        # ax.xlabel('Energy [MeV]')
+        # ax.ylabel('Counts/bin/neutron')
+        # ax.yscale('log')
+        # ax.legend()
 
-        return fig, ax
+        # return fig, ax
 
     def to_pdf(self, number: int):
         """

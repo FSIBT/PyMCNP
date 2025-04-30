@@ -5,7 +5,6 @@ from . import _line
 from .EventType import EventType
 from ...utils import types
 from ...utils import errors
-from ...utils import _parser
 
 
 class I(_line.HistoryLine):
@@ -76,7 +75,7 @@ class I(_line.HistoryLine):
 
         if not tokens:
             raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
-        
+
         nps = types.Integer.from_mcnp(tokens[1])
         event_type = EventType.from_mcnp(tokens[2].strip())
         number = types.Integer.from_mcnp(tokens[3])
@@ -97,4 +96,4 @@ class I(_line.HistoryLine):
             PTRAC for ``I``.
         """
 
-        return f"{self.nps:>10}{self.event_type:>10}{self.number:>10}{self.tfc:>13.5E}"
+        return f'{self.nps:>10}{self.event_type:>10}{self.number:>10}{self.tfc:>13.5E}'

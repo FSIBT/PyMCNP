@@ -151,4 +151,4 @@ class P_1(_line.HistoryLine):
         wgt = _parser.postprocess_exponenet(self.wgt.value, 5)
         tme = _parser.postprocess_exponenet(self.tme.value, 5)
 
-        return f"{x} {y} {z} {u} {v} {w} {erg} {wgt} {tme}"
+        return f'{x} {y} {z} {u} {v} {w} {erg} {wgt} {tme}'

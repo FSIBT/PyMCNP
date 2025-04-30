@@ -41,7 +41,7 @@ class Outp(_object.McnpFile_):
             ``Outp``.
         """
 
-        lines = types.Tuple(map(lambda line: types.String(line), lines.split('\n')))
+        lines = types.Tuple(map(lambda line: types.String(line), source.split('\n')))
 
         return cls(lines)
 
@@ -53,4 +53,4 @@ class Outp(_object.McnpFile_):
             OUTP for ``Outp``.
         """
 
-        return '\n'.join(lines)
+        return '\n'.join(line for line in self.lines)

@@ -1,6 +1,5 @@
 from . import _keyword
 from ...utils import errors
-from ...utils import _parser
 
 
 class EventType(_keyword.HistoryKeyword):
@@ -90,8 +89,6 @@ class EventType(_keyword.HistoryKeyword):
         Raises:
             PtracError: SYNTAX_KEYWORD.
         """
-
-
 
         try:
             return EventType(source)
