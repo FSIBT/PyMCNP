@@ -46,7 +46,7 @@ class Plot:
             number: Tally number.
         """
 
-        # outp = Outp.from_mcnp_file(self.path)
+        # outp = Outp.from_file(self.path)
         # df = outp.to_dataframe()
         # fig, ax = plt.subplots()
         # ax.errorbar(

@@ -20,7 +20,7 @@ class Test_Inp:
 
     class Test_FromMcnpFile(_utils._Test_FromMcnpFile):
         """
-        Tests ``Inp.from_mcnp_file``.
+        Tests ``Inp.from_file``.
         """
 
         element = pymcnp.Inp

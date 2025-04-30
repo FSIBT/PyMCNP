@@ -33,9 +33,9 @@ PyMCNP represents MCNP files using the ``Inp``, ``Meshtal``, and ``Ptrac`` AST c
 
 * ``to_mcnp``. Generates MCNP source from PyMCNP objects, reformatting.
 
-* ``from_mcnp_file``. Parses MCNP file.
+* ``from_file``. Parses MCNP file.
 
-* ``to_mcnp_file``. Generates MCNP file from PyMCNP objects.
+* ``to_file``. Generates MCNP file from PyMCNP objects.
 
 ### ``Inp`` Class
 

@@ -52,7 +52,7 @@ class Convert:
             number: Tally to read.
         """
 
-        # outp = Outp.from_mcnp_file(self.path)
+        # outp = Outp.from_file(self.path)
         # df = outp.to_dataframe()
 
         # path = _io.get_outfile(self.path, 'outp', 'csv')
@@ -67,7 +67,7 @@ class Convert:
             number: Tally to read.
         """
 
-        # outp = Outp.from_mcnp_file(self.path)
+        # outp = Outp.from_file(self.path)
         # df = outp.to_dataframe()
 
         # path = _io.get_outfile(self.path, 'outp', 'parquet')

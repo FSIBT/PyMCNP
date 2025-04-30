@@ -31,7 +31,7 @@ class McnpFile_(McnpElement_):
     """
 
     @classmethod
-    def from_mcnp_file(cls, filename: pathlib.Path | str):
+    def from_file(cls, filename: pathlib.Path | str):
         """
         Generates ``McnpFile_`` from MCNP files.
 
@@ -51,7 +51,7 @@ class McnpFile_(McnpElement_):
 
         return cls.from_mcnp(source)
 
-    def to_mcnp_file(self, filename: str | pathlib.Path):
+    def to_file(self, filename: str | pathlib.Path):
         """
         Generates MCNP files from ``McnpFile_``.
 

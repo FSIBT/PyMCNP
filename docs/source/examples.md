@@ -19,7 +19,7 @@ use the universal `modify` function.
 	
 	pymcnp.modify(x.data._cards['nps'], npp=100_000)
 
-	data.to_mcnp_file('/path/to/data/new_file_name.i')
+	data.to_file('/path/to/data/new_file_name.i')
 
 However, dor common operations, we have specific helper functions, so
 the above can also be done using:
@@ -31,7 +31,7 @@ the above can also be done using:
 	
 	data = data.set_nps(100_000)
 
-	data.to_mcnp_file('/path/to/data/new_file_name.i')
+	data.to_file('/path/to/data/new_file_name.i')
 
 
 ## Creating materials using chemical formula

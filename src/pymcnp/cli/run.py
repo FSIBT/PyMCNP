@@ -137,7 +137,7 @@ def main() -> None:
 
     # Reading INP file(s).
     try:
-        inps = map(Inp.from_mcnp_file, map(pathlib.Path, args['<inp>']))
+        inps = map(Inp.from_file, map(pathlib.Path, args['<inp>']))
     except errors.InpError as err:
         _io.error(str(err))
         exit(1)
