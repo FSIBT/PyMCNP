@@ -30,7 +30,7 @@ def main() -> None:
 
     # Reading INP file(s).
     try:
-        inp = Inp.from_mcnp_file(inp)
+        inp = Inp.from_file(inp)
     except errors.InpError as err:
         _io.error(str(err))
         exit(1)

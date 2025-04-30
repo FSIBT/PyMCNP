@@ -34,7 +34,7 @@ class _Test_FromMcnp:
 
 class _Test_FromMcnpFile:
     """
-    Tests ``McnpElement_.from_mcnp_file``.
+    Tests ``McnpElement_.from_file``.
     """
 
     element: pymcnp.utils._object.McnpElement_
@@ -47,7 +47,7 @@ class _Test_FromMcnpFile:
         """
 
         for example in self.EXAMPLES_VALID:
-            self.element.from_mcnp_file(example)
+            self.element.from_file(example)
 
     def test_invalid(self):
         """
@@ -56,4 +56,4 @@ class _Test_FromMcnpFile:
 
         for example in self.EXAMPLES_INVALID:
             with pytest.raises(pymcnp.utils.errors.InpError):
-                self.element.from_mcnp_file(example)
+                self.element.from_file(example)

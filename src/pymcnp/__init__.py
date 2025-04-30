@@ -18,10 +18,10 @@ from .MeshtalProcessed import MeshtalProcessed
 # from . import outp
 from .Outp import Outp
 
-read_input = Inp.from_mcnp_file
-read_ptrac = Ptrac.from_mcnp_file
-read_meshtal = Meshtal.from_mcnp_file
-read_output = Outp.from_mcnp_file
+read_input = Inp.from_file
+read_ptrac = Ptrac.from_file
+read_meshtal = Meshtal.from_file
+read_output = Outp.from_file
 
 __all__ = [
     'types',

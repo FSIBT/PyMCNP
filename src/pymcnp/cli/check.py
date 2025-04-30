@@ -56,7 +56,7 @@ class Check:
         Fixes a file.
         """
 
-        Inp.from_mcnp_file(self.path).to_mcnp_file(self.path)
+        Inp.from_file(self.path).to_file(self.path)
 
 
 def main() -> None:
