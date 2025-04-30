@@ -29,7 +29,7 @@ class Header(_block.Block):
     """
 
     _REGEX = re.compile(
-        r'(.{7})version (.{6})ld=(.{10})probid =(.{20})\n\s(.{80})\n\sNumber of histories used for normalizing tallies =(.{17})\n\n\sMesh Tally Number(.{10})\n\s(.{8}) mesh tally[.]\n This mesh tally is modified by a dose response function[.]\n\n Tally bin boundaries:\n((?:    (?:X direction|Y direction|Z direction|Energy bin boundaries|Time bin boundaries):.+\n)+)\n(.+)\n([\s\S]+)'
+        r'(.{7})version (.{6})ld=(.{10})probid =(.{20})\n\s(.{80})\n\sNumber of histories used for normalizing tallies =(.{17})\n\n\sMesh Tally Number(.{10})\n\s(.{8}) mesh tally[.]\n This mesh tally is modified by a dose response function[.]\n\n Tally bin boundaries:\n((?:    .+\n)+)\n(.+)\n'
     )
 
     def __init__(
@@ -103,6 +103,7 @@ class Header(_block.Block):
         self.version: typing.Final[types.String] = version
         self.ld: typing.Final[types.String] = ld
         self.probid: typing.Final[types.String] = probid
+        self.title: typing.Final[types.String] = title
         self.histories: typing.Final[types.Integer] = histories
         self.number: typing.Final[types.Integer] = number
         self.particle: typing.Final[types.String] = particle
@@ -114,7 +115,7 @@ class Header(_block.Block):
         self.columns: typing.Final[types.String] = columns
 
     @staticmethod
-    def from_mcnp(source: str) -> tuple[Header, str]:
+    def from_mcnp(source: str):
         """
         Generates ``Header`` from MESHTAL.
 
@@ -157,24 +158,21 @@ class Header(_block.Block):
 
         columns = types.String.from_mcnp(tokens[10])
 
-        return (
-            Header(
-                code,
-                version,
-                ld,
-                probid,
-                title,
-                histories,
-                number,
-                particle,
-                bins_x,
-                bins_y,
-                bins_z,
-                bins_energy,
-                bins_time,
-                columns,
-            ),
-            tokens[11],
+        return Header(
+            code,
+            version,
+            ld,
+            probid,
+            title,
+            histories,
+            number,
+            particle,
+            bins_x,
+            bins_y,
+            bins_z,
+            bins_energy,
+            bins_time,
+            columns,
         )
 
     def to_mcnp(self):
@@ -185,4 +183,19 @@ class Header(_block.Block):
             INP for ``Header``.
         """
 
-        assert False, "I'm working on it!"
+        bins = ''
+        bins += f"    X direction:{''.join(map(str, self.bins_x))}\n" if self.bins_x else ''
+        bins += f"    Y direction:{''.join(map(str, self.bins_y))}\n" if self.bins_y else ''
+        bins += f"    Z direction:{''.join(map(str, self.bins_z))}\n" if self.bins_z else ''
+        bins += (
+            f"    Energy bin boundaries:{''.join(map(str, self.bins_energy))}\n"
+            if self.bins_energy
+            else ''
+        )
+        bins += (
+            f"    Time bin boundaries:{''.join(map(str, self.bins_time))}\n"
+            if self.bins_time
+            else ''
+        )
+
+        return f'{self.code:>7}version {self.version:>6}ld={self.ld:>10}probid ={self.probid:>20}\n {self.title:>80}\n Number of histories used for normalizing tallies ={self.histories:>17.2F}\n\n Mesh Tally Number{self.number:>10}\n {self.particle:>8} mesh tally.\n This mesh tally is modified by a dose response function.\n\n Tally bin boundaries:\n{bins}\n{self.columns}\n'

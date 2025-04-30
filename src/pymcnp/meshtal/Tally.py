@@ -21,7 +21,7 @@ class Tally(_line.Line):
         error: Tally relative error.
     """
 
-    _REGEX = re.compile(r'\s*(\S*)\s*(\S*)\s*(\S*)\s*(\S*)\s*(\S*)\s*(\S*)\s*(\S*)\n([\s\S]+)')
+    _REGEX = re.compile(r'\s(.+)(\n|\Z)')
 
     def __init__(
         self,
@@ -52,13 +52,13 @@ class Tally(_line.Line):
         if error is None:
             raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_LINE, error)
 
+        self.result: typing.Final[types.Real] = result
+        self.error: typing.Final[types.Real] = error
         self.x: typing.Final[types.Real] = x
         self.y: typing.Final[types.Real] = y
         self.z: typing.Final[types.Real] = z
         self.energy: typing.Final[types.Real] = energy
         self.time: typing.Final[types.Real] = time
-        self.result: typing.Final[types.Real] = result
-        self.error: typing.Final[types.Real] = error
 
     @staticmethod
     def from_mcnp(source: str, header: Header):
@@ -71,9 +71,9 @@ class Tally(_line.Line):
         """
 
         tokens = Tally._REGEX.match(source)
-        headings = re.split(r'\s+', header.columns)
+        headings = re.split(r'\s+', header.columns.strip())
 
-        if not tokens or (len(tokens.groups()) != len(headings) + 2):
+        if not tokens:
             raise errors.MeshtalError(errors.MeshtalCode.SYNTAX_LINE, source)
 
         x = None
@@ -84,27 +84,53 @@ class Tally(_line.Line):
         result = None
         error = None
 
+        tokens = re.split(r'\s+', tokens[1].strip())
+
         for i, heading in enumerate(headings):
-            if heading == 'x':
-                x = tokens[i + 1]
-            elif heading == 'y':
-                y = tokens[i + 1]
-            elif heading == 'z':
-                z = tokens[i + 1]
-            elif heading == 'energy':
-                energy = tokens[i + 1]
-            elif heading == 'time':
-                time = tokens[i + 1]
-            elif heading == 'result':
-                result = tokens[i + 1]
-            elif heading == 'rel':
-                error = tokens[i + 1]
-            elif heading == 'error':
+            if heading == 'X':
+                x = tokens[i]
+            elif heading == 'Y':
+                y = tokens[i]
+            elif heading == 'Z':
+                z = tokens[i]
+            elif heading == 'Energy':
+                energy = tokens[i]
+            elif heading == 'Time':
+                time = tokens[i]
+            elif heading == 'Result':
+                result = tokens[i]
+            elif heading == 'Rel':
+                error = tokens[i]
+            elif heading == 'Error':
                 pass
             else:
                 raise errors.MeshtalError(errors.MeshtalCode.SYNTAX_LINE, source)
 
-        return (
-            Tally(x, y, z, energy, time, result, error),
-            tokens[8],
+        return Tally(
+            result,
+            error,
+            x=x,
+            y=y,
+            z=z,
+            energy=energy,
+            time=time,
         )
+
+    def to_mcnp(self):
+        """
+        Generates MESTHAL from ``Tally``.
+
+        Returns:
+            INP for ``Tally``.
+        """
+
+        line = ''
+        line += f'{self.energy:>11}' if self.energy else ''
+        line += f'{self.time:>11}' if self.time else ''
+        line += f'{self.x:>10}' if self.x else ''
+        line += f'{self.y:>10}' if self.y else ''
+        line += f'{self.z:>10}' if self.z else ''
+        line += f'{self.result:>12}' if self.result else ''
+        line += f'{self.error:>12}' if self.error else ''
+
+        return line
