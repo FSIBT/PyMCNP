@@ -16,7 +16,6 @@ import pathlib
 from docopt import docopt
 
 from . import _io
-from ..Outp import Outp
 from ..utils import errors
 
 
@@ -53,13 +52,12 @@ class Convert:
             number: Tally to read.
         """
 
-        outp = Outp.from_mcnp_file(self.path)
+        # outp = Outp.from_mcnp_file(self.path)
         # df = outp.to_dataframe()
 
-        path = _io.get_outfile(self.path, 'outp', 'csv')
-        with path.open('r') as file:
-            pass
-            # file.write(df.to_csv())
+        # path = _io.get_outfile(self.path, 'outp', 'csv')
+        # with path.open('r') as file:
+        # file.write(df.to_csv())
 
     def to_parquet(self, number: int):
         """
@@ -69,13 +67,12 @@ class Convert:
             number: Tally to read.
         """
 
-        outp = Outp.from_mcnp_file(self.path)
+        # outp = Outp.from_mcnp_file(self.path)
         # df = outp.to_dataframe()
 
-        path = _io.get_outfile(self.path, 'outp', 'parquet')
-        with path.open('r') as file:
-            pass
-            # file.write(df.to_parquet())
+        # path = _io.get_outfile(self.path, 'outp', 'parquet')
+        # with path.open('r') as file:
+        # file.write(df.to_parquet())
 
 
 def main() -> None:

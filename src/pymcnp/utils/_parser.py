@@ -116,7 +116,4 @@ def postprocess_exponenet(number: decimal.Decimal, percision: int):
     s = '-' if s else ' '
     d = ''.join(map(str, d[:percision]))
 
-    return f"{s}0.{d}E{e:+03}"
-
-    
-
+    return f'{s}0.{d}E{e:+03}'

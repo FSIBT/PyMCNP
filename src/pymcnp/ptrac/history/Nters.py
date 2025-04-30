@@ -1,6 +1,5 @@
 from . import _keyword
 from ...utils import errors
-from ...utils import _parser
 
 
 class Nters(_keyword.HistoryKeyword):
@@ -40,7 +39,6 @@ class Nters(_keyword.HistoryKeyword):
         Raises:
             PtracError: SYNTAX_KEYWORD.
         """
-
 
         try:
             return Nters(source)

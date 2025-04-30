@@ -5,7 +5,6 @@ from . import _line
 from .EventType import EventType
 from ...utils import types
 from ...utils import errors
-from ...utils import _parser
 
 
 class J_1(_line.HistoryLine):
@@ -115,4 +114,4 @@ class J_1(_line.HistoryLine):
             PTRAC for ``J_1``.
         """
 
-        return f"{self.next_type:>10}{self.node:>10}{self.nsx_nsf_nter:>10}{self.ntyn_mtp_angle_branch:>10}{self.ncl:>10}"
+        return f'{self.next_type:>10}{self.node:>10}{self.nsx_nsf_nter:>10}{self.ntyn_mtp_angle_branch:>10}{self.ncl:>10}'

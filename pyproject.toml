@@ -63,6 +63,7 @@ write_to = "./src/pymcnp/version.py"
 
 [tool.ruff]
 line-length = 100
+lint.ignore = ["E741", "E742"]
 
 [tool.ruff.format]
 quote-style = "single"

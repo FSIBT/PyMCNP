@@ -1,10 +1,10 @@
-from __future__ import annotations
+# noqa: E741
+
 import re
 import typing
 
 from ..utils import types
 from ..utils import errors
-from ..utils import _parser
 from ..utils import _object
 
 
@@ -94,7 +94,7 @@ class Header(_object.McnpElement_):
         self.l_line: typing.Final[types.Tuple[types.Integer]] = l_line
 
     @staticmethod
-    def from_mcnp(source: str) -> tuple[Header, str]:
+    def from_mcnp(source: str):
         """
         Generates ``Header`` from PTRAC.
 
@@ -118,20 +118,17 @@ class Header(_object.McnpElement_):
         code_date = types.String.from_mcnp(tokens[3])
         run_datetime = types.String.from_mcnp(tokens[4])
         title = types.String.from_mcnp(tokens[5])
-        v_line = types.Tuple([types.Real.from_mcnp(v) for v in re.split(r'\s+|\n', tokens[6].strip())])
-        n_line = types.Tuple([types.Integer.from_mcnp(n) for n in re.split(r'\s+|\n', tokens[7].strip())])
-        l_line = types.Tuple([types.Integer.from_mcnp(l) for l in re.split(r'\s+|\n', tokens[8].strip())])
-
-        return Header(
-            code,
-            version,
-            code_date,
-            run_datetime,
-            title,
-            v_line,
-            n_line,
-            l_line
+        v_line = types.Tuple(
+            [types.Real.from_mcnp(v) for v in re.split(r'\s+|\n', tokens[6].strip())]
         )
+        n_line = types.Tuple(
+            [types.Integer.from_mcnp(n) for n in re.split(r'\s+|\n', tokens[7].strip())]
+        )
+        l_line = types.Tuple(
+            [types.Integer.from_mcnp(l) for l in re.split(r'\s+|\n', tokens[8].strip())]
+        )
+
+        return Header(code, version, code_date, run_datetime, title, v_line, n_line, l_line)
 
     def to_mcnp(self):
         """
@@ -143,7 +140,7 @@ class Header(_object.McnpElement_):
 
         v_line = ' '
         for i, v in enumerate(self.v_line):
-            v_line += f"{v:>12.4E}"
+            v_line += f'{v:>12.4E}'
 
             if (i + 1) % 10 == 0 and i != 0:
                 v_line += '\n '
@@ -151,14 +148,13 @@ class Header(_object.McnpElement_):
 
         n_line = ' '
         for i, n in enumerate(self.n_line):
-            n_line += f"{n:>5}"
+            n_line += f'{n:>5}'
 
         l_line = ' '
         for i, l in enumerate(self.l_line):
-            l_line += f"{l:>4}"
+            l_line += f'{l:>4}'
 
             if (i + 1) % 30 == 0 and i != 0:
                 l_line += '\n '
 
-        return f"   -1\n{self.code:<8}{self.version:<25}{self.code_date:<9}{self.run_datetime:<18}\n{self.title:<80}\n{v_line}{n_line}\n{l_line}\n"
-
+        return f'   -1\n{self.code:<8}{self.version:<25}{self.code_date:<9}{self.run_datetime:<18}\n{self.title:<80}\n{v_line}{n_line}\n{l_line}\n'
