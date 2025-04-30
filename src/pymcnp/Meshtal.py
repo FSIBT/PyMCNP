@@ -1,3 +1,4 @@
+import re
 import typing
 
 from . import meshtal
@@ -13,6 +14,8 @@ class Meshtal(_object.McnpFile_):
         header: MESHTAL header.
         tallies: MESTHAL tallies.
     """
+
+    _REGEX = re.compile(rf'({meshtal.Header._REGEX.pattern})((?:{meshtal.Tally._REGEX.pattern})+)')
 
     def __init__(
         self, header: meshtal.Header, tallies: typing.Generator[meshtal.Tally, None, None]
@@ -55,15 +58,16 @@ class Meshtal(_object.McnpFile_):
             ``Meshtal``.
         """
 
-        header, lines = meshtal.Header.from_mcnp(source)
+        tokens = Meshtal._REGEX.match(source)
 
-        def tallies(lines):
-            while lines:
-                tally, lines = meshtal.Tally.from_mcnp(lines, header)
-                yield tally
-            return
+        if not tokens:
+            raise errors.MeshtalError(errors.MeshtalCode.SYNTAX_MESHTAL, source)
 
-        tallies = tallies(lines)
+        header = meshtal.Header.from_mcnp(tokens[1])
+        tallies = (
+            meshtal.Tally.from_mcnp(match[0], header)
+            for match in meshtal.Tally._REGEX.finditer(tokens[12])
+        )
 
         return Meshtal(header, tallies)
 
@@ -75,4 +79,4 @@ class Meshtal(_object.McnpFile_):
             INP for ``Meshtal``.
         """
 
-        return header.to_mcnp() + '\n'.join(tallies.to_mcnp())
+        return self.header.to_mcnp() + ' ' + '\n '.join(tally.to_mcnp() for tally in self.tallies)
