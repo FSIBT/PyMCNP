@@ -23,15 +23,15 @@ class ReadOutput:
     def read_tally(self, n=0, mode='e'):
         flag_et = False  # this is a time and energy tally flag
         if mode == 'e':  # energy
-            s = self.df_info['_line.HistoryLinetart'][n]
-            e = self.df_info['_line.HistoryLinend'][n]
+            s = self.df_info['line_start'][n]
+            e = self.df_info['line_end'][n]
             corpus = self.all_lines[s:e]
             corpus_np = np.array([x.split() for x in corpus], dtype=float)
             df = pd.DataFrame(columns=['energy', 'cts', 'error'], data=corpus_np)
             return df
         elif mode == 't' or mode == 'et' or mode == 'te':
-            s = self.df_info['_line.HistoryLinetart'][n]
-            e = self.df_info['_line.HistoryLinend'][n]
+            s = self.df_info['line_start'][n]
+            e = self.df_info['line_end'][n]
             select_lines = self.all_lines[s : e + 10]  # end plus wiggle room
             time, energy, counts, error, total = [], [], [], [], []
             for i, line in enumerate(select_lines):
@@ -113,7 +113,7 @@ class ReadOutput:
         start = -1
         if tally_type == 'e':
             key_word = 'energy'
-        start_line = list(self.df_info['_line.HistoryLineumber'])[n]
+        start_line = list(self.df_info['line_number'])[n]
 
         for i, line in enumerate(self.all_lines[start_line:]):
             words = line.split()
@@ -276,8 +276,8 @@ class ReadOutput:
             'tally_name',
             'tally_type',
             'particle',
-            '_line.HistoryLinetart',
-            '_line.HistoryLinend',
+            'line_start',
+            'line_end',
             'description',
             'nps',
             'other',
@@ -291,8 +291,8 @@ class ReadOutput:
             data_end = data[1]
             info_lst = self.all_lines[info_start:info_end]
             info_dict = self.parse_tally_info(info_lst)
-            info_dict['_line.HistoryLinetart'] = data_start
-            info_dict['_line.HistoryLinend'] = data_end
+            info_dict['line_start'] = data_start
+            info_dict['line_end'] = data_end
             df.loc[len(df)] = info_dict
         # handle time binned data
         for t, e in zip(tally1_idx, time2_end_idx):
@@ -302,8 +302,8 @@ class ReadOutput:
             data_end = e  # fix this
             info_lst = self.all_lines[info_start:info_end]
             info_dict = self.parse_tally_info(info_lst)
-            info_dict['_line.HistoryLinetart'] = data_start
-            info_dict['_line.HistoryLinend'] = data_end
+            info_dict['line_start'] = data_start
+            info_dict['line_end'] = data_end
             df.loc[len(df)] = info_dict
 
         print('--' * 25)
@@ -358,7 +358,7 @@ class ReadOutput:
             'angle_bin',
             'flux',
             'user_bin',
-            '_line.HistoryLineumber',
+            'line_number',
         ]
         df = pd.DataFrame(columns=cols)
         sur, ang, unc, ub = 0, 0, 0, 0

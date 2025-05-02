@@ -15,7 +15,7 @@ from .Meshtal import Meshtal
 from .MeshtalFiltered import MeshtalFiltered
 from .MeshtalProcessed import MeshtalProcessed
 
-# from . import outp
+from . import outp
 from .Outp import Outp
 
 read_input = Inp.from_file
@@ -38,7 +38,7 @@ __all__ = [
     'Meshtal',
     'MeshtalFiltered',
     'MeshtalProcessed',
-    # 'outp',
+    'outp',
     'Outp',
     'read_input',
     'read_ptrac',
