@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Raflux(BlockOption, keyword='raflux'):
+class Raflux(BlockOption):
     """
     Represents INP raflux elements.
 

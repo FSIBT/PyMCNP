@@ -7,7 +7,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Zc(DataOption, keyword='zc'):
+class Zc(DataOption):
     """
     Represents INP zc elements.
 

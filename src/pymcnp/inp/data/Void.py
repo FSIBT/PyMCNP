@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Void(DataOption, keyword='void'):
+class Void(DataOption):
     """
     Represents INP void elements.
 

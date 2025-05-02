@@ -6,7 +6,7 @@ from .utils import errors
 from .utils import _object
 
 
-class Ptrac(_object.McnpFile_):
+class Ptrac(_object.McnpFile):
     """
     Represents PTRAC files.
 

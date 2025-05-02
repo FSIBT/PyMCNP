@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Runtpe(MplotOption, keyword='runtpe'):
+class Runtpe(MplotOption):
     """
     Represents INP runtpe elements.
 

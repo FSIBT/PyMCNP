@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Legend(MplotOption, keyword='legend'):
+class Legend(MplotOption):
     """
     Represents INP legend elements.
 

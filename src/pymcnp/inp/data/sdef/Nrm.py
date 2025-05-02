@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Nrm(SdefOption, keyword='nrm'):
+class Nrm(SdefOption):
     """
     Represents INP nrm elements.
 

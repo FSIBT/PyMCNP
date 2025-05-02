@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Cel(SdefOption, keyword='cel'):
+class Cel(SdefOption):
     """
     Represents INP cel elements.
 

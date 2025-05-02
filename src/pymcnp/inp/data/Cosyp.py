@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Cosyp(DataOption, keyword='cosyp'):
+class Cosyp(DataOption):
     """
     Represents INP cosyp elements.
 

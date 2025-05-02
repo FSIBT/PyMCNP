@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Wwge(DataOption, keyword='wwge'):
+class Wwge(DataOption):
     """
     Represents INP wwge elements.
 

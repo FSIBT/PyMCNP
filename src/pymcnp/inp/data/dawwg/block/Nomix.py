@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Nomix(BlockOption, keyword='nomix'):
+class Nomix(BlockOption):
     """
     Represents INP nomix elements.
 

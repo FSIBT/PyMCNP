@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fc(DataOption, keyword='fc'):
+class Fc(DataOption):
     """
     Represents INP fc elements.
 

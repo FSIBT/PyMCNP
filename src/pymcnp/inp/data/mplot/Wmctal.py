@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Wmctal(MplotOption, keyword='wmctal'):
+class Wmctal(MplotOption):
     """
     Represents INP wmctal elements.
 

@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Srcacc(BlockOption, keyword='srcacc'):
+class Srcacc(BlockOption):
     """
     Represents INP srcacc elements.
 

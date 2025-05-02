@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Tsaits(BlockOption, keyword='tsaits'):
+class Tsaits(BlockOption):
     """
     Represents INP tsaits elements.
 

@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Py(SurfaceOption, keyword='py'):
+class Py(SurfaceOption):
     """
     Represents INP py elements.
 

@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Dgeb(ActOption, keyword='dgeb'):
+class Dgeb(ActOption):
     """
     Represents INP dgeb elements.
 

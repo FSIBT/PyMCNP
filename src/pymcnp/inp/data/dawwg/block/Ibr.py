@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Ibr(BlockOption, keyword='ibr'):
+class Ibr(BlockOption):
     """
     Represents INP ibr elements.
 

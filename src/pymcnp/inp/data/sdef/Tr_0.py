@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Tr_0(SdefOption, keyword='tr'):
+class Tr_0(SdefOption):
     """
     Represents INP tr variation #0 elements.
 

@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Sd(DataOption, keyword='sd'):
+class Sd(DataOption):
     """
     Represents INP sd elements.
 

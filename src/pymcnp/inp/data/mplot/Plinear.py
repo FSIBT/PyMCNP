@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Plinear(MplotOption, keyword='plinear'):
+class Plinear(MplotOption):
     """
     Represents INP plinear elements.
 

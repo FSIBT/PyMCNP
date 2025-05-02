@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Pwt(DataOption, keyword='pwt'):
+class Pwt(DataOption):
     """
     Represents INP pwt elements.
 

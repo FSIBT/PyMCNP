@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Ty(SurfaceOption, keyword='ty'):
+class Ty(SurfaceOption):
     """
     Represents INP ty elements.
 

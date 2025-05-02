@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Kclear(FmeshOption, keyword='kclear'):
+class Kclear(FmeshOption):
     """
     Represents INP kclear elements.
 

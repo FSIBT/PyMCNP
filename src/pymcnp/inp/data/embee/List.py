@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class List(EmbeeOption, keyword='list'):
+class List(EmbeeOption):
     """
     Represents INP list elements.
 

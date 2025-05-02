@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Hlcut(ActOption, keyword='hlcut'):
+class Hlcut(ActOption):
     """
     Represents INP hlcut elements.
 

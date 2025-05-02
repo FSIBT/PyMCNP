@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Nonorm(MplotOption, keyword='nonorm'):
+class Nonorm(MplotOption):
     """
     Represents INP nonorm elements.
 

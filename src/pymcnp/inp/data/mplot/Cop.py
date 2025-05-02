@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Cop(MplotOption, keyword='cop'):
+class Cop(MplotOption):
     """
     Represents INP cop elements.
 

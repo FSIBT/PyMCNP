@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Bcw(SsrOption, keyword='bcw'):
+class Bcw(SsrOption):
     """
     Represents INP bcw elements.
 

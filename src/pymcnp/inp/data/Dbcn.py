@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Dbcn(DataOption, keyword='dbcn'):
+class Dbcn(DataOption):
     """
     Represents INP dbcn elements.
 

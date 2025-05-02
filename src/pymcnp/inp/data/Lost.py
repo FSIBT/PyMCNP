@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Lost(DataOption, keyword='lost'):
+class Lost(DataOption):
     """
     Represents INP lost elements.
 

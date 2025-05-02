@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Cond(MOption_0, keyword='cond'):
+class Cond(MOption_0):
     """
     Represents INP cond elements.
 

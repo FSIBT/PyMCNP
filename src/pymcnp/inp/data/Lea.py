@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Lea(DataOption, keyword='lea'):
+class Lea(DataOption):
     """
     Represents INP lea elements.
 

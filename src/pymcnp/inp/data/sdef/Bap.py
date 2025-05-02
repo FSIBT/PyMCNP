@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Bap(SdefOption, keyword='bap'):
+class Bap(SdefOption):
     """
     Represents INP bap elements.
 

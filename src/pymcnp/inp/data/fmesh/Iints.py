@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Iints(FmeshOption, keyword='iints'):
+class Iints(FmeshOption):
     """
     Represents INP iints elements.
 

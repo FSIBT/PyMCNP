@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Pty(SsrOption, keyword='pty'):
+class Pty(SsrOption):
     """
     Represents INP pty elements.
 

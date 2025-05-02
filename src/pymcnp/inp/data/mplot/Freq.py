@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Freq(MplotOption, keyword='freq'):
+class Freq(MplotOption):
     """
     Represents INP freq elements.
 

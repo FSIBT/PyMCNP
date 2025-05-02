@@ -7,7 +7,7 @@ from ._option import ContourOption
 from .....utils import types
 
 
-class Pct(ContourOption, keyword='pct'):
+class Pct(ContourOption):
     """
     Represents INP pct elements.
 

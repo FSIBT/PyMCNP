@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Data(FmultOption, keyword='data'):
+class Data(FmultOption):
     """
     Represents INP data elements.
 

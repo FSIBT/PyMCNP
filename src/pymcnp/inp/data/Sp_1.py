@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Sp_1(DataOption, keyword='sp'):
+class Sp_1(DataOption):
     """
     Represents INP sp variation #1 elements.
 

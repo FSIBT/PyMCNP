@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Length(EmbedOption, keyword='length'):
+class Length(EmbedOption):
     """
     Represents INP length elements.
 

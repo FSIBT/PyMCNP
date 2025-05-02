@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Nps(PtracOption, keyword='nps'):
+class Nps(PtracOption):
     """
     Represents INP nps elements.
 

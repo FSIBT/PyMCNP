@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Ft(DataOption, keyword='ft'):
+class Ft(DataOption):
     """
     Represents INP ft elements.
 

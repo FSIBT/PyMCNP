@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Axs(MeshOption, keyword='axs'):
+class Axs(MeshOption):
     """
     Represents INP axs elements.
 

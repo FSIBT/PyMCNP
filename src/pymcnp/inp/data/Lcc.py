@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Lcc(DataOption, keyword='lcc'):
+class Lcc(DataOption):
     """
     Represents INP lcc elements.
 

@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Scales(MplotOption, keyword='scales'):
+class Scales(MplotOption):
     """
     Represents INP scales elements.
 

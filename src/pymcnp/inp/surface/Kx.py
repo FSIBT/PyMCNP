@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Kx(SurfaceOption, keyword='kx'):
+class Kx(SurfaceOption):
     """
     Represents INP kx elements.
 

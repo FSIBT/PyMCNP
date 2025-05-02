@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Epsi(BlockOption, keyword='epsi'):
+class Epsi(BlockOption):
     """
     Represents INP epsi elements.
 

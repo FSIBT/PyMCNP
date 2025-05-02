@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Mtype(EmbeeOption, keyword='mtype'):
+class Mtype(EmbeeOption):
     """
     Represents INP mtype elements.
 

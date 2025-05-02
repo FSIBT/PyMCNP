@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Estep(MOption_0, keyword='estep'):
+class Estep(MOption_0):
     """
     Represents INP estep elements.
 

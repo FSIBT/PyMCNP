@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Hist(RandOption, keyword='hist'):
+class Hist(RandOption):
     """
     Represents INP hist elements.
 

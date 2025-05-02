@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Tmesh(FmeshOption, keyword='tmesh'):
+class Tmesh(FmeshOption):
     """
     Represents INP tmesh elements.
 

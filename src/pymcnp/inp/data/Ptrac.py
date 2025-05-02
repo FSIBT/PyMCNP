@@ -8,7 +8,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Ptrac(DataOption, keyword='ptrac'):
+class Ptrac(DataOption):
     """
     Represents INP ptrac elements.
 

@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Angp(BlockOption, keyword='angp'):
+class Angp(BlockOption):
     """
     Represents INP angp elements.
 

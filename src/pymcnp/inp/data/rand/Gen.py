@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Gen(RandOption, keyword='gen'):
+class Gen(RandOption):
     """
     Represents INP gen elements.
 

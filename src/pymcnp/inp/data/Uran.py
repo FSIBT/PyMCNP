@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Uran(DataOption, keyword='uran'):
+class Uran(DataOption):
     """
     Represents INP uran elements.
 

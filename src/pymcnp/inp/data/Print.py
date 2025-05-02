@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Print(DataOption, keyword='print'):
+class Print(DataOption):
     """
     Represents INP print elements.
 

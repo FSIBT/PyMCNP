@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Cf(DataOption, keyword='cf'):
+class Cf(DataOption):
     """
     Represents INP cf elements.
 

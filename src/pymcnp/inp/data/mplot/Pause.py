@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Pause(MplotOption, keyword='pause'):
+class Pause(MplotOption):
     """
     Represents INP pause elements.
 

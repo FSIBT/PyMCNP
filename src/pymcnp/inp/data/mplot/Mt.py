@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Mt(MplotOption, keyword='mt'):
+class Mt(MplotOption):
     """
     Represents INP mt elements.
 

@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Origin(FmeshOption, keyword='origin'):
+class Origin(FmeshOption):
     """
     Represents INP origin elements.
 

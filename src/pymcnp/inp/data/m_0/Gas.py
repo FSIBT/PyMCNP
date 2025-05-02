@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Gas(MOption_0, keyword='gas'):
+class Gas(MOption_0):
     """
     Represents INP gas elements.
 

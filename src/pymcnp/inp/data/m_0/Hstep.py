@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Hstep(MOption_0, keyword='hstep'):
+class Hstep(MOption_0):
     """
     Represents INP hstep elements.
 

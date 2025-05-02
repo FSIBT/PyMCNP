@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Trcor(BlockOption, keyword='trcor'):
+class Trcor(BlockOption):
     """
     Represents INP trcor elements.
 

@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Massed(BlockOption, keyword='massed'):
+class Massed(BlockOption):
     """
     Represents INP massed elements.
 

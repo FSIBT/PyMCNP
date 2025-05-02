@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Ptconv(BlockOption, keyword='ptconv'):
+class Ptconv(BlockOption):
     """
     Represents INP ptconv elements.
 

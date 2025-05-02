@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Printal(MplotOption, keyword='printal'):
+class Printal(MplotOption):
     """
     Represents INP printal elements.
 

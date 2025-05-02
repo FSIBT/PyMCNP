@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Tally(MplotOption, keyword='tally'):
+class Tally(MplotOption):
     """
     Represents INP tally elements.
 

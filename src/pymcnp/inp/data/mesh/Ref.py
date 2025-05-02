@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Ref(MeshOption, keyword='ref'):
+class Ref(MeshOption):
     """
     Represents INP ref elements.
 

@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Tr_3(DataOption, keyword='tr'):
+class Tr_3(DataOption):
     """
     Represents INP tr variation #3 elements.
 

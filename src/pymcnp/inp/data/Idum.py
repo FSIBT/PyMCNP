@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Idum(DataOption, keyword='idum'):
+class Idum(DataOption):
     """
     Represents INP idum elements.
 

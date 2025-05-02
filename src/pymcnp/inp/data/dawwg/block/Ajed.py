@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Ajed(BlockOption, keyword='ajed'):
+class Ajed(BlockOption):
     """
     Represents INP ajed elements.
 

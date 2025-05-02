@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Tsplt(DataOption, keyword='tsplt'):
+class Tsplt(DataOption):
     """
     Represents INP tsplt elements.
 

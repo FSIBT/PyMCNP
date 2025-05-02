@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Nreact(TroptOption, keyword='nreact'):
+class Nreact(TroptOption):
     """
     Represents INP nreact elements.
 

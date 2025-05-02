@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Pos(SdefOption, keyword='pos'):
+class Pos(SdefOption):
     """
     Represents INP pos elements.
 

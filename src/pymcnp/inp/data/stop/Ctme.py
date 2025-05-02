@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Ctme(StopOption, keyword='ctme'):
+class Ctme(StopOption):
     """
     Represents INP ctme elements.
 

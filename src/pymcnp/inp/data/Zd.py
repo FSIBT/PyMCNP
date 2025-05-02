@@ -7,7 +7,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Zd(DataOption, keyword='zd'):
+class Zd(DataOption):
     """
     Represents INP zd elements.
 

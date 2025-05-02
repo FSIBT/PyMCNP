@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fq(DataOption, keyword='fq'):
+class Fq(DataOption):
     """
     Represents INP fq elements.
 

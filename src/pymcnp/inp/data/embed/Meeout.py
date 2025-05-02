@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Meeout(EmbedOption, keyword='meeout'):
+class Meeout(EmbedOption):
     """
     Represents INP meeout elements.
 

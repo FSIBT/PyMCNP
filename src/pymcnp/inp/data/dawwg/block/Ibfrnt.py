@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Ibfrnt(BlockOption, keyword='ibfrnt'):
+class Ibfrnt(BlockOption):
     """
     Represents INP ibfrnt elements.
 

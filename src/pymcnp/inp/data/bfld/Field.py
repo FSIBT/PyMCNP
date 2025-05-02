@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Field(BfldOption, keyword='field'):
+class Field(BfldOption):
     """
     Represents INP field elements.
 

@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Nps(DataOption, keyword='nps'):
+class Nps(DataOption):
     """
     Represents INP nps elements.
 

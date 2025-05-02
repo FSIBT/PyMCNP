@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Precursor(KoptsOption, keyword='precursor'):
+class Precursor(KoptsOption):
     """
     Represents INP precursor elements.
 

@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Ic(DfOption_1, keyword='ic'):
+class Ic(DfOption_1):
     """
     Represents INP ic elements.
 

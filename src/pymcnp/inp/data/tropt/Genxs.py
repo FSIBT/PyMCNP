@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Genxs(TroptOption, keyword='genxs'):
+class Genxs(TroptOption):
     """
     Represents INP genxs elements.
 

@@ -9,7 +9,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Ssw(DataOption, keyword='ssw'):
+class Ssw(DataOption):
     """
     Represents INP ssw elements.
 

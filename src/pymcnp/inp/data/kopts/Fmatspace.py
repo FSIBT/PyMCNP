@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Fmatspace(KoptsOption, keyword='fmatspace'):
+class Fmatspace(KoptsOption):
     """
     Represents INP fmatspace elements.
 

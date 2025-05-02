@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Pnlib(MOption_0, keyword='pnlib'):
+class Pnlib(MOption_0):
     """
     Represents INP pnlib elements.
 

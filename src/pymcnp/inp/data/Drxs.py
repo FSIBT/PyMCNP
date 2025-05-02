@@ -7,7 +7,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Drxs(DataOption, keyword='drxs'):
+class Drxs(DataOption):
     """
     Represents INP drxs elements.
 

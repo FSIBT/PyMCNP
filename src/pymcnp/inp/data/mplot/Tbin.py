@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Tbin(MplotOption, keyword='tbin'):
+class Tbin(MplotOption):
     """
     Represents INP tbin elements.
 

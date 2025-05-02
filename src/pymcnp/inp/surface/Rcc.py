@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Rcc(SurfaceOption, keyword='rcc'):
+class Rcc(SurfaceOption):
     """
     Represents INP rcc elements.
 

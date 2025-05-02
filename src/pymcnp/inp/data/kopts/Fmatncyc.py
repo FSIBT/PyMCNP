@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Fmatncyc(KoptsOption, keyword='fmatncyc'):
+class Fmatncyc(KoptsOption):
     """
     Represents INP fmatncyc elements.
 

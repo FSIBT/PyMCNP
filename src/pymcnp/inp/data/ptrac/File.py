@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class File(PtracOption, keyword='file'):
+class File(PtracOption):
     """
     Represents INP file elements.
 
@@ -20,7 +20,7 @@ class File(PtracOption, keyword='file'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'\Afile( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afile(?: (asc|bin|aov|bov))\Z')
 
     def __init__(self, setting: types.String):
         """

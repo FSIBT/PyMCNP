@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Dxc(DataOption, keyword='dxc'):
+class Dxc(DataOption):
     """
     Represents INP dxc elements.
 

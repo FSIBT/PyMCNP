@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Nonu(DataOption, keyword='nonu'):
+class Nonu(DataOption):
     """
     Represents INP nonu elements.
 

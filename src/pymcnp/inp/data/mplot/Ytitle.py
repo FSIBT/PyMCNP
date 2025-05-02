@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Ytitle(MplotOption, keyword='ytitle'):
+class Ytitle(MplotOption):
     """
     Represents INP ytitle elements.
 

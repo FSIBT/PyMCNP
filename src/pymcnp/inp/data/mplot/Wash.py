@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Wash(MplotOption, keyword='wash'):
+class Wash(MplotOption):
     """
     Represents INP wash elements.
 

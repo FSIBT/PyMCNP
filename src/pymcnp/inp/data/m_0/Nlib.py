@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Nlib(MOption_0, keyword='nlib'):
+class Nlib(MOption_0):
     """
     Represents INP nlib elements.
 

@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Noadjm(BlockOption, keyword='noadjm'):
+class Noadjm(BlockOption):
     """
     Represents INP noadjm elements.
 

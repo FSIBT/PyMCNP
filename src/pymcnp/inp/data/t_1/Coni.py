@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Coni(TOption_1, keyword='coni'):
+class Coni(TOption_1):
     """
     Represents INP coni elements.
 

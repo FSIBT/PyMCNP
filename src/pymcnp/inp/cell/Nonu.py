@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Nonu(CellOption, keyword='nonu'):
+class Nonu(CellOption):
     """
     Represents INP nonu elements.
 

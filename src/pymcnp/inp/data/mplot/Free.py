@@ -9,7 +9,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Free(MplotOption, keyword='free'):
+class Free(MplotOption):
     """
     Represents INP free elements.
 

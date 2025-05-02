@@ -7,7 +7,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Histp(DataOption, keyword='histp'):
+class Histp(DataOption):
     """
     Represents INP histp elements.
 

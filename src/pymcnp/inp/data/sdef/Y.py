@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Y(SdefOption, keyword='y'):
+class Y(SdefOption):
     """
     Represents INP y elements.
 

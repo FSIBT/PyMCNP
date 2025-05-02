@@ -8,7 +8,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Mesh(DataOption, keyword='mesh'):
+class Mesh(DataOption):
     """
     Represents INP mesh elements.
 

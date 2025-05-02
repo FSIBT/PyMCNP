@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Max(PtracOption, keyword='max'):
+class Max(PtracOption):
     """
     Represents INP max elements.
 

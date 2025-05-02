@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Buffer(PtracOption, keyword='buffer'):
+class Buffer(PtracOption):
     """
     Represents INP buffer elements.
 

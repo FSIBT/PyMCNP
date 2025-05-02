@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Dg(ActOption, keyword='dg'):
+class Dg(ActOption):
     """
     Represents INP dg elements.
 

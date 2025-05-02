@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Df_0(DataOption, keyword='df'):
+class Df_0(DataOption):
     """
     Represents INP df variation #0 elements.
 

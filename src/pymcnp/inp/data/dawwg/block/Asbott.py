@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Asbott(BlockOption, keyword='asbott'):
+class Asbott(BlockOption):
     """
     Represents INP asbott elements.
 

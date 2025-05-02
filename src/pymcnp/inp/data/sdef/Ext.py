@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Ext(SdefOption, keyword='ext'):
+class Ext(SdefOption):
     """
     Represents INP ext elements.
 

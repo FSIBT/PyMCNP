@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Refpnt(BfldOption, keyword='refpnt'):
+class Refpnt(BfldOption):
     """
     Represents INP refpnt elements.
 

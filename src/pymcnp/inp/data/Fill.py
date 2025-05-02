@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fill(DataOption, keyword='fill'):
+class Fill(DataOption):
     """
     Represents INP fill elements.
 

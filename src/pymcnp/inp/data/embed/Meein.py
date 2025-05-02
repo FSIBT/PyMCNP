@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Meein(EmbedOption, keyword='meein'):
+class Meein(EmbedOption):
     """
     Represents INP meein elements.
 

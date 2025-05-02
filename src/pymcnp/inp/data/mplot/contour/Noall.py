@@ -7,7 +7,7 @@ from ._option import ContourOption
 from .....utils import types
 
 
-class Noall(ContourOption, keyword='noall'):
+class Noall(ContourOption):
     """
     Represents INP noall elements.
 

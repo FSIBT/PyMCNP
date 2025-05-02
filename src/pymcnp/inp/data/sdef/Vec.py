@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Vec(SdefOption, keyword='vec'):
+class Vec(SdefOption):
     """
     Represents INP vec elements.
 

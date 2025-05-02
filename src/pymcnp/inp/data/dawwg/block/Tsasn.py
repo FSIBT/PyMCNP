@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Tsasn(BlockOption, keyword='tsasn'):
+class Tsasn(BlockOption):
     """
     Represents INP tsasn elements.
 

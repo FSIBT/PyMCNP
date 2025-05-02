@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Ksrc(DataOption, keyword='ksrc'):
+class Ksrc(DataOption):
     """
     Represents INP ksrc elements.
 

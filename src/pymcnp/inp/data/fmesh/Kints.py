@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Kints(FmeshOption, keyword='kints'):
+class Kints(FmeshOption):
     """
     Represents INP kints elements.
 

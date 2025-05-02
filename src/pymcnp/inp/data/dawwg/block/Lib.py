@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Lib(BlockOption, keyword='lib'):
+class Lib(BlockOption):
     """
     Represents INP lib elements.
 

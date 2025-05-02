@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Xsec(DawwgOption, keyword='xsec'):
+class Xsec(DawwgOption):
     """
     Represents INP xsec elements.
 

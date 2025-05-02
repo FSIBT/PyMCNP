@@ -7,7 +7,7 @@ from ._option import FreeOption
 from .....utils import types
 
 
-class Noall(FreeOption, keyword='noall'):
+class Noall(FreeOption):
     """
     Represents INP noall elements.
 

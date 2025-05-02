@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Area(DataOption, keyword='area'):
+class Area(DataOption):
     """
     Represents INP area elements.
 

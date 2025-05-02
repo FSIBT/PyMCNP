@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Calcvols(EmbedOption, keyword='calcvols'):
+class Calcvols(EmbedOption):
     """
     Represents INP calcvols elements.
 

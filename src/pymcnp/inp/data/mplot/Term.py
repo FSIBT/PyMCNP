@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Term(MplotOption, keyword='term'):
+class Term(MplotOption):
     """
     Represents INP term elements.
 

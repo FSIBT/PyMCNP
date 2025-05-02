@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Ds_0(DataOption, keyword='ds'):
+class Ds_0(DataOption):
     """
     Represents INP ds variation #0 elements.
 

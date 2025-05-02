@@ -5,7 +5,7 @@ from .utils import errors
 from .utils import _object
 
 
-class Outp(_object.McnpFile_):
+class Outp(_object.McnpFile):
     """
     Represents OUTP files.
 

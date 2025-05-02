@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Iso(KsenOption, keyword='iso'):
+class Iso(KsenOption):
     """
     Represents INP iso elements.
 

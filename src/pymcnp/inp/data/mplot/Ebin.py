@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Ebin(MplotOption, keyword='ebin'):
+class Ebin(MplotOption):
     """
     Represents INP ebin elements.
 

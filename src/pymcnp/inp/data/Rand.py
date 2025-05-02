@@ -8,7 +8,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Rand(DataOption, keyword='rand'):
+class Rand(DataOption):
     """
     Represents INP rand elements.
 

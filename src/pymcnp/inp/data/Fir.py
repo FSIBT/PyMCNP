@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fir(DataOption, keyword='fir'):
+class Fir(DataOption):
     """
     Represents INP fir elements.
 

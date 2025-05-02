@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Label(MplotOption, keyword='label'):
+class Label(MplotOption):
     """
     Represents INP label elements.
 

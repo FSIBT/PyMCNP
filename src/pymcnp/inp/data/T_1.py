@@ -9,7 +9,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class T_1(DataOption, keyword='t'):
+class T_1(DataOption):
     """
     Represents INP t variation #1 elements.
 

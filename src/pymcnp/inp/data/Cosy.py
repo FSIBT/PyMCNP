@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Cosy(DataOption, keyword='cosy'):
+class Cosy(DataOption):
     """
     Represents INP cosy elements.
 

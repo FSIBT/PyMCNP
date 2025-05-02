@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Return(MplotOption, keyword='return'):
+class Return(MplotOption):
     """
     Represents INP return elements.
 

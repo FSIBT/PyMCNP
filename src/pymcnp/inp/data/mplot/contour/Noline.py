@@ -7,7 +7,7 @@ from ._option import ContourOption
 from .....utils import types
 
 
-class Noline(ContourOption, keyword='noline'):
+class Noline(ContourOption):
     """
     Represents INP noline elements.
 

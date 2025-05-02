@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Poa(SsrOption, keyword='poa'):
+class Poa(SsrOption):
     """
     Represents INP poa elements.
 

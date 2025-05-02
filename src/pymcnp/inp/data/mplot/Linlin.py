@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Linlin(MplotOption, keyword='linlin'):
+class Linlin(MplotOption):
     """
     Represents INP linlin elements.
 

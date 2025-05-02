@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Reset(MplotOption, keyword='reset'):
+class Reset(MplotOption):
     """
     Represents INP reset elements.
 
@@ -20,7 +20,7 @@ class Reset(MplotOption, keyword='reset'):
         'aa': types.String,
     }
 
-    _REGEX = re.compile(r'\Areset( all|coplot)?\Z')
+    _REGEX = re.compile(r'\Areset(?: (all|coplot))?\Z')
 
     def __init__(self, aa: types.String = None):
         """

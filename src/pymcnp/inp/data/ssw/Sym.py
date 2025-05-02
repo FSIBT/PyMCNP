@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Sym(SswOption, keyword='sym'):
+class Sym(SswOption):
     """
     Represents INP sym elements.
 

@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Mphys(DataOption, keyword='mphys'):
+class Mphys(DataOption):
     """
     Represents INP mphys elements.
 

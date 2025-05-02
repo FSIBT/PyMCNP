@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Tme_1(SdefOption, keyword='tme'):
+class Tme_1(SdefOption):
     """
     Represents INP tme variation #1 elements.
 

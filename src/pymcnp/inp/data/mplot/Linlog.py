@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Linlog(MplotOption, keyword='linlog'):
+class Linlog(MplotOption):
     """
     Represents INP linlog elements.
 

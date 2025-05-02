@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Cm(DataOption, keyword='cm'):
+class Cm(DataOption):
     """
     Represents INP cm elements.
 

@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Meshgeo(EmbedOption, keyword='meshgeo'):
+class Meshgeo(EmbedOption):
     """
     Represents INP meshgeo elements.
 

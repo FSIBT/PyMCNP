@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Kcode(DataOption, keyword='kcode'):
+class Kcode(DataOption):
     """
     Represents INP kcode elements.
 

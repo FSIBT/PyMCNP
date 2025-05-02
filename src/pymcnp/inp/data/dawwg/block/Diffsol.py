@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Diffsol(BlockOption, keyword='diffsol'):
+class Diffsol(BlockOption):
     """
     Represents INP diffsol elements.
 

@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Dxt(DataOption, keyword='dxt'):
+class Dxt(DataOption):
     """
     Represents INP dxt elements.
 

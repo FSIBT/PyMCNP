@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Cfrq(TOption_1, keyword='cfrq'):
+class Cfrq(TOption_1):
     """
     Represents INP cfrq elements.
 

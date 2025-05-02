@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Unc(CellOption, keyword='unc'):
+class Unc(CellOption):
     """
     Represents INP unc elements.
 

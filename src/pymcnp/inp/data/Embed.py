@@ -8,7 +8,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Embed(DataOption, keyword='embed'):
+class Embed(DataOption):
     """
     Represents INP embed elements.
 

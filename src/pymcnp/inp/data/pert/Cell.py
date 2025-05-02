@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Cell(PertOption, keyword='cell'):
+class Cell(PertOption):
     """
     Represents INP cell elements.
 

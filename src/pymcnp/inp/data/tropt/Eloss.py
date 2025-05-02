@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Eloss(TroptOption, keyword='eloss'):
+class Eloss(TroptOption):
     """
     Represents INP eloss elements.
 

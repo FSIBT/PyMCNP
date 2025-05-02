@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Trcl_2(CellOption, keyword='trcl'):
+class Trcl_2(CellOption):
     """
     Represents INP trcl variation #2 elements.
 

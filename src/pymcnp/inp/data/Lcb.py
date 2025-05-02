@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Lcb(DataOption, keyword='lcb'):
+class Lcb(DataOption):
     """
     Represents INP lcb elements.
 

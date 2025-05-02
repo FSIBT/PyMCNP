@@ -7,7 +7,7 @@ from ._option import ContourOption
 from .....utils import types
 
 
-class All(ContourOption, keyword='all'):
+class All(ContourOption):
     """
     Represents INP all elements.
 

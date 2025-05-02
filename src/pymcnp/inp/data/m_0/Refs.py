@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Refs(MOption_0, keyword='refs'):
+class Refs(MOption_0):
     """
     Represents INP refs elements.
 

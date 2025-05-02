@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Asback(BlockOption, keyword='asback'):
+class Asback(BlockOption):
     """
     Represents INP asback elements.
 

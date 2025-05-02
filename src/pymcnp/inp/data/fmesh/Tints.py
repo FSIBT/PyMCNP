@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Tints(FmeshOption, keyword='tints'):
+class Tints(FmeshOption):
     """
     Represents INP tints elements.
 

@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Tlib(MOption_0, keyword='tlib'):
+class Tlib(MOption_0):
     """
     Represents INP tlib elements.
 

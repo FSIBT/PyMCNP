@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Loglin(MplotOption, keyword='loglin'):
+class Loglin(MplotOption):
     """
     Represents INP loglin elements.
 

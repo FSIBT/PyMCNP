@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Col(SsrOption, keyword='col'):
+class Col(SsrOption):
     """
     Represents INP col elements.
 

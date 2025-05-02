@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Trc(SurfaceOption, keyword='trc'):
+class Trc(SurfaceOption):
     """
     Represents INP trc elements.
 

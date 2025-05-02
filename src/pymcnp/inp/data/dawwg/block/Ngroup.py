@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Ngroup(BlockOption, keyword='ngroup'):
+class Ngroup(BlockOption):
     """
     Represents INP ngroup elements.
 

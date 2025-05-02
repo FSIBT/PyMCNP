@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Rdum(DataOption, keyword='rdum'):
+class Rdum(DataOption):
     """
     Represents INP rdum elements.
 

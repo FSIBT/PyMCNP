@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Lethargy(MplotOption, keyword='lethargy'):
+class Lethargy(MplotOption):
     """
     Represents INP lethargy elements.
 

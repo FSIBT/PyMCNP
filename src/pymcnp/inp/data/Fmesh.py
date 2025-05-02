@@ -9,7 +9,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fmesh(DataOption, keyword='fmesh'):
+class Fmesh(DataOption):
     """
     Represents INP fmesh elements.
 

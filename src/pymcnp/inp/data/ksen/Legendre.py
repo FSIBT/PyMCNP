@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Legendre(KsenOption, keyword='legendre'):
+class Legendre(KsenOption):
     """
     Represents INP legendre elements.
 

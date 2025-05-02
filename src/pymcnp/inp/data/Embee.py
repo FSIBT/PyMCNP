@@ -9,7 +9,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Embee(DataOption, keyword='embee'):
+class Embee(DataOption):
     """
     Represents INP embee elements.
 

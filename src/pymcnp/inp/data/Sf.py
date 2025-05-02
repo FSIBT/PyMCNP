@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Sf(DataOption, keyword='sf'):
+class Sf(DataOption):
     """
     Represents INP sf elements.
 

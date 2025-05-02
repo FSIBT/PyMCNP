@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Cell(KpertOption, keyword='cell'):
+class Cell(KpertOption):
     """
     Represents INP cell elements.
 

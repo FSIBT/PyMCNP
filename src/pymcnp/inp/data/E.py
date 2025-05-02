@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class E(DataOption, keyword='e'):
+class E(DataOption):
     """
     Represents INP e elements.
 

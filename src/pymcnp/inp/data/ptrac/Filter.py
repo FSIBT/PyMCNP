@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Filter(PtracOption, keyword='filter'):
+class Filter(PtracOption):
     """
     Represents INP filter elements.
 

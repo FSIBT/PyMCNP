@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Sur(SdefOption, keyword='sur'):
+class Sur(SdefOption):
     """
     Represents INP sur elements.
 

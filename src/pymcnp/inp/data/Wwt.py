@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Wwt(DataOption, keyword='wwt'):
+class Wwt(DataOption):
     """
     Represents INP wwt elements.
 

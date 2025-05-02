@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Z(SurfaceOption, keyword='z'):
+class Z(SurfaceOption):
     """
     Represents INP z elements.
 

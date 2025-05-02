@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Alib(MOption_0, keyword='alib'):
+class Alib(MOption_0):
     """
     Represents INP alib elements.
 

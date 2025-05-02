@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Asrite(BlockOption, keyword='asrite'):
+class Asrite(BlockOption):
     """
     Represents INP asrite elements.
 

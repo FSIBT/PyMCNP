@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Axs(BfldOption, keyword='axs'):
+class Axs(BfldOption):
     """
     Represents INP axs elements.
 

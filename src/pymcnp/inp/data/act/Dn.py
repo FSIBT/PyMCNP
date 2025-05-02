@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Dn(ActOption, keyword='dn'):
+class Dn(ActOption):
     """
     Represents INP dn elements.
 

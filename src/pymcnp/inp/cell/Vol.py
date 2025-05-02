@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Vol(CellOption, keyword='vol'):
+class Vol(CellOption):
     """
     Represents INP vol elements.
 

@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Fac(DfOption_1, keyword='fac'):
+class Fac(DfOption_1):
     """
     Represents INP fac elements.
 

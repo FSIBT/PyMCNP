@@ -9,7 +9,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fmult(DataOption, keyword='fmult'):
+class Fmult(DataOption):
     """
     Represents INP fmult elements.
 

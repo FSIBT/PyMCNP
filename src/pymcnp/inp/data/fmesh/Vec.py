@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Vec(FmeshOption, keyword='vec'):
+class Vec(FmeshOption):
     """
     Represents INP vec elements.
 

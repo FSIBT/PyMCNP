@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Fixed(MplotOption, keyword='fixed'):
+class Fixed(MplotOption):
     """
     Represents INP fixed elements.
 

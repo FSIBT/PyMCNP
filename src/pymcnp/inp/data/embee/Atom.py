@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Atom(EmbeeOption, keyword='atom'):
+class Atom(EmbeeOption):
     """
     Represents INP atom elements.
 

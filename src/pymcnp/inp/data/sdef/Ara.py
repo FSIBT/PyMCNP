@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Ara(SdefOption, keyword='ara'):
+class Ara(SdefOption):
     """
     Represents INP ara elements.
 

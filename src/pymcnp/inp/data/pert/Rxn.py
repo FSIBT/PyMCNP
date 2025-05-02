@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Rxn(PertOption, keyword='rxn'):
+class Rxn(PertOption):
     """
     Represents INP rxn elements.
 

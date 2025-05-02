@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Geom(MeshOption, keyword='geom'):
+class Geom(MeshOption):
     """
     Represents INP geom elements.
 

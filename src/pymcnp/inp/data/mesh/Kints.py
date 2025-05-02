@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Kints(MeshOption, keyword='kints'):
+class Kints(MeshOption):
     """
     Represents INP kints elements.
 

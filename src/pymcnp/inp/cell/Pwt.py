@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Pwt(CellOption, keyword='pwt'):
+class Pwt(CellOption):
     """
     Represents INP pwt elements.
 

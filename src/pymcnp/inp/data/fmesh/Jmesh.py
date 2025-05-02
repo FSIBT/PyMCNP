@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Jmesh(FmeshOption, keyword='jmesh'):
+class Jmesh(FmeshOption):
     """
     Represents INP jmesh elements.
 

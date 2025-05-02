@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Wed(SurfaceOption, keyword='wed'):
+class Wed(SurfaceOption):
     """
     Represents INP wed elements.
 

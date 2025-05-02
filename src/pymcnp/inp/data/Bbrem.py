@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Bbrem(DataOption, keyword='bbrem'):
+class Bbrem(DataOption):
     """
     Represents INP bbrem elements.
 

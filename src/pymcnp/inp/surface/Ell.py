@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Ell(SurfaceOption, keyword='ell'):
+class Ell(SurfaceOption):
     """
     Represents INP ell elements.
 

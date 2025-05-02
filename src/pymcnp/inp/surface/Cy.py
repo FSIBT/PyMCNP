@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Cy(SurfaceOption, keyword='cy'):
+class Cy(SurfaceOption):
     """
     Represents INP cy elements.
 

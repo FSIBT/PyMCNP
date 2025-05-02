@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Kinetics(KoptsOption, keyword='kinetics'):
+class Kinetics(KoptsOption):
     """
     Represents INP kinetics elements.
 

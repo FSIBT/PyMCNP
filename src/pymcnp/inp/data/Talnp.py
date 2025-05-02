@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Talnp(DataOption, keyword='talnp'):
+class Talnp(DataOption):
     """
     Represents INP talnp elements.
 

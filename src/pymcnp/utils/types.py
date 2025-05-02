@@ -1,5 +1,4 @@
 import re
-import enum
 import typing
 import decimal
 import dataclasses
@@ -9,7 +8,7 @@ from . import _parser
 from . import _object
 
 
-class Tuple(tuple, _object.McnpElement_):
+class Tuple(tuple, _object.McnpNonterminal):
     """
     Represents generic MCNP collections.
 
@@ -69,11 +68,8 @@ class Tuple(tuple, _object.McnpElement_):
 
         return ' '.join(val.to_mcnp() if val is not None else '' for val in self.value)
 
-    def __getitem__(self, key: any):
-        return self.value[key]
 
-
-class Integer(int, _object.McnpElement_):
+class Integer(int, _object.McnpNonterminal):
     """
     Represents MCNP integers.
 
@@ -140,7 +136,7 @@ class Integer(int, _object.McnpElement_):
         return str(self.value)
 
 
-class Real(float, _object.McnpElement_):
+class Real(float, _object.McnpNonterminal):
     """
     Represents MCNP reals.
 
@@ -207,7 +203,7 @@ class Real(float, _object.McnpElement_):
         return str(self.value)
 
 
-class String(str, _object.McnpElement_):
+class String(str, _object.McnpNonterminal):
     """
     Represents MCNP strings.
 
@@ -264,7 +260,7 @@ class String(str, _object.McnpElement_):
         return self
 
 
-class Repeat(_object.McnpElement_):
+class Repeat(_object.McnpNonterminal):
     """
     Represents MCNP repeats.
 
@@ -329,7 +325,7 @@ class Repeat(_object.McnpElement_):
         return f'{self.n}r'
 
 
-class Insert(_object.McnpElement_):
+class Insert(_object.McnpNonterminal):
     """
     Represents MCNP inserts.
 
@@ -394,7 +390,7 @@ class Insert(_object.McnpElement_):
         return f'{self.n}i'
 
 
-class Multiply(_object.McnpElement_):
+class Multiply(_object.McnpNonterminal):
     """
     Represents MCNP multiply.
 
@@ -459,7 +455,7 @@ class Multiply(_object.McnpElement_):
         return f'{self.x}m'
 
 
-class Jump(_object.McnpElement_):
+class Jump(_object.McnpNonterminal):
     """
     Represents MCNP jumps.
 
@@ -524,7 +520,7 @@ class Jump(_object.McnpElement_):
         return f'{self.n}j'
 
 
-class Log(_object.McnpElement_):
+class Log(_object.McnpNonterminal):
     """
     Represents MCNP logs.
 
@@ -589,7 +585,7 @@ class Log(_object.McnpElement_):
         return f'{self.n}j'
 
 
-class DistributionNumber(_object.McnpElement_):
+class DistributionNumber(_object.McnpNonterminal):
     """
     Represents MCNP distribution numbers.
 
@@ -652,7 +648,7 @@ class DistributionNumber(_object.McnpElement_):
         return f'd{self.n}'
 
 
-class EmbeddedDistributionNumber(_object.McnpElement_):
+class EmbeddedDistributionNumber(_object.McnpNonterminal):
     """
     Represents MCNP embedded distribution numbers.
 
@@ -713,7 +709,7 @@ class EmbeddedDistributionNumber(_object.McnpElement_):
         return '>'.join(number.to_mcnp() for number in self.numbers)
 
 
-class Zaid(_object.McnpElement_):
+class Zaid(_object.McnpNonterminal):
     """
     Represents MCNP nuclide information numbers.
 
@@ -790,7 +786,7 @@ class Zaid(_object.McnpElement_):
             return f'{self.z:03}{self.a:03}'
 
 
-class Particle(_object.McnpElement_, enum.Enum):
+class Particle(_object.McnpTerminal):
     """
     Represents MCNP particle designators.
     """
@@ -866,7 +862,7 @@ class Particle(_object.McnpElement_, enum.Enum):
         return str(self.value)
 
 
-class Designator(_object.McnpElement_):
+class Designator(_object.McnpNonterminal):
     """
     Represents MCNP particle designators.
 
@@ -930,7 +926,7 @@ class Designator(_object.McnpElement_):
         return ','.join(particle.to_mcnp() for particle in self.particles)
 
 
-class Geometry(_object.McnpElement_):
+class Geometry(_object.McnpNonterminal):
     """
     Represents MCNP geometries.
 
@@ -1084,7 +1080,7 @@ class GeometryBuilder:
         return Geometry(infix=String(self.infix))
 
 
-class Substance(_object.McnpElement_):
+class Substance(_object.McnpNonterminal):
     """
     Represents MCNP substances.
 
@@ -1155,7 +1151,7 @@ class Substance(_object.McnpElement_):
         return f'{self.zaid} {self.weight_ratio}'
 
 
-class Bias(_object.McnpElement_):
+class Bias(_object.McnpNonterminal):
     """
     Represents generic MCNP biases.
 
@@ -1226,7 +1222,7 @@ class Bias(_object.McnpElement_):
         return f'{self.weight} {self.energy}'
 
 
-class Transformation_0(_object.McnpElement_):
+class Transformation_0(_object.McnpNonterminal):
     """
     Represents MCNP transformations.
 
@@ -1380,7 +1376,7 @@ class Transformation_0(_object.McnpElement_):
         return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.zx} {self.zy} {self.zz} {self.m}'
 
 
-class Transformation_1(_object.McnpElement_):
+class Transformation_1(_object.McnpNonterminal):
     """
     Represents MCNP transformations.
 
@@ -1511,7 +1507,7 @@ class Transformation_1(_object.McnpElement_):
         return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.m}'
 
 
-class Transformation_2(_object.McnpElement_):
+class Transformation_2(_object.McnpNonterminal):
     """
     Represents MCNP transformations.
 
@@ -1635,7 +1631,7 @@ class Transformation_2(_object.McnpElement_):
         return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.m}'
 
 
-class Transformation_3(_object.McnpElement_):
+class Transformation_3(_object.McnpNonterminal):
     """
     Represents MCNP transformations.
 
@@ -1745,7 +1741,7 @@ class Transformation_3(_object.McnpElement_):
         return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.m}'
 
 
-class Transformation_4(_object.McnpElement_):
+class Transformation_4(_object.McnpNonterminal):
     """
     Represents MCNP transformations.
 
@@ -1834,7 +1830,7 @@ class Transformation_4(_object.McnpElement_):
         return f'{self.o1} {self.o2} {self.o3} {self.m}'
 
 
-class Stochastic(_object.McnpElement_):
+class Stochastic(_object.McnpNonterminal):
     """
     Represents MCNP stochastic transformation entries.
 
@@ -1923,7 +1919,7 @@ class Stochastic(_object.McnpElement_):
         return f'{self.number} {self.maximum_x} {self.maximum_y} {self.maximum_z}'
 
 
-class IndependentDependent(_object.McnpElement_):
+class IndependentDependent(_object.McnpNonterminal):
     """
     Represents INP inpependent-dependent entries.
 
@@ -1994,7 +1990,7 @@ class IndependentDependent(_object.McnpElement_):
         return f'{self.independent} {self.dependent}'
 
 
-class Location(_object.McnpElement_):
+class Location(_object.McnpNonterminal):
     """
     Represents INP location entries.
 
@@ -2071,7 +2067,7 @@ class Location(_object.McnpElement_):
         return f'{self.x} {self.y} {self.z}'
 
 
-class File(_object.McnpElement_):
+class File(_object.McnpNonterminal):
     """
     Represents INP file entries.
 
@@ -2167,7 +2163,7 @@ class File(_object.McnpElement_):
         return f'{self.unit} {self.filename} {self.access} {self.form} {self.length}'
 
 
-class Diagnostic(_object.McnpElement_):
+class Diagnostic(_object.McnpNonterminal):
     """
     Represents INP diagnostic entries.
 
@@ -2238,7 +2234,7 @@ class Diagnostic(_object.McnpElement_):
         return f'{self.playing_setting} {self.printing_setting}'
 
 
-class Ring(_object.McnpElement_):
+class Ring(_object.McnpNonterminal):
     """
     Represents INP ring detector entries.
 
@@ -2320,7 +2316,7 @@ class Ring(_object.McnpElement_):
         return f'{self.distance} {self.radius} {self.ro}'
 
 
-class Sphere(_object.McnpElement_):
+class Sphere(_object.McnpNonterminal):
     """
     Represents INP sphere detector entries.
 
@@ -2409,7 +2405,7 @@ class Sphere(_object.McnpElement_):
         return f'{self.x} {self.y} {self.z} {self.ro}'
 
 
-class Shell(_object.McnpElement_):
+class Shell(_object.McnpNonterminal):
     """
     Represents INP shell detector entries.
 
@@ -2505,7 +2501,7 @@ class Shell(_object.McnpElement_):
         return f'{self.x} {self.y} {self.z} {self.inner_radius} {self.outer_radius}'
 
 
-class Reaction(_object.McnpElement_):
+class Reaction(_object.McnpNonterminal):
     """
     Represents INP reaction entries.
 
@@ -2576,7 +2572,7 @@ class Reaction(_object.McnpElement_):
         return f'{self.mt} {self.pmt}'
 
 
-class PtracFilter(_object.McnpElement_):
+class PtracFilter(_object.McnpNonterminal):
     """
     Represents INP ptrac filters entries.
 
@@ -2653,7 +2649,7 @@ class PtracFilter(_object.McnpElement_):
         return f'{self.lower} {self.upper} {self.variable}'
 
 
-class PhotonBias(_object.McnpElement_):
+class PhotonBias(_object.McnpNonterminal):
     """
     Represents INP bias entries.
 
@@ -2732,7 +2728,7 @@ class PhotonBias(_object.McnpElement_):
         return f'{self.zaid} {self.ipiki} {self.reactions}'
 
 
-class Index(_object.McnpElement_):
+class Index(_object.McnpNonterminal):
     """
     Represents INP lattice index entries.
 
@@ -2803,7 +2799,7 @@ class Index(_object.McnpElement_):
         return f'{self.lower}:{self.upper}'
 
 
-class IntegerOrJump(_object.McnpElement_):
+class IntegerOrJump(_object.McnpNonterminal):
     """
     Represents MCNP integers or jump.
 
@@ -2890,7 +2886,7 @@ class IntegerOrJump(_object.McnpElement_):
         return str(self.value)
 
 
-class RealOrJump(_object.McnpElement_):
+class RealOrJump(_object.McnpNonterminal):
     """
     Represents MCNP integers or jump.
 

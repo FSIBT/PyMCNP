@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Loglog(MplotOption, keyword='loglog'):
+class Loglog(MplotOption):
     """
     Represents INP loglog elements.
 

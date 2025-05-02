@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Rad_1(SdefOption, keyword='rad'):
+class Rad_1(SdefOption):
     """
     Represents INP rad variation #1 elements.
 

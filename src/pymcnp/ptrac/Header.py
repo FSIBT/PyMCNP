@@ -8,7 +8,7 @@ from ..utils import errors
 from ..utils import _object
 
 
-class Header(_object.McnpElement_):
+class Header(_object.McnpNonterminal):
     """
     Represents PTRAC header blocks.
 

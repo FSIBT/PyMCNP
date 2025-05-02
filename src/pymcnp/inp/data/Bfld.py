@@ -9,7 +9,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Bfld(DataOption, keyword='bfld'):
+class Bfld(DataOption):
     """
     Represents INP bfld elements.
 

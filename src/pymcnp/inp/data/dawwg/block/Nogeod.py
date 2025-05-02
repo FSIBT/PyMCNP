@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Nogeod(BlockOption, keyword='nogeod'):
+class Nogeod(BlockOption):
     """
     Represents INP nogeod elements.
 

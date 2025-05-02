@@ -7,7 +7,7 @@ from ._option import ContourOption
 from .....utils import types
 
 
-class Line(ContourOption, keyword='line'):
+class Line(ContourOption):
     """
     Represents INP line elements.
 

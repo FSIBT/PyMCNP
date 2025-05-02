@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Bflcl(DataOption, keyword='bflcl'):
+class Bflcl(DataOption):
     """
     Represents INP bflcl elements.
 

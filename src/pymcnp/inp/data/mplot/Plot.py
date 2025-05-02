@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Plot(MplotOption, keyword='plot'):
+class Plot(MplotOption):
     """
     Represents INP plot elements.
 

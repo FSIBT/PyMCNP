@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Sample(ActOption, keyword='sample'):
+class Sample(ActOption):
     """
     Represents INP sample elements.
 

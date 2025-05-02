@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Cend(TOption_1, keyword='cend'):
+class Cend(TOption_1):
     """
     Represents INP cend elements.
 

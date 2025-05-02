@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Kcode(MplotOption, keyword='kcode'):
+class Kcode(MplotOption):
     """
     Represents INP kcode elements.
 

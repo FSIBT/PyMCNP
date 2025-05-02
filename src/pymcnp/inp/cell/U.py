@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class U(CellOption, keyword='u'):
+class U(CellOption):
     """
     Represents INP u elements.
 

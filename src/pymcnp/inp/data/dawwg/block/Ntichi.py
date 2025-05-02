@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Ntichi(BlockOption, keyword='ntichi'):
+class Ntichi(BlockOption):
     """
     Represents INP ntichi elements.
 

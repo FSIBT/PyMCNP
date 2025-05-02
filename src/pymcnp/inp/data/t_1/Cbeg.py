@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Cbeg(TOption_1, keyword='cbeg'):
+class Cbeg(TOption_1):
     """
     Represents INP cbeg elements.
 

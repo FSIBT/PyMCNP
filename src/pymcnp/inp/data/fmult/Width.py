@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Width(FmultOption, keyword='width'):
+class Width(FmultOption):
     """
     Represents INP width elements.
 

@@ -5,7 +5,7 @@ from ..utils import _object
 from ..utils import _parser
 
 
-class Card(_object.McnpElement_):
+class Card(_object.McnpNonterminal):
     """
     Represents generic INP cards.
     """

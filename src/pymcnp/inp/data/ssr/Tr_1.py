@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Tr_1(SsrOption, keyword='tr'):
+class Tr_1(SsrOption):
     """
     Represents INP tr variation #1 elements.
 

@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Slib(MOption_0, keyword='slib'):
+class Slib(MOption_0):
     """
     Represents INP slib elements.
 

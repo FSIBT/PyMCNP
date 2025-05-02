@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Watt(FmultOption, keyword='watt'):
+class Watt(FmultOption):
     """
     Represents INP watt elements.
 

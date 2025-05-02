@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Rzflux(BlockOption, keyword='rzflux'):
+class Rzflux(BlockOption):
     """
     Represents INP rzflux elements.
 

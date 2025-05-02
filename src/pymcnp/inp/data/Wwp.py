@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Wwp(DataOption, keyword='wwp'):
+class Wwp(DataOption):
     """
     Represents INP wwp elements.
 

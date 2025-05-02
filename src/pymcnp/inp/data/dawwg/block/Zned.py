@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Zned(BlockOption, keyword='zned'):
+class Zned(BlockOption):
     """
     Represents INP zned elements.
 

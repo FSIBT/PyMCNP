@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fu(DataOption, keyword='fu'):
+class Fu(DataOption):
     """
     Represents INP fu elements.
 
@@ -26,7 +26,9 @@ class Fu(DataOption, keyword='fu'):
         'c': types.String,
     }
 
-    _REGEX = re.compile(rf'\Afu(\d+)((?: {types.RealOrJump._REGEX.pattern})+?)( nt)?( c)?\Z')
+    _REGEX = re.compile(
+        rf'\Afu(\d+)((?: {types.RealOrJump._REGEX.pattern})+?)(?: (nt))?(?: (c))?\Z'
+    )
 
     def __init__(
         self,

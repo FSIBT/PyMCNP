@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Axs(FmeshOption, keyword='axs'):
+class Axs(FmeshOption):
     """
     Represents INP axs elements.
 

@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Mx(DataOption, keyword='mx'):
+class Mx(DataOption):
     """
     Represents INP mx elements.
 

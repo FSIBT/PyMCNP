@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Nosolv(BlockOption, keyword='nosolv'):
+class Nosolv(BlockOption):
     """
     Represents INP nosolv elements.
 

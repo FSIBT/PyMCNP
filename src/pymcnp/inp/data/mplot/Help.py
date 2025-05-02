@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Help(MplotOption, keyword='help'):
+class Help(MplotOption):
     """
     Represents INP help elements.
 

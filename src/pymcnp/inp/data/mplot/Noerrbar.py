@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Noerrbar(MplotOption, keyword='noerrbar'):
+class Noerrbar(MplotOption):
     """
     Represents INP noerrbar elements.
 

@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Fissneut(BlockOption, keyword='fissneut'):
+class Fissneut(BlockOption):
     """
     Represents INP fissneut elements.
 

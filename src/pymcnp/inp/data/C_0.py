@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class C_0(DataOption, keyword='c'):
+class C_0(DataOption):
     """
     Represents INP c variation #0 elements.
 

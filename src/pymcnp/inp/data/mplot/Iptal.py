@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Iptal(MplotOption, keyword='iptal'):
+class Iptal(MplotOption):
     """
     Represents INP iptal elements.
 

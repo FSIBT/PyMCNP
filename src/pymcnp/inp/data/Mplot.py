@@ -8,7 +8,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Mplot(DataOption, keyword='mplot'):
+class Mplot(DataOption):
     """
     Represents INP mplot elements.
 

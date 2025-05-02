@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Wwn(DataOption, keyword='wwn'):
+class Wwn(DataOption):
     """
     Represents INP wwn elements.
 

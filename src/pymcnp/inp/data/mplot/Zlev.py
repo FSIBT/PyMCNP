@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Zlev(MplotOption, keyword='zlev'):
+class Zlev(MplotOption):
     """
     Represents INP zlev elements.
 

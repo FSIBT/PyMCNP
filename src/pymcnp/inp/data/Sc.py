@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Sc(DataOption, keyword='sc'):
+class Sc(DataOption):
     """
     Represents INP sc elements.
 

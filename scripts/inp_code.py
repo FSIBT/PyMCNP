@@ -300,22 +300,7 @@ class {CAMEL(element.name, "Option")}(Option):
     Represents generic INP {element.name} options.
     """
 
-    _KEYWORD = ""
-    _SUBCLASSES = {{}}
-    _REGEX = re.compile(
-        rf"{r'|'.join(GET_REGEX(option) for option in sorted(element.options, reverse=True, key=lambda scheme: len(scheme.mnemonic)))}"
-    )
-
-    def __init_subclass__(cls, keyword: str):
-        cls._KEYWORD: typing.Final[str] = keyword
-
-        if keyword not in cls._SUBCLASSES:
-            cls._SUBCLASSES[keyword] = [cls]
-        else:
-            cls._SUBCLASSES[keyword] += [cls]
-
-    def __class_getitem__(cls, keyword: str):
-        return cls._SUBCLASSES[keyword]
+    pass
 '''[1:]
 
 
@@ -336,7 +321,7 @@ from {"." * depth}utils import _elements
 from {"." * depth}utils import _visualization
 
 
-class {CAMEL(element.name)}({f"{CAMEL(parent_name, 'Option')}, keyword='{element.mnemonic}'" if parent_name else "Card"}):
+class {CAMEL(element.name)}({CAMEL(parent_name, 'Option')}):
     """
     Represents INP {element.name.split('_')[0]}{f" variation #{element.name.split('_')[1]}"if len(element.name.split('_')) - 1 else ""} elements.
 

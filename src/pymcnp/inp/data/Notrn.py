@@ -7,7 +7,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Notrn(DataOption, keyword='notrn'):
+class Notrn(DataOption):
     """
     Represents INP notrn elements.
 

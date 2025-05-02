@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Tmp_1(CellOption, keyword='tmp'):
+class Tmp_1(CellOption):
     """
     Represents INP tmp variation #1 elements.
 
