@@ -5,7 +5,7 @@ Example read FMESH tally with additional time bins
 import pymcnp
 import matplotlib.pyplot as plt
 
-file = 'data/output_files/meshtal-t'
+file = 'examples/data/outp/meshtal-t'
 out = pymcnp.outp.output.ReadFmesh(file)
 df_info = out.df_info
 # read and plot time series data

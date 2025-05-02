@@ -7,7 +7,8 @@ should be ommitted
 import pymcnp
 import matplotlib.pyplot as plt
 
-fileF1 = 'data/output_files/F1.o'
+
+fileF1 = 'examples/data/outp/F1.o'
 out1 = pymcnp.outp.ReadOutput(fileF1)
 
 # information about tallies found

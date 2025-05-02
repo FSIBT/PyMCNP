@@ -5,7 +5,7 @@ Example to read FMESH file
 import pymcnp
 import matplotlib.pyplot as plt
 
-file = 'data/output_files/meshtal'
+file = 'examples/data/outp/meshtal'
 out = pymcnp.outp.output.ReadFmesh(file)
 df_info = out.df_info
 

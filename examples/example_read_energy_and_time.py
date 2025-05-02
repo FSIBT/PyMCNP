@@ -5,7 +5,7 @@ Example to read a tally with time and energy bins e.g. a pulsed neutron generato
 import pymcnp
 import matplotlib.pyplot as plt
 
-file = 'data/output_files/png_e.o'
+file = 'examples/data/outp/png_e.o'
 out = pymcnp.outp.ReadOutput(file)
 
 # information about tallies found
