@@ -9,7 +9,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Kpert(DataOption, keyword='kpert'):
+class Kpert(DataOption):
     """
     Represents INP kpert elements.
 

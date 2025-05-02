@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Rhp(SurfaceOption, keyword='rhp'):
+class Rhp(SurfaceOption):
     """
     Represents INP rhp elements.
 

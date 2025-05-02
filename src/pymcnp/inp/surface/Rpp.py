@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Rpp(SurfaceOption, keyword='rpp'):
+class Rpp(SurfaceOption):
     """
     Represents INP rpp elements.
 

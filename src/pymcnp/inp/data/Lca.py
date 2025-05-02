@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Lca(DataOption, keyword='lca'):
+class Lca(DataOption):
     """
     Represents INP lca elements.
 

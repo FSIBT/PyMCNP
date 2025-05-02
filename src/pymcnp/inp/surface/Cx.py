@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Cx(SurfaceOption, keyword='cx'):
+class Cx(SurfaceOption):
     """
     Represents INP cx elements.
 

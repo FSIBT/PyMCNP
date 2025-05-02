@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Thresh(ActOption, keyword='thresh'):
+class Thresh(ActOption):
     """
     Represents INP thresh elements.
 

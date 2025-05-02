@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Write(PtracOption, keyword='write'):
+class Write(PtracOption):
     """
     Represents INP write elements.
 
@@ -20,7 +20,7 @@ class Write(PtracOption, keyword='write'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'\Awrite( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Awrite(?: (pos|all))\Z')
 
     def __init__(self, setting: types.String):
         """

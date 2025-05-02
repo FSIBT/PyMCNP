@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Pikmt(DataOption, keyword='pikmt'):
+class Pikmt(DataOption):
     """
     Represents INP pikmt elements.
 

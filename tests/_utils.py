@@ -6,11 +6,8 @@ import pymcnp
 
 
 class _Test_FromMcnp:
-    """
-    Tests ``McnpElement_.from_mcnp``.
-    """
 
-    element: pymcnp.utils._object.McnpElement_
+    element: pymcnp.utils._object.McnpNonterminal
     EXAMPLE_VALID: list[str]
     EXAMPLE_INVALID: list[str]
 
@@ -33,11 +30,8 @@ class _Test_FromMcnp:
 
 
 class _Test_FromMcnpFile:
-    """
-    Tests ``McnpElement_.from_file``.
-    """
 
-    element: pymcnp.utils._object.McnpElement_
+    element: pymcnp.utils._object.McnpNonterminal
     EXAMPLE_VALID: list[pathlib.Path]
     EXAMPLE_INVALID: list[pathlib.Path]
 

@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Pd(DataOption, keyword='pd'):
+class Pd(DataOption):
     """
     Represents INP pd elements.
 

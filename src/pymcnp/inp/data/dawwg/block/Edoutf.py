@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Edoutf(BlockOption, keyword='edoutf'):
+class Edoutf(BlockOption):
     """
     Represents INP edoutf elements.
 

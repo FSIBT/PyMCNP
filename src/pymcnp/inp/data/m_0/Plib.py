@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Plib(MOption_0, keyword='plib'):
+class Plib(MOption_0):
     """
     Represents INP plib elements.
 

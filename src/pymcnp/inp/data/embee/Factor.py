@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Factor(EmbeeOption, keyword='factor'):
+class Factor(EmbeeOption):
     """
     Represents INP factor elements.
 

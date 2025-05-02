@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Fluxone(BlockOption, keyword='fluxone'):
+class Fluxone(BlockOption):
     """
     Represents INP fluxone elements.
 

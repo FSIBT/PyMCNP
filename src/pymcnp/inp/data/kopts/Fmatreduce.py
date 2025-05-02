@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Fmatreduce(KoptsOption, keyword='fmatreduce'):
+class Fmatreduce(KoptsOption):
     """
     Represents INP fmatreduce elements.
 

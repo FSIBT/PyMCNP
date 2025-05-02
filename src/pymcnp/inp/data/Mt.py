@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Mt(DataOption, keyword='mt'):
+class Mt(DataOption):
     """
     Represents INP mt elements.
 

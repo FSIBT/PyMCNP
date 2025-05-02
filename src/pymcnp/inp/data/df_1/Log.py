@@ -7,7 +7,7 @@ from ._option import DfOption_1
 from ....utils import types
 
 
-class Log(DfOption_1, keyword='log'):
+class Log(DfOption_1):
     """
     Represents INP log elements.
 

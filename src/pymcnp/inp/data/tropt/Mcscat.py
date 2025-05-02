@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Mcscat(TroptOption, keyword='mcscat'):
+class Mcscat(TroptOption):
     """
     Represents INP mcscat elements.
 

@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Status(MplotOption, keyword='status'):
+class Status(MplotOption):
     """
     Represents INP status elements.
 

@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Pert(MplotOption, keyword='pert'):
+class Pert(MplotOption):
     """
     Represents INP pert elements.
 

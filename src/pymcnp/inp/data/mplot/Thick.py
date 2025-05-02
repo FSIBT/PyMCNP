@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Thick(MplotOption, keyword='thick'):
+class Thick(MplotOption):
     """
     Represents INP thick elements.
 

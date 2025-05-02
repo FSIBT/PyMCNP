@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Rho(PertOption, keyword='rho'):
+class Rho(PertOption):
     """
     Represents INP rho elements.
 

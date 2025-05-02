@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Tally(PtracOption, keyword='tally'):
+class Tally(PtracOption):
     """
     Represents INP tally elements.
 

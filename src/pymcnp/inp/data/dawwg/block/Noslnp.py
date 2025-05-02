@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Noslnp(BlockOption, keyword='noslnp'):
+class Noslnp(BlockOption):
     """
     Represents INP noslnp elements.
 

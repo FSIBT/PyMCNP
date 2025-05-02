@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Box(SurfaceOption, keyword='box'):
+class Box(SurfaceOption):
     """
     Represents INP box elements.
 

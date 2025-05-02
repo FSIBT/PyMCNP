@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class P_0(SurfaceOption, keyword='p'):
+class P_0(SurfaceOption):
     """
     Represents INP p variation #0 elements.
 

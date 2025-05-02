@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Iu(DfOption_1, keyword='iu'):
+class Iu(DfOption_1):
     """
     Represents INP iu elements.
 

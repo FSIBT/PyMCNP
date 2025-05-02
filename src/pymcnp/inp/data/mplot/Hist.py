@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Hist(MplotOption, keyword='hist'):
+class Hist(MplotOption):
     """
     Represents INP hist elements.
 

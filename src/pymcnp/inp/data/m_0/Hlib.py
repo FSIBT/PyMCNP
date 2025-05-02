@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Hlib(MOption_0, keyword='hlib'):
+class Hlib(MOption_0):
     """
     Represents INP hlib elements.
 

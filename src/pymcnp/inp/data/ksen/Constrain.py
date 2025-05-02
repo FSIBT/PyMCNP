@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Constrain(KsenOption, keyword='constrain'):
+class Constrain(KsenOption):
     """
     Represents INP constrain elements.
 

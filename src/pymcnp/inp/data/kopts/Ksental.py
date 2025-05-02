@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Ksental(KoptsOption, keyword='ksental'):
+class Ksental(KoptsOption):
     """
     Represents INP ksental elements.
 

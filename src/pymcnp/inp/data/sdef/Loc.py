@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Loc(SdefOption, keyword='loc'):
+class Loc(SdefOption):
     """
     Represents INP loc elements.
 

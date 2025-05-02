@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Erg_0(SdefOption, keyword='erg'):
+class Erg_0(SdefOption):
     """
     Represents INP erg variation #0 elements.
 

@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Tsabeta(BlockOption, keyword='tsabeta'):
+class Tsabeta(BlockOption):
     """
     Represents INP tsabeta elements.
 

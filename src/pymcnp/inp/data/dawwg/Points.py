@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Points(DawwgOption, keyword='points'):
+class Points(DawwgOption):
     """
     Represents INP points elements.
 

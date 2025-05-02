@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Energy(EmbeeOption, keyword='energy'):
+class Energy(EmbeeOption):
     """
     Represents INP energy elements.
 

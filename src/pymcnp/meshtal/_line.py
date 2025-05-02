@@ -1,7 +1,7 @@
 from ..utils import _object
 
 
-class Line(_object.McnpElement_):
+class Line(_object.McnpNonterminal):
     """
     Represents generic MESHTAL lines.
     """

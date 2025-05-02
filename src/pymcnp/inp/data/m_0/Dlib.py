@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Dlib(MOption_0, keyword='dlib'):
+class Dlib(MOption_0):
     """
     Represents INP dlib elements.
 

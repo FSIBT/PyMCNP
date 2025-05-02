@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Spdtl(DataOption, keyword='spdtl'):
+class Spdtl(DataOption):
     """
     Represents INP spdtl elements.
 

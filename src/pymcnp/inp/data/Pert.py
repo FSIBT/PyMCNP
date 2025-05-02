@@ -9,7 +9,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Pert(DataOption, keyword='pert'):
+class Pert(DataOption):
     """
     Represents INP pert elements.
 

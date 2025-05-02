@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Ccc(SdefOption, keyword='ccc'):
+class Ccc(SdefOption):
     """
     Represents INP ccc elements.
 

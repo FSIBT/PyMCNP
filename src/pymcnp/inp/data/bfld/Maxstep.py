@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Maxstep(BfldOption, keyword='maxstep'):
+class Maxstep(BfldOption):
     """
     Represents INP maxstep elements.
 

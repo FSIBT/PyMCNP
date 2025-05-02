@@ -8,7 +8,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Dawwg(DataOption, keyword='dawwg'):
+class Dawwg(DataOption):
     """
     Represents INP dawwg elements.
 

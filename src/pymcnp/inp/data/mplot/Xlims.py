@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Xlims(MplotOption, keyword='xlims'):
+class Xlims(MplotOption):
     """
     Represents INP xlims elements.
 

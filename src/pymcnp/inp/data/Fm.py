@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fm(DataOption, keyword='fm'):
+class Fm(DataOption):
     """
     Represents INP fm elements.
 

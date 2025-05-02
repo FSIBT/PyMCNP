@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Factor(FmeshOption, keyword='factor'):
+class Factor(FmeshOption):
     """
     Represents INP factor elements.
 

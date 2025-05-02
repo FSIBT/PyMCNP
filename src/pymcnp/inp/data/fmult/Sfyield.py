@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Sfyield(FmultOption, keyword='sfyield'):
+class Sfyield(FmultOption):
     """
     Represents INP sfyield elements.
 

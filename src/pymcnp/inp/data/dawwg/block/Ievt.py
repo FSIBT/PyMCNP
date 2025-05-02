@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Ievt(BlockOption, keyword='ievt'):
+class Ievt(BlockOption):
     """
     Represents INP ievt elements.
 

@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Conic(PtracOption, keyword='conic'):
+class Conic(PtracOption):
     """
     Represents INP conic elements.
 
@@ -20,7 +20,7 @@ class Conic(PtracOption, keyword='conic'):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'\Aconic( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Asetting(?: (col|lin))\Z')
 
     def __init__(self, setting: types.String):
         """

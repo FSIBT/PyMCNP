@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Vec(BfldOption, keyword='vec'):
+class Vec(BfldOption):
     """
     Represents INP vec elements.
 

@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class So(SurfaceOption, keyword='so'):
+class So(SurfaceOption):
     """
     Represents INP so elements.
 

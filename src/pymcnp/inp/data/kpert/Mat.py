@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Mat(KpertOption, keyword='mat'):
+class Mat(KpertOption):
     """
     Represents INP mat elements.
 

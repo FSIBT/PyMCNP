@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Fission(ActOption, keyword='fission'):
+class Fission(ActOption):
     """
     Represents INP fission elements.
 

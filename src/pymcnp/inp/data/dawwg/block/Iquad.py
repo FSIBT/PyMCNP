@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Iquad(BlockOption, keyword='iquad'):
+class Iquad(BlockOption):
     """
     Represents INP iquad elements.
 

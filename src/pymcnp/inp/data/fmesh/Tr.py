@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Tr(FmeshOption, keyword='tr'):
+class Tr(FmeshOption):
     """
     Represents INP tr elements.
 

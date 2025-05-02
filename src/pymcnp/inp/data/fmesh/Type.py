@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Type(FmeshOption, keyword='type'):
+class Type(FmeshOption):
     """
     Represents INP type elements.
 

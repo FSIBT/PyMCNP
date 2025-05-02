@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Coplot(MplotOption, keyword='coplot'):
+class Coplot(MplotOption):
     """
     Represents INP coplot elements.
 

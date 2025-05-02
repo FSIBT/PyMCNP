@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Balxs(BlockOption, keyword='balxs'):
+class Balxs(BlockOption):
     """
     Represents INP balxs elements.
 

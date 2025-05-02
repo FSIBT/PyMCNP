@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Erg(PertOption, keyword='erg'):
+class Erg(PertOption):
     """
     Represents INP erg elements.
 

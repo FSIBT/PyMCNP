@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Sx(SurfaceOption, keyword='sx'):
+class Sx(SurfaceOption):
     """
     Represents INP sx elements.
 

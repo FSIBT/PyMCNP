@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Ylims(MplotOption, keyword='ylims'):
+class Ylims(MplotOption):
     """
     Represents INP ylims elements.
 

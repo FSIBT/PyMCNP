@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Rho(KpertOption, keyword='rho'):
+class Rho(KpertOption):
     """
     Represents INP rho elements.
 

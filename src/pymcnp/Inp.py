@@ -12,7 +12,7 @@ from .utils import _object
 from .utils import _visualization
 
 
-class Inp(_object.McnpFile_):
+class Inp(_object.McnpFile):
     """
     Represents INP files.
 

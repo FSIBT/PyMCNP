@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Imesh(MeshOption, keyword='imesh'):
+class Imesh(MeshOption):
     """
     Represents INP imesh elements.
 

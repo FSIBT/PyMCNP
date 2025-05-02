@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Mode(DataOption, keyword='mode'):
+class Mode(DataOption):
     """
     Represents INP mode elements.
 

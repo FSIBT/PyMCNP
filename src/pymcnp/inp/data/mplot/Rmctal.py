@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Rmctal(MplotOption, keyword='rmctal'):
+class Rmctal(MplotOption):
     """
     Represents INP rmctal elements.
 

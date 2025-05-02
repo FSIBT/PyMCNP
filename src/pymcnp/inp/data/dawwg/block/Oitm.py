@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Oitm(BlockOption, keyword='oitm'):
+class Oitm(BlockOption):
     """
     Represents INP oitm elements.
 

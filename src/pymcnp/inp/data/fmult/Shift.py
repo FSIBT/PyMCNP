@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Shift(FmultOption, keyword='shift'):
+class Shift(FmultOption):
     """
     Represents INP shift elements.
 

@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fill_2(CellOption, keyword='fill'):
+class Fill_2(CellOption):
     """
     Represents INP fill variation #2 elements.
 

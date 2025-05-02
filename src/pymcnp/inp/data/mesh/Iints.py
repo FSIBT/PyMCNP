@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Iints(MeshOption, keyword='iints'):
+class Iints(MeshOption):
     """
     Represents INP iints elements.
 

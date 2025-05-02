@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Ibback(BlockOption, keyword='ibback'):
+class Ibback(BlockOption):
     """
     Represents INP ibback elements.
 

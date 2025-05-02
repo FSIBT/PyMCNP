@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Wwn(CellOption, keyword='wwn'):
+class Wwn(CellOption):
     """
     Represents INP wwn elements.
 

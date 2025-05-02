@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Tfc(MplotOption, keyword='tfc'):
+class Tfc(MplotOption):
     """
     Represents INP tfc elements.
 

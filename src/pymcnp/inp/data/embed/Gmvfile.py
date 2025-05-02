@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Gmvfile(EmbedOption, keyword='gmvfile'):
+class Gmvfile(EmbedOption):
     """
     Represents INP gmvfile elements.
 

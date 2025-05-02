@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Refc(MOption_0, keyword='refc'):
+class Refc(MOption_0):
     """
     Represents INP refc elements.
 

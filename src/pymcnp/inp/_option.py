@@ -5,7 +5,7 @@ from ..utils import _object
 from ..utils import _parser
 
 
-class Option(_object.McnpElement_):
+class Option(_object.McnpNonterminal):
     """
     Represents generic INP cards.
     """
@@ -30,11 +30,11 @@ class Option(_object.McnpElement_):
 
         source, comments = _parser.preprocess_inp(source)
 
-        for subcls in sorted(
-            sum(cls._SUBCLASSES.values(), []), reverse=True, key=lambda val: len(val._KEYWORD)
-        ):
+        subclasses = cls.__subclasses__() or [cls]
+
+        for subclass in subclasses:
             try:
-                if (tokens := subcls._REGEX.match(source)) and tokens[0] == source:
+                if (tokens := subclass._REGEX.match(source)) and tokens[0] == source:
                     break
                 else:
                     continue
@@ -44,7 +44,7 @@ class Option(_object.McnpElement_):
             raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
         attrs = {}
-        for i, (name, attr) in enumerate(subcls._ATTRS.items()):
+        for i, (name, attr) in enumerate(subclass._ATTRS.items()):
             if isinstance(attr, types.GenericAlias):
                 attrs[name] = (
                     attr.from_mcnp(tokens[i + 1], attr.__args__[0]) if tokens[i + 1] else None
@@ -52,7 +52,7 @@ class Option(_object.McnpElement_):
             else:
                 attrs[name] = attr.from_mcnp(tokens[i + 1]) if tokens[i + 1] else None
 
-        return subcls(**attrs)
+        return subclass(**attrs)
 
     def to_mcnp(self):
         """

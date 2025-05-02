@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Imp(CellOption, keyword='imp'):
+class Imp(CellOption):
     """
     Represents INP imp elements.
 

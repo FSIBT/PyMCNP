@@ -8,7 +8,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Ssr(DataOption, keyword='ssr'):
+class Ssr(DataOption):
     """
     Represents INP ssr elements.
 

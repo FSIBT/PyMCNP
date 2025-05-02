@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Leb(DataOption, keyword='leb'):
+class Leb(DataOption):
     """
     Represents INP leb elements.
 

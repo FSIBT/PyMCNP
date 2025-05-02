@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Ky(SurfaceOption, keyword='ky'):
+class Ky(SurfaceOption):
     """
     Represents INP ky elements.
 

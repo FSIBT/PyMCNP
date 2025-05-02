@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Sfnu(FmultOption, keyword='sfnu'):
+class Sfnu(FmultOption):
     """
     Represents INP sfnu elements.
 

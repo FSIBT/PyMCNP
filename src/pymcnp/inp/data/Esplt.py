@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Esplt(DataOption, keyword='esplt'):
+class Esplt(DataOption):
     """
     Represents INP esplt elements.
 

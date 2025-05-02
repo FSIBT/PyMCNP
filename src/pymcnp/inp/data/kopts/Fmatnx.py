@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Fmatnx(KoptsOption, keyword='fmatnx'):
+class Fmatnx(KoptsOption):
     """
     Represents INP fmatnx elements.
 

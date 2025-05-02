@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Sb_0(DataOption, keyword='sb'):
+class Sb_0(DataOption):
     """
     Represents INP sb variation #0 elements.
 

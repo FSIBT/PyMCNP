@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Lat(DataOption, keyword='lat'):
+class Lat(DataOption):
     """
     Represents INP lat elements.
 

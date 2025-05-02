@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Mt(KsenOption, keyword='mt'):
+class Mt(KsenOption):
     """
     Represents INP mt elements.
 

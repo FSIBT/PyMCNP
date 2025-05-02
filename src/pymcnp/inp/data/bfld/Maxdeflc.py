@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Maxdeflc(BfldOption, keyword='maxdeflc'):
+class Maxdeflc(BfldOption):
     """
     Represents INP maxdeflc elements.
 

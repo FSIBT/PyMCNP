@@ -7,7 +7,7 @@ from ._option import ContourOption
 from .....utils import types
 
 
-class Log(ContourOption, keyword='log'):
+class Log(ContourOption):
     """
     Represents INP log elements.
 

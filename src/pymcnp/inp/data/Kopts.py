@@ -8,7 +8,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Kopts(DataOption, keyword='kopts'):
+class Kopts(DataOption):
     """
     Represents INP kopts elements.
 

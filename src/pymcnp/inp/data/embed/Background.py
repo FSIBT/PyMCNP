@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Background(EmbedOption, keyword='background'):
+class Background(EmbedOption):
     """
     Represents INP background elements.
 

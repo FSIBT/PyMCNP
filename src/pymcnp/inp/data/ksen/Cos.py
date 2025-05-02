@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Cos(KsenOption, keyword='cos'):
+class Cos(KsenOption):
     """
     Represents INP cos elements.
 

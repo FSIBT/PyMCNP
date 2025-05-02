@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Ein(KsenOption, keyword='ein'):
+class Ein(KsenOption):
     """
     Represents INP ein elements.
 

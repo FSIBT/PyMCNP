@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Time(EmbeeOption, keyword='time'):
+class Time(EmbeeOption):
     """
     Represents INP time elements.
 

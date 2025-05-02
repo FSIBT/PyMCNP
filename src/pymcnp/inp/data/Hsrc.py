@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Hsrc(DataOption, keyword='hsrc'):
+class Hsrc(DataOption):
     """
     Represents INP hsrc elements.
 

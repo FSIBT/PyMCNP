@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Nap(ActOption, keyword='nap'):
+class Nap(ActOption):
     """
     Represents INP nap elements.
 

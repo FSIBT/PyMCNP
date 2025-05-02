@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Si_1(DataOption, keyword='si'):
+class Si_1(DataOption):
     """
     Represents INP si variation #1 elements.
 

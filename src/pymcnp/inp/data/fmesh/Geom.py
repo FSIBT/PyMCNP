@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Geom(FmeshOption, keyword='geom'):
+class Geom(FmeshOption):
     """
     Represents INP geom elements.
 
@@ -20,7 +20,7 @@ class Geom(FmeshOption, keyword='geom'):
         'geometry': types.String,
     }
 
-    _REGEX = re.compile(rf'\Ageom( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ageom(?: (xyz|rec|rzt|cyl))\Z')
 
     def __init__(self, geometry: types.String):
         """

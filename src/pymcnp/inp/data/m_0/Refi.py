@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Refi(MOption_0, keyword='refi'):
+class Refi(MOption_0):
     """
     Represents INP refi elements.
 

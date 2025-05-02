@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Enorm(FmeshOption, keyword='enorm'):
+class Enorm(FmeshOption):
     """
     Represents INP enorm elements.
 

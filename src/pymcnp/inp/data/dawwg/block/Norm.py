@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Norm(BlockOption, keyword='norm'):
+class Norm(BlockOption):
     """
     Represents INP norm elements.
 

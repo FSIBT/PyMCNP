@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Sph(SurfaceOption, keyword='sph'):
+class Sph(SurfaceOption):
     """
     Represents INP sph elements.
 

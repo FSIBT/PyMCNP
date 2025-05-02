@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Linear(KpertOption, keyword='linear'):
+class Linear(KpertOption):
     """
     Represents INP linear elements.
 

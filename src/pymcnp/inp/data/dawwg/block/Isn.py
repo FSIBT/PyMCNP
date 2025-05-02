@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Isn(BlockOption, keyword='isn'):
+class Isn(BlockOption):
     """
     Represents INP isn elements.
 

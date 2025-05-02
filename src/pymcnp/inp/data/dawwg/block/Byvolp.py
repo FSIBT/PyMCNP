@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Byvolp(BlockOption, keyword='byvolp'):
+class Byvolp(BlockOption):
     """
     Represents INP byvolp elements.
 

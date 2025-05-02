@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fcl(CellOption, keyword='fcl'):
+class Fcl(CellOption):
     """
     Represents INP fcl elements.
 

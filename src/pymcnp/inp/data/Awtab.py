@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Awtab(DataOption, keyword='awtab'):
+class Awtab(DataOption):
     """
     Represents INP awtab elements.
 

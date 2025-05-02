@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Thtme(DataOption, keyword='thtme'):
+class Thtme(DataOption):
     """
     Represents INP thtme elements.
 

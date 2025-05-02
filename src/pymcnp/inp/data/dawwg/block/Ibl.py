@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Ibl(BlockOption, keyword='ibl'):
+class Ibl(BlockOption):
     """
     Represents INP ibl elements.
 

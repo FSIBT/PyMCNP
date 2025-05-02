@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fs(DataOption, keyword='fs'):
+class Fs(DataOption):
     """
     Represents INP fs elements.
 

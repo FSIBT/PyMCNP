@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Below(MplotOption, keyword='below'):
+class Below(MplotOption):
     """
     Represents INP below elements.
 

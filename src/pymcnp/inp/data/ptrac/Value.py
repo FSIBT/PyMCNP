@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Value(PtracOption, keyword='value'):
+class Value(PtracOption):
     """
     Represents INP value elements.
 

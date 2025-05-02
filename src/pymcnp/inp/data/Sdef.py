@@ -8,7 +8,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Sdef(DataOption, keyword='sdef'):
+class Sdef(DataOption):
     """
     Represents INP sdef elements.
 

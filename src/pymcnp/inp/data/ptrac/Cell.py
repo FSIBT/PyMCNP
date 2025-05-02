@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Cell(PtracOption, keyword='cell'):
+class Cell(PtracOption):
     """
     Represents INP cell elements.
 

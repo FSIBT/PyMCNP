@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Ith(BlockOption, keyword='ith'):
+class Ith(BlockOption):
     """
     Represents INP ith elements.
 

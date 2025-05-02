@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Debug(EmbedOption, keyword='debug'):
+class Debug(EmbedOption):
     """
     Represents INP debug elements.
 

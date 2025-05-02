@@ -7,7 +7,7 @@ from ._option import ContourOption
 from .....utils import types
 
 
-class Color(ContourOption, keyword='color'):
+class Color(ContourOption):
     """
     Represents INP color elements.
 

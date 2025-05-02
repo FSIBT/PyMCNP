@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Fmatskpt(KoptsOption, keyword='fmatskpt'):
+class Fmatskpt(KoptsOption):
     """
     Represents INP fmatskpt elements.
 

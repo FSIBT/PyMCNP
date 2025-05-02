@@ -8,7 +8,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Var(DataOption, keyword='var'):
+class Var(DataOption):
     """
     Represents INP var elements.
 

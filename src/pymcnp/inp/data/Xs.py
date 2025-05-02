@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Xs(DataOption, keyword='xs'):
+class Xs(DataOption):
     """
     Represents INP xs elements.
 

@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Embem(DataOption, keyword='embem'):
+class Embem(DataOption):
     """
     Represents INP embem elements.
 

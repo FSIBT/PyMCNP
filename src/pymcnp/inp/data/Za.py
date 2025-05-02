@@ -7,7 +7,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Za(DataOption, keyword='za'):
+class Za(DataOption):
     """
     Represents INP za elements.
 

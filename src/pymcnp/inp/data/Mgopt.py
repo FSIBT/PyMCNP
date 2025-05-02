@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Mgopt(DataOption, keyword='mgopt'):
+class Mgopt(DataOption):
     """
     Represents INP mgopt elements.
 

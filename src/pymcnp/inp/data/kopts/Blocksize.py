@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Blocksize(KoptsOption, keyword='blocksize'):
+class Blocksize(KoptsOption):
     """
     Represents INP blocksize elements.
 

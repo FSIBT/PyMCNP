@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Old(SsrOption, keyword='old'):
+class Old(SsrOption):
     """
     Represents INP old elements.
 

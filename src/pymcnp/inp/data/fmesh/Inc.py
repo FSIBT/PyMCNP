@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Inc(FmeshOption, keyword='inc'):
+class Inc(FmeshOption):
     """
     Represents INP inc elements.
 

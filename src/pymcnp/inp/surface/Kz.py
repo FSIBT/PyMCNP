@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Kz(SurfaceOption, keyword='kz'):
+class Kz(SurfaceOption):
     """
     Represents INP kz elements.
 

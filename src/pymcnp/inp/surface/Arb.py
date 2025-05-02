@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Arb(SurfaceOption, keyword='arb'):
+class Arb(SurfaceOption):
     """
     Represents INP arb elements.
 

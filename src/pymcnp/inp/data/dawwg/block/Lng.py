@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Lng(BlockOption, keyword='lng'):
+class Lng(BlockOption):
     """
     Represents INP lng elements.
 

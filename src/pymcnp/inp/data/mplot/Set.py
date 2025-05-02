@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Set(MplotOption, keyword='set'):
+class Set(MplotOption):
     """
     Represents INP set elements.
 

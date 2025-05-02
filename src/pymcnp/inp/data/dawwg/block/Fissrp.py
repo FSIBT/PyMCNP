@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Fissrp(BlockOption, keyword='fissrp'):
+class Fissrp(BlockOption):
     """
     Represents INP fissrp elements.
 

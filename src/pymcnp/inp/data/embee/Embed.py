@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Embed(EmbeeOption, keyword='embed'):
+class Embed(EmbeeOption):
     """
     Represents INP embed elements.
 

@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class M_1(DataOption, keyword='m'):
+class M_1(DataOption):
     """
     Represents INP m variation #1 elements.
 

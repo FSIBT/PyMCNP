@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Dump(MplotOption, keyword='dump'):
+class Dump(MplotOption):
     """
     Represents INP dump elements.
 

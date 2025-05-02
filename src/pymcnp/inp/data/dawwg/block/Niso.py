@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Niso(BlockOption, keyword='niso'):
+class Niso(BlockOption):
     """
     Represents INP niso elements.
 

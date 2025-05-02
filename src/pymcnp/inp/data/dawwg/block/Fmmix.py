@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Fmmix(BlockOption, keyword='fmmix'):
+class Fmmix(BlockOption):
     """
     Represents INP fmmix elements.
 

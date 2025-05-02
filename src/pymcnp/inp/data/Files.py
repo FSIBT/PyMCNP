@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Files(DataOption, keyword='files'):
+class Files(DataOption):
     """
     Represents INP files elements.
 

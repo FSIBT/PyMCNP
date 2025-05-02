@@ -9,7 +9,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Block(DawwgOption, keyword='block'):
+class Block(DawwgOption):
     """
     Represents INP block elements.
 

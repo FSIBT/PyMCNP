@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Rxn(KpertOption, keyword='rxn'):
+class Rxn(KpertOption):
     """
     Represents INP rxn elements.
 

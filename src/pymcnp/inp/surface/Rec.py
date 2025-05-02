@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Rec(SurfaceOption, keyword='rec'):
+class Rec(SurfaceOption):
     """
     Represents INP rec elements.
 

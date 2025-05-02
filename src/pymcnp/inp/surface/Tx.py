@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Tx(SurfaceOption, keyword='tx'):
+class Tx(SurfaceOption):
     """
     Represents INP tx elements.
 

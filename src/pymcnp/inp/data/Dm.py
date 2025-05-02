@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Dm(DataOption, keyword='dm'):
+class Dm(DataOption):
     """
     Represents INP dm elements.
 

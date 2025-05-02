@@ -8,7 +8,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Act(DataOption, keyword='act'):
+class Act(DataOption):
     """
     Represents INP act elements.
 

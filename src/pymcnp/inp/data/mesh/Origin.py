@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Origin(MeshOption, keyword='origin'):
+class Origin(MeshOption):
     """
     Represents INP origin elements.
 

@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fip(DataOption, keyword='fip'):
+class Fip(DataOption):
     """
     Represents INP fip elements.
 

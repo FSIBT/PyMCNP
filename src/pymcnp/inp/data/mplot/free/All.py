@@ -7,7 +7,7 @@ from ._option import FreeOption
 from .....utils import types
 
 
-class All(FreeOption, keyword='all'):
+class All(FreeOption):
     """
     Represents INP all elements.
 

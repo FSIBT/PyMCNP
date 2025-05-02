@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Nosigf(BlockOption, keyword='nosigf'):
+class Nosigf(BlockOption):
     """
     Represents INP nosigf elements.
 

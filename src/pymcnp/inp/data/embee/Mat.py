@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Mat(EmbeeOption, keyword='mat'):
+class Mat(EmbeeOption):
     """
     Represents INP mat elements.
 

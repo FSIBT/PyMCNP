@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Otfdb(DataOption, keyword='otfdb'):
+class Otfdb(DataOption):
     """
     Represents INP otfdb elements.
 

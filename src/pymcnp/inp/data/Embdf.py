@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Embdf(DataOption, keyword='embdf'):
+class Embdf(DataOption):
     """
     Represents INP embdf elements.
 

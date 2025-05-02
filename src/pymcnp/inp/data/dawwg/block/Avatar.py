@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Avatar(BlockOption, keyword='avatar'):
+class Avatar(BlockOption):
     """
     Represents INP avatar elements.
 

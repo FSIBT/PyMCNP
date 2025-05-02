@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class X(SurfaceOption, keyword='x'):
+class X(SurfaceOption):
     """
     Represents INP x elements.
 

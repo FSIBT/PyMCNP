@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Spline(MplotOption, keyword='spline'):
+class Spline(MplotOption):
     """
     Represents INP spline elements.
 

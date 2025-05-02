@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Fmataccel(KoptsOption, keyword='fmataccel'):
+class Fmataccel(KoptsOption):
     """
     Represents INP fmataccel elements.
 

@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Pecut(ActOption, keyword='pecut'):
+class Pecut(ActOption):
     """
     Represents INP pecut elements.
 

@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Bar(MplotOption, keyword='bar'):
+class Bar(MplotOption):
     """
     Represents INP bar elements.
 

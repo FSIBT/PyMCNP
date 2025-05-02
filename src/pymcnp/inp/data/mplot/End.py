@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class End(MplotOption, keyword='end'):
+class End(MplotOption):
     """
     Represents INP end elements.
 

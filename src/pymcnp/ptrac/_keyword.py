@@ -1,9 +1,7 @@
-import enum
-
 from ..utils import _object
 
 
-class Keyword(_object.McnpElement_, str, enum.Enum):
+class Keyword(_object.McnpTerminal):
     """
     Represents generic PTRAC keywords.
     """

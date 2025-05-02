@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Bem(SdefOption, keyword='bem'):
+class Bem(SdefOption):
     """
     Represents INP bem elements.
 

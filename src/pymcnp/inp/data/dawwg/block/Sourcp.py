@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Sourcp(BlockOption, keyword='sourcp'):
+class Sourcp(BlockOption):
     """
     Represents INP sourcp elements.
 

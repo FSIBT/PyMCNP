@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Meph(PtracOption, keyword='meph'):
+class Meph(PtracOption):
     """
     Represents INP meph elements.
 

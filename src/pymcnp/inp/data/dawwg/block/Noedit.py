@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Noedit(BlockOption, keyword='noedit'):
+class Noedit(BlockOption):
     """
     Represents INP noedit elements.
 

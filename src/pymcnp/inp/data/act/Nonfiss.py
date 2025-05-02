@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Nonfiss(ActOption, keyword='nonfiss'):
+class Nonfiss(ActOption):
     """
     Represents INP nonfiss elements.
 

@@ -7,7 +7,7 @@ from ._option import MplotOption
 from ....utils import types
 
 
-class Printpts(MplotOption, keyword='printpts'):
+class Printpts(MplotOption):
     """
     Represents INP printpts elements.
 

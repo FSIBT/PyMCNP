@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Par(SdefOption, keyword='par'):
+class Par(SdefOption):
     """
     Represents INP par elements.
 

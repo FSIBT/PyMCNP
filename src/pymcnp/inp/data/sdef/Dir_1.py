@@ -7,7 +7,7 @@ from ._option import SdefOption
 from ....utils import types
 
 
-class Dir_1(SdefOption, keyword='dir'):
+class Dir_1(SdefOption):
     """
     Represents INP dir variation #1 elements.
 

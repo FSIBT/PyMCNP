@@ -7,7 +7,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Zb(DataOption, keyword='zb'):
+class Zb(DataOption):
     """
     Represents INP zb elements.
 

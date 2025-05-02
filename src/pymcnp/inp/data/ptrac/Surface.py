@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Surface(PtracOption, keyword='surface'):
+class Surface(PtracOption):
     """
     Represents INP surface elements.
 

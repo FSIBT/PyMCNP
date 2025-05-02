@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class C_x(SurfaceOption, keyword='c/x'):
+class C_x(SurfaceOption):
     """
     Represents INP c/x elements.
 
@@ -26,7 +26,7 @@ class C_x(SurfaceOption, keyword='c/x'):
     }
 
     _REGEX = re.compile(
-        rf'\Ac/x( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Ac\/x( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(self, y: types.Real, z: types.Real, r: types.Real):

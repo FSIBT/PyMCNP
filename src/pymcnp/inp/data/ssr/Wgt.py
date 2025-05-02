@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Wgt(SsrOption, keyword='wgt'):
+class Wgt(SsrOption):
     """
     Represents INP wgt elements.
 

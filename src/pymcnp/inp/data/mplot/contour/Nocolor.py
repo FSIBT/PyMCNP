@@ -7,7 +7,7 @@ from ._option import ContourOption
 from .....utils import types
 
 
-class Nocolor(ContourOption, keyword='nocolor'):
+class Nocolor(ContourOption):
     """
     Represents INP nocolor elements.
 

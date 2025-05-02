@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Psc(SsrOption, keyword='psc'):
+class Psc(SsrOption):
     """
     Represents INP psc elements.
 

@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Dnbais(ActOption, keyword='dnbais'):
+class Dnbais(ActOption):
     """
     Represents INP dnbais elements.
 

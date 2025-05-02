@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Stride(RandOption, keyword='stride'):
+class Stride(RandOption):
     """
     Represents INP stride elements.
 

@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Subtitle(MplotOption, keyword='subtitle'):
+class Subtitle(MplotOption):
     """
     Represents INP subtitle elements.
 

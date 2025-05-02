@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Xs_1(MplotOption, keyword='xs'):
+class Xs_1(MplotOption):
     """
     Represents INP xs variation #1 elements.
 

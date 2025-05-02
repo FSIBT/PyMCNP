@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Kmesh(MeshOption, keyword='kmesh'):
+class Kmesh(MeshOption):
     """
     Represents INP kmesh elements.
 

@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Tsaepsi(BlockOption, keyword='tsaepsi'):
+class Tsaepsi(BlockOption):
     """
     Represents INP tsaepsi elements.
 

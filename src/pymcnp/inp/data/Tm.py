@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Tm(DataOption, keyword='tm'):
+class Tm(DataOption):
     """
     Represents INP tm elements.
 

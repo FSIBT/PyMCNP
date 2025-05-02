@@ -8,7 +8,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Stop(DataOption, keyword='stop'):
+class Stop(DataOption):
     """
     Represents INP stop elements.
 

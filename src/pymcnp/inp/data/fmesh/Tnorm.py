@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Tnorm(FmeshOption, keyword='tnorm'):
+class Tnorm(FmeshOption):
     """
     Represents INP tnorm elements.
 

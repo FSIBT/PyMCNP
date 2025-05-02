@@ -8,7 +8,7 @@ from ..utils import errors
 from ..utils import _object
 
 
-class History(_object.McnpElement_):
+class History(_object.McnpNonterminal):
     """
     Represents PTRAC history blocks.
 

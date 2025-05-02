@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Xsectp(BlockOption, keyword='xsectp'):
+class Xsectp(BlockOption):
     """
     Represents INP xsectp elements.
 

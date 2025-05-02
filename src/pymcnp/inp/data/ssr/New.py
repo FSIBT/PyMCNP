@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class New(SsrOption, keyword='new'):
+class New(SsrOption):
     """
     Represents INP new elements.
 

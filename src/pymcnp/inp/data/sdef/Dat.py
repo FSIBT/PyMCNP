@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Dat(SdefOption, keyword='dat'):
+class Dat(SdefOption):
     """
     Represents INP dat elements.
 

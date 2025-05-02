@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Phys_2(DataOption, keyword='phys:e'):
+class Phys_2(DataOption):
     """
     Represents INP phys variation #2 elements.
 

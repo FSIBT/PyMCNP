@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Rr(VarOption, keyword='rr'):
+class Rr(VarOption):
     """
     Represents INP rr elements.
 

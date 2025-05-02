@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Isct(BlockOption, keyword='isct'):
+class Isct(BlockOption):
     """
     Represents INP isct elements.
 

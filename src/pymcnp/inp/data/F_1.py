@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class F_1(DataOption, keyword='f'):
+class F_1(DataOption):
     """
     Represents INP f variation #1 elements.
 

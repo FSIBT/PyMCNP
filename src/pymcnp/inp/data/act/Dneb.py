@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Dneb(ActOption, keyword='dneb'):
+class Dneb(ActOption):
     """
     Represents INP dneb elements.
 

@@ -11,7 +11,7 @@ from ...utils import errors
 from ...utils import _elements
 
 
-class M_0(DataOption, keyword='m'):
+class M_0(DataOption):
     """
     Represents INP m variation #0 elements.
 

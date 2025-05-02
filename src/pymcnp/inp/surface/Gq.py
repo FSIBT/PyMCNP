@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Gq(SurfaceOption, keyword='gq'):
+class Gq(SurfaceOption):
     """
     Represents INP gq elements.
 

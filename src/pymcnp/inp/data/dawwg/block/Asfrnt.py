@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Asfrnt(BlockOption, keyword='asfrnt'):
+class Asfrnt(BlockOption):
     """
     Represents INP asfrnt elements.
 

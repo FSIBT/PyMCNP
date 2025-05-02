@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Method(PertOption, keyword='method'):
+class Method(PertOption):
     """
     Represents INP method elements.
 

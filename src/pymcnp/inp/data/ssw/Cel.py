@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Cel(SswOption, keyword='cel'):
+class Cel(SswOption):
     """
     Represents INP cel elements.
 

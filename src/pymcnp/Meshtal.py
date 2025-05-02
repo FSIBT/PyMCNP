@@ -6,7 +6,7 @@ from .utils import errors
 from .utils import _object
 
 
-class Meshtal(_object.McnpFile_):
+class Meshtal(_object.McnpFile):
     """
     Represents MESTHAL files.
 

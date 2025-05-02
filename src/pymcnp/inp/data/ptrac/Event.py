@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Event(PtracOption, keyword='event'):
+class Event(PtracOption):
     """
     Represents INP event elements.
 

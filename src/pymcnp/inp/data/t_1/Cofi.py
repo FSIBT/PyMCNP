@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Cofi(TOption_1, keyword='cofi'):
+class Cofi(TOption_1):
     """
     Represents INP cofi elements.
 

@@ -8,7 +8,7 @@ from .....utils import types
 from .....utils import errors
 
 
-class Nomacr(BlockOption, keyword='nomacr'):
+class Nomacr(BlockOption):
     """
     Represents INP nomacr elements.
 

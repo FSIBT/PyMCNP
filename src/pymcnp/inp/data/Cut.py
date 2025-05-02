@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Cut(DataOption, keyword='cut'):
+class Cut(DataOption):
     """
     Represents INP cut elements.
 

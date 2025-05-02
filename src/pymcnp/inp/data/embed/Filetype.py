@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Filetype(EmbedOption, keyword='filetype'):
+class Filetype(EmbedOption):
     """
     Represents INP filetype elements.
 

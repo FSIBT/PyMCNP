@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Totnu(DataOption, keyword='totnu'):
+class Totnu(DataOption):
     """
     Represents INP totnu elements.
 

@@ -2654,7 +2654,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='vol',
                     mnemonic='vol',
-                    regex='vol( no)?((?: {types.RealOrJump._REGEX.pattern})+?)',
+                    regex='vol(?: (no))?((?: {types.RealOrJump._REGEX.pattern})+?)',
                     attributes=[
                         AttributeScheme(
                             name='no',
@@ -7841,7 +7841,7 @@ cards = ElementScheme(
                 ElementScheme(
                     name='fu',
                     mnemonic='fu',
-                    regex='fu(\\d+)((?: {types.RealOrJump._REGEX.pattern})+?)( nt)?( c)?',
+                    regex='fu(\\d+)((?: {types.RealOrJump._REGEX.pattern})+?)(?: (nt))?(?: (c))?',
                     attributes=[
                         AttributeScheme(
                             name='suffix',
@@ -8234,6 +8234,7 @@ cards = ElementScheme(
                         ElementScheme(
                             name='geom',
                             mnemonic='geom',
+                            regex='geom(?: (xyz|rec|rzt|cyl))',
                             attributes=[
                                 AttributeScheme(
                                     name='geometry',
@@ -9979,6 +9980,7 @@ cards = ElementScheme(
                         ElementScheme(
                             name='file',
                             mnemonic='file',
+                            regex='file(?: (asc|bin|aov|bov))',
                             attributes=[
                                 AttributeScheme(
                                     name='setting',
@@ -10015,6 +10017,7 @@ cards = ElementScheme(
                         ElementScheme(
                             name='write',
                             mnemonic='write',
+                            regex='write(?: (pos|all))',
                             attributes=[
                                 AttributeScheme(
                                     name='setting',
@@ -10027,6 +10030,7 @@ cards = ElementScheme(
                         ElementScheme(
                             name='conic',
                             mnemonic='conic',
+                            regex='setting(?: (col|lin))',
                             attributes=[
                                 AttributeScheme(
                                     name='setting',
@@ -10156,7 +10160,7 @@ cards = ElementScheme(
                         ElementScheme(
                             name='file',
                             mnemonic='file',
-                            regex='file( all|none)?',
+                            regex='file (?: (all|none))?',
                             attributes=[
                                 AttributeScheme(
                                     name='aa',
@@ -10351,7 +10355,7 @@ cards = ElementScheme(
                         ElementScheme(
                             name='reset',
                             mnemonic='reset',
-                            regex='reset( all|coplot)?',
+                            regex='reset(?: (all|coplot))?',
                             attributes=[
                                 AttributeScheme(
                                     name='aa',

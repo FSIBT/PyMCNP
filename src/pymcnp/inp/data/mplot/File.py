@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class File(MplotOption, keyword='file'):
+class File(MplotOption):
     """
     Represents INP file elements.
 
@@ -20,7 +20,7 @@ class File(MplotOption, keyword='file'):
         'aa': types.String,
     }
 
-    _REGEX = re.compile(r'\Afile( all|none)?\Z')
+    _REGEX = re.compile(r'\Afile (?: (all|none))?\Z')
 
     def __init__(self, aa: types.String = None):
         """

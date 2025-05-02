@@ -1,9 +1,4 @@
-import re
-import typing
-
-
 from ..._option import Option
-from ....utils import types
 
 
 class DfOption_1(Option):
@@ -11,19 +6,4 @@ class DfOption_1(Option):
     Represents generic INP df_1 options.
     """
 
-    _KEYWORD = ''
-    _SUBCLASSES = {}
-    _REGEX = re.compile(
-        rf'fac( {types.IntegerOrJump._REGEX.pattern})|log|lin|iu( {types.IntegerOrJump._REGEX.pattern})|ic( {types.IntegerOrJump._REGEX.pattern})'
-    )
-
-    def __init_subclass__(cls, keyword: str):
-        cls._KEYWORD: typing.Final[str] = keyword
-
-        if keyword not in cls._SUBCLASSES:
-            cls._SUBCLASSES[keyword] = [cls]
-        else:
-            cls._SUBCLASSES[keyword] += [cls]
-
-    def __class_getitem__(cls, keyword: str):
-        return cls._SUBCLASSES[keyword]
+    pass

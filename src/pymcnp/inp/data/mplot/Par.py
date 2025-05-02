@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Par(MplotOption, keyword='par'):
+class Par(MplotOption):
     """
     Represents INP par elements.
 

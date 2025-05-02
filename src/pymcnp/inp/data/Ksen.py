@@ -9,7 +9,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Ksen(DataOption, keyword='ksen'):
+class Ksen(DataOption):
     """
     Represents INP ksen elements.
 

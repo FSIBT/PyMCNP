@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Fk(StopOption, keyword='fk'):
+class Fk(StopOption):
     """
     Represents INP fk elements.
 

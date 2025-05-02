@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Csub(TOption_1, keyword='csub'):
+class Csub(TOption_1):
     """
     Represents INP csub elements.
 

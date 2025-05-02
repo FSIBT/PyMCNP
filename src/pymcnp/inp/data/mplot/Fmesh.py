@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Fmesh(MplotOption, keyword='fmesh'):
+class Fmesh(MplotOption):
     """
     Represents INP fmesh elements.
 

@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Mcnpumfile(EmbedOption, keyword='mcnpumfile'):
+class Mcnpumfile(EmbedOption):
     """
     Represents INP mcnpumfile elements.
 

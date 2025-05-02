@@ -5,6 +5,7 @@ import dataclasses
 
 from ._card import Card
 from ..utils import types
+from ..utils import _parser
 
 
 class Comment(Card):
@@ -31,6 +32,16 @@ class Comment(Card):
         """
 
         self.text: typing.Final[types.String] = text
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``Data``.
+
+        Returns:
+            INP data card.
+        """
+
+        return _parser.postprocess_continuation_line(f'c {self.text}')
 
 
 @dataclasses.dataclass

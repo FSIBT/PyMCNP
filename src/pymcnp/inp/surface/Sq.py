@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Sq(SurfaceOption, keyword='sq'):
+class Sq(SurfaceOption):
     """
     Represents INP sq elements.
 

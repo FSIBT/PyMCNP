@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Em(DataOption, keyword='em'):
+class Em(DataOption):
     """
     Represents INP em elements.
 

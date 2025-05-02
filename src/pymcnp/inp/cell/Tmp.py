@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Tmp(CellOption, keyword='tmp'):
+class Tmp(CellOption):
     """
     Represents INP tmp elements.
 

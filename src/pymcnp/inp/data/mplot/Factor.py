@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Factor(MplotOption, keyword='factor'):
+class Factor(MplotOption):
     """
     Represents INP factor elements.
 

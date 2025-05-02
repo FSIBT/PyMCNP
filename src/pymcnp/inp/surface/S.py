@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class S(SurfaceOption, keyword='s'):
+class S(SurfaceOption):
     """
     Represents INP s elements.
 

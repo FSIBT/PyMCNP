@@ -9,7 +9,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Contour(MplotOption, keyword='contour'):
+class Contour(MplotOption):
     """
     Represents INP contour elements.
 

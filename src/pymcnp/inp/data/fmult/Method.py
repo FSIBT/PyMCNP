@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Method(FmultOption, keyword='method'):
+class Method(FmultOption):
     """
     Represents INP method elements.
 

@@ -8,7 +8,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Fic(DataOption, keyword='fic'):
+class Fic(DataOption):
     """
     Represents INP fic elements.
 

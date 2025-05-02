@@ -8,7 +8,7 @@ from ._option import DataOption
 from ...utils import types
 
 
-class Tropt(DataOption, keyword='tropt'):
+class Tropt(DataOption):
     """
     Represents INP tropt elements.
 

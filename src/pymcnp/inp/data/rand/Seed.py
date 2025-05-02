@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Seed(RandOption, keyword='seed'):
+class Seed(RandOption):
     """
     Represents INP seed elements.
 

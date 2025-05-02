@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Tal(MplotOption, keyword='tal'):
+class Tal(MplotOption):
     """
     Represents INP tal elements.
 

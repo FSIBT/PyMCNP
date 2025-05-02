@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class Px(SurfaceOption, keyword='px'):
+class Px(SurfaceOption):
     """
     Represents INP px elements.
 

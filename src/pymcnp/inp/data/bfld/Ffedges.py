@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Ffedges(BfldOption, keyword='ffedges'):
+class Ffedges(BfldOption):
     """
     Represents INP ffedges elements.
 

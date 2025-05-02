@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Fmrelerr(MplotOption, keyword='fmrelerr'):
+class Fmrelerr(MplotOption):
     """
     Represents INP fmrelerr elements.
 

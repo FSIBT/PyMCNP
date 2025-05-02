@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Fmatny(KoptsOption, keyword='fmatny'):
+class Fmatny(KoptsOption):
     """
     Represents INP fmatny elements.
 

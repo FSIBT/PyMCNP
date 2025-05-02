@@ -9,7 +9,7 @@ from ...utils import errors
 from ...utils import _visualization
 
 
-class K_z(SurfaceOption, keyword='k/z'):
+class K_z(SurfaceOption):
     """
     Represents INP k/z elements.
 
@@ -30,7 +30,7 @@ class K_z(SurfaceOption, keyword='k/z'):
     }
 
     _REGEX = re.compile(
-        rf'\Ak/z( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Ak\/z( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(

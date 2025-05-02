@@ -7,7 +7,7 @@ from ._option import DfOption_1
 from ....utils import types
 
 
-class Lin(DfOption_1, keyword='lin'):
+class Lin(DfOption_1):
     """
     Represents INP lin elements.
 

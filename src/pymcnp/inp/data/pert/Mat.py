@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Mat(PertOption, keyword='mat'):
+class Mat(PertOption):
     """
     Represents INP mat elements.
 
