@@ -6,7 +6,7 @@ and subtallies
 import pymcnp
 import matplotlib.pyplot as plt
 
-file = 'data/output_files/F1F8.o'
+file = 'examples/data/outp/F1F8.o'
 out = pymcnp.outp.ReadOutput(file)
 print(out.get_runtime())
 

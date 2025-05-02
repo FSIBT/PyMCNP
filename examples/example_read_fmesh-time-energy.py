@@ -4,7 +4,7 @@ Example read FMESH tally with additional time and energy bins
 
 import pymcnp
 
-file = 'data/output_files/meshtal-te'
+file = 'examples/data/outp/meshtal-te'
 out = pymcnp.outp.output.ReadFmesh(file)
 df_info = out.df_info
 # all times, only 14 MeV

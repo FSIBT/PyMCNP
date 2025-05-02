@@ -96,7 +96,7 @@ To read tally data, we read in the output file. This creates a data
 frame that tells us how many tallies are available. We can then load
 the data of a specific one and easily plot it.
 
-    file = "data/output_files/F1F8.o"
+    file = "examples/data/outp/F1F8.o"
     out = pymcnp.outp.ReadOutput(file)
     print(out.get_runtime())
     
@@ -126,7 +126,7 @@ Creates the following image:
 
 ### Energy and time
 
-    file = "data/output_files/png_e.o"
+    file = "examples/data/outp/png_e.o"
     out = pymcnp.outp.ReadOutput(file)
     
     # information about tallies found
