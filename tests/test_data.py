@@ -2872,6 +2872,545 @@ class Test_PtracValue:
         EXAMPLES_INVALID = []
 
 
+class Test_DataMplot:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.Mplot
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotTerm:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Term
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotFile:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.File
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotCoplot:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Coplot
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotFreq:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Freq
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotReturn:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Return
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotPlot:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Plot
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotPause:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Pause
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotEnd:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.End
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotOptions:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Options
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotHelp:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Help
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotStatus:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Status
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotPrintal:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Printal
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotIptal:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Iptal
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotPrintpts:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Printpts
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotRuntpe:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Runtpe
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotDump:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Dump
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotWmctal:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Wmctal
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotRmctal:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Rmctal
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotTally:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Tally
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotPert:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Pert
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotLethargy:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Lethargy
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotNonorm:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Nonorm
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotFactor:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Factor
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotReset:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Reset
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotTitle:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Title
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotBelow:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Below
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotSubtitle:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Subtitle
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotXtitle:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Xtitle
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotYtitle:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Ytitle
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotZtitle:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Ztitle
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotLabel:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Label
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotFree:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Free
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_FreeAll:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.free.All
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_FreeNoall:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.free.Noall
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotFixed:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Fixed
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotSet:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Set
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotTfc:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Tfc
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotKcode:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Kcode
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotXs_0:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Xs_0
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotXs_1:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Xs_1
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotXs_2:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Xs_2
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotMt:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Mt
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotPar:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Par
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotLinlin:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Linlin
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotLinlog:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Linlog
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotLoglin:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Loglin
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotLoglog:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Loglog
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotXlims:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Xlims
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotYlims:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Ylims
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotScales:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Scales
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotHist:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Hist
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotPlinear:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Plinear
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotSpline:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Spline
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotBar:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Bar
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotNoerrbar:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Noerrbar
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotThick:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Thick
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotThin:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Thin
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotLegend:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Legend
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotContour:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Contour
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_ContourPct:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.contour.Pct
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_ContourLin:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.contour.Lin
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_ContourLog:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.contour.Log
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_ContourAll:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.contour.All
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_ContourNoall:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.contour.Noall
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_ContourLine:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.contour.Line
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_ContourNoline:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.contour.Noline
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_ContourColor:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.contour.Color
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_ContourNocolor:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.contour.Nocolor
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotWash:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Wash
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotFmesh:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Fmesh
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotFmrelerr:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Fmrelerr
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotZlev:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Zlev
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotEbin:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Ebin
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotTbin:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Tbin
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotCop:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Cop
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
+class Test_MplotTal:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.mplot.Tal
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+
 class Test_DataHistp:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.data.Histp
