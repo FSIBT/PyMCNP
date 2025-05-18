@@ -72,6 +72,7 @@ class FmBuilder:
             ``Fm`` for ``FmBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -79,6 +80,7 @@ class FmBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        bins = self.bins
         if isinstance(self.bins, types.String):
             bins = self.bins
         elif isinstance(self.bins, str):

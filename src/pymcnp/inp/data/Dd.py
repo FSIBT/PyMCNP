@@ -72,6 +72,7 @@ class DdBuilder:
             ``Dd`` for ``DdBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -79,15 +80,18 @@ class DdBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        diagnostics = []
-        for item in self.diagnostics:
-            if isinstance(item, types.Diagnostic):
-                diagnostics.append(item)
-            elif isinstance(item, str):
-                diagnostics.append(types.Diagnostic.from_mcnp(item))
-            else:
-                diagnostics.append(item.build())
-        diagnostics = types.Tuple(diagnostics)
+        if self.diagnostics:
+            diagnostics = []
+            for item in self.diagnostics:
+                if isinstance(item, types.Diagnostic):
+                    diagnostics.append(item)
+                elif isinstance(item, str):
+                    diagnostics.append(types.Diagnostic.from_mcnp(item))
+                else:
+                    diagnostics.append(item.build())
+            diagnostics = types.Tuple(diagnostics)
+        else:
+            diagnostics = None
 
         return Dd(
             suffix=suffix,

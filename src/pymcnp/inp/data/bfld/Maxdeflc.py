@@ -64,6 +64,7 @@ class MaxdeflcBuilder:
             ``Maxdeflc`` for ``MaxdeflcBuilder``.
         """
 
+        angle = self.angle
         if isinstance(self.angle, types.Real):
             angle = self.angle
         elif isinstance(self.angle, float) or isinstance(self.angle, int):

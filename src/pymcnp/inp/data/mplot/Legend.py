@@ -69,7 +69,7 @@ class LegendBuilder:
             ``Legend`` for ``LegendBuilder``.
         """
 
-        x = None
+        x = self.x
         if isinstance(self.x, types.Real):
             x = self.x
         elif isinstance(self.x, float) or isinstance(self.x, int):
@@ -77,7 +77,7 @@ class LegendBuilder:
         elif isinstance(self.x, str):
             x = types.Real.from_mcnp(self.x)
 
-        y = None
+        y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):

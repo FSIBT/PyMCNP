@@ -64,6 +64,7 @@ class McnpumfileBuilder:
             ``Mcnpumfile`` for ``McnpumfileBuilder``.
         """
 
+        filename = self.filename
         if isinstance(self.filename, types.String):
             filename = self.filename
         elif isinstance(self.filename, str):

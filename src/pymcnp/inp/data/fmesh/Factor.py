@@ -64,6 +64,7 @@ class FactorBuilder:
             ``Factor`` for ``FactorBuilder``.
         """
 
+        multiple = self.multiple
         if isinstance(self.multiple, types.Real):
             multiple = self.multiple
         elif isinstance(self.multiple, float) or isinstance(self.multiple, int):

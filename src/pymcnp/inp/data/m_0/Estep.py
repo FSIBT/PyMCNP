@@ -64,6 +64,7 @@ class EstepBuilder:
             ``Estep`` for ``EstepBuilder``.
         """
 
+        step = self.step
         if isinstance(self.step, types.Integer):
             step = self.step
         elif isinstance(self.step, int):

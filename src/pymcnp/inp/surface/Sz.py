@@ -87,6 +87,7 @@ class SzBuilder:
             ``Sz`` for ``SzBuilder``.
         """
 
+        z = self.z
         if isinstance(self.z, types.Real):
             z = self.z
         elif isinstance(self.z, float) or isinstance(self.z, int):
@@ -94,6 +95,7 @@ class SzBuilder:
         elif isinstance(self.z, str):
             z = types.Real.from_mcnp(self.z)
 
+        r = self.r
         if isinstance(self.r, types.Real):
             r = self.r
         elif isinstance(self.r, float) or isinstance(self.r, int):

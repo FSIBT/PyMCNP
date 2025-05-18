@@ -72,20 +72,24 @@ class ImpBuilder:
             ``Imp`` for ``ImpBuilder``.
         """
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
-        importances = []
-        for item in self.importances:
-            if isinstance(item, types.RealOrJump):
-                importances.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                importances.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                importances.append(types.RealOrJump.from_mcnp(item))
-        importances = types.Tuple(importances)
+        if self.importances:
+            importances = []
+            for item in self.importances:
+                if isinstance(item, types.RealOrJump):
+                    importances.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    importances.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    importances.append(types.RealOrJump.from_mcnp(item))
+            importances = types.Tuple(importances)
+        else:
+            importances = None
 
         return Imp(
             designator=designator,

@@ -72,6 +72,7 @@ class ScBuilder:
             ``Sc`` for ``ScBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -79,15 +80,18 @@ class ScBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        comment = []
-        for item in self.comment:
-            if isinstance(item, types.String):
-                comment.append(item)
-            elif isinstance(item, str):
-                comment.append(types.String.from_mcnp(item))
-            else:
-                comment.append(item.build())
-        comment = types.Tuple(comment)
+        if self.comment:
+            comment = []
+            for item in self.comment:
+                if isinstance(item, types.String):
+                    comment.append(item)
+                elif isinstance(item, str):
+                    comment.append(types.String.from_mcnp(item))
+                else:
+                    comment.append(item.build())
+            comment = types.Tuple(comment)
+        else:
+            comment = None
 
         return Sc(
             suffix=suffix,

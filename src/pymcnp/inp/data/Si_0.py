@@ -88,6 +88,7 @@ class SiBuilder_0:
             ``Si_0`` for ``SiBuilder_0``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -95,20 +96,24 @@ class SiBuilder_0:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        option = self.option
         if isinstance(self.option, types.String):
             option = self.option
         elif isinstance(self.option, str):
             option = types.String.from_mcnp(self.option)
 
-        information = []
-        for item in self.information:
-            if isinstance(item, types.DistributionNumber):
-                information.append(item)
-            elif isinstance(item, str):
-                information.append(types.DistributionNumber.from_mcnp(item))
-            else:
-                information.append(item.build())
-        information = types.Tuple(information)
+        if self.information:
+            information = []
+            for item in self.information:
+                if isinstance(item, types.DistributionNumber):
+                    information.append(item)
+                elif isinstance(item, str):
+                    information.append(types.DistributionNumber.from_mcnp(item))
+                else:
+                    information.append(item.build())
+            information = types.Tuple(information)
+        else:
+            information = None
 
         return Si_0(
             suffix=suffix,

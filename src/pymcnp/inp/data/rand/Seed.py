@@ -64,6 +64,7 @@ class SeedBuilder:
             ``Seed`` for ``SeedBuilder``.
         """
 
+        seed = self.seed
         if isinstance(self.seed, types.Integer):
             seed = self.seed
         elif isinstance(self.seed, int):

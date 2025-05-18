@@ -1059,6 +1059,7 @@ class DbcnBuilder:
             ``Dbcn`` for ``DbcnBuilder``.
         """
 
+        x1 = self.x1
         if isinstance(self.x1, types.Integer):
             x1 = self.x1
         elif isinstance(self.x1, int):
@@ -1066,6 +1067,7 @@ class DbcnBuilder:
         elif isinstance(self.x1, str):
             x1 = types.IntegerOrJump.from_mcnp(self.x1)
 
+        x2 = self.x2
         if isinstance(self.x2, types.Integer):
             x2 = self.x2
         elif isinstance(self.x2, int):
@@ -1073,6 +1075,7 @@ class DbcnBuilder:
         elif isinstance(self.x2, str):
             x2 = types.IntegerOrJump.from_mcnp(self.x2)
 
+        x3 = self.x3
         if isinstance(self.x3, types.Integer):
             x3 = self.x3
         elif isinstance(self.x3, int):
@@ -1080,6 +1083,7 @@ class DbcnBuilder:
         elif isinstance(self.x3, str):
             x3 = types.IntegerOrJump.from_mcnp(self.x3)
 
+        x4 = self.x4
         if isinstance(self.x4, types.Integer):
             x4 = self.x4
         elif isinstance(self.x4, int):
@@ -1087,6 +1091,7 @@ class DbcnBuilder:
         elif isinstance(self.x4, str):
             x4 = types.IntegerOrJump.from_mcnp(self.x4)
 
+        x5 = self.x5
         if isinstance(self.x5, types.Integer):
             x5 = self.x5
         elif isinstance(self.x5, int):
@@ -1094,6 +1099,7 @@ class DbcnBuilder:
         elif isinstance(self.x5, str):
             x5 = types.IntegerOrJump.from_mcnp(self.x5)
 
+        x6 = self.x6
         if isinstance(self.x6, types.Integer):
             x6 = self.x6
         elif isinstance(self.x6, int):
@@ -1101,6 +1107,7 @@ class DbcnBuilder:
         elif isinstance(self.x6, str):
             x6 = types.IntegerOrJump.from_mcnp(self.x6)
 
+        x7 = self.x7
         if isinstance(self.x7, types.Integer):
             x7 = self.x7
         elif isinstance(self.x7, int):
@@ -1108,6 +1115,7 @@ class DbcnBuilder:
         elif isinstance(self.x7, str):
             x7 = types.IntegerOrJump.from_mcnp(self.x7)
 
+        x8 = self.x8
         if isinstance(self.x8, types.Integer):
             x8 = self.x8
         elif isinstance(self.x8, int):
@@ -1115,6 +1123,7 @@ class DbcnBuilder:
         elif isinstance(self.x8, str):
             x8 = types.IntegerOrJump.from_mcnp(self.x8)
 
+        x9 = self.x9
         if isinstance(self.x9, types.Integer):
             x9 = self.x9
         elif isinstance(self.x9, int):
@@ -1122,6 +1131,7 @@ class DbcnBuilder:
         elif isinstance(self.x9, str):
             x9 = types.IntegerOrJump.from_mcnp(self.x9)
 
+        x10 = self.x10
         if isinstance(self.x10, types.Integer):
             x10 = self.x10
         elif isinstance(self.x10, int):
@@ -1129,6 +1139,7 @@ class DbcnBuilder:
         elif isinstance(self.x10, str):
             x10 = types.IntegerOrJump.from_mcnp(self.x10)
 
+        x11 = self.x11
         if isinstance(self.x11, types.Integer):
             x11 = self.x11
         elif isinstance(self.x11, int):
@@ -1136,6 +1147,7 @@ class DbcnBuilder:
         elif isinstance(self.x11, str):
             x11 = types.IntegerOrJump.from_mcnp(self.x11)
 
+        x12 = self.x12
         if isinstance(self.x12, types.Integer):
             x12 = self.x12
         elif isinstance(self.x12, int):
@@ -1143,6 +1155,7 @@ class DbcnBuilder:
         elif isinstance(self.x12, str):
             x12 = types.IntegerOrJump.from_mcnp(self.x12)
 
+        x13 = self.x13
         if isinstance(self.x13, types.Integer):
             x13 = self.x13
         elif isinstance(self.x13, int):
@@ -1150,6 +1163,7 @@ class DbcnBuilder:
         elif isinstance(self.x13, str):
             x13 = types.IntegerOrJump.from_mcnp(self.x13)
 
+        x14 = self.x14
         if isinstance(self.x14, types.Integer):
             x14 = self.x14
         elif isinstance(self.x14, int):
@@ -1157,6 +1171,7 @@ class DbcnBuilder:
         elif isinstance(self.x14, str):
             x14 = types.IntegerOrJump.from_mcnp(self.x14)
 
+        x15 = self.x15
         if isinstance(self.x15, types.Integer):
             x15 = self.x15
         elif isinstance(self.x15, int):
@@ -1164,6 +1179,7 @@ class DbcnBuilder:
         elif isinstance(self.x15, str):
             x15 = types.IntegerOrJump.from_mcnp(self.x15)
 
+        x16 = self.x16
         if isinstance(self.x16, types.Integer):
             x16 = self.x16
         elif isinstance(self.x16, int):
@@ -1171,6 +1187,7 @@ class DbcnBuilder:
         elif isinstance(self.x16, str):
             x16 = types.IntegerOrJump.from_mcnp(self.x16)
 
+        x17 = self.x17
         if isinstance(self.x17, types.Integer):
             x17 = self.x17
         elif isinstance(self.x17, int):
@@ -1178,6 +1195,7 @@ class DbcnBuilder:
         elif isinstance(self.x17, str):
             x17 = types.IntegerOrJump.from_mcnp(self.x17)
 
+        x18 = self.x18
         if isinstance(self.x18, types.Integer):
             x18 = self.x18
         elif isinstance(self.x18, int):
@@ -1185,6 +1203,7 @@ class DbcnBuilder:
         elif isinstance(self.x18, str):
             x18 = types.IntegerOrJump.from_mcnp(self.x18)
 
+        x19 = self.x19
         if isinstance(self.x19, types.Integer):
             x19 = self.x19
         elif isinstance(self.x19, int):
@@ -1192,6 +1211,7 @@ class DbcnBuilder:
         elif isinstance(self.x19, str):
             x19 = types.IntegerOrJump.from_mcnp(self.x19)
 
+        x20 = self.x20
         if isinstance(self.x20, types.Integer):
             x20 = self.x20
         elif isinstance(self.x20, int):
@@ -1199,6 +1219,7 @@ class DbcnBuilder:
         elif isinstance(self.x20, str):
             x20 = types.IntegerOrJump.from_mcnp(self.x20)
 
+        x21 = self.x21
         if isinstance(self.x21, types.Integer):
             x21 = self.x21
         elif isinstance(self.x21, int):
@@ -1206,6 +1227,7 @@ class DbcnBuilder:
         elif isinstance(self.x21, str):
             x21 = types.IntegerOrJump.from_mcnp(self.x21)
 
+        x22 = self.x22
         if isinstance(self.x22, types.Integer):
             x22 = self.x22
         elif isinstance(self.x22, int):
@@ -1213,6 +1235,7 @@ class DbcnBuilder:
         elif isinstance(self.x22, str):
             x22 = types.IntegerOrJump.from_mcnp(self.x22)
 
+        x23 = self.x23
         if isinstance(self.x23, types.Integer):
             x23 = self.x23
         elif isinstance(self.x23, int):
@@ -1220,6 +1243,7 @@ class DbcnBuilder:
         elif isinstance(self.x23, str):
             x23 = types.IntegerOrJump.from_mcnp(self.x23)
 
+        x24 = self.x24
         if isinstance(self.x24, types.Integer):
             x24 = self.x24
         elif isinstance(self.x24, int):
@@ -1227,6 +1251,7 @@ class DbcnBuilder:
         elif isinstance(self.x24, str):
             x24 = types.IntegerOrJump.from_mcnp(self.x24)
 
+        x25 = self.x25
         if isinstance(self.x25, types.Integer):
             x25 = self.x25
         elif isinstance(self.x25, int):
@@ -1234,6 +1259,7 @@ class DbcnBuilder:
         elif isinstance(self.x25, str):
             x25 = types.IntegerOrJump.from_mcnp(self.x25)
 
+        x26 = self.x26
         if isinstance(self.x26, types.Integer):
             x26 = self.x26
         elif isinstance(self.x26, int):
@@ -1241,6 +1267,7 @@ class DbcnBuilder:
         elif isinstance(self.x26, str):
             x26 = types.IntegerOrJump.from_mcnp(self.x26)
 
+        x27 = self.x27
         if isinstance(self.x27, types.Integer):
             x27 = self.x27
         elif isinstance(self.x27, int):
@@ -1248,6 +1275,7 @@ class DbcnBuilder:
         elif isinstance(self.x27, str):
             x27 = types.IntegerOrJump.from_mcnp(self.x27)
 
+        x28 = self.x28
         if isinstance(self.x28, types.Integer):
             x28 = self.x28
         elif isinstance(self.x28, int):
@@ -1255,6 +1283,7 @@ class DbcnBuilder:
         elif isinstance(self.x28, str):
             x28 = types.IntegerOrJump.from_mcnp(self.x28)
 
+        x29 = self.x29
         if isinstance(self.x29, types.Integer):
             x29 = self.x29
         elif isinstance(self.x29, int):
@@ -1262,6 +1291,7 @@ class DbcnBuilder:
         elif isinstance(self.x29, str):
             x29 = types.IntegerOrJump.from_mcnp(self.x29)
 
+        x30 = self.x30
         if isinstance(self.x30, types.Integer):
             x30 = self.x30
         elif isinstance(self.x30, int):
@@ -1269,6 +1299,7 @@ class DbcnBuilder:
         elif isinstance(self.x30, str):
             x30 = types.IntegerOrJump.from_mcnp(self.x30)
 
+        x31 = self.x31
         if isinstance(self.x31, types.Integer):
             x31 = self.x31
         elif isinstance(self.x31, int):
@@ -1276,6 +1307,7 @@ class DbcnBuilder:
         elif isinstance(self.x31, str):
             x31 = types.IntegerOrJump.from_mcnp(self.x31)
 
+        x32 = self.x32
         if isinstance(self.x32, types.Integer):
             x32 = self.x32
         elif isinstance(self.x32, int):
@@ -1283,6 +1315,7 @@ class DbcnBuilder:
         elif isinstance(self.x32, str):
             x32 = types.IntegerOrJump.from_mcnp(self.x32)
 
+        x33 = self.x33
         if isinstance(self.x33, types.Integer):
             x33 = self.x33
         elif isinstance(self.x33, int):
@@ -1290,6 +1323,7 @@ class DbcnBuilder:
         elif isinstance(self.x33, str):
             x33 = types.IntegerOrJump.from_mcnp(self.x33)
 
+        x34 = self.x34
         if isinstance(self.x34, types.Integer):
             x34 = self.x34
         elif isinstance(self.x34, int):
@@ -1297,6 +1331,7 @@ class DbcnBuilder:
         elif isinstance(self.x34, str):
             x34 = types.IntegerOrJump.from_mcnp(self.x34)
 
+        x35 = self.x35
         if isinstance(self.x35, types.Integer):
             x35 = self.x35
         elif isinstance(self.x35, int):
@@ -1304,6 +1339,7 @@ class DbcnBuilder:
         elif isinstance(self.x35, str):
             x35 = types.IntegerOrJump.from_mcnp(self.x35)
 
+        x36 = self.x36
         if isinstance(self.x36, types.Integer):
             x36 = self.x36
         elif isinstance(self.x36, int):
@@ -1311,6 +1347,7 @@ class DbcnBuilder:
         elif isinstance(self.x36, str):
             x36 = types.IntegerOrJump.from_mcnp(self.x36)
 
+        x37 = self.x37
         if isinstance(self.x37, types.Integer):
             x37 = self.x37
         elif isinstance(self.x37, int):
@@ -1318,6 +1355,7 @@ class DbcnBuilder:
         elif isinstance(self.x37, str):
             x37 = types.IntegerOrJump.from_mcnp(self.x37)
 
+        x38 = self.x38
         if isinstance(self.x38, types.Integer):
             x38 = self.x38
         elif isinstance(self.x38, int):
@@ -1325,6 +1363,7 @@ class DbcnBuilder:
         elif isinstance(self.x38, str):
             x38 = types.IntegerOrJump.from_mcnp(self.x38)
 
+        x39 = self.x39
         if isinstance(self.x39, types.Integer):
             x39 = self.x39
         elif isinstance(self.x39, int):
@@ -1332,6 +1371,7 @@ class DbcnBuilder:
         elif isinstance(self.x39, str):
             x39 = types.IntegerOrJump.from_mcnp(self.x39)
 
+        x40 = self.x40
         if isinstance(self.x40, types.Integer):
             x40 = self.x40
         elif isinstance(self.x40, int):
@@ -1339,6 +1379,7 @@ class DbcnBuilder:
         elif isinstance(self.x40, str):
             x40 = types.IntegerOrJump.from_mcnp(self.x40)
 
+        x41 = self.x41
         if isinstance(self.x41, types.Integer):
             x41 = self.x41
         elif isinstance(self.x41, int):
@@ -1346,6 +1387,7 @@ class DbcnBuilder:
         elif isinstance(self.x41, str):
             x41 = types.IntegerOrJump.from_mcnp(self.x41)
 
+        x42 = self.x42
         if isinstance(self.x42, types.Integer):
             x42 = self.x42
         elif isinstance(self.x42, int):
@@ -1353,6 +1395,7 @@ class DbcnBuilder:
         elif isinstance(self.x42, str):
             x42 = types.IntegerOrJump.from_mcnp(self.x42)
 
+        x43 = self.x43
         if isinstance(self.x43, types.Integer):
             x43 = self.x43
         elif isinstance(self.x43, int):
@@ -1360,6 +1403,7 @@ class DbcnBuilder:
         elif isinstance(self.x43, str):
             x43 = types.IntegerOrJump.from_mcnp(self.x43)
 
+        x44 = self.x44
         if isinstance(self.x44, types.Integer):
             x44 = self.x44
         elif isinstance(self.x44, int):
@@ -1367,6 +1411,7 @@ class DbcnBuilder:
         elif isinstance(self.x44, str):
             x44 = types.IntegerOrJump.from_mcnp(self.x44)
 
+        x45 = self.x45
         if isinstance(self.x45, types.Integer):
             x45 = self.x45
         elif isinstance(self.x45, int):
@@ -1374,6 +1419,7 @@ class DbcnBuilder:
         elif isinstance(self.x45, str):
             x45 = types.IntegerOrJump.from_mcnp(self.x45)
 
+        x46 = self.x46
         if isinstance(self.x46, types.Integer):
             x46 = self.x46
         elif isinstance(self.x46, int):
@@ -1381,6 +1427,7 @@ class DbcnBuilder:
         elif isinstance(self.x46, str):
             x46 = types.IntegerOrJump.from_mcnp(self.x46)
 
+        x47 = self.x47
         if isinstance(self.x47, types.Integer):
             x47 = self.x47
         elif isinstance(self.x47, int):
@@ -1388,6 +1435,7 @@ class DbcnBuilder:
         elif isinstance(self.x47, str):
             x47 = types.IntegerOrJump.from_mcnp(self.x47)
 
+        x48 = self.x48
         if isinstance(self.x48, types.Integer):
             x48 = self.x48
         elif isinstance(self.x48, int):
@@ -1395,6 +1443,7 @@ class DbcnBuilder:
         elif isinstance(self.x48, str):
             x48 = types.IntegerOrJump.from_mcnp(self.x48)
 
+        x49 = self.x49
         if isinstance(self.x49, types.Integer):
             x49 = self.x49
         elif isinstance(self.x49, int):
@@ -1402,6 +1451,7 @@ class DbcnBuilder:
         elif isinstance(self.x49, str):
             x49 = types.IntegerOrJump.from_mcnp(self.x49)
 
+        x50 = self.x50
         if isinstance(self.x50, types.Integer):
             x50 = self.x50
         elif isinstance(self.x50, int):
@@ -1409,6 +1459,7 @@ class DbcnBuilder:
         elif isinstance(self.x50, str):
             x50 = types.IntegerOrJump.from_mcnp(self.x50)
 
+        x51 = self.x51
         if isinstance(self.x51, types.Integer):
             x51 = self.x51
         elif isinstance(self.x51, int):
@@ -1416,6 +1467,7 @@ class DbcnBuilder:
         elif isinstance(self.x51, str):
             x51 = types.IntegerOrJump.from_mcnp(self.x51)
 
+        x52 = self.x52
         if isinstance(self.x52, types.Integer):
             x52 = self.x52
         elif isinstance(self.x52, int):
@@ -1423,6 +1475,7 @@ class DbcnBuilder:
         elif isinstance(self.x52, str):
             x52 = types.IntegerOrJump.from_mcnp(self.x52)
 
+        x53 = self.x53
         if isinstance(self.x53, types.Integer):
             x53 = self.x53
         elif isinstance(self.x53, int):
@@ -1430,6 +1483,7 @@ class DbcnBuilder:
         elif isinstance(self.x53, str):
             x53 = types.IntegerOrJump.from_mcnp(self.x53)
 
+        x54 = self.x54
         if isinstance(self.x54, types.Integer):
             x54 = self.x54
         elif isinstance(self.x54, int):
@@ -1437,6 +1491,7 @@ class DbcnBuilder:
         elif isinstance(self.x54, str):
             x54 = types.IntegerOrJump.from_mcnp(self.x54)
 
+        x55 = self.x55
         if isinstance(self.x55, types.Integer):
             x55 = self.x55
         elif isinstance(self.x55, int):
@@ -1444,6 +1499,7 @@ class DbcnBuilder:
         elif isinstance(self.x55, str):
             x55 = types.IntegerOrJump.from_mcnp(self.x55)
 
+        x56 = self.x56
         if isinstance(self.x56, types.Integer):
             x56 = self.x56
         elif isinstance(self.x56, int):
@@ -1451,6 +1507,7 @@ class DbcnBuilder:
         elif isinstance(self.x56, str):
             x56 = types.IntegerOrJump.from_mcnp(self.x56)
 
+        x57 = self.x57
         if isinstance(self.x57, types.Integer):
             x57 = self.x57
         elif isinstance(self.x57, int):
@@ -1458,6 +1515,7 @@ class DbcnBuilder:
         elif isinstance(self.x57, str):
             x57 = types.IntegerOrJump.from_mcnp(self.x57)
 
+        x58 = self.x58
         if isinstance(self.x58, types.Integer):
             x58 = self.x58
         elif isinstance(self.x58, int):
@@ -1465,6 +1523,7 @@ class DbcnBuilder:
         elif isinstance(self.x58, str):
             x58 = types.IntegerOrJump.from_mcnp(self.x58)
 
+        x59 = self.x59
         if isinstance(self.x59, types.Integer):
             x59 = self.x59
         elif isinstance(self.x59, int):
@@ -1472,6 +1531,7 @@ class DbcnBuilder:
         elif isinstance(self.x59, str):
             x59 = types.IntegerOrJump.from_mcnp(self.x59)
 
+        x60 = self.x60
         if isinstance(self.x60, types.Integer):
             x60 = self.x60
         elif isinstance(self.x60, int):
@@ -1479,6 +1539,7 @@ class DbcnBuilder:
         elif isinstance(self.x60, str):
             x60 = types.IntegerOrJump.from_mcnp(self.x60)
 
+        x61 = self.x61
         if isinstance(self.x61, types.Integer):
             x61 = self.x61
         elif isinstance(self.x61, int):
@@ -1486,6 +1547,7 @@ class DbcnBuilder:
         elif isinstance(self.x61, str):
             x61 = types.IntegerOrJump.from_mcnp(self.x61)
 
+        x62 = self.x62
         if isinstance(self.x62, types.Integer):
             x62 = self.x62
         elif isinstance(self.x62, int):
@@ -1493,6 +1555,7 @@ class DbcnBuilder:
         elif isinstance(self.x62, str):
             x62 = types.IntegerOrJump.from_mcnp(self.x62)
 
+        x63 = self.x63
         if isinstance(self.x63, types.Integer):
             x63 = self.x63
         elif isinstance(self.x63, int):
@@ -1500,6 +1563,7 @@ class DbcnBuilder:
         elif isinstance(self.x63, str):
             x63 = types.IntegerOrJump.from_mcnp(self.x63)
 
+        x64 = self.x64
         if isinstance(self.x64, types.Integer):
             x64 = self.x64
         elif isinstance(self.x64, int):
@@ -1507,6 +1571,7 @@ class DbcnBuilder:
         elif isinstance(self.x64, str):
             x64 = types.IntegerOrJump.from_mcnp(self.x64)
 
+        x65 = self.x65
         if isinstance(self.x65, types.Integer):
             x65 = self.x65
         elif isinstance(self.x65, int):
@@ -1514,6 +1579,7 @@ class DbcnBuilder:
         elif isinstance(self.x65, str):
             x65 = types.IntegerOrJump.from_mcnp(self.x65)
 
+        x66 = self.x66
         if isinstance(self.x66, types.Integer):
             x66 = self.x66
         elif isinstance(self.x66, int):
@@ -1521,6 +1587,7 @@ class DbcnBuilder:
         elif isinstance(self.x66, str):
             x66 = types.IntegerOrJump.from_mcnp(self.x66)
 
+        x67 = self.x67
         if isinstance(self.x67, types.Integer):
             x67 = self.x67
         elif isinstance(self.x67, int):
@@ -1528,6 +1595,7 @@ class DbcnBuilder:
         elif isinstance(self.x67, str):
             x67 = types.IntegerOrJump.from_mcnp(self.x67)
 
+        x68 = self.x68
         if isinstance(self.x68, types.Integer):
             x68 = self.x68
         elif isinstance(self.x68, int):
@@ -1535,6 +1603,7 @@ class DbcnBuilder:
         elif isinstance(self.x68, str):
             x68 = types.IntegerOrJump.from_mcnp(self.x68)
 
+        x69 = self.x69
         if isinstance(self.x69, types.Integer):
             x69 = self.x69
         elif isinstance(self.x69, int):
@@ -1542,6 +1611,7 @@ class DbcnBuilder:
         elif isinstance(self.x69, str):
             x69 = types.IntegerOrJump.from_mcnp(self.x69)
 
+        x70 = self.x70
         if isinstance(self.x70, types.Integer):
             x70 = self.x70
         elif isinstance(self.x70, int):
@@ -1549,6 +1619,7 @@ class DbcnBuilder:
         elif isinstance(self.x70, str):
             x70 = types.IntegerOrJump.from_mcnp(self.x70)
 
+        x71 = self.x71
         if isinstance(self.x71, types.Integer):
             x71 = self.x71
         elif isinstance(self.x71, int):
@@ -1556,6 +1627,7 @@ class DbcnBuilder:
         elif isinstance(self.x71, str):
             x71 = types.IntegerOrJump.from_mcnp(self.x71)
 
+        x72 = self.x72
         if isinstance(self.x72, types.Integer):
             x72 = self.x72
         elif isinstance(self.x72, int):
@@ -1563,6 +1635,7 @@ class DbcnBuilder:
         elif isinstance(self.x72, str):
             x72 = types.IntegerOrJump.from_mcnp(self.x72)
 
+        x73 = self.x73
         if isinstance(self.x73, types.Integer):
             x73 = self.x73
         elif isinstance(self.x73, int):
@@ -1570,6 +1643,7 @@ class DbcnBuilder:
         elif isinstance(self.x73, str):
             x73 = types.IntegerOrJump.from_mcnp(self.x73)
 
+        x74 = self.x74
         if isinstance(self.x74, types.Integer):
             x74 = self.x74
         elif isinstance(self.x74, int):
@@ -1577,6 +1651,7 @@ class DbcnBuilder:
         elif isinstance(self.x74, str):
             x74 = types.IntegerOrJump.from_mcnp(self.x74)
 
+        x75 = self.x75
         if isinstance(self.x75, types.Integer):
             x75 = self.x75
         elif isinstance(self.x75, int):
@@ -1584,6 +1659,7 @@ class DbcnBuilder:
         elif isinstance(self.x75, str):
             x75 = types.IntegerOrJump.from_mcnp(self.x75)
 
+        x76 = self.x76
         if isinstance(self.x76, types.Integer):
             x76 = self.x76
         elif isinstance(self.x76, int):
@@ -1591,6 +1667,7 @@ class DbcnBuilder:
         elif isinstance(self.x76, str):
             x76 = types.IntegerOrJump.from_mcnp(self.x76)
 
+        x77 = self.x77
         if isinstance(self.x77, types.Integer):
             x77 = self.x77
         elif isinstance(self.x77, int):
@@ -1598,6 +1675,7 @@ class DbcnBuilder:
         elif isinstance(self.x77, str):
             x77 = types.IntegerOrJump.from_mcnp(self.x77)
 
+        x78 = self.x78
         if isinstance(self.x78, types.Integer):
             x78 = self.x78
         elif isinstance(self.x78, int):
@@ -1605,6 +1683,7 @@ class DbcnBuilder:
         elif isinstance(self.x78, str):
             x78 = types.IntegerOrJump.from_mcnp(self.x78)
 
+        x79 = self.x79
         if isinstance(self.x79, types.Integer):
             x79 = self.x79
         elif isinstance(self.x79, int):
@@ -1612,6 +1691,7 @@ class DbcnBuilder:
         elif isinstance(self.x79, str):
             x79 = types.IntegerOrJump.from_mcnp(self.x79)
 
+        x80 = self.x80
         if isinstance(self.x80, types.Integer):
             x80 = self.x80
         elif isinstance(self.x80, int):
@@ -1619,6 +1699,7 @@ class DbcnBuilder:
         elif isinstance(self.x80, str):
             x80 = types.IntegerOrJump.from_mcnp(self.x80)
 
+        x81 = self.x81
         if isinstance(self.x81, types.Integer):
             x81 = self.x81
         elif isinstance(self.x81, int):
@@ -1626,6 +1707,7 @@ class DbcnBuilder:
         elif isinstance(self.x81, str):
             x81 = types.IntegerOrJump.from_mcnp(self.x81)
 
+        x82 = self.x82
         if isinstance(self.x82, types.Integer):
             x82 = self.x82
         elif isinstance(self.x82, int):
@@ -1633,6 +1715,7 @@ class DbcnBuilder:
         elif isinstance(self.x82, str):
             x82 = types.IntegerOrJump.from_mcnp(self.x82)
 
+        x83 = self.x83
         if isinstance(self.x83, types.Integer):
             x83 = self.x83
         elif isinstance(self.x83, int):
@@ -1640,6 +1723,7 @@ class DbcnBuilder:
         elif isinstance(self.x83, str):
             x83 = types.IntegerOrJump.from_mcnp(self.x83)
 
+        x84 = self.x84
         if isinstance(self.x84, types.Integer):
             x84 = self.x84
         elif isinstance(self.x84, int):
@@ -1647,6 +1731,7 @@ class DbcnBuilder:
         elif isinstance(self.x84, str):
             x84 = types.IntegerOrJump.from_mcnp(self.x84)
 
+        x85 = self.x85
         if isinstance(self.x85, types.Integer):
             x85 = self.x85
         elif isinstance(self.x85, int):
@@ -1654,6 +1739,7 @@ class DbcnBuilder:
         elif isinstance(self.x85, str):
             x85 = types.IntegerOrJump.from_mcnp(self.x85)
 
+        x86 = self.x86
         if isinstance(self.x86, types.Integer):
             x86 = self.x86
         elif isinstance(self.x86, int):
@@ -1661,6 +1747,7 @@ class DbcnBuilder:
         elif isinstance(self.x86, str):
             x86 = types.IntegerOrJump.from_mcnp(self.x86)
 
+        x87 = self.x87
         if isinstance(self.x87, types.Integer):
             x87 = self.x87
         elif isinstance(self.x87, int):
@@ -1668,6 +1755,7 @@ class DbcnBuilder:
         elif isinstance(self.x87, str):
             x87 = types.IntegerOrJump.from_mcnp(self.x87)
 
+        x88 = self.x88
         if isinstance(self.x88, types.Integer):
             x88 = self.x88
         elif isinstance(self.x88, int):
@@ -1675,6 +1763,7 @@ class DbcnBuilder:
         elif isinstance(self.x88, str):
             x88 = types.IntegerOrJump.from_mcnp(self.x88)
 
+        x89 = self.x89
         if isinstance(self.x89, types.Integer):
             x89 = self.x89
         elif isinstance(self.x89, int):
@@ -1682,6 +1771,7 @@ class DbcnBuilder:
         elif isinstance(self.x89, str):
             x89 = types.IntegerOrJump.from_mcnp(self.x89)
 
+        x90 = self.x90
         if isinstance(self.x90, types.Integer):
             x90 = self.x90
         elif isinstance(self.x90, int):
@@ -1689,6 +1779,7 @@ class DbcnBuilder:
         elif isinstance(self.x90, str):
             x90 = types.IntegerOrJump.from_mcnp(self.x90)
 
+        x91 = self.x91
         if isinstance(self.x91, types.Integer):
             x91 = self.x91
         elif isinstance(self.x91, int):
@@ -1696,6 +1787,7 @@ class DbcnBuilder:
         elif isinstance(self.x91, str):
             x91 = types.IntegerOrJump.from_mcnp(self.x91)
 
+        x92 = self.x92
         if isinstance(self.x92, types.Integer):
             x92 = self.x92
         elif isinstance(self.x92, int):
@@ -1703,6 +1795,7 @@ class DbcnBuilder:
         elif isinstance(self.x92, str):
             x92 = types.IntegerOrJump.from_mcnp(self.x92)
 
+        x93 = self.x93
         if isinstance(self.x93, types.Integer):
             x93 = self.x93
         elif isinstance(self.x93, int):
@@ -1710,6 +1803,7 @@ class DbcnBuilder:
         elif isinstance(self.x93, str):
             x93 = types.IntegerOrJump.from_mcnp(self.x93)
 
+        x94 = self.x94
         if isinstance(self.x94, types.Integer):
             x94 = self.x94
         elif isinstance(self.x94, int):
@@ -1717,6 +1811,7 @@ class DbcnBuilder:
         elif isinstance(self.x94, str):
             x94 = types.IntegerOrJump.from_mcnp(self.x94)
 
+        x95 = self.x95
         if isinstance(self.x95, types.Integer):
             x95 = self.x95
         elif isinstance(self.x95, int):
@@ -1724,6 +1819,7 @@ class DbcnBuilder:
         elif isinstance(self.x95, str):
             x95 = types.IntegerOrJump.from_mcnp(self.x95)
 
+        x96 = self.x96
         if isinstance(self.x96, types.Integer):
             x96 = self.x96
         elif isinstance(self.x96, int):
@@ -1731,6 +1827,7 @@ class DbcnBuilder:
         elif isinstance(self.x96, str):
             x96 = types.IntegerOrJump.from_mcnp(self.x96)
 
+        x97 = self.x97
         if isinstance(self.x97, types.Integer):
             x97 = self.x97
         elif isinstance(self.x97, int):
@@ -1738,6 +1835,7 @@ class DbcnBuilder:
         elif isinstance(self.x97, str):
             x97 = types.IntegerOrJump.from_mcnp(self.x97)
 
+        x98 = self.x98
         if isinstance(self.x98, types.Integer):
             x98 = self.x98
         elif isinstance(self.x98, int):
@@ -1745,6 +1843,7 @@ class DbcnBuilder:
         elif isinstance(self.x98, str):
             x98 = types.IntegerOrJump.from_mcnp(self.x98)
 
+        x99 = self.x99
         if isinstance(self.x99, types.Integer):
             x99 = self.x99
         elif isinstance(self.x99, int):
@@ -1752,6 +1851,7 @@ class DbcnBuilder:
         elif isinstance(self.x99, str):
             x99 = types.IntegerOrJump.from_mcnp(self.x99)
 
+        x100 = self.x100
         if isinstance(self.x100, types.Integer):
             x100 = self.x100
         elif isinstance(self.x100, int):

@@ -88,6 +88,7 @@ class SyBuilder:
             ``Sy`` for ``SyBuilder``.
         """
 
+        y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):
@@ -95,6 +96,7 @@ class SyBuilder:
         elif isinstance(self.y, str):
             y = types.Real.from_mcnp(self.y)
 
+        r = self.r
         if isinstance(self.r, types.Real):
             r = self.r
         elif isinstance(self.r, float) or isinstance(self.r, int):

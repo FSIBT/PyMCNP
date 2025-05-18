@@ -72,11 +72,13 @@ class ImpBuilder:
             ``Imp`` for ``ImpBuilder``.
         """
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
+        importance = self.importance
         if isinstance(self.importance, types.Real):
             importance = self.importance
         elif isinstance(self.importance, float) or isinstance(self.importance, int):

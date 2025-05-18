@@ -74,20 +74,24 @@ class FmultBuilder:
             ``Fmult`` for ``FmultBuilder``.
         """
 
+        zaid = self.zaid
         if isinstance(self.zaid, types.Zaid):
             zaid = self.zaid
         elif isinstance(self.zaid, str):
             zaid = types.Zaid.from_mcnp(self.zaid)
 
-        options = []
-        for item in self.options:
-            if isinstance(item, fmult.FmultOption):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(fmult.FmultOption.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, fmult.FmultOption):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(fmult.FmultOption.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Fmult(
             zaid=zaid,

@@ -64,6 +64,7 @@ class PecutBuilder:
             ``Pecut`` for ``PecutBuilder``.
         """
 
+        cutoff = self.cutoff
         if isinstance(self.cutoff, types.Real):
             cutoff = self.cutoff
         elif isinstance(self.cutoff, float) or isinstance(self.cutoff, int):

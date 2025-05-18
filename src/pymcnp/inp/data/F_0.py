@@ -95,6 +95,7 @@ class FBuilder_0:
             ``F_0`` for ``FBuilder_0``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -102,22 +103,26 @@ class FBuilder_0:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
-        problems = []
-        for item in self.problems:
-            if isinstance(item, types.IntegerOrJump):
-                problems.append(item)
-            elif isinstance(item, int):
-                problems.append(types.IntegerOrJump(item))
-            elif isinstance(item, str):
-                problems.append(types.IntegerOrJump.from_mcnp(item))
-        problems = types.Tuple(problems)
+        if self.problems:
+            problems = []
+            for item in self.problems:
+                if isinstance(item, types.IntegerOrJump):
+                    problems.append(item)
+                elif isinstance(item, int):
+                    problems.append(types.IntegerOrJump(item))
+                elif isinstance(item, str):
+                    problems.append(types.IntegerOrJump.from_mcnp(item))
+            problems = types.Tuple(problems)
+        else:
+            problems = None
 
-        t = None
+        t = self.t
         if isinstance(self.t, types.String):
             t = self.t
         elif isinstance(self.t, str):

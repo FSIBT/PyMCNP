@@ -64,7 +64,7 @@ class ResetBuilder:
             ``Reset`` for ``ResetBuilder``.
         """
 
-        aa = None
+        aa = self.aa
         if isinstance(self.aa, types.String):
             aa = self.aa
         elif isinstance(self.aa, str):

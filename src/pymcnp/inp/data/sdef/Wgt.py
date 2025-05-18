@@ -64,6 +64,7 @@ class WgtBuilder:
             ``Wgt`` for ``WgtBuilder``.
         """
 
+        weight = self.weight
         if isinstance(self.weight, types.Real):
             weight = self.weight
         elif isinstance(self.weight, float) or isinstance(self.weight, int):

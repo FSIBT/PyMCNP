@@ -64,6 +64,7 @@ class WidthBuilder:
             ``Width`` for ``WidthBuilder``.
         """
 
+        width = self.width
         if isinstance(self.width, types.Real):
             width = self.width
         elif isinstance(self.width, float) or isinstance(self.width, int):

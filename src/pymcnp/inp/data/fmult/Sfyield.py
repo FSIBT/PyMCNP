@@ -64,6 +64,7 @@ class SfyieldBuilder:
             ``Sfyield`` for ``SfyieldBuilder``.
         """
 
+        fission_yield = self.fission_yield
         if isinstance(self.fission_yield, types.Real):
             fission_yield = self.fission_yield
         elif isinstance(self.fission_yield, float) or isinstance(self.fission_yield, int):

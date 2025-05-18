@@ -64,15 +64,18 @@ class TmpBuilder_1:
             ``Tmp_1`` for ``TmpBuilder_1``.
         """
 
-        temperature = []
-        for item in self.temperature:
-            if isinstance(item, types.Real):
-                temperature.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                temperature.append(types.Real(item))
-            elif isinstance(item, str):
-                temperature.append(types.Real.from_mcnp(item))
-        temperature = types.Tuple(temperature)
+        if self.temperature:
+            temperature = []
+            for item in self.temperature:
+                if isinstance(item, types.Real):
+                    temperature.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    temperature.append(types.Real(item))
+                elif isinstance(item, str):
+                    temperature.append(types.Real.from_mcnp(item))
+            temperature = types.Tuple(temperature)
+        else:
+            temperature = None
 
         return Tmp_1(
             temperature=temperature,

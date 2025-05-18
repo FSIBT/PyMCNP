@@ -64,6 +64,7 @@ class TrclBuilder_3:
             ``Trcl_3`` for ``TrclBuilder_3``.
         """
 
+        transformation = self.transformation
         if isinstance(self.transformation, types.Transformation_2):
             transformation = self.transformation
         elif isinstance(self.transformation, str):

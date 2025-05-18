@@ -64,6 +64,7 @@ class ParBuilder:
             ``Par`` for ``ParBuilder``.
         """
 
+        kind = self.kind
         if isinstance(self.kind, types.String):
             kind = self.kind
         elif isinstance(self.kind, str):

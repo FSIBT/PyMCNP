@@ -72,20 +72,24 @@ class WweBuilder:
             ``Wwe`` for ``WweBuilder``.
         """
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
-        bounds = []
-        for item in self.bounds:
-            if isinstance(item, types.RealOrJump):
-                bounds.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                bounds.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                bounds.append(types.RealOrJump.from_mcnp(item))
-        bounds = types.Tuple(bounds)
+        if self.bounds:
+            bounds = []
+            for item in self.bounds:
+                if isinstance(item, types.RealOrJump):
+                    bounds.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    bounds.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    bounds.append(types.RealOrJump.from_mcnp(item))
+            bounds = types.Tuple(bounds)
+        else:
+            bounds = None
 
         return Wwe(
             designator=designator,

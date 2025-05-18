@@ -468,11 +468,13 @@ class TspltBuilder:
             ``Tsplt`` for ``TspltBuilder``.
         """
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
+        ratio_1 = self.ratio_1
         if isinstance(self.ratio_1, types.Real):
             ratio_1 = self.ratio_1
         elif isinstance(self.ratio_1, float) or isinstance(self.ratio_1, int):
@@ -480,6 +482,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_1, str):
             ratio_1 = types.RealOrJump.from_mcnp(self.ratio_1)
 
+        time_1 = self.time_1
         if isinstance(self.time_1, types.Real):
             time_1 = self.time_1
         elif isinstance(self.time_1, float) or isinstance(self.time_1, int):
@@ -487,6 +490,7 @@ class TspltBuilder:
         elif isinstance(self.time_1, str):
             time_1 = types.RealOrJump.from_mcnp(self.time_1)
 
+        ratio_2 = self.ratio_2
         if isinstance(self.ratio_2, types.Real):
             ratio_2 = self.ratio_2
         elif isinstance(self.ratio_2, float) or isinstance(self.ratio_2, int):
@@ -494,6 +498,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_2, str):
             ratio_2 = types.RealOrJump.from_mcnp(self.ratio_2)
 
+        time_2 = self.time_2
         if isinstance(self.time_2, types.Real):
             time_2 = self.time_2
         elif isinstance(self.time_2, float) or isinstance(self.time_2, int):
@@ -501,6 +506,7 @@ class TspltBuilder:
         elif isinstance(self.time_2, str):
             time_2 = types.RealOrJump.from_mcnp(self.time_2)
 
+        ratio_3 = self.ratio_3
         if isinstance(self.ratio_3, types.Real):
             ratio_3 = self.ratio_3
         elif isinstance(self.ratio_3, float) or isinstance(self.ratio_3, int):
@@ -508,6 +514,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_3, str):
             ratio_3 = types.RealOrJump.from_mcnp(self.ratio_3)
 
+        time_3 = self.time_3
         if isinstance(self.time_3, types.Real):
             time_3 = self.time_3
         elif isinstance(self.time_3, float) or isinstance(self.time_3, int):
@@ -515,6 +522,7 @@ class TspltBuilder:
         elif isinstance(self.time_3, str):
             time_3 = types.RealOrJump.from_mcnp(self.time_3)
 
+        ratio_4 = self.ratio_4
         if isinstance(self.ratio_4, types.Real):
             ratio_4 = self.ratio_4
         elif isinstance(self.ratio_4, float) or isinstance(self.ratio_4, int):
@@ -522,6 +530,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_4, str):
             ratio_4 = types.RealOrJump.from_mcnp(self.ratio_4)
 
+        time_4 = self.time_4
         if isinstance(self.time_4, types.Real):
             time_4 = self.time_4
         elif isinstance(self.time_4, float) or isinstance(self.time_4, int):
@@ -529,6 +538,7 @@ class TspltBuilder:
         elif isinstance(self.time_4, str):
             time_4 = types.RealOrJump.from_mcnp(self.time_4)
 
+        ratio_5 = self.ratio_5
         if isinstance(self.ratio_5, types.Real):
             ratio_5 = self.ratio_5
         elif isinstance(self.ratio_5, float) or isinstance(self.ratio_5, int):
@@ -536,6 +546,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_5, str):
             ratio_5 = types.RealOrJump.from_mcnp(self.ratio_5)
 
+        time_5 = self.time_5
         if isinstance(self.time_5, types.Real):
             time_5 = self.time_5
         elif isinstance(self.time_5, float) or isinstance(self.time_5, int):
@@ -543,6 +554,7 @@ class TspltBuilder:
         elif isinstance(self.time_5, str):
             time_5 = types.RealOrJump.from_mcnp(self.time_5)
 
+        ratio_6 = self.ratio_6
         if isinstance(self.ratio_6, types.Real):
             ratio_6 = self.ratio_6
         elif isinstance(self.ratio_6, float) or isinstance(self.ratio_6, int):
@@ -550,6 +562,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_6, str):
             ratio_6 = types.RealOrJump.from_mcnp(self.ratio_6)
 
+        time_6 = self.time_6
         if isinstance(self.time_6, types.Real):
             time_6 = self.time_6
         elif isinstance(self.time_6, float) or isinstance(self.time_6, int):
@@ -557,6 +570,7 @@ class TspltBuilder:
         elif isinstance(self.time_6, str):
             time_6 = types.RealOrJump.from_mcnp(self.time_6)
 
+        ratio_7 = self.ratio_7
         if isinstance(self.ratio_7, types.Real):
             ratio_7 = self.ratio_7
         elif isinstance(self.ratio_7, float) or isinstance(self.ratio_7, int):
@@ -564,6 +578,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_7, str):
             ratio_7 = types.RealOrJump.from_mcnp(self.ratio_7)
 
+        time_7 = self.time_7
         if isinstance(self.time_7, types.Real):
             time_7 = self.time_7
         elif isinstance(self.time_7, float) or isinstance(self.time_7, int):
@@ -571,6 +586,7 @@ class TspltBuilder:
         elif isinstance(self.time_7, str):
             time_7 = types.RealOrJump.from_mcnp(self.time_7)
 
+        ratio_8 = self.ratio_8
         if isinstance(self.ratio_8, types.Real):
             ratio_8 = self.ratio_8
         elif isinstance(self.ratio_8, float) or isinstance(self.ratio_8, int):
@@ -578,6 +594,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_8, str):
             ratio_8 = types.RealOrJump.from_mcnp(self.ratio_8)
 
+        time_8 = self.time_8
         if isinstance(self.time_8, types.Real):
             time_8 = self.time_8
         elif isinstance(self.time_8, float) or isinstance(self.time_8, int):
@@ -585,6 +602,7 @@ class TspltBuilder:
         elif isinstance(self.time_8, str):
             time_8 = types.RealOrJump.from_mcnp(self.time_8)
 
+        ratio_9 = self.ratio_9
         if isinstance(self.ratio_9, types.Real):
             ratio_9 = self.ratio_9
         elif isinstance(self.ratio_9, float) or isinstance(self.ratio_9, int):
@@ -592,6 +610,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_9, str):
             ratio_9 = types.RealOrJump.from_mcnp(self.ratio_9)
 
+        time_9 = self.time_9
         if isinstance(self.time_9, types.Real):
             time_9 = self.time_9
         elif isinstance(self.time_9, float) or isinstance(self.time_9, int):
@@ -599,6 +618,7 @@ class TspltBuilder:
         elif isinstance(self.time_9, str):
             time_9 = types.RealOrJump.from_mcnp(self.time_9)
 
+        ratio_10 = self.ratio_10
         if isinstance(self.ratio_10, types.Real):
             ratio_10 = self.ratio_10
         elif isinstance(self.ratio_10, float) or isinstance(self.ratio_10, int):
@@ -606,6 +626,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_10, str):
             ratio_10 = types.RealOrJump.from_mcnp(self.ratio_10)
 
+        time_10 = self.time_10
         if isinstance(self.time_10, types.Real):
             time_10 = self.time_10
         elif isinstance(self.time_10, float) or isinstance(self.time_10, int):
@@ -613,6 +634,7 @@ class TspltBuilder:
         elif isinstance(self.time_10, str):
             time_10 = types.RealOrJump.from_mcnp(self.time_10)
 
+        ratio_11 = self.ratio_11
         if isinstance(self.ratio_11, types.Real):
             ratio_11 = self.ratio_11
         elif isinstance(self.ratio_11, float) or isinstance(self.ratio_11, int):
@@ -620,6 +642,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_11, str):
             ratio_11 = types.RealOrJump.from_mcnp(self.ratio_11)
 
+        time_11 = self.time_11
         if isinstance(self.time_11, types.Real):
             time_11 = self.time_11
         elif isinstance(self.time_11, float) or isinstance(self.time_11, int):
@@ -627,6 +650,7 @@ class TspltBuilder:
         elif isinstance(self.time_11, str):
             time_11 = types.RealOrJump.from_mcnp(self.time_11)
 
+        ratio_12 = self.ratio_12
         if isinstance(self.ratio_12, types.Real):
             ratio_12 = self.ratio_12
         elif isinstance(self.ratio_12, float) or isinstance(self.ratio_12, int):
@@ -634,6 +658,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_12, str):
             ratio_12 = types.RealOrJump.from_mcnp(self.ratio_12)
 
+        time_12 = self.time_12
         if isinstance(self.time_12, types.Real):
             time_12 = self.time_12
         elif isinstance(self.time_12, float) or isinstance(self.time_12, int):
@@ -641,6 +666,7 @@ class TspltBuilder:
         elif isinstance(self.time_12, str):
             time_12 = types.RealOrJump.from_mcnp(self.time_12)
 
+        ratio_13 = self.ratio_13
         if isinstance(self.ratio_13, types.Real):
             ratio_13 = self.ratio_13
         elif isinstance(self.ratio_13, float) or isinstance(self.ratio_13, int):
@@ -648,6 +674,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_13, str):
             ratio_13 = types.RealOrJump.from_mcnp(self.ratio_13)
 
+        time_13 = self.time_13
         if isinstance(self.time_13, types.Real):
             time_13 = self.time_13
         elif isinstance(self.time_13, float) or isinstance(self.time_13, int):
@@ -655,6 +682,7 @@ class TspltBuilder:
         elif isinstance(self.time_13, str):
             time_13 = types.RealOrJump.from_mcnp(self.time_13)
 
+        ratio_14 = self.ratio_14
         if isinstance(self.ratio_14, types.Real):
             ratio_14 = self.ratio_14
         elif isinstance(self.ratio_14, float) or isinstance(self.ratio_14, int):
@@ -662,6 +690,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_14, str):
             ratio_14 = types.RealOrJump.from_mcnp(self.ratio_14)
 
+        time_14 = self.time_14
         if isinstance(self.time_14, types.Real):
             time_14 = self.time_14
         elif isinstance(self.time_14, float) or isinstance(self.time_14, int):
@@ -669,6 +698,7 @@ class TspltBuilder:
         elif isinstance(self.time_14, str):
             time_14 = types.RealOrJump.from_mcnp(self.time_14)
 
+        ratio_15 = self.ratio_15
         if isinstance(self.ratio_15, types.Real):
             ratio_15 = self.ratio_15
         elif isinstance(self.ratio_15, float) or isinstance(self.ratio_15, int):
@@ -676,6 +706,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_15, str):
             ratio_15 = types.RealOrJump.from_mcnp(self.ratio_15)
 
+        time_15 = self.time_15
         if isinstance(self.time_15, types.Real):
             time_15 = self.time_15
         elif isinstance(self.time_15, float) or isinstance(self.time_15, int):
@@ -683,6 +714,7 @@ class TspltBuilder:
         elif isinstance(self.time_15, str):
             time_15 = types.RealOrJump.from_mcnp(self.time_15)
 
+        ratio_16 = self.ratio_16
         if isinstance(self.ratio_16, types.Real):
             ratio_16 = self.ratio_16
         elif isinstance(self.ratio_16, float) or isinstance(self.ratio_16, int):
@@ -690,6 +722,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_16, str):
             ratio_16 = types.RealOrJump.from_mcnp(self.ratio_16)
 
+        time_16 = self.time_16
         if isinstance(self.time_16, types.Real):
             time_16 = self.time_16
         elif isinstance(self.time_16, float) or isinstance(self.time_16, int):
@@ -697,6 +730,7 @@ class TspltBuilder:
         elif isinstance(self.time_16, str):
             time_16 = types.RealOrJump.from_mcnp(self.time_16)
 
+        ratio_17 = self.ratio_17
         if isinstance(self.ratio_17, types.Real):
             ratio_17 = self.ratio_17
         elif isinstance(self.ratio_17, float) or isinstance(self.ratio_17, int):
@@ -704,6 +738,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_17, str):
             ratio_17 = types.RealOrJump.from_mcnp(self.ratio_17)
 
+        time_17 = self.time_17
         if isinstance(self.time_17, types.Real):
             time_17 = self.time_17
         elif isinstance(self.time_17, float) or isinstance(self.time_17, int):
@@ -711,6 +746,7 @@ class TspltBuilder:
         elif isinstance(self.time_17, str):
             time_17 = types.RealOrJump.from_mcnp(self.time_17)
 
+        ratio_18 = self.ratio_18
         if isinstance(self.ratio_18, types.Real):
             ratio_18 = self.ratio_18
         elif isinstance(self.ratio_18, float) or isinstance(self.ratio_18, int):
@@ -718,6 +754,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_18, str):
             ratio_18 = types.RealOrJump.from_mcnp(self.ratio_18)
 
+        time_18 = self.time_18
         if isinstance(self.time_18, types.Real):
             time_18 = self.time_18
         elif isinstance(self.time_18, float) or isinstance(self.time_18, int):
@@ -725,6 +762,7 @@ class TspltBuilder:
         elif isinstance(self.time_18, str):
             time_18 = types.RealOrJump.from_mcnp(self.time_18)
 
+        ratio_19 = self.ratio_19
         if isinstance(self.ratio_19, types.Real):
             ratio_19 = self.ratio_19
         elif isinstance(self.ratio_19, float) or isinstance(self.ratio_19, int):
@@ -732,6 +770,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_19, str):
             ratio_19 = types.RealOrJump.from_mcnp(self.ratio_19)
 
+        time_19 = self.time_19
         if isinstance(self.time_19, types.Real):
             time_19 = self.time_19
         elif isinstance(self.time_19, float) or isinstance(self.time_19, int):
@@ -739,6 +778,7 @@ class TspltBuilder:
         elif isinstance(self.time_19, str):
             time_19 = types.RealOrJump.from_mcnp(self.time_19)
 
+        ratio_20 = self.ratio_20
         if isinstance(self.ratio_20, types.Real):
             ratio_20 = self.ratio_20
         elif isinstance(self.ratio_20, float) or isinstance(self.ratio_20, int):
@@ -746,6 +786,7 @@ class TspltBuilder:
         elif isinstance(self.ratio_20, str):
             ratio_20 = types.RealOrJump.from_mcnp(self.ratio_20)
 
+        time_20 = self.time_20
         if isinstance(self.time_20, types.Real):
             time_20 = self.time_20
         elif isinstance(self.time_20, float) or isinstance(self.time_20, int):

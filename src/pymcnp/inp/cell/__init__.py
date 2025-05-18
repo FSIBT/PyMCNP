@@ -9,7 +9,6 @@ from .Wwn import Wwn
 from .Dxc import Dxc
 from .Nonu import Nonu
 from .Pd import Pd
-from .Tmp import Tmp
 from .U import U
 from .Trcl_0 import Trcl_0
 from .Trcl_1 import Trcl_1
@@ -40,7 +39,6 @@ from .Wwn import WwnBuilder
 from .Dxc import DxcBuilder
 from .Nonu import NonuBuilder
 from .Pd import PdBuilder
-from .Tmp import TmpBuilder
 from .U import UBuilder
 from .Trcl_0 import TrclBuilder_0
 from .Trcl_1 import TrclBuilder_1

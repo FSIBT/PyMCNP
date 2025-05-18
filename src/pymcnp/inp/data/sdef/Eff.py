@@ -64,6 +64,7 @@ class EffBuilder:
             ``Eff`` for ``EffBuilder``.
         """
 
+        criterion = self.criterion
         if isinstance(self.criterion, types.Real):
             criterion = self.criterion
         elif isinstance(self.criterion, float) or isinstance(self.criterion, int):

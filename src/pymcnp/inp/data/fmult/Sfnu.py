@@ -64,15 +64,18 @@ class SfnuBuilder:
             ``Sfnu`` for ``SfnuBuilder``.
         """
 
-        distribution = []
-        for item in self.distribution:
-            if isinstance(item, types.RealOrJump):
-                distribution.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                distribution.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                distribution.append(types.RealOrJump.from_mcnp(item))
-        distribution = types.Tuple(distribution)
+        if self.distribution:
+            distribution = []
+            for item in self.distribution:
+                if isinstance(item, types.RealOrJump):
+                    distribution.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    distribution.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    distribution.append(types.RealOrJump.from_mcnp(item))
+            distribution = types.Tuple(distribution)
+        else:
+            distribution = None
 
         return Sfnu(
             distribution=distribution,

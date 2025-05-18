@@ -64,6 +64,7 @@ class PnlibBuilder:
             ``Pnlib`` for ``PnlibBuilder``.
         """
 
+        abx = self.abx
         if isinstance(self.abx, types.String):
             abx = self.abx
         elif isinstance(self.abx, str):

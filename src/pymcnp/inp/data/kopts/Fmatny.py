@@ -64,6 +64,7 @@ class FmatnyBuilder:
             ``Fmatny`` for ``FmatnyBuilder``.
         """
 
+        fmat_ny = self.fmat_ny
         if isinstance(self.fmat_ny, types.Real):
             fmat_ny = self.fmat_ny
         elif isinstance(self.fmat_ny, float) or isinstance(self.fmat_ny, int):

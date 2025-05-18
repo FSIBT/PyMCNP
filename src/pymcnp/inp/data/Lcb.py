@@ -139,6 +139,7 @@ class LcbBuilder:
             ``Lcb`` for ``LcbBuilder``.
         """
 
+        flenb1 = self.flenb1
         if isinstance(self.flenb1, types.Real):
             flenb1 = self.flenb1
         elif isinstance(self.flenb1, float) or isinstance(self.flenb1, int):
@@ -146,6 +147,7 @@ class LcbBuilder:
         elif isinstance(self.flenb1, str):
             flenb1 = types.RealOrJump.from_mcnp(self.flenb1)
 
+        flenb2 = self.flenb2
         if isinstance(self.flenb2, types.Real):
             flenb2 = self.flenb2
         elif isinstance(self.flenb2, float) or isinstance(self.flenb2, int):
@@ -153,6 +155,7 @@ class LcbBuilder:
         elif isinstance(self.flenb2, str):
             flenb2 = types.RealOrJump.from_mcnp(self.flenb2)
 
+        flenb3 = self.flenb3
         if isinstance(self.flenb3, types.Real):
             flenb3 = self.flenb3
         elif isinstance(self.flenb3, float) or isinstance(self.flenb3, int):
@@ -160,6 +163,7 @@ class LcbBuilder:
         elif isinstance(self.flenb3, str):
             flenb3 = types.RealOrJump.from_mcnp(self.flenb3)
 
+        flenb4 = self.flenb4
         if isinstance(self.flenb4, types.Real):
             flenb4 = self.flenb4
         elif isinstance(self.flenb4, float) or isinstance(self.flenb4, int):
@@ -167,6 +171,7 @@ class LcbBuilder:
         elif isinstance(self.flenb4, str):
             flenb4 = types.RealOrJump.from_mcnp(self.flenb4)
 
+        flenb5 = self.flenb5
         if isinstance(self.flenb5, types.Real):
             flenb5 = self.flenb5
         elif isinstance(self.flenb5, float) or isinstance(self.flenb5, int):
@@ -174,6 +179,7 @@ class LcbBuilder:
         elif isinstance(self.flenb5, str):
             flenb5 = types.RealOrJump.from_mcnp(self.flenb5)
 
+        flenb6 = self.flenb6
         if isinstance(self.flenb6, types.Real):
             flenb6 = self.flenb6
         elif isinstance(self.flenb6, float) or isinstance(self.flenb6, int):
@@ -181,6 +187,7 @@ class LcbBuilder:
         elif isinstance(self.flenb6, str):
             flenb6 = types.RealOrJump.from_mcnp(self.flenb6)
 
+        cotfe = self.cotfe
         if isinstance(self.cotfe, types.Real):
             cotfe = self.cotfe
         elif isinstance(self.cotfe, float) or isinstance(self.cotfe, int):
@@ -188,6 +195,7 @@ class LcbBuilder:
         elif isinstance(self.cotfe, str):
             cotfe = types.RealOrJump.from_mcnp(self.cotfe)
 
+        film0 = self.film0
         if isinstance(self.film0, types.Real):
             film0 = self.film0
         elif isinstance(self.film0, float) or isinstance(self.film0, int):

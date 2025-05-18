@@ -64,6 +64,7 @@ class YBuilder:
             ``Y`` for ``YBuilder``.
         """
 
+        y_coordinate = self.y_coordinate
         if isinstance(self.y_coordinate, types.Real):
             y_coordinate = self.y_coordinate
         elif isinstance(self.y_coordinate, float) or isinstance(self.y_coordinate, int):

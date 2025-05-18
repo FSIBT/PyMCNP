@@ -7,7 +7,6 @@ from ..utils import errors
 
 
 class classproperty:
-
     def __init__(self, func):
         self.func = func
 
@@ -53,12 +52,13 @@ class McnpNonterminal(metaclass=McnpNonterminalMeta):
     def _REGEX(cls):
         return re.compile(
             r'|'.join(
-                map(lambda subclass: subclass._REGEX.pattern[2:-2],
+                map(
+                    lambda subclass: subclass._REGEX.pattern[2:-2],
                     sorted(
                         cls.__subclasses__(),
                         reverse=True,
-                        key=lambda subclass: len(subclass.__name__)
-                    )
+                        key=lambda subclass: len(subclass.__name__),
+                    ),
                 )
             )
         )

@@ -64,6 +64,7 @@ class ZtitleBuilder:
             ``Ztitle`` for ``ZtitleBuilder``.
         """
 
+        aa = self.aa
         if isinstance(self.aa, types.String):
             aa = self.aa
         elif isinstance(self.aa, str):

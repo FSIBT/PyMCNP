@@ -64,15 +64,18 @@ class ErgBuilder:
             ``Erg`` for ``ErgBuilder``.
         """
 
-        energies = []
-        for item in self.energies:
-            if isinstance(item, types.RealOrJump):
-                energies.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                energies.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                energies.append(types.RealOrJump.from_mcnp(item))
-        energies = types.Tuple(energies)
+        if self.energies:
+            energies = []
+            for item in self.energies:
+                if isinstance(item, types.RealOrJump):
+                    energies.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    energies.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    energies.append(types.RealOrJump.from_mcnp(item))
+            energies = types.Tuple(energies)
+        else:
+            energies = None
 
         return Erg(
             energies=energies,

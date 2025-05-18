@@ -82,6 +82,7 @@ class DxcBuilder:
             ``Dxc`` for ``DxcBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -89,11 +90,13 @@ class DxcBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
+        probability = self.probability
         if isinstance(self.probability, types.Real):
             probability = self.probability
         elif isinstance(self.probability, float) or isinstance(self.probability, int):

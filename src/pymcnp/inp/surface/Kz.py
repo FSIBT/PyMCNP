@@ -100,6 +100,7 @@ class KzBuilder:
             ``Kz`` for ``KzBuilder``.
         """
 
+        z = self.z
         if isinstance(self.z, types.Real):
             z = self.z
         elif isinstance(self.z, float) or isinstance(self.z, int):
@@ -107,6 +108,7 @@ class KzBuilder:
         elif isinstance(self.z, str):
             z = types.Real.from_mcnp(self.z)
 
+        t_squared = self.t_squared
         if isinstance(self.t_squared, types.Real):
             t_squared = self.t_squared
         elif isinstance(self.t_squared, float) or isinstance(self.t_squared, int):
@@ -114,6 +116,7 @@ class KzBuilder:
         elif isinstance(self.t_squared, str):
             t_squared = types.Real.from_mcnp(self.t_squared)
 
+        plusminus_1 = self.plusminus_1
         if isinstance(self.plusminus_1, types.Real):
             plusminus_1 = self.plusminus_1
         elif isinstance(self.plusminus_1, float) or isinstance(self.plusminus_1, int):

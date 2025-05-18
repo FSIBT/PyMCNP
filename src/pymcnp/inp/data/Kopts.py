@@ -61,15 +61,18 @@ class KoptsBuilder:
             ``Kopts`` for ``KoptsBuilder``.
         """
 
-        options = []
-        for item in self.options:
-            if isinstance(item, kopts.KoptsOption):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(kopts.KoptsOption.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, kopts.KoptsOption):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(kopts.KoptsOption.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Kopts(
             options=options,

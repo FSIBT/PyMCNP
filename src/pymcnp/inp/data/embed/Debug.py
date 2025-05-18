@@ -64,6 +64,7 @@ class DebugBuilder:
             ``Debug`` for ``DebugBuilder``.
         """
 
+        parameter = self.parameter
         if isinstance(self.parameter, types.String):
             parameter = self.parameter
         elif isinstance(self.parameter, str):

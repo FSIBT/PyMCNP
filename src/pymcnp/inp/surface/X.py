@@ -119,6 +119,7 @@ class XBuilder:
             ``X`` for ``XBuilder``.
         """
 
+        x1 = self.x1
         if isinstance(self.x1, types.Real):
             x1 = self.x1
         elif isinstance(self.x1, float) or isinstance(self.x1, int):
@@ -126,6 +127,7 @@ class XBuilder:
         elif isinstance(self.x1, str):
             x1 = types.Real.from_mcnp(self.x1)
 
+        r1 = self.r1
         if isinstance(self.r1, types.Real):
             r1 = self.r1
         elif isinstance(self.r1, float) or isinstance(self.r1, int):
@@ -133,6 +135,7 @@ class XBuilder:
         elif isinstance(self.r1, str):
             r1 = types.Real.from_mcnp(self.r1)
 
+        x2 = self.x2
         if isinstance(self.x2, types.Real):
             x2 = self.x2
         elif isinstance(self.x2, float) or isinstance(self.x2, int):
@@ -140,6 +143,7 @@ class XBuilder:
         elif isinstance(self.x2, str):
             x2 = types.Real.from_mcnp(self.x2)
 
+        r2 = self.r2
         if isinstance(self.r2, types.Real):
             r2 = self.r2
         elif isinstance(self.r2, float) or isinstance(self.r2, int):
@@ -147,6 +151,7 @@ class XBuilder:
         elif isinstance(self.r2, str):
             r2 = types.Real.from_mcnp(self.r2)
 
+        x3 = self.x3
         if isinstance(self.x3, types.Real):
             x3 = self.x3
         elif isinstance(self.x3, float) or isinstance(self.x3, int):
@@ -154,6 +159,7 @@ class XBuilder:
         elif isinstance(self.x3, str):
             x3 = types.Real.from_mcnp(self.x3)
 
+        r3 = self.r3
         if isinstance(self.r3, types.Real):
             r3 = self.r3
         elif isinstance(self.r3, float) or isinstance(self.r3, int):

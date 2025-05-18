@@ -105,6 +105,7 @@ class FBuilder_2:
             ``F_2`` for ``FBuilder_2``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -112,27 +113,32 @@ class FBuilder_2:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        a = self.a
         if isinstance(self.a, types.String):
             a = self.a
         elif isinstance(self.a, str):
             a = types.String.from_mcnp(self.a)
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
-        rings = []
-        for item in self.rings:
-            if isinstance(item, types.Ring):
-                rings.append(item)
-            elif isinstance(item, str):
-                rings.append(types.Ring.from_mcnp(item))
-            else:
-                rings.append(item.build())
-        rings = types.Tuple(rings)
+        if self.rings:
+            rings = []
+            for item in self.rings:
+                if isinstance(item, types.Ring):
+                    rings.append(item)
+                elif isinstance(item, str):
+                    rings.append(types.Ring.from_mcnp(item))
+                else:
+                    rings.append(item.build())
+            rings = types.Tuple(rings)
+        else:
+            rings = None
 
-        nd = None
+        nd = self.nd
         if isinstance(self.nd, types.String):
             nd = self.nd
         elif isinstance(self.nd, str):

@@ -64,15 +64,18 @@ class LatBuilder:
             ``Lat`` for ``LatBuilder``.
         """
 
-        type = []
-        for item in self.type:
-            if isinstance(item, types.IntegerOrJump):
-                type.append(item)
-            elif isinstance(item, int):
-                type.append(types.IntegerOrJump(item))
-            elif isinstance(item, str):
-                type.append(types.IntegerOrJump.from_mcnp(item))
-        type = types.Tuple(type)
+        if self.type:
+            type = []
+            for item in self.type:
+                if isinstance(item, types.IntegerOrJump):
+                    type.append(item)
+                elif isinstance(item, int):
+                    type.append(types.IntegerOrJump(item))
+                elif isinstance(item, str):
+                    type.append(types.IntegerOrJump.from_mcnp(item))
+            type = types.Tuple(type)
+        else:
+            type = None
 
         return Lat(
             type=type,

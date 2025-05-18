@@ -20,7 +20,7 @@ class File(PtracOption):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'\Afile(?: (asc|bin|aov|bov))\Z')
+    _REGEX = re.compile(r'\Afile(?: (asc|bin|aov|bov))\Z')
 
     def __init__(self, setting: types.String):
         """
@@ -64,6 +64,7 @@ class FileBuilder:
             ``File`` for ``FileBuilder``.
         """
 
+        setting = self.setting
         if isinstance(self.setting, types.String):
             setting = self.setting
         elif isinstance(self.setting, str):

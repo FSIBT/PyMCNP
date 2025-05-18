@@ -99,6 +99,7 @@ class LebBuilder:
             ``Leb`` for ``LebBuilder``.
         """
 
+        yzere = self.yzere
         if isinstance(self.yzere, types.Real):
             yzere = self.yzere
         elif isinstance(self.yzere, float) or isinstance(self.yzere, int):
@@ -106,6 +107,7 @@ class LebBuilder:
         elif isinstance(self.yzere, str):
             yzere = types.RealOrJump.from_mcnp(self.yzere)
 
+        bzere = self.bzere
         if isinstance(self.bzere, types.Real):
             bzere = self.bzere
         elif isinstance(self.bzere, float) or isinstance(self.bzere, int):
@@ -113,6 +115,7 @@ class LebBuilder:
         elif isinstance(self.bzere, str):
             bzere = types.RealOrJump.from_mcnp(self.bzere)
 
+        yzero = self.yzero
         if isinstance(self.yzero, types.Real):
             yzero = self.yzero
         elif isinstance(self.yzero, float) or isinstance(self.yzero, int):
@@ -120,6 +123,7 @@ class LebBuilder:
         elif isinstance(self.yzero, str):
             yzero = types.RealOrJump.from_mcnp(self.yzero)
 
+        bzero = self.bzero
         if isinstance(self.bzero, types.Real):
             bzero = self.bzero
         elif isinstance(self.bzero, float) or isinstance(self.bzero, int):

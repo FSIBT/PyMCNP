@@ -64,6 +64,7 @@ class TintsBuilder:
             ``Tints`` for ``TintsBuilder``.
         """
 
+        count = self.count
         if isinstance(self.count, types.Integer):
             count = self.count
         elif isinstance(self.count, int):

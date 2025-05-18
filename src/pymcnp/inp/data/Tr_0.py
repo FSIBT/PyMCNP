@@ -198,6 +198,7 @@ class TrBuilder_0:
             ``Tr_0`` for ``TrBuilder_0``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -205,6 +206,7 @@ class TrBuilder_0:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        x = self.x
         if isinstance(self.x, types.Real):
             x = self.x
         elif isinstance(self.x, float) or isinstance(self.x, int):
@@ -212,6 +214,7 @@ class TrBuilder_0:
         elif isinstance(self.x, str):
             x = types.RealOrJump.from_mcnp(self.x)
 
+        y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):
@@ -219,6 +222,7 @@ class TrBuilder_0:
         elif isinstance(self.y, str):
             y = types.RealOrJump.from_mcnp(self.y)
 
+        z = self.z
         if isinstance(self.z, types.Real):
             z = self.z
         elif isinstance(self.z, float) or isinstance(self.z, int):
@@ -226,6 +230,7 @@ class TrBuilder_0:
         elif isinstance(self.z, str):
             z = types.RealOrJump.from_mcnp(self.z)
 
+        xx = self.xx
         if isinstance(self.xx, types.Real):
             xx = self.xx
         elif isinstance(self.xx, float) or isinstance(self.xx, int):
@@ -233,6 +238,7 @@ class TrBuilder_0:
         elif isinstance(self.xx, str):
             xx = types.RealOrJump.from_mcnp(self.xx)
 
+        xy = self.xy
         if isinstance(self.xy, types.Real):
             xy = self.xy
         elif isinstance(self.xy, float) or isinstance(self.xy, int):
@@ -240,6 +246,7 @@ class TrBuilder_0:
         elif isinstance(self.xy, str):
             xy = types.RealOrJump.from_mcnp(self.xy)
 
+        xz = self.xz
         if isinstance(self.xz, types.Real):
             xz = self.xz
         elif isinstance(self.xz, float) or isinstance(self.xz, int):
@@ -247,6 +254,7 @@ class TrBuilder_0:
         elif isinstance(self.xz, str):
             xz = types.RealOrJump.from_mcnp(self.xz)
 
+        yx = self.yx
         if isinstance(self.yx, types.Real):
             yx = self.yx
         elif isinstance(self.yx, float) or isinstance(self.yx, int):
@@ -254,6 +262,7 @@ class TrBuilder_0:
         elif isinstance(self.yx, str):
             yx = types.RealOrJump.from_mcnp(self.yx)
 
+        yy = self.yy
         if isinstance(self.yy, types.Real):
             yy = self.yy
         elif isinstance(self.yy, float) or isinstance(self.yy, int):
@@ -261,6 +270,7 @@ class TrBuilder_0:
         elif isinstance(self.yy, str):
             yy = types.RealOrJump.from_mcnp(self.yy)
 
+        yz = self.yz
         if isinstance(self.yz, types.Real):
             yz = self.yz
         elif isinstance(self.yz, float) or isinstance(self.yz, int):
@@ -268,6 +278,7 @@ class TrBuilder_0:
         elif isinstance(self.yz, str):
             yz = types.RealOrJump.from_mcnp(self.yz)
 
+        zx = self.zx
         if isinstance(self.zx, types.Real):
             zx = self.zx
         elif isinstance(self.zx, float) or isinstance(self.zx, int):
@@ -275,6 +286,7 @@ class TrBuilder_0:
         elif isinstance(self.zx, str):
             zx = types.RealOrJump.from_mcnp(self.zx)
 
+        zy = self.zy
         if isinstance(self.zy, types.Real):
             zy = self.zy
         elif isinstance(self.zy, float) or isinstance(self.zy, int):
@@ -282,6 +294,7 @@ class TrBuilder_0:
         elif isinstance(self.zy, str):
             zy = types.RealOrJump.from_mcnp(self.zy)
 
+        zz = self.zz
         if isinstance(self.zz, types.Real):
             zz = self.zz
         elif isinstance(self.zz, float) or isinstance(self.zz, int):
@@ -289,7 +302,7 @@ class TrBuilder_0:
         elif isinstance(self.zz, str):
             zz = types.RealOrJump.from_mcnp(self.zz)
 
-        system = None
+        system = self.system
         if isinstance(self.system, types.Integer):
             system = self.system
         elif isinstance(self.system, int):

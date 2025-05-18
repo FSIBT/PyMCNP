@@ -64,6 +64,7 @@ class MaxBuilder:
             ``Max`` for ``MaxBuilder``.
         """
 
+        events = self.events
         if isinstance(self.events, types.Integer):
             events = self.events
         elif isinstance(self.events, int):

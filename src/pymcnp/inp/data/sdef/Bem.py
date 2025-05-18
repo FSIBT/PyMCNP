@@ -84,6 +84,7 @@ class BemBuilder:
             ``Bem`` for ``BemBuilder``.
         """
 
+        exn = self.exn
         if isinstance(self.exn, types.Real):
             exn = self.exn
         elif isinstance(self.exn, float) or isinstance(self.exn, int):
@@ -91,6 +92,7 @@ class BemBuilder:
         elif isinstance(self.exn, str):
             exn = types.RealOrJump.from_mcnp(self.exn)
 
+        eyn = self.eyn
         if isinstance(self.eyn, types.Real):
             eyn = self.eyn
         elif isinstance(self.eyn, float) or isinstance(self.eyn, int):
@@ -98,6 +100,7 @@ class BemBuilder:
         elif isinstance(self.eyn, str):
             eyn = types.RealOrJump.from_mcnp(self.eyn)
 
+        bml = self.bml
         if isinstance(self.bml, types.Real):
             bml = self.bml
         elif isinstance(self.bml, float) or isinstance(self.bml, int):

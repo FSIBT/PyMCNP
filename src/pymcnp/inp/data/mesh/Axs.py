@@ -64,15 +64,18 @@ class AxsBuilder:
             ``Axs`` for ``AxsBuilder``.
         """
 
-        vector = []
-        for item in self.vector:
-            if isinstance(item, types.RealOrJump):
-                vector.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                vector.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                vector.append(types.RealOrJump.from_mcnp(item))
-        vector = types.Tuple(vector)
+        if self.vector:
+            vector = []
+            for item in self.vector:
+                if isinstance(item, types.RealOrJump):
+                    vector.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    vector.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    vector.append(types.RealOrJump.from_mcnp(item))
+            vector = types.Tuple(vector)
+        else:
+            vector = None
 
         return Axs(
             vector=vector,

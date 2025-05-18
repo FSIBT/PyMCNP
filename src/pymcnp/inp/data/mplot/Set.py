@@ -139,6 +139,7 @@ class SetBuilder:
             ``Set`` for ``SetBuilder``.
         """
 
+        f = self.f
         if isinstance(self.f, types.Integer):
             f = self.f
         elif isinstance(self.f, int):
@@ -146,6 +147,7 @@ class SetBuilder:
         elif isinstance(self.f, str):
             f = types.Integer.from_mcnp(self.f)
 
+        d = self.d
         if isinstance(self.d, types.Integer):
             d = self.d
         elif isinstance(self.d, int):
@@ -153,6 +155,7 @@ class SetBuilder:
         elif isinstance(self.d, str):
             d = types.Integer.from_mcnp(self.d)
 
+        u = self.u
         if isinstance(self.u, types.Integer):
             u = self.u
         elif isinstance(self.u, int):
@@ -160,6 +163,7 @@ class SetBuilder:
         elif isinstance(self.u, str):
             u = types.Integer.from_mcnp(self.u)
 
+        s = self.s
         if isinstance(self.s, types.Integer):
             s = self.s
         elif isinstance(self.s, int):
@@ -167,6 +171,7 @@ class SetBuilder:
         elif isinstance(self.s, str):
             s = types.Integer.from_mcnp(self.s)
 
+        m = self.m
         if isinstance(self.m, types.Integer):
             m = self.m
         elif isinstance(self.m, int):
@@ -174,6 +179,7 @@ class SetBuilder:
         elif isinstance(self.m, str):
             m = types.Integer.from_mcnp(self.m)
 
+        c = self.c
         if isinstance(self.c, types.Integer):
             c = self.c
         elif isinstance(self.c, int):
@@ -181,6 +187,7 @@ class SetBuilder:
         elif isinstance(self.c, str):
             c = types.Integer.from_mcnp(self.c)
 
+        e = self.e
         if isinstance(self.e, types.Integer):
             e = self.e
         elif isinstance(self.e, int):
@@ -188,6 +195,7 @@ class SetBuilder:
         elif isinstance(self.e, str):
             e = types.Integer.from_mcnp(self.e)
 
+        t = self.t
         if isinstance(self.t, types.Integer):
             t = self.t
         elif isinstance(self.t, int):

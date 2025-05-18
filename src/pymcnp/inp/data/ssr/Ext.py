@@ -64,6 +64,7 @@ class ExtBuilder:
             ``Ext`` for ``ExtBuilder``.
         """
 
+        number = self.number
         if isinstance(self.number, types.DistributionNumber):
             number = self.number
         elif isinstance(self.number, str):

@@ -64,6 +64,7 @@ class MatBuilder:
             ``Mat`` for ``MatBuilder``.
         """
 
+        material = self.material
         if isinstance(self.material, types.Integer):
             material = self.material
         elif isinstance(self.material, int):

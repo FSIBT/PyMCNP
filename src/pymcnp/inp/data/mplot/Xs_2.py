@@ -64,6 +64,7 @@ class XsBuilder_2:
             ``Xs_2`` for ``XsBuilder_2``.
         """
 
+        m = self.m
         if isinstance(self.m, types.String):
             m = self.m
         elif isinstance(self.m, str):

@@ -72,6 +72,7 @@ class FcBuilder:
             ``Fc`` for ``FcBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -79,6 +80,7 @@ class FcBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        info = self.info
         if isinstance(self.info, types.String):
             info = self.info
         elif isinstance(self.info, str):

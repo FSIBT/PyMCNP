@@ -64,15 +64,18 @@ class FilterBuilder:
             ``Filter`` for ``FilterBuilder``.
         """
 
-        variables = []
-        for item in self.variables:
-            if isinstance(item, types.PtracFilter):
-                variables.append(item)
-            elif isinstance(item, str):
-                variables.append(types.PtracFilter.from_mcnp(item))
-            else:
-                variables.append(item.build())
-        variables = types.Tuple(variables)
+        if self.variables:
+            variables = []
+            for item in self.variables:
+                if isinstance(item, types.PtracFilter):
+                    variables.append(item)
+                elif isinstance(item, str):
+                    variables.append(types.PtracFilter.from_mcnp(item))
+                else:
+                    variables.append(item.build())
+            variables = types.Tuple(variables)
+        else:
+            variables = None
 
         return Filter(
             variables=variables,

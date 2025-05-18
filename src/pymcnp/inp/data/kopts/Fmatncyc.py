@@ -64,6 +64,7 @@ class FmatncycBuilder:
             ``Fmatncyc`` for ``FmatncycBuilder``.
         """
 
+        fmat_ncyc = self.fmat_ncyc
         if isinstance(self.fmat_ncyc, types.Real):
             fmat_ncyc = self.fmat_ncyc
         elif isinstance(self.fmat_ncyc, float) or isinstance(self.fmat_ncyc, int):

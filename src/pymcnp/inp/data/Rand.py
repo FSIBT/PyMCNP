@@ -61,15 +61,18 @@ class RandBuilder:
             ``Rand`` for ``RandBuilder``.
         """
 
-        options = []
-        for item in self.options:
-            if isinstance(item, rand.RandOption):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(rand.RandOption.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, rand.RandOption):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(rand.RandOption.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Rand(
             options=options,

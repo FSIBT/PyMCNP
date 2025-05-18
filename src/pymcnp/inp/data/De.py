@@ -86,6 +86,7 @@ class DeBuilder:
             ``De`` for ``DeBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -93,21 +94,24 @@ class DeBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        method = None
+        method = self.method
         if isinstance(self.method, types.String):
             method = self.method
         elif isinstance(self.method, str):
             method = types.String.from_mcnp(self.method)
 
-        values = []
-        for item in self.values:
-            if isinstance(item, types.RealOrJump):
-                values.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                values.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                values.append(types.RealOrJump.from_mcnp(item))
-        values = types.Tuple(values)
+        if self.values:
+            values = []
+            for item in self.values:
+                if isinstance(item, types.RealOrJump):
+                    values.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    values.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    values.append(types.RealOrJump.from_mcnp(item))
+            values = types.Tuple(values)
+        else:
+            values = None
 
         return De(
             suffix=suffix,

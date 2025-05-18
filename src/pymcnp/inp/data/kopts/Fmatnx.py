@@ -64,6 +64,7 @@ class FmatnxBuilder:
             ``Fmatnx`` for ``FmatnxBuilder``.
         """
 
+        fmat_nx = self.fmat_nx
         if isinstance(self.fmat_nx, types.Real):
             fmat_nx = self.fmat_nx
         elif isinstance(self.fmat_nx, float) or isinstance(self.fmat_nx, int):

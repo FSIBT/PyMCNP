@@ -75,6 +75,7 @@ class WattBuilder:
             ``Watt`` for ``WattBuilder``.
         """
 
+        a = self.a
         if isinstance(self.a, types.Real):
             a = self.a
         elif isinstance(self.a, float) or isinstance(self.a, int):
@@ -82,6 +83,7 @@ class WattBuilder:
         elif isinstance(self.a, str):
             a = types.RealOrJump.from_mcnp(self.a)
 
+        b = self.b
         if isinstance(self.b, types.Real):
             b = self.b
         elif isinstance(self.b, float) or isinstance(self.b, int):

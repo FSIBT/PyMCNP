@@ -64,15 +64,18 @@ class UranBuilder:
             ``Uran`` for ``UranBuilder``.
         """
 
-        transformations = []
-        for item in self.transformations:
-            if isinstance(item, types.Stochastic):
-                transformations.append(item)
-            elif isinstance(item, str):
-                transformations.append(types.Stochastic.from_mcnp(item))
-            else:
-                transformations.append(item.build())
-        transformations = types.Tuple(transformations)
+        if self.transformations:
+            transformations = []
+            for item in self.transformations:
+                if isinstance(item, types.Stochastic):
+                    transformations.append(item)
+                elif isinstance(item, str):
+                    transformations.append(types.Stochastic.from_mcnp(item))
+                else:
+                    transformations.append(item.build())
+            transformations = types.Tuple(transformations)
+        else:
+            transformations = None
 
         return Uran(
             transformations=transformations,

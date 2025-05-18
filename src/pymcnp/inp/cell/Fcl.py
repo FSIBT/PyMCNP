@@ -72,11 +72,13 @@ class FclBuilder:
             ``Fcl`` for ``FclBuilder``.
         """
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
+        control = self.control
         if isinstance(self.control, types.Real):
             control = self.control
         elif isinstance(self.control, float) or isinstance(self.control, int):

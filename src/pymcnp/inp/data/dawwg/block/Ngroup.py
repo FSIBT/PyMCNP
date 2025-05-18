@@ -64,6 +64,7 @@ class NgroupBuilder:
             ``Ngroup`` for ``NgroupBuilder``.
         """
 
+        value = self.value
         if isinstance(self.value, types.Integer):
             value = self.value
         elif isinstance(self.value, int):

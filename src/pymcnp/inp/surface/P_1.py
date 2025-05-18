@@ -168,6 +168,7 @@ class PBuilder_1:
             ``P_1`` for ``PBuilder_1``.
         """
 
+        x1 = self.x1
         if isinstance(self.x1, types.Real):
             x1 = self.x1
         elif isinstance(self.x1, float) or isinstance(self.x1, int):
@@ -175,6 +176,7 @@ class PBuilder_1:
         elif isinstance(self.x1, str):
             x1 = types.Real.from_mcnp(self.x1)
 
+        y1 = self.y1
         if isinstance(self.y1, types.Real):
             y1 = self.y1
         elif isinstance(self.y1, float) or isinstance(self.y1, int):
@@ -182,6 +184,7 @@ class PBuilder_1:
         elif isinstance(self.y1, str):
             y1 = types.Real.from_mcnp(self.y1)
 
+        z1 = self.z1
         if isinstance(self.z1, types.Real):
             z1 = self.z1
         elif isinstance(self.z1, float) or isinstance(self.z1, int):
@@ -189,6 +192,7 @@ class PBuilder_1:
         elif isinstance(self.z1, str):
             z1 = types.Real.from_mcnp(self.z1)
 
+        x2 = self.x2
         if isinstance(self.x2, types.Real):
             x2 = self.x2
         elif isinstance(self.x2, float) or isinstance(self.x2, int):
@@ -196,6 +200,7 @@ class PBuilder_1:
         elif isinstance(self.x2, str):
             x2 = types.Real.from_mcnp(self.x2)
 
+        y2 = self.y2
         if isinstance(self.y2, types.Real):
             y2 = self.y2
         elif isinstance(self.y2, float) or isinstance(self.y2, int):
@@ -203,6 +208,7 @@ class PBuilder_1:
         elif isinstance(self.y2, str):
             y2 = types.Real.from_mcnp(self.y2)
 
+        z2 = self.z2
         if isinstance(self.z2, types.Real):
             z2 = self.z2
         elif isinstance(self.z2, float) or isinstance(self.z2, int):
@@ -210,6 +216,7 @@ class PBuilder_1:
         elif isinstance(self.z2, str):
             z2 = types.Real.from_mcnp(self.z2)
 
+        x3 = self.x3
         if isinstance(self.x3, types.Real):
             x3 = self.x3
         elif isinstance(self.x3, float) or isinstance(self.x3, int):
@@ -217,6 +224,7 @@ class PBuilder_1:
         elif isinstance(self.x3, str):
             x3 = types.Real.from_mcnp(self.x3)
 
+        y3 = self.y3
         if isinstance(self.y3, types.Real):
             y3 = self.y3
         elif isinstance(self.y3, float) or isinstance(self.y3, int):
@@ -224,6 +232,7 @@ class PBuilder_1:
         elif isinstance(self.y3, str):
             y3 = types.Real.from_mcnp(self.y3)
 
+        z3 = self.z3
         if isinstance(self.z3, types.Real):
             z3 = self.z3
         elif isinstance(self.z3, float) or isinstance(self.z3, int):

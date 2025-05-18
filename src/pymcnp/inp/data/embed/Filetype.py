@@ -64,6 +64,7 @@ class FiletypeBuilder:
             ``Filetype`` for ``FiletypeBuilder``.
         """
 
+        kind = self.kind
         if isinstance(self.kind, types.String):
             kind = self.kind
         elif isinstance(self.kind, str):

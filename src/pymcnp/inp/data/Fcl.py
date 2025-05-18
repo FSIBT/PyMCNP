@@ -72,20 +72,24 @@ class FclBuilder:
             ``Fcl`` for ``FclBuilder``.
         """
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
-        control = []
-        for item in self.control:
-            if isinstance(item, types.RealOrJump):
-                control.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                control.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                control.append(types.RealOrJump.from_mcnp(item))
-        control = types.Tuple(control)
+        if self.control:
+            control = []
+            for item in self.control:
+                if isinstance(item, types.RealOrJump):
+                    control.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    control.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    control.append(types.RealOrJump.from_mcnp(item))
+            control = types.Tuple(control)
+        else:
+            control = None
 
         return Fcl(
             designator=designator,

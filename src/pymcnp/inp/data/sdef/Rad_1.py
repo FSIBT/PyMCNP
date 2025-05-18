@@ -64,6 +64,7 @@ class RadBuilder_1:
             ``Rad_1`` for ``RadBuilder_1``.
         """
 
+        radial_distance = self.radial_distance
         if isinstance(self.radial_distance, types.DistributionNumber):
             radial_distance = self.radial_distance
         elif isinstance(self.radial_distance, str):

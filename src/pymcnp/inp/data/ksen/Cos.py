@@ -64,15 +64,18 @@ class CosBuilder:
             ``Cos`` for ``CosBuilder``.
         """
 
-        cosines = []
-        for item in self.cosines:
-            if isinstance(item, types.RealOrJump):
-                cosines.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                cosines.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                cosines.append(types.RealOrJump.from_mcnp(item))
-        cosines = types.Tuple(cosines)
+        if self.cosines:
+            cosines = []
+            for item in self.cosines:
+                if isinstance(item, types.RealOrJump):
+                    cosines.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    cosines.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    cosines.append(types.RealOrJump.from_mcnp(item))
+            cosines = types.Tuple(cosines)
+        else:
+            cosines = None
 
         return Cos(
             cosines=cosines,

@@ -61,15 +61,18 @@ class PtracBuilder:
             ``Ptrac`` for ``PtracBuilder``.
         """
 
-        options = []
-        for item in self.options:
-            if isinstance(item, ptrac.PtracOption):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(ptrac.PtracOption.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, ptrac.PtracOption):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(ptrac.PtracOption.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Ptrac(
             options=options,

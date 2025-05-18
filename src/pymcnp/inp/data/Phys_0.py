@@ -135,7 +135,7 @@ class PhysBuilder_0:
             ``Phys_0`` for ``PhysBuilder_0``.
         """
 
-        emax = None
+        emax = self.emax
         if isinstance(self.emax, types.Real):
             emax = self.emax
         elif isinstance(self.emax, float) or isinstance(self.emax, int):
@@ -143,7 +143,7 @@ class PhysBuilder_0:
         elif isinstance(self.emax, str):
             emax = types.RealOrJump.from_mcnp(self.emax)
 
-        emcnf = None
+        emcnf = self.emcnf
         if isinstance(self.emcnf, types.Real):
             emcnf = self.emcnf
         elif isinstance(self.emcnf, float) or isinstance(self.emcnf, int):
@@ -151,7 +151,7 @@ class PhysBuilder_0:
         elif isinstance(self.emcnf, str):
             emcnf = types.RealOrJump.from_mcnp(self.emcnf)
 
-        iunr = None
+        iunr = self.iunr
         if isinstance(self.iunr, types.Real):
             iunr = self.iunr
         elif isinstance(self.iunr, float) or isinstance(self.iunr, int):
@@ -159,7 +159,7 @@ class PhysBuilder_0:
         elif isinstance(self.iunr, str):
             iunr = types.RealOrJump.from_mcnp(self.iunr)
 
-        coilf = None
+        coilf = self.coilf
         if isinstance(self.coilf, types.Real):
             coilf = self.coilf
         elif isinstance(self.coilf, float) or isinstance(self.coilf, int):
@@ -167,7 +167,7 @@ class PhysBuilder_0:
         elif isinstance(self.coilf, str):
             coilf = types.RealOrJump.from_mcnp(self.coilf)
 
-        cutn = None
+        cutn = self.cutn
         if isinstance(self.cutn, types.Integer):
             cutn = self.cutn
         elif isinstance(self.cutn, int):
@@ -175,7 +175,7 @@ class PhysBuilder_0:
         elif isinstance(self.cutn, str):
             cutn = types.IntegerOrJump.from_mcnp(self.cutn)
 
-        ngam = None
+        ngam = self.ngam
         if isinstance(self.ngam, types.Integer):
             ngam = self.ngam
         elif isinstance(self.ngam, int):
@@ -183,7 +183,7 @@ class PhysBuilder_0:
         elif isinstance(self.ngam, str):
             ngam = types.IntegerOrJump.from_mcnp(self.ngam)
 
-        i_int_model = None
+        i_int_model = self.i_int_model
         if isinstance(self.i_int_model, types.Integer):
             i_int_model = self.i_int_model
         elif isinstance(self.i_int_model, int):
@@ -191,7 +191,7 @@ class PhysBuilder_0:
         elif isinstance(self.i_int_model, str):
             i_int_model = types.IntegerOrJump.from_mcnp(self.i_int_model)
 
-        i_els_model = None
+        i_els_model = self.i_els_model
         if isinstance(self.i_els_model, types.Integer):
             i_els_model = self.i_els_model
         elif isinstance(self.i_els_model, int):

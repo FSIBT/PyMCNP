@@ -64,15 +64,18 @@ class EventBuilder:
             ``Event`` for ``EventBuilder``.
         """
 
-        settings = []
-        for item in self.settings:
-            if isinstance(item, types.String):
-                settings.append(item)
-            elif isinstance(item, str):
-                settings.append(types.String.from_mcnp(item))
-            else:
-                settings.append(item.build())
-        settings = types.Tuple(settings)
+        if self.settings:
+            settings = []
+            for item in self.settings:
+                if isinstance(item, types.String):
+                    settings.append(item)
+                elif isinstance(item, str):
+                    settings.append(types.String.from_mcnp(item))
+                else:
+                    settings.append(item.build())
+            settings = types.Tuple(settings)
+        else:
+            settings = None
 
         return Event(
             settings=settings,

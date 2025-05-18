@@ -201,6 +201,7 @@ class BoxBuilder:
             ``Box`` for ``BoxBuilder``.
         """
 
+        vx = self.vx
         if isinstance(self.vx, types.Real):
             vx = self.vx
         elif isinstance(self.vx, float) or isinstance(self.vx, int):
@@ -208,6 +209,7 @@ class BoxBuilder:
         elif isinstance(self.vx, str):
             vx = types.Real.from_mcnp(self.vx)
 
+        vy = self.vy
         if isinstance(self.vy, types.Real):
             vy = self.vy
         elif isinstance(self.vy, float) or isinstance(self.vy, int):
@@ -215,6 +217,7 @@ class BoxBuilder:
         elif isinstance(self.vy, str):
             vy = types.Real.from_mcnp(self.vy)
 
+        vz = self.vz
         if isinstance(self.vz, types.Real):
             vz = self.vz
         elif isinstance(self.vz, float) or isinstance(self.vz, int):
@@ -222,6 +225,7 @@ class BoxBuilder:
         elif isinstance(self.vz, str):
             vz = types.Real.from_mcnp(self.vz)
 
+        a1x = self.a1x
         if isinstance(self.a1x, types.Real):
             a1x = self.a1x
         elif isinstance(self.a1x, float) or isinstance(self.a1x, int):
@@ -229,6 +233,7 @@ class BoxBuilder:
         elif isinstance(self.a1x, str):
             a1x = types.Real.from_mcnp(self.a1x)
 
+        a1y = self.a1y
         if isinstance(self.a1y, types.Real):
             a1y = self.a1y
         elif isinstance(self.a1y, float) or isinstance(self.a1y, int):
@@ -236,6 +241,7 @@ class BoxBuilder:
         elif isinstance(self.a1y, str):
             a1y = types.Real.from_mcnp(self.a1y)
 
+        a1z = self.a1z
         if isinstance(self.a1z, types.Real):
             a1z = self.a1z
         elif isinstance(self.a1z, float) or isinstance(self.a1z, int):
@@ -243,6 +249,7 @@ class BoxBuilder:
         elif isinstance(self.a1z, str):
             a1z = types.Real.from_mcnp(self.a1z)
 
+        a2x = self.a2x
         if isinstance(self.a2x, types.Real):
             a2x = self.a2x
         elif isinstance(self.a2x, float) or isinstance(self.a2x, int):
@@ -250,6 +257,7 @@ class BoxBuilder:
         elif isinstance(self.a2x, str):
             a2x = types.Real.from_mcnp(self.a2x)
 
+        a2y = self.a2y
         if isinstance(self.a2y, types.Real):
             a2y = self.a2y
         elif isinstance(self.a2y, float) or isinstance(self.a2y, int):
@@ -257,6 +265,7 @@ class BoxBuilder:
         elif isinstance(self.a2y, str):
             a2y = types.Real.from_mcnp(self.a2y)
 
+        a2z = self.a2z
         if isinstance(self.a2z, types.Real):
             a2z = self.a2z
         elif isinstance(self.a2z, float) or isinstance(self.a2z, int):
@@ -264,6 +273,7 @@ class BoxBuilder:
         elif isinstance(self.a2z, str):
             a2z = types.Real.from_mcnp(self.a2z)
 
+        a3x = self.a3x
         if isinstance(self.a3x, types.Real):
             a3x = self.a3x
         elif isinstance(self.a3x, float) or isinstance(self.a3x, int):
@@ -271,6 +281,7 @@ class BoxBuilder:
         elif isinstance(self.a3x, str):
             a3x = types.Real.from_mcnp(self.a3x)
 
+        a3y = self.a3y
         if isinstance(self.a3y, types.Real):
             a3y = self.a3y
         elif isinstance(self.a3y, float) or isinstance(self.a3y, int):
@@ -278,6 +289,7 @@ class BoxBuilder:
         elif isinstance(self.a3y, str):
             a3y = types.Real.from_mcnp(self.a3y)
 
+        a3z = self.a3z
         if isinstance(self.a3z, types.Real):
             a3z = self.a3z
         elif isinstance(self.a3z, float) or isinstance(self.a3z, int):

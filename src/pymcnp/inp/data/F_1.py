@@ -95,6 +95,7 @@ class FBuilder_1:
             ``F_1`` for ``FBuilder_1``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -102,22 +103,26 @@ class FBuilder_1:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
-        spheres = []
-        for item in self.spheres:
-            if isinstance(item, types.Sphere):
-                spheres.append(item)
-            elif isinstance(item, str):
-                spheres.append(types.Sphere.from_mcnp(item))
-            else:
-                spheres.append(item.build())
-        spheres = types.Tuple(spheres)
+        if self.spheres:
+            spheres = []
+            for item in self.spheres:
+                if isinstance(item, types.Sphere):
+                    spheres.append(item)
+                elif isinstance(item, str):
+                    spheres.append(types.Sphere.from_mcnp(item))
+                else:
+                    spheres.append(item.build())
+            spheres = types.Tuple(spheres)
+        else:
+            spheres = None
 
-        nd = None
+        nd = self.nd
         if isinstance(self.nd, types.String):
             nd = self.nd
         elif isinstance(self.nd, str):

@@ -561,6 +561,7 @@ class BbremBuilder:
             ``Bbrem`` for ``BbremBuilder``.
         """
 
+        bias_1 = self.bias_1
         if isinstance(self.bias_1, types.Real):
             bias_1 = self.bias_1
         elif isinstance(self.bias_1, float) or isinstance(self.bias_1, int):
@@ -568,6 +569,7 @@ class BbremBuilder:
         elif isinstance(self.bias_1, str):
             bias_1 = types.RealOrJump.from_mcnp(self.bias_1)
 
+        bias_2 = self.bias_2
         if isinstance(self.bias_2, types.Real):
             bias_2 = self.bias_2
         elif isinstance(self.bias_2, float) or isinstance(self.bias_2, int):
@@ -575,6 +577,7 @@ class BbremBuilder:
         elif isinstance(self.bias_2, str):
             bias_2 = types.RealOrJump.from_mcnp(self.bias_2)
 
+        bias_3 = self.bias_3
         if isinstance(self.bias_3, types.Real):
             bias_3 = self.bias_3
         elif isinstance(self.bias_3, float) or isinstance(self.bias_3, int):
@@ -582,6 +585,7 @@ class BbremBuilder:
         elif isinstance(self.bias_3, str):
             bias_3 = types.RealOrJump.from_mcnp(self.bias_3)
 
+        bias_4 = self.bias_4
         if isinstance(self.bias_4, types.Real):
             bias_4 = self.bias_4
         elif isinstance(self.bias_4, float) or isinstance(self.bias_4, int):
@@ -589,6 +593,7 @@ class BbremBuilder:
         elif isinstance(self.bias_4, str):
             bias_4 = types.RealOrJump.from_mcnp(self.bias_4)
 
+        bias_5 = self.bias_5
         if isinstance(self.bias_5, types.Real):
             bias_5 = self.bias_5
         elif isinstance(self.bias_5, float) or isinstance(self.bias_5, int):
@@ -596,6 +601,7 @@ class BbremBuilder:
         elif isinstance(self.bias_5, str):
             bias_5 = types.RealOrJump.from_mcnp(self.bias_5)
 
+        bias_6 = self.bias_6
         if isinstance(self.bias_6, types.Real):
             bias_6 = self.bias_6
         elif isinstance(self.bias_6, float) or isinstance(self.bias_6, int):
@@ -603,6 +609,7 @@ class BbremBuilder:
         elif isinstance(self.bias_6, str):
             bias_6 = types.RealOrJump.from_mcnp(self.bias_6)
 
+        bias_7 = self.bias_7
         if isinstance(self.bias_7, types.Real):
             bias_7 = self.bias_7
         elif isinstance(self.bias_7, float) or isinstance(self.bias_7, int):
@@ -610,6 +617,7 @@ class BbremBuilder:
         elif isinstance(self.bias_7, str):
             bias_7 = types.RealOrJump.from_mcnp(self.bias_7)
 
+        bias_8 = self.bias_8
         if isinstance(self.bias_8, types.Real):
             bias_8 = self.bias_8
         elif isinstance(self.bias_8, float) or isinstance(self.bias_8, int):
@@ -617,6 +625,7 @@ class BbremBuilder:
         elif isinstance(self.bias_8, str):
             bias_8 = types.RealOrJump.from_mcnp(self.bias_8)
 
+        bias_9 = self.bias_9
         if isinstance(self.bias_9, types.Real):
             bias_9 = self.bias_9
         elif isinstance(self.bias_9, float) or isinstance(self.bias_9, int):
@@ -624,6 +633,7 @@ class BbremBuilder:
         elif isinstance(self.bias_9, str):
             bias_9 = types.RealOrJump.from_mcnp(self.bias_9)
 
+        bias_10 = self.bias_10
         if isinstance(self.bias_10, types.Real):
             bias_10 = self.bias_10
         elif isinstance(self.bias_10, float) or isinstance(self.bias_10, int):
@@ -631,6 +641,7 @@ class BbremBuilder:
         elif isinstance(self.bias_10, str):
             bias_10 = types.RealOrJump.from_mcnp(self.bias_10)
 
+        bias_11 = self.bias_11
         if isinstance(self.bias_11, types.Real):
             bias_11 = self.bias_11
         elif isinstance(self.bias_11, float) or isinstance(self.bias_11, int):
@@ -638,6 +649,7 @@ class BbremBuilder:
         elif isinstance(self.bias_11, str):
             bias_11 = types.RealOrJump.from_mcnp(self.bias_11)
 
+        bias_12 = self.bias_12
         if isinstance(self.bias_12, types.Real):
             bias_12 = self.bias_12
         elif isinstance(self.bias_12, float) or isinstance(self.bias_12, int):
@@ -645,6 +657,7 @@ class BbremBuilder:
         elif isinstance(self.bias_12, str):
             bias_12 = types.RealOrJump.from_mcnp(self.bias_12)
 
+        bias_13 = self.bias_13
         if isinstance(self.bias_13, types.Real):
             bias_13 = self.bias_13
         elif isinstance(self.bias_13, float) or isinstance(self.bias_13, int):
@@ -652,6 +665,7 @@ class BbremBuilder:
         elif isinstance(self.bias_13, str):
             bias_13 = types.RealOrJump.from_mcnp(self.bias_13)
 
+        bias_14 = self.bias_14
         if isinstance(self.bias_14, types.Real):
             bias_14 = self.bias_14
         elif isinstance(self.bias_14, float) or isinstance(self.bias_14, int):
@@ -659,6 +673,7 @@ class BbremBuilder:
         elif isinstance(self.bias_14, str):
             bias_14 = types.RealOrJump.from_mcnp(self.bias_14)
 
+        bias_15 = self.bias_15
         if isinstance(self.bias_15, types.Real):
             bias_15 = self.bias_15
         elif isinstance(self.bias_15, float) or isinstance(self.bias_15, int):
@@ -666,6 +681,7 @@ class BbremBuilder:
         elif isinstance(self.bias_15, str):
             bias_15 = types.RealOrJump.from_mcnp(self.bias_15)
 
+        bias_16 = self.bias_16
         if isinstance(self.bias_16, types.Real):
             bias_16 = self.bias_16
         elif isinstance(self.bias_16, float) or isinstance(self.bias_16, int):
@@ -673,6 +689,7 @@ class BbremBuilder:
         elif isinstance(self.bias_16, str):
             bias_16 = types.RealOrJump.from_mcnp(self.bias_16)
 
+        bias_17 = self.bias_17
         if isinstance(self.bias_17, types.Real):
             bias_17 = self.bias_17
         elif isinstance(self.bias_17, float) or isinstance(self.bias_17, int):
@@ -680,6 +697,7 @@ class BbremBuilder:
         elif isinstance(self.bias_17, str):
             bias_17 = types.RealOrJump.from_mcnp(self.bias_17)
 
+        bias_18 = self.bias_18
         if isinstance(self.bias_18, types.Real):
             bias_18 = self.bias_18
         elif isinstance(self.bias_18, float) or isinstance(self.bias_18, int):
@@ -687,6 +705,7 @@ class BbremBuilder:
         elif isinstance(self.bias_18, str):
             bias_18 = types.RealOrJump.from_mcnp(self.bias_18)
 
+        bias_19 = self.bias_19
         if isinstance(self.bias_19, types.Real):
             bias_19 = self.bias_19
         elif isinstance(self.bias_19, float) or isinstance(self.bias_19, int):
@@ -694,6 +713,7 @@ class BbremBuilder:
         elif isinstance(self.bias_19, str):
             bias_19 = types.RealOrJump.from_mcnp(self.bias_19)
 
+        bias_20 = self.bias_20
         if isinstance(self.bias_20, types.Real):
             bias_20 = self.bias_20
         elif isinstance(self.bias_20, float) or isinstance(self.bias_20, int):
@@ -701,6 +721,7 @@ class BbremBuilder:
         elif isinstance(self.bias_20, str):
             bias_20 = types.RealOrJump.from_mcnp(self.bias_20)
 
+        bias_21 = self.bias_21
         if isinstance(self.bias_21, types.Real):
             bias_21 = self.bias_21
         elif isinstance(self.bias_21, float) or isinstance(self.bias_21, int):
@@ -708,6 +729,7 @@ class BbremBuilder:
         elif isinstance(self.bias_21, str):
             bias_21 = types.RealOrJump.from_mcnp(self.bias_21)
 
+        bias_22 = self.bias_22
         if isinstance(self.bias_22, types.Real):
             bias_22 = self.bias_22
         elif isinstance(self.bias_22, float) or isinstance(self.bias_22, int):
@@ -715,6 +737,7 @@ class BbremBuilder:
         elif isinstance(self.bias_22, str):
             bias_22 = types.RealOrJump.from_mcnp(self.bias_22)
 
+        bias_23 = self.bias_23
         if isinstance(self.bias_23, types.Real):
             bias_23 = self.bias_23
         elif isinstance(self.bias_23, float) or isinstance(self.bias_23, int):
@@ -722,6 +745,7 @@ class BbremBuilder:
         elif isinstance(self.bias_23, str):
             bias_23 = types.RealOrJump.from_mcnp(self.bias_23)
 
+        bias_24 = self.bias_24
         if isinstance(self.bias_24, types.Real):
             bias_24 = self.bias_24
         elif isinstance(self.bias_24, float) or isinstance(self.bias_24, int):
@@ -729,6 +753,7 @@ class BbremBuilder:
         elif isinstance(self.bias_24, str):
             bias_24 = types.RealOrJump.from_mcnp(self.bias_24)
 
+        bias_25 = self.bias_25
         if isinstance(self.bias_25, types.Real):
             bias_25 = self.bias_25
         elif isinstance(self.bias_25, float) or isinstance(self.bias_25, int):
@@ -736,6 +761,7 @@ class BbremBuilder:
         elif isinstance(self.bias_25, str):
             bias_25 = types.RealOrJump.from_mcnp(self.bias_25)
 
+        bias_26 = self.bias_26
         if isinstance(self.bias_26, types.Real):
             bias_26 = self.bias_26
         elif isinstance(self.bias_26, float) or isinstance(self.bias_26, int):
@@ -743,6 +769,7 @@ class BbremBuilder:
         elif isinstance(self.bias_26, str):
             bias_26 = types.RealOrJump.from_mcnp(self.bias_26)
 
+        bias_27 = self.bias_27
         if isinstance(self.bias_27, types.Real):
             bias_27 = self.bias_27
         elif isinstance(self.bias_27, float) or isinstance(self.bias_27, int):
@@ -750,6 +777,7 @@ class BbremBuilder:
         elif isinstance(self.bias_27, str):
             bias_27 = types.RealOrJump.from_mcnp(self.bias_27)
 
+        bias_28 = self.bias_28
         if isinstance(self.bias_28, types.Real):
             bias_28 = self.bias_28
         elif isinstance(self.bias_28, float) or isinstance(self.bias_28, int):
@@ -757,6 +785,7 @@ class BbremBuilder:
         elif isinstance(self.bias_28, str):
             bias_28 = types.RealOrJump.from_mcnp(self.bias_28)
 
+        bias_29 = self.bias_29
         if isinstance(self.bias_29, types.Real):
             bias_29 = self.bias_29
         elif isinstance(self.bias_29, float) or isinstance(self.bias_29, int):
@@ -764,6 +793,7 @@ class BbremBuilder:
         elif isinstance(self.bias_29, str):
             bias_29 = types.RealOrJump.from_mcnp(self.bias_29)
 
+        bias_30 = self.bias_30
         if isinstance(self.bias_30, types.Real):
             bias_30 = self.bias_30
         elif isinstance(self.bias_30, float) or isinstance(self.bias_30, int):
@@ -771,6 +801,7 @@ class BbremBuilder:
         elif isinstance(self.bias_30, str):
             bias_30 = types.RealOrJump.from_mcnp(self.bias_30)
 
+        bias_31 = self.bias_31
         if isinstance(self.bias_31, types.Real):
             bias_31 = self.bias_31
         elif isinstance(self.bias_31, float) or isinstance(self.bias_31, int):
@@ -778,6 +809,7 @@ class BbremBuilder:
         elif isinstance(self.bias_31, str):
             bias_31 = types.RealOrJump.from_mcnp(self.bias_31)
 
+        bias_32 = self.bias_32
         if isinstance(self.bias_32, types.Real):
             bias_32 = self.bias_32
         elif isinstance(self.bias_32, float) or isinstance(self.bias_32, int):
@@ -785,6 +817,7 @@ class BbremBuilder:
         elif isinstance(self.bias_32, str):
             bias_32 = types.RealOrJump.from_mcnp(self.bias_32)
 
+        bias_33 = self.bias_33
         if isinstance(self.bias_33, types.Real):
             bias_33 = self.bias_33
         elif isinstance(self.bias_33, float) or isinstance(self.bias_33, int):
@@ -792,6 +825,7 @@ class BbremBuilder:
         elif isinstance(self.bias_33, str):
             bias_33 = types.RealOrJump.from_mcnp(self.bias_33)
 
+        bias_34 = self.bias_34
         if isinstance(self.bias_34, types.Real):
             bias_34 = self.bias_34
         elif isinstance(self.bias_34, float) or isinstance(self.bias_34, int):
@@ -799,6 +833,7 @@ class BbremBuilder:
         elif isinstance(self.bias_34, str):
             bias_34 = types.RealOrJump.from_mcnp(self.bias_34)
 
+        bias_35 = self.bias_35
         if isinstance(self.bias_35, types.Real):
             bias_35 = self.bias_35
         elif isinstance(self.bias_35, float) or isinstance(self.bias_35, int):
@@ -806,6 +841,7 @@ class BbremBuilder:
         elif isinstance(self.bias_35, str):
             bias_35 = types.RealOrJump.from_mcnp(self.bias_35)
 
+        bias_36 = self.bias_36
         if isinstance(self.bias_36, types.Real):
             bias_36 = self.bias_36
         elif isinstance(self.bias_36, float) or isinstance(self.bias_36, int):
@@ -813,6 +849,7 @@ class BbremBuilder:
         elif isinstance(self.bias_36, str):
             bias_36 = types.RealOrJump.from_mcnp(self.bias_36)
 
+        bias_37 = self.bias_37
         if isinstance(self.bias_37, types.Real):
             bias_37 = self.bias_37
         elif isinstance(self.bias_37, float) or isinstance(self.bias_37, int):
@@ -820,6 +857,7 @@ class BbremBuilder:
         elif isinstance(self.bias_37, str):
             bias_37 = types.RealOrJump.from_mcnp(self.bias_37)
 
+        bias_38 = self.bias_38
         if isinstance(self.bias_38, types.Real):
             bias_38 = self.bias_38
         elif isinstance(self.bias_38, float) or isinstance(self.bias_38, int):
@@ -827,6 +865,7 @@ class BbremBuilder:
         elif isinstance(self.bias_38, str):
             bias_38 = types.RealOrJump.from_mcnp(self.bias_38)
 
+        bias_39 = self.bias_39
         if isinstance(self.bias_39, types.Real):
             bias_39 = self.bias_39
         elif isinstance(self.bias_39, float) or isinstance(self.bias_39, int):
@@ -834,6 +873,7 @@ class BbremBuilder:
         elif isinstance(self.bias_39, str):
             bias_39 = types.RealOrJump.from_mcnp(self.bias_39)
 
+        bias_40 = self.bias_40
         if isinstance(self.bias_40, types.Real):
             bias_40 = self.bias_40
         elif isinstance(self.bias_40, float) or isinstance(self.bias_40, int):
@@ -841,6 +881,7 @@ class BbremBuilder:
         elif isinstance(self.bias_40, str):
             bias_40 = types.RealOrJump.from_mcnp(self.bias_40)
 
+        bias_41 = self.bias_41
         if isinstance(self.bias_41, types.Real):
             bias_41 = self.bias_41
         elif isinstance(self.bias_41, float) or isinstance(self.bias_41, int):
@@ -848,6 +889,7 @@ class BbremBuilder:
         elif isinstance(self.bias_41, str):
             bias_41 = types.RealOrJump.from_mcnp(self.bias_41)
 
+        bias_42 = self.bias_42
         if isinstance(self.bias_42, types.Real):
             bias_42 = self.bias_42
         elif isinstance(self.bias_42, float) or isinstance(self.bias_42, int):
@@ -855,6 +897,7 @@ class BbremBuilder:
         elif isinstance(self.bias_42, str):
             bias_42 = types.RealOrJump.from_mcnp(self.bias_42)
 
+        bias_43 = self.bias_43
         if isinstance(self.bias_43, types.Real):
             bias_43 = self.bias_43
         elif isinstance(self.bias_43, float) or isinstance(self.bias_43, int):
@@ -862,6 +905,7 @@ class BbremBuilder:
         elif isinstance(self.bias_43, str):
             bias_43 = types.RealOrJump.from_mcnp(self.bias_43)
 
+        bias_44 = self.bias_44
         if isinstance(self.bias_44, types.Real):
             bias_44 = self.bias_44
         elif isinstance(self.bias_44, float) or isinstance(self.bias_44, int):
@@ -869,6 +913,7 @@ class BbremBuilder:
         elif isinstance(self.bias_44, str):
             bias_44 = types.RealOrJump.from_mcnp(self.bias_44)
 
+        bias_45 = self.bias_45
         if isinstance(self.bias_45, types.Real):
             bias_45 = self.bias_45
         elif isinstance(self.bias_45, float) or isinstance(self.bias_45, int):
@@ -876,6 +921,7 @@ class BbremBuilder:
         elif isinstance(self.bias_45, str):
             bias_45 = types.RealOrJump.from_mcnp(self.bias_45)
 
+        bias_46 = self.bias_46
         if isinstance(self.bias_46, types.Real):
             bias_46 = self.bias_46
         elif isinstance(self.bias_46, float) or isinstance(self.bias_46, int):
@@ -883,6 +929,7 @@ class BbremBuilder:
         elif isinstance(self.bias_46, str):
             bias_46 = types.RealOrJump.from_mcnp(self.bias_46)
 
+        bias_47 = self.bias_47
         if isinstance(self.bias_47, types.Real):
             bias_47 = self.bias_47
         elif isinstance(self.bias_47, float) or isinstance(self.bias_47, int):
@@ -890,6 +937,7 @@ class BbremBuilder:
         elif isinstance(self.bias_47, str):
             bias_47 = types.RealOrJump.from_mcnp(self.bias_47)
 
+        bias_48 = self.bias_48
         if isinstance(self.bias_48, types.Real):
             bias_48 = self.bias_48
         elif isinstance(self.bias_48, float) or isinstance(self.bias_48, int):
@@ -897,6 +945,7 @@ class BbremBuilder:
         elif isinstance(self.bias_48, str):
             bias_48 = types.RealOrJump.from_mcnp(self.bias_48)
 
+        bias_49 = self.bias_49
         if isinstance(self.bias_49, types.Real):
             bias_49 = self.bias_49
         elif isinstance(self.bias_49, float) or isinstance(self.bias_49, int):
@@ -904,15 +953,18 @@ class BbremBuilder:
         elif isinstance(self.bias_49, str):
             bias_49 = types.RealOrJump.from_mcnp(self.bias_49)
 
-        materials = []
-        for item in self.materials:
-            if isinstance(item, types.IntegerOrJump):
-                materials.append(item)
-            elif isinstance(item, int):
-                materials.append(types.IntegerOrJump(item))
-            elif isinstance(item, str):
-                materials.append(types.IntegerOrJump.from_mcnp(item))
-        materials = types.Tuple(materials)
+        if self.materials:
+            materials = []
+            for item in self.materials:
+                if isinstance(item, types.IntegerOrJump):
+                    materials.append(item)
+                elif isinstance(item, int):
+                    materials.append(types.IntegerOrJump(item))
+                elif isinstance(item, str):
+                    materials.append(types.IntegerOrJump.from_mcnp(item))
+            materials = types.Tuple(materials)
+        else:
+            materials = None
 
         return Bbrem(
             bias_1=bias_1,

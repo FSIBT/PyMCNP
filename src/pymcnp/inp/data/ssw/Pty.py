@@ -64,15 +64,18 @@ class PtyBuilder:
             ``Pty`` for ``PtyBuilder``.
         """
 
-        tracks = []
-        for item in self.tracks:
-            if isinstance(item, types.Designator):
-                tracks.append(item)
-            elif isinstance(item, str):
-                tracks.append(types.Designator.from_mcnp(item))
-            else:
-                tracks.append(item.build())
-        tracks = types.Tuple(tracks)
+        if self.tracks:
+            tracks = []
+            for item in self.tracks:
+                if isinstance(item, types.Designator):
+                    tracks.append(item)
+                elif isinstance(item, str):
+                    tracks.append(types.Designator.from_mcnp(item))
+                else:
+                    tracks.append(item.build())
+            tracks = types.Tuple(tracks)
+        else:
+            tracks = None
 
         return Pty(
             tracks=tracks,

@@ -64,6 +64,7 @@ class WmctalBuilder:
             ``Wmctal`` for ``WmctalBuilder``.
         """
 
+        filename = self.filename
         if isinstance(self.filename, types.String):
             filename = self.filename
         elif isinstance(self.filename, str):

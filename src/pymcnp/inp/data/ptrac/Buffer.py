@@ -64,6 +64,7 @@ class BufferBuilder:
             ``Buffer`` for ``BufferBuilder``.
         """
 
+        storage = self.storage
         if isinstance(self.storage, types.Integer):
             storage = self.storage
         elif isinstance(self.storage, int):

@@ -64,6 +64,7 @@ class DnbaisBuilder:
             ``Dnbais`` for ``DnbaisBuilder``.
         """
 
+        count = self.count
         if isinstance(self.count, types.Integer):
             count = self.count
         elif isinstance(self.count, int):

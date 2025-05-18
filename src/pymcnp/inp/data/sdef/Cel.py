@@ -66,6 +66,7 @@ class CelBuilder:
             ``Cel`` for ``CelBuilder``.
         """
 
+        number = self.number
         if isinstance(self.number, types.Integer):
             number = self.number
         elif isinstance(self.number, int):

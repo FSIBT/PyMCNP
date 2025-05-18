@@ -84,6 +84,7 @@ class BcwBuilder:
             ``Bcw`` for ``BcwBuilder``.
         """
 
+        radius = self.radius
         if isinstance(self.radius, types.Real):
             radius = self.radius
         elif isinstance(self.radius, float) or isinstance(self.radius, int):
@@ -91,6 +92,7 @@ class BcwBuilder:
         elif isinstance(self.radius, str):
             radius = types.RealOrJump.from_mcnp(self.radius)
 
+        zb = self.zb
         if isinstance(self.zb, types.Real):
             zb = self.zb
         elif isinstance(self.zb, float) or isinstance(self.zb, int):
@@ -98,6 +100,7 @@ class BcwBuilder:
         elif isinstance(self.zb, str):
             zb = types.RealOrJump.from_mcnp(self.zb)
 
+        ze = self.ze
         if isinstance(self.ze, types.Real):
             ze = self.ze
         elif isinstance(self.ze, float) or isinstance(self.ze, int):

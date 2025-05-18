@@ -64,15 +64,18 @@ class RhoBuilder:
             ``Rho`` for ``RhoBuilder``.
         """
 
-        densities = []
-        for item in self.densities:
-            if isinstance(item, types.Zaid):
-                densities.append(item)
-            elif isinstance(item, str):
-                densities.append(types.Zaid.from_mcnp(item))
-            else:
-                densities.append(item.build())
-        densities = types.Tuple(densities)
+        if self.densities:
+            densities = []
+            for item in self.densities:
+                if isinstance(item, types.Zaid):
+                    densities.append(item)
+                elif isinstance(item, str):
+                    densities.append(types.Zaid.from_mcnp(item))
+                else:
+                    densities.append(item.build())
+            densities = types.Tuple(densities)
+        else:
+            densities = None
 
         return Rho(
             densities=densities,

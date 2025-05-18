@@ -159,6 +159,7 @@ class SqBuilder:
             ``Sq`` for ``SqBuilder``.
         """
 
+        a = self.a
         if isinstance(self.a, types.Real):
             a = self.a
         elif isinstance(self.a, float) or isinstance(self.a, int):
@@ -166,6 +167,7 @@ class SqBuilder:
         elif isinstance(self.a, str):
             a = types.Real.from_mcnp(self.a)
 
+        b = self.b
         if isinstance(self.b, types.Real):
             b = self.b
         elif isinstance(self.b, float) or isinstance(self.b, int):
@@ -173,6 +175,7 @@ class SqBuilder:
         elif isinstance(self.b, str):
             b = types.Real.from_mcnp(self.b)
 
+        c = self.c
         if isinstance(self.c, types.Real):
             c = self.c
         elif isinstance(self.c, float) or isinstance(self.c, int):
@@ -180,6 +183,7 @@ class SqBuilder:
         elif isinstance(self.c, str):
             c = types.Real.from_mcnp(self.c)
 
+        d = self.d
         if isinstance(self.d, types.Real):
             d = self.d
         elif isinstance(self.d, float) or isinstance(self.d, int):
@@ -187,6 +191,7 @@ class SqBuilder:
         elif isinstance(self.d, str):
             d = types.Real.from_mcnp(self.d)
 
+        e = self.e
         if isinstance(self.e, types.Real):
             e = self.e
         elif isinstance(self.e, float) or isinstance(self.e, int):
@@ -194,6 +199,7 @@ class SqBuilder:
         elif isinstance(self.e, str):
             e = types.Real.from_mcnp(self.e)
 
+        f = self.f
         if isinstance(self.f, types.Real):
             f = self.f
         elif isinstance(self.f, float) or isinstance(self.f, int):
@@ -201,6 +207,7 @@ class SqBuilder:
         elif isinstance(self.f, str):
             f = types.Real.from_mcnp(self.f)
 
+        g = self.g
         if isinstance(self.g, types.Real):
             g = self.g
         elif isinstance(self.g, float) or isinstance(self.g, int):
@@ -208,6 +215,7 @@ class SqBuilder:
         elif isinstance(self.g, str):
             g = types.Real.from_mcnp(self.g)
 
+        x = self.x
         if isinstance(self.x, types.Real):
             x = self.x
         elif isinstance(self.x, float) or isinstance(self.x, int):
@@ -215,6 +223,7 @@ class SqBuilder:
         elif isinstance(self.x, str):
             x = types.Real.from_mcnp(self.x)
 
+        y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):
@@ -222,6 +231,7 @@ class SqBuilder:
         elif isinstance(self.y, str):
             y = types.Real.from_mcnp(self.y)
 
+        z = self.z
         if isinstance(self.z, types.Real):
             z = self.z
         elif isinstance(self.z, float) or isinstance(self.z, int):

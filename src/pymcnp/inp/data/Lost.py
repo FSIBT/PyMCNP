@@ -75,6 +75,7 @@ class LostBuilder:
             ``Lost`` for ``LostBuilder``.
         """
 
+        lost1 = self.lost1
         if isinstance(self.lost1, types.Integer):
             lost1 = self.lost1
         elif isinstance(self.lost1, int):
@@ -82,6 +83,7 @@ class LostBuilder:
         elif isinstance(self.lost1, str):
             lost1 = types.IntegerOrJump.from_mcnp(self.lost1)
 
+        lost2 = self.lost2
         if isinstance(self.lost2, types.Integer):
             lost2 = self.lost2
         elif isinstance(self.lost2, int):

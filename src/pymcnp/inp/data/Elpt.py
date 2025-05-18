@@ -64,15 +64,18 @@ class ElptBuilder:
             ``Elpt`` for ``ElptBuilder``.
         """
 
-        cutoffs = []
-        for item in self.cutoffs:
-            if isinstance(item, types.RealOrJump):
-                cutoffs.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                cutoffs.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                cutoffs.append(types.RealOrJump.from_mcnp(item))
-        cutoffs = types.Tuple(cutoffs)
+        if self.cutoffs:
+            cutoffs = []
+            for item in self.cutoffs:
+                if isinstance(item, types.RealOrJump):
+                    cutoffs.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    cutoffs.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    cutoffs.append(types.RealOrJump.from_mcnp(item))
+            cutoffs = types.Tuple(cutoffs)
+        else:
+            cutoffs = None
 
         return Elpt(
             cutoffs=cutoffs,

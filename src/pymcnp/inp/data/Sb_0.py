@@ -86,6 +86,7 @@ class SbBuilder_0:
             ``Sb_0`` for ``SbBuilder_0``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -93,21 +94,24 @@ class SbBuilder_0:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        option = None
+        option = self.option
         if isinstance(self.option, types.String):
             option = self.option
         elif isinstance(self.option, str):
             option = types.String.from_mcnp(self.option)
 
-        biases = []
-        for item in self.biases:
-            if isinstance(item, types.RealOrJump):
-                biases.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                biases.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                biases.append(types.RealOrJump.from_mcnp(item))
-        biases = types.Tuple(biases)
+        if self.biases:
+            biases = []
+            for item in self.biases:
+                if isinstance(item, types.RealOrJump):
+                    biases.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    biases.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    biases.append(types.RealOrJump.from_mcnp(item))
+            biases = types.Tuple(biases)
+        else:
+            biases = None
 
         return Sb_0(
             suffix=suffix,

@@ -87,6 +87,7 @@ class BfldBuilder:
             ``Bfld`` for ``BfldBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -94,20 +95,24 @@ class BfldBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        kind = self.kind
         if isinstance(self.kind, types.String):
             kind = self.kind
         elif isinstance(self.kind, str):
             kind = types.String.from_mcnp(self.kind)
 
-        options = []
-        for item in self.options:
-            if isinstance(item, bfld.BfldOption):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(bfld.BfldOption.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, bfld.BfldOption):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(bfld.BfldOption.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Bfld(
             suffix=suffix,

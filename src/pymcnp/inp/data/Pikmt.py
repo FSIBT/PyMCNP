@@ -64,15 +64,18 @@ class PikmtBuilder:
             ``Pikmt`` for ``PikmtBuilder``.
         """
 
-        biases = []
-        for item in self.biases:
-            if isinstance(item, types.PhotonBias):
-                biases.append(item)
-            elif isinstance(item, str):
-                biases.append(types.PhotonBias.from_mcnp(item))
-            else:
-                biases.append(item.build())
-        biases = types.Tuple(biases)
+        if self.biases:
+            biases = []
+            for item in self.biases:
+                if isinstance(item, types.PhotonBias):
+                    biases.append(item)
+                elif isinstance(item, str):
+                    biases.append(types.PhotonBias.from_mcnp(item))
+                else:
+                    biases.append(item.build())
+            biases = types.Tuple(biases)
+        else:
+            biases = None
 
         return Pikmt(
             biases=biases,

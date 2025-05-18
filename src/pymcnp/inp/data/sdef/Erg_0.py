@@ -64,6 +64,7 @@ class ErgBuilder_0:
             ``Erg_0`` for ``ErgBuilder_0``.
         """
 
+        energy = self.energy
         if isinstance(self.energy, types.Real):
             energy = self.energy
         elif isinstance(self.energy, float) or isinstance(self.energy, int):

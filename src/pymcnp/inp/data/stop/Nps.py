@@ -73,6 +73,7 @@ class NpsBuilder:
             ``Nps`` for ``NpsBuilder``.
         """
 
+        npp = self.npp
         if isinstance(self.npp, types.Integer):
             npp = self.npp
         elif isinstance(self.npp, int):
@@ -80,7 +81,7 @@ class NpsBuilder:
         elif isinstance(self.npp, str):
             npp = types.IntegerOrJump.from_mcnp(self.npp)
 
-        npsmg = None
+        npsmg = self.npsmg
         if isinstance(self.npsmg, types.Integer):
             npsmg = self.npsmg
         elif isinstance(self.npsmg, int):

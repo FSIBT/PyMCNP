@@ -171,7 +171,7 @@ class PhysBuilder_3:
             ``Phys_3`` for ``PhysBuilder_3``.
         """
 
-        emax = None
+        emax = self.emax
         if isinstance(self.emax, types.Real):
             emax = self.emax
         elif isinstance(self.emax, float) or isinstance(self.emax, int):
@@ -179,7 +179,7 @@ class PhysBuilder_3:
         elif isinstance(self.emax, str):
             emax = types.RealOrJump.from_mcnp(self.emax)
 
-        ean = None
+        ean = self.ean
         if isinstance(self.ean, types.Real):
             ean = self.ean
         elif isinstance(self.ean, float) or isinstance(self.ean, int):
@@ -187,7 +187,7 @@ class PhysBuilder_3:
         elif isinstance(self.ean, str):
             ean = types.RealOrJump.from_mcnp(self.ean)
 
-        tabl = None
+        tabl = self.tabl
         if isinstance(self.tabl, types.Real):
             tabl = self.tabl
         elif isinstance(self.tabl, float) or isinstance(self.tabl, int):
@@ -195,7 +195,7 @@ class PhysBuilder_3:
         elif isinstance(self.tabl, str):
             tabl = types.RealOrJump.from_mcnp(self.tabl)
 
-        istrg = None
+        istrg = self.istrg
         if isinstance(self.istrg, types.Integer):
             istrg = self.istrg
         elif isinstance(self.istrg, int):
@@ -203,7 +203,7 @@ class PhysBuilder_3:
         elif isinstance(self.istrg, str):
             istrg = types.IntegerOrJump.from_mcnp(self.istrg)
 
-        recl = None
+        recl = self.recl
         if isinstance(self.recl, types.Real):
             recl = self.recl
         elif isinstance(self.recl, float) or isinstance(self.recl, int):
@@ -211,7 +211,7 @@ class PhysBuilder_3:
         elif isinstance(self.recl, str):
             recl = types.RealOrJump.from_mcnp(self.recl)
 
-        i_mcs_model = None
+        i_mcs_model = self.i_mcs_model
         if isinstance(self.i_mcs_model, types.Integer):
             i_mcs_model = self.i_mcs_model
         elif isinstance(self.i_mcs_model, int):
@@ -219,7 +219,7 @@ class PhysBuilder_3:
         elif isinstance(self.i_mcs_model, str):
             i_mcs_model = types.IntegerOrJump.from_mcnp(self.i_mcs_model)
 
-        i_int_model = None
+        i_int_model = self.i_int_model
         if isinstance(self.i_int_model, types.Integer):
             i_int_model = self.i_int_model
         elif isinstance(self.i_int_model, int):
@@ -227,7 +227,7 @@ class PhysBuilder_3:
         elif isinstance(self.i_int_model, str):
             i_int_model = types.IntegerOrJump.from_mcnp(self.i_int_model)
 
-        i_els_model = None
+        i_els_model = self.i_els_model
         if isinstance(self.i_els_model, types.Integer):
             i_els_model = self.i_els_model
         elif isinstance(self.i_els_model, int):
@@ -235,7 +235,7 @@ class PhysBuilder_3:
         elif isinstance(self.i_els_model, str):
             i_els_model = types.IntegerOrJump.from_mcnp(self.i_els_model)
 
-        efac = None
+        efac = self.efac
         if isinstance(self.efac, types.Real):
             efac = self.efac
         elif isinstance(self.efac, float) or isinstance(self.efac, int):
@@ -243,7 +243,7 @@ class PhysBuilder_3:
         elif isinstance(self.efac, str):
             efac = types.RealOrJump.from_mcnp(self.efac)
 
-        ckvnum = None
+        ckvnum = self.ckvnum
         if isinstance(self.ckvnum, types.Real):
             ckvnum = self.ckvnum
         elif isinstance(self.ckvnum, float) or isinstance(self.ckvnum, int):
@@ -251,7 +251,7 @@ class PhysBuilder_3:
         elif isinstance(self.ckvnum, str):
             ckvnum = types.RealOrJump.from_mcnp(self.ckvnum)
 
-        drp = None
+        drp = self.drp
         if isinstance(self.drp, types.Real):
             drp = self.drp
         elif isinstance(self.drp, float) or isinstance(self.drp, int):

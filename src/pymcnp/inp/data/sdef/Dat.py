@@ -86,6 +86,7 @@ class DatBuilder:
             ``Dat`` for ``DatBuilder``.
         """
 
+        month = self.month
         if isinstance(self.month, types.Integer):
             month = self.month
         elif isinstance(self.month, int):
@@ -93,6 +94,7 @@ class DatBuilder:
         elif isinstance(self.month, str):
             month = types.IntegerOrJump.from_mcnp(self.month)
 
+        day = self.day
         if isinstance(self.day, types.Integer):
             day = self.day
         elif isinstance(self.day, int):
@@ -100,6 +102,7 @@ class DatBuilder:
         elif isinstance(self.day, str):
             day = types.IntegerOrJump.from_mcnp(self.day)
 
+        year = self.year
         if isinstance(self.year, types.Integer):
             year = self.year
         elif isinstance(self.year, int):

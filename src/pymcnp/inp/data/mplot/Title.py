@@ -75,6 +75,7 @@ class TitleBuilder:
             ``Title`` for ``TitleBuilder``.
         """
 
+        n = self.n
         if isinstance(self.n, types.Integer):
             n = self.n
         elif isinstance(self.n, int):
@@ -82,6 +83,7 @@ class TitleBuilder:
         elif isinstance(self.n, str):
             n = types.Integer.from_mcnp(self.n)
 
+        aa = self.aa
         if isinstance(self.aa, types.String):
             aa = self.aa
         elif isinstance(self.aa, str):

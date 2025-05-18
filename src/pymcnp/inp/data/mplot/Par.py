@@ -64,6 +64,7 @@ class ParBuilder:
             ``Par`` for ``ParBuilder``.
         """
 
+        particle = self.particle
         if isinstance(self.particle, types.Designator):
             particle = self.particle
         elif isinstance(self.particle, str):

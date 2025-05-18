@@ -64,6 +64,7 @@ class TfcBuilder:
             ``Tfc`` for ``TfcBuilder``.
         """
 
+        x = self.x
         if isinstance(self.x, types.String):
             x = self.x
         elif isinstance(self.x, str):

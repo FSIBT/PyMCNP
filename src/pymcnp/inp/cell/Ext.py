@@ -72,11 +72,13 @@ class ExtBuilder:
             ``Ext`` for ``ExtBuilder``.
         """
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
+        stretch = self.stretch
         if isinstance(self.stretch, types.String):
             stretch = self.stretch
         elif isinstance(self.stretch, str):

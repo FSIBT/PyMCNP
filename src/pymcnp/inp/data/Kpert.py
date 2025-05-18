@@ -71,6 +71,7 @@ class KpertBuilder:
             ``Kpert`` for ``KpertBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -78,15 +79,18 @@ class KpertBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        options = []
-        for item in self.options:
-            if isinstance(item, kpert.KpertOption):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(kpert.KpertOption.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, kpert.KpertOption):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(kpert.KpertOption.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Kpert(
             suffix=suffix,

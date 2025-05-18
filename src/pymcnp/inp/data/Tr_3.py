@@ -138,6 +138,7 @@ class TrBuilder_3:
             ``Tr_3`` for ``TrBuilder_3``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -145,6 +146,7 @@ class TrBuilder_3:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        x = self.x
         if isinstance(self.x, types.Real):
             x = self.x
         elif isinstance(self.x, float) or isinstance(self.x, int):
@@ -152,6 +154,7 @@ class TrBuilder_3:
         elif isinstance(self.x, str):
             x = types.RealOrJump.from_mcnp(self.x)
 
+        y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):
@@ -159,6 +162,7 @@ class TrBuilder_3:
         elif isinstance(self.y, str):
             y = types.RealOrJump.from_mcnp(self.y)
 
+        z = self.z
         if isinstance(self.z, types.Real):
             z = self.z
         elif isinstance(self.z, float) or isinstance(self.z, int):
@@ -166,6 +170,7 @@ class TrBuilder_3:
         elif isinstance(self.z, str):
             z = types.RealOrJump.from_mcnp(self.z)
 
+        xx = self.xx
         if isinstance(self.xx, types.Real):
             xx = self.xx
         elif isinstance(self.xx, float) or isinstance(self.xx, int):
@@ -173,6 +178,7 @@ class TrBuilder_3:
         elif isinstance(self.xx, str):
             xx = types.RealOrJump.from_mcnp(self.xx)
 
+        xy = self.xy
         if isinstance(self.xy, types.Real):
             xy = self.xy
         elif isinstance(self.xy, float) or isinstance(self.xy, int):
@@ -180,6 +186,7 @@ class TrBuilder_3:
         elif isinstance(self.xy, str):
             xy = types.RealOrJump.from_mcnp(self.xy)
 
+        xz = self.xz
         if isinstance(self.xz, types.Real):
             xz = self.xz
         elif isinstance(self.xz, float) or isinstance(self.xz, int):
@@ -187,7 +194,7 @@ class TrBuilder_3:
         elif isinstance(self.xz, str):
             xz = types.RealOrJump.from_mcnp(self.xz)
 
-        system = None
+        system = self.system
         if isinstance(self.system, types.Integer):
             system = self.system
         elif isinstance(self.system, int):

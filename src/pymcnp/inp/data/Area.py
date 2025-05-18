@@ -64,15 +64,18 @@ class AreaBuilder:
             ``Area`` for ``AreaBuilder``.
         """
 
-        areas = []
-        for item in self.areas:
-            if isinstance(item, types.RealOrJump):
-                areas.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                areas.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                areas.append(types.RealOrJump.from_mcnp(item))
-        areas = types.Tuple(areas)
+        if self.areas:
+            areas = []
+            for item in self.areas:
+                if isinstance(item, types.RealOrJump):
+                    areas.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    areas.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    areas.append(types.RealOrJump.from_mcnp(item))
+            areas = types.Tuple(areas)
+        else:
+            areas = None
 
         return Area(
             areas=areas,

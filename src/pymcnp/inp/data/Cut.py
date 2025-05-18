@@ -109,6 +109,7 @@ class CutBuilder:
             ``Cut`` for ``CutBuilder``.
         """
 
+        time_cutoff = self.time_cutoff
         if isinstance(self.time_cutoff, types.Real):
             time_cutoff = self.time_cutoff
         elif isinstance(self.time_cutoff, float) or isinstance(self.time_cutoff, int):
@@ -116,6 +117,7 @@ class CutBuilder:
         elif isinstance(self.time_cutoff, str):
             time_cutoff = types.RealOrJump.from_mcnp(self.time_cutoff)
 
+        energy_cutoff = self.energy_cutoff
         if isinstance(self.energy_cutoff, types.Real):
             energy_cutoff = self.energy_cutoff
         elif isinstance(self.energy_cutoff, float) or isinstance(self.energy_cutoff, int):
@@ -123,6 +125,7 @@ class CutBuilder:
         elif isinstance(self.energy_cutoff, str):
             energy_cutoff = types.RealOrJump.from_mcnp(self.energy_cutoff)
 
+        weight_cutoff1 = self.weight_cutoff1
         if isinstance(self.weight_cutoff1, types.Real):
             weight_cutoff1 = self.weight_cutoff1
         elif isinstance(self.weight_cutoff1, float) or isinstance(self.weight_cutoff1, int):
@@ -130,6 +133,7 @@ class CutBuilder:
         elif isinstance(self.weight_cutoff1, str):
             weight_cutoff1 = types.RealOrJump.from_mcnp(self.weight_cutoff1)
 
+        weight_cutoff2 = self.weight_cutoff2
         if isinstance(self.weight_cutoff2, types.Real):
             weight_cutoff2 = self.weight_cutoff2
         elif isinstance(self.weight_cutoff2, float) or isinstance(self.weight_cutoff2, int):
@@ -137,6 +141,7 @@ class CutBuilder:
         elif isinstance(self.weight_cutoff2, str):
             weight_cutoff2 = types.RealOrJump.from_mcnp(self.weight_cutoff2)
 
+        source_weight = self.source_weight
         if isinstance(self.source_weight, types.Real):
             source_weight = self.source_weight
         elif isinstance(self.source_weight, float) or isinstance(self.source_weight, int):

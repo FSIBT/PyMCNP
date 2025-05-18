@@ -64,6 +64,7 @@ class LatBuilder:
             ``Lat`` for ``LatBuilder``.
         """
 
+        shape = self.shape
         if isinstance(self.shape, types.Integer):
             shape = self.shape
         elif isinstance(self.shape, int):

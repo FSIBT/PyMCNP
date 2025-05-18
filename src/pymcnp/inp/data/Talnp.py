@@ -66,15 +66,18 @@ class TalnpBuilder:
             ``Talnp`` for ``TalnpBuilder``.
         """
 
-        tallies = []
-        for item in self.tallies:
-            if isinstance(item, types.IntegerOrJump):
-                tallies.append(item)
-            elif isinstance(item, int):
-                tallies.append(types.IntegerOrJump(item))
-            elif isinstance(item, str):
-                tallies.append(types.IntegerOrJump.from_mcnp(item))
-        tallies = types.Tuple(tallies)
+        if self.tallies:
+            tallies = []
+            for item in self.tallies:
+                if isinstance(item, types.IntegerOrJump):
+                    tallies.append(item)
+                elif isinstance(item, int):
+                    tallies.append(types.IntegerOrJump(item))
+                elif isinstance(item, str):
+                    tallies.append(types.IntegerOrJump.from_mcnp(item))
+            tallies = types.Tuple(tallies)
+        else:
+            tallies = None
 
         return Talnp(
             tallies=tallies,

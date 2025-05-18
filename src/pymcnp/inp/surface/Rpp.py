@@ -139,6 +139,7 @@ class RppBuilder:
             ``Rpp`` for ``RppBuilder``.
         """
 
+        xmin = self.xmin
         if isinstance(self.xmin, types.Real):
             xmin = self.xmin
         elif isinstance(self.xmin, float) or isinstance(self.xmin, int):
@@ -146,6 +147,7 @@ class RppBuilder:
         elif isinstance(self.xmin, str):
             xmin = types.Real.from_mcnp(self.xmin)
 
+        xmax = self.xmax
         if isinstance(self.xmax, types.Real):
             xmax = self.xmax
         elif isinstance(self.xmax, float) or isinstance(self.xmax, int):
@@ -153,6 +155,7 @@ class RppBuilder:
         elif isinstance(self.xmax, str):
             xmax = types.Real.from_mcnp(self.xmax)
 
+        ymin = self.ymin
         if isinstance(self.ymin, types.Real):
             ymin = self.ymin
         elif isinstance(self.ymin, float) or isinstance(self.ymin, int):
@@ -160,6 +163,7 @@ class RppBuilder:
         elif isinstance(self.ymin, str):
             ymin = types.Real.from_mcnp(self.ymin)
 
+        ymax = self.ymax
         if isinstance(self.ymax, types.Real):
             ymax = self.ymax
         elif isinstance(self.ymax, float) or isinstance(self.ymax, int):
@@ -167,6 +171,7 @@ class RppBuilder:
         elif isinstance(self.ymax, str):
             ymax = types.Real.from_mcnp(self.ymax)
 
+        zmin = self.zmin
         if isinstance(self.zmin, types.Real):
             zmin = self.zmin
         elif isinstance(self.zmin, float) or isinstance(self.zmin, int):
@@ -174,6 +179,7 @@ class RppBuilder:
         elif isinstance(self.zmin, str):
             zmin = types.Real.from_mcnp(self.zmin)
 
+        zmax = self.zmax
         if isinstance(self.zmax, types.Real):
             zmax = self.zmax
         elif isinstance(self.zmax, float) or isinstance(self.zmax, int):

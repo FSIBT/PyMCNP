@@ -109,32 +109,38 @@ class FillBuilder_6:
             ``Fill_6`` for ``FillBuilder_6``.
         """
 
+        i = self.i
         if isinstance(self.i, types.Index):
             i = self.i
         elif isinstance(self.i, str):
             i = types.Index.from_mcnp(self.i)
 
+        j = self.j
         if isinstance(self.j, types.Index):
             j = self.j
         elif isinstance(self.j, str):
             j = types.Index.from_mcnp(self.j)
 
+        k = self.k
         if isinstance(self.k, types.Index):
             k = self.k
         elif isinstance(self.k, str):
             k = types.Index.from_mcnp(self.k)
 
-        universes = []
-        for item in self.universes:
-            if isinstance(item, types.Integer):
-                universes.append(item)
-            elif isinstance(item, int):
-                universes.append(types.Integer(item))
-            elif isinstance(item, str):
-                universes.append(types.Integer.from_mcnp(item))
-        universes = types.Tuple(universes)
+        if self.universes:
+            universes = []
+            for item in self.universes:
+                if isinstance(item, types.Integer):
+                    universes.append(item)
+                elif isinstance(item, int):
+                    universes.append(types.Integer(item))
+                elif isinstance(item, str):
+                    universes.append(types.Integer.from_mcnp(item))
+            universes = types.Tuple(universes)
+        else:
+            universes = None
 
-        m = None
+        m = self.m
         if isinstance(self.m, types.Integer):
             m = self.m
         elif isinstance(self.m, int):

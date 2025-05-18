@@ -64,6 +64,7 @@ class KclearBuilder:
             ``Kclear`` for ``KclearBuilder``.
         """
 
+        count = self.count
         if isinstance(self.count, types.Integer):
             count = self.count
         elif isinstance(self.count, int):

@@ -100,6 +100,7 @@ class FsBuilder:
             ``Fs`` for ``FsBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -107,23 +108,26 @@ class FsBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        numbers = []
-        for item in self.numbers:
-            if isinstance(item, types.IntegerOrJump):
-                numbers.append(item)
-            elif isinstance(item, int):
-                numbers.append(types.IntegerOrJump(item))
-            elif isinstance(item, str):
-                numbers.append(types.IntegerOrJump.from_mcnp(item))
-        numbers = types.Tuple(numbers)
+        if self.numbers:
+            numbers = []
+            for item in self.numbers:
+                if isinstance(item, types.IntegerOrJump):
+                    numbers.append(item)
+                elif isinstance(item, int):
+                    numbers.append(types.IntegerOrJump(item))
+                elif isinstance(item, str):
+                    numbers.append(types.IntegerOrJump.from_mcnp(item))
+            numbers = types.Tuple(numbers)
+        else:
+            numbers = None
 
-        t = None
+        t = self.t
         if isinstance(self.t, types.String):
             t = self.t
         elif isinstance(self.t, str):
             t = types.String.from_mcnp(self.t)
 
-        c = None
+        c = self.c
         if isinstance(self.c, types.String):
             c = self.c
         elif isinstance(self.c, str):

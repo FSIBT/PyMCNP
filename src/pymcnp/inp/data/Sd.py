@@ -64,15 +64,18 @@ class SdBuilder:
             ``Sd`` for ``SdBuilder``.
         """
 
-        information = []
-        for item in self.information:
-            if isinstance(item, types.RealOrJump):
-                information.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                information.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                information.append(types.RealOrJump.from_mcnp(item))
-        information = types.Tuple(information)
+        if self.information:
+            information = []
+            for item in self.information:
+                if isinstance(item, types.RealOrJump):
+                    information.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    information.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    information.append(types.RealOrJump.from_mcnp(item))
+            information = types.Tuple(information)
+        else:
+            information = None
 
         return Sd(
             information=information,

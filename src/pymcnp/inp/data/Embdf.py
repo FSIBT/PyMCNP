@@ -72,6 +72,7 @@ class EmbdfBuilder:
             ``Embdf`` for ``EmbdfBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -79,15 +80,18 @@ class EmbdfBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        multipliers = []
-        for item in self.multipliers:
-            if isinstance(item, types.RealOrJump):
-                multipliers.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                multipliers.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                multipliers.append(types.RealOrJump.from_mcnp(item))
-        multipliers = types.Tuple(multipliers)
+        if self.multipliers:
+            multipliers = []
+            for item in self.multipliers:
+                if isinstance(item, types.RealOrJump):
+                    multipliers.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    multipliers.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    multipliers.append(types.RealOrJump.from_mcnp(item))
+            multipliers = types.Tuple(multipliers)
+        else:
+            multipliers = None
 
         return Embdf(
             suffix=suffix,

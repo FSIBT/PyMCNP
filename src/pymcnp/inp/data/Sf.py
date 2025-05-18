@@ -72,6 +72,7 @@ class SfBuilder:
             ``Sf`` for ``SfBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -79,15 +80,18 @@ class SfBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        numbers = []
-        for item in self.numbers:
-            if isinstance(item, types.IntegerOrJump):
-                numbers.append(item)
-            elif isinstance(item, int):
-                numbers.append(types.IntegerOrJump(item))
-            elif isinstance(item, str):
-                numbers.append(types.IntegerOrJump.from_mcnp(item))
-        numbers = types.Tuple(numbers)
+        if self.numbers:
+            numbers = []
+            for item in self.numbers:
+                if isinstance(item, types.IntegerOrJump):
+                    numbers.append(item)
+                elif isinstance(item, int):
+                    numbers.append(types.IntegerOrJump(item))
+                elif isinstance(item, str):
+                    numbers.append(types.IntegerOrJump.from_mcnp(item))
+            numbers = types.Tuple(numbers)
+        else:
+            numbers = None
 
         return Sf(
             suffix=suffix,

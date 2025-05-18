@@ -64,6 +64,7 @@ class HlibBuilder:
             ``Hlib`` for ``HlibBuilder``.
         """
 
+        abx = self.abx
         if isinstance(self.abx, types.String):
             abx = self.abx
         elif isinstance(self.abx, str):

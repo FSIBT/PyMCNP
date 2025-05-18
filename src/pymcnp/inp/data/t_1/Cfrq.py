@@ -64,6 +64,7 @@ class CfrqBuilder:
             ``Cfrq`` for ``CfrqBuilder``.
         """
 
+        frequency = self.frequency
         if isinstance(self.frequency, types.Real):
             frequency = self.frequency
         elif isinstance(self.frequency, float) or isinstance(self.frequency, int):

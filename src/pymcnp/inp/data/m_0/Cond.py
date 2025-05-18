@@ -64,6 +64,7 @@ class CondBuilder:
             ``Cond`` for ``CondBuilder``.
         """
 
+        setting = self.setting
         if isinstance(self.setting, types.Real):
             setting = self.setting
         elif isinstance(self.setting, float) or isinstance(self.setting, int):

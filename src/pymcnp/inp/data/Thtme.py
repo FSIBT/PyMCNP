@@ -64,15 +64,18 @@ class ThtmeBuilder:
             ``Thtme`` for ``ThtmeBuilder``.
         """
 
-        times = []
-        for item in self.times:
-            if isinstance(item, types.RealOrJump):
-                times.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                times.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                times.append(types.RealOrJump.from_mcnp(item))
-        times = types.Tuple(times)
+        if self.times:
+            times = []
+            for item in self.times:
+                if isinstance(item, types.RealOrJump):
+                    times.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    times.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    times.append(types.RealOrJump.from_mcnp(item))
+            times = types.Tuple(times)
+        else:
+            times = None
 
         return Thtme(
             times=times,

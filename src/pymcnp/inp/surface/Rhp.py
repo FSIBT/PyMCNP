@@ -235,6 +235,7 @@ class RhpBuilder:
             ``Rhp`` for ``RhpBuilder``.
         """
 
+        vx = self.vx
         if isinstance(self.vx, types.Real):
             vx = self.vx
         elif isinstance(self.vx, float) or isinstance(self.vx, int):
@@ -242,6 +243,7 @@ class RhpBuilder:
         elif isinstance(self.vx, str):
             vx = types.Real.from_mcnp(self.vx)
 
+        vy = self.vy
         if isinstance(self.vy, types.Real):
             vy = self.vy
         elif isinstance(self.vy, float) or isinstance(self.vy, int):
@@ -249,6 +251,7 @@ class RhpBuilder:
         elif isinstance(self.vy, str):
             vy = types.Real.from_mcnp(self.vy)
 
+        vz = self.vz
         if isinstance(self.vz, types.Real):
             vz = self.vz
         elif isinstance(self.vz, float) or isinstance(self.vz, int):
@@ -256,6 +259,7 @@ class RhpBuilder:
         elif isinstance(self.vz, str):
             vz = types.Real.from_mcnp(self.vz)
 
+        hx = self.hx
         if isinstance(self.hx, types.Real):
             hx = self.hx
         elif isinstance(self.hx, float) or isinstance(self.hx, int):
@@ -263,6 +267,7 @@ class RhpBuilder:
         elif isinstance(self.hx, str):
             hx = types.Real.from_mcnp(self.hx)
 
+        hy = self.hy
         if isinstance(self.hy, types.Real):
             hy = self.hy
         elif isinstance(self.hy, float) or isinstance(self.hy, int):
@@ -270,6 +275,7 @@ class RhpBuilder:
         elif isinstance(self.hy, str):
             hy = types.Real.from_mcnp(self.hy)
 
+        hz = self.hz
         if isinstance(self.hz, types.Real):
             hz = self.hz
         elif isinstance(self.hz, float) or isinstance(self.hz, int):
@@ -277,6 +283,7 @@ class RhpBuilder:
         elif isinstance(self.hz, str):
             hz = types.Real.from_mcnp(self.hz)
 
+        r1 = self.r1
         if isinstance(self.r1, types.Real):
             r1 = self.r1
         elif isinstance(self.r1, float) or isinstance(self.r1, int):
@@ -284,6 +291,7 @@ class RhpBuilder:
         elif isinstance(self.r1, str):
             r1 = types.Real.from_mcnp(self.r1)
 
+        r2 = self.r2
         if isinstance(self.r2, types.Real):
             r2 = self.r2
         elif isinstance(self.r2, float) or isinstance(self.r2, int):
@@ -291,6 +299,7 @@ class RhpBuilder:
         elif isinstance(self.r2, str):
             r2 = types.Real.from_mcnp(self.r2)
 
+        r3 = self.r3
         if isinstance(self.r3, types.Real):
             r3 = self.r3
         elif isinstance(self.r3, float) or isinstance(self.r3, int):
@@ -298,6 +307,7 @@ class RhpBuilder:
         elif isinstance(self.r3, str):
             r3 = types.Real.from_mcnp(self.r3)
 
+        s1 = self.s1
         if isinstance(self.s1, types.Real):
             s1 = self.s1
         elif isinstance(self.s1, float) or isinstance(self.s1, int):
@@ -305,6 +315,7 @@ class RhpBuilder:
         elif isinstance(self.s1, str):
             s1 = types.Real.from_mcnp(self.s1)
 
+        s2 = self.s2
         if isinstance(self.s2, types.Real):
             s2 = self.s2
         elif isinstance(self.s2, float) or isinstance(self.s2, int):
@@ -312,6 +323,7 @@ class RhpBuilder:
         elif isinstance(self.s2, str):
             s2 = types.Real.from_mcnp(self.s2)
 
+        s3 = self.s3
         if isinstance(self.s3, types.Real):
             s3 = self.s3
         elif isinstance(self.s3, float) or isinstance(self.s3, int):
@@ -319,6 +331,7 @@ class RhpBuilder:
         elif isinstance(self.s3, str):
             s3 = types.Real.from_mcnp(self.s3)
 
+        t1 = self.t1
         if isinstance(self.t1, types.Real):
             t1 = self.t1
         elif isinstance(self.t1, float) or isinstance(self.t1, int):
@@ -326,6 +339,7 @@ class RhpBuilder:
         elif isinstance(self.t1, str):
             t1 = types.Real.from_mcnp(self.t1)
 
+        t2 = self.t2
         if isinstance(self.t2, types.Real):
             t2 = self.t2
         elif isinstance(self.t2, float) or isinstance(self.t2, int):
@@ -333,6 +347,7 @@ class RhpBuilder:
         elif isinstance(self.t2, str):
             t2 = types.Real.from_mcnp(self.t2)
 
+        t3 = self.t3
         if isinstance(self.t3, types.Real):
             t3 = self.t3
         elif isinstance(self.t3, float) or isinstance(self.t3, int):

@@ -64,6 +64,7 @@ class KcodeBuilder:
             ``Kcode`` for ``KcodeBuilder``.
         """
 
+        i = self.i
         if isinstance(self.i, types.Integer):
             i = self.i
         elif isinstance(self.i, int):

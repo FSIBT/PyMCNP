@@ -64,6 +64,7 @@ class TypeBuilder:
             ``Type`` for ``TypeBuilder``.
         """
 
+        setting = self.setting
         if isinstance(self.setting, types.String):
             setting = self.setting
         elif isinstance(self.setting, str):

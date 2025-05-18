@@ -72,20 +72,24 @@ class ExtBuilder:
             ``Ext`` for ``ExtBuilder``.
         """
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
-        stretching = []
-        for item in self.stretching:
-            if isinstance(item, types.RealOrJump):
-                stretching.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                stretching.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                stretching.append(types.RealOrJump.from_mcnp(item))
-        stretching = types.Tuple(stretching)
+        if self.stretching:
+            stretching = []
+            for item in self.stretching:
+                if isinstance(item, types.RealOrJump):
+                    stretching.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    stretching.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    stretching.append(types.RealOrJump.from_mcnp(item))
+            stretching = types.Tuple(stretching)
+        else:
+            stretching = None
 
         return Ext(
             designator=designator,

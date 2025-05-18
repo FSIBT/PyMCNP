@@ -64,6 +64,7 @@ class FmatspaceBuilder:
             ``Fmatspace`` for ``FmatspaceBuilder``.
         """
 
+        fmat_space = self.fmat_space
         if isinstance(self.fmat_space, types.Real):
             fmat_space = self.fmat_space
         elif isinstance(self.fmat_space, float) or isinstance(self.fmat_space, int):

@@ -202,6 +202,7 @@ class RecBuilder:
             ``Rec`` for ``RecBuilder``.
         """
 
+        vx = self.vx
         if isinstance(self.vx, types.Real):
             vx = self.vx
         elif isinstance(self.vx, float) or isinstance(self.vx, int):
@@ -209,6 +210,7 @@ class RecBuilder:
         elif isinstance(self.vx, str):
             vx = types.Real.from_mcnp(self.vx)
 
+        vy = self.vy
         if isinstance(self.vy, types.Real):
             vy = self.vy
         elif isinstance(self.vy, float) or isinstance(self.vy, int):
@@ -216,6 +218,7 @@ class RecBuilder:
         elif isinstance(self.vy, str):
             vy = types.Real.from_mcnp(self.vy)
 
+        vz = self.vz
         if isinstance(self.vz, types.Real):
             vz = self.vz
         elif isinstance(self.vz, float) or isinstance(self.vz, int):
@@ -223,6 +226,7 @@ class RecBuilder:
         elif isinstance(self.vz, str):
             vz = types.Real.from_mcnp(self.vz)
 
+        hx = self.hx
         if isinstance(self.hx, types.Real):
             hx = self.hx
         elif isinstance(self.hx, float) or isinstance(self.hx, int):
@@ -230,6 +234,7 @@ class RecBuilder:
         elif isinstance(self.hx, str):
             hx = types.Real.from_mcnp(self.hx)
 
+        hy = self.hy
         if isinstance(self.hy, types.Real):
             hy = self.hy
         elif isinstance(self.hy, float) or isinstance(self.hy, int):
@@ -237,6 +242,7 @@ class RecBuilder:
         elif isinstance(self.hy, str):
             hy = types.Real.from_mcnp(self.hy)
 
+        hz = self.hz
         if isinstance(self.hz, types.Real):
             hz = self.hz
         elif isinstance(self.hz, float) or isinstance(self.hz, int):
@@ -244,6 +250,7 @@ class RecBuilder:
         elif isinstance(self.hz, str):
             hz = types.Real.from_mcnp(self.hz)
 
+        v1x = self.v1x
         if isinstance(self.v1x, types.Real):
             v1x = self.v1x
         elif isinstance(self.v1x, float) or isinstance(self.v1x, int):
@@ -251,6 +258,7 @@ class RecBuilder:
         elif isinstance(self.v1x, str):
             v1x = types.Real.from_mcnp(self.v1x)
 
+        v1y = self.v1y
         if isinstance(self.v1y, types.Real):
             v1y = self.v1y
         elif isinstance(self.v1y, float) or isinstance(self.v1y, int):
@@ -258,6 +266,7 @@ class RecBuilder:
         elif isinstance(self.v1y, str):
             v1y = types.Real.from_mcnp(self.v1y)
 
+        v1z = self.v1z
         if isinstance(self.v1z, types.Real):
             v1z = self.v1z
         elif isinstance(self.v1z, float) or isinstance(self.v1z, int):
@@ -265,6 +274,7 @@ class RecBuilder:
         elif isinstance(self.v1z, str):
             v1z = types.Real.from_mcnp(self.v1z)
 
+        v2x = self.v2x
         if isinstance(self.v2x, types.Real):
             v2x = self.v2x
         elif isinstance(self.v2x, float) or isinstance(self.v2x, int):
@@ -272,6 +282,7 @@ class RecBuilder:
         elif isinstance(self.v2x, str):
             v2x = types.Real.from_mcnp(self.v2x)
 
+        v2y = self.v2y
         if isinstance(self.v2y, types.Real):
             v2y = self.v2y
         elif isinstance(self.v2y, float) or isinstance(self.v2y, int):
@@ -279,6 +290,7 @@ class RecBuilder:
         elif isinstance(self.v2y, str):
             v2y = types.Real.from_mcnp(self.v2y)
 
+        v2z = self.v2z
         if isinstance(self.v2z, types.Real):
             v2z = self.v2z
         elif isinstance(self.v2z, float) or isinstance(self.v2z, int):

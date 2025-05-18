@@ -64,6 +64,7 @@ class IuBuilder:
             ``Iu`` for ``IuBuilder``.
         """
 
+        units = self.units
         if isinstance(self.units, types.Integer):
             units = self.units
         elif isinstance(self.units, int):

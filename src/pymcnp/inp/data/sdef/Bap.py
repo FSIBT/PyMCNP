@@ -84,6 +84,7 @@ class BapBuilder:
             ``Bap`` for ``BapBuilder``.
         """
 
+        ba1 = self.ba1
         if isinstance(self.ba1, types.Real):
             ba1 = self.ba1
         elif isinstance(self.ba1, float) or isinstance(self.ba1, int):
@@ -91,6 +92,7 @@ class BapBuilder:
         elif isinstance(self.ba1, str):
             ba1 = types.RealOrJump.from_mcnp(self.ba1)
 
+        ba2 = self.ba2
         if isinstance(self.ba2, types.Real):
             ba2 = self.ba2
         elif isinstance(self.ba2, float) or isinstance(self.ba2, int):
@@ -98,6 +100,7 @@ class BapBuilder:
         elif isinstance(self.ba2, str):
             ba2 = types.RealOrJump.from_mcnp(self.ba2)
 
+        u = self.u
         if isinstance(self.u, types.Real):
             u = self.u
         elif isinstance(self.u, float) or isinstance(self.u, int):

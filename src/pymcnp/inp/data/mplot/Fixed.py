@@ -75,11 +75,13 @@ class FixedBuilder:
             ``Fixed`` for ``FixedBuilder``.
         """
 
+        q = self.q
         if isinstance(self.q, types.String):
             q = self.q
         elif isinstance(self.q, str):
             q = types.String.from_mcnp(self.q)
 
+        n = self.n
         if isinstance(self.n, types.Integer):
             n = self.n
         elif isinstance(self.n, int):

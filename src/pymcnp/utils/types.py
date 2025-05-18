@@ -848,7 +848,7 @@ class Particle(_object.McnpTerminal):
 
         try:
             return Particle(source)
-        except ValueError:
+        except Exception:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
     def to_mcnp(self):
@@ -1815,7 +1815,7 @@ class Transformation_4(_object.McnpNonterminal):
         o1 = Real.from_mcnp(tokens[1])
         o2 = Real.from_mcnp(tokens[2])
         o3 = Real.from_mcnp(tokens[3])
-        m = Real.from_mcnp(tokens[7]) if tokens[7] else None
+        m = Real.from_mcnp(tokens[4]) if tokens[4] else None
 
         return Transformation_4(o1, o2, o3, m)
 

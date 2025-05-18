@@ -64,6 +64,7 @@ class MeeinBuilder:
             ``Meein`` for ``MeeinBuilder``.
         """
 
+        filename = self.filename
         if isinstance(self.filename, types.String):
             filename = self.filename
         elif isinstance(self.filename, str):

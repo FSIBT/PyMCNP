@@ -64,6 +64,7 @@ class PrecursorBuilder:
             ``Precursor`` for ``PrecursorBuilder``.
         """
 
+        setting = self.setting
         if isinstance(self.setting, types.String):
             setting = self.setting
         elif isinstance(self.setting, str):
