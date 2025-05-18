@@ -64,15 +64,18 @@ class WwgtBuilder:
             ``Wwgt`` for ``WwgtBuilder``.
         """
 
-        bounds = []
-        for item in self.bounds:
-            if isinstance(item, types.RealOrJump):
-                bounds.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                bounds.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                bounds.append(types.RealOrJump.from_mcnp(item))
-        bounds = types.Tuple(bounds)
+        if self.bounds:
+            bounds = []
+            for item in self.bounds:
+                if isinstance(item, types.RealOrJump):
+                    bounds.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    bounds.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    bounds.append(types.RealOrJump.from_mcnp(item))
+            bounds = types.Tuple(bounds)
+        else:
+            bounds = None
 
         return Wwgt(
             bounds=bounds,

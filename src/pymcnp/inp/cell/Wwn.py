@@ -80,6 +80,7 @@ class WwnBuilder:
             ``Wwn`` for ``WwnBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -87,11 +88,13 @@ class WwnBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
+        bound = self.bound
         if isinstance(self.bound, types.Real):
             bound = self.bound
         elif isinstance(self.bound, float) or isinstance(self.bound, int):

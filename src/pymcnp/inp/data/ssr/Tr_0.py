@@ -64,6 +64,7 @@ class TrBuilder_0:
             ``Tr_0`` for ``TrBuilder_0``.
         """
 
+        number = self.number
         if isinstance(self.number, types.DistributionNumber):
             number = self.number
         elif isinstance(self.number, str):

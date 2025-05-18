@@ -64,15 +64,18 @@ class RefpntBuilder:
             ``Refpnt`` for ``RefpntBuilder``.
         """
 
-        point = []
-        for item in self.point:
-            if isinstance(item, types.RealOrJump):
-                point.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                point.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                point.append(types.RealOrJump.from_mcnp(item))
-        point = types.Tuple(point)
+        if self.point:
+            point = []
+            for item in self.point:
+                if isinstance(item, types.RealOrJump):
+                    point.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    point.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    point.append(types.RealOrJump.from_mcnp(item))
+            point = types.Tuple(point)
+        else:
+            point = None
 
         return Refpnt(
             point=point,

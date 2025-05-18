@@ -141,6 +141,7 @@ class LccBuilder:
             ``Lcc`` for ``LccBuilder``.
         """
 
+        stincl = self.stincl
         if isinstance(self.stincl, types.Real):
             stincl = self.stincl
         elif isinstance(self.stincl, float) or isinstance(self.stincl, int):
@@ -148,6 +149,7 @@ class LccBuilder:
         elif isinstance(self.stincl, str):
             stincl = types.RealOrJump.from_mcnp(self.stincl)
 
+        v0incl = self.v0incl
         if isinstance(self.v0incl, types.Real):
             v0incl = self.v0incl
         elif isinstance(self.v0incl, float) or isinstance(self.v0incl, int):
@@ -155,6 +157,7 @@ class LccBuilder:
         elif isinstance(self.v0incl, str):
             v0incl = types.RealOrJump.from_mcnp(self.v0incl)
 
+        xfoisaincl = self.xfoisaincl
         if isinstance(self.xfoisaincl, types.Real):
             xfoisaincl = self.xfoisaincl
         elif isinstance(self.xfoisaincl, float) or isinstance(self.xfoisaincl, int):
@@ -162,6 +165,7 @@ class LccBuilder:
         elif isinstance(self.xfoisaincl, str):
             xfoisaincl = types.RealOrJump.from_mcnp(self.xfoisaincl)
 
+        npaulincl = self.npaulincl
         if isinstance(self.npaulincl, types.Integer):
             npaulincl = self.npaulincl
         elif isinstance(self.npaulincl, int):
@@ -169,6 +173,7 @@ class LccBuilder:
         elif isinstance(self.npaulincl, str):
             npaulincl = types.IntegerOrJump.from_mcnp(self.npaulincl)
 
+        nosurfincl = self.nosurfincl
         if isinstance(self.nosurfincl, types.Integer):
             nosurfincl = self.nosurfincl
         elif isinstance(self.nosurfincl, int):
@@ -176,6 +181,7 @@ class LccBuilder:
         elif isinstance(self.nosurfincl, str):
             nosurfincl = types.IntegerOrJump.from_mcnp(self.nosurfincl)
 
+        ecutincl = self.ecutincl
         if isinstance(self.ecutincl, types.Real):
             ecutincl = self.ecutincl
         elif isinstance(self.ecutincl, float) or isinstance(self.ecutincl, int):
@@ -183,6 +189,7 @@ class LccBuilder:
         elif isinstance(self.ecutincl, str):
             ecutincl = types.RealOrJump.from_mcnp(self.ecutincl)
 
+        ebankincl = self.ebankincl
         if isinstance(self.ebankincl, types.Real):
             ebankincl = self.ebankincl
         elif isinstance(self.ebankincl, float) or isinstance(self.ebankincl, int):
@@ -190,6 +197,7 @@ class LccBuilder:
         elif isinstance(self.ebankincl, str):
             ebankincl = types.RealOrJump.from_mcnp(self.ebankincl)
 
+        ebankabia = self.ebankabia
         if isinstance(self.ebankabia, types.Real):
             ebankabia = self.ebankabia
         elif isinstance(self.ebankabia, float) or isinstance(self.ebankabia, int):

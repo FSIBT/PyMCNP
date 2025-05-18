@@ -64,6 +64,7 @@ class ZBuilder:
             ``Z`` for ``ZBuilder``.
         """
 
+        z_coordinate = self.z_coordinate
         if isinstance(self.z_coordinate, types.Real):
             z_coordinate = self.z_coordinate
         elif isinstance(self.z_coordinate, float) or isinstance(self.z_coordinate, int):

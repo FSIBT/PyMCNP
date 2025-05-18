@@ -72,6 +72,7 @@ class XsBuilder:
             ``Xs`` for ``XsBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -79,15 +80,18 @@ class XsBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        weight_ratios = []
-        for item in self.weight_ratios:
-            if isinstance(item, types.Substance):
-                weight_ratios.append(item)
-            elif isinstance(item, str):
-                weight_ratios.append(types.Substance.from_mcnp(item))
-            else:
-                weight_ratios.append(item.build())
-        weight_ratios = types.Tuple(weight_ratios)
+        if self.weight_ratios:
+            weight_ratios = []
+            for item in self.weight_ratios:
+                if isinstance(item, types.Substance):
+                    weight_ratios.append(item)
+                elif isinstance(item, str):
+                    weight_ratios.append(types.Substance.from_mcnp(item))
+                else:
+                    weight_ratios.append(item.build())
+            weight_ratios = types.Tuple(weight_ratios)
+        else:
+            weight_ratios = None
 
         return Xs(
             suffix=suffix,

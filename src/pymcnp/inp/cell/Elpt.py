@@ -72,11 +72,13 @@ class ElptBuilder:
             ``Elpt`` for ``ElptBuilder``.
         """
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
+        cutoff = self.cutoff
         if isinstance(self.cutoff, types.Real):
             cutoff = self.cutoff
         elif isinstance(self.cutoff, float) or isinstance(self.cutoff, int):

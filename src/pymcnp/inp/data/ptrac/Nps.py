@@ -64,15 +64,18 @@ class NpsBuilder:
             ``Nps`` for ``NpsBuilder``.
         """
 
-        particles = []
-        for item in self.particles:
-            if isinstance(item, types.IntegerOrJump):
-                particles.append(item)
-            elif isinstance(item, int):
-                particles.append(types.IntegerOrJump(item))
-            elif isinstance(item, str):
-                particles.append(types.IntegerOrJump.from_mcnp(item))
-        particles = types.Tuple(particles)
+        if self.particles:
+            particles = []
+            for item in self.particles:
+                if isinstance(item, types.IntegerOrJump):
+                    particles.append(item)
+                elif isinstance(item, int):
+                    particles.append(types.IntegerOrJump(item))
+                elif isinstance(item, str):
+                    particles.append(types.IntegerOrJump.from_mcnp(item))
+            particles = types.Tuple(particles)
+        else:
+            particles = None
 
         return Nps(
             particles=particles,

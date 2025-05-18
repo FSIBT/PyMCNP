@@ -71,7 +71,7 @@ class HistpBuilder:
             ``Histp`` for ``HistpBuilder``.
         """
 
-        lhist = None
+        lhist = self.lhist
         if isinstance(self.lhist, types.Integer):
             lhist = self.lhist
         elif isinstance(self.lhist, int):
@@ -79,15 +79,18 @@ class HistpBuilder:
         elif isinstance(self.lhist, str):
             lhist = types.IntegerOrJump.from_mcnp(self.lhist)
 
-        cells = []
-        for item in self.cells:
-            if isinstance(item, types.IntegerOrJump):
-                cells.append(item)
-            elif isinstance(item, int):
-                cells.append(types.IntegerOrJump(item))
-            elif isinstance(item, str):
-                cells.append(types.IntegerOrJump.from_mcnp(item))
-        cells = types.Tuple(cells)
+        if self.cells:
+            cells = []
+            for item in self.cells:
+                if isinstance(item, types.IntegerOrJump):
+                    cells.append(item)
+                elif isinstance(item, int):
+                    cells.append(types.IntegerOrJump(item))
+                elif isinstance(item, str):
+                    cells.append(types.IntegerOrJump.from_mcnp(item))
+            cells = types.Tuple(cells)
+        else:
+            cells = None
 
         return Histp(
             lhist=lhist,

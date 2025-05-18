@@ -30,7 +30,7 @@ class K_y(SurfaceOption):
     }
 
     _REGEX = re.compile(
-        rf'\Ak\/y( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Ak/y( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(
@@ -126,6 +126,7 @@ class K_yBuilder:
             ``K_y`` for ``K_yBuilder``.
         """
 
+        x = self.x
         if isinstance(self.x, types.Real):
             x = self.x
         elif isinstance(self.x, float) or isinstance(self.x, int):
@@ -133,6 +134,7 @@ class K_yBuilder:
         elif isinstance(self.x, str):
             x = types.Real.from_mcnp(self.x)
 
+        y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):
@@ -140,6 +142,7 @@ class K_yBuilder:
         elif isinstance(self.y, str):
             y = types.Real.from_mcnp(self.y)
 
+        z = self.z
         if isinstance(self.z, types.Real):
             z = self.z
         elif isinstance(self.z, float) or isinstance(self.z, int):
@@ -147,6 +150,7 @@ class K_yBuilder:
         elif isinstance(self.z, str):
             z = types.Real.from_mcnp(self.z)
 
+        t_squared = self.t_squared
         if isinstance(self.t_squared, types.Real):
             t_squared = self.t_squared
         elif isinstance(self.t_squared, float) or isinstance(self.t_squared, int):
@@ -154,6 +158,7 @@ class K_yBuilder:
         elif isinstance(self.t_squared, str):
             t_squared = types.Real.from_mcnp(self.t_squared)
 
+        plusminus_1 = self.plusminus_1
         if isinstance(self.plusminus_1, types.Real):
             plusminus_1 = self.plusminus_1
         elif isinstance(self.plusminus_1, float) or isinstance(self.plusminus_1, int):

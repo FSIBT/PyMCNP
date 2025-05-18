@@ -109,6 +109,7 @@ class SphBuilder:
             ``Sph`` for ``SphBuilder``.
         """
 
+        vx = self.vx
         if isinstance(self.vx, types.Real):
             vx = self.vx
         elif isinstance(self.vx, float) or isinstance(self.vx, int):
@@ -116,6 +117,7 @@ class SphBuilder:
         elif isinstance(self.vx, str):
             vx = types.Real.from_mcnp(self.vx)
 
+        vy = self.vy
         if isinstance(self.vy, types.Real):
             vy = self.vy
         elif isinstance(self.vy, float) or isinstance(self.vy, int):
@@ -123,6 +125,7 @@ class SphBuilder:
         elif isinstance(self.vy, str):
             vy = types.Real.from_mcnp(self.vy)
 
+        vz = self.vz
         if isinstance(self.vz, types.Real):
             vz = self.vz
         elif isinstance(self.vz, float) or isinstance(self.vz, int):
@@ -130,6 +133,7 @@ class SphBuilder:
         elif isinstance(self.vz, str):
             vz = types.Real.from_mcnp(self.vz)
 
+        r = self.r
         if isinstance(self.r, types.Real):
             r = self.r
         elif isinstance(self.r, float) or isinstance(self.r, int):

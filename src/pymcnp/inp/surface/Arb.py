@@ -359,6 +359,7 @@ class ArbBuilder:
             ``Arb`` for ``ArbBuilder``.
         """
 
+        ax = self.ax
         if isinstance(self.ax, types.Real):
             ax = self.ax
         elif isinstance(self.ax, float) or isinstance(self.ax, int):
@@ -366,6 +367,7 @@ class ArbBuilder:
         elif isinstance(self.ax, str):
             ax = types.Real.from_mcnp(self.ax)
 
+        ay = self.ay
         if isinstance(self.ay, types.Real):
             ay = self.ay
         elif isinstance(self.ay, float) or isinstance(self.ay, int):
@@ -373,6 +375,7 @@ class ArbBuilder:
         elif isinstance(self.ay, str):
             ay = types.Real.from_mcnp(self.ay)
 
+        az = self.az
         if isinstance(self.az, types.Real):
             az = self.az
         elif isinstance(self.az, float) or isinstance(self.az, int):
@@ -380,6 +383,7 @@ class ArbBuilder:
         elif isinstance(self.az, str):
             az = types.Real.from_mcnp(self.az)
 
+        bx = self.bx
         if isinstance(self.bx, types.Real):
             bx = self.bx
         elif isinstance(self.bx, float) or isinstance(self.bx, int):
@@ -387,6 +391,7 @@ class ArbBuilder:
         elif isinstance(self.bx, str):
             bx = types.Real.from_mcnp(self.bx)
 
+        by = self.by
         if isinstance(self.by, types.Real):
             by = self.by
         elif isinstance(self.by, float) or isinstance(self.by, int):
@@ -394,6 +399,7 @@ class ArbBuilder:
         elif isinstance(self.by, str):
             by = types.Real.from_mcnp(self.by)
 
+        bz = self.bz
         if isinstance(self.bz, types.Real):
             bz = self.bz
         elif isinstance(self.bz, float) or isinstance(self.bz, int):
@@ -401,6 +407,7 @@ class ArbBuilder:
         elif isinstance(self.bz, str):
             bz = types.Real.from_mcnp(self.bz)
 
+        cx = self.cx
         if isinstance(self.cx, types.Real):
             cx = self.cx
         elif isinstance(self.cx, float) or isinstance(self.cx, int):
@@ -408,6 +415,7 @@ class ArbBuilder:
         elif isinstance(self.cx, str):
             cx = types.Real.from_mcnp(self.cx)
 
+        cy = self.cy
         if isinstance(self.cy, types.Real):
             cy = self.cy
         elif isinstance(self.cy, float) or isinstance(self.cy, int):
@@ -415,6 +423,7 @@ class ArbBuilder:
         elif isinstance(self.cy, str):
             cy = types.Real.from_mcnp(self.cy)
 
+        cz = self.cz
         if isinstance(self.cz, types.Real):
             cz = self.cz
         elif isinstance(self.cz, float) or isinstance(self.cz, int):
@@ -422,6 +431,7 @@ class ArbBuilder:
         elif isinstance(self.cz, str):
             cz = types.Real.from_mcnp(self.cz)
 
+        dx = self.dx
         if isinstance(self.dx, types.Real):
             dx = self.dx
         elif isinstance(self.dx, float) or isinstance(self.dx, int):
@@ -429,6 +439,7 @@ class ArbBuilder:
         elif isinstance(self.dx, str):
             dx = types.Real.from_mcnp(self.dx)
 
+        dy = self.dy
         if isinstance(self.dy, types.Real):
             dy = self.dy
         elif isinstance(self.dy, float) or isinstance(self.dy, int):
@@ -436,6 +447,7 @@ class ArbBuilder:
         elif isinstance(self.dy, str):
             dy = types.Real.from_mcnp(self.dy)
 
+        dz = self.dz
         if isinstance(self.dz, types.Real):
             dz = self.dz
         elif isinstance(self.dz, float) or isinstance(self.dz, int):
@@ -443,6 +455,7 @@ class ArbBuilder:
         elif isinstance(self.dz, str):
             dz = types.Real.from_mcnp(self.dz)
 
+        ex = self.ex
         if isinstance(self.ex, types.Real):
             ex = self.ex
         elif isinstance(self.ex, float) or isinstance(self.ex, int):
@@ -450,6 +463,7 @@ class ArbBuilder:
         elif isinstance(self.ex, str):
             ex = types.Real.from_mcnp(self.ex)
 
+        ey = self.ey
         if isinstance(self.ey, types.Real):
             ey = self.ey
         elif isinstance(self.ey, float) or isinstance(self.ey, int):
@@ -457,6 +471,7 @@ class ArbBuilder:
         elif isinstance(self.ey, str):
             ey = types.Real.from_mcnp(self.ey)
 
+        ez = self.ez
         if isinstance(self.ez, types.Real):
             ez = self.ez
         elif isinstance(self.ez, float) or isinstance(self.ez, int):
@@ -464,6 +479,7 @@ class ArbBuilder:
         elif isinstance(self.ez, str):
             ez = types.Real.from_mcnp(self.ez)
 
+        fx = self.fx
         if isinstance(self.fx, types.Real):
             fx = self.fx
         elif isinstance(self.fx, float) or isinstance(self.fx, int):
@@ -471,6 +487,7 @@ class ArbBuilder:
         elif isinstance(self.fx, str):
             fx = types.Real.from_mcnp(self.fx)
 
+        fy = self.fy
         if isinstance(self.fy, types.Real):
             fy = self.fy
         elif isinstance(self.fy, float) or isinstance(self.fy, int):
@@ -478,6 +495,7 @@ class ArbBuilder:
         elif isinstance(self.fy, str):
             fy = types.Real.from_mcnp(self.fy)
 
+        fz = self.fz
         if isinstance(self.fz, types.Real):
             fz = self.fz
         elif isinstance(self.fz, float) or isinstance(self.fz, int):
@@ -485,6 +503,7 @@ class ArbBuilder:
         elif isinstance(self.fz, str):
             fz = types.Real.from_mcnp(self.fz)
 
+        gx = self.gx
         if isinstance(self.gx, types.Real):
             gx = self.gx
         elif isinstance(self.gx, float) or isinstance(self.gx, int):
@@ -492,6 +511,7 @@ class ArbBuilder:
         elif isinstance(self.gx, str):
             gx = types.Real.from_mcnp(self.gx)
 
+        gy = self.gy
         if isinstance(self.gy, types.Real):
             gy = self.gy
         elif isinstance(self.gy, float) or isinstance(self.gy, int):
@@ -499,6 +519,7 @@ class ArbBuilder:
         elif isinstance(self.gy, str):
             gy = types.Real.from_mcnp(self.gy)
 
+        gz = self.gz
         if isinstance(self.gz, types.Real):
             gz = self.gz
         elif isinstance(self.gz, float) or isinstance(self.gz, int):
@@ -506,6 +527,7 @@ class ArbBuilder:
         elif isinstance(self.gz, str):
             gz = types.Real.from_mcnp(self.gz)
 
+        hx = self.hx
         if isinstance(self.hx, types.Real):
             hx = self.hx
         elif isinstance(self.hx, float) or isinstance(self.hx, int):
@@ -513,6 +535,7 @@ class ArbBuilder:
         elif isinstance(self.hx, str):
             hx = types.Real.from_mcnp(self.hx)
 
+        hy = self.hy
         if isinstance(self.hy, types.Real):
             hy = self.hy
         elif isinstance(self.hy, float) or isinstance(self.hy, int):
@@ -520,6 +543,7 @@ class ArbBuilder:
         elif isinstance(self.hy, str):
             hy = types.Real.from_mcnp(self.hy)
 
+        hz = self.hz
         if isinstance(self.hz, types.Real):
             hz = self.hz
         elif isinstance(self.hz, float) or isinstance(self.hz, int):
@@ -527,6 +551,7 @@ class ArbBuilder:
         elif isinstance(self.hz, str):
             hz = types.Real.from_mcnp(self.hz)
 
+        n1 = self.n1
         if isinstance(self.n1, types.Real):
             n1 = self.n1
         elif isinstance(self.n1, float) or isinstance(self.n1, int):
@@ -534,6 +559,7 @@ class ArbBuilder:
         elif isinstance(self.n1, str):
             n1 = types.Real.from_mcnp(self.n1)
 
+        n2 = self.n2
         if isinstance(self.n2, types.Real):
             n2 = self.n2
         elif isinstance(self.n2, float) or isinstance(self.n2, int):
@@ -541,6 +567,7 @@ class ArbBuilder:
         elif isinstance(self.n2, str):
             n2 = types.Real.from_mcnp(self.n2)
 
+        n3 = self.n3
         if isinstance(self.n3, types.Real):
             n3 = self.n3
         elif isinstance(self.n3, float) or isinstance(self.n3, int):
@@ -548,6 +575,7 @@ class ArbBuilder:
         elif isinstance(self.n3, str):
             n3 = types.Real.from_mcnp(self.n3)
 
+        n4 = self.n4
         if isinstance(self.n4, types.Real):
             n4 = self.n4
         elif isinstance(self.n4, float) or isinstance(self.n4, int):
@@ -555,6 +583,7 @@ class ArbBuilder:
         elif isinstance(self.n4, str):
             n4 = types.Real.from_mcnp(self.n4)
 
+        n5 = self.n5
         if isinstance(self.n5, types.Real):
             n5 = self.n5
         elif isinstance(self.n5, float) or isinstance(self.n5, int):
@@ -562,6 +591,7 @@ class ArbBuilder:
         elif isinstance(self.n5, str):
             n5 = types.Real.from_mcnp(self.n5)
 
+        n6 = self.n6
         if isinstance(self.n6, types.Real):
             n6 = self.n6
         elif isinstance(self.n6, float) or isinstance(self.n6, int):

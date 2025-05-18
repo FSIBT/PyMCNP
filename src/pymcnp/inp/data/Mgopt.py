@@ -129,11 +129,13 @@ class MgoptBuilder:
             ``Mgopt`` for ``MgoptBuilder``.
         """
 
+        mcal = self.mcal
         if isinstance(self.mcal, types.String):
             mcal = self.mcal
         elif isinstance(self.mcal, str):
             mcal = types.String.from_mcnp(self.mcal)
 
+        igm = self.igm
         if isinstance(self.igm, types.Integer):
             igm = self.igm
         elif isinstance(self.igm, int):
@@ -141,6 +143,7 @@ class MgoptBuilder:
         elif isinstance(self.igm, str):
             igm = types.IntegerOrJump.from_mcnp(self.igm)
 
+        iplt = self.iplt
         if isinstance(self.iplt, types.Integer):
             iplt = self.iplt
         elif isinstance(self.iplt, int):
@@ -148,6 +151,7 @@ class MgoptBuilder:
         elif isinstance(self.iplt, str):
             iplt = types.IntegerOrJump.from_mcnp(self.iplt)
 
+        iab = self.iab
         if isinstance(self.iab, types.Integer):
             iab = self.iab
         elif isinstance(self.iab, int):
@@ -155,6 +159,7 @@ class MgoptBuilder:
         elif isinstance(self.iab, str):
             iab = types.IntegerOrJump.from_mcnp(self.iab)
 
+        icw = self.icw
         if isinstance(self.icw, types.Integer):
             icw = self.icw
         elif isinstance(self.icw, int):
@@ -162,6 +167,7 @@ class MgoptBuilder:
         elif isinstance(self.icw, str):
             icw = types.IntegerOrJump.from_mcnp(self.icw)
 
+        fnw = self.fnw
         if isinstance(self.fnw, types.Real):
             fnw = self.fnw
         elif isinstance(self.fnw, float) or isinstance(self.fnw, int):
@@ -169,6 +175,7 @@ class MgoptBuilder:
         elif isinstance(self.fnw, str):
             fnw = types.RealOrJump.from_mcnp(self.fnw)
 
+        rim = self.rim
         if isinstance(self.rim, types.Real):
             rim = self.rim
         elif isinstance(self.rim, float) or isinstance(self.rim, int):

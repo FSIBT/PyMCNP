@@ -60,7 +60,7 @@ class ZdBuilder:
             ``Zd`` for ``ZdBuilder``.
         """
 
-        anything = None
+        anything = self.anything
         if isinstance(self.anything, types.String):
             anything = self.anything
         elif isinstance(self.anything, str):

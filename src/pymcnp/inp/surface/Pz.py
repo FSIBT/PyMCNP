@@ -77,6 +77,7 @@ class PzBuilder:
             ``Pz`` for ``PzBuilder``.
         """
 
+        d = self.d
         if isinstance(self.d, types.Real):
             d = self.d
         elif isinstance(self.d, float) or isinstance(self.d, int):

@@ -148,6 +148,7 @@ class FqBuilder:
             ``Fq`` for ``FqBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -155,41 +156,49 @@ class FqBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        a1 = self.a1
         if isinstance(self.a1, types.String):
             a1 = self.a1
         elif isinstance(self.a1, str):
             a1 = types.String.from_mcnp(self.a1)
 
+        a2 = self.a2
         if isinstance(self.a2, types.String):
             a2 = self.a2
         elif isinstance(self.a2, str):
             a2 = types.String.from_mcnp(self.a2)
 
+        a3 = self.a3
         if isinstance(self.a3, types.String):
             a3 = self.a3
         elif isinstance(self.a3, str):
             a3 = types.String.from_mcnp(self.a3)
 
+        a4 = self.a4
         if isinstance(self.a4, types.String):
             a4 = self.a4
         elif isinstance(self.a4, str):
             a4 = types.String.from_mcnp(self.a4)
 
+        a5 = self.a5
         if isinstance(self.a5, types.String):
             a5 = self.a5
         elif isinstance(self.a5, str):
             a5 = types.String.from_mcnp(self.a5)
 
+        a6 = self.a6
         if isinstance(self.a6, types.String):
             a6 = self.a6
         elif isinstance(self.a6, str):
             a6 = types.String.from_mcnp(self.a6)
 
+        a7 = self.a7
         if isinstance(self.a7, types.String):
             a7 = self.a7
         elif isinstance(self.a7, str):
             a7 = types.String.from_mcnp(self.a7)
 
+        a8 = self.a8
         if isinstance(self.a8, types.String):
             a8 = self.a8
         elif isinstance(self.a8, str):

@@ -60,7 +60,7 @@ class DirBuilder_0:
             ``Dir_0`` for ``DirBuilder_0``.
         """
 
-        cosine = None
+        cosine = self.cosine
         if isinstance(self.cosine, types.Real):
             cosine = self.cosine
         elif isinstance(self.cosine, float) or isinstance(self.cosine, int):

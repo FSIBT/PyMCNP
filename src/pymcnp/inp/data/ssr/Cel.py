@@ -64,15 +64,18 @@ class CelBuilder:
             ``Cel`` for ``CelBuilder``.
         """
 
-        numbers = []
-        for item in self.numbers:
-            if isinstance(item, types.IntegerOrJump):
-                numbers.append(item)
-            elif isinstance(item, int):
-                numbers.append(types.IntegerOrJump(item))
-            elif isinstance(item, str):
-                numbers.append(types.IntegerOrJump.from_mcnp(item))
-        numbers = types.Tuple(numbers)
+        if self.numbers:
+            numbers = []
+            for item in self.numbers:
+                if isinstance(item, types.IntegerOrJump):
+                    numbers.append(item)
+                elif isinstance(item, int):
+                    numbers.append(types.IntegerOrJump(item))
+                elif isinstance(item, str):
+                    numbers.append(types.IntegerOrJump.from_mcnp(item))
+            numbers = types.Tuple(numbers)
+        else:
+            numbers = None
 
         return Cel(
             numbers=numbers,

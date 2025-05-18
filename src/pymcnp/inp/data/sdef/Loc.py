@@ -86,6 +86,7 @@ class LocBuilder:
             ``Loc`` for ``LocBuilder``.
         """
 
+        latitude = self.latitude
         if isinstance(self.latitude, types.Real):
             latitude = self.latitude
         elif isinstance(self.latitude, float) or isinstance(self.latitude, int):
@@ -93,6 +94,7 @@ class LocBuilder:
         elif isinstance(self.latitude, str):
             latitude = types.RealOrJump.from_mcnp(self.latitude)
 
+        longitude = self.longitude
         if isinstance(self.longitude, types.Real):
             longitude = self.longitude
         elif isinstance(self.longitude, float) or isinstance(self.longitude, int):
@@ -100,6 +102,7 @@ class LocBuilder:
         elif isinstance(self.longitude, str):
             longitude = types.RealOrJump.from_mcnp(self.longitude)
 
+        altitude = self.altitude
         if isinstance(self.altitude, types.Real):
             altitude = self.altitude
         elif isinstance(self.altitude, float) or isinstance(self.altitude, int):

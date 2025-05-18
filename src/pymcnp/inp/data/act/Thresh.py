@@ -64,6 +64,7 @@ class ThreshBuilder:
             ``Thresh`` for ``ThreshBuilder``.
         """
 
+        fraction = self.fraction
         if isinstance(self.fraction, types.Real):
             fraction = self.fraction
         elif isinstance(self.fraction, float) or isinstance(self.fraction, int):

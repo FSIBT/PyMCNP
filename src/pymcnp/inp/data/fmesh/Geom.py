@@ -20,7 +20,7 @@ class Geom(FmeshOption):
         'geometry': types.String,
     }
 
-    _REGEX = re.compile(rf'\Ageom(?: (xyz|rec|rzt|cyl))\Z')
+    _REGEX = re.compile(r'\Ageom(?: (xyz|rec|rzt|cyl))\Z')
 
     def __init__(self, geometry: types.String):
         """
@@ -64,6 +64,7 @@ class GeomBuilder:
             ``Geom`` for ``GeomBuilder``.
         """
 
+        geometry = self.geometry
         if isinstance(self.geometry, types.String):
             geometry = self.geometry
         elif isinstance(self.geometry, str):

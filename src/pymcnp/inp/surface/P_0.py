@@ -108,6 +108,7 @@ class PBuilder_0:
             ``P_0`` for ``PBuilder_0``.
         """
 
+        a = self.a
         if isinstance(self.a, types.Real):
             a = self.a
         elif isinstance(self.a, float) or isinstance(self.a, int):
@@ -115,6 +116,7 @@ class PBuilder_0:
         elif isinstance(self.a, str):
             a = types.Real.from_mcnp(self.a)
 
+        b = self.b
         if isinstance(self.b, types.Real):
             b = self.b
         elif isinstance(self.b, float) or isinstance(self.b, int):
@@ -122,6 +124,7 @@ class PBuilder_0:
         elif isinstance(self.b, str):
             b = types.Real.from_mcnp(self.b)
 
+        c = self.c
         if isinstance(self.c, types.Real):
             c = self.c
         elif isinstance(self.c, float) or isinstance(self.c, int):
@@ -129,6 +132,7 @@ class PBuilder_0:
         elif isinstance(self.c, str):
             c = types.Real.from_mcnp(self.c)
 
+        d = self.d
         if isinstance(self.d, types.Real):
             d = self.d
         elif isinstance(self.d, float) or isinstance(self.d, int):

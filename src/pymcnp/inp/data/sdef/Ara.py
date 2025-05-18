@@ -64,6 +64,7 @@ class AraBuilder:
             ``Ara`` for ``AraBuilder``.
         """
 
+        area = self.area
         if isinstance(self.area, types.Real):
             area = self.area
         elif isinstance(self.area, float) or isinstance(self.area, int):

@@ -88,6 +88,7 @@ class SpBuilder_0:
             ``Sp_0`` for ``SpBuilder_0``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -95,21 +96,24 @@ class SpBuilder_0:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        option = None
+        option = self.option
         if isinstance(self.option, types.String):
             option = self.option
         elif isinstance(self.option, str):
             option = types.String.from_mcnp(self.option)
 
-        probabilities = []
-        for item in self.probabilities:
-            if isinstance(item, types.RealOrJump):
-                probabilities.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                probabilities.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                probabilities.append(types.RealOrJump.from_mcnp(item))
-        probabilities = types.Tuple(probabilities)
+        if self.probabilities:
+            probabilities = []
+            for item in self.probabilities:
+                if isinstance(item, types.RealOrJump):
+                    probabilities.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    probabilities.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    probabilities.append(types.RealOrJump.from_mcnp(item))
+            probabilities = types.Tuple(probabilities)
+        else:
+            probabilities = None
 
         return Sp_0(
             suffix=suffix,

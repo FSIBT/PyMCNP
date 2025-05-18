@@ -64,6 +64,7 @@ class ColBuilder:
             ``Col`` for ``ColBuilder``.
         """
 
+        setting = self.setting
         if isinstance(self.setting, types.Integer):
             setting = self.setting
         elif isinstance(self.setting, int):

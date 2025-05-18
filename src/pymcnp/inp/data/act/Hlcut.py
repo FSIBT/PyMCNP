@@ -64,6 +64,7 @@ class HlcutBuilder:
             ``Hlcut`` for ``HlcutBuilder``.
         """
 
+        cutoff = self.cutoff
         if isinstance(self.cutoff, types.Real):
             cutoff = self.cutoff
         elif isinstance(self.cutoff, float) or isinstance(self.cutoff, int):

@@ -64,6 +64,7 @@ class TmeBuilder_1:
             ``Tme_1`` for ``TmeBuilder_1``.
         """
 
+        time = self.time
         if isinstance(self.time, types.EmbeddedDistributionNumber):
             time = self.time
         elif isinstance(self.time, str):

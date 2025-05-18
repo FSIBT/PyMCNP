@@ -64,6 +64,7 @@ class NrmBuilder:
             ``Nrm`` for ``NrmBuilder``.
         """
 
+        sign = self.sign
         if isinstance(self.sign, types.Integer):
             sign = self.sign
         elif isinstance(self.sign, int):

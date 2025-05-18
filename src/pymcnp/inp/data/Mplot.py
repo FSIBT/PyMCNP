@@ -61,15 +61,18 @@ class MplotBuilder:
             ``Mplot`` for ``MplotBuilder``.
         """
 
-        options = []
-        for item in self.options:
-            if isinstance(item, mplot.MplotOption):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(mplot.MplotOption.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, mplot.MplotOption):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(mplot.MplotOption.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Mplot(
             options=options,

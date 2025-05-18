@@ -64,6 +64,7 @@ class SpdtlBuilder:
             ``Spdtl`` for ``SpdtlBuilder``.
         """
 
+        keyword = self.keyword
         if isinstance(self.keyword, types.String):
             keyword = self.keyword
         elif isinstance(self.keyword, str):

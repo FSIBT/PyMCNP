@@ -64,6 +64,7 @@ class LengthBuilder:
             ``Length`` for ``LengthBuilder``.
         """
 
+        factor = self.factor
         if isinstance(self.factor, types.Real):
             factor = self.factor
         elif isinstance(self.factor, float) or isinstance(self.factor, int):

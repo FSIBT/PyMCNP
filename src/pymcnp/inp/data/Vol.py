@@ -73,21 +73,24 @@ class VolBuilder:
             ``Vol`` for ``VolBuilder``.
         """
 
-        no = None
+        no = self.no
         if isinstance(self.no, types.String):
             no = self.no
         elif isinstance(self.no, str):
             no = types.String.from_mcnp(self.no)
 
-        volumes = []
-        for item in self.volumes:
-            if isinstance(item, types.RealOrJump):
-                volumes.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                volumes.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                volumes.append(types.RealOrJump.from_mcnp(item))
-        volumes = types.Tuple(volumes)
+        if self.volumes:
+            volumes = []
+            for item in self.volumes:
+                if isinstance(item, types.RealOrJump):
+                    volumes.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    volumes.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    volumes.append(types.RealOrJump.from_mcnp(item))
+            volumes = types.Tuple(volumes)
+        else:
+            volumes = None
 
         return Vol(
             no=no,

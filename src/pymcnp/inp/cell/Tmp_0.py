@@ -72,6 +72,7 @@ class TmpBuilder_0:
             ``Tmp_0`` for ``TmpBuilder_0``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -79,15 +80,18 @@ class TmpBuilder_0:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        temperature = []
-        for item in self.temperature:
-            if isinstance(item, types.Real):
-                temperature.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                temperature.append(types.Real(item))
-            elif isinstance(item, str):
-                temperature.append(types.Real.from_mcnp(item))
-        temperature = types.Tuple(temperature)
+        if self.temperature:
+            temperature = []
+            for item in self.temperature:
+                if isinstance(item, types.Real):
+                    temperature.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    temperature.append(types.Real(item))
+                elif isinstance(item, str):
+                    temperature.append(types.Real.from_mcnp(item))
+            temperature = types.Tuple(temperature)
+        else:
+            temperature = None
 
         return Tmp_0(
             suffix=suffix,

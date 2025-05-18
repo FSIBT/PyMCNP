@@ -64,6 +64,7 @@ class VolBuilder:
             ``Vol`` for ``VolBuilder``.
         """
 
+        volume = self.volume
         if isinstance(self.volume, types.Real):
             volume = self.volume
         elif isinstance(self.volume, float) or isinstance(self.volume, int):

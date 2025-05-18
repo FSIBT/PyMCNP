@@ -171,6 +171,7 @@ class LcaBuilder:
             ``Lca`` for ``LcaBuilder``.
         """
 
+        ielas = self.ielas
         if isinstance(self.ielas, types.Integer):
             ielas = self.ielas
         elif isinstance(self.ielas, int):
@@ -178,6 +179,7 @@ class LcaBuilder:
         elif isinstance(self.ielas, str):
             ielas = types.IntegerOrJump.from_mcnp(self.ielas)
 
+        ipreg = self.ipreg
         if isinstance(self.ipreg, types.Integer):
             ipreg = self.ipreg
         elif isinstance(self.ipreg, int):
@@ -185,6 +187,7 @@ class LcaBuilder:
         elif isinstance(self.ipreg, str):
             ipreg = types.IntegerOrJump.from_mcnp(self.ipreg)
 
+        iexisa = self.iexisa
         if isinstance(self.iexisa, types.Integer):
             iexisa = self.iexisa
         elif isinstance(self.iexisa, int):
@@ -192,6 +195,7 @@ class LcaBuilder:
         elif isinstance(self.iexisa, str):
             iexisa = types.IntegerOrJump.from_mcnp(self.iexisa)
 
+        ichoic = self.ichoic
         if isinstance(self.ichoic, types.Integer):
             ichoic = self.ichoic
         elif isinstance(self.ichoic, int):
@@ -199,6 +203,7 @@ class LcaBuilder:
         elif isinstance(self.ichoic, str):
             ichoic = types.IntegerOrJump.from_mcnp(self.ichoic)
 
+        jcoul = self.jcoul
         if isinstance(self.jcoul, types.Integer):
             jcoul = self.jcoul
         elif isinstance(self.jcoul, int):
@@ -206,6 +211,7 @@ class LcaBuilder:
         elif isinstance(self.jcoul, str):
             jcoul = types.IntegerOrJump.from_mcnp(self.jcoul)
 
+        nexite = self.nexite
         if isinstance(self.nexite, types.Integer):
             nexite = self.nexite
         elif isinstance(self.nexite, int):
@@ -213,6 +219,7 @@ class LcaBuilder:
         elif isinstance(self.nexite, str):
             nexite = types.IntegerOrJump.from_mcnp(self.nexite)
 
+        npidk = self.npidk
         if isinstance(self.npidk, types.Integer):
             npidk = self.npidk
         elif isinstance(self.npidk, int):
@@ -220,6 +227,7 @@ class LcaBuilder:
         elif isinstance(self.npidk, str):
             npidk = types.IntegerOrJump.from_mcnp(self.npidk)
 
+        noact = self.noact
         if isinstance(self.noact, types.Integer):
             noact = self.noact
         elif isinstance(self.noact, int):
@@ -227,6 +235,7 @@ class LcaBuilder:
         elif isinstance(self.noact, str):
             noact = types.IntegerOrJump.from_mcnp(self.noact)
 
+        icem = self.icem
         if isinstance(self.icem, types.Integer):
             icem = self.icem
         elif isinstance(self.icem, int):
@@ -234,6 +243,7 @@ class LcaBuilder:
         elif isinstance(self.icem, str):
             icem = types.IntegerOrJump.from_mcnp(self.icem)
 
+        ilaq = self.ilaq
         if isinstance(self.ilaq, types.Integer):
             ilaq = self.ilaq
         elif isinstance(self.ilaq, int):
@@ -241,6 +251,7 @@ class LcaBuilder:
         elif isinstance(self.ilaq, str):
             ilaq = types.IntegerOrJump.from_mcnp(self.ilaq)
 
+        nevtype = self.nevtype
         if isinstance(self.nevtype, types.Integer):
             nevtype = self.nevtype
         elif isinstance(self.nevtype, int):

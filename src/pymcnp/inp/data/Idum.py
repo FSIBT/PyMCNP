@@ -64,15 +64,18 @@ class IdumBuilder:
             ``Idum`` for ``IdumBuilder``.
         """
 
-        intergers = []
-        for item in self.intergers:
-            if isinstance(item, types.IntegerOrJump):
-                intergers.append(item)
-            elif isinstance(item, int):
-                intergers.append(types.IntegerOrJump(item))
-            elif isinstance(item, str):
-                intergers.append(types.IntegerOrJump.from_mcnp(item))
-        intergers = types.Tuple(intergers)
+        if self.intergers:
+            intergers = []
+            for item in self.intergers:
+                if isinstance(item, types.IntegerOrJump):
+                    intergers.append(item)
+                elif isinstance(item, int):
+                    intergers.append(types.IntegerOrJump(item))
+                elif isinstance(item, str):
+                    intergers.append(types.IntegerOrJump.from_mcnp(item))
+            intergers = types.Tuple(intergers)
+        else:
+            intergers = None
 
         return Idum(
             intergers=intergers,

@@ -64,6 +64,7 @@ class ImeshBuilder:
             ``Imesh`` for ``ImeshBuilder``.
         """
 
+        locations = self.locations
         if isinstance(self.locations, types.Real):
             locations = self.locations
         elif isinstance(self.locations, float) or isinstance(self.locations, int):

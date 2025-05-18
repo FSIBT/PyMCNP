@@ -72,6 +72,7 @@ class FtBuilder:
             ``Ft`` for ``FtBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -79,6 +80,7 @@ class FtBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        treatments = self.treatments
         if isinstance(self.treatments, types.String):
             treatments = self.treatments
         elif isinstance(self.treatments, str):

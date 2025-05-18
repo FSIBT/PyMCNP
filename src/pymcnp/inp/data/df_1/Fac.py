@@ -66,6 +66,7 @@ class FacBuilder:
             ``Fac`` for ``FacBuilder``.
         """
 
+        normalization = self.normalization
         if isinstance(self.normalization, types.Integer):
             normalization = self.normalization
         elif isinstance(self.normalization, int):

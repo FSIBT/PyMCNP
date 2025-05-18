@@ -72,6 +72,7 @@ class DsBuilder_2:
             ``Ds_2`` for ``DsBuilder_2``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -79,15 +80,18 @@ class DsBuilder_2:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        vss = []
-        for item in self.vss:
-            if isinstance(item, types.IndependentDependent):
-                vss.append(item)
-            elif isinstance(item, str):
-                vss.append(types.IndependentDependent.from_mcnp(item))
-            else:
-                vss.append(item.build())
-        vss = types.Tuple(vss)
+        if self.vss:
+            vss = []
+            for item in self.vss:
+                if isinstance(item, types.IndependentDependent):
+                    vss.append(item)
+                elif isinstance(item, str):
+                    vss.append(types.IndependentDependent.from_mcnp(item))
+                else:
+                    vss.append(item.build())
+            vss = types.Tuple(vss)
+        else:
+            vss = None
 
         return Ds_2(
             suffix=suffix,

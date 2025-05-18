@@ -66,6 +66,7 @@ class KsentalBuilder:
             ``Ksental`` for ``KsentalBuilder``.
         """
 
+        fileopt = self.fileopt
         if isinstance(self.fileopt, types.String):
             fileopt = self.fileopt
         elif isinstance(self.fileopt, str):

@@ -77,6 +77,7 @@ class SoBuilder:
             ``So`` for ``SoBuilder``.
         """
 
+        r = self.r
         if isinstance(self.r, types.Real):
             r = self.r
         elif isinstance(self.r, float) or isinstance(self.r, int):

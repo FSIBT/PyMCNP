@@ -64,15 +64,18 @@ class TypeBuilder:
             ``Type`` for ``TypeBuilder``.
         """
 
-        particles = []
-        for item in self.particles:
-            if isinstance(item, types.Designator):
-                particles.append(item)
-            elif isinstance(item, str):
-                particles.append(types.Designator.from_mcnp(item))
-            else:
-                particles.append(item.build())
-        particles = types.Tuple(particles)
+        if self.particles:
+            particles = []
+            for item in self.particles:
+                if isinstance(item, types.Designator):
+                    particles.append(item)
+                elif isinstance(item, str):
+                    particles.append(types.Designator.from_mcnp(item))
+                else:
+                    particles.append(item.build())
+            particles = types.Tuple(particles)
+        else:
+            particles = None
 
         return Type(
             particles=particles,

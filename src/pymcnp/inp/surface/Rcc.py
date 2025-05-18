@@ -150,6 +150,7 @@ class RccBuilder:
             ``Rcc`` for ``RccBuilder``.
         """
 
+        vx = self.vx
         if isinstance(self.vx, types.Real):
             vx = self.vx
         elif isinstance(self.vx, float) or isinstance(self.vx, int):
@@ -157,6 +158,7 @@ class RccBuilder:
         elif isinstance(self.vx, str):
             vx = types.Real.from_mcnp(self.vx)
 
+        vy = self.vy
         if isinstance(self.vy, types.Real):
             vy = self.vy
         elif isinstance(self.vy, float) or isinstance(self.vy, int):
@@ -164,6 +166,7 @@ class RccBuilder:
         elif isinstance(self.vy, str):
             vy = types.Real.from_mcnp(self.vy)
 
+        vz = self.vz
         if isinstance(self.vz, types.Real):
             vz = self.vz
         elif isinstance(self.vz, float) or isinstance(self.vz, int):
@@ -171,6 +174,7 @@ class RccBuilder:
         elif isinstance(self.vz, str):
             vz = types.Real.from_mcnp(self.vz)
 
+        hx = self.hx
         if isinstance(self.hx, types.Real):
             hx = self.hx
         elif isinstance(self.hx, float) or isinstance(self.hx, int):
@@ -178,6 +182,7 @@ class RccBuilder:
         elif isinstance(self.hx, str):
             hx = types.Real.from_mcnp(self.hx)
 
+        hy = self.hy
         if isinstance(self.hy, types.Real):
             hy = self.hy
         elif isinstance(self.hy, float) or isinstance(self.hy, int):
@@ -185,6 +190,7 @@ class RccBuilder:
         elif isinstance(self.hy, str):
             hy = types.Real.from_mcnp(self.hy)
 
+        hz = self.hz
         if isinstance(self.hz, types.Real):
             hz = self.hz
         elif isinstance(self.hz, float) or isinstance(self.hz, int):
@@ -192,6 +198,7 @@ class RccBuilder:
         elif isinstance(self.hz, str):
             hz = types.Real.from_mcnp(self.hz)
 
+        r = self.r
         if isinstance(self.r, types.Real):
             r = self.r
         elif isinstance(self.r, float) or isinstance(self.r, int):

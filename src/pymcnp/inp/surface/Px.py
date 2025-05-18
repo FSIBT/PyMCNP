@@ -78,6 +78,7 @@ class PxBuilder:
             ``Px`` for ``PxBuilder``.
         """
 
+        d = self.d
         if isinstance(self.d, types.Real):
             d = self.d
         elif isinstance(self.d, float) or isinstance(self.d, int):

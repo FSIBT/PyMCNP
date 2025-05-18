@@ -139,6 +139,7 @@ class LeaBuilder:
             ``Lea`` for ``LeaBuilder``.
         """
 
+        ipht = self.ipht
         if isinstance(self.ipht, types.Integer):
             ipht = self.ipht
         elif isinstance(self.ipht, int):
@@ -146,6 +147,7 @@ class LeaBuilder:
         elif isinstance(self.ipht, str):
             ipht = types.IntegerOrJump.from_mcnp(self.ipht)
 
+        icc = self.icc
         if isinstance(self.icc, types.Integer):
             icc = self.icc
         elif isinstance(self.icc, int):
@@ -153,6 +155,7 @@ class LeaBuilder:
         elif isinstance(self.icc, str):
             icc = types.IntegerOrJump.from_mcnp(self.icc)
 
+        nobalc = self.nobalc
         if isinstance(self.nobalc, types.Integer):
             nobalc = self.nobalc
         elif isinstance(self.nobalc, int):
@@ -160,6 +163,7 @@ class LeaBuilder:
         elif isinstance(self.nobalc, str):
             nobalc = types.IntegerOrJump.from_mcnp(self.nobalc)
 
+        nobale = self.nobale
         if isinstance(self.nobale, types.Integer):
             nobale = self.nobale
         elif isinstance(self.nobale, int):
@@ -167,6 +171,7 @@ class LeaBuilder:
         elif isinstance(self.nobale, str):
             nobale = types.IntegerOrJump.from_mcnp(self.nobale)
 
+        ifbrk = self.ifbrk
         if isinstance(self.ifbrk, types.Integer):
             ifbrk = self.ifbrk
         elif isinstance(self.ifbrk, int):
@@ -174,6 +179,7 @@ class LeaBuilder:
         elif isinstance(self.ifbrk, str):
             ifbrk = types.IntegerOrJump.from_mcnp(self.ifbrk)
 
+        ilvden = self.ilvden
         if isinstance(self.ilvden, types.Integer):
             ilvden = self.ilvden
         elif isinstance(self.ilvden, int):
@@ -181,6 +187,7 @@ class LeaBuilder:
         elif isinstance(self.ilvden, str):
             ilvden = types.IntegerOrJump.from_mcnp(self.ilvden)
 
+        ievap = self.ievap
         if isinstance(self.ievap, types.Integer):
             ievap = self.ievap
         elif isinstance(self.ievap, int):
@@ -188,6 +195,7 @@ class LeaBuilder:
         elif isinstance(self.ievap, str):
             ievap = types.IntegerOrJump.from_mcnp(self.ievap)
 
+        nofis = self.nofis
         if isinstance(self.nofis, types.Integer):
             nofis = self.nofis
         elif isinstance(self.nofis, int):

@@ -84,6 +84,7 @@ class SubtitleBuilder:
             ``Subtitle`` for ``SubtitleBuilder``.
         """
 
+        x = self.x
         if isinstance(self.x, types.Integer):
             x = self.x
         elif isinstance(self.x, int):
@@ -91,6 +92,7 @@ class SubtitleBuilder:
         elif isinstance(self.x, str):
             x = types.Integer.from_mcnp(self.x)
 
+        y = self.y
         if isinstance(self.y, types.Integer):
             y = self.y
         elif isinstance(self.y, int):
@@ -98,6 +100,7 @@ class SubtitleBuilder:
         elif isinstance(self.y, str):
             y = types.Integer.from_mcnp(self.y)
 
+        aa = self.aa
         if isinstance(self.aa, types.String):
             aa = self.aa
         elif isinstance(self.aa, str):

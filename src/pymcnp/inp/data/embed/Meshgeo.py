@@ -64,6 +64,7 @@ class MeshgeoBuilder:
             ``Meshgeo`` for ``MeshgeoBuilder``.
         """
 
+        form = self.form
         if isinstance(self.form, types.String):
             form = self.form
         elif isinstance(self.form, str):

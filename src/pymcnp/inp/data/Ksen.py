@@ -84,6 +84,7 @@ class KsenBuilder:
             ``Ksen`` for ``KsenBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -91,20 +92,24 @@ class KsenBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        sen = self.sen
         if isinstance(self.sen, types.String):
             sen = self.sen
         elif isinstance(self.sen, str):
             sen = types.String.from_mcnp(self.sen)
 
-        options = []
-        for item in self.options:
-            if isinstance(item, ksen.KsenOption):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(ksen.KsenOption.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, ksen.KsenOption):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(ksen.KsenOption.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Ksen(
             suffix=suffix,

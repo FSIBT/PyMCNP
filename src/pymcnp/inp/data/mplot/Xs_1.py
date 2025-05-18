@@ -64,6 +64,7 @@ class XsBuilder_1:
             ``Xs_1`` for ``XsBuilder_1``.
         """
 
+        m = self.m
         if isinstance(self.m, types.Zaid):
             m = self.m
         elif isinstance(self.m, str):

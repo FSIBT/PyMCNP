@@ -94,6 +94,7 @@ class CBuilder_0:
             ``C_0`` for ``CBuilder_0``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -101,23 +102,26 @@ class CBuilder_0:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        bounds = []
-        for item in self.bounds:
-            if isinstance(item, types.RealOrJump):
-                bounds.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                bounds.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                bounds.append(types.RealOrJump.from_mcnp(item))
-        bounds = types.Tuple(bounds)
+        if self.bounds:
+            bounds = []
+            for item in self.bounds:
+                if isinstance(item, types.RealOrJump):
+                    bounds.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    bounds.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    bounds.append(types.RealOrJump.from_mcnp(item))
+            bounds = types.Tuple(bounds)
+        else:
+            bounds = None
 
-        t = None
+        t = self.t
         if isinstance(self.t, types.String):
             t = self.t
         elif isinstance(self.t, str):
             t = types.String.from_mcnp(self.t)
 
-        c = None
+        c = self.c
         if isinstance(self.c, types.String):
             c = self.c
         elif isinstance(self.c, str):

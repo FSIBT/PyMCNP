@@ -99,6 +99,7 @@ class CosypBuilder:
             ``Cosyp`` for ``CosypBuilder``.
         """
 
+        prefix = self.prefix
         if isinstance(self.prefix, types.Integer):
             prefix = self.prefix
         elif isinstance(self.prefix, int):
@@ -106,6 +107,7 @@ class CosypBuilder:
         elif isinstance(self.prefix, str):
             prefix = types.IntegerOrJump.from_mcnp(self.prefix)
 
+        axsh = self.axsh
         if isinstance(self.axsh, types.Integer):
             axsh = self.axsh
         elif isinstance(self.axsh, int):
@@ -113,6 +115,7 @@ class CosypBuilder:
         elif isinstance(self.axsh, str):
             axsh = types.IntegerOrJump.from_mcnp(self.axsh)
 
+        axsv = self.axsv
         if isinstance(self.axsv, types.Integer):
             axsv = self.axsv
         elif isinstance(self.axsv, int):
@@ -120,15 +123,18 @@ class CosypBuilder:
         elif isinstance(self.axsv, str):
             axsv = types.IntegerOrJump.from_mcnp(self.axsv)
 
-        emaps = []
-        for item in self.emaps:
-            if isinstance(item, types.RealOrJump):
-                emaps.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                emaps.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                emaps.append(types.RealOrJump.from_mcnp(item))
-        emaps = types.Tuple(emaps)
+        if self.emaps:
+            emaps = []
+            for item in self.emaps:
+                if isinstance(item, types.RealOrJump):
+                    emaps.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    emaps.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    emaps.append(types.RealOrJump.from_mcnp(item))
+            emaps = types.Tuple(emaps)
+        else:
+            emaps = None
 
         return Cosyp(
             prefix=prefix,

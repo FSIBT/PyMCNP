@@ -139,6 +139,7 @@ class WwgBuilder:
             ``Wwg`` for ``WwgBuilder``.
         """
 
+        tally = self.tally
         if isinstance(self.tally, types.Integer):
             tally = self.tally
         elif isinstance(self.tally, int):
@@ -146,6 +147,7 @@ class WwgBuilder:
         elif isinstance(self.tally, str):
             tally = types.IntegerOrJump.from_mcnp(self.tally)
 
+        cell = self.cell
         if isinstance(self.cell, types.Integer):
             cell = self.cell
         elif isinstance(self.cell, int):
@@ -153,6 +155,7 @@ class WwgBuilder:
         elif isinstance(self.cell, str):
             cell = types.IntegerOrJump.from_mcnp(self.cell)
 
+        lower = self.lower
         if isinstance(self.lower, types.Real):
             lower = self.lower
         elif isinstance(self.lower, float) or isinstance(self.lower, int):
@@ -160,26 +163,31 @@ class WwgBuilder:
         elif isinstance(self.lower, str):
             lower = types.RealOrJump.from_mcnp(self.lower)
 
+        j1 = self.j1
         if isinstance(self.j1, types.Jump):
             j1 = self.j1
         elif isinstance(self.j1, str):
             j1 = types.Jump.from_mcnp(self.j1)
 
+        j2 = self.j2
         if isinstance(self.j2, types.Jump):
             j2 = self.j2
         elif isinstance(self.j2, str):
             j2 = types.Jump.from_mcnp(self.j2)
 
+        j3 = self.j3
         if isinstance(self.j3, types.Jump):
             j3 = self.j3
         elif isinstance(self.j3, str):
             j3 = types.Jump.from_mcnp(self.j3)
 
+        j4 = self.j4
         if isinstance(self.j4, types.Jump):
             j4 = self.j4
         elif isinstance(self.j4, str):
             j4 = types.Jump.from_mcnp(self.j4)
 
+        setting = self.setting
         if isinstance(self.setting, types.Integer):
             setting = self.setting
         elif isinstance(self.setting, int):

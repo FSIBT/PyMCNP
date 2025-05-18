@@ -64,6 +64,7 @@ class RhoBuilder:
             ``Rho`` for ``RhoBuilder``.
         """
 
+        density = self.density
         if isinstance(self.density, types.Real):
             density = self.density
         elif isinstance(self.density, float) or isinstance(self.density, int):

@@ -98,6 +98,7 @@ class ContourBuilder:
             ``Contour`` for ``ContourBuilder``.
         """
 
+        cmin = self.cmin
         if isinstance(self.cmin, types.Real):
             cmin = self.cmin
         elif isinstance(self.cmin, float) or isinstance(self.cmin, int):
@@ -105,6 +106,7 @@ class ContourBuilder:
         elif isinstance(self.cmin, str):
             cmin = types.Real.from_mcnp(self.cmin)
 
+        cmax = self.cmax
         if isinstance(self.cmax, types.Real):
             cmax = self.cmax
         elif isinstance(self.cmax, float) or isinstance(self.cmax, int):
@@ -112,6 +114,7 @@ class ContourBuilder:
         elif isinstance(self.cmax, str):
             cmax = types.Real.from_mcnp(self.cmax)
 
+        cstep = self.cstep
         if isinstance(self.cstep, types.Real):
             cstep = self.cstep
         elif isinstance(self.cstep, float) or isinstance(self.cstep, int):
@@ -119,15 +122,18 @@ class ContourBuilder:
         elif isinstance(self.cstep, str):
             cstep = types.Real.from_mcnp(self.cstep)
 
-        options = []
-        for item in self.options:
-            if isinstance(item, contour.ContourOption):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(contour.ContourOption.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, contour.ContourOption):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(contour.ContourOption.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Contour(
             cmin=cmin,

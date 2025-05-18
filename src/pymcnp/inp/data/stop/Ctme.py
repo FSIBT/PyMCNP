@@ -64,6 +64,7 @@ class CtmeBuilder:
             ``Ctme`` for ``CtmeBuilder``.
         """
 
+        tme = self.tme
         if isinstance(self.tme, types.Real):
             tme = self.tme
         elif isinstance(self.tme, float) or isinstance(self.tme, int):

@@ -64,15 +64,18 @@ class RefsBuilder:
             ``Refs`` for ``RefsBuilder``.
         """
 
-        coefficents = []
-        for item in self.coefficents:
-            if isinstance(item, types.RealOrJump):
-                coefficents.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                coefficents.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                coefficents.append(types.RealOrJump.from_mcnp(item))
-        coefficents = types.Tuple(coefficents)
+        if self.coefficents:
+            coefficents = []
+            for item in self.coefficents:
+                if isinstance(item, types.RealOrJump):
+                    coefficents.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    coefficents.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    coefficents.append(types.RealOrJump.from_mcnp(item))
+            coefficents = types.Tuple(coefficents)
+        else:
+            coefficents = None
 
         return Refs(
             coefficents=coefficents,

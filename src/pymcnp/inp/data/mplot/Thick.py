@@ -64,6 +64,7 @@ class ThickBuilder:
             ``Thick`` for ``ThickBuilder``.
         """
 
+        x = self.x
         if isinstance(self.x, types.Real):
             x = self.x
         elif isinstance(self.x, float) or isinstance(self.x, int):

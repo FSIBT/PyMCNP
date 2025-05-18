@@ -168,11 +168,13 @@ class WwpBuilder:
             ``Wwp`` for ``WwpBuilder``.
         """
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
+        wupn = self.wupn
         if isinstance(self.wupn, types.Real):
             wupn = self.wupn
         elif isinstance(self.wupn, float) or isinstance(self.wupn, int):
@@ -180,6 +182,7 @@ class WwpBuilder:
         elif isinstance(self.wupn, str):
             wupn = types.RealOrJump.from_mcnp(self.wupn)
 
+        wsurvn = self.wsurvn
         if isinstance(self.wsurvn, types.Real):
             wsurvn = self.wsurvn
         elif isinstance(self.wsurvn, float) or isinstance(self.wsurvn, int):
@@ -187,6 +190,7 @@ class WwpBuilder:
         elif isinstance(self.wsurvn, str):
             wsurvn = types.RealOrJump.from_mcnp(self.wsurvn)
 
+        mxspln = self.mxspln
         if isinstance(self.mxspln, types.Real):
             mxspln = self.mxspln
         elif isinstance(self.mxspln, float) or isinstance(self.mxspln, int):
@@ -194,6 +198,7 @@ class WwpBuilder:
         elif isinstance(self.mxspln, str):
             mxspln = types.RealOrJump.from_mcnp(self.mxspln)
 
+        mwhere = self.mwhere
         if isinstance(self.mwhere, types.Integer):
             mwhere = self.mwhere
         elif isinstance(self.mwhere, int):
@@ -201,6 +206,7 @@ class WwpBuilder:
         elif isinstance(self.mwhere, str):
             mwhere = types.IntegerOrJump.from_mcnp(self.mwhere)
 
+        switchn = self.switchn
         if isinstance(self.switchn, types.Real):
             switchn = self.switchn
         elif isinstance(self.switchn, float) or isinstance(self.switchn, int):
@@ -208,6 +214,7 @@ class WwpBuilder:
         elif isinstance(self.switchn, str):
             switchn = types.RealOrJump.from_mcnp(self.switchn)
 
+        mtime = self.mtime
         if isinstance(self.mtime, types.Integer):
             mtime = self.mtime
         elif isinstance(self.mtime, int):
@@ -215,6 +222,7 @@ class WwpBuilder:
         elif isinstance(self.mtime, str):
             mtime = types.IntegerOrJump.from_mcnp(self.mtime)
 
+        wnrom = self.wnrom
         if isinstance(self.wnrom, types.Real):
             wnrom = self.wnrom
         elif isinstance(self.wnrom, float) or isinstance(self.wnrom, int):
@@ -222,6 +230,7 @@ class WwpBuilder:
         elif isinstance(self.wnrom, str):
             wnrom = types.RealOrJump.from_mcnp(self.wnrom)
 
+        etsplt = self.etsplt
         if isinstance(self.etsplt, types.Integer):
             etsplt = self.etsplt
         elif isinstance(self.etsplt, int):
@@ -229,6 +238,7 @@ class WwpBuilder:
         elif isinstance(self.etsplt, str):
             etsplt = types.IntegerOrJump.from_mcnp(self.etsplt)
 
+        wu = self.wu
         if isinstance(self.wu, types.Real):
             wu = self.wu
         elif isinstance(self.wu, float) or isinstance(self.wu, int):
@@ -236,6 +246,7 @@ class WwpBuilder:
         elif isinstance(self.wu, str):
             wu = types.RealOrJump.from_mcnp(self.wu)
 
+        nmfp = self.nmfp
         if isinstance(self.nmfp, types.Real):
             nmfp = self.nmfp
         elif isinstance(self.nmfp, float) or isinstance(self.nmfp, int):

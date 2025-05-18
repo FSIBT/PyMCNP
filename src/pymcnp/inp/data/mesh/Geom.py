@@ -64,6 +64,7 @@ class GeomBuilder:
             ``Geom`` for ``GeomBuilder``.
         """
 
+        geometry = self.geometry
         if isinstance(self.geometry, types.String):
             geometry = self.geometry
         elif isinstance(self.geometry, str):

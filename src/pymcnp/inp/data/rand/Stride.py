@@ -64,6 +64,7 @@ class StrideBuilder:
             ``Stride`` for ``StrideBuilder``.
         """
 
+        stride = self.stride
         if isinstance(self.stride, types.Integer):
             stride = self.stride
         elif isinstance(self.stride, int):

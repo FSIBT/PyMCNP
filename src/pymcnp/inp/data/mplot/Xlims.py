@@ -84,6 +84,7 @@ class XlimsBuilder:
             ``Xlims`` for ``XlimsBuilder``.
         """
 
+        min = self.min
         if isinstance(self.min, types.Real):
             min = self.min
         elif isinstance(self.min, float) or isinstance(self.min, int):
@@ -91,6 +92,7 @@ class XlimsBuilder:
         elif isinstance(self.min, str):
             min = types.Real.from_mcnp(self.min)
 
+        max = self.max
         if isinstance(self.max, types.Real):
             max = self.max
         elif isinstance(self.max, float) or isinstance(self.max, int):
@@ -98,7 +100,7 @@ class XlimsBuilder:
         elif isinstance(self.max, str):
             max = types.Real.from_mcnp(self.max)
 
-        nsteps = None
+        nsteps = self.nsteps
         if isinstance(self.nsteps, types.Real):
             nsteps = self.nsteps
         elif isinstance(self.nsteps, float) or isinstance(self.nsteps, int):

@@ -84,6 +84,7 @@ class FmeshBuilder:
             ``Fmesh`` for ``FmeshBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -91,20 +92,24 @@ class FmeshBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
-        options = []
-        for item in self.options:
-            if isinstance(item, fmesh.FmeshOption):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(fmesh.FmeshOption.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, fmesh.FmeshOption):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(fmesh.FmeshOption.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Fmesh(
             suffix=suffix,

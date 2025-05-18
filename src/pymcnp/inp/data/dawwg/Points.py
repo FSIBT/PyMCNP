@@ -64,6 +64,7 @@ class PointsBuilder:
             ``Points`` for ``PointsBuilder``.
         """
 
+        name = self.name
         if isinstance(self.name, types.String):
             name = self.name
         elif isinstance(self.name, str):

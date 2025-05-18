@@ -73,6 +73,7 @@ class IncBuilder:
             ``Inc`` for ``IncBuilder``.
         """
 
+        lower = self.lower
         if isinstance(self.lower, types.Real):
             lower = self.lower
         elif isinstance(self.lower, float) or isinstance(self.lower, int):
@@ -80,7 +81,7 @@ class IncBuilder:
         elif isinstance(self.lower, str):
             lower = types.RealOrJump.from_mcnp(self.lower)
 
-        upper = None
+        upper = self.upper
         if isinstance(self.upper, types.Real):
             upper = self.upper
         elif isinstance(self.upper, float) or isinstance(self.upper, int):

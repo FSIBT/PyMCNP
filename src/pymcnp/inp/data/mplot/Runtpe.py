@@ -73,12 +73,13 @@ class RuntpeBuilder:
             ``Runtpe`` for ``RuntpeBuilder``.
         """
 
+        filename = self.filename
         if isinstance(self.filename, types.String):
             filename = self.filename
         elif isinstance(self.filename, str):
             filename = types.String.from_mcnp(self.filename)
 
-        n = None
+        n = self.n
         if isinstance(self.n, types.Integer):
             n = self.n
         elif isinstance(self.n, int):

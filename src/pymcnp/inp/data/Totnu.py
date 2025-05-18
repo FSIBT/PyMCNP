@@ -64,7 +64,7 @@ class TotnuBuilder:
             ``Totnu`` for ``TotnuBuilder``.
         """
 
-        no = None
+        no = self.no
         if isinstance(self.no, types.String):
             no = self.no
         elif isinstance(self.no, str):

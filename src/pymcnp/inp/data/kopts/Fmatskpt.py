@@ -64,6 +64,7 @@ class FmatskptBuilder:
             ``Fmatskpt`` for ``FmatskptBuilder``.
         """
 
+        fmat_skip = self.fmat_skip
         if isinstance(self.fmat_skip, types.Real):
             fmat_skip = self.fmat_skip
         elif isinstance(self.fmat_skip, float) or isinstance(self.fmat_skip, int):

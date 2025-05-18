@@ -64,6 +64,7 @@ class XBuilder:
             ``X`` for ``XBuilder``.
         """
 
+        x_coordinate = self.x_coordinate
         if isinstance(self.x_coordinate, types.Real):
             x_coordinate = self.x_coordinate
         elif isinstance(self.x_coordinate, float) or isinstance(self.x_coordinate, int):

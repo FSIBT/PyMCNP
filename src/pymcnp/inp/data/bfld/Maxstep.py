@@ -64,6 +64,7 @@ class MaxstepBuilder:
             ``Maxstep`` for ``MaxstepBuilder``.
         """
 
+        size = self.size
         if isinstance(self.size, types.Real):
             size = self.size
         elif isinstance(self.size, float) or isinstance(self.size, int):

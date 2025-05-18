@@ -67,6 +67,7 @@ class IcBuilder:
             ``Ic`` for ``IcBuilder``.
         """
 
+        function = self.function
         if isinstance(self.function, types.Integer):
             function = self.function
         elif isinstance(self.function, int):

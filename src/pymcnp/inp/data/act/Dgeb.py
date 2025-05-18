@@ -64,15 +64,18 @@ class DgebBuilder:
             ``Dgeb`` for ``DgebBuilder``.
         """
 
-        biases = []
-        for item in self.biases:
-            if isinstance(item, types.Bias):
-                biases.append(item)
-            elif isinstance(item, str):
-                biases.append(types.Bias.from_mcnp(item))
-            else:
-                biases.append(item.build())
-        biases = types.Tuple(biases)
+        if self.biases:
+            biases = []
+            for item in self.biases:
+                if isinstance(item, types.Bias):
+                    biases.append(item)
+                elif isinstance(item, str):
+                    biases.append(types.Bias.from_mcnp(item))
+                else:
+                    biases.append(item.build())
+            biases = types.Tuple(biases)
+        else:
+            biases = None
 
         return Dgeb(
             biases=biases,

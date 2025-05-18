@@ -108,6 +108,7 @@ class TrBuilder_4:
             ``Tr_4`` for ``TrBuilder_4``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -115,6 +116,7 @@ class TrBuilder_4:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        x = self.x
         if isinstance(self.x, types.Real):
             x = self.x
         elif isinstance(self.x, float) or isinstance(self.x, int):
@@ -122,6 +124,7 @@ class TrBuilder_4:
         elif isinstance(self.x, str):
             x = types.RealOrJump.from_mcnp(self.x)
 
+        y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):
@@ -129,6 +132,7 @@ class TrBuilder_4:
         elif isinstance(self.y, str):
             y = types.RealOrJump.from_mcnp(self.y)
 
+        z = self.z
         if isinstance(self.z, types.Real):
             z = self.z
         elif isinstance(self.z, float) or isinstance(self.z, int):
@@ -136,7 +140,7 @@ class TrBuilder_4:
         elif isinstance(self.z, str):
             z = types.RealOrJump.from_mcnp(self.z)
 
-        system = None
+        system = self.system
         if isinstance(self.system, types.Integer):
             system = self.system
         elif isinstance(self.system, int):

@@ -64,15 +64,18 @@ class PwtBuilder:
             ``Pwt`` for ``PwtBuilder``.
         """
 
-        weights = []
-        for item in self.weights:
-            if isinstance(item, types.RealOrJump):
-                weights.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                weights.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                weights.append(types.RealOrJump.from_mcnp(item))
-        weights = types.Tuple(weights)
+        if self.weights:
+            weights = []
+            for item in self.weights:
+                if isinstance(item, types.RealOrJump):
+                    weights.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    weights.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    weights.append(types.RealOrJump.from_mcnp(item))
+            weights = types.Tuple(weights)
+        else:
+            weights = None
 
         return Pwt(
             weights=weights,

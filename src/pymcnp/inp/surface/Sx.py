@@ -87,6 +87,7 @@ class SxBuilder:
             ``Sx`` for ``SxBuilder``.
         """
 
+        x = self.x
         if isinstance(self.x, types.Real):
             x = self.x
         elif isinstance(self.x, float) or isinstance(self.x, int):
@@ -94,6 +95,7 @@ class SxBuilder:
         elif isinstance(self.x, str):
             x = types.Real.from_mcnp(self.x)
 
+        r = self.r
         if isinstance(self.r, types.Real):
             r = self.r
         elif isinstance(self.r, float) or isinstance(self.r, int):

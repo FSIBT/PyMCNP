@@ -64,6 +64,7 @@ class HstepBuilder:
             ``Hstep`` for ``HstepBuilder``.
         """
 
+        step = self.step
         if isinstance(self.step, types.Integer):
             step = self.step
         elif isinstance(self.step, int):

@@ -64,6 +64,7 @@ class NonfissBuilder:
             ``Nonfiss`` for ``NonfissBuilder``.
         """
 
+        kind = self.kind
         if isinstance(self.kind, types.String):
             kind = self.kind
         elif isinstance(self.kind, str):

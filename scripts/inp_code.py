@@ -201,36 +201,40 @@ def ATTRS_BUILDER(element, t):
 
     for attribute in element.attributes:
         if attribute.type.startswith('types.Tuple'):
-            o += f'{TABS(t)}{attribute.name} = []\n'
-            o += f'{TABS(t)}for item in self.{attribute.name}:\n'
+            o += f'{TABS(t)}if self.{attribute.name}:\n'
+            o += f'{TABS(t)}    {attribute.name} = []\n'
+            o += f'{TABS(t)}    for item in self.{attribute.name}:\n'
 
             if 'types.Integer' in attribute.type:
-                o += f'{TABS(t)}    if isinstance(item, {attribute.type[12:-1]}):\n'
-                o += f'{TABS(t)}        {attribute.name}.append(item)\n'
-                o += f'{TABS(t)}    elif isinstance(item, int):\n'
-                o += f'{TABS(t)}        {attribute.name}.append({attribute.type[12:-1]}(item))\n'
-                o += f'{TABS(t)}    elif isinstance(item, str):\n'
-                o += f'{TABS(t)}        {attribute.name}.append({attribute.type[12:-1]}.from_mcnp(item))\n'
+                o += f'{TABS(t)}        if isinstance(item, {attribute.type[12:-1]}):\n'
+                o += f'{TABS(t)}            {attribute.name}.append(item)\n'
+                o += f'{TABS(t)}        elif isinstance(item, int):\n'
+                o += (
+                    f'{TABS(t)}            {attribute.name}.append({attribute.type[12:-1]}(item))\n'
+                )
+                o += f'{TABS(t)}        elif isinstance(item, str):\n'
+                o += f'{TABS(t)}            {attribute.name}.append({attribute.type[12:-1]}.from_mcnp(item))\n'
             elif 'types.Real' in attribute.type:
-                o += f'{TABS(t)}    if isinstance(item, {attribute.type[12:-1]}):\n'
-                o += f'{TABS(t)}        {attribute.name}.append(item)\n'
-                o += f'{TABS(t)}    elif isinstance(item, float) or isinstance(item, int):\n'
-                o += f'{TABS(t)}        {attribute.name}.append({attribute.type[12:-1]}(item))\n'
-                o += f'{TABS(t)}    elif isinstance(item, str):\n'
-                o += f'{TABS(t)}        {attribute.name}.append({attribute.type[12:-1]}.from_mcnp(item))\n'
+                o += f'{TABS(t)}        if isinstance(item, {attribute.type[12:-1]}):\n'
+                o += f'{TABS(t)}            {attribute.name}.append(item)\n'
+                o += f'{TABS(t)}        elif isinstance(item, float) or isinstance(item, int):\n'
+                o += (
+                    f'{TABS(t)}            {attribute.name}.append({attribute.type[12:-1]}(item))\n'
+                )
+                o += f'{TABS(t)}        elif isinstance(item, str):\n'
+                o += f'{TABS(t)}            {attribute.name}.append({attribute.type[12:-1]}.from_mcnp(item))\n'
             else:
-                o += f'{TABS(t)}    if isinstance(item, {attribute.type[12:-1]}):\n'
-                o += f'{TABS(t)}        {attribute.name}.append(item)\n'
-                o += f'{TABS(t)}    elif isinstance(item, str):\n'
-                o += f'{TABS(t)}        {attribute.name}.append({attribute.type[12:-1]}.from_mcnp(item))\n'
-                o += f'{TABS(t)}    else:\n'
-                o += f'{TABS(t)}        {attribute.name}.append(item.build())\n'
-
-            o += f'{TABS(t)}{attribute.name} = types.Tuple({attribute.name})\n'
+                o += f'{TABS(t)}        if isinstance(item, {attribute.type[12:-1]}):\n'
+                o += f'{TABS(t)}            {attribute.name}.append(item)\n'
+                o += f'{TABS(t)}        elif isinstance(item, str):\n'
+                o += f'{TABS(t)}            {attribute.name}.append({attribute.type[12:-1]}.from_mcnp(item))\n'
+                o += f'{TABS(t)}        else:\n'
+                o += f'{TABS(t)}            {attribute.name}.append(item.build())\n'
+            o += f'{TABS(t)}    {attribute.name} = types.Tuple({attribute.name})\n'
+            o += f'{TABS(t)}else:\n'
+            o += f'{TABS(t)}    {attribute.name} = None\n'
         else:
-            if attribute.optional:
-                o += f'{TABS(t)}{attribute.name} = None\n'
-
+            o += f'{TABS(t)}{attribute.name} = self.{attribute.name}\n'
             if 'types.Integer' in attribute.type:
                 o += f'{TABS(t)}if isinstance(self.{attribute.name}, types.Integer):\n'
                 o += f'{TABS(t)}    {attribute.name} = self.{attribute.name}\n'

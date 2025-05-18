@@ -119,6 +119,7 @@ class YBuilder:
             ``Y`` for ``YBuilder``.
         """
 
+        y1 = self.y1
         if isinstance(self.y1, types.Real):
             y1 = self.y1
         elif isinstance(self.y1, float) or isinstance(self.y1, int):
@@ -126,6 +127,7 @@ class YBuilder:
         elif isinstance(self.y1, str):
             y1 = types.Real.from_mcnp(self.y1)
 
+        r1 = self.r1
         if isinstance(self.r1, types.Real):
             r1 = self.r1
         elif isinstance(self.r1, float) or isinstance(self.r1, int):
@@ -133,6 +135,7 @@ class YBuilder:
         elif isinstance(self.r1, str):
             r1 = types.Real.from_mcnp(self.r1)
 
+        y2 = self.y2
         if isinstance(self.y2, types.Real):
             y2 = self.y2
         elif isinstance(self.y2, float) or isinstance(self.y2, int):
@@ -140,6 +143,7 @@ class YBuilder:
         elif isinstance(self.y2, str):
             y2 = types.Real.from_mcnp(self.y2)
 
+        r2 = self.r2
         if isinstance(self.r2, types.Real):
             r2 = self.r2
         elif isinstance(self.r2, float) or isinstance(self.r2, int):
@@ -147,6 +151,7 @@ class YBuilder:
         elif isinstance(self.r2, str):
             r2 = types.Real.from_mcnp(self.r2)
 
+        y3 = self.y3
         if isinstance(self.y3, types.Real):
             y3 = self.y3
         elif isinstance(self.y3, float) or isinstance(self.y3, int):
@@ -154,6 +159,7 @@ class YBuilder:
         elif isinstance(self.y3, str):
             y3 = types.Real.from_mcnp(self.y3)
 
+        r3 = self.r3
         if isinstance(self.r3, types.Real):
             r3 = self.r3
         elif isinstance(self.r3, float) or isinstance(self.r3, int):

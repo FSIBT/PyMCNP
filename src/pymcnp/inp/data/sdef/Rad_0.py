@@ -64,6 +64,7 @@ class RadBuilder_0:
             ``Rad_0`` for ``RadBuilder_0``.
         """
 
+        radial_distance = self.radial_distance
         if isinstance(self.radial_distance, types.Real):
             radial_distance = self.radial_distance
         elif isinstance(self.radial_distance, float) or isinstance(self.radial_distance, int):

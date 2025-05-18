@@ -133,6 +133,7 @@ class TzBuilder:
             ``Tz`` for ``TzBuilder``.
         """
 
+        x = self.x
         if isinstance(self.x, types.Real):
             x = self.x
         elif isinstance(self.x, float) or isinstance(self.x, int):
@@ -140,6 +141,7 @@ class TzBuilder:
         elif isinstance(self.x, str):
             x = types.Real.from_mcnp(self.x)
 
+        y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):
@@ -147,6 +149,7 @@ class TzBuilder:
         elif isinstance(self.y, str):
             y = types.Real.from_mcnp(self.y)
 
+        z = self.z
         if isinstance(self.z, types.Real):
             z = self.z
         elif isinstance(self.z, float) or isinstance(self.z, int):
@@ -154,6 +157,7 @@ class TzBuilder:
         elif isinstance(self.z, str):
             z = types.Real.from_mcnp(self.z)
 
+        a = self.a
         if isinstance(self.a, types.Real):
             a = self.a
         elif isinstance(self.a, float) or isinstance(self.a, int):
@@ -161,6 +165,7 @@ class TzBuilder:
         elif isinstance(self.a, str):
             a = types.Real.from_mcnp(self.a)
 
+        b = self.b
         if isinstance(self.b, types.Real):
             b = self.b
         elif isinstance(self.b, float) or isinstance(self.b, int):
@@ -168,6 +173,7 @@ class TzBuilder:
         elif isinstance(self.b, str):
             b = types.Real.from_mcnp(self.b)
 
+        c = self.c
         if isinstance(self.c, types.Real):
             c = self.c
         elif isinstance(self.c, float) or isinstance(self.c, int):

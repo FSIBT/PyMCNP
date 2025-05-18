@@ -64,15 +64,18 @@ class DmBuilder:
             ``Dm`` for ``DmBuilder``.
         """
 
-        zaids = []
-        for item in self.zaids:
-            if isinstance(item, types.Zaid):
-                zaids.append(item)
-            elif isinstance(item, str):
-                zaids.append(types.Zaid.from_mcnp(item))
-            else:
-                zaids.append(item.build())
-        zaids = types.Tuple(zaids)
+        if self.zaids:
+            zaids = []
+            for item in self.zaids:
+                if isinstance(item, types.Zaid):
+                    zaids.append(item)
+                elif isinstance(item, str):
+                    zaids.append(types.Zaid.from_mcnp(item))
+                else:
+                    zaids.append(item.build())
+            zaids = types.Tuple(zaids)
+        else:
+            zaids = None
 
         return Dm(
             zaids=zaids,

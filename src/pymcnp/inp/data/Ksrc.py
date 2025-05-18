@@ -64,15 +64,18 @@ class KsrcBuilder:
             ``Ksrc`` for ``KsrcBuilder``.
         """
 
-        locations = []
-        for item in self.locations:
-            if isinstance(item, types.Location):
-                locations.append(item)
-            elif isinstance(item, str):
-                locations.append(types.Location.from_mcnp(item))
-            else:
-                locations.append(item.build())
-        locations = types.Tuple(locations)
+        if self.locations:
+            locations = []
+            for item in self.locations:
+                if isinstance(item, types.Location):
+                    locations.append(item)
+                elif isinstance(item, str):
+                    locations.append(types.Location.from_mcnp(item))
+                else:
+                    locations.append(item.build())
+            locations = types.Tuple(locations)
+        else:
+            locations = None
 
         return Ksrc(
             locations=locations,

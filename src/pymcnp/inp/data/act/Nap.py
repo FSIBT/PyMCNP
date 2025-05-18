@@ -64,6 +64,7 @@ class NapBuilder:
             ``Nap`` for ``NapBuilder``.
         """
 
+        count = self.count
         if isinstance(self.count, types.Integer):
             count = self.count
         elif isinstance(self.count, int):

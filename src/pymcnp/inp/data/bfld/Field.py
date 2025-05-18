@@ -64,6 +64,7 @@ class FieldBuilder:
             ``Field`` for ``FieldBuilder``.
         """
 
+        strength_gradient = self.strength_gradient
         if isinstance(self.strength_gradient, types.Real):
             strength_gradient = self.strength_gradient
         elif isinstance(self.strength_gradient, float) or isinstance(self.strength_gradient, int):

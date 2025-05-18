@@ -64,6 +64,7 @@ class TmeshBuilder:
             ``Tmesh`` for ``TmeshBuilder``.
         """
 
+        time = self.time
         if isinstance(self.time, types.Real):
             time = self.time
         elif isinstance(self.time, float) or isinstance(self.time, int):

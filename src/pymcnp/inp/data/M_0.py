@@ -145,6 +145,7 @@ class MBuilder_0:
             ``M_0`` for ``MBuilder_0``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -152,25 +153,31 @@ class MBuilder_0:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        substances = []
-        for item in self.substances:
-            if isinstance(item, types.Substance):
-                substances.append(item)
-            elif isinstance(item, str):
-                substances.append(types.Substance.from_mcnp(item))
-            else:
-                substances.append(item.build())
-        substances = types.Tuple(substances)
+        if self.substances:
+            substances = []
+            for item in self.substances:
+                if isinstance(item, types.Substance):
+                    substances.append(item)
+                elif isinstance(item, str):
+                    substances.append(types.Substance.from_mcnp(item))
+                else:
+                    substances.append(item.build())
+            substances = types.Tuple(substances)
+        else:
+            substances = None
 
-        options = []
-        for item in self.options:
-            if isinstance(item, m_0.MOption_0):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(m_0.MOption_0.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, m_0.MOption_0):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(m_0.MOption_0.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return M_0(
             suffix=suffix,

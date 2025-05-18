@@ -64,15 +64,18 @@ class CelBuilder:
             ``Cel`` for ``CelBuilder``.
         """
 
-        cfs = []
-        for item in self.cfs:
-            if isinstance(item, types.IntegerOrJump):
-                cfs.append(item)
-            elif isinstance(item, int):
-                cfs.append(types.IntegerOrJump(item))
-            elif isinstance(item, str):
-                cfs.append(types.IntegerOrJump.from_mcnp(item))
-        cfs = types.Tuple(cfs)
+        if self.cfs:
+            cfs = []
+            for item in self.cfs:
+                if isinstance(item, types.IntegerOrJump):
+                    cfs.append(item)
+                elif isinstance(item, int):
+                    cfs.append(types.IntegerOrJump(item))
+                elif isinstance(item, str):
+                    cfs.append(types.IntegerOrJump.from_mcnp(item))
+            cfs = types.Tuple(cfs)
+        else:
+            cfs = None
 
         return Cel(
             cfs=cfs,

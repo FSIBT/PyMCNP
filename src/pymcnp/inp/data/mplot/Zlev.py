@@ -64,15 +64,18 @@ class ZlevBuilder:
             ``Zlev`` for ``ZlevBuilder``.
         """
 
-        n = []
-        for item in self.n:
-            if isinstance(item, types.String):
-                n.append(item)
-            elif isinstance(item, str):
-                n.append(types.String.from_mcnp(item))
-            else:
-                n.append(item.build())
-        n = types.Tuple(n)
+        if self.n:
+            n = []
+            for item in self.n:
+                if isinstance(item, types.String):
+                    n.append(item)
+                elif isinstance(item, str):
+                    n.append(types.String.from_mcnp(item))
+                else:
+                    n.append(item.build())
+            n = types.Tuple(n)
+        else:
+            n = None
 
         return Zlev(
             n=n,

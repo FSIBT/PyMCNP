@@ -101,6 +101,7 @@ class KyBuilder:
             ``Ky`` for ``KyBuilder``.
         """
 
+        y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):
@@ -108,6 +109,7 @@ class KyBuilder:
         elif isinstance(self.y, str):
             y = types.Real.from_mcnp(self.y)
 
+        t_squared = self.t_squared
         if isinstance(self.t_squared, types.Real):
             t_squared = self.t_squared
         elif isinstance(self.t_squared, float) or isinstance(self.t_squared, int):
@@ -115,6 +117,7 @@ class KyBuilder:
         elif isinstance(self.t_squared, str):
             t_squared = types.Real.from_mcnp(self.t_squared)
 
+        plusminus_1 = self.plusminus_1
         if isinstance(self.plusminus_1, types.Real):
             plusminus_1 = self.plusminus_1
         elif isinstance(self.plusminus_1, float) or isinstance(self.plusminus_1, int):

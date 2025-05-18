@@ -64,6 +64,7 @@ class ListBuilder:
             ``List`` for ``ListBuilder``.
         """
 
+        reactions = self.reactions
         if isinstance(self.reactions, types.Real):
             reactions = self.reactions
         elif isinstance(self.reactions, float) or isinstance(self.reactions, int):

@@ -64,15 +64,18 @@ class FilesBuilder:
             ``Files`` for ``FilesBuilder``.
         """
 
-        creations = []
-        for item in self.creations:
-            if isinstance(item, types.File):
-                creations.append(item)
-            elif isinstance(item, str):
-                creations.append(types.File.from_mcnp(item))
-            else:
-                creations.append(item.build())
-        creations = types.Tuple(creations)
+        if self.creations:
+            creations = []
+            for item in self.creations:
+                if isinstance(item, types.File):
+                    creations.append(item)
+                elif isinstance(item, str):
+                    creations.append(types.File.from_mcnp(item))
+                else:
+                    creations.append(item.build())
+            creations = types.Tuple(creations)
+        else:
+            creations = None
 
         return Files(
             creations=creations,

@@ -64,15 +64,18 @@ class RdumBuilder:
             ``Rdum`` for ``RdumBuilder``.
         """
 
-        floats = []
-        for item in self.floats:
-            if isinstance(item, types.RealOrJump):
-                floats.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                floats.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                floats.append(types.RealOrJump.from_mcnp(item))
-        floats = types.Tuple(floats)
+        if self.floats:
+            floats = []
+            for item in self.floats:
+                if isinstance(item, types.RealOrJump):
+                    floats.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    floats.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    floats.append(types.RealOrJump.from_mcnp(item))
+            floats = types.Tuple(floats)
+        else:
+            floats = None
 
         return Rdum(
             floats=floats,

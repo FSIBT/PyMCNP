@@ -109,6 +109,7 @@ class PrdmpBuilder:
             ``Prdmp`` for ``PrdmpBuilder``.
         """
 
+        ndp = self.ndp
         if isinstance(self.ndp, types.Integer):
             ndp = self.ndp
         elif isinstance(self.ndp, int):
@@ -116,6 +117,7 @@ class PrdmpBuilder:
         elif isinstance(self.ndp, str):
             ndp = types.IntegerOrJump.from_mcnp(self.ndp)
 
+        ndm = self.ndm
         if isinstance(self.ndm, types.Integer):
             ndm = self.ndm
         elif isinstance(self.ndm, int):
@@ -123,6 +125,7 @@ class PrdmpBuilder:
         elif isinstance(self.ndm, str):
             ndm = types.IntegerOrJump.from_mcnp(self.ndm)
 
+        mct = self.mct
         if isinstance(self.mct, types.Integer):
             mct = self.mct
         elif isinstance(self.mct, int):
@@ -130,6 +133,7 @@ class PrdmpBuilder:
         elif isinstance(self.mct, str):
             mct = types.IntegerOrJump.from_mcnp(self.mct)
 
+        ndmp = self.ndmp
         if isinstance(self.ndmp, types.Integer):
             ndmp = self.ndmp
         elif isinstance(self.ndmp, int):
@@ -137,6 +141,7 @@ class PrdmpBuilder:
         elif isinstance(self.ndmp, str):
             ndmp = types.IntegerOrJump.from_mcnp(self.ndmp)
 
+        dmmp = self.dmmp
         if isinstance(self.dmmp, types.Integer):
             dmmp = self.dmmp
         elif isinstance(self.dmmp, int):

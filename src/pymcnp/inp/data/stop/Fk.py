@@ -72,6 +72,7 @@ class FkBuilder:
             ``Fk`` for ``FkBuilder``.
         """
 
+        e = self.e
         if isinstance(self.e, types.Integer):
             e = self.e
         elif isinstance(self.e, int):
@@ -79,6 +80,7 @@ class FkBuilder:
         elif isinstance(self.e, str):
             e = types.IntegerOrJump.from_mcnp(self.e)
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):

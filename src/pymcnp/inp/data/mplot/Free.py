@@ -83,11 +83,13 @@ class FreeBuilder:
             ``Free`` for ``FreeBuilder``.
         """
 
+        x = self.x
         if isinstance(self.x, types.String):
             x = self.x
         elif isinstance(self.x, str):
             x = types.String.from_mcnp(self.x)
 
+        y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):
@@ -95,7 +97,7 @@ class FreeBuilder:
         elif isinstance(self.y, str):
             y = types.Real.from_mcnp(self.y)
 
-        option = None
+        option = self.option
         if isinstance(self.option, free.FreeOption):
             option = self.option
         elif isinstance(self.option, str):

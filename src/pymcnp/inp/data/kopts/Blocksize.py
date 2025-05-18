@@ -64,6 +64,7 @@ class BlocksizeBuilder:
             ``Blocksize`` for ``BlocksizeBuilder``.
         """
 
+        ncy = self.ncy
         if isinstance(self.ncy, types.Integer):
             ncy = self.ncy
         elif isinstance(self.ncy, int):

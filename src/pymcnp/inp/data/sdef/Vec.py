@@ -84,6 +84,7 @@ class VecBuilder:
             ``Vec`` for ``VecBuilder``.
         """
 
+        x = self.x
         if isinstance(self.x, types.Real):
             x = self.x
         elif isinstance(self.x, float) or isinstance(self.x, int):
@@ -91,6 +92,7 @@ class VecBuilder:
         elif isinstance(self.x, str):
             x = types.RealOrJump.from_mcnp(self.x)
 
+        y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):
@@ -98,6 +100,7 @@ class VecBuilder:
         elif isinstance(self.y, str):
             y = types.RealOrJump.from_mcnp(self.y)
 
+        z = self.z
         if isinstance(self.z, types.Real):
             z = self.z
         elif isinstance(self.z, float) or isinstance(self.z, int):

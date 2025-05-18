@@ -165,15 +165,18 @@ class PrintBuilder:
             ``Print`` for ``PrintBuilder``.
         """
 
-        tables = []
-        for item in self.tables:
-            if isinstance(item, types.IntegerOrJump):
-                tables.append(item)
-            elif isinstance(item, int):
-                tables.append(types.IntegerOrJump(item))
-            elif isinstance(item, str):
-                tables.append(types.IntegerOrJump.from_mcnp(item))
-        tables = types.Tuple(tables)
+        if self.tables:
+            tables = []
+            for item in self.tables:
+                if isinstance(item, types.IntegerOrJump):
+                    tables.append(item)
+                elif isinstance(item, int):
+                    tables.append(types.IntegerOrJump(item))
+                elif isinstance(item, str):
+                    tables.append(types.IntegerOrJump.from_mcnp(item))
+            tables = types.Tuple(tables)
+        else:
+            tables = None
 
         return Print(
             tables=tables,

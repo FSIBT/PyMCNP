@@ -82,6 +82,7 @@ class MxBuilder:
             ``Mx`` for ``MxBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -89,20 +90,24 @@ class MxBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
-        zaids = []
-        for item in self.zaids:
-            if isinstance(item, types.Zaid):
-                zaids.append(item)
-            elif isinstance(item, str):
-                zaids.append(types.Zaid.from_mcnp(item))
-            else:
-                zaids.append(item.build())
-        zaids = types.Tuple(zaids)
+        if self.zaids:
+            zaids = []
+            for item in self.zaids:
+                if isinstance(item, types.Zaid):
+                    zaids.append(item)
+                elif isinstance(item, str):
+                    zaids.append(types.Zaid.from_mcnp(item))
+                else:
+                    zaids.append(item.build())
+            zaids = types.Tuple(zaids)
+        else:
+            zaids = None
 
         return Mx(
             suffix=suffix,

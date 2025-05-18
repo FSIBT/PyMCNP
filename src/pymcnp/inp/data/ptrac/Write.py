@@ -20,7 +20,7 @@ class Write(PtracOption):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'\Awrite(?: (pos|all))\Z')
+    _REGEX = re.compile(r'\Awrite(?: (pos|all))\Z')
 
     def __init__(self, setting: types.String):
         """
@@ -64,6 +64,7 @@ class WriteBuilder:
             ``Write`` for ``WriteBuilder``.
         """
 
+        setting = self.setting
         if isinstance(self.setting, types.String):
             setting = self.setting
         elif isinstance(self.setting, str):

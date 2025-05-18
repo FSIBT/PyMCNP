@@ -64,6 +64,7 @@ class FactorBuilder:
             ``Factor`` for ``FactorBuilder``.
         """
 
+        constant = self.constant
         if isinstance(self.constant, types.Real):
             constant = self.constant
         elif isinstance(self.constant, float) or isinstance(self.constant, int):

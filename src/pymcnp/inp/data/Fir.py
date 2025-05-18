@@ -177,6 +177,7 @@ class FirBuilder:
             ``Fir`` for ``FirBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -184,11 +185,13 @@ class FirBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
+        x1 = self.x1
         if isinstance(self.x1, types.Real):
             x1 = self.x1
         elif isinstance(self.x1, float) or isinstance(self.x1, int):
@@ -196,6 +199,7 @@ class FirBuilder:
         elif isinstance(self.x1, str):
             x1 = types.RealOrJump.from_mcnp(self.x1)
 
+        y1 = self.y1
         if isinstance(self.y1, types.Real):
             y1 = self.y1
         elif isinstance(self.y1, float) or isinstance(self.y1, int):
@@ -203,6 +207,7 @@ class FirBuilder:
         elif isinstance(self.y1, str):
             y1 = types.RealOrJump.from_mcnp(self.y1)
 
+        z1 = self.z1
         if isinstance(self.z1, types.Real):
             z1 = self.z1
         elif isinstance(self.z1, float) or isinstance(self.z1, int):
@@ -210,6 +215,7 @@ class FirBuilder:
         elif isinstance(self.z1, str):
             z1 = types.RealOrJump.from_mcnp(self.z1)
 
+        ro = self.ro
         if isinstance(self.ro, types.Real):
             ro = self.ro
         elif isinstance(self.ro, float) or isinstance(self.ro, int):
@@ -217,6 +223,7 @@ class FirBuilder:
         elif isinstance(self.ro, str):
             ro = types.RealOrJump.from_mcnp(self.ro)
 
+        x2 = self.x2
         if isinstance(self.x2, types.Real):
             x2 = self.x2
         elif isinstance(self.x2, float) or isinstance(self.x2, int):
@@ -224,6 +231,7 @@ class FirBuilder:
         elif isinstance(self.x2, str):
             x2 = types.RealOrJump.from_mcnp(self.x2)
 
+        y2 = self.y2
         if isinstance(self.y2, types.Real):
             y2 = self.y2
         elif isinstance(self.y2, float) or isinstance(self.y2, int):
@@ -231,6 +239,7 @@ class FirBuilder:
         elif isinstance(self.y2, str):
             y2 = types.RealOrJump.from_mcnp(self.y2)
 
+        z2 = self.z2
         if isinstance(self.z2, types.Real):
             z2 = self.z2
         elif isinstance(self.z2, float) or isinstance(self.z2, int):
@@ -238,6 +247,7 @@ class FirBuilder:
         elif isinstance(self.z2, str):
             z2 = types.RealOrJump.from_mcnp(self.z2)
 
+        f1 = self.f1
         if isinstance(self.f1, types.Real):
             f1 = self.f1
         elif isinstance(self.f1, float) or isinstance(self.f1, int):
@@ -245,6 +255,7 @@ class FirBuilder:
         elif isinstance(self.f1, str):
             f1 = types.RealOrJump.from_mcnp(self.f1)
 
+        f2 = self.f2
         if isinstance(self.f2, types.Real):
             f2 = self.f2
         elif isinstance(self.f2, float) or isinstance(self.f2, int):
@@ -252,6 +263,7 @@ class FirBuilder:
         elif isinstance(self.f2, str):
             f2 = types.RealOrJump.from_mcnp(self.f2)
 
+        f3 = self.f3
         if isinstance(self.f3, types.Real):
             f3 = self.f3
         elif isinstance(self.f3, float) or isinstance(self.f3, int):

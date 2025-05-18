@@ -61,15 +61,18 @@ class TroptBuilder:
             ``Tropt`` for ``TroptBuilder``.
         """
 
-        options = []
-        for item in self.options:
-            if isinstance(item, tropt.TroptOption):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(tropt.TroptOption.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, tropt.TroptOption):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(tropt.TroptOption.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Tropt(
             options=options,

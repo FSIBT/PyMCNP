@@ -64,15 +64,18 @@ class UncBuilder:
             ``Unc`` for ``UncBuilder``.
         """
 
-        settings = []
-        for item in self.settings:
-            if isinstance(item, types.IntegerOrJump):
-                settings.append(item)
-            elif isinstance(item, int):
-                settings.append(types.IntegerOrJump(item))
-            elif isinstance(item, str):
-                settings.append(types.IntegerOrJump.from_mcnp(item))
-        settings = types.Tuple(settings)
+        if self.settings:
+            settings = []
+            for item in self.settings:
+                if isinstance(item, types.IntegerOrJump):
+                    settings.append(item)
+                elif isinstance(item, int):
+                    settings.append(types.IntegerOrJump(item))
+                elif isinstance(item, str):
+                    settings.append(types.IntegerOrJump.from_mcnp(item))
+            settings = types.Tuple(settings)
+        else:
+            settings = None
 
         return Unc(
             settings=settings,

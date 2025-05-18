@@ -83,6 +83,7 @@ class DsBuilder_0:
             ``Ds_0`` for ``DsBuilder_0``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -90,21 +91,24 @@ class DsBuilder_0:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        option = None
+        option = self.option
         if isinstance(self.option, types.String):
             option = self.option
         elif isinstance(self.option, str):
             option = types.String.from_mcnp(self.option)
 
-        js = []
-        for item in self.js:
-            if isinstance(item, types.RealOrJump):
-                js.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                js.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                js.append(types.RealOrJump.from_mcnp(item))
-        js = types.Tuple(js)
+        if self.js:
+            js = []
+            for item in self.js:
+                if isinstance(item, types.RealOrJump):
+                    js.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    js.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    js.append(types.RealOrJump.from_mcnp(item))
+            js = types.Tuple(js)
+        else:
+            js = None
 
         return Ds_0(
             suffix=suffix,

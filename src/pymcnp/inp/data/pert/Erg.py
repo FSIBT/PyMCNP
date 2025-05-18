@@ -75,6 +75,7 @@ class ErgBuilder:
             ``Erg`` for ``ErgBuilder``.
         """
 
+        energy_lower_bound = self.energy_lower_bound
         if isinstance(self.energy_lower_bound, types.Real):
             energy_lower_bound = self.energy_lower_bound
         elif isinstance(self.energy_lower_bound, float) or isinstance(self.energy_lower_bound, int):
@@ -82,6 +83,7 @@ class ErgBuilder:
         elif isinstance(self.energy_lower_bound, str):
             energy_lower_bound = types.RealOrJump.from_mcnp(self.energy_lower_bound)
 
+        energy_upper_bound = self.energy_upper_bound
         if isinstance(self.energy_upper_bound, types.Real):
             energy_upper_bound = self.energy_upper_bound
         elif isinstance(self.energy_upper_bound, float) or isinstance(self.energy_upper_bound, int):

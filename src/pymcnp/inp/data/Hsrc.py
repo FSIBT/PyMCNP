@@ -149,6 +149,7 @@ class HsrcBuilder:
             ``Hsrc`` for ``HsrcBuilder``.
         """
 
+        x_number = self.x_number
         if isinstance(self.x_number, types.Integer):
             x_number = self.x_number
         elif isinstance(self.x_number, int):
@@ -156,6 +157,7 @@ class HsrcBuilder:
         elif isinstance(self.x_number, str):
             x_number = types.IntegerOrJump.from_mcnp(self.x_number)
 
+        x_minimum = self.x_minimum
         if isinstance(self.x_minimum, types.Real):
             x_minimum = self.x_minimum
         elif isinstance(self.x_minimum, float) or isinstance(self.x_minimum, int):
@@ -163,6 +165,7 @@ class HsrcBuilder:
         elif isinstance(self.x_minimum, str):
             x_minimum = types.RealOrJump.from_mcnp(self.x_minimum)
 
+        x_maximum = self.x_maximum
         if isinstance(self.x_maximum, types.Real):
             x_maximum = self.x_maximum
         elif isinstance(self.x_maximum, float) or isinstance(self.x_maximum, int):
@@ -170,6 +173,7 @@ class HsrcBuilder:
         elif isinstance(self.x_maximum, str):
             x_maximum = types.RealOrJump.from_mcnp(self.x_maximum)
 
+        y_number = self.y_number
         if isinstance(self.y_number, types.Integer):
             y_number = self.y_number
         elif isinstance(self.y_number, int):
@@ -177,6 +181,7 @@ class HsrcBuilder:
         elif isinstance(self.y_number, str):
             y_number = types.IntegerOrJump.from_mcnp(self.y_number)
 
+        y_minimum = self.y_minimum
         if isinstance(self.y_minimum, types.Real):
             y_minimum = self.y_minimum
         elif isinstance(self.y_minimum, float) or isinstance(self.y_minimum, int):
@@ -184,6 +189,7 @@ class HsrcBuilder:
         elif isinstance(self.y_minimum, str):
             y_minimum = types.RealOrJump.from_mcnp(self.y_minimum)
 
+        y_maximum = self.y_maximum
         if isinstance(self.y_maximum, types.Real):
             y_maximum = self.y_maximum
         elif isinstance(self.y_maximum, float) or isinstance(self.y_maximum, int):
@@ -191,6 +197,7 @@ class HsrcBuilder:
         elif isinstance(self.y_maximum, str):
             y_maximum = types.RealOrJump.from_mcnp(self.y_maximum)
 
+        z_number = self.z_number
         if isinstance(self.z_number, types.Integer):
             z_number = self.z_number
         elif isinstance(self.z_number, int):
@@ -198,6 +205,7 @@ class HsrcBuilder:
         elif isinstance(self.z_number, str):
             z_number = types.IntegerOrJump.from_mcnp(self.z_number)
 
+        z_minimum = self.z_minimum
         if isinstance(self.z_minimum, types.Real):
             z_minimum = self.z_minimum
         elif isinstance(self.z_minimum, float) or isinstance(self.z_minimum, int):
@@ -205,6 +213,7 @@ class HsrcBuilder:
         elif isinstance(self.z_minimum, str):
             z_minimum = types.RealOrJump.from_mcnp(self.z_minimum)
 
+        z_maximum = self.z_maximum
         if isinstance(self.z_maximum, types.Real):
             z_maximum = self.z_maximum
         elif isinstance(self.z_maximum, float) or isinstance(self.z_maximum, int):

@@ -26,7 +26,7 @@ class C_z(SurfaceOption):
     }
 
     _REGEX = re.compile(
-        rf'\Ac\/z( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Ac/z( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(self, x: types.Real, y: types.Real, r: types.Real):
@@ -98,6 +98,7 @@ class C_zBuilder:
             ``C_z`` for ``C_zBuilder``.
         """
 
+        x = self.x
         if isinstance(self.x, types.Real):
             x = self.x
         elif isinstance(self.x, float) or isinstance(self.x, int):
@@ -105,6 +106,7 @@ class C_zBuilder:
         elif isinstance(self.x, str):
             x = types.Real.from_mcnp(self.x)
 
+        y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):
@@ -112,6 +114,7 @@ class C_zBuilder:
         elif isinstance(self.y, str):
             y = types.Real.from_mcnp(self.y)
 
+        r = self.r
         if isinstance(self.r, types.Real):
             r = self.r
         elif isinstance(self.r, float) or isinstance(self.r, int):

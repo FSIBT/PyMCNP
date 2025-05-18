@@ -61,15 +61,18 @@ class SdefBuilder:
             ``Sdef`` for ``SdefBuilder``.
         """
 
-        options = []
-        for item in self.options:
-            if isinstance(item, sdef.SdefOption):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(sdef.SdefOption.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, sdef.SdefOption):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(sdef.SdefOption.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Sdef(
             options=options,

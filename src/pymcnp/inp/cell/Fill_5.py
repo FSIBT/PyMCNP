@@ -73,6 +73,7 @@ class FillBuilder_5:
             ``Fill_5`` for ``FillBuilder_5``.
         """
 
+        universe = self.universe
         if isinstance(self.universe, types.Integer):
             universe = self.universe
         elif isinstance(self.universe, int):
@@ -80,7 +81,7 @@ class FillBuilder_5:
         elif isinstance(self.universe, str):
             universe = types.Integer.from_mcnp(self.universe)
 
-        transformation = None
+        transformation = self.transformation
         if isinstance(self.transformation, types.Transformation_4):
             transformation = self.transformation
         elif isinstance(self.transformation, str):

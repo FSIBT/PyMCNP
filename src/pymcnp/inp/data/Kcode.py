@@ -138,7 +138,7 @@ class KcodeBuilder:
             ``Kcode`` for ``KcodeBuilder``.
         """
 
-        nsrck = None
+        nsrck = self.nsrck
         if isinstance(self.nsrck, types.Integer):
             nsrck = self.nsrck
         elif isinstance(self.nsrck, int):
@@ -146,7 +146,7 @@ class KcodeBuilder:
         elif isinstance(self.nsrck, str):
             nsrck = types.IntegerOrJump.from_mcnp(self.nsrck)
 
-        rkk = None
+        rkk = self.rkk
         if isinstance(self.rkk, types.Real):
             rkk = self.rkk
         elif isinstance(self.rkk, float) or isinstance(self.rkk, int):
@@ -154,7 +154,7 @@ class KcodeBuilder:
         elif isinstance(self.rkk, str):
             rkk = types.RealOrJump.from_mcnp(self.rkk)
 
-        ikz = None
+        ikz = self.ikz
         if isinstance(self.ikz, types.Integer):
             ikz = self.ikz
         elif isinstance(self.ikz, int):
@@ -162,7 +162,7 @@ class KcodeBuilder:
         elif isinstance(self.ikz, str):
             ikz = types.IntegerOrJump.from_mcnp(self.ikz)
 
-        kct = None
+        kct = self.kct
         if isinstance(self.kct, types.Integer):
             kct = self.kct
         elif isinstance(self.kct, int):
@@ -170,7 +170,7 @@ class KcodeBuilder:
         elif isinstance(self.kct, str):
             kct = types.IntegerOrJump.from_mcnp(self.kct)
 
-        msrk = None
+        msrk = self.msrk
         if isinstance(self.msrk, types.Integer):
             msrk = self.msrk
         elif isinstance(self.msrk, int):
@@ -178,7 +178,7 @@ class KcodeBuilder:
         elif isinstance(self.msrk, str):
             msrk = types.Integer.from_mcnp(self.msrk)
 
-        knrm = None
+        knrm = self.knrm
         if isinstance(self.knrm, types.Integer):
             knrm = self.knrm
         elif isinstance(self.knrm, int):
@@ -186,7 +186,7 @@ class KcodeBuilder:
         elif isinstance(self.knrm, str):
             knrm = types.IntegerOrJump.from_mcnp(self.knrm)
 
-        mrkp = None
+        mrkp = self.mrkp
         if isinstance(self.mrkp, types.Integer):
             mrkp = self.mrkp
         elif isinstance(self.mrkp, int):
@@ -194,7 +194,7 @@ class KcodeBuilder:
         elif isinstance(self.mrkp, str):
             mrkp = types.IntegerOrJump.from_mcnp(self.mrkp)
 
-        kc8 = None
+        kc8 = self.kc8
         if isinstance(self.kc8, types.Integer):
             kc8 = self.kc8
         elif isinstance(self.kc8, int):

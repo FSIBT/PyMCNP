@@ -72,6 +72,7 @@ class PdBuilder:
             ``Pd`` for ``PdBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -79,6 +80,7 @@ class PdBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        probability = self.probability
         if isinstance(self.probability, types.Real):
             probability = self.probability
         elif isinstance(self.probability, float) or isinstance(self.probability, int):

@@ -64,6 +64,7 @@ class HistBuilder:
             ``Hist`` for ``HistBuilder``.
         """
 
+        hist = self.hist
         if isinstance(self.hist, types.Integer):
             hist = self.hist
         elif isinstance(self.hist, int):

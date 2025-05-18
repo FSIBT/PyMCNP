@@ -20,7 +20,7 @@ class Conic(PtracOption):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'\Asetting(?: (col|lin))\Z')
+    _REGEX = re.compile(r'\Asetting(?: (col|lin))\Z')
 
     def __init__(self, setting: types.String):
         """
@@ -64,6 +64,7 @@ class ConicBuilder:
             ``Conic`` for ``ConicBuilder``.
         """
 
+        setting = self.setting
         if isinstance(self.setting, types.String):
             setting = self.setting
         elif isinstance(self.setting, str):

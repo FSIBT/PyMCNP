@@ -76,6 +76,7 @@ class BlockBuilder:
             ``Block`` for ``BlockBuilder``.
         """
 
+        setting = self.setting
         if isinstance(self.setting, types.Integer):
             setting = self.setting
         elif isinstance(self.setting, int):
@@ -83,15 +84,18 @@ class BlockBuilder:
         elif isinstance(self.setting, str):
             setting = types.IntegerOrJump.from_mcnp(self.setting)
 
-        options = []
-        for item in self.options:
-            if isinstance(item, block.BlockOption):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(block.BlockOption.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, block.BlockOption):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(block.BlockOption.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Block(
             setting=setting,

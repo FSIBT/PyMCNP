@@ -60,7 +60,7 @@ class DumpBuilder:
             ``Dump`` for ``DumpBuilder``.
         """
 
-        n = None
+        n = self.n
         if isinstance(self.n, types.Integer):
             n = self.n
         elif isinstance(self.n, int):

@@ -299,23 +299,6 @@ cards = ElementScheme(
                     ),
                 ),
                 ElementScheme(
-                    name='tmp',
-                    mnemonic='tmp',
-                    attributes=(
-                        AttributeScheme(
-                            name='suffix',
-                            type='types.Integer',
-                            description='Cell option suffix',
-                        ),
-                        AttributeScheme(
-                            name='temperature',
-                            type='types.Real',
-                            description='Cell temperature at suffix time index',
-                            restriction='temperature > 0',
-                        ),
-                    ),
-                ),
-                ElementScheme(
                     name='u',
                     mnemonic='u',
                     attributes=(

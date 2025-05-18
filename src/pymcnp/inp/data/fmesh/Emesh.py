@@ -64,6 +64,7 @@ class EmeshBuilder:
             ``Emesh`` for ``EmeshBuilder``.
         """
 
+        energy = self.energy
         if isinstance(self.energy, types.Real):
             energy = self.energy
         elif isinstance(self.energy, float) or isinstance(self.energy, int):

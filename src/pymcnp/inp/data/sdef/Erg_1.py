@@ -64,6 +64,7 @@ class ErgBuilder_1:
             ``Erg_1`` for ``ErgBuilder_1``.
         """
 
+        energy = self.energy
         if isinstance(self.energy, types.DistributionNumber):
             energy = self.energy
         elif isinstance(self.energy, str):

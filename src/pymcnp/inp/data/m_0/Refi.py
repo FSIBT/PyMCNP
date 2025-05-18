@@ -64,6 +64,7 @@ class RefiBuilder:
             ``Refi`` for ``RefiBuilder``.
         """
 
+        refractive_index = self.refractive_index
         if isinstance(self.refractive_index, types.Real):
             refractive_index = self.refractive_index
         elif isinstance(self.refractive_index, float) or isinstance(self.refractive_index, int):

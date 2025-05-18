@@ -87,6 +87,7 @@ class PdBuilder:
             ``Pd`` for ``PdBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -94,20 +95,24 @@ class PdBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        designator = self.designator
         if isinstance(self.designator, types.Designator):
             designator = self.designator
         elif isinstance(self.designator, str):
             designator = types.Designator.from_mcnp(self.designator)
 
-        probabilities = []
-        for item in self.probabilities:
-            if isinstance(item, types.RealOrJump):
-                probabilities.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                probabilities.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                probabilities.append(types.RealOrJump.from_mcnp(item))
-        probabilities = types.Tuple(probabilities)
+        if self.probabilities:
+            probabilities = []
+            for item in self.probabilities:
+                if isinstance(item, types.RealOrJump):
+                    probabilities.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    probabilities.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    probabilities.append(types.RealOrJump.from_mcnp(item))
+            probabilities = types.Tuple(probabilities)
+        else:
+            probabilities = None
 
         return Pd(
             suffix=suffix,

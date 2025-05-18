@@ -64,6 +64,7 @@ class DgBuilder:
             ``Dg`` for ``DgBuilder``.
         """
 
+        source = self.source
         if isinstance(self.source, types.String):
             source = self.source
         elif isinstance(self.source, str):

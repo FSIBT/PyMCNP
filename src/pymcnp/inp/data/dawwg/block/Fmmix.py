@@ -64,6 +64,7 @@ class FmmixBuilder:
             ``Fmmix`` for ``FmmixBuilder``.
         """
 
+        setting = self.setting
         if isinstance(self.setting, types.Integer):
             setting = self.setting
         elif isinstance(self.setting, int):

@@ -84,6 +84,7 @@ class SpBuilder_1:
             ``Sp_1`` for ``SpBuilder_1``.
         """
 
+        function = self.function
         if isinstance(self.function, types.Integer):
             function = self.function
         elif isinstance(self.function, int):
@@ -91,6 +92,7 @@ class SpBuilder_1:
         elif isinstance(self.function, str):
             function = types.IntegerOrJump.from_mcnp(self.function)
 
+        a = self.a
         if isinstance(self.a, types.Real):
             a = self.a
         elif isinstance(self.a, float) or isinstance(self.a, int):
@@ -98,7 +100,7 @@ class SpBuilder_1:
         elif isinstance(self.a, str):
             a = types.RealOrJump.from_mcnp(self.a)
 
-        b = None
+        b = self.b
         if isinstance(self.b, types.Real):
             b = self.b
         elif isinstance(self.b, float) or isinstance(self.b, int):

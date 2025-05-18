@@ -82,11 +82,13 @@ class FactorBuilder:
             ``Factor`` for ``FactorBuilder``.
         """
 
+        a = self.a
         if isinstance(self.a, types.String):
             a = self.a
         elif isinstance(self.a, str):
             a = types.String.from_mcnp(self.a)
 
+        f = self.f
         if isinstance(self.f, types.Real):
             f = self.f
         elif isinstance(self.f, float) or isinstance(self.f, int):
@@ -94,7 +96,7 @@ class FactorBuilder:
         elif isinstance(self.f, str):
             f = types.Real.from_mcnp(self.f)
 
-        s = None
+        s = self.s
         if isinstance(self.s, types.Real):
             s = self.s
         elif isinstance(self.s, float) or isinstance(self.s, int):

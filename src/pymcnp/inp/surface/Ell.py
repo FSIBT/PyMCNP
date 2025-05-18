@@ -162,6 +162,7 @@ class EllBuilder:
             ``Ell`` for ``EllBuilder``.
         """
 
+        v1x = self.v1x
         if isinstance(self.v1x, types.Real):
             v1x = self.v1x
         elif isinstance(self.v1x, float) or isinstance(self.v1x, int):
@@ -169,6 +170,7 @@ class EllBuilder:
         elif isinstance(self.v1x, str):
             v1x = types.Real.from_mcnp(self.v1x)
 
+        v1y = self.v1y
         if isinstance(self.v1y, types.Real):
             v1y = self.v1y
         elif isinstance(self.v1y, float) or isinstance(self.v1y, int):
@@ -176,6 +178,7 @@ class EllBuilder:
         elif isinstance(self.v1y, str):
             v1y = types.Real.from_mcnp(self.v1y)
 
+        v1z = self.v1z
         if isinstance(self.v1z, types.Real):
             v1z = self.v1z
         elif isinstance(self.v1z, float) or isinstance(self.v1z, int):
@@ -183,6 +186,7 @@ class EllBuilder:
         elif isinstance(self.v1z, str):
             v1z = types.Real.from_mcnp(self.v1z)
 
+        v2x = self.v2x
         if isinstance(self.v2x, types.Real):
             v2x = self.v2x
         elif isinstance(self.v2x, float) or isinstance(self.v2x, int):
@@ -190,6 +194,7 @@ class EllBuilder:
         elif isinstance(self.v2x, str):
             v2x = types.Real.from_mcnp(self.v2x)
 
+        v2y = self.v2y
         if isinstance(self.v2y, types.Real):
             v2y = self.v2y
         elif isinstance(self.v2y, float) or isinstance(self.v2y, int):
@@ -197,6 +202,7 @@ class EllBuilder:
         elif isinstance(self.v2y, str):
             v2y = types.Real.from_mcnp(self.v2y)
 
+        v2z = self.v2z
         if isinstance(self.v2z, types.Real):
             v2z = self.v2z
         elif isinstance(self.v2z, float) or isinstance(self.v2z, int):
@@ -204,6 +210,7 @@ class EllBuilder:
         elif isinstance(self.v2z, str):
             v2z = types.Real.from_mcnp(self.v2z)
 
+        rm = self.rm
         if isinstance(self.rm, types.Real):
             rm = self.rm
         elif isinstance(self.rm, float) or isinstance(self.rm, int):

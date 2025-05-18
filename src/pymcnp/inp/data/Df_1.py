@@ -73,6 +73,7 @@ class DfBuilder_1:
             ``Df_1`` for ``DfBuilder_1``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -80,15 +81,18 @@ class DfBuilder_1:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        options = []
-        for item in self.options:
-            if isinstance(item, df_1.DfOption_1):
-                options.append(item)
-            elif isinstance(item, str):
-                options.append(df_1.DfOption_1.from_mcnp(item))
-            else:
-                options.append(item.build())
-        options = types.Tuple(options)
+        if self.options:
+            options = []
+            for item in self.options:
+                if isinstance(item, df_1.DfOption_1):
+                    options.append(item)
+                elif isinstance(item, str):
+                    options.append(df_1.DfOption_1.from_mcnp(item))
+                else:
+                    options.append(item.build())
+            options = types.Tuple(options)
+        else:
+            options = None
 
         return Df_1(
             suffix=suffix,

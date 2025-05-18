@@ -64,15 +64,18 @@ class FfedgesBuilder:
             ``Ffedges`` for ``FfedgesBuilder``.
         """
 
-        numbers = []
-        for item in self.numbers:
-            if isinstance(item, types.RealOrJump):
-                numbers.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                numbers.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                numbers.append(types.RealOrJump.from_mcnp(item))
-        numbers = types.Tuple(numbers)
+        if self.numbers:
+            numbers = []
+            for item in self.numbers:
+                if isinstance(item, types.RealOrJump):
+                    numbers.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    numbers.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    numbers.append(types.RealOrJump.from_mcnp(item))
+            numbers = types.Tuple(numbers)
+        else:
+            numbers = None
 
         return Ffedges(
             numbers=numbers,

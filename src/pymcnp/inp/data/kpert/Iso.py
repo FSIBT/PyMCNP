@@ -64,15 +64,18 @@ class IsoBuilder:
             ``Iso`` for ``IsoBuilder``.
         """
 
-        zaids = []
-        for item in self.zaids:
-            if isinstance(item, types.RealOrJump):
-                zaids.append(item)
-            elif isinstance(item, float) or isinstance(item, int):
-                zaids.append(types.RealOrJump(item))
-            elif isinstance(item, str):
-                zaids.append(types.RealOrJump.from_mcnp(item))
-        zaids = types.Tuple(zaids)
+        if self.zaids:
+            zaids = []
+            for item in self.zaids:
+                if isinstance(item, types.RealOrJump):
+                    zaids.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    zaids.append(types.RealOrJump(item))
+                elif isinstance(item, str):
+                    zaids.append(types.RealOrJump.from_mcnp(item))
+            zaids = types.Tuple(zaids)
+        else:
+            zaids = None
 
         return Iso(
             zaids=zaids,

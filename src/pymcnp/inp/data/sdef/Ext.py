@@ -64,6 +64,7 @@ class ExtBuilder:
             ``Ext`` for ``ExtBuilder``.
         """
 
+        distance_cosine = self.distance_cosine
         if isinstance(self.distance_cosine, types.Real):
             distance_cosine = self.distance_cosine
         elif isinstance(self.distance_cosine, float) or isinstance(self.distance_cosine, int):

@@ -72,6 +72,7 @@ class MtBuilder:
             ``Mt`` for ``MtBuilder``.
         """
 
+        suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
             suffix = self.suffix
         elif isinstance(self.suffix, int):
@@ -79,6 +80,7 @@ class MtBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        identifier = self.identifier
         if isinstance(self.identifier, types.String):
             identifier = self.identifier
         elif isinstance(self.identifier, str):
