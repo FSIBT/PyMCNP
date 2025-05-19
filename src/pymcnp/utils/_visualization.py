@@ -140,7 +140,7 @@ class Vector:
         if a * b == Vector(0, 0, 0):
             return 0
         else:
-            return numpy.degrees(numpy.arccos(a @ b))
+            return numpy.degrees(numpy.arccos((a @ b) / (a.norm() * b.norm())))
 
 
 class Visualization:
@@ -193,7 +193,7 @@ class Visualization:
         return Visualization(
             pyvista.Plane(
                 center=point,
-                direction=(a, b, c),
+                # direction=(a, b, c),
                 i_size=_UNBOUNDED_SIZE,
                 j_size=_UNBOUNDED_SIZE,
             )
@@ -525,9 +525,11 @@ class Visualization:
         cells = [len(points), *list(range(len(points)))]
         ellipse = pyvista.UnstructuredGrid(cells, [pyvista.CellType.POLYGON], points)
 
-        return ellipse.extract_surface().extrude_rotate(
-            capping=False,
-            resolution=_RESOLUTION,
+        return Visualization(
+            ellipse.extract_surface().extrude_rotate(
+                capping=False,
+                resolution=_RESOLUTION,
+            )
         )
 
     def add_translation(self, vector: Vector):

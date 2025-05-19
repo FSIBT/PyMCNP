@@ -188,7 +188,7 @@ class Real(float, _object.McnpNonterminal):
             source = source[0] + 'e+'.join(source[1:].split('+'))
 
         try:
-            return Real(decimal.Decimal(source))
+            return Real(float(decimal.Decimal(source)))
         except ValueError:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 

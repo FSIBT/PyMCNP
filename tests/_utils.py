@@ -85,3 +85,16 @@ class _Test_Build:
         for example in self.EXAMPLES_INVALID:
             with pytest.raises((pymcnp.utils.errors.InpError, pymcnp.utils.errors.McnpError)):
                 self.element(**example).build()
+
+
+class _Test_Draw:
+    element: pymcnp.utils._object.McnpNonterminal
+    EXAMPLES: list[pathlib.Path] = []
+
+    def test(self):
+        """
+        Tests ``EXAMPLES``.
+        """
+
+        for example in self.EXAMPLES:
+            self.element.from_mcnp(example).draw()

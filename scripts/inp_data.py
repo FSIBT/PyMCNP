@@ -1198,7 +1198,7 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``K_x``.
         """
 
-        vis = _visualization.Visualization.get_cone_quadratic(
+        vis = _visualization.Visualization.get_cone_unbounded(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
@@ -1246,7 +1246,7 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``K_y``.
         """
 
-        vis = _visualization.Visualization.get_cone_quadratic(
+        vis = _visualization.Visualization.get_cone_unbounded(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
@@ -1294,7 +1294,7 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``K_z``.
         """
 
-        vis = _visualization.Visualization.get_cone_quadratic(
+        vis = _visualization.Visualization.get_cone_unbounded(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
@@ -1331,7 +1331,7 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Kx``.
         """
 
-        vis = _visualization.Visualization.get_cone_quadratic(
+        vis = _visualization.Visualization.get_cone_unbounded(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
@@ -1369,7 +1369,7 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Ky``.
         """
 
-        vis = _visualization.Visualization.get_cone_quadratic(
+        vis = _visualization.Visualization.get_cone_unbounded(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
@@ -1407,7 +1407,7 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Kz``.
         """
 
-        vis = _visualization.Visualization.get_cone_quadratic(
+        vis = _visualization.Visualization.get_cone_unbounded(
             self.t_squared.value ** (1 / 2), self.plusminus_1.value
         )
         vis = vis.add_translation(_visualization.Vector(0, 0, self.z.value))
