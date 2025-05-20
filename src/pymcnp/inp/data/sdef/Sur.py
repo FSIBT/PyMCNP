@@ -17,12 +17,12 @@ class Sur(SdefOption):
     """
 
     _ATTRS = {
-        'number': types.IntegerOrJump,
+        'number': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Asur( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Asur( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, number: types.IntegerOrJump):
+    def __init__(self, number: types.Integer):
         """
         Initializes ``Sur``.
 
@@ -33,7 +33,7 @@ class Sur(SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if number is None or not (0 <= number <= 99_999_999):
+        if number is None or not (0 <= number.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Sur(SdefOption):
             ]
         )
 
-        self.number: typing.Final[types.IntegerOrJump] = number
+        self.number: typing.Final[types.Integer] = number
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class SurBuilder:
         number: Surface number.
     """
 
-    number: str | int | types.IntegerOrJump
+    number: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class SurBuilder:
         if isinstance(self.number, types.Integer):
             number = self.number
         elif isinstance(self.number, int):
-            number = types.IntegerOrJump(self.number)
+            number = types.Integer(self.number)
         elif isinstance(self.number, str):
-            number = types.IntegerOrJump.from_mcnp(self.number)
+            number = types.Integer.from_mcnp(self.number)
 
         return Sur(
             number=number,

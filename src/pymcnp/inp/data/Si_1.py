@@ -21,18 +21,15 @@ class Si_1(DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'option': types.String,
-        'information': types.Tuple[types.RealOrJump],
+        'information': types.Tuple[types.Real],
     }
 
     _REGEX = re.compile(
-        rf'\Asi(\d+)( {types.String._REGEX.pattern})((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
+        rf'\Asi(\d+)( {types.String._REGEX.pattern})((?: {types.Real._REGEX.pattern})+?)\Z'
     )
 
     def __init__(
-        self,
-        suffix: types.Integer,
-        option: types.String,
-        information: types.Tuple[types.RealOrJump],
+        self, suffix: types.Integer, option: types.String, information: types.Tuple[types.Real]
     ):
         """
         Initializes ``Si_1``.
@@ -62,7 +59,7 @@ class Si_1(DataOption):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.option: typing.Final[types.String] = option
-        self.information: typing.Final[types.Tuple[types.RealOrJump]] = information
+        self.information: typing.Final[types.Tuple[types.Real]] = information
 
 
 @dataclasses.dataclass
@@ -78,7 +75,7 @@ class SiBuilder_1:
 
     suffix: str | int | types.Integer
     option: str | types.String
-    information: list[str] | list[float] | list[types.RealOrJump]
+    information: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -105,12 +102,12 @@ class SiBuilder_1:
         if self.information:
             information = []
             for item in self.information:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     information.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    information.append(types.RealOrJump(item))
+                    information.append(types.Real(item))
                 elif isinstance(item, str):
-                    information.append(types.RealOrJump.from_mcnp(item))
+                    information.append(types.Real.from_mcnp(item))
             information = types.Tuple(information)
         else:
             information = None

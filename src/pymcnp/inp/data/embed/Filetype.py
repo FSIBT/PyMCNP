@@ -33,7 +33,7 @@ class Filetype(EmbedOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if kind is None or type not in {'ascii', 'binary'}:
+        if kind is None or kind not in {'ascii', 'binary'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

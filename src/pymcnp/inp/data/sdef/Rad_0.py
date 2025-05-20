@@ -17,12 +17,12 @@ class Rad_0(SdefOption):
     """
 
     _ATTRS = {
-        'radial_distance': types.RealOrJump,
+        'radial_distance': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Arad( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Arad( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, radial_distance: types.RealOrJump):
+    def __init__(self, radial_distance: types.Real):
         """
         Initializes ``Rad_0``.
 
@@ -42,7 +42,7 @@ class Rad_0(SdefOption):
             ]
         )
 
-        self.radial_distance: typing.Final[types.RealOrJump] = radial_distance
+        self.radial_distance: typing.Final[types.Real] = radial_distance
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class RadBuilder_0:
         radial_distance: Radial distance fo the position from POS or AXS.
     """
 
-    radial_distance: str | float | types.RealOrJump
+    radial_distance: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class RadBuilder_0:
         if isinstance(self.radial_distance, types.Real):
             radial_distance = self.radial_distance
         elif isinstance(self.radial_distance, float) or isinstance(self.radial_distance, int):
-            radial_distance = types.RealOrJump(self.radial_distance)
+            radial_distance = types.Real(self.radial_distance)
         elif isinstance(self.radial_distance, str):
-            radial_distance = types.RealOrJump.from_mcnp(self.radial_distance)
+            radial_distance = types.Real.from_mcnp(self.radial_distance)
 
         return Rad_0(
             radial_distance=radial_distance,

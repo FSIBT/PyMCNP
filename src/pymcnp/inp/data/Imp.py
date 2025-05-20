@@ -19,12 +19,12 @@ class Imp(DataOption):
 
     _ATTRS = {
         'designator': types.Designator,
-        'importances': types.Tuple[types.RealOrJump],
+        'importances': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Aimp:(\S+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aimp:(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, designator: types.Designator, importances: types.Tuple[types.RealOrJump]):
+    def __init__(self, designator: types.Designator, importances: types.Tuple[types.Real]):
         """
         Initializes ``Imp``.
 
@@ -48,7 +48,7 @@ class Imp(DataOption):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.importances: typing.Final[types.Tuple[types.RealOrJump]] = importances
+        self.importances: typing.Final[types.Tuple[types.Real]] = importances
 
 
 @dataclasses.dataclass
@@ -62,7 +62,7 @@ class ImpBuilder:
     """
 
     designator: str | types.Designator
-    importances: list[str] | list[float] | list[types.RealOrJump]
+    importances: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -81,12 +81,12 @@ class ImpBuilder:
         if self.importances:
             importances = []
             for item in self.importances:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     importances.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    importances.append(types.RealOrJump(item))
+                    importances.append(types.Real(item))
                 elif isinstance(item, str):
-                    importances.append(types.RealOrJump.from_mcnp(item))
+                    importances.append(types.Real.from_mcnp(item))
             importances = types.Tuple(importances)
         else:
             importances = None

@@ -17,12 +17,12 @@ class Fmatskpt(KoptsOption):
     """
 
     _ATTRS = {
-        'fmat_skip': types.RealOrJump,
+        'fmat_skip': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Afmatskpt( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afmatskpt( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, fmat_skip: types.RealOrJump):
+    def __init__(self, fmat_skip: types.Real):
         """
         Initializes ``Fmatskpt``.
 
@@ -42,7 +42,7 @@ class Fmatskpt(KoptsOption):
             ]
         )
 
-        self.fmat_skip: typing.Final[types.RealOrJump] = fmat_skip
+        self.fmat_skip: typing.Final[types.Real] = fmat_skip
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class FmatskptBuilder:
         fmat_skip: fmat_skip.
     """
 
-    fmat_skip: str | float | types.RealOrJump
+    fmat_skip: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class FmatskptBuilder:
         if isinstance(self.fmat_skip, types.Real):
             fmat_skip = self.fmat_skip
         elif isinstance(self.fmat_skip, float) or isinstance(self.fmat_skip, int):
-            fmat_skip = types.RealOrJump(self.fmat_skip)
+            fmat_skip = types.Real(self.fmat_skip)
         elif isinstance(self.fmat_skip, str):
-            fmat_skip = types.RealOrJump.from_mcnp(self.fmat_skip)
+            fmat_skip = types.Real.from_mcnp(self.fmat_skip)
 
         return Fmatskpt(
             fmat_skip=fmat_skip,

@@ -22,19 +22,19 @@ class F_0(DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'problems': types.Tuple[types.IntegerOrJump],
+        'problems': types.Tuple[types.Integer],
         't': types.String,
     }
 
     _REGEX = re.compile(
-        rf'\Af(\d*[123467]):(\S+)((?: {types.IntegerOrJump._REGEX.pattern})+?)( {types.String._REGEX.pattern})?\Z'
+        rf'\Af(\d*[123467]):(\S+)((?: {types.Integer._REGEX.pattern})+?)( {types.String._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
         designator: types.Designator,
-        problems: types.Tuple[types.IntegerOrJump],
+        problems: types.Tuple[types.Integer],
         t: types.String = None,
     ):
         """
@@ -50,12 +50,16 @@ class F_0(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix <= 99_999_999 and suffix % 10 in {1, 2, 4, 6, 7}):
+        if suffix is None or not (
+            suffix.value <= 99_999_999 and suffix.value % 10 in {1, 2, 4, 6, 7}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if problems is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, problems)
+        if t is not None and not (t == 't'):
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -66,7 +70,7 @@ class F_0(DataOption):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
-        self.problems: typing.Final[types.Tuple[types.IntegerOrJump]] = problems
+        self.problems: typing.Final[types.Tuple[types.Integer]] = problems
         self.t: typing.Final[types.String] = t
 
 
@@ -84,7 +88,7 @@ class FBuilder_0:
 
     suffix: str | int | types.Integer
     designator: str | types.Designator
-    problems: list[str] | list[int] | list[types.IntegerOrJump]
+    problems: list[str] | list[int] | list[types.Integer]
     t: str | types.String = None
 
     def build(self):
@@ -112,12 +116,12 @@ class FBuilder_0:
         if self.problems:
             problems = []
             for item in self.problems:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     problems.append(item)
                 elif isinstance(item, int):
-                    problems.append(types.IntegerOrJump(item))
+                    problems.append(types.Integer(item))
                 elif isinstance(item, str):
-                    problems.append(types.IntegerOrJump.from_mcnp(item))
+                    problems.append(types.Integer.from_mcnp(item))
             problems = types.Tuple(problems)
         else:
             problems = None

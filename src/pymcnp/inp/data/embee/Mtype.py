@@ -33,7 +33,7 @@ class Mtype(EmbeeOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if kind is None or type not in {
+        if kind is None or kind not in {
             'flux',
             'isotropic',
             'population',

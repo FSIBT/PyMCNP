@@ -24,30 +24,30 @@ class Wwg(DataOption):
     """
 
     _ATTRS = {
-        'tally': types.IntegerOrJump,
-        'cell': types.IntegerOrJump,
-        'lower': types.RealOrJump,
+        'tally': types.Integer,
+        'cell': types.Integer,
+        'lower': types.Real,
         'j1': types.Jump,
         'j2': types.Jump,
         'j3': types.Jump,
         'j4': types.Jump,
-        'setting': types.IntegerOrJump,
+        'setting': types.Integer,
     }
 
     _REGEX = re.compile(
-        rf'\Awwg( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
+        rf'\Awwg( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        tally: types.IntegerOrJump,
-        cell: types.IntegerOrJump,
-        lower: types.RealOrJump,
+        tally: types.Integer,
+        cell: types.Integer,
+        lower: types.Real,
         j1: types.Jump,
         j2: types.Jump,
         j3: types.Jump,
         j4: types.Jump,
-        setting: types.IntegerOrJump,
+        setting: types.Integer,
     ):
         """
         Initializes ``Wwg``.
@@ -66,9 +66,9 @@ class Wwg(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if tally is None or not (tally <= 99_999_999):
+        if tally is None or not (tally.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tally)
-        if cell is None or not (cell <= 99_999_999):
+        if cell is None or not (cell.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cell)
         if lower is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lower)
@@ -96,14 +96,14 @@ class Wwg(DataOption):
             ]
         )
 
-        self.tally: typing.Final[types.IntegerOrJump] = tally
-        self.cell: typing.Final[types.IntegerOrJump] = cell
-        self.lower: typing.Final[types.RealOrJump] = lower
+        self.tally: typing.Final[types.Integer] = tally
+        self.cell: typing.Final[types.Integer] = cell
+        self.lower: typing.Final[types.Real] = lower
         self.j1: typing.Final[types.Jump] = j1
         self.j2: typing.Final[types.Jump] = j2
         self.j3: typing.Final[types.Jump] = j3
         self.j4: typing.Final[types.Jump] = j4
-        self.setting: typing.Final[types.IntegerOrJump] = setting
+        self.setting: typing.Final[types.Integer] = setting
 
 
 @dataclasses.dataclass
@@ -122,14 +122,14 @@ class WwgBuilder:
         setting: Energy- or time-dependent weight window toggle.
     """
 
-    tally: str | int | types.IntegerOrJump
-    cell: str | int | types.IntegerOrJump
-    lower: str | float | types.RealOrJump
+    tally: str | int | types.Integer
+    cell: str | int | types.Integer
+    lower: str | float | types.Real
     j1: str | types.Jump
     j2: str | types.Jump
     j3: str | types.Jump
     j4: str | types.Jump
-    setting: str | int | types.IntegerOrJump
+    setting: str | int | types.Integer
 
     def build(self):
         """
@@ -143,25 +143,25 @@ class WwgBuilder:
         if isinstance(self.tally, types.Integer):
             tally = self.tally
         elif isinstance(self.tally, int):
-            tally = types.IntegerOrJump(self.tally)
+            tally = types.Integer(self.tally)
         elif isinstance(self.tally, str):
-            tally = types.IntegerOrJump.from_mcnp(self.tally)
+            tally = types.Integer.from_mcnp(self.tally)
 
         cell = self.cell
         if isinstance(self.cell, types.Integer):
             cell = self.cell
         elif isinstance(self.cell, int):
-            cell = types.IntegerOrJump(self.cell)
+            cell = types.Integer(self.cell)
         elif isinstance(self.cell, str):
-            cell = types.IntegerOrJump.from_mcnp(self.cell)
+            cell = types.Integer.from_mcnp(self.cell)
 
         lower = self.lower
         if isinstance(self.lower, types.Real):
             lower = self.lower
         elif isinstance(self.lower, float) or isinstance(self.lower, int):
-            lower = types.RealOrJump(self.lower)
+            lower = types.Real(self.lower)
         elif isinstance(self.lower, str):
-            lower = types.RealOrJump.from_mcnp(self.lower)
+            lower = types.Real.from_mcnp(self.lower)
 
         j1 = self.j1
         if isinstance(self.j1, types.Jump):
@@ -191,9 +191,9 @@ class WwgBuilder:
         if isinstance(self.setting, types.Integer):
             setting = self.setting
         elif isinstance(self.setting, int):
-            setting = types.IntegerOrJump(self.setting)
+            setting = types.Integer(self.setting)
         elif isinstance(self.setting, str):
-            setting = types.IntegerOrJump.from_mcnp(self.setting)
+            setting = types.Integer.from_mcnp(self.setting)
 
         return Wwg(
             tally=tally,

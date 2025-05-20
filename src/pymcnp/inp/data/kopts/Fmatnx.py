@@ -17,12 +17,12 @@ class Fmatnx(KoptsOption):
     """
 
     _ATTRS = {
-        'fmat_nx': types.RealOrJump,
+        'fmat_nx': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Afmatnx( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afmatnx( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, fmat_nx: types.RealOrJump):
+    def __init__(self, fmat_nx: types.Real):
         """
         Initializes ``Fmatnx``.
 
@@ -42,7 +42,7 @@ class Fmatnx(KoptsOption):
             ]
         )
 
-        self.fmat_nx: typing.Final[types.RealOrJump] = fmat_nx
+        self.fmat_nx: typing.Final[types.Real] = fmat_nx
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class FmatnxBuilder:
         fmat_nx: fmat_nx.
     """
 
-    fmat_nx: str | float | types.RealOrJump
+    fmat_nx: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class FmatnxBuilder:
         if isinstance(self.fmat_nx, types.Real):
             fmat_nx = self.fmat_nx
         elif isinstance(self.fmat_nx, float) or isinstance(self.fmat_nx, int):
-            fmat_nx = types.RealOrJump(self.fmat_nx)
+            fmat_nx = types.Real(self.fmat_nx)
         elif isinstance(self.fmat_nx, str):
-            fmat_nx = types.RealOrJump.from_mcnp(self.fmat_nx)
+            fmat_nx = types.Real.from_mcnp(self.fmat_nx)
 
         return Fmatnx(
             fmat_nx=fmat_nx,

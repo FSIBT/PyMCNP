@@ -33,7 +33,7 @@ class Xs_2(MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if m is None or not (m == '?'):
+        if m is None or not (m.value == '?'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, m)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

@@ -17,12 +17,12 @@ class Ic(DfOption_1):
     """
 
     _ATTRS = {
-        'function': types.IntegerOrJump,
+        'function': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Aic( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aic( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, function: types.IntegerOrJump):
+    def __init__(self, function: types.Integer):
         """
         Initializes ``Ic``.
 
@@ -45,7 +45,7 @@ class Ic(DfOption_1):
             ]
         )
 
-        self.function: typing.Final[types.IntegerOrJump] = function
+        self.function: typing.Final[types.Integer] = function
 
 
 @dataclasses.dataclass
@@ -57,7 +57,7 @@ class IcBuilder:
         function: Standard dose function.
     """
 
-    function: str | int | types.IntegerOrJump
+    function: str | int | types.Integer
 
     def build(self):
         """
@@ -71,9 +71,9 @@ class IcBuilder:
         if isinstance(self.function, types.Integer):
             function = self.function
         elif isinstance(self.function, int):
-            function = types.IntegerOrJump(self.function)
+            function = types.Integer(self.function)
         elif isinstance(self.function, str):
-            function = types.IntegerOrJump.from_mcnp(self.function)
+            function = types.Integer.from_mcnp(self.function)
 
         return Ic(
             function=function,

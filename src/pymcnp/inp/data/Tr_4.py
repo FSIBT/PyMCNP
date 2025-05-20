@@ -22,23 +22,23 @@ class Tr_4(DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'x': types.RealOrJump,
-        'y': types.RealOrJump,
-        'z': types.RealOrJump,
-        'system': types.IntegerOrJump,
+        'x': types.Real,
+        'y': types.Real,
+        'z': types.Real,
+        'system': types.Integer,
     }
 
     _REGEX = re.compile(
-        rf'\Atr(\d+)( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})?\Z'
+        rf'\Atr(\d+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
-        x: types.RealOrJump,
-        y: types.RealOrJump,
-        z: types.RealOrJump,
-        system: types.IntegerOrJump = None,
+        x: types.Real,
+        y: types.Real,
+        z: types.Real,
+        system: types.Integer = None,
     ):
         """
         Initializes ``Tr_4``.
@@ -54,7 +54,7 @@ class Tr_4(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (1 <= suffix <= 999):
+        if suffix is None or not (1 <= suffix.value <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
@@ -62,7 +62,7 @@ class Tr_4(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
         if z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z)
-        if system is not None and not (system == -1 or system == 1):
+        if system is not None and not (system.value == -1 or system.value == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, system)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -75,10 +75,10 @@ class Tr_4(DataOption):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.x: typing.Final[types.RealOrJump] = x
-        self.y: typing.Final[types.RealOrJump] = y
-        self.z: typing.Final[types.RealOrJump] = z
-        self.system: typing.Final[types.IntegerOrJump] = system
+        self.x: typing.Final[types.Real] = x
+        self.y: typing.Final[types.Real] = y
+        self.z: typing.Final[types.Real] = z
+        self.system: typing.Final[types.Integer] = system
 
 
 @dataclasses.dataclass
@@ -95,10 +95,10 @@ class TrBuilder_4:
     """
 
     suffix: str | int | types.Integer
-    x: str | float | types.RealOrJump
-    y: str | float | types.RealOrJump
-    z: str | float | types.RealOrJump
-    system: str | int | types.IntegerOrJump = None
+    x: str | float | types.Real
+    y: str | float | types.Real
+    z: str | float | types.Real
+    system: str | int | types.Integer = None
 
     def build(self):
         """
@@ -120,33 +120,33 @@ class TrBuilder_4:
         if isinstance(self.x, types.Real):
             x = self.x
         elif isinstance(self.x, float) or isinstance(self.x, int):
-            x = types.RealOrJump(self.x)
+            x = types.Real(self.x)
         elif isinstance(self.x, str):
-            x = types.RealOrJump.from_mcnp(self.x)
+            x = types.Real.from_mcnp(self.x)
 
         y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):
-            y = types.RealOrJump(self.y)
+            y = types.Real(self.y)
         elif isinstance(self.y, str):
-            y = types.RealOrJump.from_mcnp(self.y)
+            y = types.Real.from_mcnp(self.y)
 
         z = self.z
         if isinstance(self.z, types.Real):
             z = self.z
         elif isinstance(self.z, float) or isinstance(self.z, int):
-            z = types.RealOrJump(self.z)
+            z = types.Real(self.z)
         elif isinstance(self.z, str):
-            z = types.RealOrJump.from_mcnp(self.z)
+            z = types.Real.from_mcnp(self.z)
 
         system = self.system
         if isinstance(self.system, types.Integer):
             system = self.system
         elif isinstance(self.system, int):
-            system = types.IntegerOrJump(self.system)
+            system = types.Integer(self.system)
         elif isinstance(self.system, str):
-            system = types.IntegerOrJump.from_mcnp(self.system)
+            system = types.Integer.from_mcnp(self.system)
 
         return Tr_4(
             suffix=suffix,

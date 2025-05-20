@@ -17,12 +17,12 @@ class Z(SdefOption):
     """
 
     _ATTRS = {
-        'z_coordinate': types.RealOrJump,
+        'z_coordinate': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Az( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Az( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, z_coordinate: types.RealOrJump):
+    def __init__(self, z_coordinate: types.Real):
         """
         Initializes ``Z``.
 
@@ -42,7 +42,7 @@ class Z(SdefOption):
             ]
         )
 
-        self.z_coordinate: typing.Final[types.RealOrJump] = z_coordinate
+        self.z_coordinate: typing.Final[types.Real] = z_coordinate
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class ZBuilder:
         z_coordinate: Z-cordinate of position.
     """
 
-    z_coordinate: str | float | types.RealOrJump
+    z_coordinate: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class ZBuilder:
         if isinstance(self.z_coordinate, types.Real):
             z_coordinate = self.z_coordinate
         elif isinstance(self.z_coordinate, float) or isinstance(self.z_coordinate, int):
-            z_coordinate = types.RealOrJump(self.z_coordinate)
+            z_coordinate = types.Real(self.z_coordinate)
         elif isinstance(self.z_coordinate, str):
-            z_coordinate = types.RealOrJump.from_mcnp(self.z_coordinate)
+            z_coordinate = types.Real.from_mcnp(self.z_coordinate)
 
         return Z(
             z_coordinate=z_coordinate,

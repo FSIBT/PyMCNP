@@ -53,7 +53,7 @@ class CommentBuilder:
         text: comment text.
     """
 
-    number: str | types.String
+    text: str | types.String
 
     def build(self):
         """
@@ -63,6 +63,7 @@ class CommentBuilder:
             ``Comment`` for ``CommentBuilder``.
         """
 
+        text = None
         if isinstance(self.text, str):
             text = types.String(self.text)
         elif isinstance(self.text, types.String):

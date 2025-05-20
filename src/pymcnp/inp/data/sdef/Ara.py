@@ -17,12 +17,12 @@ class Ara(SdefOption):
     """
 
     _ATTRS = {
-        'area': types.RealOrJump,
+        'area': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Aara( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aara( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, area: types.RealOrJump):
+    def __init__(self, area: types.Real):
         """
         Initializes ``Ara``.
 
@@ -42,7 +42,7 @@ class Ara(SdefOption):
             ]
         )
 
-        self.area: typing.Final[types.RealOrJump] = area
+        self.area: typing.Final[types.Real] = area
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class AraBuilder:
         area: Area of surface.
     """
 
-    area: str | float | types.RealOrJump
+    area: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class AraBuilder:
         if isinstance(self.area, types.Real):
             area = self.area
         elif isinstance(self.area, float) or isinstance(self.area, int):
-            area = types.RealOrJump(self.area)
+            area = types.Real(self.area)
         elif isinstance(self.area, str):
-            area = types.RealOrJump.from_mcnp(self.area)
+            area = types.Real.from_mcnp(self.area)
 
         return Ara(
             area=area,

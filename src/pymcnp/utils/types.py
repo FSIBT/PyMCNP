@@ -1,6 +1,5 @@
 import re
 import typing
-import decimal
 import dataclasses
 
 from . import errors
@@ -67,197 +66,6 @@ class Tuple(tuple, _object.McnpNonterminal):
         """
 
         return ' '.join(val.to_mcnp() if val is not None else '' for val in self.value)
-
-
-class Integer(int, _object.McnpNonterminal):
-    """
-    Represents MCNP integers.
-
-    Attributes:
-        value: Integer value.
-    """
-
-    _REGEX = re.compile(r'[-+0-9.eE]+')
-
-    def __init__(self, value: int):
-        """
-        Initializes ``Integer``.
-
-        Parameters:
-            value: Integer value.
-
-        Returns:
-            ``Integer``.
-
-        Raises:
-            McnpError: SEMANTICS_TYPE.
-        """
-
-        if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
-
-        self.value: typing.Final[int] = value
-
-    @staticmethod
-    def from_mcnp(source: str):
-        """
-        Generates ``Integer`` from MCNP.
-
-        Parameters:
-            source: MCNP integer.
-
-        Returns:
-            ``Integer``.
-
-        Raises:
-            McnpError: SYNTAX_TYPE.
-        """
-
-        source, comments = _parser.preprocess_inp(source)
-
-        if '-' in source[1:] and 'e' not in source:
-            source = source[0] + 'e-'.join(source[1:].split('-'))
-        if '+' in source[1:] and 'e' not in source:
-            source = source[0] + 'e+'.join(source[1:].split('+'))
-
-        try:
-            return Integer(int(float(source)))
-        except ValueError:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
-
-    def to_mcnp(self):
-        """
-        Generates MCNP from ``Integer``.
-
-        Returns:
-            MCNP integer.
-        """
-
-        return str(self.value)
-
-
-class Real(float, _object.McnpNonterminal):
-    """
-    Represents MCNP reals.
-
-    Attributes:
-        value: Real value.
-    """
-
-    _REGEX = re.compile(r'[-+0-9.eE]+')
-
-    def __init__(self, value: float | decimal.Decimal):
-        """
-        Initializes ``Real``.
-
-        Parameters:
-            value: Real value.
-
-        Returns:
-            ``Real``.
-
-        Raises:
-            McnpError: SEMANTICS_TYPE.
-        """
-
-        if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
-
-        self.value: typing.Final[float | decimal.Decimal] = value
-
-    @staticmethod
-    def from_mcnp(source: str):
-        """
-        Generates ``Real`` from MCNP.
-
-        Praameters:
-            source: MCNP real.
-
-        Returns:
-            ``Real``.
-
-        Raises:
-            McnpError: SYNTAX_TYPE.
-        """
-
-        source, comments = _parser.preprocess_inp(source)
-
-        if '-' in source[1:] and 'e' not in source:
-            source = source[0] + 'e-'.join(source[1:].split('-'))
-        if '+' in source[1:] and 'e' not in source:
-            source = source[0] + 'e+'.join(source[1:].split('+'))
-
-        try:
-            return Real(float(decimal.Decimal(source)))
-        except ValueError:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
-
-    def to_mcnp(self):
-        """
-        Generates MCNP from ``Real``.
-
-        Returns:
-            MCNP real.
-        """
-
-        return str(self.value)
-
-
-class String(str, _object.McnpNonterminal):
-    """
-    Represents MCNP strings.
-
-    Attributes:
-        value: String value.
-    """
-
-    _REGEX = re.compile(r'\S+')
-
-    def __init__(self, value: str):
-        """
-        Initializes ``String``.
-
-        Parameters:
-            value: String value.
-
-        Returns:
-            ``String``.
-
-        Raises:
-            McnpError: SEMANTICS_TYPE.
-        """
-
-        if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
-
-        self.value: typing.Final[str] = value
-
-    @staticmethod
-    def from_mcnp(source: str):
-        """
-        Generates ``String`` from MCNP.
-
-        Praameters:
-            source: MCNP string.
-
-        Returns:
-            ``String``.
-
-        Raises:
-            McnpError: SYNTAX_TYPE.
-        """
-
-        return String(source)
-
-    def to_mcnp(self):
-        """
-        Generates MCNP from ``String``.
-
-        Returns:
-            MCNP string.
-        """
-
-        return self
 
 
 class Repeat(_object.McnpNonterminal):
@@ -582,7 +390,238 @@ class Log(_object.McnpNonterminal):
             MCNP logs.
         """
 
-        return f'{self.n}j'
+        return f'{self.n}log'
+
+
+class Integer(_object.McnpNonterminal):
+    """
+    Represents MCNP integers or jump.
+
+    Attributes:
+        value: Integer value or jump.
+    """
+
+    _REGEX = re.compile(r'(?:[-+0-9.eE]+|\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r)')
+
+    def __init__(self, value: int | Repeat | Insert | Multiply | Jump | Log):
+        """
+        Initializes ``Integer``.
+
+        Parameters:
+            value: Integer or jump value.
+
+        Returns:
+            ``Integer``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE.
+        """
+
+        if value is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
+
+        self.value: typing.Final[int] = value
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``Integer`` from MCNP.
+
+        Parameters:
+            source: MCNP integer or jump.
+
+        Returns:
+            ``Integer``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+
+        try:
+            return Integer(Repeat.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return Integer(Insert.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return Integer(Multiply.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return Integer(Jump.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return Integer(Log.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return Integer(int(float(source)))
+        except errors.McnpError:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+    def to_mcnp(self):
+        """
+        Generates MCNP from ``Integer``.
+
+        Returns:
+            MCNP integer.
+        """
+
+        return str(self.value)
+
+
+class Real(_object.McnpNonterminal):
+    """
+    Represents MCNP integers or jump.
+
+    Attributes:
+        value: Real value or jump.
+    """
+
+    _REGEX = re.compile(r'(?:[-+0-9.eE]+|\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r)')
+
+    def __init__(self, value: int | Repeat | Insert | Multiply | Jump | Log):
+        """
+        Initializes ``Real``.
+
+        Parameters:
+            value: Real or jump value.
+
+        Returns:
+            ``Real``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE.
+        """
+
+        if value is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
+
+        self.value: typing.Final[int] = value
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``Real`` from MCNP.
+
+        Parameters:
+            source: MCNP real or jump.
+
+        Returns:
+            ``Real``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+
+        try:
+            return Real(Repeat.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return Real(Insert.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return Real(Multiply.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return Real(Jump.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return Real(Log.from_mcnp(source))
+        except errors.McnpError:
+            pass
+
+        try:
+            return Real(float(source))
+        except errors.McnpError:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+    def to_mcnp(self):
+        """
+        Generates MCNP from ``Real``.
+
+        Returns:
+            MCNP real.
+        """
+
+        return str(self.value)
+
+
+class String(str, _object.McnpNonterminal):
+    """
+    Represents MCNP strings.
+
+    Attributes:
+        value: String value.
+    """
+
+    _REGEX = re.compile(r'\S+')
+
+    def __init__(self, value: str):
+        """
+        Initializes ``String``.
+
+        Parameters:
+            value: String value.
+
+        Returns:
+            ``String``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE.
+        """
+
+        if value is None:
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
+
+        self.value: typing.Final[str] = value
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``String`` from MCNP.
+
+        Praameters:
+            source: MCNP string.
+
+        Returns:
+            ``String``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        return String(source)
+
+    def to_mcnp(self):
+        """
+        Generates MCNP from ``String``.
+
+        Returns:
+            MCNP string.
+        """
+
+        return self
 
 
 class DistributionNumber(_object.McnpNonterminal):
@@ -1866,7 +1905,7 @@ class Stochastic(_object.McnpNonterminal):
             McnpError: SEMANTICS_TYPE.
         """
 
-        if universe is None or not (0 <= universe <= 99_999_999):
+        if universe is None or not (0 <= universe.value <= 99_999_999):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, universe)
         if maximum_x is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, maximum_x)
@@ -2112,7 +2151,7 @@ class File(_object.McnpNonterminal):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, filename)
         if access is None or access not in {'sequential', 'direct'}:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, access)
-        if form is None or format not in {'formatted', 'unformatted'}:
+        if form is None or form.value not in {'formatted', 'unformatted'}:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, form)
         if length is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, length)
@@ -2797,177 +2836,3 @@ class Index(_object.McnpNonterminal):
         """
 
         return f'{self.lower}:{self.upper}'
-
-
-class IntegerOrJump(_object.McnpNonterminal):
-    """
-    Represents MCNP integers or jump.
-
-    Attributes:
-        value: Integer value or jump.
-    """
-
-    _REGEX = re.compile(r'(?:[-+0-9.eE]+|\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r)')
-
-    def __init__(self, value: int | Repeat | Insert | Multiply | Jump | Log):
-        """
-        Initializes ``IntegerOrJump``.
-
-        Parameters:
-            value: Integer or jump value.
-
-        Returns:
-            ``IntegerOrJump``.
-
-        Raises:
-            McnpError: SEMANTICS_TYPE.
-        """
-
-        if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
-
-        self.value: typing.Final[int] = value
-
-    @staticmethod
-    def from_mcnp(source: str):
-        """
-        Generates ``IntegerOrJump`` from MCNP.
-
-        Parameters:
-            source: MCNP integer or jump.
-
-        Returns:
-            ``IntegerOrJump``.
-
-        Raises:
-            McnpError: SYNTAX_TYPE.
-        """
-
-        source, comments = _parser.preprocess_inp(source)
-
-        try:
-            return IntegerOrJump(Repeat.from_mcnp(source))
-        except errors.McnpError:
-            pass
-
-        try:
-            return IntegerOrJump(Insert.from_mcnp(source))
-        except errors.McnpError:
-            pass
-
-        try:
-            return IntegerOrJump(Multiply.from_mcnp(source))
-        except errors.McnpError:
-            pass
-
-        try:
-            return IntegerOrJump(Jump.from_mcnp(source))
-        except errors.McnpError:
-            pass
-
-        try:
-            return IntegerOrJump(Log.from_mcnp(source))
-        except errors.McnpError:
-            pass
-
-        try:
-            return IntegerOrJump(Integer.from_mcnp(source).value)
-        except errors.McnpError:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
-
-    def to_mcnp(self):
-        """
-        Generates MCNP from ``IntegerOrJump``.
-
-        Returns:
-            MCNP integer.
-        """
-
-        return str(self.value)
-
-
-class RealOrJump(_object.McnpNonterminal):
-    """
-    Represents MCNP integers or jump.
-
-    Attributes:
-        value: Real value or jump.
-    """
-
-    _REGEX = re.compile(r'(?:[-+0-9.eE]+|\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r)')
-
-    def __init__(self, value: int | Repeat | Insert | Multiply | Jump | Log):
-        """
-        Initializes ``RealOrJump``.
-
-        Parameters:
-            value: Real or jump value.
-
-        Returns:
-            ``RealOrJump``.
-
-        Raises:
-            McnpError: SEMANTICS_TYPE.
-        """
-
-        if value is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
-
-        self.value: typing.Final[int] = value
-
-    @staticmethod
-    def from_mcnp(source: str):
-        """
-        Generates ``RealOrJump`` from MCNP.
-
-        Parameters:
-            source: MCNP real or jump.
-
-        Returns:
-            ``RealOrJump``.
-
-        Raises:
-            McnpError: SYNTAX_TYPE.
-        """
-
-        source, comments = _parser.preprocess_inp(source)
-
-        try:
-            return RealOrJump(Repeat.from_mcnp(source))
-        except errors.McnpError:
-            pass
-
-        try:
-            return RealOrJump(Insert.from_mcnp(source))
-        except errors.McnpError:
-            pass
-
-        try:
-            return RealOrJump(Multiply.from_mcnp(source))
-        except errors.McnpError:
-            pass
-
-        try:
-            return RealOrJump(Jump.from_mcnp(source))
-        except errors.McnpError:
-            pass
-
-        try:
-            return RealOrJump(Log.from_mcnp(source))
-        except errors.McnpError:
-            pass
-
-        try:
-            return RealOrJump(Real.from_mcnp(source).value)
-        except errors.McnpError:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
-
-    def to_mcnp(self):
-        """
-        Generates MCNP from ``RealOrJump``.
-
-        Returns:
-            MCNP real.
-        """
-
-        return str(self.value)

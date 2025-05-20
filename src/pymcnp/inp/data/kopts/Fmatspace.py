@@ -17,12 +17,12 @@ class Fmatspace(KoptsOption):
     """
 
     _ATTRS = {
-        'fmat_space': types.RealOrJump,
+        'fmat_space': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Afmatspace( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afmatspace( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, fmat_space: types.RealOrJump):
+    def __init__(self, fmat_space: types.Real):
         """
         Initializes ``Fmatspace``.
 
@@ -42,7 +42,7 @@ class Fmatspace(KoptsOption):
             ]
         )
 
-        self.fmat_space: typing.Final[types.RealOrJump] = fmat_space
+        self.fmat_space: typing.Final[types.Real] = fmat_space
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class FmatspaceBuilder:
         fmat_space: fmat_space.
     """
 
-    fmat_space: str | float | types.RealOrJump
+    fmat_space: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class FmatspaceBuilder:
         if isinstance(self.fmat_space, types.Real):
             fmat_space = self.fmat_space
         elif isinstance(self.fmat_space, float) or isinstance(self.fmat_space, int):
-            fmat_space = types.RealOrJump(self.fmat_space)
+            fmat_space = types.Real(self.fmat_space)
         elif isinstance(self.fmat_space, str):
-            fmat_space = types.RealOrJump.from_mcnp(self.fmat_space)
+            fmat_space = types.Real.from_mcnp(self.fmat_space)
 
         return Fmatspace(
             fmat_space=fmat_space,

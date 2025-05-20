@@ -19,12 +19,12 @@ class Vol(DataOption):
 
     _ATTRS = {
         'no': types.String,
-        'volumes': types.Tuple[types.RealOrJump],
+        'volumes': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Avol(?: (no))?((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Avol(?: (no))?((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, volumes: types.Tuple[types.RealOrJump], no: types.String = None):
+    def __init__(self, volumes: types.Tuple[types.Real], no: types.String = None):
         """
         Initializes ``Vol``.
 
@@ -49,7 +49,7 @@ class Vol(DataOption):
         )
 
         self.no: typing.Final[types.String] = no
-        self.volumes: typing.Final[types.Tuple[types.RealOrJump]] = volumes
+        self.volumes: typing.Final[types.Tuple[types.Real]] = volumes
 
 
 @dataclasses.dataclass
@@ -62,7 +62,7 @@ class VolBuilder:
         volumes: Tuple of cell volumes.
     """
 
-    volumes: list[str] | list[float] | list[types.RealOrJump]
+    volumes: list[str] | list[float] | list[types.Real]
     no: str | types.String = None
 
     def build(self):
@@ -82,12 +82,12 @@ class VolBuilder:
         if self.volumes:
             volumes = []
             for item in self.volumes:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     volumes.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    volumes.append(types.RealOrJump(item))
+                    volumes.append(types.Real(item))
                 elif isinstance(item, str):
-                    volumes.append(types.RealOrJump.from_mcnp(item))
+                    volumes.append(types.Real.from_mcnp(item))
             volumes = types.Tuple(volumes)
         else:
             volumes = None

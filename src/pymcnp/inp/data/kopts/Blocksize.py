@@ -17,12 +17,12 @@ class Blocksize(KoptsOption):
     """
 
     _ATTRS = {
-        'ncy': types.IntegerOrJump,
+        'ncy': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Ablocksize( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ablocksize( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, ncy: types.IntegerOrJump):
+    def __init__(self, ncy: types.Integer):
         """
         Initializes ``Blocksize``.
 
@@ -33,7 +33,7 @@ class Blocksize(KoptsOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if ncy is None or not (ncy >= 2):
+        if ncy is None or not (ncy.value >= 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ncy)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Blocksize(KoptsOption):
             ]
         )
 
-        self.ncy: typing.Final[types.IntegerOrJump] = ncy
+        self.ncy: typing.Final[types.Integer] = ncy
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class BlocksizeBuilder:
         ncy: Number of cycles in every outer iteration.
     """
 
-    ncy: str | int | types.IntegerOrJump
+    ncy: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class BlocksizeBuilder:
         if isinstance(self.ncy, types.Integer):
             ncy = self.ncy
         elif isinstance(self.ncy, int):
-            ncy = types.IntegerOrJump(self.ncy)
+            ncy = types.Integer(self.ncy)
         elif isinstance(self.ncy, str):
-            ncy = types.IntegerOrJump.from_mcnp(self.ncy)
+            ncy = types.Integer.from_mcnp(self.ncy)
 
         return Blocksize(
             ncy=ncy,

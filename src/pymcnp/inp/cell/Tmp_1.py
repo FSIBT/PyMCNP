@@ -33,7 +33,7 @@ class Tmp_1(CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if temperature is None or not (min(temperature) > 0):
+        if temperature is None or not (min(map(lambda temp: temp.value, temperature)) > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, temperature)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

@@ -17,12 +17,12 @@ class Dnbais(ActOption):
     """
 
     _ATTRS = {
-        'count': types.IntegerOrJump,
+        'count': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Adnbais( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Adnbais( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, count: types.IntegerOrJump):
+    def __init__(self, count: types.Integer):
         """
         Initializes ``Dnbais``.
 
@@ -33,7 +33,7 @@ class Dnbais(ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if count is None or not (0 <= count <= 10):
+        if count is None or not (0 <= count.value <= 10):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Dnbais(ActOption):
             ]
         )
 
-        self.count: typing.Final[types.IntegerOrJump] = count
+        self.count: typing.Final[types.Integer] = count
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class DnbaisBuilder:
         count: Maximum number of neutrons generated per reaction.
     """
 
-    count: str | int | types.IntegerOrJump
+    count: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class DnbaisBuilder:
         if isinstance(self.count, types.Integer):
             count = self.count
         elif isinstance(self.count, int):
-            count = types.IntegerOrJump(self.count)
+            count = types.Integer(self.count)
         elif isinstance(self.count, str):
-            count = types.IntegerOrJump.from_mcnp(self.count)
+            count = types.Integer.from_mcnp(self.count)
 
         return Dnbais(
             count=count,

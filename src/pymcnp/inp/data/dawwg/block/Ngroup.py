@@ -17,12 +17,12 @@ class Ngroup(BlockOption):
     """
 
     _ATTRS = {
-        'value': types.IntegerOrJump,
+        'value': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Angroup( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Angroup( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, value: types.IntegerOrJump):
+    def __init__(self, value: types.Integer):
         """
         Initializes ``Ngroup``.
 
@@ -42,7 +42,7 @@ class Ngroup(BlockOption):
             ]
         )
 
-        self.value: typing.Final[types.IntegerOrJump] = value
+        self.value: typing.Final[types.Integer] = value
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class NgroupBuilder:
         value: Number of energy groups.
     """
 
-    value: str | int | types.IntegerOrJump
+    value: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class NgroupBuilder:
         if isinstance(self.value, types.Integer):
             value = self.value
         elif isinstance(self.value, int):
-            value = types.IntegerOrJump(self.value)
+            value = types.Integer(self.value)
         elif isinstance(self.value, str):
-            value = types.IntegerOrJump.from_mcnp(self.value)
+            value = types.Integer.from_mcnp(self.value)
 
         return Ngroup(
             value=value,

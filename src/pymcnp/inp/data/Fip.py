@@ -30,36 +30,36 @@ class Fip(DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'x1': types.RealOrJump,
-        'y1': types.RealOrJump,
-        'z1': types.RealOrJump,
-        'ro': types.RealOrJump,
-        'x2': types.RealOrJump,
-        'y2': types.RealOrJump,
-        'z2': types.RealOrJump,
-        'f1': types.RealOrJump,
-        'f2': types.RealOrJump,
-        'f3': types.RealOrJump,
+        'x1': types.Real,
+        'y1': types.Real,
+        'z1': types.Real,
+        'ro': types.Real,
+        'x2': types.Real,
+        'y2': types.Real,
+        'z2': types.Real,
+        'f1': types.Real,
+        'f2': types.Real,
+        'f3': types.Real,
     }
 
     _REGEX = re.compile(
-        rf'\Afip(\d+):(\S+)( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
+        rf'\Afip(\d+):(\S+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
         designator: types.Designator,
-        x1: types.RealOrJump,
-        y1: types.RealOrJump,
-        z1: types.RealOrJump,
-        ro: types.RealOrJump,
-        x2: types.RealOrJump,
-        y2: types.RealOrJump,
-        z2: types.RealOrJump,
-        f1: types.RealOrJump,
-        f2: types.RealOrJump,
-        f3: types.RealOrJump,
+        x1: types.Real,
+        y1: types.Real,
+        z1: types.Real,
+        ro: types.Real,
+        x2: types.Real,
+        y2: types.Real,
+        z2: types.Real,
+        f1: types.Real,
+        f2: types.Real,
+        f3: types.Real,
     ):
         """
         Initializes ``Fip``.
@@ -82,7 +82,7 @@ class Fip(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 5):
+        if suffix is None or not (suffix.value <= 99_999_999 and suffix.value % 10 == 5):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
@@ -92,7 +92,7 @@ class Fip(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y1)
         if z1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z1)
-        if ro is None or not (ro == 0):
+        if ro is None or not (ro.value == 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ro)
         if x2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x2)
@@ -100,11 +100,11 @@ class Fip(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y2)
         if z2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z2)
-        if f1 is None or not (f1 >= 0):
+        if f1 is None or not (f1.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f1)
-        if f2 is None or not (f2 >= 0):
+        if f2 is None or not (f2.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f2)
-        if f3 is None or not (f3 >= 0):
+        if f3 is None or not (f3.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f3)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -124,16 +124,16 @@ class Fip(DataOption):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
-        self.x1: typing.Final[types.RealOrJump] = x1
-        self.y1: typing.Final[types.RealOrJump] = y1
-        self.z1: typing.Final[types.RealOrJump] = z1
-        self.ro: typing.Final[types.RealOrJump] = ro
-        self.x2: typing.Final[types.RealOrJump] = x2
-        self.y2: typing.Final[types.RealOrJump] = y2
-        self.z2: typing.Final[types.RealOrJump] = z2
-        self.f1: typing.Final[types.RealOrJump] = f1
-        self.f2: typing.Final[types.RealOrJump] = f2
-        self.f3: typing.Final[types.RealOrJump] = f3
+        self.x1: typing.Final[types.Real] = x1
+        self.y1: typing.Final[types.Real] = y1
+        self.z1: typing.Final[types.Real] = z1
+        self.ro: typing.Final[types.Real] = ro
+        self.x2: typing.Final[types.Real] = x2
+        self.y2: typing.Final[types.Real] = y2
+        self.z2: typing.Final[types.Real] = z2
+        self.f1: typing.Final[types.Real] = f1
+        self.f2: typing.Final[types.Real] = f2
+        self.f3: typing.Final[types.Real] = f3
 
 
 @dataclasses.dataclass
@@ -158,16 +158,16 @@ class FipBuilder:
 
     suffix: str | int | types.Integer
     designator: str | types.Designator
-    x1: str | float | types.RealOrJump
-    y1: str | float | types.RealOrJump
-    z1: str | float | types.RealOrJump
-    ro: str | float | types.RealOrJump
-    x2: str | float | types.RealOrJump
-    y2: str | float | types.RealOrJump
-    z2: str | float | types.RealOrJump
-    f1: str | float | types.RealOrJump
-    f2: str | float | types.RealOrJump
-    f3: str | float | types.RealOrJump
+    x1: str | float | types.Real
+    y1: str | float | types.Real
+    z1: str | float | types.Real
+    ro: str | float | types.Real
+    x2: str | float | types.Real
+    y2: str | float | types.Real
+    z2: str | float | types.Real
+    f1: str | float | types.Real
+    f2: str | float | types.Real
+    f3: str | float | types.Real
 
     def build(self):
         """
@@ -195,81 +195,81 @@ class FipBuilder:
         if isinstance(self.x1, types.Real):
             x1 = self.x1
         elif isinstance(self.x1, float) or isinstance(self.x1, int):
-            x1 = types.RealOrJump(self.x1)
+            x1 = types.Real(self.x1)
         elif isinstance(self.x1, str):
-            x1 = types.RealOrJump.from_mcnp(self.x1)
+            x1 = types.Real.from_mcnp(self.x1)
 
         y1 = self.y1
         if isinstance(self.y1, types.Real):
             y1 = self.y1
         elif isinstance(self.y1, float) or isinstance(self.y1, int):
-            y1 = types.RealOrJump(self.y1)
+            y1 = types.Real(self.y1)
         elif isinstance(self.y1, str):
-            y1 = types.RealOrJump.from_mcnp(self.y1)
+            y1 = types.Real.from_mcnp(self.y1)
 
         z1 = self.z1
         if isinstance(self.z1, types.Real):
             z1 = self.z1
         elif isinstance(self.z1, float) or isinstance(self.z1, int):
-            z1 = types.RealOrJump(self.z1)
+            z1 = types.Real(self.z1)
         elif isinstance(self.z1, str):
-            z1 = types.RealOrJump.from_mcnp(self.z1)
+            z1 = types.Real.from_mcnp(self.z1)
 
         ro = self.ro
         if isinstance(self.ro, types.Real):
             ro = self.ro
         elif isinstance(self.ro, float) or isinstance(self.ro, int):
-            ro = types.RealOrJump(self.ro)
+            ro = types.Real(self.ro)
         elif isinstance(self.ro, str):
-            ro = types.RealOrJump.from_mcnp(self.ro)
+            ro = types.Real.from_mcnp(self.ro)
 
         x2 = self.x2
         if isinstance(self.x2, types.Real):
             x2 = self.x2
         elif isinstance(self.x2, float) or isinstance(self.x2, int):
-            x2 = types.RealOrJump(self.x2)
+            x2 = types.Real(self.x2)
         elif isinstance(self.x2, str):
-            x2 = types.RealOrJump.from_mcnp(self.x2)
+            x2 = types.Real.from_mcnp(self.x2)
 
         y2 = self.y2
         if isinstance(self.y2, types.Real):
             y2 = self.y2
         elif isinstance(self.y2, float) or isinstance(self.y2, int):
-            y2 = types.RealOrJump(self.y2)
+            y2 = types.Real(self.y2)
         elif isinstance(self.y2, str):
-            y2 = types.RealOrJump.from_mcnp(self.y2)
+            y2 = types.Real.from_mcnp(self.y2)
 
         z2 = self.z2
         if isinstance(self.z2, types.Real):
             z2 = self.z2
         elif isinstance(self.z2, float) or isinstance(self.z2, int):
-            z2 = types.RealOrJump(self.z2)
+            z2 = types.Real(self.z2)
         elif isinstance(self.z2, str):
-            z2 = types.RealOrJump.from_mcnp(self.z2)
+            z2 = types.Real.from_mcnp(self.z2)
 
         f1 = self.f1
         if isinstance(self.f1, types.Real):
             f1 = self.f1
         elif isinstance(self.f1, float) or isinstance(self.f1, int):
-            f1 = types.RealOrJump(self.f1)
+            f1 = types.Real(self.f1)
         elif isinstance(self.f1, str):
-            f1 = types.RealOrJump.from_mcnp(self.f1)
+            f1 = types.Real.from_mcnp(self.f1)
 
         f2 = self.f2
         if isinstance(self.f2, types.Real):
             f2 = self.f2
         elif isinstance(self.f2, float) or isinstance(self.f2, int):
-            f2 = types.RealOrJump(self.f2)
+            f2 = types.Real(self.f2)
         elif isinstance(self.f2, str):
-            f2 = types.RealOrJump.from_mcnp(self.f2)
+            f2 = types.Real.from_mcnp(self.f2)
 
         f3 = self.f3
         if isinstance(self.f3, types.Real):
             f3 = self.f3
         elif isinstance(self.f3, float) or isinstance(self.f3, int):
-            f3 = types.RealOrJump(self.f3)
+            f3 = types.Real(self.f3)
         elif isinstance(self.f3, str):
-            f3 = types.RealOrJump.from_mcnp(self.f3)
+            f3 = types.Real.from_mcnp(self.f3)
 
         return Fip(
             suffix=suffix,

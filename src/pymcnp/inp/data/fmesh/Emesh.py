@@ -17,12 +17,12 @@ class Emesh(FmeshOption):
     """
 
     _ATTRS = {
-        'energy': types.RealOrJump,
+        'energy': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Aemesh( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aemesh( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, energy: types.RealOrJump):
+    def __init__(self, energy: types.Real):
         """
         Initializes ``Emesh``.
 
@@ -42,7 +42,7 @@ class Emesh(FmeshOption):
             ]
         )
 
-        self.energy: typing.Final[types.RealOrJump] = energy
+        self.energy: typing.Final[types.Real] = energy
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class EmeshBuilder:
         energy: Values of mesh points in energy.
     """
 
-    energy: str | float | types.RealOrJump
+    energy: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class EmeshBuilder:
         if isinstance(self.energy, types.Real):
             energy = self.energy
         elif isinstance(self.energy, float) or isinstance(self.energy, int):
-            energy = types.RealOrJump(self.energy)
+            energy = types.Real(self.energy)
         elif isinstance(self.energy, str):
-            energy = types.RealOrJump.from_mcnp(self.energy)
+            energy = types.Real.from_mcnp(self.energy)
 
         return Emesh(
             energy=energy,

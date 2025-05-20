@@ -17,12 +17,12 @@ class Fmatny(KoptsOption):
     """
 
     _ATTRS = {
-        'fmat_ny': types.RealOrJump,
+        'fmat_ny': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Afmatny( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afmatny( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, fmat_ny: types.RealOrJump):
+    def __init__(self, fmat_ny: types.Real):
         """
         Initializes ``Fmatny``.
 
@@ -42,7 +42,7 @@ class Fmatny(KoptsOption):
             ]
         )
 
-        self.fmat_ny: typing.Final[types.RealOrJump] = fmat_ny
+        self.fmat_ny: typing.Final[types.Real] = fmat_ny
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class FmatnyBuilder:
         fmat_ny: fmat_ny.
     """
 
-    fmat_ny: str | float | types.RealOrJump
+    fmat_ny: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class FmatnyBuilder:
         if isinstance(self.fmat_ny, types.Real):
             fmat_ny = self.fmat_ny
         elif isinstance(self.fmat_ny, float) or isinstance(self.fmat_ny, int):
-            fmat_ny = types.RealOrJump(self.fmat_ny)
+            fmat_ny = types.Real(self.fmat_ny)
         elif isinstance(self.fmat_ny, str):
-            fmat_ny = types.RealOrJump.from_mcnp(self.fmat_ny)
+            fmat_ny = types.Real.from_mcnp(self.fmat_ny)
 
         return Fmatny(
             fmat_ny=fmat_ny,

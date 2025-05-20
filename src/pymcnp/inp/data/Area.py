@@ -17,12 +17,12 @@ class Area(DataOption):
     """
 
     _ATTRS = {
-        'areas': types.Tuple[types.RealOrJump],
+        'areas': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Aarea((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aarea((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, areas: types.Tuple[types.RealOrJump]):
+    def __init__(self, areas: types.Tuple[types.Real]):
         """
         Initializes ``Area``.
 
@@ -42,7 +42,7 @@ class Area(DataOption):
             ]
         )
 
-        self.areas: typing.Final[types.Tuple[types.RealOrJump]] = areas
+        self.areas: typing.Final[types.Tuple[types.Real]] = areas
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class AreaBuilder:
         areas: Tuple of surface areas.
     """
 
-    areas: list[str] | list[float] | list[types.RealOrJump]
+    areas: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class AreaBuilder:
         if self.areas:
             areas = []
             for item in self.areas:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     areas.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    areas.append(types.RealOrJump(item))
+                    areas.append(types.Real(item))
                 elif isinstance(item, str):
-                    areas.append(types.RealOrJump.from_mcnp(item))
+                    areas.append(types.Real.from_mcnp(item))
             areas = types.Tuple(areas)
         else:
             areas = None

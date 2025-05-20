@@ -33,7 +33,7 @@ class Out(FmeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting not in {'col', 'cf', 'ij', 'ik', 'jk', 'none'}:
+        if setting is None or setting.value not in {'col', 'cf', 'ij', 'ik', 'jk', 'none'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

@@ -19,18 +19,16 @@ class Sp_1(DataOption):
     """
 
     _ATTRS = {
-        'function': types.IntegerOrJump,
-        'a': types.RealOrJump,
-        'b': types.RealOrJump,
+        'function': types.Integer,
+        'a': types.Real,
+        'b': types.Real,
     }
 
     _REGEX = re.compile(
-        rf'\Asp( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})?\Z'
+        rf'\Asp( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?\Z'
     )
 
-    def __init__(
-        self, function: types.IntegerOrJump, a: types.RealOrJump, b: types.RealOrJump = None
-    ):
+    def __init__(self, function: types.Integer, a: types.Real, b: types.Real = None):
         """
         Initializes ``Sp_1``.
 
@@ -43,7 +41,7 @@ class Sp_1(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if function is None or function not in {-2, -3, -4, -5, -6, -7, -21, -31, -41}:
+        if function is None or function.value not in {-2, -3, -4, -5, -6, -7, -21, -31, -41}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, function)
         if a is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
@@ -56,9 +54,9 @@ class Sp_1(DataOption):
             ]
         )
 
-        self.function: typing.Final[types.IntegerOrJump] = function
-        self.a: typing.Final[types.RealOrJump] = a
-        self.b: typing.Final[types.RealOrJump] = b
+        self.function: typing.Final[types.Integer] = function
+        self.a: typing.Final[types.Real] = a
+        self.b: typing.Final[types.Real] = b
 
 
 @dataclasses.dataclass
@@ -72,9 +70,9 @@ class SpBuilder_1:
         b: Built-in function parameter #2.
     """
 
-    function: str | int | types.IntegerOrJump
-    a: str | float | types.RealOrJump
-    b: str | float | types.RealOrJump = None
+    function: str | int | types.Integer
+    a: str | float | types.Real
+    b: str | float | types.Real = None
 
     def build(self):
         """
@@ -88,25 +86,25 @@ class SpBuilder_1:
         if isinstance(self.function, types.Integer):
             function = self.function
         elif isinstance(self.function, int):
-            function = types.IntegerOrJump(self.function)
+            function = types.Integer(self.function)
         elif isinstance(self.function, str):
-            function = types.IntegerOrJump.from_mcnp(self.function)
+            function = types.Integer.from_mcnp(self.function)
 
         a = self.a
         if isinstance(self.a, types.Real):
             a = self.a
         elif isinstance(self.a, float) or isinstance(self.a, int):
-            a = types.RealOrJump(self.a)
+            a = types.Real(self.a)
         elif isinstance(self.a, str):
-            a = types.RealOrJump.from_mcnp(self.a)
+            a = types.Real.from_mcnp(self.a)
 
         b = self.b
         if isinstance(self.b, types.Real):
             b = self.b
         elif isinstance(self.b, float) or isinstance(self.b, int):
-            b = types.RealOrJump(self.b)
+            b = types.Real(self.b)
         elif isinstance(self.b, str):
-            b = types.RealOrJump.from_mcnp(self.b)
+            b = types.Real.from_mcnp(self.b)
 
         return Sp_1(
             function=function,

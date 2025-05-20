@@ -17,12 +17,12 @@ class Axs(SsrOption):
     """
 
     _ATTRS = {
-        'cosines': types.Tuple[types.RealOrJump],
+        'cosines': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Aaxs((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aaxs((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, cosines: types.Tuple[types.RealOrJump]):
+    def __init__(self, cosines: types.Tuple[types.Real]):
         """
         Initializes ``Axs``.
 
@@ -42,7 +42,7 @@ class Axs(SsrOption):
             ]
         )
 
-        self.cosines: typing.Final[types.Tuple[types.RealOrJump]] = cosines
+        self.cosines: typing.Final[types.Tuple[types.Real]] = cosines
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class AxsBuilder:
         cosines: Direction cosines defining.
     """
 
-    cosines: list[str] | list[float] | list[types.RealOrJump]
+    cosines: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class AxsBuilder:
         if self.cosines:
             cosines = []
             for item in self.cosines:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     cosines.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    cosines.append(types.RealOrJump(item))
+                    cosines.append(types.Real(item))
                 elif isinstance(item, str):
-                    cosines.append(types.RealOrJump.from_mcnp(item))
+                    cosines.append(types.Real.from_mcnp(item))
             cosines = types.Tuple(cosines)
         else:
             cosines = None

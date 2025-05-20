@@ -17,12 +17,12 @@ class Poa(SsrOption):
     """
 
     _ATTRS = {
-        'angle': types.RealOrJump,
+        'angle': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Apoa( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Apoa( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, angle: types.RealOrJump):
+    def __init__(self, angle: types.Real):
         """
         Initializes ``Poa``.
 
@@ -42,7 +42,7 @@ class Poa(SsrOption):
             ]
         )
 
-        self.angle: typing.Final[types.RealOrJump] = angle
+        self.angle: typing.Final[types.Real] = angle
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class PoaBuilder:
         angle: Angle within which particles accepeted for transport.
     """
 
-    angle: str | float | types.RealOrJump
+    angle: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class PoaBuilder:
         if isinstance(self.angle, types.Real):
             angle = self.angle
         elif isinstance(self.angle, float) or isinstance(self.angle, int):
-            angle = types.RealOrJump(self.angle)
+            angle = types.Real(self.angle)
         elif isinstance(self.angle, str):
-            angle = types.RealOrJump.from_mcnp(self.angle)
+            angle = types.Real.from_mcnp(self.angle)
 
         return Poa(
             angle=angle,

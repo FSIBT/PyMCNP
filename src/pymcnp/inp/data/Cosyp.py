@@ -20,22 +20,22 @@ class Cosyp(DataOption):
     """
 
     _ATTRS = {
-        'prefix': types.IntegerOrJump,
-        'axsh': types.IntegerOrJump,
-        'axsv': types.IntegerOrJump,
-        'emaps': types.Tuple[types.RealOrJump],
+        'prefix': types.Integer,
+        'axsh': types.Integer,
+        'axsv': types.Integer,
+        'emaps': types.Tuple[types.Real],
     }
 
     _REGEX = re.compile(
-        rf'\Acosyp( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})((?: {types.RealOrJump._REGEX.pattern})+?)\Z'
+        rf'\Acosyp( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})((?: {types.Real._REGEX.pattern})+?)\Z'
     )
 
     def __init__(
         self,
-        prefix: types.IntegerOrJump,
-        axsh: types.IntegerOrJump,
-        axsv: types.IntegerOrJump,
-        emaps: types.Tuple[types.RealOrJump],
+        prefix: types.Integer,
+        axsh: types.Integer,
+        axsv: types.Integer,
+        emaps: types.Tuple[types.Real],
     ):
         """
         Initializes ``Cosyp``.
@@ -68,10 +68,10 @@ class Cosyp(DataOption):
             ]
         )
 
-        self.prefix: typing.Final[types.IntegerOrJump] = prefix
-        self.axsh: typing.Final[types.IntegerOrJump] = axsh
-        self.axsv: typing.Final[types.IntegerOrJump] = axsv
-        self.emaps: typing.Final[types.Tuple[types.RealOrJump]] = emaps
+        self.prefix: typing.Final[types.Integer] = prefix
+        self.axsh: typing.Final[types.Integer] = axsh
+        self.axsv: typing.Final[types.Integer] = axsv
+        self.emaps: typing.Final[types.Tuple[types.Real]] = emaps
 
 
 @dataclasses.dataclass
@@ -86,10 +86,10 @@ class CosypBuilder:
         emaps: Tuple of operating beam energies.
     """
 
-    prefix: str | int | types.IntegerOrJump
-    axsh: str | int | types.IntegerOrJump
-    axsv: str | int | types.IntegerOrJump
-    emaps: list[str] | list[float] | list[types.RealOrJump]
+    prefix: str | int | types.Integer
+    axsh: str | int | types.Integer
+    axsv: str | int | types.Integer
+    emaps: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -103,35 +103,35 @@ class CosypBuilder:
         if isinstance(self.prefix, types.Integer):
             prefix = self.prefix
         elif isinstance(self.prefix, int):
-            prefix = types.IntegerOrJump(self.prefix)
+            prefix = types.Integer(self.prefix)
         elif isinstance(self.prefix, str):
-            prefix = types.IntegerOrJump.from_mcnp(self.prefix)
+            prefix = types.Integer.from_mcnp(self.prefix)
 
         axsh = self.axsh
         if isinstance(self.axsh, types.Integer):
             axsh = self.axsh
         elif isinstance(self.axsh, int):
-            axsh = types.IntegerOrJump(self.axsh)
+            axsh = types.Integer(self.axsh)
         elif isinstance(self.axsh, str):
-            axsh = types.IntegerOrJump.from_mcnp(self.axsh)
+            axsh = types.Integer.from_mcnp(self.axsh)
 
         axsv = self.axsv
         if isinstance(self.axsv, types.Integer):
             axsv = self.axsv
         elif isinstance(self.axsv, int):
-            axsv = types.IntegerOrJump(self.axsv)
+            axsv = types.Integer(self.axsv)
         elif isinstance(self.axsv, str):
-            axsv = types.IntegerOrJump.from_mcnp(self.axsv)
+            axsv = types.Integer.from_mcnp(self.axsv)
 
         if self.emaps:
             emaps = []
             for item in self.emaps:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     emaps.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    emaps.append(types.RealOrJump(item))
+                    emaps.append(types.Real(item))
                 elif isinstance(item, str):
-                    emaps.append(types.RealOrJump.from_mcnp(item))
+                    emaps.append(types.Real.from_mcnp(item))
             emaps = types.Tuple(emaps)
         else:
             emaps = None

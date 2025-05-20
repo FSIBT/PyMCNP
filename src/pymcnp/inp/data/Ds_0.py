@@ -21,13 +21,13 @@ class Ds_0(DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'option': types.String,
-        'js': types.Tuple[types.RealOrJump],
+        'js': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Ads(\d+)( [hls])?((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Ads(\d+)( [hls])?((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(
-        self, suffix: types.Integer, js: types.Tuple[types.RealOrJump], option: types.String = None
+        self, suffix: types.Integer, js: types.Tuple[types.Real], option: types.String = None
     ):
         """
         Initializes ``Ds_0``.
@@ -41,7 +41,7 @@ class Ds_0(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (1 <= suffix <= 999):
+        if suffix is None or not (1 <= suffix.value <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if option is not None and option not in {'h', 'l', 's'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
@@ -57,7 +57,7 @@ class Ds_0(DataOption):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.option: typing.Final[types.String] = option
-        self.js: typing.Final[types.Tuple[types.RealOrJump]] = js
+        self.js: typing.Final[types.Tuple[types.Real]] = js
 
 
 @dataclasses.dataclass
@@ -72,7 +72,7 @@ class DsBuilder_0:
     """
 
     suffix: str | int | types.Integer
-    js: list[str] | list[float] | list[types.RealOrJump]
+    js: list[str] | list[float] | list[types.Real]
     option: str | types.String = None
 
     def build(self):
@@ -100,12 +100,12 @@ class DsBuilder_0:
         if self.js:
             js = []
             for item in self.js:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     js.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    js.append(types.RealOrJump(item))
+                    js.append(types.Real(item))
                 elif isinstance(item, str):
-                    js.append(types.RealOrJump.from_mcnp(item))
+                    js.append(types.Real.from_mcnp(item))
             js = types.Tuple(js)
         else:
             js = None

@@ -21,24 +21,24 @@ class Prdmp(DataOption):
     """
 
     _ATTRS = {
-        'ndp': types.IntegerOrJump,
-        'ndm': types.IntegerOrJump,
-        'mct': types.IntegerOrJump,
-        'ndmp': types.IntegerOrJump,
-        'dmmp': types.IntegerOrJump,
+        'ndp': types.Integer,
+        'ndm': types.Integer,
+        'mct': types.Integer,
+        'ndmp': types.Integer,
+        'dmmp': types.Integer,
     }
 
     _REGEX = re.compile(
-        rf'\Aprdmp( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
+        rf'\Aprdmp( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        ndp: types.IntegerOrJump,
-        ndm: types.IntegerOrJump,
-        mct: types.IntegerOrJump,
-        ndmp: types.IntegerOrJump,
-        dmmp: types.IntegerOrJump,
+        ndp: types.Integer,
+        ndm: types.Integer,
+        mct: types.Integer,
+        ndmp: types.Integer,
+        dmmp: types.Integer,
     ):
         """
         Initializes ``Prdmp``.
@@ -75,11 +75,11 @@ class Prdmp(DataOption):
             ]
         )
 
-        self.ndp: typing.Final[types.IntegerOrJump] = ndp
-        self.ndm: typing.Final[types.IntegerOrJump] = ndm
-        self.mct: typing.Final[types.IntegerOrJump] = mct
-        self.ndmp: typing.Final[types.IntegerOrJump] = ndmp
-        self.dmmp: typing.Final[types.IntegerOrJump] = dmmp
+        self.ndp: typing.Final[types.Integer] = ndp
+        self.ndm: typing.Final[types.Integer] = ndm
+        self.mct: typing.Final[types.Integer] = mct
+        self.ndmp: typing.Final[types.Integer] = ndmp
+        self.dmmp: typing.Final[types.Integer] = dmmp
 
 
 @dataclasses.dataclass
@@ -95,11 +95,11 @@ class PrdmpBuilder:
         dmmp: Controls frequently of tally fluctuation chart.
     """
 
-    ndp: str | int | types.IntegerOrJump
-    ndm: str | int | types.IntegerOrJump
-    mct: str | int | types.IntegerOrJump
-    ndmp: str | int | types.IntegerOrJump
-    dmmp: str | int | types.IntegerOrJump
+    ndp: str | int | types.Integer
+    ndm: str | int | types.Integer
+    mct: str | int | types.Integer
+    ndmp: str | int | types.Integer
+    dmmp: str | int | types.Integer
 
     def build(self):
         """
@@ -113,41 +113,41 @@ class PrdmpBuilder:
         if isinstance(self.ndp, types.Integer):
             ndp = self.ndp
         elif isinstance(self.ndp, int):
-            ndp = types.IntegerOrJump(self.ndp)
+            ndp = types.Integer(self.ndp)
         elif isinstance(self.ndp, str):
-            ndp = types.IntegerOrJump.from_mcnp(self.ndp)
+            ndp = types.Integer.from_mcnp(self.ndp)
 
         ndm = self.ndm
         if isinstance(self.ndm, types.Integer):
             ndm = self.ndm
         elif isinstance(self.ndm, int):
-            ndm = types.IntegerOrJump(self.ndm)
+            ndm = types.Integer(self.ndm)
         elif isinstance(self.ndm, str):
-            ndm = types.IntegerOrJump.from_mcnp(self.ndm)
+            ndm = types.Integer.from_mcnp(self.ndm)
 
         mct = self.mct
         if isinstance(self.mct, types.Integer):
             mct = self.mct
         elif isinstance(self.mct, int):
-            mct = types.IntegerOrJump(self.mct)
+            mct = types.Integer(self.mct)
         elif isinstance(self.mct, str):
-            mct = types.IntegerOrJump.from_mcnp(self.mct)
+            mct = types.Integer.from_mcnp(self.mct)
 
         ndmp = self.ndmp
         if isinstance(self.ndmp, types.Integer):
             ndmp = self.ndmp
         elif isinstance(self.ndmp, int):
-            ndmp = types.IntegerOrJump(self.ndmp)
+            ndmp = types.Integer(self.ndmp)
         elif isinstance(self.ndmp, str):
-            ndmp = types.IntegerOrJump.from_mcnp(self.ndmp)
+            ndmp = types.Integer.from_mcnp(self.ndmp)
 
         dmmp = self.dmmp
         if isinstance(self.dmmp, types.Integer):
             dmmp = self.dmmp
         elif isinstance(self.dmmp, int):
-            dmmp = types.IntegerOrJump(self.dmmp)
+            dmmp = types.Integer(self.dmmp)
         elif isinstance(self.dmmp, str):
-            dmmp = types.IntegerOrJump.from_mcnp(self.dmmp)
+            dmmp = types.Integer.from_mcnp(self.dmmp)
 
         return Prdmp(
             ndp=ndp,

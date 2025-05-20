@@ -21,15 +21,15 @@ class Sp_0(DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'option': types.String,
-        'probabilities': types.Tuple[types.RealOrJump],
+        'probabilities': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Asp(\d+)( [dcvw])?((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Asp(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(
         self,
         suffix: types.Integer,
-        probabilities: types.Tuple[types.RealOrJump],
+        probabilities: types.Tuple[types.Real],
         option: types.String = None,
     ):
         """
@@ -44,12 +44,12 @@ class Sp_0(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (1 <= suffix <= 999):
+        if suffix is None or not (1 <= suffix.value <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if option is not None and option not in {'d', 'c', 'v', 'w'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
         if probabilities is None or not (
-            filter(lambda entry: not (0 <= entry <= 1), probabilities)
+            filter(lambda entry: not (0 <= entry.value <= 1), probabilities)
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, probabilities)
 
@@ -62,7 +62,7 @@ class Sp_0(DataOption):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.option: typing.Final[types.String] = option
-        self.probabilities: typing.Final[types.Tuple[types.RealOrJump]] = probabilities
+        self.probabilities: typing.Final[types.Tuple[types.Real]] = probabilities
 
 
 @dataclasses.dataclass
@@ -77,7 +77,7 @@ class SpBuilder_0:
     """
 
     suffix: str | int | types.Integer
-    probabilities: list[str] | list[float] | list[types.RealOrJump]
+    probabilities: list[str] | list[float] | list[types.Real]
     option: str | types.String = None
 
     def build(self):
@@ -105,12 +105,12 @@ class SpBuilder_0:
         if self.probabilities:
             probabilities = []
             for item in self.probabilities:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     probabilities.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    probabilities.append(types.RealOrJump(item))
+                    probabilities.append(types.Real(item))
                 elif isinstance(item, str):
-                    probabilities.append(types.RealOrJump.from_mcnp(item))
+                    probabilities.append(types.Real.from_mcnp(item))
             probabilities = types.Tuple(probabilities)
         else:
             probabilities = None

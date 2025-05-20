@@ -17,12 +17,12 @@ class Idum(DataOption):
     """
 
     _ATTRS = {
-        'intergers': types.Tuple[types.IntegerOrJump],
+        'intergers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Aidum((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aidum((?: {types.Integer._REGEX.pattern})+?)\Z')
 
-    def __init__(self, intergers: types.Tuple[types.IntegerOrJump]):
+    def __init__(self, intergers: types.Tuple[types.Integer]):
         """
         Initializes ``Idum``.
 
@@ -42,7 +42,7 @@ class Idum(DataOption):
             ]
         )
 
-        self.intergers: typing.Final[types.Tuple[types.IntegerOrJump]] = intergers
+        self.intergers: typing.Final[types.Tuple[types.Integer]] = intergers
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class IdumBuilder:
         intergers: Integer array.
     """
 
-    intergers: list[str] | list[int] | list[types.IntegerOrJump]
+    intergers: list[str] | list[int] | list[types.Integer]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class IdumBuilder:
         if self.intergers:
             intergers = []
             for item in self.intergers:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     intergers.append(item)
                 elif isinstance(item, int):
-                    intergers.append(types.IntegerOrJump(item))
+                    intergers.append(types.Integer(item))
                 elif isinstance(item, str):
-                    intergers.append(types.IntegerOrJump.from_mcnp(item))
+                    intergers.append(types.Integer.from_mcnp(item))
             intergers = types.Tuple(intergers)
         else:
             intergers = None

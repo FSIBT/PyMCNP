@@ -17,12 +17,12 @@ class Iu(DfOption_1):
     """
 
     _ATTRS = {
-        'units': types.IntegerOrJump,
+        'units': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Aiu( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aiu( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, units: types.IntegerOrJump):
+    def __init__(self, units: types.Integer):
         """
         Initializes ``Iu``.
 
@@ -42,7 +42,7 @@ class Iu(DfOption_1):
             ]
         )
 
-        self.units: typing.Final[types.IntegerOrJump] = units
+        self.units: typing.Final[types.Integer] = units
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class IuBuilder:
         units: Control units.
     """
 
-    units: str | int | types.IntegerOrJump
+    units: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class IuBuilder:
         if isinstance(self.units, types.Integer):
             units = self.units
         elif isinstance(self.units, int):
-            units = types.IntegerOrJump(self.units)
+            units = types.Integer(self.units)
         elif isinstance(self.units, str):
-            units = types.IntegerOrJump.from_mcnp(self.units)
+            units = types.Integer.from_mcnp(self.units)
 
         return Iu(
             units=units,

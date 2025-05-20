@@ -38,7 +38,7 @@ class Pd(CellOption):
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
-        if probability is None or not (0 <= probability <= 1):
+        if probability is None or not (0 <= probability.value <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, probability)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

@@ -17,12 +17,12 @@ class Field(BfldOption):
     """
 
     _ATTRS = {
-        'strength_gradient': types.RealOrJump,
+        'strength_gradient': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Afield( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afield( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, strength_gradient: types.RealOrJump):
+    def __init__(self, strength_gradient: types.Real):
         """
         Initializes ``Field``.
 
@@ -42,7 +42,7 @@ class Field(BfldOption):
             ]
         )
 
-        self.strength_gradient: typing.Final[types.RealOrJump] = strength_gradient
+        self.strength_gradient: typing.Final[types.Real] = strength_gradient
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class FieldBuilder:
         strength_gradient: Magnetic field strength/gradient.
     """
 
-    strength_gradient: str | float | types.RealOrJump
+    strength_gradient: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class FieldBuilder:
         if isinstance(self.strength_gradient, types.Real):
             strength_gradient = self.strength_gradient
         elif isinstance(self.strength_gradient, float) or isinstance(self.strength_gradient, int):
-            strength_gradient = types.RealOrJump(self.strength_gradient)
+            strength_gradient = types.Real(self.strength_gradient)
         elif isinstance(self.strength_gradient, str):
-            strength_gradient = types.RealOrJump.from_mcnp(self.strength_gradient)
+            strength_gradient = types.Real.from_mcnp(self.strength_gradient)
 
         return Field(
             strength_gradient=strength_gradient,

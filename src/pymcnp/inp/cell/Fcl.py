@@ -38,7 +38,7 @@ class Fcl(CellOption):
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
-        if control is None or not (-1 <= control <= 1):
+        if control is None or not (-1 <= control.value <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, control)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

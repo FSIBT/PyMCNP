@@ -17,12 +17,12 @@ class Stride(RandOption):
     """
 
     _ATTRS = {
-        'stride': types.IntegerOrJump,
+        'stride': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Astride( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Astride( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, stride: types.IntegerOrJump):
+    def __init__(self, stride: types.Integer):
         """
         Initializes ``Stride``.
 
@@ -42,7 +42,7 @@ class Stride(RandOption):
             ]
         )
 
-        self.stride: typing.Final[types.IntegerOrJump] = stride
+        self.stride: typing.Final[types.Integer] = stride
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class StrideBuilder:
         stride: Number of random numbers between source particle.
     """
 
-    stride: str | int | types.IntegerOrJump
+    stride: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class StrideBuilder:
         if isinstance(self.stride, types.Integer):
             stride = self.stride
         elif isinstance(self.stride, int):
-            stride = types.IntegerOrJump(self.stride)
+            stride = types.Integer(self.stride)
         elif isinstance(self.stride, str):
-            stride = types.IntegerOrJump.from_mcnp(self.stride)
+            stride = types.Integer.from_mcnp(self.stride)
 
         return Stride(
             stride=stride,

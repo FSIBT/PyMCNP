@@ -61,7 +61,10 @@ class Fill_6(CellOption):
         if k is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, k)
         if universes is None or not (
-            len(universes) == (i.upper - i.lower) * (j.upper - j.lower) * (k.upper - k.lower)
+            len(universes)
+            == (i.upper.value - i.lower.value)
+            * (j.upper.value - j.lower.value)
+            * (k.upper.value - k.lower.value)
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universes)
 

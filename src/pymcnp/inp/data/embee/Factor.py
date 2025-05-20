@@ -17,12 +17,12 @@ class Factor(EmbeeOption):
     """
 
     _ATTRS = {
-        'constant': types.RealOrJump,
+        'constant': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Afactor( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afactor( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, constant: types.RealOrJump):
+    def __init__(self, constant: types.Real):
         """
         Initializes ``Factor``.
 
@@ -42,7 +42,7 @@ class Factor(EmbeeOption):
             ]
         )
 
-        self.constant: typing.Final[types.RealOrJump] = constant
+        self.constant: typing.Final[types.Real] = constant
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class FactorBuilder:
         constant: Multiplicative constant.
     """
 
-    constant: str | float | types.RealOrJump
+    constant: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class FactorBuilder:
         if isinstance(self.constant, types.Real):
             constant = self.constant
         elif isinstance(self.constant, float) or isinstance(self.constant, int):
-            constant = types.RealOrJump(self.constant)
+            constant = types.Real(self.constant)
         elif isinstance(self.constant, str):
-            constant = types.RealOrJump.from_mcnp(self.constant)
+            constant = types.Real.from_mcnp(self.constant)
 
         return Factor(
             constant=constant,

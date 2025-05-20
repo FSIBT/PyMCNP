@@ -43,9 +43,9 @@ class Xlims(MplotOption):
 
         if min is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, min)
-        if max is None or not (min < max):
+        if max is None or not (min.value < max.value):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, max)
-        if nsteps is not None and not (nsteps >= 0):
+        if nsteps is not None and not (nsteps.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nsteps)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

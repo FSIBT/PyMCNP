@@ -70,7 +70,7 @@ class Fq(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix <= 99_999_999):
+        if suffix is None or not (suffix.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if a1 is None or a1 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1)

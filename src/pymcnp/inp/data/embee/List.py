@@ -17,12 +17,12 @@ class List(EmbeeOption):
     """
 
     _ATTRS = {
-        'reactions': types.RealOrJump,
+        'reactions': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Alist( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Alist( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, reactions: types.RealOrJump):
+    def __init__(self, reactions: types.Real):
         """
         Initializes ``List``.
 
@@ -42,7 +42,7 @@ class List(EmbeeOption):
             ]
         )
 
-        self.reactions: typing.Final[types.RealOrJump] = reactions
+        self.reactions: typing.Final[types.Real] = reactions
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class ListBuilder:
         reactions: List of reactions.
     """
 
-    reactions: str | float | types.RealOrJump
+    reactions: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class ListBuilder:
         if isinstance(self.reactions, types.Real):
             reactions = self.reactions
         elif isinstance(self.reactions, float) or isinstance(self.reactions, int):
-            reactions = types.RealOrJump(self.reactions)
+            reactions = types.Real(self.reactions)
         elif isinstance(self.reactions, str):
-            reactions = types.RealOrJump.from_mcnp(self.reactions)
+            reactions = types.Real.from_mcnp(self.reactions)
 
         return List(
             reactions=reactions,

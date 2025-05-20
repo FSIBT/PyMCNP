@@ -38,7 +38,7 @@ class Fill_5(CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if universe is None or not (0 <= universe <= 99_999_999):
+        if universe is None or not (0 <= universe.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universe)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

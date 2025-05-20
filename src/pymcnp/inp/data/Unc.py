@@ -17,12 +17,12 @@ class Unc(DataOption):
     """
 
     _ATTRS = {
-        'settings': types.Tuple[types.IntegerOrJump],
+        'settings': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Aunc((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aunc((?: {types.Integer._REGEX.pattern})+?)\Z')
 
-    def __init__(self, settings: types.Tuple[types.IntegerOrJump]):
+    def __init__(self, settings: types.Tuple[types.Integer]):
         """
         Initializes ``Unc``.
 
@@ -42,7 +42,7 @@ class Unc(DataOption):
             ]
         )
 
-        self.settings: typing.Final[types.Tuple[types.IntegerOrJump]] = settings
+        self.settings: typing.Final[types.Tuple[types.Integer]] = settings
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class UncBuilder:
         settings: Tuple of uncollided secondary settings.
     """
 
-    settings: list[str] | list[int] | list[types.IntegerOrJump]
+    settings: list[str] | list[int] | list[types.Integer]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class UncBuilder:
         if self.settings:
             settings = []
             for item in self.settings:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     settings.append(item)
                 elif isinstance(item, int):
-                    settings.append(types.IntegerOrJump(item))
+                    settings.append(types.Integer(item))
                 elif isinstance(item, str):
-                    settings.append(types.IntegerOrJump.from_mcnp(item))
+                    settings.append(types.Integer.from_mcnp(item))
             settings = types.Tuple(settings)
         else:
             settings = None

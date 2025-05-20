@@ -19,12 +19,12 @@ class Cm(DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'multipliers': types.Tuple[types.RealOrJump],
+        'multipliers': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Acm(\d+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Acm(\d+)((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, multipliers: types.Tuple[types.RealOrJump]):
+    def __init__(self, suffix: types.Integer, multipliers: types.Tuple[types.Real]):
         """
         Initializes ``Cm``.
 
@@ -36,7 +36,7 @@ class Cm(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix <= 99_999_999):
+        if suffix is None or not (suffix.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if multipliers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, multipliers)
@@ -48,7 +48,7 @@ class Cm(DataOption):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.multipliers: typing.Final[types.Tuple[types.RealOrJump]] = multipliers
+        self.multipliers: typing.Final[types.Tuple[types.Real]] = multipliers
 
 
 @dataclasses.dataclass
@@ -62,7 +62,7 @@ class CmBuilder:
     """
 
     suffix: str | int | types.Integer
-    multipliers: list[str] | list[float] | list[types.RealOrJump]
+    multipliers: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -83,12 +83,12 @@ class CmBuilder:
         if self.multipliers:
             multipliers = []
             for item in self.multipliers:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     multipliers.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    multipliers.append(types.RealOrJump(item))
+                    multipliers.append(types.Real(item))
                 elif isinstance(item, str):
-                    multipliers.append(types.RealOrJump.from_mcnp(item))
+                    multipliers.append(types.Real.from_mcnp(item))
             multipliers = types.Tuple(multipliers)
         else:
             multipliers = None

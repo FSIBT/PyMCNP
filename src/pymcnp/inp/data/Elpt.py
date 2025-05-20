@@ -17,12 +17,12 @@ class Elpt(DataOption):
     """
 
     _ATTRS = {
-        'cutoffs': types.Tuple[types.RealOrJump],
+        'cutoffs': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Aelpt((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aelpt((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, cutoffs: types.Tuple[types.RealOrJump]):
+    def __init__(self, cutoffs: types.Tuple[types.Real]):
         """
         Initializes ``Elpt``.
 
@@ -42,7 +42,7 @@ class Elpt(DataOption):
             ]
         )
 
-        self.cutoffs: typing.Final[types.Tuple[types.RealOrJump]] = cutoffs
+        self.cutoffs: typing.Final[types.Tuple[types.Real]] = cutoffs
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class ElptBuilder:
         cutoffs: Tuple of cell lower energy cutoffs.
     """
 
-    cutoffs: list[str] | list[float] | list[types.RealOrJump]
+    cutoffs: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class ElptBuilder:
         if self.cutoffs:
             cutoffs = []
             for item in self.cutoffs:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     cutoffs.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    cutoffs.append(types.RealOrJump(item))
+                    cutoffs.append(types.Real(item))
                 elif isinstance(item, str):
-                    cutoffs.append(types.RealOrJump.from_mcnp(item))
+                    cutoffs.append(types.Real.from_mcnp(item))
             cutoffs = types.Tuple(cutoffs)
         else:
             cutoffs = None

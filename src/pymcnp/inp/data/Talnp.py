@@ -17,12 +17,12 @@ class Talnp(DataOption):
     """
 
     _ATTRS = {
-        'tallies': types.Tuple[types.IntegerOrJump],
+        'tallies': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Atalnp((?: {types.IntegerOrJump._REGEX.pattern})+?)?\Z')
+    _REGEX = re.compile(rf'\Atalnp((?: {types.Integer._REGEX.pattern})+?)?\Z')
 
-    def __init__(self, tallies: types.Tuple[types.IntegerOrJump] = None):
+    def __init__(self, tallies: types.Tuple[types.Integer] = None):
         """
         Initializes ``Talnp``.
 
@@ -34,7 +34,7 @@ class Talnp(DataOption):
         """
 
         if tallies is not None and not (
-            filter(lambda entry: not (1 <= entry <= 99_999_999), tallies)
+            filter(lambda entry: not (1 <= entry.value <= 99_999_999), tallies)
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tallies)
 
@@ -44,7 +44,7 @@ class Talnp(DataOption):
             ]
         )
 
-        self.tallies: typing.Final[types.Tuple[types.IntegerOrJump]] = tallies
+        self.tallies: typing.Final[types.Tuple[types.Integer]] = tallies
 
 
 @dataclasses.dataclass
@@ -56,7 +56,7 @@ class TalnpBuilder:
         tallies: Tallies to exclude from output.
     """
 
-    tallies: list[str] | list[int] | list[types.IntegerOrJump] = None
+    tallies: list[str] | list[int] | list[types.Integer] = None
 
     def build(self):
         """
@@ -69,12 +69,12 @@ class TalnpBuilder:
         if self.tallies:
             tallies = []
             for item in self.tallies:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     tallies.append(item)
                 elif isinstance(item, int):
-                    tallies.append(types.IntegerOrJump(item))
+                    tallies.append(types.Integer(item))
                 elif isinstance(item, str):
-                    tallies.append(types.IntegerOrJump.from_mcnp(item))
+                    tallies.append(types.Integer.from_mcnp(item))
             tallies = types.Tuple(tallies)
         else:
             tallies = None

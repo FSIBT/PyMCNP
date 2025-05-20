@@ -17,12 +17,12 @@ class Rho(PertOption):
     """
 
     _ATTRS = {
-        'density': types.RealOrJump,
+        'density': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Arho( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Arho( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, density: types.RealOrJump):
+    def __init__(self, density: types.Real):
         """
         Initializes ``Rho``.
 
@@ -42,7 +42,7 @@ class Rho(PertOption):
             ]
         )
 
-        self.density: typing.Final[types.RealOrJump] = density
+        self.density: typing.Final[types.Real] = density
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class RhoBuilder:
         density: Perturbed density.
     """
 
-    density: str | float | types.RealOrJump
+    density: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class RhoBuilder:
         if isinstance(self.density, types.Real):
             density = self.density
         elif isinstance(self.density, float) or isinstance(self.density, int):
-            density = types.RealOrJump(self.density)
+            density = types.Real(self.density)
         elif isinstance(self.density, str):
-            density = types.RealOrJump.from_mcnp(self.density)
+            density = types.Real.from_mcnp(self.density)
 
         return Rho(
             density=density,

@@ -17,12 +17,12 @@ class Thtme(DataOption):
     """
 
     _ATTRS = {
-        'times': types.Tuple[types.RealOrJump],
+        'times': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Athtme((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Athtme((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, times: types.Tuple[types.RealOrJump]):
+    def __init__(self, times: types.Tuple[types.Real]):
         """
         Initializes ``Thtme``.
 
@@ -33,7 +33,7 @@ class Thtme(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if times is None or not (filter(lambda entry: not (entry <= 99), times)):
+        if times is None or not (filter(lambda entry: not (entry.value <= 99), times)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, times)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Thtme(DataOption):
             ]
         )
 
-        self.times: typing.Final[types.Tuple[types.RealOrJump]] = times
+        self.times: typing.Final[types.Tuple[types.Real]] = times
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class ThtmeBuilder:
         times: Tuple of times when thermal temperatures are specified.
     """
 
-    times: list[str] | list[float] | list[types.RealOrJump]
+    times: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class ThtmeBuilder:
         if self.times:
             times = []
             for item in self.times:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     times.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    times.append(types.RealOrJump(item))
+                    times.append(types.Real(item))
                 elif isinstance(item, str):
-                    times.append(types.RealOrJump.from_mcnp(item))
+                    times.append(types.Real.from_mcnp(item))
             times = types.Tuple(times)
         else:
             times = None

@@ -1,27 +1,8 @@
 import pymcnp
-import _utils
+from ... import _utils
 
 
-class Test_Cell:
-    class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.Cell
-        EXAMPLES_VALID = [
-            '3 0 -1 2 -4 $ definition of cell 3',
-            '5 0 #3',
-            '5 0 #(-1 2 -4)',
-            '5 0 (+1 : -2 : +4)',
-            '2 3 -3.7 -1 IMP:N=2 IMP:P=4',
-            '10 16 -4.2 1 -2 3 IMP:N=4 IMP:P=8 EXT:N=-0.4',
-            '1 0 -17',
-            '1 0 1 -2 -3 4 -5 6 fill=1',
-            '2 0 -7 1 -3 8 u=1 fill=2 lat=1',
-            '3 0 -11 u=-2',
-            '4 0 11 u=2',
-            '5 0 -1:2:3:-4:5:-6',
-        ]
-
-
-class Test_CellImp:
+class Test_Imp:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Imp
         EXAMPLES_VALID = [
@@ -43,7 +24,7 @@ class Test_CellImp:
         ]
 
 
-class Test_CellVol:
+class Test_Vol:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Vol
         EXAMPLES_VALID = [
@@ -69,7 +50,7 @@ class Test_CellVol:
         ]
 
 
-class Test_CellPwt:
+class Test_Pwt:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Pwt
         EXAMPLES_VALID = [
@@ -90,7 +71,7 @@ class Test_CellPwt:
         ]
 
 
-class Test_CellExt:
+class Test_Ext:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Ext
         EXAMPLES_VALID = [
@@ -116,7 +97,7 @@ class Test_CellExt:
         ]
 
 
-class Test_CellFcl:
+class Test_Fcl:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Fcl
         EXAMPLES_VALID = [
@@ -143,7 +124,7 @@ class Test_CellFcl:
         ]
 
 
-class Test_CellWwn:
+class Test_Wwn:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Wwn
         EXAMPLES_VALID = [
@@ -169,7 +150,7 @@ class Test_CellWwn:
         ]
 
 
-class Test_CellDxc:
+class Test_Dxc:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Dxc
         EXAMPLES_VALID = [
@@ -207,7 +188,7 @@ class Test_CellDxc:
         ]
 
 
-class Test_CellNonu:
+class Test_Nonu:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Nonu
         EXAMPLES_VALID = [
@@ -233,7 +214,7 @@ class Test_CellNonu:
         ]
 
 
-class Test_CellPd:
+class Test_Pd:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Pd
         EXAMPLES_VALID = [
@@ -260,7 +241,7 @@ class Test_CellPd:
         ]
 
 
-class Test_CellU:
+class Test_U:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.U
         EXAMPLES_VALID = [
@@ -288,7 +269,7 @@ class Test_CellU:
         ]
 
 
-class Test_CellTrcl_0:
+class Test_Trcl_0:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Trcl_0
         EXAMPLES_VALID = [
@@ -314,7 +295,7 @@ class Test_CellTrcl_0:
         ]
 
 
-class Test_CellTrcl_1:
+class Test_Trcl_1:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Trcl_1
         EXAMPLES_VALID = []
@@ -330,7 +311,7 @@ class Test_CellTrcl_1:
         ]
 
 
-class Test_CellTrcl_2:
+class Test_Trcl_2:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Trcl_2
         EXAMPLES_VALID = []
@@ -346,7 +327,7 @@ class Test_CellTrcl_2:
         ]
 
 
-class Test_CellTrcl_3:
+class Test_Trcl_3:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Trcl_3
         EXAMPLES_VALID = []
@@ -362,7 +343,7 @@ class Test_CellTrcl_3:
         ]
 
 
-class Test_CellTrcl_4:
+class Test_Trcl_4:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Trcl_4
         EXAMPLES_VALID = []
@@ -378,7 +359,7 @@ class Test_CellTrcl_4:
         ]
 
 
-class Test_CellTrcl_5:
+class Test_Trcl_5:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Trcl_5
         EXAMPLES_VALID = []
@@ -394,7 +375,7 @@ class Test_CellTrcl_5:
         ]
 
 
-class Test_CellLat:
+class Test_Lat:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Lat
         EXAMPLES_VALID = [
@@ -418,7 +399,7 @@ class Test_CellLat:
         ]
 
 
-class Test_CellFill_0:
+class Test_Fill_0:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Fill_0
         EXAMPLES_VALID = [
@@ -449,7 +430,7 @@ class Test_CellFill_0:
         ]
 
 
-class Test_CellFill_1:
+class Test_Fill_1:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Fill_1
         EXAMPLES_VALID = []
@@ -466,7 +447,7 @@ class Test_CellFill_1:
         ]
 
 
-class Test_CellFill_2:
+class Test_Fill_2:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Fill_2
         EXAMPLES_VALID = []
@@ -483,7 +464,7 @@ class Test_CellFill_2:
         ]
 
 
-class Test_CellFill_3:
+class Test_Fill_3:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Fill_3
         EXAMPLES_VALID = []
@@ -500,7 +481,7 @@ class Test_CellFill_3:
         ]
 
 
-class Test_CellFill_4:
+class Test_Fill_4:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Fill_4
         EXAMPLES_VALID = []
@@ -517,7 +498,7 @@ class Test_CellFill_4:
         ]
 
 
-class Test_CellFill_5:
+class Test_Fill_5:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Fill_5
         EXAMPLES_VALID = []
@@ -534,7 +515,7 @@ class Test_CellFill_5:
         ]
 
 
-class Test_CellFill_6:
+class Test_Fill_6:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Fill_6
         EXAMPLES_VALID = []
@@ -598,7 +579,7 @@ class Test_CellFill_6:
         ]
 
 
-class Test_CellElpt:
+class Test_Elpt:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Elpt
         EXAMPLES_VALID = [
@@ -620,7 +601,7 @@ class Test_CellElpt:
         ]
 
 
-class Test_CellTmp_0:
+class Test_Tmp_0:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Tmp_0
         EXAMPLES_VALID = [
@@ -648,7 +629,7 @@ class Test_CellTmp_0:
         ]
 
 
-class Test_CellTmp_1:
+class Test_Tmp_1:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Tmp_1
         EXAMPLES_VALID = []
@@ -663,7 +644,7 @@ class Test_CellTmp_1:
         ]
 
 
-class Test_CellCosy:
+class Test_Cosy:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Cosy
         EXAMPLES_VALID = [
@@ -692,7 +673,7 @@ class Test_CellCosy:
         ]
 
 
-class Test_CellBflcl:
+class Test_Bflcl:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Bflcl
         EXAMPLES_VALID = [
@@ -718,7 +699,7 @@ class Test_CellBflcl:
         ]
 
 
-class Test_CellUnc:
+class Test_Unc:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Unc
         EXAMPLES_VALID = [

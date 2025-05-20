@@ -17,12 +17,12 @@ class Kmesh(FmeshOption):
     """
 
     _ATTRS = {
-        'locations': types.RealOrJump,
+        'locations': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Akmesh( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Akmesh( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, locations: types.RealOrJump):
+    def __init__(self, locations: types.Real):
         """
         Initializes ``Kmesh``.
 
@@ -42,7 +42,7 @@ class Kmesh(FmeshOption):
             ]
         )
 
-        self.locations: typing.Final[types.RealOrJump] = locations
+        self.locations: typing.Final[types.Real] = locations
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class KmeshBuilder:
         locations: Locations of mesh points z/theta for rectangular/cylindrical geometry.
     """
 
-    locations: str | float | types.RealOrJump
+    locations: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class KmeshBuilder:
         if isinstance(self.locations, types.Real):
             locations = self.locations
         elif isinstance(self.locations, float) or isinstance(self.locations, int):
-            locations = types.RealOrJump(self.locations)
+            locations = types.Real(self.locations)
         elif isinstance(self.locations, str):
-            locations = types.RealOrJump.from_mcnp(self.locations)
+            locations = types.Real.from_mcnp(self.locations)
 
         return Kmesh(
             locations=locations,

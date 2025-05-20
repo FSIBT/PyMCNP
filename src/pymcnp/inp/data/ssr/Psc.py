@@ -17,12 +17,12 @@ class Psc(SsrOption):
     """
 
     _ATTRS = {
-        'constant': types.RealOrJump,
+        'constant': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Apsc( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Apsc( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, constant: types.RealOrJump):
+    def __init__(self, constant: types.Real):
         """
         Initializes ``Psc``.
 
@@ -33,7 +33,7 @@ class Psc(SsrOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if constant is None or not (constant >= 0):
+        if constant is None or not (constant.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, constant)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Psc(SsrOption):
             ]
         )
 
-        self.constant: typing.Final[types.RealOrJump] = constant
+        self.constant: typing.Final[types.Real] = constant
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class PscBuilder:
         constant: Constant for approximation in PSC evaluation.
     """
 
-    constant: str | float | types.RealOrJump
+    constant: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class PscBuilder:
         if isinstance(self.constant, types.Real):
             constant = self.constant
         elif isinstance(self.constant, float) or isinstance(self.constant, int):
-            constant = types.RealOrJump(self.constant)
+            constant = types.Real(self.constant)
         elif isinstance(self.constant, str):
-            constant = types.RealOrJump.from_mcnp(self.constant)
+            constant = types.Real.from_mcnp(self.constant)
 
         return Psc(
             constant=constant,

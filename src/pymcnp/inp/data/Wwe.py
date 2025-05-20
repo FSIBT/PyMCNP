@@ -19,12 +19,12 @@ class Wwe(DataOption):
 
     _ATTRS = {
         'designator': types.Designator,
-        'bounds': types.Tuple[types.RealOrJump],
+        'bounds': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Awwe:(\S+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Awwe:(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, designator: types.Designator, bounds: types.Tuple[types.RealOrJump]):
+    def __init__(self, designator: types.Designator, bounds: types.Tuple[types.Real]):
         """
         Initializes ``Wwe``.
 
@@ -48,7 +48,7 @@ class Wwe(DataOption):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds
+        self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
 
 
 @dataclasses.dataclass
@@ -62,7 +62,7 @@ class WweBuilder:
     """
 
     designator: str | types.Designator
-    bounds: list[str] | list[float] | list[types.RealOrJump]
+    bounds: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -81,12 +81,12 @@ class WweBuilder:
         if self.bounds:
             bounds = []
             for item in self.bounds:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     bounds.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    bounds.append(types.RealOrJump(item))
+                    bounds.append(types.Real(item))
                 elif isinstance(item, str):
-                    bounds.append(types.RealOrJump.from_mcnp(item))
+                    bounds.append(types.Real.from_mcnp(item))
             bounds = types.Tuple(bounds)
         else:
             bounds = None

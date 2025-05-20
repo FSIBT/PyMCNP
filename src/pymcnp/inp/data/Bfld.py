@@ -49,7 +49,7 @@ class Bfld(DataOption):
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
-        if kind is None or type not in {'const', 'quad', 'quadff'}:
+        if kind is None or kind not in {'const', 'quad', 'quadff'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

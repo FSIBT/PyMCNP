@@ -17,12 +17,12 @@ class Fmatncyc(KoptsOption):
     """
 
     _ATTRS = {
-        'fmat_ncyc': types.RealOrJump,
+        'fmat_ncyc': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Afmatncyc( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afmatncyc( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, fmat_ncyc: types.RealOrJump):
+    def __init__(self, fmat_ncyc: types.Real):
         """
         Initializes ``Fmatncyc``.
 
@@ -42,7 +42,7 @@ class Fmatncyc(KoptsOption):
             ]
         )
 
-        self.fmat_ncyc: typing.Final[types.RealOrJump] = fmat_ncyc
+        self.fmat_ncyc: typing.Final[types.Real] = fmat_ncyc
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class FmatncycBuilder:
         fmat_ncyc: fmat_ncyc.
     """
 
-    fmat_ncyc: str | float | types.RealOrJump
+    fmat_ncyc: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class FmatncycBuilder:
         if isinstance(self.fmat_ncyc, types.Real):
             fmat_ncyc = self.fmat_ncyc
         elif isinstance(self.fmat_ncyc, float) or isinstance(self.fmat_ncyc, int):
-            fmat_ncyc = types.RealOrJump(self.fmat_ncyc)
+            fmat_ncyc = types.Real(self.fmat_ncyc)
         elif isinstance(self.fmat_ncyc, str):
-            fmat_ncyc = types.RealOrJump.from_mcnp(self.fmat_ncyc)
+            fmat_ncyc = types.Real.from_mcnp(self.fmat_ncyc)
 
         return Fmatncyc(
             fmat_ncyc=fmat_ncyc,

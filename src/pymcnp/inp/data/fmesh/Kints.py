@@ -17,12 +17,12 @@ class Kints(FmeshOption):
     """
 
     _ATTRS = {
-        'count': types.IntegerOrJump,
+        'count': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Akints( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Akints( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, count: types.IntegerOrJump):
+    def __init__(self, count: types.Integer):
         """
         Initializes ``Kints``.
 
@@ -42,7 +42,7 @@ class Kints(FmeshOption):
             ]
         )
 
-        self.count: typing.Final[types.IntegerOrJump] = count
+        self.count: typing.Final[types.Integer] = count
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class KintsBuilder:
         count: Number of mesh points z/theta for rectangular/cylindrical geometry.
     """
 
-    count: str | int | types.IntegerOrJump
+    count: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class KintsBuilder:
         if isinstance(self.count, types.Integer):
             count = self.count
         elif isinstance(self.count, int):
-            count = types.IntegerOrJump(self.count)
+            count = types.Integer(self.count)
         elif isinstance(self.count, str):
-            count = types.IntegerOrJump.from_mcnp(self.count)
+            count = types.Integer.from_mcnp(self.count)
 
         return Kints(
             count=count,

@@ -17,12 +17,12 @@ class Hstep(MOption_0):
     """
 
     _ATTRS = {
-        'step': types.IntegerOrJump,
+        'step': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Ahstep( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ahstep( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, step: types.IntegerOrJump):
+    def __init__(self, step: types.Integer):
         """
         Initializes ``Hstep``.
 
@@ -33,7 +33,7 @@ class Hstep(MOption_0):
             InpError: SEMANTICS_OPTION.
         """
 
-        if step is None or not (step >= 0):
+        if step is None or not (step.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, step)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Hstep(MOption_0):
             ]
         )
 
-        self.step: typing.Final[types.IntegerOrJump] = step
+        self.step: typing.Final[types.Integer] = step
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class HstepBuilder:
         step: Number of proton sub-step per energy step.
     """
 
-    step: str | int | types.IntegerOrJump
+    step: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class HstepBuilder:
         if isinstance(self.step, types.Integer):
             step = self.step
         elif isinstance(self.step, int):
-            step = types.IntegerOrJump(self.step)
+            step = types.Integer(self.step)
         elif isinstance(self.step, str):
-            step = types.IntegerOrJump.from_mcnp(self.step)
+            step = types.Integer.from_mcnp(self.step)
 
         return Hstep(
             step=step,

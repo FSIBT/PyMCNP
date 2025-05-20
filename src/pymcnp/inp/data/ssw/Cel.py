@@ -17,12 +17,12 @@ class Cel(SswOption):
     """
 
     _ATTRS = {
-        'cfs': types.Tuple[types.IntegerOrJump],
+        'cfs': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Acel((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Acel((?: {types.Integer._REGEX.pattern})+?)\Z')
 
-    def __init__(self, cfs: types.Tuple[types.IntegerOrJump]):
+    def __init__(self, cfs: types.Tuple[types.Integer]):
         """
         Initializes ``Cel``.
 
@@ -33,7 +33,7 @@ class Cel(SswOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if cfs is None or not (filter(lambda entry: not (1 <= entry <= 99_999_999), cfs)):
+        if cfs is None or not (filter(lambda entry: not (1 <= entry.value <= 99_999_999), cfs)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cfs)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Cel(SswOption):
             ]
         )
 
-        self.cfs: typing.Final[types.Tuple[types.IntegerOrJump]] = cfs
+        self.cfs: typing.Final[types.Tuple[types.Integer]] = cfs
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class CelBuilder:
         cfs: Cells from which KCODE neutrons are written.
     """
 
-    cfs: list[str] | list[int] | list[types.IntegerOrJump]
+    cfs: list[str] | list[int] | list[types.Integer]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class CelBuilder:
         if self.cfs:
             cfs = []
             for item in self.cfs:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     cfs.append(item)
                 elif isinstance(item, int):
-                    cfs.append(types.IntegerOrJump(item))
+                    cfs.append(types.Integer(item))
                 elif isinstance(item, str):
-                    cfs.append(types.IntegerOrJump.from_mcnp(item))
+                    cfs.append(types.Integer.from_mcnp(item))
             cfs = types.Tuple(cfs)
         else:
             cfs = None

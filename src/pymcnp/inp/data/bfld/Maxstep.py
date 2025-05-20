@@ -17,12 +17,12 @@ class Maxstep(BfldOption):
     """
 
     _ATTRS = {
-        'size': types.RealOrJump,
+        'size': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Amaxstep( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Amaxstep( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, size: types.RealOrJump):
+    def __init__(self, size: types.Real):
         """
         Initializes ``Maxstep``.
 
@@ -42,7 +42,7 @@ class Maxstep(BfldOption):
             ]
         )
 
-        self.size: typing.Final[types.RealOrJump] = size
+        self.size: typing.Final[types.Real] = size
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class MaxstepBuilder:
         size: Maximum step size.
     """
 
-    size: str | float | types.RealOrJump
+    size: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class MaxstepBuilder:
         if isinstance(self.size, types.Real):
             size = self.size
         elif isinstance(self.size, float) or isinstance(self.size, int):
-            size = types.RealOrJump(self.size)
+            size = types.Real(self.size)
         elif isinstance(self.size, str):
-            size = types.RealOrJump.from_mcnp(self.size)
+            size = types.Real.from_mcnp(self.size)
 
         return Maxstep(
             size=size,

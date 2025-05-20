@@ -17,12 +17,12 @@ class Rdum(DataOption):
     """
 
     _ATTRS = {
-        'floats': types.Tuple[types.RealOrJump],
+        'floats': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Ardum((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Ardum((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, floats: types.Tuple[types.RealOrJump]):
+    def __init__(self, floats: types.Tuple[types.Real]):
         """
         Initializes ``Rdum``.
 
@@ -42,7 +42,7 @@ class Rdum(DataOption):
             ]
         )
 
-        self.floats: typing.Final[types.Tuple[types.RealOrJump]] = floats
+        self.floats: typing.Final[types.Tuple[types.Real]] = floats
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class RdumBuilder:
         floats: Floating point array.
     """
 
-    floats: list[str] | list[float] | list[types.RealOrJump]
+    floats: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class RdumBuilder:
         if self.floats:
             floats = []
             for item in self.floats:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     floats.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    floats.append(types.RealOrJump(item))
+                    floats.append(types.Real(item))
                 elif isinstance(item, str):
-                    floats.append(types.RealOrJump.from_mcnp(item))
+                    floats.append(types.Real.from_mcnp(item))
             floats = types.Tuple(floats)
         else:
             floats = None

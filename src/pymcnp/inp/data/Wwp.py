@@ -28,35 +28,35 @@ class Wwp(DataOption):
 
     _ATTRS = {
         'designator': types.Designator,
-        'wupn': types.RealOrJump,
-        'wsurvn': types.RealOrJump,
-        'mxspln': types.RealOrJump,
-        'mwhere': types.IntegerOrJump,
-        'switchn': types.RealOrJump,
-        'mtime': types.IntegerOrJump,
-        'wnrom': types.RealOrJump,
-        'etsplt': types.IntegerOrJump,
-        'wu': types.RealOrJump,
-        'nmfp': types.RealOrJump,
+        'wupn': types.Real,
+        'wsurvn': types.Real,
+        'mxspln': types.Real,
+        'mwhere': types.Integer,
+        'switchn': types.Real,
+        'mtime': types.Integer,
+        'wnrom': types.Real,
+        'etsplt': types.Integer,
+        'wu': types.Real,
+        'nmfp': types.Real,
     }
 
     _REGEX = re.compile(
-        rf'\Awwp:(\S+)( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
+        rf'\Awwp:(\S+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
         designator: types.Designator,
-        wupn: types.RealOrJump,
-        wsurvn: types.RealOrJump,
-        mxspln: types.RealOrJump,
-        mwhere: types.IntegerOrJump,
-        switchn: types.RealOrJump,
-        mtime: types.IntegerOrJump,
-        wnrom: types.RealOrJump,
-        etsplt: types.IntegerOrJump,
-        wu: types.RealOrJump,
-        nmfp: types.RealOrJump,
+        wupn: types.Real,
+        wsurvn: types.Real,
+        mxspln: types.Real,
+        mwhere: types.Integer,
+        switchn: types.Real,
+        mtime: types.Integer,
+        wnrom: types.Real,
+        etsplt: types.Integer,
+        wu: types.Real,
+        nmfp: types.Real,
     ):
         """
         Initializes ``Wwp``.
@@ -80,11 +80,11 @@ class Wwp(DataOption):
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
-        if wupn is None or not (wupn >= 2):
+        if wupn is None or not (wupn.value >= 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wupn)
-        if wsurvn is None or not (1 < wsurvn):
+        if wsurvn is None or not (1 < wsurvn.value):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wsurvn)
-        if mxspln is None or not (1 < mxspln):
+        if mxspln is None or not (1 < mxspln.value):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mxspln)
         if mwhere is None or mwhere.value not in {-1, 0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mwhere)
@@ -117,16 +117,16 @@ class Wwp(DataOption):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.wupn: typing.Final[types.RealOrJump] = wupn
-        self.wsurvn: typing.Final[types.RealOrJump] = wsurvn
-        self.mxspln: typing.Final[types.RealOrJump] = mxspln
-        self.mwhere: typing.Final[types.IntegerOrJump] = mwhere
-        self.switchn: typing.Final[types.RealOrJump] = switchn
-        self.mtime: typing.Final[types.IntegerOrJump] = mtime
-        self.wnrom: typing.Final[types.RealOrJump] = wnrom
-        self.etsplt: typing.Final[types.IntegerOrJump] = etsplt
-        self.wu: typing.Final[types.RealOrJump] = wu
-        self.nmfp: typing.Final[types.RealOrJump] = nmfp
+        self.wupn: typing.Final[types.Real] = wupn
+        self.wsurvn: typing.Final[types.Real] = wsurvn
+        self.mxspln: typing.Final[types.Real] = mxspln
+        self.mwhere: typing.Final[types.Integer] = mwhere
+        self.switchn: typing.Final[types.Real] = switchn
+        self.mtime: typing.Final[types.Integer] = mtime
+        self.wnrom: typing.Final[types.Real] = wnrom
+        self.etsplt: typing.Final[types.Integer] = etsplt
+        self.wu: typing.Final[types.Real] = wu
+        self.nmfp: typing.Final[types.Real] = nmfp
 
 
 @dataclasses.dataclass
@@ -149,16 +149,16 @@ class WwpBuilder:
     """
 
     designator: str | types.Designator
-    wupn: str | float | types.RealOrJump
-    wsurvn: str | float | types.RealOrJump
-    mxspln: str | float | types.RealOrJump
-    mwhere: str | int | types.IntegerOrJump
-    switchn: str | float | types.RealOrJump
-    mtime: str | int | types.IntegerOrJump
-    wnrom: str | float | types.RealOrJump
-    etsplt: str | int | types.IntegerOrJump
-    wu: str | float | types.RealOrJump
-    nmfp: str | float | types.RealOrJump
+    wupn: str | float | types.Real
+    wsurvn: str | float | types.Real
+    mxspln: str | float | types.Real
+    mwhere: str | int | types.Integer
+    switchn: str | float | types.Real
+    mtime: str | int | types.Integer
+    wnrom: str | float | types.Real
+    etsplt: str | int | types.Integer
+    wu: str | float | types.Real
+    nmfp: str | float | types.Real
 
     def build(self):
         """
@@ -178,81 +178,81 @@ class WwpBuilder:
         if isinstance(self.wupn, types.Real):
             wupn = self.wupn
         elif isinstance(self.wupn, float) or isinstance(self.wupn, int):
-            wupn = types.RealOrJump(self.wupn)
+            wupn = types.Real(self.wupn)
         elif isinstance(self.wupn, str):
-            wupn = types.RealOrJump.from_mcnp(self.wupn)
+            wupn = types.Real.from_mcnp(self.wupn)
 
         wsurvn = self.wsurvn
         if isinstance(self.wsurvn, types.Real):
             wsurvn = self.wsurvn
         elif isinstance(self.wsurvn, float) or isinstance(self.wsurvn, int):
-            wsurvn = types.RealOrJump(self.wsurvn)
+            wsurvn = types.Real(self.wsurvn)
         elif isinstance(self.wsurvn, str):
-            wsurvn = types.RealOrJump.from_mcnp(self.wsurvn)
+            wsurvn = types.Real.from_mcnp(self.wsurvn)
 
         mxspln = self.mxspln
         if isinstance(self.mxspln, types.Real):
             mxspln = self.mxspln
         elif isinstance(self.mxspln, float) or isinstance(self.mxspln, int):
-            mxspln = types.RealOrJump(self.mxspln)
+            mxspln = types.Real(self.mxspln)
         elif isinstance(self.mxspln, str):
-            mxspln = types.RealOrJump.from_mcnp(self.mxspln)
+            mxspln = types.Real.from_mcnp(self.mxspln)
 
         mwhere = self.mwhere
         if isinstance(self.mwhere, types.Integer):
             mwhere = self.mwhere
         elif isinstance(self.mwhere, int):
-            mwhere = types.IntegerOrJump(self.mwhere)
+            mwhere = types.Integer(self.mwhere)
         elif isinstance(self.mwhere, str):
-            mwhere = types.IntegerOrJump.from_mcnp(self.mwhere)
+            mwhere = types.Integer.from_mcnp(self.mwhere)
 
         switchn = self.switchn
         if isinstance(self.switchn, types.Real):
             switchn = self.switchn
         elif isinstance(self.switchn, float) or isinstance(self.switchn, int):
-            switchn = types.RealOrJump(self.switchn)
+            switchn = types.Real(self.switchn)
         elif isinstance(self.switchn, str):
-            switchn = types.RealOrJump.from_mcnp(self.switchn)
+            switchn = types.Real.from_mcnp(self.switchn)
 
         mtime = self.mtime
         if isinstance(self.mtime, types.Integer):
             mtime = self.mtime
         elif isinstance(self.mtime, int):
-            mtime = types.IntegerOrJump(self.mtime)
+            mtime = types.Integer(self.mtime)
         elif isinstance(self.mtime, str):
-            mtime = types.IntegerOrJump.from_mcnp(self.mtime)
+            mtime = types.Integer.from_mcnp(self.mtime)
 
         wnrom = self.wnrom
         if isinstance(self.wnrom, types.Real):
             wnrom = self.wnrom
         elif isinstance(self.wnrom, float) or isinstance(self.wnrom, int):
-            wnrom = types.RealOrJump(self.wnrom)
+            wnrom = types.Real(self.wnrom)
         elif isinstance(self.wnrom, str):
-            wnrom = types.RealOrJump.from_mcnp(self.wnrom)
+            wnrom = types.Real.from_mcnp(self.wnrom)
 
         etsplt = self.etsplt
         if isinstance(self.etsplt, types.Integer):
             etsplt = self.etsplt
         elif isinstance(self.etsplt, int):
-            etsplt = types.IntegerOrJump(self.etsplt)
+            etsplt = types.Integer(self.etsplt)
         elif isinstance(self.etsplt, str):
-            etsplt = types.IntegerOrJump.from_mcnp(self.etsplt)
+            etsplt = types.Integer.from_mcnp(self.etsplt)
 
         wu = self.wu
         if isinstance(self.wu, types.Real):
             wu = self.wu
         elif isinstance(self.wu, float) or isinstance(self.wu, int):
-            wu = types.RealOrJump(self.wu)
+            wu = types.Real(self.wu)
         elif isinstance(self.wu, str):
-            wu = types.RealOrJump.from_mcnp(self.wu)
+            wu = types.Real.from_mcnp(self.wu)
 
         nmfp = self.nmfp
         if isinstance(self.nmfp, types.Real):
             nmfp = self.nmfp
         elif isinstance(self.nmfp, float) or isinstance(self.nmfp, int):
-            nmfp = types.RealOrJump(self.nmfp)
+            nmfp = types.Real(self.nmfp)
         elif isinstance(self.nmfp, str):
-            nmfp = types.RealOrJump.from_mcnp(self.nmfp)
+            nmfp = types.Real.from_mcnp(self.nmfp)
 
         return Wwp(
             designator=designator,

@@ -17,12 +17,12 @@ class Cfrq(TOption_1):
     """
 
     _ATTRS = {
-        'frequency': types.RealOrJump,
+        'frequency': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Acfrq( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Acfrq( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, frequency: types.RealOrJump):
+    def __init__(self, frequency: types.Real):
         """
         Initializes ``Cfrq``.
 
@@ -42,7 +42,7 @@ class Cfrq(TOption_1):
             ]
         )
 
-        self.frequency: typing.Final[types.RealOrJump] = frequency
+        self.frequency: typing.Final[types.Real] = frequency
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class CfrqBuilder:
         frequency: Frequency of cycling.
     """
 
-    frequency: str | float | types.RealOrJump
+    frequency: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class CfrqBuilder:
         if isinstance(self.frequency, types.Real):
             frequency = self.frequency
         elif isinstance(self.frequency, float) or isinstance(self.frequency, int):
-            frequency = types.RealOrJump(self.frequency)
+            frequency = types.Real(self.frequency)
         elif isinstance(self.frequency, str):
-            frequency = types.RealOrJump.from_mcnp(self.frequency)
+            frequency = types.Real.from_mcnp(self.frequency)
 
         return Cfrq(
             frequency=frequency,

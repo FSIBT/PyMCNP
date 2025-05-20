@@ -17,12 +17,12 @@ class Coni(TOption_1):
     """
 
     _ATTRS = {
-        'time': types.RealOrJump,
+        'time': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Aconi( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aconi( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, time: types.RealOrJump):
+    def __init__(self, time: types.Real):
         """
         Initializes ``Coni``.
 
@@ -42,7 +42,7 @@ class Coni(TOption_1):
             ]
         )
 
-        self.time: typing.Final[types.RealOrJump] = time
+        self.time: typing.Final[types.Real] = time
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class ConiBuilder:
         time: Alive time interval.
     """
 
-    time: str | float | types.RealOrJump
+    time: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class ConiBuilder:
         if isinstance(self.time, types.Real):
             time = self.time
         elif isinstance(self.time, float) or isinstance(self.time, int):
-            time = types.RealOrJump(self.time)
+            time = types.Real(self.time)
         elif isinstance(self.time, str):
-            time = types.RealOrJump.from_mcnp(self.time)
+            time = types.Real.from_mcnp(self.time)
 
         return Coni(
             time=time,

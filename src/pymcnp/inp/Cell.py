@@ -53,11 +53,13 @@ class Cell(Card):
             InpError: SEMANTICS_CARD.
         """
 
-        if number is None or not (1 <= number <= 99_999_999):
+        if number is None or not (1 <= number.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
-        if material is None or not (0 <= material <= 99_999_999):
+        if material is None or not (0 <= material.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, material)
-        if (density is not None and material == 0) or (density is None and material != 0):
+        if (density is not None and material.value == 0) or (
+            density is None and material.value != 0
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, density)
         if geometry is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, geometry)

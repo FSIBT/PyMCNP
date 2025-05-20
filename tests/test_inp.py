@@ -1,7 +1,7 @@
 import pathlib
 
 import pymcnp
-import _utils
+from . import _utils
 
 
 class Test_Inp:
@@ -25,7 +25,7 @@ class Test_Inp:
 
         element = pymcnp.Inp
         EXAMPLES_VALID = [
-            *(pathlib.Path(__file__).parent / 'data/inp').glob('*.i'),
+            *(pathlib.Path(__file__).parent / 'files/inp').glob('*.i'),
         ]
         EXAMPLES_INVALID = []
 

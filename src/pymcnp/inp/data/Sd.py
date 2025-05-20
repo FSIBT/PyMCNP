@@ -17,12 +17,12 @@ class Sd(DataOption):
     """
 
     _ATTRS = {
-        'information': types.Tuple[types.RealOrJump],
+        'information': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Asd((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Asd((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, information: types.Tuple[types.RealOrJump]):
+    def __init__(self, information: types.Tuple[types.Real]):
         """
         Initializes ``Sd``.
 
@@ -42,7 +42,7 @@ class Sd(DataOption):
             ]
         )
 
-        self.information: typing.Final[types.Tuple[types.RealOrJump]] = information
+        self.information: typing.Final[types.Tuple[types.Real]] = information
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class SdBuilder:
         information: Area, volume, or mass by segmented, surface/cell.
     """
 
-    information: list[str] | list[float] | list[types.RealOrJump]
+    information: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class SdBuilder:
         if self.information:
             information = []
             for item in self.information:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     information.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    information.append(types.RealOrJump(item))
+                    information.append(types.Real(item))
                 elif isinstance(item, str):
-                    information.append(types.RealOrJump.from_mcnp(item))
+                    information.append(types.Real.from_mcnp(item))
             information = types.Tuple(information)
         else:
             information = None

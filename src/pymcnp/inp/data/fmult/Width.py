@@ -17,12 +17,12 @@ class Width(FmultOption):
     """
 
     _ATTRS = {
-        'width': types.RealOrJump,
+        'width': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Awidth( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Awidth( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, width: types.RealOrJump):
+    def __init__(self, width: types.Real):
         """
         Initializes ``Width``.
 
@@ -42,7 +42,7 @@ class Width(FmultOption):
             ]
         )
 
-        self.width: typing.Final[types.RealOrJump] = width
+        self.width: typing.Final[types.Real] = width
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class WidthBuilder:
         width: Width for sampling spontaneous fission.
     """
 
-    width: str | float | types.RealOrJump
+    width: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class WidthBuilder:
         if isinstance(self.width, types.Real):
             width = self.width
         elif isinstance(self.width, float) or isinstance(self.width, int):
-            width = types.RealOrJump(self.width)
+            width = types.Real(self.width)
         elif isinstance(self.width, str):
-            width = types.RealOrJump.from_mcnp(self.width)
+            width = types.Real.from_mcnp(self.width)
 
         return Width(
             width=width,

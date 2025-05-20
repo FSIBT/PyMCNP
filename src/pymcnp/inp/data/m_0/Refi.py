@@ -17,12 +17,12 @@ class Refi(MOption_0):
     """
 
     _ATTRS = {
-        'refractive_index': types.RealOrJump,
+        'refractive_index': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Arefi( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Arefi( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, refractive_index: types.RealOrJump):
+    def __init__(self, refractive_index: types.Real):
         """
         Initializes ``Refi``.
 
@@ -42,7 +42,7 @@ class Refi(MOption_0):
             ]
         )
 
-        self.refractive_index: typing.Final[types.RealOrJump] = refractive_index
+        self.refractive_index: typing.Final[types.Real] = refractive_index
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class RefiBuilder:
         refractive_index: Refractive index constant.
     """
 
-    refractive_index: str | float | types.RealOrJump
+    refractive_index: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class RefiBuilder:
         if isinstance(self.refractive_index, types.Real):
             refractive_index = self.refractive_index
         elif isinstance(self.refractive_index, float) or isinstance(self.refractive_index, int):
-            refractive_index = types.RealOrJump(self.refractive_index)
+            refractive_index = types.Real(self.refractive_index)
         elif isinstance(self.refractive_index, str):
-            refractive_index = types.RealOrJump.from_mcnp(self.refractive_index)
+            refractive_index = types.Real.from_mcnp(self.refractive_index)
 
         return Refi(
             refractive_index=refractive_index,

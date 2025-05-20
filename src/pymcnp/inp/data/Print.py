@@ -17,12 +17,12 @@ class Print(DataOption):
     """
 
     _ATTRS = {
-        'tables': types.Tuple[types.IntegerOrJump],
+        'tables': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Aprint((?: {types.IntegerOrJump._REGEX.pattern})+?)?\Z')
+    _REGEX = re.compile(rf'\Aprint((?: {types.Integer._REGEX.pattern})+?)?\Z')
 
-    def __init__(self, tables: types.Tuple[types.IntegerOrJump] = None):
+    def __init__(self, tables: types.Tuple[types.Integer] = None):
         """
         Initializes ``Print``.
 
@@ -143,7 +143,7 @@ class Print(DataOption):
             ]
         )
 
-        self.tables: typing.Final[types.Tuple[types.IntegerOrJump]] = tables
+        self.tables: typing.Final[types.Tuple[types.Integer]] = tables
 
 
 @dataclasses.dataclass
@@ -155,7 +155,7 @@ class PrintBuilder:
         tables: Tables to print.
     """
 
-    tables: list[str] | list[int] | list[types.IntegerOrJump] = None
+    tables: list[str] | list[int] | list[types.Integer] = None
 
     def build(self):
         """
@@ -168,12 +168,12 @@ class PrintBuilder:
         if self.tables:
             tables = []
             for item in self.tables:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     tables.append(item)
                 elif isinstance(item, int):
-                    tables.append(types.IntegerOrJump(item))
+                    tables.append(types.Integer(item))
                 elif isinstance(item, str):
-                    tables.append(types.IntegerOrJump.from_mcnp(item))
+                    tables.append(types.Integer.from_mcnp(item))
             tables = types.Tuple(tables)
         else:
             tables = None

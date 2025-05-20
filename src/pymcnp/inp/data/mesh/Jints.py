@@ -17,12 +17,12 @@ class Jints(MeshOption):
     """
 
     _ATTRS = {
-        'number': types.IntegerOrJump,
+        'number': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Ajints( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ajints( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, number: types.IntegerOrJump):
+    def __init__(self, number: types.Integer):
         """
         Initializes ``Jints``.
 
@@ -42,7 +42,7 @@ class Jints(MeshOption):
             ]
         )
 
-        self.number: typing.Final[types.IntegerOrJump] = number
+        self.number: typing.Final[types.Integer] = number
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class JintsBuilder:
         number: Number of fine meshes within corresponding coarse meshes in the y/z directions.
     """
 
-    number: str | int | types.IntegerOrJump
+    number: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class JintsBuilder:
         if isinstance(self.number, types.Integer):
             number = self.number
         elif isinstance(self.number, int):
-            number = types.IntegerOrJump(self.number)
+            number = types.Integer(self.number)
         elif isinstance(self.number, str):
-            number = types.IntegerOrJump.from_mcnp(self.number)
+            number = types.Integer.from_mcnp(self.number)
 
         return Jints(
             number=number,

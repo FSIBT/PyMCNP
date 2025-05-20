@@ -17,12 +17,12 @@ class Hist(RandOption):
     """
 
     _ATTRS = {
-        'hist': types.IntegerOrJump,
+        'hist': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Ahist( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ahist( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, hist: types.IntegerOrJump):
+    def __init__(self, hist: types.Integer):
         """
         Initializes ``Hist``.
 
@@ -42,7 +42,7 @@ class Hist(RandOption):
             ]
         )
 
-        self.hist: typing.Final[types.IntegerOrJump] = hist
+        self.hist: typing.Final[types.Integer] = hist
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class HistBuilder:
         hist: Starting pseudorandom number.
     """
 
-    hist: str | int | types.IntegerOrJump
+    hist: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class HistBuilder:
         if isinstance(self.hist, types.Integer):
             hist = self.hist
         elif isinstance(self.hist, int):
-            hist = types.IntegerOrJump(self.hist)
+            hist = types.Integer(self.hist)
         elif isinstance(self.hist, str):
-            hist = types.IntegerOrJump.from_mcnp(self.hist)
+            hist = types.Integer.from_mcnp(self.hist)
 
         return Hist(
             hist=hist,

@@ -18,15 +18,13 @@ class Inc(FmeshOption):
     """
 
     _ATTRS = {
-        'lower': types.RealOrJump,
-        'upper': types.RealOrJump,
+        'lower': types.Real,
+        'upper': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Ainc( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})?\Z'
-    )
+    _REGEX = re.compile(rf'\Ainc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?\Z')
 
-    def __init__(self, lower: types.RealOrJump, upper: types.RealOrJump = None):
+    def __init__(self, lower: types.Real, upper: types.Real = None):
         """
         Initializes ``Inc``.
 
@@ -48,8 +46,8 @@ class Inc(FmeshOption):
             ]
         )
 
-        self.lower: typing.Final[types.RealOrJump] = lower
-        self.upper: typing.Final[types.RealOrJump] = upper
+        self.lower: typing.Final[types.Real] = lower
+        self.upper: typing.Final[types.Real] = upper
 
 
 @dataclasses.dataclass
@@ -62,8 +60,8 @@ class IncBuilder:
         upper: Collision for FMESH tally upper bound.
     """
 
-    lower: str | float | types.RealOrJump
-    upper: str | float | types.RealOrJump = None
+    lower: str | float | types.Real
+    upper: str | float | types.Real = None
 
     def build(self):
         """
@@ -77,17 +75,17 @@ class IncBuilder:
         if isinstance(self.lower, types.Real):
             lower = self.lower
         elif isinstance(self.lower, float) or isinstance(self.lower, int):
-            lower = types.RealOrJump(self.lower)
+            lower = types.Real(self.lower)
         elif isinstance(self.lower, str):
-            lower = types.RealOrJump.from_mcnp(self.lower)
+            lower = types.Real.from_mcnp(self.lower)
 
         upper = self.upper
         if isinstance(self.upper, types.Real):
             upper = self.upper
         elif isinstance(self.upper, float) or isinstance(self.upper, int):
-            upper = types.RealOrJump(self.upper)
+            upper = types.Real(self.upper)
         elif isinstance(self.upper, str):
-            upper = types.RealOrJump.from_mcnp(self.upper)
+            upper = types.Real.from_mcnp(self.upper)
 
         return Inc(
             lower=lower,

@@ -17,17 +17,15 @@ class Histp(DataOption):
     """
 
     _ATTRS = {
-        'lhist': types.IntegerOrJump,
-        'cells': types.Tuple[types.IntegerOrJump],
+        'lhist': types.Integer,
+        'cells': types.Tuple[types.Integer],
     }
 
     _REGEX = re.compile(
-        rf'\Ahistp( {types.IntegerOrJump._REGEX.pattern})?((?: {types.IntegerOrJump._REGEX.pattern})+?)?\Z'
+        rf'\Ahistp( {types.Integer._REGEX.pattern})?((?: {types.Integer._REGEX.pattern})+?)?\Z'
     )
 
-    def __init__(
-        self, lhist: types.IntegerOrJump = None, cells: types.Tuple[types.IntegerOrJump] = None
-    ):
+    def __init__(self, lhist: types.Integer = None, cells: types.Tuple[types.Integer] = None):
         """
         Initializes ``Histp``.
 
@@ -46,8 +44,8 @@ class Histp(DataOption):
             ]
         )
 
-        self.lhist: typing.Final[types.IntegerOrJump] = lhist
-        self.cells: typing.Final[types.Tuple[types.IntegerOrJump]] = cells
+        self.lhist: typing.Final[types.Integer] = lhist
+        self.cells: typing.Final[types.Tuple[types.Integer]] = cells
 
 
 @dataclasses.dataclass
@@ -60,8 +58,8 @@ class HistpBuilder:
         cells: Cell numbers.
     """
 
-    lhist: str | int | types.IntegerOrJump = None
-    cells: list[str] | list[int] | list[types.IntegerOrJump] = None
+    lhist: str | int | types.Integer = None
+    cells: list[str] | list[int] | list[types.Integer] = None
 
     def build(self):
         """
@@ -75,19 +73,19 @@ class HistpBuilder:
         if isinstance(self.lhist, types.Integer):
             lhist = self.lhist
         elif isinstance(self.lhist, int):
-            lhist = types.IntegerOrJump(self.lhist)
+            lhist = types.Integer(self.lhist)
         elif isinstance(self.lhist, str):
-            lhist = types.IntegerOrJump.from_mcnp(self.lhist)
+            lhist = types.Integer.from_mcnp(self.lhist)
 
         if self.cells:
             cells = []
             for item in self.cells:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     cells.append(item)
                 elif isinstance(item, int):
-                    cells.append(types.IntegerOrJump(item))
+                    cells.append(types.Integer(item))
                 elif isinstance(item, str):
-                    cells.append(types.IntegerOrJump.from_mcnp(item))
+                    cells.append(types.Integer.from_mcnp(item))
             cells = types.Tuple(cells)
         else:
             cells = None
