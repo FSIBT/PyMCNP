@@ -19,17 +19,15 @@ class Block(DawwgOption):
     """
 
     _ATTRS = {
-        'setting': types.IntegerOrJump,
+        'setting': types.Integer,
         'options': types.Tuple[block.BlockOption],
     }
 
     _REGEX = re.compile(
-        rf'\Ablock( {types.IntegerOrJump._REGEX.pattern})((?: (?:{block.BlockOption._REGEX.pattern}))+?)?\Z'
+        rf'\Ablock( {types.Integer._REGEX.pattern})((?: (?:{block.BlockOption._REGEX.pattern}))+?)?\Z'
     )
 
-    def __init__(
-        self, setting: types.IntegerOrJump, options: types.Tuple[block.BlockOption] = None
-    ):
+    def __init__(self, setting: types.Integer, options: types.Tuple[block.BlockOption] = None):
         """
         Initializes ``Block``.
 
@@ -51,7 +49,7 @@ class Block(DawwgOption):
             ]
         )
 
-        self.setting: typing.Final[types.IntegerOrJump] = setting
+        self.setting: typing.Final[types.Integer] = setting
         self.options: typing.Final[types.Tuple[block.BlockOption]] = options
 
 
@@ -65,7 +63,7 @@ class BlockBuilder:
         options: Dictionary of options.
     """
 
-    setting: str | int | types.IntegerOrJump
+    setting: str | int | types.Integer
     options: list[str] | list[block.BlockOption] = None
 
     def build(self):
@@ -80,9 +78,9 @@ class BlockBuilder:
         if isinstance(self.setting, types.Integer):
             setting = self.setting
         elif isinstance(self.setting, int):
-            setting = types.IntegerOrJump(self.setting)
+            setting = types.Integer(self.setting)
         elif isinstance(self.setting, str):
-            setting = types.IntegerOrJump.from_mcnp(self.setting)
+            setting = types.Integer.from_mcnp(self.setting)
 
         if self.options:
             options = []

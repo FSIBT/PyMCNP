@@ -21,16 +21,13 @@ class Sb_0(DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'option': types.String,
-        'biases': types.Tuple[types.RealOrJump],
+        'biases': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Asb(\d+)( [dcvw])?((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Asb(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(
-        self,
-        suffix: types.Integer,
-        biases: types.Tuple[types.RealOrJump],
-        option: types.String = None,
+        self, suffix: types.Integer, biases: types.Tuple[types.Real], option: types.String = None
     ):
         """
         Initializes ``Sb_0``.
@@ -44,7 +41,7 @@ class Sb_0(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (1 <= suffix <= 999):
+        if suffix is None or not (1 <= suffix.value <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if option is not None and option not in {'d', 'c', 'v', 'w'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
@@ -60,7 +57,7 @@ class Sb_0(DataOption):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.option: typing.Final[types.String] = option
-        self.biases: typing.Final[types.Tuple[types.RealOrJump]] = biases
+        self.biases: typing.Final[types.Tuple[types.Real]] = biases
 
 
 @dataclasses.dataclass
@@ -75,7 +72,7 @@ class SbBuilder_0:
     """
 
     suffix: str | int | types.Integer
-    biases: list[str] | list[float] | list[types.RealOrJump]
+    biases: list[str] | list[float] | list[types.Real]
     option: str | types.String = None
 
     def build(self):
@@ -103,12 +100,12 @@ class SbBuilder_0:
         if self.biases:
             biases = []
             for item in self.biases:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     biases.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    biases.append(types.RealOrJump(item))
+                    biases.append(types.Real(item))
                 elif isinstance(item, str):
-                    biases.append(types.RealOrJump.from_mcnp(item))
+                    biases.append(types.Real.from_mcnp(item))
             biases = types.Tuple(biases)
         else:
             biases = None

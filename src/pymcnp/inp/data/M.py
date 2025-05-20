@@ -103,7 +103,7 @@ class M(DataOption, keyword='m'):
                 entries = [
                     types.Substance(
                         zaid,
-                        types.RealOrJump(
+                        types.Real(
                             (-1 if atomic_or_weight else 1)
                             * mixture_fraction
                             * compound_fraction
@@ -116,7 +116,7 @@ class M(DataOption, keyword='m'):
                 comments += subcomments
                 substances += entries
 
-        material = M(types.IntegerOrJump(number), types.Tuple(substances))
+        material = M(types.Integer(number), types.Tuple(substances))
         material.comment = tuple(comments)
 
         return material

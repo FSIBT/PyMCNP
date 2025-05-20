@@ -41,13 +41,13 @@ class Dxt(DataOption):
         'spheres_8': types.Shell,
         'spheres_9': types.Shell,
         'spheres_10': types.Shell,
-        'cutoff_1': types.RealOrJump,
-        'cutoff_2': types.RealOrJump,
-        'weight': types.RealOrJump,
+        'cutoff_1': types.Real,
+        'cutoff_2': types.Real,
+        'weight': types.Real,
     }
 
     _REGEX = re.compile(
-        rf'\Adxt:(\S+)( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
+        rf'\Adxt:(\S+)( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Shell._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(
@@ -63,9 +63,9 @@ class Dxt(DataOption):
         spheres_8: types.Shell,
         spheres_9: types.Shell,
         spheres_10: types.Shell,
-        cutoff_1: types.RealOrJump,
-        cutoff_2: types.RealOrJump,
-        weight: types.RealOrJump,
+        cutoff_1: types.Real,
+        cutoff_2: types.Real,
+        weight: types.Real,
     ):
         """
         Initializes ``Dxt``.
@@ -148,9 +148,9 @@ class Dxt(DataOption):
         self.spheres_8: typing.Final[types.Shell] = spheres_8
         self.spheres_9: typing.Final[types.Shell] = spheres_9
         self.spheres_10: typing.Final[types.Shell] = spheres_10
-        self.cutoff_1: typing.Final[types.RealOrJump] = cutoff_1
-        self.cutoff_2: typing.Final[types.RealOrJump] = cutoff_2
-        self.weight: typing.Final[types.RealOrJump] = weight
+        self.cutoff_1: typing.Final[types.Real] = cutoff_1
+        self.cutoff_2: typing.Final[types.Real] = cutoff_2
+        self.weight: typing.Final[types.Real] = weight
 
 
 @dataclasses.dataclass
@@ -186,9 +186,9 @@ class DxtBuilder:
     spheres_8: str | types.Shell
     spheres_9: str | types.Shell
     spheres_10: str | types.Shell
-    cutoff_1: str | float | types.RealOrJump
-    cutoff_2: str | float | types.RealOrJump
-    weight: str | float | types.RealOrJump
+    cutoff_1: str | float | types.Real
+    cutoff_2: str | float | types.Real
+    weight: str | float | types.Real
 
     def build(self):
         """
@@ -268,25 +268,25 @@ class DxtBuilder:
         if isinstance(self.cutoff_1, types.Real):
             cutoff_1 = self.cutoff_1
         elif isinstance(self.cutoff_1, float) or isinstance(self.cutoff_1, int):
-            cutoff_1 = types.RealOrJump(self.cutoff_1)
+            cutoff_1 = types.Real(self.cutoff_1)
         elif isinstance(self.cutoff_1, str):
-            cutoff_1 = types.RealOrJump.from_mcnp(self.cutoff_1)
+            cutoff_1 = types.Real.from_mcnp(self.cutoff_1)
 
         cutoff_2 = self.cutoff_2
         if isinstance(self.cutoff_2, types.Real):
             cutoff_2 = self.cutoff_2
         elif isinstance(self.cutoff_2, float) or isinstance(self.cutoff_2, int):
-            cutoff_2 = types.RealOrJump(self.cutoff_2)
+            cutoff_2 = types.Real(self.cutoff_2)
         elif isinstance(self.cutoff_2, str):
-            cutoff_2 = types.RealOrJump.from_mcnp(self.cutoff_2)
+            cutoff_2 = types.Real.from_mcnp(self.cutoff_2)
 
         weight = self.weight
         if isinstance(self.weight, types.Real):
             weight = self.weight
         elif isinstance(self.weight, float) or isinstance(self.weight, int):
-            weight = types.RealOrJump(self.weight)
+            weight = types.Real(self.weight)
         elif isinstance(self.weight, str):
-            weight = types.RealOrJump.from_mcnp(self.weight)
+            weight = types.Real.from_mcnp(self.weight)
 
         return Dxt(
             designator=designator,

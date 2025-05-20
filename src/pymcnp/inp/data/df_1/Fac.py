@@ -17,12 +17,12 @@ class Fac(DfOption_1):
     """
 
     _ATTRS = {
-        'normalization': types.IntegerOrJump,
+        'normalization': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Afac( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afac( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, normalization: types.IntegerOrJump):
+    def __init__(self, normalization: types.Integer):
         """
         Initializes ``Fac``.
 
@@ -44,7 +44,7 @@ class Fac(DfOption_1):
             ]
         )
 
-        self.normalization: typing.Final[types.IntegerOrJump] = normalization
+        self.normalization: typing.Final[types.Integer] = normalization
 
 
 @dataclasses.dataclass
@@ -56,7 +56,7 @@ class FacBuilder:
         normalization: Normalization factor for dose.
     """
 
-    normalization: str | int | types.IntegerOrJump
+    normalization: str | int | types.Integer
 
     def build(self):
         """
@@ -70,9 +70,9 @@ class FacBuilder:
         if isinstance(self.normalization, types.Integer):
             normalization = self.normalization
         elif isinstance(self.normalization, int):
-            normalization = types.IntegerOrJump(self.normalization)
+            normalization = types.Integer(self.normalization)
         elif isinstance(self.normalization, str):
-            normalization = types.IntegerOrJump.from_mcnp(self.normalization)
+            normalization = types.Integer.from_mcnp(self.normalization)
 
         return Fac(
             normalization=normalization,

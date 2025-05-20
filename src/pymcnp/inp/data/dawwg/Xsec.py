@@ -17,12 +17,12 @@ class Xsec(DawwgOption):
     """
 
     _ATTRS = {
-        'count': types.IntegerOrJump,
+        'count': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Axsec( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Axsec( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, count: types.IntegerOrJump):
+    def __init__(self, count: types.Integer):
         """
         Initializes ``Xsec``.
 
@@ -42,7 +42,7 @@ class Xsec(DawwgOption):
             ]
         )
 
-        self.count: typing.Final[types.IntegerOrJump] = count
+        self.count: typing.Final[types.Integer] = count
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class XsecBuilder:
         count: Number of sample points for each direction in each mesh.
     """
 
-    count: str | int | types.IntegerOrJump
+    count: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class XsecBuilder:
         if isinstance(self.count, types.Integer):
             count = self.count
         elif isinstance(self.count, int):
-            count = types.IntegerOrJump(self.count)
+            count = types.Integer(self.count)
         elif isinstance(self.count, str):
-            count = types.IntegerOrJump.from_mcnp(self.count)
+            count = types.Integer.from_mcnp(self.count)
 
         return Xsec(
             count=count,

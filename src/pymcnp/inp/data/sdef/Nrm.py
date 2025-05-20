@@ -17,12 +17,12 @@ class Nrm(SdefOption):
     """
 
     _ATTRS = {
-        'sign': types.IntegerOrJump,
+        'sign': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Anrm( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Anrm( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, sign: types.IntegerOrJump):
+    def __init__(self, sign: types.Integer):
         """
         Initializes ``Nrm``.
 
@@ -42,7 +42,7 @@ class Nrm(SdefOption):
             ]
         )
 
-        self.sign: typing.Final[types.IntegerOrJump] = sign
+        self.sign: typing.Final[types.Integer] = sign
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class NrmBuilder:
         sign: Sign of the surface normal.
     """
 
-    sign: str | int | types.IntegerOrJump
+    sign: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class NrmBuilder:
         if isinstance(self.sign, types.Integer):
             sign = self.sign
         elif isinstance(self.sign, int):
-            sign = types.IntegerOrJump(self.sign)
+            sign = types.Integer(self.sign)
         elif isinstance(self.sign, str):
-            sign = types.IntegerOrJump.from_mcnp(self.sign)
+            sign = types.Integer.from_mcnp(self.sign)
 
         return Nrm(
             sign=sign,

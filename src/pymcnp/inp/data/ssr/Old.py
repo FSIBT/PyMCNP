@@ -17,12 +17,12 @@ class Old(SsrOption):
     """
 
     _ATTRS = {
-        'numbers': types.Tuple[types.IntegerOrJump],
+        'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Aold((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aold((?: {types.Integer._REGEX.pattern})+?)\Z')
 
-    def __init__(self, numbers: types.Tuple[types.IntegerOrJump]):
+    def __init__(self, numbers: types.Tuple[types.Integer]):
         """
         Initializes ``Old``.
 
@@ -33,7 +33,9 @@ class Old(SsrOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if numbers is None or not (filter(lambda entry: not (1 <= entry <= 99_999_999), numbers)):
+        if numbers is None or not (
+            filter(lambda entry: not (1 <= entry.value <= 99_999_999), numbers)
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +44,7 @@ class Old(SsrOption):
             ]
         )
 
-        self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers
+        self.numbers: typing.Final[types.Tuple[types.Integer]] = numbers
 
 
 @dataclasses.dataclass
@@ -54,7 +56,7 @@ class OldBuilder:
         numbers: Tuple of surface numbers from subset of surfaces on SSW card.
     """
 
-    numbers: list[str] | list[int] | list[types.IntegerOrJump]
+    numbers: list[str] | list[int] | list[types.Integer]
 
     def build(self):
         """
@@ -67,12 +69,12 @@ class OldBuilder:
         if self.numbers:
             numbers = []
             for item in self.numbers:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     numbers.append(item)
                 elif isinstance(item, int):
-                    numbers.append(types.IntegerOrJump(item))
+                    numbers.append(types.Integer(item))
                 elif isinstance(item, str):
-                    numbers.append(types.IntegerOrJump.from_mcnp(item))
+                    numbers.append(types.Integer.from_mcnp(item))
             numbers = types.Tuple(numbers)
         else:
             numbers = None

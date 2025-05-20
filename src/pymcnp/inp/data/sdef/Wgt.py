@@ -17,12 +17,12 @@ class Wgt(SdefOption):
     """
 
     _ATTRS = {
-        'weight': types.RealOrJump,
+        'weight': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Awgt( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Awgt( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, weight: types.RealOrJump):
+    def __init__(self, weight: types.Real):
         """
         Initializes ``Wgt``.
 
@@ -42,7 +42,7 @@ class Wgt(SdefOption):
             ]
         )
 
-        self.weight: typing.Final[types.RealOrJump] = weight
+        self.weight: typing.Final[types.Real] = weight
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class WgtBuilder:
         weight: Particle weight.
     """
 
-    weight: str | float | types.RealOrJump
+    weight: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class WgtBuilder:
         if isinstance(self.weight, types.Real):
             weight = self.weight
         elif isinstance(self.weight, float) or isinstance(self.weight, int):
-            weight = types.RealOrJump(self.weight)
+            weight = types.Real(self.weight)
         elif isinstance(self.weight, str):
-            weight = types.RealOrJump.from_mcnp(self.weight)
+            weight = types.Real.from_mcnp(self.weight)
 
         return Wgt(
             weight=weight,

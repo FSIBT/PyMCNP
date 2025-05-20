@@ -18,15 +18,15 @@ class Nps(StopOption):
     """
 
     _ATTRS = {
-        'npp': types.IntegerOrJump,
-        'npsmg': types.IntegerOrJump,
+        'npp': types.Integer,
+        'npsmg': types.Integer,
     }
 
     _REGEX = re.compile(
-        rf'\Anps( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})?\Z'
+        rf'\Anps( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})?\Z'
     )
 
-    def __init__(self, npp: types.IntegerOrJump, npsmg: types.IntegerOrJump = None):
+    def __init__(self, npp: types.Integer, npsmg: types.Integer = None):
         """
         Initializes ``Nps``.
 
@@ -48,8 +48,8 @@ class Nps(StopOption):
             ]
         )
 
-        self.npp: typing.Final[types.IntegerOrJump] = npp
-        self.npsmg: typing.Final[types.IntegerOrJump] = npsmg
+        self.npp: typing.Final[types.Integer] = npp
+        self.npsmg: typing.Final[types.Integer] = npsmg
 
 
 @dataclasses.dataclass
@@ -62,8 +62,8 @@ class NpsBuilder:
         npsmg: Number of histories before stop.
     """
 
-    npp: str | int | types.IntegerOrJump
-    npsmg: str | int | types.IntegerOrJump = None
+    npp: str | int | types.Integer
+    npsmg: str | int | types.Integer = None
 
     def build(self):
         """
@@ -77,17 +77,17 @@ class NpsBuilder:
         if isinstance(self.npp, types.Integer):
             npp = self.npp
         elif isinstance(self.npp, int):
-            npp = types.IntegerOrJump(self.npp)
+            npp = types.Integer(self.npp)
         elif isinstance(self.npp, str):
-            npp = types.IntegerOrJump.from_mcnp(self.npp)
+            npp = types.Integer.from_mcnp(self.npp)
 
         npsmg = self.npsmg
         if isinstance(self.npsmg, types.Integer):
             npsmg = self.npsmg
         elif isinstance(self.npsmg, int):
-            npsmg = types.IntegerOrJump(self.npsmg)
+            npsmg = types.Integer(self.npsmg)
         elif isinstance(self.npsmg, str):
-            npsmg = types.IntegerOrJump.from_mcnp(self.npsmg)
+            npsmg = types.Integer.from_mcnp(self.npsmg)
 
         return Nps(
             npp=npp,

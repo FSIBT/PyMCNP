@@ -18,15 +18,15 @@ class Lost(DataOption):
     """
 
     _ATTRS = {
-        'lost1': types.IntegerOrJump,
-        'lost2': types.IntegerOrJump,
+        'lost1': types.Integer,
+        'lost2': types.Integer,
     }
 
     _REGEX = re.compile(
-        rf'\Alost( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
+        rf'\Alost( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
     )
 
-    def __init__(self, lost1: types.IntegerOrJump, lost2: types.IntegerOrJump):
+    def __init__(self, lost1: types.Integer, lost2: types.Integer):
         """
         Initializes ``Lost``.
 
@@ -38,9 +38,9 @@ class Lost(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if lost1 is None or not (lost1 >= 0):
+        if lost1 is None or not (lost1.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lost1)
-        if lost2 is None or not (lost2 >= 0):
+        if lost2 is None or not (lost2.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lost2)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -50,8 +50,8 @@ class Lost(DataOption):
             ]
         )
 
-        self.lost1: typing.Final[types.IntegerOrJump] = lost1
-        self.lost2: typing.Final[types.IntegerOrJump] = lost2
+        self.lost1: typing.Final[types.Integer] = lost1
+        self.lost2: typing.Final[types.Integer] = lost2
 
 
 @dataclasses.dataclass
@@ -64,8 +64,8 @@ class LostBuilder:
         lost2: Maximum number of debug prints for lost particles..
     """
 
-    lost1: str | int | types.IntegerOrJump
-    lost2: str | int | types.IntegerOrJump
+    lost1: str | int | types.Integer
+    lost2: str | int | types.Integer
 
     def build(self):
         """
@@ -79,17 +79,17 @@ class LostBuilder:
         if isinstance(self.lost1, types.Integer):
             lost1 = self.lost1
         elif isinstance(self.lost1, int):
-            lost1 = types.IntegerOrJump(self.lost1)
+            lost1 = types.Integer(self.lost1)
         elif isinstance(self.lost1, str):
-            lost1 = types.IntegerOrJump.from_mcnp(self.lost1)
+            lost1 = types.Integer.from_mcnp(self.lost1)
 
         lost2 = self.lost2
         if isinstance(self.lost2, types.Integer):
             lost2 = self.lost2
         elif isinstance(self.lost2, int):
-            lost2 = types.IntegerOrJump(self.lost2)
+            lost2 = types.Integer(self.lost2)
         elif isinstance(self.lost2, str):
-            lost2 = types.IntegerOrJump.from_mcnp(self.lost2)
+            lost2 = types.Integer.from_mcnp(self.lost2)
 
         return Lost(
             lost1=lost1,

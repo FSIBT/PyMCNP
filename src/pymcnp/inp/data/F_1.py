@@ -50,12 +50,14 @@ class F_1(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 5):
+        if suffix is None or not (suffix.value <= 99_999_999 and suffix.value % 10 == 5):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if spheres is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres)
+        if nd is not None and not (nd == 'nd'):
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nd)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

@@ -33,7 +33,7 @@ class Mphys(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is not None and setting not in {'on', 'off'}:
+        if setting is not None and setting.value not in {'on', 'off'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

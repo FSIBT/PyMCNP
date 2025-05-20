@@ -17,12 +17,12 @@ class Ibl(BlockOption):
     """
 
     _ATTRS = {
-        'setting': types.IntegerOrJump,
+        'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Aibl( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aibl( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.IntegerOrJump):
+    def __init__(self, setting: types.Integer):
         """
         Initializes ``Ibl``.
 
@@ -42,7 +42,7 @@ class Ibl(BlockOption):
             ]
         )
 
-        self.setting: typing.Final[types.IntegerOrJump] = setting
+        self.setting: typing.Final[types.Integer] = setting
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class IblBuilder:
         setting: Left boundary condition.
     """
 
-    setting: str | int | types.IntegerOrJump
+    setting: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class IblBuilder:
         if isinstance(self.setting, types.Integer):
             setting = self.setting
         elif isinstance(self.setting, int):
-            setting = types.IntegerOrJump(self.setting)
+            setting = types.Integer(self.setting)
         elif isinstance(self.setting, str):
-            setting = types.IntegerOrJump.from_mcnp(self.setting)
+            setting = types.Integer.from_mcnp(self.setting)
 
         return Ibl(
             setting=setting,

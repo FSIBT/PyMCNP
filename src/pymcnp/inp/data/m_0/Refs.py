@@ -17,12 +17,12 @@ class Refs(MOption_0):
     """
 
     _ATTRS = {
-        'coefficents': types.Tuple[types.RealOrJump],
+        'coefficents': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Arefs((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Arefs((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, coefficents: types.Tuple[types.RealOrJump]):
+    def __init__(self, coefficents: types.Tuple[types.Real]):
         """
         Initializes ``Refs``.
 
@@ -42,7 +42,7 @@ class Refs(MOption_0):
             ]
         )
 
-        self.coefficents: typing.Final[types.Tuple[types.RealOrJump]] = coefficents
+        self.coefficents: typing.Final[types.Tuple[types.Real]] = coefficents
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class RefsBuilder:
         coefficents: Sellmeier coefficents.
     """
 
-    coefficents: list[str] | list[float] | list[types.RealOrJump]
+    coefficents: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class RefsBuilder:
         if self.coefficents:
             coefficents = []
             for item in self.coefficents:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     coefficents.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    coefficents.append(types.RealOrJump(item))
+                    coefficents.append(types.Real(item))
                 elif isinstance(item, str):
-                    coefficents.append(types.RealOrJump.from_mcnp(item))
+                    coefficents.append(types.Real.from_mcnp(item))
             coefficents = types.Tuple(coefficents)
         else:
             coefficents = None

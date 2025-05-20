@@ -19,16 +19,16 @@ class Bem(SdefOption):
     """
 
     _ATTRS = {
-        'exn': types.RealOrJump,
-        'eyn': types.RealOrJump,
-        'bml': types.RealOrJump,
+        'exn': types.Real,
+        'eyn': types.Real,
+        'bml': types.Real,
     }
 
     _REGEX = re.compile(
-        rf'\Abem( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
+        rf'\Abem( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
-    def __init__(self, exn: types.RealOrJump, eyn: types.RealOrJump, bml: types.RealOrJump):
+    def __init__(self, exn: types.Real, eyn: types.Real, bml: types.Real):
         """
         Initializes ``Bem``.
 
@@ -45,7 +45,7 @@ class Bem(SdefOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, exn)
         if eyn is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, eyn)
-        if bml is None or not (bml >= 0):
+        if bml is None or not (bml.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bml)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -56,9 +56,9 @@ class Bem(SdefOption):
             ]
         )
 
-        self.exn: typing.Final[types.RealOrJump] = exn
-        self.eyn: typing.Final[types.RealOrJump] = eyn
-        self.bml: typing.Final[types.RealOrJump] = bml
+        self.exn: typing.Final[types.Real] = exn
+        self.eyn: typing.Final[types.Real] = eyn
+        self.bml: typing.Final[types.Real] = bml
 
 
 @dataclasses.dataclass
@@ -72,9 +72,9 @@ class BemBuilder:
         bml: Distance from the aperture to the spot.
     """
 
-    exn: str | float | types.RealOrJump
-    eyn: str | float | types.RealOrJump
-    bml: str | float | types.RealOrJump
+    exn: str | float | types.Real
+    eyn: str | float | types.Real
+    bml: str | float | types.Real
 
     def build(self):
         """
@@ -88,25 +88,25 @@ class BemBuilder:
         if isinstance(self.exn, types.Real):
             exn = self.exn
         elif isinstance(self.exn, float) or isinstance(self.exn, int):
-            exn = types.RealOrJump(self.exn)
+            exn = types.Real(self.exn)
         elif isinstance(self.exn, str):
-            exn = types.RealOrJump.from_mcnp(self.exn)
+            exn = types.Real.from_mcnp(self.exn)
 
         eyn = self.eyn
         if isinstance(self.eyn, types.Real):
             eyn = self.eyn
         elif isinstance(self.eyn, float) or isinstance(self.eyn, int):
-            eyn = types.RealOrJump(self.eyn)
+            eyn = types.Real(self.eyn)
         elif isinstance(self.eyn, str):
-            eyn = types.RealOrJump.from_mcnp(self.eyn)
+            eyn = types.Real.from_mcnp(self.eyn)
 
         bml = self.bml
         if isinstance(self.bml, types.Real):
             bml = self.bml
         elif isinstance(self.bml, float) or isinstance(self.bml, int):
-            bml = types.RealOrJump(self.bml)
+            bml = types.Real(self.bml)
         elif isinstance(self.bml, str):
-            bml = types.RealOrJump.from_mcnp(self.bml)
+            bml = types.Real.from_mcnp(self.bml)
 
         return Bem(
             exn=exn,

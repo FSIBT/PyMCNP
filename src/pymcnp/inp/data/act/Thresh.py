@@ -17,12 +17,12 @@ class Thresh(ActOption):
     """
 
     _ATTRS = {
-        'fraction': types.RealOrJump,
+        'fraction': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Athresh( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Athresh( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, fraction: types.RealOrJump):
+    def __init__(self, fraction: types.Real):
         """
         Initializes ``Thresh``.
 
@@ -33,7 +33,7 @@ class Thresh(ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if fraction is None or not (0 <= fraction <= 1):
+        if fraction is None or not (0 <= fraction.value <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fraction)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Thresh(ActOption):
             ]
         )
 
-        self.fraction: typing.Final[types.RealOrJump] = fraction
+        self.fraction: typing.Final[types.Real] = fraction
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class ThreshBuilder:
         fraction: Fraction of highest-amplitude discrete delayed-gamma lines retained.
     """
 
-    fraction: str | float | types.RealOrJump
+    fraction: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class ThreshBuilder:
         if isinstance(self.fraction, types.Real):
             fraction = self.fraction
         elif isinstance(self.fraction, float) or isinstance(self.fraction, int):
-            fraction = types.RealOrJump(self.fraction)
+            fraction = types.Real(self.fraction)
         elif isinstance(self.fraction, str):
-            fraction = types.RealOrJump.from_mcnp(self.fraction)
+            fraction = types.Real.from_mcnp(self.fraction)
 
         return Thresh(
             fraction=fraction,

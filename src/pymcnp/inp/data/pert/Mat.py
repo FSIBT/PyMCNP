@@ -17,12 +17,12 @@ class Mat(PertOption):
     """
 
     _ATTRS = {
-        'material': types.IntegerOrJump,
+        'material': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Amat( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Amat( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, material: types.IntegerOrJump):
+    def __init__(self, material: types.Integer):
         """
         Initializes ``Mat``.
 
@@ -33,7 +33,7 @@ class Mat(PertOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if material is None or not (0 <= material <= 99_999_999):
+        if material is None or not (0 <= material.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, material)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Mat(PertOption):
             ]
         )
 
-        self.material: typing.Final[types.IntegerOrJump] = material
+        self.material: typing.Final[types.Integer] = material
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class MatBuilder:
         material: Material number to fill cells.
     """
 
-    material: str | int | types.IntegerOrJump
+    material: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class MatBuilder:
         if isinstance(self.material, types.Integer):
             material = self.material
         elif isinstance(self.material, int):
-            material = types.IntegerOrJump(self.material)
+            material = types.Integer(self.material)
         elif isinstance(self.material, str):
-            material = types.IntegerOrJump.from_mcnp(self.material)
+            material = types.Integer.from_mcnp(self.material)
 
         return Mat(
             material=material,

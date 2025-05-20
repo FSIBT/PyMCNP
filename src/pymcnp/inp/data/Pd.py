@@ -21,16 +21,16 @@ class Pd(DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'probabilities': types.Tuple[types.RealOrJump],
+        'probabilities': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Apd(\d+):(\S+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Apd(\d+):(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(
         self,
         suffix: types.Integer,
         designator: types.Designator,
-        probabilities: types.Tuple[types.RealOrJump],
+        probabilities: types.Tuple[types.Real],
     ):
         """
         Initializes ``Pd``.
@@ -44,12 +44,12 @@ class Pd(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix <= 99_999_999):
+        if suffix is None or not (suffix.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if probabilities is None or not (
-            filter(lambda entry: not (0 <= entry <= 1), probabilities)
+            filter(lambda entry: not (0 <= entry.value <= 1), probabilities)
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, probabilities)
 
@@ -61,7 +61,7 @@ class Pd(DataOption):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
-        self.probabilities: typing.Final[types.Tuple[types.RealOrJump]] = probabilities
+        self.probabilities: typing.Final[types.Tuple[types.Real]] = probabilities
 
 
 @dataclasses.dataclass
@@ -77,7 +77,7 @@ class PdBuilder:
 
     suffix: str | int | types.Integer
     designator: str | types.Designator
-    probabilities: list[str] | list[float] | list[types.RealOrJump]
+    probabilities: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -104,12 +104,12 @@ class PdBuilder:
         if self.probabilities:
             probabilities = []
             for item in self.probabilities:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     probabilities.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    probabilities.append(types.RealOrJump(item))
+                    probabilities.append(types.Real(item))
                 elif isinstance(item, str):
-                    probabilities.append(types.RealOrJump.from_mcnp(item))
+                    probabilities.append(types.Real.from_mcnp(item))
             probabilities = types.Tuple(probabilities)
         else:
             probabilities = None

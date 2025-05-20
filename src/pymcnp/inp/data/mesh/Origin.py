@@ -17,12 +17,12 @@ class Origin(MeshOption):
     """
 
     _ATTRS = {
-        'point': types.Tuple[types.RealOrJump],
+        'point': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Aorigin((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aorigin((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, point: types.Tuple[types.RealOrJump]):
+    def __init__(self, point: types.Tuple[types.Real]):
         """
         Initializes ``Origin``.
 
@@ -42,7 +42,7 @@ class Origin(MeshOption):
             ]
         )
 
-        self.point: typing.Final[types.Tuple[types.RealOrJump]] = point
+        self.point: typing.Final[types.Tuple[types.Real]] = point
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class OriginBuilder:
         point: Mesh origin point.
     """
 
-    point: list[str] | list[float] | list[types.RealOrJump]
+    point: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class OriginBuilder:
         if self.point:
             point = []
             for item in self.point:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     point.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    point.append(types.RealOrJump(item))
+                    point.append(types.Real(item))
                 elif isinstance(item, str):
-                    point.append(types.RealOrJump.from_mcnp(item))
+                    point.append(types.Real.from_mcnp(item))
             point = types.Tuple(point)
         else:
             point = None

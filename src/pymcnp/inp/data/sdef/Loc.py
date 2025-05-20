@@ -19,18 +19,16 @@ class Loc(SdefOption):
     """
 
     _ATTRS = {
-        'latitude': types.RealOrJump,
-        'longitude': types.RealOrJump,
-        'altitude': types.RealOrJump,
+        'latitude': types.Real,
+        'longitude': types.Real,
+        'altitude': types.Real,
     }
 
     _REGEX = re.compile(
-        rf'\Aloc( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
+        rf'\Aloc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
-    def __init__(
-        self, latitude: types.RealOrJump, longitude: types.RealOrJump, altitude: types.RealOrJump
-    ):
+    def __init__(self, latitude: types.Real, longitude: types.Real, altitude: types.Real):
         """
         Initializes ``Loc``.
 
@@ -43,11 +41,11 @@ class Loc(SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if latitude is None or not (-90 <= latitude <= 90):
+        if latitude is None or not (-90 <= latitude.value <= 90):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, latitude)
-        if longitude is None or not (-180 <= longitude <= 180):
+        if longitude is None or not (-180 <= longitude.value <= 180):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, longitude)
-        if altitude is None or not (0 <= altitude):
+        if altitude is None or not (0 <= altitude.value):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, altitude)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -58,9 +56,9 @@ class Loc(SdefOption):
             ]
         )
 
-        self.latitude: typing.Final[types.RealOrJump] = latitude
-        self.longitude: typing.Final[types.RealOrJump] = longitude
-        self.altitude: typing.Final[types.RealOrJump] = altitude
+        self.latitude: typing.Final[types.Real] = latitude
+        self.longitude: typing.Final[types.Real] = longitude
+        self.altitude: typing.Final[types.Real] = altitude
 
 
 @dataclasses.dataclass
@@ -74,9 +72,9 @@ class LocBuilder:
         altitude: Altitude for cosmic source.
     """
 
-    latitude: str | float | types.RealOrJump
-    longitude: str | float | types.RealOrJump
-    altitude: str | float | types.RealOrJump
+    latitude: str | float | types.Real
+    longitude: str | float | types.Real
+    altitude: str | float | types.Real
 
     def build(self):
         """
@@ -90,25 +88,25 @@ class LocBuilder:
         if isinstance(self.latitude, types.Real):
             latitude = self.latitude
         elif isinstance(self.latitude, float) or isinstance(self.latitude, int):
-            latitude = types.RealOrJump(self.latitude)
+            latitude = types.Real(self.latitude)
         elif isinstance(self.latitude, str):
-            latitude = types.RealOrJump.from_mcnp(self.latitude)
+            latitude = types.Real.from_mcnp(self.latitude)
 
         longitude = self.longitude
         if isinstance(self.longitude, types.Real):
             longitude = self.longitude
         elif isinstance(self.longitude, float) or isinstance(self.longitude, int):
-            longitude = types.RealOrJump(self.longitude)
+            longitude = types.Real(self.longitude)
         elif isinstance(self.longitude, str):
-            longitude = types.RealOrJump.from_mcnp(self.longitude)
+            longitude = types.Real.from_mcnp(self.longitude)
 
         altitude = self.altitude
         if isinstance(self.altitude, types.Real):
             altitude = self.altitude
         elif isinstance(self.altitude, float) or isinstance(self.altitude, int):
-            altitude = types.RealOrJump(self.altitude)
+            altitude = types.Real(self.altitude)
         elif isinstance(self.altitude, str):
-            altitude = types.RealOrJump.from_mcnp(self.altitude)
+            altitude = types.Real.from_mcnp(self.altitude)
 
         return Loc(
             latitude=latitude,

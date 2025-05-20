@@ -17,12 +17,12 @@ class Ctme(StopOption):
     """
 
     _ATTRS = {
-        'tme': types.RealOrJump,
+        'tme': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Actme( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Actme( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, tme: types.RealOrJump):
+    def __init__(self, tme: types.Real):
         """
         Initializes ``Ctme``.
 
@@ -42,7 +42,7 @@ class Ctme(StopOption):
             ]
         )
 
-        self.tme: typing.Final[types.RealOrJump] = tme
+        self.tme: typing.Final[types.Real] = tme
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class CtmeBuilder:
         tme: Computer time before stop.
     """
 
-    tme: str | float | types.RealOrJump
+    tme: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class CtmeBuilder:
         if isinstance(self.tme, types.Real):
             tme = self.tme
         elif isinstance(self.tme, float) or isinstance(self.tme, int):
-            tme = types.RealOrJump(self.tme)
+            tme = types.Real(self.tme)
         elif isinstance(self.tme, str):
-            tme = types.RealOrJump.from_mcnp(self.tme)
+            tme = types.Real.from_mcnp(self.tme)
 
         return Ctme(
             tme=tme,

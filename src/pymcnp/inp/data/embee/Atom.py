@@ -33,7 +33,7 @@ class Atom(EmbeeOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting not in {'yes', 'no'}:
+        if setting is None or setting.value not in {'yes', 'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

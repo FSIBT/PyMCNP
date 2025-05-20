@@ -19,12 +19,12 @@ class Sf(DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'numbers': types.Tuple[types.IntegerOrJump],
+        'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Asf(\d+)((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Asf(\d+)((?: {types.Integer._REGEX.pattern})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, numbers: types.Tuple[types.IntegerOrJump]):
+    def __init__(self, suffix: types.Integer, numbers: types.Tuple[types.Integer]):
         """
         Initializes ``Sf``.
 
@@ -36,9 +36,11 @@ class Sf(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix <= 99_999_999):
+        if suffix is None or not (suffix.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
-        if numbers is None or not (filter(lambda entry: not (0 <= entry <= 99_999_999), numbers)):
+        if numbers is None or not (
+            filter(lambda entry: not (0 <= entry.value <= 99_999_999), numbers)
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -48,7 +50,7 @@ class Sf(DataOption):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers
+        self.numbers: typing.Final[types.Tuple[types.Integer]] = numbers
 
 
 @dataclasses.dataclass
@@ -62,7 +64,7 @@ class SfBuilder:
     """
 
     suffix: str | int | types.Integer
-    numbers: list[str] | list[int] | list[types.IntegerOrJump]
+    numbers: list[str] | list[int] | list[types.Integer]
 
     def build(self):
         """
@@ -83,12 +85,12 @@ class SfBuilder:
         if self.numbers:
             numbers = []
             for item in self.numbers:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     numbers.append(item)
                 elif isinstance(item, int):
-                    numbers.append(types.IntegerOrJump(item))
+                    numbers.append(types.Integer(item))
                 elif isinstance(item, str):
-                    numbers.append(types.IntegerOrJump.from_mcnp(item))
+                    numbers.append(types.Integer.from_mcnp(item))
             numbers = types.Tuple(numbers)
         else:
             numbers = None

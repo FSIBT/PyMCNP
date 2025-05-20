@@ -17,12 +17,12 @@ class Nonu(DataOption):
     """
 
     _ATTRS = {
-        'settings': types.Tuple[types.IntegerOrJump],
+        'settings': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Anonu((?: {types.IntegerOrJump._REGEX.pattern})+?)?\Z')
+    _REGEX = re.compile(rf'\Anonu((?: {types.Integer._REGEX.pattern})+?)?\Z')
 
-    def __init__(self, settings: types.Tuple[types.IntegerOrJump] = None):
+    def __init__(self, settings: types.Tuple[types.Integer] = None):
         """
         Initializes ``Nonu``.
 
@@ -34,7 +34,10 @@ class Nonu(DataOption):
         """
 
         if settings is not None and not (
-            filter(lambda entry: not (entry == 0 or entry == 1 or entry == 2), settings)
+            filter(
+                lambda entry: not (entry.value == 0 or entry.value == 1 or entry.value == 2),
+                settings,
+            )
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, settings)
 
@@ -44,7 +47,7 @@ class Nonu(DataOption):
             ]
         )
 
-        self.settings: typing.Final[types.Tuple[types.IntegerOrJump]] = settings
+        self.settings: typing.Final[types.Tuple[types.Integer]] = settings
 
 
 @dataclasses.dataclass
@@ -56,7 +59,7 @@ class NonuBuilder:
         settings: Tuple of fission settings.
     """
 
-    settings: list[str] | list[int] | list[types.IntegerOrJump] = None
+    settings: list[str] | list[int] | list[types.Integer] = None
 
     def build(self):
         """
@@ -69,12 +72,12 @@ class NonuBuilder:
         if self.settings:
             settings = []
             for item in self.settings:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     settings.append(item)
                 elif isinstance(item, int):
-                    settings.append(types.IntegerOrJump(item))
+                    settings.append(types.Integer(item))
                 elif isinstance(item, str):
-                    settings.append(types.IntegerOrJump.from_mcnp(item))
+                    settings.append(types.Integer.from_mcnp(item))
             settings = types.Tuple(settings)
         else:
             settings = None

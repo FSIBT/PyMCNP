@@ -33,7 +33,7 @@ class Sample(ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting not in {'correlate', 'nonfiss_cor'}:
+        if setting is None or setting.value not in {'correlate', 'nonfiss_cor'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

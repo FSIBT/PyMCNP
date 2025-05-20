@@ -21,19 +21,17 @@ class Fu(DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'bounds': types.Tuple[types.RealOrJump],
+        'bounds': types.Tuple[types.Real],
         'nt': types.String,
         'c': types.String,
     }
 
-    _REGEX = re.compile(
-        rf'\Afu(\d+)((?: {types.RealOrJump._REGEX.pattern})+?)(?: (nt))?(?: (c))?\Z'
-    )
+    _REGEX = re.compile(rf'\Afu(\d+)((?: {types.Real._REGEX.pattern})+?)(?: (nt))?(?: (c))?\Z')
 
     def __init__(
         self,
         suffix: types.Integer,
-        bounds: types.Tuple[types.RealOrJump],
+        bounds: types.Tuple[types.Real],
         nt: types.String = None,
         c: types.String = None,
     ):
@@ -50,7 +48,7 @@ class Fu(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix <= 99_999_999):
+        if suffix is None or not (suffix.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if bounds is None or not (filter(lambda entry: not (entry > -1), bounds)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bounds)
@@ -68,7 +66,7 @@ class Fu(DataOption):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds
+        self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
         self.nt: typing.Final[types.String] = nt
         self.c: typing.Final[types.String] = c
 
@@ -86,7 +84,7 @@ class FuBuilder:
     """
 
     suffix: str | int | types.Integer
-    bounds: list[str] | list[float] | list[types.RealOrJump]
+    bounds: list[str] | list[float] | list[types.Real]
     nt: str | types.String = None
     c: str | types.String = None
 
@@ -109,12 +107,12 @@ class FuBuilder:
         if self.bounds:
             bounds = []
             for item in self.bounds:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     bounds.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    bounds.append(types.RealOrJump(item))
+                    bounds.append(types.Real(item))
                 elif isinstance(item, str):
-                    bounds.append(types.RealOrJump.from_mcnp(item))
+                    bounds.append(types.Real.from_mcnp(item))
             bounds = types.Tuple(bounds)
         else:
             bounds = None

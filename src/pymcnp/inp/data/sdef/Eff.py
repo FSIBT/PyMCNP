@@ -17,12 +17,12 @@ class Eff(SdefOption):
     """
 
     _ATTRS = {
-        'criterion': types.RealOrJump,
+        'criterion': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Aeff( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aeff( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, criterion: types.RealOrJump):
+    def __init__(self, criterion: types.Real):
         """
         Initializes ``Eff``.
 
@@ -42,7 +42,7 @@ class Eff(SdefOption):
             ]
         )
 
-        self.criterion: typing.Final[types.RealOrJump] = criterion
+        self.criterion: typing.Final[types.Real] = criterion
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class EffBuilder:
         criterion: Rejection efficiency criterion for position sampling.
     """
 
-    criterion: str | float | types.RealOrJump
+    criterion: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class EffBuilder:
         if isinstance(self.criterion, types.Real):
             criterion = self.criterion
         elif isinstance(self.criterion, float) or isinstance(self.criterion, int):
-            criterion = types.RealOrJump(self.criterion)
+            criterion = types.Real(self.criterion)
         elif isinstance(self.criterion, str):
-            criterion = types.RealOrJump.from_mcnp(self.criterion)
+            criterion = types.Real.from_mcnp(self.criterion)
 
         return Eff(
             criterion=criterion,

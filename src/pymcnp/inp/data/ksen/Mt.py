@@ -17,12 +17,12 @@ class Mt(KsenOption):
     """
 
     _ATTRS = {
-        'numbers': types.Tuple[types.IntegerOrJump],
+        'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Amt((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Amt((?: {types.Integer._REGEX.pattern})+?)\Z')
 
-    def __init__(self, numbers: types.Tuple[types.IntegerOrJump]):
+    def __init__(self, numbers: types.Tuple[types.Integer]):
         """
         Initializes ``Mt``.
 
@@ -42,7 +42,7 @@ class Mt(KsenOption):
             ]
         )
 
-        self.numbers: typing.Final[types.Tuple[types.IntegerOrJump]] = numbers
+        self.numbers: typing.Final[types.Tuple[types.Integer]] = numbers
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class MtBuilder:
         numbers: List of reaction numbers for pertubation.
     """
 
-    numbers: list[str] | list[int] | list[types.IntegerOrJump]
+    numbers: list[str] | list[int] | list[types.Integer]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class MtBuilder:
         if self.numbers:
             numbers = []
             for item in self.numbers:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     numbers.append(item)
                 elif isinstance(item, int):
-                    numbers.append(types.IntegerOrJump(item))
+                    numbers.append(types.Integer(item))
                 elif isinstance(item, str):
-                    numbers.append(types.IntegerOrJump.from_mcnp(item))
+                    numbers.append(types.Integer.from_mcnp(item))
             numbers = types.Tuple(numbers)
         else:
             numbers = None

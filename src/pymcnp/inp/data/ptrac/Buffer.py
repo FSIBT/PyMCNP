@@ -17,12 +17,12 @@ class Buffer(PtracOption):
     """
 
     _ATTRS = {
-        'storage': types.IntegerOrJump,
+        'storage': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Abuffer( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Abuffer( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, storage: types.IntegerOrJump):
+    def __init__(self, storage: types.Integer):
         """
         Initializes ``Buffer``.
 
@@ -33,7 +33,7 @@ class Buffer(PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if storage is None or not (storage > 0):
+        if storage is None or not (storage.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, storage)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Buffer(PtracOption):
             ]
         )
 
-        self.storage: typing.Final[types.IntegerOrJump] = storage
+        self.storage: typing.Final[types.Integer] = storage
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class BufferBuilder:
         storage: Amount of storage available for filtered events.
     """
 
-    storage: str | int | types.IntegerOrJump
+    storage: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class BufferBuilder:
         if isinstance(self.storage, types.Integer):
             storage = self.storage
         elif isinstance(self.storage, int):
-            storage = types.IntegerOrJump(self.storage)
+            storage = types.Integer(self.storage)
         elif isinstance(self.storage, str):
-            storage = types.IntegerOrJump.from_mcnp(self.storage)
+            storage = types.Integer.from_mcnp(self.storage)
 
         return Buffer(
             storage=storage,

@@ -44,7 +44,7 @@ class Ksen(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (0 < suffix <= 999):
+        if suffix is None or not (0 < suffix.value <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if sen is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, sen)

@@ -17,12 +17,12 @@ class Pwt(DataOption):
     """
 
     _ATTRS = {
-        'weights': types.Tuple[types.RealOrJump],
+        'weights': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Apwt((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Apwt((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, weights: types.Tuple[types.RealOrJump]):
+    def __init__(self, weights: types.Tuple[types.Real]):
         """
         Initializes ``Pwt``.
 
@@ -42,7 +42,7 @@ class Pwt(DataOption):
             ]
         )
 
-        self.weights: typing.Final[types.Tuple[types.RealOrJump]] = weights
+        self.weights: typing.Final[types.Tuple[types.Real]] = weights
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class PwtBuilder:
         weights: Relative threshold weight of photons produced at neutron collisions in cell.
     """
 
-    weights: list[str] | list[float] | list[types.RealOrJump]
+    weights: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class PwtBuilder:
         if self.weights:
             weights = []
             for item in self.weights:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     weights.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    weights.append(types.RealOrJump(item))
+                    weights.append(types.Real(item))
                 elif isinstance(item, str):
-                    weights.append(types.RealOrJump.from_mcnp(item))
+                    weights.append(types.Real.from_mcnp(item))
             weights = types.Tuple(weights)
         else:
             weights = None

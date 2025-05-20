@@ -17,12 +17,12 @@ class Seed(RandOption):
     """
 
     _ATTRS = {
-        'seed': types.IntegerOrJump,
+        'seed': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Aseed( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aseed( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, seed: types.IntegerOrJump):
+    def __init__(self, seed: types.Integer):
         """
         Initializes ``Seed``.
 
@@ -42,7 +42,7 @@ class Seed(RandOption):
             ]
         )
 
-        self.seed: typing.Final[types.IntegerOrJump] = seed
+        self.seed: typing.Final[types.Integer] = seed
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class SeedBuilder:
         seed: Random number generator seed.
     """
 
-    seed: str | int | types.IntegerOrJump
+    seed: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class SeedBuilder:
         if isinstance(self.seed, types.Integer):
             seed = self.seed
         elif isinstance(self.seed, int):
-            seed = types.IntegerOrJump(self.seed)
+            seed = types.Integer(self.seed)
         elif isinstance(self.seed, str):
-            seed = types.IntegerOrJump.from_mcnp(self.seed)
+            seed = types.Integer.from_mcnp(self.seed)
 
         return Seed(
             seed=seed,

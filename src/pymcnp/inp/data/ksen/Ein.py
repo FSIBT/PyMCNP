@@ -17,12 +17,12 @@ class Ein(KsenOption):
     """
 
     _ATTRS = {
-        'energies': types.Tuple[types.RealOrJump],
+        'energies': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Aein((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aein((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, energies: types.Tuple[types.RealOrJump]):
+    def __init__(self, energies: types.Tuple[types.Real]):
         """
         Initializes ``Ein``.
 
@@ -42,7 +42,7 @@ class Ein(KsenOption):
             ]
         )
 
-        self.energies: typing.Final[types.Tuple[types.RealOrJump]] = energies
+        self.energies: typing.Final[types.Tuple[types.Real]] = energies
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class EinBuilder:
         energies: List of ranges for incident energies.
     """
 
-    energies: list[str] | list[float] | list[types.RealOrJump]
+    energies: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class EinBuilder:
         if self.energies:
             energies = []
             for item in self.energies:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     energies.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    energies.append(types.RealOrJump(item))
+                    energies.append(types.Real(item))
                 elif isinstance(item, str):
-                    energies.append(types.RealOrJump.from_mcnp(item))
+                    energies.append(types.Real.from_mcnp(item))
             energies = types.Tuple(energies)
         else:
             energies = None

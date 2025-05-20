@@ -17,12 +17,12 @@ class Nap(ActOption):
     """
 
     _ATTRS = {
-        'count': types.IntegerOrJump,
+        'count': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Anap( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Anap( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, count: types.IntegerOrJump):
+    def __init__(self, count: types.Integer):
         """
         Initializes ``Nap``.
 
@@ -33,7 +33,7 @@ class Nap(ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if count is None or not (0 <= count):
+        if count is None or not (count.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Nap(ActOption):
             ]
         )
 
-        self.count: typing.Final[types.IntegerOrJump] = count
+        self.count: typing.Final[types.Integer] = count
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class NapBuilder:
         count: Number of activation products.
     """
 
-    count: str | int | types.IntegerOrJump
+    count: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class NapBuilder:
         if isinstance(self.count, types.Integer):
             count = self.count
         elif isinstance(self.count, int):
-            count = types.IntegerOrJump(self.count)
+            count = types.Integer(self.count)
         elif isinstance(self.count, str):
-            count = types.IntegerOrJump.from_mcnp(self.count)
+            count = types.Integer.from_mcnp(self.count)
 
         return Nap(
             count=count,

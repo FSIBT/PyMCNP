@@ -24,27 +24,27 @@ class Mgopt(DataOption):
 
     _ATTRS = {
         'mcal': types.String,
-        'igm': types.IntegerOrJump,
-        'iplt': types.IntegerOrJump,
-        'iab': types.IntegerOrJump,
-        'icw': types.IntegerOrJump,
-        'fnw': types.RealOrJump,
-        'rim': types.RealOrJump,
+        'igm': types.Integer,
+        'iplt': types.Integer,
+        'iab': types.Integer,
+        'icw': types.Integer,
+        'fnw': types.Real,
+        'rim': types.Real,
     }
 
     _REGEX = re.compile(
-        rf'\Amgopt( {types.String._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
+        rf'\Amgopt( {types.String._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
         mcal: types.String,
-        igm: types.IntegerOrJump,
-        iplt: types.IntegerOrJump,
-        iab: types.IntegerOrJump,
-        icw: types.IntegerOrJump,
-        fnw: types.RealOrJump,
-        rim: types.RealOrJump,
+        igm: types.Integer,
+        iplt: types.Integer,
+        iab: types.Integer,
+        icw: types.Integer,
+        fnw: types.Real,
+        rim: types.Real,
     ):
         """
         Initializes ``Mgopt``.
@@ -64,11 +64,11 @@ class Mgopt(DataOption):
 
         if mcal is None or mcal not in {'f', 'a'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mcal)
-        if igm is None or not (igm >= 0):
+        if igm is None or not (igm.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, igm)
-        if iplt is None or not (iplt == 0 or iplt == 1 or iplt == 2):
+        if iplt is None or not (iplt.value == 0 or iplt.value == 1 or iplt.value == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iplt)
-        if iab is None or not (iab == 0 or iab == 1 or iab == 2):
+        if iab is None or not (iab.value == 0 or iab.value == 1 or iab.value == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iab)
         if icw is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, icw)
@@ -90,12 +90,12 @@ class Mgopt(DataOption):
         )
 
         self.mcal: typing.Final[types.String] = mcal
-        self.igm: typing.Final[types.IntegerOrJump] = igm
-        self.iplt: typing.Final[types.IntegerOrJump] = iplt
-        self.iab: typing.Final[types.IntegerOrJump] = iab
-        self.icw: typing.Final[types.IntegerOrJump] = icw
-        self.fnw: typing.Final[types.RealOrJump] = fnw
-        self.rim: typing.Final[types.RealOrJump] = rim
+        self.igm: typing.Final[types.Integer] = igm
+        self.iplt: typing.Final[types.Integer] = iplt
+        self.iab: typing.Final[types.Integer] = iab
+        self.icw: typing.Final[types.Integer] = icw
+        self.fnw: typing.Final[types.Real] = fnw
+        self.rim: typing.Final[types.Real] = rim
 
 
 @dataclasses.dataclass
@@ -114,12 +114,12 @@ class MgoptBuilder:
     """
 
     mcal: str | types.String
-    igm: str | int | types.IntegerOrJump
-    iplt: str | int | types.IntegerOrJump
-    iab: str | int | types.IntegerOrJump
-    icw: str | int | types.IntegerOrJump
-    fnw: str | float | types.RealOrJump
-    rim: str | float | types.RealOrJump
+    igm: str | int | types.Integer
+    iplt: str | int | types.Integer
+    iab: str | int | types.Integer
+    icw: str | int | types.Integer
+    fnw: str | float | types.Real
+    rim: str | float | types.Real
 
     def build(self):
         """
@@ -139,49 +139,49 @@ class MgoptBuilder:
         if isinstance(self.igm, types.Integer):
             igm = self.igm
         elif isinstance(self.igm, int):
-            igm = types.IntegerOrJump(self.igm)
+            igm = types.Integer(self.igm)
         elif isinstance(self.igm, str):
-            igm = types.IntegerOrJump.from_mcnp(self.igm)
+            igm = types.Integer.from_mcnp(self.igm)
 
         iplt = self.iplt
         if isinstance(self.iplt, types.Integer):
             iplt = self.iplt
         elif isinstance(self.iplt, int):
-            iplt = types.IntegerOrJump(self.iplt)
+            iplt = types.Integer(self.iplt)
         elif isinstance(self.iplt, str):
-            iplt = types.IntegerOrJump.from_mcnp(self.iplt)
+            iplt = types.Integer.from_mcnp(self.iplt)
 
         iab = self.iab
         if isinstance(self.iab, types.Integer):
             iab = self.iab
         elif isinstance(self.iab, int):
-            iab = types.IntegerOrJump(self.iab)
+            iab = types.Integer(self.iab)
         elif isinstance(self.iab, str):
-            iab = types.IntegerOrJump.from_mcnp(self.iab)
+            iab = types.Integer.from_mcnp(self.iab)
 
         icw = self.icw
         if isinstance(self.icw, types.Integer):
             icw = self.icw
         elif isinstance(self.icw, int):
-            icw = types.IntegerOrJump(self.icw)
+            icw = types.Integer(self.icw)
         elif isinstance(self.icw, str):
-            icw = types.IntegerOrJump.from_mcnp(self.icw)
+            icw = types.Integer.from_mcnp(self.icw)
 
         fnw = self.fnw
         if isinstance(self.fnw, types.Real):
             fnw = self.fnw
         elif isinstance(self.fnw, float) or isinstance(self.fnw, int):
-            fnw = types.RealOrJump(self.fnw)
+            fnw = types.Real(self.fnw)
         elif isinstance(self.fnw, str):
-            fnw = types.RealOrJump.from_mcnp(self.fnw)
+            fnw = types.Real.from_mcnp(self.fnw)
 
         rim = self.rim
         if isinstance(self.rim, types.Real):
             rim = self.rim
         elif isinstance(self.rim, float) or isinstance(self.rim, int):
-            rim = types.RealOrJump(self.rim)
+            rim = types.Real(self.rim)
         elif isinstance(self.rim, str):
-            rim = types.RealOrJump.from_mcnp(self.rim)
+            rim = types.Real.from_mcnp(self.rim)
 
         return Mgopt(
             mcal=mcal,

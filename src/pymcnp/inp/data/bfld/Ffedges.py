@@ -17,12 +17,12 @@ class Ffedges(BfldOption):
     """
 
     _ATTRS = {
-        'numbers': types.Tuple[types.RealOrJump],
+        'numbers': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Affedges((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Affedges((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, numbers: types.Tuple[types.RealOrJump]):
+    def __init__(self, numbers: types.Tuple[types.Real]):
         """
         Initializes ``Ffedges``.
 
@@ -42,7 +42,7 @@ class Ffedges(BfldOption):
             ]
         )
 
-        self.numbers: typing.Final[types.Tuple[types.RealOrJump]] = numbers
+        self.numbers: typing.Final[types.Tuple[types.Real]] = numbers
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class FfedgesBuilder:
         numbers: Surface numbers to apply field fringe edges.
     """
 
-    numbers: list[str] | list[float] | list[types.RealOrJump]
+    numbers: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class FfedgesBuilder:
         if self.numbers:
             numbers = []
             for item in self.numbers:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     numbers.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    numbers.append(types.RealOrJump(item))
+                    numbers.append(types.Real(item))
                 elif isinstance(item, str):
-                    numbers.append(types.RealOrJump.from_mcnp(item))
+                    numbers.append(types.Real.from_mcnp(item))
             numbers = types.Tuple(numbers)
         else:
             numbers = None

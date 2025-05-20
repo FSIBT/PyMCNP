@@ -54,7 +54,7 @@ class F_2(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 5):
+        if suffix is None or not (suffix.value <= 99_999_999 and suffix.value % 10 == 5):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if a is None or a not in {'x', 'y', 'z'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
@@ -62,6 +62,8 @@ class F_2(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if rings is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rings)
+        if nd is not None and not (nd == 'nd'):
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nd)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

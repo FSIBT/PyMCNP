@@ -116,18 +116,26 @@ class P_1(SurfaceOption):
 
     def draw(self):
         """
-        Generates ``Visualization`` from ``P0``.
+        Generates ``Visualization`` from ``P_1``.
 
         Returns:
-            ``pyvista.PolyData`` for ``P1``
+            ``pyvista.PolyData`` for ``P_1``
         """
 
-        a = _visualization.Vector(self.x2 - self.x1, self.y2 - self.y1, self.z2 - self.z1)
-        b = _visualization.Vector(self.x3 - self.x1, self.y3 - self.y1, self.z3 - self.z1)
+        a = _visualization.Vector(
+            self.x2.value - self.x1.value,
+            self.y2.value - self.y1.value,
+            self.z2.value - self.z1.value,
+        )
+        b = _visualization.Vector(
+            self.x3.value - self.x1.value,
+            self.y3.value - self.y1.value,
+            self.z3.value - self.z1.value,
+        )
         n = a * b
 
         vis = _visualization.Visualization.get_plane(
-            n.x, n.y, n.z, n.x * self.x1 + n.y * self.y1 + n.z * self.z1
+            n.x, n.y, n.z, n.x * self.x1.value + n.y * self.y1.value + n.z * self.z1.value
         )
 
         return vis

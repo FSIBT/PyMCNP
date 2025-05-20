@@ -20,19 +20,19 @@ class Ssw(DataOption):
     """
 
     _ATTRS = {
-        'surfaces': types.Tuple[types.IntegerOrJump],
-        'cells': types.Tuple[types.IntegerOrJump],
+        'surfaces': types.Tuple[types.Integer],
+        'cells': types.Tuple[types.Integer],
         'options': types.Tuple[ssw.SswOption],
     }
 
     _REGEX = re.compile(
-        rf'\Assw((?: {types.IntegerOrJump._REGEX.pattern})+?)((?: {types.IntegerOrJump._REGEX.pattern})+?)((?: (?:{ssw.SswOption._REGEX.pattern}))+?)?\Z'
+        rf'\Assw((?: {types.Integer._REGEX.pattern})+?)((?: {types.Integer._REGEX.pattern})+?)((?: (?:{ssw.SswOption._REGEX.pattern}))+?)?\Z'
     )
 
     def __init__(
         self,
-        surfaces: types.Tuple[types.IntegerOrJump],
-        cells: types.Tuple[types.IntegerOrJump],
+        surfaces: types.Tuple[types.Integer],
+        cells: types.Tuple[types.Integer],
         options: types.Tuple[ssw.SswOption] = None,
     ):
         """
@@ -60,8 +60,8 @@ class Ssw(DataOption):
             ]
         )
 
-        self.surfaces: typing.Final[types.Tuple[types.IntegerOrJump]] = surfaces
-        self.cells: typing.Final[types.Tuple[types.IntegerOrJump]] = cells
+        self.surfaces: typing.Final[types.Tuple[types.Integer]] = surfaces
+        self.cells: typing.Final[types.Tuple[types.Integer]] = cells
         self.options: typing.Final[types.Tuple[ssw.SswOption]] = options
 
 
@@ -76,8 +76,8 @@ class SswBuilder:
         options: Dictionary of options.
     """
 
-    surfaces: list[str] | list[int] | list[types.IntegerOrJump]
-    cells: list[str] | list[int] | list[types.IntegerOrJump]
+    surfaces: list[str] | list[int] | list[types.Integer]
+    cells: list[str] | list[int] | list[types.Integer]
     options: list[str] | list[ssw.SswOption] = None
 
     def build(self):
@@ -91,12 +91,12 @@ class SswBuilder:
         if self.surfaces:
             surfaces = []
             for item in self.surfaces:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     surfaces.append(item)
                 elif isinstance(item, int):
-                    surfaces.append(types.IntegerOrJump(item))
+                    surfaces.append(types.Integer(item))
                 elif isinstance(item, str):
-                    surfaces.append(types.IntegerOrJump.from_mcnp(item))
+                    surfaces.append(types.Integer.from_mcnp(item))
             surfaces = types.Tuple(surfaces)
         else:
             surfaces = None
@@ -104,12 +104,12 @@ class SswBuilder:
         if self.cells:
             cells = []
             for item in self.cells:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     cells.append(item)
                 elif isinstance(item, int):
-                    cells.append(types.IntegerOrJump(item))
+                    cells.append(types.Integer(item))
                 elif isinstance(item, str):
-                    cells.append(types.IntegerOrJump.from_mcnp(item))
+                    cells.append(types.Integer.from_mcnp(item))
             cells = types.Tuple(cells)
         else:
             cells = None

@@ -18,15 +18,13 @@ class Watt(FmultOption):
     """
 
     _ATTRS = {
-        'a': types.RealOrJump,
-        'b': types.RealOrJump,
+        'a': types.Real,
+        'b': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Awatt( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
-    )
+    _REGEX = re.compile(rf'\Awatt( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, a: types.RealOrJump, b: types.RealOrJump):
+    def __init__(self, a: types.Real, b: types.Real):
         """
         Initializes ``Watt``.
 
@@ -50,8 +48,8 @@ class Watt(FmultOption):
             ]
         )
 
-        self.a: typing.Final[types.RealOrJump] = a
-        self.b: typing.Final[types.RealOrJump] = b
+        self.a: typing.Final[types.Real] = a
+        self.b: typing.Final[types.Real] = b
 
 
 @dataclasses.dataclass
@@ -64,8 +62,8 @@ class WattBuilder:
         b: Watt energy spectrum parameters b.
     """
 
-    a: str | float | types.RealOrJump
-    b: str | float | types.RealOrJump
+    a: str | float | types.Real
+    b: str | float | types.Real
 
     def build(self):
         """
@@ -79,17 +77,17 @@ class WattBuilder:
         if isinstance(self.a, types.Real):
             a = self.a
         elif isinstance(self.a, float) or isinstance(self.a, int):
-            a = types.RealOrJump(self.a)
+            a = types.Real(self.a)
         elif isinstance(self.a, str):
-            a = types.RealOrJump.from_mcnp(self.a)
+            a = types.Real.from_mcnp(self.a)
 
         b = self.b
         if isinstance(self.b, types.Real):
             b = self.b
         elif isinstance(self.b, float) or isinstance(self.b, int):
-            b = types.RealOrJump(self.b)
+            b = types.Real(self.b)
         elif isinstance(self.b, str):
-            b = types.RealOrJump.from_mcnp(self.b)
+            b = types.Real.from_mcnp(self.b)
 
         return Watt(
             a=a,

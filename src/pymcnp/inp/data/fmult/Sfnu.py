@@ -17,12 +17,12 @@ class Sfnu(FmultOption):
     """
 
     _ATTRS = {
-        'distribution': types.Tuple[types.RealOrJump],
+        'distribution': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Asfnu((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Asfnu((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, distribution: types.Tuple[types.RealOrJump]):
+    def __init__(self, distribution: types.Tuple[types.Real]):
         """
         Initializes ``Sfnu``.
 
@@ -42,7 +42,7 @@ class Sfnu(FmultOption):
             ]
         )
 
-        self.distribution: typing.Final[types.Tuple[types.RealOrJump]] = distribution
+        self.distribution: typing.Final[types.Tuple[types.Real]] = distribution
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class SfnuBuilder:
         distribution: V bar for or of cumulative distribution the sampling spontaneous fission.
     """
 
-    distribution: list[str] | list[float] | list[types.RealOrJump]
+    distribution: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class SfnuBuilder:
         if self.distribution:
             distribution = []
             for item in self.distribution:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     distribution.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    distribution.append(types.RealOrJump(item))
+                    distribution.append(types.Real(item))
                 elif isinstance(item, str):
-                    distribution.append(types.RealOrJump.from_mcnp(item))
+                    distribution.append(types.Real.from_mcnp(item))
             distribution = types.Tuple(distribution)
         else:
             distribution = None

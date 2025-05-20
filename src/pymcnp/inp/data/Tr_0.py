@@ -31,41 +31,41 @@ class Tr_0(DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
-        'x': types.RealOrJump,
-        'y': types.RealOrJump,
-        'z': types.RealOrJump,
-        'xx': types.RealOrJump,
-        'xy': types.RealOrJump,
-        'xz': types.RealOrJump,
-        'yx': types.RealOrJump,
-        'yy': types.RealOrJump,
-        'yz': types.RealOrJump,
-        'zx': types.RealOrJump,
-        'zy': types.RealOrJump,
-        'zz': types.RealOrJump,
-        'system': types.IntegerOrJump,
+        'x': types.Real,
+        'y': types.Real,
+        'z': types.Real,
+        'xx': types.Real,
+        'xy': types.Real,
+        'xz': types.Real,
+        'yx': types.Real,
+        'yy': types.Real,
+        'yz': types.Real,
+        'zx': types.Real,
+        'zy': types.Real,
+        'zz': types.Real,
+        'system': types.Integer,
     }
 
     _REGEX = re.compile(
-        rf'\Atr(\d+)( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})?\Z'
+        rf'\Atr(\d+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
-        x: types.RealOrJump,
-        y: types.RealOrJump,
-        z: types.RealOrJump,
-        xx: types.RealOrJump,
-        xy: types.RealOrJump,
-        xz: types.RealOrJump,
-        yx: types.RealOrJump,
-        yy: types.RealOrJump,
-        yz: types.RealOrJump,
-        zx: types.RealOrJump,
-        zy: types.RealOrJump,
-        zz: types.RealOrJump,
-        system: types.IntegerOrJump = None,
+        x: types.Real,
+        y: types.Real,
+        z: types.Real,
+        xx: types.Real,
+        xy: types.Real,
+        xz: types.Real,
+        yx: types.Real,
+        yy: types.Real,
+        yz: types.Real,
+        zx: types.Real,
+        zy: types.Real,
+        zz: types.Real,
+        system: types.Integer = None,
     ):
         """
         Initializes ``Tr_0``.
@@ -90,7 +90,7 @@ class Tr_0(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (1 <= suffix <= 999):
+        if suffix is None or not (1 <= suffix.value <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
@@ -116,7 +116,7 @@ class Tr_0(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zy)
         if zz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zz)
-        if system is not None and not (system == -1 or system == 1):
+        if system is not None and not (system.value == -1 or system.value == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, system)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -138,19 +138,19 @@ class Tr_0(DataOption):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.x: typing.Final[types.RealOrJump] = x
-        self.y: typing.Final[types.RealOrJump] = y
-        self.z: typing.Final[types.RealOrJump] = z
-        self.xx: typing.Final[types.RealOrJump] = xx
-        self.xy: typing.Final[types.RealOrJump] = xy
-        self.xz: typing.Final[types.RealOrJump] = xz
-        self.yx: typing.Final[types.RealOrJump] = yx
-        self.yy: typing.Final[types.RealOrJump] = yy
-        self.yz: typing.Final[types.RealOrJump] = yz
-        self.zx: typing.Final[types.RealOrJump] = zx
-        self.zy: typing.Final[types.RealOrJump] = zy
-        self.zz: typing.Final[types.RealOrJump] = zz
-        self.system: typing.Final[types.IntegerOrJump] = system
+        self.x: typing.Final[types.Real] = x
+        self.y: typing.Final[types.Real] = y
+        self.z: typing.Final[types.Real] = z
+        self.xx: typing.Final[types.Real] = xx
+        self.xy: typing.Final[types.Real] = xy
+        self.xz: typing.Final[types.Real] = xz
+        self.yx: typing.Final[types.Real] = yx
+        self.yy: typing.Final[types.Real] = yy
+        self.yz: typing.Final[types.Real] = yz
+        self.zx: typing.Final[types.Real] = zx
+        self.zy: typing.Final[types.Real] = zy
+        self.zz: typing.Final[types.Real] = zz
+        self.system: typing.Final[types.Integer] = system
 
 
 @dataclasses.dataclass
@@ -176,19 +176,19 @@ class TrBuilder_0:
     """
 
     suffix: str | int | types.Integer
-    x: str | float | types.RealOrJump
-    y: str | float | types.RealOrJump
-    z: str | float | types.RealOrJump
-    xx: str | float | types.RealOrJump
-    xy: str | float | types.RealOrJump
-    xz: str | float | types.RealOrJump
-    yx: str | float | types.RealOrJump
-    yy: str | float | types.RealOrJump
-    yz: str | float | types.RealOrJump
-    zx: str | float | types.RealOrJump
-    zy: str | float | types.RealOrJump
-    zz: str | float | types.RealOrJump
-    system: str | int | types.IntegerOrJump = None
+    x: str | float | types.Real
+    y: str | float | types.Real
+    z: str | float | types.Real
+    xx: str | float | types.Real
+    xy: str | float | types.Real
+    xz: str | float | types.Real
+    yx: str | float | types.Real
+    yy: str | float | types.Real
+    yz: str | float | types.Real
+    zx: str | float | types.Real
+    zy: str | float | types.Real
+    zz: str | float | types.Real
+    system: str | int | types.Integer = None
 
     def build(self):
         """
@@ -210,105 +210,105 @@ class TrBuilder_0:
         if isinstance(self.x, types.Real):
             x = self.x
         elif isinstance(self.x, float) or isinstance(self.x, int):
-            x = types.RealOrJump(self.x)
+            x = types.Real(self.x)
         elif isinstance(self.x, str):
-            x = types.RealOrJump.from_mcnp(self.x)
+            x = types.Real.from_mcnp(self.x)
 
         y = self.y
         if isinstance(self.y, types.Real):
             y = self.y
         elif isinstance(self.y, float) or isinstance(self.y, int):
-            y = types.RealOrJump(self.y)
+            y = types.Real(self.y)
         elif isinstance(self.y, str):
-            y = types.RealOrJump.from_mcnp(self.y)
+            y = types.Real.from_mcnp(self.y)
 
         z = self.z
         if isinstance(self.z, types.Real):
             z = self.z
         elif isinstance(self.z, float) or isinstance(self.z, int):
-            z = types.RealOrJump(self.z)
+            z = types.Real(self.z)
         elif isinstance(self.z, str):
-            z = types.RealOrJump.from_mcnp(self.z)
+            z = types.Real.from_mcnp(self.z)
 
         xx = self.xx
         if isinstance(self.xx, types.Real):
             xx = self.xx
         elif isinstance(self.xx, float) or isinstance(self.xx, int):
-            xx = types.RealOrJump(self.xx)
+            xx = types.Real(self.xx)
         elif isinstance(self.xx, str):
-            xx = types.RealOrJump.from_mcnp(self.xx)
+            xx = types.Real.from_mcnp(self.xx)
 
         xy = self.xy
         if isinstance(self.xy, types.Real):
             xy = self.xy
         elif isinstance(self.xy, float) or isinstance(self.xy, int):
-            xy = types.RealOrJump(self.xy)
+            xy = types.Real(self.xy)
         elif isinstance(self.xy, str):
-            xy = types.RealOrJump.from_mcnp(self.xy)
+            xy = types.Real.from_mcnp(self.xy)
 
         xz = self.xz
         if isinstance(self.xz, types.Real):
             xz = self.xz
         elif isinstance(self.xz, float) or isinstance(self.xz, int):
-            xz = types.RealOrJump(self.xz)
+            xz = types.Real(self.xz)
         elif isinstance(self.xz, str):
-            xz = types.RealOrJump.from_mcnp(self.xz)
+            xz = types.Real.from_mcnp(self.xz)
 
         yx = self.yx
         if isinstance(self.yx, types.Real):
             yx = self.yx
         elif isinstance(self.yx, float) or isinstance(self.yx, int):
-            yx = types.RealOrJump(self.yx)
+            yx = types.Real(self.yx)
         elif isinstance(self.yx, str):
-            yx = types.RealOrJump.from_mcnp(self.yx)
+            yx = types.Real.from_mcnp(self.yx)
 
         yy = self.yy
         if isinstance(self.yy, types.Real):
             yy = self.yy
         elif isinstance(self.yy, float) or isinstance(self.yy, int):
-            yy = types.RealOrJump(self.yy)
+            yy = types.Real(self.yy)
         elif isinstance(self.yy, str):
-            yy = types.RealOrJump.from_mcnp(self.yy)
+            yy = types.Real.from_mcnp(self.yy)
 
         yz = self.yz
         if isinstance(self.yz, types.Real):
             yz = self.yz
         elif isinstance(self.yz, float) or isinstance(self.yz, int):
-            yz = types.RealOrJump(self.yz)
+            yz = types.Real(self.yz)
         elif isinstance(self.yz, str):
-            yz = types.RealOrJump.from_mcnp(self.yz)
+            yz = types.Real.from_mcnp(self.yz)
 
         zx = self.zx
         if isinstance(self.zx, types.Real):
             zx = self.zx
         elif isinstance(self.zx, float) or isinstance(self.zx, int):
-            zx = types.RealOrJump(self.zx)
+            zx = types.Real(self.zx)
         elif isinstance(self.zx, str):
-            zx = types.RealOrJump.from_mcnp(self.zx)
+            zx = types.Real.from_mcnp(self.zx)
 
         zy = self.zy
         if isinstance(self.zy, types.Real):
             zy = self.zy
         elif isinstance(self.zy, float) or isinstance(self.zy, int):
-            zy = types.RealOrJump(self.zy)
+            zy = types.Real(self.zy)
         elif isinstance(self.zy, str):
-            zy = types.RealOrJump.from_mcnp(self.zy)
+            zy = types.Real.from_mcnp(self.zy)
 
         zz = self.zz
         if isinstance(self.zz, types.Real):
             zz = self.zz
         elif isinstance(self.zz, float) or isinstance(self.zz, int):
-            zz = types.RealOrJump(self.zz)
+            zz = types.Real(self.zz)
         elif isinstance(self.zz, str):
-            zz = types.RealOrJump.from_mcnp(self.zz)
+            zz = types.Real.from_mcnp(self.zz)
 
         system = self.system
         if isinstance(self.system, types.Integer):
             system = self.system
         elif isinstance(self.system, int):
-            system = types.IntegerOrJump(self.system)
+            system = types.Integer(self.system)
         elif isinstance(self.system, str):
-            system = types.IntegerOrJump.from_mcnp(self.system)
+            system = types.Integer.from_mcnp(self.system)
 
         return Tr_0(
             suffix=suffix,

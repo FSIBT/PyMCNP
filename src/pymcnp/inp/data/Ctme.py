@@ -17,12 +17,12 @@ class Ctme(DataOption):
     """
 
     _ATTRS = {
-        'tme': types.IntegerOrJump,
+        'tme': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Actme( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Actme( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, tme: types.IntegerOrJump):
+    def __init__(self, tme: types.Integer):
         """
         Initializes ``Ctme``.
 
@@ -33,7 +33,7 @@ class Ctme(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if tme is None or not (tme >= 0):
+        if tme is None or not (tme.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tme)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Ctme(DataOption):
             ]
         )
 
-        self.tme: typing.Final[types.IntegerOrJump] = tme
+        self.tme: typing.Final[types.Integer] = tme
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class CtmeBuilder:
         tme: maximum amount of minutes for Monte Carlo calculation.
     """
 
-    tme: str | int | types.IntegerOrJump
+    tme: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class CtmeBuilder:
         if isinstance(self.tme, types.Integer):
             tme = self.tme
         elif isinstance(self.tme, int):
-            tme = types.IntegerOrJump(self.tme)
+            tme = types.Integer(self.tme)
         elif isinstance(self.tme, str):
-            tme = types.IntegerOrJump.from_mcnp(self.tme)
+            tme = types.Integer.from_mcnp(self.tme)
 
         return Ctme(
             tme=tme,

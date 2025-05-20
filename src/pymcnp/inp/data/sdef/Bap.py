@@ -19,16 +19,16 @@ class Bap(SdefOption):
     """
 
     _ATTRS = {
-        'ba1': types.RealOrJump,
-        'ba2': types.RealOrJump,
-        'u': types.RealOrJump,
+        'ba1': types.Real,
+        'ba2': types.Real,
+        'u': types.Real,
     }
 
     _REGEX = re.compile(
-        rf'\Abap( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
+        rf'\Abap( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
-    def __init__(self, ba1: types.RealOrJump, ba2: types.RealOrJump, u: types.RealOrJump):
+    def __init__(self, ba1: types.Real, ba2: types.Real, u: types.Real):
         """
         Initializes ``Bap``.
 
@@ -56,9 +56,9 @@ class Bap(SdefOption):
             ]
         )
 
-        self.ba1: typing.Final[types.RealOrJump] = ba1
-        self.ba2: typing.Final[types.RealOrJump] = ba2
-        self.u: typing.Final[types.RealOrJump] = u
+        self.ba1: typing.Final[types.Real] = ba1
+        self.ba2: typing.Final[types.Real] = ba2
+        self.u: typing.Final[types.Real] = u
 
 
 @dataclasses.dataclass
@@ -72,9 +72,9 @@ class BapBuilder:
         u: Unused, arrbirary value.
     """
 
-    ba1: str | float | types.RealOrJump
-    ba2: str | float | types.RealOrJump
-    u: str | float | types.RealOrJump
+    ba1: str | float | types.Real
+    ba2: str | float | types.Real
+    u: str | float | types.Real
 
     def build(self):
         """
@@ -88,25 +88,25 @@ class BapBuilder:
         if isinstance(self.ba1, types.Real):
             ba1 = self.ba1
         elif isinstance(self.ba1, float) or isinstance(self.ba1, int):
-            ba1 = types.RealOrJump(self.ba1)
+            ba1 = types.Real(self.ba1)
         elif isinstance(self.ba1, str):
-            ba1 = types.RealOrJump.from_mcnp(self.ba1)
+            ba1 = types.Real.from_mcnp(self.ba1)
 
         ba2 = self.ba2
         if isinstance(self.ba2, types.Real):
             ba2 = self.ba2
         elif isinstance(self.ba2, float) or isinstance(self.ba2, int):
-            ba2 = types.RealOrJump(self.ba2)
+            ba2 = types.Real(self.ba2)
         elif isinstance(self.ba2, str):
-            ba2 = types.RealOrJump.from_mcnp(self.ba2)
+            ba2 = types.Real.from_mcnp(self.ba2)
 
         u = self.u
         if isinstance(self.u, types.Real):
             u = self.u
         elif isinstance(self.u, float) or isinstance(self.u, int):
-            u = types.RealOrJump(self.u)
+            u = types.Real(self.u)
         elif isinstance(self.u, str):
-            u = types.RealOrJump.from_mcnp(self.u)
+            u = types.Real.from_mcnp(self.u)
 
         return Bap(
             ba1=ba1,

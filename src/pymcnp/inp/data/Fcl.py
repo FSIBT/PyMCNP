@@ -19,12 +19,12 @@ class Fcl(DataOption):
 
     _ATTRS = {
         'designator': types.Designator,
-        'control': types.Tuple[types.RealOrJump],
+        'control': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Afcl:(\S+)((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Afcl:(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, designator: types.Designator, control: types.Tuple[types.RealOrJump]):
+    def __init__(self, designator: types.Designator, control: types.Tuple[types.Real]):
         """
         Initializes ``Fcl``.
 
@@ -48,7 +48,7 @@ class Fcl(DataOption):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.control: typing.Final[types.Tuple[types.RealOrJump]] = control
+        self.control: typing.Final[types.Tuple[types.Real]] = control
 
 
 @dataclasses.dataclass
@@ -62,7 +62,7 @@ class FclBuilder:
     """
 
     designator: str | types.Designator
-    control: list[str] | list[float] | list[types.RealOrJump]
+    control: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -81,12 +81,12 @@ class FclBuilder:
         if self.control:
             control = []
             for item in self.control:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     control.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    control.append(types.RealOrJump(item))
+                    control.append(types.Real(item))
                 elif isinstance(item, str):
-                    control.append(types.RealOrJump.from_mcnp(item))
+                    control.append(types.Real.from_mcnp(item))
             control = types.Tuple(control)
         else:
             control = None

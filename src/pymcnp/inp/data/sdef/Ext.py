@@ -17,12 +17,12 @@ class Ext(SdefOption):
     """
 
     _ATTRS = {
-        'distance_cosine': types.RealOrJump,
+        'distance_cosine': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Aext( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aext( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, distance_cosine: types.RealOrJump):
+    def __init__(self, distance_cosine: types.Real):
         """
         Initializes ``Ext``.
 
@@ -42,7 +42,7 @@ class Ext(SdefOption):
             ]
         )
 
-        self.distance_cosine: typing.Final[types.RealOrJump] = distance_cosine
+        self.distance_cosine: typing.Final[types.Real] = distance_cosine
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class ExtBuilder:
         distance_cosine: Distance for POS along AXS or Cosine of angle from AXS.
     """
 
-    distance_cosine: str | float | types.RealOrJump
+    distance_cosine: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class ExtBuilder:
         if isinstance(self.distance_cosine, types.Real):
             distance_cosine = self.distance_cosine
         elif isinstance(self.distance_cosine, float) or isinstance(self.distance_cosine, int):
-            distance_cosine = types.RealOrJump(self.distance_cosine)
+            distance_cosine = types.Real(self.distance_cosine)
         elif isinstance(self.distance_cosine, str):
-            distance_cosine = types.RealOrJump.from_mcnp(self.distance_cosine)
+            distance_cosine = types.Real.from_mcnp(self.distance_cosine)
 
         return Ext(
             distance_cosine=distance_cosine,

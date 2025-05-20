@@ -17,12 +17,12 @@ class Imesh(MeshOption):
     """
 
     _ATTRS = {
-        'vector': types.Tuple[types.RealOrJump],
+        'vector': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Aimesh((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aimesh((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, vector: types.Tuple[types.RealOrJump]):
+    def __init__(self, vector: types.Tuple[types.Real]):
         """
         Initializes ``Imesh``.
 
@@ -42,7 +42,7 @@ class Imesh(MeshOption):
             ]
         )
 
-        self.vector: typing.Final[types.Tuple[types.RealOrJump]] = vector
+        self.vector: typing.Final[types.Tuple[types.Real]] = vector
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class ImeshBuilder:
         vector: Locations of the coarse meshes in the x/r directions.
     """
 
-    vector: list[str] | list[float] | list[types.RealOrJump]
+    vector: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class ImeshBuilder:
         if self.vector:
             vector = []
             for item in self.vector:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     vector.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    vector.append(types.RealOrJump(item))
+                    vector.append(types.Real(item))
                 elif isinstance(item, str):
-                    vector.append(types.RealOrJump.from_mcnp(item))
+                    vector.append(types.Real.from_mcnp(item))
             vector = types.Tuple(vector)
         else:
             vector = None

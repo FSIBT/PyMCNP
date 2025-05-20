@@ -16,12 +16,12 @@ class Dir_0(SdefOption):
     """
 
     _ATTRS = {
-        'cosine': types.RealOrJump,
+        'cosine': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Adir( {types.RealOrJump._REGEX.pattern})?\Z')
+    _REGEX = re.compile(rf'\Adir( {types.Real._REGEX.pattern})?\Z')
 
-    def __init__(self, cosine: types.RealOrJump = None):
+    def __init__(self, cosine: types.Real = None):
         """
         Initializes ``Dir_0``.
 
@@ -38,7 +38,7 @@ class Dir_0(SdefOption):
             ]
         )
 
-        self.cosine: typing.Final[types.RealOrJump] = cosine
+        self.cosine: typing.Final[types.Real] = cosine
 
 
 @dataclasses.dataclass
@@ -50,7 +50,7 @@ class DirBuilder_0:
         cosine: Cosine of the angle between VEC and particle.
     """
 
-    cosine: str | float | types.RealOrJump = None
+    cosine: str | float | types.Real = None
 
     def build(self):
         """
@@ -64,9 +64,9 @@ class DirBuilder_0:
         if isinstance(self.cosine, types.Real):
             cosine = self.cosine
         elif isinstance(self.cosine, float) or isinstance(self.cosine, int):
-            cosine = types.RealOrJump(self.cosine)
+            cosine = types.Real(self.cosine)
         elif isinstance(self.cosine, str):
-            cosine = types.RealOrJump.from_mcnp(self.cosine)
+            cosine = types.Real.from_mcnp(self.cosine)
 
         return Dir_0(
             cosine=cosine,

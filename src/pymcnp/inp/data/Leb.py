@@ -20,23 +20,17 @@ class Leb(DataOption):
     """
 
     _ATTRS = {
-        'yzere': types.RealOrJump,
-        'bzere': types.RealOrJump,
-        'yzero': types.RealOrJump,
-        'bzero': types.RealOrJump,
+        'yzere': types.Real,
+        'bzere': types.Real,
+        'yzero': types.Real,
+        'bzero': types.Real,
     }
 
     _REGEX = re.compile(
-        rf'\Aleb( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})( {types.RealOrJump._REGEX.pattern})\Z'
+        rf'\Aleb( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
     )
 
-    def __init__(
-        self,
-        yzere: types.RealOrJump,
-        bzere: types.RealOrJump,
-        yzero: types.RealOrJump,
-        bzero: types.RealOrJump,
-    ):
+    def __init__(self, yzere: types.Real, bzere: types.Real, yzero: types.Real, bzero: types.Real):
         """
         Initializes ``Leb``.
 
@@ -50,13 +44,13 @@ class Leb(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if yzere is None or not (yzere > 0):
+        if yzere is None or not (yzere.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yzere)
-        if bzere is None or not (bzere > 0):
+        if bzere is None or not (bzere.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bzere)
-        if yzero is None or not (yzero > 0):
+        if yzero is None or not (yzero.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yzero)
-        if bzero is None or not (bzero > 0):
+        if bzero is None or not (bzero.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bzero)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -68,10 +62,10 @@ class Leb(DataOption):
             ]
         )
 
-        self.yzere: typing.Final[types.RealOrJump] = yzere
-        self.bzere: typing.Final[types.RealOrJump] = bzere
-        self.yzero: typing.Final[types.RealOrJump] = yzero
-        self.bzero: typing.Final[types.RealOrJump] = bzero
+        self.yzere: typing.Final[types.Real] = yzere
+        self.bzere: typing.Final[types.Real] = bzere
+        self.yzero: typing.Final[types.Real] = yzero
+        self.bzero: typing.Final[types.Real] = bzero
 
 
 @dataclasses.dataclass
@@ -86,10 +80,10 @@ class LebBuilder:
         bzero: B0 parameter in level-density formula for Z≥70.
     """
 
-    yzere: str | float | types.RealOrJump
-    bzere: str | float | types.RealOrJump
-    yzero: str | float | types.RealOrJump
-    bzero: str | float | types.RealOrJump
+    yzere: str | float | types.Real
+    bzere: str | float | types.Real
+    yzero: str | float | types.Real
+    bzero: str | float | types.Real
 
     def build(self):
         """
@@ -103,33 +97,33 @@ class LebBuilder:
         if isinstance(self.yzere, types.Real):
             yzere = self.yzere
         elif isinstance(self.yzere, float) or isinstance(self.yzere, int):
-            yzere = types.RealOrJump(self.yzere)
+            yzere = types.Real(self.yzere)
         elif isinstance(self.yzere, str):
-            yzere = types.RealOrJump.from_mcnp(self.yzere)
+            yzere = types.Real.from_mcnp(self.yzere)
 
         bzere = self.bzere
         if isinstance(self.bzere, types.Real):
             bzere = self.bzere
         elif isinstance(self.bzere, float) or isinstance(self.bzere, int):
-            bzere = types.RealOrJump(self.bzere)
+            bzere = types.Real(self.bzere)
         elif isinstance(self.bzere, str):
-            bzere = types.RealOrJump.from_mcnp(self.bzere)
+            bzere = types.Real.from_mcnp(self.bzere)
 
         yzero = self.yzero
         if isinstance(self.yzero, types.Real):
             yzero = self.yzero
         elif isinstance(self.yzero, float) or isinstance(self.yzero, int):
-            yzero = types.RealOrJump(self.yzero)
+            yzero = types.Real(self.yzero)
         elif isinstance(self.yzero, str):
-            yzero = types.RealOrJump.from_mcnp(self.yzero)
+            yzero = types.Real.from_mcnp(self.yzero)
 
         bzero = self.bzero
         if isinstance(self.bzero, types.Real):
             bzero = self.bzero
         elif isinstance(self.bzero, float) or isinstance(self.bzero, int):
-            bzero = types.RealOrJump(self.bzero)
+            bzero = types.Real(self.bzero)
         elif isinstance(self.bzero, str):
-            bzero = types.RealOrJump.from_mcnp(self.bzero)
+            bzero = types.Real.from_mcnp(self.bzero)
 
         return Leb(
             yzere=yzere,

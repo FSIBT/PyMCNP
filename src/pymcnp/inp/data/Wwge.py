@@ -17,12 +17,12 @@ class Wwge(DataOption):
     """
 
     _ATTRS = {
-        'bounds': types.Tuple[types.RealOrJump],
+        'bounds': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Awwge((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Awwge((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, bounds: types.Tuple[types.RealOrJump]):
+    def __init__(self, bounds: types.Tuple[types.Real]):
         """
         Initializes ``Wwge``.
 
@@ -42,7 +42,7 @@ class Wwge(DataOption):
             ]
         )
 
-        self.bounds: typing.Final[types.Tuple[types.RealOrJump]] = bounds
+        self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class WwgeBuilder:
         bounds: Upper energy bound for weight-window group to be generated.
     """
 
-    bounds: list[str] | list[float] | list[types.RealOrJump]
+    bounds: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class WwgeBuilder:
         if self.bounds:
             bounds = []
             for item in self.bounds:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     bounds.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    bounds.append(types.RealOrJump(item))
+                    bounds.append(types.Real(item))
                 elif isinstance(item, str):
-                    bounds.append(types.RealOrJump.from_mcnp(item))
+                    bounds.append(types.Real.from_mcnp(item))
             bounds = types.Tuple(bounds)
         else:
             bounds = None

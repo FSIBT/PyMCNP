@@ -17,12 +17,12 @@ class Lat(DataOption):
     """
 
     _ATTRS = {
-        'type': types.Tuple[types.IntegerOrJump],
+        'type': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Alat((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Alat((?: {types.Integer._REGEX.pattern})+?)\Z')
 
-    def __init__(self, type: types.Tuple[types.IntegerOrJump]):
+    def __init__(self, type: types.Tuple[types.Integer]):
         """
         Initializes ``Lat``.
 
@@ -33,7 +33,9 @@ class Lat(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if type is None or not (filter(lambda entry: not (entry == 1 or entry == 2), type)):
+        if type is None or not (
+            filter(lambda entry: not (entry.value == 1 or entry.value == 2), type)
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, type)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +44,7 @@ class Lat(DataOption):
             ]
         )
 
-        self.type: typing.Final[types.Tuple[types.IntegerOrJump]] = type
+        self.type: typing.Final[types.Tuple[types.Integer]] = type
 
 
 @dataclasses.dataclass
@@ -54,7 +56,7 @@ class LatBuilder:
         type: Tuple of lattice types.
     """
 
-    type: list[str] | list[int] | list[types.IntegerOrJump]
+    type: list[str] | list[int] | list[types.Integer]
 
     def build(self):
         """
@@ -67,12 +69,12 @@ class LatBuilder:
         if self.type:
             type = []
             for item in self.type:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     type.append(item)
                 elif isinstance(item, int):
-                    type.append(types.IntegerOrJump(item))
+                    type.append(types.Integer(item))
                 elif isinstance(item, str):
-                    type.append(types.IntegerOrJump.from_mcnp(item))
+                    type.append(types.Integer.from_mcnp(item))
             type = types.Tuple(type)
         else:
             type = None

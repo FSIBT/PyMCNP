@@ -17,12 +17,12 @@ class Cond(MOption_0):
     """
 
     _ATTRS = {
-        'setting': types.RealOrJump,
+        'setting': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Acond( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Acond( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.RealOrJump):
+    def __init__(self, setting: types.Real):
         """
         Initializes ``Cond``.
 
@@ -42,7 +42,7 @@ class Cond(MOption_0):
             ]
         )
 
-        self.setting: typing.Final[types.RealOrJump] = setting
+        self.setting: typing.Final[types.Real] = setting
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class CondBuilder:
         setting: Conduction state for EL03 electron-transport evaluation.
     """
 
-    setting: str | float | types.RealOrJump
+    setting: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class CondBuilder:
         if isinstance(self.setting, types.Real):
             setting = self.setting
         elif isinstance(self.setting, float) or isinstance(self.setting, int):
-            setting = types.RealOrJump(self.setting)
+            setting = types.Real(self.setting)
         elif isinstance(self.setting, str):
-            setting = types.RealOrJump.from_mcnp(self.setting)
+            setting = types.Real.from_mcnp(self.setting)
 
         return Cond(
             setting=setting,

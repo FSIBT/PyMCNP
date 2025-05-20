@@ -21,15 +21,15 @@ class Free(MplotOption):
 
     _ATTRS = {
         'x': types.String,
-        'y': types.Real,
+        'y': types.String,
         'option': free.FreeOption,
     }
 
     _REGEX = re.compile(
-        rf'\Afree( {types.String._REGEX.pattern})( {types.Real._REGEX.pattern})( (?:{free.FreeOption._REGEX.pattern}))?\Z'
+        rf'\Afree( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( (?:{free.FreeOption._REGEX.pattern}))?\Z'
     )
 
-    def __init__(self, x: types.String, y: types.Real, option: free.FreeOption = None):
+    def __init__(self, x: types.String, y: types.String, option: free.FreeOption = None):
         """
         Initializes ``Free``.
 
@@ -56,7 +56,7 @@ class Free(MplotOption):
         )
 
         self.x: typing.Final[types.String] = x
-        self.y: typing.Final[types.Real] = y
+        self.y: typing.Final[types.String] = y
         self.option: typing.Final[free.FreeOption] = option
 
 
@@ -72,7 +72,7 @@ class FreeBuilder:
     """
 
     x: str | types.String
-    y: str | float | types.Real
+    y: str | types.String
     option: str | free.FreeOption = None
 
     def build(self):
@@ -90,12 +90,10 @@ class FreeBuilder:
             x = types.String.from_mcnp(self.x)
 
         y = self.y
-        if isinstance(self.y, types.Real):
+        if isinstance(self.y, types.String):
             y = self.y
-        elif isinstance(self.y, float) or isinstance(self.y, int):
-            y = types.Real(self.y)
         elif isinstance(self.y, str):
-            y = types.Real.from_mcnp(self.y)
+            y = types.String.from_mcnp(self.y)
 
         option = self.option
         if isinstance(self.option, free.FreeOption):

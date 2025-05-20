@@ -24,30 +24,30 @@ class Lea(DataOption):
     """
 
     _ATTRS = {
-        'ipht': types.IntegerOrJump,
-        'icc': types.IntegerOrJump,
-        'nobalc': types.IntegerOrJump,
-        'nobale': types.IntegerOrJump,
-        'ifbrk': types.IntegerOrJump,
-        'ilvden': types.IntegerOrJump,
-        'ievap': types.IntegerOrJump,
-        'nofis': types.IntegerOrJump,
+        'ipht': types.Integer,
+        'icc': types.Integer,
+        'nobalc': types.Integer,
+        'nobale': types.Integer,
+        'ifbrk': types.Integer,
+        'ilvden': types.Integer,
+        'ievap': types.Integer,
+        'nofis': types.Integer,
     }
 
     _REGEX = re.compile(
-        rf'\Alea( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})( {types.IntegerOrJump._REGEX.pattern})\Z'
+        rf'\Alea( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
     )
 
     def __init__(
         self,
-        ipht: types.IntegerOrJump,
-        icc: types.IntegerOrJump,
-        nobalc: types.IntegerOrJump,
-        nobale: types.IntegerOrJump,
-        ifbrk: types.IntegerOrJump,
-        ilvden: types.IntegerOrJump,
-        ievap: types.IntegerOrJump,
-        nofis: types.IntegerOrJump,
+        ipht: types.Integer,
+        icc: types.Integer,
+        nobalc: types.Integer,
+        nobale: types.Integer,
+        ifbrk: types.Integer,
+        ilvden: types.Integer,
+        ievap: types.Integer,
+        nofis: types.Integer,
     ):
         """
         Initializes ``Lea``.
@@ -96,14 +96,14 @@ class Lea(DataOption):
             ]
         )
 
-        self.ipht: typing.Final[types.IntegerOrJump] = ipht
-        self.icc: typing.Final[types.IntegerOrJump] = icc
-        self.nobalc: typing.Final[types.IntegerOrJump] = nobalc
-        self.nobale: typing.Final[types.IntegerOrJump] = nobale
-        self.ifbrk: typing.Final[types.IntegerOrJump] = ifbrk
-        self.ilvden: typing.Final[types.IntegerOrJump] = ilvden
-        self.ievap: typing.Final[types.IntegerOrJump] = ievap
-        self.nofis: typing.Final[types.IntegerOrJump] = nofis
+        self.ipht: typing.Final[types.Integer] = ipht
+        self.icc: typing.Final[types.Integer] = icc
+        self.nobalc: typing.Final[types.Integer] = nobalc
+        self.nobale: typing.Final[types.Integer] = nobale
+        self.ifbrk: typing.Final[types.Integer] = ifbrk
+        self.ilvden: typing.Final[types.Integer] = ilvden
+        self.ievap: typing.Final[types.Integer] = ievap
+        self.nofis: typing.Final[types.Integer] = nofis
 
 
 @dataclasses.dataclass
@@ -122,14 +122,14 @@ class LeaBuilder:
         nofis: Fission setting.
     """
 
-    ipht: str | int | types.IntegerOrJump
-    icc: str | int | types.IntegerOrJump
-    nobalc: str | int | types.IntegerOrJump
-    nobale: str | int | types.IntegerOrJump
-    ifbrk: str | int | types.IntegerOrJump
-    ilvden: str | int | types.IntegerOrJump
-    ievap: str | int | types.IntegerOrJump
-    nofis: str | int | types.IntegerOrJump
+    ipht: str | int | types.Integer
+    icc: str | int | types.Integer
+    nobalc: str | int | types.Integer
+    nobale: str | int | types.Integer
+    ifbrk: str | int | types.Integer
+    ilvden: str | int | types.Integer
+    ievap: str | int | types.Integer
+    nofis: str | int | types.Integer
 
     def build(self):
         """
@@ -143,65 +143,65 @@ class LeaBuilder:
         if isinstance(self.ipht, types.Integer):
             ipht = self.ipht
         elif isinstance(self.ipht, int):
-            ipht = types.IntegerOrJump(self.ipht)
+            ipht = types.Integer(self.ipht)
         elif isinstance(self.ipht, str):
-            ipht = types.IntegerOrJump.from_mcnp(self.ipht)
+            ipht = types.Integer.from_mcnp(self.ipht)
 
         icc = self.icc
         if isinstance(self.icc, types.Integer):
             icc = self.icc
         elif isinstance(self.icc, int):
-            icc = types.IntegerOrJump(self.icc)
+            icc = types.Integer(self.icc)
         elif isinstance(self.icc, str):
-            icc = types.IntegerOrJump.from_mcnp(self.icc)
+            icc = types.Integer.from_mcnp(self.icc)
 
         nobalc = self.nobalc
         if isinstance(self.nobalc, types.Integer):
             nobalc = self.nobalc
         elif isinstance(self.nobalc, int):
-            nobalc = types.IntegerOrJump(self.nobalc)
+            nobalc = types.Integer(self.nobalc)
         elif isinstance(self.nobalc, str):
-            nobalc = types.IntegerOrJump.from_mcnp(self.nobalc)
+            nobalc = types.Integer.from_mcnp(self.nobalc)
 
         nobale = self.nobale
         if isinstance(self.nobale, types.Integer):
             nobale = self.nobale
         elif isinstance(self.nobale, int):
-            nobale = types.IntegerOrJump(self.nobale)
+            nobale = types.Integer(self.nobale)
         elif isinstance(self.nobale, str):
-            nobale = types.IntegerOrJump.from_mcnp(self.nobale)
+            nobale = types.Integer.from_mcnp(self.nobale)
 
         ifbrk = self.ifbrk
         if isinstance(self.ifbrk, types.Integer):
             ifbrk = self.ifbrk
         elif isinstance(self.ifbrk, int):
-            ifbrk = types.IntegerOrJump(self.ifbrk)
+            ifbrk = types.Integer(self.ifbrk)
         elif isinstance(self.ifbrk, str):
-            ifbrk = types.IntegerOrJump.from_mcnp(self.ifbrk)
+            ifbrk = types.Integer.from_mcnp(self.ifbrk)
 
         ilvden = self.ilvden
         if isinstance(self.ilvden, types.Integer):
             ilvden = self.ilvden
         elif isinstance(self.ilvden, int):
-            ilvden = types.IntegerOrJump(self.ilvden)
+            ilvden = types.Integer(self.ilvden)
         elif isinstance(self.ilvden, str):
-            ilvden = types.IntegerOrJump.from_mcnp(self.ilvden)
+            ilvden = types.Integer.from_mcnp(self.ilvden)
 
         ievap = self.ievap
         if isinstance(self.ievap, types.Integer):
             ievap = self.ievap
         elif isinstance(self.ievap, int):
-            ievap = types.IntegerOrJump(self.ievap)
+            ievap = types.Integer(self.ievap)
         elif isinstance(self.ievap, str):
-            ievap = types.IntegerOrJump.from_mcnp(self.ievap)
+            ievap = types.Integer.from_mcnp(self.ievap)
 
         nofis = self.nofis
         if isinstance(self.nofis, types.Integer):
             nofis = self.nofis
         elif isinstance(self.nofis, int):
-            nofis = types.IntegerOrJump(self.nofis)
+            nofis = types.Integer(self.nofis)
         elif isinstance(self.nofis, str):
-            nofis = types.IntegerOrJump.from_mcnp(self.nofis)
+            nofis = types.Integer.from_mcnp(self.nofis)
 
         return Lea(
             ipht=ipht,

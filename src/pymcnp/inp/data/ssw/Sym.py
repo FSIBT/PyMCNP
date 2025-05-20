@@ -17,12 +17,12 @@ class Sym(SswOption):
     """
 
     _ATTRS = {
-        'setting': types.IntegerOrJump,
+        'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Asym( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Asym( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, setting: types.IntegerOrJump):
+    def __init__(self, setting: types.Integer):
         """
         Initializes ``Sym``.
 
@@ -33,7 +33,7 @@ class Sym(SswOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting not in {0, 1, 2}:
+        if setting is None or setting.value not in {0, 1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Sym(SswOption):
             ]
         )
 
-        self.setting: typing.Final[types.IntegerOrJump] = setting
+        self.setting: typing.Final[types.Integer] = setting
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class SymBuilder:
         setting: Symmetric option flag.
     """
 
-    setting: str | int | types.IntegerOrJump
+    setting: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class SymBuilder:
         if isinstance(self.setting, types.Integer):
             setting = self.setting
         elif isinstance(self.setting, int):
-            setting = types.IntegerOrJump(self.setting)
+            setting = types.Integer(self.setting)
         elif isinstance(self.setting, str):
-            setting = types.IntegerOrJump.from_mcnp(self.setting)
+            setting = types.Integer.from_mcnp(self.setting)
 
         return Sym(
             setting=setting,

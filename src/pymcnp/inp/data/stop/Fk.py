@@ -18,13 +18,13 @@ class Fk(StopOption):
     """
 
     _ATTRS = {
-        'e': types.IntegerOrJump,
+        'e': types.Integer,
         'suffix': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Afk(\d+)( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afk(\d+)( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, e: types.IntegerOrJump, suffix: types.Integer):
+    def __init__(self, e: types.Integer, suffix: types.Integer):
         """
         Initializes ``Fk``.
 
@@ -38,7 +38,7 @@ class Fk(StopOption):
 
         if e is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, e)
-        if suffix is None or not (suffix <= 99_999_999):
+        if suffix is None or not (suffix.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -47,7 +47,7 @@ class Fk(StopOption):
             ]
         )
 
-        self.e: typing.Final[types.IntegerOrJump] = e
+        self.e: typing.Final[types.Integer] = e
         self.suffix: typing.Final[types.Integer] = suffix
 
 
@@ -61,7 +61,7 @@ class FkBuilder:
         suffix: Data card option option suffix.
     """
 
-    e: str | int | types.IntegerOrJump
+    e: str | int | types.Integer
     suffix: str | int | types.Integer
 
     def build(self):
@@ -76,9 +76,9 @@ class FkBuilder:
         if isinstance(self.e, types.Integer):
             e = self.e
         elif isinstance(self.e, int):
-            e = types.IntegerOrJump(self.e)
+            e = types.Integer(self.e)
         elif isinstance(self.e, str):
-            e = types.IntegerOrJump.from_mcnp(self.e)
+            e = types.Integer.from_mcnp(self.e)
 
         suffix = self.suffix
         if isinstance(self.suffix, types.Integer):

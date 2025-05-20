@@ -17,12 +17,12 @@ class Iso(KpertOption):
     """
 
     _ATTRS = {
-        'zaids': types.Tuple[types.RealOrJump],
+        'zaids': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Aiso((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aiso((?: {types.Real._REGEX.pattern})+?)\Z')
 
-    def __init__(self, zaids: types.Tuple[types.RealOrJump]):
+    def __init__(self, zaids: types.Tuple[types.Real]):
         """
         Initializes ``Iso``.
 
@@ -42,7 +42,7 @@ class Iso(KpertOption):
             ]
         )
 
-        self.zaids: typing.Final[types.Tuple[types.RealOrJump]] = zaids
+        self.zaids: typing.Final[types.Tuple[types.Real]] = zaids
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class IsoBuilder:
         zaids: List of ZAIDs for pertubation.
     """
 
-    zaids: list[str] | list[float] | list[types.RealOrJump]
+    zaids: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class IsoBuilder:
         if self.zaids:
             zaids = []
             for item in self.zaids:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     zaids.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    zaids.append(types.RealOrJump(item))
+                    zaids.append(types.Real(item))
                 elif isinstance(item, str):
-                    zaids.append(types.RealOrJump.from_mcnp(item))
+                    zaids.append(types.Real.from_mcnp(item))
             zaids = types.Tuple(zaids)
         else:
             zaids = None

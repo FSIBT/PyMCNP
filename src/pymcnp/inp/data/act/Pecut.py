@@ -17,12 +17,12 @@ class Pecut(ActOption):
     """
 
     _ATTRS = {
-        'cutoff': types.RealOrJump,
+        'cutoff': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Apecut( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Apecut( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, cutoff: types.RealOrJump):
+    def __init__(self, cutoff: types.Real):
         """
         Initializes ``Pecut``.
 
@@ -42,7 +42,7 @@ class Pecut(ActOption):
             ]
         )
 
-        self.cutoff: typing.Final[types.RealOrJump] = cutoff
+        self.cutoff: typing.Final[types.Real] = cutoff
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class PecutBuilder:
         cutoff: Delayed-gamma energy cutoff.
     """
 
-    cutoff: str | float | types.RealOrJump
+    cutoff: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class PecutBuilder:
         if isinstance(self.cutoff, types.Real):
             cutoff = self.cutoff
         elif isinstance(self.cutoff, float) or isinstance(self.cutoff, int):
-            cutoff = types.RealOrJump(self.cutoff)
+            cutoff = types.Real(self.cutoff)
         elif isinstance(self.cutoff, str):
-            cutoff = types.RealOrJump.from_mcnp(self.cutoff)
+            cutoff = types.Real.from_mcnp(self.cutoff)
 
         return Pecut(
             cutoff=cutoff,

@@ -17,12 +17,12 @@ class Wgt(SsrOption):
     """
 
     _ATTRS = {
-        'constant': types.RealOrJump,
+        'constant': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Awgt( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Awgt( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, constant: types.RealOrJump):
+    def __init__(self, constant: types.Real):
         """
         Initializes ``Wgt``.
 
@@ -42,7 +42,7 @@ class Wgt(SsrOption):
             ]
         )
 
-        self.constant: typing.Final[types.RealOrJump] = constant
+        self.constant: typing.Final[types.Real] = constant
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class WgtBuilder:
         constant: Particle weight multiplier.
     """
 
-    constant: str | float | types.RealOrJump
+    constant: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class WgtBuilder:
         if isinstance(self.constant, types.Real):
             constant = self.constant
         elif isinstance(self.constant, float) or isinstance(self.constant, int):
-            constant = types.RealOrJump(self.constant)
+            constant = types.Real(self.constant)
         elif isinstance(self.constant, str):
-            constant = types.RealOrJump.from_mcnp(self.constant)
+            constant = types.Real.from_mcnp(self.constant)
 
         return Wgt(
             constant=constant,

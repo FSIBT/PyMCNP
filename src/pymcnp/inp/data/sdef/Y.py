@@ -17,12 +17,12 @@ class Y(SdefOption):
     """
 
     _ATTRS = {
-        'y_coordinate': types.RealOrJump,
+        'y_coordinate': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Ay( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ay( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, y_coordinate: types.RealOrJump):
+    def __init__(self, y_coordinate: types.Real):
         """
         Initializes ``Y``.
 
@@ -42,7 +42,7 @@ class Y(SdefOption):
             ]
         )
 
-        self.y_coordinate: typing.Final[types.RealOrJump] = y_coordinate
+        self.y_coordinate: typing.Final[types.Real] = y_coordinate
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class YBuilder:
         y_coordinate: Y-cordinate of position.
     """
 
-    y_coordinate: str | float | types.RealOrJump
+    y_coordinate: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class YBuilder:
         if isinstance(self.y_coordinate, types.Real):
             y_coordinate = self.y_coordinate
         elif isinstance(self.y_coordinate, float) or isinstance(self.y_coordinate, int):
-            y_coordinate = types.RealOrJump(self.y_coordinate)
+            y_coordinate = types.Real(self.y_coordinate)
         elif isinstance(self.y_coordinate, str):
-            y_coordinate = types.RealOrJump.from_mcnp(self.y_coordinate)
+            y_coordinate = types.Real.from_mcnp(self.y_coordinate)
 
         return Y(
             y_coordinate=y_coordinate,

@@ -33,7 +33,7 @@ class Scales(MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if n is None or n not in {1, 2, 3}:
+        if n is None or n.value not in {1, 2, 3}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

@@ -36,7 +36,7 @@ class Ds_2(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (1 <= suffix <= 999):
+        if suffix is None or not (1 <= suffix.value <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if vss is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vss)

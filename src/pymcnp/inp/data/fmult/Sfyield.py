@@ -17,12 +17,12 @@ class Sfyield(FmultOption):
     """
 
     _ATTRS = {
-        'fission_yield': types.RealOrJump,
+        'fission_yield': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Asfyield( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Asfyield( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, fission_yield: types.RealOrJump):
+    def __init__(self, fission_yield: types.Real):
         """
         Initializes ``Sfyield``.
 
@@ -42,7 +42,7 @@ class Sfyield(FmultOption):
             ]
         )
 
-        self.fission_yield: typing.Final[types.RealOrJump] = fission_yield
+        self.fission_yield: typing.Final[types.Real] = fission_yield
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class SfyieldBuilder:
         fission_yield: Spontaneous fission yield.
     """
 
-    fission_yield: str | float | types.RealOrJump
+    fission_yield: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class SfyieldBuilder:
         if isinstance(self.fission_yield, types.Real):
             fission_yield = self.fission_yield
         elif isinstance(self.fission_yield, float) or isinstance(self.fission_yield, int):
-            fission_yield = types.RealOrJump(self.fission_yield)
+            fission_yield = types.Real(self.fission_yield)
         elif isinstance(self.fission_yield, str):
-            fission_yield = types.RealOrJump.from_mcnp(self.fission_yield)
+            fission_yield = types.Real.from_mcnp(self.fission_yield)
 
         return Sfyield(
             fission_yield=fission_yield,

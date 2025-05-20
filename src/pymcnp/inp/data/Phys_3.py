@@ -27,36 +27,36 @@ class Phys_3(DataOption):
     """
 
     _ATTRS = {
-        'emax': types.RealOrJump,
-        'ean': types.RealOrJump,
-        'tabl': types.RealOrJump,
-        'istrg': types.IntegerOrJump,
-        'recl': types.RealOrJump,
-        'i_mcs_model': types.IntegerOrJump,
-        'i_int_model': types.IntegerOrJump,
-        'i_els_model': types.IntegerOrJump,
-        'efac': types.RealOrJump,
-        'ckvnum': types.RealOrJump,
-        'drp': types.RealOrJump,
+        'emax': types.Real,
+        'ean': types.Real,
+        'tabl': types.Real,
+        'istrg': types.Integer,
+        'recl': types.Real,
+        'i_mcs_model': types.Integer,
+        'i_int_model': types.Integer,
+        'i_els_model': types.Integer,
+        'efac': types.Real,
+        'ckvnum': types.Real,
+        'drp': types.Real,
     }
 
     _REGEX = re.compile(
-        rf'\Aphys:h( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?( {types.RealOrJump._REGEX.pattern})?\Z'
+        rf'\Aphys:h( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
-        emax: types.RealOrJump = None,
-        ean: types.RealOrJump = None,
-        tabl: types.RealOrJump = None,
-        istrg: types.IntegerOrJump = None,
-        recl: types.RealOrJump = None,
-        i_mcs_model: types.IntegerOrJump = None,
-        i_int_model: types.IntegerOrJump = None,
-        i_els_model: types.IntegerOrJump = None,
-        efac: types.RealOrJump = None,
-        ckvnum: types.RealOrJump = None,
-        drp: types.RealOrJump = None,
+        emax: types.Real = None,
+        ean: types.Real = None,
+        tabl: types.Real = None,
+        istrg: types.Integer = None,
+        recl: types.Real = None,
+        i_mcs_model: types.Integer = None,
+        i_int_model: types.Integer = None,
+        i_els_model: types.Integer = None,
+        efac: types.Real = None,
+        ckvnum: types.Real = None,
+        drp: types.Real = None,
     ):
         """
         Initializes ``Phys_3``.
@@ -78,29 +78,33 @@ class Phys_3(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if tabl is not None and not (isinstance(tabl, types.Jump) or tabl == -1 or tabl >= 0):
+        if tabl is not None and not (
+            isinstance(tabl, types.Jump) or tabl.value == -1 or tabl.value >= 0
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tabl)
-        if istrg is not None and not (isinstance(istrg, types.Jump) or istrg in {0, 1}):
+        if istrg is not None and not (isinstance(istrg, types.Jump) or istrg.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, istrg)
-        if recl is not None and not (isinstance(recl, types.Jump) or 0 <= recl <= 1):
+        if recl is not None and not (isinstance(recl, types.Jump) or 0 <= recl.value <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, recl)
         if i_mcs_model is not None and not (
-            isinstance(i_mcs_model, types.Jump) or i_mcs_model in {-1, 0, 1, 2}
+            isinstance(i_mcs_model, types.Jump) or i_mcs_model.value in {-1, 0, 1, 2}
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
         if i_int_model is not None and not (
-            isinstance(i_int_model, types.Jump) or i_int_model in {-1, 0, 1, 2}
+            isinstance(i_int_model, types.Jump) or i_int_model.value in {-1, 0, 1, 2}
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_int_model)
         if i_els_model is not None and not (
-            isinstance(i_els_model, types.Jump) or i_els_model in {-1, 0}
+            isinstance(i_els_model, types.Jump) or i_els_model.value in {-1, 0}
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_els_model)
-        if efac is not None and not (isinstance(efac, types.Jump) or 0.8 <= efac <= 0.99):
+        if efac is not None and not (isinstance(efac, types.Jump) or 0.8 <= efac.value <= 0.99):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, efac)
-        if ckvnum is not None and not (isinstance(ckvnum, types.Jump) or 0 <= ckvnum < 1):
+        if ckvnum is not None and not (isinstance(ckvnum, types.Jump) or 0 <= ckvnum.value < 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ckvnum)
-        if drp is not None and not (isinstance(drp, types.Jump) or drp >= 0 or drp == -1):
+        if drp is not None and not (
+            isinstance(drp, types.Jump) or drp.value >= 0 or drp.value == -1
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, drp)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -119,17 +123,17 @@ class Phys_3(DataOption):
             ]
         )
 
-        self.emax: typing.Final[types.RealOrJump] = emax
-        self.ean: typing.Final[types.RealOrJump] = ean
-        self.tabl: typing.Final[types.RealOrJump] = tabl
-        self.istrg: typing.Final[types.IntegerOrJump] = istrg
-        self.recl: typing.Final[types.RealOrJump] = recl
-        self.i_mcs_model: typing.Final[types.IntegerOrJump] = i_mcs_model
-        self.i_int_model: typing.Final[types.IntegerOrJump] = i_int_model
-        self.i_els_model: typing.Final[types.IntegerOrJump] = i_els_model
-        self.efac: typing.Final[types.RealOrJump] = efac
-        self.ckvnum: typing.Final[types.RealOrJump] = ckvnum
-        self.drp: typing.Final[types.RealOrJump] = drp
+        self.emax: typing.Final[types.Real] = emax
+        self.ean: typing.Final[types.Real] = ean
+        self.tabl: typing.Final[types.Real] = tabl
+        self.istrg: typing.Final[types.Integer] = istrg
+        self.recl: typing.Final[types.Real] = recl
+        self.i_mcs_model: typing.Final[types.Integer] = i_mcs_model
+        self.i_int_model: typing.Final[types.Integer] = i_int_model
+        self.i_els_model: typing.Final[types.Integer] = i_els_model
+        self.efac: typing.Final[types.Real] = efac
+        self.ckvnum: typing.Final[types.Real] = ckvnum
+        self.drp: typing.Final[types.Real] = drp
 
 
 @dataclasses.dataclass
@@ -151,17 +155,17 @@ class PhysBuilder_3:
         drp: Lower energy delta-ray cutoff.
     """
 
-    emax: str | float | types.RealOrJump = None
-    ean: str | float | types.RealOrJump = None
-    tabl: str | float | types.RealOrJump = None
-    istrg: str | int | types.IntegerOrJump = None
-    recl: str | float | types.RealOrJump = None
-    i_mcs_model: str | int | types.IntegerOrJump = None
-    i_int_model: str | int | types.IntegerOrJump = None
-    i_els_model: str | int | types.IntegerOrJump = None
-    efac: str | float | types.RealOrJump = None
-    ckvnum: str | float | types.RealOrJump = None
-    drp: str | float | types.RealOrJump = None
+    emax: str | float | types.Real = None
+    ean: str | float | types.Real = None
+    tabl: str | float | types.Real = None
+    istrg: str | int | types.Integer = None
+    recl: str | float | types.Real = None
+    i_mcs_model: str | int | types.Integer = None
+    i_int_model: str | int | types.Integer = None
+    i_els_model: str | int | types.Integer = None
+    efac: str | float | types.Real = None
+    ckvnum: str | float | types.Real = None
+    drp: str | float | types.Real = None
 
     def build(self):
         """
@@ -175,89 +179,89 @@ class PhysBuilder_3:
         if isinstance(self.emax, types.Real):
             emax = self.emax
         elif isinstance(self.emax, float) or isinstance(self.emax, int):
-            emax = types.RealOrJump(self.emax)
+            emax = types.Real(self.emax)
         elif isinstance(self.emax, str):
-            emax = types.RealOrJump.from_mcnp(self.emax)
+            emax = types.Real.from_mcnp(self.emax)
 
         ean = self.ean
         if isinstance(self.ean, types.Real):
             ean = self.ean
         elif isinstance(self.ean, float) or isinstance(self.ean, int):
-            ean = types.RealOrJump(self.ean)
+            ean = types.Real(self.ean)
         elif isinstance(self.ean, str):
-            ean = types.RealOrJump.from_mcnp(self.ean)
+            ean = types.Real.from_mcnp(self.ean)
 
         tabl = self.tabl
         if isinstance(self.tabl, types.Real):
             tabl = self.tabl
         elif isinstance(self.tabl, float) or isinstance(self.tabl, int):
-            tabl = types.RealOrJump(self.tabl)
+            tabl = types.Real(self.tabl)
         elif isinstance(self.tabl, str):
-            tabl = types.RealOrJump.from_mcnp(self.tabl)
+            tabl = types.Real.from_mcnp(self.tabl)
 
         istrg = self.istrg
         if isinstance(self.istrg, types.Integer):
             istrg = self.istrg
         elif isinstance(self.istrg, int):
-            istrg = types.IntegerOrJump(self.istrg)
+            istrg = types.Integer(self.istrg)
         elif isinstance(self.istrg, str):
-            istrg = types.IntegerOrJump.from_mcnp(self.istrg)
+            istrg = types.Integer.from_mcnp(self.istrg)
 
         recl = self.recl
         if isinstance(self.recl, types.Real):
             recl = self.recl
         elif isinstance(self.recl, float) or isinstance(self.recl, int):
-            recl = types.RealOrJump(self.recl)
+            recl = types.Real(self.recl)
         elif isinstance(self.recl, str):
-            recl = types.RealOrJump.from_mcnp(self.recl)
+            recl = types.Real.from_mcnp(self.recl)
 
         i_mcs_model = self.i_mcs_model
         if isinstance(self.i_mcs_model, types.Integer):
             i_mcs_model = self.i_mcs_model
         elif isinstance(self.i_mcs_model, int):
-            i_mcs_model = types.IntegerOrJump(self.i_mcs_model)
+            i_mcs_model = types.Integer(self.i_mcs_model)
         elif isinstance(self.i_mcs_model, str):
-            i_mcs_model = types.IntegerOrJump.from_mcnp(self.i_mcs_model)
+            i_mcs_model = types.Integer.from_mcnp(self.i_mcs_model)
 
         i_int_model = self.i_int_model
         if isinstance(self.i_int_model, types.Integer):
             i_int_model = self.i_int_model
         elif isinstance(self.i_int_model, int):
-            i_int_model = types.IntegerOrJump(self.i_int_model)
+            i_int_model = types.Integer(self.i_int_model)
         elif isinstance(self.i_int_model, str):
-            i_int_model = types.IntegerOrJump.from_mcnp(self.i_int_model)
+            i_int_model = types.Integer.from_mcnp(self.i_int_model)
 
         i_els_model = self.i_els_model
         if isinstance(self.i_els_model, types.Integer):
             i_els_model = self.i_els_model
         elif isinstance(self.i_els_model, int):
-            i_els_model = types.IntegerOrJump(self.i_els_model)
+            i_els_model = types.Integer(self.i_els_model)
         elif isinstance(self.i_els_model, str):
-            i_els_model = types.IntegerOrJump.from_mcnp(self.i_els_model)
+            i_els_model = types.Integer.from_mcnp(self.i_els_model)
 
         efac = self.efac
         if isinstance(self.efac, types.Real):
             efac = self.efac
         elif isinstance(self.efac, float) or isinstance(self.efac, int):
-            efac = types.RealOrJump(self.efac)
+            efac = types.Real(self.efac)
         elif isinstance(self.efac, str):
-            efac = types.RealOrJump.from_mcnp(self.efac)
+            efac = types.Real.from_mcnp(self.efac)
 
         ckvnum = self.ckvnum
         if isinstance(self.ckvnum, types.Real):
             ckvnum = self.ckvnum
         elif isinstance(self.ckvnum, float) or isinstance(self.ckvnum, int):
-            ckvnum = types.RealOrJump(self.ckvnum)
+            ckvnum = types.Real(self.ckvnum)
         elif isinstance(self.ckvnum, str):
-            ckvnum = types.RealOrJump.from_mcnp(self.ckvnum)
+            ckvnum = types.Real.from_mcnp(self.ckvnum)
 
         drp = self.drp
         if isinstance(self.drp, types.Real):
             drp = self.drp
         elif isinstance(self.drp, float) or isinstance(self.drp, int):
-            drp = types.RealOrJump(self.drp)
+            drp = types.Real(self.drp)
         elif isinstance(self.drp, str):
-            drp = types.RealOrJump.from_mcnp(self.drp)
+            drp = types.Real.from_mcnp(self.drp)
 
         return Phys_3(
             emax=emax,

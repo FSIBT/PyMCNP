@@ -22,26 +22,26 @@ class Phys_1(DataOption):
     """
 
     _ATTRS = {
-        'emcpf': types.RealOrJump,
-        'ides': types.IntegerOrJump,
-        'nocoh': types.IntegerOrJump,
-        'ispn': types.IntegerOrJump,
-        'nodop': types.IntegerOrJump,
-        'fism': types.IntegerOrJump,
+        'emcpf': types.Real,
+        'ides': types.Integer,
+        'nocoh': types.Integer,
+        'ispn': types.Integer,
+        'nodop': types.Integer,
+        'fism': types.Integer,
     }
 
     _REGEX = re.compile(
-        rf'\Aphys:p( {types.RealOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?( {types.IntegerOrJump._REGEX.pattern})?\Z'
+        rf'\Aphys:p( {types.Real._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?\Z'
     )
 
     def __init__(
         self,
-        emcpf: types.RealOrJump = None,
-        ides: types.IntegerOrJump = None,
-        nocoh: types.IntegerOrJump = None,
-        ispn: types.IntegerOrJump = None,
-        nodop: types.IntegerOrJump = None,
-        fism: types.IntegerOrJump = None,
+        emcpf: types.Real = None,
+        ides: types.Integer = None,
+        nocoh: types.Integer = None,
+        ispn: types.Integer = None,
+        nodop: types.Integer = None,
+        fism: types.Integer = None,
     ):
         """
         Initializes ``Phys_1``.
@@ -82,12 +82,12 @@ class Phys_1(DataOption):
             ]
         )
 
-        self.emcpf: typing.Final[types.RealOrJump] = emcpf
-        self.ides: typing.Final[types.IntegerOrJump] = ides
-        self.nocoh: typing.Final[types.IntegerOrJump] = nocoh
-        self.ispn: typing.Final[types.IntegerOrJump] = ispn
-        self.nodop: typing.Final[types.IntegerOrJump] = nodop
-        self.fism: typing.Final[types.IntegerOrJump] = fism
+        self.emcpf: typing.Final[types.Real] = emcpf
+        self.ides: typing.Final[types.Integer] = ides
+        self.nocoh: typing.Final[types.Integer] = nocoh
+        self.ispn: typing.Final[types.Integer] = ispn
+        self.nodop: typing.Final[types.Integer] = nodop
+        self.fism: typing.Final[types.Integer] = fism
 
 
 @dataclasses.dataclass
@@ -104,12 +104,12 @@ class PhysBuilder_1:
         fism: Selection of photofission method controls.
     """
 
-    emcpf: str | float | types.RealOrJump = None
-    ides: str | int | types.IntegerOrJump = None
-    nocoh: str | int | types.IntegerOrJump = None
-    ispn: str | int | types.IntegerOrJump = None
-    nodop: str | int | types.IntegerOrJump = None
-    fism: str | int | types.IntegerOrJump = None
+    emcpf: str | float | types.Real = None
+    ides: str | int | types.Integer = None
+    nocoh: str | int | types.Integer = None
+    ispn: str | int | types.Integer = None
+    nodop: str | int | types.Integer = None
+    fism: str | int | types.Integer = None
 
     def build(self):
         """
@@ -123,49 +123,49 @@ class PhysBuilder_1:
         if isinstance(self.emcpf, types.Real):
             emcpf = self.emcpf
         elif isinstance(self.emcpf, float) or isinstance(self.emcpf, int):
-            emcpf = types.RealOrJump(self.emcpf)
+            emcpf = types.Real(self.emcpf)
         elif isinstance(self.emcpf, str):
-            emcpf = types.RealOrJump.from_mcnp(self.emcpf)
+            emcpf = types.Real.from_mcnp(self.emcpf)
 
         ides = self.ides
         if isinstance(self.ides, types.Integer):
             ides = self.ides
         elif isinstance(self.ides, int):
-            ides = types.IntegerOrJump(self.ides)
+            ides = types.Integer(self.ides)
         elif isinstance(self.ides, str):
-            ides = types.IntegerOrJump.from_mcnp(self.ides)
+            ides = types.Integer.from_mcnp(self.ides)
 
         nocoh = self.nocoh
         if isinstance(self.nocoh, types.Integer):
             nocoh = self.nocoh
         elif isinstance(self.nocoh, int):
-            nocoh = types.IntegerOrJump(self.nocoh)
+            nocoh = types.Integer(self.nocoh)
         elif isinstance(self.nocoh, str):
-            nocoh = types.IntegerOrJump.from_mcnp(self.nocoh)
+            nocoh = types.Integer.from_mcnp(self.nocoh)
 
         ispn = self.ispn
         if isinstance(self.ispn, types.Integer):
             ispn = self.ispn
         elif isinstance(self.ispn, int):
-            ispn = types.IntegerOrJump(self.ispn)
+            ispn = types.Integer(self.ispn)
         elif isinstance(self.ispn, str):
-            ispn = types.IntegerOrJump.from_mcnp(self.ispn)
+            ispn = types.Integer.from_mcnp(self.ispn)
 
         nodop = self.nodop
         if isinstance(self.nodop, types.Integer):
             nodop = self.nodop
         elif isinstance(self.nodop, int):
-            nodop = types.IntegerOrJump(self.nodop)
+            nodop = types.Integer(self.nodop)
         elif isinstance(self.nodop, str):
-            nodop = types.IntegerOrJump.from_mcnp(self.nodop)
+            nodop = types.Integer.from_mcnp(self.nodop)
 
         fism = self.fism
         if isinstance(self.fism, types.Integer):
             fism = self.fism
         elif isinstance(self.fism, int):
-            fism = types.IntegerOrJump(self.fism)
+            fism = types.Integer(self.fism)
         elif isinstance(self.fism, str):
-            fism = types.IntegerOrJump.from_mcnp(self.fism)
+            fism = types.Integer.from_mcnp(self.fism)
 
         return Phys_1(
             emcpf=emcpf,

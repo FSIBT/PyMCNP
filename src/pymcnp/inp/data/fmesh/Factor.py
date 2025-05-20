@@ -17,12 +17,12 @@ class Factor(FmeshOption):
     """
 
     _ATTRS = {
-        'multiple': types.RealOrJump,
+        'multiple': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Afactor( {types.RealOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afactor( {types.Real._REGEX.pattern})\Z')
 
-    def __init__(self, multiple: types.RealOrJump):
+    def __init__(self, multiple: types.Real):
         """
         Initializes ``Factor``.
 
@@ -42,7 +42,7 @@ class Factor(FmeshOption):
             ]
         )
 
-        self.multiple: typing.Final[types.RealOrJump] = multiple
+        self.multiple: typing.Final[types.Real] = multiple
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class FactorBuilder:
         multiple: Multiplicative factor for each mesh.
     """
 
-    multiple: str | float | types.RealOrJump
+    multiple: str | float | types.Real
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class FactorBuilder:
         if isinstance(self.multiple, types.Real):
             multiple = self.multiple
         elif isinstance(self.multiple, float) or isinstance(self.multiple, int):
-            multiple = types.RealOrJump(self.multiple)
+            multiple = types.Real(self.multiple)
         elif isinstance(self.multiple, str):
-            multiple = types.RealOrJump.from_mcnp(self.multiple)
+            multiple = types.Real.from_mcnp(self.multiple)
 
         return Factor(
             multiple=multiple,

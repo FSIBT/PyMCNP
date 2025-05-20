@@ -21,16 +21,13 @@ class De(DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'method': types.String,
-        'values': types.Tuple[types.RealOrJump],
+        'values': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Ade(\d+)( (?:log|lin))?((?: {types.RealOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Ade(\d+)( (?:log|lin))?((?: {types.Real._REGEX.pattern})+?)\Z')
 
     def __init__(
-        self,
-        suffix: types.Integer,
-        values: types.Tuple[types.RealOrJump],
-        method: types.String = None,
+        self, suffix: types.Integer, values: types.Tuple[types.Real], method: types.String = None
     ):
         """
         Initializes ``De``.
@@ -44,7 +41,7 @@ class De(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix <= 99_999_999):
+        if suffix is None or not (suffix.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if method is not None and method not in {'log', 'lin'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, method)
@@ -60,7 +57,7 @@ class De(DataOption):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.method: typing.Final[types.String] = method
-        self.values: typing.Final[types.Tuple[types.RealOrJump]] = values
+        self.values: typing.Final[types.Tuple[types.Real]] = values
 
 
 @dataclasses.dataclass
@@ -75,7 +72,7 @@ class DeBuilder:
     """
 
     suffix: str | int | types.Integer
-    values: list[str] | list[float] | list[types.RealOrJump]
+    values: list[str] | list[float] | list[types.Real]
     method: str | types.String = None
 
     def build(self):
@@ -103,12 +100,12 @@ class DeBuilder:
         if self.values:
             values = []
             for item in self.values:
-                if isinstance(item, types.RealOrJump):
+                if isinstance(item, types.Real):
                     values.append(item)
                 elif isinstance(item, float) or isinstance(item, int):
-                    values.append(types.RealOrJump(item))
+                    values.append(types.Real(item))
                 elif isinstance(item, str):
-                    values.append(types.RealOrJump.from_mcnp(item))
+                    values.append(types.Real.from_mcnp(item))
             values = types.Tuple(values)
         else:
             values = None

@@ -1,42 +1,8 @@
 import pymcnp
-import _utils
+from ... import _utils
 
 
-class Test_Surface:
-    class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.Surface
-        EXAMPLES_VALID = [
-            '1 PY 3',
-            '3 K/Y 0 0 2 0.25 1',
-            '11 GQ 1 0.25 0.75 0 -0.866 0 -12 -2 3.464 39',
-            '11 7 CX 1',
-            '12 X 7 5 3 2 4 3',
-            '12 Y 1 2 1 3 3 4',
-            '12 Y 3 0 4 1 5 0',
-            '12 Z 1 0 2 1 3 4',
-            '12 Z 2 1 3 4 5 9.380832',
-            '5 rpp -2 0 -2 0 -1 1',
-            '1 rpp 0 2 0 2 -1 1',
-            '99 py -2',
-            '17 4 RCC 0 0 0 0 12 0 5',
-            '11 4 PX 5',
-            '11 PY 4.1',
-            '1 px 0',
-            '2 px 50',
-            '3 py 10',
-            '4 py -10',
-            '5 pz 5',
-            '6 pz -5',
-            '7 px 10',
-            '8 py 0',
-            '10 py 10',
-            '11 s 5 5 0 4',
-            '11 s 5 5 0 4',
-        ]
-        EXAMPLES_INVALID = []
-
-
-class Test_SurfaceP_0:
+class Test_P_0:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.P_0
         EXAMPLES_VALID = []
@@ -63,7 +29,7 @@ class Test_SurfaceP_0:
         ]
 
 
-class Test_SurfaceP_1:
+class Test_P_1:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.P_1
         EXAMPLES_VALID = []
@@ -215,7 +181,7 @@ class Test_SurfaceP_1:
         ]
 
 
-class Test_SurfacePx:
+class Test_Px:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Px
         EXAMPLES_VALID = []
@@ -239,7 +205,7 @@ class Test_SurfacePx:
         ]
 
 
-class Test_SurfacePy:
+class Test_Py:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Py
         EXAMPLES_VALID = []
@@ -263,7 +229,7 @@ class Test_SurfacePy:
         ]
 
 
-class Test_SurfacePz:
+class Test_Pz:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Pz
         EXAMPLES_VALID = []
@@ -287,7 +253,7 @@ class Test_SurfacePz:
         ]
 
 
-class Test_SurfaceSo:
+class Test_So:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.So
         EXAMPLES_VALID = []
@@ -311,7 +277,7 @@ class Test_SurfaceSo:
         ]
 
 
-class Test_SurfaceS:
+class Test_S:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.S
         EXAMPLES_VALID = []
@@ -338,7 +304,7 @@ class Test_SurfaceS:
         ]
 
 
-class Test_SurfaceSx:
+class Test_Sx:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Sx
         EXAMPLES_VALID = []
@@ -363,7 +329,7 @@ class Test_SurfaceSx:
         ]
 
 
-class Test_SurfaceSy:
+class Test_Sy:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Sy
         EXAMPLES_VALID = []
@@ -388,7 +354,7 @@ class Test_SurfaceSy:
         ]
 
 
-class Test_SurfaceSz:
+class Test_Sz:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Sz
         EXAMPLES_VALID = []
@@ -413,7 +379,7 @@ class Test_SurfaceSz:
         ]
 
 
-class Test_SurfaceC_x:
+class Test_C_x:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.C_x
         EXAMPLES_VALID = []
@@ -439,7 +405,7 @@ class Test_SurfaceC_x:
         ]
 
 
-class Test_SurfaceC_y:
+class Test_C_y:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.C_y
         EXAMPLES_VALID = []
@@ -465,7 +431,7 @@ class Test_SurfaceC_y:
         ]
 
 
-class Test_SurfaceC_z:
+class Test_C_z:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.C_z
         EXAMPLES_VALID = []
@@ -491,7 +457,7 @@ class Test_SurfaceC_z:
         ]
 
 
-class Test_SurfaceCx:
+class Test_Cx:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Cx
         EXAMPLES_VALID = []
@@ -515,7 +481,7 @@ class Test_SurfaceCx:
         ]
 
 
-class Test_SurfaceCy:
+class Test_Cy:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Cy
         EXAMPLES_VALID = []
@@ -539,7 +505,7 @@ class Test_SurfaceCy:
         ]
 
 
-class Test_SurfaceCz:
+class Test_Cz:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Cz
         EXAMPLES_VALID = []
@@ -563,7 +529,7 @@ class Test_SurfaceCz:
         ]
 
 
-class Test_SurfaceK_x:
+class Test_K_x:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.K_x
         EXAMPLES_VALID = []
@@ -595,7 +561,7 @@ class Test_SurfaceK_x:
         ]
 
 
-class Test_SurfaceK_y:
+class Test_K_y:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.K_y
         EXAMPLES_VALID = []
@@ -627,7 +593,7 @@ class Test_SurfaceK_y:
         ]
 
 
-class Test_SurfaceK_z:
+class Test_K_z:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.K_z
         EXAMPLES_VALID = []
@@ -659,7 +625,7 @@ class Test_SurfaceK_z:
         ]
 
 
-class Test_SurfaceKx:
+class Test_Kx:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Kx
         EXAMPLES_VALID = []
@@ -683,7 +649,7 @@ class Test_SurfaceKx:
         ]
 
 
-class Test_SurfaceKy:
+class Test_Ky:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Ky
         EXAMPLES_VALID = []
@@ -707,7 +673,7 @@ class Test_SurfaceKy:
         ]
 
 
-class Test_SurfaceKz:
+class Test_Kz:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Kz
         EXAMPLES_VALID = []
@@ -731,7 +697,7 @@ class Test_SurfaceKz:
         ]
 
 
-class Test_SurfaceSq:
+class Test_Sq:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Sq
         EXAMPLES_VALID = []
@@ -901,7 +867,7 @@ class Test_SurfaceSq:
         ]
 
 
-class Test_SurfaceGq:
+class Test_Gq:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Gq
         EXAMPLES_VALID = []
@@ -1071,7 +1037,7 @@ class Test_SurfaceGq:
         ]
 
 
-class Test_SurfaceTx:
+class Test_Tx:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Tx
         EXAMPLES_VALID = []
@@ -1105,7 +1071,7 @@ class Test_SurfaceTx:
         ]
 
 
-class Test_SurfaceTy:
+class Test_Ty:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Ty
         EXAMPLES_VALID = []
@@ -1139,7 +1105,7 @@ class Test_SurfaceTy:
         ]
 
 
-class Test_SurfaceTz:
+class Test_Tz:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Tz
         EXAMPLES_VALID = []
@@ -1173,7 +1139,7 @@ class Test_SurfaceTz:
         ]
 
 
-class Test_SurfaceX:
+class Test_X:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.X
         EXAMPLES_VALID = []
@@ -1203,7 +1169,7 @@ class Test_SurfaceX:
         ]
 
 
-class Test_SurfaceY:
+class Test_Y:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Y
         EXAMPLES_VALID = []
@@ -1233,7 +1199,7 @@ class Test_SurfaceY:
         ]
 
 
-class Test_SurfaceZ:
+class Test_Z:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Z
         EXAMPLES_VALID = []
@@ -1263,7 +1229,7 @@ class Test_SurfaceZ:
         ]
 
 
-class Test_SurfaceBox:
+class Test_Box:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Box
         EXAMPLES_VALID = [
@@ -1495,7 +1461,7 @@ class Test_SurfaceBox:
         ]
 
 
-class Test_SurfaceRpp:
+class Test_Rpp:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Rpp
         EXAMPLES_VALID = []
@@ -1578,7 +1544,7 @@ class Test_SurfaceRpp:
         ]
 
 
-class Test_SurfaceSph:
+class Test_Sph:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Sph
         EXAMPLES_VALID = []
@@ -1603,7 +1569,7 @@ class Test_SurfaceSph:
         ]
 
 
-class Test_SurfaceRcc:
+class Test_Rcc:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Rcc
         EXAMPLES_VALID = [
@@ -1705,7 +1671,7 @@ class Test_SurfaceRcc:
         ]
 
 
-class Test_SurfaceRhp:
+class Test_Rhp:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Rhp
         EXAMPLES_VALID = []
@@ -2029,7 +1995,7 @@ class Test_SurfaceRhp:
         ]
 
 
-class Test_SurfaceRec:
+class Test_Rec:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Rec
         EXAMPLES_VALID = []
@@ -2259,7 +2225,7 @@ class Test_SurfaceRec:
         ]
 
 
-class Test_SurfaceTrc:
+class Test_Trc:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Trc
         EXAMPLES_VALID = [
@@ -2391,7 +2357,7 @@ class Test_SurfaceTrc:
         ]
 
 
-class Test_SurfaceEll:
+class Test_Ell:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Ell
         EXAMPLES_VALID = [
@@ -2497,7 +2463,7 @@ class Test_SurfaceEll:
         ]
 
 
-class Test_SurfaceWed:
+class Test_Wed:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Wed
         EXAMPLES_VALID = [
@@ -2729,7 +2695,7 @@ class Test_SurfaceWed:
         ]
 
 
-class Test_SurfaceArb:
+class Test_Arb:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.surface.Arb
         EXAMPLES_VALID = [

@@ -33,7 +33,7 @@ class Fission(ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if kind is None or type not in {'none', 'n,p,e,f,a', 'all'}:
+        if kind is None or kind not in {'none', 'n,p,e,f,a', 'all'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

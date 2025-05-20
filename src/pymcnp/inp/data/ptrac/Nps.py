@@ -17,12 +17,12 @@ class Nps(PtracOption):
     """
 
     _ATTRS = {
-        'particles': types.Tuple[types.IntegerOrJump],
+        'particles': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Anps((?: {types.IntegerOrJump._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Anps((?: {types.Integer._REGEX.pattern})+?)\Z')
 
-    def __init__(self, particles: types.Tuple[types.IntegerOrJump]):
+    def __init__(self, particles: types.Tuple[types.Integer]):
         """
         Initializes ``Nps``.
 
@@ -42,7 +42,7 @@ class Nps(PtracOption):
             ]
         )
 
-        self.particles: typing.Final[types.Tuple[types.IntegerOrJump]] = particles
+        self.particles: typing.Final[types.Tuple[types.Integer]] = particles
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class NpsBuilder:
         particles: Sets the range of particle histories for which events will be output.
     """
 
-    particles: list[str] | list[int] | list[types.IntegerOrJump]
+    particles: list[str] | list[int] | list[types.Integer]
 
     def build(self):
         """
@@ -67,12 +67,12 @@ class NpsBuilder:
         if self.particles:
             particles = []
             for item in self.particles:
-                if isinstance(item, types.IntegerOrJump):
+                if isinstance(item, types.Integer):
                     particles.append(item)
                 elif isinstance(item, int):
-                    particles.append(types.IntegerOrJump(item))
+                    particles.append(types.Integer(item))
                 elif isinstance(item, str):
-                    particles.append(types.IntegerOrJump.from_mcnp(item))
+                    particles.append(types.Integer.from_mcnp(item))
             particles = types.Tuple(particles)
         else:
             particles = None

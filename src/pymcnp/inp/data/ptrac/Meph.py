@@ -17,12 +17,12 @@ class Meph(PtracOption):
     """
 
     _ATTRS = {
-        'events': types.IntegerOrJump,
+        'events': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Ameph( {types.IntegerOrJump._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ameph( {types.Integer._REGEX.pattern})\Z')
 
-    def __init__(self, events: types.IntegerOrJump):
+    def __init__(self, events: types.Integer):
         """
         Initializes ``Meph``.
 
@@ -33,7 +33,7 @@ class Meph(PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if events is None or not (events > 0):
+        if events is None or not (events.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, events)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -42,7 +42,7 @@ class Meph(PtracOption):
             ]
         )
 
-        self.events: typing.Final[types.IntegerOrJump] = events
+        self.events: typing.Final[types.Integer] = events
 
 
 @dataclasses.dataclass
@@ -54,7 +54,7 @@ class MephBuilder:
         events: Maximum number of events per history to write.
     """
 
-    events: str | int | types.IntegerOrJump
+    events: str | int | types.Integer
 
     def build(self):
         """
@@ -68,9 +68,9 @@ class MephBuilder:
         if isinstance(self.events, types.Integer):
             events = self.events
         elif isinstance(self.events, int):
-            events = types.IntegerOrJump(self.events)
+            events = types.Integer(self.events)
         elif isinstance(self.events, str):
-            events = types.IntegerOrJump.from_mcnp(self.events)
+            events = types.Integer.from_mcnp(self.events)
 
         return Meph(
             events=events,

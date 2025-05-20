@@ -38,9 +38,9 @@ class Nps(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if npp is None or not (npp > 0):
+        if npp is None or not (npp.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npp)
-        if npsmg is not None and not (npsmg > 0):
+        if npsmg is not None and not (npsmg.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npsmg)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

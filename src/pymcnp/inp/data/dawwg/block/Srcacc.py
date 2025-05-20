@@ -33,7 +33,7 @@ class Srcacc(BlockOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting not in {'dsa', 'tsa', 'no'}:
+        if setting is None or setting.value not in {'dsa', 'tsa', 'no'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
