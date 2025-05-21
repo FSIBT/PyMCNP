@@ -15,7 +15,7 @@ print('\n### WATER ###')
 water = pymcnp.inp.Material.from_formula(
     0,
     {'H2O': 1},
-    atomic_or_weight=True,
+    is_weight=True,
 )
 print(water.to_mcnp())
 
@@ -31,7 +31,7 @@ clinker_concrete = pymcnp.inp.Material.from_formula(
         'K2O': 0.010,
         'CaSO4H4O2': 0.050,
     },
-    atomic_or_weight=False,
+    is_weight=False,
 )
 print(clinker_concrete.to_mcnp())
 
@@ -39,6 +39,6 @@ print('\n### LANTHANUM(III) BROMIDE ###')
 labr3 = pymcnp.inp.Material.from_formula(
     2,
     {'LaBr3': 1},
-    atomic_or_weight=True,
+    is_weight=True,
 )
 print(labr3.to_mcnp())

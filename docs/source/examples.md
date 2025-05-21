@@ -41,7 +41,7 @@ Creating a material input for water:
     water = pymcnp.inp.Material.from_formula(
         0,
         {'H2O': 1},
-        atomic_or_weight=True,
+        is_weight=True,
     )
     print(water.to_mcnp())
 
@@ -67,7 +67,7 @@ Using a combination of more complicated materials:
             'K2O': 0.010,
             'CaSO4H4O2': 0.050,
         },
-        atomic_or_weight=False,
+        is_weight=False,
     )
     print(clinker_concrete.to_mcnp())
 

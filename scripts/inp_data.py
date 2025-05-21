@@ -4375,14 +4375,14 @@ cards = ElementScheme(
                     ],
                     extra='''
     @staticmethod
-    def from_formula(number: int, formulas: dict[str, float], atomic_or_weight: bool = True):
+    def from_formula(number: int, formulas: dict[str, float], is_weight: bool = True):
         """
         Generates ``M_0`` from INP.
 
         Parameters:
             number: Arbitrary material number.
             formulas: Dictionary of formulas and atomic/weight fractions.
-            atomic_or_weight: Atomtic/Weight fraction true/false flag.
+            is_weight: Weight (atmoic) fraction true (false) flag.
 
         Returns:
             ``M_0`` object.
@@ -4397,7 +4397,7 @@ cards = ElementScheme(
             for element in composition:
                 compound_fraction = (
                     composition[element].fraction
-                    if atomic_or_weight
+                    if is_weight
                     else composition[element].mass / formula.mass
                 )
 
@@ -4413,7 +4413,7 @@ cards = ElementScheme(
                     types.Substance(
                         zaid,
                         types.Real(
-                            (-1 if atomic_or_weight else 1)
+                            (-1 if is_weight else 1)
                             * mixture_fraction
                             * compound_fraction
                             * isotropic_fraction
