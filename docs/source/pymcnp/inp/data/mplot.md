@@ -1,5 +1,15 @@
 # ``pymcnp.inp.data.mplot`` Subpackage
 
+## Table of Contents
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 1
+
+   mplot/free
+   mplot/contour
+```
+
 ## AST Classes
 
 ### ``Bar`` Class
@@ -401,24 +411,24 @@
    :members:
 ```
 
-### ``XsBu`` Class
+### ``Xs_0`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.mplot.XsBu
+.. autoclass:: pymcnp.inp.data.mplot.Xs_0
    :members:
 ```
 
-### ``XsBu`` Class
+### ``Xs_1`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.mplot.XsBu
+.. autoclass:: pymcnp.inp.data.mplot.Xs_1
    :members:
 ```
 
-### ``XsBu`` Class
+### ``Xs_2`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.mplot.XsBu
+.. autoclass:: pymcnp.inp.data.mplot.Xs_2
    :members:
 ```
 
@@ -858,24 +868,24 @@
    :members:
 ```
 
-### ``XsBuBuilder`` Class
+### ``XsBuilder_0`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.mplot.XsBuBuilder
+.. autoclass:: pymcnp.inp.data.mplot.XsBuilder_0
    :members:
 ```
 
-### ``XsBuBuilder`` Class
+### ``XsBuilder_1`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.mplot.XsBuBuilder
+.. autoclass:: pymcnp.inp.data.mplot.XsBuilder_1
    :members:
 ```
 
-### ``XsBuBuilder`` Class
+### ``XsBuilder_2`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.mplot.XsBuBuilder
+.. autoclass:: pymcnp.inp.data.mplot.XsBuilder_2
    :members:
 ```
 

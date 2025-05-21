@@ -128,13 +128,6 @@
    :members:
 ```
 
-### ``Tmp`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.cell.Tmp
-   :members:
-```
-
 ### ``Tmp_0`` Class
 
 ```{eval-rst}
@@ -344,13 +337,6 @@
 
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.cell.PwtBuilder
-   :members:
-```
-
-### ``TmpBuilder`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.cell.TmpBuilder
    :members:
 ```
 
