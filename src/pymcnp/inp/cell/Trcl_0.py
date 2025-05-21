@@ -33,7 +33,7 @@ class Trcl_0(CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if transformation is None or not (1 <= transformation.value <= 999):
+        if transformation is None or not (0 <= transformation.value <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, transformation)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

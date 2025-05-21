@@ -90,29 +90,33 @@ class Phys_2(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if ides is not None and not (isinstance(ides, types.Jump) or ides.value in {0, 1}):
+        if ides is not None and not (isinstance(ides.value, types.Jump) or ides.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ides)
-        if iphot is not None and not (isinstance(iphot, types.Jump) or iphot.value in {0, 1}):
+        if iphot is not None and not (isinstance(iphot.value, types.Jump) or iphot.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iphot)
-        if ibad is not None and not (isinstance(ibad, types.Jump) or ibad.value in {0, 1}):
+        if ibad is not None and not (isinstance(ibad.value, types.Jump) or ibad.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ibad)
-        if istrg is not None and not (isinstance(istrg, types.Jump) or istrg.value in {0, 1}):
+        if istrg is not None and not (isinstance(istrg.value, types.Jump) or istrg.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, istrg)
-        if xnum is not None and not (isinstance(xnum, types.Jump) or xnum.value >= 0):
+        if xnum is not None and not (isinstance(xnum.value, types.Jump) or xnum.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xnum)
-        if rnok is not None and not (isinstance(rnok, types.Jump) or rnok.value >= 0):
+        if rnok is not None and not (isinstance(rnok.value, types.Jump) or rnok.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rnok)
-        if enum is not None and not (isinstance(enum, types.Jump) or enum.value >= 0):
+        if enum is not None and not (isinstance(enum.value, types.Jump) or enum.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, enum)
-        if numb is not None and not (isinstance(numb, types.Jump) or numb.value >= 0):
+        if numb is not None and not (isinstance(numb.value, types.Jump) or numb.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numb)
         if i_mcs_model is not None and not (
-            isinstance(i_mcs_model, types.Jump) or i_mcs_model.value in {-1, 0}
+            isinstance(i_mcs_model.value, types.Jump) or i_mcs_model.value in {-1, 0}
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
-        if efac is not None and not (isinstance(efac, types.Jump) or 0.8 <= efac.value <= 0.99):
+        if efac is not None and not (
+            isinstance(efac.value, types.Jump) or 0.8 <= efac.value <= 0.99
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, efac)
-        if ckvnum is not None and not (isinstance(ckvnum, types.Jump) or 0 <= ckvnum.value < 1):
+        if ckvnum is not None and not (
+            isinstance(ckvnum.value, types.Jump) or 0 <= ckvnum.value < 1
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ckvnum)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

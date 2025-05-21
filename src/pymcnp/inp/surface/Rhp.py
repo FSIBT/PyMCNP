@@ -50,7 +50,7 @@ class Rhp(SurfaceOption):
     }
 
     _REGEX = re.compile(
-        rf'\Arhp( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Arhp( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?\Z'
     )
 
     def __init__(
@@ -64,12 +64,12 @@ class Rhp(SurfaceOption):
         r1: types.Real,
         r2: types.Real,
         r3: types.Real,
-        s1: types.Real,
-        s2: types.Real,
-        s3: types.Real,
-        t1: types.Real,
-        t2: types.Real,
-        t3: types.Real,
+        s1: types.Real = None,
+        s2: types.Real = None,
+        s3: types.Real = None,
+        t1: types.Real = None,
+        t2: types.Real = None,
+        t3: types.Real = None,
     ):
         """
         Initializes ``Rhp``.
@@ -113,18 +113,6 @@ class Rhp(SurfaceOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r2)
         if r3 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r3)
-        if s1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, s1)
-        if s2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, s2)
-        if s3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, s3)
-        if t1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t1)
-        if t2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t2)
-        if t3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t3)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -220,12 +208,12 @@ class RhpBuilder:
     r1: str | float | types.Real
     r2: str | float | types.Real
     r3: str | float | types.Real
-    s1: str | float | types.Real
-    s2: str | float | types.Real
-    s3: str | float | types.Real
-    t1: str | float | types.Real
-    t2: str | float | types.Real
-    t3: str | float | types.Real
+    s1: str | float | types.Real = None
+    s2: str | float | types.Real = None
+    s3: str | float | types.Real = None
+    t1: str | float | types.Real = None
+    t2: str | float | types.Real = None
+    t3: str | float | types.Real = None
 
     def build(self):
         """

@@ -9,15 +9,6 @@ class Test_Inp:
     Tests ``Inp``.
     """
 
-    class Test_FromMcnp(_utils._Test_FromMcnp):
-        """
-        Tests ``Inp.from_mcnp``.
-        """
-
-        element = pymcnp.Inp
-        EXAMPLES_VALID = []
-        EXAMPLES_INVALID = []
-
     class Test_FromMcnpFile(_utils._Test_FromMcnpFile):
         """
         Tests ``Inp.from_file``.

@@ -1,0 +1,19 @@
+Test of p(1.2GeV)+Pb(208)
+1 1 -11. -1 imp:h 1
+2 0 1 imp:h 0
+
+1 so .01
+
+mode h n
+sdef par h erg=1200 vec 0 0 1 dir 1
+m1 82208 1
+phys:h 1300 j 0
+phys:n 1300 3j 0
+nps 10000
+fc1 *** neutron angle spectra tally ***
+f1:n 1
+ft1 frv 0 0 1
+c fq1 e c
+c *c1 167.5 9i 17.5 0 T
+c e1 1 50log 1300 T
+c lca 2 1 1 23 1 1 0 -2 0
