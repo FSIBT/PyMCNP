@@ -15,6 +15,8 @@ class Noline(ContourOption):
 
     """
 
+    _KEYWORD = 'noline'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Anoline\Z')
@@ -50,6 +52,17 @@ class NolineBuilder:
 
         Returns:
             ``Noline`` for ``NolineBuilder``.
+        """
+
+        return Noline()
+
+    @staticmethod
+    def unbuild(ast: Noline):
+        """
+        Unbuilds ``Noline`` into ``NolineBuilder``
+
+        Returns:
+            ``NolineBuilder`` for ``Noline``.
         """
 
         return Noline()

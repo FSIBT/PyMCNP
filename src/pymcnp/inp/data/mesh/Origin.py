@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Origin(MeshOption):
     Attributes:
         point: Mesh origin point.
     """
+
+    _KEYWORD = 'origin'
 
     _ATTRS = {
         'point': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class OriginBuilder:
 
         return Origin(
             point=point,
+        )
+
+    @staticmethod
+    def unbuild(ast: Origin):
+        """
+        Unbuilds ``Origin`` into ``OriginBuilder``
+
+        Returns:
+            ``OriginBuilder`` for ``Origin``.
+        """
+
+        return Origin(
+            point=copy.deepcopy(ast.point),
         )

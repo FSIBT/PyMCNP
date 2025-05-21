@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Dg(ActOption):
     Attributes:
         source: Delayed gamma data source.
     """
+
+    _KEYWORD = 'dg'
 
     _ATTRS = {
         'source': types.String,
@@ -72,4 +75,17 @@ class DgBuilder:
 
         return Dg(
             source=source,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dg):
+        """
+        Unbuilds ``Dg`` into ``DgBuilder``
+
+        Returns:
+            ``DgBuilder`` for ``Dg``.
+        """
+
+        return Dg(
+            source=copy.deepcopy(ast.source),
         )

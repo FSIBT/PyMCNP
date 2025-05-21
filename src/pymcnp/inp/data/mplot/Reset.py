@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Reset(MplotOption):
     Attributes:
         aa: Command parameter reset.
     """
+
+    _KEYWORD = 'reset'
 
     _ATTRS = {
         'aa': types.String,
@@ -72,4 +75,17 @@ class ResetBuilder:
 
         return Reset(
             aa=aa,
+        )
+
+    @staticmethod
+    def unbuild(ast: Reset):
+        """
+        Unbuilds ``Reset`` into ``ResetBuilder``
+
+        Returns:
+            ``ResetBuilder`` for ``Reset``.
+        """
+
+        return Reset(
+            aa=copy.deepcopy(ast.aa),
         )

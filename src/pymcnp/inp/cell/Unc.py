@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Unc(CellOption):
         designator: Cell particle designator.
         setting: Cell uncollided secondaries setting.
     """
+
+    _KEYWORD = 'unc'
 
     _ATTRS = {
         'designator': types.Designator,
@@ -89,4 +92,18 @@ class UncBuilder:
         return Unc(
             designator=designator,
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Unc):
+        """
+        Unbuilds ``Unc`` into ``UncBuilder``
+
+        Returns:
+            ``UncBuilder`` for ``Unc``.
+        """
+
+        return Unc(
+            designator=copy.deepcopy(ast.designator),
+            setting=copy.deepcopy(ast.setting),
         )

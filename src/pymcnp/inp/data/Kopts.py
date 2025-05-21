@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Kopts(DataOption):
     Attributes:
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'kopts'
 
     _ATTRS = {
         'options': types.Tuple[kopts.KoptsOption],
@@ -76,4 +79,17 @@ class KoptsBuilder:
 
         return Kopts(
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Kopts):
+        """
+        Unbuilds ``Kopts`` into ``KoptsBuilder``
+
+        Returns:
+            ``KoptsBuilder`` for ``Kopts``.
+        """
+
+        return Kopts(
+            options=copy.deepcopy(ast.options),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ngroup(BlockOption):
     Attributes:
         value: Number of energy groups.
     """
+
+    _KEYWORD = 'ngroup'
 
     _ATTRS = {
         'value': types.Integer,
@@ -74,4 +77,17 @@ class NgroupBuilder:
 
         return Ngroup(
             value=value,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ngroup):
+        """
+        Unbuilds ``Ngroup`` into ``NgroupBuilder``
+
+        Returns:
+            ``NgroupBuilder`` for ``Ngroup``.
+        """
+
+        return Ngroup(
+            value=copy.deepcopy(ast.value),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Wwgt(DataOption):
     Attributes:
         bounds: Upper time bound for weight-window group to be generated.
     """
+
+    _KEYWORD = 'wwgt'
 
     _ATTRS = {
         'bounds': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class WwgtBuilder:
 
         return Wwgt(
             bounds=bounds,
+        )
+
+    @staticmethod
+    def unbuild(ast: Wwgt):
+        """
+        Unbuilds ``Wwgt`` into ``WwgtBuilder``
+
+        Returns:
+            ``WwgtBuilder`` for ``Wwgt``.
+        """
+
+        return Wwgt(
+            bounds=copy.deepcopy(ast.bounds),
         )

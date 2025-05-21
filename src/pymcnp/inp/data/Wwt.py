@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Wwt(DataOption):
         designator: Data card particle designator.
         bounds: Upper time bound.
     """
+
+    _KEYWORD = 'wwt'
 
     _ATTRS = {
         'designator': types.Designator,
@@ -94,4 +97,18 @@ class WwtBuilder:
         return Wwt(
             designator=designator,
             bounds=bounds,
+        )
+
+    @staticmethod
+    def unbuild(ast: Wwt):
+        """
+        Unbuilds ``Wwt`` into ``WwtBuilder``
+
+        Returns:
+            ``WwtBuilder`` for ``Wwt``.
+        """
+
+        return Wwt(
+            designator=copy.deepcopy(ast.designator),
+            bounds=copy.deepcopy(ast.bounds),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Cm(DataOption):
         suffix: Data card option suffix.
         multipliers: Cosine bin multiplier to apply.
     """
+
+    _KEYWORD = 'cm'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class CmBuilder:
         return Cm(
             suffix=suffix,
             multipliers=multipliers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cm):
+        """
+        Unbuilds ``Cm`` into ``CmBuilder``
+
+        Returns:
+            ``CmBuilder`` for ``Cm``.
+        """
+
+        return Cm(
+            suffix=copy.deepcopy(ast.suffix),
+            multipliers=copy.deepcopy(ast.multipliers),
         )

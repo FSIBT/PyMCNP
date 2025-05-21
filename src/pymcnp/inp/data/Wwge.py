@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Wwge(DataOption):
     Attributes:
         bounds: Upper energy bound for weight-window group to be generated.
     """
+
+    _KEYWORD = 'wwge'
 
     _ATTRS = {
         'bounds': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class WwgeBuilder:
 
         return Wwge(
             bounds=bounds,
+        )
+
+    @staticmethod
+    def unbuild(ast: Wwge):
+        """
+        Unbuilds ``Wwge`` into ``WwgeBuilder``
+
+        Returns:
+            ``WwgeBuilder`` for ``Wwge``.
+        """
+
+        return Wwge(
+            bounds=copy.deepcopy(ast.bounds),
         )

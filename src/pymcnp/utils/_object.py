@@ -40,7 +40,7 @@ class McnpTerminal(metaclass=McnpTerminalMeta):
 
 
 class McnpNonterminalMeta(abc.ABCMeta):
-    """ """
+    pass
 
 
 class McnpNonterminal(metaclass=McnpNonterminalMeta):
@@ -79,7 +79,11 @@ class McnpNonterminal(metaclass=McnpNonterminalMeta):
         return (a.__dict__ if a else None) == (b.__dict__ if b else None)
 
 
-class McnpFile(McnpNonterminal):
+class McnpFileMeta(abc.ABCMeta, McnpNonterminal):
+    pass
+
+
+class McnpFile(metaclass=McnpFileMeta):
     """
     Represents generic MCNP files.
     """
@@ -119,3 +123,11 @@ class McnpFile(McnpNonterminal):
             raise errors.CliError(errors.CliCode.SEMANTICS_PATH, filename)
 
         filename.write_text(self.to_mcnp())
+
+        assert False
+
+    def __str__(self):
+        return self.to_mcnp()
+
+    def __eq__(a, b):
+        return (a.__dict__ if a else None) == (b.__dict__ if b else None)

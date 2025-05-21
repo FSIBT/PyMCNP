@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -14,6 +15,8 @@ class Dump(MplotOption):
     Attributes:
         n: RUNTPE read dump number.
     """
+
+    _KEYWORD = 'dump'
 
     _ATTRS = {
         'n': types.Integer,
@@ -70,4 +73,17 @@ class DumpBuilder:
 
         return Dump(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dump):
+        """
+        Unbuilds ``Dump`` into ``DumpBuilder``
+
+        Returns:
+            ``DumpBuilder`` for ``Dump``.
+        """
+
+        return Dump(
+            n=copy.deepcopy(ast.n),
         )

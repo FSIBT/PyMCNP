@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nrm(SdefOption):
     Attributes:
         sign: Sign of the surface normal.
     """
+
+    _KEYWORD = 'nrm'
 
     _ATTRS = {
         'sign': types.Integer,
@@ -74,4 +77,17 @@ class NrmBuilder:
 
         return Nrm(
             sign=sign,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nrm):
+        """
+        Unbuilds ``Nrm`` into ``NrmBuilder``
+
+        Returns:
+            ``NrmBuilder`` for ``Nrm``.
+        """
+
+        return Nrm(
+            sign=copy.deepcopy(ast.sign),
         )

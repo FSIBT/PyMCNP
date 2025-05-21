@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fmrelerr(MplotOption):
     Attributes:
         n: Tally error to plot.
     """
+
+    _KEYWORD = 'fmrelerr'
 
     _ATTRS = {
         'n': types.Integer,
@@ -74,4 +77,17 @@ class FmrelerrBuilder:
 
         return Fmrelerr(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fmrelerr):
+        """
+        Unbuilds ``Fmrelerr`` into ``FmrelerrBuilder``
+
+        Returns:
+            ``FmrelerrBuilder`` for ``Fmrelerr``.
+        """
+
+        return Fmrelerr(
+            n=copy.deepcopy(ast.n),
         )

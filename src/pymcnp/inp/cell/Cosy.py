@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Cosy(CellOption):
     Attributes:
         number: Cell cosy map number.
     """
+
+    _KEYWORD = 'cosy'
 
     _ATTRS = {
         'number': types.Integer,
@@ -74,4 +77,17 @@ class CosyBuilder:
 
         return Cosy(
             number=number,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cosy):
+        """
+        Unbuilds ``Cosy`` into ``CosyBuilder``
+
+        Returns:
+            ``CosyBuilder`` for ``Cosy``.
+        """
+
+        return Cosy(
+            number=copy.deepcopy(ast.number),
         )

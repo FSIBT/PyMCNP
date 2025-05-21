@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Block(DawwgOption):
         setting: Destination of key-value pairs.
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'block'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -98,4 +101,18 @@ class BlockBuilder:
         return Block(
             setting=setting,
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Block):
+        """
+        Unbuilds ``Block`` into ``BlockBuilder``
+
+        Returns:
+            ``BlockBuilder`` for ``Block``.
+        """
+
+        return Block(
+            setting=copy.deepcopy(ast.setting),
+            options=copy.deepcopy(ast.options),
         )

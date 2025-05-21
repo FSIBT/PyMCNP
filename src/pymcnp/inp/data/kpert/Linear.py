@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Linear(KpertOption):
     Attributes:
         setting: Pertubated fission source on/off.
     """
+
+    _KEYWORD = 'linear'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class LinearBuilder:
 
         return Linear(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Linear):
+        """
+        Unbuilds ``Linear`` into ``LinearBuilder``
+
+        Returns:
+            ``LinearBuilder`` for ``Linear``.
+        """
+
+        return Linear(
+            setting=copy.deepcopy(ast.setting),
         )

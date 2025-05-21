@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Rmflux(BlockOption):
     Attributes:
         setting: Prepare flux moments file on/off.
     """
+
+    _KEYWORD = 'rmflux'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class RmfluxBuilder:
 
         return Rmflux(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Rmflux):
+        """
+        Unbuilds ``Rmflux`` into ``RmfluxBuilder``
+
+        Returns:
+            ``RmfluxBuilder`` for ``Rmflux``.
+        """
+
+        return Rmflux(
+            setting=copy.deepcopy(ast.setting),
         )

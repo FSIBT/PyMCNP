@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -20,6 +21,8 @@ class Y(SurfaceOption):
         y3: Y-axisymmetric point-defined surface point #3 y component.
         r3: Y-axisymmetric point-defined surface point #3 radius.
     """
+
+    _KEYWORD = 'y'
 
     _ATTRS = {
         'y1': types.Real,
@@ -174,4 +177,22 @@ class YBuilder:
             r2=r2,
             y3=y3,
             r3=r3,
+        )
+
+    @staticmethod
+    def unbuild(ast: Y):
+        """
+        Unbuilds ``Y`` into ``YBuilder``
+
+        Returns:
+            ``YBuilder`` for ``Y``.
+        """
+
+        return Y(
+            y1=copy.deepcopy(ast.y1),
+            r1=copy.deepcopy(ast.r1),
+            y2=copy.deepcopy(ast.y2),
+            r2=copy.deepcopy(ast.r2),
+            y3=copy.deepcopy(ast.y3),
+            r3=copy.deepcopy(ast.r3),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nescat(TroptOption):
     Attributes:
         setting: Nuclear elastic scattering setting.
     """
+
+    _KEYWORD = 'nescat'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class NescatBuilder:
 
         return Nescat(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nescat):
+        """
+        Unbuilds ``Nescat`` into ``NescatBuilder``
+
+        Returns:
+            ``NescatBuilder`` for ``Nescat``.
+        """
+
+        return Nescat(
+            setting=copy.deepcopy(ast.setting),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Jints(MeshOption):
     Attributes:
         number: Number of fine meshes within corresponding coarse meshes in the y/z directions.
     """
+
+    _KEYWORD = 'jints'
 
     _ATTRS = {
         'number': types.Integer,
@@ -74,4 +77,17 @@ class JintsBuilder:
 
         return Jints(
             number=number,
+        )
+
+    @staticmethod
+    def unbuild(ast: Jints):
+        """
+        Unbuilds ``Jints`` into ``JintsBuilder``
+
+        Returns:
+            ``JintsBuilder`` for ``Jints``.
+        """
+
+        return Jints(
+            number=copy.deepcopy(ast.number),
         )

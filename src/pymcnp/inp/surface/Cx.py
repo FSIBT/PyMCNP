@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Cx(SurfaceOption):
     Attributes:
         r: On-x-axis cylinder radius.
     """
+
+    _KEYWORD = 'cx'
 
     _ATTRS = {
         'r': types.Real,
@@ -88,4 +91,17 @@ class CxBuilder:
 
         return Cx(
             r=r,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cx):
+        """
+        Unbuilds ``Cx`` into ``CxBuilder``
+
+        Returns:
+            ``CxBuilder`` for ``Cx``.
+        """
+
+        return Cx(
+            r=copy.deepcopy(ast.r),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tr(FmeshOption):
     Attributes:
         number: Transformation applied to the mesh.
     """
+
+    _KEYWORD = 'tr'
 
     _ATTRS = {
         'number': types.Integer,
@@ -74,4 +77,17 @@ class TrBuilder:
 
         return Tr(
             number=number,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tr):
+        """
+        Unbuilds ``Tr`` into ``TrBuilder``
+
+        Returns:
+            ``TrBuilder`` for ``Tr``.
+        """
+
+        return Tr(
+            number=copy.deepcopy(ast.number),
         )

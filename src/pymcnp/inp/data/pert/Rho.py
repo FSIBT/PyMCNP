@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Rho(PertOption):
     Attributes:
         density: Perturbed density.
     """
+
+    _KEYWORD = 'rho'
 
     _ATTRS = {
         'density': types.Real,
@@ -74,4 +77,17 @@ class RhoBuilder:
 
         return Rho(
             density=density,
+        )
+
+    @staticmethod
+    def unbuild(ast: Rho):
+        """
+        Unbuilds ``Rho`` into ``RhoBuilder``
+
+        Returns:
+            ``RhoBuilder`` for ``Rho``.
+        """
+
+        return Rho(
+            density=copy.deepcopy(ast.density),
         )

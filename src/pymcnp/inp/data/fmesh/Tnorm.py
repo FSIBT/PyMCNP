@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tnorm(FmeshOption):
     Attributes:
         setting: Tally results divided by time yes/no.
     """
+
+    _KEYWORD = 'tnorm'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class TnormBuilder:
 
         return Tnorm(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tnorm):
+        """
+        Unbuilds ``Tnorm`` into ``TnormBuilder``
+
+        Returns:
+            ``TnormBuilder`` for ``Tnorm``.
+        """
+
+        return Tnorm(
+            setting=copy.deepcopy(ast.setting),
         )

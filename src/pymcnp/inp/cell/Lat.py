@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Lat(CellOption):
     Attributes:
         shape: Cell lattice shape.
     """
+
+    _KEYWORD = 'lat'
 
     _ATTRS = {
         'shape': types.Integer,
@@ -74,4 +77,17 @@ class LatBuilder:
 
         return Lat(
             shape=shape,
+        )
+
+    @staticmethod
+    def unbuild(ast: Lat):
+        """
+        Unbuilds ``Lat`` into ``LatBuilder``
+
+        Returns:
+            ``LatBuilder`` for ``Lat``.
+        """
+
+        return Lat(
+            shape=copy.deepcopy(ast.shape),
         )

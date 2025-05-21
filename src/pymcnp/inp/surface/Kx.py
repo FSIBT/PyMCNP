@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class Kx(SurfaceOption):
         t_squared: On-x-axis cone t^2 coefficent.
         plusminus_1: On-x-axis cone sheet selector.
     """
+
+    _KEYWORD = 'kx'
 
     _ATTRS = {
         'x': types.Real,
@@ -129,4 +132,19 @@ class KxBuilder:
             x=x,
             t_squared=t_squared,
             plusminus_1=plusminus_1,
+        )
+
+    @staticmethod
+    def unbuild(ast: Kx):
+        """
+        Unbuilds ``Kx`` into ``KxBuilder``
+
+        Returns:
+            ``KxBuilder`` for ``Kx``.
+        """
+
+        return Kx(
+            x=copy.deepcopy(ast.x),
+            t_squared=copy.deepcopy(ast.t_squared),
+            plusminus_1=copy.deepcopy(ast.plusminus_1),
         )

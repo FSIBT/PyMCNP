@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Field(BfldOption):
     Attributes:
         strength_gradient: Magnetic field strength/gradient.
     """
+
+    _KEYWORD = 'field'
 
     _ATTRS = {
         'strength_gradient': types.Real,
@@ -74,4 +77,17 @@ class FieldBuilder:
 
         return Field(
             strength_gradient=strength_gradient,
+        )
+
+    @staticmethod
+    def unbuild(ast: Field):
+        """
+        Unbuilds ``Field`` into ``FieldBuilder``
+
+        Returns:
+            ``FieldBuilder`` for ``Field``.
+        """
+
+        return Field(
+            strength_gradient=copy.deepcopy(ast.strength_gradient),
         )

@@ -15,6 +15,8 @@ class Nocolor(ContourOption):
 
     """
 
+    _KEYWORD = 'nocolor'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Anocolor\Z')
@@ -50,6 +52,17 @@ class NocolorBuilder:
 
         Returns:
             ``Nocolor`` for ``NocolorBuilder``.
+        """
+
+        return Nocolor()
+
+    @staticmethod
+    def unbuild(ast: Nocolor):
+        """
+        Unbuilds ``Nocolor`` into ``NocolorBuilder``
+
+        Returns:
+            ``NocolorBuilder`` for ``Nocolor``.
         """
 
         return Nocolor()

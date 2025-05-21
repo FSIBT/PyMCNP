@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Term(MplotOption):
     Attributes:
         n: Output decive specifier.
     """
+
+    _KEYWORD = 'term'
 
     _ATTRS = {
         'n': types.Integer,
@@ -74,4 +77,17 @@ class TermBuilder:
 
         return Term(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Term):
+        """
+        Unbuilds ``Term`` into ``TermBuilder``
+
+        Returns:
+            ``TermBuilder`` for ``Term``.
+        """
+
+        return Term(
+            n=copy.deepcopy(ast.n),
         )

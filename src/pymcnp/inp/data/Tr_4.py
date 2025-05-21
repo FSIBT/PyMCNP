@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -19,6 +20,8 @@ class Tr_4(DataOption):
         z: Displacement vector z component.
         system: Coordinate system setting.
     """
+
+    _KEYWORD = 'tr'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -154,4 +157,21 @@ class TrBuilder_4:
             y=y,
             z=z,
             system=system,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tr_4):
+        """
+        Unbuilds ``Tr_4`` into ``TrBuilder_4``
+
+        Returns:
+            ``TrBuilder_4`` for ``Tr_4``.
+        """
+
+        return Tr_4(
+            suffix=copy.deepcopy(ast.suffix),
+            x=copy.deepcopy(ast.x),
+            y=copy.deepcopy(ast.y),
+            z=copy.deepcopy(ast.z),
+            system=copy.deepcopy(ast.system),
         )

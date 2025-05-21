@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Watt(FmultOption):
         a: Watt energy spectrum parameters a.
         b: Watt energy spectrum parameters b.
     """
+
+    _KEYWORD = 'watt'
 
     _ATTRS = {
         'a': types.Real,
@@ -92,4 +95,18 @@ class WattBuilder:
         return Watt(
             a=a,
             b=b,
+        )
+
+    @staticmethod
+    def unbuild(ast: Watt):
+        """
+        Unbuilds ``Watt`` into ``WattBuilder``
+
+        Returns:
+            ``WattBuilder`` for ``Watt``.
+        """
+
+        return Watt(
+            a=copy.deepcopy(ast.a),
+            b=copy.deepcopy(ast.b),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Lat(DataOption):
     Attributes:
         type: Tuple of lattice types.
     """
+
+    _KEYWORD = 'lat'
 
     _ATTRS = {
         'type': types.Tuple[types.Integer],
@@ -81,4 +84,17 @@ class LatBuilder:
 
         return Lat(
             type=type,
+        )
+
+    @staticmethod
+    def unbuild(ast: Lat):
+        """
+        Unbuilds ``Lat`` into ``LatBuilder``
+
+        Returns:
+            ``LatBuilder`` for ``Lat``.
+        """
+
+        return Lat(
+            type=copy.deepcopy(ast.type),
         )

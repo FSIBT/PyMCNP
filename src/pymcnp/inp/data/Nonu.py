@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nonu(DataOption):
     Attributes:
         settings: Tuple of fission settings.
     """
+
+    _KEYWORD = 'nonu'
 
     _ATTRS = {
         'settings': types.Tuple[types.Integer],
@@ -84,4 +87,17 @@ class NonuBuilder:
 
         return Nonu(
             settings=settings,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nonu):
+        """
+        Unbuilds ``Nonu`` into ``NonuBuilder``
+
+        Returns:
+            ``NonuBuilder`` for ``Nonu``.
+        """
+
+        return Nonu(
+            settings=copy.deepcopy(ast.settings),
         )

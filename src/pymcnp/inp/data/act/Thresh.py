@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Thresh(ActOption):
     Attributes:
         fraction: Fraction of highest-amplitude discrete delayed-gamma lines retained.
     """
+
+    _KEYWORD = 'thresh'
 
     _ATTRS = {
         'fraction': types.Real,
@@ -74,4 +77,17 @@ class ThreshBuilder:
 
         return Thresh(
             fraction=fraction,
+        )
+
+    @staticmethod
+    def unbuild(ast: Thresh):
+        """
+        Unbuilds ``Thresh`` into ``ThreshBuilder``
+
+        Returns:
+            ``ThreshBuilder`` for ``Thresh``.
+        """
+
+        return Thresh(
+            fraction=copy.deepcopy(ast.fraction),
         )

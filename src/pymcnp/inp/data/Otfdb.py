@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Otfdb(DataOption):
     Attributes:
         zaids: Identifiers for the broadening tables.
     """
+
+    _KEYWORD = 'otfdb'
 
     _ATTRS = {
         'zaids': types.Tuple[types.Zaid],
@@ -79,4 +82,17 @@ class OtfdbBuilder:
 
         return Otfdb(
             zaids=zaids,
+        )
+
+    @staticmethod
+    def unbuild(ast: Otfdb):
+        """
+        Unbuilds ``Otfdb`` into ``OtfdbBuilder``
+
+        Returns:
+            ``OtfdbBuilder`` for ``Otfdb``.
+        """
+
+        return Otfdb(
+            zaids=copy.deepcopy(ast.zaids),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -21,6 +22,8 @@ class Tz(SurfaceOption):
         b: Parallel-to-z-axis tori B coefficent.
         c: Parallel-to-z-axis tori C coefficent.
     """
+
+    _KEYWORD = 'tz'
 
     _ATTRS = {
         'x': types.Real,
@@ -188,4 +191,22 @@ class TzBuilder:
             a=a,
             b=b,
             c=c,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tz):
+        """
+        Unbuilds ``Tz`` into ``TzBuilder``
+
+        Returns:
+            ``TzBuilder`` for ``Tz``.
+        """
+
+        return Tz(
+            x=copy.deepcopy(ast.x),
+            y=copy.deepcopy(ast.y),
+            z=copy.deepcopy(ast.z),
+            a=copy.deepcopy(ast.a),
+            b=copy.deepcopy(ast.b),
+            c=copy.deepcopy(ast.c),
         )

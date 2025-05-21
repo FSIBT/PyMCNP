@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nonu(CellOption):
     Attributes:
         setting: Cell fission setting.
     """
+
+    _KEYWORD = 'nonu'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class NonuBuilder:
 
         return Nonu(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nonu):
+        """
+        Unbuilds ``Nonu`` into ``NonuBuilder``
+
+        Returns:
+            ``NonuBuilder`` for ``Nonu``.
+        """
+
+        return Nonu(
+            setting=copy.deepcopy(ast.setting),
         )

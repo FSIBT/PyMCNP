@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ein(KsenOption):
     Attributes:
         energies: List of ranges for incident energies.
     """
+
+    _KEYWORD = 'ein'
 
     _ATTRS = {
         'energies': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class EinBuilder:
 
         return Ein(
             energies=energies,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ein):
+        """
+        Unbuilds ``Ein`` into ``EinBuilder``
+
+        Returns:
+            ``EinBuilder`` for ``Ein``.
+        """
+
+        return Ein(
+            energies=copy.deepcopy(ast.energies),
         )

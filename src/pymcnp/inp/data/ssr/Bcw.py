@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Bcw(SsrOption):
         zb: Bottom of cylindrical window.
         ze: Top of cylindrical window.
     """
+
+    _KEYWORD = 'bcw'
 
     _ATTRS = {
         'radius': types.Real,
@@ -112,4 +115,19 @@ class BcwBuilder:
             radius=radius,
             zb=zb,
             ze=ze,
+        )
+
+    @staticmethod
+    def unbuild(ast: Bcw):
+        """
+        Unbuilds ``Bcw`` into ``BcwBuilder``
+
+        Returns:
+            ``BcwBuilder`` for ``Bcw``.
+        """
+
+        return Bcw(
+            radius=copy.deepcopy(ast.radius),
+            zb=copy.deepcopy(ast.zb),
+            ze=copy.deepcopy(ast.ze),
         )

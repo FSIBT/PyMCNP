@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mt(MplotOption):
     Attributes:
         n: Reaction number to print.
     """
+
+    _KEYWORD = 'mt'
 
     _ATTRS = {
         'n': types.Integer,
@@ -74,4 +77,17 @@ class MtBuilder:
 
         return Mt(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mt):
+        """
+        Unbuilds ``Mt`` into ``MtBuilder``
+
+        Returns:
+            ``MtBuilder`` for ``Mt``.
+        """
+
+        return Mt(
+            n=copy.deepcopy(ast.n),
         )

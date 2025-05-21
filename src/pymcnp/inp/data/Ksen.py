@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class Ksen(DataOption):
         sen: Type of sensitivity.
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'ksen'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -115,4 +118,19 @@ class KsenBuilder:
             suffix=suffix,
             sen=sen,
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ksen):
+        """
+        Unbuilds ``Ksen`` into ``KsenBuilder``
+
+        Returns:
+            ``KsenBuilder`` for ``Ksen``.
+        """
+
+        return Ksen(
+            suffix=copy.deepcopy(ast.suffix),
+            sen=copy.deepcopy(ast.sen),
+            options=copy.deepcopy(ast.options),
         )

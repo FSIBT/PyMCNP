@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -25,6 +26,8 @@ class Tr_1(DataOption):
         yz: Rotation matrix yz' component.
         system: Coordinate system setting.
     """
+
+    _KEYWORD = 'tr'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -268,4 +271,27 @@ class TrBuilder_1:
             yy=yy,
             yz=yz,
             system=system,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tr_1):
+        """
+        Unbuilds ``Tr_1`` into ``TrBuilder_1``
+
+        Returns:
+            ``TrBuilder_1`` for ``Tr_1``.
+        """
+
+        return Tr_1(
+            suffix=copy.deepcopy(ast.suffix),
+            x=copy.deepcopy(ast.x),
+            y=copy.deepcopy(ast.y),
+            z=copy.deepcopy(ast.z),
+            xx=copy.deepcopy(ast.xx),
+            xy=copy.deepcopy(ast.xy),
+            xz=copy.deepcopy(ast.xz),
+            yx=copy.deepcopy(ast.yx),
+            yy=copy.deepcopy(ast.yy),
+            yz=copy.deepcopy(ast.yz),
+            system=copy.deepcopy(ast.system),
         )

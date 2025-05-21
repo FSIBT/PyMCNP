@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -26,6 +27,8 @@ class Fip(DataOption):
         f2: Pinhole radius in the direction perpendiuclar to the reference direction.
         f3: Distance between pinhole and and detector grid.
     """
+
+    _KEYWORD = 'fip'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -284,4 +287,28 @@ class FipBuilder:
             f1=f1,
             f2=f2,
             f3=f3,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fip):
+        """
+        Unbuilds ``Fip`` into ``FipBuilder``
+
+        Returns:
+            ``FipBuilder`` for ``Fip``.
+        """
+
+        return Fip(
+            suffix=copy.deepcopy(ast.suffix),
+            designator=copy.deepcopy(ast.designator),
+            x1=copy.deepcopy(ast.x1),
+            y1=copy.deepcopy(ast.y1),
+            z1=copy.deepcopy(ast.z1),
+            ro=copy.deepcopy(ast.ro),
+            x2=copy.deepcopy(ast.x2),
+            y2=copy.deepcopy(ast.y2),
+            z2=copy.deepcopy(ast.z2),
+            f1=copy.deepcopy(ast.f1),
+            f2=copy.deepcopy(ast.f2),
+            f3=copy.deepcopy(ast.f3),
         )

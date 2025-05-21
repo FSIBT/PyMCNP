@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Sur(SdefOption):
     Attributes:
         number: Surface number.
     """
+
+    _KEYWORD = 'sur'
 
     _ATTRS = {
         'number': types.Integer,
@@ -74,4 +77,17 @@ class SurBuilder:
 
         return Sur(
             number=number,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sur):
+        """
+        Unbuilds ``Sur`` into ``SurBuilder``
+
+        Returns:
+            ``SurBuilder`` for ``Sur``.
+        """
+
+        return Sur(
+            number=copy.deepcopy(ast.number),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Norm(BlockOption):
     Attributes:
         setting: Norm.
     """
+
+    _KEYWORD = 'norm'
 
     _ATTRS = {
         'setting': types.Real,
@@ -74,4 +77,17 @@ class NormBuilder:
 
         return Norm(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Norm):
+        """
+        Unbuilds ``Norm`` into ``NormBuilder``
+
+        Returns:
+            ``NormBuilder`` for ``Norm``.
+        """
+
+        return Norm(
+            setting=copy.deepcopy(ast.setting),
         )

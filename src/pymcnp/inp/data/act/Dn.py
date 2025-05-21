@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Dn(ActOption):
     Attributes:
         source: Delayed neutron data source.
     """
+
+    _KEYWORD = 'dn'
 
     _ATTRS = {
         'source': types.String,
@@ -72,4 +75,17 @@ class DnBuilder:
 
         return Dn(
             source=source,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dn):
+        """
+        Unbuilds ``Dn`` into ``DnBuilder``
+
+        Returns:
+            ``DnBuilder`` for ``Dn``.
+        """
+
+        return Dn(
+            source=copy.deepcopy(ast.source),
         )

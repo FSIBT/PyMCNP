@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Pz(SurfaceOption):
     Attributes:
         d: Normal-to-the-z-axis plane D coefficent.
     """
+
+    _KEYWORD = 'pz'
 
     _ATTRS = {
         'd': types.Real,
@@ -87,4 +90,17 @@ class PzBuilder:
 
         return Pz(
             d=d,
+        )
+
+    @staticmethod
+    def unbuild(ast: Pz):
+        """
+        Unbuilds ``Pz`` into ``PzBuilder``
+
+        Returns:
+            ``PzBuilder`` for ``Pz``.
+        """
+
+        return Pz(
+            d=copy.deepcopy(ast.d),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -27,6 +28,8 @@ class Box(SurfaceOption):
         a3y: Box macrobody vector #3 y component.
         a3z: Box macrobody vector #3 z component.
     """
+
+    _KEYWORD = 'box'
 
     _ATTRS = {
         'vx': types.Real,
@@ -310,4 +313,28 @@ class BoxBuilder:
             a3x=a3x,
             a3y=a3y,
             a3z=a3z,
+        )
+
+    @staticmethod
+    def unbuild(ast: Box):
+        """
+        Unbuilds ``Box`` into ``BoxBuilder``
+
+        Returns:
+            ``BoxBuilder`` for ``Box``.
+        """
+
+        return Box(
+            vx=copy.deepcopy(ast.vx),
+            vy=copy.deepcopy(ast.vy),
+            vz=copy.deepcopy(ast.vz),
+            a1x=copy.deepcopy(ast.a1x),
+            a1y=copy.deepcopy(ast.a1y),
+            a1z=copy.deepcopy(ast.a1z),
+            a2x=copy.deepcopy(ast.a2x),
+            a2y=copy.deepcopy(ast.a2y),
+            a2z=copy.deepcopy(ast.a2z),
+            a3x=copy.deepcopy(ast.a3x),
+            a3y=copy.deepcopy(ast.a3y),
+            a3z=copy.deepcopy(ast.a3z),
         )

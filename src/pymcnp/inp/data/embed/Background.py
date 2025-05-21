@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Background(EmbedOption):
     Attributes:
         number: Background pseudo-cell number.
     """
+
+    _KEYWORD = 'background'
 
     _ATTRS = {
         'number': types.Integer,
@@ -74,4 +77,17 @@ class BackgroundBuilder:
 
         return Background(
             number=number,
+        )
+
+    @staticmethod
+    def unbuild(ast: Background):
+        """
+        Unbuilds ``Background`` into ``BackgroundBuilder``
+
+        Returns:
+            ``BackgroundBuilder`` for ``Background``.
+        """
+
+        return Background(
+            number=copy.deepcopy(ast.number),
         )

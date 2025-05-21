@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Thick(MplotOption):
     Attributes:
         x: Thickness of plot curves.
     """
+
+    _KEYWORD = 'thick'
 
     _ATTRS = {
         'x': types.Real,
@@ -74,4 +77,17 @@ class ThickBuilder:
 
         return Thick(
             x=x,
+        )
+
+    @staticmethod
+    def unbuild(ast: Thick):
+        """
+        Unbuilds ``Thick`` into ``ThickBuilder``
+
+        Returns:
+            ``ThickBuilder`` for ``Thick``.
+        """
+
+        return Thick(
+            x=copy.deepcopy(ast.x),
         )

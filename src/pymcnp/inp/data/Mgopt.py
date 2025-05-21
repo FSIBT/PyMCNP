@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -21,6 +22,8 @@ class Mgopt(DataOption):
         fnw: Normalization value for generated weight windows.
         rim: Generated weight windows compression limit.
     """
+
+    _KEYWORD = 'mgopt'
 
     _ATTRS = {
         'mcal': types.String,
@@ -191,4 +194,23 @@ class MgoptBuilder:
             icw=icw,
             fnw=fnw,
             rim=rim,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mgopt):
+        """
+        Unbuilds ``Mgopt`` into ``MgoptBuilder``
+
+        Returns:
+            ``MgoptBuilder`` for ``Mgopt``.
+        """
+
+        return Mgopt(
+            mcal=copy.deepcopy(ast.mcal),
+            igm=copy.deepcopy(ast.igm),
+            iplt=copy.deepcopy(ast.iplt),
+            iab=copy.deepcopy(ast.iab),
+            icw=copy.deepcopy(ast.icw),
+            fnw=copy.deepcopy(ast.fnw),
+            rim=copy.deepcopy(ast.rim),
         )

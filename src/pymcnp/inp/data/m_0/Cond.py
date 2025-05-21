@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Cond(MOption_0):
     Attributes:
         setting: Conduction state for EL03 electron-transport evaluation.
     """
+
+    _KEYWORD = 'cond'
 
     _ATTRS = {
         'setting': types.Real,
@@ -74,4 +77,17 @@ class CondBuilder:
 
         return Cond(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cond):
+        """
+        Unbuilds ``Cond`` into ``CondBuilder``
+
+        Returns:
+            ``CondBuilder`` for ``Cond``.
+        """
+
+        return Cond(
+            setting=copy.deepcopy(ast.setting),
         )

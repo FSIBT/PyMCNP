@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Mt(DataOption):
         suffix: Data card option suffix.
         identifiers: Corresponding S(α,β) identifier.
     """
+
+    _KEYWORD = 'mt'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class MtBuilder:
         return Mt(
             suffix=suffix,
             identifiers=identifiers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mt):
+        """
+        Unbuilds ``Mt`` into ``MtBuilder``
+
+        Returns:
+            ``MtBuilder`` for ``Mt``.
+        """
+
+        return Mt(
+            suffix=copy.deepcopy(ast.suffix),
+            identifiers=copy.deepcopy(ast.identifiers),
         )

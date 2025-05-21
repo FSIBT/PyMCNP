@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Cofi(TOption_1):
     Attributes:
         time: Dead time interval.
     """
+
+    _KEYWORD = 'cofi'
 
     _ATTRS = {
         'time': types.Real,
@@ -74,4 +77,17 @@ class CofiBuilder:
 
         return Cofi(
             time=time,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cofi):
+        """
+        Unbuilds ``Cofi`` into ``CofiBuilder``
+
+        Returns:
+            ``CofiBuilder`` for ``Cofi``.
+        """
+
+        return Cofi(
+            time=copy.deepcopy(ast.time),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Talnp(DataOption):
     Attributes:
         tallies: Tallies to exclude from output.
     """
+
+    _KEYWORD = 'talnp'
 
     _ATTRS = {
         'tallies': types.Tuple[types.Integer],
@@ -81,4 +84,17 @@ class TalnpBuilder:
 
         return Talnp(
             tallies=tallies,
+        )
+
+    @staticmethod
+    def unbuild(ast: Talnp):
+        """
+        Unbuilds ``Talnp`` into ``TalnpBuilder``
+
+        Returns:
+            ``TalnpBuilder`` for ``Talnp``.
+        """
+
+        return Talnp(
+            tallies=copy.deepcopy(ast.tallies),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Sdef(DataOption):
     Attributes:
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'sdef'
 
     _ATTRS = {
         'options': types.Tuple[sdef.SdefOption],
@@ -76,4 +79,17 @@ class SdefBuilder:
 
         return Sdef(
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sdef):
+        """
+        Unbuilds ``Sdef`` into ``SdefBuilder``
+
+        Returns:
+            ``SdefBuilder`` for ``Sdef``.
+        """
+
+        return Sdef(
+            options=copy.deepcopy(ast.options),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ksental(KoptsOption):
     Attributes:
         fileopt: Format of sensity profiles output file.
     """
+
+    _KEYWORD = 'ksental'
 
     _ATTRS = {
         'fileopt': types.String,
@@ -74,4 +77,17 @@ class KsentalBuilder:
 
         return Ksental(
             fileopt=fileopt,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ksental):
+        """
+        Unbuilds ``Ksental`` into ``KsentalBuilder``
+
+        Returns:
+            ``KsentalBuilder`` for ``Ksental``.
+        """
+
+        return Ksental(
+            fileopt=copy.deepcopy(ast.fileopt),
         )

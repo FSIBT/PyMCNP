@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Dnbais(ActOption):
     Attributes:
         count: Maximum number of neutrons generated per reaction.
     """
+
+    _KEYWORD = 'dnbais'
 
     _ATTRS = {
         'count': types.Integer,
@@ -74,4 +77,17 @@ class DnbaisBuilder:
 
         return Dnbais(
             count=count,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dnbais):
+        """
+        Unbuilds ``Dnbais`` into ``DnbaisBuilder``
+
+        Returns:
+            ``DnbaisBuilder`` for ``Dnbais``.
+        """
+
+        return Dnbais(
+            count=copy.deepcopy(ast.count),
         )

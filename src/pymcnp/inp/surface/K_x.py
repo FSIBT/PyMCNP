@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -20,6 +21,8 @@ class K_x(SurfaceOption):
         t_squared: Parallel-to-x-axis cone t^2 coefficent.
         plusminus_1: Parallel-to-x-axis cone sheet selector.
     """
+
+    _KEYWORD = 'k/x'
 
     _ATTRS = {
         'x': types.Real,
@@ -172,4 +175,21 @@ class K_xBuilder:
             z=z,
             t_squared=t_squared,
             plusminus_1=plusminus_1,
+        )
+
+    @staticmethod
+    def unbuild(ast: K_x):
+        """
+        Unbuilds ``K_x`` into ``K_xBuilder``
+
+        Returns:
+            ``K_xBuilder`` for ``K_x``.
+        """
+
+        return K_x(
+            x=copy.deepcopy(ast.x),
+            y=copy.deepcopy(ast.y),
+            z=copy.deepcopy(ast.z),
+            t_squared=copy.deepcopy(ast.t_squared),
+            plusminus_1=copy.deepcopy(ast.plusminus_1),
         )

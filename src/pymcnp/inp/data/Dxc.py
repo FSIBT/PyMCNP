@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Dxc(DataOption):
         designator: Data card particle designator.
         probabilities: Probability of contribution to DXTRAN.
     """
+
+    _KEYWORD = 'dxc'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -118,4 +121,19 @@ class DxcBuilder:
             suffix=suffix,
             designator=designator,
             probabilities=probabilities,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dxc):
+        """
+        Unbuilds ``Dxc`` into ``DxcBuilder``
+
+        Returns:
+            ``DxcBuilder`` for ``Dxc``.
+        """
+
+        return Dxc(
+            suffix=copy.deepcopy(ast.suffix),
+            designator=copy.deepcopy(ast.designator),
+            probabilities=copy.deepcopy(ast.probabilities),
         )

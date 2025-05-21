@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Ext(CellOption):
         designator: Cell particle designator.
         stretch: Cell exponential transform stretching specifier.
     """
+
+    _KEYWORD = 'ext'
 
     _ATTRS = {
         'designator': types.Designator,
@@ -87,4 +90,18 @@ class ExtBuilder:
         return Ext(
             designator=designator,
             stretch=stretch,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ext):
+        """
+        Unbuilds ``Ext`` into ``ExtBuilder``
+
+        Returns:
+            ``ExtBuilder`` for ``Ext``.
+        """
+
+        return Ext(
+            designator=copy.deepcopy(ast.designator),
+            stretch=copy.deepcopy(ast.stretch),
         )

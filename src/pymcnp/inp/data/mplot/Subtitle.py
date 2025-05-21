@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Subtitle(MplotOption):
         y: y-coordinate of location.
         aa: Line to substitute.
     """
+
+    _KEYWORD = 'subtitle'
 
     _ATTRS = {
         'x': types.Integer,
@@ -110,4 +113,19 @@ class SubtitleBuilder:
             x=x,
             y=y,
             aa=aa,
+        )
+
+    @staticmethod
+    def unbuild(ast: Subtitle):
+        """
+        Unbuilds ``Subtitle`` into ``SubtitleBuilder``
+
+        Returns:
+            ``SubtitleBuilder`` for ``Subtitle``.
+        """
+
+        return Subtitle(
+            x=copy.deepcopy(ast.x),
+            y=copy.deepcopy(ast.y),
+            aa=copy.deepcopy(ast.aa),
         )

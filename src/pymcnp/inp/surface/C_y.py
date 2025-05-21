@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class C_y(SurfaceOption):
         z: Parallel-to-y-axis cylinder center z component.
         r: Parallel-to-y-axis cylinder radius.
     """
+
+    _KEYWORD = 'c/y'
 
     _ATTRS = {
         'x': types.Real,
@@ -127,4 +130,19 @@ class C_yBuilder:
             x=x,
             z=z,
             r=r,
+        )
+
+    @staticmethod
+    def unbuild(ast: C_y):
+        """
+        Unbuilds ``C_y`` into ``C_yBuilder``
+
+        Returns:
+            ``C_yBuilder`` for ``C_y``.
+        """
+
+        return C_y(
+            x=copy.deepcopy(ast.x),
+            z=copy.deepcopy(ast.z),
+            r=copy.deepcopy(ast.r),
         )

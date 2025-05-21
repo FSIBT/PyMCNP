@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Embtm(DataOption):
         suffix: Data card option suffix.
         multipliers: Tuple of time multipliers.
     """
+
+    _KEYWORD = 'embtm'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class EmbtmBuilder:
         return Embtm(
             suffix=suffix,
             multipliers=multipliers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Embtm):
+        """
+        Unbuilds ``Embtm`` into ``EmbtmBuilder``
+
+        Returns:
+            ``EmbtmBuilder`` for ``Embtm``.
+        """
+
+        return Embtm(
+            suffix=copy.deepcopy(ast.suffix),
+            multipliers=copy.deepcopy(ast.multipliers),
         )

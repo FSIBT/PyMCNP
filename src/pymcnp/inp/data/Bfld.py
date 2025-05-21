@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class Bfld(DataOption):
         kind: Magnetic field type.
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'bfld'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -118,4 +121,19 @@ class BfldBuilder:
             suffix=suffix,
             kind=kind,
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Bfld):
+        """
+        Unbuilds ``Bfld`` into ``BfldBuilder``
+
+        Returns:
+            ``BfldBuilder`` for ``Bfld``.
+        """
+
+        return Bfld(
+            suffix=copy.deepcopy(ast.suffix),
+            kind=copy.deepcopy(ast.kind),
+            options=copy.deepcopy(ast.options),
         )

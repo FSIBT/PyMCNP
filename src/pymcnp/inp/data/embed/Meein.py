@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Meein(EmbedOption):
     Attributes:
         filename: Name of the EEOUT results file to read.
     """
+
+    _KEYWORD = 'meein'
 
     _ATTRS = {
         'filename': types.String,
@@ -72,4 +75,17 @@ class MeeinBuilder:
 
         return Meein(
             filename=filename,
+        )
+
+    @staticmethod
+    def unbuild(ast: Meein):
+        """
+        Unbuilds ``Meein`` into ``MeeinBuilder``
+
+        Returns:
+            ``MeeinBuilder`` for ``Meein``.
+        """
+
+        return Meein(
+            filename=copy.deepcopy(ast.filename),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Xs_0(MplotOption):
     Attributes:
         m: Material number.
     """
+
+    _KEYWORD = 'xs'
 
     _ATTRS = {
         'm': types.Integer,
@@ -74,4 +77,17 @@ class XsBuilder_0:
 
         return Xs_0(
             m=m,
+        )
+
+    @staticmethod
+    def unbuild(ast: Xs_0):
+        """
+        Unbuilds ``Xs_0`` into ``XsBuilder_0``
+
+        Returns:
+            ``XsBuilder_0`` for ``Xs_0``.
+        """
+
+        return Xs_0(
+            m=copy.deepcopy(ast.m),
         )

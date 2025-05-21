@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -44,6 +45,8 @@ class Arb(SurfaceOption):
         n5: Polyhedron four-digit side specificer #5.
         n6: Polyhedron four-digit side specificer #6.
     """
+
+    _KEYWORD = 'arb'
 
     _ATTRS = {
         'ax': types.Real,
@@ -630,4 +633,46 @@ class ArbBuilder:
             n4=n4,
             n5=n5,
             n6=n6,
+        )
+
+    @staticmethod
+    def unbuild(ast: Arb):
+        """
+        Unbuilds ``Arb`` into ``ArbBuilder``
+
+        Returns:
+            ``ArbBuilder`` for ``Arb``.
+        """
+
+        return Arb(
+            ax=copy.deepcopy(ast.ax),
+            ay=copy.deepcopy(ast.ay),
+            az=copy.deepcopy(ast.az),
+            bx=copy.deepcopy(ast.bx),
+            by=copy.deepcopy(ast.by),
+            bz=copy.deepcopy(ast.bz),
+            cx=copy.deepcopy(ast.cx),
+            cy=copy.deepcopy(ast.cy),
+            cz=copy.deepcopy(ast.cz),
+            dx=copy.deepcopy(ast.dx),
+            dy=copy.deepcopy(ast.dy),
+            dz=copy.deepcopy(ast.dz),
+            ex=copy.deepcopy(ast.ex),
+            ey=copy.deepcopy(ast.ey),
+            ez=copy.deepcopy(ast.ez),
+            fx=copy.deepcopy(ast.fx),
+            fy=copy.deepcopy(ast.fy),
+            fz=copy.deepcopy(ast.fz),
+            gx=copy.deepcopy(ast.gx),
+            gy=copy.deepcopy(ast.gy),
+            gz=copy.deepcopy(ast.gz),
+            hx=copy.deepcopy(ast.hx),
+            hy=copy.deepcopy(ast.hy),
+            hz=copy.deepcopy(ast.hz),
+            n1=copy.deepcopy(ast.n1),
+            n2=copy.deepcopy(ast.n2),
+            n3=copy.deepcopy(ast.n3),
+            n4=copy.deepcopy(ast.n4),
+            n5=copy.deepcopy(ast.n5),
+            n6=copy.deepcopy(ast.n6),
         )

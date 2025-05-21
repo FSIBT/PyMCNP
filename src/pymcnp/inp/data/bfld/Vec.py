@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Vec(BfldOption):
     Attributes:
         vector: Direction of mangentic field or plane corresponding to the x-axis of the quadrapole.
     """
+
+    _KEYWORD = 'vec'
 
     _ATTRS = {
         'vector': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class VecBuilder:
 
         return Vec(
             vector=vector,
+        )
+
+    @staticmethod
+    def unbuild(ast: Vec):
+        """
+        Unbuilds ``Vec`` into ``VecBuilder``
+
+        Returns:
+            ``VecBuilder`` for ``Vec``.
+        """
+
+        return Vec(
+            vector=copy.deepcopy(ast.vector),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Lost(DataOption):
         lost1: Number of particles which can be lost before job termination.
         lost2: Maximum number of debug prints for lost particles..
     """
+
+    _KEYWORD = 'lost'
 
     _ATTRS = {
         'lost1': types.Integer,
@@ -94,4 +97,18 @@ class LostBuilder:
         return Lost(
             lost1=lost1,
             lost2=lost2,
+        )
+
+    @staticmethod
+    def unbuild(ast: Lost):
+        """
+        Unbuilds ``Lost`` into ``LostBuilder``
+
+        Returns:
+            ``LostBuilder`` for ``Lost``.
+        """
+
+        return Lost(
+            lost1=copy.deepcopy(ast.lost1),
+            lost2=copy.deepcopy(ast.lost2),
         )

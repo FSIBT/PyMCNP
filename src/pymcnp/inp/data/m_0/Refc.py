@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Refc(MOption_0):
     Attributes:
         coefficents: Cauchy coefficents.
     """
+
+    _KEYWORD = 'refc'
 
     _ATTRS = {
         'coefficents': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class RefcBuilder:
 
         return Refc(
             coefficents=coefficents,
+        )
+
+    @staticmethod
+    def unbuild(ast: Refc):
+        """
+        Unbuilds ``Refc`` into ``RefcBuilder``
+
+        Returns:
+            ``RefcBuilder`` for ``Refc``.
+        """
+
+        return Refc(
+            coefficents=copy.deepcopy(ast.coefficents),
         )

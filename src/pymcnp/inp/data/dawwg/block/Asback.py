@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Asback(BlockOption):
     Attributes:
         setting: Front-going flux at plane k.
     """
+
+    _KEYWORD = 'asback'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class AsbackBuilder:
 
         return Asback(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Asback):
+        """
+        Unbuilds ``Asback`` into ``AsbackBuilder``
+
+        Returns:
+            ``AsbackBuilder`` for ``Asback``.
+        """
+
+        return Asback(
+            setting=copy.deepcopy(ast.setting),
         )

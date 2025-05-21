@@ -15,6 +15,8 @@ class Noall(ContourOption):
 
     """
 
+    _KEYWORD = 'noall'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Anoall\Z')
@@ -50,6 +52,17 @@ class NoallBuilder:
 
         Returns:
             ``Noall`` for ``NoallBuilder``.
+        """
+
+        return Noall()
+
+    @staticmethod
+    def unbuild(ast: Noall):
+        """
+        Unbuilds ``Noall`` into ``NoallBuilder``
+
+        Returns:
+            ``NoallBuilder`` for ``Noall``.
         """
 
         return Noall()

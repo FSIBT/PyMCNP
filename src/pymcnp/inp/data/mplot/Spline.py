@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -14,6 +15,8 @@ class Spline(MplotOption):
     Attributes:
         x: Tension of rational splines.
     """
+
+    _KEYWORD = 'spline'
 
     _ATTRS = {
         'x': types.Real,
@@ -70,4 +73,17 @@ class SplineBuilder:
 
         return Spline(
             x=x,
+        )
+
+    @staticmethod
+    def unbuild(ast: Spline):
+        """
+        Unbuilds ``Spline`` into ``SplineBuilder``
+
+        Returns:
+            ``SplineBuilder`` for ``Spline``.
+        """
+
+        return Spline(
+            x=copy.deepcopy(ast.x),
         )

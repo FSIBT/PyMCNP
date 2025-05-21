@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nonfiss(ActOption):
     Attributes:
         kind: Type of delayed particle(s) to be produced by simple multi-particle reaction.
     """
+
+    _KEYWORD = 'nonfiss'
 
     _ATTRS = {
         'kind': types.String,
@@ -72,4 +75,17 @@ class NonfissBuilder:
 
         return Nonfiss(
             kind=kind,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nonfiss):
+        """
+        Unbuilds ``Nonfiss`` into ``NonfissBuilder``
+
+        Returns:
+            ``NonfissBuilder`` for ``Nonfiss``.
+        """
+
+        return Nonfiss(
+            kind=copy.deepcopy(ast.kind),
         )

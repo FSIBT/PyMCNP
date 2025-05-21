@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fmatspace(KoptsOption):
     Attributes:
         fmat_space: fmat_space.
     """
+
+    _KEYWORD = 'fmatspace'
 
     _ATTRS = {
         'fmat_space': types.Real,
@@ -74,4 +77,17 @@ class FmatspaceBuilder:
 
         return Fmatspace(
             fmat_space=fmat_space,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fmatspace):
+        """
+        Unbuilds ``Fmatspace`` into ``FmatspaceBuilder``
+
+        Returns:
+            ``FmatspaceBuilder`` for ``Fmatspace``.
+        """
+
+        return Fmatspace(
+            fmat_space=copy.deepcopy(ast.fmat_space),
         )

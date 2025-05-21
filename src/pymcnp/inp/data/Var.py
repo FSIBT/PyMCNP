@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Var(DataOption):
     Attributes:
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'var'
 
     _ATTRS = {
         'options': types.Tuple[var.VarOption],
@@ -76,4 +79,17 @@ class VarBuilder:
 
         return Var(
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Var):
+        """
+        Unbuilds ``Var`` into ``VarBuilder``
+
+        Returns:
+            ``VarBuilder`` for ``Var``.
+        """
+
+        return Var(
+            options=copy.deepcopy(ast.options),
         )

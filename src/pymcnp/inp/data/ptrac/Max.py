@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Max(PtracOption):
     Attributes:
         events: Maximum number of events to write.
     """
+
+    _KEYWORD = 'max'
 
     _ATTRS = {
         'events': types.Integer,
@@ -74,4 +77,17 @@ class MaxBuilder:
 
         return Max(
             events=events,
+        )
+
+    @staticmethod
+    def unbuild(ast: Max):
+        """
+        Unbuilds ``Max`` into ``MaxBuilder``
+
+        Returns:
+            ``MaxBuilder`` for ``Max``.
+        """
+
+        return Max(
+            events=copy.deepcopy(ast.events),
         )

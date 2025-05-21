@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Elpt(DataOption):
     Attributes:
         cutoffs: Tuple of cell lower energy cutoffs.
     """
+
+    _KEYWORD = 'elpt'
 
     _ATTRS = {
         'cutoffs': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class ElptBuilder:
 
         return Elpt(
             cutoffs=cutoffs,
+        )
+
+    @staticmethod
+    def unbuild(ast: Elpt):
+        """
+        Unbuilds ``Elpt`` into ``ElptBuilder``
+
+        Returns:
+            ``ElptBuilder`` for ``Elpt``.
+        """
+
+        return Elpt(
+            cutoffs=copy.deepcopy(ast.cutoffs),
         )

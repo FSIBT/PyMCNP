@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Tm(DataOption):
         suffix: Data card option suffix.
         multipliers: Time bin multiplier to apply.
     """
+
+    _KEYWORD = 'tm'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class TmBuilder:
         return Tm(
             suffix=suffix,
             multipliers=multipliers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tm):
+        """
+        Unbuilds ``Tm`` into ``TmBuilder``
+
+        Returns:
+            ``TmBuilder`` for ``Tm``.
+        """
+
+        return Tm(
+            suffix=copy.deepcopy(ast.suffix),
+            multipliers=copy.deepcopy(ast.multipliers),
         )

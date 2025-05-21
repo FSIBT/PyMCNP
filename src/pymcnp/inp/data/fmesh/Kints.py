@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Kints(FmeshOption):
     Attributes:
         count: Number of mesh points z/theta for rectangular/cylindrical geometry.
     """
+
+    _KEYWORD = 'kints'
 
     _ATTRS = {
         'count': types.Integer,
@@ -74,4 +77,17 @@ class KintsBuilder:
 
         return Kints(
             count=count,
+        )
+
+    @staticmethod
+    def unbuild(ast: Kints):
+        """
+        Unbuilds ``Kints`` into ``KintsBuilder``
+
+        Returns:
+            ``KintsBuilder`` for ``Kints``.
+        """
+
+        return Kints(
+            count=copy.deepcopy(ast.count),
         )

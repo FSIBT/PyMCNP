@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Balxs(BlockOption):
     Attributes:
         setting: Cross-section balance control.
     """
+
+    _KEYWORD = 'balxs'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class BalxsBuilder:
 
         return Balxs(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Balxs):
+        """
+        Unbuilds ``Balxs`` into ``BalxsBuilder``
+
+        Returns:
+            ``BalxsBuilder`` for ``Balxs``.
+        """
+
+        return Balxs(
+            setting=copy.deepcopy(ast.setting),
         )

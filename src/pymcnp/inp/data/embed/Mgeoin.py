@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mgeoin(EmbedOption):
     Attributes:
         filename: Name of the input file containing the mesh description.
     """
+
+    _KEYWORD = 'mgeoin'
 
     _ATTRS = {
         'filename': types.String,
@@ -72,4 +75,17 @@ class MgeoinBuilder:
 
         return Mgeoin(
             filename=filename,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mgeoin):
+        """
+        Unbuilds ``Mgeoin`` into ``MgeoinBuilder``
+
+        Returns:
+            ``MgeoinBuilder`` for ``Mgeoin``.
+        """
+
+        return Mgeoin(
+            filename=copy.deepcopy(ast.filename),
         )

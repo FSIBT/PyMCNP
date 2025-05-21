@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tfc(MplotOption):
     Attributes:
         x: Independent variable selector.
     """
+
+    _KEYWORD = 'tfc'
 
     _ATTRS = {
         'x': types.String,
@@ -72,4 +75,17 @@ class TfcBuilder:
 
         return Tfc(
             x=x,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tfc):
+        """
+        Unbuilds ``Tfc`` into ``TfcBuilder``
+
+        Returns:
+            ``TfcBuilder`` for ``Tfc``.
+        """
+
+        return Tfc(
+            x=copy.deepcopy(ast.x),
         )

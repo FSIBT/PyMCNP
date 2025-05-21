@@ -15,6 +15,8 @@ class Cop(MplotOption):
 
     """
 
+    _KEYWORD = 'cop'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Acop\Z')
@@ -50,6 +52,17 @@ class CopBuilder:
 
         Returns:
             ``Cop`` for ``CopBuilder``.
+        """
+
+        return Cop()
+
+    @staticmethod
+    def unbuild(ast: Cop):
+        """
+        Unbuilds ``Cop`` into ``CopBuilder``
+
+        Returns:
+            ``CopBuilder`` for ``Cop``.
         """
 
         return Cop()

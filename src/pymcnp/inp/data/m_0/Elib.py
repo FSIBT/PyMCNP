@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Elib(MOption_0):
     Attributes:
         abx: Default electron table identifier.
     """
+
+    _KEYWORD = 'elib'
 
     _ATTRS = {
         'abx': types.String,
@@ -72,4 +75,17 @@ class ElibBuilder:
 
         return Elib(
             abx=abx,
+        )
+
+    @staticmethod
+    def unbuild(ast: Elib):
+        """
+        Unbuilds ``Elib`` into ``ElibBuilder``
+
+        Returns:
+            ``ElibBuilder`` for ``Elib``.
+        """
+
+        return Elib(
+            abx=copy.deepcopy(ast.abx),
         )

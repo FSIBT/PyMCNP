@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -20,6 +21,8 @@ class Phys_1(DataOption):
         nodop: Photon Doppler energy broadening controls.
         fism: Selection of photofission method controls.
     """
+
+    _KEYWORD = 'phys:p'
 
     _ATTRS = {
         'emcpf': types.Real,
@@ -174,4 +177,22 @@ class PhysBuilder_1:
             ispn=ispn,
             nodop=nodop,
             fism=fism,
+        )
+
+    @staticmethod
+    def unbuild(ast: Phys_1):
+        """
+        Unbuilds ``Phys_1`` into ``PhysBuilder_1``
+
+        Returns:
+            ``PhysBuilder_1`` for ``Phys_1``.
+        """
+
+        return Phys_1(
+            emcpf=copy.deepcopy(ast.emcpf),
+            ides=copy.deepcopy(ast.ides),
+            nocoh=copy.deepcopy(ast.nocoh),
+            ispn=copy.deepcopy(ast.ispn),
+            nodop=copy.deepcopy(ast.nodop),
+            fism=copy.deepcopy(ast.fism),
         )

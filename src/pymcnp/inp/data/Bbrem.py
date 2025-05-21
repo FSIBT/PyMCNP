@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -64,6 +65,8 @@ class Bbrem(DataOption):
         bias_49: Bias factor #49 for bremsstrahlung specturm.
         materials: Material to bias.
     """
+
+    _KEYWORD = 'bbrem'
 
     _ATTRS = {
         'bias_1': types.Real,
@@ -1017,4 +1020,66 @@ class BbremBuilder:
             bias_48=bias_48,
             bias_49=bias_49,
             materials=materials,
+        )
+
+    @staticmethod
+    def unbuild(ast: Bbrem):
+        """
+        Unbuilds ``Bbrem`` into ``BbremBuilder``
+
+        Returns:
+            ``BbremBuilder`` for ``Bbrem``.
+        """
+
+        return Bbrem(
+            bias_1=copy.deepcopy(ast.bias_1),
+            bias_2=copy.deepcopy(ast.bias_2),
+            bias_3=copy.deepcopy(ast.bias_3),
+            bias_4=copy.deepcopy(ast.bias_4),
+            bias_5=copy.deepcopy(ast.bias_5),
+            bias_6=copy.deepcopy(ast.bias_6),
+            bias_7=copy.deepcopy(ast.bias_7),
+            bias_8=copy.deepcopy(ast.bias_8),
+            bias_9=copy.deepcopy(ast.bias_9),
+            bias_10=copy.deepcopy(ast.bias_10),
+            bias_11=copy.deepcopy(ast.bias_11),
+            bias_12=copy.deepcopy(ast.bias_12),
+            bias_13=copy.deepcopy(ast.bias_13),
+            bias_14=copy.deepcopy(ast.bias_14),
+            bias_15=copy.deepcopy(ast.bias_15),
+            bias_16=copy.deepcopy(ast.bias_16),
+            bias_17=copy.deepcopy(ast.bias_17),
+            bias_18=copy.deepcopy(ast.bias_18),
+            bias_19=copy.deepcopy(ast.bias_19),
+            bias_20=copy.deepcopy(ast.bias_20),
+            bias_21=copy.deepcopy(ast.bias_21),
+            bias_22=copy.deepcopy(ast.bias_22),
+            bias_23=copy.deepcopy(ast.bias_23),
+            bias_24=copy.deepcopy(ast.bias_24),
+            bias_25=copy.deepcopy(ast.bias_25),
+            bias_26=copy.deepcopy(ast.bias_26),
+            bias_27=copy.deepcopy(ast.bias_27),
+            bias_28=copy.deepcopy(ast.bias_28),
+            bias_29=copy.deepcopy(ast.bias_29),
+            bias_30=copy.deepcopy(ast.bias_30),
+            bias_31=copy.deepcopy(ast.bias_31),
+            bias_32=copy.deepcopy(ast.bias_32),
+            bias_33=copy.deepcopy(ast.bias_33),
+            bias_34=copy.deepcopy(ast.bias_34),
+            bias_35=copy.deepcopy(ast.bias_35),
+            bias_36=copy.deepcopy(ast.bias_36),
+            bias_37=copy.deepcopy(ast.bias_37),
+            bias_38=copy.deepcopy(ast.bias_38),
+            bias_39=copy.deepcopy(ast.bias_39),
+            bias_40=copy.deepcopy(ast.bias_40),
+            bias_41=copy.deepcopy(ast.bias_41),
+            bias_42=copy.deepcopy(ast.bias_42),
+            bias_43=copy.deepcopy(ast.bias_43),
+            bias_44=copy.deepcopy(ast.bias_44),
+            bias_45=copy.deepcopy(ast.bias_45),
+            bias_46=copy.deepcopy(ast.bias_46),
+            bias_47=copy.deepcopy(ast.bias_47),
+            bias_48=copy.deepcopy(ast.bias_48),
+            bias_49=copy.deepcopy(ast.bias_49),
+            materials=copy.deepcopy(ast.materials),
         )

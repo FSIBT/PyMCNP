@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Noasg(BlockOption):
     Attributes:
         setting: Suppress writing ASGMAT on/off.
     """
+
+    _KEYWORD = 'noasg'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class NoasgBuilder:
 
         return Noasg(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Noasg):
+        """
+        Unbuilds ``Noasg`` into ``NoasgBuilder``
+
+        Returns:
+            ``NoasgBuilder`` for ``Noasg``.
+        """
+
+        return Noasg(
+            setting=copy.deepcopy(ast.setting),
         )

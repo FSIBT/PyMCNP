@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mat(EmbeeOption):
     Attributes:
         number: Material number.
     """
+
+    _KEYWORD = 'mat'
 
     _ATTRS = {
         'number': types.Integer,
@@ -74,4 +77,17 @@ class MatBuilder:
 
         return Mat(
             number=number,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mat):
+        """
+        Unbuilds ``Mat`` into ``MatBuilder``
+
+        Returns:
+            ``MatBuilder`` for ``Mat``.
+        """
+
+        return Mat(
+            number=copy.deepcopy(ast.number),
         )

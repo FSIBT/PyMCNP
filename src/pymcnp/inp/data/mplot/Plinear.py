@@ -15,6 +15,8 @@ class Plinear(MplotOption):
 
     """
 
+    _KEYWORD = 'plinear'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Aplinear\Z')
@@ -50,6 +52,17 @@ class PlinearBuilder:
 
         Returns:
             ``Plinear`` for ``PlinearBuilder``.
+        """
+
+        return Plinear()
+
+    @staticmethod
+    def unbuild(ast: Plinear):
+        """
+        Unbuilds ``Plinear`` into ``PlinearBuilder``
+
+        Returns:
+            ``PlinearBuilder`` for ``Plinear``.
         """
 
         return Plinear()

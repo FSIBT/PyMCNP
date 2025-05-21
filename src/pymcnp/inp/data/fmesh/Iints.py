@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Iints(FmeshOption):
     Attributes:
         count: Number of mesh points x/r for rectangular/cylindrical geometry.
     """
+
+    _KEYWORD = 'iints'
 
     _ATTRS = {
         'count': types.Integer,
@@ -74,4 +77,17 @@ class IintsBuilder:
 
         return Iints(
             count=count,
+        )
+
+    @staticmethod
+    def unbuild(ast: Iints):
+        """
+        Unbuilds ``Iints`` into ``IintsBuilder``
+
+        Returns:
+            ``IintsBuilder`` for ``Iints``.
+        """
+
+        return Iints(
+            count=copy.deepcopy(ast.count),
         )

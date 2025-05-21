@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Rho(KpertOption):
     Attributes:
         densities: List of densities.
     """
+
+    _KEYWORD = 'rho'
 
     _ATTRS = {
         'densities': types.Tuple[types.Zaid],
@@ -79,4 +82,17 @@ class RhoBuilder:
 
         return Rho(
             densities=densities,
+        )
+
+    @staticmethod
+    def unbuild(ast: Rho):
+        """
+        Unbuilds ``Rho`` into ``RhoBuilder``
+
+        Returns:
+            ``RhoBuilder`` for ``Rho``.
+        """
+
+        return Rho(
+            densities=copy.deepcopy(ast.densities),
         )

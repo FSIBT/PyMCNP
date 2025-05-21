@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Asrite(BlockOption):
     Attributes:
         setting: Left-going flux at plane i.
     """
+
+    _KEYWORD = 'asrite'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class AsriteBuilder:
 
         return Asrite(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Asrite):
+        """
+        Unbuilds ``Asrite`` into ``AsriteBuilder``
+
+        Returns:
+            ``AsriteBuilder`` for ``Asrite``.
+        """
+
+        return Asrite(
+            setting=copy.deepcopy(ast.setting),
         )

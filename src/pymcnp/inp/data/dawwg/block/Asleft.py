@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Asleft(BlockOption):
     Attributes:
         setting: Right-going flux at plane i.
     """
+
+    _KEYWORD = 'asleft'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class AsleftBuilder:
 
         return Asleft(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Asleft):
+        """
+        Unbuilds ``Asleft`` into ``AsleftBuilder``
+
+        Returns:
+            ``AsleftBuilder`` for ``Asleft``.
+        """
+
+        return Asleft(
+            setting=copy.deepcopy(ast.setting),
         )

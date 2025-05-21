@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Hlcut(ActOption):
     Attributes:
         cutoff: Spontaneous-decay half-life threshold.
     """
+
+    _KEYWORD = 'hlcut'
 
     _ATTRS = {
         'cutoff': types.Real,
@@ -74,4 +77,17 @@ class HlcutBuilder:
 
         return Hlcut(
             cutoff=cutoff,
+        )
+
+    @staticmethod
+    def unbuild(ast: Hlcut):
+        """
+        Unbuilds ``Hlcut`` into ``HlcutBuilder``
+
+        Returns:
+            ``HlcutBuilder`` for ``Hlcut``.
+        """
+
+        return Hlcut(
+            cutoff=copy.deepcopy(ast.cutoff),
         )

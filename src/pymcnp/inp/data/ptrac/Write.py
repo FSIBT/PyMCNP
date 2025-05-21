@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Write(PtracOption):
     Attributes:
         setting: Controls what particle parameters are written.
     """
+
+    _KEYWORD = 'write'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class WriteBuilder:
 
         return Write(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Write):
+        """
+        Unbuilds ``Write`` into ``WriteBuilder``
+
+        Returns:
+            ``WriteBuilder`` for ``Write``.
+        """
+
+        return Write(
+            setting=copy.deepcopy(ast.setting),
         )

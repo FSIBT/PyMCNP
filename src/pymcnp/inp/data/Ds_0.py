@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Ds_0(DataOption):
         option: Dependent variable setting.
         js: Depdented source dependent variables.
     """
+
+    _KEYWORD = 'ds'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -114,4 +117,19 @@ class DsBuilder_0:
             suffix=suffix,
             option=option,
             js=js,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ds_0):
+        """
+        Unbuilds ``Ds_0`` into ``DsBuilder_0``
+
+        Returns:
+            ``DsBuilder_0`` for ``Ds_0``.
+        """
+
+        return Ds_0(
+            suffix=copy.deepcopy(ast.suffix),
+            option=copy.deepcopy(ast.option),
+            js=copy.deepcopy(ast.js),
         )

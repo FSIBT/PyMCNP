@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -14,6 +15,8 @@ class Zc(DataOption):
     Attributes:
         anything: Any parameters.
     """
+
+    _KEYWORD = 'zc'
 
     _ATTRS = {
         'anything': types.String,
@@ -68,4 +71,17 @@ class ZcBuilder:
 
         return Zc(
             anything=anything,
+        )
+
+    @staticmethod
+    def unbuild(ast: Zc):
+        """
+        Unbuilds ``Zc`` into ``ZcBuilder``
+
+        Returns:
+            ``ZcBuilder`` for ``Zc``.
+        """
+
+        return Zc(
+            anything=copy.deepcopy(ast.anything),
         )

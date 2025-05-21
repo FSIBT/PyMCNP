@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Dlib(MOption_0):
     Attributes:
         abx: Default deuteron table identifier.
     """
+
+    _KEYWORD = 'dlib'
 
     _ATTRS = {
         'abx': types.String,
@@ -72,4 +75,17 @@ class DlibBuilder:
 
         return Dlib(
             abx=abx,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dlib):
+        """
+        Unbuilds ``Dlib`` into ``DlibBuilder``
+
+        Returns:
+            ``DlibBuilder`` for ``Dlib``.
+        """
+
+        return Dlib(
+            abx=copy.deepcopy(ast.abx),
         )

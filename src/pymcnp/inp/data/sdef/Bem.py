@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Bem(SdefOption):
         eyn: Normalized beam emittance parameter for x coordinates.
         bml: Distance from the aperture to the spot.
     """
+
+    _KEYWORD = 'bem'
 
     _ATTRS = {
         'exn': types.Real,
@@ -112,4 +115,19 @@ class BemBuilder:
             exn=exn,
             eyn=eyn,
             bml=bml,
+        )
+
+    @staticmethod
+    def unbuild(ast: Bem):
+        """
+        Unbuilds ``Bem`` into ``BemBuilder``
+
+        Returns:
+            ``BemBuilder`` for ``Bem``.
+        """
+
+        return Bem(
+            exn=copy.deepcopy(ast.exn),
+            eyn=copy.deepcopy(ast.eyn),
+            bml=copy.deepcopy(ast.bml),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -22,6 +23,8 @@ class Lcb(DataOption):
         cotfe: Cutoff kinetic energy for particle escape.
         film0: Maximum correction allowed for masss-energy balancing.
     """
+
+    _KEYWORD = 'lcb'
 
     _ATTRS = {
         'flenb1': types.Real,
@@ -212,4 +215,24 @@ class LcbBuilder:
             flenb6=flenb6,
             cotfe=cotfe,
             film0=film0,
+        )
+
+    @staticmethod
+    def unbuild(ast: Lcb):
+        """
+        Unbuilds ``Lcb`` into ``LcbBuilder``
+
+        Returns:
+            ``LcbBuilder`` for ``Lcb``.
+        """
+
+        return Lcb(
+            flenb1=copy.deepcopy(ast.flenb1),
+            flenb2=copy.deepcopy(ast.flenb2),
+            flenb3=copy.deepcopy(ast.flenb3),
+            flenb4=copy.deepcopy(ast.flenb4),
+            flenb5=copy.deepcopy(ast.flenb5),
+            flenb6=copy.deepcopy(ast.flenb6),
+            cotfe=copy.deepcopy(ast.cotfe),
+            film0=copy.deepcopy(ast.film0),
         )

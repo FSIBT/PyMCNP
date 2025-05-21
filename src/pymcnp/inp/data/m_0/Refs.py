@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Refs(MOption_0):
     Attributes:
         coefficents: Sellmeier coefficents.
     """
+
+    _KEYWORD = 'refs'
 
     _ATTRS = {
         'coefficents': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class RefsBuilder:
 
         return Refs(
             coefficents=coefficents,
+        )
+
+    @staticmethod
+    def unbuild(ast: Refs):
+        """
+        Unbuilds ``Refs`` into ``RefsBuilder``
+
+        Returns:
+            ``RefsBuilder`` for ``Refs``.
+        """
+
+        return Refs(
+            coefficents=copy.deepcopy(ast.coefficents),
         )

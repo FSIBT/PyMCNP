@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Noedtt(BlockOption):
     Attributes:
         setting: Suppress writing EDITIT on/off.
     """
+
+    _KEYWORD = 'noedtt'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class NoedttBuilder:
 
         return Noedtt(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Noedtt):
+        """
+        Unbuilds ``Noedtt`` into ``NoedttBuilder``
+
+        Returns:
+            ``NoedttBuilder`` for ``Noedtt``.
+        """
+
+        return Noedtt(
+            setting=copy.deepcopy(ast.setting),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Sfyield(FmultOption):
     Attributes:
         fission_yield: Spontaneous fission yield.
     """
+
+    _KEYWORD = 'sfyield'
 
     _ATTRS = {
         'fission_yield': types.Real,
@@ -74,4 +77,17 @@ class SfyieldBuilder:
 
         return Sfyield(
             fission_yield=fission_yield,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sfyield):
+        """
+        Unbuilds ``Sfyield`` into ``SfyieldBuilder``
+
+        Returns:
+            ``SfyieldBuilder`` for ``Sfyield``.
+        """
+
+        return Sfyield(
+            fission_yield=copy.deepcopy(ast.fission_yield),
         )

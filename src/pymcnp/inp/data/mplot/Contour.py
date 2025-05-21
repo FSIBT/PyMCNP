@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -19,6 +20,8 @@ class Contour(MplotOption):
         cstep: Contour interval.
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'contour'
 
     _ATTRS = {
         'cmin': types.Real,
@@ -140,4 +143,20 @@ class ContourBuilder:
             cmax=cmax,
             cstep=cstep,
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Contour):
+        """
+        Unbuilds ``Contour`` into ``ContourBuilder``
+
+        Returns:
+            ``ContourBuilder`` for ``Contour``.
+        """
+
+        return Contour(
+            cmin=copy.deepcopy(ast.cmin),
+            cmax=copy.deepcopy(ast.cmax),
+            cstep=copy.deepcopy(ast.cstep),
+            options=copy.deepcopy(ast.options),
         )

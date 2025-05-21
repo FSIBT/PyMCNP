@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Kcode(MplotOption):
     Attributes:
         i: Lifetime to remove.
     """
+
+    _KEYWORD = 'kcode'
 
     _ATTRS = {
         'i': types.Integer,
@@ -74,4 +77,17 @@ class KcodeBuilder:
 
         return Kcode(
             i=i,
+        )
+
+    @staticmethod
+    def unbuild(ast: Kcode):
+        """
+        Unbuilds ``Kcode`` into ``KcodeBuilder``
+
+        Returns:
+            ``KcodeBuilder`` for ``Kcode``.
+        """
+
+        return Kcode(
+            i=copy.deepcopy(ast.i),
         )

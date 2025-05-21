@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class Fu(DataOption):
         nt: Notation to inhibit automatic totaling.
         c: Notation to make bin values cumulative.
     """
+
+    _KEYWORD = 'fu'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -134,4 +137,20 @@ class FuBuilder:
             bounds=bounds,
             nt=nt,
             c=c,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fu):
+        """
+        Unbuilds ``Fu`` into ``FuBuilder``
+
+        Returns:
+            ``FuBuilder`` for ``Fu``.
+        """
+
+        return Fu(
+            suffix=copy.deepcopy(ast.suffix),
+            bounds=copy.deepcopy(ast.bounds),
+            nt=copy.deepcopy(ast.nt),
+            c=copy.deepcopy(ast.c),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Pos(SdefOption):
     Attributes:
         vector: Reference point for position sampling in vector notation.
     """
+
+    _KEYWORD = 'pos'
 
     _ATTRS = {
         'vector': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class PosBuilder:
 
         return Pos(
             vector=vector,
+        )
+
+    @staticmethod
+    def unbuild(ast: Pos):
+        """
+        Unbuilds ``Pos`` into ``PosBuilder``
+
+        Returns:
+            ``PosBuilder`` for ``Pos``.
+        """
+
+        return Pos(
+            vector=copy.deepcopy(ast.vector),
         )

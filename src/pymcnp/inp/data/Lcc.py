@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -22,6 +23,8 @@ class Lcc(DataOption):
         ebankincl: INCL bank particles below this energy.
         ebankabia: ABLA bank particles below this energy.
     """
+
+    _KEYWORD = 'lcc'
 
     _ATTRS = {
         'stincl': types.Real,
@@ -214,4 +217,24 @@ class LccBuilder:
             ecutincl=ecutincl,
             ebankincl=ebankincl,
             ebankabia=ebankabia,
+        )
+
+    @staticmethod
+    def unbuild(ast: Lcc):
+        """
+        Unbuilds ``Lcc`` into ``LccBuilder``
+
+        Returns:
+            ``LccBuilder`` for ``Lcc``.
+        """
+
+        return Lcc(
+            stincl=copy.deepcopy(ast.stincl),
+            v0incl=copy.deepcopy(ast.v0incl),
+            xfoisaincl=copy.deepcopy(ast.xfoisaincl),
+            npaulincl=copy.deepcopy(ast.npaulincl),
+            nosurfincl=copy.deepcopy(ast.nosurfincl),
+            ecutincl=copy.deepcopy(ast.ecutincl),
+            ebankincl=copy.deepcopy(ast.ebankincl),
+            ebankabia=copy.deepcopy(ast.ebankabia),
         )

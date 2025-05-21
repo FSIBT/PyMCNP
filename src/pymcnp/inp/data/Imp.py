@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Imp(DataOption):
         designator: Data card particle designator.
         importances: Cell importance.
     """
+
+    _KEYWORD = 'imp'
 
     _ATTRS = {
         'designator': types.Designator,
@@ -94,4 +97,18 @@ class ImpBuilder:
         return Imp(
             designator=designator,
             importances=importances,
+        )
+
+    @staticmethod
+    def unbuild(ast: Imp):
+        """
+        Unbuilds ``Imp`` into ``ImpBuilder``
+
+        Returns:
+            ``ImpBuilder`` for ``Imp``.
+        """
+
+        return Imp(
+            designator=copy.deepcopy(ast.designator),
+            importances=copy.deepcopy(ast.importances),
         )

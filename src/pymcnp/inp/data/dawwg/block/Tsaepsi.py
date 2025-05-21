@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tsaepsi(BlockOption):
     Attributes:
         setting: Convergence criteria for TSA sweeps.
     """
+
+    _KEYWORD = 'tsaepsi'
 
     _ATTRS = {
         'setting': types.Real,
@@ -74,4 +77,17 @@ class TsaepsiBuilder:
 
         return Tsaepsi(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tsaepsi):
+        """
+        Unbuilds ``Tsaepsi`` into ``TsaepsiBuilder``
+
+        Returns:
+            ``TsaepsiBuilder`` for ``Tsaepsi``.
+        """
+
+        return Tsaepsi(
+            setting=copy.deepcopy(ast.setting),
         )

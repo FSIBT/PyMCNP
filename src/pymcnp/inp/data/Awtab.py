@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Awtab(DataOption):
     Attributes:
         weight_ratios: Tuple of atomic weight ratios.
     """
+
+    _KEYWORD = 'awtab'
 
     _ATTRS = {
         'weight_ratios': types.Tuple[types.Substance],
@@ -79,4 +82,17 @@ class AwtabBuilder:
 
         return Awtab(
             weight_ratios=weight_ratios,
+        )
+
+    @staticmethod
+    def unbuild(ast: Awtab):
+        """
+        Unbuilds ``Awtab`` into ``AwtabBuilder``
+
+        Returns:
+            ``AwtabBuilder`` for ``Awtab``.
+        """
+
+        return Awtab(
+            weight_ratios=copy.deepcopy(ast.weight_ratios),
         )

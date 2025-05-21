@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Inc(FmeshOption):
         lower: Collision for FMESH tally lower bound.
         upper: Collision for FMESH tally upper bound.
     """
+
+    _KEYWORD = 'inc'
 
     _ATTRS = {
         'lower': types.Real,
@@ -90,4 +93,18 @@ class IncBuilder:
         return Inc(
             lower=lower,
             upper=upper,
+        )
+
+    @staticmethod
+    def unbuild(ast: Inc):
+        """
+        Unbuilds ``Inc`` into ``IncBuilder``
+
+        Returns:
+            ``IncBuilder`` for ``Inc``.
+        """
+
+        return Inc(
+            lower=copy.deepcopy(ast.lower),
+            upper=copy.deepcopy(ast.upper),
         )

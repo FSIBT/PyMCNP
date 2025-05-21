@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Fm(DataOption):
         suffix: Data card option suffix.
         bins: Tally multiplier bins.
     """
+
+    _KEYWORD = 'fm'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -89,4 +92,18 @@ class FmBuilder:
         return Fm(
             suffix=suffix,
             bins=bins,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fm):
+        """
+        Unbuilds ``Fm`` into ``FmBuilder``
+
+        Returns:
+            ``FmBuilder`` for ``Fm``.
+        """
+
+        return Fm(
+            suffix=copy.deepcopy(ast.suffix),
+            bins=copy.deepcopy(ast.bins),
         )

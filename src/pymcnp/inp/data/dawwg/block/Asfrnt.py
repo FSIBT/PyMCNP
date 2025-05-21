@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Asfrnt(BlockOption):
     Attributes:
         setting: Back-going flux at plane k.
     """
+
+    _KEYWORD = 'asfrnt'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class AsfrntBuilder:
 
         return Asfrnt(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Asfrnt):
+        """
+        Unbuilds ``Asfrnt`` into ``AsfrntBuilder``
+
+        Returns:
+            ``AsfrntBuilder`` for ``Asfrnt``.
+        """
+
+        return Asfrnt(
+            setting=copy.deepcopy(ast.setting),
         )

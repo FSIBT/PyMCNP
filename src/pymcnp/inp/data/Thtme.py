@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Thtme(DataOption):
     Attributes:
         times: Tuple of times when thermal temperatures are specified.
     """
+
+    _KEYWORD = 'thtme'
 
     _ATTRS = {
         'times': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class ThtmeBuilder:
 
         return Thtme(
             times=times,
+        )
+
+    @staticmethod
+    def unbuild(ast: Thtme):
+        """
+        Unbuilds ``Thtme`` into ``ThtmeBuilder``
+
+        Returns:
+            ``ThtmeBuilder`` for ``Thtme``.
+        """
+
+        return Thtme(
+            times=copy.deepcopy(ast.times),
         )

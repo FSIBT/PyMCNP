@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Cel(SdefOption):
     Attributes:
         number: Cell number.
     """
+
+    _KEYWORD = 'cel'
 
     _ATTRS = {
         'number': types.Integer,
@@ -76,4 +79,17 @@ class CelBuilder:
 
         return Cel(
             number=number,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cel):
+        """
+        Unbuilds ``Cel`` into ``CelBuilder``
+
+        Returns:
+            ``CelBuilder`` for ``Cel``.
+        """
+
+        return Cel(
+            number=copy.deepcopy(ast.number),
         )

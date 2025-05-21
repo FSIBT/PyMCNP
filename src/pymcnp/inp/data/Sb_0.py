@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Sb_0(DataOption):
         option: Bias kind setting.
         biases: Particle source biases.
     """
+
+    _KEYWORD = 'sb'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -114,4 +117,19 @@ class SbBuilder_0:
             suffix=suffix,
             option=option,
             biases=biases,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sb_0):
+        """
+        Unbuilds ``Sb_0`` into ``SbBuilder_0``
+
+        Returns:
+            ``SbBuilder_0`` for ``Sb_0``.
+        """
+
+        return Sb_0(
+            suffix=copy.deepcopy(ast.suffix),
+            option=copy.deepcopy(ast.option),
+            biases=copy.deepcopy(ast.biases),
         )

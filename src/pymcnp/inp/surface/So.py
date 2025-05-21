@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class So(SurfaceOption):
     Attributes:
         r: Origin-centered sphere radius.
     """
+
+    _KEYWORD = 'so'
 
     _ATTRS = {
         'r': types.Real,
@@ -87,4 +90,17 @@ class SoBuilder:
 
         return So(
             r=r,
+        )
+
+    @staticmethod
+    def unbuild(ast: So):
+        """
+        Unbuilds ``So`` into ``SoBuilder``
+
+        Returns:
+            ``SoBuilder`` for ``So``.
+        """
+
+        return So(
+            r=copy.deepcopy(ast.r),
         )

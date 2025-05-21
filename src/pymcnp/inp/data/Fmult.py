@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Fmult(DataOption):
         zaid: Nuclide for which data are entered.
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'fmult'
 
     _ATTRS = {
         'zaid': types.Zaid,
@@ -96,4 +99,18 @@ class FmultBuilder:
         return Fmult(
             zaid=zaid,
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fmult):
+        """
+        Unbuilds ``Fmult`` into ``FmultBuilder``
+
+        Returns:
+            ``FmultBuilder`` for ``Fmult``.
+        """
+
+        return Fmult(
+            zaid=copy.deepcopy(ast.zaid),
+            options=copy.deepcopy(ast.options),
         )

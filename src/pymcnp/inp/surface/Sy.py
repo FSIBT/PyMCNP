@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Sy(SurfaceOption):
         y: On-y-axis sphere center y component.
         r: On-y-axis sphere radius.
     """
+
+    _KEYWORD = 'sy'
 
     _ATTRS = {
         'y': types.Real,
@@ -107,4 +110,18 @@ class SyBuilder:
         return Sy(
             y=y,
             r=r,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sy):
+        """
+        Unbuilds ``Sy`` into ``SyBuilder``
+
+        Returns:
+            ``SyBuilder`` for ``Sy``.
+        """
+
+        return Sy(
+            y=copy.deepcopy(ast.y),
+            r=copy.deepcopy(ast.r),
         )

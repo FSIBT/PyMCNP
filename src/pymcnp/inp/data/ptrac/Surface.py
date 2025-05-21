@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Surface(PtracOption):
     Attributes:
         numbers: List of surface numbers for filtering.
     """
+
+    _KEYWORD = 'surface'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -81,4 +84,17 @@ class SurfaceBuilder:
 
         return Surface(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Surface):
+        """
+        Unbuilds ``Surface`` into ``SurfaceBuilder``
+
+        Returns:
+            ``SurfaceBuilder`` for ``Surface``.
+        """
+
+        return Surface(
+            numbers=copy.deepcopy(ast.numbers),
         )

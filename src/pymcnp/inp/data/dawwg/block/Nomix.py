@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nomix(BlockOption):
     Attributes:
         setting: Suppress writing mixing on/off.
     """
+
+    _KEYWORD = 'nomix'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class NomixBuilder:
 
         return Nomix(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nomix):
+        """
+        Unbuilds ``Nomix`` into ``NomixBuilder``
+
+        Returns:
+            ``NomixBuilder`` for ``Nomix``.
+        """
+
+        return Nomix(
+            setting=copy.deepcopy(ast.setting),
         )

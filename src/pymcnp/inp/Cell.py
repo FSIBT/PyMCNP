@@ -1,4 +1,5 @@
 import re
+import copy
 import dataclasses
 
 
@@ -180,5 +181,85 @@ class CellBuilder:
             material=material,
             density=density,
             geometry=geometry,
+            options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cell):
+        """
+        Unbuilds ``Cell`` into ``CellBuilder``
+
+        Returns:
+            ``CellBuilder`` for ``Cell``.
+        """
+
+        options = []
+        for option in ast.options or []:
+            if isinstance(ast.option, cell.Imp):
+                options.append(cell.ImpBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.Vol):
+                options.append(cell.VolBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.Pwt):
+                options.append(cell.PwtBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.Ext):
+                options.append(cell.ExtBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.Fcl):
+                options.append(cell.FclBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.Wwn):
+                options.append(cell.WwnBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.Dxc):
+                options.append(cell.DxcBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.Nonu):
+                options.append(cell.NonuBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.Pd):
+                options.append(cell.PdBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.U):
+                options.append(cell.UBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.Trcl_0):
+                options.append(cell.TrclBuilder_0.unbuild(option))
+            elif isinstance(ast.option, cell.Trcl_1):
+                options.append(cell.TrclBuilder_1.unbuild(option))
+            elif isinstance(ast.option, cell.Trcl_2):
+                options.append(cell.TrclBuilder_2.unbuild(option))
+            elif isinstance(ast.option, cell.Trcl_3):
+                options.append(cell.TrclBuilder_3.unbuild(option))
+            elif isinstance(ast.option, cell.Trcl_4):
+                options.append(cell.TrclBuilder_4.unbuild(option))
+            elif isinstance(ast.option, cell.Trcl_5):
+                options.append(cell.TrclBuilder_5.unbuild(option))
+            elif isinstance(ast.option, cell.Lat):
+                options.append(cell.LatBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.Fill_0):
+                options.append(cell.FillBuilder_0.unbuild(option))
+            elif isinstance(ast.option, cell.Fill_1):
+                options.append(cell.FillBuilder_1.unbuild(option))
+            elif isinstance(ast.option, cell.Fill_2):
+                options.append(cell.FillBuilder_2.unbuild(option))
+            elif isinstance(ast.option, cell.Fill_3):
+                options.append(cell.FillBuilder_3.unbuild(option))
+            elif isinstance(ast.option, cell.Fill_4):
+                options.append(cell.FillBuilder_4.unbuild(option))
+            elif isinstance(ast.option, cell.Fill_5):
+                options.append(cell.FillBuilder_5.unbuild(option))
+            elif isinstance(ast.option, cell.Fill_6):
+                options.append(cell.FillBuilder_6.unbuild(option))
+            elif isinstance(ast.option, cell.Elpt):
+                options.append(cell.ElptBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.Tmp_0):
+                options.append(cell.TmpBuilder_0.unbuild(option))
+            elif isinstance(ast.option, cell.Tmp_1):
+                options.append(cell.TmpBuilder_1.unbuild(option))
+            elif isinstance(ast.option, cell.Cosy):
+                options.append(cell.CosyBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.Bflcl):
+                options.append(cell.BflclBuilder.unbuild(option))
+            elif isinstance(ast.option, cell.Unc):
+                options.append(cell.UncBuilder.unbuild(option))
+
+        return CellBuilder(
+            number=copy.deepcopy(ast.number),
+            material=copy.deepcopy(ast.material),
+            density=copy.deepcopy(ast.density),
+            geometry=copy.deepcopy(ast.geometry),
             options=options,
         )

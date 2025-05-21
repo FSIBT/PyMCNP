@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mplot(DataOption):
     Attributes:
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'mplot'
 
     _ATTRS = {
         'options': types.Tuple[mplot.MplotOption],
@@ -76,4 +79,17 @@ class MplotBuilder:
 
         return Mplot(
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mplot):
+        """
+        Unbuilds ``Mplot`` into ``MplotBuilder``
+
+        Returns:
+            ``MplotBuilder`` for ``Mplot``.
+        """
+
+        return Mplot(
+            options=copy.deepcopy(ast.options),
         )

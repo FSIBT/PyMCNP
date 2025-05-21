@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Dneb(ActOption):
     Attributes:
         biases: Delayed neutron energy biases.
     """
+
+    _KEYWORD = 'dneb'
 
     _ATTRS = {
         'biases': types.Tuple[types.Bias],
@@ -79,4 +82,17 @@ class DnebBuilder:
 
         return Dneb(
             biases=biases,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dneb):
+        """
+        Unbuilds ``Dneb`` into ``DnebBuilder``
+
+        Returns:
+            ``DnebBuilder`` for ``Dneb``.
+        """
+
+        return Dneb(
+            biases=copy.deepcopy(ast.biases),
         )

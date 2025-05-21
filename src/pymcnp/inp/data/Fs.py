@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class Fs(DataOption):
         t: Notation to provide totals.
         c: Notation to make bin values cumulative.
     """
+
+    _KEYWORD = 'fs'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -138,4 +141,20 @@ class FsBuilder:
             numbers=numbers,
             t=t,
             c=c,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fs):
+        """
+        Unbuilds ``Fs`` into ``FsBuilder``
+
+        Returns:
+            ``FsBuilder`` for ``Fs``.
+        """
+
+        return Fs(
+            suffix=copy.deepcopy(ast.suffix),
+            numbers=copy.deepcopy(ast.numbers),
+            t=copy.deepcopy(ast.t),
+            c=copy.deepcopy(ast.c),
         )

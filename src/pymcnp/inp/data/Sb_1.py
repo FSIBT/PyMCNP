@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Sb_1(DataOption):
         a: Built-in function parameter #1.
         b: Built-in function parameter #2.
     """
+
+    _KEYWORD = 'sb'
 
     _ATTRS = {
         'function': types.Integer,
@@ -110,4 +113,19 @@ class SbBuilder_1:
             function=function,
             a=a,
             b=b,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sb_1):
+        """
+        Unbuilds ``Sb_1`` into ``SbBuilder_1``
+
+        Returns:
+            ``SbBuilder_1`` for ``Sb_1``.
+        """
+
+        return Sb_1(
+            function=copy.deepcopy(ast.function),
+            a=copy.deepcopy(ast.a),
+            b=copy.deepcopy(ast.b),
         )

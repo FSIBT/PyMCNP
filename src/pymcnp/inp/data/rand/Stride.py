@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Stride(RandOption):
     Attributes:
         stride: Number of random numbers between source particle.
     """
+
+    _KEYWORD = 'stride'
 
     _ATTRS = {
         'stride': types.Integer,
@@ -74,4 +77,17 @@ class StrideBuilder:
 
         return Stride(
             stride=stride,
+        )
+
+    @staticmethod
+    def unbuild(ast: Stride):
+        """
+        Unbuilds ``Stride`` into ``StrideBuilder``
+
+        Returns:
+            ``StrideBuilder`` for ``Stride``.
+        """
+
+        return Stride(
+            stride=copy.deepcopy(ast.stride),
         )

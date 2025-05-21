@@ -15,6 +15,8 @@ class Printpts(MplotOption):
 
     """
 
+    _KEYWORD = 'printpts'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Aprintpts\Z')
@@ -50,6 +52,17 @@ class PrintptsBuilder:
 
         Returns:
             ``Printpts`` for ``PrintptsBuilder``.
+        """
+
+        return Printpts()
+
+    @staticmethod
+    def unbuild(ast: Printpts):
+        """
+        Unbuilds ``Printpts`` into ``PrintptsBuilder``
+
+        Returns:
+            ``PrintptsBuilder`` for ``Printpts``.
         """
 
         return Printpts()

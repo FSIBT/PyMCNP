@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Blocksize(KoptsOption):
     Attributes:
         ncy: Number of cycles in every outer iteration.
     """
+
+    _KEYWORD = 'blocksize'
 
     _ATTRS = {
         'ncy': types.Integer,
@@ -74,4 +77,17 @@ class BlocksizeBuilder:
 
         return Blocksize(
             ncy=ncy,
+        )
+
+    @staticmethod
+    def unbuild(ast: Blocksize):
+        """
+        Unbuilds ``Blocksize`` into ``BlocksizeBuilder``
+
+        Returns:
+            ``BlocksizeBuilder`` for ``Blocksize``.
+        """
+
+        return Blocksize(
+            ncy=copy.deepcopy(ast.ncy),
         )

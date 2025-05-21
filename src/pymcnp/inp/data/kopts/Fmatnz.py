@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fmatnz(KoptsOption):
     Attributes:
         fmat_nz: fmat_nz.
     """
+
+    _KEYWORD = 'fmatnz'
 
     _ATTRS = {
         'fmat_nz': types.Real,
@@ -74,4 +77,17 @@ class FmatnzBuilder:
 
         return Fmatnz(
             fmat_nz=fmat_nz,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fmatnz):
+        """
+        Unbuilds ``Fmatnz`` into ``FmatnzBuilder``
+
+        Returns:
+            ``FmatnzBuilder`` for ``Fmatnz``.
+        """
+
+        return Fmatnz(
+            fmat_nz=copy.deepcopy(ast.fmat_nz),
         )

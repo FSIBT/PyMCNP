@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Dat(SdefOption):
         day: Day for cosmic-ray & background sources.
         year: Year for cosmic-ray & background sources.
     """
+
+    _KEYWORD = 'dat'
 
     _ATTRS = {
         'month': types.Integer,
@@ -112,4 +115,19 @@ class DatBuilder:
             month=month,
             day=day,
             year=year,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dat):
+        """
+        Unbuilds ``Dat`` into ``DatBuilder``
+
+        Returns:
+            ``DatBuilder`` for ``Dat``.
+        """
+
+        return Dat(
+            month=copy.deepcopy(ast.month),
+            day=copy.deepcopy(ast.day),
+            year=copy.deepcopy(ast.year),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class List(EmbeeOption):
     Attributes:
         reactions: List of reactions.
     """
+
+    _KEYWORD = 'list'
 
     _ATTRS = {
         'reactions': types.Real,
@@ -74,4 +77,17 @@ class ListBuilder:
 
         return List(
             reactions=reactions,
+        )
+
+    @staticmethod
+    def unbuild(ast: List):
+        """
+        Unbuilds ``List`` into ``ListBuilder``
+
+        Returns:
+            ``ListBuilder`` for ``List``.
+        """
+
+        return List(
+            reactions=copy.deepcopy(ast.reactions),
         )

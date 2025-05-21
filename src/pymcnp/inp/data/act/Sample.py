@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Sample(ActOption):
     Attributes:
         setting: Flag for correlated or uncorrelated.
     """
+
+    _KEYWORD = 'sample'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class SampleBuilder:
 
         return Sample(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sample):
+        """
+        Unbuilds ``Sample`` into ``SampleBuilder``
+
+        Returns:
+            ``SampleBuilder`` for ``Sample``.
+        """
+
+        return Sample(
+            setting=copy.deepcopy(ast.setting),
         )

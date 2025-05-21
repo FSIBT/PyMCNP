@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Unc(DataOption):
     Attributes:
         settings: Tuple of uncollided secondary settings.
     """
+
+    _KEYWORD = 'unc'
 
     _ATTRS = {
         'settings': types.Tuple[types.Integer],
@@ -79,4 +82,17 @@ class UncBuilder:
 
         return Unc(
             settings=settings,
+        )
+
+    @staticmethod
+    def unbuild(ast: Unc):
+        """
+        Unbuilds ``Unc`` into ``UncBuilder``
+
+        Returns:
+            ``UncBuilder`` for ``Unc``.
+        """
+
+        return Unc(
+            settings=copy.deepcopy(ast.settings),
         )

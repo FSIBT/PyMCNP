@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Gmvfile(EmbedOption):
     Attributes:
         filename: Name of the GMV output file.
     """
+
+    _KEYWORD = 'gmvfile'
 
     _ATTRS = {
         'filename': types.String,
@@ -72,4 +75,17 @@ class GmvfileBuilder:
 
         return Gmvfile(
             filename=filename,
+        )
+
+    @staticmethod
+    def unbuild(ast: Gmvfile):
+        """
+        Unbuilds ``Gmvfile`` into ``GmvfileBuilder``
+
+        Returns:
+            ``GmvfileBuilder`` for ``Gmvfile``.
+        """
+
+        return Gmvfile(
+            filename=copy.deepcopy(ast.filename),
         )

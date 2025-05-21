@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fmatskpt(KoptsOption):
     Attributes:
         fmat_skip: fmat_skip.
     """
+
+    _KEYWORD = 'fmatskpt'
 
     _ATTRS = {
         'fmat_skip': types.Real,
@@ -74,4 +77,17 @@ class FmatskptBuilder:
 
         return Fmatskpt(
             fmat_skip=fmat_skip,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fmatskpt):
+        """
+        Unbuilds ``Fmatskpt`` into ``FmatskptBuilder``
+
+        Returns:
+            ``FmatskptBuilder`` for ``Fmatskpt``.
+        """
+
+        return Fmatskpt(
+            fmat_skip=copy.deepcopy(ast.fmat_skip),
         )

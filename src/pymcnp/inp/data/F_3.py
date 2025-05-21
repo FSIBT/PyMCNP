@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class F_3(DataOption):
         problems: Problem numbers of cell.
         t: Average tallies option.
     """
+
+    _KEYWORD = 'f'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -133,4 +136,20 @@ class FBuilder_3:
             designator=designator,
             problems=problems,
             t=t,
+        )
+
+    @staticmethod
+    def unbuild(ast: F_3):
+        """
+        Unbuilds ``F_3`` into ``FBuilder_3``
+
+        Returns:
+            ``FBuilder_3`` for ``F_3``.
+        """
+
+        return F_3(
+            suffix=copy.deepcopy(ast.suffix),
+            designator=copy.deepcopy(ast.designator),
+            problems=copy.deepcopy(ast.problems),
+            t=copy.deepcopy(ast.t),
         )

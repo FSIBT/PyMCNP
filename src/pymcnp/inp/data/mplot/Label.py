@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Label(MplotOption):
     Attributes:
         aa: Line to substitute.
     """
+
+    _KEYWORD = 'label'
 
     _ATTRS = {
         'aa': types.String,
@@ -72,4 +75,17 @@ class LabelBuilder:
 
         return Label(
             aa=aa,
+        )
+
+    @staticmethod
+    def unbuild(ast: Label):
+        """
+        Unbuilds ``Label`` into ``LabelBuilder``
+
+        Returns:
+            ``LabelBuilder`` for ``Label``.
+        """
+
+        return Label(
+            aa=copy.deepcopy(ast.aa),
         )

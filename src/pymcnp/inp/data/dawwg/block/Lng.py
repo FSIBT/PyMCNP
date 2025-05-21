@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Lng(BlockOption):
     Attributes:
         setting: Number of the last neutron group.
     """
+
+    _KEYWORD = 'lng'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class LngBuilder:
 
         return Lng(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Lng):
+        """
+        Unbuilds ``Lng`` into ``LngBuilder``
+
+        Returns:
+            ``LngBuilder`` for ``Lng``.
+        """
+
+        return Lng(
+            setting=copy.deepcopy(ast.setting),
         )

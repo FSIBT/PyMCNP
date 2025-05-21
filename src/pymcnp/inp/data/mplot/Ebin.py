@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ebin(MplotOption):
     Attributes:
         n: Energy bin to plot.
     """
+
+    _KEYWORD = 'ebin'
 
     _ATTRS = {
         'n': types.Integer,
@@ -74,4 +77,17 @@ class EbinBuilder:
 
         return Ebin(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ebin):
+        """
+        Unbuilds ``Ebin`` into ``EbinBuilder``
+
+        Returns:
+            ``EbinBuilder`` for ``Ebin``.
+        """
+
+        return Ebin(
+            n=copy.deepcopy(ast.n),
         )

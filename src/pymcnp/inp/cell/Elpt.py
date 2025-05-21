@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Elpt(CellOption):
         designator: Cell particle designator.
         cutoff: Cell energy cutoff.
     """
+
+    _KEYWORD = 'elpt'
 
     _ATTRS = {
         'designator': types.Designator,
@@ -89,4 +92,18 @@ class ElptBuilder:
         return Elpt(
             designator=designator,
             cutoff=cutoff,
+        )
+
+    @staticmethod
+    def unbuild(ast: Elpt):
+        """
+        Unbuilds ``Elpt`` into ``ElptBuilder``
+
+        Returns:
+            ``ElptBuilder`` for ``Elpt``.
+        """
+
+        return Elpt(
+            designator=copy.deepcopy(ast.designator),
+            cutoff=copy.deepcopy(ast.cutoff),
         )

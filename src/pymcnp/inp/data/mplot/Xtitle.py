@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Xtitle(MplotOption):
     Attributes:
         aa: Line to substitute.
     """
+
+    _KEYWORD = 'xtitle'
 
     _ATTRS = {
         'aa': types.String,
@@ -72,4 +75,17 @@ class XtitleBuilder:
 
         return Xtitle(
             aa=aa,
+        )
+
+    @staticmethod
+    def unbuild(ast: Xtitle):
+        """
+        Unbuilds ``Xtitle`` into ``XtitleBuilder``
+
+        Returns:
+            ``XtitleBuilder`` for ``Xtitle``.
+        """
+
+        return Xtitle(
+            aa=copy.deepcopy(ast.aa),
         )

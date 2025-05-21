@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Origin(FmeshOption):
         y: Origin y coordinate.
         z: Origin z coordinate.
     """
+
+    _KEYWORD = 'origin'
 
     _ATTRS = {
         'x': types.Real,
@@ -112,4 +115,19 @@ class OriginBuilder:
             x=x,
             y=y,
             z=z,
+        )
+
+    @staticmethod
+    def unbuild(ast: Origin):
+        """
+        Unbuilds ``Origin`` into ``OriginBuilder``
+
+        Returns:
+            ``OriginBuilder`` for ``Origin``.
+        """
+
+        return Origin(
+            x=copy.deepcopy(ast.x),
+            y=copy.deepcopy(ast.y),
+            z=copy.deepcopy(ast.z),
         )

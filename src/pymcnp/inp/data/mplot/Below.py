@@ -15,6 +15,8 @@ class Below(MplotOption):
 
     """
 
+    _KEYWORD = 'below'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Abelow\Z')
@@ -50,6 +52,17 @@ class BelowBuilder:
 
         Returns:
             ``Below`` for ``BelowBuilder``.
+        """
+
+        return Below()
+
+    @staticmethod
+    def unbuild(ast: Below):
+        """
+        Unbuilds ``Below`` into ``BelowBuilder``
+
+        Returns:
+            ``BelowBuilder`` for ``Below``.
         """
 
         return Below()

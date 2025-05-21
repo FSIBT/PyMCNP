@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Wwn(DataOption):
         designator: Data card particle designator.
         bounds: Lower weight bound.
     """
+
+    _KEYWORD = 'wwn'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -113,4 +116,19 @@ class WwnBuilder:
             suffix=suffix,
             designator=designator,
             bounds=bounds,
+        )
+
+    @staticmethod
+    def unbuild(ast: Wwn):
+        """
+        Unbuilds ``Wwn`` into ``WwnBuilder``
+
+        Returns:
+            ``WwnBuilder`` for ``Wwn``.
+        """
+
+        return Wwn(
+            suffix=copy.deepcopy(ast.suffix),
+            designator=copy.deepcopy(ast.designator),
+            bounds=copy.deepcopy(ast.bounds),
         )

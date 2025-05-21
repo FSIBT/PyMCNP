@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ibb(BlockOption):
     Attributes:
         setting: Bottom  boudary condition.
     """
+
+    _KEYWORD = 'ibb'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class IbbBuilder:
 
         return Ibb(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ibb):
+        """
+        Unbuilds ``Ibb`` into ``IbbBuilder``
+
+        Returns:
+            ``IbbBuilder`` for ``Ibb``.
+        """
+
+        return Ibb(
+            setting=copy.deepcopy(ast.setting),
         )

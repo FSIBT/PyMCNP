@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Axs(MeshOption):
     Attributes:
         vector: Vector giving the direction of the polar axis.
     """
+
+    _KEYWORD = 'axs'
 
     _ATTRS = {
         'vector': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class AxsBuilder:
 
         return Axs(
             vector=vector,
+        )
+
+    @staticmethod
+    def unbuild(ast: Axs):
+        """
+        Unbuilds ``Axs`` into ``AxsBuilder``
+
+        Returns:
+            ``AxsBuilder`` for ``Axs``.
+        """
+
+        return Axs(
+            vector=copy.deepcopy(ast.vector),
         )

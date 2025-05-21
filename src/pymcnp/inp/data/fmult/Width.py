@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Width(FmultOption):
     Attributes:
         width: Width for sampling spontaneous fission.
     """
+
+    _KEYWORD = 'width'
 
     _ATTRS = {
         'width': types.Real,
@@ -74,4 +77,17 @@ class WidthBuilder:
 
         return Width(
             width=width,
+        )
+
+    @staticmethod
+    def unbuild(ast: Width):
+        """
+        Unbuilds ``Width`` into ``WidthBuilder``
+
+        Returns:
+            ``WidthBuilder`` for ``Width``.
+        """
+
+        return Width(
+            width=copy.deepcopy(ast.width),
         )

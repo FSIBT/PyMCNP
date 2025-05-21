@@ -15,6 +15,8 @@ class Printal(MplotOption):
 
     """
 
+    _KEYWORD = 'printal'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Aprintal\Z')
@@ -50,6 +52,17 @@ class PrintalBuilder:
 
         Returns:
             ``Printal`` for ``PrintalBuilder``.
+        """
+
+        return Printal()
+
+    @staticmethod
+    def unbuild(ast: Printal):
+        """
+        Unbuilds ``Printal`` into ``PrintalBuilder``
+
+        Returns:
+            ``PrintalBuilder`` for ``Printal``.
         """
 
         return Printal()

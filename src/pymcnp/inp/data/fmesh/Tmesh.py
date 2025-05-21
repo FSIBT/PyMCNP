@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tmesh(FmeshOption):
     Attributes:
         time: Values of mesh points in time.
     """
+
+    _KEYWORD = 'tmesh'
 
     _ATTRS = {
         'time': types.Real,
@@ -74,4 +77,17 @@ class TmeshBuilder:
 
         return Tmesh(
             time=time,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tmesh):
+        """
+        Unbuilds ``Tmesh`` into ``TmeshBuilder``
+
+        Returns:
+            ``TmeshBuilder`` for ``Tmesh``.
+        """
+
+        return Tmesh(
+            time=copy.deepcopy(ast.time),
         )

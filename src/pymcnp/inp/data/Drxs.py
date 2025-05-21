@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -14,6 +15,8 @@ class Drxs(DataOption):
     Attributes:
         zaids: Tuple of ZAID aliases.
     """
+
+    _KEYWORD = 'drxs'
 
     _ATTRS = {
         'zaids': types.Tuple[types.Zaid],
@@ -75,4 +78,17 @@ class DrxsBuilder:
 
         return Drxs(
             zaids=zaids,
+        )
+
+    @staticmethod
+    def unbuild(ast: Drxs):
+        """
+        Unbuilds ``Drxs`` into ``DrxsBuilder``
+
+        Returns:
+            ``DrxsBuilder`` for ``Drxs``.
+        """
+
+        return Drxs(
+            zaids=copy.deepcopy(ast.zaids),
         )

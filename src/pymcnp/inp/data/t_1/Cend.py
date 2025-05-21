@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Cend(TOption_1):
     Attributes:
         time: Reference ending time.
     """
+
+    _KEYWORD = 'cend'
 
     _ATTRS = {
         'time': types.Real,
@@ -74,4 +77,17 @@ class CendBuilder:
 
         return Cend(
             time=time,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cend):
+        """
+        Unbuilds ``Cend`` into ``CendBuilder``
+
+        Returns:
+            ``CendBuilder`` for ``Cend``.
+        """
+
+        return Cend(
+            time=copy.deepcopy(ast.time),
         )

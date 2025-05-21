@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -28,6 +29,8 @@ class Phys_2(DataOption):
         electron_method_boundary: Single-event transport start sontrols.
         ckvnum: Crenkov photon emission scalar.
     """
+
+    _KEYWORD = 'phys:e'
 
     _ATTRS = {
         'emax': types.Real,
@@ -328,4 +331,30 @@ class PhysBuilder_2:
             efac=efac,
             electron_method_boundary=electron_method_boundary,
             ckvnum=ckvnum,
+        )
+
+    @staticmethod
+    def unbuild(ast: Phys_2):
+        """
+        Unbuilds ``Phys_2`` into ``PhysBuilder_2``
+
+        Returns:
+            ``PhysBuilder_2`` for ``Phys_2``.
+        """
+
+        return Phys_2(
+            emax=copy.deepcopy(ast.emax),
+            ides=copy.deepcopy(ast.ides),
+            iphot=copy.deepcopy(ast.iphot),
+            ibad=copy.deepcopy(ast.ibad),
+            istrg=copy.deepcopy(ast.istrg),
+            bnum=copy.deepcopy(ast.bnum),
+            xnum=copy.deepcopy(ast.xnum),
+            rnok=copy.deepcopy(ast.rnok),
+            enum=copy.deepcopy(ast.enum),
+            numb=copy.deepcopy(ast.numb),
+            i_mcs_model=copy.deepcopy(ast.i_mcs_model),
+            efac=copy.deepcopy(ast.efac),
+            electron_method_boundary=copy.deepcopy(ast.electron_method_boundary),
+            ckvnum=copy.deepcopy(ast.ckvnum),
         )

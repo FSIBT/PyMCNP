@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Constrain(KsenOption):
     Attributes:
         setting: Renormalize sensitivity distribution on/off.
     """
+
+    _KEYWORD = 'constrain'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class ConstrainBuilder:
 
         return Constrain(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Constrain):
+        """
+        Unbuilds ``Constrain`` into ``ConstrainBuilder``
+
+        Returns:
+            ``ConstrainBuilder`` for ``Constrain``.
+        """
+
+        return Constrain(
+            setting=copy.deepcopy(ast.setting),
         )

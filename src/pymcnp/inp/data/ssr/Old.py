@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Old(SsrOption):
     Attributes:
         numbers: Tuple of surface numbers from subset of surfaces on SSW card.
     """
+
+    _KEYWORD = 'old'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -81,4 +84,17 @@ class OldBuilder:
 
         return Old(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Old):
+        """
+        Unbuilds ``Old`` into ``OldBuilder``
+
+        Returns:
+            ``OldBuilder`` for ``Old``.
+        """
+
+        return Old(
+            numbers=copy.deepcopy(ast.numbers),
         )

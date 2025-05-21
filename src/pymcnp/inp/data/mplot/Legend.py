@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Legend(MplotOption):
         x: Label x-location.
         y: Label x-location.
     """
+
+    _KEYWORD = 'legend'
 
     _ATTRS = {
         'x': types.Real,
@@ -88,4 +91,18 @@ class LegendBuilder:
         return Legend(
             x=x,
             y=y,
+        )
+
+    @staticmethod
+    def unbuild(ast: Legend):
+        """
+        Unbuilds ``Legend`` into ``LegendBuilder``
+
+        Returns:
+            ``LegendBuilder`` for ``Legend``.
+        """
+
+        return Legend(
+            x=copy.deepcopy(ast.x),
+            y=copy.deepcopy(ast.y),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Erg_1(SdefOption):
     Attributes:
         energy: Kinetic energy.
     """
+
+    _KEYWORD = 'erg'
 
     _ATTRS = {
         'energy': types.DistributionNumber,
@@ -72,4 +75,17 @@ class ErgBuilder_1:
 
         return Erg_1(
             energy=energy,
+        )
+
+    @staticmethod
+    def unbuild(ast: Erg_1):
+        """
+        Unbuilds ``Erg_1`` into ``ErgBuilder_1``
+
+        Returns:
+            ``ErgBuilder_1`` for ``Erg_1``.
+        """
+
+        return Erg_1(
+            energy=copy.deepcopy(ast.energy),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fill(DataOption):
     Attributes:
         numbers: Tuple of universe numbers.
     """
+
+    _KEYWORD = 'fill'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -81,4 +84,17 @@ class FillBuilder:
 
         return Fill(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fill):
+        """
+        Unbuilds ``Fill`` into ``FillBuilder``
+
+        Returns:
+            ``FillBuilder`` for ``Fill``.
+        """
+
+        return Fill(
+            numbers=copy.deepcopy(ast.numbers),
         )

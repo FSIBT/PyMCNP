@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Filter(PtracOption):
     Attributes:
         variables: MCNP6 variables for filtering.
     """
+
+    _KEYWORD = 'filter'
 
     _ATTRS = {
         'variables': types.Tuple[types.PtracFilter],
@@ -79,4 +82,17 @@ class FilterBuilder:
 
         return Filter(
             variables=variables,
+        )
+
+    @staticmethod
+    def unbuild(ast: Filter):
+        """
+        Unbuilds ``Filter`` into ``FilterBuilder``
+
+        Returns:
+            ``FilterBuilder`` for ``Filter``.
+        """
+
+        return Filter(
+            variables=copy.deepcopy(ast.variables),
         )

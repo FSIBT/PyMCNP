@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -20,6 +21,8 @@ class Z(SurfaceOption):
         z3: Z-axisymmetric point-defined surface point #3 z component.
         r3: Z-axisymmetric point-defined surface point #3 radius.
     """
+
+    _KEYWORD = 'z'
 
     _ATTRS = {
         'z1': types.Real,
@@ -174,4 +177,22 @@ class ZBuilder:
             r2=r2,
             z3=z3,
             r3=r3,
+        )
+
+    @staticmethod
+    def unbuild(ast: Z):
+        """
+        Unbuilds ``Z`` into ``ZBuilder``
+
+        Returns:
+            ``ZBuilder`` for ``Z``.
+        """
+
+        return Z(
+            z1=copy.deepcopy(ast.z1),
+            r1=copy.deepcopy(ast.r1),
+            z2=copy.deepcopy(ast.z2),
+            r2=copy.deepcopy(ast.r2),
+            z3=copy.deepcopy(ast.z3),
+            r3=copy.deepcopy(ast.r3),
         )

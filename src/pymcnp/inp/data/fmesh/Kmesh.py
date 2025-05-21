@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Kmesh(FmeshOption):
     Attributes:
         locations: Locations of mesh points z/theta for rectangular/cylindrical geometry.
     """
+
+    _KEYWORD = 'kmesh'
 
     _ATTRS = {
         'locations': types.Real,
@@ -74,4 +77,17 @@ class KmeshBuilder:
 
         return Kmesh(
             locations=locations,
+        )
+
+    @staticmethod
+    def unbuild(ast: Kmesh):
+        """
+        Unbuilds ``Kmesh`` into ``KmeshBuilder``
+
+        Returns:
+            ``KmeshBuilder`` for ``Kmesh``.
+        """
+
+        return Kmesh(
+            locations=copy.deepcopy(ast.locations),
         )

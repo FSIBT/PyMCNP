@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tmp_1(CellOption):
     Attributes:
         temperature: Temperature at time index.
     """
+
+    _KEYWORD = 'tmp'
 
     _ATTRS = {
         'temperature': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class TmpBuilder_1:
 
         return Tmp_1(
             temperature=temperature,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tmp_1):
+        """
+        Unbuilds ``Tmp_1`` into ``TmpBuilder_1``
+
+        Returns:
+            ``TmpBuilder_1`` for ``Tmp_1``.
+        """
+
+        return Tmp_1(
+            temperature=copy.deepcopy(ast.temperature),
         )

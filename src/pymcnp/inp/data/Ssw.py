@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class Ssw(DataOption):
         cells: Problem cells.
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'ssw'
 
     _ATTRS = {
         'surfaces': types.Tuple[types.Integer],
@@ -131,4 +134,19 @@ class SswBuilder:
             surfaces=surfaces,
             cells=cells,
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ssw):
+        """
+        Unbuilds ``Ssw`` into ``SswBuilder``
+
+        Returns:
+            ``SswBuilder`` for ``Ssw``.
+        """
+
+        return Ssw(
+            surfaces=copy.deepcopy(ast.surfaces),
+            cells=copy.deepcopy(ast.cells),
+            options=copy.deepcopy(ast.options),
         )

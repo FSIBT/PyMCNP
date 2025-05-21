@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class File(MplotOption):
     Attributes:
         aa: Graphics metafile on/off.
     """
+
+    _KEYWORD = 'file'
 
     _ATTRS = {
         'aa': types.String,
@@ -72,4 +75,17 @@ class FileBuilder:
 
         return File(
             aa=aa,
+        )
+
+    @staticmethod
+    def unbuild(ast: File):
+        """
+        Unbuilds ``File`` into ``FileBuilder``
+
+        Returns:
+            ``FileBuilder`` for ``File``.
+        """
+
+        return File(
+            aa=copy.deepcopy(ast.aa),
         )

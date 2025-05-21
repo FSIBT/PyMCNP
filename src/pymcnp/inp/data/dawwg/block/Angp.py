@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Angp(BlockOption):
     Attributes:
         setting: Print angular flux on/off.
     """
+
+    _KEYWORD = 'angp'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class AngpBuilder:
 
         return Angp(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Angp):
+        """
+        Unbuilds ``Angp`` into ``AngpBuilder``
+
+        Returns:
+            ``AngpBuilder`` for ``Angp``.
+        """
+
+        return Angp(
+            setting=copy.deepcopy(ast.setting),
         )

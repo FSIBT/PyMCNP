@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -25,6 +26,8 @@ class Phys_4(DataOption):
         ckvnum: Crenkov photon emission scalar.
         drp: Lower energy delta-ray cutoff.
     """
+
+    _KEYWORD = 'phys'
 
     _ATTRS = {
         'designator': types.Designator,
@@ -276,4 +279,27 @@ class PhysBuilder_4:
             efac=efac,
             ckvnum=ckvnum,
             drp=drp,
+        )
+
+    @staticmethod
+    def unbuild(ast: Phys_4):
+        """
+        Unbuilds ``Phys_4`` into ``PhysBuilder_4``
+
+        Returns:
+            ``PhysBuilder_4`` for ``Phys_4``.
+        """
+
+        return Phys_4(
+            designator=copy.deepcopy(ast.designator),
+            emax=copy.deepcopy(ast.emax),
+            istrg=copy.deepcopy(ast.istrg),
+            xmunum=copy.deepcopy(ast.xmunum),
+            xmugam=copy.deepcopy(ast.xmugam),
+            i_mcs_model=copy.deepcopy(ast.i_mcs_model),
+            i_int_model=copy.deepcopy(ast.i_int_model),
+            i_els_model=copy.deepcopy(ast.i_els_model),
+            efac=copy.deepcopy(ast.efac),
+            ckvnum=copy.deepcopy(ast.ckvnum),
+            drp=copy.deepcopy(ast.drp),
         )

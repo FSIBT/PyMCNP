@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -14,6 +15,8 @@ class Za(DataOption):
     Attributes:
         anything: Any parameters.
     """
+
+    _KEYWORD = 'za'
 
     _ATTRS = {
         'anything': types.String,
@@ -68,4 +71,17 @@ class ZaBuilder:
 
         return Za(
             anything=anything,
+        )
+
+    @staticmethod
+    def unbuild(ast: Za):
+        """
+        Unbuilds ``Za`` into ``ZaBuilder``
+
+        Returns:
+            ``ZaBuilder`` for ``Za``.
+        """
+
+        return Za(
+            anything=copy.deepcopy(ast.anything),
         )

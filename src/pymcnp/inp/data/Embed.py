@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Embed(DataOption):
     Attributes:
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'embed'
 
     _ATTRS = {
         'options': types.Tuple[embed.EmbedOption],
@@ -76,4 +79,17 @@ class EmbedBuilder:
 
         return Embed(
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Embed):
+        """
+        Unbuilds ``Embed`` into ``EmbedBuilder``
+
+        Returns:
+            ``EmbedBuilder`` for ``Embed``.
+        """
+
+        return Embed(
+            options=copy.deepcopy(ast.options),
         )

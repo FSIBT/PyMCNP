@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nogeod(BlockOption):
     Attributes:
         setting: Suppress writing GEODST on/off.
     """
+
+    _KEYWORD = 'nogeod'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class NogeodBuilder:
 
         return Nogeod(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nogeod):
+        """
+        Unbuilds ``Nogeod`` into ``NogeodBuilder``
+
+        Returns:
+            ``NogeodBuilder`` for ``Nogeod``.
+        """
+
+        return Nogeod(
+            setting=copy.deepcopy(ast.setting),
         )

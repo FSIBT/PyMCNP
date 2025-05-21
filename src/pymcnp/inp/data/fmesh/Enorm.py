@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Enorm(FmeshOption):
     Attributes:
         setting: Tally results divided by energy yes/no.
     """
+
+    _KEYWORD = 'enorm'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class EnormBuilder:
 
         return Enorm(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Enorm):
+        """
+        Unbuilds ``Enorm`` into ``EnormBuilder``
+
+        Returns:
+            ``EnormBuilder`` for ``Enorm``.
+        """
+
+        return Enorm(
+            setting=copy.deepcopy(ast.setting),
         )

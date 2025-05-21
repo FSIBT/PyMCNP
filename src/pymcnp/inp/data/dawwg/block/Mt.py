@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mt(BlockOption):
     Attributes:
         setting: Number of materials.
     """
+
+    _KEYWORD = 'mt'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class MtBuilder:
 
         return Mt(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mt):
+        """
+        Unbuilds ``Mt`` into ``MtBuilder``
+
+        Returns:
+            ``MtBuilder`` for ``Mt``.
+        """
+
+        return Mt(
+            setting=copy.deepcopy(ast.setting),
         )

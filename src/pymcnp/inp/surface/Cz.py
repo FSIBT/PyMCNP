@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Cz(SurfaceOption):
     Attributes:
         r: On-z-axis cylinder radius.
     """
+
+    _KEYWORD = 'cz'
 
     _ATTRS = {
         'r': types.Real,
@@ -87,4 +90,17 @@ class CzBuilder:
 
         return Cz(
             r=r,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cz):
+        """
+        Unbuilds ``Cz`` into ``CzBuilder``
+
+        Returns:
+            ``CzBuilder`` for ``Cz``.
+        """
+
+        return Cz(
+            r=copy.deepcopy(ast.r),
         )

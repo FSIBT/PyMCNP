@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Totnu(DataOption):
     Attributes:
         no: Delay fission sampling on/off.
     """
+
+    _KEYWORD = 'totnu'
 
     _ATTRS = {
         'no': types.String,
@@ -72,4 +75,17 @@ class TotnuBuilder:
 
         return Totnu(
             no=no,
+        )
+
+    @staticmethod
+    def unbuild(ast: Totnu):
+        """
+        Unbuilds ``Totnu`` into ``TotnuBuilder``
+
+        Returns:
+            ``TotnuBuilder`` for ``Totnu``.
+        """
+
+        return Totnu(
+            no=copy.deepcopy(ast.no),
         )

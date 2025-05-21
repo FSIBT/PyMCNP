@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Epsi(BlockOption):
     Attributes:
         setting: Convergence precision.
     """
+
+    _KEYWORD = 'epsi'
 
     _ATTRS = {
         'setting': types.Real,
@@ -74,4 +77,17 @@ class EpsiBuilder:
 
         return Epsi(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Epsi):
+        """
+        Unbuilds ``Epsi`` into ``EpsiBuilder``
+
+        Returns:
+            ``EpsiBuilder`` for ``Epsi``.
+        """
+
+        return Epsi(
+            setting=copy.deepcopy(ast.setting),
         )

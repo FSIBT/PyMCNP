@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -24,6 +25,8 @@ class Sq(SurfaceOption):
         y: Oblique special quadratic center y component.
         z: Oblique special quadratic center z component.
     """
+
+    _KEYWORD = 'sq'
 
     _ATTRS = {
         'a': types.Real,
@@ -250,4 +253,26 @@ class SqBuilder:
             x=x,
             y=y,
             z=z,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sq):
+        """
+        Unbuilds ``Sq`` into ``SqBuilder``
+
+        Returns:
+            ``SqBuilder`` for ``Sq``.
+        """
+
+        return Sq(
+            a=copy.deepcopy(ast.a),
+            b=copy.deepcopy(ast.b),
+            c=copy.deepcopy(ast.c),
+            d=copy.deepcopy(ast.d),
+            e=copy.deepcopy(ast.e),
+            f=copy.deepcopy(ast.f),
+            g=copy.deepcopy(ast.g),
+            x=copy.deepcopy(ast.x),
+            y=copy.deepcopy(ast.y),
+            z=copy.deepcopy(ast.z),
         )

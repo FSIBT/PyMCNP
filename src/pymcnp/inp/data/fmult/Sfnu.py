@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Sfnu(FmultOption):
     Attributes:
         distribution: V bar for or of cumulative distribution the sampling spontaneous fission.
     """
+
+    _KEYWORD = 'sfnu'
 
     _ATTRS = {
         'distribution': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class SfnuBuilder:
 
         return Sfnu(
             distribution=distribution,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sfnu):
+        """
+        Unbuilds ``Sfnu`` into ``SfnuBuilder``
+
+        Returns:
+            ``SfnuBuilder`` for ``Sfnu``.
+        """
+
+        return Sfnu(
+            distribution=copy.deepcopy(ast.distribution),
         )

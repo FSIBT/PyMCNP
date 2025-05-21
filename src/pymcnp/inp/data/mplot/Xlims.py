@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Xlims(MplotOption):
         max: x-axis upper limit.
         nsteps: x-axis interval.
     """
+
+    _KEYWORD = 'xlims'
 
     _ATTRS = {
         'min': types.Real,
@@ -112,4 +115,19 @@ class XlimsBuilder:
             min=min,
             max=max,
             nsteps=nsteps,
+        )
+
+    @staticmethod
+    def unbuild(ast: Xlims):
+        """
+        Unbuilds ``Xlims`` into ``XlimsBuilder``
+
+        Returns:
+            ``XlimsBuilder`` for ``Xlims``.
+        """
+
+        return Xlims(
+            min=copy.deepcopy(ast.min),
+            max=copy.deepcopy(ast.max),
+            nsteps=copy.deepcopy(ast.nsteps),
         )

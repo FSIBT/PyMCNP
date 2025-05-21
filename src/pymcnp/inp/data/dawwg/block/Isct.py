@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Isct(BlockOption):
     Attributes:
         setting: Legendre order.
     """
+
+    _KEYWORD = 'isct'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class IsctBuilder:
 
         return Isct(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Isct):
+        """
+        Unbuilds ``Isct`` into ``IsctBuilder``
+
+        Returns:
+            ``IsctBuilder`` for ``Isct``.
+        """
+
+        return Isct(
+            setting=copy.deepcopy(ast.setting),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tal(MplotOption):
     Attributes:
         n: Tally number.
     """
+
+    _KEYWORD = 'tal'
 
     _ATTRS = {
         'n': types.Integer,
@@ -74,4 +77,17 @@ class TalBuilder:
 
         return Tal(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tal):
+        """
+        Unbuilds ``Tal`` into ``TalBuilder``
+
+        Returns:
+            ``TalBuilder`` for ``Tal``.
+        """
+
+        return Tal(
+            n=copy.deepcopy(ast.n),
         )

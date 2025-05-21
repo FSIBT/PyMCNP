@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Hist(RandOption):
     Attributes:
         hist: Starting pseudorandom number.
     """
+
+    _KEYWORD = 'hist'
 
     _ATTRS = {
         'hist': types.Integer,
@@ -74,4 +77,17 @@ class HistBuilder:
 
         return Hist(
             hist=hist,
+        )
+
+    @staticmethod
+    def unbuild(ast: Hist):
+        """
+        Unbuilds ``Hist`` into ``HistBuilder``
+
+        Returns:
+            ``HistBuilder`` for ``Hist``.
+        """
+
+        return Hist(
+            hist=copy.deepcopy(ast.hist),
         )

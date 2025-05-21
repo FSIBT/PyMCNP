@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class File(PtracOption):
     Attributes:
         setting: PTRAC file type.
     """
+
+    _KEYWORD = 'file'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class FileBuilder:
 
         return File(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: File):
+        """
+        Unbuilds ``File`` into ``FileBuilder``
+
+        Returns:
+            ``FileBuilder`` for ``File``.
+        """
+
+        return File(
+            setting=copy.deepcopy(ast.setting),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Freq(MplotOption):
     Attributes:
         n: Number of histories between plotting calls.
     """
+
+    _KEYWORD = 'freq'
 
     _ATTRS = {
         'n': types.Integer,
@@ -74,4 +77,17 @@ class FreqBuilder:
 
         return Freq(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Freq):
+        """
+        Unbuilds ``Freq`` into ``FreqBuilder``
+
+        Returns:
+            ``FreqBuilder`` for ``Freq``.
+        """
+
+        return Freq(
+            n=copy.deepcopy(ast.n),
         )

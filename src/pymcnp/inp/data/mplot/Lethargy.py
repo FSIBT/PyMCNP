@@ -15,6 +15,8 @@ class Lethargy(MplotOption):
 
     """
 
+    _KEYWORD = 'lethargy'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Alethargy\Z')
@@ -50,6 +52,17 @@ class LethargyBuilder:
 
         Returns:
             ``Lethargy`` for ``LethargyBuilder``.
+        """
+
+        return Lethargy()
+
+    @staticmethod
+    def unbuild(ast: Lethargy):
+        """
+        Unbuilds ``Lethargy`` into ``LethargyBuilder``
+
+        Returns:
+            ``LethargyBuilder`` for ``Lethargy``.
         """
 
         return Lethargy()

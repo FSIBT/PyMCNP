@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Debug(EmbedOption):
     Attributes:
         parameter: Debug parameter.
     """
+
+    _KEYWORD = 'debug'
 
     _ATTRS = {
         'parameter': types.String,
@@ -72,4 +75,17 @@ class DebugBuilder:
 
         return Debug(
             parameter=parameter,
+        )
+
+    @staticmethod
+    def unbuild(ast: Debug):
+        """
+        Unbuilds ``Debug`` into ``DebugBuilder``
+
+        Returns:
+            ``DebugBuilder`` for ``Debug``.
+        """
+
+        return Debug(
+            parameter=copy.deepcopy(ast.parameter),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tropt(DataOption):
     Attributes:
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'tropt'
 
     _ATTRS = {
         'options': types.Tuple[tropt.TroptOption],
@@ -76,4 +79,17 @@ class TroptBuilder:
 
         return Tropt(
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tropt):
+        """
+        Unbuilds ``Tropt`` into ``TroptBuilder``
+
+        Returns:
+            ``TroptBuilder`` for ``Tropt``.
+        """
+
+        return Tropt(
+            options=copy.deepcopy(ast.options),
         )

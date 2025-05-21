@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Srcacc(BlockOption):
     Attributes:
         setting: Transport accelerations.
     """
+
+    _KEYWORD = 'srcacc'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class SrcaccBuilder:
 
         return Srcacc(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Srcacc):
+        """
+        Unbuilds ``Srcacc`` into ``SrcaccBuilder``
+
+        Returns:
+            ``SrcaccBuilder`` for ``Srcacc``.
+        """
+
+        return Srcacc(
+            setting=copy.deepcopy(ast.setting),
         )

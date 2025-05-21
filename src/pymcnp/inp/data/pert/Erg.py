@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Erg(PertOption):
         energy_lower_bound: Lower bound for energy pertubation.
         energy_upper_bound: Upper bound for energy pertubation.
     """
+
+    _KEYWORD = 'erg'
 
     _ATTRS = {
         'energy_lower_bound': types.Real,
@@ -92,4 +95,18 @@ class ErgBuilder:
         return Erg(
             energy_lower_bound=energy_lower_bound,
             energy_upper_bound=energy_upper_bound,
+        )
+
+    @staticmethod
+    def unbuild(ast: Erg):
+        """
+        Unbuilds ``Erg`` into ``ErgBuilder``
+
+        Returns:
+            ``ErgBuilder`` for ``Erg``.
+        """
+
+        return Erg(
+            energy_lower_bound=copy.deepcopy(ast.energy_lower_bound),
+            energy_upper_bound=copy.deepcopy(ast.energy_upper_bound),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -22,6 +23,8 @@ class Wwg(DataOption):
         j4: Placeholder jump #4.
         setting: Energy- or time-dependent weight window toggle.
     """
+
+    _KEYWORD = 'wwg'
 
     _ATTRS = {
         'tally': types.Integer,
@@ -204,4 +207,24 @@ class WwgBuilder:
             j3=j3,
             j4=j4,
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Wwg):
+        """
+        Unbuilds ``Wwg`` into ``WwgBuilder``
+
+        Returns:
+            ``WwgBuilder`` for ``Wwg``.
+        """
+
+        return Wwg(
+            tally=copy.deepcopy(ast.tally),
+            cell=copy.deepcopy(ast.cell),
+            lower=copy.deepcopy(ast.lower),
+            j1=copy.deepcopy(ast.j1),
+            j2=copy.deepcopy(ast.j2),
+            j3=copy.deepcopy(ast.j3),
+            j4=copy.deepcopy(ast.j4),
+            setting=copy.deepcopy(ast.setting),
         )

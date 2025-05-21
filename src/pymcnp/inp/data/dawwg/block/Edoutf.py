@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Edoutf(BlockOption):
     Attributes:
         setting: ASCII output files control.
     """
+
+    _KEYWORD = 'edoutf'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class EdoutfBuilder:
 
         return Edoutf(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Edoutf):
+        """
+        Unbuilds ``Edoutf`` into ``EdoutfBuilder``
+
+        Returns:
+            ``EdoutfBuilder`` for ``Edoutf``.
+        """
+
+        return Edoutf(
+            setting=copy.deepcopy(ast.setting),
         )

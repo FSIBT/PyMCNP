@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Kpert(DataOption):
         suffix: Data card option suffix.
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'kpert'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -95,4 +98,18 @@ class KpertBuilder:
         return Kpert(
             suffix=suffix,
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Kpert):
+        """
+        Unbuilds ``Kpert`` into ``KpertBuilder``
+
+        Returns:
+            ``KpertBuilder`` for ``Kpert``.
+        """
+
+        return Kpert(
+            suffix=copy.deepcopy(ast.suffix),
+            options=copy.deepcopy(ast.options),
         )

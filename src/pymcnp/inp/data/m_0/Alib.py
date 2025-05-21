@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Alib(MOption_0):
     Attributes:
         abx: Default alpha table identifier.
     """
+
+    _KEYWORD = 'alib'
 
     _ATTRS = {
         'abx': types.String,
@@ -72,4 +75,17 @@ class AlibBuilder:
 
         return Alib(
             abx=abx,
+        )
+
+    @staticmethod
+    def unbuild(ast: Alib):
+        """
+        Unbuilds ``Alib`` into ``AlibBuilder``
+
+        Returns:
+            ``AlibBuilder`` for ``Alib``.
+        """
+
+        return Alib(
+            abx=copy.deepcopy(ast.abx),
         )

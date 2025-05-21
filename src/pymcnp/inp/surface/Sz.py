@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Sz(SurfaceOption):
         z: On-z-axis sphere center z component.
         r: On-z-axis sphere radius.
     """
+
+    _KEYWORD = 'sz'
 
     _ATTRS = {
         'z': types.Real,
@@ -106,4 +109,18 @@ class SzBuilder:
         return Sz(
             z=z,
             r=r,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sz):
+        """
+        Unbuilds ``Sz`` into ``SzBuilder``
+
+        Returns:
+            ``SzBuilder`` for ``Sz``.
+        """
+
+        return Sz(
+            z=copy.deepcopy(ast.z),
+            r=copy.deepcopy(ast.r),
         )

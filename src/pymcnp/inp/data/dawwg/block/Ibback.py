@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ibback(BlockOption):
     Attributes:
         setting: Back boudary condition.
     """
+
+    _KEYWORD = 'ibback'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class IbbackBuilder:
 
         return Ibback(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ibback):
+        """
+        Unbuilds ``Ibback`` into ``IbbackBuilder``
+
+        Returns:
+            ``IbbackBuilder`` for ``Ibback``.
+        """
+
+        return Ibback(
+            setting=copy.deepcopy(ast.setting),
         )

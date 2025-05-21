@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Rad_1(SdefOption):
     Attributes:
         radial_distance: Radial distance fo the position from POS or AXS.
     """
+
+    _KEYWORD = 'rad'
 
     _ATTRS = {
         'radial_distance': types.DistributionNumber,
@@ -72,4 +75,17 @@ class RadBuilder_1:
 
         return Rad_1(
             radial_distance=radial_distance,
+        )
+
+    @staticmethod
+    def unbuild(ast: Rad_1):
+        """
+        Unbuilds ``Rad_1`` into ``RadBuilder_1``
+
+        Returns:
+            ``RadBuilder_1`` for ``Rad_1``.
+        """
+
+        return Rad_1(
+            radial_distance=copy.deepcopy(ast.radial_distance),
         )

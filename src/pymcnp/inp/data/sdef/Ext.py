@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ext(SdefOption):
     Attributes:
         distance_cosine: Distance for POS along AXS or Cosine of angle from AXS.
     """
+
+    _KEYWORD = 'ext'
 
     _ATTRS = {
         'distance_cosine': types.Real,
@@ -74,4 +77,17 @@ class ExtBuilder:
 
         return Ext(
             distance_cosine=distance_cosine,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ext):
+        """
+        Unbuilds ``Ext`` into ``ExtBuilder``
+
+        Returns:
+            ``ExtBuilder`` for ``Ext``.
+        """
+
+        return Ext(
+            distance_cosine=copy.deepcopy(ast.distance_cosine),
         )

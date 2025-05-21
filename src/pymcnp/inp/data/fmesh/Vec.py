@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Vec(FmeshOption):
         y: Plane vector y component.
         z: Plane vector z component.
     """
+
+    _KEYWORD = 'vec'
 
     _ATTRS = {
         'x': types.Real,
@@ -112,4 +115,19 @@ class VecBuilder:
             x=x,
             y=y,
             z=z,
+        )
+
+    @staticmethod
+    def unbuild(ast: Vec):
+        """
+        Unbuilds ``Vec`` into ``VecBuilder``
+
+        Returns:
+            ``VecBuilder`` for ``Vec``.
+        """
+
+        return Vec(
+            x=copy.deepcopy(ast.x),
+            y=copy.deepcopy(ast.y),
+            z=copy.deepcopy(ast.z),
         )

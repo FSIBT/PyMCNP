@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tlib(MOption_0):
     Attributes:
         abx: Default triton table identifier.
     """
+
+    _KEYWORD = 'tlib'
 
     _ATTRS = {
         'abx': types.String,
@@ -72,4 +75,17 @@ class TlibBuilder:
 
         return Tlib(
             abx=abx,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tlib):
+        """
+        Unbuilds ``Tlib`` into ``TlibBuilder``
+
+        Returns:
+            ``TlibBuilder`` for ``Tlib``.
+        """
+
+        return Tlib(
+            abx=copy.deepcopy(ast.abx),
         )

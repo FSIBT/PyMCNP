@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Time(EmbeeOption):
     Attributes:
         factor: Multiplicative conversion factor for time-related output.
     """
+
+    _KEYWORD = 'time'
 
     _ATTRS = {
         'factor': types.Real,
@@ -74,4 +77,17 @@ class TimeBuilder:
 
         return Time(
             factor=factor,
+        )
+
+    @staticmethod
+    def unbuild(ast: Time):
+        """
+        Unbuilds ``Time`` into ``TimeBuilder``
+
+        Returns:
+            ``TimeBuilder`` for ``Time``.
+        """
+
+        return Time(
+            factor=copy.deepcopy(ast.factor),
         )

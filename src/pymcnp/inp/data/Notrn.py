@@ -15,6 +15,8 @@ class Notrn(DataOption):
 
     """
 
+    _KEYWORD = 'notrn'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Anotrn\Z')
@@ -50,6 +52,17 @@ class NotrnBuilder:
 
         Returns:
             ``Notrn`` for ``NotrnBuilder``.
+        """
+
+        return Notrn()
+
+    @staticmethod
+    def unbuild(ast: Notrn):
+        """
+        Unbuilds ``Notrn`` into ``NotrnBuilder``
+
+        Returns:
+            ``NotrnBuilder`` for ``Notrn``.
         """
 
         return Notrn()

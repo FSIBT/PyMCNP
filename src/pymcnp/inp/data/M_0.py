@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -20,6 +21,8 @@ class M_0(DataOption):
         substances: Tuple of material constituents.
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'm'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -183,4 +186,19 @@ class MBuilder_0:
             suffix=suffix,
             substances=substances,
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: M_0):
+        """
+        Unbuilds ``M_0`` into ``MBuilder_0``
+
+        Returns:
+            ``MBuilder_0`` for ``M_0``.
+        """
+
+        return M_0(
+            suffix=copy.deepcopy(ast.suffix),
+            substances=copy.deepcopy(ast.substances),
+            options=copy.deepcopy(ast.options),
         )

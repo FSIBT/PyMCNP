@@ -15,6 +15,8 @@ class Linlog(MplotOption):
 
     """
 
+    _KEYWORD = 'linlog'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Alinlog\Z')
@@ -50,6 +52,17 @@ class LinlogBuilder:
 
         Returns:
             ``Linlog`` for ``LinlogBuilder``.
+        """
+
+        return Linlog()
+
+    @staticmethod
+    def unbuild(ast: Linlog):
+        """
+        Unbuilds ``Linlog`` into ``LinlogBuilder``
+
+        Returns:
+            ``LinlogBuilder`` for ``Linlog``.
         """
 
         return Linlog()

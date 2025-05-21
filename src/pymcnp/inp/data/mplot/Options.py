@@ -15,6 +15,8 @@ class Options(MplotOption):
 
     """
 
+    _KEYWORD = 'options'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Aoptions\Z')
@@ -50,6 +52,17 @@ class OptionsBuilder:
 
         Returns:
             ``Options`` for ``OptionsBuilder``.
+        """
+
+        return Options()
+
+    @staticmethod
+    def unbuild(ast: Options):
+        """
+        Unbuilds ``Options`` into ``OptionsBuilder``
+
+        Returns:
+            ``OptionsBuilder`` for ``Options``.
         """
 
         return Options()

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -27,6 +28,8 @@ class Wed(SurfaceOption):
         v3y: Wedge height vector y component.
         v3z: Wedge height vector z component.
     """
+
+    _KEYWORD = 'wed'
 
     _ATTRS = {
         'vx': types.Real,
@@ -311,4 +314,28 @@ class WedBuilder:
             v3x=v3x,
             v3y=v3y,
             v3z=v3z,
+        )
+
+    @staticmethod
+    def unbuild(ast: Wed):
+        """
+        Unbuilds ``Wed`` into ``WedBuilder``
+
+        Returns:
+            ``WedBuilder`` for ``Wed``.
+        """
+
+        return Wed(
+            vx=copy.deepcopy(ast.vx),
+            vy=copy.deepcopy(ast.vy),
+            vz=copy.deepcopy(ast.vz),
+            v1x=copy.deepcopy(ast.v1x),
+            v1y=copy.deepcopy(ast.v1y),
+            v1z=copy.deepcopy(ast.v1z),
+            v2x=copy.deepcopy(ast.v2x),
+            v2y=copy.deepcopy(ast.v2y),
+            v2z=copy.deepcopy(ast.v2z),
+            v3x=copy.deepcopy(ast.v3x),
+            v3y=copy.deepcopy(ast.v3y),
+            v3z=copy.deepcopy(ast.v3z),
         )

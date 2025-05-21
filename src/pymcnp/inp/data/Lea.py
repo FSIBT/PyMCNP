@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -22,6 +23,8 @@ class Lea(DataOption):
         ievap: Evaporation and fission model setting.
         nofis: Fission setting.
     """
+
+    _KEYWORD = 'lea'
 
     _ATTRS = {
         'ipht': types.Integer,
@@ -212,4 +215,24 @@ class LeaBuilder:
             ilvden=ilvden,
             ievap=ievap,
             nofis=nofis,
+        )
+
+    @staticmethod
+    def unbuild(ast: Lea):
+        """
+        Unbuilds ``Lea`` into ``LeaBuilder``
+
+        Returns:
+            ``LeaBuilder`` for ``Lea``.
+        """
+
+        return Lea(
+            ipht=copy.deepcopy(ast.ipht),
+            icc=copy.deepcopy(ast.icc),
+            nobalc=copy.deepcopy(ast.nobalc),
+            nobale=copy.deepcopy(ast.nobale),
+            ifbrk=copy.deepcopy(ast.ifbrk),
+            ilvden=copy.deepcopy(ast.ilvden),
+            ievap=copy.deepcopy(ast.ievap),
+            nofis=copy.deepcopy(ast.nofis),
         )

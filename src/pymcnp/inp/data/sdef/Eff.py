@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Eff(SdefOption):
     Attributes:
         criterion: Rejection efficiency criterion for position sampling.
     """
+
+    _KEYWORD = 'eff'
 
     _ATTRS = {
         'criterion': types.Real,
@@ -74,4 +77,17 @@ class EffBuilder:
 
         return Eff(
             criterion=criterion,
+        )
+
+    @staticmethod
+    def unbuild(ast: Eff):
+        """
+        Unbuilds ``Eff`` into ``EffBuilder``
+
+        Returns:
+            ``EffBuilder`` for ``Eff``.
+        """
+
+        return Eff(
+            criterion=copy.deepcopy(ast.criterion),
         )

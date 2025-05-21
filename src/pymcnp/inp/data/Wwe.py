@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Wwe(DataOption):
         designator: Data card particle designator.
         bounds: Upper energy/time bound.
     """
+
+    _KEYWORD = 'wwe'
 
     _ATTRS = {
         'designator': types.Designator,
@@ -94,4 +97,18 @@ class WweBuilder:
         return Wwe(
             designator=designator,
             bounds=bounds,
+        )
+
+    @staticmethod
+    def unbuild(ast: Wwe):
+        """
+        Unbuilds ``Wwe`` into ``WweBuilder``
+
+        Returns:
+            ``WweBuilder`` for ``Wwe``.
+        """
+
+        return Wwe(
+            designator=copy.deepcopy(ast.designator),
+            bounds=copy.deepcopy(ast.bounds),
         )

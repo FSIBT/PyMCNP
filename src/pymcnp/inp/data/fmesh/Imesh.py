@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Imesh(FmeshOption):
     Attributes:
         locations: Locations of mesh points x/r for rectangular/cylindrical geometry.
     """
+
+    _KEYWORD = 'imesh'
 
     _ATTRS = {
         'locations': types.Real,
@@ -74,4 +77,17 @@ class ImeshBuilder:
 
         return Imesh(
             locations=locations,
+        )
+
+    @staticmethod
+    def unbuild(ast: Imesh):
+        """
+        Unbuilds ``Imesh`` into ``ImeshBuilder``
+
+        Returns:
+            ``ImeshBuilder`` for ``Imesh``.
+        """
+
+        return Imesh(
+            locations=copy.deepcopy(ast.locations),
         )

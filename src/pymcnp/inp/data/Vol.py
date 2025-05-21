@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Vol(DataOption):
         no: Volume calculation on/off.
         volumes: Tuple of cell volumes.
     """
+
+    _KEYWORD = 'vol'
 
     _ATTRS = {
         'no': types.String,
@@ -95,4 +98,18 @@ class VolBuilder:
         return Vol(
             no=no,
             volumes=volumes,
+        )
+
+    @staticmethod
+    def unbuild(ast: Vol):
+        """
+        Unbuilds ``Vol`` into ``VolBuilder``
+
+        Returns:
+            ``VolBuilder`` for ``Vol``.
+        """
+
+        return Vol(
+            no=copy.deepcopy(ast.no),
+            volumes=copy.deepcopy(ast.volumes),
         )

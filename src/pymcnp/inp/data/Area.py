@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Area(DataOption):
     Attributes:
         areas: Tuple of surface areas.
     """
+
+    _KEYWORD = 'area'
 
     _ATTRS = {
         'areas': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class AreaBuilder:
 
         return Area(
             areas=areas,
+        )
+
+    @staticmethod
+    def unbuild(ast: Area):
+        """
+        Unbuilds ``Area`` into ``AreaBuilder``
+
+        Returns:
+            ``AreaBuilder`` for ``Area``.
+        """
+
+        return Area(
+            areas=copy.deepcopy(ast.areas),
         )

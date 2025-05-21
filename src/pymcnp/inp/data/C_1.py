@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class C_1(DataOption):
         t: Notation to provide totals.
         c: Notation to make bin values cumulative.
     """
+
+    _KEYWORD = '[*]c'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -134,4 +137,20 @@ class CBuilder_1:
             bounds=bounds,
             t=t,
             c=c,
+        )
+
+    @staticmethod
+    def unbuild(ast: C_1):
+        """
+        Unbuilds ``C_1`` into ``CBuilder_1``
+
+        Returns:
+            ``CBuilder_1`` for ``C_1``.
+        """
+
+        return C_1(
+            suffix=copy.deepcopy(ast.suffix),
+            bounds=copy.deepcopy(ast.bounds),
+            t=copy.deepcopy(ast.t),
+            c=copy.deepcopy(ast.c),
         )

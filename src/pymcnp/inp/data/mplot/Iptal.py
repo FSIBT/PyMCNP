@@ -15,6 +15,8 @@ class Iptal(MplotOption):
 
     """
 
+    _KEYWORD = 'iptal'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Aiptal\Z')
@@ -50,6 +52,17 @@ class IptalBuilder:
 
         Returns:
             ``Iptal`` for ``IptalBuilder``.
+        """
+
+        return Iptal()
+
+    @staticmethod
+    def unbuild(ast: Iptal):
+        """
+        Unbuilds ``Iptal`` into ``IptalBuilder``
+
+        Returns:
+            ``IptalBuilder`` for ``Iptal``.
         """
 
         return Iptal()

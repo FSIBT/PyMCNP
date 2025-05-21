@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Fixed(MplotOption):
         q: Fixed variable.
         n: Bin number.
     """
+
+    _KEYWORD = 'fixed'
 
     _ATTRS = {
         'q': types.String,
@@ -92,4 +95,18 @@ class FixedBuilder:
         return Fixed(
             q=q,
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fixed):
+        """
+        Unbuilds ``Fixed`` into ``FixedBuilder``
+
+        Returns:
+            ``FixedBuilder`` for ``Fixed``.
+        """
+
+        return Fixed(
+            q=copy.deepcopy(ast.q),
+            n=copy.deepcopy(ast.n),
         )

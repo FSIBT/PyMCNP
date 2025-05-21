@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ref(MeshOption):
     Attributes:
         point: Mesh reference point.
     """
+
+    _KEYWORD = 'ref'
 
     _ATTRS = {
         'point': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class RefBuilder:
 
         return Ref(
             point=point,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ref):
+        """
+        Unbuilds ``Ref`` into ``RefBuilder``
+
+        Returns:
+            ``RefBuilder`` for ``Ref``.
+        """
+
+        return Ref(
+            point=copy.deepcopy(ast.point),
         )

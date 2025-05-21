@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Xsec(DawwgOption):
     Attributes:
         count: Number of sample points for each direction in each mesh.
     """
+
+    _KEYWORD = 'xsec'
 
     _ATTRS = {
         'count': types.Integer,
@@ -74,4 +77,17 @@ class XsecBuilder:
 
         return Xsec(
             count=count,
+        )
+
+    @staticmethod
+    def unbuild(ast: Xsec):
+        """
+        Unbuilds ``Xsec`` into ``XsecBuilder``
+
+        Returns:
+            ``XsecBuilder`` for ``Xsec``.
+        """
+
+        return Xsec(
+            count=copy.deepcopy(ast.count),
         )

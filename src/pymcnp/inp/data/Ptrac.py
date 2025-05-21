@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ptrac(DataOption):
     Attributes:
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'ptrac'
 
     _ATTRS = {
         'options': types.Tuple[ptrac.PtracOption],
@@ -76,4 +79,17 @@ class PtracBuilder:
 
         return Ptrac(
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ptrac):
+        """
+        Unbuilds ``Ptrac`` into ``PtracBuilder``
+
+        Returns:
+            ``PtracBuilder`` for ``Ptrac``.
+        """
+
+        return Ptrac(
+            options=copy.deepcopy(ast.options),
         )

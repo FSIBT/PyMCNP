@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mtype(EmbeeOption):
     Attributes:
         kind: Multiplier type.
     """
+
+    _KEYWORD = 'mtype'
 
     _ATTRS = {
         'kind': types.String,
@@ -79,4 +82,17 @@ class MtypeBuilder:
 
         return Mtype(
             kind=kind,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mtype):
+        """
+        Unbuilds ``Mtype`` into ``MtypeBuilder``
+
+        Returns:
+            ``MtypeBuilder`` for ``Mtype``.
+        """
+
+        return Mtype(
+            kind=copy.deepcopy(ast.kind),
         )

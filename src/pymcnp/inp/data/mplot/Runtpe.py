@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Runtpe(MplotOption):
         filename: RUNTPE file to read dump.
         n: RUNTPE read dump number.
     """
+
+    _KEYWORD = 'runtpe'
 
     _ATTRS = {
         'filename': types.String,
@@ -90,4 +93,18 @@ class RuntpeBuilder:
         return Runtpe(
             filename=filename,
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Runtpe):
+        """
+        Unbuilds ``Runtpe`` into ``RuntpeBuilder``
+
+        Returns:
+            ``RuntpeBuilder`` for ``Runtpe``.
+        """
+
+        return Runtpe(
+            filename=copy.deepcopy(ast.filename),
+            n=copy.deepcopy(ast.n),
         )

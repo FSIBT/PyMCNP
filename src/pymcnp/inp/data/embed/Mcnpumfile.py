@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mcnpumfile(EmbedOption):
     Attributes:
         filename: Name of the MCNPUM output file.
     """
+
+    _KEYWORD = 'mcnpumfile'
 
     _ATTRS = {
         'filename': types.String,
@@ -72,4 +75,17 @@ class McnpumfileBuilder:
 
         return Mcnpumfile(
             filename=filename,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mcnpumfile):
+        """
+        Unbuilds ``Mcnpumfile`` into ``McnpumfileBuilder``
+
+        Returns:
+            ``McnpumfileBuilder`` for ``Mcnpumfile``.
+        """
+
+        return Mcnpumfile(
+            filename=copy.deepcopy(ast.filename),
         )

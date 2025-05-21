@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Pikmt(DataOption):
     Attributes:
         biases: Biases for proton production.
     """
+
+    _KEYWORD = 'pikmt'
 
     _ATTRS = {
         'biases': types.Tuple[types.PhotonBias],
@@ -79,4 +82,17 @@ class PikmtBuilder:
 
         return Pikmt(
             biases=biases,
+        )
+
+    @staticmethod
+    def unbuild(ast: Pikmt):
+        """
+        Unbuilds ``Pikmt`` into ``PikmtBuilder``
+
+        Returns:
+            ``PikmtBuilder`` for ``Pikmt``.
+        """
+
+        return Pikmt(
+            biases=copy.deepcopy(ast.biases),
         )

@@ -7,7 +7,7 @@ from ..utils import _parser
 
 class Option(_object.McnpNonterminal):
     """
-    Represents generic INP cards.
+    Represents generic INP options.
     """
 
     _ATTRS: tuple

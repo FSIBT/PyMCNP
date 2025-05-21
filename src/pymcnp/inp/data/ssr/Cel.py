@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Cel(SsrOption):
     Attributes:
         numbers: Tuple of cell from subset of cells on SSW card.
     """
+
+    _KEYWORD = 'cel'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -81,4 +84,17 @@ class CelBuilder:
 
         return Cel(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cel):
+        """
+        Unbuilds ``Cel`` into ``CelBuilder``
+
+        Returns:
+            ``CelBuilder`` for ``Cel``.
+        """
+
+        return Cel(
+            numbers=copy.deepcopy(ast.numbers),
         )

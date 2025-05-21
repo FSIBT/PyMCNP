@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class X(SdefOption):
     Attributes:
         x_coordinate: X-cordinate of position.
     """
+
+    _KEYWORD = 'x'
 
     _ATTRS = {
         'x_coordinate': types.Real,
@@ -74,4 +77,17 @@ class XBuilder:
 
         return X(
             x_coordinate=x_coordinate,
+        )
+
+    @staticmethod
+    def unbuild(ast: X):
+        """
+        Unbuilds ``X`` into ``XBuilder``
+
+        Returns:
+            ``XBuilder`` for ``X``.
+        """
+
+        return X(
+            x_coordinate=copy.deepcopy(ast.x_coordinate),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Calcvols(EmbedOption):
     Attributes:
         setting: Yes/no calculate the inferred geometry cell information.
     """
+
+    _KEYWORD = 'calcvols'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class CalcvolsBuilder:
 
         return Calcvols(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Calcvols):
+        """
+        Unbuilds ``Calcvols`` into ``CalcvolsBuilder``
+
+        Returns:
+            ``CalcvolsBuilder`` for ``Calcvols``.
+        """
+
+        return Calcvols(
+            setting=copy.deepcopy(ast.setting),
         )

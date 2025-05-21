@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Psc(SsrOption):
     Attributes:
         constant: Constant for approximation in PSC evaluation.
     """
+
+    _KEYWORD = 'psc'
 
     _ATTRS = {
         'constant': types.Real,
@@ -74,4 +77,17 @@ class PscBuilder:
 
         return Psc(
             constant=constant,
+        )
+
+    @staticmethod
+    def unbuild(ast: Psc):
+        """
+        Unbuilds ``Psc`` into ``PscBuilder``
+
+        Returns:
+            ``PscBuilder`` for ``Psc``.
+        """
+
+        return Psc(
+            constant=copy.deepcopy(ast.constant),
         )

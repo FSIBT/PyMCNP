@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Rxn(KsenOption):
     Attributes:
         numbers: List of reaction numbers for pertubation.
     """
+
+    _KEYWORD = 'rxn'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -79,4 +82,17 @@ class RxnBuilder:
 
         return Rxn(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Rxn):
+        """
+        Unbuilds ``Rxn`` into ``RxnBuilder``
+
+        Returns:
+            ``RxnBuilder`` for ``Rxn``.
+        """
+
+        return Rxn(
+            numbers=copy.deepcopy(ast.numbers),
         )

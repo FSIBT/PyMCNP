@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Bap(SdefOption):
         ba2: Beam aperture half-width in the y transverse direction.
         u: Unused, arrbirary value.
     """
+
+    _KEYWORD = 'bap'
 
     _ATTRS = {
         'ba1': types.Real,
@@ -112,4 +115,19 @@ class BapBuilder:
             ba1=ba1,
             ba2=ba2,
             u=u,
+        )
+
+    @staticmethod
+    def unbuild(ast: Bap):
+        """
+        Unbuilds ``Bap`` into ``BapBuilder``
+
+        Returns:
+            ``BapBuilder`` for ``Bap``.
+        """
+
+        return Bap(
+            ba1=copy.deepcopy(ast.ba1),
+            ba2=copy.deepcopy(ast.ba2),
+            u=copy.deepcopy(ast.u),
         )

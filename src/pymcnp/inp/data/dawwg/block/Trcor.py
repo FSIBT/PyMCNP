@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Trcor(BlockOption):
     Attributes:
         setting: Trcor.
     """
+
+    _KEYWORD = 'trcor'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class TrcorBuilder:
 
         return Trcor(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Trcor):
+        """
+        Unbuilds ``Trcor`` into ``TrcorBuilder``
+
+        Returns:
+            ``TrcorBuilder`` for ``Trcor``.
+        """
+
+        return Trcor(
+            setting=copy.deepcopy(ast.setting),
         )

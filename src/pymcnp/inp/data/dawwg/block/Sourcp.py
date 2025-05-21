@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Sourcp(BlockOption):
     Attributes:
         setting: Source print flag.
     """
+
+    _KEYWORD = 'sourcp'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class SourcpBuilder:
 
         return Sourcp(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sourcp):
+        """
+        Unbuilds ``Sourcp`` into ``SourcpBuilder``
+
+        Returns:
+            ``SourcpBuilder`` for ``Sourcp``.
+        """
+
+        return Sourcp(
+            setting=copy.deepcopy(ast.setting),
         )

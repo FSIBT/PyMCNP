@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Value(PtracOption):
     Attributes:
         cutoff: Specifies tally cutoff above which history events will be written..
     """
+
+    _KEYWORD = 'value'
 
     _ATTRS = {
         'cutoff': types.Real,
@@ -74,4 +77,17 @@ class ValueBuilder:
 
         return Value(
             cutoff=cutoff,
+        )
+
+    @staticmethod
+    def unbuild(ast: Value):
+        """
+        Unbuilds ``Value`` into ``ValueBuilder``
+
+        Returns:
+            ``ValueBuilder`` for ``Value``.
+        """
+
+        return Value(
+            cutoff=copy.deepcopy(ast.cutoff),
         )

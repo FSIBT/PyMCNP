@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -25,6 +26,8 @@ class Wwp(DataOption):
         wu: Limits the maximum lower weight-window bound for any particle, energy, or time.
         nmfp: Limits the maximum lower weight-window bound for any particle, energy, or time.
     """
+
+    _KEYWORD = 'wwp'
 
     _ATTRS = {
         'designator': types.Designator,
@@ -266,4 +269,27 @@ class WwpBuilder:
             etsplt=etsplt,
             wu=wu,
             nmfp=nmfp,
+        )
+
+    @staticmethod
+    def unbuild(ast: Wwp):
+        """
+        Unbuilds ``Wwp`` into ``WwpBuilder``
+
+        Returns:
+            ``WwpBuilder`` for ``Wwp``.
+        """
+
+        return Wwp(
+            designator=copy.deepcopy(ast.designator),
+            wupn=copy.deepcopy(ast.wupn),
+            wsurvn=copy.deepcopy(ast.wsurvn),
+            mxspln=copy.deepcopy(ast.mxspln),
+            mwhere=copy.deepcopy(ast.mwhere),
+            switchn=copy.deepcopy(ast.switchn),
+            mtime=copy.deepcopy(ast.mtime),
+            wnrom=copy.deepcopy(ast.wnrom),
+            etsplt=copy.deepcopy(ast.etsplt),
+            wu=copy.deepcopy(ast.wu),
+            nmfp=copy.deepcopy(ast.nmfp),
         )

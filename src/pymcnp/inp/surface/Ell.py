@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -22,6 +23,8 @@ class Ell(SurfaceOption):
         v2z: Ellipsoid focus #2 or major axis z component.
         rm: Ellipsoid major/minor axis radius length.
     """
+
+    _KEYWORD = 'ell'
 
     _ATTRS = {
         'v1x': types.Real,
@@ -226,4 +229,23 @@ class EllBuilder:
             v2y=v2y,
             v2z=v2z,
             rm=rm,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ell):
+        """
+        Unbuilds ``Ell`` into ``EllBuilder``
+
+        Returns:
+            ``EllBuilder`` for ``Ell``.
+        """
+
+        return Ell(
+            v1x=copy.deepcopy(ast.v1x),
+            v1y=copy.deepcopy(ast.v1y),
+            v1z=copy.deepcopy(ast.v1z),
+            v2x=copy.deepcopy(ast.v2x),
+            v2y=copy.deepcopy(ast.v2y),
+            v2z=copy.deepcopy(ast.v2z),
+            rm=copy.deepcopy(ast.rm),
         )

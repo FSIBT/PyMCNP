@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fluxone(BlockOption):
     Attributes:
         setting: Flux override on/off.
     """
+
+    _KEYWORD = 'fluxone'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class FluxoneBuilder:
 
         return Fluxone(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fluxone):
+        """
+        Unbuilds ``Fluxone`` into ``FluxoneBuilder``
+
+        Returns:
+            ``FluxoneBuilder`` for ``Fluxone``.
+        """
+
+        return Fluxone(
+            setting=copy.deepcopy(ast.setting),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nreact(TroptOption):
     Attributes:
         setting: Nuclear reactions setting.
     """
+
+    _KEYWORD = 'nreact'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class NreactBuilder:
 
         return Nreact(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nreact):
+        """
+        Unbuilds ``Nreact`` into ``NreactBuilder``
+
+        Returns:
+            ``NreactBuilder`` for ``Nreact``.
+        """
+
+        return Nreact(
+            setting=copy.deepcopy(ast.setting),
         )

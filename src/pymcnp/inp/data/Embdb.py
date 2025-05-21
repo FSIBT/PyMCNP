@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Embdb(DataOption):
         suffix: Data card option suffix.
         bounds: Tuple of upper dose energy bounds.
     """
+
+    _KEYWORD = 'embdb'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class EmbdbBuilder:
         return Embdb(
             suffix=suffix,
             bounds=bounds,
+        )
+
+    @staticmethod
+    def unbuild(ast: Embdb):
+        """
+        Unbuilds ``Embdb`` into ``EmbdbBuilder``
+
+        Returns:
+            ``EmbdbBuilder`` for ``Embdb``.
+        """
+
+        return Embdb(
+            suffix=copy.deepcopy(ast.suffix),
+            bounds=copy.deepcopy(ast.bounds),
         )

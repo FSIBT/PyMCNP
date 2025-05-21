@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -27,6 +28,8 @@ class Rec(SurfaceOption):
         v2y: Elliptical cylinder minor axis vector y component.
         v2z: Elliptical cylinder minor axis vector z component.
     """
+
+    _KEYWORD = 'rec'
 
     _ATTRS = {
         'vx': types.Real,
@@ -307,4 +310,28 @@ class RecBuilder:
             v2x=v2x,
             v2y=v2y,
             v2z=v2z,
+        )
+
+    @staticmethod
+    def unbuild(ast: Rec):
+        """
+        Unbuilds ``Rec`` into ``RecBuilder``
+
+        Returns:
+            ``RecBuilder`` for ``Rec``.
+        """
+
+        return Rec(
+            vx=copy.deepcopy(ast.vx),
+            vy=copy.deepcopy(ast.vy),
+            vz=copy.deepcopy(ast.vz),
+            hx=copy.deepcopy(ast.hx),
+            hy=copy.deepcopy(ast.hy),
+            hz=copy.deepcopy(ast.hz),
+            v1x=copy.deepcopy(ast.v1x),
+            v1y=copy.deepcopy(ast.v1y),
+            v1z=copy.deepcopy(ast.v1z),
+            v2x=copy.deepcopy(ast.v2x),
+            v2y=copy.deepcopy(ast.v2y),
+            v2z=copy.deepcopy(ast.v2z),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -30,6 +31,8 @@ class Rhp(SurfaceOption):
         t2: Hexagonal prism facet #3 vector y component.
         t3: Hexagonal prism facet #3 vector z component.
     """
+
+    _KEYWORD = 'rhp'
 
     _ATTRS = {
         'vx': types.Real,
@@ -359,4 +362,31 @@ class RhpBuilder:
             t1=t1,
             t2=t2,
             t3=t3,
+        )
+
+    @staticmethod
+    def unbuild(ast: Rhp):
+        """
+        Unbuilds ``Rhp`` into ``RhpBuilder``
+
+        Returns:
+            ``RhpBuilder`` for ``Rhp``.
+        """
+
+        return Rhp(
+            vx=copy.deepcopy(ast.vx),
+            vy=copy.deepcopy(ast.vy),
+            vz=copy.deepcopy(ast.vz),
+            hx=copy.deepcopy(ast.hx),
+            hy=copy.deepcopy(ast.hy),
+            hz=copy.deepcopy(ast.hz),
+            r1=copy.deepcopy(ast.r1),
+            r2=copy.deepcopy(ast.r2),
+            r3=copy.deepcopy(ast.r3),
+            s1=copy.deepcopy(ast.s1),
+            s2=copy.deepcopy(ast.s2),
+            s3=copy.deepcopy(ast.s3),
+            t1=copy.deepcopy(ast.t1),
+            t2=copy.deepcopy(ast.t2),
+            t3=copy.deepcopy(ast.t3),
         )

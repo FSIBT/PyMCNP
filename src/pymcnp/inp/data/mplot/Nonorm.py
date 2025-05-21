@@ -15,6 +15,8 @@ class Nonorm(MplotOption):
 
     """
 
+    _KEYWORD = 'nonorm'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Anonorm\Z')
@@ -50,6 +52,17 @@ class NonormBuilder:
 
         Returns:
             ``Nonorm`` for ``NonormBuilder``.
+        """
+
+        return Nonorm()
+
+    @staticmethod
+    def unbuild(ast: Nonorm):
+        """
+        Unbuilds ``Nonorm`` into ``NonormBuilder``
+
+        Returns:
+            ``NonormBuilder`` for ``Nonorm``.
         """
 
         return Nonorm()

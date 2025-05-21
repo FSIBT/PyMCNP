@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Files(DataOption):
     Attributes:
         creations: Files to create.
     """
+
+    _KEYWORD = 'files'
 
     _ATTRS = {
         'creations': types.Tuple[types.File],
@@ -79,4 +82,17 @@ class FilesBuilder:
 
         return Files(
             creations=creations,
+        )
+
+    @staticmethod
+    def unbuild(ast: Files):
+        """
+        Unbuilds ``Files`` into ``FilesBuilder``
+
+        Returns:
+            ``FilesBuilder`` for ``Files``.
+        """
+
+        return Files(
+            creations=copy.deepcopy(ast.creations),
         )

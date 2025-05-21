@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Hlib(MOption_0):
     Attributes:
         abx: Default proton table identifier.
     """
+
+    _KEYWORD = 'hlib'
 
     _ATTRS = {
         'abx': types.String,
@@ -72,4 +75,17 @@ class HlibBuilder:
 
         return Hlib(
             abx=abx,
+        )
+
+    @staticmethod
+    def unbuild(ast: Hlib):
+        """
+        Unbuilds ``Hlib`` into ``HlibBuilder``
+
+        Returns:
+            ``HlibBuilder`` for ``Hlib``.
+        """
+
+        return Hlib(
+            abx=copy.deepcopy(ast.abx),
         )

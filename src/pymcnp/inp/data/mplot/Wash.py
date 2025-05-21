@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Wash(MplotOption):
     Attributes:
         aa: Color-wash on/offs.
     """
+
+    _KEYWORD = 'wash'
 
     _ATTRS = {
         'aa': types.String,
@@ -72,4 +75,17 @@ class WashBuilder:
 
         return Wash(
             aa=aa,
+        )
+
+    @staticmethod
+    def unbuild(ast: Wash):
+        """
+        Unbuilds ``Wash`` into ``WashBuilder``
+
+        Returns:
+            ``WashBuilder`` for ``Wash``.
+        """
+
+        return Wash(
+            aa=copy.deepcopy(ast.aa),
         )
