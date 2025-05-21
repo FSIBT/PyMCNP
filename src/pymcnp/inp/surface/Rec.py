@@ -44,7 +44,7 @@ class Rec(SurfaceOption):
     }
 
     _REGEX = re.compile(
-        rf'\Arec( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Arec( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?\Z'
     )
 
     def __init__(
@@ -59,8 +59,8 @@ class Rec(SurfaceOption):
         v1y: types.Real,
         v1z: types.Real,
         v2x: types.Real,
-        v2y: types.Real,
-        v2z: types.Real,
+        v2y: types.Real = None,
+        v2z: types.Real = None,
     ):
         """
         Initializes ``Rec``.
@@ -103,10 +103,6 @@ class Rec(SurfaceOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1z)
         if v2x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2x)
-        if v2y is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2y)
-        if v2z is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2z)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -191,8 +187,8 @@ class RecBuilder:
     v1y: str | float | types.Real
     v1z: str | float | types.Real
     v2x: str | float | types.Real
-    v2y: str | float | types.Real
-    v2z: str | float | types.Real
+    v2y: str | float | types.Real = None
+    v2z: str | float | types.Real = None
 
     def build(self):
         """

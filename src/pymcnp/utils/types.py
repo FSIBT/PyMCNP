@@ -325,7 +325,7 @@ class Jump(_object.McnpNonterminal):
             MCNP jumps.
         """
 
-        return f'{self.n}j'
+        return f'{self.n or ""}j'
 
 
 class Log(_object.McnpNonterminal):
@@ -1350,7 +1350,7 @@ class Transformation_0(_object.McnpNonterminal):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, zy)
         if zz is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, zz)
-        if m is not None and m not in {-1, 1}:
+        if m is not None and m.value not in {-1, 1}:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, m)
 
         self.o1: typing.Final[Real] = o1

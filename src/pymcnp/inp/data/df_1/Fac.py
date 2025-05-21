@@ -34,7 +34,7 @@ class Fac(DfOption_1):
         """
 
         if normalization is None or not (
-            isinstance(normalization, types.Jump) or normalization.value >= -3
+            isinstance(normalization.value, types.Jump) or normalization.value >= -3
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, normalization)
 

@@ -14,23 +14,23 @@ class Mt(DataOption):
 
     Attributes:
         suffix: Data card option suffix.
-        identifier: Corresponding S(α,β) identifier.
+        identifiers: Corresponding S(α,β) identifier.
     """
 
     _ATTRS = {
         'suffix': types.Integer,
-        'identifier': types.String,
+        'identifiers': types.Tuple[types.String],
     }
 
-    _REGEX = re.compile(rf'\Amt(\d+)( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Amt(\d+)((?: {types.String._REGEX.pattern})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, identifier: types.String):
+    def __init__(self, suffix: types.Integer, identifiers: types.Tuple[types.String]):
         """
         Initializes ``Mt``.
 
         Parameters:
             suffix: Data card option suffix.
-            identifier: Corresponding S(α,β) identifier.
+            identifiers: Corresponding S(α,β) identifier.
 
         Raises:
             InpError: SEMANTICS_OPTION.
@@ -38,17 +38,17 @@ class Mt(DataOption):
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
-        if identifier is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, identifier)
+        if identifiers is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, identifiers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                identifier,
+                identifiers,
             ]
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
-        self.identifier: typing.Final[types.String] = identifier
+        self.identifiers: typing.Final[types.Tuple[types.String]] = identifiers
 
 
 @dataclasses.dataclass
@@ -58,11 +58,11 @@ class MtBuilder:
 
     Attributes:
         suffix: Data card option suffix.
-        identifier: Corresponding S(α,β) identifier.
+        identifiers: Corresponding S(α,β) identifier.
     """
 
     suffix: str | int | types.Integer
-    identifier: str | types.String
+    identifiers: list[str] | list[types.String]
 
     def build(self):
         """
@@ -80,13 +80,20 @@ class MtBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
-        identifier = self.identifier
-        if isinstance(self.identifier, types.String):
-            identifier = self.identifier
-        elif isinstance(self.identifier, str):
-            identifier = types.String.from_mcnp(self.identifier)
+        if self.identifiers:
+            identifiers = []
+            for item in self.identifiers:
+                if isinstance(item, types.String):
+                    identifiers.append(item)
+                elif isinstance(item, str):
+                    identifiers.append(types.String.from_mcnp(item))
+                else:
+                    identifiers.append(item.build())
+            identifiers = types.Tuple(identifiers)
+        else:
+            identifiers = None
 
         return Mt(
             suffix=suffix,
-            identifier=identifier,
+            identifiers=identifiers,
         )

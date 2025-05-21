@@ -250,6 +250,25 @@ class InpBuilder:
     message: str = ''
     other: str = ''
 
+    def from_mcnp(source: str):
+        """
+        Initiailizes ``InpBuilder`` from MCNP.
+
+        Attributes:
+            source: MCNP for ``Inp``.
+        """
+
+        ast = Inp.from_mcnp(source)
+
+        return InpBuilder(
+            title=ast.title,
+            cells={cell.number.value: cell for cell in ast.cells},
+            surfaces={surface.number.value: surface for surface in ast.surfaces},
+            data={},
+            message=ast.message,
+            other=ast.other,
+        )
+
     def build(self):
         """
         Builds ``InpBuilder`` into ``Inp``.

@@ -1,0 +1,16 @@
+Test of p(1.2GeV)+Pb(208)
+1 1 -11. -1 imp:h 1
+2 0 1 imp:h 0
+
+1 so .01
+
+mode h n
+sdef par h erg=1200 vec 0 0 1 dir 1
+m1 82208 1
+phys:h 1300 j 0
+phys:n 1300 3j 0
+nps 10000
+f8:h 1
+ft8 res 1 99
+c fq8 u e
+c lca 2 1 1 23 1 1 0 -2 0

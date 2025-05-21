@@ -276,6 +276,8 @@ class Test_Trcl_0:
             'trcl=1',
             'trcl=67',
             'trcl=999',
+            # 3.3
+            'trcl=0',
         ]
         EXAMPLES_INVALID = [
             'trcl=-1000',
@@ -298,7 +300,10 @@ class Test_Trcl_0:
 class Test_Trcl_1:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Trcl_1
-        EXAMPLES_VALID = []
+        EXAMPLES_VALID = [
+            'TRCL 0 0 0 1 0 0 0 1 0 0 0 1 1',
+        ]
+        EXAMPLES_INVALID = []
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.cell.TrclBuilder_1
@@ -518,7 +523,10 @@ class Test_Fill_5:
 class Test_Fill_6:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Fill_6
-        EXAMPLES_VALID = []
+        EXAMPLES_VALID = [
+            #'FILL=0:2 1:2 0:1 4 4 2 $ i=0,1,2 for j=1 & k=0\n     0 4 0 $ i=0,1,2 for j=2 & k=0\n     0 3 3 $ i=0,1,2 for j=1 & k=1\n     4 4 0 $ i=0,1,2 for j=2 & k=1',
+        ]
+        EXAMPLES_INVALID = []
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.cell.FillBuilder_6

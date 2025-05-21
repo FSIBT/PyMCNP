@@ -34,7 +34,7 @@ class Ic(DfOption_1):
         """
 
         if function is None or not (
-            isinstance(function, types.Jump)
+            isinstance(function.value, types.Jump)
             or function.value in {10, 20, 31, 32, 33, 34, 35, 40, 99}
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, function)

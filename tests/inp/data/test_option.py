@@ -1078,13 +1078,13 @@ class Test_Mt:
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.data.MtBuilder
         EXAMPLES_VALID = [
-            {'suffix': '1', 'identifier': 'a'},
-            {'suffix': 1, 'identifier': 'a'},
-            {'suffix': _utils.INTEGER, 'identifier': pymcnp.utils.types.String('a')},
+            {'suffix': '1', 'identifiers': ['a']},
+            {'suffix': 1, 'identifiers': ['a']},
+            {'suffix': _utils.INTEGER, 'identifiers': [pymcnp.utils.types.String('a')]},
         ]
         EXAMPLES_INVALID = [
-            {'suffix': None, 'identifier': 'a'},
-            {'suffix': '1', 'identifier': None},
+            {'suffix': None, 'identifiers': ['a']},
+            {'suffix': '1', 'identifiers': None},
         ]
 
 
