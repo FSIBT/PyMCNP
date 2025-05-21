@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Sym(SswOption):
     Attributes:
         setting: Symmetric option flag.
     """
+
+    _KEYWORD = 'sym'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class SymBuilder:
 
         return Sym(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sym):
+        """
+        Unbuilds ``Sym`` into ``SymBuilder``
+
+        Returns:
+            ``SymBuilder`` for ``Sym``.
+        """
+
+        return Sym(
+            setting=copy.deepcopy(ast.setting),
         )

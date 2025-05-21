@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Y(SdefOption):
     Attributes:
         y_coordinate: Y-cordinate of position.
     """
+
+    _KEYWORD = 'y'
 
     _ATTRS = {
         'y_coordinate': types.Real,
@@ -74,4 +77,17 @@ class YBuilder:
 
         return Y(
             y_coordinate=y_coordinate,
+        )
+
+    @staticmethod
+    def unbuild(ast: Y):
+        """
+        Unbuilds ``Y`` into ``YBuilder``
+
+        Returns:
+            ``YBuilder`` for ``Y``.
+        """
+
+        return Y(
+            y_coordinate=copy.deepcopy(ast.y_coordinate),
         )

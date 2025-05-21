@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tally(PtracOption):
     Attributes:
         numbers: List of tally numbers for filtering.
     """
+
+    _KEYWORD = 'tally'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -79,4 +82,17 @@ class TallyBuilder:
 
         return Tally(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tally):
+        """
+        Unbuilds ``Tally`` into ``TallyBuilder``
+
+        Returns:
+            ``TallyBuilder`` for ``Tally``.
+        """
+
+        return Tally(
+            numbers=copy.deepcopy(ast.numbers),
         )

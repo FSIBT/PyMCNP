@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Embtb(DataOption):
         suffix: Data card option suffix.
         bounds: Tuple of upper time bounds.
     """
+
+    _KEYWORD = 'embtb'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class EmbtbBuilder:
         return Embtb(
             suffix=suffix,
             bounds=bounds,
+        )
+
+    @staticmethod
+    def unbuild(ast: Embtb):
+        """
+        Unbuilds ``Embtb`` into ``EmbtbBuilder``
+
+        Returns:
+            ``EmbtbBuilder`` for ``Embtb``.
+        """
+
+        return Embtb(
+            suffix=copy.deepcopy(ast.suffix),
+            bounds=copy.deepcopy(ast.bounds),
         )

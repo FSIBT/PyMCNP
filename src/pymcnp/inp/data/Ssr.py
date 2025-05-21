@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ssr(DataOption):
     Attributes:
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'ssr'
 
     _ATTRS = {
         'options': types.Tuple[ssr.SsrOption],
@@ -76,4 +79,17 @@ class SsrBuilder:
 
         return Ssr(
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ssr):
+        """
+        Unbuilds ``Ssr`` into ``SsrBuilder``
+
+        Returns:
+            ``SsrBuilder`` for ``Ssr``.
+        """
+
+        return Ssr(
+            options=copy.deepcopy(ast.options),
         )

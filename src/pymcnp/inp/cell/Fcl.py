@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Fcl(CellOption):
         designator: Cell particle designator.
         control: Cell forced-collision control.
     """
+
+    _KEYWORD = 'fcl'
 
     _ATTRS = {
         'designator': types.Designator,
@@ -89,4 +92,18 @@ class FclBuilder:
         return Fcl(
             designator=designator,
             control=control,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fcl):
+        """
+        Unbuilds ``Fcl`` into ``FclBuilder``
+
+        Returns:
+            ``FclBuilder`` for ``Fcl``.
+        """
+
+        return Fcl(
+            designator=copy.deepcopy(ast.designator),
+            control=copy.deepcopy(ast.control),
         )

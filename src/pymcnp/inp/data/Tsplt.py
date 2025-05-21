@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -55,6 +56,8 @@ class Tsplt(DataOption):
         ratio_20: Splitting/roulette ratio #20.
         time_20: Splitting/roulette time #20.
     """
+
+    _KEYWORD = 'tsplt'
 
     _ATTRS = {
         'designator': types.Designator,
@@ -836,4 +839,57 @@ class TspltBuilder:
             time_19=time_19,
             ratio_20=ratio_20,
             time_20=time_20,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tsplt):
+        """
+        Unbuilds ``Tsplt`` into ``TspltBuilder``
+
+        Returns:
+            ``TspltBuilder`` for ``Tsplt``.
+        """
+
+        return Tsplt(
+            designator=copy.deepcopy(ast.designator),
+            ratio_1=copy.deepcopy(ast.ratio_1),
+            time_1=copy.deepcopy(ast.time_1),
+            ratio_2=copy.deepcopy(ast.ratio_2),
+            time_2=copy.deepcopy(ast.time_2),
+            ratio_3=copy.deepcopy(ast.ratio_3),
+            time_3=copy.deepcopy(ast.time_3),
+            ratio_4=copy.deepcopy(ast.ratio_4),
+            time_4=copy.deepcopy(ast.time_4),
+            ratio_5=copy.deepcopy(ast.ratio_5),
+            time_5=copy.deepcopy(ast.time_5),
+            ratio_6=copy.deepcopy(ast.ratio_6),
+            time_6=copy.deepcopy(ast.time_6),
+            ratio_7=copy.deepcopy(ast.ratio_7),
+            time_7=copy.deepcopy(ast.time_7),
+            ratio_8=copy.deepcopy(ast.ratio_8),
+            time_8=copy.deepcopy(ast.time_8),
+            ratio_9=copy.deepcopy(ast.ratio_9),
+            time_9=copy.deepcopy(ast.time_9),
+            ratio_10=copy.deepcopy(ast.ratio_10),
+            time_10=copy.deepcopy(ast.time_10),
+            ratio_11=copy.deepcopy(ast.ratio_11),
+            time_11=copy.deepcopy(ast.time_11),
+            ratio_12=copy.deepcopy(ast.ratio_12),
+            time_12=copy.deepcopy(ast.time_12),
+            ratio_13=copy.deepcopy(ast.ratio_13),
+            time_13=copy.deepcopy(ast.time_13),
+            ratio_14=copy.deepcopy(ast.ratio_14),
+            time_14=copy.deepcopy(ast.time_14),
+            ratio_15=copy.deepcopy(ast.ratio_15),
+            time_15=copy.deepcopy(ast.time_15),
+            ratio_16=copy.deepcopy(ast.ratio_16),
+            time_16=copy.deepcopy(ast.time_16),
+            ratio_17=copy.deepcopy(ast.ratio_17),
+            time_17=copy.deepcopy(ast.time_17),
+            ratio_18=copy.deepcopy(ast.ratio_18),
+            time_18=copy.deepcopy(ast.time_18),
+            ratio_19=copy.deepcopy(ast.ratio_19),
+            time_19=copy.deepcopy(ast.time_19),
+            ratio_20=copy.deepcopy(ast.ratio_20),
+            time_20=copy.deepcopy(ast.time_20),
         )

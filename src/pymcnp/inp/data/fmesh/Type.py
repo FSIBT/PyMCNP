@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Type(FmeshOption):
     Attributes:
         setting: Tally quantity.
     """
+
+    _KEYWORD = 'type'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class TypeBuilder:
 
         return Type(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Type):
+        """
+        Unbuilds ``Type`` into ``TypeBuilder``
+
+        Returns:
+            ``TypeBuilder`` for ``Type``.
+        """
+
+        return Type(
+            setting=copy.deepcopy(ast.setting),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Libname(BlockOption):
     Attributes:
         setting: Cross-section file name.
     """
+
+    _KEYWORD = 'libname'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class LibnameBuilder:
 
         return Libname(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Libname):
+        """
+        Unbuilds ``Libname`` into ``LibnameBuilder``
+
+        Returns:
+            ``LibnameBuilder`` for ``Libname``.
+        """
+
+        return Libname(
+            setting=copy.deepcopy(ast.setting),
         )

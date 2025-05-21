@@ -15,6 +15,8 @@ class End(MplotOption):
 
     """
 
+    _KEYWORD = 'end'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Aend\Z')
@@ -50,6 +52,17 @@ class EndBuilder:
 
         Returns:
             ``End`` for ``EndBuilder``.
+        """
+
+        return End()
+
+    @staticmethod
+    def unbuild(ast: End):
+        """
+        Unbuilds ``End`` into ``EndBuilder``
+
+        Returns:
+            ``EndBuilder`` for ``End``.
         """
 
         return End()

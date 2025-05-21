@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -14,6 +15,8 @@ class Dir_1(SdefOption):
     Attributes:
         cosine: Cosine of the angle between VEC and particle.
     """
+
+    _KEYWORD = 'dir'
 
     _ATTRS = {
         'cosine': types.DistributionNumber,
@@ -68,4 +71,17 @@ class DirBuilder_1:
 
         return Dir_1(
             cosine=cosine,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dir_1):
+        """
+        Unbuilds ``Dir_1`` into ``DirBuilder_1``
+
+        Returns:
+            ``DirBuilder_1`` for ``Dir_1``.
+        """
+
+        return Dir_1(
+            cosine=copy.deepcopy(ast.cosine),
         )

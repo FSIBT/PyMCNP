@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Filetype(EmbedOption):
     Attributes:
         kind: File type for the elemental edit output file.
     """
+
+    _KEYWORD = 'filetype'
 
     _ATTRS = {
         'kind': types.String,
@@ -72,4 +75,17 @@ class FiletypeBuilder:
 
         return Filetype(
             kind=kind,
+        )
+
+    @staticmethod
+    def unbuild(ast: Filetype):
+        """
+        Unbuilds ``Filetype`` into ``FiletypeBuilder``
+
+        Returns:
+            ``FiletypeBuilder`` for ``Filetype``.
+        """
+
+        return Filetype(
+            kind=copy.deepcopy(ast.kind),
         )

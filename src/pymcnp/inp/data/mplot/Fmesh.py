@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fmesh(MplotOption):
     Attributes:
         n: Tally to plot.
     """
+
+    _KEYWORD = 'fmesh'
 
     _ATTRS = {
         'n': types.Integer,
@@ -74,4 +77,17 @@ class FmeshBuilder:
 
         return Fmesh(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fmesh):
+        """
+        Unbuilds ``Fmesh`` into ``FmeshBuilder``
+
+        Returns:
+            ``FmeshBuilder`` for ``Fmesh``.
+        """
+
+        return Fmesh(
+            n=copy.deepcopy(ast.n),
         )

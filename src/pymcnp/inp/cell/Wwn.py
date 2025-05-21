@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Wwn(CellOption):
         designator: Cell particle designator.
         bound: Cell weight-window space, time, or energy lower bound.
     """
+
+    _KEYWORD = 'wwn'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -106,4 +109,19 @@ class WwnBuilder:
             suffix=suffix,
             designator=designator,
             bound=bound,
+        )
+
+    @staticmethod
+    def unbuild(ast: Wwn):
+        """
+        Unbuilds ``Wwn`` into ``WwnBuilder``
+
+        Returns:
+            ``WwnBuilder`` for ``Wwn``.
+        """
+
+        return Wwn(
+            suffix=copy.deepcopy(ast.suffix),
+            designator=copy.deepcopy(ast.designator),
+            bound=copy.deepcopy(ast.bound),
         )

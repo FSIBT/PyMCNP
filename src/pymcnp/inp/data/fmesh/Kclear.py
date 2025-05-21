@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Kclear(FmeshOption):
     Attributes:
         count: KCODE cycles between zeros.
     """
+
+    _KEYWORD = 'kclear'
 
     _ATTRS = {
         'count': types.Integer,
@@ -74,4 +77,17 @@ class KclearBuilder:
 
         return Kclear(
             count=count,
+        )
+
+    @staticmethod
+    def unbuild(ast: Kclear):
+        """
+        Unbuilds ``Kclear`` into ``KclearBuilder``
+
+        Returns:
+            ``KclearBuilder`` for ``Kclear``.
+        """
+
+        return Kclear(
+            count=copy.deepcopy(ast.count),
         )

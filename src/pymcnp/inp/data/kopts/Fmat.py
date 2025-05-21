@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fmat(KoptsOption):
     Attributes:
         setting: Yes/No FMAT.
     """
+
+    _KEYWORD = 'fmat'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class FmatBuilder:
 
         return Fmat(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fmat):
+        """
+        Unbuilds ``Fmat`` into ``FmatBuilder``
+
+        Returns:
+            ``FmatBuilder`` for ``Fmat``.
+        """
+
+        return Fmat(
+            setting=copy.deepcopy(ast.setting),
         )

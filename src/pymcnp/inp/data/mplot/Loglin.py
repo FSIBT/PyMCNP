@@ -15,6 +15,8 @@ class Loglin(MplotOption):
 
     """
 
+    _KEYWORD = 'loglin'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Aloglin\Z')
@@ -50,6 +52,17 @@ class LoglinBuilder:
 
         Returns:
             ``Loglin`` for ``LoglinBuilder``.
+        """
+
+        return Loglin()
+
+    @staticmethod
+    def unbuild(ast: Loglin):
+        """
+        Unbuilds ``Loglin`` into ``LoglinBuilder``
+
+        Returns:
+            ``LoglinBuilder`` for ``Loglin``.
         """
 
         return Loglin()

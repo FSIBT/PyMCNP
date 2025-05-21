@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Ylims(MplotOption):
         max: y-axis upper limit.
         nsteps: y-axis interval.
     """
+
+    _KEYWORD = 'ylims'
 
     _ATTRS = {
         'min': types.Real,
@@ -112,4 +115,19 @@ class YlimsBuilder:
             min=min,
             max=max,
             nsteps=nsteps,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ylims):
+        """
+        Unbuilds ``Ylims`` into ``YlimsBuilder``
+
+        Returns:
+            ``YlimsBuilder`` for ``Ylims``.
+        """
+
+        return Ylims(
+            min=copy.deepcopy(ast.min),
+            max=copy.deepcopy(ast.max),
+            nsteps=copy.deepcopy(ast.nsteps),
         )

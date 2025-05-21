@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -55,6 +56,8 @@ class Esplt(DataOption):
         ratio_20: Splitting/roulette ratio #20.
         energy_20: Splitting/roulette energy #20.
     """
+
+    _KEYWORD = 'esplt'
 
     _ATTRS = {
         'designator': types.Designator,
@@ -836,4 +839,57 @@ class EspltBuilder:
             energy_19=energy_19,
             ratio_20=ratio_20,
             energy_20=energy_20,
+        )
+
+    @staticmethod
+    def unbuild(ast: Esplt):
+        """
+        Unbuilds ``Esplt`` into ``EspltBuilder``
+
+        Returns:
+            ``EspltBuilder`` for ``Esplt``.
+        """
+
+        return Esplt(
+            designator=copy.deepcopy(ast.designator),
+            ratio_1=copy.deepcopy(ast.ratio_1),
+            energy_1=copy.deepcopy(ast.energy_1),
+            ratio_2=copy.deepcopy(ast.ratio_2),
+            energy_2=copy.deepcopy(ast.energy_2),
+            ratio_3=copy.deepcopy(ast.ratio_3),
+            energy_3=copy.deepcopy(ast.energy_3),
+            ratio_4=copy.deepcopy(ast.ratio_4),
+            energy_4=copy.deepcopy(ast.energy_4),
+            ratio_5=copy.deepcopy(ast.ratio_5),
+            energy_5=copy.deepcopy(ast.energy_5),
+            ratio_6=copy.deepcopy(ast.ratio_6),
+            energy_6=copy.deepcopy(ast.energy_6),
+            ratio_7=copy.deepcopy(ast.ratio_7),
+            energy_7=copy.deepcopy(ast.energy_7),
+            ratio_8=copy.deepcopy(ast.ratio_8),
+            energy_8=copy.deepcopy(ast.energy_8),
+            ratio_9=copy.deepcopy(ast.ratio_9),
+            energy_9=copy.deepcopy(ast.energy_9),
+            ratio_10=copy.deepcopy(ast.ratio_10),
+            energy_10=copy.deepcopy(ast.energy_10),
+            ratio_11=copy.deepcopy(ast.ratio_11),
+            energy_11=copy.deepcopy(ast.energy_11),
+            ratio_12=copy.deepcopy(ast.ratio_12),
+            energy_12=copy.deepcopy(ast.energy_12),
+            ratio_13=copy.deepcopy(ast.ratio_13),
+            energy_13=copy.deepcopy(ast.energy_13),
+            ratio_14=copy.deepcopy(ast.ratio_14),
+            energy_14=copy.deepcopy(ast.energy_14),
+            ratio_15=copy.deepcopy(ast.ratio_15),
+            energy_15=copy.deepcopy(ast.energy_15),
+            ratio_16=copy.deepcopy(ast.ratio_16),
+            energy_16=copy.deepcopy(ast.energy_16),
+            ratio_17=copy.deepcopy(ast.ratio_17),
+            energy_17=copy.deepcopy(ast.energy_17),
+            ratio_18=copy.deepcopy(ast.ratio_18),
+            energy_18=copy.deepcopy(ast.energy_18),
+            ratio_19=copy.deepcopy(ast.ratio_19),
+            energy_19=copy.deepcopy(ast.energy_19),
+            ratio_20=copy.deepcopy(ast.ratio_20),
+            energy_20=copy.deepcopy(ast.energy_20),
         )

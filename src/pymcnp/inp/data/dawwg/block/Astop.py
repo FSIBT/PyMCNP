@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Astop(BlockOption):
     Attributes:
         setting: Bottom-going flux at plane j.
     """
+
+    _KEYWORD = 'astop'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class AstopBuilder:
 
         return Astop(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Astop):
+        """
+        Unbuilds ``Astop`` into ``AstopBuilder``
+
+        Returns:
+            ``AstopBuilder`` for ``Astop``.
+        """
+
+        return Astop(
+            setting=copy.deepcopy(ast.setting),
         )

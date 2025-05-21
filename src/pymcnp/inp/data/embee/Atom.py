@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Atom(EmbeeOption):
     Attributes:
         setting: Flag to multiply by atom density.
     """
+
+    _KEYWORD = 'atom'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class AtomBuilder:
 
         return Atom(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Atom):
+        """
+        Unbuilds ``Atom`` into ``AtomBuilder``
+
+        Returns:
+            ``AtomBuilder`` for ``Atom``.
+        """
+
+        return Atom(
+            setting=copy.deepcopy(ast.setting),
         )

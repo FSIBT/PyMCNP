@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Maxstep(BfldOption):
     Attributes:
         size: Maximum step size.
     """
+
+    _KEYWORD = 'maxstep'
 
     _ATTRS = {
         'size': types.Real,
@@ -74,4 +77,17 @@ class MaxstepBuilder:
 
         return Maxstep(
             size=size,
+        )
+
+    @staticmethod
+    def unbuild(ast: Maxstep):
+        """
+        Unbuilds ``Maxstep`` into ``MaxstepBuilder``
+
+        Returns:
+            ``MaxstepBuilder`` for ``Maxstep``.
+        """
+
+        return Maxstep(
+            size=copy.deepcopy(ast.size),
         )

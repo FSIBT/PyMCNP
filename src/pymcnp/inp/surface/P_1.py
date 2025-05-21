@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -24,6 +25,8 @@ class P_1(SurfaceOption):
         y3: point-defined general plane y-coordinate #3.
         z3: point-defined general plane z-coordinate #3.
     """
+
+    _KEYWORD = 'p'
 
     _ATTRS = {
         'x1': types.Real,
@@ -258,4 +261,25 @@ class PBuilder_1:
             x3=x3,
             y3=y3,
             z3=z3,
+        )
+
+    @staticmethod
+    def unbuild(ast: P_1):
+        """
+        Unbuilds ``P_1`` into ``PBuilder_1``
+
+        Returns:
+            ``PBuilder_1`` for ``P_1``.
+        """
+
+        return P_1(
+            x1=copy.deepcopy(ast.x1),
+            y1=copy.deepcopy(ast.y1),
+            z1=copy.deepcopy(ast.z1),
+            x2=copy.deepcopy(ast.x2),
+            y2=copy.deepcopy(ast.y2),
+            z2=copy.deepcopy(ast.z2),
+            x3=copy.deepcopy(ast.x3),
+            y3=copy.deepcopy(ast.y3),
+            z3=copy.deepcopy(ast.z3),
         )

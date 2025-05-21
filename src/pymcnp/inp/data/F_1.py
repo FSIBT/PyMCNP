@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class F_1(DataOption):
         spheres: Detector points.
         nd: Total/average specified surfaces/cells option.
     """
+
+    _KEYWORD = 'f'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -135,4 +138,20 @@ class FBuilder_1:
             designator=designator,
             spheres=spheres,
             nd=nd,
+        )
+
+    @staticmethod
+    def unbuild(ast: F_1):
+        """
+        Unbuilds ``F_1`` into ``FBuilder_1``
+
+        Returns:
+            ``FBuilder_1`` for ``F_1``.
+        """
+
+        return F_1(
+            suffix=copy.deepcopy(ast.suffix),
+            designator=copy.deepcopy(ast.designator),
+            spheres=copy.deepcopy(ast.spheres),
+            nd=copy.deepcopy(ast.nd),
         )

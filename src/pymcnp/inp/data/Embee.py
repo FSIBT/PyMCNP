@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Embee(DataOption):
         suffix: Data card option suffix.
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'embee'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -95,4 +98,18 @@ class EmbeeBuilder:
         return Embee(
             suffix=suffix,
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Embee):
+        """
+        Unbuilds ``Embee`` into ``EmbeeBuilder``
+
+        Returns:
+            ``EmbeeBuilder`` for ``Embee``.
+        """
+
+        return Embee(
+            suffix=copy.deepcopy(ast.suffix),
+            options=copy.deepcopy(ast.options),
         )

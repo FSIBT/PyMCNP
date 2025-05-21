@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Py(SurfaceOption):
     Attributes:
         d: Normal-to-the-y-axis plane D coefficent.
     """
+
+    _KEYWORD = 'py'
 
     _ATTRS = {
         'd': types.Real,
@@ -88,4 +91,17 @@ class PyBuilder:
 
         return Py(
             d=d,
+        )
+
+    @staticmethod
+    def unbuild(ast: Py):
+        """
+        Unbuilds ``Py`` into ``PyBuilder``
+
+        Returns:
+            ``PyBuilder`` for ``Py``.
+        """
+
+        return Py(
+            d=copy.deepcopy(ast.d),
         )

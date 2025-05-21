@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Rand(DataOption):
     Attributes:
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'rand'
 
     _ATTRS = {
         'options': types.Tuple[rand.RandOption],
@@ -76,4 +79,17 @@ class RandBuilder:
 
         return Rand(
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Rand):
+        """
+        Unbuilds ``Rand`` into ``RandBuilder``
+
+        Returns:
+            ``RandBuilder`` for ``Rand``.
+        """
+
+        return Rand(
+            options=copy.deepcopy(ast.options),
         )

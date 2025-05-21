@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Iu(DfOption_1):
     Attributes:
         units: Control units.
     """
+
+    _KEYWORD = 'iu'
 
     _ATTRS = {
         'units': types.Integer,
@@ -74,4 +77,17 @@ class IuBuilder:
 
         return Iu(
             units=units,
+        )
+
+    @staticmethod
+    def unbuild(ast: Iu):
+        """
+        Unbuilds ``Iu`` into ``IuBuilder``
+
+        Returns:
+            ``IuBuilder`` for ``Iu``.
+        """
+
+        return Iu(
+            units=copy.deepcopy(ast.units),
         )

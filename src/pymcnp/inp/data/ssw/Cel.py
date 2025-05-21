@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Cel(SswOption):
     Attributes:
         cfs: Cells from which KCODE neutrons are written.
     """
+
+    _KEYWORD = 'cel'
 
     _ATTRS = {
         'cfs': types.Tuple[types.Integer],
@@ -79,4 +82,17 @@ class CelBuilder:
 
         return Cel(
             cfs=cfs,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cel):
+        """
+        Unbuilds ``Cel`` into ``CelBuilder``
+
+        Returns:
+            ``CelBuilder`` for ``Cel``.
+        """
+
+        return Cel(
+            cfs=copy.deepcopy(ast.cfs),
         )

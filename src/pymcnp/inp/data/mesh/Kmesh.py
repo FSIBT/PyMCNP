@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Kmesh(MeshOption):
     Attributes:
         vector: Locations of the coarse meshes in the z/theta directions.
     """
+
+    _KEYWORD = 'kmesh'
 
     _ATTRS = {
         'vector': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class KmeshBuilder:
 
         return Kmesh(
             vector=vector,
+        )
+
+    @staticmethod
+    def unbuild(ast: Kmesh):
+        """
+        Unbuilds ``Kmesh`` into ``KmeshBuilder``
+
+        Returns:
+            ``KmeshBuilder`` for ``Kmesh``.
+        """
+
+        return Kmesh(
+            vector=copy.deepcopy(ast.vector),
         )

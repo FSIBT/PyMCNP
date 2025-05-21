@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Pty(SswOption):
     Attributes:
         tracks: Tracks to record.
     """
+
+    _KEYWORD = 'pty'
 
     _ATTRS = {
         'tracks': types.Tuple[types.Designator],
@@ -79,4 +82,17 @@ class PtyBuilder:
 
         return Pty(
             tracks=tracks,
+        )
+
+    @staticmethod
+    def unbuild(ast: Pty):
+        """
+        Unbuilds ``Pty`` into ``PtyBuilder``
+
+        Returns:
+            ``PtyBuilder`` for ``Pty``.
+        """
+
+        return Pty(
+            tracks=copy.deepcopy(ast.tracks),
         )

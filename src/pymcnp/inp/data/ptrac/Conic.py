@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Conic(PtracOption):
     Attributes:
         setting: Activates a PTRAC file format specifically for coincidence tally scoring.
     """
+
+    _KEYWORD = 'conic'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class ConicBuilder:
 
         return Conic(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Conic):
+        """
+        Unbuilds ``Conic`` into ``ConicBuilder``
+
+        Returns:
+            ``ConicBuilder`` for ``Conic``.
+        """
+
+        return Conic(
+            setting=copy.deepcopy(ast.setting),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Genxs(TroptOption):
     Attributes:
         filename: Cross section generation setting.
     """
+
+    _KEYWORD = 'genxs'
 
     _ATTRS = {
         'filename': types.String,
@@ -72,4 +75,17 @@ class GenxsBuilder:
 
         return Genxs(
             filename=filename,
+        )
+
+    @staticmethod
+    def unbuild(ast: Genxs):
+        """
+        Unbuilds ``Genxs`` into ``GenxsBuilder``
+
+        Returns:
+            ``GenxsBuilder`` for ``Genxs``.
+        """
+
+        return Genxs(
+            filename=copy.deepcopy(ast.filename),
         )

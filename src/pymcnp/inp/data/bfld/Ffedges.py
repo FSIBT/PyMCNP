@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ffedges(BfldOption):
     Attributes:
         numbers: Surface numbers to apply field fringe edges.
     """
+
+    _KEYWORD = 'ffedges'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class FfedgesBuilder:
 
         return Ffedges(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ffedges):
+        """
+        Unbuilds ``Ffedges`` into ``FfedgesBuilder``
+
+        Returns:
+            ``FfedgesBuilder`` for ``Ffedges``.
+        """
+
+        return Ffedges(
+            numbers=copy.deepcopy(ast.numbers),
         )

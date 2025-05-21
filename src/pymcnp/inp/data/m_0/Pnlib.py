@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Pnlib(MOption_0):
     Attributes:
         abx: Default photonuclear table identifier.
     """
+
+    _KEYWORD = 'pnlib'
 
     _ATTRS = {
         'abx': types.String,
@@ -72,4 +75,17 @@ class PnlibBuilder:
 
         return Pnlib(
             abx=abx,
+        )
+
+    @staticmethod
+    def unbuild(ast: Pnlib):
+        """
+        Unbuilds ``Pnlib`` into ``PnlibBuilder``
+
+        Returns:
+            ``PnlibBuilder`` for ``Pnlib``.
+        """
+
+        return Pnlib(
+            abx=copy.deepcopy(ast.abx),
         )

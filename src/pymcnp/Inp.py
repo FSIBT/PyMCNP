@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -250,25 +251,6 @@ class InpBuilder:
     message: str = ''
     other: str = ''
 
-    def from_mcnp(source: str):
-        """
-        Initiailizes ``InpBuilder`` from MCNP.
-
-        Attributes:
-            source: MCNP for ``Inp``.
-        """
-
-        ast = Inp.from_mcnp(source)
-
-        return InpBuilder(
-            title=ast.title,
-            cells={cell.number.value: cell for cell in ast.cells},
-            surfaces={surface.number.value: surface for surface in ast.surfaces},
-            data={},
-            message=ast.message,
-            other=ast.other,
-        )
-
     def build(self):
         """
         Builds ``InpBuilder`` into ``Inp``.
@@ -299,7 +281,7 @@ class InpBuilder:
 
         data = []
         for item in self.data.values():
-            if isinstance(item, inp.Surface):
+            if isinstance(item, inp.Data):
                 data.append(item)
             elif isinstance(item, str):
                 data.append(inp.Data.from_mcnp(item))
@@ -317,4 +299,25 @@ class InpBuilder:
             surfaces_comments=types.Tuple([]),
             data=data,
             data_comments=types.Tuple([]),
+        )
+
+    @staticmethod
+    def unbuild(ast: Inp):
+        """
+        Unbuilds ``Inp`` into ``InpBuilder``
+
+        Returns:
+            ``InpBuilder`` for ``Inp``.
+        """
+
+        return InpBuilder(
+            title=copy.deepcopy(ast.title),
+            cells={cell.number.value: inp.CellBuilder.unbuild(cell) for cell in ast.cells},
+            surfaces={
+                surface.number.value: inp.SurfaceBuilder.unbuild(surface)
+                for surface in ast.surfaces
+            },
+            data={data.option._KEYWORD: inp.DataBuilder.unbuild(data) for data in ast.data},
+            message=copy.deepcopy(ast.message),
+            other=copy.deepcopy(ast.other),
         )

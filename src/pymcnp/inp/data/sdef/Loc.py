@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Loc(SdefOption):
         longitude: Longitude for cosmic source.
         altitude: Altitude for cosmic source.
     """
+
+    _KEYWORD = 'loc'
 
     _ATTRS = {
         'latitude': types.Real,
@@ -112,4 +115,19 @@ class LocBuilder:
             latitude=latitude,
             longitude=longitude,
             altitude=altitude,
+        )
+
+    @staticmethod
+    def unbuild(ast: Loc):
+        """
+        Unbuilds ``Loc`` into ``LocBuilder``
+
+        Returns:
+            ``LocBuilder`` for ``Loc``.
+        """
+
+        return Loc(
+            latitude=copy.deepcopy(ast.latitude),
+            longitude=copy.deepcopy(ast.longitude),
+            altitude=copy.deepcopy(ast.altitude),
         )

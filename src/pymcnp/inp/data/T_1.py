@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class T_1(DataOption):
         suffix: Data card option suffix.
         options: Dictionary of options.
     """
+
+    _KEYWORD = 't'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -97,4 +100,18 @@ class TBuilder_1:
         return T_1(
             suffix=suffix,
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: T_1):
+        """
+        Unbuilds ``T_1`` into ``TBuilder_1``
+
+        Returns:
+            ``TBuilder_1`` for ``T_1``.
+        """
+
+        return T_1(
+            suffix=copy.deepcopy(ast.suffix),
+            options=copy.deepcopy(ast.options),
         )

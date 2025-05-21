@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Xs_2(MplotOption):
     Attributes:
         m: Material question mark.
     """
+
+    _KEYWORD = 'xs'
 
     _ATTRS = {
         'm': types.String,
@@ -72,4 +75,17 @@ class XsBuilder_2:
 
         return Xs_2(
             m=m,
+        )
+
+    @staticmethod
+    def unbuild(ast: Xs_2):
+        """
+        Unbuilds ``Xs_2`` into ``XsBuilder_2``
+
+        Returns:
+            ``XsBuilder_2`` for ``Xs_2``.
+        """
+
+        return Xs_2(
+            m=copy.deepcopy(ast.m),
         )

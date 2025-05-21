@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tbin(MplotOption):
     Attributes:
         n: Time bin to plot.
     """
+
+    _KEYWORD = 'tbin'
 
     _ATTRS = {
         'n': types.Integer,
@@ -74,4 +77,17 @@ class TbinBuilder:
 
         return Tbin(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tbin):
+        """
+        Unbuilds ``Tbin`` into ``TbinBuilder``
+
+        Returns:
+            ``TbinBuilder`` for ``Tbin``.
+        """
+
+        return Tbin(
+            n=copy.deepcopy(ast.n),
         )

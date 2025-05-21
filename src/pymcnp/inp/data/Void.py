@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Void(DataOption):
     Attributes:
         numbers: Tuple of cell numbers.
     """
+
+    _KEYWORD = 'void'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -81,4 +84,17 @@ class VoidBuilder:
 
         return Void(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Void):
+        """
+        Unbuilds ``Void`` into ``VoidBuilder``
+
+        Returns:
+            ``VoidBuilder`` for ``Void``.
+        """
+
+        return Void(
+            numbers=copy.deepcopy(ast.numbers),
         )

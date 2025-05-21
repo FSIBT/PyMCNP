@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Pecut(ActOption):
     Attributes:
         cutoff: Delayed-gamma energy cutoff.
     """
+
+    _KEYWORD = 'pecut'
 
     _ATTRS = {
         'cutoff': types.Real,
@@ -74,4 +77,17 @@ class PecutBuilder:
 
         return Pecut(
             cutoff=cutoff,
+        )
+
+    @staticmethod
+    def unbuild(ast: Pecut):
+        """
+        Unbuilds ``Pecut`` into ``PecutBuilder``
+
+        Returns:
+            ``PecutBuilder`` for ``Pecut``.
+        """
+
+        return Pecut(
+            cutoff=copy.deepcopy(ast.cutoff),
         )

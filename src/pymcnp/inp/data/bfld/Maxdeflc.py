@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Maxdeflc(BfldOption):
     Attributes:
         angle: Maximum deflection angles.
     """
+
+    _KEYWORD = 'maxdeflc'
 
     _ATTRS = {
         'angle': types.Real,
@@ -74,4 +77,17 @@ class MaxdeflcBuilder:
 
         return Maxdeflc(
             angle=angle,
+        )
+
+    @staticmethod
+    def unbuild(ast: Maxdeflc):
+        """
+        Unbuilds ``Maxdeflc`` into ``MaxdeflcBuilder``
+
+        Returns:
+            ``MaxdeflcBuilder`` for ``Maxdeflc``.
+        """
+
+        return Maxdeflc(
+            angle=copy.deepcopy(ast.angle),
         )

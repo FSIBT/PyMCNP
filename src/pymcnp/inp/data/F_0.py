@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class F_0(DataOption):
         problems: Problem numbers of surface or cell.
         t: Notation to make bin values cumulative.
     """
+
+    _KEYWORD = 'f'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -137,4 +140,20 @@ class FBuilder_0:
             designator=designator,
             problems=problems,
             t=t,
+        )
+
+    @staticmethod
+    def unbuild(ast: F_0):
+        """
+        Unbuilds ``F_0`` into ``FBuilder_0``
+
+        Returns:
+            ``FBuilder_0`` for ``F_0``.
+        """
+
+        return F_0(
+            suffix=copy.deepcopy(ast.suffix),
+            designator=copy.deepcopy(ast.designator),
+            problems=copy.deepcopy(ast.problems),
+            t=copy.deepcopy(ast.t),
         )

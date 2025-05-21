@@ -15,6 +15,8 @@ class Plot(MplotOption):
 
     """
 
+    _KEYWORD = 'plot'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Aplot\Z')
@@ -50,6 +52,17 @@ class PlotBuilder:
 
         Returns:
             ``Plot`` for ``PlotBuilder``.
+        """
+
+        return Plot()
+
+    @staticmethod
+    def unbuild(ast: Plot):
+        """
+        Unbuilds ``Plot`` into ``PlotBuilder``
+
+        Returns:
+            ``PlotBuilder`` for ``Plot``.
         """
 
         return Plot()

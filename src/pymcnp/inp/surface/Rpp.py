@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -21,6 +22,8 @@ class Rpp(SurfaceOption):
         zmin: Parallelepiped z termini minimum.
         zmax: Parallelepiped z termini maximum.
     """
+
+    _KEYWORD = 'rpp'
 
     _ATTRS = {
         'xmin': types.Real,
@@ -194,4 +197,22 @@ class RppBuilder:
             ymax=ymax,
             zmin=zmin,
             zmax=zmax,
+        )
+
+    @staticmethod
+    def unbuild(ast: Rpp):
+        """
+        Unbuilds ``Rpp`` into ``RppBuilder``
+
+        Returns:
+            ``RppBuilder`` for ``Rpp``.
+        """
+
+        return Rpp(
+            xmin=copy.deepcopy(ast.xmin),
+            xmax=copy.deepcopy(ast.xmax),
+            ymin=copy.deepcopy(ast.ymin),
+            ymax=copy.deepcopy(ast.ymax),
+            zmin=copy.deepcopy(ast.zmin),
+            zmax=copy.deepcopy(ast.zmax),
         )

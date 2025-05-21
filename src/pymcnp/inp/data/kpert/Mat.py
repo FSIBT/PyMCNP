@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mat(KpertOption):
     Attributes:
         numbers: List of materials.
     """
+
+    _KEYWORD = 'mat'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -81,4 +84,17 @@ class MatBuilder:
 
         return Mat(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mat):
+        """
+        Unbuilds ``Mat`` into ``MatBuilder``
+
+        Returns:
+            ``MatBuilder`` for ``Mat``.
+        """
+
+        return Mat(
+            numbers=copy.deepcopy(ast.numbers),
         )

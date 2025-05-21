@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -24,6 +25,8 @@ class Gq(SurfaceOption):
         j: Oblique special quadratic J coefficent.
         k: Oblique special quadratic K coefficent.
     """
+
+    _KEYWORD = 'gq'
 
     _ATTRS = {
         'a': types.Real,
@@ -250,4 +253,26 @@ class GqBuilder:
             h=h,
             j=j,
             k=k,
+        )
+
+    @staticmethod
+    def unbuild(ast: Gq):
+        """
+        Unbuilds ``Gq`` into ``GqBuilder``
+
+        Returns:
+            ``GqBuilder`` for ``Gq``.
+        """
+
+        return Gq(
+            a=copy.deepcopy(ast.a),
+            b=copy.deepcopy(ast.b),
+            c=copy.deepcopy(ast.c),
+            d=copy.deepcopy(ast.d),
+            e=copy.deepcopy(ast.e),
+            f=copy.deepcopy(ast.f),
+            g=copy.deepcopy(ast.g),
+            h=copy.deepcopy(ast.h),
+            j=copy.deepcopy(ast.j),
+            k=copy.deepcopy(ast.k),
         )

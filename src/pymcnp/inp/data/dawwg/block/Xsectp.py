@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Xsectp(BlockOption):
     Attributes:
         setting: Cross-section print flag.
     """
+
+    _KEYWORD = 'xsectp'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class XsectpBuilder:
 
         return Xsectp(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Xsectp):
+        """
+        Unbuilds ``Xsectp`` into ``XsectpBuilder``
+
+        Returns:
+            ``XsectpBuilder`` for ``Xsectp``.
+        """
+
+        return Xsectp(
+            setting=copy.deepcopy(ast.setting),
         )

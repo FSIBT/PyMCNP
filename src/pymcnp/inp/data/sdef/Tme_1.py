@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tme_1(SdefOption):
     Attributes:
         time: Time in shakes.
     """
+
+    _KEYWORD = 'tme'
 
     _ATTRS = {
         'time': types.EmbeddedDistributionNumber,
@@ -72,4 +75,17 @@ class TmeBuilder_1:
 
         return Tme_1(
             time=time,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tme_1):
+        """
+        Unbuilds ``Tme_1`` into ``TmeBuilder_1``
+
+        Returns:
+            ``TmeBuilder_1`` for ``Tme_1``.
+        """
+
+        return Tme_1(
+            time=copy.deepcopy(ast.time),
         )

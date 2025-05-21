@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tsasn(BlockOption):
     Attributes:
         setting: Sn order for lower order TSA sweeps.
     """
+
+    _KEYWORD = 'tsasn'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class TsasnBuilder:
 
         return Tsasn(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tsasn):
+        """
+        Unbuilds ``Tsasn`` into ``TsasnBuilder``
+
+        Returns:
+            ``TsasnBuilder`` for ``Tsasn``.
+        """
+
+        return Tsasn(
+            setting=copy.deepcopy(ast.setting),
         )

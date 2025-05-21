@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Mx(DataOption):
         designator: Data card particle designator.
         zaids: Zaid substitutions for particles.
     """
+
+    _KEYWORD = 'mx'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -113,4 +116,19 @@ class MxBuilder:
             suffix=suffix,
             designator=designator,
             zaids=zaids,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mx):
+        """
+        Unbuilds ``Mx`` into ``MxBuilder``
+
+        Returns:
+            ``MxBuilder`` for ``Mx``.
+        """
+
+        return Mx(
+            suffix=copy.deepcopy(ast.suffix),
+            designator=copy.deepcopy(ast.designator),
+            zaids=copy.deepcopy(ast.zaids),
         )

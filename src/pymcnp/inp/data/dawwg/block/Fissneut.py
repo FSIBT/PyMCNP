@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fissneut(BlockOption):
     Attributes:
         setting: Fission neutron flag.
     """
+
+    _KEYWORD = 'fissneut'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class FissneutBuilder:
 
         return Fissneut(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fissneut):
+        """
+        Unbuilds ``Fissneut`` into ``FissneutBuilder``
+
+        Returns:
+            ``FissneutBuilder`` for ``Fissneut``.
+        """
+
+        return Fissneut(
+            setting=copy.deepcopy(ast.setting),
         )

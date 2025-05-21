@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Sp_0(DataOption):
         option: Probability kind setting.
         probabilities: Particle source probabilities.
     """
+
+    _KEYWORD = 'sp'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -119,4 +122,19 @@ class SpBuilder_0:
             suffix=suffix,
             option=option,
             probabilities=probabilities,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sp_0):
+        """
+        Unbuilds ``Sp_0`` into ``SpBuilder_0``
+
+        Returns:
+            ``SpBuilder_0`` for ``Sp_0``.
+        """
+
+        return Sp_0(
+            suffix=copy.deepcopy(ast.suffix),
+            option=copy.deepcopy(ast.option),
+            probabilities=copy.deepcopy(ast.probabilities),
         )

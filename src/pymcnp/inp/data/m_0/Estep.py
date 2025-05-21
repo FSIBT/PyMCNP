@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Estep(MOption_0):
     Attributes:
         step: Number of electron sub-step per energy step.
     """
+
+    _KEYWORD = 'estep'
 
     _ATTRS = {
         'step': types.Integer,
@@ -74,4 +77,17 @@ class EstepBuilder:
 
         return Estep(
             step=step,
+        )
+
+    @staticmethod
+    def unbuild(ast: Estep):
+        """
+        Unbuilds ``Estep`` into ``EstepBuilder``
+
+        Returns:
+            ``EstepBuilder`` for ``Estep``.
+        """
+
+        return Estep(
+            step=copy.deepcopy(ast.step),
         )

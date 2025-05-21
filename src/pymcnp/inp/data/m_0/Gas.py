@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Gas(MOption_0):
     Attributes:
         setting: Flag for density-effect correction to electron stopping power.
     """
+
+    _KEYWORD = 'gas'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class GasBuilder:
 
         return Gas(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Gas):
+        """
+        Unbuilds ``Gas`` into ``GasBuilder``
+
+        Returns:
+            ``GasBuilder`` for ``Gas``.
+        """
+
+        return Gas(
+            setting=copy.deepcopy(ast.setting),
         )

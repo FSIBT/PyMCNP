@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -23,6 +24,8 @@ class Hsrc(DataOption):
         z_minimum: Minimum z-value for mesh.
         z_maximum: Maximum z-value for mesh.
     """
+
+    _KEYWORD = 'hsrc'
 
     _ATTRS = {
         'x_number': types.Integer,
@@ -231,4 +234,25 @@ class HsrcBuilder:
             z_number=z_number,
             z_minimum=z_minimum,
             z_maximum=z_maximum,
+        )
+
+    @staticmethod
+    def unbuild(ast: Hsrc):
+        """
+        Unbuilds ``Hsrc`` into ``HsrcBuilder``
+
+        Returns:
+            ``HsrcBuilder`` for ``Hsrc``.
+        """
+
+        return Hsrc(
+            x_number=copy.deepcopy(ast.x_number),
+            x_minimum=copy.deepcopy(ast.x_minimum),
+            x_maximum=copy.deepcopy(ast.x_maximum),
+            y_number=copy.deepcopy(ast.y_number),
+            y_minimum=copy.deepcopy(ast.y_minimum),
+            y_maximum=copy.deepcopy(ast.y_maximum),
+            z_number=copy.deepcopy(ast.z_number),
+            z_minimum=copy.deepcopy(ast.z_minimum),
+            z_maximum=copy.deepcopy(ast.z_maximum),
         )

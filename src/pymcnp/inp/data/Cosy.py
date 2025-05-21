@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Cosy(DataOption):
     Attributes:
         numbers: Tuple of COSY map numbers.
     """
+
+    _KEYWORD = 'cosy'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -79,4 +82,17 @@ class CosyBuilder:
 
         return Cosy(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cosy):
+        """
+        Unbuilds ``Cosy`` into ``CosyBuilder``
+
+        Returns:
+            ``CosyBuilder`` for ``Cosy``.
+        """
+
+        return Cosy(
+            numbers=copy.deepcopy(ast.numbers),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Bflcl(CellOption):
     Attributes:
         number: Cell magnetic field number.
     """
+
+    _KEYWORD = 'bflcl'
 
     _ATTRS = {
         'number': types.Integer,
@@ -74,4 +77,17 @@ class BflclBuilder:
 
         return Bflcl(
             number=number,
+        )
+
+    @staticmethod
+    def unbuild(ast: Bflcl):
+        """
+        Unbuilds ``Bflcl`` into ``BflclBuilder``
+
+        Returns:
+            ``BflclBuilder`` for ``Bflcl``.
+        """
+
+        return Bflcl(
+            number=copy.deepcopy(ast.number),
         )

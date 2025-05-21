@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Noadjm(BlockOption):
     Attributes:
         setting: Suppress writing ADJMAC on/off.
     """
+
+    _KEYWORD = 'noadjm'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class NoadjmBuilder:
 
         return Noadjm(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Noadjm):
+        """
+        Unbuilds ``Noadjm`` into ``NoadjmBuilder``
+
+        Returns:
+            ``NoadjmBuilder`` for ``Noadjm``.
+        """
+
+        return Noadjm(
+            setting=copy.deepcopy(ast.setting),
         )

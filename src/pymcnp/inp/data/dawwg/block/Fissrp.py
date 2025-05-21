@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fissrp(BlockOption):
     Attributes:
         setting: Print fission source rate on/off.
     """
+
+    _KEYWORD = 'fissrp'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class FissrpBuilder:
 
         return Fissrp(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fissrp):
+        """
+        Unbuilds ``Fissrp`` into ``FissrpBuilder``
+
+        Returns:
+            ``FissrpBuilder`` for ``Fissrp``.
+        """
+
+        return Fissrp(
+            setting=copy.deepcopy(ast.setting),
         )

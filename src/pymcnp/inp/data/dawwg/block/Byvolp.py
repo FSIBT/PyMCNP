@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Byvolp(BlockOption):
     Attributes:
         setting: Printed point reactions rates on/off.
     """
+
+    _KEYWORD = 'byvolp'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class ByvolpBuilder:
 
         return Byvolp(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Byvolp):
+        """
+        Unbuilds ``Byvolp`` into ``ByvolpBuilder``
+
+        Returns:
+            ``ByvolpBuilder`` for ``Byvolp``.
+        """
+
+        return Byvolp(
+            setting=copy.deepcopy(ast.setting),
         )

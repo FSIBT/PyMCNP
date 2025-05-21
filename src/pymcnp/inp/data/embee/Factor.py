@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Factor(EmbeeOption):
     Attributes:
         constant: Multiplicative constant.
     """
+
+    _KEYWORD = 'factor'
 
     _ATTRS = {
         'constant': types.Real,
@@ -74,4 +77,17 @@ class FactorBuilder:
 
         return Factor(
             constant=constant,
+        )
+
+    @staticmethod
+    def unbuild(ast: Factor):
+        """
+        Unbuilds ``Factor`` into ``FactorBuilder``
+
+        Returns:
+            ``FactorBuilder`` for ``Factor``.
+        """
+
+        return Factor(
+            constant=copy.deepcopy(ast.constant),
         )

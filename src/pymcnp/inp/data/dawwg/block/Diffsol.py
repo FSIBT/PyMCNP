@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Diffsol(BlockOption):
     Attributes:
         setting: Diffusion operator solver.
     """
+
+    _KEYWORD = 'diffsol'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class DiffsolBuilder:
 
         return Diffsol(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Diffsol):
+        """
+        Unbuilds ``Diffsol`` into ``DiffsolBuilder``
+
+        Returns:
+            ``DiffsolBuilder`` for ``Diffsol``.
+        """
+
+        return Diffsol(
+            setting=copy.deepcopy(ast.setting),
         )

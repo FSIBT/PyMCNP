@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Legendre(KsenOption):
     Attributes:
         number: Order of Legendre moments to calculate sensitivities.
     """
+
+    _KEYWORD = 'legendre'
 
     _ATTRS = {
         'number': types.Integer,
@@ -74,4 +77,17 @@ class LegendreBuilder:
 
         return Legendre(
             number=number,
+        )
+
+    @staticmethod
+    def unbuild(ast: Legendre):
+        """
+        Unbuilds ``Legendre`` into ``LegendreBuilder``
+
+        Returns:
+            ``LegendreBuilder`` for ``Legendre``.
+        """
+
+        return Legendre(
+            number=copy.deepcopy(ast.number),
         )

@@ -15,6 +15,8 @@ class Line(ContourOption):
 
     """
 
+    _KEYWORD = 'line'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Aline\Z')
@@ -50,6 +52,17 @@ class LineBuilder:
 
         Returns:
             ``Line`` for ``LineBuilder``.
+        """
+
+        return Line()
+
+    @staticmethod
+    def unbuild(ast: Line):
+        """
+        Unbuilds ``Line`` into ``LineBuilder``
+
+        Returns:
+            ``LineBuilder`` for ``Line``.
         """
 
         return Line()

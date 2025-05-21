@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Zlev(MplotOption):
     Attributes:
         n: Scales of tally plots.
     """
+
+    _KEYWORD = 'zlev'
 
     _ATTRS = {
         'n': types.Tuple[types.String],
@@ -79,4 +82,17 @@ class ZlevBuilder:
 
         return Zlev(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Zlev):
+        """
+        Unbuilds ``Zlev`` into ``ZlevBuilder``
+
+        Returns:
+            ``ZlevBuilder`` for ``Zlev``.
+        """
+
+        return Zlev(
+            n=copy.deepcopy(ast.n),
         )

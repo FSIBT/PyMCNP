@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Pted(BlockOption):
     Attributes:
         setting: Edits by fine mesh on/off.
     """
+
+    _KEYWORD = 'pted'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class PtedBuilder:
 
         return Pted(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Pted):
+        """
+        Unbuilds ``Pted`` into ``PtedBuilder``
+
+        Returns:
+            ``PtedBuilder`` for ``Pted``.
+        """
+
+        return Pted(
+            setting=copy.deepcopy(ast.setting),
         )

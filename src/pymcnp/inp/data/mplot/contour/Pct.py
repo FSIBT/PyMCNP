@@ -15,6 +15,8 @@ class Pct(ContourOption):
 
     """
 
+    _KEYWORD = 'pct'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Apct\Z')
@@ -50,6 +52,17 @@ class PctBuilder:
 
         Returns:
             ``Pct`` for ``PctBuilder``.
+        """
+
+        return Pct()
+
+    @staticmethod
+    def unbuild(ast: Pct):
+        """
+        Unbuilds ``Pct`` into ``PctBuilder``
+
+        Returns:
+            ``PctBuilder`` for ``Pct``.
         """
 
         return Pct()

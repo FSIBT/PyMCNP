@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nlib(MOption_0):
     Attributes:
         abx: Default neutron table identifier.
     """
+
+    _KEYWORD = 'nlib'
 
     _ATTRS = {
         'abx': types.String,
@@ -72,4 +75,17 @@ class NlibBuilder:
 
         return Nlib(
             abx=abx,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nlib):
+        """
+        Unbuilds ``Nlib`` into ``NlibBuilder``
+
+        Returns:
+            ``NlibBuilder`` for ``Nlib``.
+        """
+
+        return Nlib(
+            abx=copy.deepcopy(ast.abx),
         )

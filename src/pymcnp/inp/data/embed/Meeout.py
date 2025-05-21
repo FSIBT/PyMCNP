@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Meeout(EmbedOption):
     Attributes:
         filename: Name assigned to EEOUT, the elemental edit output file.
     """
+
+    _KEYWORD = 'meeout'
 
     _ATTRS = {
         'filename': types.String,
@@ -72,4 +75,17 @@ class MeeoutBuilder:
 
         return Meeout(
             filename=filename,
+        )
+
+    @staticmethod
+    def unbuild(ast: Meeout):
+        """
+        Unbuilds ``Meeout`` into ``MeeoutBuilder``
+
+        Returns:
+            ``MeeoutBuilder`` for ``Meeout``.
+        """
+
+        return Meeout(
+            filename=copy.deepcopy(ast.filename),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Em(DataOption):
         suffix: Data card option suffix.
         multipliers: Energy bin multiplier to apply.
     """
+
+    _KEYWORD = 'em'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class EmBuilder:
         return Em(
             suffix=suffix,
             multipliers=multipliers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Em):
+        """
+        Unbuilds ``Em`` into ``EmBuilder``
+
+        Returns:
+            ``EmBuilder`` for ``Em``.
+        """
+
+        return Em(
+            suffix=copy.deepcopy(ast.suffix),
+            multipliers=copy.deepcopy(ast.multipliers),
         )

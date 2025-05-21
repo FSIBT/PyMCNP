@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ievt(BlockOption):
     Attributes:
         setting: Calculation type.
     """
+
+    _KEYWORD = 'ievt'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class IevtBuilder:
 
         return Ievt(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ievt):
+        """
+        Unbuilds ``Ievt`` into ``IevtBuilder``
+
+        Returns:
+            ``IevtBuilder`` for ``Ievt``.
+        """
+
+        return Ievt(
+            setting=copy.deepcopy(ast.setting),
         )

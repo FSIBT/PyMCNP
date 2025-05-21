@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Sd(DataOption):
     Attributes:
         information: Area, volume, or mass by segmented, surface/cell.
     """
+
+    _KEYWORD = 'sd'
 
     _ATTRS = {
         'information': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class SdBuilder:
 
         return Sd(
             information=information,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sd):
+        """
+        Unbuilds ``Sd`` into ``SdBuilder``
+
+        Returns:
+            ``SdBuilder`` for ``Sd``.
+        """
+
+        return Sd(
+            information=copy.deepcopy(ast.information),
         )

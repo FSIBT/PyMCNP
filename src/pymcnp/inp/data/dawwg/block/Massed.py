@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Massed(BlockOption):
     Attributes:
         setting: Mass edits on/off.
     """
+
+    _KEYWORD = 'massed'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class MassedBuilder:
 
         return Massed(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Massed):
+        """
+        Unbuilds ``Massed`` into ``MassedBuilder``
+
+        Returns:
+            ``MassedBuilder`` for ``Massed``.
+        """
+
+        return Massed(
+            setting=copy.deepcopy(ast.setting),
         )

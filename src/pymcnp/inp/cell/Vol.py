@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Vol(CellOption):
     Attributes:
         volume: Cell volume.
     """
+
+    _KEYWORD = 'vol'
 
     _ATTRS = {
         'volume': types.Real,
@@ -74,4 +77,17 @@ class VolBuilder:
 
         return Vol(
             volume=volume,
+        )
+
+    @staticmethod
+    def unbuild(ast: Vol):
+        """
+        Unbuilds ``Vol`` into ``VolBuilder``
+
+        Returns:
+            ``VolBuilder`` for ``Vol``.
+        """
+
+        return Vol(
+            volume=copy.deepcopy(ast.volume),
         )

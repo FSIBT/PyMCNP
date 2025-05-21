@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Cbeg(TOption_1):
     Attributes:
         time: Reference starting time.
     """
+
+    _KEYWORD = 'cbeg'
 
     _ATTRS = {
         'time': types.Real,
@@ -74,4 +77,17 @@ class CbegBuilder:
 
         return Cbeg(
             time=time,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cbeg):
+        """
+        Unbuilds ``Cbeg`` into ``CbegBuilder``
+
+        Returns:
+            ``CbegBuilder`` for ``Cbeg``.
+        """
+
+        return Cbeg(
+            time=copy.deepcopy(ast.time),
         )

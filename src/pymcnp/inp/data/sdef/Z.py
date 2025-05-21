@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Z(SdefOption):
     Attributes:
         z_coordinate: Z-cordinate of position.
     """
+
+    _KEYWORD = 'z'
 
     _ATTRS = {
         'z_coordinate': types.Real,
@@ -74,4 +77,17 @@ class ZBuilder:
 
         return Z(
             z_coordinate=z_coordinate,
+        )
+
+    @staticmethod
+    def unbuild(ast: Z):
+        """
+        Unbuilds ``Z`` into ``ZBuilder``
+
+        Returns:
+            ``ZBuilder`` for ``Z``.
+        """
+
+        return Z(
+            z_coordinate=copy.deepcopy(ast.z_coordinate),
         )

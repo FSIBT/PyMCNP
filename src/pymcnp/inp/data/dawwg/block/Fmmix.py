@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fmmix(BlockOption):
     Attributes:
         setting: Read composition from LNK3DNT on/off.
     """
+
+    _KEYWORD = 'fmmix'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class FmmixBuilder:
 
         return Fmmix(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fmmix):
+        """
+        Unbuilds ``Fmmix`` into ``FmmixBuilder``
+
+        Returns:
+            ``FmmixBuilder`` for ``Fmmix``.
+        """
+
+        return Fmmix(
+            setting=copy.deepcopy(ast.setting),
         )

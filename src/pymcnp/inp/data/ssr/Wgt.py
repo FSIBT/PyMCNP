@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Wgt(SsrOption):
     Attributes:
         constant: Particle weight multiplier.
     """
+
+    _KEYWORD = 'wgt'
 
     _ATTRS = {
         'constant': types.Real,
@@ -74,4 +77,17 @@ class WgtBuilder:
 
         return Wgt(
             constant=constant,
+        )
+
+    @staticmethod
+    def unbuild(ast: Wgt):
+        """
+        Unbuilds ``Wgt`` into ``WgtBuilder``
+
+        Returns:
+            ``WgtBuilder`` for ``Wgt``.
+        """
+
+        return Wgt(
+            constant=copy.deepcopy(ast.constant),
         )

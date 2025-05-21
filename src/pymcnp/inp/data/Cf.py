@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Cf(DataOption):
         suffix: Data card option suffix.
         numbers: Tallies for problem cell numbers to flag.
     """
+
+    _KEYWORD = 'cf'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -98,4 +101,18 @@ class CfBuilder:
         return Cf(
             suffix=suffix,
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cf):
+        """
+        Unbuilds ``Cf`` into ``CfBuilder``
+
+        Returns:
+            ``CfBuilder`` for ``Cf``.
+        """
+
+        return Cf(
+            suffix=copy.deepcopy(ast.suffix),
+            numbers=copy.deepcopy(ast.numbers),
         )

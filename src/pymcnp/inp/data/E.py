@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class E(DataOption):
         nt: Notation to inhibit automatic totaling.
         c: Notation to make bin values cumulative.
     """
+
+    _KEYWORD = 'e'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -132,4 +135,20 @@ class EBuilder:
             bounds=bounds,
             nt=nt,
             c=c,
+        )
+
+    @staticmethod
+    def unbuild(ast: E):
+        """
+        Unbuilds ``E`` into ``EBuilder``
+
+        Returns:
+            ``EBuilder`` for ``E``.
+        """
+
+        return E(
+            suffix=copy.deepcopy(ast.suffix),
+            bounds=copy.deepcopy(ast.bounds),
+            nt=copy.deepcopy(ast.nt),
+            c=copy.deepcopy(ast.c),
         )

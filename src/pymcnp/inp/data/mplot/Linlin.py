@@ -15,6 +15,8 @@ class Linlin(MplotOption):
 
     """
 
+    _KEYWORD = 'linlin'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Alinlin\Z')
@@ -50,6 +52,17 @@ class LinlinBuilder:
 
         Returns:
             ``Linlin`` for ``LinlinBuilder``.
+        """
+
+        return Linlin()
+
+    @staticmethod
+    def unbuild(ast: Linlin):
+        """
+        Unbuilds ``Linlin`` into ``LinlinBuilder``
+
+        Returns:
+            ``LinlinBuilder`` for ``Linlin``.
         """
 
         return Linlin()

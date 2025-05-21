@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Bflcl(DataOption):
     Attributes:
         numbers: Tuple of BFLD map numbers.
     """
+
+    _KEYWORD = 'bflcl'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -79,4 +82,17 @@ class BflclBuilder:
 
         return Bflcl(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Bflcl):
+        """
+        Unbuilds ``Bflcl`` into ``BflclBuilder``
+
+        Returns:
+            ``BflclBuilder`` for ``Bflcl``.
+        """
+
+        return Bflcl(
+            numbers=copy.deepcopy(ast.numbers),
         )

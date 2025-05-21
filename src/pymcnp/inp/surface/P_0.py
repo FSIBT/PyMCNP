@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -19,6 +20,8 @@ class P_0(SurfaceOption):
         c: Equation-defined general plane C coefficent.
         d: Equation-defined general plane D coefficent.
     """
+
+    _KEYWORD = 'p'
 
     _ATTRS = {
         'a': types.Real,
@@ -145,4 +148,20 @@ class PBuilder_0:
             b=b,
             c=c,
             d=d,
+        )
+
+    @staticmethod
+    def unbuild(ast: P_0):
+        """
+        Unbuilds ``P_0`` into ``PBuilder_0``
+
+        Returns:
+            ``PBuilder_0`` for ``P_0``.
+        """
+
+        return P_0(
+            a=copy.deepcopy(ast.a),
+            b=copy.deepcopy(ast.b),
+            c=copy.deepcopy(ast.c),
+            d=copy.deepcopy(ast.d),
         )

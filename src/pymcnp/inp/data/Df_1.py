@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Df_1(DataOption):
         suffix: Data card option suffix.
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'df'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -97,4 +100,18 @@ class DfBuilder_1:
         return Df_1(
             suffix=suffix,
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Df_1):
+        """
+        Unbuilds ``Df_1`` into ``DfBuilder_1``
+
+        Returns:
+            ``DfBuilder_1`` for ``Df_1``.
+        """
+
+        return Df_1(
+            suffix=copy.deepcopy(ast.suffix),
+            options=copy.deepcopy(ast.options),
         )

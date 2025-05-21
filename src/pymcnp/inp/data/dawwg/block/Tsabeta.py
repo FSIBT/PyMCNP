@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tsabeta(BlockOption):
     Attributes:
         setting: Scattering cross-section reduction for TSA.
     """
+
+    _KEYWORD = 'tsabeta'
 
     _ATTRS = {
         'setting': types.Real,
@@ -74,4 +77,17 @@ class TsabetaBuilder:
 
         return Tsabeta(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tsabeta):
+        """
+        Unbuilds ``Tsabeta`` into ``TsabetaBuilder``
+
+        Returns:
+            ``TsabetaBuilder`` for ``Tsabeta``.
+        """
+
+        return Tsabeta(
+            setting=copy.deepcopy(ast.setting),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Spdtl(DataOption):
     Attributes:
         keyword: keyword in {"force", "off"}.
     """
+
+    _KEYWORD = 'spdtl'
 
     _ATTRS = {
         'keyword': types.String,
@@ -72,4 +75,17 @@ class SpdtlBuilder:
 
         return Spdtl(
             keyword=keyword,
+        )
+
+    @staticmethod
+    def unbuild(ast: Spdtl):
+        """
+        Unbuilds ``Spdtl`` into ``SpdtlBuilder``
+
+        Returns:
+            ``SpdtlBuilder`` for ``Spdtl``.
+        """
+
+        return Spdtl(
+            keyword=copy.deepcopy(ast.keyword),
         )

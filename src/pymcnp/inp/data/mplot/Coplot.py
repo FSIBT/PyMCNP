@@ -15,6 +15,8 @@ class Coplot(MplotOption):
 
     """
 
+    _KEYWORD = 'coplot'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Acoplot\Z')
@@ -50,6 +52,17 @@ class CoplotBuilder:
 
         Returns:
             ``Coplot`` for ``CoplotBuilder``.
+        """
+
+        return Coplot()
+
+    @staticmethod
+    def unbuild(ast: Coplot):
+        """
+        Unbuilds ``Coplot`` into ``CoplotBuilder``
+
+        Returns:
+            ``CoplotBuilder`` for ``Coplot``.
         """
 
         return Coplot()

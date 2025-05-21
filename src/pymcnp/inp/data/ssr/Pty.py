@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Pty(SsrOption):
     Attributes:
         particles: Tuple of designators.
     """
+
+    _KEYWORD = 'pty'
 
     _ATTRS = {
         'particles': types.Tuple[types.Designator],
@@ -79,4 +82,17 @@ class PtyBuilder:
 
         return Pty(
             particles=particles,
+        )
+
+    @staticmethod
+    def unbuild(ast: Pty):
+        """
+        Unbuilds ``Pty`` into ``PtyBuilder``
+
+        Returns:
+            ``PtyBuilder`` for ``Pty``.
+        """
+
+        return Pty(
+            particles=copy.deepcopy(ast.particles),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Axs(SsrOption):
     Attributes:
         cosines: Direction cosines defining.
     """
+
+    _KEYWORD = 'axs'
 
     _ATTRS = {
         'cosines': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class AxsBuilder:
 
         return Axs(
             cosines=cosines,
+        )
+
+    @staticmethod
+    def unbuild(ast: Axs):
+        """
+        Unbuilds ``Axs`` into ``AxsBuilder``
+
+        Returns:
+            ``AxsBuilder`` for ``Axs``.
+        """
+
+        return Axs(
+            cosines=copy.deepcopy(ast.cosines),
         )

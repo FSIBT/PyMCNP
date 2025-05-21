@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Embdf(DataOption):
         suffix: Data card option suffix.
         multipliers: Tuple of dose energy multipliers.
     """
+
+    _KEYWORD = 'embdf'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class EmbdfBuilder:
         return Embdf(
             suffix=suffix,
             multipliers=multipliers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Embdf):
+        """
+        Unbuilds ``Embdf`` into ``EmbdfBuilder``
+
+        Returns:
+            ``EmbdfBuilder`` for ``Embdf``.
+        """
+
+        return Embdf(
+            suffix=copy.deepcopy(ast.suffix),
+            multipliers=copy.deepcopy(ast.multipliers),
         )

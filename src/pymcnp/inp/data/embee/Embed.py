@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Embed(EmbeeOption):
     Attributes:
         number: Embedded mesh universe number.
     """
+
+    _KEYWORD = 'embed'
 
     _ATTRS = {
         'number': types.Integer,
@@ -74,4 +77,17 @@ class EmbedBuilder:
 
         return Embed(
             number=number,
+        )
+
+    @staticmethod
+    def unbuild(ast: Embed):
+        """
+        Unbuilds ``Embed`` into ``EmbedBuilder``
+
+        Returns:
+            ``EmbedBuilder`` for ``Embed``.
+        """
+
+        return Embed(
+            number=copy.deepcopy(ast.number),
         )

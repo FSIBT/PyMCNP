@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class U(DataOption):
     Attributes:
         numbers: Tuple of cell numbers.
     """
+
+    _KEYWORD = 'u'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -81,4 +84,17 @@ class UBuilder:
 
         return U(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: U):
+        """
+        Unbuilds ``U`` into ``UBuilder``
+
+        Returns:
+            ``UBuilder`` for ``U``.
+        """
+
+        return U(
+            numbers=copy.deepcopy(ast.numbers),
         )

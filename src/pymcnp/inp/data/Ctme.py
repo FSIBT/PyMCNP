@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ctme(DataOption):
     Attributes:
         tme: maximum amount of minutes for Monte Carlo calculation.
     """
+
+    _KEYWORD = 'ctme'
 
     _ATTRS = {
         'tme': types.Integer,
@@ -74,4 +77,17 @@ class CtmeBuilder:
 
         return Ctme(
             tme=tme,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ctme):
+        """
+        Unbuilds ``Ctme`` into ``CtmeBuilder``
+
+        Returns:
+            ``CtmeBuilder`` for ``Ctme``.
+        """
+
+        return Ctme(
+            tme=copy.deepcopy(ast.tme),
         )

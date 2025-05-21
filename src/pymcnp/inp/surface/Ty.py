@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -21,6 +22,8 @@ class Ty(SurfaceOption):
         b: Parallel-to-y-axis tori B coefficent.
         c: Parallel-to-y-axis tori C coefficent.
     """
+
+    _KEYWORD = 'ty'
 
     _ATTRS = {
         'x': types.Real,
@@ -189,4 +192,22 @@ class TyBuilder:
             a=a,
             b=b,
             c=c,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ty):
+        """
+        Unbuilds ``Ty`` into ``TyBuilder``
+
+        Returns:
+            ``TyBuilder`` for ``Ty``.
+        """
+
+        return Ty(
+            x=copy.deepcopy(ast.x),
+            y=copy.deepcopy(ast.y),
+            z=copy.deepcopy(ast.z),
+            a=copy.deepcopy(ast.a),
+            b=copy.deepcopy(ast.b),
+            c=copy.deepcopy(ast.c),
         )

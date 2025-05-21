@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Embem(DataOption):
         suffix: Data card option suffix.
         multipliers: Tuple of energy multipliers.
     """
+
+    _KEYWORD = 'embem'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class EmbemBuilder:
         return Embem(
             suffix=suffix,
             multipliers=multipliers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Embem):
+        """
+        Unbuilds ``Embem`` into ``EmbemBuilder``
+
+        Returns:
+            ``EmbemBuilder`` for ``Embem``.
+        """
+
+        return Embem(
+            suffix=copy.deepcopy(ast.suffix),
+            multipliers=copy.deepcopy(ast.multipliers),
         )

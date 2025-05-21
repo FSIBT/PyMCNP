@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -21,6 +22,8 @@ class Tx(SurfaceOption):
         b: Parallel-to-x-axis tori B coefficent.
         c: Parallel-to-x-axis tori C coefficent.
     """
+
+    _KEYWORD = 'tx'
 
     _ATTRS = {
         'x': types.Real,
@@ -189,4 +192,22 @@ class TxBuilder:
             a=a,
             b=b,
             c=c,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tx):
+        """
+        Unbuilds ``Tx`` into ``TxBuilder``
+
+        Returns:
+            ``TxBuilder`` for ``Tx``.
+        """
+
+        return Tx(
+            x=copy.deepcopy(ast.x),
+            y=copy.deepcopy(ast.y),
+            z=copy.deepcopy(ast.z),
+            a=copy.deepcopy(ast.a),
+            b=copy.deepcopy(ast.b),
+            c=copy.deepcopy(ast.c),
         )

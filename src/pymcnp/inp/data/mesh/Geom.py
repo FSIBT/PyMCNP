@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Geom(MeshOption):
     Attributes:
         geometry: Controls mesh geometry type.
     """
+
+    _KEYWORD = 'geom'
 
     _ATTRS = {
         'geometry': types.String,
@@ -72,4 +75,17 @@ class GeomBuilder:
 
         return Geom(
             geometry=geometry,
+        )
+
+    @staticmethod
+    def unbuild(ast: Geom):
+        """
+        Unbuilds ``Geom`` into ``GeomBuilder``
+
+        Returns:
+            ``GeomBuilder`` for ``Geom``.
+        """
+
+        return Geom(
+            geometry=copy.deepcopy(ast.geometry),
         )

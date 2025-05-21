@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Meshgeo(EmbedOption):
     Attributes:
         form: Format specification of the embedded mesh input file.
     """
+
+    _KEYWORD = 'meshgeo'
 
     _ATTRS = {
         'form': types.String,
@@ -72,4 +75,17 @@ class MeshgeoBuilder:
 
         return Meshgeo(
             form=form,
+        )
+
+    @staticmethod
+    def unbuild(ast: Meshgeo):
+        """
+        Unbuilds ``Meshgeo`` into ``MeshgeoBuilder``
+
+        Returns:
+            ``MeshgeoBuilder`` for ``Meshgeo``.
+        """
+
+        return Meshgeo(
+            form=copy.deepcopy(ast.form),
         )

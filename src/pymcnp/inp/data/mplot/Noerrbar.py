@@ -15,6 +15,8 @@ class Noerrbar(MplotOption):
 
     """
 
+    _KEYWORD = 'noerrbar'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Anoerrbar\Z')
@@ -50,6 +52,17 @@ class NoerrbarBuilder:
 
         Returns:
             ``Noerrbar`` for ``NoerrbarBuilder``.
+        """
+
+        return Noerrbar()
+
+    @staticmethod
+    def unbuild(ast: Noerrbar):
+        """
+        Unbuilds ``Noerrbar`` into ``NoerrbarBuilder``
+
+        Returns:
+            ``NoerrbarBuilder`` for ``Noerrbar``.
         """
 
         return Noerrbar()

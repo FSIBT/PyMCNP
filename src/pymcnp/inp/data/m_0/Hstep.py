@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Hstep(MOption_0):
     Attributes:
         step: Number of proton sub-step per energy step.
     """
+
+    _KEYWORD = 'hstep'
 
     _ATTRS = {
         'step': types.Integer,
@@ -74,4 +77,17 @@ class HstepBuilder:
 
         return Hstep(
             step=step,
+        )
+
+    @staticmethod
+    def unbuild(ast: Hstep):
+        """
+        Unbuilds ``Hstep`` into ``HstepBuilder``
+
+        Returns:
+            ``HstepBuilder`` for ``Hstep``.
+        """
+
+        return Hstep(
+            step=copy.deepcopy(ast.step),
         )

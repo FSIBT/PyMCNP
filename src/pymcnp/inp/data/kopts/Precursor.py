@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Precursor(KoptsOption):
     Attributes:
         setting: Yes/No detailed precursor information.
     """
+
+    _KEYWORD = 'precursor'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class PrecursorBuilder:
 
         return Precursor(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Precursor):
+        """
+        Unbuilds ``Precursor`` into ``PrecursorBuilder``
+
+        Returns:
+            ``PrecursorBuilder`` for ``Precursor``.
+        """
+
+        return Precursor(
+            setting=copy.deepcopy(ast.setting),
         )

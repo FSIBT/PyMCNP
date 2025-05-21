@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tints(FmeshOption):
     Attributes:
         count: Number of mesh points for each mesh time.
     """
+
+    _KEYWORD = 'tints'
 
     _ATTRS = {
         'count': types.Integer,
@@ -74,4 +77,17 @@ class TintsBuilder:
 
         return Tints(
             count=count,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tints):
+        """
+        Unbuilds ``Tints`` into ``TintsBuilder``
+
+        Returns:
+            ``TintsBuilder`` for ``Tints``.
+        """
+
+        return Tints(
+            count=copy.deepcopy(ast.count),
         )

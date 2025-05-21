@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Rdum(DataOption):
     Attributes:
         floats: Floating point array.
     """
+
+    _KEYWORD = 'rdum'
 
     _ATTRS = {
         'floats': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class RdumBuilder:
 
         return Rdum(
             floats=floats,
+        )
+
+    @staticmethod
+    def unbuild(ast: Rdum):
+        """
+        Unbuilds ``Rdum`` into ``RdumBuilder``
+
+        Returns:
+            ``RdumBuilder`` for ``Rdum``.
+        """
+
+        return Rdum(
+            floats=copy.deepcopy(ast.floats),
         )

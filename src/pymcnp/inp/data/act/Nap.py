@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nap(ActOption):
     Attributes:
         count: Number of activation products.
     """
+
+    _KEYWORD = 'nap'
 
     _ATTRS = {
         'count': types.Integer,
@@ -74,4 +77,17 @@ class NapBuilder:
 
         return Nap(
             count=count,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nap):
+        """
+        Unbuilds ``Nap`` into ``NapBuilder``
+
+        Returns:
+            ``NapBuilder`` for ``Nap``.
+        """
+
+        return Nap(
+            count=copy.deepcopy(ast.count),
         )

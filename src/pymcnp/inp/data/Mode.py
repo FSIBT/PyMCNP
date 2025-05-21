@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mode(DataOption):
     Attributes:
         particles: Tuple of particle designators.
     """
+
+    _KEYWORD = 'mode'
 
     _ATTRS = {
         'particles': types.Tuple[types.Designator],
@@ -79,4 +82,17 @@ class ModeBuilder:
 
         return Mode(
             particles=particles,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mode):
+        """
+        Unbuilds ``Mode`` into ``ModeBuilder``
+
+        Returns:
+            ``ModeBuilder`` for ``Mode``.
+        """
+
+        return Mode(
+            particles=copy.deepcopy(ast.particles),
         )

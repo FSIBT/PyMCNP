@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Poa(SsrOption):
     Attributes:
         angle: Angle within which particles accepeted for transport.
     """
+
+    _KEYWORD = 'poa'
 
     _ATTRS = {
         'angle': types.Real,
@@ -74,4 +77,17 @@ class PoaBuilder:
 
         return Poa(
             angle=angle,
+        )
+
+    @staticmethod
+    def unbuild(ast: Poa):
+        """
+        Unbuilds ``Poa`` into ``PoaBuilder``
+
+        Returns:
+            ``PoaBuilder`` for ``Poa``.
+        """
+
+        return Poa(
+            angle=copy.deepcopy(ast.angle),
         )

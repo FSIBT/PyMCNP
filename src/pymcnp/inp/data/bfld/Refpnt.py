@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Refpnt(BfldOption):
     Attributes:
         point: Point anywhere on the quadrapole beam.
     """
+
+    _KEYWORD = 'refpnt'
 
     _ATTRS = {
         'point': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class RefpntBuilder:
 
         return Refpnt(
             point=point,
+        )
+
+    @staticmethod
+    def unbuild(ast: Refpnt):
+        """
+        Unbuilds ``Refpnt`` into ``RefpntBuilder``
+
+        Returns:
+            ``RefpntBuilder`` for ``Refpnt``.
+        """
+
+        return Refpnt(
+            point=copy.deepcopy(ast.point),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Noedit(BlockOption):
     Attributes:
         setting: Suppress edit module on/off.
     """
+
+    _KEYWORD = 'noedit'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class NoeditBuilder:
 
         return Noedit(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Noedit):
+        """
+        Unbuilds ``Noedit`` into ``NoeditBuilder``
+
+        Returns:
+            ``NoeditBuilder`` for ``Noedit``.
+        """
+
+        return Noedit(
+            setting=copy.deepcopy(ast.setting),
         )

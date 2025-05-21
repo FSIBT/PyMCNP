@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Points(DawwgOption):
     Attributes:
         name: Cross section library.
     """
+
+    _KEYWORD = 'points'
 
     _ATTRS = {
         'name': types.String,
@@ -72,4 +75,17 @@ class PointsBuilder:
 
         return Points(
             name=name,
+        )
+
+    @staticmethod
+    def unbuild(ast: Points):
+        """
+        Unbuilds ``Points`` into ``PointsBuilder``
+
+        Returns:
+            ``PointsBuilder`` for ``Points``.
+        """
+
+        return Points(
+            name=copy.deepcopy(ast.name),
         )

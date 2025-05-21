@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -14,6 +15,8 @@ class Tally(MplotOption):
     Attributes:
         n: Number of current tally.
     """
+
+    _KEYWORD = 'tally'
 
     _ATTRS = {
         'n': types.Integer,
@@ -70,4 +73,17 @@ class TallyBuilder:
 
         return Tally(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tally):
+        """
+        Unbuilds ``Tally`` into ``TallyBuilder``
+
+        Returns:
+            ``TallyBuilder`` for ``Tally``.
+        """
+
+        return Tally(
+            n=copy.deepcopy(ast.n),
         )

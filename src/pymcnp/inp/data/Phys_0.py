@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -22,6 +23,8 @@ class Phys_0(DataOption):
         i_int_model: Treataement of nuclear interactions controls.
         i_els_model: Treatment of nuclear elastic scattering controls.
     """
+
+    _KEYWORD = 'phys:n'
 
     _ATTRS = {
         'emax': types.Real,
@@ -208,4 +211,24 @@ class PhysBuilder_0:
             ngam=ngam,
             i_int_model=i_int_model,
             i_els_model=i_els_model,
+        )
+
+    @staticmethod
+    def unbuild(ast: Phys_0):
+        """
+        Unbuilds ``Phys_0`` into ``PhysBuilder_0``
+
+        Returns:
+            ``PhysBuilder_0`` for ``Phys_0``.
+        """
+
+        return Phys_0(
+            emax=copy.deepcopy(ast.emax),
+            emcnf=copy.deepcopy(ast.emcnf),
+            iunr=copy.deepcopy(ast.iunr),
+            coilf=copy.deepcopy(ast.coilf),
+            cutn=copy.deepcopy(ast.cutn),
+            ngam=copy.deepcopy(ast.ngam),
+            i_int_model=copy.deepcopy(ast.i_int_model),
+            i_els_model=copy.deepcopy(ast.i_els_model),
         )

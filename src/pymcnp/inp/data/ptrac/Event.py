@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Event(PtracOption):
     Attributes:
         settings: Specifies the type of events written to the PTRAC file.
     """
+
+    _KEYWORD = 'event'
 
     _ATTRS = {
         'settings': types.Tuple[types.String],
@@ -79,4 +82,17 @@ class EventBuilder:
 
         return Event(
             settings=settings,
+        )
+
+    @staticmethod
+    def unbuild(ast: Event):
+        """
+        Unbuilds ``Event`` into ``EventBuilder``
+
+        Returns:
+            ``EventBuilder`` for ``Event``.
+        """
+
+        return Event(
+            settings=copy.deepcopy(ast.settings),
         )

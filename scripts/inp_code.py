@@ -269,6 +269,18 @@ def ATTRS_ASSIGN(element, t):
     return o.strip()
 
 
+def ATTRS_UNBUILDER(element, t):
+    o = ''
+
+    for attribute in element.attributes:
+        if attribute.type.startswith('types.'):
+            o += f'{TABS(t)}{attribute.name}=copy.deepcopy(ast.{attribute.name}),\n'
+        else:
+            o += f'{TABS(t)}{attribute.name}={CAMEL(attribute.type, "Builder")}.unbuild(ast.{attribute.name}),\n'
+
+    return o.strip()
+
+
 # ELEMENT #
 def INIT(element):
     return f"""
@@ -311,6 +323,7 @@ class {CAMEL(element.name, "Option")}(Option):
 def ELEMENT(element, parent_name, depth):
     return f'''
 import re
+import copy
 import typing
 import dataclasses
 
@@ -332,6 +345,8 @@ class {CAMEL(element.name)}({CAMEL(parent_name, 'Option')}):
     Attributes:
         {ATTRS_COMMENT(element, 2)}
     """
+
+    _KEYWORD = "{element.mnemonic}"
 
     _ATTRS = {{{ATTRS_DICT(element)}}}
 
@@ -377,6 +392,19 @@ class {CAMEL(element.name, "Builder")}:
 
         return {CAMEL(element.name)}(
             {ATTRS_ASSIGN(element, 3)}
+        )
+
+    @staticmethod
+    def unbuild(ast: {CAMEL(element.name)}):
+        """
+        Unbuilds ``{CAMEL(element.name)}`` into ``{CAMEL(element.name, "Builder")}``
+
+        Returns:
+            ``{CAMEL(element.name, "Builder")}`` for ``{CAMEL(element.name)}``.
+        """
+
+        return {CAMEL(element.name)}(
+            {ATTRS_UNBUILDER(element, 3)}
         )
 '''[1:]
 

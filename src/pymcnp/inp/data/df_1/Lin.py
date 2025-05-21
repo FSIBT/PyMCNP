@@ -15,6 +15,8 @@ class Lin(DfOption_1):
 
     """
 
+    _KEYWORD = 'lin'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Alin\Z')
@@ -50,6 +52,17 @@ class LinBuilder:
 
         Returns:
             ``Lin`` for ``LinBuilder``.
+        """
+
+        return Lin()
+
+    @staticmethod
+    def unbuild(ast: Lin):
+        """
+        Unbuilds ``Lin`` into ``LinBuilder``
+
+        Returns:
+            ``LinBuilder`` for ``Lin``.
         """
 
         return Lin()

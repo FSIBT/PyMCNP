@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Xs_1(MplotOption):
     Attributes:
         m: Material ZAID.
     """
+
+    _KEYWORD = 'xs'
 
     _ATTRS = {
         'm': types.Zaid,
@@ -72,4 +75,17 @@ class XsBuilder_1:
 
         return Xs_1(
             m=m,
+        )
+
+    @staticmethod
+    def unbuild(ast: Xs_1):
+        """
+        Unbuilds ``Xs_1`` into ``XsBuilder_1``
+
+        Returns:
+            ``XsBuilder_1`` for ``Xs_1``.
+        """
+
+        return Xs_1(
+            m=copy.deepcopy(ast.m),
         )

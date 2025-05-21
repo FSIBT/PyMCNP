@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ic(DfOption_1):
     Attributes:
         function: Standard dose function.
     """
+
+    _KEYWORD = 'ic'
 
     _ATTRS = {
         'function': types.Integer,
@@ -77,4 +80,17 @@ class IcBuilder:
 
         return Ic(
             function=function,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ic):
+        """
+        Unbuilds ``Ic`` into ``IcBuilder``
+
+        Returns:
+            ``IcBuilder`` for ``Ic``.
+        """
+
+        return Ic(
+            function=copy.deepcopy(ast.function),
         )

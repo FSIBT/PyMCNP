@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nps(PtracOption):
     Attributes:
         particles: Sets the range of particle histories for which events will be output.
     """
+
+    _KEYWORD = 'nps'
 
     _ATTRS = {
         'particles': types.Tuple[types.Integer],
@@ -79,4 +82,17 @@ class NpsBuilder:
 
         return Nps(
             particles=particles,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nps):
+        """
+        Unbuilds ``Nps`` into ``NpsBuilder``
+
+        Returns:
+            ``NpsBuilder`` for ``Nps``.
+        """
+
+        return Nps(
+            particles=copy.deepcopy(ast.particles),
         )

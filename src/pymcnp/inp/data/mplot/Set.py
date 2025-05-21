@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -22,6 +23,8 @@ class Set(MplotOption):
         e: E bin number.
         t: T bin number.
     """
+
+    _KEYWORD = 'set'
 
     _ATTRS = {
         'f': types.Integer,
@@ -212,4 +215,24 @@ class SetBuilder:
             c=c,
             e=e,
             t=t,
+        )
+
+    @staticmethod
+    def unbuild(ast: Set):
+        """
+        Unbuilds ``Set`` into ``SetBuilder``
+
+        Returns:
+            ``SetBuilder`` for ``Set``.
+        """
+
+        return Set(
+            f=copy.deepcopy(ast.f),
+            d=copy.deepcopy(ast.d),
+            u=copy.deepcopy(ast.u),
+            s=copy.deepcopy(ast.s),
+            m=copy.deepcopy(ast.m),
+            c=copy.deepcopy(ast.c),
+            e=copy.deepcopy(ast.e),
+            t=copy.deepcopy(ast.t),
         )

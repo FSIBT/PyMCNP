@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nomacr(BlockOption):
     Attributes:
         setting: Suppress writing MACRXS on/off.
     """
+
+    _KEYWORD = 'nomacr'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class NomacrBuilder:
 
         return Nomacr(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nomacr):
+        """
+        Unbuilds ``Nomacr`` into ``NomacrBuilder``
+
+        Returns:
+            ``NomacrBuilder`` for ``Nomacr``.
+        """
+
+        return Nomacr(
+            setting=copy.deepcopy(ast.setting),
         )

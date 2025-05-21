@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Nps(DataOption):
         npp: Total number of histories to run.
         npsmg: Number of history with direct source contributions.
     """
+
+    _KEYWORD = 'nps'
 
     _ATTRS = {
         'npp': types.Integer,
@@ -94,4 +97,18 @@ class NpsBuilder:
         return Nps(
             npp=npp,
             npsmg=npsmg,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nps):
+        """
+        Unbuilds ``Nps`` into ``NpsBuilder``
+
+        Returns:
+            ``NpsBuilder`` for ``Nps``.
+        """
+
+        return Nps(
+            npp=copy.deepcopy(ast.npp),
+            npsmg=copy.deepcopy(ast.npsmg),
         )

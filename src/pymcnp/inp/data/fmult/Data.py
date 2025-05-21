@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Data(FmultOption):
     Attributes:
         setting: Sampling method setting.
     """
+
+    _KEYWORD = 'data'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class DataBuilder:
 
         return Data(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Data):
+        """
+        Unbuilds ``Data`` into ``DataBuilder``
+
+        Returns:
+            ``DataBuilder`` for ``Data``.
+        """
+
+        return Data(
+            setting=copy.deepcopy(ast.setting),
         )

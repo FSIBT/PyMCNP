@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Dm(DataOption):
     Attributes:
         zaids: Tuple of ZAID aliases.
     """
+
+    _KEYWORD = 'dm'
 
     _ATTRS = {
         'zaids': types.Tuple[types.Zaid],
@@ -79,4 +82,17 @@ class DmBuilder:
 
         return Dm(
             zaids=zaids,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dm):
+        """
+        Unbuilds ``Dm`` into ``DmBuilder``
+
+        Returns:
+            ``DmBuilder`` for ``Dm``.
+        """
+
+        return Dm(
+            zaids=copy.deepcopy(ast.zaids),
         )

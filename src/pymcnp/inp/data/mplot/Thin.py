@@ -15,6 +15,8 @@ class Thin(MplotOption):
 
     """
 
+    _KEYWORD = 'thin'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Athin\Z')
@@ -50,6 +52,17 @@ class ThinBuilder:
 
         Returns:
             ``Thin`` for ``ThinBuilder``.
+        """
+
+        return Thin()
+
+    @staticmethod
+    def unbuild(ast: Thin):
+        """
+        Unbuilds ``Thin`` into ``ThinBuilder``
+
+        Returns:
+            ``ThinBuilder`` for ``Thin``.
         """
 
         return Thin()

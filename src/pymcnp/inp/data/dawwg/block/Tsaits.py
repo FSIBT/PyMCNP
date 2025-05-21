@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tsaits(BlockOption):
     Attributes:
         setting: Maximum TSA iteration count.
     """
+
+    _KEYWORD = 'tsaits'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class TsaitsBuilder:
 
         return Tsaits(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tsaits):
+        """
+        Unbuilds ``Tsaits`` into ``TsaitsBuilder``
+
+        Returns:
+            ``TsaitsBuilder`` for ``Tsaits``.
+        """
+
+        return Tsaits(
+            setting=copy.deepcopy(ast.setting),
         )

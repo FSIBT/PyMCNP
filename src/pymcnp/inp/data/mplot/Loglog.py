@@ -15,6 +15,8 @@ class Loglog(MplotOption):
 
     """
 
+    _KEYWORD = 'loglog'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Aloglog\Z')
@@ -50,6 +52,17 @@ class LoglogBuilder:
 
         Returns:
             ``Loglog`` for ``LoglogBuilder``.
+        """
+
+        return Loglog()
+
+    @staticmethod
+    def unbuild(ast: Loglog):
+        """
+        Unbuilds ``Loglog`` into ``LoglogBuilder``
+
+        Returns:
+            ``LoglogBuilder`` for ``Loglog``.
         """
 
         return Loglog()

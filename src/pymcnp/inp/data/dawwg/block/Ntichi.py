@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ntichi(BlockOption):
     Attributes:
         setting: MENDF fission fraction.
     """
+
+    _KEYWORD = 'ntichi'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class NtichiBuilder:
 
         return Ntichi(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ntichi):
+        """
+        Unbuilds ``Ntichi`` into ``NtichiBuilder``
+
+        Returns:
+            ``NtichiBuilder`` for ``Ntichi``.
+        """
+
+        return Ntichi(
+            setting=copy.deepcopy(ast.setting),
         )

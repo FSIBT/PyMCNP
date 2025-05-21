@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Si_0(DataOption):
         option: Information kind setting.
         information: Particle source information.
     """
+
+    _KEYWORD = 'si'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -119,4 +122,19 @@ class SiBuilder_0:
             suffix=suffix,
             option=option,
             information=information,
+        )
+
+    @staticmethod
+    def unbuild(ast: Si_0):
+        """
+        Unbuilds ``Si_0`` into ``SiBuilder_0``
+
+        Returns:
+            ``SiBuilder_0`` for ``Si_0``.
+        """
+
+        return Si_0(
+            suffix=copy.deepcopy(ast.suffix),
+            option=copy.deepcopy(ast.option),
+            information=copy.deepcopy(ast.information),
         )

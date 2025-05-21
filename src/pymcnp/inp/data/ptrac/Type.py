@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Type(PtracOption):
     Attributes:
         particles: Filters events based on one or more particle types.
     """
+
+    _KEYWORD = 'type'
 
     _ATTRS = {
         'particles': types.Tuple[types.Designator],
@@ -79,4 +82,17 @@ class TypeBuilder:
 
         return Type(
             particles=particles,
+        )
+
+    @staticmethod
+    def unbuild(ast: Type):
+        """
+        Unbuilds ``Type`` into ``TypeBuilder``
+
+        Returns:
+            ``TypeBuilder`` for ``Type``.
+        """
+
+        return Type(
+            particles=copy.deepcopy(ast.particles),
         )

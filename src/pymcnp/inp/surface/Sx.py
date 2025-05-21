@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Sx(SurfaceOption):
         x: On-x-axis sphere center x component.
         r: On-x-axis sphere radius.
     """
+
+    _KEYWORD = 'sx'
 
     _ATTRS = {
         'x': types.Real,
@@ -106,4 +109,18 @@ class SxBuilder:
         return Sx(
             x=x,
             r=r,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sx):
+        """
+        Unbuilds ``Sx`` into ``SxBuilder``
+
+        Returns:
+            ``SxBuilder`` for ``Sx``.
+        """
+
+        return Sx(
+            x=copy.deepcopy(ast.x),
+            r=copy.deepcopy(ast.r),
         )

@@ -15,6 +15,8 @@ class Status(MplotOption):
 
     """
 
+    _KEYWORD = 'status'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Astatus\Z')
@@ -50,6 +52,17 @@ class StatusBuilder:
 
         Returns:
             ``Status`` for ``StatusBuilder``.
+        """
+
+        return Status()
+
+    @staticmethod
+    def unbuild(ast: Status):
+        """
+        Unbuilds ``Status`` into ``StatusBuilder``
+
+        Returns:
+            ``StatusBuilder`` for ``Status``.
         """
 
         return Status()

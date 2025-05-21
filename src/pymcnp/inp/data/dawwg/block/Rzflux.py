@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Rzflux(BlockOption):
     Attributes:
         setting: Write a-flux file on/off.
     """
+
+    _KEYWORD = 'rzflux'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class RzfluxBuilder:
 
         return Rzflux(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Rzflux):
+        """
+        Unbuilds ``Rzflux`` into ``RzfluxBuilder``
+
+        Returns:
+            ``RzfluxBuilder`` for ``Rzflux``.
+        """
+
+        return Rzflux(
+            setting=copy.deepcopy(ast.setting),
         )

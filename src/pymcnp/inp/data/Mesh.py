@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mesh(DataOption):
     Attributes:
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'mesh'
 
     _ATTRS = {
         'options': types.Tuple[mesh.MeshOption],
@@ -76,4 +79,17 @@ class MeshBuilder:
 
         return Mesh(
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mesh):
+        """
+        Unbuilds ``Mesh`` into ``MeshBuilder``
+
+        Returns:
+            ``MeshBuilder`` for ``Mesh``.
+        """
+
+        return Mesh(
+            options=copy.deepcopy(ast.options),
         )

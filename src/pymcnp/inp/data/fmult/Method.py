@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Method(FmultOption):
     Attributes:
         setting: Gaussian sampling algorithm setting.
     """
+
+    _KEYWORD = 'method'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class MethodBuilder:
 
         return Method(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Method):
+        """
+        Unbuilds ``Method`` into ``MethodBuilder``
+
+        Returns:
+            ``MethodBuilder`` for ``Method``.
+        """
+
+        return Method(
+            setting=copy.deepcopy(ast.setting),
         )

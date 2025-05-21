@@ -15,6 +15,8 @@ class Return(MplotOption):
 
     """
 
+    _KEYWORD = 'return'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Areturn\Z')
@@ -50,6 +52,17 @@ class ReturnBuilder:
 
         Returns:
             ``Return`` for ``ReturnBuilder``.
+        """
+
+        return Return()
+
+    @staticmethod
+    def unbuild(ast: Return):
+        """
+        Unbuilds ``Return`` into ``ReturnBuilder``
+
+        Returns:
+            ``ReturnBuilder`` for ``Return``.
         """
 
         return Return()

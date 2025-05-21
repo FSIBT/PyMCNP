@@ -15,6 +15,8 @@ class Bar(MplotOption):
 
     """
 
+    _KEYWORD = 'bar'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Abar\Z')
@@ -50,6 +52,17 @@ class BarBuilder:
 
         Returns:
             ``Bar`` for ``BarBuilder``.
+        """
+
+        return Bar()
+
+    @staticmethod
+    def unbuild(ast: Bar):
+        """
+        Unbuilds ``Bar`` into ``BarBuilder``
+
+        Returns:
+            ``BarBuilder`` for ``Bar``.
         """
 
         return Bar()

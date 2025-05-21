@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Par(SdefOption):
     Attributes:
         kind: Source particle type.
     """
+
+    _KEYWORD = 'par'
 
     _ATTRS = {
         'kind': types.String,
@@ -72,4 +75,17 @@ class ParBuilder:
 
         return Par(
             kind=kind,
+        )
+
+    @staticmethod
+    def unbuild(ast: Par):
+        """
+        Unbuilds ``Par`` into ``ParBuilder``
+
+        Returns:
+            ``ParBuilder`` for ``Par``.
+        """
+
+        return Par(
+            kind=copy.deepcopy(ast.kind),
         )

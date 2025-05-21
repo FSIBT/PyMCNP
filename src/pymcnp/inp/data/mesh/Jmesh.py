@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Jmesh(MeshOption):
     Attributes:
         vector: Locations of the coarse meshes in the y/z directions.
     """
+
+    _KEYWORD = 'jmesh'
 
     _ATTRS = {
         'vector': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class JmeshBuilder:
 
         return Jmesh(
             vector=vector,
+        )
+
+    @staticmethod
+    def unbuild(ast: Jmesh):
+        """
+        Unbuilds ``Jmesh`` into ``JmeshBuilder``
+
+        Returns:
+            ``JmeshBuilder`` for ``Jmesh``.
+        """
+
+        return Jmesh(
+            vector=copy.deepcopy(ast.vector),
         )

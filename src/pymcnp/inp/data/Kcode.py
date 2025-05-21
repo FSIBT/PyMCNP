@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -22,6 +23,8 @@ class Kcode(DataOption):
         mrkp: Maximum number of cycle values on MCTAL or RUNTPE files.
         kc8: Number of cylces for average setting.
     """
+
+    _KEYWORD = 'kcode'
 
     _ATTRS = {
         'nsrck': types.Integer,
@@ -212,4 +215,24 @@ class KcodeBuilder:
             knrm=knrm,
             mrkp=mrkp,
             kc8=kc8,
+        )
+
+    @staticmethod
+    def unbuild(ast: Kcode):
+        """
+        Unbuilds ``Kcode`` into ``KcodeBuilder``
+
+        Returns:
+            ``KcodeBuilder`` for ``Kcode``.
+        """
+
+        return Kcode(
+            nsrck=copy.deepcopy(ast.nsrck),
+            rkk=copy.deepcopy(ast.rkk),
+            ikz=copy.deepcopy(ast.ikz),
+            kct=copy.deepcopy(ast.kct),
+            msrk=copy.deepcopy(ast.msrk),
+            knrm=copy.deepcopy(ast.knrm),
+            mrkp=copy.deepcopy(ast.mrkp),
+            kc8=copy.deepcopy(ast.kc8),
         )

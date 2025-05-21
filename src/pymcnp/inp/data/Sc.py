@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Sc(DataOption):
         suffix: Data card option suffix.
         comment: source comment.
     """
+
+    _KEYWORD = 'sc'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class ScBuilder:
         return Sc(
             suffix=suffix,
             comment=comment,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sc):
+        """
+        Unbuilds ``Sc`` into ``ScBuilder``
+
+        Returns:
+            ``ScBuilder`` for ``Sc``.
+        """
+
+        return Sc(
+            suffix=copy.deepcopy(ast.suffix),
+            comment=copy.deepcopy(ast.comment),
         )

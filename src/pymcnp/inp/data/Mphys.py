@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mphys(DataOption):
     Attributes:
         setting: Physics models on/off.
     """
+
+    _KEYWORD = 'mphys'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class MphysBuilder:
 
         return Mphys(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mphys):
+        """
+        Unbuilds ``Mphys`` into ``MphysBuilder``
+
+        Returns:
+            ``MphysBuilder`` for ``Mphys``.
+        """
+
+        return Mphys(
+            setting=copy.deepcopy(ast.setting),
         )

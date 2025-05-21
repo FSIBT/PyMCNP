@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Jmesh(FmeshOption):
     Attributes:
         locations: Locations of mesh points y/z for rectangular/cylindrical geometry.
     """
+
+    _KEYWORD = 'jmesh'
 
     _ATTRS = {
         'locations': types.Real,
@@ -74,4 +77,17 @@ class JmeshBuilder:
 
         return Jmesh(
             locations=locations,
+        )
+
+    @staticmethod
+    def unbuild(ast: Jmesh):
+        """
+        Unbuilds ``Jmesh`` into ``JmeshBuilder``
+
+        Returns:
+            ``JmeshBuilder`` for ``Jmesh``.
+        """
+
+        return Jmesh(
+            locations=copy.deepcopy(ast.locations),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Px(SurfaceOption):
     Attributes:
         d: Normal-to-the-x-axis plane D coefficent.
     """
+
+    _KEYWORD = 'px'
 
     _ATTRS = {
         'd': types.Real,
@@ -88,4 +91,17 @@ class PxBuilder:
 
         return Px(
             d=d,
+        )
+
+    @staticmethod
+    def unbuild(ast: Px):
+        """
+        Unbuilds ``Px`` into ``PxBuilder``
+
+        Returns:
+            ``PxBuilder`` for ``Px``.
+        """
+
+        return Px(
+            d=copy.deepcopy(ast.d),
         )

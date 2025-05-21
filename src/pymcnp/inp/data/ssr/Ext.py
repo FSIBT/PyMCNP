@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ext(SsrOption):
     Attributes:
         number: Distribution number for baising sampling.
     """
+
+    _KEYWORD = 'ext'
 
     _ATTRS = {
         'number': types.DistributionNumber,
@@ -72,4 +75,17 @@ class ExtBuilder:
 
         return Ext(
             number=number,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ext):
+        """
+        Unbuilds ``Ext`` into ``ExtBuilder``
+
+        Returns:
+            ``ExtBuilder`` for ``Ext``.
+        """
+
+        return Ext(
+            number=copy.deepcopy(ast.number),
         )

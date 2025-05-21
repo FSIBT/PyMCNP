@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -23,6 +24,8 @@ class Trc(SurfaceOption):
         r1: Truncated cone lower cone radius.
         r2: Truncated cone upper cone radius.
     """
+
+    _KEYWORD = 'trc'
 
     _ATTRS = {
         'vx': types.Real,
@@ -236,4 +239,24 @@ class TrcBuilder:
             hz=hz,
             r1=r1,
             r2=r2,
+        )
+
+    @staticmethod
+    def unbuild(ast: Trc):
+        """
+        Unbuilds ``Trc`` into ``TrcBuilder``
+
+        Returns:
+            ``TrcBuilder`` for ``Trc``.
+        """
+
+        return Trc(
+            vx=copy.deepcopy(ast.vx),
+            vy=copy.deepcopy(ast.vy),
+            vz=copy.deepcopy(ast.vz),
+            hx=copy.deepcopy(ast.hx),
+            hy=copy.deepcopy(ast.hy),
+            hz=copy.deepcopy(ast.hz),
+            r1=copy.deepcopy(ast.r1),
+            r2=copy.deepcopy(ast.r2),
         )

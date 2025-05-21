@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Print(DataOption):
     Attributes:
         tables: Tables to print.
     """
+
+    _KEYWORD = 'print'
 
     _ATTRS = {
         'tables': types.Tuple[types.Integer],
@@ -180,4 +183,17 @@ class PrintBuilder:
 
         return Print(
             tables=tables,
+        )
+
+    @staticmethod
+    def unbuild(ast: Print):
+        """
+        Unbuilds ``Print`` into ``PrintBuilder``
+
+        Returns:
+            ``PrintBuilder`` for ``Print``.
+        """
+
+        return Print(
+            tables=copy.deepcopy(ast.tables),
         )

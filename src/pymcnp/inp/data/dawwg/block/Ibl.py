@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ibl(BlockOption):
     Attributes:
         setting: Left boundary condition.
     """
+
+    _KEYWORD = 'ibl'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class IblBuilder:
 
         return Ibl(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ibl):
+        """
+        Unbuilds ``Ibl`` into ``IblBuilder``
+
+        Returns:
+            ``IblBuilder`` for ``Ibl``.
+        """
+
+        return Ibl(
+            setting=copy.deepcopy(ast.setting),
         )

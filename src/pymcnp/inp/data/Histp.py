@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Histp(DataOption):
         lhist: Number of words written to a HISTP file.
         cells: Cell numbers.
     """
+
+    _KEYWORD = 'histp'
 
     _ATTRS = {
         'lhist': types.Integer,
@@ -93,4 +96,18 @@ class HistpBuilder:
         return Histp(
             lhist=lhist,
             cells=cells,
+        )
+
+    @staticmethod
+    def unbuild(ast: Histp):
+        """
+        Unbuilds ``Histp`` into ``HistpBuilder``
+
+        Returns:
+            ``HistpBuilder`` for ``Histp``.
+        """
+
+        return Histp(
+            lhist=copy.deepcopy(ast.lhist),
+            cells=copy.deepcopy(ast.cells),
         )

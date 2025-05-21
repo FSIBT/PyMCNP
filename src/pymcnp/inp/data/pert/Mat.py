@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mat(PertOption):
     Attributes:
         material: Material number to fill cells.
     """
+
+    _KEYWORD = 'mat'
 
     _ATTRS = {
         'material': types.Integer,
@@ -74,4 +77,17 @@ class MatBuilder:
 
         return Mat(
             material=material,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mat):
+        """
+        Unbuilds ``Mat`` into ``MatBuilder``
+
+        Returns:
+            ``MatBuilder`` for ``Mat``.
+        """
+
+        return Mat(
+            material=copy.deepcopy(ast.material),
         )

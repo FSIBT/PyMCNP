@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -14,6 +15,8 @@ class Pause(MplotOption):
     Attributes:
         n: Pause duration.
     """
+
+    _KEYWORD = 'pause'
 
     _ATTRS = {
         'n': types.Integer,
@@ -70,4 +73,17 @@ class PauseBuilder:
 
         return Pause(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Pause):
+        """
+        Unbuilds ``Pause`` into ``PauseBuilder``
+
+        Returns:
+            ``PauseBuilder`` for ``Pause``.
+        """
+
+        return Pause(
+            n=copy.deepcopy(ast.n),
         )

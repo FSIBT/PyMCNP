@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Iso(KpertOption):
     Attributes:
         zaids: List of ZAIDs for pertubation.
     """
+
+    _KEYWORD = 'iso'
 
     _ATTRS = {
         'zaids': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class IsoBuilder:
 
         return Iso(
             zaids=zaids,
+        )
+
+    @staticmethod
+    def unbuild(ast: Iso):
+        """
+        Unbuilds ``Iso`` into ``IsoBuilder``
+
+        Returns:
+            ``IsoBuilder`` for ``Iso``.
+        """
+
+        return Iso(
+            zaids=copy.deepcopy(ast.zaids),
         )

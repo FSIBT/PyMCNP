@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class Cosyp(DataOption):
         axsv: Vertical axis orientation.
         emaps: Tuple of operating beam energies.
     """
+
+    _KEYWORD = 'cosyp'
 
     _ATTRS = {
         'prefix': types.Integer,
@@ -141,4 +144,20 @@ class CosypBuilder:
             axsh=axsh,
             axsv=axsv,
             emaps=emaps,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cosyp):
+        """
+        Unbuilds ``Cosyp`` into ``CosypBuilder``
+
+        Returns:
+            ``CosypBuilder`` for ``Cosyp``.
+        """
+
+        return Cosyp(
+            prefix=copy.deepcopy(ast.prefix),
+            axsh=copy.deepcopy(ast.axsh),
+            axsv=copy.deepcopy(ast.axsv),
+            emaps=copy.deepcopy(ast.emaps),
         )

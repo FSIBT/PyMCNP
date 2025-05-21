@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Dawwg(DataOption):
     Attributes:
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'dawwg'
 
     _ATTRS = {
         'options': types.Tuple[dawwg.DawwgOption],
@@ -76,4 +79,17 @@ class DawwgBuilder:
 
         return Dawwg(
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dawwg):
+        """
+        Unbuilds ``Dawwg`` into ``DawwgBuilder``
+
+        Returns:
+            ``DawwgBuilder`` for ``Dawwg``.
+        """
+
+        return Dawwg(
+            options=copy.deepcopy(ast.options),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Zned(BlockOption):
     Attributes:
         setting: Edits by zone on/off.
     """
+
+    _KEYWORD = 'zned'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class ZnedBuilder:
 
         return Zned(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Zned):
+        """
+        Unbuilds ``Zned`` into ``ZnedBuilder``
+
+        Returns:
+            ``ZnedBuilder`` for ``Zned``.
+        """
+
+        return Zned(
+            setting=copy.deepcopy(ast.setting),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Act(DataOption):
     Attributes:
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'act'
 
     _ATTRS = {
         'options': types.Tuple[act.ActOption],
@@ -76,4 +79,17 @@ class ActBuilder:
 
         return Act(
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Act):
+        """
+        Unbuilds ``Act`` into ``ActBuilder``
+
+        Returns:
+            ``ActBuilder`` for ``Act``.
+        """
+
+        return Act(
+            options=copy.deepcopy(ast.options),
         )

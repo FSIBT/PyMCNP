@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Trcl_1(CellOption):
     Attributes:
         transformation: Cell transformation..
     """
+
+    _KEYWORD = 'trcl'
 
     _ATTRS = {
         'transformation': types.Transformation_0,
@@ -72,4 +75,17 @@ class TrclBuilder_1:
 
         return Trcl_1(
             transformation=transformation,
+        )
+
+    @staticmethod
+    def unbuild(ast: Trcl_1):
+        """
+        Unbuilds ``Trcl_1`` into ``TrclBuilder_1``
+
+        Returns:
+            ``TrclBuilder_1`` for ``Trcl_1``.
+        """
+
+        return Trcl_1(
+            transformation=copy.deepcopy(ast.transformation),
         )

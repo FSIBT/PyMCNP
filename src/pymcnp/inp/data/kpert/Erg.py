@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Erg(KpertOption):
     Attributes:
         energies: List of energies.
     """
+
+    _KEYWORD = 'erg'
 
     _ATTRS = {
         'energies': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class ErgBuilder:
 
         return Erg(
             energies=energies,
+        )
+
+    @staticmethod
+    def unbuild(ast: Erg):
+        """
+        Unbuilds ``Erg`` into ``ErgBuilder``
+
+        Returns:
+            ``ErgBuilder`` for ``Erg``.
+        """
+
+        return Erg(
+            energies=copy.deepcopy(ast.energies),
         )

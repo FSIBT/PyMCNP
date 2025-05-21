@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Buffer(PtracOption):
     Attributes:
         storage: Amount of storage available for filtered events.
     """
+
+    _KEYWORD = 'buffer'
 
     _ATTRS = {
         'storage': types.Integer,
@@ -74,4 +77,17 @@ class BufferBuilder:
 
         return Buffer(
             storage=storage,
+        )
+
+    @staticmethod
+    def unbuild(ast: Buffer):
+        """
+        Unbuilds ``Buffer`` into ``BufferBuilder``
+
+        Returns:
+            ``BufferBuilder`` for ``Buffer``.
+        """
+
+        return Buffer(
+            storage=copy.deepcopy(ast.storage),
         )

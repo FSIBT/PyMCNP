@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fission(ActOption):
     Attributes:
         kind: Type of delayed particle(s) to be produced from residuals created by fission.
     """
+
+    _KEYWORD = 'fission'
 
     _ATTRS = {
         'kind': types.String,
@@ -72,4 +75,17 @@ class FissionBuilder:
 
         return Fission(
             kind=kind,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fission):
+        """
+        Unbuilds ``Fission`` into ``FissionBuilder``
+
+        Returns:
+            ``FissionBuilder`` for ``Fission``.
+        """
+
+        return Fission(
+            kind=copy.deepcopy(ast.kind),
         )

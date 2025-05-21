@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Xs(DataOption):
         suffix: Data card option suffix.
         weight_ratios: Tuple of atomic weight ratios.
     """
+
+    _KEYWORD = 'xs'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class XsBuilder:
         return Xs(
             suffix=suffix,
             weight_ratios=weight_ratios,
+        )
+
+    @staticmethod
+    def unbuild(ast: Xs):
+        """
+        Unbuilds ``Xs`` into ``XsBuilder``
+
+        Returns:
+            ``XsBuilder`` for ``Xs``.
+        """
+
+        return Xs(
+            suffix=copy.deepcopy(ast.suffix),
+            weight_ratios=copy.deepcopy(ast.weight_ratios),
         )

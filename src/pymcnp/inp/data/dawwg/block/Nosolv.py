@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nosolv(BlockOption):
     Attributes:
         setting: Suppress solver module on/off.
     """
+
+    _KEYWORD = 'nosolv'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class NosolvBuilder:
 
         return Nosolv(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nosolv):
+        """
+        Unbuilds ``Nosolv`` into ``NosolvBuilder``
+
+        Returns:
+            ``NosolvBuilder`` for ``Nosolv``.
+        """
+
+        return Nosolv(
+            setting=copy.deepcopy(ast.setting),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Niso(BlockOption):
     Attributes:
         setting: Number of isotopes.
     """
+
+    _KEYWORD = 'niso'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class NisoBuilder:
 
         return Niso(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Niso):
+        """
+        Unbuilds ``Niso`` into ``NisoBuilder``
+
+        Returns:
+            ``NisoBuilder`` for ``Niso``.
+        """
+
+        return Niso(
+            setting=copy.deepcopy(ast.setting),
         )

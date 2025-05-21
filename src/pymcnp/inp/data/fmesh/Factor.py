@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Factor(FmeshOption):
     Attributes:
         multiple: Multiplicative factor for each mesh.
     """
+
+    _KEYWORD = 'factor'
 
     _ATTRS = {
         'multiple': types.Real,
@@ -74,4 +77,17 @@ class FactorBuilder:
 
         return Factor(
             multiple=multiple,
+        )
+
+    @staticmethod
+    def unbuild(ast: Factor):
+        """
+        Unbuilds ``Factor`` into ``FactorBuilder``
+
+        Returns:
+            ``FactorBuilder`` for ``Factor``.
+        """
+
+        return Factor(
+            multiple=copy.deepcopy(ast.multiple),
         )

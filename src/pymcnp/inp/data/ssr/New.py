@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class New(SsrOption):
     Attributes:
         numbers: Tuple of surface numbers to start run.
     """
+
+    _KEYWORD = 'new'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -81,4 +84,17 @@ class NewBuilder:
 
         return New(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: New):
+        """
+        Unbuilds ``New`` into ``NewBuilder``
+
+        Returns:
+            ``NewBuilder`` for ``New``.
+        """
+
+        return New(
+            numbers=copy.deepcopy(ast.numbers),
         )

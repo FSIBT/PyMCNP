@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Iquad(BlockOption):
     Attributes:
         setting: Quadrature.
     """
+
+    _KEYWORD = 'iquad'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class IquadBuilder:
 
         return Iquad(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Iquad):
+        """
+        Unbuilds ``Iquad`` into ``IquadBuilder``
+
+        Returns:
+            ``IquadBuilder`` for ``Iquad``.
+        """
+
+        return Iquad(
+            setting=copy.deepcopy(ast.setting),
         )

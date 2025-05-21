@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fmatny(KoptsOption):
     Attributes:
         fmat_ny: fmat_ny.
     """
+
+    _KEYWORD = 'fmatny'
 
     _ATTRS = {
         'fmat_ny': types.Real,
@@ -74,4 +77,17 @@ class FmatnyBuilder:
 
         return Fmatny(
             fmat_ny=fmat_ny,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fmatny):
+        """
+        Unbuilds ``Fmatny`` into ``FmatnyBuilder``
+
+        Returns:
+            ``FmatnyBuilder`` for ``Fmatny``.
+        """
+
+        return Fmatny(
+            fmat_ny=copy.deepcopy(ast.fmat_ny),
         )

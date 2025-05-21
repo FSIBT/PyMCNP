@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Pwt(DataOption):
     Attributes:
         weights: Relative threshold weight of photons produced at neutron collisions in cell.
     """
+
+    _KEYWORD = 'pwt'
 
     _ATTRS = {
         'weights': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class PwtBuilder:
 
         return Pwt(
             weights=weights,
+        )
+
+    @staticmethod
+    def unbuild(ast: Pwt):
+        """
+        Unbuilds ``Pwt`` into ``PwtBuilder``
+
+        Returns:
+            ``PwtBuilder`` for ``Pwt``.
+        """
+
+        return Pwt(
+            weights=copy.deepcopy(ast.weights),
         )

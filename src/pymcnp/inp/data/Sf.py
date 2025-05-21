@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Sf(DataOption):
         suffix: Data card option suffix.
         numbers: Tallies for problem surface numbers to flag.
     """
+
+    _KEYWORD = 'sf'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -98,4 +101,18 @@ class SfBuilder:
         return Sf(
             suffix=suffix,
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sf):
+        """
+        Unbuilds ``Sf`` into ``SfBuilder``
+
+        Returns:
+            ``SfBuilder`` for ``Sf``.
+        """
+
+        return Sf(
+            suffix=copy.deepcopy(ast.suffix),
+            numbers=copy.deepcopy(ast.numbers),
         )

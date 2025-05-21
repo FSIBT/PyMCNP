@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Wgt(SdefOption):
     Attributes:
         weight: Particle weight.
     """
+
+    _KEYWORD = 'wgt'
 
     _ATTRS = {
         'weight': types.Real,
@@ -74,4 +77,17 @@ class WgtBuilder:
 
         return Wgt(
             weight=weight,
+        )
+
+    @staticmethod
+    def unbuild(ast: Wgt):
+        """
+        Unbuilds ``Wgt`` into ``WgtBuilder``
+
+        Returns:
+            ``WgtBuilder`` for ``Wgt``.
+        """
+
+        return Wgt(
+            weight=copy.deepcopy(ast.weight),
         )

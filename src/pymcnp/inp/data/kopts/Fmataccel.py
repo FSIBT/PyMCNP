@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fmataccel(KoptsOption):
     Attributes:
         setting: fmataccel.
     """
+
+    _KEYWORD = 'fmataccel'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class FmataccelBuilder:
 
         return Fmataccel(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fmataccel):
+        """
+        Unbuilds ``Fmataccel`` into ``FmataccelBuilder``
+
+        Returns:
+            ``FmataccelBuilder`` for ``Fmataccel``.
+        """
+
+        return Fmataccel(
+            setting=copy.deepcopy(ast.setting),
         )

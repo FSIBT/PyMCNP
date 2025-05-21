@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Oitm(BlockOption):
     Attributes:
         setting: Maximum outer iteration count.
     """
+
+    _KEYWORD = 'oitm'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class OitmBuilder:
 
         return Oitm(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Oitm):
+        """
+        Unbuilds ``Oitm`` into ``OitmBuilder``
+
+        Returns:
+            ``OitmBuilder`` for ``Oitm``.
+        """
+
+        return Oitm(
+            setting=copy.deepcopy(ast.setting),
         )

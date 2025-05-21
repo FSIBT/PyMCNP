@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Title(MplotOption):
         n: Line number.
         aa: Line to substitute.
     """
+
+    _KEYWORD = 'title'
 
     _ATTRS = {
         'n': types.Integer,
@@ -92,4 +95,18 @@ class TitleBuilder:
         return Title(
             n=n,
             aa=aa,
+        )
+
+    @staticmethod
+    def unbuild(ast: Title):
+        """
+        Unbuilds ``Title`` into ``TitleBuilder``
+
+        Returns:
+            ``TitleBuilder`` for ``Title``.
+        """
+
+        return Title(
+            n=copy.deepcopy(ast.n),
+            aa=copy.deepcopy(ast.aa),
         )

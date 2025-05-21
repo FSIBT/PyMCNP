@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Avatar(BlockOption):
     Attributes:
         setting: Prepare special XMFLUXA file on/off.
     """
+
+    _KEYWORD = 'avatar'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class AvatarBuilder:
 
         return Avatar(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Avatar):
+        """
+        Unbuilds ``Avatar`` into ``AvatarBuilder``
+
+        Returns:
+            ``AvatarBuilder`` for ``Avatar``.
+        """
+
+        return Avatar(
+            setting=copy.deepcopy(ast.setting),
         )

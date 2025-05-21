@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -114,6 +115,8 @@ class Dbcn(DataOption):
         x99: Unused.
         x100: Coincident-surface method old/new setting.
     """
+
+    _KEYWORD = 'dbcn'
 
     _ATTRS = {
         'x1': types.Integer,
@@ -1960,4 +1963,116 @@ class DbcnBuilder:
             x98=x98,
             x99=x99,
             x100=x100,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dbcn):
+        """
+        Unbuilds ``Dbcn`` into ``DbcnBuilder``
+
+        Returns:
+            ``DbcnBuilder`` for ``Dbcn``.
+        """
+
+        return Dbcn(
+            x1=copy.deepcopy(ast.x1),
+            x2=copy.deepcopy(ast.x2),
+            x3=copy.deepcopy(ast.x3),
+            x4=copy.deepcopy(ast.x4),
+            x5=copy.deepcopy(ast.x5),
+            x6=copy.deepcopy(ast.x6),
+            x7=copy.deepcopy(ast.x7),
+            x8=copy.deepcopy(ast.x8),
+            x9=copy.deepcopy(ast.x9),
+            x10=copy.deepcopy(ast.x10),
+            x11=copy.deepcopy(ast.x11),
+            x12=copy.deepcopy(ast.x12),
+            x13=copy.deepcopy(ast.x13),
+            x14=copy.deepcopy(ast.x14),
+            x15=copy.deepcopy(ast.x15),
+            x16=copy.deepcopy(ast.x16),
+            x17=copy.deepcopy(ast.x17),
+            x18=copy.deepcopy(ast.x18),
+            x19=copy.deepcopy(ast.x19),
+            x20=copy.deepcopy(ast.x20),
+            x21=copy.deepcopy(ast.x21),
+            x22=copy.deepcopy(ast.x22),
+            x23=copy.deepcopy(ast.x23),
+            x24=copy.deepcopy(ast.x24),
+            x25=copy.deepcopy(ast.x25),
+            x26=copy.deepcopy(ast.x26),
+            x27=copy.deepcopy(ast.x27),
+            x28=copy.deepcopy(ast.x28),
+            x29=copy.deepcopy(ast.x29),
+            x30=copy.deepcopy(ast.x30),
+            x31=copy.deepcopy(ast.x31),
+            x32=copy.deepcopy(ast.x32),
+            x33=copy.deepcopy(ast.x33),
+            x34=copy.deepcopy(ast.x34),
+            x35=copy.deepcopy(ast.x35),
+            x36=copy.deepcopy(ast.x36),
+            x37=copy.deepcopy(ast.x37),
+            x38=copy.deepcopy(ast.x38),
+            x39=copy.deepcopy(ast.x39),
+            x40=copy.deepcopy(ast.x40),
+            x41=copy.deepcopy(ast.x41),
+            x42=copy.deepcopy(ast.x42),
+            x43=copy.deepcopy(ast.x43),
+            x44=copy.deepcopy(ast.x44),
+            x45=copy.deepcopy(ast.x45),
+            x46=copy.deepcopy(ast.x46),
+            x47=copy.deepcopy(ast.x47),
+            x48=copy.deepcopy(ast.x48),
+            x49=copy.deepcopy(ast.x49),
+            x50=copy.deepcopy(ast.x50),
+            x51=copy.deepcopy(ast.x51),
+            x52=copy.deepcopy(ast.x52),
+            x53=copy.deepcopy(ast.x53),
+            x54=copy.deepcopy(ast.x54),
+            x55=copy.deepcopy(ast.x55),
+            x56=copy.deepcopy(ast.x56),
+            x57=copy.deepcopy(ast.x57),
+            x58=copy.deepcopy(ast.x58),
+            x59=copy.deepcopy(ast.x59),
+            x60=copy.deepcopy(ast.x60),
+            x61=copy.deepcopy(ast.x61),
+            x62=copy.deepcopy(ast.x62),
+            x63=copy.deepcopy(ast.x63),
+            x64=copy.deepcopy(ast.x64),
+            x65=copy.deepcopy(ast.x65),
+            x66=copy.deepcopy(ast.x66),
+            x67=copy.deepcopy(ast.x67),
+            x68=copy.deepcopy(ast.x68),
+            x69=copy.deepcopy(ast.x69),
+            x70=copy.deepcopy(ast.x70),
+            x71=copy.deepcopy(ast.x71),
+            x72=copy.deepcopy(ast.x72),
+            x73=copy.deepcopy(ast.x73),
+            x74=copy.deepcopy(ast.x74),
+            x75=copy.deepcopy(ast.x75),
+            x76=copy.deepcopy(ast.x76),
+            x77=copy.deepcopy(ast.x77),
+            x78=copy.deepcopy(ast.x78),
+            x79=copy.deepcopy(ast.x79),
+            x80=copy.deepcopy(ast.x80),
+            x81=copy.deepcopy(ast.x81),
+            x82=copy.deepcopy(ast.x82),
+            x83=copy.deepcopy(ast.x83),
+            x84=copy.deepcopy(ast.x84),
+            x85=copy.deepcopy(ast.x85),
+            x86=copy.deepcopy(ast.x86),
+            x87=copy.deepcopy(ast.x87),
+            x88=copy.deepcopy(ast.x88),
+            x89=copy.deepcopy(ast.x89),
+            x90=copy.deepcopy(ast.x90),
+            x91=copy.deepcopy(ast.x91),
+            x92=copy.deepcopy(ast.x92),
+            x93=copy.deepcopy(ast.x93),
+            x94=copy.deepcopy(ast.x94),
+            x95=copy.deepcopy(ast.x95),
+            x96=copy.deepcopy(ast.x96),
+            x97=copy.deepcopy(ast.x97),
+            x98=copy.deepcopy(ast.x98),
+            x99=copy.deepcopy(ast.x99),
+            x100=copy.deepcopy(ast.x100),
         )

@@ -15,6 +15,8 @@ class Hist(MplotOption):
 
     """
 
+    _KEYWORD = 'hist'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Ahist\Z')
@@ -50,6 +52,17 @@ class HistBuilder:
 
         Returns:
             ``Hist`` for ``HistBuilder``.
+        """
+
+        return Hist()
+
+    @staticmethod
+    def unbuild(ast: Hist):
+        """
+        Unbuilds ``Hist`` into ``HistBuilder``
+
+        Returns:
+            ``HistBuilder`` for ``Hist``.
         """
 
         return Hist()

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Uran(DataOption):
     Attributes:
         transformations: Tuple of stochastic transformations.
     """
+
+    _KEYWORD = 'uran'
 
     _ATTRS = {
         'transformations': types.Tuple[types.Stochastic],
@@ -79,4 +82,17 @@ class UranBuilder:
 
         return Uran(
             transformations=transformations,
+        )
+
+    @staticmethod
+    def unbuild(ast: Uran):
+        """
+        Unbuilds ``Uran`` into ``UranBuilder``
+
+        Returns:
+            ``UranBuilder`` for ``Uran``.
+        """
+
+        return Uran(
+            transformations=copy.deepcopy(ast.transformations),
         )

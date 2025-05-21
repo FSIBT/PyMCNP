@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Fc(DataOption):
         suffix: Data card option suffix.
         info: Title for tally in output and MCTAL file.
     """
+
+    _KEYWORD = 'fc'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -89,4 +92,18 @@ class FcBuilder:
         return Fc(
             suffix=suffix,
             info=info,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fc):
+        """
+        Unbuilds ``Fc`` into ``FcBuilder``
+
+        Returns:
+            ``FcBuilder`` for ``Fc``.
+        """
+
+        return Fc(
+            suffix=copy.deepcopy(ast.suffix),
+            info=copy.deepcopy(ast.info),
         )

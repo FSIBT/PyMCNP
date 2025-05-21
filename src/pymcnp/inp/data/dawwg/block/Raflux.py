@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Raflux(BlockOption):
     Attributes:
         setting: Prepare angular flux file on/off.
     """
+
+    _KEYWORD = 'raflux'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class RafluxBuilder:
 
         return Raflux(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Raflux):
+        """
+        Unbuilds ``Raflux`` into ``RafluxBuilder``
+
+        Returns:
+            ``RafluxBuilder`` for ``Raflux``.
+        """
+
+        return Raflux(
+            setting=copy.deepcopy(ast.setting),
         )

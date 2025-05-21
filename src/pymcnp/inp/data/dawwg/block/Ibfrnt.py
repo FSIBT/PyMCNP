@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ibfrnt(BlockOption):
     Attributes:
         setting: Front boudary condition.
     """
+
+    _KEYWORD = 'ibfrnt'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class IbfrntBuilder:
 
         return Ibfrnt(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ibfrnt):
+        """
+        Unbuilds ``Ibfrnt`` into ``IbfrntBuilder``
+
+        Returns:
+            ``IbfrntBuilder`` for ``Ibfrnt``.
+        """
+
+        return Ibfrnt(
+            setting=copy.deepcopy(ast.setting),
         )

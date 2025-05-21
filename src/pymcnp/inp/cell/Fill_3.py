@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Fill_3(CellOption):
         universe: Cell fill universe number.
         transformation: Cell fill transformation.
     """
+
+    _KEYWORD = 'fill'
 
     _ATTRS = {
         'universe': types.Integer,
@@ -90,4 +93,18 @@ class FillBuilder_3:
         return Fill_3(
             universe=universe,
             transformation=transformation,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fill_3):
+        """
+        Unbuilds ``Fill_3`` into ``FillBuilder_3``
+
+        Returns:
+            ``FillBuilder_3`` for ``Fill_3``.
+        """
+
+        return Fill_3(
+            universe=copy.deepcopy(ast.universe),
+            transformation=copy.deepcopy(ast.transformation),
         )

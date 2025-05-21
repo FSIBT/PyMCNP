@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mt(KsenOption):
     Attributes:
         numbers: List of reaction numbers for pertubation.
     """
+
+    _KEYWORD = 'mt'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -79,4 +82,17 @@ class MtBuilder:
 
         return Mt(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mt):
+        """
+        Unbuilds ``Mt`` into ``MtBuilder``
+
+        Returns:
+            ``MtBuilder`` for ``Mt``.
+        """
+
+        return Mt(
+            numbers=copy.deepcopy(ast.numbers),
         )

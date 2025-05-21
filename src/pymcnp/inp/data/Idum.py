@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Idum(DataOption):
     Attributes:
         intergers: Integer array.
     """
+
+    _KEYWORD = 'idum'
 
     _ATTRS = {
         'intergers': types.Tuple[types.Integer],
@@ -79,4 +82,17 @@ class IdumBuilder:
 
         return Idum(
             intergers=intergers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Idum):
+        """
+        Unbuilds ``Idum`` into ``IdumBuilder``
+
+        Returns:
+            ``IdumBuilder`` for ``Idum``.
+        """
+
+        return Idum(
+            intergers=copy.deepcopy(ast.intergers),
         )

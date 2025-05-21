@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Axs(FmeshOption):
         y: Cylindrical mesh axis vector y component.
         z: Cylindrical mesh axis vector z component.
     """
+
+    _KEYWORD = 'axs'
 
     _ATTRS = {
         'x': types.Real,
@@ -112,4 +115,19 @@ class AxsBuilder:
             x=x,
             y=y,
             z=z,
+        )
+
+    @staticmethod
+    def unbuild(ast: Axs):
+        """
+        Unbuilds ``Axs`` into ``AxsBuilder``
+
+        Returns:
+            ``AxsBuilder`` for ``Axs``.
+        """
+
+        return Axs(
+            x=copy.deepcopy(ast.x),
+            y=copy.deepcopy(ast.y),
+            z=copy.deepcopy(ast.z),
         )

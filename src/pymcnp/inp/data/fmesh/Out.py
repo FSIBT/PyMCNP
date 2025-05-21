@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Out(FmeshOption):
     Attributes:
         setting: Output format.
     """
+
+    _KEYWORD = 'out'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class OutBuilder:
 
         return Out(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Out):
+        """
+        Unbuilds ``Out`` into ``OutBuilder``
+
+        Returns:
+            ``OutBuilder`` for ``Out``.
+        """
+
+        return Out(
+            setting=copy.deepcopy(ast.setting),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class M_1(DataOption):
         suffix: Data card option suffix.
         abx: Material library.
     """
+
+    _KEYWORD = 'm'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -89,4 +92,18 @@ class MBuilder_1:
         return M_1(
             suffix=suffix,
             abx=abx,
+        )
+
+    @staticmethod
+    def unbuild(ast: M_1):
+        """
+        Unbuilds ``M_1`` into ``MBuilder_1``
+
+        Returns:
+            ``MBuilder_1`` for ``M_1``.
+        """
+
+        return M_1(
+            suffix=copy.deepcopy(ast.suffix),
+            abx=copy.deepcopy(ast.abx),
         )

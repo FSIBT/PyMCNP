@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Cy(SurfaceOption):
     Attributes:
         r: On-y-axis cylinder radius.
     """
+
+    _KEYWORD = 'cy'
 
     _ATTRS = {
         'r': types.Real,
@@ -88,4 +91,17 @@ class CyBuilder:
 
         return Cy(
             r=r,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cy):
+        """
+        Unbuilds ``Cy`` into ``CyBuilder``
+
+        Returns:
+            ``CyBuilder`` for ``Cy``.
+        """
+
+        return Cy(
+            r=copy.deepcopy(ast.r),
         )

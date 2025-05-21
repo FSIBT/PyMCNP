@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Col(SsrOption):
     Attributes:
         setting: Collision option setting.
     """
+
+    _KEYWORD = 'col'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class ColBuilder:
 
         return Col(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Col):
+        """
+        Unbuilds ``Col`` into ``ColBuilder``
+
+        Returns:
+            ``ColBuilder`` for ``Col``.
+        """
+
+        return Col(
+            setting=copy.deepcopy(ast.setting),
         )

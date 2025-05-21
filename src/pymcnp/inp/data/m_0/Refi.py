@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Refi(MOption_0):
     Attributes:
         refractive_index: Refractive index constant.
     """
+
+    _KEYWORD = 'refi'
 
     _ATTRS = {
         'refractive_index': types.Real,
@@ -74,4 +77,17 @@ class RefiBuilder:
 
         return Refi(
             refractive_index=refractive_index,
+        )
+
+    @staticmethod
+    def unbuild(ast: Refi):
+        """
+        Unbuilds ``Refi`` into ``RefiBuilder``
+
+        Returns:
+            ``RefiBuilder`` for ``Refi``.
+        """
+
+        return Refi(
+            refractive_index=copy.deepcopy(ast.refractive_index),
         )

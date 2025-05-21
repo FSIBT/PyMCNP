@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Meph(PtracOption):
     Attributes:
         events: Maximum number of events per history to write.
     """
+
+    _KEYWORD = 'meph'
 
     _ATTRS = {
         'events': types.Integer,
@@ -74,4 +77,17 @@ class MephBuilder:
 
         return Meph(
             events=events,
+        )
+
+    @staticmethod
+    def unbuild(ast: Meph):
+        """
+        Unbuilds ``Meph`` into ``MephBuilder``
+
+        Returns:
+            ``MephBuilder`` for ``Meph``.
+        """
+
+        return Meph(
+            events=copy.deepcopy(ast.events),
         )

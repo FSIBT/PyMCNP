@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -22,6 +23,8 @@ class Rcc(SurfaceOption):
         hz: Circular cylinder macrobody height vector z component.
         r: Circular cylinder macrobody radius.
     """
+
+    _KEYWORD = 'rcc'
 
     _ATTRS = {
         'vx': types.Real,
@@ -214,4 +217,23 @@ class RccBuilder:
             hy=hy,
             hz=hz,
             r=r,
+        )
+
+    @staticmethod
+    def unbuild(ast: Rcc):
+        """
+        Unbuilds ``Rcc`` into ``RccBuilder``
+
+        Returns:
+            ``RccBuilder`` for ``Rcc``.
+        """
+
+        return Rcc(
+            vx=copy.deepcopy(ast.vx),
+            vy=copy.deepcopy(ast.vy),
+            vz=copy.deepcopy(ast.vz),
+            hx=copy.deepcopy(ast.hx),
+            hy=copy.deepcopy(ast.hy),
+            hz=copy.deepcopy(ast.hz),
+            r=copy.deepcopy(ast.r),
         )

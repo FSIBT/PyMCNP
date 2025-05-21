@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class Ky(SurfaceOption):
         t_squared: On-y-axis cone t^2 coefficent.
         plusminus_1: On-y-axis cone sheet selector.
     """
+
+    _KEYWORD = 'ky'
 
     _ATTRS = {
         'y': types.Real,
@@ -129,4 +132,19 @@ class KyBuilder:
             y=y,
             t_squared=t_squared,
             plusminus_1=plusminus_1,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ky):
+        """
+        Unbuilds ``Ky`` into ``KyBuilder``
+
+        Returns:
+            ``KyBuilder`` for ``Ky``.
+        """
+
+        return Ky(
+            y=copy.deepcopy(ast.y),
+            t_squared=copy.deepcopy(ast.t_squared),
+            plusminus_1=copy.deepcopy(ast.plusminus_1),
         )

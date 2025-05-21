@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -19,6 +20,8 @@ class Sph(SurfaceOption):
         vz: Sphere macrobody position vector z component.
         r: Sphere macrobody radius.
     """
+
+    _KEYWORD = 'sph'
 
     _ATTRS = {
         'vx': types.Real,
@@ -146,4 +149,20 @@ class SphBuilder:
             vy=vy,
             vz=vz,
             r=r,
+        )
+
+    @staticmethod
+    def unbuild(ast: Sph):
+        """
+        Unbuilds ``Sph`` into ``SphBuilder``
+
+        Returns:
+            ``SphBuilder`` for ``Sph``.
+        """
+
+        return Sph(
+            vx=copy.deepcopy(ast.vx),
+            vy=copy.deepcopy(ast.vy),
+            vz=copy.deepcopy(ast.vz),
+            r=copy.deepcopy(ast.r),
         )

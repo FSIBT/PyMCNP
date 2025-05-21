@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Cell(PtracOption):
     Attributes:
         numbers: List of cell numbers for filtering.
     """
+
+    _KEYWORD = 'cell'
 
     _ATTRS = {
         'numbers': types.Tuple[types.Integer],
@@ -81,4 +84,17 @@ class CellBuilder:
 
         return Cell(
             numbers=numbers,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cell):
+        """
+        Unbuilds ``Cell`` into ``CellBuilder``
+
+        Returns:
+            ``CellBuilder`` for ``Cell``.
+        """
+
+        return Cell(
+            numbers=copy.deepcopy(ast.numbers),
         )

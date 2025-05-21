@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ccc(SdefOption):
     Attributes:
         number: Cookie-cutter cell number.
     """
+
+    _KEYWORD = 'ccc'
 
     _ATTRS = {
         'number': types.Integer,
@@ -74,4 +77,17 @@ class CccBuilder:
 
         return Ccc(
             number=number,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ccc):
+        """
+        Unbuilds ``Ccc`` into ``CccBuilder``
+
+        Returns:
+            ``CccBuilder`` for ``Ccc``.
+        """
+
+        return Ccc(
+            number=copy.deepcopy(ast.number),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ara(SdefOption):
     Attributes:
         area: Area of surface.
     """
+
+    _KEYWORD = 'ara'
 
     _ATTRS = {
         'area': types.Real,
@@ -74,4 +77,17 @@ class AraBuilder:
 
         return Ara(
             area=area,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ara):
+        """
+        Unbuilds ``Ara`` into ``AraBuilder``
+
+        Returns:
+            ``AraBuilder`` for ``Ara``.
+        """
+
+        return Ara(
+            area=copy.deepcopy(ast.area),
         )

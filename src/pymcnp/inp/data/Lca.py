@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -25,6 +26,8 @@ class Lca(DataOption):
         ilaq: Choose light ion and nucleon physics modules.
         nevtype: Choose number of evaporation particles for GEM2.
     """
+
+    _KEYWORD = 'lca'
 
     _ATTRS = {
         'ielas': types.Integer,
@@ -277,4 +280,27 @@ class LcaBuilder:
             icem=icem,
             ilaq=ilaq,
             nevtype=nevtype,
+        )
+
+    @staticmethod
+    def unbuild(ast: Lca):
+        """
+        Unbuilds ``Lca`` into ``LcaBuilder``
+
+        Returns:
+            ``LcaBuilder`` for ``Lca``.
+        """
+
+        return Lca(
+            ielas=copy.deepcopy(ast.ielas),
+            ipreg=copy.deepcopy(ast.ipreg),
+            iexisa=copy.deepcopy(ast.iexisa),
+            ichoic=copy.deepcopy(ast.ichoic),
+            jcoul=copy.deepcopy(ast.jcoul),
+            nexite=copy.deepcopy(ast.nexite),
+            npidk=copy.deepcopy(ast.npidk),
+            noact=copy.deepcopy(ast.noact),
+            icem=copy.deepcopy(ast.icem),
+            ilaq=copy.deepcopy(ast.ilaq),
+            nevtype=copy.deepcopy(ast.nevtype),
         )

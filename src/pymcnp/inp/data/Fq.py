@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -23,6 +24,8 @@ class Fq(DataOption):
         a7: Letters representing tally bin types.
         a8: Letters representing tally bin types.
     """
+
+    _KEYWORD = 'fq'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -214,4 +217,25 @@ class FqBuilder:
             a6=a6,
             a7=a7,
             a8=a8,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fq):
+        """
+        Unbuilds ``Fq`` into ``FqBuilder``
+
+        Returns:
+            ``FqBuilder`` for ``Fq``.
+        """
+
+        return Fq(
+            suffix=copy.deepcopy(ast.suffix),
+            a1=copy.deepcopy(ast.a1),
+            a2=copy.deepcopy(ast.a2),
+            a3=copy.deepcopy(ast.a3),
+            a4=copy.deepcopy(ast.a4),
+            a5=copy.deepcopy(ast.a5),
+            a6=copy.deepcopy(ast.a6),
+            a7=copy.deepcopy(ast.a7),
+            a8=copy.deepcopy(ast.a8),
         )

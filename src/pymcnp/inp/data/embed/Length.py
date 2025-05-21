@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Length(EmbedOption):
     Attributes:
         factor: Conversion factor to centimeters for all mesh dimentions.
     """
+
+    _KEYWORD = 'length'
 
     _ATTRS = {
         'factor': types.Real,
@@ -74,4 +77,17 @@ class LengthBuilder:
 
         return Length(
             factor=factor,
+        )
+
+    @staticmethod
+    def unbuild(ast: Length):
+        """
+        Unbuilds ``Length`` into ``LengthBuilder``
+
+        Returns:
+            ``LengthBuilder`` for ``Length``.
+        """
+
+        return Length(
+            factor=copy.deepcopy(ast.factor),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Mcscat(TroptOption):
     Attributes:
         setting: Multiple coulomb scattering setting.
     """
+
+    _KEYWORD = 'mcscat'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class McscatBuilder:
 
         return Mcscat(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Mcscat):
+        """
+        Unbuilds ``Mcscat`` into ``McscatBuilder``
+
+        Returns:
+            ``McscatBuilder`` for ``Mcscat``.
+        """
+
+        return Mcscat(
+            setting=copy.deepcopy(ast.setting),
         )

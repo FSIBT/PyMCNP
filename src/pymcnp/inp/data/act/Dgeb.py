@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Dgeb(ActOption):
     Attributes:
         biases: Delayed neutron energy biases.
     """
+
+    _KEYWORD = 'dgeb'
 
     _ATTRS = {
         'biases': types.Tuple[types.Bias],
@@ -79,4 +82,17 @@ class DgebBuilder:
 
         return Dgeb(
             biases=biases,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dgeb):
+        """
+        Unbuilds ``Dgeb`` into ``DgebBuilder``
+
+        Returns:
+            ``DgebBuilder`` for ``Dgeb``.
+        """
+
+        return Dgeb(
+            biases=copy.deepcopy(ast.biases),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Energy(EmbeeOption):
     Attributes:
         factor: Multiplicative conversion factor for energy-related output.
     """
+
+    _KEYWORD = 'energy'
 
     _ATTRS = {
         'factor': types.Real,
@@ -74,4 +77,17 @@ class EnergyBuilder:
 
         return Energy(
             factor=factor,
+        )
+
+    @staticmethod
+    def unbuild(ast: Energy):
+        """
+        Unbuilds ``Energy`` into ``EnergyBuilder``
+
+        Returns:
+            ``EnergyBuilder`` for ``Energy``.
+        """
+
+        return Energy(
+            factor=copy.deepcopy(ast.factor),
         )

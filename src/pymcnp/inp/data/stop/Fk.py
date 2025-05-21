@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Fk(StopOption):
         e: Tally fluctuation relative error before stop.
         suffix: Data card option option suffix.
     """
+
+    _KEYWORD = 'fk'
 
     _ATTRS = {
         'e': types.Integer,
@@ -91,4 +94,18 @@ class FkBuilder:
         return Fk(
             e=e,
             suffix=suffix,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fk):
+        """
+        Unbuilds ``Fk`` into ``FkBuilder``
+
+        Returns:
+            ``FkBuilder`` for ``Fk``.
+        """
+
+        return Fk(
+            e=copy.deepcopy(ast.e),
+            suffix=copy.deepcopy(ast.suffix),
         )

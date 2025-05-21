@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Seed(RandOption):
     Attributes:
         seed: Random number generator seed.
     """
+
+    _KEYWORD = 'seed'
 
     _ATTRS = {
         'seed': types.Integer,
@@ -74,4 +77,17 @@ class SeedBuilder:
 
         return Seed(
             seed=seed,
+        )
+
+    @staticmethod
+    def unbuild(ast: Seed):
+        """
+        Unbuilds ``Seed`` into ``SeedBuilder``
+
+        Returns:
+            ``SeedBuilder`` for ``Seed``.
+        """
+
+        return Seed(
+            seed=copy.deepcopy(ast.seed),
         )

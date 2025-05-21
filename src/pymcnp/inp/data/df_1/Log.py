@@ -15,6 +15,8 @@ class Log(DfOption_1):
 
     """
 
+    _KEYWORD = 'log'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Alog\Z')
@@ -50,6 +52,17 @@ class LogBuilder:
 
         Returns:
             ``Log`` for ``LogBuilder``.
+        """
+
+        return Log()
+
+    @staticmethod
+    def unbuild(ast: Log):
+        """
+        Unbuilds ``Log`` into ``LogBuilder``
+
+        Returns:
+            ``LogBuilder`` for ``Log``.
         """
 
         return Log()

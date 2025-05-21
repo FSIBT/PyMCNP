@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Kinetics(KoptsOption):
     Attributes:
         setting: Yes/No calculate point-kinetics parameters.
     """
+
+    _KEYWORD = 'kinetics'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class KineticsBuilder:
 
         return Kinetics(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Kinetics):
+        """
+        Unbuilds ``Kinetics`` into ``KineticsBuilder``
+
+        Returns:
+            ``KineticsBuilder`` for ``Kinetics``.
+        """
+
+        return Kinetics(
+            setting=copy.deepcopy(ast.setting),
         )

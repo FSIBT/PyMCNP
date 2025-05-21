@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Stop(DataOption):
     Attributes:
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'stop'
 
     _ATTRS = {
         'options': types.Tuple[stop.StopOption],
@@ -76,4 +79,17 @@ class StopBuilder:
 
         return Stop(
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Stop):
+        """
+        Unbuilds ``Stop`` into ``StopBuilder``
+
+        Returns:
+            ``StopBuilder`` for ``Stop``.
+        """
+
+        return Stop(
+            options=copy.deepcopy(ast.options),
         )

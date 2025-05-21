@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Cos(KsenOption):
     Attributes:
         cosines: Range of direction-change cosines.
     """
+
+    _KEYWORD = 'cos'
 
     _ATTRS = {
         'cosines': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class CosBuilder:
 
         return Cos(
             cosines=cosines,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cos):
+        """
+        Unbuilds ``Cos`` into ``CosBuilder``
+
+        Returns:
+            ``CosBuilder`` for ``Cos``.
+        """
+
+        return Cos(
+            cosines=copy.deepcopy(ast.cosines),
         )

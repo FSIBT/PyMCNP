@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class Fmesh(DataOption):
         designator: Data card particle designator.
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'fmesh'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -115,4 +118,19 @@ class FmeshBuilder:
             suffix=suffix,
             designator=designator,
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fmesh):
+        """
+        Unbuilds ``Fmesh`` into ``FmeshBuilder``
+
+        Returns:
+            ``FmeshBuilder`` for ``Fmesh``.
+        """
+
+        return Fmesh(
+            suffix=copy.deepcopy(ast.suffix),
+            designator=copy.deepcopy(ast.designator),
+            options=copy.deepcopy(ast.options),
         )

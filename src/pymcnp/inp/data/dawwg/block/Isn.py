@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Isn(BlockOption):
     Attributes:
         setting: Sn order.
     """
+
+    _KEYWORD = 'isn'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class IsnBuilder:
 
         return Isn(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Isn):
+        """
+        Unbuilds ``Isn`` into ``IsnBuilder``
+
+        Returns:
+            ``IsnBuilder`` for ``Isn``.
+        """
+
+        return Isn(
+            setting=copy.deepcopy(ast.setting),
         )

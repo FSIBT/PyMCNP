@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Emesh(FmeshOption):
     Attributes:
         energy: Values of mesh points in energy.
     """
+
+    _KEYWORD = 'emesh'
 
     _ATTRS = {
         'energy': types.Real,
@@ -74,4 +77,17 @@ class EmeshBuilder:
 
         return Emesh(
             energy=energy,
+        )
+
+    @staticmethod
+    def unbuild(ast: Emesh):
+        """
+        Unbuilds ``Emesh`` into ``EmeshBuilder``
+
+        Returns:
+            ``EmeshBuilder`` for ``Emesh``.
+        """
+
+        return Emesh(
+            energy=copy.deepcopy(ast.energy),
         )

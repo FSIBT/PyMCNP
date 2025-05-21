@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Factor(MplotOption):
         f: Multiplication factor.
         s: Addative term.
     """
+
+    _KEYWORD = 'factor'
 
     _ATTRS = {
         'a': types.String,
@@ -108,4 +111,19 @@ class FactorBuilder:
             a=a,
             f=f,
             s=s,
+        )
+
+    @staticmethod
+    def unbuild(ast: Factor):
+        """
+        Unbuilds ``Factor`` into ``FactorBuilder``
+
+        Returns:
+            ``FactorBuilder`` for ``Factor``.
+        """
+
+        return Factor(
+            a=copy.deepcopy(ast.a),
+            f=copy.deepcopy(ast.f),
+            s=copy.deepcopy(ast.s),
         )

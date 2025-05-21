@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Dd(DataOption):
         suffix: Data card option suffix.
         diagnostics: Detector diagnostic entries.
     """
+
+    _KEYWORD = 'dd'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class DdBuilder:
         return Dd(
             suffix=suffix,
             diagnostics=diagnostics,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dd):
+        """
+        Unbuilds ``Dd`` into ``DdBuilder``
+
+        Returns:
+            ``DdBuilder`` for ``Dd``.
+        """
+
+        return Dd(
+            suffix=copy.deepcopy(ast.suffix),
+            diagnostics=copy.deepcopy(ast.diagnostics),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ksrc(DataOption):
     Attributes:
         locations: Tuple of inital source points.
     """
+
+    _KEYWORD = 'ksrc'
 
     _ATTRS = {
         'locations': types.Tuple[types.Location],
@@ -79,4 +82,17 @@ class KsrcBuilder:
 
         return Ksrc(
             locations=locations,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ksrc):
+        """
+        Unbuilds ``Ksrc`` into ``KsrcBuilder``
+
+        Returns:
+            ``KsrcBuilder`` for ``Ksrc``.
+        """
+
+        return Ksrc(
+            locations=copy.deepcopy(ast.locations),
         )

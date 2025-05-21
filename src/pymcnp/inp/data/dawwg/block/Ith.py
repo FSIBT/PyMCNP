@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ith(BlockOption):
     Attributes:
         setting: Direction/adjoint calculation control.
     """
+
+    _KEYWORD = 'ith'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class IthBuilder:
 
         return Ith(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ith):
+        """
+        Unbuilds ``Ith`` into ``IthBuilder``
+
+        Returns:
+            ``IthBuilder`` for ``Ith``.
+        """
+
+        return Ith(
+            setting=copy.deepcopy(ast.setting),
         )

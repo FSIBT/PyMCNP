@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Ft(DataOption):
         suffix: Data card option suffix.
         treatments: Tally special treatments.
     """
+
+    _KEYWORD = 'ft'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -89,4 +92,18 @@ class FtBuilder:
         return Ft(
             suffix=suffix,
             treatments=treatments,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ft):
+        """
+        Unbuilds ``Ft`` into ``FtBuilder``
+
+        Returns:
+            ``FtBuilder`` for ``Ft``.
+        """
+
+        return Ft(
+            suffix=copy.deepcopy(ast.suffix),
+            treatments=copy.deepcopy(ast.treatments),
         )

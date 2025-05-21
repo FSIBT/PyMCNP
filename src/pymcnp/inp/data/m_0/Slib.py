@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Slib(MOption_0):
     Attributes:
         abx: Default helion table identifier.
     """
+
+    _KEYWORD = 'slib'
 
     _ATTRS = {
         'abx': types.String,
@@ -72,4 +75,17 @@ class SlibBuilder:
 
         return Slib(
             abx=abx,
+        )
+
+    @staticmethod
+    def unbuild(ast: Slib):
+        """
+        Unbuilds ``Slib`` into ``SlibBuilder``
+
+        Returns:
+            ``SlibBuilder`` for ``Slib``.
+        """
+
+        return Slib(
+            abx=copy.deepcopy(ast.abx),
         )

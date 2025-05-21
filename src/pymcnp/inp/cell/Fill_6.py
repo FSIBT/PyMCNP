@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -19,6 +20,8 @@ class Fill_6(CellOption):
         universes: Fill universe numbers.
         m: Displacement vector origin.
     """
+
+    _KEYWORD = 'fill'
 
     _ATTRS = {
         'i': types.Index,
@@ -157,4 +160,21 @@ class FillBuilder_6:
             k=k,
             universes=universes,
             m=m,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fill_6):
+        """
+        Unbuilds ``Fill_6`` into ``FillBuilder_6``
+
+        Returns:
+            ``FillBuilder_6`` for ``Fill_6``.
+        """
+
+        return Fill_6(
+            i=copy.deepcopy(ast.i),
+            j=copy.deepcopy(ast.j),
+            k=copy.deepcopy(ast.k),
+            universes=copy.deepcopy(ast.universes),
+            m=copy.deepcopy(ast.m),
         )

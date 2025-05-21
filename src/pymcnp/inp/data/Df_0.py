@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class Df_0(DataOption):
         method: Interpolation method for dose function table.
         values: Dose function values.
     """
+
+    _KEYWORD = 'df'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -114,4 +117,19 @@ class DfBuilder_0:
             suffix=suffix,
             method=method,
             values=values,
+        )
+
+    @staticmethod
+    def unbuild(ast: Df_0):
+        """
+        Unbuilds ``Df_0`` into ``DfBuilder_0``
+
+        Returns:
+            ``DfBuilder_0`` for ``Df_0``.
+        """
+
+        return Df_0(
+            suffix=copy.deepcopy(ast.suffix),
+            method=copy.deepcopy(ast.method),
+            values=copy.deepcopy(ast.values),
         )

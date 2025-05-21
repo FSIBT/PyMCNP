@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Rr(VarOption):
     Attributes:
         setting: Roulette game for weight windows and cell/energy/time importance off/no.
     """
+
+    _KEYWORD = 'rr'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class RrBuilder:
 
         return Rr(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Rr):
+        """
+        Unbuilds ``Rr`` into ``RrBuilder``
+
+        Returns:
+            ``RrBuilder`` for ``Rr``.
+        """
+
+        return Rr(
+            setting=copy.deepcopy(ast.setting),
         )

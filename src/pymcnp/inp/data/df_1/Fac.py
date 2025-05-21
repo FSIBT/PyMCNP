@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fac(DfOption_1):
     Attributes:
         normalization: Normalization factor for dose.
     """
+
+    _KEYWORD = 'fac'
 
     _ATTRS = {
         'normalization': types.Integer,
@@ -76,4 +79,17 @@ class FacBuilder:
 
         return Fac(
             normalization=normalization,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fac):
+        """
+        Unbuilds ``Fac`` into ``FacBuilder``
+
+        Returns:
+            ``FacBuilder`` for ``Fac``.
+        """
+
+        return Fac(
+            normalization=copy.deepcopy(ast.normalization),
         )

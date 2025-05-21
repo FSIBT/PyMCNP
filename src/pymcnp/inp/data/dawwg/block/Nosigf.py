@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Nosigf(BlockOption):
     Attributes:
         setting: Inhibit fission multiplication on/off.
     """
+
+    _KEYWORD = 'nosigf'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class NosigfBuilder:
 
         return Nosigf(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Nosigf):
+        """
+        Unbuilds ``Nosigf`` into ``NosigfBuilder``
+
+        Returns:
+            ``NosigfBuilder`` for ``Nosigf``.
+        """
+
+        return Nosigf(
+            setting=copy.deepcopy(ast.setting),
         )

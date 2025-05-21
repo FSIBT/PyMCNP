@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fmatnx(KoptsOption):
     Attributes:
         fmat_nx: fmat_nx.
     """
+
+    _KEYWORD = 'fmatnx'
 
     _ATTRS = {
         'fmat_nx': types.Real,
@@ -74,4 +77,17 @@ class FmatnxBuilder:
 
         return Fmatnx(
             fmat_nx=fmat_nx,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fmatnx):
+        """
+        Unbuilds ``Fmatnx`` into ``FmatnxBuilder``
+
+        Returns:
+            ``FmatnxBuilder`` for ``Fmatnx``.
+        """
+
+        return Fmatnx(
+            fmat_nx=copy.deepcopy(ast.fmat_nx),
         )

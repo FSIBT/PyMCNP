@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Csub(TOption_1):
     Attributes:
         count: Number of subdivisions to use.
     """
+
+    _KEYWORD = 'csub'
 
     _ATTRS = {
         'count': types.Integer,
@@ -74,4 +77,17 @@ class CsubBuilder:
 
         return Csub(
             count=count,
+        )
+
+    @staticmethod
+    def unbuild(ast: Csub):
+        """
+        Unbuilds ``Csub`` into ``CsubBuilder``
+
+        Returns:
+            ``CsubBuilder`` for ``Csub``.
+        """
+
+        return Csub(
+            count=copy.deepcopy(ast.count),
         )

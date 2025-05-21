@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Pd(CellOption):
         suffix: Cell option suffix.
         probability: Cell probability of DXTRAN contribution.
     """
+
+    _KEYWORD = 'pd'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -91,4 +94,18 @@ class PdBuilder:
         return Pd(
             suffix=suffix,
             probability=probability,
+        )
+
+    @staticmethod
+    def unbuild(ast: Pd):
+        """
+        Unbuilds ``Pd`` into ``PdBuilder``
+
+        Returns:
+            ``PdBuilder`` for ``Pd``.
+        """
+
+        return Pd(
+            suffix=copy.deepcopy(ast.suffix),
+            probability=copy.deepcopy(ast.probability),
         )

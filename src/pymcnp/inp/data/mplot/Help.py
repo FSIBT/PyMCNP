@@ -15,6 +15,8 @@ class Help(MplotOption):
 
     """
 
+    _KEYWORD = 'help'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Ahelp\Z')
@@ -50,6 +52,17 @@ class HelpBuilder:
 
         Returns:
             ``Help`` for ``HelpBuilder``.
+        """
+
+        return Help()
+
+    @staticmethod
+    def unbuild(ast: Help):
+        """
+        Unbuilds ``Help`` into ``HelpBuilder``
+
+        Returns:
+            ``HelpBuilder`` for ``Help``.
         """
 
         return Help()

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Cfrq(TOption_1):
     Attributes:
         frequency: Frequency of cycling.
     """
+
+    _KEYWORD = 'cfrq'
 
     _ATTRS = {
         'frequency': types.Real,
@@ -74,4 +77,17 @@ class CfrqBuilder:
 
         return Cfrq(
             frequency=frequency,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cfrq):
+        """
+        Unbuilds ``Cfrq`` into ``CfrqBuilder``
+
+        Returns:
+            ``CfrqBuilder`` for ``Cfrq``.
+        """
+
+        return Cfrq(
+            frequency=copy.deepcopy(ast.frequency),
         )

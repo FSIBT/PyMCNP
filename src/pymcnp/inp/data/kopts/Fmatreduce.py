@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Fmatreduce(KoptsOption):
     Attributes:
         setting: fmatreduce.
     """
+
+    _KEYWORD = 'fmatreduce'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class FmatreduceBuilder:
 
         return Fmatreduce(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Fmatreduce):
+        """
+        Unbuilds ``Fmatreduce`` into ``FmatreduceBuilder``
+
+        Returns:
+            ``FmatreduceBuilder`` for ``Fmatreduce``.
+        """
+
+        return Fmatreduce(
+            setting=copy.deepcopy(ast.setting),
         )

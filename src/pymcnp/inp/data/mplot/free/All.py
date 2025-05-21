@@ -15,6 +15,8 @@ class All(FreeOption):
 
     """
 
+    _KEYWORD = 'all'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Aall\Z')
@@ -50,6 +52,17 @@ class AllBuilder:
 
         Returns:
             ``All`` for ``AllBuilder``.
+        """
+
+        return All()
+
+    @staticmethod
+    def unbuild(ast: All):
+        """
+        Unbuilds ``All`` into ``AllBuilder``
+
+        Returns:
+            ``AllBuilder`` for ``All``.
         """
 
         return All()

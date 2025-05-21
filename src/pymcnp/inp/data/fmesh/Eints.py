@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Eints(FmeshOption):
     Attributes:
         count: Number of mesh points for each mesh energy.
     """
+
+    _KEYWORD = 'eints'
 
     _ATTRS = {
         'count': types.Integer,
@@ -74,4 +77,17 @@ class EintsBuilder:
 
         return Eints(
             count=count,
+        )
+
+    @staticmethod
+    def unbuild(ast: Eints):
+        """
+        Unbuilds ``Eints`` into ``EintsBuilder``
+
+        Returns:
+            ``EintsBuilder`` for ``Eints``.
+        """
+
+        return Eints(
+            count=copy.deepcopy(ast.count),
         )

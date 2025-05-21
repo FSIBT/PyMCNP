@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Balp(BlockOption):
     Attributes:
         setting: Print coarse-mesh balance tables on/off.
     """
+
+    _KEYWORD = 'balp'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class BalpBuilder:
 
         return Balp(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Balp):
+        """
+        Unbuilds ``Balp`` into ``BalpBuilder``
+
+        Returns:
+            ``BalpBuilder`` for ``Balp``.
+        """
+
+        return Balp(
+            setting=copy.deepcopy(ast.setting),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Par(MplotOption):
     Attributes:
         particle: Particle type to plot.
     """
+
+    _KEYWORD = 'par'
 
     _ATTRS = {
         'particle': types.Designator,
@@ -72,4 +75,17 @@ class ParBuilder:
 
         return Par(
             particle=particle,
+        )
+
+    @staticmethod
+    def unbuild(ast: Par):
+        """
+        Unbuilds ``Par`` into ``ParBuilder``
+
+        Returns:
+            ``ParBuilder`` for ``Par``.
+        """
+
+        return Par(
+            particle=copy.deepcopy(ast.particle),
         )

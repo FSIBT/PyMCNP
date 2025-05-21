@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -19,6 +20,8 @@ class Cut(DataOption):
         weight_cutoff2: Weight cutoff #2.
         source_weight: Minimum source weight.
     """
+
+    _KEYWORD = 'cut'
 
     _ATTRS = {
         'time_cutoff': types.Real,
@@ -155,4 +158,21 @@ class CutBuilder:
             weight_cutoff1=weight_cutoff1,
             weight_cutoff2=weight_cutoff2,
             source_weight=source_weight,
+        )
+
+    @staticmethod
+    def unbuild(ast: Cut):
+        """
+        Unbuilds ``Cut`` into ``CutBuilder``
+
+        Returns:
+            ``CutBuilder`` for ``Cut``.
+        """
+
+        return Cut(
+            time_cutoff=copy.deepcopy(ast.time_cutoff),
+            energy_cutoff=copy.deepcopy(ast.energy_cutoff),
+            weight_cutoff1=copy.deepcopy(ast.weight_cutoff1),
+            weight_cutoff2=copy.deepcopy(ast.weight_cutoff2),
+            source_weight=copy.deepcopy(ast.source_weight),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Imesh(MeshOption):
     Attributes:
         vector: Locations of the coarse meshes in the x/r directions.
     """
+
+    _KEYWORD = 'imesh'
 
     _ATTRS = {
         'vector': types.Tuple[types.Real],
@@ -79,4 +82,17 @@ class ImeshBuilder:
 
         return Imesh(
             vector=vector,
+        )
+
+    @staticmethod
+    def unbuild(ast: Imesh):
+        """
+        Unbuilds ``Imesh`` into ``ImeshBuilder``
+
+        Returns:
+            ``ImeshBuilder`` for ``Imesh``.
+        """
+
+        return Imesh(
+            vector=copy.deepcopy(ast.vector),
         )

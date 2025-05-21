@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Ext(DataOption):
         designator: Data card particle designator.
         stretching: Stretching direction for the cell.
     """
+
+    _KEYWORD = 'ext'
 
     _ATTRS = {
         'designator': types.Designator,
@@ -94,4 +97,18 @@ class ExtBuilder:
         return Ext(
             designator=designator,
             stretching=stretching,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ext):
+        """
+        Unbuilds ``Ext`` into ``ExtBuilder``
+
+        Returns:
+            ``ExtBuilder`` for ``Ext``.
+        """
+
+        return Ext(
+            designator=copy.deepcopy(ast.designator),
+            stretching=copy.deepcopy(ast.stretching),
         )

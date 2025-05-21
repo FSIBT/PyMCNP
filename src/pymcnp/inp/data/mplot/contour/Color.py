@@ -15,6 +15,8 @@ class Color(ContourOption):
 
     """
 
+    _KEYWORD = 'color'
+
     _ATTRS = {}
 
     _REGEX = re.compile(r'\Acolor\Z')
@@ -50,6 +52,17 @@ class ColorBuilder:
 
         Returns:
             ``Color`` for ``ColorBuilder``.
+        """
+
+        return Color()
+
+    @staticmethod
+    def unbuild(ast: Color):
+        """
+        Unbuilds ``Color`` into ``ColorBuilder``
+
+        Returns:
+            ``ColorBuilder`` for ``Color``.
         """
 
         return Color()

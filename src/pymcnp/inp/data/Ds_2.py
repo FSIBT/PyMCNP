@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Ds_2(DataOption):
         suffix: Data card option suffix.
         vss: Dependent source independent & dependent variables.
     """
+
+    _KEYWORD = 'ds'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class DsBuilder_2:
         return Ds_2(
             suffix=suffix,
             vss=vss,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ds_2):
+        """
+        Unbuilds ``Ds_2`` into ``DsBuilder_2``
+
+        Returns:
+            ``DsBuilder_2`` for ``Ds_2``.
+        """
+
+        return Ds_2(
+            suffix=copy.deepcopy(ast.suffix),
+            vss=copy.deepcopy(ast.vss),
         )

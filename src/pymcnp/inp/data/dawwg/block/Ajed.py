@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ajed(BlockOption):
     Attributes:
         setting: Regular/adjoint edits control.
     """
+
+    _KEYWORD = 'ajed'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class AjedBuilder:
 
         return Ajed(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ajed):
+        """
+        Unbuilds ``Ajed`` into ``AjedBuilder``
+
+        Returns:
+            ``AjedBuilder`` for ``Ajed``.
+        """
+
+        return Ajed(
+            setting=copy.deepcopy(ast.setting),
         )

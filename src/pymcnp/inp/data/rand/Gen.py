@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Gen(RandOption):
     Attributes:
         setting: Type of pseudorandom number generator.
     """
+
+    _KEYWORD = 'gen'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class GenBuilder:
 
         return Gen(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Gen):
+        """
+        Unbuilds ``Gen`` into ``GenBuilder``
+
+        Returns:
+            ``GenBuilder`` for ``Gen``.
+        """
+
+        return Gen(
+            setting=copy.deepcopy(ast.setting),
         )

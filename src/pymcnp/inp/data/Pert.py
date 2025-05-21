@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class Pert(DataOption):
         designator: Data card particle designator.
         options: Dictionary of options.
     """
+
+    _KEYWORD = 'pert'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -115,4 +118,19 @@ class PertBuilder:
             suffix=suffix,
             designator=designator,
             options=options,
+        )
+
+    @staticmethod
+    def unbuild(ast: Pert):
+        """
+        Unbuilds ``Pert`` into ``PertBuilder``
+
+        Returns:
+            ``PertBuilder`` for ``Pert``.
+        """
+
+        return Pert(
+            suffix=copy.deepcopy(ast.suffix),
+            designator=copy.deepcopy(ast.designator),
+            options=copy.deepcopy(ast.options),
         )

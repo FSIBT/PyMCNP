@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Jints(FmeshOption):
     Attributes:
         count: Number of mesh points y/z for rectangular/cylindrical geometry.
     """
+
+    _KEYWORD = 'jints'
 
     _ATTRS = {
         'count': types.Integer,
@@ -74,4 +77,17 @@ class JintsBuilder:
 
         return Jints(
             count=count,
+        )
+
+    @staticmethod
+    def unbuild(ast: Jints):
+        """
+        Unbuilds ``Jints`` into ``JintsBuilder``
+
+        Returns:
+            ``JintsBuilder`` for ``Jints``.
+        """
+
+        return Jints(
+            count=copy.deepcopy(ast.count),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Shift(FmultOption):
     Attributes:
         setting: Shift method setting.
     """
+
+    _KEYWORD = 'shift'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class ShiftBuilder:
 
         return Shift(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Shift):
+        """
+        Unbuilds ``Shift`` into ``ShiftBuilder``
+
+        Returns:
+            ``ShiftBuilder`` for ``Shift``.
+        """
+
+        return Shift(
+            setting=copy.deepcopy(ast.setting),
         )

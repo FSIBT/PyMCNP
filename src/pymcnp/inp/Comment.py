@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -70,3 +71,16 @@ class CommentBuilder:
             text = self.text
 
         return Comment(text=text)
+
+    @staticmethod
+    def unbuild(ast: Comment):
+        """
+        Unbuilds ``Comment`` into ``CommentBuilder``
+
+        Returns:
+            ``CommentBuilder`` for ``Comment``.
+        """
+
+        return CommentBuilder(
+            text=copy.deepcopy(ast.text),
+        )

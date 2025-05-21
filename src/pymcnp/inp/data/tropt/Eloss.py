@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Eloss(TroptOption):
     Attributes:
         setting: Slowing down energy losses setting.
     """
+
+    _KEYWORD = 'eloss'
 
     _ATTRS = {
         'setting': types.String,
@@ -72,4 +75,17 @@ class ElossBuilder:
 
         return Eloss(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Eloss):
+        """
+        Unbuilds ``Eloss`` into ``ElossBuilder``
+
+        Returns:
+            ``ElossBuilder`` for ``Eloss``.
+        """
+
+        return Eloss(
+            setting=copy.deepcopy(ast.setting),
         )

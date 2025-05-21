@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -17,6 +18,8 @@ class De(DataOption):
         method: Interpolation method for energy table.
         values: Energy values.
     """
+
+    _KEYWORD = 'de'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -114,4 +117,19 @@ class DeBuilder:
             suffix=suffix,
             method=method,
             values=values,
+        )
+
+    @staticmethod
+    def unbuild(ast: De):
+        """
+        Unbuilds ``De`` into ``DeBuilder``
+
+        Returns:
+            ``DeBuilder`` for ``De``.
+        """
+
+        return De(
+            suffix=copy.deepcopy(ast.suffix),
+            method=copy.deepcopy(ast.method),
+            values=copy.deepcopy(ast.values),
         )

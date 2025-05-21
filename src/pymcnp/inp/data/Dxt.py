@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -28,6 +29,8 @@ class Dxt(DataOption):
         cutoff_2: Lower weight cutoff in the spheres.
         weight: Minimum photon weight.
     """
+
+    _KEYWORD = 'dxt'
 
     _ATTRS = {
         'designator': types.Designator,
@@ -303,4 +306,30 @@ class DxtBuilder:
             cutoff_1=cutoff_1,
             cutoff_2=cutoff_2,
             weight=weight,
+        )
+
+    @staticmethod
+    def unbuild(ast: Dxt):
+        """
+        Unbuilds ``Dxt`` into ``DxtBuilder``
+
+        Returns:
+            ``DxtBuilder`` for ``Dxt``.
+        """
+
+        return Dxt(
+            designator=copy.deepcopy(ast.designator),
+            spheres_1=copy.deepcopy(ast.spheres_1),
+            spheres_2=copy.deepcopy(ast.spheres_2),
+            spheres_3=copy.deepcopy(ast.spheres_3),
+            spheres_4=copy.deepcopy(ast.spheres_4),
+            spheres_5=copy.deepcopy(ast.spheres_5),
+            spheres_6=copy.deepcopy(ast.spheres_6),
+            spheres_7=copy.deepcopy(ast.spheres_7),
+            spheres_8=copy.deepcopy(ast.spheres_8),
+            spheres_9=copy.deepcopy(ast.spheres_9),
+            spheres_10=copy.deepcopy(ast.spheres_10),
+            cutoff_1=copy.deepcopy(ast.cutoff_1),
+            cutoff_2=copy.deepcopy(ast.cutoff_2),
+            weight=copy.deepcopy(ast.weight),
         )

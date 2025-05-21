@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Tr_1(SsrOption):
     Attributes:
         number: Particle weight.
     """
+
+    _KEYWORD = 'tr'
 
     _ATTRS = {
         'number': types.Integer,
@@ -74,4 +77,17 @@ class TrBuilder_1:
 
         return Tr_1(
             number=number,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tr_1):
+        """
+        Unbuilds ``Tr_1`` into ``TrBuilder_1``
+
+        Returns:
+            ``TrBuilder_1`` for ``Tr_1``.
+        """
+
+        return Tr_1(
+            number=copy.deepcopy(ast.number),
         )

@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Ptconv(BlockOption):
     Attributes:
         setting: Special criticality convergence scheme on/off.
     """
+
+    _KEYWORD = 'ptconv'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class PtconvBuilder:
 
         return Ptconv(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Ptconv):
+        """
+        Unbuilds ``Ptconv`` into ``PtconvBuilder``
+
+        Returns:
+            ``PtconvBuilder`` for ``Ptconv``.
+        """
+
+        return Ptconv(
+            setting=copy.deepcopy(ast.setting),
         )

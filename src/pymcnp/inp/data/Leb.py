@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class Leb(DataOption):
         yzero: Y0 parameter in level-density formula for Z≥71.
         bzero: B0 parameter in level-density formula for Z≥70.
     """
+
+    _KEYWORD = 'leb'
 
     _ATTRS = {
         'yzere': types.Real,
@@ -130,4 +133,20 @@ class LebBuilder:
             bzere=bzere,
             yzero=yzero,
             bzero=bzero,
+        )
+
+    @staticmethod
+    def unbuild(ast: Leb):
+        """
+        Unbuilds ``Leb`` into ``LebBuilder``
+
+        Returns:
+            ``LebBuilder`` for ``Leb``.
+        """
+
+        return Leb(
+            yzere=copy.deepcopy(ast.yzere),
+            bzere=copy.deepcopy(ast.bzere),
+            yzero=copy.deepcopy(ast.yzero),
+            bzero=copy.deepcopy(ast.bzero),
         )

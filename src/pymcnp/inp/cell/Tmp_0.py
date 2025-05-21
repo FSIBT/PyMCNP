@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -16,6 +17,8 @@ class Tmp_0(CellOption):
         suffix: Thermal time index.
         temperature: Temperature at time index.
     """
+
+    _KEYWORD = 'tmp'
 
     _ATTRS = {
         'suffix': types.Integer,
@@ -96,4 +99,18 @@ class TmpBuilder_0:
         return Tmp_0(
             suffix=suffix,
             temperature=temperature,
+        )
+
+    @staticmethod
+    def unbuild(ast: Tmp_0):
+        """
+        Unbuilds ``Tmp_0`` into ``TmpBuilder_0``
+
+        Returns:
+            ``TmpBuilder_0`` for ``Tmp_0``.
+        """
+
+        return Tmp_0(
+            suffix=copy.deepcopy(ast.suffix),
+            temperature=copy.deepcopy(ast.temperature),
         )

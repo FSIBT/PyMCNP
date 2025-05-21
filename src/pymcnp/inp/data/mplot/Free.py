@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -18,6 +19,8 @@ class Free(MplotOption):
         y: Dependent variable.
         option: free option.
     """
+
+    _KEYWORD = 'free'
 
     _ATTRS = {
         'x': types.String,
@@ -105,4 +108,19 @@ class FreeBuilder:
             x=x,
             y=y,
             option=option,
+        )
+
+    @staticmethod
+    def unbuild(ast: Free):
+        """
+        Unbuilds ``Free`` into ``FreeBuilder``
+
+        Returns:
+            ``FreeBuilder`` for ``Free``.
+        """
+
+        return Free(
+            x=copy.deepcopy(ast.x),
+            y=copy.deepcopy(ast.y),
+            option=Free.FreeOptionBuilder.unbuild(ast.option),
         )

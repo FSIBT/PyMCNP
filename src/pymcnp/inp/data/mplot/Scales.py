@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Scales(MplotOption):
     Attributes:
         n: Plot scale setting.
     """
+
+    _KEYWORD = 'scales'
 
     _ATTRS = {
         'n': types.Integer,
@@ -74,4 +77,17 @@ class ScalesBuilder:
 
         return Scales(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Scales):
+        """
+        Unbuilds ``Scales`` into ``ScalesBuilder``
+
+        Returns:
+            ``ScalesBuilder`` for ``Scales``.
+        """
+
+        return Scales(
+            n=copy.deepcopy(ast.n),
         )

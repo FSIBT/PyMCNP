@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Noslnp(BlockOption):
     Attributes:
         setting: Suppress writing SOLINP on/off.
     """
+
+    _KEYWORD = 'noslnp'
 
     _ATTRS = {
         'setting': types.Integer,
@@ -74,4 +77,17 @@ class NoslnpBuilder:
 
         return Noslnp(
             setting=setting,
+        )
+
+    @staticmethod
+    def unbuild(ast: Noslnp):
+        """
+        Unbuilds ``Noslnp`` into ``NoslnpBuilder``
+
+        Returns:
+            ``NoslnpBuilder`` for ``Noslnp``.
+        """
+
+        return Noslnp(
+            setting=copy.deepcopy(ast.setting),
         )

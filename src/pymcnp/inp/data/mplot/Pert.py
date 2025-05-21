@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -14,6 +15,8 @@ class Pert(MplotOption):
     Attributes:
         n: Number on a PERT card.
     """
+
+    _KEYWORD = 'pert'
 
     _ATTRS = {
         'n': types.Integer,
@@ -70,4 +73,17 @@ class PertBuilder:
 
         return Pert(
             n=n,
+        )
+
+    @staticmethod
+    def unbuild(ast: Pert):
+        """
+        Unbuilds ``Pert`` into ``PertBuilder``
+
+        Returns:
+            ``PertBuilder`` for ``Pert``.
+        """
+
+        return Pert(
+            n=copy.deepcopy(ast.n),
         )

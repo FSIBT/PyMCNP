@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -15,6 +16,8 @@ class Coni(TOption_1):
     Attributes:
         time: Alive time interval.
     """
+
+    _KEYWORD = 'coni'
 
     _ATTRS = {
         'time': types.Real,
@@ -74,4 +77,17 @@ class ConiBuilder:
 
         return Coni(
             time=time,
+        )
+
+    @staticmethod
+    def unbuild(ast: Coni):
+        """
+        Unbuilds ``Coni`` into ``ConiBuilder``
+
+        Returns:
+            ``ConiBuilder`` for ``Coni``.
+        """
+
+        return Coni(
+            time=copy.deepcopy(ast.time),
         )

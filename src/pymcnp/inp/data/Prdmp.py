@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -19,6 +20,8 @@ class Prdmp(DataOption):
         ndmp: Maximum number of dumps on RUNTPE file.
         dmmp: Controls frequently of tally fluctuation chart.
     """
+
+    _KEYWORD = 'prdmp'
 
     _ATTRS = {
         'ndp': types.Integer,
@@ -155,4 +158,21 @@ class PrdmpBuilder:
             mct=mct,
             ndmp=ndmp,
             dmmp=dmmp,
+        )
+
+    @staticmethod
+    def unbuild(ast: Prdmp):
+        """
+        Unbuilds ``Prdmp`` into ``PrdmpBuilder``
+
+        Returns:
+            ``PrdmpBuilder`` for ``Prdmp``.
+        """
+
+        return Prdmp(
+            ndp=copy.deepcopy(ast.ndp),
+            ndm=copy.deepcopy(ast.ndm),
+            mct=copy.deepcopy(ast.mct),
+            ndmp=copy.deepcopy(ast.ndmp),
+            dmmp=copy.deepcopy(ast.dmmp),
         )
