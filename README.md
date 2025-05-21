@@ -48,6 +48,17 @@ To run the PyMCNP test suite, after cloning the PyMCNP GitHub repository, use th
     # Running
     pytest --cov --cov-report term-missing:skip-covered
 
+## Documenting
+
+To rebuild the documentation using [Sphinx](https://www.sphinx-doc.org/en/master/) and [Napolean](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html):
+
+    # Installing
+    pip install sphinx
+
+    # Running
+    cd docs
+    make html
+
 ## Copyright and License
 
 For copyright and license information, see the `COPYRIGHT` and `LICENSE` files in the top level directory.
