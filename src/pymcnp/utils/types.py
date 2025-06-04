@@ -983,7 +983,7 @@ class Geometry(_object.McnpNonterminal):
         infix: Geometry infix formula.
     """
 
-    _REGEX = re.compile(r'\A((?:).+)\Z')
+    _REGEX = re.compile(r'\A(.+)\Z')
 
     def __init__(self, infix: String):
         """
@@ -1007,6 +1007,10 @@ class Geometry(_object.McnpNonterminal):
         temp = re.sub(r'#', '-', temp)
         temp = re.sub(r'\+-', '-', temp)
         temp = re.sub(r'(\d)\(', r'\1*(', temp)
+
+        for number in re.split(r'[*#:+ ()-]+', temp):
+            if number and not re.match(r'\d+(?:[.][1-8])?', number):
+                raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, infix)
 
         try:
             eval(temp)
