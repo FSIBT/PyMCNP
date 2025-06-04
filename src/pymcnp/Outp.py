@@ -109,7 +109,7 @@ class Outp(_object.McnpFile):
             OUTP for ``Outp``.
         """
 
-        return f"{self.header}\n{"\n".join(map(str, self.blocks))}{self.footer}"
+        return self.header + '\n' + '\n'.join(map(str, self.blocks)) + self.footer
 
     def to_dataframe(self):
         """
