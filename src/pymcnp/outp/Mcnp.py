@@ -139,8 +139,8 @@ class Mcnp(_block.Block):
 
         return f"""
 1mcnp     {self.version}{self.code_date}{self.run_date}{self.run_time}
- *************************************************************************                 {self.probid}\n
- {self.command}\n
+ *************************************************************************                 {self.probid}
+ {self.command}
 {'\n'.join(self.lines)}
 {'\n'.join(self.messages)}
 """[1:-1]
