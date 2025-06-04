@@ -223,23 +223,32 @@ class StartingMcrun(_block.Block):
         """
 
         return f"""
-1starting mcrun.      cp0 = {self.cp0:5}                                                                       print table 110\n
-      {self.title:80}\n\n
+1starting mcrun.      cp0 = {self.cp0:5}                                                                       print table 110
+
+      {self.title:80}
+
+
      nps    x          y          z          cell       surf     u          v          w        energy     weight      time
+
 {self.data}
-1problem summary                                                                                                           \n
+1problem summary                                                                                                           
+
       run terminated when {self.histories:11}  particle histories were done.
 [+]                                                                                                    {self.datetime:17}
-      {self.title:80}     probid =  {self.probid:17} \n
+      {self.title:80}     probid =  {self.probid:17} 
+
 neutron creation    tracks      weight        energy            neutron loss        tracks      weight        energy
-                                 (per source particle)                                           (per source particle)\n
+                                 (per source particle)                                           (per source particle)
+
 {self.neutron_data}
  photon creation     tracks      weight        energy            photon loss         tracks      weight        ener
-                                 (per source particle)                                           (per source particle)\n
+                                 (per source particle)                                           (per source particle)
+
 {self.proton_data}
  computer time so far in this run     {self.computer_time:11}            maximum number ever in bank   {self.max_bank:7}
  computer time in mcrun               {self.computer_mcrun:11}            bank overflows to backup file {self.bank_overflows:7}
  source particles per minute            {self.source_per_minute:11}
- random numbers generated              {self.random_numbers:11}            most random numbers used was {self.most_random:11} in history {self.most_history:11}\n
+ random numbers generated              {self.random_numbers:11}            most random numbers used was {self.most_random:11} in history {self.most_history:11}
+
  range of sampled source weights = {self.range_lower:10} to {self.range_upper:10}
 """[1:-1]
