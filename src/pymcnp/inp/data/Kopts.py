@@ -23,7 +23,7 @@ class Kopts(DataOption):
         'options': types.Tuple[kopts.KoptsOption],
     }
 
-    _REGEX = re.compile(rf'\Akopts((?: (?:{kopts.KoptsOption._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Akopts((?: (?:{kopts.KoptsOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
     def __init__(self, options: types.Tuple[kopts.KoptsOption] = None):
         """

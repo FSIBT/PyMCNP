@@ -1153,17 +1153,10 @@
 
 [bfld subpackage](data/bfld)
 
-### ``CBuilder_0`` Class
+### ``CBuilder`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.CBuilder_0
-   :members:
-```
-
-### ``CBuilder_1`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.CBuilder_1
+.. autoclass:: pymcnp.inp.data.CBuilder
    :members:
 ```
 
@@ -1981,6 +1974,20 @@
 
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.ThtmeBuilder
+   :members:
+```
+
+### ``TfBuilder_0`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.TfBuilder_0
+   :members:
+```
+
+### ``TfBuilder_1`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.TfBuilder_1
    :members:
 ```
 

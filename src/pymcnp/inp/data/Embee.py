@@ -16,6 +16,7 @@ class Embee(DataOption):
 
     Attributes:
         suffix: Data card option suffix.
+        designator: Data card particle designator.
         options: Dictionary of options.
     """
 
@@ -23,17 +24,26 @@ class Embee(DataOption):
 
     _ATTRS = {
         'suffix': types.Integer,
+        'designator': types.Designator,
         'options': types.Tuple[embee.EmbeeOption],
     }
 
-    _REGEX = re.compile(rf'\Aembee(\d+)((?: (?:{embee.EmbeeOption._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(
+        rf'\Aembee(\d+):(\S+)((?: (?:{embee.EmbeeOption._REGEX.pattern[2:-2]}))+?)?\Z'
+    )
 
-    def __init__(self, suffix: types.Integer, options: types.Tuple[embee.EmbeeOption] = None):
+    def __init__(
+        self,
+        suffix: types.Integer,
+        designator: types.Designator,
+        options: types.Tuple[embee.EmbeeOption] = None,
+    ):
         """
         Initializes ``Embee``.
 
         Parameters:
             suffix: Data card option suffix.
+            designator: Data card particle designator.
             options: Dictionary of options.
 
         Raises:
@@ -42,6 +52,8 @@ class Embee(DataOption):
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+        if designator is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -50,6 +62,7 @@ class Embee(DataOption):
         )
 
         self.suffix: typing.Final[types.Integer] = suffix
+        self.designator: typing.Final[types.Designator] = designator
         self.options: typing.Final[types.Tuple[embee.EmbeeOption]] = options
 
 
@@ -60,10 +73,12 @@ class EmbeeBuilder:
 
     Attributes:
         suffix: Data card option suffix.
+        designator: Data card particle designator.
         options: Dictionary of options.
     """
 
     suffix: str | int | types.Integer
+    designator: str | types.Designator
     options: list[str] | list[embee.EmbeeOption] = None
 
     def build(self):
@@ -82,6 +97,12 @@ class EmbeeBuilder:
         elif isinstance(self.suffix, str):
             suffix = types.Integer.from_mcnp(self.suffix)
 
+        designator = self.designator
+        if isinstance(self.designator, types.Designator):
+            designator = self.designator
+        elif isinstance(self.designator, str):
+            designator = types.Designator.from_mcnp(self.designator)
+
         if self.options:
             options = []
             for item in self.options:
@@ -97,6 +118,7 @@ class EmbeeBuilder:
 
         return Embee(
             suffix=suffix,
+            designator=designator,
             options=options,
         )
 
@@ -111,5 +133,6 @@ class EmbeeBuilder:
 
         return Embee(
             suffix=copy.deepcopy(ast.suffix),
+            designator=copy.deepcopy(ast.designator),
             options=copy.deepcopy(ast.options),
         )

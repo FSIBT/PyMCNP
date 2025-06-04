@@ -29,7 +29,7 @@ class Bfld(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Abfld(\d+)( {types.String._REGEX.pattern})((?: (?:{bfld.BfldOption._REGEX.pattern}))+?)?\Z'
+        rf'\Abfld(\d+)( {types.String._REGEX.pattern[2:-2]})((?: (?:{bfld.BfldOption._REGEX.pattern[2:-2]}))+?)?\Z'
     )
 
     def __init__(

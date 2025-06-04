@@ -23,7 +23,7 @@ class Fissrp(BlockOption):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Afissrp( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afissrp( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, setting: types.Integer):
         """

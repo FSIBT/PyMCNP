@@ -23,7 +23,7 @@ class Nonu(DataOption):
         'settings': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Anonu((?: {types.Integer._REGEX.pattern})+?)?\Z')
+    _REGEX = re.compile(rf'\Anonu((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z')
 
     def __init__(self, settings: types.Tuple[types.Integer] = None):
         """

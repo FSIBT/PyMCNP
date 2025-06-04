@@ -23,7 +23,7 @@ class Wgt(SdefOption):
         'weight': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Awgt( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Awgt( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, weight: types.Real):
         """

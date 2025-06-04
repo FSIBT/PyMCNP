@@ -23,7 +23,7 @@ class Width(FmultOption):
         'width': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Awidth( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Awidth( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, width: types.Real):
         """

@@ -23,7 +23,7 @@ class Thresh(ActOption):
         'fraction': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Athresh( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Athresh( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, fraction: types.Real):
         """

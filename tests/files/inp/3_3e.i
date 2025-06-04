@@ -12,8 +12,8 @@ sdef erg=1000 par=H dir=1 pos=0 0 0 vec 0 0 1
 imp:h 1 1 0
 phys:h 1000
 mode h
-c LCA 8j 1 $ use CEM03.03
+LCA 8j 1 $ use CEM03.03
 tropt genxs inxc01 nreact on nescat off
 print 40 110 95
 nps 1000000
-c prdmp 2j -1
+prdmp 2j -1

@@ -22,7 +22,7 @@ class Dir_0(SdefOption):
         'cosine': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Adir( {types.Real._REGEX.pattern})?\Z')
+    _REGEX = re.compile(rf'\Adir( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
     def __init__(self, cosine: types.Real = None):
         """

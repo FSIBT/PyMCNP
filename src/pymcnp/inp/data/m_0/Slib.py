@@ -23,7 +23,7 @@ class Slib(MOption_0):
         'abx': types.String,
     }
 
-    _REGEX = re.compile(rf'\Aslib( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aslib( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, abx: types.String):
         """

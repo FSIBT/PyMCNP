@@ -23,7 +23,7 @@ class Xtitle(MplotOption):
         'aa': types.String,
     }
 
-    _REGEX = re.compile(rf'\Axtitle( \"{types.String._REGEX.pattern}\")\Z')
+    _REGEX = re.compile(rf'\Axtitle( \"{types.String._REGEX.pattern[2:-2]}\")\Z')
 
     def __init__(self, aa: types.String):
         """

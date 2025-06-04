@@ -27,7 +27,7 @@ class Block(DawwgOption):
     }
 
     _REGEX = re.compile(
-        rf'\Ablock( {types.Integer._REGEX.pattern})((?: (?:{block.BlockOption._REGEX.pattern}))+?)?\Z'
+        rf'\Ablock( {types.Integer._REGEX.pattern[2:-2]})((?: (?:{block.BlockOption._REGEX.pattern[2:-2]}))+?)?\Z'
     )
 
     def __init__(self, setting: types.Integer, options: types.Tuple[block.BlockOption] = None):

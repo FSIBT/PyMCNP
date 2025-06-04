@@ -23,7 +23,7 @@ class Fmataccel(KoptsOption):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'\Afmataccel( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afmataccel( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, setting: types.String):
         """

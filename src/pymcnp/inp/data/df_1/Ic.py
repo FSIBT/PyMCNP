@@ -23,7 +23,7 @@ class Ic(DfOption_1):
         'function': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Aic( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aic( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, function: types.Integer):
         """

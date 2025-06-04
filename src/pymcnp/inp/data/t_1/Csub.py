@@ -23,7 +23,7 @@ class Csub(TOption_1):
         'count': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Acsub( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Acsub( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, count: types.Integer):
         """

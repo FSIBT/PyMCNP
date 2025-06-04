@@ -22,7 +22,7 @@ class Dir_1(SdefOption):
         'cosine': types.DistributionNumber,
     }
 
-    _REGEX = re.compile(rf'\Adir( {types.DistributionNumber._REGEX.pattern})?\Z')
+    _REGEX = re.compile(rf'\Adir( {types.DistributionNumber._REGEX.pattern[2:-2]})?\Z')
 
     def __init__(self, cosine: types.DistributionNumber = None):
         """

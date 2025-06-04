@@ -17,10 +17,6 @@ class Wwg(DataOption):
         tally: Problem tally number.
         cell: Cell-based or mesh-based weight window generator.
         lower: Value of the generated lower weight-window bound for cell.
-        j1: Placeholder jump #1.
-        j2: Placeholder jump #2.
-        j3: Placeholder jump #3.
-        j4: Placeholder jump #4.
         setting: Energy- or time-dependent weight window toggle.
     """
 
@@ -30,15 +26,11 @@ class Wwg(DataOption):
         'tally': types.Integer,
         'cell': types.Integer,
         'lower': types.Real,
-        'j1': types.Jump,
-        'j2': types.Jump,
-        'j3': types.Jump,
-        'j4': types.Jump,
         'setting': types.Integer,
     }
 
     _REGEX = re.compile(
-        rf'\Awwg( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Jump._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Awwg( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
@@ -46,11 +38,7 @@ class Wwg(DataOption):
         tally: types.Integer,
         cell: types.Integer,
         lower: types.Real,
-        j1: types.Jump,
-        j2: types.Jump,
-        j3: types.Jump,
-        j4: types.Jump,
-        setting: types.Integer,
+        setting: types.Integer = None,
     ):
         """
         Initializes ``Wwg``.
@@ -59,10 +47,6 @@ class Wwg(DataOption):
             tally: Problem tally number.
             cell: Cell-based or mesh-based weight window generator.
             lower: Value of the generated lower weight-window bound for cell.
-            j1: Placeholder jump #1.
-            j2: Placeholder jump #2.
-            j3: Placeholder jump #3.
-            j4: Placeholder jump #4.
             setting: Energy- or time-dependent weight window toggle.
 
         Raises:
@@ -75,26 +59,12 @@ class Wwg(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cell)
         if lower is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lower)
-        if j1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j1)
-        if j2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j2)
-        if j3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j3)
-        if j4 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j4)
-        if setting is None or setting.value not in {0, 1}:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
                 tally,
                 cell,
                 lower,
-                j1,
-                j2,
-                j3,
-                j4,
                 setting,
             ]
         )
@@ -102,10 +72,6 @@ class Wwg(DataOption):
         self.tally: typing.Final[types.Integer] = tally
         self.cell: typing.Final[types.Integer] = cell
         self.lower: typing.Final[types.Real] = lower
-        self.j1: typing.Final[types.Jump] = j1
-        self.j2: typing.Final[types.Jump] = j2
-        self.j3: typing.Final[types.Jump] = j3
-        self.j4: typing.Final[types.Jump] = j4
         self.setting: typing.Final[types.Integer] = setting
 
 
@@ -118,21 +84,13 @@ class WwgBuilder:
         tally: Problem tally number.
         cell: Cell-based or mesh-based weight window generator.
         lower: Value of the generated lower weight-window bound for cell.
-        j1: Placeholder jump #1.
-        j2: Placeholder jump #2.
-        j3: Placeholder jump #3.
-        j4: Placeholder jump #4.
         setting: Energy- or time-dependent weight window toggle.
     """
 
     tally: str | int | types.Integer
     cell: str | int | types.Integer
     lower: str | float | types.Real
-    j1: str | types.Jump
-    j2: str | types.Jump
-    j3: str | types.Jump
-    j4: str | types.Jump
-    setting: str | int | types.Integer
+    setting: str | int | types.Integer = None
 
     def build(self):
         """
@@ -166,30 +124,6 @@ class WwgBuilder:
         elif isinstance(self.lower, str):
             lower = types.Real.from_mcnp(self.lower)
 
-        j1 = self.j1
-        if isinstance(self.j1, types.Jump):
-            j1 = self.j1
-        elif isinstance(self.j1, str):
-            j1 = types.Jump.from_mcnp(self.j1)
-
-        j2 = self.j2
-        if isinstance(self.j2, types.Jump):
-            j2 = self.j2
-        elif isinstance(self.j2, str):
-            j2 = types.Jump.from_mcnp(self.j2)
-
-        j3 = self.j3
-        if isinstance(self.j3, types.Jump):
-            j3 = self.j3
-        elif isinstance(self.j3, str):
-            j3 = types.Jump.from_mcnp(self.j3)
-
-        j4 = self.j4
-        if isinstance(self.j4, types.Jump):
-            j4 = self.j4
-        elif isinstance(self.j4, str):
-            j4 = types.Jump.from_mcnp(self.j4)
-
         setting = self.setting
         if isinstance(self.setting, types.Integer):
             setting = self.setting
@@ -202,10 +136,6 @@ class WwgBuilder:
             tally=tally,
             cell=cell,
             lower=lower,
-            j1=j1,
-            j2=j2,
-            j3=j3,
-            j4=j4,
             setting=setting,
         )
 
@@ -222,9 +152,5 @@ class WwgBuilder:
             tally=copy.deepcopy(ast.tally),
             cell=copy.deepcopy(ast.cell),
             lower=copy.deepcopy(ast.lower),
-            j1=copy.deepcopy(ast.j1),
-            j2=copy.deepcopy(ast.j2),
-            j3=copy.deepcopy(ast.j3),
-            j4=copy.deepcopy(ast.j4),
             setting=copy.deepcopy(ast.setting),
         )

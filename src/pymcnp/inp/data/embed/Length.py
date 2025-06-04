@@ -23,7 +23,7 @@ class Length(EmbedOption):
         'factor': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Alength( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Alength( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, factor: types.Real):
         """

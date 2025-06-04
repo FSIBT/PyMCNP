@@ -12,5 +12,5 @@ phys:n 1300 3j 0
 nps 10000
 f8:h 1
 ft8 res 1 99
-c fq8 u e
-c lca 2 1 1 23 1 1 0 -2 0
+fq8 u e
+lca 2 1 1 23 1 1 0 -2 0

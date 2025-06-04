@@ -25,7 +25,7 @@ class Ds_1(DataOption):
         'ijs': types.Tuple[types.IndependentDependent],
     }
 
-    _REGEX = re.compile(rf'\Ads(\d+) t((?: {types.IndependentDependent._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Ads(\d+) t((?: {types.IndependentDependent._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, suffix: types.Integer, ijs: types.Tuple[types.IndependentDependent]):
         """

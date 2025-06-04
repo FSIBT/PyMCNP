@@ -14,28 +14,33 @@ class Dm(DataOption):
     Represents INP dm elements.
 
     Attributes:
+        suffix: Data card option suffix.
         zaids: Tuple of ZAID aliases.
     """
 
     _KEYWORD = 'dm'
 
     _ATTRS = {
+        'suffix': types.Integer,
         'zaids': types.Tuple[types.Zaid],
     }
 
-    _REGEX = re.compile(rf'\Adm((?: {types.Zaid._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Adm(\d+)((?: {types.Zaid._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, zaids: types.Tuple[types.Zaid]):
+    def __init__(self, suffix: types.Integer, zaids: types.Tuple[types.Zaid]):
         """
         Initializes ``Dm``.
 
         Parameters:
+            suffix: Data card option suffix.
             zaids: Tuple of ZAID aliases.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
+        if suffix is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if zaids is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zaids)
 
@@ -45,6 +50,7 @@ class Dm(DataOption):
             ]
         )
 
+        self.suffix: typing.Final[types.Integer] = suffix
         self.zaids: typing.Final[types.Tuple[types.Zaid]] = zaids
 
 
@@ -54,9 +60,11 @@ class DmBuilder:
     Builds ``Dm``.
 
     Attributes:
+        suffix: Data card option suffix.
         zaids: Tuple of ZAID aliases.
     """
 
+    suffix: str | int | types.Integer
     zaids: list[str] | list[types.Zaid]
 
     def build(self):
@@ -66,6 +74,14 @@ class DmBuilder:
         Returns:
             ``Dm`` for ``DmBuilder``.
         """
+
+        suffix = self.suffix
+        if isinstance(self.suffix, types.Integer):
+            suffix = self.suffix
+        elif isinstance(self.suffix, int):
+            suffix = types.Integer(self.suffix)
+        elif isinstance(self.suffix, str):
+            suffix = types.Integer.from_mcnp(self.suffix)
 
         if self.zaids:
             zaids = []
@@ -81,6 +97,7 @@ class DmBuilder:
             zaids = None
 
         return Dm(
+            suffix=suffix,
             zaids=zaids,
         )
 
@@ -94,5 +111,6 @@ class DmBuilder:
         """
 
         return Dm(
+            suffix=copy.deepcopy(ast.suffix),
             zaids=copy.deepcopy(ast.zaids),
         )

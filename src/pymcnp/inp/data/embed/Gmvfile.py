@@ -23,7 +23,7 @@ class Gmvfile(EmbedOption):
         'filename': types.String,
     }
 
-    _REGEX = re.compile(rf'\Agmvfile( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Agmvfile( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, filename: types.String):
         """

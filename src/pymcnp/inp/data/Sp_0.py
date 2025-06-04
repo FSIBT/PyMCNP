@@ -27,7 +27,7 @@ class Sp_0(DataOption):
         'probabilities': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Asp(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Asp(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(
         self,

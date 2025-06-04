@@ -20,12 +20,12 @@ class Rho(KpertOption):
     _KEYWORD = 'rho'
 
     _ATTRS = {
-        'densities': types.Tuple[types.Zaid],
+        'densities': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Arho((?: {types.Zaid._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Arho((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, densities: types.Tuple[types.Zaid]):
+    def __init__(self, densities: types.Tuple[types.Real]):
         """
         Initializes ``Rho``.
 
@@ -45,7 +45,7 @@ class Rho(KpertOption):
             ]
         )
 
-        self.densities: typing.Final[types.Tuple[types.Zaid]] = densities
+        self.densities: typing.Final[types.Tuple[types.Real]] = densities
 
 
 @dataclasses.dataclass
@@ -57,7 +57,7 @@ class RhoBuilder:
         densities: List of densities.
     """
 
-    densities: list[str] | list[types.Zaid]
+    densities: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -70,12 +70,12 @@ class RhoBuilder:
         if self.densities:
             densities = []
             for item in self.densities:
-                if isinstance(item, types.Zaid):
+                if isinstance(item, types.Real):
                     densities.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    densities.append(types.Real(item))
                 elif isinstance(item, str):
-                    densities.append(types.Zaid.from_mcnp(item))
-                else:
-                    densities.append(item.build())
+                    densities.append(types.Real.from_mcnp(item))
             densities = types.Tuple(densities)
         else:
             densities = None

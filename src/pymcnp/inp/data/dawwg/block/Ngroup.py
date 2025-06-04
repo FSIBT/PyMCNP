@@ -23,7 +23,7 @@ class Ngroup(BlockOption):
         'value': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Angroup( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Angroup( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, value: types.Integer):
         """

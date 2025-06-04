@@ -22,6 +22,6 @@ c        filetype= binary
 c        background= 21
 c        matcell= 1 10 2 11 3 12 4 13 5 14 6 15
 c
-c embee4:n embed=2
+embee4:n embed=2
 embtb4 1 2 3 4 5 1e+39
 embeb4 0.1 1.0 1e+10

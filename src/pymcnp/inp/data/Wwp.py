@@ -44,22 +44,22 @@ class Wwp(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Awwp:(\S+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Awwp:(\S+)( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
         designator: types.Designator,
-        wupn: types.Real,
-        wsurvn: types.Real,
-        mxspln: types.Real,
-        mwhere: types.Integer,
-        switchn: types.Real,
-        mtime: types.Integer,
-        wnrom: types.Real,
-        etsplt: types.Integer,
-        wu: types.Real,
-        nmfp: types.Real,
+        wupn: types.Real = None,
+        wsurvn: types.Real = None,
+        mxspln: types.Real = None,
+        mwhere: types.Integer = None,
+        switchn: types.Real = None,
+        mtime: types.Integer = None,
+        wnrom: types.Real = None,
+        etsplt: types.Integer = None,
+        wu: types.Real = None,
+        nmfp: types.Real = None,
     ):
         """
         Initializes ``Wwp``.
@@ -83,26 +83,20 @@ class Wwp(DataOption):
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
-        if wupn is None or not (wupn.value >= 2):
+        if wupn is not None and not (isinstance(wupn.value, types.Jump) or wupn.value >= 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wupn)
-        if wsurvn is None or not (1 < wsurvn.value):
+        if wsurvn is not None and not (isinstance(wsurvn.value, types.Jump) or 1 < wsurvn.value):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wsurvn)
-        if mxspln is None or not (1 < mxspln.value):
+        if mxspln is not None and not (isinstance(mxspln.value, types.Jump) or 1 < mxspln.value):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mxspln)
-        if mwhere is None or mwhere.value not in {-1, 0, 1}:
+        if mwhere is not None and not (
+            isinstance(mwhere.value, types.Jump) or mwhere.value in {-1, 0, 1}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mwhere)
-        if switchn is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, switchn)
-        if mtime is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mtime)
-        if wnrom is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wnrom)
-        if etsplt is None or etsplt.value not in {0, 1}:
+        if etsplt is not None and not (
+            isinstance(etsplt.value, types.Jump) or etsplt.value in {0, 1}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, etsplt)
-        if wu is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wu)
-        if nmfp is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nmfp)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -152,16 +146,16 @@ class WwpBuilder:
     """
 
     designator: str | types.Designator
-    wupn: str | float | types.Real
-    wsurvn: str | float | types.Real
-    mxspln: str | float | types.Real
-    mwhere: str | int | types.Integer
-    switchn: str | float | types.Real
-    mtime: str | int | types.Integer
-    wnrom: str | float | types.Real
-    etsplt: str | int | types.Integer
-    wu: str | float | types.Real
-    nmfp: str | float | types.Real
+    wupn: str | float | types.Real = None
+    wsurvn: str | float | types.Real = None
+    mxspln: str | float | types.Real = None
+    mwhere: str | int | types.Integer = None
+    switchn: str | float | types.Real = None
+    mtime: str | int | types.Integer = None
+    wnrom: str | float | types.Real = None
+    etsplt: str | int | types.Integer = None
+    wu: str | float | types.Real = None
+    nmfp: str | float | types.Real = None
 
     def build(self):
         """

@@ -23,7 +23,7 @@ class Type(PtracOption):
         'particles': types.Tuple[types.Designator],
     }
 
-    _REGEX = re.compile(rf'\Atype((?: {types.Designator._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Atype((?: {types.Designator._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, particles: types.Tuple[types.Designator]):
         """

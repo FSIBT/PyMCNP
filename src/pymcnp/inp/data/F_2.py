@@ -14,6 +14,7 @@ class F_2(DataOption):
     Represents INP f variation #2 elements.
 
     Attributes:
+        prefix: Star prefix.
         suffix: Data card option suffix.
         a: Letter.
         designator: Data card particle designator.
@@ -24,6 +25,7 @@ class F_2(DataOption):
     _KEYWORD = 'f'
 
     _ATTRS = {
+        'prefix': types.String,
         'suffix': types.Integer,
         'a': types.String,
         'designator': types.Designator,
@@ -32,21 +34,23 @@ class F_2(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Af(\d*[5])([xyz]):(\S+)((?: {types.Ring._REGEX.pattern})+?)( {types.String._REGEX.pattern})?\Z'
+        rf'\A([*+])?f(\d*[5])([xyz])(?::(\S+))?((?: {types.Ring._REGEX.pattern[2:-2]})+?)( nd)?\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
         a: types.String,
-        designator: types.Designator,
         rings: types.Tuple[types.Ring],
+        prefix: types.String = None,
+        designator: types.Designator = None,
         nd: types.String = None,
     ):
         """
         Initializes ``F_2``.
 
         Parameters:
+            prefix: Star prefix.
             suffix: Data card option suffix.
             a: Letter.
             designator: Data card particle designator.
@@ -61,8 +65,6 @@ class F_2(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if a is None or a not in {'x', 'y', 'z'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
-        if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if rings is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rings)
         if nd is not None and not (nd == 'nd'):
@@ -70,12 +72,14 @@ class F_2(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
+                prefix,
                 a,
                 rings,
                 nd,
             ]
         )
 
+        self.prefix: typing.Final[types.String] = prefix
         self.suffix: typing.Final[types.Integer] = suffix
         self.a: typing.Final[types.String] = a
         self.designator: typing.Final[types.Designator] = designator
@@ -89,6 +93,7 @@ class FBuilder_2:
     Builds ``F_2``.
 
     Attributes:
+        prefix: Star prefix.
         suffix: Data card option suffix.
         a: Letter.
         designator: Data card particle designator.
@@ -98,8 +103,9 @@ class FBuilder_2:
 
     suffix: str | int | types.Integer
     a: str | types.String
-    designator: str | types.Designator
     rings: list[str] | list[types.Ring]
+    prefix: str | types.String = None
+    designator: str | types.Designator = None
     nd: str | types.String = None
 
     def build(self):
@@ -109,6 +115,12 @@ class FBuilder_2:
         Returns:
             ``F_2`` for ``FBuilder_2``.
         """
+
+        prefix = self.prefix
+        if isinstance(self.prefix, types.String):
+            prefix = self.prefix
+        elif isinstance(self.prefix, str):
+            prefix = types.String.from_mcnp(self.prefix)
 
         suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
@@ -150,6 +162,7 @@ class FBuilder_2:
             nd = types.String.from_mcnp(self.nd)
 
         return F_2(
+            prefix=prefix,
             suffix=suffix,
             a=a,
             designator=designator,
@@ -167,6 +180,7 @@ class FBuilder_2:
         """
 
         return F_2(
+            prefix=copy.deepcopy(ast.prefix),
             suffix=copy.deepcopy(ast.suffix),
             a=copy.deepcopy(ast.a),
             designator=copy.deepcopy(ast.designator),

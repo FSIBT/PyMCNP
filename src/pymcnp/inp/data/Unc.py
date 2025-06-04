@@ -14,28 +14,33 @@ class Unc(DataOption):
     Represents INP unc elements.
 
     Attributes:
+        designator: Data option particle designator.
         settings: Tuple of uncollided secondary settings.
     """
 
     _KEYWORD = 'unc'
 
     _ATTRS = {
+        'designator': types.Designator,
         'settings': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Aunc((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aunc:(\S+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, settings: types.Tuple[types.Integer]):
+    def __init__(self, designator: types.Designator, settings: types.Tuple[types.Integer]):
         """
         Initializes ``Unc``.
 
         Parameters:
+            designator: Data option particle designator.
             settings: Tuple of uncollided secondary settings.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
+        if designator is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if settings is None or not (filter(lambda entry: entry.value not in {0, 1}, settings)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, settings)
 
@@ -45,6 +50,7 @@ class Unc(DataOption):
             ]
         )
 
+        self.designator: typing.Final[types.Designator] = designator
         self.settings: typing.Final[types.Tuple[types.Integer]] = settings
 
 
@@ -54,9 +60,11 @@ class UncBuilder:
     Builds ``Unc``.
 
     Attributes:
+        designator: Data option particle designator.
         settings: Tuple of uncollided secondary settings.
     """
 
+    designator: str | types.Designator
     settings: list[str] | list[int] | list[types.Integer]
 
     def build(self):
@@ -66,6 +74,12 @@ class UncBuilder:
         Returns:
             ``Unc`` for ``UncBuilder``.
         """
+
+        designator = self.designator
+        if isinstance(self.designator, types.Designator):
+            designator = self.designator
+        elif isinstance(self.designator, str):
+            designator = types.Designator.from_mcnp(self.designator)
 
         if self.settings:
             settings = []
@@ -81,6 +95,7 @@ class UncBuilder:
             settings = None
 
         return Unc(
+            designator=designator,
             settings=settings,
         )
 
@@ -94,5 +109,6 @@ class UncBuilder:
         """
 
         return Unc(
+            designator=copy.deepcopy(ast.designator),
             settings=copy.deepcopy(ast.settings),
         )

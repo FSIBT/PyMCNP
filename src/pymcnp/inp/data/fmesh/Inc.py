@@ -25,7 +25,9 @@ class Inc(FmeshOption):
         'upper': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Ainc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?\Z')
+    _REGEX = re.compile(
+        rf'\Ainc( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z'
+    )
 
     def __init__(self, lower: types.Real, upper: types.Real = None):
         """

@@ -25,7 +25,7 @@ class Vol(DataOption):
         'volumes': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Avol(?: (no))?((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Avol(?: (no))?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, volumes: types.Tuple[types.Real], no: types.String = None):
         """

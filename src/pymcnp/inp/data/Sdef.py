@@ -23,7 +23,7 @@ class Sdef(DataOption):
         'options': types.Tuple[sdef.SdefOption],
     }
 
-    _REGEX = re.compile(rf'\Asdef((?: (?:{sdef.SdefOption._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Asdef((?: (?:{sdef.SdefOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
     def __init__(self, options: types.Tuple[sdef.SdefOption] = None):
         """

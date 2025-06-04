@@ -44,22 +44,22 @@ class Lca(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Alca( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Alca( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
-        ielas: types.Integer,
-        ipreg: types.Integer,
-        iexisa: types.Integer,
-        ichoic: types.Integer,
-        jcoul: types.Integer,
-        nexite: types.Integer,
-        npidk: types.Integer,
-        noact: types.Integer,
-        icem: types.Integer,
-        ilaq: types.Integer,
-        nevtype: types.Integer,
+        ielas: types.Integer = None,
+        ipreg: types.Integer = None,
+        iexisa: types.Integer = None,
+        ichoic: types.Integer = None,
+        jcoul: types.Integer = None,
+        nexite: types.Integer = None,
+        npidk: types.Integer = None,
+        noact: types.Integer = None,
+        icem: types.Integer = None,
+        ilaq: types.Integer = None,
+        nevtype: types.Integer = None,
     ):
         """
         Initializes ``Lca``.
@@ -81,36 +81,60 @@ class Lca(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if ielas is None or not (ielas.value == 0 or ielas.value == 1 or ielas.value == 2):
+        if ielas is not None and not (
+            isinstance(ielas.value, types.Jump)
+            or ielas.value == 0
+            or ielas.value == 1
+            or ielas.value == 2
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ielas)
-        if ipreg is None or not (
-            ipreg.value == 0 or ipreg.value == 1 or ipreg.value == 2 or ipreg.value == 3
+        if ipreg is not None and not (
+            isinstance(ipreg.value, types.Jump)
+            or ipreg.value == 0
+            or ipreg.value == 1
+            or ipreg.value == 2
+            or ipreg.value == 3
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ipreg)
-        if iexisa is None or not (iexisa.value == 0 or iexisa.value == 1 or iexisa.value == 2):
+        if iexisa is not None and not (
+            isinstance(iexisa.value, types.Jump)
+            or iexisa.value == 0
+            or iexisa.value == 1
+            or iexisa.value == 2
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iexisa)
-        if ichoic is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ichoic)
-        if jcoul is None or not (jcoul.value == 0 or jcoul.value == 1):
+        if jcoul is not None and not (
+            isinstance(jcoul.value, types.Jump) or jcoul.value == 0 or jcoul.value == 1
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, jcoul)
-        if nexite is None or not (nexite.value == 0 or nexite.value == 1):
+        if nexite is not None and not (
+            isinstance(nexite.value, types.Jump) or nexite.value == 0 or nexite.value == 1
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nexite)
-        if npidk is None or not (npidk.value == 0 or npidk.value == 1):
+        if npidk is not None and not (
+            isinstance(npidk.value, types.Jump) or npidk.value == 0 or npidk.value == 1
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npidk)
-        if noact is None or not (
-            noact.value == -2
+        if noact is not None and not (
+            isinstance(noact.value, types.Jump)
+            or noact.value == -2
             or noact.value == -1
             or noact.value == 0
             or noact.value == 1
             or noact.value == 2
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, noact)
-        if icem is None or not (icem.value == 0 or icem.value == 1 or icem.value == 2):
+        if icem is not None and not (
+            isinstance(icem.value, types.Jump)
+            or icem.value == 0
+            or icem.value == 1
+            or icem.value == 2
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, icem)
-        if ilaq is None or not (ilaq.value == 0 or ilaq.value == 1):
+        if ilaq is not None and not (
+            isinstance(ilaq.value, types.Jump) or ilaq.value == 0 or ilaq.value == 1
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ilaq)
-        if nevtype is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nevtype)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -160,17 +184,17 @@ class LcaBuilder:
         nevtype: Choose number of evaporation particles for GEM2.
     """
 
-    ielas: str | int | types.Integer
-    ipreg: str | int | types.Integer
-    iexisa: str | int | types.Integer
-    ichoic: str | int | types.Integer
-    jcoul: str | int | types.Integer
-    nexite: str | int | types.Integer
-    npidk: str | int | types.Integer
-    noact: str | int | types.Integer
-    icem: str | int | types.Integer
-    ilaq: str | int | types.Integer
-    nevtype: str | int | types.Integer
+    ielas: str | int | types.Integer = None
+    ipreg: str | int | types.Integer = None
+    iexisa: str | int | types.Integer = None
+    ichoic: str | int | types.Integer = None
+    jcoul: str | int | types.Integer = None
+    nexite: str | int | types.Integer = None
+    npidk: str | int | types.Integer = None
+    noact: str | int | types.Integer = None
+    icem: str | int | types.Integer = None
+    ilaq: str | int | types.Integer = None
+    nevtype: str | int | types.Integer = None
 
     def build(self):
         """

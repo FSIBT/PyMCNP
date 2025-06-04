@@ -45,6 +45,7 @@ class _Test_FromMcnp:
         """
 
         for example in self.EXAMPLES_VALID:
+            print(example)
             self.element.from_mcnp(example)
 
     def test_invalid(self):
@@ -54,6 +55,7 @@ class _Test_FromMcnp:
 
         for example in self.EXAMPLES_INVALID:
             with pytest.raises((pymcnp.utils.errors.InpError, pymcnp.utils.errors.McnpError)):
+                print(example)
                 self.element.from_mcnp(example)
 
 
@@ -68,6 +70,7 @@ class _Test_FromMcnpFile:
         """
 
         for example in self.EXAMPLES_VALID:
+            print(example)
             self.element.from_file(example)
 
     def test_invalid(self):
@@ -77,6 +80,7 @@ class _Test_FromMcnpFile:
 
         for example in self.EXAMPLES_INVALID:
             with pytest.raises((pymcnp.utils.errors.InpError, pymcnp.utils.errors.McnpError)):
+                print(example)
                 self.element.from_file(example)
 
 
@@ -91,6 +95,7 @@ class _Test_Build:
         """
 
         for example in self.EXAMPLES_VALID:
+            print(example)
             self.element(**example).build()
 
     def test_invalid(self):
@@ -100,6 +105,7 @@ class _Test_Build:
 
         for example in self.EXAMPLES_INVALID:
             with pytest.raises((pymcnp.utils.errors.InpError, pymcnp.utils.errors.McnpError)):
+                print(example)
                 self.element(**example).build()
 
 
@@ -113,4 +119,5 @@ class _Test_Draw:
         """
 
         for example in self.EXAMPLES:
+            print(example)
             self.element.from_mcnp(example).draw()

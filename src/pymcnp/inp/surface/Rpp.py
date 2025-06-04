@@ -35,7 +35,7 @@ class Rpp(SurfaceOption):
     }
 
     _REGEX = re.compile(
-        rf'\Arpp( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Arpp( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
@@ -44,8 +44,8 @@ class Rpp(SurfaceOption):
         xmax: types.Real,
         ymin: types.Real,
         ymax: types.Real,
-        zmin: types.Real,
-        zmax: types.Real,
+        zmin: types.Real = None,
+        zmax: types.Real = None,
     ):
         """
         Initializes ``Rpp``.
@@ -70,10 +70,6 @@ class Rpp(SurfaceOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ymin)
         if ymax is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ymax)
-        if zmin is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zmin)
-        if zmax is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zmax)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -131,8 +127,8 @@ class RppBuilder:
     xmax: str | float | types.Real
     ymin: str | float | types.Real
     ymax: str | float | types.Real
-    zmin: str | float | types.Real
-    zmax: str | float | types.Real
+    zmin: str | float | types.Real = None
+    zmax: str | float | types.Real = None
 
     def build(self):
         """

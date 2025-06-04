@@ -34,17 +34,17 @@ class Y(SurfaceOption):
     }
 
     _REGEX = re.compile(
-        rf'\Ay( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Ay( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
         y1: types.Real,
         r1: types.Real,
-        y2: types.Real,
-        r2: types.Real,
-        y3: types.Real,
-        r3: types.Real,
+        y2: types.Real = None,
+        r2: types.Real = None,
+        y3: types.Real = None,
+        r3: types.Real = None,
     ):
         """
         Initializes ``Y``.
@@ -65,14 +65,6 @@ class Y(SurfaceOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y1)
         if r1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r1)
-        if y2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y2)
-        if r2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r2)
-        if y3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y3)
-        if r3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r3)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -109,10 +101,10 @@ class YBuilder:
 
     y1: str | float | types.Real
     r1: str | float | types.Real
-    y2: str | float | types.Real
-    r2: str | float | types.Real
-    y3: str | float | types.Real
-    r3: str | float | types.Real
+    y2: str | float | types.Real = None
+    r2: str | float | types.Real = None
+    y3: str | float | types.Real = None
+    r3: str | float | types.Real = None
 
     def build(self):
         """

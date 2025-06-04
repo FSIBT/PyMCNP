@@ -14,6 +14,7 @@ class Tr_2(DataOption):
     Represents INP tr variation #2 elements.
 
     Attributes:
+        prefix: Star prefix.
         suffix: Data card option suffix.
         x: Displacement vector x component.
         y: Displacement vector y component.
@@ -29,6 +30,7 @@ class Tr_2(DataOption):
     _KEYWORD = 'tr'
 
     _ATTRS = {
+        'prefix': types.String,
         'suffix': types.Integer,
         'x': types.Real,
         'y': types.Real,
@@ -42,7 +44,7 @@ class Tr_2(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Atr(\d+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})?\Z'
+        rf'\A([*])?tr(\d+)( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
@@ -56,12 +58,14 @@ class Tr_2(DataOption):
         xz: types.Real,
         yx: types.Real,
         yy: types.Real,
+        prefix: types.String = None,
         system: types.Integer = None,
     ):
         """
         Initializes ``Tr_2``.
 
         Parameters:
+            prefix: Star prefix.
             suffix: Data card option suffix.
             x: Displacement vector x component.
             y: Displacement vector y component.
@@ -100,6 +104,7 @@ class Tr_2(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
+                prefix,
                 x,
                 y,
                 z,
@@ -112,6 +117,7 @@ class Tr_2(DataOption):
             ]
         )
 
+        self.prefix: typing.Final[types.String] = prefix
         self.suffix: typing.Final[types.Integer] = suffix
         self.x: typing.Final[types.Real] = x
         self.y: typing.Final[types.Real] = y
@@ -130,6 +136,7 @@ class TrBuilder_2:
     Builds ``Tr_2``.
 
     Attributes:
+        prefix: Star prefix.
         suffix: Data card option suffix.
         x: Displacement vector x component.
         y: Displacement vector y component.
@@ -151,6 +158,7 @@ class TrBuilder_2:
     xz: str | float | types.Real
     yx: str | float | types.Real
     yy: str | float | types.Real
+    prefix: str | types.String = None
     system: str | int | types.Integer = None
 
     def build(self):
@@ -160,6 +168,12 @@ class TrBuilder_2:
         Returns:
             ``Tr_2`` for ``TrBuilder_2``.
         """
+
+        prefix = self.prefix
+        if isinstance(self.prefix, types.String):
+            prefix = self.prefix
+        elif isinstance(self.prefix, str):
+            prefix = types.String.from_mcnp(self.prefix)
 
         suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
@@ -242,6 +256,7 @@ class TrBuilder_2:
             system = types.Integer.from_mcnp(self.system)
 
         return Tr_2(
+            prefix=prefix,
             suffix=suffix,
             x=x,
             y=y,
@@ -264,6 +279,7 @@ class TrBuilder_2:
         """
 
         return Tr_2(
+            prefix=copy.deepcopy(ast.prefix),
             suffix=copy.deepcopy(ast.suffix),
             x=copy.deepcopy(ast.x),
             y=copy.deepcopy(ast.y),

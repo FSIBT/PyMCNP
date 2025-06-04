@@ -27,7 +27,7 @@ class Ds_0(DataOption):
         'js': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Ads(\d+)( [hls])?((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Ads(\d+)( [hls])?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(
         self, suffix: types.Integer, js: types.Tuple[types.Real], option: types.String = None

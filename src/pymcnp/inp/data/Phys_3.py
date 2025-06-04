@@ -44,7 +44,7 @@ class Phys_3(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Aphys:h( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?\Z'
+        rf'\Aphys:h( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(

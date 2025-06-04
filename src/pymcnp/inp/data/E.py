@@ -30,7 +30,7 @@ class E(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Ae(\d+)((?: {types.Real._REGEX.pattern})+?)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?\Z'
+        rf'\Ae(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(

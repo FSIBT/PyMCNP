@@ -15,7 +15,9 @@ class Meshtal(_object.McnpFile):
         tallies: MESTHAL tallies.
     """
 
-    _REGEX = re.compile(rf'({meshtal.Header._REGEX.pattern})((?:{meshtal.Tally._REGEX.pattern})+)')
+    _REGEX = re.compile(
+        rf'\A({meshtal.Header._REGEX.pattern[2:-2]})((?:{meshtal.Tally._REGEX.pattern[2:-2]})+)\Z'
+    )
 
     def __init__(
         self, header: meshtal.Header, tallies: typing.Generator[meshtal.Tally, None, None]

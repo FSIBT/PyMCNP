@@ -23,7 +23,7 @@ class Mtype(EmbeeOption):
         'kind': types.String,
     }
 
-    _REGEX = re.compile(rf'\Amtype( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Amtype( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, kind: types.String):
         """

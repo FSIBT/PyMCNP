@@ -23,7 +23,7 @@ class Dg(ActOption):
         'source': types.String,
     }
 
-    _REGEX = re.compile(rf'\Adg( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Adg( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, source: types.String):
         """

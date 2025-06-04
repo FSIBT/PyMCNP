@@ -23,7 +23,7 @@ class Meein(EmbedOption):
         'filename': types.String,
     }
 
-    _REGEX = re.compile(rf'\Ameein( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ameein( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, filename: types.String):
         """

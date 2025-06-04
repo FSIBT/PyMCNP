@@ -23,7 +23,7 @@ class Otfdb(DataOption):
         'zaids': types.Tuple[types.Zaid],
     }
 
-    _REGEX = re.compile(rf'\Aotfdb((?: {types.Zaid._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aotfdb((?: {types.Zaid._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, zaids: types.Tuple[types.Zaid]):
         """

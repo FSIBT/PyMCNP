@@ -31,14 +31,14 @@ class Test_Ctme:
         EXAMPLES_INVALID = [{'tme': None}]
 
 
-class Test_Fk:
+class Test_F:
     class Test_FromMcnp(_utils._Test_FromMcnp):
-        element = pymcnp.inp.data.stop.Fk
+        element = pymcnp.inp.data.stop.F
         EXAMPLES_VALID = []
         EXAMPLES_INVALID = []
 
     class Test_Build(_utils._Test_Build):
-        element = pymcnp.inp.data.stop.FkBuilder
+        element = pymcnp.inp.data.stop.FBuilder
         EXAMPLES_VALID = [
             {'e': '1', 'suffix': '1'},
             {'e': 1, 'suffix': 1},

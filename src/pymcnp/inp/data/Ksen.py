@@ -29,7 +29,7 @@ class Ksen(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Aksen(\d+)( {types.String._REGEX.pattern})((?: (?:{ksen.KsenOption._REGEX.pattern}))+?)?\Z'
+        rf'\Aksen(\d+)( {types.String._REGEX.pattern[2:-2]})((?: (?:{ksen.KsenOption._REGEX.pattern[2:-2]}))+?)?\Z'
     )
 
     def __init__(

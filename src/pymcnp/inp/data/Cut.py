@@ -14,6 +14,7 @@ class Cut(DataOption):
     Represents INP cut elements.
 
     Attributes:
+        designator: Data option particle designator.
         time_cutoff: Time cutoff in shakes.
         energy_cutoff: Lower energy cutoff.
         weight_cutoff1: Weight cutoff #1.
@@ -24,6 +25,7 @@ class Cut(DataOption):
     _KEYWORD = 'cut'
 
     _ATTRS = {
+        'designator': types.Designator,
         'time_cutoff': types.Real,
         'energy_cutoff': types.Real,
         'weight_cutoff1': types.Real,
@@ -32,21 +34,23 @@ class Cut(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Acut( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Acut:(\S+)( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
-        time_cutoff: types.Real,
-        energy_cutoff: types.Real,
-        weight_cutoff1: types.Real,
-        weight_cutoff2: types.Real,
-        source_weight: types.Real,
+        designator: types.Designator,
+        time_cutoff: types.Real = None,
+        energy_cutoff: types.Real = None,
+        weight_cutoff1: types.Real = None,
+        weight_cutoff2: types.Real = None,
+        source_weight: types.Real = None,
     ):
         """
         Initializes ``Cut``.
 
         Parameters:
+            designator: Data option particle designator.
             time_cutoff: Time cutoff in shakes.
             energy_cutoff: Lower energy cutoff.
             weight_cutoff1: Weight cutoff #1.
@@ -57,16 +61,8 @@ class Cut(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if time_cutoff is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_cutoff)
-        if energy_cutoff is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_cutoff)
-        if weight_cutoff1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight_cutoff1)
-        if weight_cutoff2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight_cutoff2)
-        if source_weight is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, source_weight)
+        if designator is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -78,6 +74,7 @@ class Cut(DataOption):
             ]
         )
 
+        self.designator: typing.Final[types.Designator] = designator
         self.time_cutoff: typing.Final[types.Real] = time_cutoff
         self.energy_cutoff: typing.Final[types.Real] = energy_cutoff
         self.weight_cutoff1: typing.Final[types.Real] = weight_cutoff1
@@ -91,6 +88,7 @@ class CutBuilder:
     Builds ``Cut``.
 
     Attributes:
+        designator: Data option particle designator.
         time_cutoff: Time cutoff in shakes.
         energy_cutoff: Lower energy cutoff.
         weight_cutoff1: Weight cutoff #1.
@@ -98,11 +96,12 @@ class CutBuilder:
         source_weight: Minimum source weight.
     """
 
-    time_cutoff: str | float | types.Real
-    energy_cutoff: str | float | types.Real
-    weight_cutoff1: str | float | types.Real
-    weight_cutoff2: str | float | types.Real
-    source_weight: str | float | types.Real
+    designator: str | types.Designator
+    time_cutoff: str | float | types.Real = None
+    energy_cutoff: str | float | types.Real = None
+    weight_cutoff1: str | float | types.Real = None
+    weight_cutoff2: str | float | types.Real = None
+    source_weight: str | float | types.Real = None
 
     def build(self):
         """
@@ -111,6 +110,12 @@ class CutBuilder:
         Returns:
             ``Cut`` for ``CutBuilder``.
         """
+
+        designator = self.designator
+        if isinstance(self.designator, types.Designator):
+            designator = self.designator
+        elif isinstance(self.designator, str):
+            designator = types.Designator.from_mcnp(self.designator)
 
         time_cutoff = self.time_cutoff
         if isinstance(self.time_cutoff, types.Real):
@@ -153,6 +158,7 @@ class CutBuilder:
             source_weight = types.Real.from_mcnp(self.source_weight)
 
         return Cut(
+            designator=designator,
             time_cutoff=time_cutoff,
             energy_cutoff=energy_cutoff,
             weight_cutoff1=weight_cutoff1,
@@ -170,6 +176,7 @@ class CutBuilder:
         """
 
         return Cut(
+            designator=copy.deepcopy(ast.designator),
             time_cutoff=copy.deepcopy(ast.time_cutoff),
             energy_cutoff=copy.deepcopy(ast.energy_cutoff),
             weight_cutoff1=copy.deepcopy(ast.weight_cutoff1),

@@ -23,7 +23,7 @@ class Mat(PertOption):
         'material': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Amat( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Amat( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, material: types.Integer):
         """

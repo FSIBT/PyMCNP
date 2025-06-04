@@ -23,7 +23,7 @@ class Hlcut(ActOption):
         'cutoff': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Ahlcut( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ahlcut( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, cutoff: types.Real):
         """

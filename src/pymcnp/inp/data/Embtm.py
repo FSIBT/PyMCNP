@@ -25,7 +25,7 @@ class Embtm(DataOption):
         'multipliers': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Aembtm(\d+)((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aembtm(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, suffix: types.Integer, multipliers: types.Tuple[types.Real]):
         """

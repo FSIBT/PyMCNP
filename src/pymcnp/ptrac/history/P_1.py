@@ -23,7 +23,7 @@ class P_1(_line.HistoryLine):
         tme: Time at the particles position.
     """
 
-    _REGEX = re.compile(r'(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})')
+    _REGEX = re.compile(r'\A(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})\Z')
 
     def __init__(
         self,

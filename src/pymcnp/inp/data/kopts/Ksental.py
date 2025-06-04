@@ -23,7 +23,7 @@ class Ksental(KoptsOption):
         'fileopt': types.String,
     }
 
-    _REGEX = re.compile(rf'\Aksental( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aksental( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, fileopt: types.String):
         """
@@ -36,9 +36,7 @@ class Ksental(KoptsOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if fileopt is None or fileopt not in {
-            'mctal',
-        }:
+        if fileopt is None or fileopt not in {'mctal', 'tsunami-b'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fileopt)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

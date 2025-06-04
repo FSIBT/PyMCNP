@@ -23,7 +23,7 @@ class Geom(MeshOption):
         'geometry': types.String,
     }
 
-    _REGEX = re.compile(rf'\Ageom( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ageom( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, geometry: types.String):
         """

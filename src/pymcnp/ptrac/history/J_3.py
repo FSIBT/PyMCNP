@@ -21,7 +21,7 @@ class J_3(_line.HistoryLine):
         mat: Material numbers of the cells.
     """
 
-    _REGEX = re.compile(r'(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})')
+    _REGEX = re.compile(r'\A(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})\Z')
 
     def __init__(
         self,

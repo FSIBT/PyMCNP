@@ -14,6 +14,7 @@ class F_1(DataOption):
     Represents INP f variation #1 elements.
 
     Attributes:
+        prefix: Star prefix.
         suffix: Data card option suffix.
         designator: Data card particle designator.
         spheres: Detector points.
@@ -23,27 +24,28 @@ class F_1(DataOption):
     _KEYWORD = 'f'
 
     _ATTRS = {
+        'prefix': types.String,
         'suffix': types.Integer,
         'designator': types.Designator,
         'spheres': types.Tuple[types.Sphere],
         'nd': types.String,
     }
 
-    _REGEX = re.compile(
-        rf'\Af(\d*[5]):(\S+)((?: {types.Sphere._REGEX.pattern})+?)( {types.String._REGEX.pattern})?\Z'
-    )
+    _REGEX = re.compile(r'\A([*+])?f(\d*[5])(?::(\S+))?((?: \S \S \S \S)+?)( nd)?\Z')
 
     def __init__(
         self,
         suffix: types.Integer,
-        designator: types.Designator,
         spheres: types.Tuple[types.Sphere],
+        prefix: types.String = None,
+        designator: types.Designator = None,
         nd: types.String = None,
     ):
         """
         Initializes ``F_1``.
 
         Parameters:
+            prefix: Star prefix.
             suffix: Data card option suffix.
             designator: Data card particle designator.
             spheres: Detector points.
@@ -55,8 +57,6 @@ class F_1(DataOption):
 
         if suffix is None or not (suffix.value <= 99_999_999 and suffix.value % 10 == 5):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
-        if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if spheres is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres)
         if nd is not None and not (nd == 'nd'):
@@ -64,11 +64,13 @@ class F_1(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
+                prefix,
                 spheres,
                 nd,
             ]
         )
 
+        self.prefix: typing.Final[types.String] = prefix
         self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
         self.spheres: typing.Final[types.Tuple[types.Sphere]] = spheres
@@ -81,6 +83,7 @@ class FBuilder_1:
     Builds ``F_1``.
 
     Attributes:
+        prefix: Star prefix.
         suffix: Data card option suffix.
         designator: Data card particle designator.
         spheres: Detector points.
@@ -88,8 +91,9 @@ class FBuilder_1:
     """
 
     suffix: str | int | types.Integer
-    designator: str | types.Designator
     spheres: list[str] | list[types.Sphere]
+    prefix: str | types.String = None
+    designator: str | types.Designator = None
     nd: str | types.String = None
 
     def build(self):
@@ -99,6 +103,12 @@ class FBuilder_1:
         Returns:
             ``F_1`` for ``FBuilder_1``.
         """
+
+        prefix = self.prefix
+        if isinstance(self.prefix, types.String):
+            prefix = self.prefix
+        elif isinstance(self.prefix, str):
+            prefix = types.String.from_mcnp(self.prefix)
 
         suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
@@ -134,6 +144,7 @@ class FBuilder_1:
             nd = types.String.from_mcnp(self.nd)
 
         return F_1(
+            prefix=prefix,
             suffix=suffix,
             designator=designator,
             spheres=spheres,
@@ -150,6 +161,7 @@ class FBuilder_1:
         """
 
         return F_1(
+            prefix=copy.deepcopy(ast.prefix),
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             spheres=copy.deepcopy(ast.spheres),

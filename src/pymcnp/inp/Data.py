@@ -19,7 +19,7 @@ class Data(Card):
 
     _ATTRS = {'option': data.DataOption}
 
-    _REGEX = re.compile(rf'\A({data.DataOption._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\A({data.DataOption._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, option: data.DataOption):
         """
@@ -144,8 +144,7 @@ class DataBuilder:
         | data.EBuilder
         | data.TBuilder_0
         | data.TBuilder_1
-        | data.CBuilder_0
-        | data.CBuilder_1
+        | data.CBuilder
         | data.FqBuilder
         | data.FmBuilder
         | data.DeBuilder
@@ -160,6 +159,8 @@ class DataBuilder:
         | data.SdBuilder
         | data.FuBuilder
         | data.FtBuilder
+        | data.TfBuilder_0
+        | data.TfBuilder_1
         | data.NotrnBuilder
         | data.PertBuilder
         | data.KpertBuilder
@@ -401,10 +402,8 @@ class DataBuilder:
             option = data.TBuilder_0.unbuild(ast.option)
         elif isinstance(ast.option, data.T_1):
             option = data.TBuilder_1.unbuild(ast.option)
-        elif isinstance(ast.option, data.C_0):
-            option = data.CBuilder_0.unbuild(ast.option)
-        elif isinstance(ast.option, data.C_1):
-            option = data.CBuilder_1.unbuild(ast.option)
+        elif isinstance(ast.option, data.C):
+            option = data.CBuilder.unbuild(ast.option)
         elif isinstance(ast.option, data.Fq):
             option = data.FqBuilder.unbuild(ast.option)
         elif isinstance(ast.option, data.Fm):
@@ -431,8 +430,8 @@ class DataBuilder:
             option = data.SdBuilder.unbuild(ast.option)
         elif isinstance(ast.option, data.Fu):
             option = data.FuBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, data.Ft):
-            option = data.FtBuilder.unbuild(ast.option)
+        elif isinstance(ast.option, data.Tf):
+            option = data.TfBuilder.unbuild(ast.option)
         elif isinstance(ast.option, data.Notrn):
             option = data.NotrnBuilder.unbuild(ast.option)
         elif isinstance(ast.option, data.Pert):

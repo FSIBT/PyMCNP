@@ -28,7 +28,7 @@ class Bap(SdefOption):
     }
 
     _REGEX = re.compile(
-        rf'\Abap( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Abap( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
     def __init__(self, ba1: types.Real, ba2: types.Real, u: types.Real):

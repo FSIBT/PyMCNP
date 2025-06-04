@@ -26,7 +26,7 @@ class Title(MplotOption):
     }
 
     _REGEX = re.compile(
-        rf'\Atitle( {types.Integer._REGEX.pattern})( \"{types.String._REGEX.pattern}\")\Z'
+        rf'\Atitle( {types.Integer._REGEX.pattern[2:-2]})( \"{types.String._REGEX.pattern[2:-2]}\")\Z'
     )
 
     def __init__(self, n: types.Integer, aa: types.String):

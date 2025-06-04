@@ -17,7 +17,7 @@ class P_0(_line.HistoryLine):
         z: Z coordinate of the particle position.
     """
 
-    _REGEX = re.compile(r'(.{13})(.{13})(.{13})')
+    _REGEX = re.compile(r'\A(.{13})(.{13})(.{13})\Z')
 
     def __init__(
         self,

@@ -31,7 +31,7 @@ class Contour(MplotOption):
     }
 
     _REGEX = re.compile(
-        rf'\Acontour( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})((?: (?:{contour.ContourOption._REGEX.pattern}))+?)?\Z'
+        rf'\Acontour( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})((?: (?:{contour.ContourOption._REGEX.pattern[2:-2]}))+?)?\Z'
     )
 
     def __init__(

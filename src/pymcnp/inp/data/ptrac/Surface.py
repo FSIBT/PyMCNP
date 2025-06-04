@@ -23,7 +23,7 @@ class Surface(PtracOption):
         'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Asurface((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Asurface((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, numbers: types.Tuple[types.Integer]):
         """

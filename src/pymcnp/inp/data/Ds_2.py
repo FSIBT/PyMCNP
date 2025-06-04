@@ -25,7 +25,7 @@ class Ds_2(DataOption):
         'vss': types.Tuple[types.IndependentDependent],
     }
 
-    _REGEX = re.compile(rf'\Ads(\d+) q((?: {types.IndependentDependent._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Ads(\d+) q((?: {types.IndependentDependent._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, suffix: types.Integer, vss: types.Tuple[types.IndependentDependent]):
         """

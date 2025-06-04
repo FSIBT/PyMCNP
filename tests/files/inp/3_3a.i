@@ -7,8 +7,8 @@ Converts MCNP cube geometry to LNK3DNT format
 kcode 5000 1.0 50 250
 ksrc 0.0 0.0 0.0
 m1 92235.69c 1.0
-c dm1 92235 92235.50
-c prdmp j 275
+dm1 92235 92235.50
+prdmp j 275
 mesh geom xyz
      ref 0.0 -0.0 -0.0
      origin -10.000 -10.000 -10.000

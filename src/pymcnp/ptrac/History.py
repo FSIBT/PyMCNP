@@ -19,7 +19,7 @@ class History(_object.McnpNonterminal):
 
     _REGEX = re.compile(
         r'\s(.+)\n'
-        rf'((?:\s(?:(?:{history.J_0._REGEX.pattern})|(?:{history.J_1._REGEX.pattern})|(?:{history.J_2._REGEX.pattern})|(?:{history.J_3._REGEX.pattern})|(?:{history.J_4._REGEX.pattern})|(?:{history.J_5._REGEX.pattern})|(?:{history.J_6._REGEX.pattern})|(?:{history.J_7._REGEX.pattern}))\n\s(?:(?:{history.P_0._REGEX.pattern})|(?:{history.P_1._REGEX.pattern}))\n)+)'
+        rf'\A((?:\s(?:(?:{history.J_0._REGEX.pattern[2:-2]})|(?:{history.J_1._REGEX.pattern[2:-2]})|(?:{history.J_2._REGEX.pattern[2:-2]})|(?:{history.J_3._REGEX.pattern[2:-2]})|(?:{history.J_4._REGEX.pattern[2:-2]})|(?:{history.J_5._REGEX.pattern[2:-2]})|(?:{history.J_6._REGEX.pattern[2:-2]})|(?:{history.J_7._REGEX.pattern[2:-2]}))\n\s(?:(?:{history.P_0._REGEX.pattern[2:-2]})|(?:{history.P_1._REGEX.pattern[2:-2]}))\n)+)\Z'
     )
 
     def __init__(

@@ -25,7 +25,7 @@ class Fcl(DataOption):
         'control': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Afcl:(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Afcl:(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, designator: types.Designator, control: types.Tuple[types.Real]):
         """

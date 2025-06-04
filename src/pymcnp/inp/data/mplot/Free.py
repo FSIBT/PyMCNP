@@ -29,7 +29,7 @@ class Free(MplotOption):
     }
 
     _REGEX = re.compile(
-        rf'\Afree( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( (?:{free.FreeOption._REGEX.pattern}))?\Z'
+        rf'\Afree( {types.String._REGEX.pattern[2:-2]})( {types.String._REGEX.pattern[2:-2]})( (?:{free.FreeOption._REGEX.pattern[2:-2]}))?\Z'
     )
 
     def __init__(self, x: types.String, y: types.String, option: free.FreeOption = None):

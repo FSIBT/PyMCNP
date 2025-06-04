@@ -14,7 +14,7 @@ class Imp(CellOption):
     Represents INP imp elements.
 
     Attributes:
-        designator: Particle designator.
+        designator: Data option particle designator.
         importance: Cell particle importance.
     """
 
@@ -25,14 +25,14 @@ class Imp(CellOption):
         'importance': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Aimp:(\S+)( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aimp:(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, designator: types.Designator, importance: types.Real):
         """
         Initializes ``Imp``.
 
         Parameters:
-            designator: Particle designator.
+            designator: Data option particle designator.
             importance: Cell particle importance.
 
         Raises:
@@ -60,7 +60,7 @@ class ImpBuilder:
     Builds ``Imp``.
 
     Attributes:
-        designator: Particle designator.
+        designator: Data option particle designator.
         importance: Cell particle importance.
     """
 

@@ -46,7 +46,7 @@ class Test_Iso:
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.data.kpert.IsoBuilder
-        EXAMPLES_VALID = [{'zaids': ['1.0']}, {'zaids': [1.0]}, {'zaids': [_utils.REAL]}]
+        EXAMPLES_VALID = [{'zaids': ['000203']}, {'zaids': [_utils.ZAID]}]
         EXAMPLES_INVALID = [{'zaids': None}]
 
 

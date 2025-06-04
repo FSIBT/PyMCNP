@@ -34,7 +34,7 @@ class Phys_1(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Aphys:p( {types.Real._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?( {types.Integer._REGEX.pattern})?\Z'
+        rf'\Aphys:p( {types.Real._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
@@ -71,8 +71,6 @@ class Phys_1(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ispn)
         if nodop is not None and not (isinstance(nodop.value, types.Jump) or nodop.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nodop)
-        if fism is not None and not (isinstance(fism.value, types.Jump) or fism.value in {0, 1}):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fism)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [

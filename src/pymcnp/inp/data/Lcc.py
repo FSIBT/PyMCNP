@@ -38,19 +38,19 @@ class Lcc(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Alcc( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Alcc( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
-        stincl: types.Real,
-        v0incl: types.Real,
-        xfoisaincl: types.Real,
-        npaulincl: types.Integer,
-        nosurfincl: types.Integer,
-        ecutincl: types.Real,
-        ebankincl: types.Real,
-        ebankabia: types.Real,
+        stincl: types.Real = None,
+        v0incl: types.Real = None,
+        xfoisaincl: types.Real = None,
+        npaulincl: types.Integer = None,
+        nosurfincl: types.Integer = None,
+        ecutincl: types.Real = None,
+        ebankincl: types.Real = None,
+        ebankabia: types.Real = None,
     ):
         """
         Initializes ``Lcc``.
@@ -69,24 +69,12 @@ class Lcc(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if stincl is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, stincl)
-        if v0incl is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v0incl)
-        if xfoisaincl is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xfoisaincl)
-        if npaulincl is None or not (
+        if npaulincl is not None and not (
             npaulincl.value == 0 or npaulincl.value == -1 or npaulincl.value == 1
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npaulincl)
-        if nosurfincl is None or nosurfincl.value not in {-2, -1, 0, 1}:
+        if nosurfincl is not None and nosurfincl.value not in {-2, -1, 0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nosurfincl)
-        if ecutincl is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ecutincl)
-        if ebankincl is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ebankincl)
-        if ebankabia is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ebankabia)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -127,14 +115,14 @@ class LccBuilder:
         ebankabia: ABLA bank particles below this energy.
     """
 
-    stincl: str | float | types.Real
-    v0incl: str | float | types.Real
-    xfoisaincl: str | float | types.Real
-    npaulincl: str | int | types.Integer
-    nosurfincl: str | int | types.Integer
-    ecutincl: str | float | types.Real
-    ebankincl: str | float | types.Real
-    ebankabia: str | float | types.Real
+    stincl: str | float | types.Real = None
+    v0incl: str | float | types.Real = None
+    xfoisaincl: str | float | types.Real = None
+    npaulincl: str | int | types.Integer = None
+    nosurfincl: str | int | types.Integer = None
+    ecutincl: str | float | types.Real = None
+    ebankincl: str | float | types.Real = None
+    ebankabia: str | float | types.Real = None
 
     def build(self):
         """

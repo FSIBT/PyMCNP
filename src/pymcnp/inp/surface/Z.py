@@ -34,17 +34,17 @@ class Z(SurfaceOption):
     }
 
     _REGEX = re.compile(
-        rf'\Az( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Az( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
         z1: types.Real,
         r1: types.Real,
-        z2: types.Real,
-        r2: types.Real,
-        z3: types.Real,
-        r3: types.Real,
+        z2: types.Real = None,
+        r2: types.Real = None,
+        z3: types.Real = None,
+        r3: types.Real = None,
     ):
         """
         Initializes ``Z``.
@@ -65,14 +65,6 @@ class Z(SurfaceOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z1)
         if r1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r1)
-        if z2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z2)
-        if r2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r2)
-        if z3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z3)
-        if r3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r3)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -109,10 +101,10 @@ class ZBuilder:
 
     z1: str | float | types.Real
     r1: str | float | types.Real
-    z2: str | float | types.Real
-    r2: str | float | types.Real
-    z3: str | float | types.Real
-    r3: str | float | types.Real
+    z2: str | float | types.Real = None
+    r2: str | float | types.Real = None
+    z3: str | float | types.Real = None
+    r3: str | float | types.Real = None
 
     def build(self):
         """

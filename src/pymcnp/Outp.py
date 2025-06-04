@@ -20,9 +20,9 @@ class Outp(_object.McnpFile):
     """
 
     _REGEX = re.compile(
-        rf'({outp.Header._REGEX.pattern[2:-2]})'
+        rf'\A({outp.Header._REGEX.pattern[2:-2]})'
         r'([\s\S]*)'
-        rf'({outp.Footer._REGEX.pattern[2:-2]})'
+        rf'({outp.Footer._REGEX.pattern[2:-2]})\Z'
     )
 
     def __init__(

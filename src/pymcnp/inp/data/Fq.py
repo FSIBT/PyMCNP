@@ -40,20 +40,20 @@ class Fq(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Afq(\d+)( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})( {types.String._REGEX.pattern})\Z'
+        rf'\Afq(\d+)?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
-        suffix: types.Integer,
-        a1: types.String,
-        a2: types.String,
-        a3: types.String,
-        a4: types.String,
-        a5: types.String,
-        a6: types.String,
-        a7: types.String,
-        a8: types.String,
+        suffix: types.Integer = None,
+        a1: types.String = None,
+        a2: types.String = None,
+        a3: types.String = None,
+        a4: types.String = None,
+        a5: types.String = None,
+        a6: types.String = None,
+        a7: types.String = None,
+        a8: types.String = None,
     ):
         """
         Initializes ``Fq``.
@@ -73,23 +73,23 @@ class Fq(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix.value <= 99_999_999):
+        if suffix is not None and not (suffix.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
-        if a1 is None or a1 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a1 is not None and a1 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a1)
-        if a2 is None or a2 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a2 is not None and a2 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a2)
-        if a3 is None or a3 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a3 is not None and a3 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a3)
-        if a4 is None or a4 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a4 is not None and a4 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a4)
-        if a5 is None or a5 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a5 is not None and a5 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a5)
-        if a6 is None or a6 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a6 is not None and a6 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a6)
-        if a7 is None or a7 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a7 is not None and a7 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a7)
-        if a8 is None or a8 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
+        if a8 is not None and a8 not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a8)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -133,15 +133,15 @@ class FqBuilder:
         a8: Letters representing tally bin types.
     """
 
-    suffix: str | int | types.Integer
-    a1: str | types.String
-    a2: str | types.String
-    a3: str | types.String
-    a4: str | types.String
-    a5: str | types.String
-    a6: str | types.String
-    a7: str | types.String
-    a8: str | types.String
+    suffix: str | int | types.Integer = None
+    a1: str | types.String = None
+    a2: str | types.String = None
+    a3: str | types.String = None
+    a4: str | types.String = None
+    a5: str | types.String = None
+    a6: str | types.String = None
+    a7: str | types.String = None
+    a8: str | types.String = None
 
     def build(self):
         """

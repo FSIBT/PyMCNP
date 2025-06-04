@@ -16,5 +16,5 @@ phys:h 23080
 mode h
 print 40 110 95
 nps 10000000
-c prdmp 2j -1
-c tropt genxs nreact atten
+prdmp 2j -1
+tropt genxs nreact atten

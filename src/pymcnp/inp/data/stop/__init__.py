@@ -2,17 +2,17 @@ from ._option import StopOption
 
 from .Nps import Nps
 from .Ctme import Ctme
-from .Fk import Fk
+from .F import F
 from .Nps import NpsBuilder
 from .Ctme import CtmeBuilder
-from .Fk import FkBuilder
+from .F import FBuilder
 
 __all__ = [
     'StopOption',
     'Nps',
     'Ctme',
-    'Fk',
+    'F',
     'NpsBuilder',
     'CtmeBuilder',
-    'FkBuilder',
+    'FBuilder',
 ]

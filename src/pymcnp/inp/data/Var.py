@@ -23,7 +23,7 @@ class Var(DataOption):
         'options': types.Tuple[var.VarOption],
     }
 
-    _REGEX = re.compile(rf'\Avar((?: (?:{var.VarOption._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Avar((?: (?:{var.VarOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
     def __init__(self, options: types.Tuple[var.VarOption] = None):
         """

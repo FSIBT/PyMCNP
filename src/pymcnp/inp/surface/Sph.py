@@ -31,7 +31,7 @@ class Sph(SurfaceOption):
     }
 
     _REGEX = re.compile(
-        rf'\Asph( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Asph( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
     def __init__(self, vx: types.Real, vy: types.Real, vz: types.Real, r: types.Real):

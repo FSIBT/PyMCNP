@@ -23,7 +23,7 @@ class Mt(MplotOption):
         'n': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Amt( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Amt( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, n: types.Integer):
         """

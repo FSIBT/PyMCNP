@@ -60,6 +60,6 @@ fmesh24:n geom=xyz origin -10 -10 -10
     out=none
 c
 C 102 = (n,gamma) reaction
-c +fm4 -1 20 102 $ Na-24 production (not in material 11)
-c +fm14 -1 21 102 $ Fe-55 production (2600 in material 11)
-c +fm24 -1 22 102 $ Mn-56 production (not in material 10)
++fm4 -1 20 102 $ Na-24 production (not in material 11)
++fm14 -1 21 102 $ Fe-55 production (2600 in material 11)
++fm24 -1 22 102 $ Mn-56 production (not in material 10)
