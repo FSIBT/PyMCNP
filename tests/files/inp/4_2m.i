@@ -19,9 +19,9 @@ mode p e
 cut:p,e 2j 0 0 $ Analog capture
 phys:e 2j 1 $ Turn off Brems.
 sdef par=p pos=-5 3 3 erg=2
-c fir5 -5 0 0 0 1 0 0 1 1 1
-c FS5 -10 9i 10
-c CS5 -10 9i 10
+fir5 -5 0 0 0 1 0 0 1 1 1
+FS5 -10 9i 10
+CS5 -10 9i 10
 c f16:e (1<1[0:0 -2:2 -2:2]<3)
 c f26:e (2<2[0:0 -2:2 -2:2]<4)
 f8:e 1
@@ -31,7 +31,7 @@ ft8 PHL 1 16 0 $ Region 1
     COM 5 1
 e8 0.2 100 NT
 fu8 0.2 100 NT
-c tf8 j j 2 j j j 2 j
+tf8 j j 2 j j j 2 j
 print
 nps 500000
-c prdmp 2j -1
+prdmp 2j -1

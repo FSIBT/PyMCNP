@@ -25,7 +25,7 @@ class Imp(DataOption):
         'importances': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Aimp:(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aimp:(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, designator: types.Designator, importances: types.Tuple[types.Real]):
         """

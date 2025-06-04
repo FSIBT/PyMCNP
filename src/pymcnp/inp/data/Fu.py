@@ -29,7 +29,9 @@ class Fu(DataOption):
         'c': types.String,
     }
 
-    _REGEX = re.compile(rf'\Afu(\d+)((?: {types.Real._REGEX.pattern})+?)(?: (nt))?(?: (c))?\Z')
+    _REGEX = re.compile(
+        rf'\Afu(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)(?: (nt))?(?: (c))?\Z'
+    )
 
     def __init__(
         self,

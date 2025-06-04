@@ -23,7 +23,7 @@ class Sfyield(FmultOption):
         'fission_yield': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Asfyield( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Asfyield( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, fission_yield: types.Real):
         """

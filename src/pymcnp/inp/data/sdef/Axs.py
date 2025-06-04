@@ -28,7 +28,7 @@ class Axs(SdefOption):
     }
 
     _REGEX = re.compile(
-        rf'\Aaxs( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Aaxs( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
     def __init__(self, x: types.Real, y: types.Real, z: types.Real):

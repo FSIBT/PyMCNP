@@ -25,7 +25,7 @@ class Elpt(CellOption):
         'cutoff': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Aelpt:(\S+)( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aelpt:(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, designator: types.Designator, cutoff: types.Real):
         """

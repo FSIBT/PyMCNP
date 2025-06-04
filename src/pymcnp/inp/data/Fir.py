@@ -46,13 +46,12 @@ class Fir(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Afir(\d+):(\S+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Afir(\d+)(?::(\S+))?( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
-        designator: types.Designator,
         x1: types.Real,
         y1: types.Real,
         z1: types.Real,
@@ -63,6 +62,7 @@ class Fir(DataOption):
         f1: types.Real,
         f2: types.Real,
         f3: types.Real,
+        designator: types.Designator = None,
     ):
         """
         Initializes ``Fir``.
@@ -87,8 +87,6 @@ class Fir(DataOption):
 
         if suffix is None or not (suffix.value <= 99_999_999 and suffix.value % 10 == 5):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
-        if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if x1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x1)
         if y1 is None:
@@ -103,11 +101,11 @@ class Fir(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y2)
         if z2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z2)
-        if f1 is None or f1.value not in {0, -1}:
+        if f1 is None or f1.value not in {0, -1, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f1)
         if f2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f2)
-        if f3 is None or f2.value not in {0, -1}:
+        if f3 is None or f2.value not in {0, -1, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f3)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -160,7 +158,6 @@ class FirBuilder:
     """
 
     suffix: str | int | types.Integer
-    designator: str | types.Designator
     x1: str | float | types.Real
     y1: str | float | types.Real
     z1: str | float | types.Real
@@ -171,6 +168,7 @@ class FirBuilder:
     f1: str | float | types.Real
     f2: str | float | types.Real
     f3: str | float | types.Real
+    designator: str | types.Designator = None
 
     def build(self):
         """

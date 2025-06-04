@@ -43,16 +43,17 @@ class Option(_object.McnpNonterminal):
         else:
             raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
+        o = 1
         attrs = {}
         for i, (name, attr) in enumerate(subclass._ATTRS.items()):
             if isinstance(attr, types.GenericAlias):
                 attrs[name] = (
-                    attr.from_mcnp(tokens[i + 1].strip(), attr.__args__[0])
-                    if tokens[i + 1]
+                    attr.from_mcnp(tokens[i + o].strip(), attr.__args__[0])
+                    if tokens[i + o]
                     else None
                 )
             else:
-                attrs[name] = attr.from_mcnp(tokens[i + 1].strip()) if tokens[i + 1] else None
+                attrs[name] = attr.from_mcnp(tokens[i + o].strip()) if tokens[i + o] else None
 
         return subclass(**attrs)
 

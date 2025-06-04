@@ -29,9 +29,7 @@ class Fs(DataOption):
         'c': types.String,
     }
 
-    _REGEX = re.compile(
-        rf'\Afs(\d+)((?: {types.Integer._REGEX.pattern})+?)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?\Z'
-    )
+    _REGEX = re.compile(rf'\Afs(\d+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)( t)?( c)?\Z')
 
     def __init__(
         self,

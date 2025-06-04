@@ -104,52 +104,52 @@ class Esplt(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Aesplt:(\S+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Aesplt:(\S+)( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
         designator: types.Designator,
-        ratio_1: types.Real,
-        energy_1: types.Real,
-        ratio_2: types.Real,
-        energy_2: types.Real,
-        ratio_3: types.Real,
-        energy_3: types.Real,
-        ratio_4: types.Real,
-        energy_4: types.Real,
-        ratio_5: types.Real,
-        energy_5: types.Real,
-        ratio_6: types.Real,
-        energy_6: types.Real,
-        ratio_7: types.Real,
-        energy_7: types.Real,
-        ratio_8: types.Real,
-        energy_8: types.Real,
-        ratio_9: types.Real,
-        energy_9: types.Real,
-        ratio_10: types.Real,
-        energy_10: types.Real,
-        ratio_11: types.Real,
-        energy_11: types.Real,
-        ratio_12: types.Real,
-        energy_12: types.Real,
-        ratio_13: types.Real,
-        energy_13: types.Real,
-        ratio_14: types.Real,
-        energy_14: types.Real,
-        ratio_15: types.Real,
-        energy_15: types.Real,
-        ratio_16: types.Real,
-        energy_16: types.Real,
-        ratio_17: types.Real,
-        energy_17: types.Real,
-        ratio_18: types.Real,
-        energy_18: types.Real,
-        ratio_19: types.Real,
-        energy_19: types.Real,
-        ratio_20: types.Real,
-        energy_20: types.Real,
+        ratio_1: types.Real = None,
+        energy_1: types.Real = None,
+        ratio_2: types.Real = None,
+        energy_2: types.Real = None,
+        ratio_3: types.Real = None,
+        energy_3: types.Real = None,
+        ratio_4: types.Real = None,
+        energy_4: types.Real = None,
+        ratio_5: types.Real = None,
+        energy_5: types.Real = None,
+        ratio_6: types.Real = None,
+        energy_6: types.Real = None,
+        ratio_7: types.Real = None,
+        energy_7: types.Real = None,
+        ratio_8: types.Real = None,
+        energy_8: types.Real = None,
+        ratio_9: types.Real = None,
+        energy_9: types.Real = None,
+        ratio_10: types.Real = None,
+        energy_10: types.Real = None,
+        ratio_11: types.Real = None,
+        energy_11: types.Real = None,
+        ratio_12: types.Real = None,
+        energy_12: types.Real = None,
+        ratio_13: types.Real = None,
+        energy_13: types.Real = None,
+        ratio_14: types.Real = None,
+        energy_14: types.Real = None,
+        ratio_15: types.Real = None,
+        energy_15: types.Real = None,
+        ratio_16: types.Real = None,
+        energy_16: types.Real = None,
+        ratio_17: types.Real = None,
+        energy_17: types.Real = None,
+        ratio_18: types.Real = None,
+        energy_18: types.Real = None,
+        ratio_19: types.Real = None,
+        energy_19: types.Real = None,
+        ratio_20: types.Real = None,
+        energy_20: types.Real = None,
     ):
         """
         Initializes ``Esplt``.
@@ -203,86 +203,6 @@ class Esplt(DataOption):
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
-        if ratio_1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_1)
-        if energy_1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_1)
-        if ratio_2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_2)
-        if energy_2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_2)
-        if ratio_3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_3)
-        if energy_3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_3)
-        if ratio_4 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_4)
-        if energy_4 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_4)
-        if ratio_5 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_5)
-        if energy_5 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_5)
-        if ratio_6 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_6)
-        if energy_6 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_6)
-        if ratio_7 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_7)
-        if energy_7 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_7)
-        if ratio_8 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_8)
-        if energy_8 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_8)
-        if ratio_9 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_9)
-        if energy_9 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_9)
-        if ratio_10 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_10)
-        if energy_10 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_10)
-        if ratio_11 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_11)
-        if energy_11 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_11)
-        if ratio_12 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_12)
-        if energy_12 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_12)
-        if ratio_13 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_13)
-        if energy_13 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_13)
-        if ratio_14 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_14)
-        if energy_14 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_14)
-        if ratio_15 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_15)
-        if energy_15 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_15)
-        if ratio_16 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_16)
-        if energy_16 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_16)
-        if ratio_17 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_17)
-        if energy_17 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_17)
-        if ratio_18 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_18)
-        if energy_18 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_18)
-        if ratio_19 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_19)
-        if energy_19 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_19)
-        if ratio_20 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_20)
-        if energy_20 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energy_20)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -422,46 +342,46 @@ class EspltBuilder:
     """
 
     designator: str | types.Designator
-    ratio_1: str | float | types.Real
-    energy_1: str | float | types.Real
-    ratio_2: str | float | types.Real
-    energy_2: str | float | types.Real
-    ratio_3: str | float | types.Real
-    energy_3: str | float | types.Real
-    ratio_4: str | float | types.Real
-    energy_4: str | float | types.Real
-    ratio_5: str | float | types.Real
-    energy_5: str | float | types.Real
-    ratio_6: str | float | types.Real
-    energy_6: str | float | types.Real
-    ratio_7: str | float | types.Real
-    energy_7: str | float | types.Real
-    ratio_8: str | float | types.Real
-    energy_8: str | float | types.Real
-    ratio_9: str | float | types.Real
-    energy_9: str | float | types.Real
-    ratio_10: str | float | types.Real
-    energy_10: str | float | types.Real
-    ratio_11: str | float | types.Real
-    energy_11: str | float | types.Real
-    ratio_12: str | float | types.Real
-    energy_12: str | float | types.Real
-    ratio_13: str | float | types.Real
-    energy_13: str | float | types.Real
-    ratio_14: str | float | types.Real
-    energy_14: str | float | types.Real
-    ratio_15: str | float | types.Real
-    energy_15: str | float | types.Real
-    ratio_16: str | float | types.Real
-    energy_16: str | float | types.Real
-    ratio_17: str | float | types.Real
-    energy_17: str | float | types.Real
-    ratio_18: str | float | types.Real
-    energy_18: str | float | types.Real
-    ratio_19: str | float | types.Real
-    energy_19: str | float | types.Real
-    ratio_20: str | float | types.Real
-    energy_20: str | float | types.Real
+    ratio_1: str | float | types.Real = None
+    energy_1: str | float | types.Real = None
+    ratio_2: str | float | types.Real = None
+    energy_2: str | float | types.Real = None
+    ratio_3: str | float | types.Real = None
+    energy_3: str | float | types.Real = None
+    ratio_4: str | float | types.Real = None
+    energy_4: str | float | types.Real = None
+    ratio_5: str | float | types.Real = None
+    energy_5: str | float | types.Real = None
+    ratio_6: str | float | types.Real = None
+    energy_6: str | float | types.Real = None
+    ratio_7: str | float | types.Real = None
+    energy_7: str | float | types.Real = None
+    ratio_8: str | float | types.Real = None
+    energy_8: str | float | types.Real = None
+    ratio_9: str | float | types.Real = None
+    energy_9: str | float | types.Real = None
+    ratio_10: str | float | types.Real = None
+    energy_10: str | float | types.Real = None
+    ratio_11: str | float | types.Real = None
+    energy_11: str | float | types.Real = None
+    ratio_12: str | float | types.Real = None
+    energy_12: str | float | types.Real = None
+    ratio_13: str | float | types.Real = None
+    energy_13: str | float | types.Real = None
+    ratio_14: str | float | types.Real = None
+    energy_14: str | float | types.Real = None
+    ratio_15: str | float | types.Real = None
+    energy_15: str | float | types.Real = None
+    ratio_16: str | float | types.Real = None
+    energy_16: str | float | types.Real = None
+    ratio_17: str | float | types.Real = None
+    energy_17: str | float | types.Real = None
+    ratio_18: str | float | types.Real = None
+    energy_18: str | float | types.Real = None
+    ratio_19: str | float | types.Real = None
+    energy_19: str | float | types.Real = None
+    ratio_20: str | float | types.Real = None
+    energy_20: str | float | types.Real = None
 
     def build(self):
         """

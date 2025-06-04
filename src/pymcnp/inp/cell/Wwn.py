@@ -27,7 +27,7 @@ class Wwn(CellOption):
         'bound': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Awwn(\d+):(\S+)( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Awwn(\d+):(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, suffix: types.Integer, designator: types.Designator, bound: types.Real):
         """

@@ -9,7 +9,7 @@ imp:n,a 1 0
 phys:n 6j 1
 sdef erg=15
 print -161 -162
-c tmp1 1e-20 0
+tmp1 1e-20 0
 fcl:n 1 0
 m1 2004 0.2
 cut:a j 0
@@ -17,4 +17,4 @@ nps 1000000
 f51:a 1
 e51 0.1 100log 20
 c51 -0.8 8i 1 t
-c fq51 e c
+fq51 e c

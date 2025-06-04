@@ -3,7 +3,7 @@ RZT Test of two checkerboard cylinders with lnk3dnt
 12 4 -0.001 0 u=1e10 imp:n=1 $ inferred geometry cell
 13 0 0 u=1e10 imp:n=1 $ inferred background cell
 20 0 -1 fill=1e10 (20 0 0) imp:n=1 $ fill cell 1
-c 21 0 -2 fill=1e10 (-20 0 0 -1 1 0 1 1 0)imp:n=1 $ fill cell 2
+21 0 -2 fill=1e10 (-20 0 0 -1 1 0 1 1 0) imp:n=1 $ fill cell 2
 
 1 so 20
 
@@ -14,7 +14,7 @@ ksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5
     5 5 -5 5 -5 -5 -5 -5 -5 -5 5 -5
 m3 92235.69c 1.0
 m4 6012 1.0
-c dm1 92235 92235.50
+dm1 92235 92235.50
 c embed10 meshgeo=lnk3dnt mgeoin=cyl.linkout debug=echomesh
 c     matcell= 1 11 2 12
 c     background=13

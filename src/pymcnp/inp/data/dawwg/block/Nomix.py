@@ -23,7 +23,7 @@ class Nomix(BlockOption):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Anomix( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Anomix( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, setting: types.Integer):
         """

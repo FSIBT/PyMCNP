@@ -38,19 +38,19 @@ class Lea(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Alea( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Alea( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
-        ipht: types.Integer,
-        icc: types.Integer,
-        nobalc: types.Integer,
-        nobale: types.Integer,
-        ifbrk: types.Integer,
-        ilvden: types.Integer,
-        ievap: types.Integer,
-        nofis: types.Integer,
+        ipht: types.Integer = None,
+        icc: types.Integer = None,
+        nobalc: types.Integer = None,
+        nobale: types.Integer = None,
+        ifbrk: types.Integer = None,
+        ilvden: types.Integer = None,
+        ievap: types.Integer = None,
+        nofis: types.Integer = None,
     ):
         """
         Initializes ``Lea``.
@@ -69,21 +69,31 @@ class Lea(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if ipht is None or ipht.value not in {0, 1}:
+        if ipht is not None and not (isinstance(ipht.value, types.Jump) or ipht.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ipht)
-        if icc is None or icc.value not in {0, 1, 2, 3, 4}:
+        if icc is not None and not (
+            isinstance(icc.value, types.Jump) or icc.value in {0, 1, 2, 3, 4}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, icc)
-        if nobalc is None or nobalc.value not in {0, 1}:
+        if nobalc is not None and not (
+            isinstance(nobalc.value, types.Jump) or nobalc.value in {0, 1}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nobalc)
-        if nobale is None or nobale.value not in {0, 1}:
+        if nobale is not None and not (
+            isinstance(nobale.value, types.Jump) or nobale.value in {0, 1}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nobale)
-        if ifbrk is None or ifbrk.value not in {0, 1}:
+        if ifbrk is not None and not (isinstance(ifbrk.value, types.Jump) or ifbrk.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ifbrk)
-        if ilvden is None or ilvden.value not in {0, 1, -1}:
+        if ilvden is not None and not (
+            isinstance(ilvden.value, types.Jump) or ilvden.value in {0, 1, -1}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ilvden)
-        if ievap is None or ievap.value not in {0, 1, -1, 2}:
+        if ievap is not None and not (
+            isinstance(ievap.value, types.Jump) or ievap.value in {0, 1, -1, 2}
+        ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ievap)
-        if nofis is None or nofis.value not in {0, 1}:
+        if nofis is not None and not (isinstance(nofis.value, types.Jump) or nofis.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nofis)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -125,14 +135,14 @@ class LeaBuilder:
         nofis: Fission setting.
     """
 
-    ipht: str | int | types.Integer
-    icc: str | int | types.Integer
-    nobalc: str | int | types.Integer
-    nobale: str | int | types.Integer
-    ifbrk: str | int | types.Integer
-    ilvden: str | int | types.Integer
-    ievap: str | int | types.Integer
-    nofis: str | int | types.Integer
+    ipht: str | int | types.Integer = None
+    icc: str | int | types.Integer = None
+    nobalc: str | int | types.Integer = None
+    nobale: str | int | types.Integer = None
+    ifbrk: str | int | types.Integer = None
+    ilvden: str | int | types.Integer = None
+    ievap: str | int | types.Integer = None
+    nofis: str | int | types.Integer = None
 
     def build(self):
         """

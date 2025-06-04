@@ -28,7 +28,7 @@ class Pert(DataOption):
         'options': types.Tuple[pert.PertOption],
     }
 
-    _REGEX = re.compile(rf'\Apert(\d+):(\S+)((?: (?:{pert.PertOption._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Apert(\d+):(\S+)((?: (?:{pert.PertOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
     def __init__(
         self,

@@ -20,12 +20,12 @@ class Iso(KsenOption):
     _KEYWORD = 'iso'
 
     _ATTRS = {
-        'zaids': types.Tuple[types.Real],
+        'zaids': types.Tuple[types.Zaid],
     }
 
-    _REGEX = re.compile(rf'\Aiso((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aiso((?: {types.Zaid._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, zaids: types.Tuple[types.Real]):
+    def __init__(self, zaids: types.Tuple[types.Zaid]):
         """
         Initializes ``Iso``.
 
@@ -45,7 +45,7 @@ class Iso(KsenOption):
             ]
         )
 
-        self.zaids: typing.Final[types.Tuple[types.Real]] = zaids
+        self.zaids: typing.Final[types.Tuple[types.Zaid]] = zaids
 
 
 @dataclasses.dataclass
@@ -57,7 +57,7 @@ class IsoBuilder:
         zaids: List of ZAIDs for pertubation.
     """
 
-    zaids: list[str] | list[float] | list[types.Real]
+    zaids: list[str] | list[types.Zaid]
 
     def build(self):
         """
@@ -70,12 +70,12 @@ class IsoBuilder:
         if self.zaids:
             zaids = []
             for item in self.zaids:
-                if isinstance(item, types.Real):
+                if isinstance(item, types.Zaid):
                     zaids.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    zaids.append(types.Real(item))
                 elif isinstance(item, str):
-                    zaids.append(types.Real.from_mcnp(item))
+                    zaids.append(types.Zaid.from_mcnp(item))
+                else:
+                    zaids.append(item.build())
             zaids = types.Tuple(zaids)
         else:
             zaids = None

@@ -9,11 +9,12 @@ from ...utils import types
 from ...utils import errors
 
 
-class C_0(DataOption):
+class C(DataOption):
     """
-    Represents INP c variation #0 elements.
+    Represents INP c elements.
 
     Attributes:
+        prefix: Star prefix.
         suffix: Data card option suffix.
         bounds: Upper cosine bounds for bin.
         t: Notation to provide totals.
@@ -23,6 +24,7 @@ class C_0(DataOption):
     _KEYWORD = 'c'
 
     _ATTRS = {
+        'prefix': types.String,
         'suffix': types.Integer,
         'bounds': types.Tuple[types.Real],
         't': types.String,
@@ -30,20 +32,22 @@ class C_0(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Ac(\d+)((?: {types.Real._REGEX.pattern})+?)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?\Z'
+        rf'\A([*]?)c(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
         bounds: types.Tuple[types.Real],
+        prefix: types.String = None,
         t: types.String = None,
         c: types.String = None,
     ):
         """
-        Initializes ``C_0``.
+        Initializes ``C``.
 
         Parameters:
+            prefix: Star prefix.
             suffix: Data card option suffix.
             bounds: Upper cosine bounds for bin.
             t: Notation to provide totals.
@@ -60,12 +64,14 @@ class C_0(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
+                prefix,
                 bounds,
                 t,
                 c,
             ]
         )
 
+        self.prefix: typing.Final[types.String] = prefix
         self.suffix: typing.Final[types.Integer] = suffix
         self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
         self.t: typing.Final[types.String] = t
@@ -73,11 +79,12 @@ class C_0(DataOption):
 
 
 @dataclasses.dataclass
-class CBuilder_0:
+class CBuilder:
     """
-    Builds ``C_0``.
+    Builds ``C``.
 
     Attributes:
+        prefix: Star prefix.
         suffix: Data card option suffix.
         bounds: Upper cosine bounds for bin.
         t: Notation to provide totals.
@@ -86,16 +93,23 @@ class CBuilder_0:
 
     suffix: str | int | types.Integer
     bounds: list[str] | list[float] | list[types.Real]
+    prefix: str | types.String = None
     t: str | types.String = None
     c: str | types.String = None
 
     def build(self):
         """
-        Builds ``CBuilder_0`` into ``C_0``.
+        Builds ``CBuilder`` into ``C``.
 
         Returns:
-            ``C_0`` for ``CBuilder_0``.
+            ``C`` for ``CBuilder``.
         """
+
+        prefix = self.prefix
+        if isinstance(self.prefix, types.String):
+            prefix = self.prefix
+        elif isinstance(self.prefix, str):
+            prefix = types.String.from_mcnp(self.prefix)
 
         suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
@@ -130,7 +144,8 @@ class CBuilder_0:
         elif isinstance(self.c, str):
             c = types.String.from_mcnp(self.c)
 
-        return C_0(
+        return C(
+            prefix=prefix,
             suffix=suffix,
             bounds=bounds,
             t=t,
@@ -138,15 +153,16 @@ class CBuilder_0:
         )
 
     @staticmethod
-    def unbuild(ast: C_0):
+    def unbuild(ast: C):
         """
-        Unbuilds ``C_0`` into ``CBuilder_0``
+        Unbuilds ``C`` into ``CBuilder``
 
         Returns:
-            ``CBuilder_0`` for ``C_0``.
+            ``CBuilder`` for ``C``.
         """
 
-        return C_0(
+        return C(
+            prefix=copy.deepcopy(ast.prefix),
             suffix=copy.deepcopy(ast.suffix),
             bounds=copy.deepcopy(ast.bounds),
             t=copy.deepcopy(ast.t),

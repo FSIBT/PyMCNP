@@ -23,7 +23,7 @@ class Par(SdefOption):
         'kind': types.String,
     }
 
-    _REGEX = re.compile(rf'\Apar( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Apar( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, kind: types.String):
         """

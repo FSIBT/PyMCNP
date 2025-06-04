@@ -19,10 +19,10 @@ MODE p n
 M1 32074.70c 1
 M2 92238.70c 1
 M3 82208.70c 1
-c MX2:P model
+MX2:P model
 CUT:N 60e8
 CUT:P 60e8
-c PHYS:P j 1 j -1 j -101
+PHYS:P j 1 j -1 j -101
 c SDEF PAR=P ERG=D1 X=FERG D2 Y=FERG D3 Z=FERG D4 TME=FERG D7
 c    VEC=1 0 0 DIR=FERG D8 CEL=1 WGT=1
 SI1 S 5 6
@@ -63,5 +63,5 @@ f1:p 4.3
 e1 1.0 100.0
 t1 0.001e8 60e8
 ft1 scx 1 roc 10648648
-c tf1 1 1 1 1 1 1 2 2  1 1 2 1 1 1 2 2 $ signal bins, noise bins
+tf1 1 1 1 1 1 1 2 2  1 1 2 1 1 1 2 2 $ signal bins, noise bins
 c nps 106486480l

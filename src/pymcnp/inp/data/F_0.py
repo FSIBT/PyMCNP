@@ -14,6 +14,7 @@ class F_0(DataOption):
     Represents INP f variation #0 elements.
 
     Attributes:
+        prefix: Star prefix.
         suffix: Data card option suffix.
         designator: Data card particle designator.
         problems: Problem numbers of surface or cell.
@@ -23,6 +24,7 @@ class F_0(DataOption):
     _KEYWORD = 'f'
 
     _ATTRS = {
+        'prefix': types.String,
         'suffix': types.Integer,
         'designator': types.Designator,
         'problems': types.Tuple[types.Integer],
@@ -30,20 +32,22 @@ class F_0(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Af(\d*[123467]):(\S+)((?: {types.Integer._REGEX.pattern})+?)( {types.String._REGEX.pattern})?\Z'
+        rf'\A([*+])?f(\d*[123467])(?::(\S+))?((?: {types.Integer._REGEX.pattern[2:-2]})+?)( t)?\Z'
     )
 
     def __init__(
         self,
         suffix: types.Integer,
-        designator: types.Designator,
         problems: types.Tuple[types.Integer],
+        prefix: types.String = None,
+        designator: types.Designator = None,
         t: types.String = None,
     ):
         """
         Initializes ``F_0``.
 
         Parameters:
+            prefix: Star prefix.
             suffix: Data card option suffix.
             designator: Data card particle designator.
             problems: Problem numbers of surface or cell.
@@ -57,8 +61,6 @@ class F_0(DataOption):
             suffix.value <= 99_999_999 and suffix.value % 10 in {1, 2, 4, 6, 7}
         ):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
-        if designator is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if problems is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, problems)
         if t is not None and not (t == 't'):
@@ -66,11 +68,13 @@ class F_0(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
+                prefix,
                 problems,
                 t,
             ]
         )
 
+        self.prefix: typing.Final[types.String] = prefix
         self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
         self.problems: typing.Final[types.Tuple[types.Integer]] = problems
@@ -83,6 +87,7 @@ class FBuilder_0:
     Builds ``F_0``.
 
     Attributes:
+        prefix: Star prefix.
         suffix: Data card option suffix.
         designator: Data card particle designator.
         problems: Problem numbers of surface or cell.
@@ -90,8 +95,9 @@ class FBuilder_0:
     """
 
     suffix: str | int | types.Integer
-    designator: str | types.Designator
     problems: list[str] | list[int] | list[types.Integer]
+    prefix: str | types.String = None
+    designator: str | types.Designator = None
     t: str | types.String = None
 
     def build(self):
@@ -101,6 +107,12 @@ class FBuilder_0:
         Returns:
             ``F_0`` for ``FBuilder_0``.
         """
+
+        prefix = self.prefix
+        if isinstance(self.prefix, types.String):
+            prefix = self.prefix
+        elif isinstance(self.prefix, str):
+            prefix = types.String.from_mcnp(self.prefix)
 
         suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
@@ -136,6 +148,7 @@ class FBuilder_0:
             t = types.String.from_mcnp(self.t)
 
         return F_0(
+            prefix=prefix,
             suffix=suffix,
             designator=designator,
             problems=problems,
@@ -152,6 +165,7 @@ class FBuilder_0:
         """
 
         return F_0(
+            prefix=copy.deepcopy(ast.prefix),
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             problems=copy.deepcopy(ast.problems),

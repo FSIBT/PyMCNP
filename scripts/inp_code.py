@@ -51,21 +51,21 @@ def ATTRS_REGEX(element):
 
         if 'Tuple' in attribute.type:
             if 'Option' in attribute.type:
-                o += f'((?: (?:{{{SNAKE(element.name)}.{CAMEL(element.name, "Option")}._REGEX.pattern}}))+?)'
+                o += f'((?: (?:{{{SNAKE(element.name)}.{CAMEL(element.name, "Option")}._REGEX.pattern[2:-2]}}))+?)'
             else:
-                o += f'((?: {{{attribute.type[12:-1]}._REGEX.pattern}})+?)'
+                o += f'((?: {{{attribute.type[12:-1]}._REGEX.pattern[2:-2]}})+?)'
         else:
             if 'Option' in attribute.type:
-                o += f'( (?:{{{SNAKE(element.name)}.{CAMEL(element.name, "Option")}._REGEX.pattern}}))'
+                o += f'( (?:{{{SNAKE(element.name)}.{CAMEL(element.name, "Option")}._REGEX.pattern[2:-2]}}))'
             elif attribute.type == 'types.Boolean':
                 o += f'( {attribute.restriction})'
             else:
                 if attribute.can_quote:
-                    o += f'( \\"{{{attribute.type}._REGEX.pattern}}\\")'
+                    o += f'( \\"{{{attribute.type}._REGEX.pattern[2:-2]}}\\")'
                 elif attribute.can_paren:
-                    o += f'( {{{attribute.type}._REGEX.pattern}}| [(]{{{attribute.type}._REGEX.pattern}}[)])'
+                    o += f'( {{{attribute.type}._REGEX.pattern[2:-2]}}| [(]{{{attribute.type}._REGEX.pattern[2:-2]}}[)])'
                 else:
-                    o += f'( {{{attribute.type}._REGEX.pattern}})'
+                    o += f'( {{{attribute.type}._REGEX.pattern[2:-2]}})'
 
         if attribute.optional:
             o += '?'

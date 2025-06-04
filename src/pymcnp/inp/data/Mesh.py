@@ -23,7 +23,7 @@ class Mesh(DataOption):
         'options': types.Tuple[mesh.MeshOption],
     }
 
-    _REGEX = re.compile(rf'\Amesh((?: (?:{mesh.MeshOption._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Amesh((?: (?:{mesh.MeshOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
     def __init__(self, options: types.Tuple[mesh.MeshOption] = None):
         """

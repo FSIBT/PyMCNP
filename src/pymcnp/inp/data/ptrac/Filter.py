@@ -23,7 +23,7 @@ class Filter(PtracOption):
         'variables': types.Tuple[types.PtracFilter],
     }
 
-    _REGEX = re.compile(rf'\Afilter((?: {types.PtracFilter._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Afilter((?: {types.PtracFilter._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, variables: types.Tuple[types.PtracFilter]):
         """

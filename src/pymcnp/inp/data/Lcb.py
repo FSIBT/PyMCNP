@@ -6,7 +6,6 @@ import dataclasses
 
 from ._option import DataOption
 from ...utils import types
-from ...utils import errors
 
 
 class Lcb(DataOption):
@@ -38,19 +37,19 @@ class Lcb(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Alcb( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Alcb( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
-        flenb1: types.Real,
-        flenb2: types.Real,
-        flenb3: types.Real,
-        flenb4: types.Real,
-        flenb5: types.Real,
-        flenb6: types.Real,
-        cotfe: types.Real,
-        film0: types.Real,
+        flenb1: types.Real = None,
+        flenb2: types.Real = None,
+        flenb3: types.Real = None,
+        flenb4: types.Real = None,
+        flenb5: types.Real = None,
+        flenb6: types.Real = None,
+        cotfe: types.Real = None,
+        film0: types.Real = None,
     ):
         """
         Initializes ``Lcb``.
@@ -68,23 +67,6 @@ class Lcb(DataOption):
         Raises:
             InpError: SEMANTICS_OPTION.
         """
-
-        if flenb1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, flenb1)
-        if flenb2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, flenb2)
-        if flenb3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, flenb3)
-        if flenb4 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, flenb4)
-        if flenb5 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, flenb5)
-        if flenb6 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, flenb6)
-        if cotfe is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cotfe)
-        if film0 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, film0)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -125,14 +107,14 @@ class LcbBuilder:
         film0: Maximum correction allowed for masss-energy balancing.
     """
 
-    flenb1: str | float | types.Real
-    flenb2: str | float | types.Real
-    flenb3: str | float | types.Real
-    flenb4: str | float | types.Real
-    flenb5: str | float | types.Real
-    flenb6: str | float | types.Real
-    cotfe: str | float | types.Real
-    film0: str | float | types.Real
+    flenb1: str | float | types.Real = None
+    flenb2: str | float | types.Real = None
+    flenb3: str | float | types.Real = None
+    flenb4: str | float | types.Real = None
+    flenb5: str | float | types.Real = None
+    flenb6: str | float | types.Real = None
+    cotfe: str | float | types.Real = None
+    film0: str | float | types.Real = None
 
     def build(self):
         """

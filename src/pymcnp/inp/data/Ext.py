@@ -22,12 +22,12 @@ class Ext(DataOption):
 
     _ATTRS = {
         'designator': types.Designator,
-        'stretching': types.Tuple[types.Real],
+        'stretching': types.Tuple[types.String],
     }
 
-    _REGEX = re.compile(rf'\Aext:(\S+)((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aext:(\S+)((?: {types.String._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, designator: types.Designator, stretching: types.Tuple[types.Real]):
+    def __init__(self, designator: types.Designator, stretching: types.Tuple[types.String]):
         """
         Initializes ``Ext``.
 
@@ -51,7 +51,7 @@ class Ext(DataOption):
         )
 
         self.designator: typing.Final[types.Designator] = designator
-        self.stretching: typing.Final[types.Tuple[types.Real]] = stretching
+        self.stretching: typing.Final[types.Tuple[types.String]] = stretching
 
 
 @dataclasses.dataclass
@@ -65,7 +65,7 @@ class ExtBuilder:
     """
 
     designator: str | types.Designator
-    stretching: list[str] | list[float] | list[types.Real]
+    stretching: list[str] | list[types.String]
 
     def build(self):
         """
@@ -84,12 +84,12 @@ class ExtBuilder:
         if self.stretching:
             stretching = []
             for item in self.stretching:
-                if isinstance(item, types.Real):
+                if isinstance(item, types.String):
                     stretching.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    stretching.append(types.Real(item))
                 elif isinstance(item, str):
-                    stretching.append(types.Real.from_mcnp(item))
+                    stretching.append(types.String.from_mcnp(item))
+                else:
+                    stretching.append(item.build())
             stretching = types.Tuple(stretching)
         else:
             stretching = None

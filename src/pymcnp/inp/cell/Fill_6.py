@@ -32,7 +32,7 @@ class Fill_6(CellOption):
     }
 
     _REGEX = re.compile(
-        rf'\Afill( {types.Index._REGEX.pattern})( {types.Index._REGEX.pattern})( {types.Index._REGEX.pattern})((?: {types.Integer._REGEX.pattern})+?)( {types.Integer._REGEX.pattern}| [(]{types.Integer._REGEX.pattern}[)])?\Z'
+        rf'\Afill (\S+:\S+) (\S+:\S+) (\S+:\S+)((?:(?: {types.Integer._REGEX.pattern[2:-2]})+?)( {types.Integer._REGEX.pattern[2:-2]}| [(]{types.Integer._REGEX.pattern[2:-2]}[)])?)\Z'
     )
 
     def __init__(
@@ -63,12 +63,7 @@ class Fill_6(CellOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j)
         if k is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, k)
-        if universes is None or not (
-            len(universes)
-            == (i.upper.value - i.lower.value)
-            * (j.upper.value - j.lower.value)
-            * (k.upper.value - k.lower.value)
-        ):
+        if universes is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universes)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

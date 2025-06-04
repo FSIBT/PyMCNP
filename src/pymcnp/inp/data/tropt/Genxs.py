@@ -6,7 +6,6 @@ import dataclasses
 
 from ._option import TroptOption
 from ....utils import types
-from ....utils import errors
 
 
 class Genxs(TroptOption):
@@ -23,9 +22,9 @@ class Genxs(TroptOption):
         'filename': types.String,
     }
 
-    _REGEX = re.compile(rf'\Agenxs( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Agenxs( {types.String._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, filename: types.String):
+    def __init__(self, filename: types.String = None):
         """
         Initializes ``Genxs``.
 
@@ -35,9 +34,6 @@ class Genxs(TroptOption):
         Raises:
             InpError: SEMANTICS_OPTION.
         """
-
-        if filename is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, filename)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -57,7 +53,7 @@ class GenxsBuilder:
         filename: Cross section generation setting.
     """
 
-    filename: str | types.String
+    filename: str | types.String = None
 
     def build(self):
         """

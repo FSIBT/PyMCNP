@@ -34,17 +34,17 @@ class X(SurfaceOption):
     }
 
     _REGEX = re.compile(
-        rf'\Ax( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Ax( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
         x1: types.Real,
         r1: types.Real,
-        x2: types.Real,
-        r2: types.Real,
-        x3: types.Real,
-        r3: types.Real,
+        x2: types.Real = None,
+        r2: types.Real = None,
+        x3: types.Real = None,
+        r3: types.Real = None,
     ):
         """
         Initializes ``X``.
@@ -65,14 +65,6 @@ class X(SurfaceOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x1)
         if r1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r1)
-        if x2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x2)
-        if r2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r2)
-        if x3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x3)
-        if r3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r3)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -109,10 +101,10 @@ class XBuilder:
 
     x1: str | float | types.Real
     r1: str | float | types.Real
-    x2: str | float | types.Real
-    r2: str | float | types.Real
-    x3: str | float | types.Real
-    r3: str | float | types.Real
+    x2: str | float | types.Real = None
+    r2: str | float | types.Real = None
+    x3: str | float | types.Real = None
+    r3: str | float | types.Real = None
 
     def build(self):
         """

@@ -26,7 +26,7 @@ class Runtpe(MplotOption):
     }
 
     _REGEX = re.compile(
-        rf'\Aruntpe( {types.String._REGEX.pattern})( {types.Integer._REGEX.pattern})?\Z'
+        rf'\Aruntpe( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(self, filename: types.String, n: types.Integer = None):

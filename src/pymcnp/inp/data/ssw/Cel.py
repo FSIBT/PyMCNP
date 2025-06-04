@@ -23,7 +23,7 @@ class Cel(SswOption):
         'cfs': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Acel((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Acel((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, cfs: types.Tuple[types.Integer]):
         """

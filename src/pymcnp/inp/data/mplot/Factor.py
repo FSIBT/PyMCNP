@@ -28,7 +28,7 @@ class Factor(MplotOption):
     }
 
     _REGEX = re.compile(
-        rf'\Afactor( {types.String._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})?\Z'
+        rf'\Afactor( {types.String._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(self, a: types.String, f: types.Real, s: types.Real = None):

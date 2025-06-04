@@ -9,10 +9,10 @@
    :members:
 ```
 
-### ``Fk`` Class
+### ``F`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.stop.Fk
+.. autoclass:: pymcnp.inp.data.stop.F
    :members:
 ```
 

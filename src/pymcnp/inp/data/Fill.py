@@ -23,7 +23,7 @@ class Fill(DataOption):
         'numbers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Afill((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Afill((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, numbers: types.Tuple[types.Integer]):
         """

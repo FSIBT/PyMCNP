@@ -14,6 +14,7 @@ class Tr_4(DataOption):
     Represents INP tr variation #4 elements.
 
     Attributes:
+        prefix: Star prefix.
         suffix: Data card option suffix.
         x: Displacement vector x component.
         y: Displacement vector y component.
@@ -24,6 +25,7 @@ class Tr_4(DataOption):
     _KEYWORD = 'tr'
 
     _ATTRS = {
+        'prefix': types.String,
         'suffix': types.Integer,
         'x': types.Real,
         'y': types.Real,
@@ -32,7 +34,7 @@ class Tr_4(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Atr(\d+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Integer._REGEX.pattern})?\Z'
+        rf'\A([*])?tr(\d+)( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
@@ -41,12 +43,14 @@ class Tr_4(DataOption):
         x: types.Real,
         y: types.Real,
         z: types.Real,
+        prefix: types.String = None,
         system: types.Integer = None,
     ):
         """
         Initializes ``Tr_4``.
 
         Parameters:
+            prefix: Star prefix.
             suffix: Data card option suffix.
             x: Displacement vector x component.
             y: Displacement vector y component.
@@ -70,6 +74,7 @@ class Tr_4(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
+                prefix,
                 x,
                 y,
                 z,
@@ -77,6 +82,7 @@ class Tr_4(DataOption):
             ]
         )
 
+        self.prefix: typing.Final[types.String] = prefix
         self.suffix: typing.Final[types.Integer] = suffix
         self.x: typing.Final[types.Real] = x
         self.y: typing.Final[types.Real] = y
@@ -90,6 +96,7 @@ class TrBuilder_4:
     Builds ``Tr_4``.
 
     Attributes:
+        prefix: Star prefix.
         suffix: Data card option suffix.
         x: Displacement vector x component.
         y: Displacement vector y component.
@@ -101,6 +108,7 @@ class TrBuilder_4:
     x: str | float | types.Real
     y: str | float | types.Real
     z: str | float | types.Real
+    prefix: str | types.String = None
     system: str | int | types.Integer = None
 
     def build(self):
@@ -110,6 +118,12 @@ class TrBuilder_4:
         Returns:
             ``Tr_4`` for ``TrBuilder_4``.
         """
+
+        prefix = self.prefix
+        if isinstance(self.prefix, types.String):
+            prefix = self.prefix
+        elif isinstance(self.prefix, str):
+            prefix = types.String.from_mcnp(self.prefix)
 
         suffix = self.suffix
         if isinstance(self.suffix, types.Integer):
@@ -152,6 +166,7 @@ class TrBuilder_4:
             system = types.Integer.from_mcnp(self.system)
 
         return Tr_4(
+            prefix=prefix,
             suffix=suffix,
             x=x,
             y=y,
@@ -169,6 +184,7 @@ class TrBuilder_4:
         """
 
         return Tr_4(
+            prefix=copy.deepcopy(ast.prefix),
             suffix=copy.deepcopy(ast.suffix),
             x=copy.deepcopy(ast.x),
             y=copy.deepcopy(ast.y),

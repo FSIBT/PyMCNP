@@ -104,52 +104,52 @@ class Tsplt(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Atsplt:(\S+)( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Atsplt:(\S+)( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
         designator: types.Designator,
-        ratio_1: types.Real,
-        time_1: types.Real,
-        ratio_2: types.Real,
-        time_2: types.Real,
-        ratio_3: types.Real,
-        time_3: types.Real,
-        ratio_4: types.Real,
-        time_4: types.Real,
-        ratio_5: types.Real,
-        time_5: types.Real,
-        ratio_6: types.Real,
-        time_6: types.Real,
-        ratio_7: types.Real,
-        time_7: types.Real,
-        ratio_8: types.Real,
-        time_8: types.Real,
-        ratio_9: types.Real,
-        time_9: types.Real,
-        ratio_10: types.Real,
-        time_10: types.Real,
-        ratio_11: types.Real,
-        time_11: types.Real,
-        ratio_12: types.Real,
-        time_12: types.Real,
-        ratio_13: types.Real,
-        time_13: types.Real,
-        ratio_14: types.Real,
-        time_14: types.Real,
-        ratio_15: types.Real,
-        time_15: types.Real,
-        ratio_16: types.Real,
-        time_16: types.Real,
-        ratio_17: types.Real,
-        time_17: types.Real,
-        ratio_18: types.Real,
-        time_18: types.Real,
-        ratio_19: types.Real,
-        time_19: types.Real,
-        ratio_20: types.Real,
-        time_20: types.Real,
+        ratio_1: types.Real = None,
+        time_1: types.Real = None,
+        ratio_2: types.Real = None,
+        time_2: types.Real = None,
+        ratio_3: types.Real = None,
+        time_3: types.Real = None,
+        ratio_4: types.Real = None,
+        time_4: types.Real = None,
+        ratio_5: types.Real = None,
+        time_5: types.Real = None,
+        ratio_6: types.Real = None,
+        time_6: types.Real = None,
+        ratio_7: types.Real = None,
+        time_7: types.Real = None,
+        ratio_8: types.Real = None,
+        time_8: types.Real = None,
+        ratio_9: types.Real = None,
+        time_9: types.Real = None,
+        ratio_10: types.Real = None,
+        time_10: types.Real = None,
+        ratio_11: types.Real = None,
+        time_11: types.Real = None,
+        ratio_12: types.Real = None,
+        time_12: types.Real = None,
+        ratio_13: types.Real = None,
+        time_13: types.Real = None,
+        ratio_14: types.Real = None,
+        time_14: types.Real = None,
+        ratio_15: types.Real = None,
+        time_15: types.Real = None,
+        ratio_16: types.Real = None,
+        time_16: types.Real = None,
+        ratio_17: types.Real = None,
+        time_17: types.Real = None,
+        ratio_18: types.Real = None,
+        time_18: types.Real = None,
+        ratio_19: types.Real = None,
+        time_19: types.Real = None,
+        ratio_20: types.Real = None,
+        time_20: types.Real = None,
     ):
         """
         Initializes ``Tsplt``.
@@ -203,86 +203,6 @@ class Tsplt(DataOption):
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
-        if ratio_1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_1)
-        if time_1 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_1)
-        if ratio_2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_2)
-        if time_2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_2)
-        if ratio_3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_3)
-        if time_3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_3)
-        if ratio_4 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_4)
-        if time_4 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_4)
-        if ratio_5 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_5)
-        if time_5 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_5)
-        if ratio_6 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_6)
-        if time_6 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_6)
-        if ratio_7 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_7)
-        if time_7 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_7)
-        if ratio_8 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_8)
-        if time_8 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_8)
-        if ratio_9 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_9)
-        if time_9 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_9)
-        if ratio_10 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_10)
-        if time_10 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_10)
-        if ratio_11 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_11)
-        if time_11 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_11)
-        if ratio_12 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_12)
-        if time_12 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_12)
-        if ratio_13 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_13)
-        if time_13 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_13)
-        if ratio_14 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_14)
-        if time_14 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_14)
-        if ratio_15 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_15)
-        if time_15 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_15)
-        if ratio_16 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_16)
-        if time_16 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_16)
-        if ratio_17 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_17)
-        if time_17 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_17)
-        if ratio_18 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_18)
-        if time_18 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_18)
-        if ratio_19 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_19)
-        if time_19 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_19)
-        if ratio_20 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ratio_20)
-        if time_20 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time_20)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -422,46 +342,46 @@ class TspltBuilder:
     """
 
     designator: str | types.Designator
-    ratio_1: str | float | types.Real
-    time_1: str | float | types.Real
-    ratio_2: str | float | types.Real
-    time_2: str | float | types.Real
-    ratio_3: str | float | types.Real
-    time_3: str | float | types.Real
-    ratio_4: str | float | types.Real
-    time_4: str | float | types.Real
-    ratio_5: str | float | types.Real
-    time_5: str | float | types.Real
-    ratio_6: str | float | types.Real
-    time_6: str | float | types.Real
-    ratio_7: str | float | types.Real
-    time_7: str | float | types.Real
-    ratio_8: str | float | types.Real
-    time_8: str | float | types.Real
-    ratio_9: str | float | types.Real
-    time_9: str | float | types.Real
-    ratio_10: str | float | types.Real
-    time_10: str | float | types.Real
-    ratio_11: str | float | types.Real
-    time_11: str | float | types.Real
-    ratio_12: str | float | types.Real
-    time_12: str | float | types.Real
-    ratio_13: str | float | types.Real
-    time_13: str | float | types.Real
-    ratio_14: str | float | types.Real
-    time_14: str | float | types.Real
-    ratio_15: str | float | types.Real
-    time_15: str | float | types.Real
-    ratio_16: str | float | types.Real
-    time_16: str | float | types.Real
-    ratio_17: str | float | types.Real
-    time_17: str | float | types.Real
-    ratio_18: str | float | types.Real
-    time_18: str | float | types.Real
-    ratio_19: str | float | types.Real
-    time_19: str | float | types.Real
-    ratio_20: str | float | types.Real
-    time_20: str | float | types.Real
+    ratio_1: str | float | types.Real = None
+    time_1: str | float | types.Real = None
+    ratio_2: str | float | types.Real = None
+    time_2: str | float | types.Real = None
+    ratio_3: str | float | types.Real = None
+    time_3: str | float | types.Real = None
+    ratio_4: str | float | types.Real = None
+    time_4: str | float | types.Real = None
+    ratio_5: str | float | types.Real = None
+    time_5: str | float | types.Real = None
+    ratio_6: str | float | types.Real = None
+    time_6: str | float | types.Real = None
+    ratio_7: str | float | types.Real = None
+    time_7: str | float | types.Real = None
+    ratio_8: str | float | types.Real = None
+    time_8: str | float | types.Real = None
+    ratio_9: str | float | types.Real = None
+    time_9: str | float | types.Real = None
+    ratio_10: str | float | types.Real = None
+    time_10: str | float | types.Real = None
+    ratio_11: str | float | types.Real = None
+    time_11: str | float | types.Real = None
+    ratio_12: str | float | types.Real = None
+    time_12: str | float | types.Real = None
+    ratio_13: str | float | types.Real = None
+    time_13: str | float | types.Real = None
+    ratio_14: str | float | types.Real = None
+    time_14: str | float | types.Real = None
+    ratio_15: str | float | types.Real = None
+    time_15: str | float | types.Real = None
+    ratio_16: str | float | types.Real = None
+    time_16: str | float | types.Real = None
+    ratio_17: str | float | types.Real = None
+    time_17: str | float | types.Real = None
+    ratio_18: str | float | types.Real = None
+    time_18: str | float | types.Real = None
+    ratio_19: str | float | types.Real = None
+    time_19: str | float | types.Real = None
+    ratio_20: str | float | types.Real = None
+    time_20: str | float | types.Real = None
 
     def build(self):
         """

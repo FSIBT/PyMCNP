@@ -23,7 +23,7 @@ class Awtab(DataOption):
         'weight_ratios': types.Tuple[types.Substance],
     }
 
-    _REGEX = re.compile(rf'\Aawtab((?: {types.Substance._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aawtab((?: {types.Substance._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, weight_ratios: types.Tuple[types.Substance]):
         """

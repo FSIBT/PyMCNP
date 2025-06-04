@@ -28,7 +28,7 @@ class Subtitle(MplotOption):
     }
 
     _REGEX = re.compile(
-        rf'\Asubtitle( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( \"{types.String._REGEX.pattern}\")\Z'
+        rf'\Asubtitle( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( \"{types.String._REGEX.pattern[2:-2]}\")\Z'
     )
 
     def __init__(self, x: types.Integer, y: types.Integer, aa: types.String):

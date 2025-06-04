@@ -51,16 +51,7 @@ class McnpNonterminal(metaclass=McnpNonterminalMeta):
     @classproperty
     def _REGEX(cls):
         return re.compile(
-            r'|'.join(
-                map(
-                    lambda subclass: subclass._REGEX.pattern[2:-2],
-                    sorted(
-                        cls.__subclasses__(),
-                        reverse=True,
-                        key=lambda subclass: len(subclass.__name__),
-                    ),
-                )
-            )
+            rf"\A{r'|'.join(map(lambda subclass: subclass._REGEX.pattern[2:-2], sorted(cls.__subclasses__(), reverse=True, key=lambda subclass: len(subclass.__name__),),))}\Z"
         )
 
     @classmethod

@@ -22,7 +22,7 @@ class J_7(_line.HistoryLine):
         ncp: Count of collisions per track.
     """
 
-    _REGEX = re.compile(r'(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})')
+    _REGEX = re.compile(r'\A(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})\Z')
 
     def __init__(
         self,

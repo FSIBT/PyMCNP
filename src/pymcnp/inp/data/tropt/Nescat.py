@@ -23,7 +23,7 @@ class Nescat(TroptOption):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(rf'\Anescat( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Anescat( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, setting: types.String):
         """

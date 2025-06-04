@@ -23,7 +23,7 @@ class Idum(DataOption):
         'intergers': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Aidum((?: {types.Integer._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Aidum((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, intergers: types.Tuple[types.Integer]):
         """

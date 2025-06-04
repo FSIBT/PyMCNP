@@ -29,7 +29,7 @@ class Kx(SurfaceOption):
     }
 
     _REGEX = re.compile(
-        rf'\Akx( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Akx( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
     def __init__(self, x: types.Real, t_squared: types.Real, plusminus_1: types.Real):

@@ -524,7 +524,7 @@ class Test_Fill_6:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Fill_6
         EXAMPLES_VALID = [
-            #'FILL=0:2 1:2 0:1 4 4 2 $ i=0,1,2 for j=1 & k=0\n     0 4 0 $ i=0,1,2 for j=2 & k=0\n     0 3 3 $ i=0,1,2 for j=1 & k=1\n     4 4 0 $ i=0,1,2 for j=2 & k=1',
+            'FILL=0:2 1:2 0:1 4 4 2 $ i=0,1,2 for j=1 & k=0\n     0 4 0 $ i=0,1,2 for j=2 & k=0\n     0 3 3 $ i=0,1,2 for j=1 & k=1\n     4 4 0 $ i=0,1,2 for j=2 & k=1',
         ]
         EXAMPLES_INVALID = []
 

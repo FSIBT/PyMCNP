@@ -25,7 +25,7 @@ class Ylim(MplotOption, keyword='ylim'):
     }
 
     _REGEX = re.compile(
-        rf'\Aylim( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Aylim( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
     def __init__(self, min: types.Real, max: types.Real, nsteps: types.Real):

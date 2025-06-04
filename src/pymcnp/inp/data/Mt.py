@@ -25,7 +25,7 @@ class Mt(DataOption):
         'identifiers': types.Tuple[types.String],
     }
 
-    _REGEX = re.compile(rf'\Amt(\d+)((?: {types.String._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Amt(\d+)((?: {types.String._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, suffix: types.Integer, identifiers: types.Tuple[types.String]):
         """

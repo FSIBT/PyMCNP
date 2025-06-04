@@ -24,12 +24,12 @@ class Header(_object.McnpNonterminal):
     """
 
     _REGEX = re.compile(
-        r'   -1\n'
+        r'\A   -1\n'
         r'(.{8})(.{25})(.{9})(.{18})\n'
         r'(.{80})\n'
         r'((?:\s.{120}\n)+)'
         r'\s(.{100})\n'
-        r'((?:\s(?:.{4})+\n)+)'
+        r'((?:\s(?:.{4})+\n)+)\Z'
     )
 
     def __init__(

@@ -23,7 +23,7 @@ class Ctme(DataOption):
         'tme': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Actme( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Actme( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, tme: types.Integer):
         """

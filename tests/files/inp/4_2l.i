@@ -13,7 +13,7 @@ nps 10000
 fc1 *** neutron angle spectra tally ***
 f1:n 1
 ft1 frv 0 0 1
-c fq1 e c
-c *c1 167.5 9i 17.5 0 T
-c e1 1 50log 1300 T
-c lca 2 1 1 23 1 1 0 -2 0
+fq1 e c
+*c1 167.5 9i 17.5 0 T
+e1 1 50log 1300 T
+lca 2 1 1 23 1 1 0 -2 0

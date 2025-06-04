@@ -16,7 +16,8 @@ class Ptrac(_object.McnpFile):
     """
 
     _REGEX = re.compile(
-        rf'({ptrac.Header._REGEX.pattern})' rf'((?:{ptrac.History._REGEX.pattern})+)'
+        rf'\A({ptrac.Header._REGEX.pattern[2:-2]})'
+        rf'((?:{ptrac.History._REGEX.pattern[2:-2]})+)\Z'
     )
 
     def __init__(

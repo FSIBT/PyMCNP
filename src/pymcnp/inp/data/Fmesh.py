@@ -28,7 +28,9 @@ class Fmesh(DataOption):
         'options': types.Tuple[fmesh.FmeshOption],
     }
 
-    _REGEX = re.compile(rf'\Afmesh(\d+):(\S+)((?: (?:{fmesh.FmeshOption._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(
+        rf'\Afmesh(\d+):(\S+)((?: (?:{fmesh.FmeshOption._REGEX.pattern[2:-2]}))+?)?\Z'
+    )
 
     def __init__(
         self,

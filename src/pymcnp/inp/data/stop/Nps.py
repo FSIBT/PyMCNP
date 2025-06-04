@@ -26,7 +26,7 @@ class Nps(StopOption):
     }
 
     _REGEX = re.compile(
-        rf'\Anps( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})?\Z'
+        rf'\Anps( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(self, npp: types.Integer, npsmg: types.Integer = None):

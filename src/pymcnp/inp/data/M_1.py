@@ -25,7 +25,7 @@ class M_1(DataOption):
         'abx': types.String,
     }
 
-    _REGEX = re.compile(rf'\Am(\d+)( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Am(\d+)( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, suffix: types.Integer, abx: types.String):
         """

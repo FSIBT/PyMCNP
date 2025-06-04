@@ -31,7 +31,7 @@ class P_0(SurfaceOption):
     }
 
     _REGEX = re.compile(
-        rf'\Ap( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Ap( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
     def __init__(self, a: types.Real, b: types.Real, c: types.Real, d: types.Real):

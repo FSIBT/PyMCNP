@@ -25,7 +25,7 @@ class Legend(MplotOption):
     }
 
     _REGEX = re.compile(
-        rf'\Alegend( {types.Real._REGEX.pattern})?( {types.Real._REGEX.pattern})?\Z'
+        rf'\Alegend( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(self, x: types.Real = None, y: types.Real = None):

@@ -29,13 +29,13 @@ class Ssw(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Assw((?: {types.Integer._REGEX.pattern})+?)((?: {types.Integer._REGEX.pattern})+?)((?: (?:{ssw.SswOption._REGEX.pattern}))+?)?\Z'
+        rf'\Assw((?: {types.Integer._REGEX.pattern[2:-2]})+?)((?: {types.Integer._REGEX.pattern[2:-2]})+?)?((?: (?:{ssw.SswOption._REGEX.pattern[2:-2]}))+?)?\Z'
     )
 
     def __init__(
         self,
         surfaces: types.Tuple[types.Integer],
-        cells: types.Tuple[types.Integer],
+        cells: types.Tuple[types.Integer] = None,
         options: types.Tuple[ssw.SswOption] = None,
     ):
         """
@@ -52,8 +52,6 @@ class Ssw(DataOption):
 
         if surfaces is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, surfaces)
-        if cells is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cells)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -80,7 +78,7 @@ class SswBuilder:
     """
 
     surfaces: list[str] | list[int] | list[types.Integer]
-    cells: list[str] | list[int] | list[types.Integer]
+    cells: list[str] | list[int] | list[types.Integer] = None
     options: list[str] | list[ssw.SswOption] = None
 
     def build(self):

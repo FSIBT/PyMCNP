@@ -25,9 +25,9 @@ class Dd(DataOption):
         'diagnostics': types.Tuple[types.Diagnostic],
     }
 
-    _REGEX = re.compile(rf'\Add(\d+)((?: {types.Diagnostic._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Add(\d+)?((?: {types.Diagnostic._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, diagnostics: types.Tuple[types.Diagnostic]):
+    def __init__(self, diagnostics: types.Tuple[types.Diagnostic], suffix: types.Integer = None):
         """
         Initializes ``Dd``.
 
@@ -39,8 +39,6 @@ class Dd(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if diagnostics is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, diagnostics)
 
@@ -64,8 +62,8 @@ class DdBuilder:
         diagnostics: Detector diagnostic entries.
     """
 
-    suffix: str | int | types.Integer
     diagnostics: list[str] | list[types.Diagnostic]
+    suffix: str | int | types.Integer = None
 
     def build(self):
         """

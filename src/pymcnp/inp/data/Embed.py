@@ -23,7 +23,7 @@ class Embed(DataOption):
         'options': types.Tuple[embed.EmbedOption],
     }
 
-    _REGEX = re.compile(rf'\Aembed((?: (?:{embed.EmbedOption._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Aembed((?: (?:{embed.EmbedOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
     def __init__(self, options: types.Tuple[embed.EmbedOption] = None):
         """

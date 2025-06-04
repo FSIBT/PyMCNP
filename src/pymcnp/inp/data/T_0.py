@@ -30,7 +30,7 @@ class T_0(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\At(\d+)((?: {types.Real._REGEX.pattern})+?)( {types.String._REGEX.pattern})?( {types.String._REGEX.pattern})?\Z'
+        rf'\At(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(

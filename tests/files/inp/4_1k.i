@@ -33,7 +33,7 @@ kcode 5000 1.0 50 250
 ksrc 0.0 0.0 0.0
 m1 92235.69c 1.0
 m2 6012 1.0
-c dm1 92235 92235.50
+dm1 92235 92235.50
 c mesh geom cyl
 c     ref 0.0 0.0 0.0
 c     origin 0.0 0.0 -10.0 $ bottom center of cylinder

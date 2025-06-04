@@ -72,7 +72,7 @@ class Test_Genxs:
         element = pymcnp.inp.data.tropt.GenxsBuilder
         EXAMPLES_VALID = [
             {'filename': 'a'},
-            {'filename': 'a'},
+            {'filename': None},
             {'filename': pymcnp.utils.types.String('a')},
         ]
-        EXAMPLES_INVALID = [{'filename': None}]
+        EXAMPLES_INVALID = []

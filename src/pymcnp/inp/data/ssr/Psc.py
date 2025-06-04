@@ -23,7 +23,7 @@ class Psc(SsrOption):
         'constant': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Apsc( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Apsc( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, constant: types.Real):
         """

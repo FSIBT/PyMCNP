@@ -28,7 +28,7 @@ class Bem(SdefOption):
     }
 
     _REGEX = re.compile(
-        rf'\Abem( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Abem( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
     def __init__(self, exn: types.Real, eyn: types.Real, bml: types.Real):

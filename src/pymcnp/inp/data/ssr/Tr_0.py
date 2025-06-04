@@ -23,7 +23,7 @@ class Tr_0(SsrOption):
         'number': types.DistributionNumber,
     }
 
-    _REGEX = re.compile(rf'\Atr( {types.DistributionNumber._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Atr( {types.DistributionNumber._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, number: types.DistributionNumber):
         """

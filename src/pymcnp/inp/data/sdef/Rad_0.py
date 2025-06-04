@@ -23,7 +23,7 @@ class Rad_0(SdefOption):
         'radial_distance': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Arad( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Arad( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, radial_distance: types.Real):
         """

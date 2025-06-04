@@ -23,7 +23,7 @@ class Fmatspace(KoptsOption):
         'fmat_space': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Afmatspace( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Afmatspace( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, fmat_space: types.Real):
         """

@@ -23,7 +23,7 @@ class Seed(RandOption):
         'seed': types.Integer,
     }
 
-    _REGEX = re.compile(rf'\Aseed( {types.Integer._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Aseed( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, seed: types.Integer):
         """

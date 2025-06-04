@@ -23,7 +23,7 @@ class Mplot(DataOption):
         'options': types.Tuple[mplot.MplotOption],
     }
 
-    _REGEX = re.compile(rf'\Amplot((?: (?:{mplot.MplotOption._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Amplot((?: (?:{mplot.MplotOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
     def __init__(self, options: types.Tuple[mplot.MplotOption] = None):
         """

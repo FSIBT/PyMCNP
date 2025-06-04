@@ -23,7 +23,7 @@ class Xs_1(MplotOption):
         'm': types.Zaid,
     }
 
-    _REGEX = re.compile(rf'\Axs( {types.Zaid._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Axs( {types.Zaid._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, m: types.Zaid):
         """

@@ -23,7 +23,7 @@ class Tfc(MplotOption):
         'x': types.String,
     }
 
-    _REGEX = re.compile(rf'\Atfc( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Atfc( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, x: types.String):
         """

@@ -6,7 +6,6 @@ import dataclasses
 
 from ._option import DataOption
 from ...utils import types
-from ...utils import errors
 
 
 class Prdmp(DataOption):
@@ -32,16 +31,16 @@ class Prdmp(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Aprdmp( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Aprdmp( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
-        ndp: types.Integer,
-        ndm: types.Integer,
-        mct: types.Integer,
-        ndmp: types.Integer,
-        dmmp: types.Integer,
+        ndp: types.Integer = None,
+        ndm: types.Integer = None,
+        mct: types.Integer = None,
+        ndmp: types.Integer = None,
+        dmmp: types.Integer = None,
     ):
         """
         Initializes ``Prdmp``.
@@ -56,17 +55,6 @@ class Prdmp(DataOption):
         Raises:
             InpError: SEMANTICS_OPTION.
         """
-
-        if ndp is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ndp)
-        if ndm is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ndm)
-        if mct is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mct)
-        if ndmp is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ndmp)
-        if dmmp is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, dmmp)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -98,11 +86,11 @@ class PrdmpBuilder:
         dmmp: Controls frequently of tally fluctuation chart.
     """
 
-    ndp: str | int | types.Integer
-    ndm: str | int | types.Integer
-    mct: str | int | types.Integer
-    ndmp: str | int | types.Integer
-    dmmp: str | int | types.Integer
+    ndp: str | int | types.Integer = None
+    ndm: str | int | types.Integer = None
+    mct: str | int | types.Integer = None
+    ndmp: str | int | types.Integer = None
+    dmmp: str | int | types.Integer = None
 
     def build(self):
         """

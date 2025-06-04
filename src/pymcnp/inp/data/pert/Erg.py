@@ -25,7 +25,9 @@ class Erg(PertOption):
         'energy_upper_bound': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Aerg( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(
+        rf'\Aerg( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
+    )
 
     def __init__(self, energy_lower_bound: types.Real, energy_upper_bound: types.Real):
         """

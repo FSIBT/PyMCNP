@@ -43,6 +43,6 @@ fmesh24:n geom=xyz origin -10 -10 -10
     kmesh 10 kints 100
     out=none
 c Tally multipliers
-c +fm04 -1 235 -6 $ fission rate per cm3 from U235
-c +fm14 -1 238 -6 $ fission rate per cm3 from U238
-c +fm24 -1 100 -6 $ total fission rate from both U235 and U238
++fm04 -1 235 -6 $ fission rate per cm3 from U235
++fm14 -1 238 -6 $ fission rate per cm3 from U238
++fm24 -1 100 -6 $ total fission rate from both U235 and U238

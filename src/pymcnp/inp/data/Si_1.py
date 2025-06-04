@@ -28,11 +28,14 @@ class Si_1(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Asi(\d+)( {types.String._REGEX.pattern})((?: {types.Real._REGEX.pattern})+?)\Z'
+        rf'\Asi(\d+)( {types.String._REGEX.pattern[2:-2]})?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z'
     )
 
     def __init__(
-        self, suffix: types.Integer, option: types.String, information: types.Tuple[types.Real]
+        self,
+        suffix: types.Integer,
+        information: types.Tuple[types.Real],
+        option: types.String = None,
     ):
         """
         Initializes ``Si_1``.
@@ -48,8 +51,6 @@ class Si_1(DataOption):
 
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
-        if option is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
         if information is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, information)
 
@@ -77,8 +78,8 @@ class SiBuilder_1:
     """
 
     suffix: str | int | types.Integer
-    option: str | types.String
     information: list[str] | list[float] | list[types.Real]
+    option: str | types.String = None
 
     def build(self):
         """

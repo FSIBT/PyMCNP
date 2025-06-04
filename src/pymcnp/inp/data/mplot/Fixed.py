@@ -26,7 +26,7 @@ class Fixed(MplotOption):
     }
 
     _REGEX = re.compile(
-        rf'\Afixed( {types.String._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Afixed( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z'
     )
 
     def __init__(self, q: types.String, n: types.Integer):

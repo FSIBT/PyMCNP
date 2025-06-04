@@ -222,111 +222,111 @@ class Dbcn(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Adbcn( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})( {types.Integer._REGEX.pattern})\Z'
+        rf'\Adbcn( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
-        x1: types.Integer,
-        x2: types.Integer,
-        x3: types.Integer,
-        x4: types.Integer,
-        x5: types.Integer,
-        x6: types.Integer,
-        x7: types.Integer,
-        x8: types.Integer,
-        x9: types.Integer,
-        x10: types.Integer,
-        x11: types.Integer,
-        x12: types.Integer,
-        x13: types.Integer,
-        x14: types.Integer,
-        x15: types.Integer,
-        x16: types.Integer,
-        x17: types.Integer,
-        x18: types.Integer,
-        x19: types.Integer,
-        x20: types.Integer,
-        x21: types.Integer,
-        x22: types.Integer,
-        x23: types.Integer,
-        x24: types.Integer,
-        x25: types.Integer,
-        x26: types.Integer,
-        x27: types.Integer,
-        x28: types.Integer,
-        x29: types.Integer,
-        x30: types.Integer,
-        x31: types.Integer,
-        x32: types.Integer,
-        x33: types.Integer,
-        x34: types.Integer,
-        x35: types.Integer,
-        x36: types.Integer,
-        x37: types.Integer,
-        x38: types.Integer,
-        x39: types.Integer,
-        x40: types.Integer,
-        x41: types.Integer,
-        x42: types.Integer,
-        x43: types.Integer,
-        x44: types.Integer,
-        x45: types.Integer,
-        x46: types.Integer,
-        x47: types.Integer,
-        x48: types.Integer,
-        x49: types.Integer,
-        x50: types.Integer,
-        x51: types.Integer,
-        x52: types.Integer,
-        x53: types.Integer,
-        x54: types.Integer,
-        x55: types.Integer,
-        x56: types.Integer,
-        x57: types.Integer,
-        x58: types.Integer,
-        x59: types.Integer,
-        x60: types.Integer,
-        x61: types.Integer,
-        x62: types.Integer,
-        x63: types.Integer,
-        x64: types.Integer,
-        x65: types.Integer,
-        x66: types.Integer,
-        x67: types.Integer,
-        x68: types.Integer,
-        x69: types.Integer,
-        x70: types.Integer,
-        x71: types.Integer,
-        x72: types.Integer,
-        x73: types.Integer,
-        x74: types.Integer,
-        x75: types.Integer,
-        x76: types.Integer,
-        x77: types.Integer,
-        x78: types.Integer,
-        x79: types.Integer,
-        x80: types.Integer,
-        x81: types.Integer,
-        x82: types.Integer,
-        x83: types.Integer,
-        x84: types.Integer,
-        x85: types.Integer,
-        x86: types.Integer,
-        x87: types.Integer,
-        x88: types.Integer,
-        x89: types.Integer,
-        x90: types.Integer,
-        x91: types.Integer,
-        x92: types.Integer,
-        x93: types.Integer,
-        x94: types.Integer,
-        x95: types.Integer,
-        x96: types.Integer,
-        x97: types.Integer,
-        x98: types.Integer,
-        x99: types.Integer,
-        x100: types.Integer,
+        x1: types.Integer = None,
+        x2: types.Integer = None,
+        x3: types.Integer = None,
+        x4: types.Integer = None,
+        x5: types.Integer = None,
+        x6: types.Integer = None,
+        x7: types.Integer = None,
+        x8: types.Integer = None,
+        x9: types.Integer = None,
+        x10: types.Integer = None,
+        x11: types.Integer = None,
+        x12: types.Integer = None,
+        x13: types.Integer = None,
+        x14: types.Integer = None,
+        x15: types.Integer = None,
+        x16: types.Integer = None,
+        x17: types.Integer = None,
+        x18: types.Integer = None,
+        x19: types.Integer = None,
+        x20: types.Integer = None,
+        x21: types.Integer = None,
+        x22: types.Integer = None,
+        x23: types.Integer = None,
+        x24: types.Integer = None,
+        x25: types.Integer = None,
+        x26: types.Integer = None,
+        x27: types.Integer = None,
+        x28: types.Integer = None,
+        x29: types.Integer = None,
+        x30: types.Integer = None,
+        x31: types.Integer = None,
+        x32: types.Integer = None,
+        x33: types.Integer = None,
+        x34: types.Integer = None,
+        x35: types.Integer = None,
+        x36: types.Integer = None,
+        x37: types.Integer = None,
+        x38: types.Integer = None,
+        x39: types.Integer = None,
+        x40: types.Integer = None,
+        x41: types.Integer = None,
+        x42: types.Integer = None,
+        x43: types.Integer = None,
+        x44: types.Integer = None,
+        x45: types.Integer = None,
+        x46: types.Integer = None,
+        x47: types.Integer = None,
+        x48: types.Integer = None,
+        x49: types.Integer = None,
+        x50: types.Integer = None,
+        x51: types.Integer = None,
+        x52: types.Integer = None,
+        x53: types.Integer = None,
+        x54: types.Integer = None,
+        x55: types.Integer = None,
+        x56: types.Integer = None,
+        x57: types.Integer = None,
+        x58: types.Integer = None,
+        x59: types.Integer = None,
+        x60: types.Integer = None,
+        x61: types.Integer = None,
+        x62: types.Integer = None,
+        x63: types.Integer = None,
+        x64: types.Integer = None,
+        x65: types.Integer = None,
+        x66: types.Integer = None,
+        x67: types.Integer = None,
+        x68: types.Integer = None,
+        x69: types.Integer = None,
+        x70: types.Integer = None,
+        x71: types.Integer = None,
+        x72: types.Integer = None,
+        x73: types.Integer = None,
+        x74: types.Integer = None,
+        x75: types.Integer = None,
+        x76: types.Integer = None,
+        x77: types.Integer = None,
+        x78: types.Integer = None,
+        x79: types.Integer = None,
+        x80: types.Integer = None,
+        x81: types.Integer = None,
+        x82: types.Integer = None,
+        x83: types.Integer = None,
+        x84: types.Integer = None,
+        x85: types.Integer = None,
+        x86: types.Integer = None,
+        x87: types.Integer = None,
+        x88: types.Integer = None,
+        x89: types.Integer = None,
+        x90: types.Integer = None,
+        x91: types.Integer = None,
+        x92: types.Integer = None,
+        x93: types.Integer = None,
+        x94: types.Integer = None,
+        x95: types.Integer = None,
+        x96: types.Integer = None,
+        x97: types.Integer = None,
+        x98: types.Integer = None,
+        x99: types.Integer = None,
+        x100: types.Integer = None,
     ):
         """
         Initializes ``Dbcn``.
@@ -437,206 +437,10 @@ class Dbcn(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if x1 is None or not (x1.value >= 0):
+        if x1 is not None and not (x1.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x1)
-        if x2 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x2)
-        if x3 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x3)
-        if x4 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x4)
-        if x5 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x5)
-        if x6 is None or not (50 <= x6.value <= 200):
+        if x6 is not None and not (50 <= x6.value <= 200):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x6)
-        if x7 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x7)
-        if x8 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x8)
-        if x9 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x9)
-        if x10 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x10)
-        if x11 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x11)
-        if x12 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x12)
-        if x13 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x13)
-        if x14 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x14)
-        if x15 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x15)
-        if x16 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x16)
-        if x17 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x17)
-        if x18 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x18)
-        if x19 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x19)
-        if x20 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x20)
-        if x21 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x21)
-        if x22 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x22)
-        if x23 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x23)
-        if x24 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x24)
-        if x25 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x25)
-        if x26 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x26)
-        if x27 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x27)
-        if x28 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x28)
-        if x29 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x29)
-        if x30 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x30)
-        if x31 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x31)
-        if x32 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x32)
-        if x33 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x33)
-        if x34 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x34)
-        if x35 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x35)
-        if x36 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x36)
-        if x37 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x37)
-        if x38 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x38)
-        if x39 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x39)
-        if x40 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x40)
-        if x41 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x41)
-        if x42 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x42)
-        if x43 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x43)
-        if x44 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x44)
-        if x45 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x45)
-        if x46 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x46)
-        if x47 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x47)
-        if x48 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x48)
-        if x49 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x49)
-        if x50 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x50)
-        if x51 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x51)
-        if x52 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x52)
-        if x53 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x53)
-        if x54 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x54)
-        if x55 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x55)
-        if x56 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x56)
-        if x57 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x57)
-        if x58 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x58)
-        if x59 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x59)
-        if x60 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x60)
-        if x61 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x61)
-        if x62 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x62)
-        if x63 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x63)
-        if x64 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x64)
-        if x65 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x65)
-        if x66 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x66)
-        if x67 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x67)
-        if x68 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x68)
-        if x69 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x69)
-        if x70 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x70)
-        if x71 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x71)
-        if x72 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x72)
-        if x73 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x73)
-        if x74 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x74)
-        if x75 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x75)
-        if x76 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x76)
-        if x77 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x77)
-        if x78 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x78)
-        if x79 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x79)
-        if x80 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x80)
-        if x81 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x81)
-        if x82 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x82)
-        if x83 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x83)
-        if x84 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x84)
-        if x85 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x85)
-        if x86 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x86)
-        if x87 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x87)
-        if x88 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x88)
-        if x89 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x89)
-        if x90 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x90)
-        if x91 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x91)
-        if x92 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x92)
-        if x93 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x93)
-        if x94 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x94)
-        if x95 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x95)
-        if x96 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x96)
-        if x97 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x97)
-        if x98 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x98)
-        if x99 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x99)
-        if x100 is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x100)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -953,106 +757,106 @@ class DbcnBuilder:
         x100: Coincident-surface method old/new setting.
     """
 
-    x1: str | int | types.Integer
-    x2: str | int | types.Integer
-    x3: str | int | types.Integer
-    x4: str | int | types.Integer
-    x5: str | int | types.Integer
-    x6: str | int | types.Integer
-    x7: str | int | types.Integer
-    x8: str | int | types.Integer
-    x9: str | int | types.Integer
-    x10: str | int | types.Integer
-    x11: str | int | types.Integer
-    x12: str | int | types.Integer
-    x13: str | int | types.Integer
-    x14: str | int | types.Integer
-    x15: str | int | types.Integer
-    x16: str | int | types.Integer
-    x17: str | int | types.Integer
-    x18: str | int | types.Integer
-    x19: str | int | types.Integer
-    x20: str | int | types.Integer
-    x21: str | int | types.Integer
-    x22: str | int | types.Integer
-    x23: str | int | types.Integer
-    x24: str | int | types.Integer
-    x25: str | int | types.Integer
-    x26: str | int | types.Integer
-    x27: str | int | types.Integer
-    x28: str | int | types.Integer
-    x29: str | int | types.Integer
-    x30: str | int | types.Integer
-    x31: str | int | types.Integer
-    x32: str | int | types.Integer
-    x33: str | int | types.Integer
-    x34: str | int | types.Integer
-    x35: str | int | types.Integer
-    x36: str | int | types.Integer
-    x37: str | int | types.Integer
-    x38: str | int | types.Integer
-    x39: str | int | types.Integer
-    x40: str | int | types.Integer
-    x41: str | int | types.Integer
-    x42: str | int | types.Integer
-    x43: str | int | types.Integer
-    x44: str | int | types.Integer
-    x45: str | int | types.Integer
-    x46: str | int | types.Integer
-    x47: str | int | types.Integer
-    x48: str | int | types.Integer
-    x49: str | int | types.Integer
-    x50: str | int | types.Integer
-    x51: str | int | types.Integer
-    x52: str | int | types.Integer
-    x53: str | int | types.Integer
-    x54: str | int | types.Integer
-    x55: str | int | types.Integer
-    x56: str | int | types.Integer
-    x57: str | int | types.Integer
-    x58: str | int | types.Integer
-    x59: str | int | types.Integer
-    x60: str | int | types.Integer
-    x61: str | int | types.Integer
-    x62: str | int | types.Integer
-    x63: str | int | types.Integer
-    x64: str | int | types.Integer
-    x65: str | int | types.Integer
-    x66: str | int | types.Integer
-    x67: str | int | types.Integer
-    x68: str | int | types.Integer
-    x69: str | int | types.Integer
-    x70: str | int | types.Integer
-    x71: str | int | types.Integer
-    x72: str | int | types.Integer
-    x73: str | int | types.Integer
-    x74: str | int | types.Integer
-    x75: str | int | types.Integer
-    x76: str | int | types.Integer
-    x77: str | int | types.Integer
-    x78: str | int | types.Integer
-    x79: str | int | types.Integer
-    x80: str | int | types.Integer
-    x81: str | int | types.Integer
-    x82: str | int | types.Integer
-    x83: str | int | types.Integer
-    x84: str | int | types.Integer
-    x85: str | int | types.Integer
-    x86: str | int | types.Integer
-    x87: str | int | types.Integer
-    x88: str | int | types.Integer
-    x89: str | int | types.Integer
-    x90: str | int | types.Integer
-    x91: str | int | types.Integer
-    x92: str | int | types.Integer
-    x93: str | int | types.Integer
-    x94: str | int | types.Integer
-    x95: str | int | types.Integer
-    x96: str | int | types.Integer
-    x97: str | int | types.Integer
-    x98: str | int | types.Integer
-    x99: str | int | types.Integer
-    x100: str | int | types.Integer
+    x1: str | int | types.Integer = None
+    x2: str | int | types.Integer = None
+    x3: str | int | types.Integer = None
+    x4: str | int | types.Integer = None
+    x5: str | int | types.Integer = None
+    x6: str | int | types.Integer = None
+    x7: str | int | types.Integer = None
+    x8: str | int | types.Integer = None
+    x9: str | int | types.Integer = None
+    x10: str | int | types.Integer = None
+    x11: str | int | types.Integer = None
+    x12: str | int | types.Integer = None
+    x13: str | int | types.Integer = None
+    x14: str | int | types.Integer = None
+    x15: str | int | types.Integer = None
+    x16: str | int | types.Integer = None
+    x17: str | int | types.Integer = None
+    x18: str | int | types.Integer = None
+    x19: str | int | types.Integer = None
+    x20: str | int | types.Integer = None
+    x21: str | int | types.Integer = None
+    x22: str | int | types.Integer = None
+    x23: str | int | types.Integer = None
+    x24: str | int | types.Integer = None
+    x25: str | int | types.Integer = None
+    x26: str | int | types.Integer = None
+    x27: str | int | types.Integer = None
+    x28: str | int | types.Integer = None
+    x29: str | int | types.Integer = None
+    x30: str | int | types.Integer = None
+    x31: str | int | types.Integer = None
+    x32: str | int | types.Integer = None
+    x33: str | int | types.Integer = None
+    x34: str | int | types.Integer = None
+    x35: str | int | types.Integer = None
+    x36: str | int | types.Integer = None
+    x37: str | int | types.Integer = None
+    x38: str | int | types.Integer = None
+    x39: str | int | types.Integer = None
+    x40: str | int | types.Integer = None
+    x41: str | int | types.Integer = None
+    x42: str | int | types.Integer = None
+    x43: str | int | types.Integer = None
+    x44: str | int | types.Integer = None
+    x45: str | int | types.Integer = None
+    x46: str | int | types.Integer = None
+    x47: str | int | types.Integer = None
+    x48: str | int | types.Integer = None
+    x49: str | int | types.Integer = None
+    x50: str | int | types.Integer = None
+    x51: str | int | types.Integer = None
+    x52: str | int | types.Integer = None
+    x53: str | int | types.Integer = None
+    x54: str | int | types.Integer = None
+    x55: str | int | types.Integer = None
+    x56: str | int | types.Integer = None
+    x57: str | int | types.Integer = None
+    x58: str | int | types.Integer = None
+    x59: str | int | types.Integer = None
+    x60: str | int | types.Integer = None
+    x61: str | int | types.Integer = None
+    x62: str | int | types.Integer = None
+    x63: str | int | types.Integer = None
+    x64: str | int | types.Integer = None
+    x65: str | int | types.Integer = None
+    x66: str | int | types.Integer = None
+    x67: str | int | types.Integer = None
+    x68: str | int | types.Integer = None
+    x69: str | int | types.Integer = None
+    x70: str | int | types.Integer = None
+    x71: str | int | types.Integer = None
+    x72: str | int | types.Integer = None
+    x73: str | int | types.Integer = None
+    x74: str | int | types.Integer = None
+    x75: str | int | types.Integer = None
+    x76: str | int | types.Integer = None
+    x77: str | int | types.Integer = None
+    x78: str | int | types.Integer = None
+    x79: str | int | types.Integer = None
+    x80: str | int | types.Integer = None
+    x81: str | int | types.Integer = None
+    x82: str | int | types.Integer = None
+    x83: str | int | types.Integer = None
+    x84: str | int | types.Integer = None
+    x85: str | int | types.Integer = None
+    x86: str | int | types.Integer = None
+    x87: str | int | types.Integer = None
+    x88: str | int | types.Integer = None
+    x89: str | int | types.Integer = None
+    x90: str | int | types.Integer = None
+    x91: str | int | types.Integer = None
+    x92: str | int | types.Integer = None
+    x93: str | int | types.Integer = None
+    x94: str | int | types.Integer = None
+    x95: str | int | types.Integer = None
+    x96: str | int | types.Integer = None
+    x97: str | int | types.Integer = None
+    x98: str | int | types.Integer = None
+    x99: str | int | types.Integer = None
+    x100: str | int | types.Integer = None
 
     def build(self):
         """

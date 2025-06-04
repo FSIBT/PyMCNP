@@ -14,28 +14,33 @@ class Wwgt(DataOption):
     Represents INP wwgt elements.
 
     Attributes:
+        designator: Data card particle designator.
         bounds: Upper time bound for weight-window group to be generated.
     """
 
     _KEYWORD = 'wwgt'
 
     _ATTRS = {
+        'designator': types.Designator,
         'bounds': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Awwgt((?: {types.Real._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Awwgt:(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, bounds: types.Tuple[types.Real]):
+    def __init__(self, designator: types.Designator, bounds: types.Tuple[types.Real]):
         """
         Initializes ``Wwgt``.
 
         Parameters:
+            designator: Data card particle designator.
             bounds: Upper time bound for weight-window group to be generated.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
+        if designator is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
         if bounds is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bounds)
 
@@ -45,6 +50,7 @@ class Wwgt(DataOption):
             ]
         )
 
+        self.designator: typing.Final[types.Designator] = designator
         self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
 
 
@@ -54,9 +60,11 @@ class WwgtBuilder:
     Builds ``Wwgt``.
 
     Attributes:
+        designator: Data card particle designator.
         bounds: Upper time bound for weight-window group to be generated.
     """
 
+    designator: str | types.Designator
     bounds: list[str] | list[float] | list[types.Real]
 
     def build(self):
@@ -66,6 +74,12 @@ class WwgtBuilder:
         Returns:
             ``Wwgt`` for ``WwgtBuilder``.
         """
+
+        designator = self.designator
+        if isinstance(self.designator, types.Designator):
+            designator = self.designator
+        elif isinstance(self.designator, str):
+            designator = types.Designator.from_mcnp(self.designator)
 
         if self.bounds:
             bounds = []
@@ -81,6 +95,7 @@ class WwgtBuilder:
             bounds = None
 
         return Wwgt(
+            designator=designator,
             bounds=bounds,
         )
 
@@ -94,5 +109,6 @@ class WwgtBuilder:
         """
 
         return Wwgt(
+            designator=copy.deepcopy(ast.designator),
             bounds=copy.deepcopy(ast.bounds),
         )

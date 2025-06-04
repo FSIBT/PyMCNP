@@ -31,7 +31,7 @@ class M_0(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Am(\d+)((?: {types.Substance._REGEX.pattern})+?)((?: (?:{m_0.MOption_0._REGEX.pattern}))+?)?\Z'
+        rf'\Am(\d+)((?: {types.Substance._REGEX.pattern[2:-2]})+?)((?: (?:{m_0.MOption_0._REGEX.pattern[2:-2]}))+?)?\Z'
     )
 
     def __init__(

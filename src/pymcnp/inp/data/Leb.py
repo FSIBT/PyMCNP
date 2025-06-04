@@ -30,10 +30,16 @@ class Leb(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Aleb( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})( {types.Real._REGEX.pattern})\Z'
+        rf'\Aleb( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
-    def __init__(self, yzere: types.Real, bzere: types.Real, yzero: types.Real, bzero: types.Real):
+    def __init__(
+        self,
+        yzere: types.Real = None,
+        bzere: types.Real = None,
+        yzero: types.Real = None,
+        bzero: types.Real = None,
+    ):
         """
         Initializes ``Leb``.
 
@@ -47,13 +53,13 @@ class Leb(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if yzere is None or not (yzere.value > 0):
+        if yzere is not None and not (isinstance(yzere.value, types.Jump) or yzere.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yzere)
-        if bzere is None or not (bzere.value > 0):
+        if bzere is not None and not (isinstance(bzere.value, types.Jump) or bzere.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bzere)
-        if yzero is None or not (yzero.value > 0):
+        if yzero is not None and not (isinstance(yzero.value, types.Jump) or yzero.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, yzero)
-        if bzero is None or not (bzero.value > 0):
+        if bzero is not None and not (isinstance(bzero.value, types.Jump) or bzero.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bzero)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -83,10 +89,10 @@ class LebBuilder:
         bzero: B0 parameter in level-density formula for Z≥70.
     """
 
-    yzere: str | float | types.Real
-    bzere: str | float | types.Real
-    yzero: str | float | types.Real
-    bzero: str | float | types.Real
+    yzere: str | float | types.Real = None
+    bzere: str | float | types.Real = None
+    yzero: str | float | types.Real = None
+    bzero: str | float | types.Real = None
 
     def build(self):
         """

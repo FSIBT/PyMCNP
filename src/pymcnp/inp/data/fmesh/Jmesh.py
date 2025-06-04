@@ -23,7 +23,7 @@ class Jmesh(FmeshOption):
         'locations': types.Real,
     }
 
-    _REGEX = re.compile(rf'\Ajmesh( {types.Real._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Ajmesh( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, locations: types.Real):
         """

@@ -34,16 +34,16 @@ c 4 0 2 3 -4 *fill=2 ( 4 8 0 15 105 90 75 15 90) imp:n=1
 sdef pos 0 -5 0 erg d1 rad d2
 si1 0 10
 sp1 0 1
-c si2 3
+si2 3
 sp2 -21
 e0 1 2 3 4 5 6 7 8 9 10 11 12
 f2:n 3
-c sd2 1
-c f4:n 8 9
-c sd4 1 1
+sd2 1
+f4:n 8 9
+sd4 1 1
 m1 4009 1
 m2 6000 1
 m3 13027 1
 nps 100000
 print
-c dbcn 0 0 1 4
+dbcn 0 0 1 4

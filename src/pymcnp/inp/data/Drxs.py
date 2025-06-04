@@ -22,7 +22,7 @@ class Drxs(DataOption):
         'zaids': types.Tuple[types.Zaid],
     }
 
-    _REGEX = re.compile(rf'\Adrxs((?: {types.Zaid._REGEX.pattern})+?)?\Z')
+    _REGEX = re.compile(rf'\Adrxs((?: {types.Zaid._REGEX.pattern[2:-2]})+?)?\Z')
 
     def __init__(self, zaids: types.Tuple[types.Zaid] = None):
         """

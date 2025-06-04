@@ -23,7 +23,7 @@ class Act(DataOption):
         'options': types.Tuple[act.ActOption],
     }
 
-    _REGEX = re.compile(rf'\Aact((?: (?:{act.ActOption._REGEX.pattern}))+?)?\Z')
+    _REGEX = re.compile(rf'\Aact((?: (?:{act.ActOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
     def __init__(self, options: types.Tuple[act.ActOption] = None):
         """

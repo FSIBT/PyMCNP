@@ -23,7 +23,7 @@ class Pty(SsrOption):
         'particles': types.Tuple[types.Designator],
     }
 
-    _REGEX = re.compile(rf'\Apty((?: {types.Designator._REGEX.pattern})+?)\Z')
+    _REGEX = re.compile(rf'\Apty((?: {types.Designator._REGEX.pattern[2:-2]})+?)\Z')
 
     def __init__(self, particles: types.Tuple[types.Designator]):
         """

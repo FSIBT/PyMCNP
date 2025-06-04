@@ -23,7 +23,7 @@ class Debug(EmbedOption):
         'parameter': types.String,
     }
 
-    _REGEX = re.compile(rf'\Adebug( {types.String._REGEX.pattern})\Z')
+    _REGEX = re.compile(rf'\Adebug( {types.String._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, parameter: types.String):
         """

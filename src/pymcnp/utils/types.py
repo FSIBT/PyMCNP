@@ -32,15 +32,16 @@ class Tuple(tuple, _object.McnpNonterminal):
         if value is None or not (value != tuple()):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, value)
 
-        self.value: typing.Final[tuple[type]] = value
+        self.value: typing.Final[tuple] = value
 
     @classmethod
-    def from_mcnp(cls, source: str, type: type):
+    def from_mcnp(cls, source: str, T: typing.Type):
         """
         Generates ``Tuple`` from MCNP.
 
         Parameters:
             source: MCNP tuple.
+            T: Inner type.
 
         Returns:
             ``Tuple``.
@@ -50,12 +51,12 @@ class Tuple(tuple, _object.McnpNonterminal):
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = type._REGEX.finditer(source)
+        tokens = T._REGEX.finditer(source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
-        return Tuple([type.from_mcnp(token[0]) for token in tokens])
+        return Tuple([T.from_mcnp(token[0]) for token in tokens])
 
     def to_mcnp(self):
         """
@@ -76,7 +77,7 @@ class Repeat(_object.McnpNonterminal):
         n: Repetition number.
     """
 
-    _REGEX = re.compile(r'(\d+)?r')
+    _REGEX = re.compile(r'\A(\d+)?r\Z')
 
     def __init__(self, n: int = None):
         """
@@ -141,7 +142,7 @@ class Insert(_object.McnpNonterminal):
         n: Repetition number.
     """
 
-    _REGEX = re.compile(r'(\d+)?i')
+    _REGEX = re.compile(r'\A(\d+)?i\Z')
 
     def __init__(self, n: int = None):
         """
@@ -206,7 +207,7 @@ class Multiply(_object.McnpNonterminal):
         x: Multiply number.
     """
 
-    _REGEX = re.compile(r'(\d+)m')
+    _REGEX = re.compile(r'\A(\d+)m\Z')
 
     def __init__(self, x: float):
         """
@@ -271,7 +272,7 @@ class Jump(_object.McnpNonterminal):
         n: Repetition number.
     """
 
-    _REGEX = re.compile(r'(\d+)?j')
+    _REGEX = re.compile(r'\A(\d+)?j\Z')
 
     def __init__(self, n: int = None):
         """
@@ -336,7 +337,7 @@ class Log(_object.McnpNonterminal):
         n: Repetition number.
     """
 
-    _REGEX = re.compile(r'(\d+)?(log|ilog)')
+    _REGEX = re.compile(r'\A(\d+)?(log|ilog)\Z')
 
     def __init__(self, n: int = None):
         """
@@ -401,7 +402,7 @@ class Integer(_object.McnpNonterminal):
         value: Integer value or jump.
     """
 
-    _REGEX = re.compile(r'(?:[-+0-9.eE]+|\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r)')
+    _REGEX = re.compile(r'\A(?:[-+0-9.eEdD]+|\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r)\Z')
 
     def __init__(self, value: int | Repeat | Insert | Multiply | Jump | Log):
         """
@@ -464,7 +465,12 @@ class Integer(_object.McnpNonterminal):
         except errors.McnpError:
             pass
 
+        source = re.sub(r'd', 'e', source)
+        if source[0] == 'e':
+            source = '1' + source
+
         try:
+            source = re.sub(r'd', 'e', source)
             return Integer(int(float(source)))
         except errors.McnpError:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -488,7 +494,7 @@ class Real(_object.McnpNonterminal):
         value: Real value or jump.
     """
 
-    _REGEX = re.compile(r'(?:[-+0-9.eE]+|\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r)')
+    _REGEX = re.compile(r'\A(?:[-+0-9.eEdD]+|\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r)\Z')
 
     def __init__(self, value: int | Repeat | Insert | Multiply | Jump | Log):
         """
@@ -551,6 +557,10 @@ class Real(_object.McnpNonterminal):
         except errors.McnpError:
             pass
 
+        source = re.sub(r'd', 'e', source)
+        if source[0] == 'e':
+            source = '1' + source
+
         try:
             return Real(float(source))
         except errors.McnpError:
@@ -575,7 +585,7 @@ class String(str, _object.McnpNonterminal):
         value: String value.
     """
 
-    _REGEX = re.compile(r'\S+')
+    _REGEX = re.compile(r'\A\S+\Z')
 
     def __init__(self, value: str):
         """
@@ -632,7 +642,7 @@ class DistributionNumber(_object.McnpNonterminal):
         n: Distribution identifier.
     """
 
-    _REGEX = re.compile(r'[dD]\d+')
+    _REGEX = re.compile(r'\A[dD]\d+\Z')
 
     def __init__(self, n: int):
         """
@@ -695,7 +705,7 @@ class EmbeddedDistributionNumber(_object.McnpNonterminal):
         numbers: Distribution numbers.
     """
 
-    _REGEX = re.compile(r'[dD0-1<]+')
+    _REGEX = re.compile(r'\A[dD0-1<]+\Z')
 
     def __init__(self, numbers: tuple[DistributionNumber]):
         """
@@ -758,7 +768,7 @@ class Zaid(_object.McnpNonterminal):
         abx: Cross-section evaluation & class information.
     """
 
-    _REGEX = re.compile(r'(?:\A)(\d{1,3})(\d\d\d)((?:[.])\S+)?')
+    _REGEX = re.compile(r'\A(\d{1,3})(\d\d\d)((?:[.])\S+)?\Z')
 
     def __init__(self, z: int, a: int, abx: str = None):
         """
@@ -910,7 +920,7 @@ class Designator(_object.McnpNonterminal):
     """
 
     _REGEX = re.compile(
-        r'[nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#]((?:,)[nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#])*'
+        r'\A[nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#]((?:,)[nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#])*\Z'
     )
 
     def __init__(self, particles: tuple[Particle]):
@@ -973,7 +983,7 @@ class Geometry(_object.McnpNonterminal):
         infix: Geometry infix formula.
     """
 
-    _REGEX = re.compile(r'((?:).+)')
+    _REGEX = re.compile(r'\A((?:).+)\Z')
 
     def __init__(self, infix: String):
         """
@@ -995,6 +1005,8 @@ class Geometry(_object.McnpNonterminal):
         temp = re.sub(r' ?: ?', '+', temp)
         temp = re.sub(r' ', '*', temp)
         temp = re.sub(r'#', '-', temp)
+        temp = re.sub(r'\+-', '-', temp)
+        temp = re.sub(r'(\d)\(', r'\1*(', temp)
 
         try:
             eval(temp)
@@ -1128,7 +1140,7 @@ class Substance(_object.McnpNonterminal):
         weight_ratio: Atomic weight ratios.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+)')
+    _REGEX = re.compile(r'\A(\S+) (\S+)\Z')
 
     def __init__(self, zaid: Zaid, weight_ratio: Real):
         """
@@ -1199,7 +1211,7 @@ class Bias(_object.McnpNonterminal):
         energy: Energy boundary for bias.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+)')
+    _REGEX = re.compile(r'\A(\S+) (\S+)\Z')
 
     def __init__(self, weight: Real, energy: Real):
         """
@@ -1282,7 +1294,7 @@ class Transformation_0(_object.McnpNonterminal):
     """
 
     _REGEX = re.compile(
-        r'(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?'
+        r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?\Z'
     )
 
     def __init__(
@@ -1432,7 +1444,7 @@ class Transformation_1(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?')
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?\Z')
 
     def __init__(
         self,
@@ -1562,7 +1574,7 @@ class Transformation_2(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?')
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?\Z')
 
     def __init__(
         self,
@@ -1684,7 +1696,7 @@ class Transformation_3(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?')
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?\Z')
 
     def __init__(
         self,
@@ -1791,7 +1803,7 @@ class Transformation_4(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+) (\S+)( \S+)?')
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+)( \S+)?\Z')
 
     def __init__(
         self,
@@ -1880,7 +1892,7 @@ class Stochastic(_object.McnpNonterminal):
         maximum_z: Maximum z displacement.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+)')
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+)\Z')
 
     def __init__(
         self,
@@ -1967,7 +1979,7 @@ class IndependentDependent(_object.McnpNonterminal):
         dependent: Dependent source dependent variable.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+)')
+    _REGEX = re.compile(r'\A(\S+) (\S+)\Z')
 
     def __init__(self, independent: Real, dependent: Real):
         """
@@ -2039,7 +2051,7 @@ class Location(_object.McnpNonterminal):
         z: Location z-coordinate.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+) (\S+)')
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+)\Z')
 
     def __init__(self, x: Real, y: Real, z: Real):
         """
@@ -2118,15 +2130,15 @@ class File(_object.McnpNonterminal):
         length: Record length of file to create.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+) (\S+)')
+    _REGEX = re.compile(r'\A(\S+) (\S+)(?: (\S+))?(?: (\S+))?(?: (\S+))?\Z')
 
     def __init__(
         self,
         unit: Integer,
         filename: String,
-        access: String,
-        form: String,
-        length: Integer,
+        access: String = None,
+        form: String = None,
+        length: Integer = None,
     ):
         """
         Initializes ``File``.
@@ -2149,12 +2161,10 @@ class File(_object.McnpNonterminal):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, unit)
         if filename is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, filename)
-        if access is None or access not in {'sequential', 'direct'}:
+        if access is not None and access not in {'sequential', 'direct'}:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, access)
-        if form is None or form.value not in {'formatted', 'unformatted'}:
+        if form is not None and form.value not in {'formatted', 'unformatted'}:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, form)
-        if length is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, length)
 
         self.unit: typing.Final[Integer] = unit
         self.filename: typing.Final[String] = filename
@@ -2185,9 +2195,9 @@ class File(_object.McnpNonterminal):
 
         unit = Integer.from_mcnp(tokens[1])
         filename = String.from_mcnp(tokens[2])
-        access = String.from_mcnp(tokens[3])
-        form = String.from_mcnp(tokens[4])
-        length = Integer.from_mcnp(tokens[5])
+        access = String.from_mcnp(tokens[3]) if tokens[3] else None
+        form = String.from_mcnp(tokens[4]) if tokens[4] else None
+        length = Integer.from_mcnp(tokens[5]) if tokens[5] else None
 
         return File(unit, filename, access, form, length)
 
@@ -2199,7 +2209,7 @@ class File(_object.McnpNonterminal):
             INP for ``File``.
         """
 
-        return f'{self.unit} {self.filename} {self.access} {self.form} {self.length}'
+        return f'{self.unit} {self.filename} {self.access or " "} {self.form or " "} {self.length or " "}'
 
 
 class Diagnostic(_object.McnpNonterminal):
@@ -2211,7 +2221,7 @@ class Diagnostic(_object.McnpNonterminal):
         printing_setting: Criterion for printing diagnostics for large contributions for DXTRAN.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+)')
+    _REGEX = re.compile(r'\A(\S+) (\S+)\Z')
 
     def __init__(self, playing_setting: Real, printing_setting: Real):
         """
@@ -2283,7 +2293,7 @@ class Ring(_object.McnpNonterminal):
         excludion_radius: Ring radius.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+) (\S+)')
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+)\Z')
 
     def __init__(
         self,
@@ -2366,7 +2376,7 @@ class Sphere(_object.McnpNonterminal):
         ro: Sphere exclusion radius.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+)')
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+)\Z')
 
     def __init__(
         self,
@@ -2456,7 +2466,7 @@ class Shell(_object.McnpNonterminal):
         outer_radius: Outer sphere radius.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+) (\S+) (\S+) (\S+)')
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+)\Z')
 
     def __init__(
         self,
@@ -2549,7 +2559,7 @@ class Reaction(_object.McnpNonterminal):
         pmt: MT reaction frequency control.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+)')
+    _REGEX = re.compile(r'\A(\S+) (\S+)\Z')
 
     def __init__(self, mt: Zaid, pmt: Integer):
         """
@@ -2621,7 +2631,7 @@ class PtracFilter(_object.McnpNonterminal):
         variable: Variable name for PBL derived structure.
     """
 
-    _REGEX = re.compile(r'(\S+),(\S+)(,\S+)?')
+    _REGEX = re.compile(r'\A(\S+),(\S+)(,\S+)?\Z')
 
     def __init__(self, lower: Real, variable: String, upper: Real = None):
         """
@@ -2698,7 +2708,7 @@ class PhotonBias(_object.McnpNonterminal):
         reactions: Bias MT reactions.
     """
 
-    _REGEX = re.compile(r'(\S+) (\S+)((?: \S+ \S+)+)')
+    _REGEX = re.compile(r'\A(\S+) (\S+)((?: \S+ \S+)+)\Z')
 
     def __init__(self, zaid: Zaid, ipiki: Integer, reactions: tuple[Reaction]):
         """
@@ -2776,7 +2786,7 @@ class Index(_object.McnpNonterminal):
         upper: Upper index.
     """
 
-    _REGEX = re.compile(r'(\S+):(\S+)')
+    _REGEX = re.compile(r'\A(\S+):(\S+)\Z')
 
     def __init__(self, lower: Integer, upper: Integer):
         """
