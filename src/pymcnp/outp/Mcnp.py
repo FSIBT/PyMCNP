@@ -137,10 +137,13 @@ class Mcnp(_block.Block):
             OUTP for ``Mcnp``.
         """
 
+        lines = '\n'.join(self.lines)
+        messages = '\n'.join(self.messages)
+
         return f"""
 1mcnp     {self.version}{self.code_date}{self.run_date}{self.run_time}
  *************************************************************************                 {self.probid}
  {self.command}
-{'\n'.join(self.lines)}
-{'\n'.join(self.messages)}
+{lines}
+{messages}
 """[1:-1]
