@@ -18,7 +18,7 @@ class McnpTerminalMeta(enum.EnumMeta, abc.ABCMeta):
     pass
 
 
-class McnpTerminal(metaclass=McnpTerminalMeta):
+class McnpTerminal(enum.Enum, metaclass=McnpTerminalMeta):
     """
     Represents generic MCNP terminal symbols.
     """
