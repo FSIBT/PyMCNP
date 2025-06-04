@@ -14,7 +14,7 @@ class classproperty:
         return self.func(owner)
 
 
-class McnpTerminalMeta(abc.ABCMeta, enum.EnumMeta):
+class McnpTerminalMeta(enum.EnumMeta, abc.ABCMeta):
     pass
 
 
