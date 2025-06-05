@@ -22,7 +22,7 @@ class Test_Meshgeo:
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.data.embed.MeshgeoBuilder
-        EXAMPLES_VALID = [{'form': 'abaqu'}, {'form': pymcnp.utils.types.String('abaqu')}]
+        EXAMPLES_VALID = [{'form': 'abaqus'}, {'form': pymcnp.utils.types.String('abaqus')}]
         EXAMPLES_INVALID = [{'form': None}]
 
 

@@ -15,12 +15,12 @@ C Surface Cards
 c Data Cards
 m1 1001 -0.02 8016 -0.60 14000 -0.38
 c
-c embed2 meshgeo= abaqus
-c        meeout= sample01.eeout
-c        gmvfile= sample01.gmv
-c        filetype= binary
-c        background= 21
-c        matcell= 1 10 2 11 3 12 4 13 5 14 6 15
+embed2 meshgeo= abaqus
+       meeout= sample01.eeout
+       gmvfile= sample01.gmv
+       filetype= binary
+       background= 21
+       matcell= 1 10 2 11 3 12 4 13 5 14 6 15
 c
 embee4:n embed=2
 embtb4 1 2 3 4 5 1e+39

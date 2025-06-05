@@ -15,7 +15,7 @@ totnu no
 m1 92235.69c 1.0
 m2 1001.60c 1.0
 prdmp j 275
-c embed10 meshgeo=lnk3dnt mgeoin=CUBE01.linkout debug=echomesh
-c      background=12
-c      matcell= 1 11
-c      calc_vols=yes
+embed10 meshgeo=lnk3dnt mgeoin=CUBE01.linkout debug=echomesh
+     background=12
+     matcell= 1 11
+     calc_vols=yes
