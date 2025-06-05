@@ -9167,7 +9167,7 @@ cards = ElementScheme(
                                     name='geometry',
                                     type='types.String',
                                     description='Controls mesh geometry type',
-                                    restriction='geometry in {"xyz", "rzt", "rpt"}',
+                                    restriction='geometry in {"xyz", "rzt", "rpt", "cyl", "rec", "sph"}',
                                 ),
                             ],
                         ),
