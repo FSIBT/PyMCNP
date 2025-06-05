@@ -85,7 +85,7 @@ class Test_Iints:
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.data.mesh.IintsBuilder
-        EXAMPLES_VALID = [{'number': '1'}, {'number': 1}, {'number': _utils.INTEGER}]
+        EXAMPLES_VALID = [{'number': ['1']}, {'number': [1]}, {'number': [_utils.INTEGER]}]
         EXAMPLES_INVALID = [{'number': None}]
 
 
@@ -109,7 +109,7 @@ class Test_Jints:
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.data.mesh.JintsBuilder
-        EXAMPLES_VALID = [{'number': '1'}, {'number': 1}, {'number': _utils.INTEGER}]
+        EXAMPLES_VALID = [{'number': ['1']}, {'number': [1]}, {'number': [_utils.INTEGER]}]
         EXAMPLES_INVALID = [{'number': None}]
 
 
@@ -133,5 +133,5 @@ class Test_Kints:
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.data.mesh.KintsBuilder
-        EXAMPLES_VALID = [{'number': '1'}, {'number': 1}, {'number': _utils.INTEGER}]
+        EXAMPLES_VALID = [{'number': ['1']}, {'number': [1]}, {'number': [_utils.INTEGER]}]
         EXAMPLES_INVALID = [{'number': None}]

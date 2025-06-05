@@ -85,7 +85,11 @@ class Test_Imesh:
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.data.fmesh.ImeshBuilder
-        EXAMPLES_VALID = [{'locations': '1.0'}, {'locations': 1.0}, {'locations': _utils.REAL}]
+        EXAMPLES_VALID = [
+            {'locations': ['1.0']},
+            {'locations': [1.0]},
+            {'locations': [_utils.REAL]},
+        ]
         EXAMPLES_INVALID = [{'locations': None}]
 
 
@@ -97,7 +101,7 @@ class Test_Iints:
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.data.fmesh.IintsBuilder
-        EXAMPLES_VALID = [{'count': '1'}, {'count': 1}, {'count': _utils.INTEGER}]
+        EXAMPLES_VALID = [{'count': ['1']}, {'count': [1]}, {'count': [_utils.INTEGER]}]
         EXAMPLES_INVALID = [{'count': None}]
 
 
@@ -109,7 +113,11 @@ class Test_Jmesh:
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.data.fmesh.JmeshBuilder
-        EXAMPLES_VALID = [{'locations': '1.0'}, {'locations': 1.0}, {'locations': _utils.REAL}]
+        EXAMPLES_VALID = [
+            {'locations': ['1.0']},
+            {'locations': [1.0]},
+            {'locations': [_utils.REAL]},
+        ]
         EXAMPLES_INVALID = [{'locations': None}]
 
 
@@ -121,7 +129,7 @@ class Test_Jints:
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.data.fmesh.JintsBuilder
-        EXAMPLES_VALID = [{'count': '1'}, {'count': 1}, {'count': _utils.INTEGER}]
+        EXAMPLES_VALID = [{'count': ['1']}, {'count': [1]}, {'count': [_utils.INTEGER]}]
         EXAMPLES_INVALID = [{'count': None}]
 
 
@@ -133,7 +141,11 @@ class Test_Kmesh:
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.data.fmesh.KmeshBuilder
-        EXAMPLES_VALID = [{'locations': '1.0'}, {'locations': 1.0}, {'locations': _utils.REAL}]
+        EXAMPLES_VALID = [
+            {'locations': ['1.0']},
+            {'locations': [1.0]},
+            {'locations': [_utils.REAL]},
+        ]
         EXAMPLES_INVALID = [{'locations': None}]
 
 
@@ -145,7 +157,7 @@ class Test_Kints:
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.data.fmesh.KintsBuilder
-        EXAMPLES_VALID = [{'count': '1'}, {'count': 1}, {'count': _utils.INTEGER}]
+        EXAMPLES_VALID = [{'count': ['1']}, {'count': [1]}, {'count': [_utils.INTEGER]}]
         EXAMPLES_INVALID = [{'count': None}]
 
 
