@@ -36,7 +36,7 @@ class Meshgeo(EmbedOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if form is None or form not in {'lnk3dnt', 'abaqu', 'mcnpum'}:
+        if form is None or form not in {'lnk3dnt', 'abaqus', 'mcnpum'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, form)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
