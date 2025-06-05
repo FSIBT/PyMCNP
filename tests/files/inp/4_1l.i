@@ -15,6 +15,6 @@ ksrc 1 1 5 1 -1 5 -1 -1 5 -1 1 5
 m3 92235.69c 1.0
 m4 6012 1.0
 dm1 92235 92235.50
-c embed10 meshgeo=lnk3dnt mgeoin=cyl.linkout debug=echomesh
-c     matcell= 1 11 2 12
-c     background=13
+embed10 meshgeo=lnk3dnt mgeoin=cyl.linkout debug=echomesh
+    matcell= 1 11 2 12
+    background=13

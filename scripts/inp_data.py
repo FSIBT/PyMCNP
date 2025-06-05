@@ -3927,7 +3927,13 @@ cards = ElementScheme(
                 ElementScheme(
                     name='embed',
                     mnemonic='embed',
+                    regex='embed(\\d+)?((?: (?:{embed.EmbedOption._REGEX.pattern[2:-2]}))+?)?',
                     attributes=[
+                        AttributeScheme(
+                            name='suffix',
+                            type='types.Integer',
+                            description='Data card option suffix',
+                        ),
                         AttributeScheme(
                             name='options',
                             type='types.Tuple[embed.EmbedOption]',
@@ -3949,6 +3955,17 @@ cards = ElementScheme(
                             ],
                         ),
                         ElementScheme(
+                            name='matcell',
+                            mnemonic='matcell',
+                            attributes=[
+                                AttributeScheme(
+                                    name='pairs',
+                                    type='types.Tuple[types.Matcell]',
+                                    description='Tuple of material-cell paris',
+                                ),
+                            ],
+                        ),
+                        ElementScheme(
                             name='meshgeo',
                             mnemonic='meshgeo',
                             attributes=[
@@ -3956,7 +3973,7 @@ cards = ElementScheme(
                                     name='form',
                                     type='types.String',
                                     description='Format specification of the embedded mesh input file',
-                                    restriction='form in {"lnk3dnt", "abaqu", "mcnpum"}',
+                                    restriction='form in {"lnk3dnt", "abaqus", "mcnpum"}',
                                 ),
                             ],
                         ),

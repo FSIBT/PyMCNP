@@ -2850,3 +2850,74 @@ class Index(_object.McnpNonterminal):
         """
 
         return f'{self.lower}:{self.upper}'
+
+
+class Matcell:
+    """
+    Represents INP material-cell entries.
+
+    Attributes:
+        material: Material number.
+        cell: Cell number.
+    """
+
+    _REGEX = re.compile(r'\A(\S+) (\S+)\Z')
+
+    def __init__(self, material: Integer, cell: Integer):
+        """
+        Initializes ``Matcell``.
+
+        Parameters:
+            material: Material number.
+            cell: Cell number.
+
+        Returns:
+            ``Matcell``.
+
+        Raises:
+            McnpError: SEMANTICS_TYPE.
+        """
+
+        if material is None or not (0 <= material.value <= 99_999_999):
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, material)
+        if cell is None or not (0 <= cell.value <= 99_999_999):
+            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, cell)
+
+        self.material: typing.Final[Integer] = material
+        self.cell: typing.Final[Integer] = cell
+
+    @staticmethod
+    def from_mcnp(source: str):
+        """
+        Generates ``Matcell`` from INP.
+
+        Parameters:
+            INP for ``Matcell``.
+
+        Returns:
+            ``Matcell``.
+
+        Raises:
+            McnpError: SYNTAX_TYPE.
+        """
+
+        source, comments = _parser.preprocess_inp(source)
+        tokens = Matcell._REGEX.match(source)
+
+        if not tokens:
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
+
+        material = Integer.from_mcnp(tokens[1])
+        cell = Integer.from_mcnp(tokens[2])
+
+        return Matcell(material, cell)
+
+    def to_mcnp(self):
+        """
+        Generates INP from ``Matcell``.
+
+        Returns:
+            INP for ``Matcell``.
+        """
+
+        return f'{self.material} {self.cell}'
