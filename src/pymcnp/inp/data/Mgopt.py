@@ -36,18 +36,18 @@ class Mgopt(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Amgopt( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
+        rf'\Amgopt( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
     def __init__(
         self,
         mcal: types.String,
         igm: types.Integer,
-        iplt: types.Integer,
-        iab: types.Integer,
-        icw: types.Integer,
-        fnw: types.Real,
-        rim: types.Real,
+        iplt: types.Integer = None,
+        iab: types.Integer = None,
+        icw: types.Integer = None,
+        fnw: types.Real = None,
+        rim: types.Real = None,
     ):
         """
         Initializes ``Mgopt``.
@@ -69,16 +69,10 @@ class Mgopt(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mcal)
         if igm is None or not (igm.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, igm)
-        if iplt is None or not (iplt.value == 0 or iplt.value == 1 or iplt.value == 2):
+        if iplt is not None and not (iplt.value == 0 or iplt.value == 1 or iplt.value == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iplt)
-        if iab is None or not (iab.value == 0 or iab.value == 1 or iab.value == 2):
+        if iab is not None and not (iab.value == 0 or iab.value == 1 or iab.value == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iab)
-        if icw is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, icw)
-        if fnw is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fnw)
-        if rim is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rim)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
@@ -118,11 +112,11 @@ class MgoptBuilder:
 
     mcal: str | types.String
     igm: str | int | types.Integer
-    iplt: str | int | types.Integer
-    iab: str | int | types.Integer
-    icw: str | int | types.Integer
-    fnw: str | float | types.Real
-    rim: str | float | types.Real
+    iplt: str | int | types.Integer = None
+    iab: str | int | types.Integer = None
+    icw: str | int | types.Integer = None
+    fnw: str | float | types.Real = None
+    rim: str | float | types.Real = None
 
     def build(self):
         """
