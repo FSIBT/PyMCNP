@@ -1224,36 +1224,6 @@ class Test_Mgopt:
                 'fnw': '1.0',
                 'rim': '1.0',
             },
-            {'mcal': 'a', 'igm': 1, 'iplt': 1, 'iab': 1, 'icw': 1, 'fnw': 1.0, 'rim': 1.0},
-            {
-                'mcal': pymcnp.utils.types.String('a'),
-                'igm': _utils.INTEGER,
-                'iplt': _utils.INTEGER,
-                'iab': _utils.INTEGER,
-                'icw': _utils.INTEGER,
-                'fnw': _utils.REAL,
-                'rim': _utils.REAL,
-            },
-        ]
-        EXAMPLES_INVALID = [
-            {
-                'mcal': None,
-                'igm': '1',
-                'iplt': '1',
-                'iab': '1',
-                'icw': '1',
-                'fnw': '1.0',
-                'rim': '1.0',
-            },
-            {
-                'mcal': 'a',
-                'igm': None,
-                'iplt': '1',
-                'iab': '1',
-                'icw': '1',
-                'fnw': '1.0',
-                'rim': '1.0',
-            },
             {
                 'mcal': 'a',
                 'igm': '1',
@@ -1298,6 +1268,44 @@ class Test_Mgopt:
                 'icw': '1',
                 'fnw': '1.0',
                 'rim': None,
+            },
+            {
+                'mcal': 'a',
+                'igm': 1,
+                'iplt': 1,
+                'iab': 1,
+                'icw': 1,
+                'fnw': 1.0,
+                'rim': 1.0,
+            },
+            {
+                'mcal': pymcnp.utils.types.String('a'),
+                'igm': _utils.INTEGER,
+                'iplt': _utils.INTEGER,
+                'iab': _utils.INTEGER,
+                'icw': _utils.INTEGER,
+                'fnw': _utils.REAL,
+                'rim': _utils.REAL,
+            },
+        ]
+        EXAMPLES_INVALID = [
+            {
+                'mcal': None,
+                'igm': '1',
+                'iplt': '1',
+                'iab': '1',
+                'icw': '1',
+                'fnw': '1.0',
+                'rim': '1.0',
+            },
+            {
+                'mcal': 'a',
+                'igm': None,
+                'iplt': '1',
+                'iab': '1',
+                'icw': '1',
+                'fnw': '1.0',
+                'rim': '1.0',
             },
         ]
 
