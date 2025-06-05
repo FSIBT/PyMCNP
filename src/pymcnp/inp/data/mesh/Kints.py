@@ -20,12 +20,12 @@ class Kints(MeshOption):
     _KEYWORD = 'kints'
 
     _ATTRS = {
-        'number': types.Integer,
+        'number': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Akints( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Akints((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, number: types.Integer):
+    def __init__(self, number: types.Tuple[types.Integer]):
         """
         Initializes ``Kints``.
 
@@ -45,7 +45,7 @@ class Kints(MeshOption):
             ]
         )
 
-        self.number: typing.Final[types.Integer] = number
+        self.number: typing.Final[types.Tuple[types.Integer]] = number
 
 
 @dataclasses.dataclass
@@ -57,7 +57,7 @@ class KintsBuilder:
         number: Number of fine meshes within corresponding coarse meshes in the z/theta directions.
     """
 
-    number: str | int | types.Integer
+    number: list[str] | list[int] | list[types.Integer]
 
     def build(self):
         """
@@ -67,13 +67,18 @@ class KintsBuilder:
             ``Kints`` for ``KintsBuilder``.
         """
 
-        number = self.number
-        if isinstance(self.number, types.Integer):
-            number = self.number
-        elif isinstance(self.number, int):
-            number = types.Integer(self.number)
-        elif isinstance(self.number, str):
-            number = types.Integer.from_mcnp(self.number)
+        if self.number:
+            number = []
+            for item in self.number:
+                if isinstance(item, types.Integer):
+                    number.append(item)
+                elif isinstance(item, int):
+                    number.append(types.Integer(item))
+                elif isinstance(item, str):
+                    number.append(types.Integer.from_mcnp(item))
+            number = types.Tuple(number)
+        else:
+            number = None
 
         return Kints(
             number=number,

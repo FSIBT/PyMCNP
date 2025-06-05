@@ -4643,27 +4643,32 @@ cards = ElementScheme(
                             type='types.Integer',
                             description='Weight windows usage indicator',
                             restriction='iplt.value == 0 or iplt.value == 1 or iplt.value == 2',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='iab',
                             type='types.Integer',
                             description='Adjoint biasing for adjoint problems contorls',
                             restriction='iab.value == 0 or iab.value == 1 or iab.value == 2',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='icw',
                             type='types.Integer',
                             description='Name of the reference cell for generated weight windows',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='fnw',
                             type='types.Real',
                             description='Normalization value for generated weight windows',
+                            optional=True,
                         ),
                         AttributeScheme(
                             name='rim',
                             type='types.Real',
                             description='Generated weight windows compression limit',
+                            optional=True,
                         ),
                     ],
                 ),
@@ -8667,7 +8672,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='locations',
-                                    type='types.Real',
+                                    type='types.Tuple[types.Real]',
                                     description='Locations of mesh points x/r for rectangular/cylindrical geometry',
                                 ),
                             ],
@@ -8678,7 +8683,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='count',
-                                    type='types.Integer',
+                                    type='types.Tuple[types.Integer]',
                                     description='Number of mesh points x/r for rectangular/cylindrical geometry',
                                 ),
                             ],
@@ -8689,7 +8694,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='locations',
-                                    type='types.Real',
+                                    type='types.Tuple[types.Real]',
                                     description='Locations of mesh points y/z for rectangular/cylindrical geometry',
                                 ),
                             ],
@@ -8700,7 +8705,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='count',
-                                    type='types.Integer',
+                                    type='types.Tuple[types.Integer]',
                                     description='Number of mesh points y/z for rectangular/cylindrical geometry',
                                 ),
                             ],
@@ -8711,7 +8716,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='locations',
-                                    type='types.Real',
+                                    type='types.Tuple[types.Real]',
                                     description='Locations of mesh points z/theta for rectangular/cylindrical geometry',
                                 ),
                             ],
@@ -8722,7 +8727,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='count',
-                                    type='types.Integer',
+                                    type='types.Tuple[types.Integer]',
                                     description='Number of mesh points z/theta for rectangular/cylindrical geometry',
                                 ),
                             ],
@@ -9227,7 +9232,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.Tuple[types.Integer]',
                                     description='Number of fine meshes within corresponding coarse meshes in the x/r directions',
                                 ),
                             ],
@@ -9249,7 +9254,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.Tuple[types.Integer]',
                                     description='Number of fine meshes within corresponding coarse meshes in the y/z directions',
                                 ),
                             ],
@@ -9271,7 +9276,7 @@ cards = ElementScheme(
                             attributes=[
                                 AttributeScheme(
                                     name='number',
-                                    type='types.Integer',
+                                    type='types.Tuple[types.Integer]',
                                     description='Number of fine meshes within corresponding coarse meshes in the z/theta directions',
                                 ),
                             ],
