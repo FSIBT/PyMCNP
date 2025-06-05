@@ -20,12 +20,12 @@ class Imesh(FmeshOption):
     _KEYWORD = 'imesh'
 
     _ATTRS = {
-        'locations': types.Real,
+        'locations': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(rf'\Aimesh( {types.Real._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aimesh((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, locations: types.Real):
+    def __init__(self, locations: types.Tuple[types.Real]):
         """
         Initializes ``Imesh``.
 
@@ -45,7 +45,7 @@ class Imesh(FmeshOption):
             ]
         )
 
-        self.locations: typing.Final[types.Real] = locations
+        self.locations: typing.Final[types.Tuple[types.Real]] = locations
 
 
 @dataclasses.dataclass
@@ -57,7 +57,7 @@ class ImeshBuilder:
         locations: Locations of mesh points x/r for rectangular/cylindrical geometry.
     """
 
-    locations: str | float | types.Real
+    locations: list[str] | list[float] | list[types.Real]
 
     def build(self):
         """
@@ -67,13 +67,18 @@ class ImeshBuilder:
             ``Imesh`` for ``ImeshBuilder``.
         """
 
-        locations = self.locations
-        if isinstance(self.locations, types.Real):
-            locations = self.locations
-        elif isinstance(self.locations, float) or isinstance(self.locations, int):
-            locations = types.Real(self.locations)
-        elif isinstance(self.locations, str):
-            locations = types.Real.from_mcnp(self.locations)
+        if self.locations:
+            locations = []
+            for item in self.locations:
+                if isinstance(item, types.Real):
+                    locations.append(item)
+                elif isinstance(item, float) or isinstance(item, int):
+                    locations.append(types.Real(item))
+                elif isinstance(item, str):
+                    locations.append(types.Real.from_mcnp(item))
+            locations = types.Tuple(locations)
+        else:
+            locations = None
 
         return Imesh(
             locations=locations,

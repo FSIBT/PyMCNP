@@ -20,12 +20,12 @@ class Iints(FmeshOption):
     _KEYWORD = 'iints'
 
     _ATTRS = {
-        'count': types.Integer,
+        'count': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(rf'\Aiints( {types.Integer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\Aiints((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, count: types.Integer):
+    def __init__(self, count: types.Tuple[types.Integer]):
         """
         Initializes ``Iints``.
 
@@ -45,7 +45,7 @@ class Iints(FmeshOption):
             ]
         )
 
-        self.count: typing.Final[types.Integer] = count
+        self.count: typing.Final[types.Tuple[types.Integer]] = count
 
 
 @dataclasses.dataclass
@@ -57,7 +57,7 @@ class IintsBuilder:
         count: Number of mesh points x/r for rectangular/cylindrical geometry.
     """
 
-    count: str | int | types.Integer
+    count: list[str] | list[int] | list[types.Integer]
 
     def build(self):
         """
@@ -67,13 +67,18 @@ class IintsBuilder:
             ``Iints`` for ``IintsBuilder``.
         """
 
-        count = self.count
-        if isinstance(self.count, types.Integer):
-            count = self.count
-        elif isinstance(self.count, int):
-            count = types.Integer(self.count)
-        elif isinstance(self.count, str):
-            count = types.Integer.from_mcnp(self.count)
+        if self.count:
+            count = []
+            for item in self.count:
+                if isinstance(item, types.Integer):
+                    count.append(item)
+                elif isinstance(item, int):
+                    count.append(types.Integer(item))
+                elif isinstance(item, str):
+                    count.append(types.Integer.from_mcnp(item))
+            count = types.Tuple(count)
+        else:
+            count = None
 
         return Iints(
             count=count,
