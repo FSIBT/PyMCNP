@@ -392,123 +392,14 @@ cards = ElementScheme(
                 ElementScheme(
                     name='fill_0',
                     mnemonic='fill',
-                    attributes=(
-                        AttributeScheme(
-                            name='universe',
-                            type='types.Integer',
-                            description='Cell fill universe number',
-                            restriction='0 <= universe.value <= 99_999_999',
-                        ),
-                        AttributeScheme(
-                            name='transformation',
-                            type='types.Integer',
-                            description='Cell fill transformation number',
-                            restriction='0 <= transformation.value <= 999',
-                            optional=True,
-                            can_paren=True,
-                        ),
-                    ),
-                ),
-                ElementScheme(
-                    name='fill_1',
-                    mnemonic='fill',
+                    regex='([*])?fill (\\S+:\\S+) (\\S+:\\S+) (\\S+:\\S+)((?:(?: {types.Integer._REGEX.pattern[2:-2]})+?)( {types.Integer._REGEX.pattern[2:-2]}| [(]{types.Integer._REGEX.pattern[2:-2]}[)])?)',
                     attributes=[
                         AttributeScheme(
-                            name='universe',
-                            type='types.Integer',
-                            description='Cell fill universe number',
-                            restriction='0 <= universe.value <= 99_999_999',
-                        ),
-                        AttributeScheme(
-                            name='transformation',
-                            type='types.Transformation_0',
-                            description='Cell fill transformation',
+                            name='prefix',
+                            type='types.String',
+                            description='Star prefix',
                             optional=True,
-                            can_paren=True,
                         ),
-                    ],
-                ),
-                ElementScheme(
-                    name='fill_2',
-                    mnemonic='fill',
-                    attributes=[
-                        AttributeScheme(
-                            name='universe',
-                            type='types.Integer',
-                            description='Cell fill universe number',
-                            restriction='0 <= universe.value <= 99_999_999',
-                        ),
-                        AttributeScheme(
-                            name='transformation',
-                            type='types.Transformation_1',
-                            description='Cell fill transformation',
-                            optional=True,
-                            can_paren=True,
-                        ),
-                    ],
-                ),
-                ElementScheme(
-                    name='fill_3',
-                    mnemonic='fill',
-                    attributes=[
-                        AttributeScheme(
-                            name='universe',
-                            type='types.Integer',
-                            description='Cell fill universe number',
-                            restriction='0 <= universe.value <= 99_999_999',
-                        ),
-                        AttributeScheme(
-                            name='transformation',
-                            type='types.Transformation_2',
-                            description='Cell fill transformation',
-                            optional=True,
-                            can_paren=True,
-                        ),
-                    ],
-                ),
-                ElementScheme(
-                    name='fill_4',
-                    mnemonic='fill',
-                    attributes=[
-                        AttributeScheme(
-                            name='universe',
-                            type='types.Integer',
-                            description='Cell fill universe number',
-                            restriction='0 <= universe.value <= 99_999_999',
-                        ),
-                        AttributeScheme(
-                            name='transformation',
-                            type='types.Transformation_3',
-                            description='Cell fill transformation',
-                            optional=True,
-                            can_paren=True,
-                        ),
-                    ],
-                ),
-                ElementScheme(
-                    name='fill_5',
-                    mnemonic='fill',
-                    attributes=[
-                        AttributeScheme(
-                            name='universe',
-                            type='types.Integer',
-                            description='Cell fill universe number',
-                            restriction='0 <= universe.value <= 99_999_999',
-                        ),
-                        AttributeScheme(
-                            name='transformation',
-                            type='types.Transformation_4',
-                            description='Cell fill transformation',
-                            optional=True,
-                            can_paren=True,
-                        ),
-                    ],
-                ),
-                ElementScheme(
-                    name='fill_6',
-                    mnemonic='fill',
-                    regex='fill (\\S+:\\S+) (\\S+:\\S+) (\\S+:\\S+)((?:(?: {types.Integer._REGEX.pattern[2:-2]})+?)( {types.Integer._REGEX.pattern[2:-2]}| [(]{types.Integer._REGEX.pattern[2:-2]}[)])?)',
-                    attributes=[
                         AttributeScheme(
                             name='i',
                             type='types.Index',
@@ -538,6 +429,163 @@ cards = ElementScheme(
                             can_paren=True,
                         ),
                     ],
+                ),
+                ElementScheme(
+                    name='fill_1',
+                    mnemonic='fill',
+                    regex='([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Transformation_0._REGEX.pattern[2:-2]}| [(]{types.Transformation_0._REGEX.pattern[2:-2]}[)])?',
+                    attributes=[
+                        AttributeScheme(
+                            name='prefix',
+                            type='types.String',
+                            description='Star prefix',
+                            optional=True,
+                        ),
+                        AttributeScheme(
+                            name='universe',
+                            type='types.Integer',
+                            description='Cell fill universe number',
+                            restriction='0 <= universe.value <= 99_999_999',
+                        ),
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Transformation_0',
+                            description='Cell fill transformation',
+                            optional=True,
+                            can_paren=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='fill_2',
+                    mnemonic='fill',
+                    regex='([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Transformation_1._REGEX.pattern[2:-2]}| [(]{types.Transformation_1._REGEX.pattern[2:-2]}[)])?',
+                    attributes=[
+                        AttributeScheme(
+                            name='prefix',
+                            type='types.String',
+                            description='Star prefix',
+                            optional=True,
+                        ),
+                        AttributeScheme(
+                            name='universe',
+                            type='types.Integer',
+                            description='Cell fill universe number',
+                            restriction='0 <= universe.value <= 99_999_999',
+                        ),
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Transformation_1',
+                            description='Cell fill transformation',
+                            optional=True,
+                            can_paren=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='fill_3',
+                    mnemonic='fill',
+                    regex='([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Transformation_2._REGEX.pattern[2:-2]}| [(]{types.Transformation_2._REGEX.pattern[2:-2]}[)])?',
+                    attributes=[
+                        AttributeScheme(
+                            name='prefix',
+                            type='types.String',
+                            description='Star prefix',
+                            optional=True,
+                        ),
+                        AttributeScheme(
+                            name='universe',
+                            type='types.Integer',
+                            description='Cell fill universe number',
+                            restriction='0 <= universe.value <= 99_999_999',
+                        ),
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Transformation_2',
+                            description='Cell fill transformation',
+                            optional=True,
+                            can_paren=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='fill_4',
+                    mnemonic='fill',
+                    regex='([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Transformation_3._REGEX.pattern[2:-2]}| [(]{types.Transformation_3._REGEX.pattern[2:-2]}[)])?',
+                    attributes=[
+                        AttributeScheme(
+                            name='prefix',
+                            type='types.String',
+                            description='Star prefix',
+                            optional=True,
+                        ),
+                        AttributeScheme(
+                            name='universe',
+                            type='types.Integer',
+                            description='Cell fill universe number',
+                            restriction='0 <= universe.value <= 99_999_999',
+                        ),
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Transformation_3',
+                            description='Cell fill transformation',
+                            optional=True,
+                            can_paren=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='fill_5',
+                    mnemonic='fill',
+                    regex='([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Transformation_4._REGEX.pattern[2:-2]}| [(]{types.Transformation_4._REGEX.pattern[2:-2]}[)])?',
+                    attributes=[
+                        AttributeScheme(
+                            name='prefix',
+                            type='types.String',
+                            description='Star prefix',
+                            optional=True,
+                        ),
+                        AttributeScheme(
+                            name='universe',
+                            type='types.Integer',
+                            description='Cell fill universe number',
+                            restriction='0 <= universe.value <= 99_999_999',
+                        ),
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Transformation_4',
+                            description='Cell fill transformation',
+                            optional=True,
+                            can_paren=True,
+                        ),
+                    ],
+                ),
+                ElementScheme(
+                    name='fill_6',
+                    mnemonic='fill',
+                    regex='([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]}| [(]{types.Integer._REGEX.pattern[2:-2]}[)])?',
+                    attributes=(
+                        AttributeScheme(
+                            name='prefix',
+                            type='types.String',
+                            description='Star prefix',
+                            optional=True,
+                        ),
+                        AttributeScheme(
+                            name='universe',
+                            type='types.Integer',
+                            description='Cell fill universe number',
+                            restriction='0 <= universe.value <= 99_999_999',
+                        ),
+                        AttributeScheme(
+                            name='transformation',
+                            type='types.Integer',
+                            description='Cell fill transformation number',
+                            restriction='0 <= transformation.value <= 999',
+                            optional=True,
+                            can_paren=True,
+                        ),
+                    ),
                 ),
                 ElementScheme(
                     name='elpt',

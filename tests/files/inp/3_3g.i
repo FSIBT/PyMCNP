@@ -1,8 +1,8 @@
 21x21x21 void lattice of balls
 11 0 -31 u=1 imp:p=1
 12 0 31 u=1 imp:p=1
-c 16 0 -32 u=2 imp:p=1
-c     lat=1 fill= -10:10 -10:10 -10:10 1 9260R
+16 0 -32 u=2 imp:p=1
+    lat=1 fill= -10:10 -10:10 -10:10 1 9260R
 17 0 -33 fill=2 imp:p=1
 18 0 33 imp:p=0
 

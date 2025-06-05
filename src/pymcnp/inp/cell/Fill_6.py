@@ -14,73 +14,57 @@ class Fill_6(CellOption):
     Represents INP fill variation #6 elements.
 
     Attributes:
-        i: Lattice parameter #1.
-        j: Lattice parameter #2.
-        k: Lattice parameter #3.
-        universes: Fill universe numbers.
-        m: Displacement vector origin.
+        prefix: Star prefix.
+        universe: Cell fill universe number.
+        transformation: Cell fill transformation number.
     """
 
     _KEYWORD = 'fill'
 
     _ATTRS = {
-        'i': types.Index,
-        'j': types.Index,
-        'k': types.Index,
-        'universes': types.Tuple[types.Integer],
-        'm': types.Integer,
+        'prefix': types.String,
+        'universe': types.Integer,
+        'transformation': types.Integer,
     }
 
     _REGEX = re.compile(
-        rf'\Afill (\S+:\S+) (\S+:\S+) (\S+:\S+)((?:(?: {types.Integer._REGEX.pattern[2:-2]})+?)( {types.Integer._REGEX.pattern[2:-2]}| [(]{types.Integer._REGEX.pattern[2:-2]}[)])?)\Z'
+        rf'\A([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]}| [(]{types.Integer._REGEX.pattern[2:-2]}[)])?\Z'
     )
 
     def __init__(
         self,
-        i: types.Index,
-        j: types.Index,
-        k: types.Index,
-        universes: types.Tuple[types.Integer],
-        m: types.Integer = None,
+        universe: types.Integer,
+        prefix: types.String = None,
+        transformation: types.Integer = None,
     ):
         """
         Initializes ``Fill_6``.
 
         Parameters:
-            i: Lattice parameter #1.
-            j: Lattice parameter #2.
-            k: Lattice parameter #3.
-            universes: Fill universe numbers.
-            m: Displacement vector origin.
+            prefix: Star prefix.
+            universe: Cell fill universe number.
+            transformation: Cell fill transformation number.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
-        if i is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i)
-        if j is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, j)
-        if k is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, k)
-        if universes is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universes)
+        if universe is None or not (0 <= universe.value <= 99_999_999):
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universe)
+        if transformation is not None and not (0 <= transformation.value <= 999):
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, transformation)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                i,
-                j,
-                k,
-                universes,
-                m,
+                prefix,
+                universe,
+                transformation,
             ]
         )
 
-        self.i: typing.Final[types.Index] = i
-        self.j: typing.Final[types.Index] = j
-        self.k: typing.Final[types.Index] = k
-        self.universes: typing.Final[types.Tuple[types.Integer]] = universes
-        self.m: typing.Final[types.Integer] = m
+        self.prefix: typing.Final[types.String] = prefix
+        self.universe: typing.Final[types.Integer] = universe
+        self.transformation: typing.Final[types.Integer] = transformation
 
 
 @dataclasses.dataclass
@@ -89,18 +73,14 @@ class FillBuilder_6:
     Builds ``Fill_6``.
 
     Attributes:
-        i: Lattice parameter #1.
-        j: Lattice parameter #2.
-        k: Lattice parameter #3.
-        universes: Fill universe numbers.
-        m: Displacement vector origin.
+        prefix: Star prefix.
+        universe: Cell fill universe number.
+        transformation: Cell fill transformation number.
     """
 
-    i: str | types.Index
-    j: str | types.Index
-    k: str | types.Index
-    universes: list[str] | list[int] | list[types.Integer]
-    m: str | int | types.Integer = None
+    universe: str | int | types.Integer
+    prefix: str | types.String = None
+    transformation: str | int | types.Integer = None
 
     def build(self):
         """
@@ -110,51 +90,32 @@ class FillBuilder_6:
             ``Fill_6`` for ``FillBuilder_6``.
         """
 
-        i = self.i
-        if isinstance(self.i, types.Index):
-            i = self.i
-        elif isinstance(self.i, str):
-            i = types.Index.from_mcnp(self.i)
+        prefix = self.prefix
+        if isinstance(self.prefix, types.String):
+            prefix = self.prefix
+        elif isinstance(self.prefix, str):
+            prefix = types.String.from_mcnp(self.prefix)
 
-        j = self.j
-        if isinstance(self.j, types.Index):
-            j = self.j
-        elif isinstance(self.j, str):
-            j = types.Index.from_mcnp(self.j)
+        universe = self.universe
+        if isinstance(self.universe, types.Integer):
+            universe = self.universe
+        elif isinstance(self.universe, int):
+            universe = types.Integer(self.universe)
+        elif isinstance(self.universe, str):
+            universe = types.Integer.from_mcnp(self.universe)
 
-        k = self.k
-        if isinstance(self.k, types.Index):
-            k = self.k
-        elif isinstance(self.k, str):
-            k = types.Index.from_mcnp(self.k)
-
-        if self.universes:
-            universes = []
-            for item in self.universes:
-                if isinstance(item, types.Integer):
-                    universes.append(item)
-                elif isinstance(item, int):
-                    universes.append(types.Integer(item))
-                elif isinstance(item, str):
-                    universes.append(types.Integer.from_mcnp(item))
-            universes = types.Tuple(universes)
-        else:
-            universes = None
-
-        m = self.m
-        if isinstance(self.m, types.Integer):
-            m = self.m
-        elif isinstance(self.m, int):
-            m = types.Integer(self.m)
-        elif isinstance(self.m, str):
-            m = types.Integer.from_mcnp(self.m)
+        transformation = self.transformation
+        if isinstance(self.transformation, types.Integer):
+            transformation = self.transformation
+        elif isinstance(self.transformation, int):
+            transformation = types.Integer(self.transformation)
+        elif isinstance(self.transformation, str):
+            transformation = types.Integer.from_mcnp(self.transformation)
 
         return Fill_6(
-            i=i,
-            j=j,
-            k=k,
-            universes=universes,
-            m=m,
+            prefix=prefix,
+            universe=universe,
+            transformation=transformation,
         )
 
     @staticmethod
@@ -167,9 +128,7 @@ class FillBuilder_6:
         """
 
         return Fill_6(
-            i=copy.deepcopy(ast.i),
-            j=copy.deepcopy(ast.j),
-            k=copy.deepcopy(ast.k),
-            universes=copy.deepcopy(ast.universes),
-            m=copy.deepcopy(ast.m),
+            prefix=copy.deepcopy(ast.prefix),
+            universe=copy.deepcopy(ast.universe),
+            transformation=copy.deepcopy(ast.transformation),
         )

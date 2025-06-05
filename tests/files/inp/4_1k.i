@@ -34,15 +34,15 @@ ksrc 0.0 0.0 0.0
 m1 92235.69c 1.0
 m2 6012 1.0
 dm1 92235 92235.50
-c mesh geom cyl
-c     ref 0.0 0.0 0.0
-c     origin 0.0 0.0 -10.0 $ bottom center of cylinder
-c     axs 0.0 0.0 1.0
-c     vec 1.0 0.0 0.0
-c     imesh 10 $ cylinder radius
-c     iints 2 $ 2 radial divisions
-c     jmesh 20 $ axial (z) length
-c     jints 2 $ 2 axial divisions
-c     kmesh 1 $ azimuth-single rotation (0-2pi)
-c     kints 4 $ 4 azimuthal divisions (0, pi/2, pi, 3pi/2, 2pi)
+mesh geom cyl
+    ref 0.0 0.0 0.0
+    origin 0.0 0.0 -10.0 $ bottom center of cylinder
+    axs 0.0 0.0 1.0
+    vec 1.0 0.0 0.0
+    imesh 10 $ cylinder radius
+    iints 2 $ 2 radial divisions
+    jmesh 20 $ axial (z) length
+    jints 2 $ 2 axial divisions
+    kmesh 1 $ azimuth-single rotation (0-2pi)
+    kints 4 $ 4 azimuthal divisions (0, pi/2, pi, 3pi/2, 2pi)
 c dawwg xsec=ndilib points=10
