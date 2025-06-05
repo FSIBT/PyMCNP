@@ -36,7 +36,7 @@ class Geom(MeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if geometry is None or geometry not in {'xyz', 'rzt', 'rpt'}:
+        if geometry is None or geometry not in {'xyz', 'rzt', 'rpt', 'cyl', 'rec', 'sph'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, geometry)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
