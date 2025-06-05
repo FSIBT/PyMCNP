@@ -14,6 +14,7 @@ class Fill_2(CellOption):
     Represents INP fill variation #2 elements.
 
     Attributes:
+        prefix: Star prefix.
         universe: Cell fill universe number.
         transformation: Cell fill transformation.
     """
@@ -21,19 +22,26 @@ class Fill_2(CellOption):
     _KEYWORD = 'fill'
 
     _ATTRS = {
+        'prefix': types.String,
         'universe': types.Integer,
         'transformation': types.Transformation_1,
     }
 
     _REGEX = re.compile(
-        rf'\Afill( {types.Integer._REGEX.pattern[2:-2]})( {types.Transformation_1._REGEX.pattern[2:-2]}| [(]{types.Transformation_1._REGEX.pattern[2:-2]}[)])?\Z'
+        rf'\A([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Transformation_1._REGEX.pattern[2:-2]}| [(]{types.Transformation_1._REGEX.pattern[2:-2]}[)])?\Z'
     )
 
-    def __init__(self, universe: types.Integer, transformation: types.Transformation_1 = None):
+    def __init__(
+        self,
+        universe: types.Integer,
+        prefix: types.String = None,
+        transformation: types.Transformation_1 = None,
+    ):
         """
         Initializes ``Fill_2``.
 
         Parameters:
+            prefix: Star prefix.
             universe: Cell fill universe number.
             transformation: Cell fill transformation.
 
@@ -46,11 +54,13 @@ class Fill_2(CellOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
+                prefix,
                 universe,
                 transformation,
             ]
         )
 
+        self.prefix: typing.Final[types.String] = prefix
         self.universe: typing.Final[types.Integer] = universe
         self.transformation: typing.Final[types.Transformation_1] = transformation
 
@@ -61,11 +71,13 @@ class FillBuilder_2:
     Builds ``Fill_2``.
 
     Attributes:
+        prefix: Star prefix.
         universe: Cell fill universe number.
         transformation: Cell fill transformation.
     """
 
     universe: str | int | types.Integer
+    prefix: str | types.String = None
     transformation: str | types.Transformation_1 = None
 
     def build(self):
@@ -75,6 +87,12 @@ class FillBuilder_2:
         Returns:
             ``Fill_2`` for ``FillBuilder_2``.
         """
+
+        prefix = self.prefix
+        if isinstance(self.prefix, types.String):
+            prefix = self.prefix
+        elif isinstance(self.prefix, str):
+            prefix = types.String.from_mcnp(self.prefix)
 
         universe = self.universe
         if isinstance(self.universe, types.Integer):
@@ -91,6 +109,7 @@ class FillBuilder_2:
             transformation = types.Transformation_1.from_mcnp(self.transformation)
 
         return Fill_2(
+            prefix=prefix,
             universe=universe,
             transformation=transformation,
         )
@@ -105,6 +124,7 @@ class FillBuilder_2:
         """
 
         return Fill_2(
+            prefix=copy.deepcopy(ast.prefix),
             universe=copy.deepcopy(ast.universe),
             transformation=copy.deepcopy(ast.transformation),
         )

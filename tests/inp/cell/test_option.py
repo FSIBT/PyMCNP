@@ -408,30 +408,66 @@ class Test_Fill_0:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Fill_0
         EXAMPLES_VALID = [
-            'fill=0',
-            'fill=1',
-            'fill=0 1',
-            'fill=1 0',
-            'fill=0 0',
-            'fill=1 1',
+            'FILL=0:2 1:2 0:1 4 4 2 $ i=0,1,2 for j=1 & k=0\n     0 4 0 $ i=0,1,2 for j=2 & k=0\n     0 3 3 $ i=0,1,2 for j=1 & k=1\n     4 4 0 $ i=0,1,2 for j=2 & k=1',
         ]
-        EXAMPLES_INVALID = [
-            'fill=-1',
-            'fill=-1 1',
-            'fill=1 -1',
-            'fill=1 91232',
-        ]
+        EXAMPLES_INVALID = []
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.cell.FillBuilder_0
         EXAMPLES_VALID = [
-            {'universe': '3', 'transformation': None},
-            {'universe': '3', 'transformation': '4'},
-            {'universe': 3, 'transformation': 3},
-            {'universe': _utils.INTEGER, 'transformation': _utils.INTEGER},
+            {
+                'i': '2:3',
+                'j': '2:3',
+                'k': '2:3',
+                'universes': ['3'],
+            },
+            {
+                'i': '2:3',
+                'j': '2:3',
+                'k': '2:3',
+                'universes': ['3'],
+                'm': '5',
+            },
+            {
+                'i': '2:3',
+                'j': '2:3',
+                'k': '2:3',
+                'universes': [3],
+                'm': 5,
+            },
+            {
+                'i': _utils.INDEX,
+                'j': _utils.INDEX,
+                'k': _utils.INDEX,
+                'universes': [_utils.INTEGER],
+                'm': _utils.INTEGER,
+            },
         ]
         EXAMPLES_INVALID = [
-            {'universe': None, 'transformation': None},
+            {
+                'i': None,
+                'j': '2:3',
+                'k': '2:3',
+                'universes': ['3'],
+            },
+            {
+                'i': '2:3',
+                'j': None,
+                'k': '2:3',
+                'universes': ['3'],
+            },
+            {
+                'i': '2:3',
+                'j': '2:3',
+                'k': None,
+                'universes': ['3'],
+            },
+            {
+                'i': '2:3',
+                'j': '2:3',
+                'k': '2:3',
+                'universes': None,
+            },
         ]
 
 
@@ -524,66 +560,30 @@ class Test_Fill_6:
     class Test_FromMcnp(_utils._Test_FromMcnp):
         element = pymcnp.inp.cell.Fill_6
         EXAMPLES_VALID = [
-            'FILL=0:2 1:2 0:1 4 4 2 $ i=0,1,2 for j=1 & k=0\n     0 4 0 $ i=0,1,2 for j=2 & k=0\n     0 3 3 $ i=0,1,2 for j=1 & k=1\n     4 4 0 $ i=0,1,2 for j=2 & k=1',
+            'fill=0',
+            'fill=1',
+            'fill=0 1',
+            'fill=1 0',
+            'fill=0 0',
+            'fill=1 1',
         ]
-        EXAMPLES_INVALID = []
+        EXAMPLES_INVALID = [
+            'fill=-1',
+            'fill=-1 1',
+            'fill=1 -1',
+            'fill=1 91232',
+        ]
 
     class Test_Build(_utils._Test_Build):
         element = pymcnp.inp.cell.FillBuilder_6
         EXAMPLES_VALID = [
-            {
-                'i': '2:3',
-                'j': '2:3',
-                'k': '2:3',
-                'universes': ['3'],
-            },
-            {
-                'i': '2:3',
-                'j': '2:3',
-                'k': '2:3',
-                'universes': ['3'],
-                'm': '5',
-            },
-            {
-                'i': '2:3',
-                'j': '2:3',
-                'k': '2:3',
-                'universes': [3],
-                'm': 5,
-            },
-            {
-                'i': _utils.INDEX,
-                'j': _utils.INDEX,
-                'k': _utils.INDEX,
-                'universes': [_utils.INTEGER],
-                'm': _utils.INTEGER,
-            },
+            {'universe': '3', 'transformation': None},
+            {'universe': '3', 'transformation': '4'},
+            {'universe': 3, 'transformation': 3},
+            {'universe': _utils.INTEGER, 'transformation': _utils.INTEGER},
         ]
         EXAMPLES_INVALID = [
-            {
-                'i': None,
-                'j': '2:3',
-                'k': '2:3',
-                'universes': ['3'],
-            },
-            {
-                'i': '2:3',
-                'j': None,
-                'k': '2:3',
-                'universes': ['3'],
-            },
-            {
-                'i': '2:3',
-                'j': '2:3',
-                'k': None,
-                'universes': ['3'],
-            },
-            {
-                'i': '2:3',
-                'j': '2:3',
-                'k': '2:3',
-                'universes': None,
-            },
+            {'universe': None, 'transformation': None},
         ]
 
 
