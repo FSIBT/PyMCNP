@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Byvolp(BlockOption):
+class Byvolp(_option.BlockOption):
     """
     Represents INP byvolp elements.
 
@@ -49,7 +49,7 @@ class Byvolp(BlockOption):
 
 
 @dataclasses.dataclass
-class ByvolpBuilder:
+class ByvolpBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Byvolp``.
 
@@ -88,6 +88,6 @@ class ByvolpBuilder:
             ``ByvolpBuilder`` for ``Byvolp``.
         """
 
-        return Byvolp(
+        return ByvolpBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -5,11 +5,11 @@ import dataclasses
 
 
 from . import act
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Act(DataOption):
+class Act(_option.DataOption):
     """
     Represents INP act elements.
 
@@ -46,7 +46,7 @@ class Act(DataOption):
 
 
 @dataclasses.dataclass
-class ActBuilder:
+class ActBuilder(_option.DataOptionBuilder):
     """
     Builds ``Act``.
 
@@ -71,7 +71,7 @@ class ActBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(act.ActOption.from_mcnp(item))
-                else:
+                elif isinstance(item, act.ActOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -90,6 +90,6 @@ class ActBuilder:
             ``ActBuilder`` for ``Act``.
         """
 
-        return Act(
+        return ActBuilder(
             options=copy.deepcopy(ast.options),
         )

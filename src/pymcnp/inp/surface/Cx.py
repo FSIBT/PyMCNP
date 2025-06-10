@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Cx(SurfaceOption):
+class Cx(_option.SurfaceOption):
     """
     Represents INP cx elements.
 
@@ -63,7 +63,7 @@ class Cx(SurfaceOption):
 
 
 @dataclasses.dataclass
-class CxBuilder:
+class CxBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Cx``.
 
@@ -102,6 +102,6 @@ class CxBuilder:
             ``CxBuilder`` for ``Cx``.
         """
 
-        return Cx(
+        return CxBuilder(
             r=copy.deepcopy(ast.r),
         )

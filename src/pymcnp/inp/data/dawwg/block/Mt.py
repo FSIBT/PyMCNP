@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Mt(BlockOption):
+class Mt(_option.BlockOption):
     """
     Represents INP mt elements.
 
@@ -49,7 +49,7 @@ class Mt(BlockOption):
 
 
 @dataclasses.dataclass
-class MtBuilder:
+class MtBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Mt``.
 
@@ -88,6 +88,6 @@ class MtBuilder:
             ``MtBuilder`` for ``Mt``.
         """
 
-        return Mt(
+        return MtBuilder(
             setting=copy.deepcopy(ast.setting),
         )

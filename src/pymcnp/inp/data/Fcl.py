@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fcl(DataOption):
+class Fcl(_option.DataOption):
     """
     Represents INP fcl elements.
 
@@ -55,7 +55,7 @@ class Fcl(DataOption):
 
 
 @dataclasses.dataclass
-class FclBuilder:
+class FclBuilder(_option.DataOptionBuilder):
     """
     Builds ``Fcl``.
 
@@ -108,7 +108,7 @@ class FclBuilder:
             ``FclBuilder`` for ``Fcl``.
         """
 
-        return Fcl(
+        return FclBuilder(
             designator=copy.deepcopy(ast.designator),
             control=copy.deepcopy(ast.control),
         )

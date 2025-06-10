@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class U(CellOption):
+class U(_option.CellOption):
     """
     Represents INP u elements.
 
@@ -49,7 +49,7 @@ class U(CellOption):
 
 
 @dataclasses.dataclass
-class UBuilder:
+class UBuilder(_option.CellOptionBuilder):
     """
     Builds ``U``.
 
@@ -88,6 +88,6 @@ class UBuilder:
             ``UBuilder`` for ``U``.
         """
 
-        return U(
+        return UBuilder(
             number=copy.deepcopy(ast.number),
         )

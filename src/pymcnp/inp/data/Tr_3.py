@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Tr_3(DataOption):
+class Tr_3(_option.DataOption):
     """
     Represents INP tr variation #3 elements.
 
@@ -43,18 +43,7 @@ class Tr_3(DataOption):
         rf'\A([*])?tr(\d+)( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        x: types.Real,
-        y: types.Real,
-        z: types.Real,
-        xx: types.Real,
-        xy: types.Real,
-        xz: types.Real,
-        prefix: types.String = None,
-        system: types.Integer = None,
-    ):
+    def __init__(self, suffix: types.Integer, x: types.Real, y: types.Real, z: types.Real, xx: types.Real, xy: types.Real, xz: types.Real, prefix: types.String = None, system: types.Integer = None):
         """
         Initializes ``Tr_3``.
 
@@ -73,6 +62,8 @@ class Tr_3(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        if prefix is not None and prefix.value not in {'*'}:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
         if suffix is None or not (1 <= suffix.value <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if x is None:
@@ -92,7 +83,6 @@ class Tr_3(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                prefix,
                 x,
                 y,
                 z,
@@ -115,7 +105,7 @@ class Tr_3(DataOption):
 
 
 @dataclasses.dataclass
-class TrBuilder_3:
+class TrBuilder_3(_option.DataOptionBuilder):
     """
     Builds ``Tr_3``.
 
@@ -240,7 +230,7 @@ class TrBuilder_3:
             ``TrBuilder_3`` for ``Tr_3``.
         """
 
-        return Tr_3(
+        return TrBuilder_3(
             prefix=copy.deepcopy(ast.prefix),
             suffix=copy.deepcopy(ast.suffix),
             x=copy.deepcopy(ast.x),

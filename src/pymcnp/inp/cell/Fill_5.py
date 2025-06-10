@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fill_5(CellOption):
+class Fill_5(_option.CellOption):
     """
     Represents INP fill variation #5 elements.
 
@@ -27,16 +27,9 @@ class Fill_5(CellOption):
         'transformation': types.Transformation_4,
     }
 
-    _REGEX = re.compile(
-        rf'\A([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Transformation_4._REGEX.pattern[2:-2]}| [(]{types.Transformation_4._REGEX.pattern[2:-2]}[)])?\Z'
-    )
+    _REGEX = re.compile(rf'\A([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Transformation_4._REGEX.pattern[2:-2]}| [(]{types.Transformation_4._REGEX.pattern[2:-2]}[)])?\Z')
 
-    def __init__(
-        self,
-        universe: types.Integer,
-        prefix: types.String = None,
-        transformation: types.Transformation_4 = None,
-    ):
+    def __init__(self, universe: types.Integer, prefix: types.String = None, transformation: types.Transformation_4 = None):
         """
         Initializes ``Fill_5``.
 
@@ -49,12 +42,13 @@ class Fill_5(CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        if prefix is not None and prefix.value not in {'*'}:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
         if universe is None or not (0 <= universe.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universe)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                prefix,
                 universe,
                 transformation,
             ]
@@ -66,7 +60,7 @@ class Fill_5(CellOption):
 
 
 @dataclasses.dataclass
-class FillBuilder_5:
+class FillBuilder_5(_option.CellOptionBuilder):
     """
     Builds ``Fill_5``.
 
@@ -123,7 +117,7 @@ class FillBuilder_5:
             ``FillBuilder_5`` for ``Fill_5``.
         """
 
-        return Fill_5(
+        return FillBuilder_5(
             prefix=copy.deepcopy(ast.prefix),
             universe=copy.deepcopy(ast.universe),
             transformation=copy.deepcopy(ast.transformation),

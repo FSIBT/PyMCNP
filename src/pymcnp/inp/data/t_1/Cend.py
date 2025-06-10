@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import TOption_1
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Cend(TOption_1):
+class Cend(_option.TOption_1):
     """
     Represents INP cend elements.
 
@@ -49,7 +49,7 @@ class Cend(TOption_1):
 
 
 @dataclasses.dataclass
-class CendBuilder:
+class CendBuilder(_option.TOptionBuilder_1):
     """
     Builds ``Cend``.
 
@@ -88,6 +88,6 @@ class CendBuilder:
             ``CendBuilder`` for ``Cend``.
         """
 
-        return Cend(
+        return CendBuilder(
             time=copy.deepcopy(ast.time),
         )

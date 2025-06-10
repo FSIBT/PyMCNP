@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import VarOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Rr(VarOption):
+class Rr(_option.VarOption):
     """
     Represents INP rr elements.
 
@@ -49,7 +49,7 @@ class Rr(VarOption):
 
 
 @dataclasses.dataclass
-class RrBuilder:
+class RrBuilder(_option.VarOptionBuilder):
     """
     Builds ``Rr``.
 
@@ -86,6 +86,6 @@ class RrBuilder:
             ``RrBuilder`` for ``Rr``.
         """
 
-        return Rr(
+        return RrBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Z(SdefOption):
+class Z(_option.SdefOption):
     """
     Represents INP z elements.
 
@@ -49,7 +49,7 @@ class Z(SdefOption):
 
 
 @dataclasses.dataclass
-class ZBuilder:
+class ZBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Z``.
 
@@ -88,6 +88,6 @@ class ZBuilder:
             ``ZBuilder`` for ``Z``.
         """
 
-        return Z(
+        return ZBuilder(
             z_coordinate=copy.deepcopy(ast.z_coordinate),
         )

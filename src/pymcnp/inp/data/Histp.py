@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Histp(DataOption):
+class Histp(_option.DataOption):
     """
     Represents INP histp elements.
 
@@ -24,9 +24,7 @@ class Histp(DataOption):
         'cells': types.Tuple[types.Integer],
     }
 
-    _REGEX = re.compile(
-        rf'\Ahistp( {types.Integer._REGEX.pattern[2:-2]})?((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z'
-    )
+    _REGEX = re.compile(rf'\Ahistp( {types.Integer._REGEX.pattern[2:-2]})?((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z')
 
     def __init__(self, lhist: types.Integer = None, cells: types.Tuple[types.Integer] = None):
         """
@@ -52,7 +50,7 @@ class Histp(DataOption):
 
 
 @dataclasses.dataclass
-class HistpBuilder:
+class HistpBuilder(_option.DataOptionBuilder):
     """
     Builds ``Histp``.
 
@@ -107,7 +105,7 @@ class HistpBuilder:
             ``HistpBuilder`` for ``Histp``.
         """
 
-        return Histp(
+        return HistpBuilder(
             lhist=copy.deepcopy(ast.lhist),
             cells=copy.deepcopy(ast.cells),
         )

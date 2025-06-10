@@ -28,9 +28,7 @@ class Surface(Card):
         'option': surface.SurfaceOption,
     }
 
-    _REGEX = re.compile(
-        rf'\A(\+|\*)?(\S+)( \S+)?( ({surface.SurfaceOption._REGEX.pattern[2:-2]}))\Z'
-    )
+    _REGEX = re.compile(rf'\A(\+|\*)?(\S+)( \S+)?( ({surface.SurfaceOption._REGEX.pattern[2:-2]}))\Z')
 
     def __init__(
         self,
@@ -77,9 +75,11 @@ class Surface(Card):
             INP surface card.
         """
 
-        return _parser.postprocess_continuation_line(
-            f'{self.prefix or ""}{self.number} {self.transform or ""} {self.option}'
-        )
+        source = f'{self.prefix or ""}{self.number} {self.transform or ""} {self.option}'
+        source, comments = _parser.preprocess_inp(source)
+        source = _parser.postprocess_inp(source)
+
+        return source
 
     def draw(self):
         """
@@ -219,6 +219,7 @@ class SurfaceBuilder:
             ``Surface`` for ``SurfaceBuilder``.
         """
 
+        number = self.number
         if isinstance(self.number, types.Integer):
             number = self.number
         elif isinstance(self.number, int):
@@ -226,7 +227,7 @@ class SurfaceBuilder:
         elif isinstance(self.number, str):
             number = types.Integer.from_mcnp(self.number)
 
-        transform = None
+        transform = self.transform
         if isinstance(self.transform, types.Integer):
             transform = self.transform
         elif isinstance(self.transform, int):
@@ -234,15 +235,18 @@ class SurfaceBuilder:
         elif isinstance(self.transform, str):
             transform = types.Integer.from_mcnp(self.transform)
 
-        prefix = None
-        if isinstance(self.prefix, str):
+        prefix = self.prefix
+        if isinstance(self.prefix, types.String):
             prefix = self.prefix
+        elif isinstance(self.prefix, str):
+            prefix = types.String(self.prefix)
 
-        if isinstance(self.option, str):
-            option = types.Surface.from_mcnp(self.option)
-        elif isinstance(self.option, surface.SurfaceOption):
+        option = self.option
+        if isinstance(self.option, surface.SurfaceOption):
             option = self.option
-        else:
+        elif isinstance(self.option, str):
+            option = surface.SurfaceOption.from_mcnp(self.option)
+        elif isinstance(self.option, surface.SurfaceOptionBuilder):
             option = self.option.build()
 
         return Surface(
@@ -261,90 +265,9 @@ class SurfaceBuilder:
             ``SurfaceBuilder`` for ``Surface``.
         """
 
-        if isinstance(ast.option, surface.P_0):
-            option = surface.PBuilder_0.unbuild(ast.option)
-        elif isinstance(ast.option, surface.P_1):
-            option = surface.PBuilder_1.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Px):
-            option = surface.PxBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Py):
-            option = surface.PyBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Pz):
-            option = surface.PzBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.So):
-            option = surface.SoBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.S):
-            option = surface.SBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Sx):
-            option = surface.SxBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Sy):
-            option = surface.SyBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Sz):
-            option = surface.SzBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.C_x):
-            option = surface.C_xBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.C_y):
-            option = surface.C_yBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.C_z):
-            option = surface.C_zBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Cx):
-            option = surface.CxBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Cy):
-            option = surface.CyBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Cz):
-            option = surface.CzBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.K_x):
-            option = surface.K_xBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.K_y):
-            option = surface.K_yBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.K_z):
-            option = surface.K_zBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Kx):
-            option = surface.KxBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Ky):
-            option = surface.KyBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Kz):
-            option = surface.KzBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Sq):
-            option = surface.SqBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Gq):
-            option = surface.GqBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Tx):
-            option = surface.TxBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Ty):
-            option = surface.TyBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Tz):
-            option = surface.TzBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.X):
-            option = surface.XBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Y):
-            option = surface.YBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Z):
-            option = surface.ZBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Box):
-            option = surface.BoxBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Rpp):
-            option = surface.RppBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Sph):
-            option = surface.SphBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Rcc):
-            option = surface.RccBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Rhp):
-            option = surface.RhpBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Rec):
-            option = surface.RecBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Trc):
-            option = surface.TrcBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Ell):
-            option = surface.EllBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Wed):
-            option = surface.WedBuilder.unbuild(ast.option)
-        elif isinstance(ast.option, surface.Arb):
-            option = surface.ArbBuilder.unbuild(ast.option)
-
         return SurfaceBuilder(
             number=copy.deepcopy(ast.number),
-            option=option,
+            option=copy.deepcopy(ast.option),
             transform=copy.deepcopy(ast.transform),
             prefix=copy.deepcopy(ast.prefix),
         )

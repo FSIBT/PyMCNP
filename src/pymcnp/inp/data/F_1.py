@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class F_1(DataOption):
+class F_1(_option.DataOption):
     """
     Represents INP f variation #1 elements.
 
@@ -31,16 +31,9 @@ class F_1(DataOption):
         'nd': types.String,
     }
 
-    _REGEX = re.compile(r'\A([*+])?f(\d*[5])(?::(\S+))?((?: \S \S \S \S)+?)( nd)?\Z')
+    _REGEX = re.compile(r'\A([*+])?f(\d*[5])(?::(\S+))?((?: \S+ \S+ \S+ \S+)+?)( nd)?\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        spheres: types.Tuple[types.Sphere],
-        prefix: types.String = None,
-        designator: types.Designator = None,
-        nd: types.String = None,
-    ):
+    def __init__(self, suffix: types.Integer, spheres: types.Tuple[types.Sphere], prefix: types.String = None, designator: types.Designator = None, nd: types.String = None):
         """
         Initializes ``F_1``.
 
@@ -55,6 +48,8 @@ class F_1(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        if prefix is not None and prefix.value not in {'*', '+'}:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
         if suffix is None or not (suffix.value <= 99_999_999 and suffix.value % 10 == 5):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if spheres is None:
@@ -64,7 +59,6 @@ class F_1(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                prefix,
                 spheres,
                 nd,
             ]
@@ -78,7 +72,7 @@ class F_1(DataOption):
 
 
 @dataclasses.dataclass
-class FBuilder_1:
+class FBuilder_1(_option.DataOptionBuilder):
     """
     Builds ``F_1``.
 
@@ -131,8 +125,6 @@ class FBuilder_1:
                     spheres.append(item)
                 elif isinstance(item, str):
                     spheres.append(types.Sphere.from_mcnp(item))
-                else:
-                    spheres.append(item.build())
             spheres = types.Tuple(spheres)
         else:
             spheres = None
@@ -160,7 +152,7 @@ class FBuilder_1:
             ``FBuilder_1`` for ``F_1``.
         """
 
-        return F_1(
+        return FBuilder_1(
             prefix=copy.deepcopy(ast.prefix),
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),

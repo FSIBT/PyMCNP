@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Sp_0(DataOption):
+class Sp_0(_option.DataOption):
     """
     Represents INP sp variation #0 elements.
 
@@ -29,12 +29,7 @@ class Sp_0(DataOption):
 
     _REGEX = re.compile(rf'\Asp(\d+)( [dcvw])?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        probabilities: types.Tuple[types.Real],
-        option: types.String = None,
-    ):
+    def __init__(self, suffix: types.Integer, probabilities: types.Tuple[types.Real], option: types.String = None):
         """
         Initializes ``Sp_0``.
 
@@ -51,9 +46,7 @@ class Sp_0(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if option is not None and option not in {'d', 'c', 'v', 'w'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)
-        if probabilities is None or not (
-            filter(lambda entry: not (0 <= entry.value <= 1), probabilities)
-        ):
+        if probabilities is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, probabilities)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -69,7 +62,7 @@ class Sp_0(DataOption):
 
 
 @dataclasses.dataclass
-class SpBuilder_0:
+class SpBuilder_0(_option.DataOptionBuilder):
     """
     Builds ``Sp_0``.
 
@@ -133,7 +126,7 @@ class SpBuilder_0:
             ``SpBuilder_0`` for ``Sp_0``.
         """
 
-        return Sp_0(
+        return SpBuilder_0(
             suffix=copy.deepcopy(ast.suffix),
             option=copy.deepcopy(ast.option),
             probabilities=copy.deepcopy(ast.probabilities),

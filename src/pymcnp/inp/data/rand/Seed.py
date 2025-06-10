@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import RandOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Seed(RandOption):
+class Seed(_option.RandOption):
     """
     Represents INP seed elements.
 
@@ -49,7 +49,7 @@ class Seed(RandOption):
 
 
 @dataclasses.dataclass
-class SeedBuilder:
+class SeedBuilder(_option.RandOptionBuilder):
     """
     Builds ``Seed``.
 
@@ -88,6 +88,6 @@ class SeedBuilder:
             ``SeedBuilder`` for ``Seed``.
         """
 
-        return Seed(
+        return SeedBuilder(
             seed=copy.deepcopy(ast.seed),
         )

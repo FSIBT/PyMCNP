@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Asback(BlockOption):
+class Asback(_option.BlockOption):
     """
     Represents INP asback elements.
 
@@ -49,7 +49,7 @@ class Asback(BlockOption):
 
 
 @dataclasses.dataclass
-class AsbackBuilder:
+class AsbackBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Asback``.
 
@@ -88,6 +88,6 @@ class AsbackBuilder:
             ``AsbackBuilder`` for ``Asback``.
         """
 
-        return Asback(
+        return AsbackBuilder(
             setting=copy.deepcopy(ast.setting),
         )

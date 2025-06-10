@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Sx(SurfaceOption):
+class Sx(_option.SurfaceOption):
     """
     Represents INP sx elements.
 
@@ -26,9 +26,7 @@ class Sx(SurfaceOption):
         'r': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Asx( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Asx( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, x: types.Real, r: types.Real):
         """
@@ -72,7 +70,7 @@ class Sx(SurfaceOption):
 
 
 @dataclasses.dataclass
-class SxBuilder:
+class SxBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Sx``.
 
@@ -122,7 +120,7 @@ class SxBuilder:
             ``SxBuilder`` for ``Sx``.
         """
 
-        return Sx(
+        return SxBuilder(
             x=copy.deepcopy(ast.x),
             r=copy.deepcopy(ast.r),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import ActOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Sample(ActOption):
+class Sample(_option.ActOption):
     """
     Represents INP sample elements.
 
@@ -49,7 +49,7 @@ class Sample(ActOption):
 
 
 @dataclasses.dataclass
-class SampleBuilder:
+class SampleBuilder(_option.ActOptionBuilder):
     """
     Builds ``Sample``.
 
@@ -86,6 +86,6 @@ class SampleBuilder:
             ``SampleBuilder`` for ``Sample``.
         """
 
-        return Sample(
+        return SampleBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Trc(SurfaceOption):
+class Trc(_option.SurfaceOption):
     """
     Represents INP trc elements.
 
@@ -42,17 +42,7 @@ class Trc(SurfaceOption):
         rf'\Atrc( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
-    def __init__(
-        self,
-        vx: types.Real,
-        vy: types.Real,
-        vz: types.Real,
-        hx: types.Real,
-        hy: types.Real,
-        hz: types.Real,
-        r1: types.Real,
-        r2: types.Real,
-    ):
+    def __init__(self, vx: types.Real, vy: types.Real, vz: types.Real, hx: types.Real, hy: types.Real, hz: types.Real, r1: types.Real, r2: types.Real):
         """
         Initializes ``Trc``.
 
@@ -122,19 +112,15 @@ class Trc(SurfaceOption):
         cross = h * _visualization.Vector(0, 0, 1)
         angle = h & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.Visualization.get_cone_truncated(
-            h.norm(), self.r1.value, self.r2.value
-        )
+        vis = _visualization.Visualization.get_cone_truncated(h.norm(), self.r1.value, self.r2.value)
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
-        vis = vis.add_translation(
-            _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-        )
+        vis = vis.add_translation(_visualization.Vector(self.vx.value, self.vy.value, self.vz.value))
 
         return vis
 
 
 @dataclasses.dataclass
-class TrcBuilder:
+class TrcBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Trc``.
 
@@ -250,7 +236,7 @@ class TrcBuilder:
             ``TrcBuilder`` for ``Trc``.
         """
 
-        return Trc(
+        return TrcBuilder(
             vx=copy.deepcopy(ast.vx),
             vy=copy.deepcopy(ast.vy),
             vz=copy.deepcopy(ast.vz),

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Lcc(DataOption):
+class Lcc(_option.DataOption):
     """
     Represents INP lcc elements.
 
@@ -69,9 +69,7 @@ class Lcc(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if npaulincl is not None and not (
-            npaulincl.value == 0 or npaulincl.value == -1 or npaulincl.value == 1
-        ):
+        if npaulincl is not None and not (npaulincl.value == 0 or npaulincl.value == -1 or npaulincl.value == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npaulincl)
         if nosurfincl is not None and nosurfincl.value not in {-2, -1, 0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nosurfincl)
@@ -100,7 +98,7 @@ class Lcc(DataOption):
 
 
 @dataclasses.dataclass
-class LccBuilder:
+class LccBuilder(_option.DataOptionBuilder):
     """
     Builds ``Lcc``.
 
@@ -216,7 +214,7 @@ class LccBuilder:
             ``LccBuilder`` for ``Lcc``.
         """
 
-        return Lcc(
+        return LccBuilder(
             stincl=copy.deepcopy(ast.stincl),
             v0incl=copy.deepcopy(ast.v0incl),
             xfoisaincl=copy.deepcopy(ast.xfoisaincl),

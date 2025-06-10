@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BfldOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Vec(BfldOption):
+class Vec(_option.BfldOption):
     """
     Represents INP vec elements.
 
@@ -49,7 +49,7 @@ class Vec(BfldOption):
 
 
 @dataclasses.dataclass
-class VecBuilder:
+class VecBuilder(_option.BfldOptionBuilder):
     """
     Builds ``Vec``.
 
@@ -93,6 +93,6 @@ class VecBuilder:
             ``VecBuilder`` for ``Vec``.
         """
 
-        return Vec(
+        return VecBuilder(
             vector=copy.deepcopy(ast.vector),
         )

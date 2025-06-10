@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Fissrp(BlockOption):
+class Fissrp(_option.BlockOption):
     """
     Represents INP fissrp elements.
 
@@ -49,7 +49,7 @@ class Fissrp(BlockOption):
 
 
 @dataclasses.dataclass
-class FissrpBuilder:
+class FissrpBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Fissrp``.
 
@@ -88,6 +88,6 @@ class FissrpBuilder:
             ``FissrpBuilder`` for ``Fissrp``.
         """
 
-        return Fissrp(
+        return FissrpBuilder(
             setting=copy.deepcopy(ast.setting),
         )

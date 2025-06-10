@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Vol(DataOption):
+class Vol(_option.DataOption):
     """
     Represents INP vol elements.
 
@@ -56,7 +56,7 @@ class Vol(DataOption):
 
 
 @dataclasses.dataclass
-class VolBuilder:
+class VolBuilder(_option.DataOptionBuilder):
     """
     Builds ``Vol``.
 
@@ -109,7 +109,7 @@ class VolBuilder:
             ``VolBuilder`` for ``Vol``.
         """
 
-        return Vol(
+        return VolBuilder(
             no=copy.deepcopy(ast.no),
             volumes=copy.deepcopy(ast.volumes),
         )

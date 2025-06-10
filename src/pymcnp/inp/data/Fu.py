@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fu(DataOption):
+class Fu(_option.DataOption):
     """
     Represents INP fu elements.
 
@@ -29,17 +29,9 @@ class Fu(DataOption):
         'c': types.String,
     }
 
-    _REGEX = re.compile(
-        rf'\Afu(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)(?: (nt))?(?: (c))?\Z'
-    )
+    _REGEX = re.compile(rf'\Afu(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)(?: (nt))?(?: (c))?\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        bounds: types.Tuple[types.Real],
-        nt: types.String = None,
-        c: types.String = None,
-    ):
+    def __init__(self, suffix: types.Integer, bounds: types.Tuple[types.Real], nt: types.String = None, c: types.String = None):
         """
         Initializes ``Fu``.
 
@@ -55,7 +47,7 @@ class Fu(DataOption):
 
         if suffix is None or not (suffix.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
-        if bounds is None or not (filter(lambda entry: not (entry > -1), bounds)):
+        if bounds is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bounds)
         if nt is not None and nt not in {'nt'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nt)
@@ -77,7 +69,7 @@ class Fu(DataOption):
 
 
 @dataclasses.dataclass
-class FuBuilder:
+class FuBuilder(_option.DataOptionBuilder):
     """
     Builds ``Fu``.
 
@@ -150,7 +142,7 @@ class FuBuilder:
             ``FuBuilder`` for ``Fu``.
         """
 
-        return Fu(
+        return FuBuilder(
             suffix=copy.deepcopy(ast.suffix),
             bounds=copy.deepcopy(ast.bounds),
             nt=copy.deepcopy(ast.nt),

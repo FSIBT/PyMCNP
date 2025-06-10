@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import TOption_1
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Cfrq(TOption_1):
+class Cfrq(_option.TOption_1):
     """
     Represents INP cfrq elements.
 
@@ -49,7 +49,7 @@ class Cfrq(TOption_1):
 
 
 @dataclasses.dataclass
-class CfrqBuilder:
+class CfrqBuilder(_option.TOptionBuilder_1):
     """
     Builds ``Cfrq``.
 
@@ -88,6 +88,6 @@ class CfrqBuilder:
             ``CfrqBuilder`` for ``Cfrq``.
         """
 
-        return Cfrq(
+        return CfrqBuilder(
             frequency=copy.deepcopy(ast.frequency),
         )

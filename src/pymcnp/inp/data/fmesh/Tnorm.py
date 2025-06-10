@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Tnorm(FmeshOption):
+class Tnorm(_option.FmeshOption):
     """
     Represents INP tnorm elements.
 
@@ -49,7 +49,7 @@ class Tnorm(FmeshOption):
 
 
 @dataclasses.dataclass
-class TnormBuilder:
+class TnormBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Tnorm``.
 
@@ -86,6 +86,6 @@ class TnormBuilder:
             ``TnormBuilder`` for ``Tnorm``.
         """
 
-        return Tnorm(
+        return TnormBuilder(
             setting=copy.deepcopy(ast.setting),
         )

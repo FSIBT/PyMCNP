@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KoptsOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Fmatnx(KoptsOption):
+class Fmatnx(_option.KoptsOption):
     """
     Represents INP fmatnx elements.
 
@@ -49,7 +49,7 @@ class Fmatnx(KoptsOption):
 
 
 @dataclasses.dataclass
-class FmatnxBuilder:
+class FmatnxBuilder(_option.KoptsOptionBuilder):
     """
     Builds ``Fmatnx``.
 
@@ -88,6 +88,6 @@ class FmatnxBuilder:
             ``FmatnxBuilder`` for ``Fmatnx``.
         """
 
-        return Fmatnx(
+        return FmatnxBuilder(
             fmat_nx=copy.deepcopy(ast.fmat_nx),
         )

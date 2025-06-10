@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BfldOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Maxdeflc(BfldOption):
+class Maxdeflc(_option.BfldOption):
     """
     Represents INP maxdeflc elements.
 
@@ -49,7 +49,7 @@ class Maxdeflc(BfldOption):
 
 
 @dataclasses.dataclass
-class MaxdeflcBuilder:
+class MaxdeflcBuilder(_option.BfldOptionBuilder):
     """
     Builds ``Maxdeflc``.
 
@@ -88,6 +88,6 @@ class MaxdeflcBuilder:
             ``MaxdeflcBuilder`` for ``Maxdeflc``.
         """
 
-        return Maxdeflc(
+        return MaxdeflcBuilder(
             angle=copy.deepcopy(ast.angle),
         )

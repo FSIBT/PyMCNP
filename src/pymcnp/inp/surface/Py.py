@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Py(SurfaceOption):
+class Py(_option.SurfaceOption):
     """
     Represents INP py elements.
 
@@ -63,7 +63,7 @@ class Py(SurfaceOption):
 
 
 @dataclasses.dataclass
-class PyBuilder:
+class PyBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Py``.
 
@@ -102,6 +102,6 @@ class PyBuilder:
             ``PyBuilder`` for ``Py``.
         """
 
-        return Py(
+        return PyBuilder(
             d=copy.deepcopy(ast.d),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Fmesh(MplotOption):
+class Fmesh(_option.MplotOption):
     """
     Represents INP fmesh elements.
 
@@ -49,7 +49,7 @@ class Fmesh(MplotOption):
 
 
 @dataclasses.dataclass
-class FmeshBuilder:
+class FmeshBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Fmesh``.
 
@@ -88,6 +88,6 @@ class FmeshBuilder:
             ``FmeshBuilder`` for ``Fmesh``.
         """
 
-        return Fmesh(
+        return FmeshBuilder(
             n=copy.deepcopy(ast.n),
         )

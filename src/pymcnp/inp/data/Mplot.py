@@ -5,11 +5,11 @@ import dataclasses
 
 
 from . import mplot
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Mplot(DataOption):
+class Mplot(_option.DataOption):
     """
     Represents INP mplot elements.
 
@@ -46,7 +46,7 @@ class Mplot(DataOption):
 
 
 @dataclasses.dataclass
-class MplotBuilder:
+class MplotBuilder(_option.DataOptionBuilder):
     """
     Builds ``Mplot``.
 
@@ -71,7 +71,7 @@ class MplotBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(mplot.MplotOption.from_mcnp(item))
-                else:
+                elif isinstance(item, mplot.MplotOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -90,6 +90,6 @@ class MplotBuilder:
             ``MplotBuilder`` for ``Mplot``.
         """
 
-        return Mplot(
+        return MplotBuilder(
             options=copy.deepcopy(ast.options),
         )

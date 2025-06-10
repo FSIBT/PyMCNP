@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Refc(MOption_0):
+class Refc(_option.MOption_0):
     """
     Represents INP refc elements.
 
@@ -49,7 +49,7 @@ class Refc(MOption_0):
 
 
 @dataclasses.dataclass
-class RefcBuilder:
+class RefcBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Refc``.
 
@@ -93,6 +93,6 @@ class RefcBuilder:
             ``RefcBuilder`` for ``Refc``.
         """
 
-        return Refc(
+        return RefcBuilder(
             coefficents=copy.deepcopy(ast.coefficents),
         )

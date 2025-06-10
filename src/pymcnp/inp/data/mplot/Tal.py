@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Tal(MplotOption):
+class Tal(_option.MplotOption):
     """
     Represents INP tal elements.
 
@@ -49,7 +49,7 @@ class Tal(MplotOption):
 
 
 @dataclasses.dataclass
-class TalBuilder:
+class TalBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Tal``.
 
@@ -88,6 +88,6 @@ class TalBuilder:
             ``TalBuilder`` for ``Tal``.
         """
 
-        return Tal(
+        return TalBuilder(
             n=copy.deepcopy(ast.n),
         )

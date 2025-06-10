@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import ActOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Dn(ActOption):
+class Dn(_option.ActOption):
     """
     Represents INP dn elements.
 
@@ -49,7 +49,7 @@ class Dn(ActOption):
 
 
 @dataclasses.dataclass
-class DnBuilder:
+class DnBuilder(_option.ActOptionBuilder):
     """
     Builds ``Dn``.
 
@@ -86,6 +86,6 @@ class DnBuilder:
             ``DnBuilder`` for ``Dn``.
         """
 
-        return Dn(
+        return DnBuilder(
             source=copy.deepcopy(ast.source),
         )

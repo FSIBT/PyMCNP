@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SsrOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Old(SsrOption):
+class Old(_option.SsrOption):
     """
     Represents INP old elements.
 
@@ -36,9 +36,7 @@ class Old(SsrOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if numbers is None or not (
-            filter(lambda entry: not (1 <= entry.value <= 99_999_999), numbers)
-        ):
+        if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -51,7 +49,7 @@ class Old(SsrOption):
 
 
 @dataclasses.dataclass
-class OldBuilder:
+class OldBuilder(_option.SsrOptionBuilder):
     """
     Builds ``Old``.
 
@@ -95,6 +93,6 @@ class OldBuilder:
             ``OldBuilder`` for ``Old``.
         """
 
-        return Old(
+        return OldBuilder(
             numbers=copy.deepcopy(ast.numbers),
         )

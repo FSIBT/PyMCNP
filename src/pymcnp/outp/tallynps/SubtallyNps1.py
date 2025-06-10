@@ -17,13 +17,7 @@ class SubtallyNps1(_subblock.Subblock):
         total: Total line.
     """
 
-    _REGEX = re.compile(
-        r'\A surface  (.+)\n'
-        r' angle  bin: (.+)\n'
-        r'      energy   \n'
-        r'((?:.+\n)+)'
-        r'      total      (.+)\n\n\Z'
-    )
+    _REGEX = re.compile(r'\A surface  (.+)\n' r' angle  bin: (.+)\n' r'      energy   \n' r'((?:.+\n)+)' r'      total      (.+)\n\n\Z')
 
     def __init__(
         self,

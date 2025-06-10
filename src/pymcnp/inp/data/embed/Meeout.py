@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbedOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Meeout(EmbedOption):
+class Meeout(_option.EmbedOption):
     """
     Represents INP meeout elements.
 
@@ -49,7 +49,7 @@ class Meeout(EmbedOption):
 
 
 @dataclasses.dataclass
-class MeeoutBuilder:
+class MeeoutBuilder(_option.EmbedOptionBuilder):
     """
     Builds ``Meeout``.
 
@@ -86,6 +86,6 @@ class MeeoutBuilder:
             ``MeeoutBuilder`` for ``Meeout``.
         """
 
-        return Meeout(
+        return MeeoutBuilder(
             filename=copy.deepcopy(ast.filename),
         )

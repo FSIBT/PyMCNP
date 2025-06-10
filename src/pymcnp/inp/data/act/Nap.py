@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import ActOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Nap(ActOption):
+class Nap(_option.ActOption):
     """
     Represents INP nap elements.
 
@@ -49,7 +49,7 @@ class Nap(ActOption):
 
 
 @dataclasses.dataclass
-class NapBuilder:
+class NapBuilder(_option.ActOptionBuilder):
     """
     Builds ``Nap``.
 
@@ -88,6 +88,6 @@ class NapBuilder:
             ``NapBuilder`` for ``Nap``.
         """
 
-        return Nap(
+        return NapBuilder(
             count=copy.deepcopy(ast.count),
         )

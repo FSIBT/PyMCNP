@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Rec(SurfaceOption):
+class Rec(_option.SurfaceOption):
     """
     Represents INP rec elements.
 
@@ -161,7 +161,7 @@ class Rec(SurfaceOption):
 
 
 @dataclasses.dataclass
-class RecBuilder:
+class RecBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Rec``.
 
@@ -321,7 +321,7 @@ class RecBuilder:
             ``RecBuilder`` for ``Rec``.
         """
 
-        return Rec(
+        return RecBuilder(
             vx=copy.deepcopy(ast.vx),
             vy=copy.deepcopy(ast.vy),
             vz=copy.deepcopy(ast.vz),

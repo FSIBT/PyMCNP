@@ -4,12 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
-from ...utils import errors
 
 
-class Nonu(DataOption):
+class Nonu(_option.DataOption):
     """
     Represents INP nonu elements.
 
@@ -36,14 +35,6 @@ class Nonu(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if settings is not None and not (
-            filter(
-                lambda entry: not (entry.value == 0 or entry.value == 1 or entry.value == 2),
-                settings,
-            )
-        ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, settings)
-
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
                 settings,
@@ -54,7 +45,7 @@ class Nonu(DataOption):
 
 
 @dataclasses.dataclass
-class NonuBuilder:
+class NonuBuilder(_option.DataOptionBuilder):
     """
     Builds ``Nonu``.
 
@@ -98,6 +89,6 @@ class NonuBuilder:
             ``NonuBuilder`` for ``Nonu``.
         """
 
-        return Nonu(
+        return NonuBuilder(
             settings=copy.deepcopy(ast.settings),
         )

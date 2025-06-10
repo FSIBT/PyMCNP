@@ -36,12 +36,18 @@ class Card(_object.McnpNonterminal):
         attrs = {}
         for i, (name, attr) in enumerate(cls._ATTRS.items()):
             if isinstance(attr, types.GenericAlias):
-                attrs[name] = (
-                    attr.from_mcnp(tokens[i + 1], attr.__args__[0]) if tokens[i + 1] else None
-                )
+                attrs[name] = attr.from_mcnp(tokens[i + 1], attr.__args__[0]) if tokens[i + 1] else None
             else:
                 attrs[name] = attr.from_mcnp(tokens[i + 1]) if tokens[i + 1] else None
 
         card = cls(**attrs)
         card.comments = comments
         return card
+
+
+class CardBuilder(_object.McnpNonterminalBuilder):
+    """
+    Represents generic INP card builders.
+    """
+
+    pass

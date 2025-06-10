@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SsrOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Axs(SsrOption):
+class Axs(_option.SsrOption):
     """
     Represents INP axs elements.
 
@@ -49,7 +49,7 @@ class Axs(SsrOption):
 
 
 @dataclasses.dataclass
-class AxsBuilder:
+class AxsBuilder(_option.SsrOptionBuilder):
     """
     Builds ``Axs``.
 
@@ -93,6 +93,6 @@ class AxsBuilder:
             ``AxsBuilder`` for ``Axs``.
         """
 
-        return Axs(
+        return AxsBuilder(
             cosines=copy.deepcopy(ast.cosines),
         )

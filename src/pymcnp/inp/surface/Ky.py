@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Ky(SurfaceOption):
+class Ky(_option.SurfaceOption):
     """
     Represents INP ky elements.
 
@@ -28,9 +28,7 @@ class Ky(SurfaceOption):
         'plusminus_1': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Aky( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Aky( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, y: types.Real, t_squared: types.Real, plusminus_1: types.Real):
         """
@@ -72,9 +70,7 @@ class Ky(SurfaceOption):
             ``pyvista.PolyData`` for ``Ky``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(
-            self.t_squared.value ** (1 / 2), self.plusminus_1.value
-        )
+        vis = _visualization.Visualization.get_cone_unbounded(self.t_squared.value ** (1 / 2), self.plusminus_1.value)
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(0, self.y.value, 0))
 
@@ -82,7 +78,7 @@ class Ky(SurfaceOption):
 
 
 @dataclasses.dataclass
-class KyBuilder:
+class KyBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Ky``.
 
@@ -143,7 +139,7 @@ class KyBuilder:
             ``KyBuilder`` for ``Ky``.
         """
 
-        return Ky(
+        return KyBuilder(
             y=copy.deepcopy(ast.y),
             t_squared=copy.deepcopy(ast.t_squared),
             plusminus_1=copy.deepcopy(ast.plusminus_1),

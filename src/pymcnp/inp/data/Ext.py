@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Ext(DataOption):
+class Ext(_option.DataOption):
     """
     Represents INP ext elements.
 
@@ -55,7 +55,7 @@ class Ext(DataOption):
 
 
 @dataclasses.dataclass
-class ExtBuilder:
+class ExtBuilder(_option.DataOptionBuilder):
     """
     Builds ``Ext``.
 
@@ -88,8 +88,6 @@ class ExtBuilder:
                     stretching.append(item)
                 elif isinstance(item, str):
                     stretching.append(types.String.from_mcnp(item))
-                else:
-                    stretching.append(item.build())
             stretching = types.Tuple(stretching)
         else:
             stretching = None
@@ -108,7 +106,7 @@ class ExtBuilder:
             ``ExtBuilder`` for ``Ext``.
         """
 
-        return Ext(
+        return ExtBuilder(
             designator=copy.deepcopy(ast.designator),
             stretching=copy.deepcopy(ast.stretching),
         )

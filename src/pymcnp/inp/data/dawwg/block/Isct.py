@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Isct(BlockOption):
+class Isct(_option.BlockOption):
     """
     Represents INP isct elements.
 
@@ -49,7 +49,7 @@ class Isct(BlockOption):
 
 
 @dataclasses.dataclass
-class IsctBuilder:
+class IsctBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Isct``.
 
@@ -88,6 +88,6 @@ class IsctBuilder:
             ``IsctBuilder`` for ``Isct``.
         """
 
-        return Isct(
+        return IsctBuilder(
             setting=copy.deepcopy(ast.setting),
         )

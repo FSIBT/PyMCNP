@@ -1,4 +1,5 @@
 from ._option import FmeshOption
+from ._option import FmeshOptionBuilder
 
 from .Geom import Geom
 from .Origin import Origin
@@ -47,6 +48,7 @@ from .Kclear import KclearBuilder
 
 __all__ = [
     'FmeshOption',
+    'FmeshOptionBuilder',
     'Geom',
     'Origin',
     'Axs',

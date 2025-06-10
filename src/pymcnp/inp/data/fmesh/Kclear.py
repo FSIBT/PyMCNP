@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Kclear(FmeshOption):
+class Kclear(_option.FmeshOption):
     """
     Represents INP kclear elements.
 
@@ -49,7 +49,7 @@ class Kclear(FmeshOption):
 
 
 @dataclasses.dataclass
-class KclearBuilder:
+class KclearBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Kclear``.
 
@@ -88,6 +88,6 @@ class KclearBuilder:
             ``KclearBuilder`` for ``Kclear``.
         """
 
-        return Kclear(
+        return KclearBuilder(
             count=copy.deepcopy(ast.count),
         )

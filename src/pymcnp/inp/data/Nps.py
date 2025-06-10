@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Nps(DataOption):
+class Nps(_option.DataOption):
     """
     Represents INP nps elements.
 
@@ -25,9 +25,7 @@ class Nps(DataOption):
         'npsmg': types.Integer,
     }
 
-    _REGEX = re.compile(
-        rf'\Anps( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z'
-    )
+    _REGEX = re.compile(rf'\Anps( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z')
 
     def __init__(self, npp: types.Integer, npsmg: types.Integer = None):
         """
@@ -58,7 +56,7 @@ class Nps(DataOption):
 
 
 @dataclasses.dataclass
-class NpsBuilder:
+class NpsBuilder(_option.DataOptionBuilder):
     """
     Builds ``Nps``.
 
@@ -108,7 +106,7 @@ class NpsBuilder:
             ``NpsBuilder`` for ``Nps``.
         """
 
-        return Nps(
+        return NpsBuilder(
             npp=copy.deepcopy(ast.npp),
             npsmg=copy.deepcopy(ast.npsmg),
         )

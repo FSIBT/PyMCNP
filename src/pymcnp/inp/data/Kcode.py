@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Kcode(DataOption):
+class Kcode(_option.DataOption):
     """
     Represents INP kcode elements.
 
@@ -73,11 +73,7 @@ class Kcode(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nsrck)
         if kct is not None and not (isinstance(kct.value, types.Jump) or kct.value > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kct)
-        if msrk is not None and not (
-            isinstance(msrk.value, types.Jump)
-            or msrk.value
-            < 40 * (1000 if not nsrck or isinstance(nsrck.value, types.Jump) else nsrck.value)
-        ):
+        if msrk is not None and not (isinstance(msrk.value, types.Jump) or msrk.value < 40 * (1000 if not nsrck or isinstance(nsrck.value, types.Jump) else nsrck.value)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, msrk)
         if knrm is not None and not (isinstance(knrm.value, types.Jump) or knrm.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, knrm)
@@ -110,7 +106,7 @@ class Kcode(DataOption):
 
 
 @dataclasses.dataclass
-class KcodeBuilder:
+class KcodeBuilder(_option.DataOptionBuilder):
     """
     Builds ``Kcode``.
 
@@ -226,7 +222,7 @@ class KcodeBuilder:
             ``KcodeBuilder`` for ``Kcode``.
         """
 
-        return Kcode(
+        return KcodeBuilder(
             nsrck=copy.deepcopy(ast.nsrck),
             rkk=copy.deepcopy(ast.rkk),
             ikz=copy.deepcopy(ast.ikz),

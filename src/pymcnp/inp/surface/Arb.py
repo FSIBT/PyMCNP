@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Arb(SurfaceOption):
+class Arb(_option.SurfaceOption):
     """
     Represents INP arb elements.
 
@@ -286,7 +286,7 @@ class Arb(SurfaceOption):
 
 
 @dataclasses.dataclass
-class ArbBuilder:
+class ArbBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Arb``.
 
@@ -644,7 +644,7 @@ class ArbBuilder:
             ``ArbBuilder`` for ``Arb``.
         """
 
-        return Arb(
+        return ArbBuilder(
             ax=copy.deepcopy(ast.ax),
             ay=copy.deepcopy(ast.ay),
             az=copy.deepcopy(ast.az),

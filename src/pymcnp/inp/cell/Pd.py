@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Pd(CellOption):
+class Pd(_option.CellOption):
     """
     Represents INP pd elements.
 
@@ -55,7 +55,7 @@ class Pd(CellOption):
 
 
 @dataclasses.dataclass
-class PdBuilder:
+class PdBuilder(_option.CellOptionBuilder):
     """
     Builds ``Pd``.
 
@@ -105,7 +105,7 @@ class PdBuilder:
             ``PdBuilder`` for ``Pd``.
         """
 
-        return Pd(
+        return PdBuilder(
             suffix=copy.deepcopy(ast.suffix),
             probability=copy.deepcopy(ast.probability),
         )

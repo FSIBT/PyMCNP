@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Dbcn(DataOption):
+class Dbcn(_option.DataOption):
     """
     Represents INP dbcn elements.
 
@@ -650,7 +650,7 @@ class Dbcn(DataOption):
 
 
 @dataclasses.dataclass
-class DbcnBuilder:
+class DbcnBuilder(_option.DataOptionBuilder):
     """
     Builds ``Dbcn``.
 
@@ -1778,7 +1778,7 @@ class DbcnBuilder:
             ``DbcnBuilder`` for ``Dbcn``.
         """
 
-        return Dbcn(
+        return DbcnBuilder(
             x1=copy.deepcopy(ast.x1),
             x2=copy.deepcopy(ast.x2),
             x3=copy.deepcopy(ast.x3),

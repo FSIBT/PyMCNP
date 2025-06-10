@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Legend(MplotOption):
+class Legend(_option.MplotOption):
     """
     Represents INP legend elements.
 
@@ -24,9 +24,7 @@ class Legend(MplotOption):
         'y': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Alegend( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
-    )
+    _REGEX = re.compile(rf'\Alegend( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
     def __init__(self, x: types.Real = None, y: types.Real = None):
         """
@@ -52,7 +50,7 @@ class Legend(MplotOption):
 
 
 @dataclasses.dataclass
-class LegendBuilder:
+class LegendBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Legend``.
 
@@ -102,7 +100,7 @@ class LegendBuilder:
             ``LegendBuilder`` for ``Legend``.
         """
 
-        return Legend(
+        return LegendBuilder(
             x=copy.deepcopy(ast.x),
             y=copy.deepcopy(ast.y),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Enorm(FmeshOption):
+class Enorm(_option.FmeshOption):
     """
     Represents INP enorm elements.
 
@@ -49,7 +49,7 @@ class Enorm(FmeshOption):
 
 
 @dataclasses.dataclass
-class EnormBuilder:
+class EnormBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Enorm``.
 
@@ -86,6 +86,6 @@ class EnormBuilder:
             ``EnormBuilder`` for ``Enorm``.
         """
 
-        return Enorm(
+        return EnormBuilder(
             setting=copy.deepcopy(ast.setting),
         )

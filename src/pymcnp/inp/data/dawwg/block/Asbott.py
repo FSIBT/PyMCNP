@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Asbott(BlockOption):
+class Asbott(_option.BlockOption):
     """
     Represents INP asbott elements.
 
@@ -49,7 +49,7 @@ class Asbott(BlockOption):
 
 
 @dataclasses.dataclass
-class AsbottBuilder:
+class AsbottBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Asbott``.
 
@@ -88,6 +88,6 @@ class AsbottBuilder:
             ``AsbottBuilder`` for ``Asbott``.
         """
 
-        return Asbott(
+        return AsbottBuilder(
             setting=copy.deepcopy(ast.setting),
         )

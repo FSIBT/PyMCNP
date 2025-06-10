@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Coplot(MplotOption):
+class Coplot(_option.MplotOption):
     """
     Represents INP coplot elements.
 
@@ -38,7 +38,7 @@ class Coplot(MplotOption):
 
 
 @dataclasses.dataclass
-class CoplotBuilder:
+class CoplotBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Coplot``.
 
@@ -65,4 +65,4 @@ class CoplotBuilder:
             ``CoplotBuilder`` for ``Coplot``.
         """
 
-        return Coplot()
+        return CoplotBuilder()

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Subtitle(MplotOption):
+class Subtitle(_option.MplotOption):
     """
     Represents INP subtitle elements.
 
@@ -27,9 +27,7 @@ class Subtitle(MplotOption):
         'aa': types.String,
     }
 
-    _REGEX = re.compile(
-        rf'\Asubtitle( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( \"{types.String._REGEX.pattern[2:-2]}\")\Z'
-    )
+    _REGEX = re.compile(rf'\Asubtitle( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( \"{types.String._REGEX.pattern[2:-2]}\")\Z')
 
     def __init__(self, x: types.Integer, y: types.Integer, aa: types.String):
         """
@@ -65,7 +63,7 @@ class Subtitle(MplotOption):
 
 
 @dataclasses.dataclass
-class SubtitleBuilder:
+class SubtitleBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Subtitle``.
 
@@ -124,7 +122,7 @@ class SubtitleBuilder:
             ``SubtitleBuilder`` for ``Subtitle``.
         """
 
-        return Subtitle(
+        return SubtitleBuilder(
             x=copy.deepcopy(ast.x),
             y=copy.deepcopy(ast.y),
             aa=copy.deepcopy(ast.aa),

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Origin(MeshOption):
+class Origin(_option.MeshOption):
     """
     Represents INP origin elements.
 
@@ -49,7 +49,7 @@ class Origin(MeshOption):
 
 
 @dataclasses.dataclass
-class OriginBuilder:
+class OriginBuilder(_option.MeshOptionBuilder):
     """
     Builds ``Origin``.
 
@@ -93,6 +93,6 @@ class OriginBuilder:
             ``OriginBuilder`` for ``Origin``.
         """
 
-        return Origin(
+        return OriginBuilder(
             point=copy.deepcopy(ast.point),
         )

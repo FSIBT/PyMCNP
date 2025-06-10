@@ -1,9 +1,17 @@
-from ..._option import Option
+from ... import _option
 
 
-class SswOption(Option):
+class SswOption(_option.Option):
     """
     Represents generic INP ssw options.
+    """
+
+    pass
+
+
+class SswOptionBuilder(_option.OptionBuilder):
+    """
+    Represents generic INP ssw option builders.
     """
 
     pass

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Phys_1(DataOption):
+class Phys_1(_option.DataOption):
     """
     Represents INP phys variation #1 elements.
 
@@ -37,15 +37,7 @@ class Phys_1(DataOption):
         rf'\Aphys:p( {types.Real._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
-    def __init__(
-        self,
-        emcpf: types.Real = None,
-        ides: types.Integer = None,
-        nocoh: types.Integer = None,
-        ispn: types.Integer = None,
-        nodop: types.Integer = None,
-        fism: types.Integer = None,
-    ):
+    def __init__(self, emcpf: types.Real = None, ides: types.Integer = None, nocoh: types.Integer = None, ispn: types.Integer = None, nodop: types.Integer = None, fism: types.Integer = None):
         """
         Initializes ``Phys_1``.
 
@@ -65,9 +57,7 @@ class Phys_1(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ides)
         if nocoh is not None and not (isinstance(nocoh.value, types.Jump) or nocoh.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nocoh)
-        if ispn is not None and not (
-            isinstance(ispn.value, types.Jump) or ispn.value in {-1, 0, 1}
-        ):
+        if ispn is not None and not (isinstance(ispn.value, types.Jump) or ispn.value in {-1, 0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ispn)
         if nodop is not None and not (isinstance(nodop.value, types.Jump) or nodop.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nodop)
@@ -92,7 +82,7 @@ class Phys_1(DataOption):
 
 
 @dataclasses.dataclass
-class PhysBuilder_1:
+class PhysBuilder_1(_option.DataOptionBuilder):
     """
     Builds ``Phys_1``.
 
@@ -186,7 +176,7 @@ class PhysBuilder_1:
             ``PhysBuilder_1`` for ``Phys_1``.
         """
 
-        return Phys_1(
+        return PhysBuilder_1(
             emcpf=copy.deepcopy(ast.emcpf),
             ides=copy.deepcopy(ast.ides),
             nocoh=copy.deepcopy(ast.nocoh),

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Erg_0(SdefOption):
+class Erg_0(_option.SdefOption):
     """
     Represents INP erg variation #0 elements.
 
@@ -49,7 +49,7 @@ class Erg_0(SdefOption):
 
 
 @dataclasses.dataclass
-class ErgBuilder_0:
+class ErgBuilder_0(_option.SdefOptionBuilder):
     """
     Builds ``Erg_0``.
 
@@ -88,6 +88,6 @@ class ErgBuilder_0:
             ``ErgBuilder_0`` for ``Erg_0``.
         """
 
-        return Erg_0(
+        return ErgBuilder_0(
             energy=copy.deepcopy(ast.energy),
         )

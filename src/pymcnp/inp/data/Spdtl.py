@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Spdtl(DataOption):
+class Spdtl(_option.DataOption):
     """
     Represents INP spdtl elements.
 
@@ -49,7 +49,7 @@ class Spdtl(DataOption):
 
 
 @dataclasses.dataclass
-class SpdtlBuilder:
+class SpdtlBuilder(_option.DataOptionBuilder):
     """
     Builds ``Spdtl``.
 
@@ -86,6 +86,6 @@ class SpdtlBuilder:
             ``SpdtlBuilder`` for ``Spdtl``.
         """
 
-        return Spdtl(
+        return SpdtlBuilder(
             keyword=copy.deepcopy(ast.keyword),
         )

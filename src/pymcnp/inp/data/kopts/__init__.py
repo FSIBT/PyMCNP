@@ -1,4 +1,5 @@
 from ._option import KoptsOption
+from ._option import KoptsOptionBuilder
 
 from .Blocksize import Blocksize
 from .Kinetics import Kinetics
@@ -29,6 +30,7 @@ from .Fmatnz import FmatnzBuilder
 
 __all__ = [
     'KoptsOption',
+    'KoptsOptionBuilder',
     'Blocksize',
     'Kinetics',
     'Precursor',

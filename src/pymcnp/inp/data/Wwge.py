@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Wwge(DataOption):
+class Wwge(_option.DataOption):
     """
     Represents INP wwge elements.
 
@@ -55,7 +55,7 @@ class Wwge(DataOption):
 
 
 @dataclasses.dataclass
-class WwgeBuilder:
+class WwgeBuilder(_option.DataOptionBuilder):
     """
     Builds ``Wwge``.
 
@@ -108,7 +108,7 @@ class WwgeBuilder:
             ``WwgeBuilder`` for ``Wwge``.
         """
 
-        return Wwge(
+        return WwgeBuilder(
             designator=copy.deepcopy(ast.designator),
             bounds=copy.deepcopy(ast.bounds),
         )

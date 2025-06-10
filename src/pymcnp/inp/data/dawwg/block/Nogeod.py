@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Nogeod(BlockOption):
+class Nogeod(_option.BlockOption):
     """
     Represents INP nogeod elements.
 
@@ -49,7 +49,7 @@ class Nogeod(BlockOption):
 
 
 @dataclasses.dataclass
-class NogeodBuilder:
+class NogeodBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Nogeod``.
 
@@ -88,6 +88,6 @@ class NogeodBuilder:
             ``NogeodBuilder`` for ``Nogeod``.
         """
 
-        return Nogeod(
+        return NogeodBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Cut(DataOption):
+class Cut(_option.DataOption):
     """
     Represents INP cut elements.
 
@@ -83,7 +83,7 @@ class Cut(DataOption):
 
 
 @dataclasses.dataclass
-class CutBuilder:
+class CutBuilder(_option.DataOptionBuilder):
     """
     Builds ``Cut``.
 
@@ -175,7 +175,7 @@ class CutBuilder:
             ``CutBuilder`` for ``Cut``.
         """
 
-        return Cut(
+        return CutBuilder(
             designator=copy.deepcopy(ast.designator),
             time_cutoff=copy.deepcopy(ast.time_cutoff),
             energy_cutoff=copy.deepcopy(ast.energy_cutoff),

@@ -24,9 +24,7 @@ class Xlim(MplotOption, keyword='xlim'):
         'nsteps': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Axlim( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Axlim( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, min: types.Real, max: types.Real, nsteps: types.Real):
         """

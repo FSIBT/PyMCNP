@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PertOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Mat(PertOption):
+class Mat(_option.PertOption):
     """
     Represents INP mat elements.
 
@@ -49,7 +49,7 @@ class Mat(PertOption):
 
 
 @dataclasses.dataclass
-class MatBuilder:
+class MatBuilder(_option.PertOptionBuilder):
     """
     Builds ``Mat``.
 
@@ -88,6 +88,6 @@ class MatBuilder:
             ``MatBuilder`` for ``Mat``.
         """
 
-        return Mat(
+        return MatBuilder(
             material=copy.deepcopy(ast.material),
         )

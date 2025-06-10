@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Vec(FmeshOption):
+class Vec(_option.FmeshOption):
     """
     Represents INP vec elements.
 
@@ -27,9 +27,7 @@ class Vec(FmeshOption):
         'z': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Avec( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Avec( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, x: types.Real, y: types.Real, z: types.Real):
         """
@@ -65,7 +63,7 @@ class Vec(FmeshOption):
 
 
 @dataclasses.dataclass
-class VecBuilder:
+class VecBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Vec``.
 
@@ -126,7 +124,7 @@ class VecBuilder:
             ``VecBuilder`` for ``Vec``.
         """
 
-        return Vec(
+        return VecBuilder(
             x=copy.deepcopy(ast.x),
             y=copy.deepcopy(ast.y),
             z=copy.deepcopy(ast.z),

@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Thin(MplotOption):
+class Thin(_option.MplotOption):
     """
     Represents INP thin elements.
 
@@ -38,7 +38,7 @@ class Thin(MplotOption):
 
 
 @dataclasses.dataclass
-class ThinBuilder:
+class ThinBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Thin``.
 
@@ -65,4 +65,4 @@ class ThinBuilder:
             ``ThinBuilder`` for ``Thin``.
         """
 
-        return Thin()
+        return ThinBuilder()

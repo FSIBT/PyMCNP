@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Title(MplotOption):
+class Title(_option.MplotOption):
     """
     Represents INP title elements.
 
@@ -25,9 +25,7 @@ class Title(MplotOption):
         'aa': types.String,
     }
 
-    _REGEX = re.compile(
-        rf'\Atitle( {types.Integer._REGEX.pattern[2:-2]})( \"{types.String._REGEX.pattern[2:-2]}\")\Z'
-    )
+    _REGEX = re.compile(rf'\Atitle( {types.Integer._REGEX.pattern[2:-2]})( \"{types.String._REGEX.pattern[2:-2]}\")\Z')
 
     def __init__(self, n: types.Integer, aa: types.String):
         """
@@ -58,7 +56,7 @@ class Title(MplotOption):
 
 
 @dataclasses.dataclass
-class TitleBuilder:
+class TitleBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Title``.
 
@@ -106,7 +104,7 @@ class TitleBuilder:
             ``TitleBuilder`` for ``Title``.
         """
 
-        return Title(
+        return TitleBuilder(
             n=copy.deepcopy(ast.n),
             aa=copy.deepcopy(ast.aa),
         )

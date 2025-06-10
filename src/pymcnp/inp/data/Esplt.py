@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Esplt(DataOption):
+class Esplt(_option.DataOption):
     """
     Represents INP esplt elements.
 
@@ -293,7 +293,7 @@ class Esplt(DataOption):
 
 
 @dataclasses.dataclass
-class EspltBuilder:
+class EspltBuilder(_option.DataOptionBuilder):
     """
     Builds ``Esplt``.
 
@@ -770,7 +770,7 @@ class EspltBuilder:
             ``EspltBuilder`` for ``Esplt``.
         """
 
-        return Esplt(
+        return EspltBuilder(
             designator=copy.deepcopy(ast.designator),
             ratio_1=copy.deepcopy(ast.ratio_1),
             energy_1=copy.deepcopy(ast.energy_1),

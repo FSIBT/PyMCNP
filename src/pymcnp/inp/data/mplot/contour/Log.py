@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import ContourOption
+from . import _option
 from .....utils import types
 
 
-class Log(ContourOption):
+class Log(_option.ContourOption):
     """
     Represents INP log elements.
 
@@ -38,7 +38,7 @@ class Log(ContourOption):
 
 
 @dataclasses.dataclass
-class LogBuilder:
+class LogBuilder(_option.ContourOptionBuilder):
     """
     Builds ``Log``.
 
@@ -65,4 +65,4 @@ class LogBuilder:
             ``LogBuilder`` for ``Log``.
         """
 
-        return Log()
+        return LogBuilder()

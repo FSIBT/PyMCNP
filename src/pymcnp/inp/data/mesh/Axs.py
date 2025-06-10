@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Axs(MeshOption):
+class Axs(_option.MeshOption):
     """
     Represents INP axs elements.
 
@@ -49,7 +49,7 @@ class Axs(MeshOption):
 
 
 @dataclasses.dataclass
-class AxsBuilder:
+class AxsBuilder(_option.MeshOptionBuilder):
     """
     Builds ``Axs``.
 
@@ -93,6 +93,6 @@ class AxsBuilder:
             ``AxsBuilder`` for ``Axs``.
         """
 
-        return Axs(
+        return AxsBuilder(
             vector=copy.deepcopy(ast.vector),
         )

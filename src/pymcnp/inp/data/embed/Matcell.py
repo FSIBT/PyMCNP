@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbedOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Matcell(EmbedOption):
+class Matcell(_option.EmbedOption):
     """
     Represents INP matcell elements.
 
@@ -49,7 +49,7 @@ class Matcell(EmbedOption):
 
 
 @dataclasses.dataclass
-class MatcellBuilder:
+class MatcellBuilder(_option.EmbedOptionBuilder):
     """
     Builds ``Matcell``.
 
@@ -74,8 +74,6 @@ class MatcellBuilder:
                     pairs.append(item)
                 elif isinstance(item, str):
                     pairs.append(types.Matcell.from_mcnp(item))
-                else:
-                    pairs.append(item.build())
             pairs = types.Tuple(pairs)
         else:
             pairs = None
@@ -93,6 +91,6 @@ class MatcellBuilder:
             ``MatcellBuilder`` for ``Matcell``.
         """
 
-        return Matcell(
+        return MatcellBuilder(
             pairs=copy.deepcopy(ast.pairs),
         )

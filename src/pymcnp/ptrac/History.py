@@ -44,9 +44,7 @@ class History(_object.McnpNonterminal):
         if events is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, events)
 
-        self.i_line: typing.Final[types.Tuple[types.Integer, history.EventType, types.Real]] = (
-            i_line
-        )
+        self.i_line: typing.Final[types.Tuple[types.Integer, history.EventType, types.Real]] = i_line
         self.events: typing.Final[typing.Generator] = events
 
     @staticmethod

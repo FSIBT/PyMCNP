@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Isn(BlockOption):
+class Isn(_option.BlockOption):
     """
     Represents INP isn elements.
 
@@ -49,7 +49,7 @@ class Isn(BlockOption):
 
 
 @dataclasses.dataclass
-class IsnBuilder:
+class IsnBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Isn``.
 
@@ -88,6 +88,6 @@ class IsnBuilder:
             ``IsnBuilder`` for ``Isn``.
         """
 
-        return Isn(
+        return IsnBuilder(
             setting=copy.deepcopy(ast.setting),
         )

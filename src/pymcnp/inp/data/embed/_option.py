@@ -1,9 +1,17 @@
-from ..._option import Option
+from ... import _option
 
 
-class EmbedOption(Option):
+class EmbedOption(_option.Option):
     """
     Represents generic INP embed options.
+    """
+
+    pass
+
+
+class EmbedOptionBuilder(_option.OptionBuilder):
+    """
+    Represents generic INP embed option builders.
     """
 
     pass

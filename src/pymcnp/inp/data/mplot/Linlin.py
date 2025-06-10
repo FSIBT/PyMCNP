@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Linlin(MplotOption):
+class Linlin(_option.MplotOption):
     """
     Represents INP linlin elements.
 
@@ -38,7 +38,7 @@ class Linlin(MplotOption):
 
 
 @dataclasses.dataclass
-class LinlinBuilder:
+class LinlinBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Linlin``.
 
@@ -65,4 +65,4 @@ class LinlinBuilder:
             ``LinlinBuilder`` for ``Linlin``.
         """
 
-        return Linlin()
+        return LinlinBuilder()

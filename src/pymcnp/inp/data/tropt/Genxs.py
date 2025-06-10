@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import TroptOption
+from . import _option
 from ....utils import types
 
 
-class Genxs(TroptOption):
+class Genxs(_option.TroptOption):
     """
     Represents INP genxs elements.
 
@@ -45,7 +45,7 @@ class Genxs(TroptOption):
 
 
 @dataclasses.dataclass
-class GenxsBuilder:
+class GenxsBuilder(_option.TroptOptionBuilder):
     """
     Builds ``Genxs``.
 
@@ -82,6 +82,6 @@ class GenxsBuilder:
             ``GenxsBuilder`` for ``Genxs``.
         """
 
-        return Genxs(
+        return GenxsBuilder(
             filename=copy.deepcopy(ast.filename),
         )

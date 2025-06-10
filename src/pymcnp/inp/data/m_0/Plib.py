@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Plib(MOption_0):
+class Plib(_option.MOption_0):
     """
     Represents INP plib elements.
 
@@ -49,7 +49,7 @@ class Plib(MOption_0):
 
 
 @dataclasses.dataclass
-class PlibBuilder:
+class PlibBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Plib``.
 
@@ -86,6 +86,6 @@ class PlibBuilder:
             ``PlibBuilder`` for ``Plib``.
         """
 
-        return Plib(
+        return PlibBuilder(
             abx=copy.deepcopy(ast.abx),
         )

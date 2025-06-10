@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Dxt(DataOption):
+class Dxt(_option.DataOption):
     """
     Represents INP dxt elements.
 
@@ -50,7 +50,7 @@ class Dxt(DataOption):
     }
 
     _REGEX = re.compile(
-        rf'\Adxt:(\S+)( {types.Shell._REGEX.pattern[2:-2]})( {types.Shell._REGEX.pattern[2:-2]})( {types.Shell._REGEX.pattern[2:-2]})( {types.Shell._REGEX.pattern[2:-2]})( {types.Shell._REGEX.pattern[2:-2]})( {types.Shell._REGEX.pattern[2:-2]})( {types.Shell._REGEX.pattern[2:-2]})( {types.Shell._REGEX.pattern[2:-2]})( {types.Shell._REGEX.pattern[2:-2]})( {types.Shell._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
+        rf'\Adxt:(\S+)( \S+ \S+ \S+ \S+ \S+)( \S+ \S+ \S+ \S+ \S+)( \S+ \S+ \S+ \S+ \S+)( \S+ \S+ \S+ \S+ \S+)( \S+ \S+ \S+ \S+ \S+)( \S+ \S+ \S+ \S+ \S+)( \S+ \S+ \S+ \S+ \S+)( \S+ \S+ \S+ \S+ \S+)( \S+ \S+ \S+ \S+ \S+)( \S+ \S+ \S+ \S+ \S+)( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
     def __init__(
@@ -157,7 +157,7 @@ class Dxt(DataOption):
 
 
 @dataclasses.dataclass
-class DxtBuilder:
+class DxtBuilder(_option.DataOptionBuilder):
     """
     Builds ``Dxt``.
 
@@ -317,7 +317,7 @@ class DxtBuilder:
             ``DxtBuilder`` for ``Dxt``.
         """
 
-        return Dxt(
+        return DxtBuilder(
             designator=copy.deepcopy(ast.designator),
             spheres_1=copy.deepcopy(ast.spheres_1),
             spheres_2=copy.deepcopy(ast.spheres_2),

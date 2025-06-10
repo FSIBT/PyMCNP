@@ -36,13 +36,17 @@ class Comment(Card):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Data``.
+        Generates INP from ``Comment``.
 
         Returns:
-            INP data card.
+            INP comment card.
         """
 
-        return _parser.postprocess_continuation_line(f'c {self.text}')
+        source = f'c {self.text}'
+        source, comments = _parser.preprocess_inp(source)
+        source = _parser.postprocess_inp(source)
+
+        return source
 
 
 @dataclasses.dataclass
@@ -64,11 +68,11 @@ class CommentBuilder:
             ``Comment`` for ``CommentBuilder``.
         """
 
-        text = None
-        if isinstance(self.text, str):
-            text = types.String(self.text)
-        elif isinstance(self.text, types.String):
+        text = self.text
+        if isinstance(self.text, types.String):
             text = self.text
+        elif isinstance(self.text, str):
+            text = types.String(self.text)
 
         return Comment(text=text)
 

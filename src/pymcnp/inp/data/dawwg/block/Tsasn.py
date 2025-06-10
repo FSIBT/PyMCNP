@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Tsasn(BlockOption):
+class Tsasn(_option.BlockOption):
     """
     Represents INP tsasn elements.
 
@@ -49,7 +49,7 @@ class Tsasn(BlockOption):
 
 
 @dataclasses.dataclass
-class TsasnBuilder:
+class TsasnBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Tsasn``.
 
@@ -88,6 +88,6 @@ class TsasnBuilder:
             ``TsasnBuilder`` for ``Tsasn``.
         """
 
-        return Tsasn(
+        return TsasnBuilder(
             setting=copy.deepcopy(ast.setting),
         )

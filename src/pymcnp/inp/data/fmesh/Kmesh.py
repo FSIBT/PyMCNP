@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Kmesh(FmeshOption):
+class Kmesh(_option.FmeshOption):
     """
     Represents INP kmesh elements.
 
@@ -49,7 +49,7 @@ class Kmesh(FmeshOption):
 
 
 @dataclasses.dataclass
-class KmeshBuilder:
+class KmeshBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Kmesh``.
 
@@ -93,6 +93,6 @@ class KmeshBuilder:
             ``KmeshBuilder`` for ``Kmesh``.
         """
 
-        return Kmesh(
+        return KmeshBuilder(
             locations=copy.deepcopy(ast.locations),
         )

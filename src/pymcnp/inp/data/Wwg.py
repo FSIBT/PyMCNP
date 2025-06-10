@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Wwg(DataOption):
+class Wwg(_option.DataOption):
     """
     Represents INP wwg elements.
 
@@ -29,17 +29,9 @@ class Wwg(DataOption):
         'setting': types.Integer,
     }
 
-    _REGEX = re.compile(
-        rf'\Awwg( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z'
-    )
+    _REGEX = re.compile(rf'\Awwg( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(
-        self,
-        tally: types.Integer,
-        cell: types.Integer,
-        lower: types.Real,
-        setting: types.Integer = None,
-    ):
+    def __init__(self, tally: types.Integer, cell: types.Integer, lower: types.Real, setting: types.Integer = None):
         """
         Initializes ``Wwg``.
 
@@ -76,7 +68,7 @@ class Wwg(DataOption):
 
 
 @dataclasses.dataclass
-class WwgBuilder:
+class WwgBuilder(_option.DataOptionBuilder):
     """
     Builds ``Wwg``.
 
@@ -148,7 +140,7 @@ class WwgBuilder:
             ``WwgBuilder`` for ``Wwg``.
         """
 
-        return Wwg(
+        return WwgBuilder(
             tally=copy.deepcopy(ast.tally),
             cell=copy.deepcopy(ast.cell),
             lower=copy.deepcopy(ast.lower),

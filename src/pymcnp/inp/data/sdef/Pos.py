@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Pos(SdefOption):
+class Pos(_option.SdefOption):
     """
     Represents INP pos elements.
 
@@ -49,7 +49,7 @@ class Pos(SdefOption):
 
 
 @dataclasses.dataclass
-class PosBuilder:
+class PosBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Pos``.
 
@@ -93,6 +93,6 @@ class PosBuilder:
             ``PosBuilder`` for ``Pos``.
         """
 
-        return Pos(
+        return PosBuilder(
             vector=copy.deepcopy(ast.vector),
         )

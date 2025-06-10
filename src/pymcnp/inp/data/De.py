@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class De(DataOption):
+class De(_option.DataOption):
     """
     Represents INP de elements.
 
@@ -29,9 +29,7 @@ class De(DataOption):
 
     _REGEX = re.compile(rf'\Ade(\d+)( (?:log|lin))?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(
-        self, suffix: types.Integer, values: types.Tuple[types.Real], method: types.String = None
-    ):
+    def __init__(self, suffix: types.Integer, values: types.Tuple[types.Real], method: types.String = None):
         """
         Initializes ``De``.
 
@@ -64,7 +62,7 @@ class De(DataOption):
 
 
 @dataclasses.dataclass
-class DeBuilder:
+class DeBuilder(_option.DataOptionBuilder):
     """
     Builds ``De``.
 
@@ -128,7 +126,7 @@ class DeBuilder:
             ``DeBuilder`` for ``De``.
         """
 
-        return De(
+        return DeBuilder(
             suffix=copy.deepcopy(ast.suffix),
             method=copy.deepcopy(ast.method),
             values=copy.deepcopy(ast.values),

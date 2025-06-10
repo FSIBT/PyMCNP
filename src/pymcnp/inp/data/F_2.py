@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class F_2(DataOption):
+class F_2(_option.DataOption):
     """
     Represents INP f variation #2 elements.
 
@@ -33,19 +33,9 @@ class F_2(DataOption):
         'nd': types.String,
     }
 
-    _REGEX = re.compile(
-        rf'\A([*+])?f(\d*[5])([xyz])(?::(\S+))?((?: {types.Ring._REGEX.pattern[2:-2]})+?)( nd)?\Z'
-    )
+    _REGEX = re.compile(r'\A([*+])?f(\d*[5])([xyz])(?::(\S+))?((?: \S+ \S+ \S+)+?)( nd)?\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        a: types.String,
-        rings: types.Tuple[types.Ring],
-        prefix: types.String = None,
-        designator: types.Designator = None,
-        nd: types.String = None,
-    ):
+    def __init__(self, suffix: types.Integer, a: types.String, rings: types.Tuple[types.Ring], prefix: types.String = None, designator: types.Designator = None, nd: types.String = None):
         """
         Initializes ``F_2``.
 
@@ -61,6 +51,8 @@ class F_2(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        if prefix is not None and prefix.value not in {'*', '+'}:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
         if suffix is None or not (suffix.value <= 99_999_999 and suffix.value % 10 == 5):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if a is None or a not in {'x', 'y', 'z'}:
@@ -72,7 +64,6 @@ class F_2(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                prefix,
                 a,
                 rings,
                 nd,
@@ -88,7 +79,7 @@ class F_2(DataOption):
 
 
 @dataclasses.dataclass
-class FBuilder_2:
+class FBuilder_2(_option.DataOptionBuilder):
     """
     Builds ``F_2``.
 
@@ -149,8 +140,6 @@ class FBuilder_2:
                     rings.append(item)
                 elif isinstance(item, str):
                     rings.append(types.Ring.from_mcnp(item))
-                else:
-                    rings.append(item.build())
             rings = types.Tuple(rings)
         else:
             rings = None
@@ -179,7 +168,7 @@ class FBuilder_2:
             ``FBuilder_2`` for ``F_2``.
         """
 
-        return F_2(
+        return FBuilder_2(
             prefix=copy.deepcopy(ast.prefix),
             suffix=copy.deepcopy(ast.suffix),
             a=copy.deepcopy(ast.a),

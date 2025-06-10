@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Noedtt(BlockOption):
+class Noedtt(_option.BlockOption):
     """
     Represents INP noedtt elements.
 
@@ -49,7 +49,7 @@ class Noedtt(BlockOption):
 
 
 @dataclasses.dataclass
-class NoedttBuilder:
+class NoedttBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Noedtt``.
 
@@ -88,6 +88,6 @@ class NoedttBuilder:
             ``NoedttBuilder`` for ``Noedtt``.
         """
 
-        return Noedtt(
+        return NoedttBuilder(
             setting=copy.deepcopy(ast.setting),
         )

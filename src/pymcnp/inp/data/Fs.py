@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fs(DataOption):
+class Fs(_option.DataOption):
     """
     Represents INP fs elements.
 
@@ -31,13 +31,7 @@ class Fs(DataOption):
 
     _REGEX = re.compile(rf'\Afs(\d+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)( t)?( c)?\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        numbers: types.Tuple[types.Integer],
-        t: types.String = None,
-        c: types.String = None,
-    ):
+    def __init__(self, suffix: types.Integer, numbers: types.Tuple[types.Integer], t: types.String = None, c: types.String = None):
         """
         Initializes ``Fs``.
 
@@ -53,9 +47,7 @@ class Fs(DataOption):
 
         if suffix is None or not (suffix.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
-        if numbers is None or not (
-            filter(lambda entry: not (-99_999_999 <= numbers.value <= 99_999_999), numbers)
-        ):
+        if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
         if t is not None and t not in {'t'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t)
@@ -77,7 +69,7 @@ class Fs(DataOption):
 
 
 @dataclasses.dataclass
-class FsBuilder:
+class FsBuilder(_option.DataOptionBuilder):
     """
     Builds ``Fs``.
 
@@ -150,7 +142,7 @@ class FsBuilder:
             ``FsBuilder`` for ``Fs``.
         """
 
-        return Fs(
+        return FsBuilder(
             suffix=copy.deepcopy(ast.suffix),
             numbers=copy.deepcopy(ast.numbers),
             t=copy.deepcopy(ast.t),

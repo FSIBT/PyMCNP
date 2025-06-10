@@ -1,4 +1,5 @@
 from ._option import FreeOption
+from ._option import FreeOptionBuilder
 
 from .All import All
 from .Noall import Noall
@@ -7,6 +8,7 @@ from .Noall import NoallBuilder
 
 __all__ = [
     'FreeOption',
+    'FreeOptionBuilder',
     'All',
     'Noall',
     'AllBuilder',

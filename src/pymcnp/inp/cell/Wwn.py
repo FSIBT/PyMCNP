@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Wwn(CellOption):
+class Wwn(_option.CellOption):
     """
     Represents INP wwn elements.
 
@@ -61,7 +61,7 @@ class Wwn(CellOption):
 
 
 @dataclasses.dataclass
-class WwnBuilder:
+class WwnBuilder(_option.CellOptionBuilder):
     """
     Builds ``Wwn``.
 
@@ -120,7 +120,7 @@ class WwnBuilder:
             ``WwnBuilder`` for ``Wwn``.
         """
 
-        return Wwn(
+        return WwnBuilder(
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             bound=copy.deepcopy(ast.bound),

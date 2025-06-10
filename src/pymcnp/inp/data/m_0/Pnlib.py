@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Pnlib(MOption_0):
+class Pnlib(_option.MOption_0):
     """
     Represents INP pnlib elements.
 
@@ -49,7 +49,7 @@ class Pnlib(MOption_0):
 
 
 @dataclasses.dataclass
-class PnlibBuilder:
+class PnlibBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Pnlib``.
 
@@ -86,6 +86,6 @@ class PnlibBuilder:
             ``PnlibBuilder`` for ``Pnlib``.
         """
 
-        return Pnlib(
+        return PnlibBuilder(
             abx=copy.deepcopy(ast.abx),
         )

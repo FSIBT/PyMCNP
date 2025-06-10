@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import TOption_1
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Csub(TOption_1):
+class Csub(_option.TOption_1):
     """
     Represents INP csub elements.
 
@@ -49,7 +49,7 @@ class Csub(TOption_1):
 
 
 @dataclasses.dataclass
-class CsubBuilder:
+class CsubBuilder(_option.TOptionBuilder_1):
     """
     Builds ``Csub``.
 
@@ -88,6 +88,6 @@ class CsubBuilder:
             ``CsubBuilder`` for ``Csub``.
         """
 
-        return Csub(
+        return CsubBuilder(
             count=copy.deepcopy(ast.count),
         )

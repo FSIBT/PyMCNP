@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Write(PtracOption):
+class Write(_option.PtracOption):
     """
     Represents INP write elements.
 
@@ -49,7 +49,7 @@ class Write(PtracOption):
 
 
 @dataclasses.dataclass
-class WriteBuilder:
+class WriteBuilder(_option.PtracOptionBuilder):
     """
     Builds ``Write``.
 
@@ -86,6 +86,6 @@ class WriteBuilder:
             ``WriteBuilder`` for ``Write``.
         """
 
-        return Write(
+        return WriteBuilder(
             setting=copy.deepcopy(ast.setting),
         )

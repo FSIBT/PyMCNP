@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Jmesh(FmeshOption):
+class Jmesh(_option.FmeshOption):
     """
     Represents INP jmesh elements.
 
@@ -49,7 +49,7 @@ class Jmesh(FmeshOption):
 
 
 @dataclasses.dataclass
-class JmeshBuilder:
+class JmeshBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Jmesh``.
 
@@ -93,6 +93,6 @@ class JmeshBuilder:
             ``JmeshBuilder`` for ``Jmesh``.
         """
 
-        return Jmesh(
+        return JmeshBuilder(
             locations=copy.deepcopy(ast.locations),
         )

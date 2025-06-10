@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Wed(SurfaceOption):
+class Wed(_option.SurfaceOption):
     """
     Represents INP wed elements.
 
@@ -165,7 +165,7 @@ class Wed(SurfaceOption):
 
 
 @dataclasses.dataclass
-class WedBuilder:
+class WedBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Wed``.
 
@@ -325,7 +325,7 @@ class WedBuilder:
             ``WedBuilder`` for ``Wed``.
         """
 
-        return Wed(
+        return WedBuilder(
             vx=copy.deepcopy(ast.vx),
             vy=copy.deepcopy(ast.vy),
             vz=copy.deepcopy(ast.vz),

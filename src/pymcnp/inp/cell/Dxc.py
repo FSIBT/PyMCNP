@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Dxc(CellOption):
+class Dxc(_option.CellOption):
     """
     Represents INP dxc elements.
 
@@ -29,9 +29,7 @@ class Dxc(CellOption):
 
     _REGEX = re.compile(rf'\Adxc(\d+):(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(
-        self, suffix: types.Integer, designator: types.Designator, probability: types.Real
-    ):
+    def __init__(self, suffix: types.Integer, designator: types.Designator, probability: types.Real):
         """
         Initializes ``Dxc``.
 
@@ -63,7 +61,7 @@ class Dxc(CellOption):
 
 
 @dataclasses.dataclass
-class DxcBuilder:
+class DxcBuilder(_option.CellOptionBuilder):
     """
     Builds ``Dxc``.
 
@@ -122,7 +120,7 @@ class DxcBuilder:
             ``DxcBuilder`` for ``Dxc``.
         """
 
-        return Dxc(
+        return DxcBuilder(
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             probability=copy.deepcopy(ast.probability),

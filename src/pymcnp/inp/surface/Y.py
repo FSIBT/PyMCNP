@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Y(SurfaceOption):
+class Y(_option.SurfaceOption):
     """
     Represents INP y elements.
 
@@ -37,15 +37,7 @@ class Y(SurfaceOption):
         rf'\Ay( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
-    def __init__(
-        self,
-        y1: types.Real,
-        r1: types.Real,
-        y2: types.Real = None,
-        r2: types.Real = None,
-        y3: types.Real = None,
-        r3: types.Real = None,
-    ):
+    def __init__(self, y1: types.Real, r1: types.Real, y2: types.Real = None, r2: types.Real = None, y3: types.Real = None, r3: types.Real = None):
         """
         Initializes ``Y``.
 
@@ -86,7 +78,7 @@ class Y(SurfaceOption):
 
 
 @dataclasses.dataclass
-class YBuilder:
+class YBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Y``.
 
@@ -180,7 +172,7 @@ class YBuilder:
             ``YBuilder`` for ``Y``.
         """
 
-        return Y(
+        return YBuilder(
             y1=copy.deepcopy(ast.y1),
             r1=copy.deepcopy(ast.r1),
             y2=copy.deepcopy(ast.y2),

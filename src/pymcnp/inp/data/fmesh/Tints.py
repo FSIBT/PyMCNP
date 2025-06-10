@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Tints(FmeshOption):
+class Tints(_option.FmeshOption):
     """
     Represents INP tints elements.
 
@@ -49,7 +49,7 @@ class Tints(FmeshOption):
 
 
 @dataclasses.dataclass
-class TintsBuilder:
+class TintsBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Tints``.
 
@@ -88,6 +88,6 @@ class TintsBuilder:
             ``TintsBuilder`` for ``Tints``.
         """
 
-        return Tints(
+        return TintsBuilder(
             count=copy.deepcopy(ast.count),
         )

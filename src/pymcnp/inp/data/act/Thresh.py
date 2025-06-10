@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import ActOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Thresh(ActOption):
+class Thresh(_option.ActOption):
     """
     Represents INP thresh elements.
 
@@ -49,7 +49,7 @@ class Thresh(ActOption):
 
 
 @dataclasses.dataclass
-class ThreshBuilder:
+class ThreshBuilder(_option.ActOptionBuilder):
     """
     Builds ``Thresh``.
 
@@ -88,6 +88,6 @@ class ThreshBuilder:
             ``ThreshBuilder`` for ``Thresh``.
         """
 
-        return Thresh(
+        return ThreshBuilder(
             fraction=copy.deepcopy(ast.fraction),
         )

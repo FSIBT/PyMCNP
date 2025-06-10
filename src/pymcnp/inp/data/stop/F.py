@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import StopOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class F(StopOption):
+class F(_option.StopOption):
     """
     Represents INP f elements.
 
@@ -55,7 +55,7 @@ class F(StopOption):
 
 
 @dataclasses.dataclass
-class FBuilder:
+class FBuilder(_option.StopOptionBuilder):
     """
     Builds ``F``.
 
@@ -105,7 +105,7 @@ class FBuilder:
             ``FBuilder`` for ``F``.
         """
 
-        return F(
+        return FBuilder(
             suffix=copy.deepcopy(ast.suffix),
             e=copy.deepcopy(ast.e),
         )

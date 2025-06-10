@@ -90,7 +90,7 @@ def preprocess_ptrac(string: str):
 """ Postprocessing Functions """
 
 
-def postprocess_continuation_line(string: str):
+def _postprocess_continuation_line(string: str):
     """ """
 
     lines = []
@@ -117,3 +117,11 @@ def postprocess_exponenet(number: decimal.Decimal, percision: int):
     d = ''.join(map(str, d[:percision]))
 
     return f'{s}0.{d}E{e:+03}'
+
+
+def postprocess_inp(string: str):
+    """ """
+
+    string = _postprocess_continuation_line(string)
+
+    return string

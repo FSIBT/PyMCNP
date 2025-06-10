@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Rpp(SurfaceOption):
+class Rpp(_option.SurfaceOption):
     """
     Represents INP rpp elements.
 
@@ -38,15 +38,7 @@ class Rpp(SurfaceOption):
         rf'\Arpp( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
-    def __init__(
-        self,
-        xmin: types.Real,
-        xmax: types.Real,
-        ymin: types.Real,
-        ymax: types.Real,
-        zmin: types.Real = None,
-        zmax: types.Real = None,
-    ):
+    def __init__(self, xmin: types.Real, xmax: types.Real, ymin: types.Real, ymax: types.Real, zmin: types.Real = None, zmax: types.Real = None):
         """
         Initializes ``Rpp``.
 
@@ -110,7 +102,7 @@ class Rpp(SurfaceOption):
 
 
 @dataclasses.dataclass
-class RppBuilder:
+class RppBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Rpp``.
 
@@ -204,7 +196,7 @@ class RppBuilder:
             ``RppBuilder`` for ``Rpp``.
         """
 
-        return Rpp(
+        return RppBuilder(
             xmin=copy.deepcopy(ast.xmin),
             xmax=copy.deepcopy(ast.xmax),
             ymin=copy.deepcopy(ast.ymin),

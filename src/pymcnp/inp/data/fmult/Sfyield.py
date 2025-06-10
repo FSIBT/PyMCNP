@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmultOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Sfyield(FmultOption):
+class Sfyield(_option.FmultOption):
     """
     Represents INP sfyield elements.
 
@@ -49,7 +49,7 @@ class Sfyield(FmultOption):
 
 
 @dataclasses.dataclass
-class SfyieldBuilder:
+class SfyieldBuilder(_option.FmultOptionBuilder):
     """
     Builds ``Sfyield``.
 
@@ -88,6 +88,6 @@ class SfyieldBuilder:
             ``SfyieldBuilder`` for ``Sfyield``.
         """
 
-        return Sfyield(
+        return SfyieldBuilder(
             fission_yield=copy.deepcopy(ast.fission_yield),
         )

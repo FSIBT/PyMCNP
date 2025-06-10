@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Nps(PtracOption):
+class Nps(_option.PtracOption):
     """
     Represents INP nps elements.
 
@@ -49,7 +49,7 @@ class Nps(PtracOption):
 
 
 @dataclasses.dataclass
-class NpsBuilder:
+class NpsBuilder(_option.PtracOptionBuilder):
     """
     Builds ``Nps``.
 
@@ -93,6 +93,6 @@ class NpsBuilder:
             ``NpsBuilder`` for ``Nps``.
         """
 
-        return Nps(
+        return NpsBuilder(
             particles=copy.deepcopy(ast.particles),
         )

@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import contour
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Contour(MplotOption):
+class Contour(_option.MplotOption):
     """
     Represents INP contour elements.
 
@@ -34,13 +34,7 @@ class Contour(MplotOption):
         rf'\Acontour( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})((?: (?:{contour.ContourOption._REGEX.pattern[2:-2]}))+?)?\Z'
     )
 
-    def __init__(
-        self,
-        cmin: types.Real,
-        cmax: types.Real,
-        cstep: types.Real,
-        options: types.Tuple[contour.ContourOption] = None,
-    ):
+    def __init__(self, cmin: types.Real, cmax: types.Real, cstep: types.Real, options: types.Tuple[contour.ContourOption] = None):
         """
         Initializes ``Contour``.
 
@@ -77,7 +71,7 @@ class Contour(MplotOption):
 
 
 @dataclasses.dataclass
-class ContourBuilder:
+class ContourBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Contour``.
 
@@ -132,7 +126,7 @@ class ContourBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(contour.ContourOption.from_mcnp(item))
-                else:
+                elif isinstance(item, contour.ContourOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -154,7 +148,7 @@ class ContourBuilder:
             ``ContourBuilder`` for ``Contour``.
         """
 
-        return Contour(
+        return ContourBuilder(
             cmin=copy.deepcopy(ast.cmin),
             cmax=copy.deepcopy(ast.cmax),
             cstep=copy.deepcopy(ast.cstep),

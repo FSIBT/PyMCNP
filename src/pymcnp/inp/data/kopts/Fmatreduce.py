@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KoptsOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Fmatreduce(KoptsOption):
+class Fmatreduce(_option.KoptsOption):
     """
     Represents INP fmatreduce elements.
 
@@ -49,7 +49,7 @@ class Fmatreduce(KoptsOption):
 
 
 @dataclasses.dataclass
-class FmatreduceBuilder:
+class FmatreduceBuilder(_option.KoptsOptionBuilder):
     """
     Builds ``Fmatreduce``.
 
@@ -86,6 +86,6 @@ class FmatreduceBuilder:
             ``FmatreduceBuilder`` for ``Fmatreduce``.
         """
 
-        return Fmatreduce(
+        return FmatreduceBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Par(MplotOption):
+class Par(_option.MplotOption):
     """
     Represents INP par elements.
 
@@ -49,7 +49,7 @@ class Par(MplotOption):
 
 
 @dataclasses.dataclass
-class ParBuilder:
+class ParBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Par``.
 
@@ -86,6 +86,6 @@ class ParBuilder:
             ``ParBuilder`` for ``Par``.
         """
 
-        return Par(
+        return ParBuilder(
             particle=copy.deepcopy(ast.particle),
         )

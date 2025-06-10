@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fic(DataOption):
+class Fic(_option.DataOption):
     """
     Represents INP fic elements.
 
@@ -140,7 +140,7 @@ class Fic(DataOption):
 
 
 @dataclasses.dataclass
-class FicBuilder:
+class FicBuilder(_option.DataOptionBuilder):
     """
     Builds ``Fic``.
 
@@ -298,7 +298,7 @@ class FicBuilder:
             ``FicBuilder`` for ``Fic``.
         """
 
-        return Fic(
+        return FicBuilder(
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             x1=copy.deepcopy(ast.x1),

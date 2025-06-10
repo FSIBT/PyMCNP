@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Xs_2(MplotOption):
+class Xs_2(_option.MplotOption):
     """
     Represents INP xs variation #2 elements.
 
@@ -49,7 +49,7 @@ class Xs_2(MplotOption):
 
 
 @dataclasses.dataclass
-class XsBuilder_2:
+class XsBuilder_2(_option.MplotOptionBuilder):
     """
     Builds ``Xs_2``.
 
@@ -86,6 +86,6 @@ class XsBuilder_2:
             ``XsBuilder_2`` for ``Xs_2``.
         """
 
-        return Xs_2(
+        return XsBuilder_2(
             m=copy.deepcopy(ast.m),
         )

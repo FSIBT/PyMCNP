@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Cm(DataOption):
+class Cm(_option.DataOption):
     """
     Represents INP cm elements.
 
@@ -55,7 +55,7 @@ class Cm(DataOption):
 
 
 @dataclasses.dataclass
-class CmBuilder:
+class CmBuilder(_option.DataOptionBuilder):
     """
     Builds ``Cm``.
 
@@ -110,7 +110,7 @@ class CmBuilder:
             ``CmBuilder`` for ``Cm``.
         """
 
-        return Cm(
+        return CmBuilder(
             suffix=copy.deepcopy(ast.suffix),
             multipliers=copy.deepcopy(ast.multipliers),
         )

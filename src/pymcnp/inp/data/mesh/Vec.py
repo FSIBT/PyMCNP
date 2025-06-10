@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Vec(MeshOption):
+class Vec(_option.MeshOption):
     """
     Represents INP vec elements.
 
@@ -49,7 +49,7 @@ class Vec(MeshOption):
 
 
 @dataclasses.dataclass
-class VecBuilder:
+class VecBuilder(_option.MeshOptionBuilder):
     """
     Builds ``Vec``.
 
@@ -93,6 +93,6 @@ class VecBuilder:
             ``VecBuilder`` for ``Vec``.
         """
 
-        return Vec(
+        return VecBuilder(
             vector=copy.deepcopy(ast.vector),
         )

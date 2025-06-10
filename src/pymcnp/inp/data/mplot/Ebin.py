@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Ebin(MplotOption):
+class Ebin(_option.MplotOption):
     """
     Represents INP ebin elements.
 
@@ -49,7 +49,7 @@ class Ebin(MplotOption):
 
 
 @dataclasses.dataclass
-class EbinBuilder:
+class EbinBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Ebin``.
 
@@ -88,6 +88,6 @@ class EbinBuilder:
             ``EbinBuilder`` for ``Ebin``.
         """
 
-        return Ebin(
+        return EbinBuilder(
             n=copy.deepcopy(ast.n),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Srcacc(BlockOption):
+class Srcacc(_option.BlockOption):
     """
     Represents INP srcacc elements.
 
@@ -49,7 +49,7 @@ class Srcacc(BlockOption):
 
 
 @dataclasses.dataclass
-class SrcaccBuilder:
+class SrcaccBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Srcacc``.
 
@@ -86,6 +86,6 @@ class SrcaccBuilder:
             ``SrcaccBuilder`` for ``Srcacc``.
         """
 
-        return Srcacc(
+        return SrcaccBuilder(
             setting=copy.deepcopy(ast.setting),
         )

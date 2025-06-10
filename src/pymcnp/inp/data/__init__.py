@@ -1,4 +1,5 @@
 from ._option import DataOption
+from ._option import DataOptionBuilder
 from . import dawwg
 from . import embed
 from . import embee
@@ -324,6 +325,7 @@ from .Files import FilesBuilder
 
 __all__ = [
     'DataOption',
+    'DataOptionBuilder',
     'dawwg',
     'embed',
     'embee',

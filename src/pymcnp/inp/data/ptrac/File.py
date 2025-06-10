@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class File(PtracOption):
+class File(_option.PtracOption):
     """
     Represents INP file elements.
 
@@ -49,7 +49,7 @@ class File(PtracOption):
 
 
 @dataclasses.dataclass
-class FileBuilder:
+class FileBuilder(_option.PtracOptionBuilder):
     """
     Builds ``File``.
 
@@ -86,6 +86,6 @@ class FileBuilder:
             ``FileBuilder`` for ``File``.
         """
 
-        return File(
+        return FileBuilder(
             setting=copy.deepcopy(ast.setting),
         )

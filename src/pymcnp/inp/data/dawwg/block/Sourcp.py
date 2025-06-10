@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Sourcp(BlockOption):
+class Sourcp(_option.BlockOption):
     """
     Represents INP sourcp elements.
 
@@ -49,7 +49,7 @@ class Sourcp(BlockOption):
 
 
 @dataclasses.dataclass
-class SourcpBuilder:
+class SourcpBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Sourcp``.
 
@@ -88,6 +88,6 @@ class SourcpBuilder:
             ``SourcpBuilder`` for ``Sourcp``.
         """
 
-        return Sourcp(
+        return SourcpBuilder(
             setting=copy.deepcopy(ast.setting),
         )

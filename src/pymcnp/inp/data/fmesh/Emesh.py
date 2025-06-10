@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Emesh(FmeshOption):
+class Emesh(_option.FmeshOption):
     """
     Represents INP emesh elements.
 
@@ -49,7 +49,7 @@ class Emesh(FmeshOption):
 
 
 @dataclasses.dataclass
-class EmeshBuilder:
+class EmeshBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Emesh``.
 
@@ -88,6 +88,6 @@ class EmeshBuilder:
             ``EmeshBuilder`` for ``Emesh``.
         """
 
-        return Emesh(
+        return EmeshBuilder(
             energy=copy.deepcopy(ast.energy),
         )

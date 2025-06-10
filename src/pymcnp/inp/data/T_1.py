@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import t_1
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class T_1(DataOption):
+class T_1(_option.DataOption):
     """
     Represents INP t variation #1 elements.
 
@@ -56,7 +56,7 @@ class T_1(DataOption):
 
 
 @dataclasses.dataclass
-class TBuilder_1:
+class TBuilder_1(_option.DataOptionBuilder):
     """
     Builds ``T_1``.
 
@@ -91,7 +91,7 @@ class TBuilder_1:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(t_1.TOption_1.from_mcnp(item))
-                else:
+                elif isinstance(item, t_1.TOptionBuilder_1):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -111,7 +111,7 @@ class TBuilder_1:
             ``TBuilder_1`` for ``T_1``.
         """
 
-        return T_1(
+        return TBuilder_1(
             suffix=copy.deepcopy(ast.suffix),
             options=copy.deepcopy(ast.options),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Ccc(SdefOption):
+class Ccc(_option.SdefOption):
     """
     Represents INP ccc elements.
 
@@ -49,7 +49,7 @@ class Ccc(SdefOption):
 
 
 @dataclasses.dataclass
-class CccBuilder:
+class CccBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Ccc``.
 
@@ -88,6 +88,6 @@ class CccBuilder:
             ``CccBuilder`` for ``Ccc``.
         """
 
-        return Ccc(
+        return CccBuilder(
             number=copy.deepcopy(ast.number),
         )

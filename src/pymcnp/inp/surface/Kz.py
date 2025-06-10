@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Kz(SurfaceOption):
+class Kz(_option.SurfaceOption):
     """
     Represents INP kz elements.
 
@@ -28,9 +28,7 @@ class Kz(SurfaceOption):
         'plusminus_1': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Akz( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Akz( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, z: types.Real, t_squared: types.Real, plusminus_1: types.Real):
         """
@@ -72,16 +70,14 @@ class Kz(SurfaceOption):
             ``pyvista.PolyData`` for ``Kz``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(
-            self.t_squared.value ** (1 / 2), self.plusminus_1.value
-        )
+        vis = _visualization.Visualization.get_cone_unbounded(self.t_squared.value ** (1 / 2), self.plusminus_1.value)
         vis = vis.add_translation(_visualization.Vector(0, 0, self.z.value))
 
         return vis
 
 
 @dataclasses.dataclass
-class KzBuilder:
+class KzBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Kz``.
 
@@ -142,7 +138,7 @@ class KzBuilder:
             ``KzBuilder`` for ``Kz``.
         """
 
-        return Kz(
+        return KzBuilder(
             z=copy.deepcopy(ast.z),
             t_squared=copy.deepcopy(ast.t_squared),
             plusminus_1=copy.deepcopy(ast.plusminus_1),

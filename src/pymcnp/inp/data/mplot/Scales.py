@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Scales(MplotOption):
+class Scales(_option.MplotOption):
     """
     Represents INP scales elements.
 
@@ -49,7 +49,7 @@ class Scales(MplotOption):
 
 
 @dataclasses.dataclass
-class ScalesBuilder:
+class ScalesBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Scales``.
 
@@ -88,6 +88,6 @@ class ScalesBuilder:
             ``ScalesBuilder`` for ``Scales``.
         """
 
-        return Scales(
+        return ScalesBuilder(
             n=copy.deepcopy(ast.n),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Kints(MeshOption):
+class Kints(_option.MeshOption):
     """
     Represents INP kints elements.
 
@@ -49,7 +49,7 @@ class Kints(MeshOption):
 
 
 @dataclasses.dataclass
-class KintsBuilder:
+class KintsBuilder(_option.MeshOptionBuilder):
     """
     Builds ``Kints``.
 
@@ -93,6 +93,6 @@ class KintsBuilder:
             ``KintsBuilder`` for ``Kints``.
         """
 
-        return Kints(
+        return KintsBuilder(
             number=copy.deepcopy(ast.number),
         )

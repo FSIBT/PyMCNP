@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Totnu(DataOption):
+class Totnu(_option.DataOption):
     """
     Represents INP totnu elements.
 
@@ -49,7 +49,7 @@ class Totnu(DataOption):
 
 
 @dataclasses.dataclass
-class TotnuBuilder:
+class TotnuBuilder(_option.DataOptionBuilder):
     """
     Builds ``Totnu``.
 
@@ -86,6 +86,6 @@ class TotnuBuilder:
             ``TotnuBuilder`` for ``Totnu``.
         """
 
-        return Totnu(
+        return TotnuBuilder(
             no=copy.deepcopy(ast.no),
         )

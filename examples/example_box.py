@@ -11,13 +11,9 @@ def get_inp(radius_air, radius_shield, radius_lead):
 
     cell_air = pymcnp.CellBuilder(number=1, material=21, density=0.5, geometry=geometry_air)
 
-    cell_shield = pymcnp.CellBuilder(
-        number=2, material=22, density=0.5, geometry=geometry_shield & geometry_air
-    )
+    cell_shield = pymcnp.CellBuilder(number=2, material=22, density=0.5, geometry=geometry_shield & geometry_air)
 
-    cell_lead = pymcnp.CellBuilder(
-        number=3, material=23, density=0.5, geometry=geometry_lead & geometry_shield
-    )
+    cell_lead = pymcnp.CellBuilder(number=3, material=23, density=0.5, geometry=geometry_lead & geometry_shield)
 
     cell_world = pymcnp.CellBuilder(number=4, material=0, geometry=geometry_world)
 
@@ -52,15 +48,9 @@ def get_inp(radius_air, radius_shield, radius_lead):
     inp.append(surface_lead)
     inp.append(surface_world)
 
-    material_air = pymcnp.DataBuilder.unbuild(
-        pymcnp.inp.Data(pymcnp.inp.data.M.from_formula(21, {'N2': 0.8, 'O2': 0.2}))
-    )
-    material_shield = pymcnp.DataBuilder.unbuild(
-        pymcnp.inp.Data(pymcnp.inp.data.M.from_formula(22, {'TiO2': 0.5, 'PbO': 0.5}))
-    )
-    material_lead = pymcnp.DataBuilder.unbuild(
-        pymcnp.inp.Data(pymcnp.inp.data.M.from_formula(23, {'Pb': 1}))
-    )
+    material_air = pymcnp.DataBuilder.unbuild(pymcnp.inp.Data(pymcnp.inp.data.M.from_formula(21, {'N2': 0.8, 'O2': 0.2})))
+    material_shield = pymcnp.DataBuilder.unbuild(pymcnp.inp.Data(pymcnp.inp.data.M.from_formula(22, {'TiO2': 0.5, 'PbO': 0.5})))
+    material_lead = pymcnp.DataBuilder.unbuild(pymcnp.inp.Data(pymcnp.inp.data.M.from_formula(23, {'Pb': 1})))
 
     sdef = pymcnp.DataBuilder(
         mnemonic='sdef',

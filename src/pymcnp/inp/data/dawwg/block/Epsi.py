@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Epsi(BlockOption):
+class Epsi(_option.BlockOption):
     """
     Represents INP epsi elements.
 
@@ -49,7 +49,7 @@ class Epsi(BlockOption):
 
 
 @dataclasses.dataclass
-class EpsiBuilder:
+class EpsiBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Epsi``.
 
@@ -88,6 +88,6 @@ class EpsiBuilder:
             ``EpsiBuilder`` for ``Epsi``.
         """
 
-        return Epsi(
+        return EpsiBuilder(
             setting=copy.deepcopy(ast.setting),
         )

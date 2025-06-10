@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class U(DataOption):
+class U(_option.DataOption):
     """
     Represents INP u elements.
 
@@ -36,9 +36,7 @@ class U(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if numbers is None or not (
-            filter(lambda entry: not (1 <= entry.value <= 99_999_999), numbers)
-        ):
+        if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -51,7 +49,7 @@ class U(DataOption):
 
 
 @dataclasses.dataclass
-class UBuilder:
+class UBuilder(_option.DataOptionBuilder):
     """
     Builds ``U``.
 
@@ -95,6 +93,6 @@ class UBuilder:
             ``UBuilder`` for ``U``.
         """
 
-        return U(
+        return UBuilder(
             numbers=copy.deepcopy(ast.numbers),
         )

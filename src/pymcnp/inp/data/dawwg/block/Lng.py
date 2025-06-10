@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Lng(BlockOption):
+class Lng(_option.BlockOption):
     """
     Represents INP lng elements.
 
@@ -49,7 +49,7 @@ class Lng(BlockOption):
 
 
 @dataclasses.dataclass
-class LngBuilder:
+class LngBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Lng``.
 
@@ -88,6 +88,6 @@ class LngBuilder:
             ``LngBuilder`` for ``Lng``.
         """
 
-        return Lng(
+        return LngBuilder(
             setting=copy.deepcopy(ast.setting),
         )

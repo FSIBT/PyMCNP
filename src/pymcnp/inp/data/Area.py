@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Area(DataOption):
+class Area(_option.DataOption):
     """
     Represents INP area elements.
 
@@ -49,7 +49,7 @@ class Area(DataOption):
 
 
 @dataclasses.dataclass
-class AreaBuilder:
+class AreaBuilder(_option.DataOptionBuilder):
     """
     Builds ``Area``.
 
@@ -93,6 +93,6 @@ class AreaBuilder:
             ``AreaBuilder`` for ``Area``.
         """
 
-        return Area(
+        return AreaBuilder(
             areas=copy.deepcopy(ast.areas),
         )

@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import ContourOption
+from . import _option
 from .....utils import types
 
 
-class Noline(ContourOption):
+class Noline(_option.ContourOption):
     """
     Represents INP noline elements.
 
@@ -38,7 +38,7 @@ class Noline(ContourOption):
 
 
 @dataclasses.dataclass
-class NolineBuilder:
+class NolineBuilder(_option.ContourOptionBuilder):
     """
     Builds ``Noline``.
 
@@ -65,4 +65,4 @@ class NolineBuilder:
             ``NolineBuilder`` for ``Noline``.
         """
 
-        return Noline()
+        return NolineBuilder()

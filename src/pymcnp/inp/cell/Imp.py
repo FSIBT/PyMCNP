@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Imp(CellOption):
+class Imp(_option.CellOption):
     """
     Represents INP imp elements.
 
@@ -55,7 +55,7 @@ class Imp(CellOption):
 
 
 @dataclasses.dataclass
-class ImpBuilder:
+class ImpBuilder(_option.CellOptionBuilder):
     """
     Builds ``Imp``.
 
@@ -103,7 +103,7 @@ class ImpBuilder:
             ``ImpBuilder`` for ``Imp``.
         """
 
-        return Imp(
+        return ImpBuilder(
             designator=copy.deepcopy(ast.designator),
             importance=copy.deepcopy(ast.importance),
         )

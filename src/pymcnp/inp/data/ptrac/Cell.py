@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Cell(PtracOption):
+class Cell(_option.PtracOption):
     """
     Represents INP cell elements.
 
@@ -36,9 +36,7 @@ class Cell(PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if numbers is None or not (
-            filter(lambda entry: not (1 <= entry.value <= 99_999_999), numbers)
-        ):
+        if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -51,7 +49,7 @@ class Cell(PtracOption):
 
 
 @dataclasses.dataclass
-class CellBuilder:
+class CellBuilder(_option.PtracOptionBuilder):
     """
     Builds ``Cell``.
 
@@ -95,6 +93,6 @@ class CellBuilder:
             ``CellBuilder`` for ``Cell``.
         """
 
-        return Cell(
+        return CellBuilder(
             numbers=copy.deepcopy(ast.numbers),
         )

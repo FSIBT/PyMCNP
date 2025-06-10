@@ -1,4 +1,5 @@
 from ._option import MeshOption
+from ._option import MeshOptionBuilder
 
 from .Geom import Geom
 from .Ref import Ref
@@ -25,6 +26,7 @@ from .Kints import KintsBuilder
 
 __all__ = [
     'MeshOption',
+    'MeshOptionBuilder',
     'Geom',
     'Ref',
     'Origin',

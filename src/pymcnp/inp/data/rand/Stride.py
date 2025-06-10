@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import RandOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Stride(RandOption):
+class Stride(_option.RandOption):
     """
     Represents INP stride elements.
 
@@ -49,7 +49,7 @@ class Stride(RandOption):
 
 
 @dataclasses.dataclass
-class StrideBuilder:
+class StrideBuilder(_option.RandOptionBuilder):
     """
     Builds ``Stride``.
 
@@ -88,6 +88,6 @@ class StrideBuilder:
             ``StrideBuilder`` for ``Stride``.
         """
 
-        return Stride(
+        return StrideBuilder(
             stride=copy.deepcopy(ast.stride),
         )

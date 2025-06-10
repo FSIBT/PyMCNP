@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import ActOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Hlcut(ActOption):
+class Hlcut(_option.ActOption):
     """
     Represents INP hlcut elements.
 
@@ -49,7 +49,7 @@ class Hlcut(ActOption):
 
 
 @dataclasses.dataclass
-class HlcutBuilder:
+class HlcutBuilder(_option.ActOptionBuilder):
     """
     Builds ``Hlcut``.
 
@@ -88,6 +88,6 @@ class HlcutBuilder:
             ``HlcutBuilder`` for ``Hlcut``.
         """
 
-        return Hlcut(
+        return HlcutBuilder(
             cutoff=copy.deepcopy(ast.cutoff),
         )

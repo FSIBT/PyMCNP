@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Sur(SdefOption):
+class Sur(_option.SdefOption):
     """
     Represents INP sur elements.
 
@@ -36,7 +36,7 @@ class Sur(SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if number is None or not (0 <= number.value <= 99_999_999):
+        if number is None or not (isinstance(number.value, types.Jump) or 0 <= number.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -49,7 +49,7 @@ class Sur(SdefOption):
 
 
 @dataclasses.dataclass
-class SurBuilder:
+class SurBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Sur``.
 
@@ -88,6 +88,6 @@ class SurBuilder:
             ``SurBuilder`` for ``Sur``.
         """
 
-        return Sur(
+        return SurBuilder(
             number=copy.deepcopy(ast.number),
         )

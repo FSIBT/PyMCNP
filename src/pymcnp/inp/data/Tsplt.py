@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Tsplt(DataOption):
+class Tsplt(_option.DataOption):
     """
     Represents INP tsplt elements.
 
@@ -293,7 +293,7 @@ class Tsplt(DataOption):
 
 
 @dataclasses.dataclass
-class TspltBuilder:
+class TspltBuilder(_option.DataOptionBuilder):
     """
     Builds ``Tsplt``.
 
@@ -770,7 +770,7 @@ class TspltBuilder:
             ``TspltBuilder`` for ``Tsplt``.
         """
 
-        return Tsplt(
+        return TspltBuilder(
             designator=copy.deepcopy(ast.designator),
             ratio_1=copy.deepcopy(ast.ratio_1),
             time_1=copy.deepcopy(ast.time_1),

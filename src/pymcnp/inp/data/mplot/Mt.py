@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Mt(MplotOption):
+class Mt(_option.MplotOption):
     """
     Represents INP mt elements.
 
@@ -49,7 +49,7 @@ class Mt(MplotOption):
 
 
 @dataclasses.dataclass
-class MtBuilder:
+class MtBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Mt``.
 
@@ -88,6 +88,6 @@ class MtBuilder:
             ``MtBuilder`` for ``Mt``.
         """
 
-        return Mt(
+        return MtBuilder(
             n=copy.deepcopy(ast.n),
         )

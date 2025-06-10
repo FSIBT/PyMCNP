@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Dat(SdefOption):
+class Dat(_option.SdefOption):
     """
     Represents INP dat elements.
 
@@ -27,9 +27,7 @@ class Dat(SdefOption):
         'year': types.Integer,
     }
 
-    _REGEX = re.compile(
-        rf'\Adat( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Adat( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, month: types.Integer, day: types.Integer, year: types.Integer):
         """
@@ -65,7 +63,7 @@ class Dat(SdefOption):
 
 
 @dataclasses.dataclass
-class DatBuilder:
+class DatBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Dat``.
 
@@ -126,7 +124,7 @@ class DatBuilder:
             ``DatBuilder`` for ``Dat``.
         """
 
-        return Dat(
+        return DatBuilder(
             month=copy.deepcopy(ast.month),
             day=copy.deepcopy(ast.day),
             year=copy.deepcopy(ast.year),

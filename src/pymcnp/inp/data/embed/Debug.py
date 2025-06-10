@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbedOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Debug(EmbedOption):
+class Debug(_option.EmbedOption):
     """
     Represents INP debug elements.
 
@@ -49,7 +49,7 @@ class Debug(EmbedOption):
 
 
 @dataclasses.dataclass
-class DebugBuilder:
+class DebugBuilder(_option.EmbedOptionBuilder):
     """
     Builds ``Debug``.
 
@@ -86,6 +86,6 @@ class DebugBuilder:
             ``DebugBuilder`` for ``Debug``.
         """
 
-        return Debug(
+        return DebugBuilder(
             parameter=copy.deepcopy(ast.parameter),
         )

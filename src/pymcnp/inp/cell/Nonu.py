@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Nonu(CellOption):
+class Nonu(_option.CellOption):
     """
     Represents INP nonu elements.
 
@@ -49,7 +49,7 @@ class Nonu(CellOption):
 
 
 @dataclasses.dataclass
-class NonuBuilder:
+class NonuBuilder(_option.CellOptionBuilder):
     """
     Builds ``Nonu``.
 
@@ -88,6 +88,6 @@ class NonuBuilder:
             ``NonuBuilder`` for ``Nonu``.
         """
 
-        return Nonu(
+        return NonuBuilder(
             setting=copy.deepcopy(ast.setting),
         )

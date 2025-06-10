@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Nosolv(BlockOption):
+class Nosolv(_option.BlockOption):
     """
     Represents INP nosolv elements.
 
@@ -49,7 +49,7 @@ class Nosolv(BlockOption):
 
 
 @dataclasses.dataclass
-class NosolvBuilder:
+class NosolvBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Nosolv``.
 
@@ -88,6 +88,6 @@ class NosolvBuilder:
             ``NosolvBuilder`` for ``Nosolv``.
         """
 
-        return Nosolv(
+        return NosolvBuilder(
             setting=copy.deepcopy(ast.setting),
         )

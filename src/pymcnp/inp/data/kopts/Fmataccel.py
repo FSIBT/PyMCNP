@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KoptsOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Fmataccel(KoptsOption):
+class Fmataccel(_option.KoptsOption):
     """
     Represents INP fmataccel elements.
 
@@ -49,7 +49,7 @@ class Fmataccel(KoptsOption):
 
 
 @dataclasses.dataclass
-class FmataccelBuilder:
+class FmataccelBuilder(_option.KoptsOptionBuilder):
     """
     Builds ``Fmataccel``.
 
@@ -86,6 +86,6 @@ class FmataccelBuilder:
             ``FmataccelBuilder`` for ``Fmataccel``.
         """
 
-        return Fmataccel(
+        return FmataccelBuilder(
             setting=copy.deepcopy(ast.setting),
         )

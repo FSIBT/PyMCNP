@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class X(SurfaceOption):
+class X(_option.SurfaceOption):
     """
     Represents INP x elements.
 
@@ -37,15 +37,7 @@ class X(SurfaceOption):
         rf'\Ax( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
-    def __init__(
-        self,
-        x1: types.Real,
-        r1: types.Real,
-        x2: types.Real = None,
-        r2: types.Real = None,
-        x3: types.Real = None,
-        r3: types.Real = None,
-    ):
+    def __init__(self, x1: types.Real, r1: types.Real, x2: types.Real = None, r2: types.Real = None, x3: types.Real = None, r3: types.Real = None):
         """
         Initializes ``X``.
 
@@ -86,7 +78,7 @@ class X(SurfaceOption):
 
 
 @dataclasses.dataclass
-class XBuilder:
+class XBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``X``.
 
@@ -180,7 +172,7 @@ class XBuilder:
             ``XBuilder`` for ``X``.
         """
 
-        return X(
+        return XBuilder(
             x1=copy.deepcopy(ast.x1),
             r1=copy.deepcopy(ast.r1),
             x2=copy.deepcopy(ast.x2),

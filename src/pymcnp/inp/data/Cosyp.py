@@ -4,17 +4,17 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Cosyp(DataOption):
+class Cosyp(_option.DataOption):
     """
     Represents INP cosyp elements.
 
     Attributes:
-        prefix: Prefix number of the COSY map files.
+        pre: Prefix number of the COSY map files.
         axsh: Horiztonal axis orientation.
         axsv: Vertical axis orientation.
         emaps: Tuple of operating beam energies.
@@ -23,28 +23,20 @@ class Cosyp(DataOption):
     _KEYWORD = 'cosyp'
 
     _ATTRS = {
-        'prefix': types.Integer,
+        'pre': types.Integer,
         'axsh': types.Integer,
         'axsv': types.Integer,
         'emaps': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(
-        rf'\Acosyp( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z'
-    )
+    _REGEX = re.compile(rf'\Acosyp( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(
-        self,
-        prefix: types.Integer,
-        axsh: types.Integer,
-        axsv: types.Integer,
-        emaps: types.Tuple[types.Real],
-    ):
+    def __init__(self, pre: types.Integer, axsh: types.Integer, axsv: types.Integer, emaps: types.Tuple[types.Real]):
         """
         Initializes ``Cosyp``.
 
         Parameters:
-            prefix: Prefix number of the COSY map files.
+            pre: Prefix number of the COSY map files.
             axsh: Horiztonal axis orientation.
             axsv: Vertical axis orientation.
             emaps: Tuple of operating beam energies.
@@ -53,8 +45,8 @@ class Cosyp(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if prefix is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
+        if pre is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, pre)
         if axsh is None or axsh.value not in {1, 2, 3}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, axsh)
         if axsv is None or axsv.value not in {1, 2, 3}:
@@ -64,32 +56,32 @@ class Cosyp(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                prefix,
+                pre,
                 axsh,
                 axsv,
                 emaps,
             ]
         )
 
-        self.prefix: typing.Final[types.Integer] = prefix
+        self.pre: typing.Final[types.Integer] = pre
         self.axsh: typing.Final[types.Integer] = axsh
         self.axsv: typing.Final[types.Integer] = axsv
         self.emaps: typing.Final[types.Tuple[types.Real]] = emaps
 
 
 @dataclasses.dataclass
-class CosypBuilder:
+class CosypBuilder(_option.DataOptionBuilder):
     """
     Builds ``Cosyp``.
 
     Attributes:
-        prefix: Prefix number of the COSY map files.
+        pre: Prefix number of the COSY map files.
         axsh: Horiztonal axis orientation.
         axsv: Vertical axis orientation.
         emaps: Tuple of operating beam energies.
     """
 
-    prefix: str | int | types.Integer
+    pre: str | int | types.Integer
     axsh: str | int | types.Integer
     axsv: str | int | types.Integer
     emaps: list[str] | list[float] | list[types.Real]
@@ -102,13 +94,13 @@ class CosypBuilder:
             ``Cosyp`` for ``CosypBuilder``.
         """
 
-        prefix = self.prefix
-        if isinstance(self.prefix, types.Integer):
-            prefix = self.prefix
-        elif isinstance(self.prefix, int):
-            prefix = types.Integer(self.prefix)
-        elif isinstance(self.prefix, str):
-            prefix = types.Integer.from_mcnp(self.prefix)
+        pre = self.pre
+        if isinstance(self.pre, types.Integer):
+            pre = self.pre
+        elif isinstance(self.pre, int):
+            pre = types.Integer(self.pre)
+        elif isinstance(self.pre, str):
+            pre = types.Integer.from_mcnp(self.pre)
 
         axsh = self.axsh
         if isinstance(self.axsh, types.Integer):
@@ -140,7 +132,7 @@ class CosypBuilder:
             emaps = None
 
         return Cosyp(
-            prefix=prefix,
+            pre=pre,
             axsh=axsh,
             axsv=axsv,
             emaps=emaps,
@@ -155,8 +147,8 @@ class CosypBuilder:
             ``CosypBuilder`` for ``Cosyp``.
         """
 
-        return Cosyp(
-            prefix=copy.deepcopy(ast.prefix),
+        return CosypBuilder(
+            pre=copy.deepcopy(ast.pre),
             axsh=copy.deepcopy(ast.axsh),
             axsv=copy.deepcopy(ast.axsv),
             emaps=copy.deepcopy(ast.emaps),

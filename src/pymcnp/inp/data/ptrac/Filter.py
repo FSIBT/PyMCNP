@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Filter(PtracOption):
+class Filter(_option.PtracOption):
     """
     Represents INP filter elements.
 
@@ -49,7 +49,7 @@ class Filter(PtracOption):
 
 
 @dataclasses.dataclass
-class FilterBuilder:
+class FilterBuilder(_option.PtracOptionBuilder):
     """
     Builds ``Filter``.
 
@@ -74,8 +74,6 @@ class FilterBuilder:
                     variables.append(item)
                 elif isinstance(item, str):
                     variables.append(types.PtracFilter.from_mcnp(item))
-                else:
-                    variables.append(item.build())
             variables = types.Tuple(variables)
         else:
             variables = None
@@ -93,6 +91,6 @@ class FilterBuilder:
             ``FilterBuilder`` for ``Filter``.
         """
 
-        return Filter(
+        return FilterBuilder(
             variables=copy.deepcopy(ast.variables),
         )

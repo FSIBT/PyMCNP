@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Bar(MplotOption):
+class Bar(_option.MplotOption):
     """
     Represents INP bar elements.
 
@@ -38,7 +38,7 @@ class Bar(MplotOption):
 
 
 @dataclasses.dataclass
-class BarBuilder:
+class BarBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Bar``.
 
@@ -65,4 +65,4 @@ class BarBuilder:
             ``BarBuilder`` for ``Bar``.
         """
 
-        return Bar()
+        return BarBuilder()

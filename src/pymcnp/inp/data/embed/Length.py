@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbedOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Length(EmbedOption):
+class Length(_option.EmbedOption):
     """
     Represents INP length elements.
 
@@ -49,7 +49,7 @@ class Length(EmbedOption):
 
 
 @dataclasses.dataclass
-class LengthBuilder:
+class LengthBuilder(_option.EmbedOptionBuilder):
     """
     Builds ``Length``.
 
@@ -88,6 +88,6 @@ class LengthBuilder:
             ``LengthBuilder`` for ``Length``.
         """
 
-        return Length(
+        return LengthBuilder(
             factor=copy.deepcopy(ast.factor),
         )

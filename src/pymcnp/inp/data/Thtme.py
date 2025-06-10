@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Thtme(DataOption):
+class Thtme(_option.DataOption):
     """
     Represents INP thtme elements.
 
@@ -36,7 +36,7 @@ class Thtme(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if times is None or not (filter(lambda entry: not (entry.value <= 99), times)):
+        if times is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, times)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -49,7 +49,7 @@ class Thtme(DataOption):
 
 
 @dataclasses.dataclass
-class ThtmeBuilder:
+class ThtmeBuilder(_option.DataOptionBuilder):
     """
     Builds ``Thtme``.
 
@@ -93,6 +93,6 @@ class ThtmeBuilder:
             ``ThtmeBuilder`` for ``Thtme``.
         """
 
-        return Thtme(
+        return ThtmeBuilder(
             times=copy.deepcopy(ast.times),
         )

@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Cop(MplotOption):
+class Cop(_option.MplotOption):
     """
     Represents INP cop elements.
 
@@ -38,7 +38,7 @@ class Cop(MplotOption):
 
 
 @dataclasses.dataclass
-class CopBuilder:
+class CopBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Cop``.
 
@@ -65,4 +65,4 @@ class CopBuilder:
             ``CopBuilder`` for ``Cop``.
         """
 
-        return Cop()
+        return CopBuilder()

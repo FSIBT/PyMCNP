@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Out(FmeshOption):
+class Out(_option.FmeshOption):
     """
     Represents INP out elements.
 
@@ -49,7 +49,7 @@ class Out(FmeshOption):
 
 
 @dataclasses.dataclass
-class OutBuilder:
+class OutBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Out``.
 
@@ -86,6 +86,6 @@ class OutBuilder:
             ``OutBuilder`` for ``Out``.
         """
 
-        return Out(
+        return OutBuilder(
             setting=copy.deepcopy(ast.setting),
         )

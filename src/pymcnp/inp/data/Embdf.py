@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Embdf(DataOption):
+class Embdf(_option.DataOption):
     """
     Represents INP embdf elements.
 
@@ -55,7 +55,7 @@ class Embdf(DataOption):
 
 
 @dataclasses.dataclass
-class EmbdfBuilder:
+class EmbdfBuilder(_option.DataOptionBuilder):
     """
     Builds ``Embdf``.
 
@@ -110,7 +110,7 @@ class EmbdfBuilder:
             ``EmbdfBuilder`` for ``Embdf``.
         """
 
-        return Embdf(
+        return EmbdfBuilder(
             suffix=copy.deepcopy(ast.suffix),
             multipliers=copy.deepcopy(ast.multipliers),
         )

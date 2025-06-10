@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import ContourOption
+from . import _option
 from .....utils import types
 
 
-class Noall(ContourOption):
+class Noall(_option.ContourOption):
     """
     Represents INP noall elements.
 
@@ -38,7 +38,7 @@ class Noall(ContourOption):
 
 
 @dataclasses.dataclass
-class NoallBuilder:
+class NoallBuilder(_option.ContourOptionBuilder):
     """
     Builds ``Noall``.
 
@@ -65,4 +65,4 @@ class NoallBuilder:
             ``NoallBuilder`` for ``Noall``.
         """
 
-        return Noall()
+        return NoallBuilder()

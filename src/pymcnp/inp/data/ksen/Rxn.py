@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KsenOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Rxn(KsenOption):
+class Rxn(_option.KsenOption):
     """
     Represents INP rxn elements.
 
@@ -49,7 +49,7 @@ class Rxn(KsenOption):
 
 
 @dataclasses.dataclass
-class RxnBuilder:
+class RxnBuilder(_option.KsenOptionBuilder):
     """
     Builds ``Rxn``.
 
@@ -93,6 +93,6 @@ class RxnBuilder:
             ``RxnBuilder`` for ``Rxn``.
         """
 
-        return Rxn(
+        return RxnBuilder(
             numbers=copy.deepcopy(ast.numbers),
         )

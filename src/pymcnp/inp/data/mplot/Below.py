@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Below(MplotOption):
+class Below(_option.MplotOption):
     """
     Represents INP below elements.
 
@@ -38,7 +38,7 @@ class Below(MplotOption):
 
 
 @dataclasses.dataclass
-class BelowBuilder:
+class BelowBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Below``.
 
@@ -65,4 +65,4 @@ class BelowBuilder:
             ``BelowBuilder`` for ``Below``.
         """
 
-        return Below()
+        return BelowBuilder()

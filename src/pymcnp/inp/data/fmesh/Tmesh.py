@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Tmesh(FmeshOption):
+class Tmesh(_option.FmeshOption):
     """
     Represents INP tmesh elements.
 
@@ -49,7 +49,7 @@ class Tmesh(FmeshOption):
 
 
 @dataclasses.dataclass
-class TmeshBuilder:
+class TmeshBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Tmesh``.
 
@@ -88,6 +88,6 @@ class TmeshBuilder:
             ``TmeshBuilder`` for ``Tmesh``.
         """
 
-        return Tmesh(
+        return TmeshBuilder(
             time=copy.deepcopy(ast.time),
         )

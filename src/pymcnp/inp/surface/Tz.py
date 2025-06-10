@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Tz(SurfaceOption):
+class Tz(_option.SurfaceOption):
     """
     Represents INP tz elements.
 
@@ -38,15 +38,7 @@ class Tz(SurfaceOption):
         rf'\Atz( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
-    def __init__(
-        self,
-        x: types.Real,
-        y: types.Real,
-        z: types.Real,
-        a: types.Real,
-        b: types.Real,
-        c: types.Real,
-    ):
+    def __init__(self, x: types.Real, y: types.Real, z: types.Real, a: types.Real, b: types.Real, c: types.Real):
         """
         Initializes ``Tz``.
 
@@ -108,7 +100,7 @@ class Tz(SurfaceOption):
 
 
 @dataclasses.dataclass
-class TzBuilder:
+class TzBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Tz``.
 
@@ -202,7 +194,7 @@ class TzBuilder:
             ``TzBuilder`` for ``Tz``.
         """
 
-        return Tz(
+        return TzBuilder(
             x=copy.deepcopy(ast.x),
             y=copy.deepcopy(ast.y),
             z=copy.deepcopy(ast.z),

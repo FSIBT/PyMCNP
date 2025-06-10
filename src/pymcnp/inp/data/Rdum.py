@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Rdum(DataOption):
+class Rdum(_option.DataOption):
     """
     Represents INP rdum elements.
 
@@ -49,7 +49,7 @@ class Rdum(DataOption):
 
 
 @dataclasses.dataclass
-class RdumBuilder:
+class RdumBuilder(_option.DataOptionBuilder):
     """
     Builds ``Rdum``.
 
@@ -93,6 +93,6 @@ class RdumBuilder:
             ``RdumBuilder`` for ``Rdum``.
         """
 
-        return Rdum(
+        return RdumBuilder(
             floats=copy.deepcopy(ast.floats),
         )

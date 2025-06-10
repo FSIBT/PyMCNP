@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Tm(DataOption):
+class Tm(_option.DataOption):
     """
     Represents INP tm elements.
 
@@ -55,7 +55,7 @@ class Tm(DataOption):
 
 
 @dataclasses.dataclass
-class TmBuilder:
+class TmBuilder(_option.DataOptionBuilder):
     """
     Builds ``Tm``.
 
@@ -110,7 +110,7 @@ class TmBuilder:
             ``TmBuilder`` for ``Tm``.
         """
 
-        return Tm(
+        return TmBuilder(
             suffix=copy.deepcopy(ast.suffix),
             multipliers=copy.deepcopy(ast.multipliers),
         )

@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import DfOption_1
+from . import _option
 from ....utils import types
 
 
-class Lin(DfOption_1):
+class Lin(_option.DfOption_1):
     """
     Represents INP lin elements.
 
@@ -38,7 +38,7 @@ class Lin(DfOption_1):
 
 
 @dataclasses.dataclass
-class LinBuilder:
+class LinBuilder(_option.DfOptionBuilder_1):
     """
     Builds ``Lin``.
 
@@ -65,4 +65,4 @@ class LinBuilder:
             ``LinBuilder`` for ``Lin``.
         """
 
-        return Lin()
+        return LinBuilder()
