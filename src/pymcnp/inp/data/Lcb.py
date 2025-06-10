@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Lcb(DataOption):
+class Lcb(_option.DataOption):
     """
     Represents INP lcb elements.
 
@@ -92,7 +92,7 @@ class Lcb(DataOption):
 
 
 @dataclasses.dataclass
-class LcbBuilder:
+class LcbBuilder(_option.DataOptionBuilder):
     """
     Builds ``Lcb``.
 
@@ -208,7 +208,7 @@ class LcbBuilder:
             ``LcbBuilder`` for ``Lcb``.
         """
 
-        return Lcb(
+        return LcbBuilder(
             flenb1=copy.deepcopy(ast.flenb1),
             flenb2=copy.deepcopy(ast.flenb2),
             flenb3=copy.deepcopy(ast.flenb3),

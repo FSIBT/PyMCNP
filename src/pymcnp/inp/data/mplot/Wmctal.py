@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Wmctal(MplotOption):
+class Wmctal(_option.MplotOption):
     """
     Represents INP wmctal elements.
 
@@ -49,7 +49,7 @@ class Wmctal(MplotOption):
 
 
 @dataclasses.dataclass
-class WmctalBuilder:
+class WmctalBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Wmctal``.
 
@@ -86,6 +86,6 @@ class WmctalBuilder:
             ``WmctalBuilder`` for ``Wmctal``.
         """
 
-        return Wmctal(
+        return WmctalBuilder(
             filename=copy.deepcopy(ast.filename),
         )

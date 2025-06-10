@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KoptsOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Blocksize(KoptsOption):
+class Blocksize(_option.KoptsOption):
     """
     Represents INP blocksize elements.
 
@@ -49,7 +49,7 @@ class Blocksize(KoptsOption):
 
 
 @dataclasses.dataclass
-class BlocksizeBuilder:
+class BlocksizeBuilder(_option.KoptsOptionBuilder):
     """
     Builds ``Blocksize``.
 
@@ -88,6 +88,6 @@ class BlocksizeBuilder:
             ``BlocksizeBuilder`` for ``Blocksize``.
         """
 
-        return Blocksize(
+        return BlocksizeBuilder(
             ncy=copy.deepcopy(ast.ncy),
         )

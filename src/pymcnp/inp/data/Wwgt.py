@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Wwgt(DataOption):
+class Wwgt(_option.DataOption):
     """
     Represents INP wwgt elements.
 
@@ -55,7 +55,7 @@ class Wwgt(DataOption):
 
 
 @dataclasses.dataclass
-class WwgtBuilder:
+class WwgtBuilder(_option.DataOptionBuilder):
     """
     Builds ``Wwgt``.
 
@@ -108,7 +108,7 @@ class WwgtBuilder:
             ``WwgtBuilder`` for ``Wwgt``.
         """
 
-        return Wwgt(
+        return WwgtBuilder(
             designator=copy.deepcopy(ast.designator),
             bounds=copy.deepcopy(ast.bounds),
         )

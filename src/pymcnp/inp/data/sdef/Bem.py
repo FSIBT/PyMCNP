@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Bem(SdefOption):
+class Bem(_option.SdefOption):
     """
     Represents INP bem elements.
 
@@ -27,9 +27,7 @@ class Bem(SdefOption):
         'bml': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Abem( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Abem( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, exn: types.Real, eyn: types.Real, bml: types.Real):
         """
@@ -65,7 +63,7 @@ class Bem(SdefOption):
 
 
 @dataclasses.dataclass
-class BemBuilder:
+class BemBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Bem``.
 
@@ -126,7 +124,7 @@ class BemBuilder:
             ``BemBuilder`` for ``Bem``.
         """
 
-        return Bem(
+        return BemBuilder(
             exn=copy.deepcopy(ast.exn),
             eyn=copy.deepcopy(ast.eyn),
             bml=copy.deepcopy(ast.bml),

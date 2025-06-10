@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Lat(CellOption):
+class Lat(_option.CellOption):
     """
     Represents INP lat elements.
 
@@ -49,7 +49,7 @@ class Lat(CellOption):
 
 
 @dataclasses.dataclass
-class LatBuilder:
+class LatBuilder(_option.CellOptionBuilder):
     """
     Builds ``Lat``.
 
@@ -88,6 +88,6 @@ class LatBuilder:
             ``LatBuilder`` for ``Lat``.
         """
 
-        return Lat(
+        return LatBuilder(
             shape=copy.deepcopy(ast.shape),
         )

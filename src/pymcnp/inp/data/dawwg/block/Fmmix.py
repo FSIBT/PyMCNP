@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Fmmix(BlockOption):
+class Fmmix(_option.BlockOption):
     """
     Represents INP fmmix elements.
 
@@ -49,7 +49,7 @@ class Fmmix(BlockOption):
 
 
 @dataclasses.dataclass
-class FmmixBuilder:
+class FmmixBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Fmmix``.
 
@@ -88,6 +88,6 @@ class FmmixBuilder:
             ``FmmixBuilder`` for ``Fmmix``.
         """
 
-        return Fmmix(
+        return FmmixBuilder(
             setting=copy.deepcopy(ast.setting),
         )

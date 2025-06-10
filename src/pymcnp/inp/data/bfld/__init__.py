@@ -1,4 +1,5 @@
 from ._option import BfldOption
+from ._option import BfldOptionBuilder
 
 from .Field import Field
 from .Vec import Vec
@@ -17,6 +18,7 @@ from .Refpnt import RefpntBuilder
 
 __all__ = [
     'BfldOption',
+    'BfldOptionBuilder',
     'Field',
     'Vec',
     'Maxdeflc',

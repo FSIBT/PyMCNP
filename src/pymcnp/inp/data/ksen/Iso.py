@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KsenOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Iso(KsenOption):
+class Iso(_option.KsenOption):
     """
     Represents INP iso elements.
 
@@ -49,7 +49,7 @@ class Iso(KsenOption):
 
 
 @dataclasses.dataclass
-class IsoBuilder:
+class IsoBuilder(_option.KsenOptionBuilder):
     """
     Builds ``Iso``.
 
@@ -74,8 +74,6 @@ class IsoBuilder:
                     zaids.append(item)
                 elif isinstance(item, str):
                     zaids.append(types.Zaid.from_mcnp(item))
-                else:
-                    zaids.append(item.build())
             zaids = types.Tuple(zaids)
         else:
             zaids = None
@@ -93,6 +91,6 @@ class IsoBuilder:
             ``IsoBuilder`` for ``Iso``.
         """
 
-        return Iso(
+        return IsoBuilder(
             zaids=copy.deepcopy(ast.zaids),
         )

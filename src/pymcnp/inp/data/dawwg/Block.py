@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import block
-from ._option import DawwgOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Block(DawwgOption):
+class Block(_option.DawwgOption):
     """
     Represents INP block elements.
 
@@ -26,9 +26,7 @@ class Block(DawwgOption):
         'options': types.Tuple[block.BlockOption],
     }
 
-    _REGEX = re.compile(
-        rf'\Ablock( {types.Integer._REGEX.pattern[2:-2]})((?: (?:{block.BlockOption._REGEX.pattern[2:-2]}))+?)?\Z'
-    )
+    _REGEX = re.compile(rf'\Ablock( {types.Integer._REGEX.pattern[2:-2]})((?: (?:{block.BlockOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
     def __init__(self, setting: types.Integer, options: types.Tuple[block.BlockOption] = None):
         """
@@ -57,7 +55,7 @@ class Block(DawwgOption):
 
 
 @dataclasses.dataclass
-class BlockBuilder:
+class BlockBuilder(_option.DawwgOptionBuilder):
     """
     Builds ``Block``.
 
@@ -92,7 +90,7 @@ class BlockBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(block.BlockOption.from_mcnp(item))
-                else:
+                elif isinstance(item, block.BlockOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -112,7 +110,7 @@ class BlockBuilder:
             ``BlockBuilder`` for ``Block``.
         """
 
-        return Block(
+        return BlockBuilder(
             setting=copy.deepcopy(ast.setting),
             options=copy.deepcopy(ast.options),
         )

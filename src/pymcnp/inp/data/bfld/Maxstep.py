@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BfldOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Maxstep(BfldOption):
+class Maxstep(_option.BfldOption):
     """
     Represents INP maxstep elements.
 
@@ -49,7 +49,7 @@ class Maxstep(BfldOption):
 
 
 @dataclasses.dataclass
-class MaxstepBuilder:
+class MaxstepBuilder(_option.BfldOptionBuilder):
     """
     Builds ``Maxstep``.
 
@@ -88,6 +88,6 @@ class MaxstepBuilder:
             ``MaxstepBuilder`` for ``Maxstep``.
         """
 
-        return Maxstep(
+        return MaxstepBuilder(
             size=copy.deepcopy(ast.size),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Freq(MplotOption):
+class Freq(_option.MplotOption):
     """
     Represents INP freq elements.
 
@@ -49,7 +49,7 @@ class Freq(MplotOption):
 
 
 @dataclasses.dataclass
-class FreqBuilder:
+class FreqBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Freq``.
 
@@ -88,6 +88,6 @@ class FreqBuilder:
             ``FreqBuilder`` for ``Freq``.
         """
 
-        return Freq(
+        return FreqBuilder(
             n=copy.deepcopy(ast.n),
         )

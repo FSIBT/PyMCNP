@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Noerrbar(MplotOption):
+class Noerrbar(_option.MplotOption):
     """
     Represents INP noerrbar elements.
 
@@ -38,7 +38,7 @@ class Noerrbar(MplotOption):
 
 
 @dataclasses.dataclass
-class NoerrbarBuilder:
+class NoerrbarBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Noerrbar``.
 
@@ -65,4 +65,4 @@ class NoerrbarBuilder:
             ``NoerrbarBuilder`` for ``Noerrbar``.
         """
 
-        return Noerrbar()
+        return NoerrbarBuilder()

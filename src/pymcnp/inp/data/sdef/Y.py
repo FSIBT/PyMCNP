@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Y(SdefOption):
+class Y(_option.SdefOption):
     """
     Represents INP y elements.
 
@@ -49,7 +49,7 @@ class Y(SdefOption):
 
 
 @dataclasses.dataclass
-class YBuilder:
+class YBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Y``.
 
@@ -88,6 +88,6 @@ class YBuilder:
             ``YBuilder`` for ``Y``.
         """
 
-        return Y(
+        return YBuilder(
             y_coordinate=copy.deepcopy(ast.y_coordinate),
         )

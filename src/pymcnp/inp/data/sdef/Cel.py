@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Cel(SdefOption):
+class Cel(_option.SdefOption):
     """
     Represents INP cel elements.
 
@@ -36,9 +36,7 @@ class Cel(SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if number is None or not (
-            isinstance(number.value, types.Jump) or 0 <= number.value <= 99_999_999
-        ):
+        if number is None or not (isinstance(number.value, types.Jump) or 0 <= number.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -51,7 +49,7 @@ class Cel(SdefOption):
 
 
 @dataclasses.dataclass
-class CelBuilder:
+class CelBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Cel``.
 
@@ -90,6 +88,6 @@ class CelBuilder:
             ``CelBuilder`` for ``Cel``.
         """
 
-        return Cel(
+        return CelBuilder(
             number=copy.deepcopy(ast.number),
         )

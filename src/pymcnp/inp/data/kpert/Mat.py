@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KpertOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Mat(KpertOption):
+class Mat(_option.KpertOption):
     """
     Represents INP mat elements.
 
@@ -36,9 +36,7 @@ class Mat(KpertOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if numbers is None or not (
-            filter(lambda entry: not (0 <= entry.value <= 99_999_999), numbers)
-        ):
+        if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -51,7 +49,7 @@ class Mat(KpertOption):
 
 
 @dataclasses.dataclass
-class MatBuilder:
+class MatBuilder(_option.KpertOptionBuilder):
     """
     Builds ``Mat``.
 
@@ -95,6 +93,6 @@ class MatBuilder:
             ``MatBuilder`` for ``Mat``.
         """
 
-        return Mat(
+        return MatBuilder(
             numbers=copy.deepcopy(ast.numbers),
         )

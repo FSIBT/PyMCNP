@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Mx(DataOption):
+class Mx(_option.DataOption):
     """
     Represents INP mx elements.
 
@@ -27,13 +27,9 @@ class Mx(DataOption):
         'zaids': types.Tuple[types.Zaid],
     }
 
-    _REGEX = re.compile(
-        rf'\Amx(\d+):(\S+)((?: (?:{types.Zaid._REGEX.pattern[2:-2]}|j|model|0))+?)\Z'
-    )
+    _REGEX = re.compile(rf'\Amx(\d+):(\S+)((?: (?:{types.Zaid._REGEX.pattern[2:-2]}|j|model|0))+?)\Z')
 
-    def __init__(
-        self, suffix: types.Integer, designator: types.Designator, zaids: types.Tuple[types.Zaid]
-    ):
+    def __init__(self, suffix: types.Integer, designator: types.Designator, zaids: types.Tuple[types.Zaid]):
         """
         Initializes ``Mx``.
 
@@ -65,7 +61,7 @@ class Mx(DataOption):
 
 
 @dataclasses.dataclass
-class MxBuilder:
+class MxBuilder(_option.DataOptionBuilder):
     """
     Builds ``Mx``.
 
@@ -108,8 +104,6 @@ class MxBuilder:
                     zaids.append(item)
                 elif isinstance(item, str):
                     zaids.append(types.Zaid.from_mcnp(item))
-                else:
-                    zaids.append(item.build())
             zaids = types.Tuple(zaids)
         else:
             zaids = None
@@ -129,7 +123,7 @@ class MxBuilder:
             ``MxBuilder`` for ``Mx``.
         """
 
-        return Mx(
+        return MxBuilder(
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             zaids=copy.deepcopy(ast.zaids),

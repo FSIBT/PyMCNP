@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Help(MplotOption):
+class Help(_option.MplotOption):
     """
     Represents INP help elements.
 
@@ -38,7 +38,7 @@ class Help(MplotOption):
 
 
 @dataclasses.dataclass
-class HelpBuilder:
+class HelpBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Help``.
 
@@ -65,4 +65,4 @@ class HelpBuilder:
             ``HelpBuilder`` for ``Help``.
         """
 
-        return Help()
+        return HelpBuilder()

@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import ssw
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Ssw(DataOption):
+class Ssw(_option.DataOption):
     """
     Represents INP ssw elements.
 
@@ -28,16 +28,9 @@ class Ssw(DataOption):
         'options': types.Tuple[ssw.SswOption],
     }
 
-    _REGEX = re.compile(
-        rf'\Assw((?: {types.Integer._REGEX.pattern[2:-2]})+?)((?: {types.Integer._REGEX.pattern[2:-2]})+?)?((?: (?:{ssw.SswOption._REGEX.pattern[2:-2]}))+?)?\Z'
-    )
+    _REGEX = re.compile(rf'\Assw((?: {types.Integer._REGEX.pattern[2:-2]})+?)((?: {types.Integer._REGEX.pattern[2:-2]})+?)?((?: (?:{ssw.SswOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(
-        self,
-        surfaces: types.Tuple[types.Integer],
-        cells: types.Tuple[types.Integer] = None,
-        options: types.Tuple[ssw.SswOption] = None,
-    ):
+    def __init__(self, surfaces: types.Tuple[types.Integer], cells: types.Tuple[types.Integer] = None, options: types.Tuple[ssw.SswOption] = None):
         """
         Initializes ``Ssw``.
 
@@ -67,7 +60,7 @@ class Ssw(DataOption):
 
 
 @dataclasses.dataclass
-class SswBuilder:
+class SswBuilder(_option.DataOptionBuilder):
     """
     Builds ``Ssw``.
 
@@ -122,7 +115,7 @@ class SswBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(ssw.SswOption.from_mcnp(item))
-                else:
+                elif isinstance(item, ssw.SswOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -143,7 +136,7 @@ class SswBuilder:
             ``SswBuilder`` for ``Ssw``.
         """
 
-        return Ssw(
+        return SswBuilder(
             surfaces=copy.deepcopy(ast.surfaces),
             cells=copy.deepcopy(ast.cells),
             options=copy.deepcopy(ast.options),

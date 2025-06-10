@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Sf(DataOption):
+class Sf(_option.DataOption):
     """
     Represents INP sf elements.
 
@@ -41,9 +41,7 @@ class Sf(DataOption):
 
         if suffix is None or not (suffix.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
-        if numbers is None or not (
-            filter(lambda entry: not (0 <= entry.value <= 99_999_999), numbers)
-        ):
+        if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -57,7 +55,7 @@ class Sf(DataOption):
 
 
 @dataclasses.dataclass
-class SfBuilder:
+class SfBuilder(_option.DataOptionBuilder):
     """
     Builds ``Sf``.
 
@@ -112,7 +110,7 @@ class SfBuilder:
             ``SfBuilder`` for ``Sf``.
         """
 
-        return Sf(
+        return SfBuilder(
             suffix=copy.deepcopy(ast.suffix),
             numbers=copy.deepcopy(ast.numbers),
         )

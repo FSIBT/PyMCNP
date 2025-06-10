@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import ActOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Dgeb(ActOption):
+class Dgeb(_option.ActOption):
     """
     Represents INP dgeb elements.
 
@@ -49,7 +49,7 @@ class Dgeb(ActOption):
 
 
 @dataclasses.dataclass
-class DgebBuilder:
+class DgebBuilder(_option.ActOptionBuilder):
     """
     Builds ``Dgeb``.
 
@@ -74,8 +74,6 @@ class DgebBuilder:
                     biases.append(item)
                 elif isinstance(item, str):
                     biases.append(types.Bias.from_mcnp(item))
-                else:
-                    biases.append(item.build())
             biases = types.Tuple(biases)
         else:
             biases = None
@@ -93,6 +91,6 @@ class DgebBuilder:
             ``DgebBuilder`` for ``Dgeb``.
         """
 
-        return Dgeb(
+        return DgebBuilder(
             biases=copy.deepcopy(ast.biases),
         )

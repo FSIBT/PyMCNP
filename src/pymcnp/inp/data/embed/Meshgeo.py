@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbedOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Meshgeo(EmbedOption):
+class Meshgeo(_option.EmbedOption):
     """
     Represents INP meshgeo elements.
 
@@ -49,7 +49,7 @@ class Meshgeo(EmbedOption):
 
 
 @dataclasses.dataclass
-class MeshgeoBuilder:
+class MeshgeoBuilder(_option.EmbedOptionBuilder):
     """
     Builds ``Meshgeo``.
 
@@ -86,6 +86,6 @@ class MeshgeoBuilder:
             ``MeshgeoBuilder`` for ``Meshgeo``.
         """
 
-        return Meshgeo(
+        return MeshgeoBuilder(
             form=copy.deepcopy(ast.form),
         )

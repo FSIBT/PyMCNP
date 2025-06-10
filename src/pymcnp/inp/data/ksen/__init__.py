@@ -1,4 +1,5 @@
 from ._option import KsenOption
+from ._option import KsenOptionBuilder
 
 from .Iso import Iso
 from .Rxn import Rxn
@@ -19,6 +20,7 @@ from .Constrain import ConstrainBuilder
 
 __all__ = [
     'KsenOption',
+    'KsenOptionBuilder',
     'Iso',
     'Rxn',
     'Mt',

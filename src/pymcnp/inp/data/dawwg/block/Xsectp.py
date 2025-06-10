@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Xsectp(BlockOption):
+class Xsectp(_option.BlockOption):
     """
     Represents INP xsectp elements.
 
@@ -49,7 +49,7 @@ class Xsectp(BlockOption):
 
 
 @dataclasses.dataclass
-class XsectpBuilder:
+class XsectpBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Xsectp``.
 
@@ -88,6 +88,6 @@ class XsectpBuilder:
             ``XsectpBuilder`` for ``Xsectp``.
         """
 
-        return Xsectp(
+        return XsectpBuilder(
             setting=copy.deepcopy(ast.setting),
         )

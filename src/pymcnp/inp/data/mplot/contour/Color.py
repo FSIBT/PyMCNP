@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import ContourOption
+from . import _option
 from .....utils import types
 
 
-class Color(ContourOption):
+class Color(_option.ContourOption):
     """
     Represents INP color elements.
 
@@ -38,7 +38,7 @@ class Color(ContourOption):
 
 
 @dataclasses.dataclass
-class ColorBuilder:
+class ColorBuilder(_option.ContourOptionBuilder):
     """
     Builds ``Color``.
 
@@ -65,4 +65,4 @@ class ColorBuilder:
             ``ColorBuilder`` for ``Color``.
         """
 
-        return Color()
+        return ColorBuilder()

@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import pert
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Pert(DataOption):
+class Pert(_option.DataOption):
     """
     Represents INP pert elements.
 
@@ -30,12 +30,7 @@ class Pert(DataOption):
 
     _REGEX = re.compile(rf'\Apert(\d+):(\S+)((?: (?:{pert.PertOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        designator: types.Designator,
-        options: types.Tuple[pert.PertOption] = None,
-    ):
+    def __init__(self, suffix: types.Integer, designator: types.Designator, options: types.Tuple[pert.PertOption] = None):
         """
         Initializes ``Pert``.
 
@@ -65,7 +60,7 @@ class Pert(DataOption):
 
 
 @dataclasses.dataclass
-class PertBuilder:
+class PertBuilder(_option.DataOptionBuilder):
     """
     Builds ``Pert``.
 
@@ -108,7 +103,7 @@ class PertBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(pert.PertOption.from_mcnp(item))
-                else:
+                elif isinstance(item, pert.PertOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -129,7 +124,7 @@ class PertBuilder:
             ``PertBuilder`` for ``Pert``.
         """
 
-        return Pert(
+        return PertBuilder(
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             options=copy.deepcopy(ast.options),

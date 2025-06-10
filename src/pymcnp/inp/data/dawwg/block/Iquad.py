@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Iquad(BlockOption):
+class Iquad(_option.BlockOption):
     """
     Represents INP iquad elements.
 
@@ -49,7 +49,7 @@ class Iquad(BlockOption):
 
 
 @dataclasses.dataclass
-class IquadBuilder:
+class IquadBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Iquad``.
 
@@ -88,6 +88,6 @@ class IquadBuilder:
             ``IquadBuilder`` for ``Iquad``.
         """
 
-        return Iquad(
+        return IquadBuilder(
             setting=copy.deepcopy(ast.setting),
         )

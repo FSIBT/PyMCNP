@@ -1,4 +1,5 @@
 from ._option import SurfaceOption
+from ._option import SurfaceOptionBuilder
 
 from .P_0 import P_0
 from .P_1 import P_1
@@ -83,6 +84,7 @@ from .Arb import ArbBuilder
 
 __all__ = [
     'SurfaceOption',
+    'SurfaceOptionBuilder',
     'P_0',
     'P_1',
     'Px',

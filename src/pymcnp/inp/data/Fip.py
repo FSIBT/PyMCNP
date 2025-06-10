@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fip(DataOption):
+class Fip(_option.DataOption):
     """
     Represents INP fip elements.
 
@@ -140,7 +140,7 @@ class Fip(DataOption):
 
 
 @dataclasses.dataclass
-class FipBuilder:
+class FipBuilder(_option.DataOptionBuilder):
     """
     Builds ``Fip``.
 
@@ -298,7 +298,7 @@ class FipBuilder:
             ``FipBuilder`` for ``Fip``.
         """
 
-        return Fip(
+        return FipBuilder(
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             x1=copy.deepcopy(ast.x1),

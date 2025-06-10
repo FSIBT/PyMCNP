@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class T_0(DataOption):
+class T_0(_option.DataOption):
     """
     Represents INP t variation #0 elements.
 
@@ -29,17 +29,9 @@ class T_0(DataOption):
         'c': types.String,
     }
 
-    _REGEX = re.compile(
-        rf'\At(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z'
-    )
+    _REGEX = re.compile(rf'\At(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        bounds: types.Tuple[types.Real],
-        nt: types.String = None,
-        c: types.String = None,
-    ):
+    def __init__(self, suffix: types.Integer, bounds: types.Tuple[types.Real], nt: types.String = None, c: types.String = None):
         """
         Initializes ``T_0``.
 
@@ -73,7 +65,7 @@ class T_0(DataOption):
 
 
 @dataclasses.dataclass
-class TBuilder_0:
+class TBuilder_0(_option.DataOptionBuilder):
     """
     Builds ``T_0``.
 
@@ -146,7 +138,7 @@ class TBuilder_0:
             ``TBuilder_0`` for ``T_0``.
         """
 
-        return T_0(
+        return TBuilder_0(
             suffix=copy.deepcopy(ast.suffix),
             bounds=copy.deepcopy(ast.bounds),
             nt=copy.deepcopy(ast.nt),

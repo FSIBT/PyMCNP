@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SsrOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Ext(SsrOption):
+class Ext(_option.SsrOption):
     """
     Represents INP ext elements.
 
@@ -49,7 +49,7 @@ class Ext(SsrOption):
 
 
 @dataclasses.dataclass
-class ExtBuilder:
+class ExtBuilder(_option.SsrOptionBuilder):
     """
     Builds ``Ext``.
 
@@ -86,6 +86,6 @@ class ExtBuilder:
             ``ExtBuilder`` for ``Ext``.
         """
 
-        return Ext(
+        return ExtBuilder(
             number=copy.deepcopy(ast.number),
         )

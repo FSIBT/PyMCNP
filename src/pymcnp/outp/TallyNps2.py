@@ -146,12 +146,7 @@ class TallyNps2(_block.Block):
         particles = types.String.from_mcnp(tokens[4])
         surface = types.String.from_mcnp(tokens[5])
         surface_value = types.String.from_mcnp(tokens[6])
-        subtallies = types.Tuple(
-            [
-                tallynps.SubtallyNps2.from_mcnp(token[0])
-                for token in tallynps.SubtallyNps2._REGEX.finditer(tokens[7])
-            ]
-        )
+        subtallies = types.Tuple([tallynps.SubtallyNps2.from_mcnp(token[0]) for token in tallynps.SubtallyNps2._REGEX.finditer(tokens[7])])
         offset = tallynps.SubtallyNps2._REGEX.groups
         stats_desired = types.String.from_mcnp(tokens[8 + offset])
         stats_observed = types.String.from_mcnp(tokens[9 + offset])

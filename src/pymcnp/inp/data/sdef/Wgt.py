@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Wgt(SdefOption):
+class Wgt(_option.SdefOption):
     """
     Represents INP wgt elements.
 
@@ -49,7 +49,7 @@ class Wgt(SdefOption):
 
 
 @dataclasses.dataclass
-class WgtBuilder:
+class WgtBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Wgt``.
 
@@ -88,6 +88,6 @@ class WgtBuilder:
             ``WgtBuilder`` for ``Wgt``.
         """
 
-        return Wgt(
+        return WgtBuilder(
             weight=copy.deepcopy(ast.weight),
         )

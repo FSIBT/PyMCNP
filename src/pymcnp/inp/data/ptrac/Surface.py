@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Surface(PtracOption):
+class Surface(_option.PtracOption):
     """
     Represents INP surface elements.
 
@@ -36,9 +36,7 @@ class Surface(PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if numbers is None or not (
-            filter(lambda entry: not (1 <= entry.value <= 99_999_999), numbers)
-        ):
+        if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -51,7 +49,7 @@ class Surface(PtracOption):
 
 
 @dataclasses.dataclass
-class SurfaceBuilder:
+class SurfaceBuilder(_option.PtracOptionBuilder):
     """
     Builds ``Surface``.
 
@@ -95,6 +93,6 @@ class SurfaceBuilder:
             ``SurfaceBuilder`` for ``Surface``.
         """
 
-        return Surface(
+        return SurfaceBuilder(
             numbers=copy.deepcopy(ast.numbers),
         )

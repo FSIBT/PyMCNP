@@ -2,6 +2,7 @@ import re
 import abc
 import enum
 import pathlib
+import dataclasses
 
 from ..utils import errors
 
@@ -50,9 +51,7 @@ class McnpNonterminal(metaclass=McnpNonterminalMeta):
 
     @classproperty
     def _REGEX(cls):
-        return re.compile(
-            rf"\A{r'|'.join(map(lambda subclass: subclass._REGEX.pattern[2:-2], sorted(cls.__subclasses__(), reverse=True, key=lambda subclass: len(subclass.__name__),),))}\Z"
-        )
+        return re.compile(rf"\A{r'|'.join(map(lambda subclass: subclass._REGEX.pattern[2:-2], sorted(cls.__subclasses__(), reverse=True, key=lambda subclass: len(subclass.__name__),),))}\Z")
 
     @classmethod
     @abc.abstractmethod
@@ -68,6 +67,15 @@ class McnpNonterminal(metaclass=McnpNonterminalMeta):
 
     def __eq__(a, b):
         return (a.__dict__ if a else None) == (b.__dict__ if b else None)
+
+
+class McnpNonterminalBuilderMeta(abc.ABCMeta):
+    pass
+
+
+@dataclasses.dataclass
+class McnpNonterminalBuilder(abc.ABC):
+    pass
 
 
 class McnpFileMeta(abc.ABCMeta, McnpNonterminal):

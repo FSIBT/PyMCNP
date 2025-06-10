@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbedOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Calcvols(EmbedOption):
+class Calcvols(_option.EmbedOption):
     """
     Represents INP calcvols elements.
 
@@ -49,7 +49,7 @@ class Calcvols(EmbedOption):
 
 
 @dataclasses.dataclass
-class CalcvolsBuilder:
+class CalcvolsBuilder(_option.EmbedOptionBuilder):
     """
     Builds ``Calcvols``.
 
@@ -86,6 +86,6 @@ class CalcvolsBuilder:
             ``CalcvolsBuilder`` for ``Calcvols``.
         """
 
-        return Calcvols(
+        return CalcvolsBuilder(
             setting=copy.deepcopy(ast.setting),
         )

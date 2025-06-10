@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Ajed(BlockOption):
+class Ajed(_option.BlockOption):
     """
     Represents INP ajed elements.
 
@@ -49,7 +49,7 @@ class Ajed(BlockOption):
 
 
 @dataclasses.dataclass
-class AjedBuilder:
+class AjedBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Ajed``.
 
@@ -88,6 +88,6 @@ class AjedBuilder:
             ``AjedBuilder`` for ``Ajed``.
         """
 
-        return Ajed(
+        return AjedBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Rzflux(BlockOption):
+class Rzflux(_option.BlockOption):
     """
     Represents INP rzflux elements.
 
@@ -49,7 +49,7 @@ class Rzflux(BlockOption):
 
 
 @dataclasses.dataclass
-class RzfluxBuilder:
+class RzfluxBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Rzflux``.
 
@@ -88,6 +88,6 @@ class RzfluxBuilder:
             ``RzfluxBuilder`` for ``Rzflux``.
         """
 
-        return Rzflux(
+        return RzfluxBuilder(
             setting=copy.deepcopy(ast.setting),
         )

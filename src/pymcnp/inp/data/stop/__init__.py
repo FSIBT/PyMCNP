@@ -1,4 +1,5 @@
 from ._option import StopOption
+from ._option import StopOptionBuilder
 
 from .Nps import Nps
 from .Ctme import Ctme
@@ -9,6 +10,7 @@ from .F import FBuilder
 
 __all__ = [
     'StopOption',
+    'StopOptionBuilder',
     'Nps',
     'Ctme',
     'F',

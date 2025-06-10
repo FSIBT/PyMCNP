@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Return(MplotOption):
+class Return(_option.MplotOption):
     """
     Represents INP return elements.
 
@@ -38,7 +38,7 @@ class Return(MplotOption):
 
 
 @dataclasses.dataclass
-class ReturnBuilder:
+class ReturnBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Return``.
 
@@ -65,4 +65,4 @@ class ReturnBuilder:
             ``ReturnBuilder`` for ``Return``.
         """
 
-        return Return()
+        return ReturnBuilder()

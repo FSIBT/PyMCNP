@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Tr(FmeshOption):
+class Tr(_option.FmeshOption):
     """
     Represents INP tr elements.
 
@@ -49,7 +49,7 @@ class Tr(FmeshOption):
 
 
 @dataclasses.dataclass
-class TrBuilder:
+class TrBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Tr``.
 
@@ -88,6 +88,6 @@ class TrBuilder:
             ``TrBuilder`` for ``Tr``.
         """
 
-        return Tr(
+        return TrBuilder(
             number=copy.deepcopy(ast.number),
         )

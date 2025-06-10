@@ -4,12 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
-from ...utils import errors
 
 
-class Void(DataOption):
+class Void(_option.DataOption):
     """
     Represents INP void elements.
 
@@ -36,11 +35,6 @@ class Void(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if numbers is not None and not (
-            filter(lambda entry: not (1 <= entry.value <= 99_999_999), numbers)
-        ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
-
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
                 numbers,
@@ -51,7 +45,7 @@ class Void(DataOption):
 
 
 @dataclasses.dataclass
-class VoidBuilder:
+class VoidBuilder(_option.DataOptionBuilder):
     """
     Builds ``Void``.
 
@@ -95,6 +89,6 @@ class VoidBuilder:
             ``VoidBuilder`` for ``Void``.
         """
 
-        return Void(
+        return VoidBuilder(
             numbers=copy.deepcopy(ast.numbers),
         )

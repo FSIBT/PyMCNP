@@ -1,9 +1,17 @@
-from ...._option import Option
+from .... import _option
 
 
-class FreeOption(Option):
+class FreeOption(_option.Option):
     """
     Represents generic INP free options.
+    """
+
+    pass
+
+
+class FreeOptionBuilder(_option.OptionBuilder):
+    """
+    Represents generic INP free option builders.
     """
 
     pass

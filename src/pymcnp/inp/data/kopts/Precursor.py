@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KoptsOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Precursor(KoptsOption):
+class Precursor(_option.KoptsOption):
     """
     Represents INP precursor elements.
 
@@ -49,7 +49,7 @@ class Precursor(KoptsOption):
 
 
 @dataclasses.dataclass
-class PrecursorBuilder:
+class PrecursorBuilder(_option.KoptsOptionBuilder):
     """
     Builds ``Precursor``.
 
@@ -86,6 +86,6 @@ class PrecursorBuilder:
             ``PrecursorBuilder`` for ``Precursor``.
         """
 
-        return Precursor(
+        return PrecursorBuilder(
             setting=copy.deepcopy(ast.setting),
         )

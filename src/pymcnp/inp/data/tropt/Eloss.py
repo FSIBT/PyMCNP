@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import TroptOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Eloss(TroptOption):
+class Eloss(_option.TroptOption):
     """
     Represents INP eloss elements.
 
@@ -49,7 +49,7 @@ class Eloss(TroptOption):
 
 
 @dataclasses.dataclass
-class ElossBuilder:
+class ElossBuilder(_option.TroptOptionBuilder):
     """
     Builds ``Eloss``.
 
@@ -86,6 +86,6 @@ class ElossBuilder:
             ``ElossBuilder`` for ``Eloss``.
         """
 
-        return Eloss(
+        return ElossBuilder(
             setting=copy.deepcopy(ast.setting),
         )

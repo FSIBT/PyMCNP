@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Balxs(BlockOption):
+class Balxs(_option.BlockOption):
     """
     Represents INP balxs elements.
 
@@ -49,7 +49,7 @@ class Balxs(BlockOption):
 
 
 @dataclasses.dataclass
-class BalxsBuilder:
+class BalxsBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Balxs``.
 
@@ -88,6 +88,6 @@ class BalxsBuilder:
             ``BalxsBuilder`` for ``Balxs``.
         """
 
-        return Balxs(
+        return BalxsBuilder(
             setting=copy.deepcopy(ast.setting),
         )

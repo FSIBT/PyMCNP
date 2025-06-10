@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PertOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Method(PertOption):
+class Method(_option.PertOption):
     """
     Represents INP method elements.
 
@@ -36,7 +36,7 @@ class Method(PertOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting.value not in {+1, -1, +2, -2, +3, -3}:
+        if setting is None or setting.value not in {1, -1, 2, -2, 3, -3}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -49,7 +49,7 @@ class Method(PertOption):
 
 
 @dataclasses.dataclass
-class MethodBuilder:
+class MethodBuilder(_option.PertOptionBuilder):
     """
     Builds ``Method``.
 
@@ -88,6 +88,6 @@ class MethodBuilder:
             ``MethodBuilder`` for ``Method``.
         """
 
-        return Method(
+        return MethodBuilder(
             setting=copy.deepcopy(ast.setting),
         )

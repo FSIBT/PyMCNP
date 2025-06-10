@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Kcode(MplotOption):
+class Kcode(_option.MplotOption):
     """
     Represents INP kcode elements.
 
@@ -49,7 +49,7 @@ class Kcode(MplotOption):
 
 
 @dataclasses.dataclass
-class KcodeBuilder:
+class KcodeBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Kcode``.
 
@@ -88,6 +88,6 @@ class KcodeBuilder:
             ``KcodeBuilder`` for ``Kcode``.
         """
 
-        return Kcode(
+        return KcodeBuilder(
             i=copy.deepcopy(ast.i),
         )

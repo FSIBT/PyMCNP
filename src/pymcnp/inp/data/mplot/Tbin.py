@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Tbin(MplotOption):
+class Tbin(_option.MplotOption):
     """
     Represents INP tbin elements.
 
@@ -49,7 +49,7 @@ class Tbin(MplotOption):
 
 
 @dataclasses.dataclass
-class TbinBuilder:
+class TbinBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Tbin``.
 
@@ -88,6 +88,6 @@ class TbinBuilder:
             ``TbinBuilder`` for ``Tbin``.
         """
 
-        return Tbin(
+        return TbinBuilder(
             n=copy.deepcopy(ast.n),
         )

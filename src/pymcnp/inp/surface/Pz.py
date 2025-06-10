@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Pz(SurfaceOption):
+class Pz(_option.SurfaceOption):
     """
     Represents INP pz elements.
 
@@ -62,7 +62,7 @@ class Pz(SurfaceOption):
 
 
 @dataclasses.dataclass
-class PzBuilder:
+class PzBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Pz``.
 
@@ -101,6 +101,6 @@ class PzBuilder:
             ``PzBuilder`` for ``Pz``.
         """
 
-        return Pz(
+        return PzBuilder(
             d=copy.deepcopy(ast.d),
         )

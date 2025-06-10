@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Lat(DataOption):
+class Lat(_option.DataOption):
     """
     Represents INP lat elements.
 
@@ -36,9 +36,7 @@ class Lat(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if type is None or not (
-            filter(lambda entry: not (entry.value == 1 or entry.value == 2), type)
-        ):
+        if type is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, type)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -51,7 +49,7 @@ class Lat(DataOption):
 
 
 @dataclasses.dataclass
-class LatBuilder:
+class LatBuilder(_option.DataOptionBuilder):
     """
     Builds ``Lat``.
 
@@ -95,6 +93,6 @@ class LatBuilder:
             ``LatBuilder`` for ``Lat``.
         """
 
-        return Lat(
+        return LatBuilder(
             type=copy.deepcopy(ast.type),
         )

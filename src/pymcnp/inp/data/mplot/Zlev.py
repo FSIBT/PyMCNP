@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Zlev(MplotOption):
+class Zlev(_option.MplotOption):
     """
     Represents INP zlev elements.
 
@@ -49,7 +49,7 @@ class Zlev(MplotOption):
 
 
 @dataclasses.dataclass
-class ZlevBuilder:
+class ZlevBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Zlev``.
 
@@ -74,8 +74,6 @@ class ZlevBuilder:
                     n.append(item)
                 elif isinstance(item, str):
                     n.append(types.String.from_mcnp(item))
-                else:
-                    n.append(item.build())
             n = types.Tuple(n)
         else:
             n = None
@@ -93,6 +91,6 @@ class ZlevBuilder:
             ``ZlevBuilder`` for ``Zlev``.
         """
 
-        return Zlev(
+        return ZlevBuilder(
             n=copy.deepcopy(ast.n),
         )

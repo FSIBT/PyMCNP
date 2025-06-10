@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmultOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Data(FmultOption):
+class Data(_option.FmultOption):
     """
     Represents INP data elements.
 
@@ -49,7 +49,7 @@ class Data(FmultOption):
 
 
 @dataclasses.dataclass
-class DataBuilder:
+class DataBuilder(_option.FmultOptionBuilder):
     """
     Builds ``Data``.
 
@@ -88,6 +88,6 @@ class DataBuilder:
             ``DataBuilder`` for ``Data``.
         """
 
-        return Data(
+        return DataBuilder(
             setting=copy.deepcopy(ast.setting),
         )

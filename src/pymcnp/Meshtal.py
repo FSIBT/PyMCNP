@@ -15,13 +15,9 @@ class Meshtal(_object.McnpFile):
         tallies: MESTHAL tallies.
     """
 
-    _REGEX = re.compile(
-        rf'\A({meshtal.Header._REGEX.pattern[2:-2]})((?:{meshtal.Tally._REGEX.pattern[2:-2]})+)\Z'
-    )
+    _REGEX = re.compile(rf'\A({meshtal.Header._REGEX.pattern[2:-2]})((?:{meshtal.Tally._REGEX.pattern[2:-2]})+)\Z')
 
-    def __init__(
-        self, header: meshtal.Header, tallies: typing.Generator[meshtal.Tally, None, None]
-    ):
+    def __init__(self, header: meshtal.Header, tallies: typing.Generator[meshtal.Tally, None, None]):
         """
         Initializes ``Meshtal``.
 
@@ -44,9 +40,7 @@ class Meshtal(_object.McnpFile):
             raise errors.MeshtalError(errors.MeshtalCode.SEMANTICS_MESHTAL)
 
         self.header: typing.Final[meshtal.Header] = header
-        self.tallies: typing.Final[
-            typing.Generator[typing.Generator[meshtal.Tally, None, None]]
-        ] = tallies
+        self.tallies: typing.Final[typing.Generator[typing.Generator[meshtal.Tally, None, None]]] = tallies
 
     @staticmethod
     def from_mcnp(source: str):
@@ -66,10 +60,7 @@ class Meshtal(_object.McnpFile):
             raise errors.MeshtalError(errors.MeshtalCode.SYNTAX_MESHTAL, source)
 
         header = meshtal.Header.from_mcnp(tokens[1])
-        tallies = (
-            meshtal.Tally.from_mcnp(match[0], header)
-            for match in meshtal.Tally._REGEX.finditer(tokens[12])
-        )
+        tallies = (meshtal.Tally.from_mcnp(match[0], header) for match in meshtal.Tally._REGEX.finditer(tokens[12]))
 
         return Meshtal(header, tallies)
 

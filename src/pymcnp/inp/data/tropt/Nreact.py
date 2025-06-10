@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import TroptOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Nreact(TroptOption):
+class Nreact(_option.TroptOption):
     """
     Represents INP nreact elements.
 
@@ -49,7 +49,7 @@ class Nreact(TroptOption):
 
 
 @dataclasses.dataclass
-class NreactBuilder:
+class NreactBuilder(_option.TroptOptionBuilder):
     """
     Builds ``Nreact``.
 
@@ -86,6 +86,6 @@ class NreactBuilder:
             ``NreactBuilder`` for ``Nreact``.
         """
 
-        return Nreact(
+        return NreactBuilder(
             setting=copy.deepcopy(ast.setting),
         )

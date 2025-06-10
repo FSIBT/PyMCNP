@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Tfc(MplotOption):
+class Tfc(_option.MplotOption):
     """
     Represents INP tfc elements.
 
@@ -49,7 +49,7 @@ class Tfc(MplotOption):
 
 
 @dataclasses.dataclass
-class TfcBuilder:
+class TfcBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Tfc``.
 
@@ -86,6 +86,6 @@ class TfcBuilder:
             ``TfcBuilder`` for ``Tfc``.
         """
 
-        return Tfc(
+        return TfcBuilder(
             x=copy.deepcopy(ast.x),
         )

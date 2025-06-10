@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Elpt(CellOption):
+class Elpt(_option.CellOption):
     """
     Represents INP elpt elements.
 
@@ -55,7 +55,7 @@ class Elpt(CellOption):
 
 
 @dataclasses.dataclass
-class ElptBuilder:
+class ElptBuilder(_option.CellOptionBuilder):
     """
     Builds ``Elpt``.
 
@@ -103,7 +103,7 @@ class ElptBuilder:
             ``ElptBuilder`` for ``Elpt``.
         """
 
-        return Elpt(
+        return ElptBuilder(
             designator=copy.deepcopy(ast.designator),
             cutoff=copy.deepcopy(ast.cutoff),
         )

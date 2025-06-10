@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KsenOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Mt(KsenOption):
+class Mt(_option.KsenOption):
     """
     Represents INP mt elements.
 
@@ -49,7 +49,7 @@ class Mt(KsenOption):
 
 
 @dataclasses.dataclass
-class MtBuilder:
+class MtBuilder(_option.KsenOptionBuilder):
     """
     Builds ``Mt``.
 
@@ -93,6 +93,6 @@ class MtBuilder:
             ``MtBuilder`` for ``Mt``.
         """
 
-        return Mt(
+        return MtBuilder(
             numbers=copy.deepcopy(ast.numbers),
         )

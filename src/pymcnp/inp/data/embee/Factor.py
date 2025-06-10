@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbeeOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Factor(EmbeeOption):
+class Factor(_option.EmbeeOption):
     """
     Represents INP factor elements.
 
@@ -49,7 +49,7 @@ class Factor(EmbeeOption):
 
 
 @dataclasses.dataclass
-class FactorBuilder:
+class FactorBuilder(_option.EmbeeOptionBuilder):
     """
     Builds ``Factor``.
 
@@ -88,6 +88,6 @@ class FactorBuilder:
             ``FactorBuilder`` for ``Factor``.
         """
 
-        return Factor(
+        return FactorBuilder(
             constant=copy.deepcopy(ast.constant),
         )

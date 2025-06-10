@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class So(SurfaceOption):
+class So(_option.SurfaceOption):
     """
     Represents INP so elements.
 
@@ -62,7 +62,7 @@ class So(SurfaceOption):
 
 
 @dataclasses.dataclass
-class SoBuilder:
+class SoBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``So``.
 
@@ -101,6 +101,6 @@ class SoBuilder:
             ``SoBuilder`` for ``So``.
         """
 
-        return So(
+        return SoBuilder(
             r=copy.deepcopy(ast.r),
         )

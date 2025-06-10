@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class X(SdefOption):
+class X(_option.SdefOption):
     """
     Represents INP x elements.
 
@@ -49,7 +49,7 @@ class X(SdefOption):
 
 
 @dataclasses.dataclass
-class XBuilder:
+class XBuilder(_option.SdefOptionBuilder):
     """
     Builds ``X``.
 
@@ -88,6 +88,6 @@ class XBuilder:
             ``XBuilder`` for ``X``.
         """
 
-        return X(
+        return XBuilder(
             x_coordinate=copy.deepcopy(ast.x_coordinate),
         )

@@ -5,11 +5,11 @@ import dataclasses
 
 
 from . import stop
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Stop(DataOption):
+class Stop(_option.DataOption):
     """
     Represents INP stop elements.
 
@@ -46,7 +46,7 @@ class Stop(DataOption):
 
 
 @dataclasses.dataclass
-class StopBuilder:
+class StopBuilder(_option.DataOptionBuilder):
     """
     Builds ``Stop``.
 
@@ -71,7 +71,7 @@ class StopBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(stop.StopOption.from_mcnp(item))
-                else:
+                elif isinstance(item, stop.StopOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -90,6 +90,6 @@ class StopBuilder:
             ``StopBuilder`` for ``Stop``.
         """
 
-        return Stop(
+        return StopBuilder(
             options=copy.deepcopy(ast.options),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Tf_0(DataOption):
+class Tf_0(_option.DataOption):
     """
     Represents INP tf variation #0 elements.
 
@@ -101,7 +101,7 @@ class Tf_0(DataOption):
 
 
 @dataclasses.dataclass
-class TfBuilder_0:
+class TfBuilder_0(_option.DataOptionBuilder):
     """
     Builds ``Tf_0``.
 
@@ -228,7 +228,7 @@ class TfBuilder_0:
             ``TfBuilder_0`` for ``Tf_0``.
         """
 
-        return Tf_0(
+        return TfBuilder_0(
             suffix=copy.deepcopy(ast.suffix),
             if1=copy.deepcopy(ast.if1),
             id1=copy.deepcopy(ast.id1),

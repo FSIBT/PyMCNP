@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KsenOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Constrain(KsenOption):
+class Constrain(_option.KsenOption):
     """
     Represents INP constrain elements.
 
@@ -49,7 +49,7 @@ class Constrain(KsenOption):
 
 
 @dataclasses.dataclass
-class ConstrainBuilder:
+class ConstrainBuilder(_option.KsenOptionBuilder):
     """
     Builds ``Constrain``.
 
@@ -86,6 +86,6 @@ class ConstrainBuilder:
             ``ConstrainBuilder`` for ``Constrain``.
         """
 
-        return Constrain(
+        return ConstrainBuilder(
             setting=copy.deepcopy(ast.setting),
         )

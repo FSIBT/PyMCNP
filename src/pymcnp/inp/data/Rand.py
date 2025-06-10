@@ -5,11 +5,11 @@ import dataclasses
 
 
 from . import rand
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Rand(DataOption):
+class Rand(_option.DataOption):
     """
     Represents INP rand elements.
 
@@ -46,7 +46,7 @@ class Rand(DataOption):
 
 
 @dataclasses.dataclass
-class RandBuilder:
+class RandBuilder(_option.DataOptionBuilder):
     """
     Builds ``Rand``.
 
@@ -71,7 +71,7 @@ class RandBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(rand.RandOption.from_mcnp(item))
-                else:
+                elif isinstance(item, rand.RandOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -90,6 +90,6 @@ class RandBuilder:
             ``RandBuilder`` for ``Rand``.
         """
 
-        return Rand(
+        return RandBuilder(
             options=copy.deepcopy(ast.options),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Mt(DataOption):
+class Mt(_option.DataOption):
     """
     Represents INP mt elements.
 
@@ -55,7 +55,7 @@ class Mt(DataOption):
 
 
 @dataclasses.dataclass
-class MtBuilder:
+class MtBuilder(_option.DataOptionBuilder):
     """
     Builds ``Mt``.
 
@@ -90,8 +90,6 @@ class MtBuilder:
                     identifiers.append(item)
                 elif isinstance(item, str):
                     identifiers.append(types.String.from_mcnp(item))
-                else:
-                    identifiers.append(item.build())
             identifiers = types.Tuple(identifiers)
         else:
             identifiers = None
@@ -110,7 +108,7 @@ class MtBuilder:
             ``MtBuilder`` for ``Mt``.
         """
 
-        return Mt(
+        return MtBuilder(
             suffix=copy.deepcopy(ast.suffix),
             identifiers=copy.deepcopy(ast.identifiers),
         )

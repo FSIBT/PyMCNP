@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Vol(CellOption):
+class Vol(_option.CellOption):
     """
     Represents INP vol elements.
 
@@ -49,7 +49,7 @@ class Vol(CellOption):
 
 
 @dataclasses.dataclass
-class VolBuilder:
+class VolBuilder(_option.CellOptionBuilder):
     """
     Builds ``Vol``.
 
@@ -88,6 +88,6 @@ class VolBuilder:
             ``VolBuilder`` for ``Vol``.
         """
 
-        return Vol(
+        return VolBuilder(
             volume=copy.deepcopy(ast.volume),
         )

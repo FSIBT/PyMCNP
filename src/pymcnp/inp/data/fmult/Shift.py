@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmultOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Shift(FmultOption):
+class Shift(_option.FmultOption):
     """
     Represents INP shift elements.
 
@@ -49,7 +49,7 @@ class Shift(FmultOption):
 
 
 @dataclasses.dataclass
-class ShiftBuilder:
+class ShiftBuilder(_option.FmultOptionBuilder):
     """
     Builds ``Shift``.
 
@@ -88,6 +88,6 @@ class ShiftBuilder:
             ``ShiftBuilder`` for ``Shift``.
         """
 
-        return Shift(
+        return ShiftBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -10,7 +10,6 @@ from .utils import types
 from .utils import errors
 from .utils import _parser
 from .utils import _object
-from .utils import _visualization
 
 
 class Inp(_object.McnpFile):
@@ -29,9 +28,7 @@ class Inp(_object.McnpFile):
         other: INP other block.
     """
 
-    _REGEX = re.compile(
-        r'\A((?:message:).+\n)?(.+(?:\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n|\Z))([\S\s]+)?\Z'
-    )
+    _REGEX = re.compile(r'\A((?:message:).+\n)?(.+(?:\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n))([\s\S]+?(?:\n\n|\Z))([\S\s]+)?\Z')
 
     def __init__(
         self,
@@ -216,11 +213,9 @@ class Inp(_object.McnpFile):
             ``pyvista.PolyData`` for ``Inp``.
         """
 
-        vis = _visualization.Visualization()
-
-        for surface in self.surfaces:
-            vis += _visualization.Visualization(surface.draw())
-
+        vis = self.surfaces[0].draw()
+        for surface in self.surfaces[0:]:
+            vis += surface.draw()
         return vis.data
 
 
@@ -238,18 +233,15 @@ class InpBuilder:
         other: INP other block.
     """
 
-    title: str
-    cells: dict[str, str | inp.Cell | inp.CellBuilder] = dataclasses.field(
-        default_factory=lambda _: {}
-    )
-    surfaces: dict[str, str | inp.Surface | inp.SurfaceBuilder] = dataclasses.field(
-        default_factory=lambda _: {}
-    )
-    data: dict[str, str | inp.Data | inp.DataBuilder] = dataclasses.field(
-        default_factory=lambda _: {}
-    )
-    message: str = ''
-    other: str = ''
+    title: str | types.String
+    cells: dict[str, str | inp.Cell | inp.CellBuilder]
+    cells_comments: list[str | inp.Comment | inp.CommentBuilder]
+    surfaces: dict[str, str | inp.Surface | inp.SurfaceBuilder]
+    surfaces_comments: list[str | inp.Comment | inp.CommentBuilder]
+    data: dict[str, str | inp.Data | inp.DataBuilder]
+    data_comments: list[str | inp.Comment | inp.CommentBuilder]
+    message: str | types.String = None
+    other: str | types.String = None
 
     def build(self):
         """
@@ -259,46 +251,112 @@ class InpBuilder:
             ``Inp`` for ``InpBuilder``.
         """
 
-        cells = []
-        for item in self.cells.values():
-            if isinstance(item, inp.Cell):
-                cells.append(item)
-            elif isinstance(item, str):
-                cells.append(inp.Cell.from_mcnp(item))
-            else:
-                cells.append(item.build())
-        cells = types.Tuple(cells)
+        title = self.title
+        if isinstance(self.title, types.String):
+            title = self.title
+        elif isinstance(self.title, str):
+            title = types.String(self.title)
 
-        surfaces = []
-        for item in self.surfaces.values():
-            if isinstance(item, inp.Surface):
-                surfaces.append(item)
-            elif isinstance(item, str):
-                surfaces.append(inp.Surface.from_mcnp(item))
-            else:
-                surfaces.append(item.build())
-        surfaces = types.Tuple(surfaces)
+        if self.cells:
+            cells = []
+            for item in self.cells.values():
+                if isinstance(item, inp.Cell):
+                    cells.append(item)
+                elif isinstance(item, str):
+                    cells.append(inp.Cell.from_mcnp(item))
+                elif isinstance(item, inp.CellBuilder):
+                    cells.append(item.build())
+            cells = types.Tuple(cells)
+        else:
+            cells = None
 
-        data = []
-        for item in self.data.values():
-            if isinstance(item, inp.Data):
-                data.append(item)
-            elif isinstance(item, str):
-                data.append(inp.Data.from_mcnp(item))
-            else:
-                data.append(item.build())
-        data = types.Tuple(data)
+        if self.cells_comments:
+            cells_comments = []
+            for item in self.cells_comments:
+                if isinstance(item, inp.Comment):
+                    cells_comments.append(item)
+                elif isinstance(item, str):
+                    cells_comments.append(inp.Comment.from_mcnp(item))
+                elif isinstance(item, inp.CommentBuilder):
+                    cells_comments.append(item.build())
+            cells_comments = types.Tuple(cells_comments)
+        else:
+            cells_comments = None
+
+        if self.surfaces:
+            surfaces = []
+            for item in self.surfaces.values():
+                if isinstance(item, inp.Surface):
+                    surfaces.append(item)
+                elif isinstance(item, str):
+                    surfaces.append(inp.Surface.from_mcnp(item))
+                elif isinstance(item, inp.SurfaceBuilder):
+                    surfaces.append(item.build())
+            surfaces = types.Tuple(surfaces)
+        else:
+            surfaces = None
+
+        if self.surfaces_comments:
+            surfaces_comments = []
+            for item in self.surfaces_comments:
+                if isinstance(item, inp.Comment):
+                    surfaces_comments.append(item)
+                elif isinstance(item, str):
+                    surfaces_comments.append(inp.Comment.from_mcnp(item))
+                elif isinstance(item, inp.CommentBuilder):
+                    surfaces_comments.append(item.build())
+            surfaces_comments = types.Tuple(surfaces_comments)
+        else:
+            surfaces_comments = None
+
+        if self.data:
+            data = []
+            for item in self.data.values():
+                if isinstance(item, inp.Data):
+                    data.append(item)
+                elif isinstance(item, str):
+                    data.append(inp.Data.from_mcnp(item))
+                elif isinstance(item, inp.DataBuilder):
+                    data.append(item.build())
+            data = types.Tuple(data)
+        else:
+            data = None
+
+        if self.data_comments:
+            data_comments = []
+            for item in self.data_comments:
+                if isinstance(item, inp.Comment):
+                    data_comments.append(item)
+                elif isinstance(item, str):
+                    data_comments.append(inp.Comment.from_mcnp(item))
+                elif isinstance(item, inp.CommentBuilder):
+                    data_comments.append(item.build())
+            data_comments = types.Tuple(data_comments)
+        else:
+            data_comments = None
+
+        message = self.message
+        if isinstance(self.message, types.String):
+            message = self.message
+        elif isinstance(self.message, str):
+            message = types.String(self.message)
+
+        other = self.other
+        if isinstance(self.other, types.String):
+            other = self.other
+        elif isinstance(self.other, str):
+            other = types.String(self.other)
 
         return Inp(
-            title=self.title,
-            message=self.message,
-            other=self.other,
+            title=title,
+            message=message,
+            other=other,
             cells=cells,
-            cells_comments=types.Tuple([]),
+            cells_comments=cells_comments,
             surfaces=surfaces,
-            surfaces_comments=types.Tuple([]),
+            surfaces_comments=surfaces_comments,
             data=data,
-            data_comments=types.Tuple([]),
+            data_comments=data_comments,
         )
 
     @staticmethod
@@ -313,11 +371,11 @@ class InpBuilder:
         return InpBuilder(
             title=copy.deepcopy(ast.title),
             cells={cell.number.value: inp.CellBuilder.unbuild(cell) for cell in ast.cells},
-            surfaces={
-                surface.number.value: inp.SurfaceBuilder.unbuild(surface)
-                for surface in ast.surfaces
-            },
+            cells_comments=[inp.CommentBuilder.unbuild(comment) for comment in ast.cells_comments],
+            surfaces={surface.number.value: inp.SurfaceBuilder.unbuild(surface) for surface in ast.surfaces},
+            surfaces_comments=[inp.CommentBuilder.unbuild(comment) for comment in ast.surfaces_comments],
             data={data.option._KEYWORD: inp.DataBuilder.unbuild(data) for data in ast.data},
+            data_comments=[inp.CommentBuilder.unbuild(comment) for comment in ast.data_comments],
             message=copy.deepcopy(ast.message),
             other=copy.deepcopy(ast.other),
         )

@@ -16,12 +16,7 @@ class SubtallyNps2(_subblock.Subblock):
         total: Total line.
     """
 
-    _REGEX = re.compile(
-        r'\A      surface:  (.+)\n'
-        r'        time   \n'
-        r'((?:.+\n)+)'
-        r'      total      (.+)\n\n\Z'
-    )
+    _REGEX = re.compile(r'\A      surface:  (.+)\n' r'        time   \n' r'((?:.+\n)+)' r'      total      (.+)\n\n\Z')
 
     def __init__(
         self,

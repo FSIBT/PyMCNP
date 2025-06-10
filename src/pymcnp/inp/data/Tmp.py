@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Tmp(DataOption):
+class Tmp(_option.DataOption):
     """
     Represents INP tmp elements.
 
@@ -53,7 +53,7 @@ class Tmp(DataOption):
 
 
 @dataclasses.dataclass
-class TmpBuilder:
+class TmpBuilder(_option.DataOptionBuilder):
     """
     Builds ``Tmp``.
 
@@ -108,7 +108,7 @@ class TmpBuilder:
             ``TmpBuilder`` for ``Tmp``.
         """
 
-        return Tmp(
+        return TmpBuilder(
             suffix=copy.deepcopy(ast.suffix),
             temperatures=copy.deepcopy(ast.temperatures),
         )

@@ -1,4 +1,5 @@
 from ._option import MplotOption
+from ._option import MplotOptionBuilder
 from . import free
 from . import contour
 from .Term import Term
@@ -134,6 +135,7 @@ from .Tal import TalBuilder
 
 __all__ = [
     'MplotOption',
+    'MplotOptionBuilder',
     'free',
     'contour',
     'Term',

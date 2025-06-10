@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import ActOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Dnbais(ActOption):
+class Dnbais(_option.ActOption):
     """
     Represents INP dnbais elements.
 
@@ -49,7 +49,7 @@ class Dnbais(ActOption):
 
 
 @dataclasses.dataclass
-class DnbaisBuilder:
+class DnbaisBuilder(_option.ActOptionBuilder):
     """
     Builds ``Dnbais``.
 
@@ -88,6 +88,6 @@ class DnbaisBuilder:
             ``DnbaisBuilder`` for ``Dnbais``.
         """
 
-        return Dnbais(
+        return DnbaisBuilder(
             count=copy.deepcopy(ast.count),
         )

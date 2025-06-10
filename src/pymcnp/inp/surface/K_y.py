@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class K_y(SurfaceOption):
+class K_y(_option.SurfaceOption):
     """
     Represents INP k/y elements.
 
@@ -36,14 +36,7 @@ class K_y(SurfaceOption):
         rf'\Ak/y( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
-    def __init__(
-        self,
-        x: types.Real,
-        y: types.Real,
-        z: types.Real,
-        t_squared: types.Real,
-        plusminus_1: types.Real,
-    ):
+    def __init__(self, x: types.Real, y: types.Real, z: types.Real, t_squared: types.Real, plusminus_1: types.Real):
         """
         Initializes ``K_y``.
 
@@ -93,9 +86,7 @@ class K_y(SurfaceOption):
             ``pyvista.PolyData`` for ``K_y``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(
-            self.t_squared.value ** (1 / 2), self.plusminus_1.value
-        )
+        vis = _visualization.Visualization.get_cone_unbounded(self.t_squared.value ** (1 / 2), self.plusminus_1.value)
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
 
@@ -103,7 +94,7 @@ class K_y(SurfaceOption):
 
 
 @dataclasses.dataclass
-class K_yBuilder:
+class K_yBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``K_y``.
 
@@ -186,7 +177,7 @@ class K_yBuilder:
             ``K_yBuilder`` for ``K_y``.
         """
 
-        return K_y(
+        return K_yBuilder(
             x=copy.deepcopy(ast.x),
             y=copy.deepcopy(ast.y),
             z=copy.deepcopy(ast.z),

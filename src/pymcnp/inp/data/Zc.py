@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Zc(DataOption):
+class Zc(_option.DataOption):
     """
     Represents INP zc elements.
 
@@ -45,7 +45,7 @@ class Zc(DataOption):
 
 
 @dataclasses.dataclass
-class ZcBuilder:
+class ZcBuilder(_option.DataOptionBuilder):
     """
     Builds ``Zc``.
 
@@ -82,6 +82,6 @@ class ZcBuilder:
             ``ZcBuilder`` for ``Zc``.
         """
 
-        return Zc(
+        return ZcBuilder(
             anything=copy.deepcopy(ast.anything),
         )

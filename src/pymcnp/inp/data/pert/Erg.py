@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PertOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Erg(PertOption):
+class Erg(_option.PertOption):
     """
     Represents INP erg elements.
 
@@ -25,9 +25,7 @@ class Erg(PertOption):
         'energy_upper_bound': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Aerg( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Aerg( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, energy_lower_bound: types.Real, energy_upper_bound: types.Real):
         """
@@ -58,7 +56,7 @@ class Erg(PertOption):
 
 
 @dataclasses.dataclass
-class ErgBuilder:
+class ErgBuilder(_option.PertOptionBuilder):
     """
     Builds ``Erg``.
 
@@ -108,7 +106,7 @@ class ErgBuilder:
             ``ErgBuilder`` for ``Erg``.
         """
 
-        return Erg(
+        return ErgBuilder(
             energy_lower_bound=copy.deepcopy(ast.energy_lower_bound),
             energy_upper_bound=copy.deepcopy(ast.energy_upper_bound),
         )

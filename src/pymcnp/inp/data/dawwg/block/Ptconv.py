@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Ptconv(BlockOption):
+class Ptconv(_option.BlockOption):
     """
     Represents INP ptconv elements.
 
@@ -49,7 +49,7 @@ class Ptconv(BlockOption):
 
 
 @dataclasses.dataclass
-class PtconvBuilder:
+class PtconvBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Ptconv``.
 
@@ -88,6 +88,6 @@ class PtconvBuilder:
             ``PtconvBuilder`` for ``Ptconv``.
         """
 
-        return Ptconv(
+        return PtconvBuilder(
             setting=copy.deepcopy(ast.setting),
         )

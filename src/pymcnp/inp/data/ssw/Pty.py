@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SswOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Pty(SswOption):
+class Pty(_option.SswOption):
     """
     Represents INP pty elements.
 
@@ -49,7 +49,7 @@ class Pty(SswOption):
 
 
 @dataclasses.dataclass
-class PtyBuilder:
+class PtyBuilder(_option.SswOptionBuilder):
     """
     Builds ``Pty``.
 
@@ -74,8 +74,6 @@ class PtyBuilder:
                     tracks.append(item)
                 elif isinstance(item, str):
                     tracks.append(types.Designator.from_mcnp(item))
-                else:
-                    tracks.append(item.build())
             tracks = types.Tuple(tracks)
         else:
             tracks = None
@@ -93,6 +91,6 @@ class PtyBuilder:
             ``PtyBuilder`` for ``Pty``.
         """
 
-        return Pty(
+        return PtyBuilder(
             tracks=copy.deepcopy(ast.tracks),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import RandOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Gen(RandOption):
+class Gen(_option.RandOption):
     """
     Represents INP gen elements.
 
@@ -49,7 +49,7 @@ class Gen(RandOption):
 
 
 @dataclasses.dataclass
-class GenBuilder:
+class GenBuilder(_option.RandOptionBuilder):
     """
     Builds ``Gen``.
 
@@ -88,6 +88,6 @@ class GenBuilder:
             ``GenBuilder`` for ``Gen``.
         """
 
-        return Gen(
+        return GenBuilder(
             setting=copy.deepcopy(ast.setting),
         )

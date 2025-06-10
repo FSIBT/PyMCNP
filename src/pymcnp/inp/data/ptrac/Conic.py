@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Conic(PtracOption):
+class Conic(_option.PtracOption):
     """
     Represents INP conic elements.
 
@@ -23,7 +23,7 @@ class Conic(PtracOption):
         'setting': types.String,
     }
 
-    _REGEX = re.compile(r'\Asetting(?: (col|lin))\Z')
+    _REGEX = re.compile(r'\Aconic(?: (col|lin))\Z')
 
     def __init__(self, setting: types.String):
         """
@@ -49,7 +49,7 @@ class Conic(PtracOption):
 
 
 @dataclasses.dataclass
-class ConicBuilder:
+class ConicBuilder(_option.PtracOptionBuilder):
     """
     Builds ``Conic``.
 
@@ -86,6 +86,6 @@ class ConicBuilder:
             ``ConicBuilder`` for ``Conic``.
         """
 
-        return Conic(
+        return ConicBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Embeb(DataOption):
+class Embeb(_option.DataOption):
     """
     Represents INP embeb elements.
 
@@ -55,7 +55,7 @@ class Embeb(DataOption):
 
 
 @dataclasses.dataclass
-class EmbebBuilder:
+class EmbebBuilder(_option.DataOptionBuilder):
     """
     Builds ``Embeb``.
 
@@ -110,7 +110,7 @@ class EmbebBuilder:
             ``EmbebBuilder`` for ``Embeb``.
         """
 
-        return Embeb(
+        return EmbebBuilder(
             suffix=copy.deepcopy(ast.suffix),
             bounds=copy.deepcopy(ast.bounds),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Mode(DataOption):
+class Mode(_option.DataOption):
     """
     Represents INP mode elements.
 
@@ -49,7 +49,7 @@ class Mode(DataOption):
 
 
 @dataclasses.dataclass
-class ModeBuilder:
+class ModeBuilder(_option.DataOptionBuilder):
     """
     Builds ``Mode``.
 
@@ -74,8 +74,6 @@ class ModeBuilder:
                     particles.append(item)
                 elif isinstance(item, str):
                     particles.append(types.Designator.from_mcnp(item))
-                else:
-                    particles.append(item.build())
             particles = types.Tuple(particles)
         else:
             particles = None
@@ -93,6 +91,6 @@ class ModeBuilder:
             ``ModeBuilder`` for ``Mode``.
         """
 
-        return Mode(
+        return ModeBuilder(
             particles=copy.deepcopy(ast.particles),
         )

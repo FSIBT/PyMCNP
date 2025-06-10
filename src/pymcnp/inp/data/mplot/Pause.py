@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Pause(MplotOption):
+class Pause(_option.MplotOption):
     """
     Represents INP pause elements.
 
@@ -45,7 +45,7 @@ class Pause(MplotOption):
 
 
 @dataclasses.dataclass
-class PauseBuilder:
+class PauseBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Pause``.
 
@@ -84,6 +84,6 @@ class PauseBuilder:
             ``PauseBuilder`` for ``Pause``.
         """
 
-        return Pause(
+        return PauseBuilder(
             n=copy.deepcopy(ast.n),
         )

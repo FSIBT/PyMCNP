@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import ksen
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Ksen(DataOption):
+class Ksen(_option.DataOption):
     """
     Represents INP ksen elements.
 
@@ -28,13 +28,9 @@ class Ksen(DataOption):
         'options': types.Tuple[ksen.KsenOption],
     }
 
-    _REGEX = re.compile(
-        rf'\Aksen(\d+)( {types.String._REGEX.pattern[2:-2]})((?: (?:{ksen.KsenOption._REGEX.pattern[2:-2]}))+?)?\Z'
-    )
+    _REGEX = re.compile(rf'\Aksen(\d+)( {types.String._REGEX.pattern[2:-2]})((?: (?:{ksen.KsenOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(
-        self, suffix: types.Integer, sen: types.String, options: types.Tuple[ksen.KsenOption] = None
-    ):
+    def __init__(self, suffix: types.Integer, sen: types.String, options: types.Tuple[ksen.KsenOption] = None):
         """
         Initializes ``Ksen``.
 
@@ -65,7 +61,7 @@ class Ksen(DataOption):
 
 
 @dataclasses.dataclass
-class KsenBuilder:
+class KsenBuilder(_option.DataOptionBuilder):
     """
     Builds ``Ksen``.
 
@@ -108,7 +104,7 @@ class KsenBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(ksen.KsenOption.from_mcnp(item))
-                else:
+                elif isinstance(item, ksen.KsenOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -129,7 +125,7 @@ class KsenBuilder:
             ``KsenBuilder`` for ``Ksen``.
         """
 
-        return Ksen(
+        return KsenBuilder(
             suffix=copy.deepcopy(ast.suffix),
             sen=copy.deepcopy(ast.sen),
             options=copy.deepcopy(ast.options),

@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class C_z(SurfaceOption):
+class C_z(_option.SurfaceOption):
     """
     Represents INP c/z elements.
 
@@ -28,9 +28,7 @@ class C_z(SurfaceOption):
         'r': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Ac/z( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Ac/z( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, x: types.Real, y: types.Real, r: types.Real):
         """
@@ -79,7 +77,7 @@ class C_z(SurfaceOption):
 
 
 @dataclasses.dataclass
-class C_zBuilder:
+class C_zBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``C_z``.
 
@@ -140,7 +138,7 @@ class C_zBuilder:
             ``C_zBuilder`` for ``C_z``.
         """
 
-        return C_z(
+        return C_zBuilder(
             x=copy.deepcopy(ast.x),
             y=copy.deepcopy(ast.y),
             r=copy.deepcopy(ast.r),

@@ -4,12 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
-from ...utils import errors
 
 
-class Talnp(DataOption):
+class Talnp(_option.DataOption):
     """
     Represents INP talnp elements.
 
@@ -36,11 +35,6 @@ class Talnp(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if tallies is not None and not (
-            filter(lambda entry: not (1 <= entry.value <= 99_999_999), tallies)
-        ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tallies)
-
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
                 tallies,
@@ -51,7 +45,7 @@ class Talnp(DataOption):
 
 
 @dataclasses.dataclass
-class TalnpBuilder:
+class TalnpBuilder(_option.DataOptionBuilder):
     """
     Builds ``Talnp``.
 
@@ -95,6 +89,6 @@ class TalnpBuilder:
             ``TalnpBuilder`` for ``Talnp``.
         """
 
-        return Talnp(
+        return TalnpBuilder(
             tallies=copy.deepcopy(ast.tallies),
         )

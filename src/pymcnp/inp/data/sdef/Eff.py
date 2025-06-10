@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Eff(SdefOption):
+class Eff(_option.SdefOption):
     """
     Represents INP eff elements.
 
@@ -49,7 +49,7 @@ class Eff(SdefOption):
 
 
 @dataclasses.dataclass
-class EffBuilder:
+class EffBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Eff``.
 
@@ -88,6 +88,6 @@ class EffBuilder:
             ``EffBuilder`` for ``Eff``.
         """
 
-        return Eff(
+        return EffBuilder(
             criterion=copy.deepcopy(ast.criterion),
         )

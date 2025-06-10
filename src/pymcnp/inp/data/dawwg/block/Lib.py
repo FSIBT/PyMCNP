@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Lib(BlockOption):
+class Lib(_option.BlockOption):
     """
     Represents INP lib elements.
 
@@ -49,7 +49,7 @@ class Lib(BlockOption):
 
 
 @dataclasses.dataclass
-class LibBuilder:
+class LibBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Lib``.
 
@@ -86,6 +86,6 @@ class LibBuilder:
             ``LibBuilder`` for ``Lib``.
         """
 
-        return Lib(
+        return LibBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Tme_0(SdefOption):
+class Tme_0(_option.SdefOption):
     """
     Represents INP tme variation #0 elements.
 
@@ -49,7 +49,7 @@ class Tme_0(SdefOption):
 
 
 @dataclasses.dataclass
-class TmeBuilder_0:
+class TmeBuilder_0(_option.SdefOptionBuilder):
     """
     Builds ``Tme_0``.
 
@@ -88,6 +88,6 @@ class TmeBuilder_0:
             ``TmeBuilder_0`` for ``Tme_0``.
         """
 
-        return Tme_0(
+        return TmeBuilder_0(
             time=copy.deepcopy(ast.time),
         )

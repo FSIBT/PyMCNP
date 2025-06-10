@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KsenOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Legendre(KsenOption):
+class Legendre(_option.KsenOption):
     """
     Represents INP legendre elements.
 
@@ -49,7 +49,7 @@ class Legendre(KsenOption):
 
 
 @dataclasses.dataclass
-class LegendreBuilder:
+class LegendreBuilder(_option.KsenOptionBuilder):
     """
     Builds ``Legendre``.
 
@@ -88,6 +88,6 @@ class LegendreBuilder:
             ``LegendreBuilder`` for ``Legendre``.
         """
 
-        return Legendre(
+        return LegendreBuilder(
             number=copy.deepcopy(ast.number),
         )

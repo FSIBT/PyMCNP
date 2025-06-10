@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Tx(SurfaceOption):
+class Tx(_option.SurfaceOption):
     """
     Represents INP tx elements.
 
@@ -38,15 +38,7 @@ class Tx(SurfaceOption):
         rf'\Atx( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
-    def __init__(
-        self,
-        x: types.Real,
-        y: types.Real,
-        z: types.Real,
-        a: types.Real,
-        b: types.Real,
-        c: types.Real,
-    ):
+    def __init__(self, x: types.Real, y: types.Real, z: types.Real, a: types.Real, b: types.Real, c: types.Real):
         """
         Initializes ``Tx``.
 
@@ -109,7 +101,7 @@ class Tx(SurfaceOption):
 
 
 @dataclasses.dataclass
-class TxBuilder:
+class TxBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Tx``.
 
@@ -203,7 +195,7 @@ class TxBuilder:
             ``TxBuilder`` for ``Tx``.
         """
 
-        return Tx(
+        return TxBuilder(
             x=copy.deepcopy(ast.x),
             y=copy.deepcopy(ast.y),
             z=copy.deepcopy(ast.z),

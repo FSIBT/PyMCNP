@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Gq(SurfaceOption):
+class Gq(_option.SurfaceOption):
     """
     Represents INP gq elements.
 
@@ -45,19 +45,7 @@ class Gq(SurfaceOption):
         rf'\Agq( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
-    def __init__(
-        self,
-        a: types.Real,
-        b: types.Real,
-        c: types.Real,
-        d: types.Real,
-        e: types.Real,
-        f: types.Real,
-        g: types.Real,
-        h: types.Real,
-        j: types.Real,
-        k: types.Real,
-    ):
+    def __init__(self, a: types.Real, b: types.Real, c: types.Real, d: types.Real, e: types.Real, f: types.Real, g: types.Real, h: types.Real, j: types.Real, k: types.Real):
         """
         Initializes ``Gq``.
 
@@ -126,7 +114,7 @@ class Gq(SurfaceOption):
 
 
 @dataclasses.dataclass
-class GqBuilder:
+class GqBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Gq``.
 
@@ -264,7 +252,7 @@ class GqBuilder:
             ``GqBuilder`` for ``Gq``.
         """
 
-        return Gq(
+        return GqBuilder(
             a=copy.deepcopy(ast.a),
             b=copy.deepcopy(ast.b),
             c=copy.deepcopy(ast.c),

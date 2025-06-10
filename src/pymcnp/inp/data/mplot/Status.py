@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Status(MplotOption):
+class Status(_option.MplotOption):
     """
     Represents INP status elements.
 
@@ -38,7 +38,7 @@ class Status(MplotOption):
 
 
 @dataclasses.dataclass
-class StatusBuilder:
+class StatusBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Status``.
 
@@ -65,4 +65,4 @@ class StatusBuilder:
             ``StatusBuilder`` for ``Status``.
         """
 
-        return Status()
+        return StatusBuilder()

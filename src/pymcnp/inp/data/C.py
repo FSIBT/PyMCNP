@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class C(DataOption):
+class C(_option.DataOption):
     """
     Represents INP c elements.
 
@@ -31,18 +31,9 @@ class C(DataOption):
         'c': types.String,
     }
 
-    _REGEX = re.compile(
-        rf'\A([*]?)c(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z'
-    )
+    _REGEX = re.compile(rf'\A([*]?)c(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        bounds: types.Tuple[types.Real],
-        prefix: types.String = None,
-        t: types.String = None,
-        c: types.String = None,
-    ):
+    def __init__(self, suffix: types.Integer, bounds: types.Tuple[types.Real], prefix: types.String = None, t: types.String = None, c: types.String = None):
         """
         Initializes ``C``.
 
@@ -57,6 +48,8 @@ class C(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        if prefix is not None and prefix.value not in {'*', '+'}:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if bounds is None:
@@ -64,7 +57,6 @@ class C(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                prefix,
                 bounds,
                 t,
                 c,
@@ -79,7 +71,7 @@ class C(DataOption):
 
 
 @dataclasses.dataclass
-class CBuilder:
+class CBuilder(_option.DataOptionBuilder):
     """
     Builds ``C``.
 
@@ -161,7 +153,7 @@ class CBuilder:
             ``CBuilder`` for ``C``.
         """
 
-        return C(
+        return CBuilder(
             prefix=copy.deepcopy(ast.prefix),
             suffix=copy.deepcopy(ast.suffix),
             bounds=copy.deepcopy(ast.bounds),

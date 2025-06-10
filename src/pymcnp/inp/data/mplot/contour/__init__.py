@@ -1,4 +1,5 @@
 from ._option import ContourOption
+from ._option import ContourOptionBuilder
 
 from .Pct import Pct
 from .Lin import Lin
@@ -21,6 +22,7 @@ from .Nocolor import NocolorBuilder
 
 __all__ = [
     'ContourOption',
+    'ContourOptionBuilder',
     'Pct',
     'Lin',
     'Log',

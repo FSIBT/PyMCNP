@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KsenOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Ein(KsenOption):
+class Ein(_option.KsenOption):
     """
     Represents INP ein elements.
 
@@ -49,7 +49,7 @@ class Ein(KsenOption):
 
 
 @dataclasses.dataclass
-class EinBuilder:
+class EinBuilder(_option.KsenOptionBuilder):
     """
     Builds ``Ein``.
 
@@ -93,6 +93,6 @@ class EinBuilder:
             ``EinBuilder`` for ``Ein``.
         """
 
-        return Ein(
+        return EinBuilder(
             energies=copy.deepcopy(ast.energies),
         )

@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Nonorm(MplotOption):
+class Nonorm(_option.MplotOption):
     """
     Represents INP nonorm elements.
 
@@ -38,7 +38,7 @@ class Nonorm(MplotOption):
 
 
 @dataclasses.dataclass
-class NonormBuilder:
+class NonormBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Nonorm``.
 
@@ -65,4 +65,4 @@ class NonormBuilder:
             ``NonormBuilder`` for ``Nonorm``.
         """
 
-        return Nonorm()
+        return NonormBuilder()

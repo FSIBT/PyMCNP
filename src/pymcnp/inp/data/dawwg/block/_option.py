@@ -1,9 +1,17 @@
-from ...._option import Option
+from .... import _option
 
 
-class BlockOption(Option):
+class BlockOption(_option.Option):
     """
     Represents generic INP block options.
+    """
+
+    pass
+
+
+class BlockOptionBuilder(_option.OptionBuilder):
+    """
+    Represents generic INP block option builders.
     """
 
     pass

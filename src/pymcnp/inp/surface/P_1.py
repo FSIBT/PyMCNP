@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class P_1(SurfaceOption):
+class P_1(_option.SurfaceOption):
     """
     Represents INP p variation #1 elements.
 
@@ -44,18 +44,7 @@ class P_1(SurfaceOption):
         rf'\Ap( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
-    def __init__(
-        self,
-        x1: types.Real,
-        y1: types.Real,
-        z1: types.Real,
-        x2: types.Real,
-        y2: types.Real,
-        z2: types.Real,
-        x3: types.Real,
-        y3: types.Real,
-        z3: types.Real,
-    ):
+    def __init__(self, x1: types.Real, y1: types.Real, z1: types.Real, x2: types.Real, y2: types.Real, z2: types.Real, x3: types.Real, y3: types.Real, z3: types.Real):
         """
         Initializes ``P_1``.
 
@@ -125,27 +114,17 @@ class P_1(SurfaceOption):
             ``pyvista.PolyData`` for ``P_1``
         """
 
-        a = _visualization.Vector(
-            self.x2.value - self.x1.value,
-            self.y2.value - self.y1.value,
-            self.z2.value - self.z1.value,
-        )
-        b = _visualization.Vector(
-            self.x3.value - self.x1.value,
-            self.y3.value - self.y1.value,
-            self.z3.value - self.z1.value,
-        )
+        a = _visualization.Vector(self.x2.value - self.x1.value, self.y2.value - self.y1.value, self.z2.value - self.z1.value)
+        b = _visualization.Vector(self.x3.value - self.x1.value, self.y3.value - self.y1.value, self.z3.value - self.z1.value)
         n = a * b
 
-        vis = _visualization.Visualization.get_plane(
-            n.x, n.y, n.z, n.x * self.x1.value + n.y * self.y1.value + n.z * self.z1.value
-        )
+        vis = _visualization.Visualization.get_plane(n.x, n.y, n.z, n.x * self.x1.value + n.y * self.y1.value + n.z * self.z1.value)
 
         return vis
 
 
 @dataclasses.dataclass
-class PBuilder_1:
+class PBuilder_1(_option.SurfaceOptionBuilder):
     """
     Builds ``P_1``.
 
@@ -272,7 +251,7 @@ class PBuilder_1:
             ``PBuilder_1`` for ``P_1``.
         """
 
-        return P_1(
+        return PBuilder_1(
             x1=copy.deepcopy(ast.x1),
             y1=copy.deepcopy(ast.y1),
             z1=copy.deepcopy(ast.z1),

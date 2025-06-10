@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Dm(DataOption):
+class Dm(_option.DataOption):
     """
     Represents INP dm elements.
 
@@ -55,7 +55,7 @@ class Dm(DataOption):
 
 
 @dataclasses.dataclass
-class DmBuilder:
+class DmBuilder(_option.DataOptionBuilder):
     """
     Builds ``Dm``.
 
@@ -90,8 +90,6 @@ class DmBuilder:
                     zaids.append(item)
                 elif isinstance(item, str):
                     zaids.append(types.Zaid.from_mcnp(item))
-                else:
-                    zaids.append(item.build())
             zaids = types.Tuple(zaids)
         else:
             zaids = None
@@ -110,7 +108,7 @@ class DmBuilder:
             ``DmBuilder`` for ``Dm``.
         """
 
-        return Dm(
+        return DmBuilder(
             suffix=copy.deepcopy(ast.suffix),
             zaids=copy.deepcopy(ast.zaids),
         )

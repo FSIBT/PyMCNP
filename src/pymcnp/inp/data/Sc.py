@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Sc(DataOption):
+class Sc(_option.DataOption):
     """
     Represents INP sc elements.
 
@@ -55,7 +55,7 @@ class Sc(DataOption):
 
 
 @dataclasses.dataclass
-class ScBuilder:
+class ScBuilder(_option.DataOptionBuilder):
     """
     Builds ``Sc``.
 
@@ -90,8 +90,6 @@ class ScBuilder:
                     comment.append(item)
                 elif isinstance(item, str):
                     comment.append(types.String.from_mcnp(item))
-                else:
-                    comment.append(item.build())
             comment = types.Tuple(comment)
         else:
             comment = None
@@ -110,7 +108,7 @@ class ScBuilder:
             ``ScBuilder`` for ``Sc``.
         """
 
-        return Sc(
+        return ScBuilder(
             suffix=copy.deepcopy(ast.suffix),
             comment=copy.deepcopy(ast.comment),
         )

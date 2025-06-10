@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Bflcl(DataOption):
+class Bflcl(_option.DataOption):
     """
     Represents INP bflcl elements.
 
@@ -49,7 +49,7 @@ class Bflcl(DataOption):
 
 
 @dataclasses.dataclass
-class BflclBuilder:
+class BflclBuilder(_option.DataOptionBuilder):
     """
     Builds ``Bflcl``.
 
@@ -93,6 +93,6 @@ class BflclBuilder:
             ``BflclBuilder`` for ``Bflcl``.
         """
 
-        return Bflcl(
+        return BflclBuilder(
             numbers=copy.deepcopy(ast.numbers),
         )

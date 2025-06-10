@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BfldOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Refpnt(BfldOption):
+class Refpnt(_option.BfldOption):
     """
     Represents INP refpnt elements.
 
@@ -49,7 +49,7 @@ class Refpnt(BfldOption):
 
 
 @dataclasses.dataclass
-class RefpntBuilder:
+class RefpntBuilder(_option.BfldOptionBuilder):
     """
     Builds ``Refpnt``.
 
@@ -93,6 +93,6 @@ class RefpntBuilder:
             ``RefpntBuilder`` for ``Refpnt``.
         """
 
-        return Refpnt(
+        return RefpntBuilder(
             point=copy.deepcopy(ast.point),
         )

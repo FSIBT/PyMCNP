@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Asfrnt(BlockOption):
+class Asfrnt(_option.BlockOption):
     """
     Represents INP asfrnt elements.
 
@@ -49,7 +49,7 @@ class Asfrnt(BlockOption):
 
 
 @dataclasses.dataclass
-class AsfrntBuilder:
+class AsfrntBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Asfrnt``.
 
@@ -88,6 +88,6 @@ class AsfrntBuilder:
             ``AsfrntBuilder`` for ``Asfrnt``.
         """
 
-        return Asfrnt(
+        return AsfrntBuilder(
             setting=copy.deepcopy(ast.setting),
         )

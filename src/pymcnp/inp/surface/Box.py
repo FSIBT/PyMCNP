@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Box(SurfaceOption):
+class Box(_option.SurfaceOption):
     """
     Represents INP box elements.
 
@@ -164,7 +164,7 @@ class Box(SurfaceOption):
 
 
 @dataclasses.dataclass
-class BoxBuilder:
+class BoxBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Box``.
 
@@ -324,7 +324,7 @@ class BoxBuilder:
             ``BoxBuilder`` for ``Box``.
         """
 
-        return Box(
+        return BoxBuilder(
             vx=copy.deepcopy(ast.vx),
             vy=copy.deepcopy(ast.vy),
             vz=copy.deepcopy(ast.vz),

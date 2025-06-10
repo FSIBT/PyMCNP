@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Hlib(MOption_0):
+class Hlib(_option.MOption_0):
     """
     Represents INP hlib elements.
 
@@ -49,7 +49,7 @@ class Hlib(MOption_0):
 
 
 @dataclasses.dataclass
-class HlibBuilder:
+class HlibBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Hlib``.
 
@@ -86,6 +86,6 @@ class HlibBuilder:
             ``HlibBuilder`` for ``Hlib``.
         """
 
-        return Hlib(
+        return HlibBuilder(
             abx=copy.deepcopy(ast.abx),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Axs(FmeshOption):
+class Axs(_option.FmeshOption):
     """
     Represents INP axs elements.
 
@@ -27,9 +27,7 @@ class Axs(FmeshOption):
         'z': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Aaxs( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Aaxs( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, x: types.Real, y: types.Real, z: types.Real):
         """
@@ -65,7 +63,7 @@ class Axs(FmeshOption):
 
 
 @dataclasses.dataclass
-class AxsBuilder:
+class AxsBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Axs``.
 
@@ -126,7 +124,7 @@ class AxsBuilder:
             ``AxsBuilder`` for ``Axs``.
         """
 
-        return Axs(
+        return AxsBuilder(
             x=copy.deepcopy(ast.x),
             y=copy.deepcopy(ast.y),
             z=copy.deepcopy(ast.z),

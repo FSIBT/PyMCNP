@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Loglog(MplotOption):
+class Loglog(_option.MplotOption):
     """
     Represents INP loglog elements.
 
@@ -38,7 +38,7 @@ class Loglog(MplotOption):
 
 
 @dataclasses.dataclass
-class LoglogBuilder:
+class LoglogBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Loglog``.
 
@@ -65,4 +65,4 @@ class LoglogBuilder:
             ``LoglogBuilder`` for ``Loglog``.
         """
 
-        return Loglog()
+        return LoglogBuilder()

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import StopOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Ctme(StopOption):
+class Ctme(_option.StopOption):
     """
     Represents INP ctme elements.
 
@@ -49,7 +49,7 @@ class Ctme(StopOption):
 
 
 @dataclasses.dataclass
-class CtmeBuilder:
+class CtmeBuilder(_option.StopOptionBuilder):
     """
     Builds ``Ctme``.
 
@@ -88,6 +88,6 @@ class CtmeBuilder:
             ``CtmeBuilder`` for ``Ctme``.
         """
 
-        return Ctme(
+        return CtmeBuilder(
             tme=copy.deepcopy(ast.tme),
         )

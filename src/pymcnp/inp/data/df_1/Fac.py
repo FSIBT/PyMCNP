@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DfOption_1
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Fac(DfOption_1):
+class Fac(_option.DfOption_1):
     """
     Represents INP fac elements.
 
@@ -36,9 +36,7 @@ class Fac(DfOption_1):
             InpError: SEMANTICS_OPTION.
         """
 
-        if normalization is None or not (
-            isinstance(normalization.value, types.Jump) or normalization.value >= -3
-        ):
+        if normalization is None or not (isinstance(normalization.value, types.Jump) or normalization.value >= -3):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, normalization)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -51,7 +49,7 @@ class Fac(DfOption_1):
 
 
 @dataclasses.dataclass
-class FacBuilder:
+class FacBuilder(_option.DfOptionBuilder_1):
     """
     Builds ``Fac``.
 
@@ -90,6 +88,6 @@ class FacBuilder:
             ``FacBuilder`` for ``Fac``.
         """
 
-        return Fac(
+        return FacBuilder(
             normalization=copy.deepcopy(ast.normalization),
         )

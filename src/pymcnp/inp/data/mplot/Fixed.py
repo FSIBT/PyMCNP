@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Fixed(MplotOption):
+class Fixed(_option.MplotOption):
     """
     Represents INP fixed elements.
 
@@ -25,9 +25,7 @@ class Fixed(MplotOption):
         'n': types.Integer,
     }
 
-    _REGEX = re.compile(
-        rf'\Afixed( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Afixed( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, q: types.String, n: types.Integer):
         """
@@ -58,7 +56,7 @@ class Fixed(MplotOption):
 
 
 @dataclasses.dataclass
-class FixedBuilder:
+class FixedBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Fixed``.
 
@@ -106,7 +104,7 @@ class FixedBuilder:
             ``FixedBuilder`` for ``Fixed``.
         """
 
-        return Fixed(
+        return FixedBuilder(
             q=copy.deepcopy(ast.q),
             n=copy.deepcopy(ast.n),
         )

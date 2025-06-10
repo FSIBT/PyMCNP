@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Tlib(MOption_0):
+class Tlib(_option.MOption_0):
     """
     Represents INP tlib elements.
 
@@ -49,7 +49,7 @@ class Tlib(MOption_0):
 
 
 @dataclasses.dataclass
-class TlibBuilder:
+class TlibBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Tlib``.
 
@@ -86,6 +86,6 @@ class TlibBuilder:
             ``TlibBuilder`` for ``Tlib``.
         """
 
-        return Tlib(
+        return TlibBuilder(
             abx=copy.deepcopy(ast.abx),
         )

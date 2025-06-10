@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbeeOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Time(EmbeeOption):
+class Time(_option.EmbeeOption):
     """
     Represents INP time elements.
 
@@ -49,7 +49,7 @@ class Time(EmbeeOption):
 
 
 @dataclasses.dataclass
-class TimeBuilder:
+class TimeBuilder(_option.EmbeeOptionBuilder):
     """
     Builds ``Time``.
 
@@ -88,6 +88,6 @@ class TimeBuilder:
             ``TimeBuilder`` for ``Time``.
         """
 
-        return Time(
+        return TimeBuilder(
             factor=copy.deepcopy(ast.factor),
         )

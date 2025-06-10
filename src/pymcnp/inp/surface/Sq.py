@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Sq(SurfaceOption):
+class Sq(_option.SurfaceOption):
     """
     Represents INP sq elements.
 
@@ -45,19 +45,7 @@ class Sq(SurfaceOption):
         rf'\Asq( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
-    def __init__(
-        self,
-        a: types.Real,
-        b: types.Real,
-        c: types.Real,
-        d: types.Real,
-        e: types.Real,
-        f: types.Real,
-        g: types.Real,
-        x: types.Real,
-        y: types.Real,
-        z: types.Real,
-    ):
+    def __init__(self, a: types.Real, b: types.Real, c: types.Real, d: types.Real, e: types.Real, f: types.Real, g: types.Real, x: types.Real, y: types.Real, z: types.Real):
         """
         Initializes ``Sq``.
 
@@ -126,7 +114,7 @@ class Sq(SurfaceOption):
 
 
 @dataclasses.dataclass
-class SqBuilder:
+class SqBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Sq``.
 
@@ -264,7 +252,7 @@ class SqBuilder:
             ``SqBuilder`` for ``Sq``.
         """
 
-        return Sq(
+        return SqBuilder(
             a=copy.deepcopy(ast.a),
             b=copy.deepcopy(ast.b),
             c=copy.deepcopy(ast.c),

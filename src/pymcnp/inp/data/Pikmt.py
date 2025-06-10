@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Pikmt(DataOption):
+class Pikmt(_option.DataOption):
     """
     Represents INP pikmt elements.
 
@@ -49,7 +49,7 @@ class Pikmt(DataOption):
 
 
 @dataclasses.dataclass
-class PikmtBuilder:
+class PikmtBuilder(_option.DataOptionBuilder):
     """
     Builds ``Pikmt``.
 
@@ -74,8 +74,6 @@ class PikmtBuilder:
                     biases.append(item)
                 elif isinstance(item, str):
                     biases.append(types.PhotonBias.from_mcnp(item))
-                else:
-                    biases.append(item.build())
             biases = types.Tuple(biases)
         else:
             biases = None
@@ -93,6 +91,6 @@ class PikmtBuilder:
             ``PikmtBuilder`` for ``Pikmt``.
         """
 
-        return Pikmt(
+        return PikmtBuilder(
             biases=copy.deepcopy(ast.biases),
         )

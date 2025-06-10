@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 
 
-class Dir_0(SdefOption):
+class Dir_0(_option.SdefOption):
     """
     Represents INP dir variation #0 elements.
 
@@ -45,7 +45,7 @@ class Dir_0(SdefOption):
 
 
 @dataclasses.dataclass
-class DirBuilder_0:
+class DirBuilder_0(_option.SdefOptionBuilder):
     """
     Builds ``Dir_0``.
 
@@ -84,6 +84,6 @@ class DirBuilder_0:
             ``DirBuilder_0`` for ``Dir_0``.
         """
 
-        return Dir_0(
+        return DirBuilder_0(
             cosine=copy.deepcopy(ast.cosine),
         )

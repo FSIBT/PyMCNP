@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Printal(MplotOption):
+class Printal(_option.MplotOption):
     """
     Represents INP printal elements.
 
@@ -38,7 +38,7 @@ class Printal(MplotOption):
 
 
 @dataclasses.dataclass
-class PrintalBuilder:
+class PrintalBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Printal``.
 
@@ -65,4 +65,4 @@ class PrintalBuilder:
             ``PrintalBuilder`` for ``Printal``.
         """
 
-        return Printal()
+        return PrintalBuilder()

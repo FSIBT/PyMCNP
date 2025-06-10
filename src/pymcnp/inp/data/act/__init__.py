@@ -1,4 +1,5 @@
 from ._option import ActOption
+from ._option import ActOptionBuilder
 
 from .Fission import Fission
 from .Nonfiss import Nonfiss
@@ -27,6 +28,7 @@ from .Sample import SampleBuilder
 
 __all__ = [
     'ActOption',
+    'ActOptionBuilder',
     'Fission',
     'Nonfiss',
     'Dn',

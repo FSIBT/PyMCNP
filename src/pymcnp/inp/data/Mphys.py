@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Mphys(DataOption):
+class Mphys(_option.DataOption):
     """
     Represents INP mphys elements.
 
@@ -49,7 +49,7 @@ class Mphys(DataOption):
 
 
 @dataclasses.dataclass
-class MphysBuilder:
+class MphysBuilder(_option.DataOptionBuilder):
     """
     Builds ``Mphys``.
 
@@ -86,6 +86,6 @@ class MphysBuilder:
             ``MphysBuilder`` for ``Mphys``.
         """
 
-        return Mphys(
+        return MphysBuilder(
             setting=copy.deepcopy(ast.setting),
         )

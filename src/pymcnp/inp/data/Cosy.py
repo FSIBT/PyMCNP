@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Cosy(DataOption):
+class Cosy(_option.DataOption):
     """
     Represents INP cosy elements.
 
@@ -49,7 +49,7 @@ class Cosy(DataOption):
 
 
 @dataclasses.dataclass
-class CosyBuilder:
+class CosyBuilder(_option.DataOptionBuilder):
     """
     Builds ``Cosy``.
 
@@ -93,6 +93,6 @@ class CosyBuilder:
             ``CosyBuilder`` for ``Cosy``.
         """
 
-        return Cosy(
+        return CosyBuilder(
             numbers=copy.deepcopy(ast.numbers),
         )

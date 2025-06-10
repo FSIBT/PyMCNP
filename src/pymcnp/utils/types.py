@@ -1,4 +1,5 @@
 import re
+import copy
 import typing
 import dataclasses
 
@@ -51,7 +52,7 @@ class Tuple(tuple, _object.McnpNonterminal):
         """
 
         source, comments = _parser.preprocess_inp(source)
-        tokens = T._REGEX.finditer(source)
+        tokens = re.finditer(T._REGEX.pattern[2:-2], source)
 
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -119,7 +120,7 @@ class Repeat(_object.McnpNonterminal):
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
-        n = int(tokens[1])
+        n = int(tokens[1]) if tokens[1] else None
 
         return Repeat(n)
 
@@ -131,7 +132,7 @@ class Repeat(_object.McnpNonterminal):
             MCNP repeats.
         """
 
-        return f'{self.n}r'
+        return f'{self.n or ''}r'
 
 
 class Insert(_object.McnpNonterminal):
@@ -184,7 +185,7 @@ class Insert(_object.McnpNonterminal):
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
-        n = int(tokens[1])
+        n = int(tokens[1]) if tokens[1] else None
 
         return Insert(n)
 
@@ -196,7 +197,7 @@ class Insert(_object.McnpNonterminal):
             MCNP inserts.
         """
 
-        return f'{self.n}i'
+        return f'{self.n or ''}i'
 
 
 class Multiply(_object.McnpNonterminal):
@@ -249,7 +250,7 @@ class Multiply(_object.McnpNonterminal):
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
-        x = float(tokens[1])
+        x = int(tokens[1])
 
         return Multiply(x)
 
@@ -379,9 +380,9 @@ class Log(_object.McnpNonterminal):
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
-        n = int(tokens[1])
+        n = int(tokens[1]) if tokens[1] else None
 
-        return Jump(n)
+        return Log(n)
 
     def to_mcnp(self):
         """
@@ -391,7 +392,7 @@ class Log(_object.McnpNonterminal):
             MCNP logs.
         """
 
-        return f'{self.n}log'
+        return f'{self.n or ''}log'
 
 
 class Integer(_object.McnpNonterminal):
@@ -402,7 +403,7 @@ class Integer(_object.McnpNonterminal):
         value: Integer value or jump.
     """
 
-    _REGEX = re.compile(r'\A(?:[-+0-9.eEdD]+|\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r)\Z')
+    _REGEX = re.compile(r'\A(?:\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r|[-+0-9.eEdD]+)\Z')
 
     def __init__(self, value: int | Repeat | Insert | Multiply | Jump | Log):
         """
@@ -494,7 +495,7 @@ class Real(_object.McnpNonterminal):
         value: Real value or jump.
     """
 
-    _REGEX = re.compile(r'\A(?:[-+0-9.eEdD]+|\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r)\Z')
+    _REGEX = re.compile(r'\A(?:\d*j|\d*log|\d*ilog|\d*m|\d*i|\d*r|[-+0-9.eEdD]+)\Z')
 
     def __init__(self, value: int | Repeat | Insert | Multiply | Jump | Log):
         """
@@ -741,9 +742,7 @@ class EmbeddedDistributionNumber(_object.McnpNonterminal):
         source, comments = _parser.preprocess_inp(source)
 
         try:
-            return EmbeddedDistributionNumber(
-                DistributionNumber.from_mcnp(token) for token in source.split('>')
-            )
+            return EmbeddedDistributionNumber(Tuple([DistributionNumber.from_mcnp(token) for token in source.split('>')]))
         except errors.McnpError:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
@@ -768,7 +767,7 @@ class Zaid(_object.McnpNonterminal):
         abx: Cross-section evaluation & class information.
     """
 
-    _REGEX = re.compile(r'\A(\d{1,3})(\d\d\d)((?:[.])\S+)?\Z')
+    _REGEX = re.compile(r'\A(\d{1,3})(\d\d\d)(?:[.](\S+))?\Z')
 
     def __init__(self, z: int, a: int, abx: str = None):
         """
@@ -919,9 +918,7 @@ class Designator(_object.McnpNonterminal):
         particles: Designator particles.
     """
 
-    _REGEX = re.compile(
-        r'\A[nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#]((?:,)[nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#])*\Z'
-    )
+    _REGEX = re.compile(r'\A[nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#]((?:,)[nqpef|!u<v>hglb+_-~xcywo@/*zk?%^dtsa#])*\Z')
 
     def __init__(self, particles: tuple[Particle]):
         """
@@ -1134,6 +1131,19 @@ class GeometryBuilder:
 
         return Geometry(infix=String(self.infix))
 
+    @staticmethod
+    def unbuild(ast: Geometry):
+        """
+        Unbuilds ``Geometry`` into ``GeometryBuilder``
+
+        Returns:
+            ``GeometryBuilder`` for ``Geometry``.
+        """
+
+        return GeometryBuilder(
+            infix=copy.deepcopy(ast.infix),
+        )
+
 
 class Substance(_object.McnpNonterminal):
     """
@@ -1297,9 +1307,7 @@ class Transformation_0(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(
-        r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?\Z'
-    )
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)(?: (\S+))?\Z')
 
     def __init__(
         self,
@@ -1448,7 +1456,7 @@ class Transformation_1(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?\Z')
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)(?: (\S+))?\Z')
 
     def __init__(
         self,
@@ -1503,7 +1511,7 @@ class Transformation_1(_object.McnpNonterminal):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, yy)
         if yz is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, yz)
-        if m is not None and m not in {-1, 1}:
+        if m is not None and m.value not in {-1, 1}:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, m)
 
         self.o1: typing.Final[Real] = o1
@@ -1578,7 +1586,7 @@ class Transformation_2(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?\Z')
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)(?: (\S+))?\Z')
 
     def __init__(
         self,
@@ -1629,7 +1637,7 @@ class Transformation_2(_object.McnpNonterminal):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, yx)
         if yy is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, yy)
-        if m is not None and m not in {-1, 1}:
+        if m is not None and m.value not in {-1, 1}:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, m)
 
         self.o1: typing.Final[Real] = o1
@@ -1700,7 +1708,7 @@ class Transformation_3(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+)( \S+)?\Z')
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+)(?: (\S+))?\Z')
 
     def __init__(
         self,
@@ -1743,7 +1751,7 @@ class Transformation_3(_object.McnpNonterminal):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xy)
         if xz is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, xz)
-        if m is not None and m not in {-1, 1}:
+        if m is not None and m.value not in {-1, 1}:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, m)
 
         self.o1: typing.Final[Real] = o1
@@ -1807,7 +1815,7 @@ class Transformation_4(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+)( \S+)?\Z')
+    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+)(?: (\S+))?\Z')
 
     def __init__(
         self,
@@ -1838,7 +1846,7 @@ class Transformation_4(_object.McnpNonterminal):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o2)
         if o3 is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, o3)
-        if m is not None and m not in {-1, 1}:
+        if m is not None and m.value not in {-1, 1}:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, m)
 
         self.o1: typing.Final[Real] = o1
@@ -1956,12 +1964,12 @@ class Stochastic(_object.McnpNonterminal):
         if not tokens:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
-        number = Integer.from_mcnp(tokens[1])
+        universe = Integer.from_mcnp(tokens[1])
         maximum_x = Real.from_mcnp(tokens[2])
         maximum_y = Real.from_mcnp(tokens[3])
         maximum_z = Real.from_mcnp(tokens[4])
 
-        return Stochastic(number, maximum_x, maximum_y, maximum_z)
+        return Stochastic(universe, maximum_x, maximum_y, maximum_z)
 
     def to_mcnp(self):
         """
@@ -1971,7 +1979,7 @@ class Stochastic(_object.McnpNonterminal):
             INP for ``Stochastic``.
         """
 
-        return f'{self.number} {self.maximum_x} {self.maximum_y} {self.maximum_z}'
+        return f'{self.universe} {self.maximum_x} {self.maximum_y} {self.maximum_z}'
 
 
 class IndependentDependent(_object.McnpNonterminal):
@@ -2165,9 +2173,9 @@ class File(_object.McnpNonterminal):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, unit)
         if filename is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, filename)
-        if access is not None and access not in {'sequential', 'direct'}:
+        if access is not None and access not in {'sequential', 'direct', 's', 'd'}:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, access)
-        if form is not None and form.value not in {'formatted', 'unformatted'}:
+        if form is not None and form.value not in {'formatted', 'unformatted', 'f', 'u'}:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, form)
 
         self.unit: typing.Final[Integer] = unit
@@ -2360,10 +2368,10 @@ class Ring(_object.McnpNonterminal):
 
     def to_mcnp(self):
         """
-        Generates INP from ``Sphere``.
+        Generates INP from ``Ring``.
 
         Returns:
-            INP for ``Sphere``.
+            INP for ``Ring``.
         """
 
         return f'{self.distance} {self.radius} {self.ro}'
@@ -2635,7 +2643,7 @@ class PtracFilter(_object.McnpNonterminal):
         variable: Variable name for PBL derived structure.
     """
 
-    _REGEX = re.compile(r'\A(\S+),(\S+)(,\S+)?\Z')
+    _REGEX = re.compile(r'\A([^\s,]+),([^\s,]+)(?:,([^\s+]+))?\Z')
 
     def __init__(self, lower: Real, variable: String, upper: Real = None):
         """
@@ -2657,12 +2665,10 @@ class PtracFilter(_object.McnpNonterminal):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, lower)
         if variable is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, variable)
-        if upper is not None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, upper)
 
         self.lower: typing.Final[Real] = lower
-        self.upper: typing.Final[Real] = upper
         self.variable: typing.Final[String] = variable
+        self.upper: typing.Final[Real] = upper
 
     @staticmethod
     def from_mcnp(source: str):
@@ -2687,7 +2693,7 @@ class PtracFilter(_object.McnpNonterminal):
 
         lower = Real.from_mcnp(tokens[1])
         variable = String.from_mcnp(tokens[2])
-        upper = String.from_mcnp(tokens[3]) if tokens[3] else None
+        upper = Real.from_mcnp(tokens[3]) if tokens[3] else None
 
         return PtracFilter(lower, variable, upper)
 
@@ -2699,7 +2705,7 @@ class PtracFilter(_object.McnpNonterminal):
             INP for ``PtracFilter``.
         """
 
-        return f'{self.lower} {self.upper} {self.variable}'
+        return f'{self.lower},{self.upper},{self.variable}'
 
 
 class PhotonBias(_object.McnpNonterminal):
@@ -2709,19 +2715,17 @@ class PhotonBias(_object.McnpNonterminal):
     Attributes:
         zaid: Bias nuclide identifier.
         ipiki: Bias controls.
-        reactions: Bias MT reactions.
     """
 
-    _REGEX = re.compile(r'\A(\S+) (\S+)((?: \S+ \S+)+)\Z')
+    _REGEX = re.compile(r'\A(\S+) (\S+)\Z')
 
-    def __init__(self, zaid: Zaid, ipiki: Integer, reactions: tuple[Reaction]):
+    def __init__(self, zaid: Zaid, ipiki: Integer):
         """
         Initializes ``PhotonBias``.
 
         Parameters:
             zaid: Bias nuclide identifier.
             ipiki: Bias controls.
-            reactions: Bias MT reactions.
 
         Returns:
             ``PhotonBias``.
@@ -2734,12 +2738,9 @@ class PhotonBias(_object.McnpNonterminal):
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, zaid)
         if ipiki is None:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, ipiki)
-        if reactions is None:
-            raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, reactions)
 
         self.zaid: typing.Final[Zaid] = zaid
         self.ipiki: typing.Final[Integer] = ipiki
-        self.reactions: typing.Final[tuple[Reaction]] = reactions
 
     @staticmethod
     def from_mcnp(source: str):
@@ -2764,11 +2765,8 @@ class PhotonBias(_object.McnpNonterminal):
 
         zaid = Zaid.from_mcnp(tokens[1])
         ipiki = Integer.from_mcnp(tokens[2])
-        reactions = Tuple(
-            [Reaction.from_mcnp(token[0]) for token in Reaction._REGEX.finditer(tokens[3])]
-        )
 
-        return PhotonBias(zaid, ipiki, reactions)
+        return PhotonBias(zaid, ipiki)
 
     def to_mcnp(self):
         """
@@ -2778,7 +2776,7 @@ class PhotonBias(_object.McnpNonterminal):
             INP for ``PhotonBias``.
         """
 
-        return f'{self.zaid} {self.ipiki} {self.reactions}'
+        return f'{self.zaid} {self.ipiki}'
 
 
 class Index(_object.McnpNonterminal):
@@ -2852,13 +2850,13 @@ class Index(_object.McnpNonterminal):
         return f'{self.lower}:{self.upper}'
 
 
-class Matcell:
+class Matcell(_object.McnpNonterminal):
     """
     Represents INP material-cell entries.
 
     Attributes:
         material: Material number.
-        cell: Cell number.
+        cell: Geometry number.
     """
 
     _REGEX = re.compile(r'\A(\S+) (\S+)\Z')
@@ -2869,7 +2867,7 @@ class Matcell:
 
         Parameters:
             material: Material number.
-            cell: Cell number.
+            cell: Geometry number.
 
         Returns:
             ``Matcell``.

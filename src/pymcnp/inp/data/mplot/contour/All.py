@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import ContourOption
+from . import _option
 from .....utils import types
 
 
-class All(ContourOption):
+class All(_option.ContourOption):
     """
     Represents INP all elements.
 
@@ -38,7 +38,7 @@ class All(ContourOption):
 
 
 @dataclasses.dataclass
-class AllBuilder:
+class AllBuilder(_option.ContourOptionBuilder):
     """
     Builds ``All``.
 
@@ -65,4 +65,4 @@ class AllBuilder:
             ``AllBuilder`` for ``All``.
         """
 
-        return All()
+        return AllBuilder()

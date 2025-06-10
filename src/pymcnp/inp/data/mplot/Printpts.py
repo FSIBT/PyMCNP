@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Printpts(MplotOption):
+class Printpts(_option.MplotOption):
     """
     Represents INP printpts elements.
 
@@ -38,7 +38,7 @@ class Printpts(MplotOption):
 
 
 @dataclasses.dataclass
-class PrintptsBuilder:
+class PrintptsBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Printpts``.
 
@@ -65,4 +65,4 @@ class PrintptsBuilder:
             ``PrintptsBuilder`` for ``Printpts``.
         """
 
-        return Printpts()
+        return PrintptsBuilder()

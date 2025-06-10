@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import ActOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Dg(ActOption):
+class Dg(_option.ActOption):
     """
     Represents INP dg elements.
 
@@ -49,7 +49,7 @@ class Dg(ActOption):
 
 
 @dataclasses.dataclass
-class DgBuilder:
+class DgBuilder(_option.ActOptionBuilder):
     """
     Builds ``Dg``.
 
@@ -86,6 +86,6 @@ class DgBuilder:
             ``DgBuilder`` for ``Dg``.
         """
 
-        return Dg(
+        return DgBuilder(
             source=copy.deepcopy(ast.source),
         )

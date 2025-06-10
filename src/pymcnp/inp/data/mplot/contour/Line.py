@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import ContourOption
+from . import _option
 from .....utils import types
 
 
-class Line(ContourOption):
+class Line(_option.ContourOption):
     """
     Represents INP line elements.
 
@@ -38,7 +38,7 @@ class Line(ContourOption):
 
 
 @dataclasses.dataclass
-class LineBuilder:
+class LineBuilder(_option.ContourOptionBuilder):
     """
     Builds ``Line``.
 
@@ -65,4 +65,4 @@ class LineBuilder:
             ``LineBuilder`` for ``Line``.
         """
 
-        return Line()
+        return LineBuilder()

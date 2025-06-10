@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import TOption_1
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Cofi(TOption_1):
+class Cofi(_option.TOption_1):
     """
     Represents INP cofi elements.
 
@@ -49,7 +49,7 @@ class Cofi(TOption_1):
 
 
 @dataclasses.dataclass
-class CofiBuilder:
+class CofiBuilder(_option.TOptionBuilder_1):
     """
     Builds ``Cofi``.
 
@@ -88,6 +88,6 @@ class CofiBuilder:
             ``CofiBuilder`` for ``Cofi``.
         """
 
-        return Cofi(
+        return CofiBuilder(
             time=copy.deepcopy(ast.time),
         )

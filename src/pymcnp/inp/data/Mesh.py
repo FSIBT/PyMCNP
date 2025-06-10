@@ -5,11 +5,11 @@ import dataclasses
 
 
 from . import mesh
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Mesh(DataOption):
+class Mesh(_option.DataOption):
     """
     Represents INP mesh elements.
 
@@ -46,7 +46,7 @@ class Mesh(DataOption):
 
 
 @dataclasses.dataclass
-class MeshBuilder:
+class MeshBuilder(_option.DataOptionBuilder):
     """
     Builds ``Mesh``.
 
@@ -71,7 +71,7 @@ class MeshBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(mesh.MeshOption.from_mcnp(item))
-                else:
+                elif isinstance(item, mesh.MeshOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -90,6 +90,6 @@ class MeshBuilder:
             ``MeshBuilder`` for ``Mesh``.
         """
 
-        return Mesh(
+        return MeshBuilder(
             options=copy.deepcopy(ast.options),
         )

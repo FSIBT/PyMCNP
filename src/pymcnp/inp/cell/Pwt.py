@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Pwt(CellOption):
+class Pwt(_option.CellOption):
     """
     Represents INP pwt elements.
 
@@ -49,7 +49,7 @@ class Pwt(CellOption):
 
 
 @dataclasses.dataclass
-class PwtBuilder:
+class PwtBuilder(_option.CellOptionBuilder):
     """
     Builds ``Pwt``.
 
@@ -88,6 +88,6 @@ class PwtBuilder:
             ``PwtBuilder`` for ``Pwt``.
         """
 
-        return Pwt(
+        return PwtBuilder(
             weight=copy.deepcopy(ast.weight),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SswOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Cel(SswOption):
+class Cel(_option.SswOption):
     """
     Represents INP cel elements.
 
@@ -36,7 +36,7 @@ class Cel(SswOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if cfs is None or not (filter(lambda entry: not (1 <= entry.value <= 99_999_999), cfs)):
+        if cfs is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cfs)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -49,7 +49,7 @@ class Cel(SswOption):
 
 
 @dataclasses.dataclass
-class CelBuilder:
+class CelBuilder(_option.SswOptionBuilder):
     """
     Builds ``Cel``.
 
@@ -93,6 +93,6 @@ class CelBuilder:
             ``CelBuilder`` for ``Cel``.
         """
 
-        return Cel(
+        return CelBuilder(
             cfs=copy.deepcopy(ast.cfs),
         )

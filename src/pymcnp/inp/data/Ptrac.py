@@ -5,11 +5,11 @@ import dataclasses
 
 
 from . import ptrac
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Ptrac(DataOption):
+class Ptrac(_option.DataOption):
     """
     Represents INP ptrac elements.
 
@@ -46,7 +46,7 @@ class Ptrac(DataOption):
 
 
 @dataclasses.dataclass
-class PtracBuilder:
+class PtracBuilder(_option.DataOptionBuilder):
     """
     Builds ``Ptrac``.
 
@@ -71,7 +71,7 @@ class PtracBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(ptrac.PtracOption.from_mcnp(item))
-                else:
+                elif isinstance(item, ptrac.PtracOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -90,6 +90,6 @@ class PtracBuilder:
             ``PtracBuilder`` for ``Ptrac``.
         """
 
-        return Ptrac(
+        return PtracBuilder(
             options=copy.deepcopy(ast.options),
         )

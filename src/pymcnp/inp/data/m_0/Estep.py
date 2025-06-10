@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Estep(MOption_0):
+class Estep(_option.MOption_0):
     """
     Represents INP estep elements.
 
@@ -49,7 +49,7 @@ class Estep(MOption_0):
 
 
 @dataclasses.dataclass
-class EstepBuilder:
+class EstepBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Estep``.
 
@@ -88,6 +88,6 @@ class EstepBuilder:
             ``EstepBuilder`` for ``Estep``.
         """
 
-        return Estep(
+        return EstepBuilder(
             step=copy.deepcopy(ast.step),
         )

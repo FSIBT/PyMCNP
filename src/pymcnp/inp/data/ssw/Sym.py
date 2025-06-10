@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SswOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Sym(SswOption):
+class Sym(_option.SswOption):
     """
     Represents INP sym elements.
 
@@ -49,7 +49,7 @@ class Sym(SswOption):
 
 
 @dataclasses.dataclass
-class SymBuilder:
+class SymBuilder(_option.SswOptionBuilder):
     """
     Builds ``Sym``.
 
@@ -88,6 +88,6 @@ class SymBuilder:
             ``SymBuilder`` for ``Sym``.
         """
 
-        return Sym(
+        return SymBuilder(
             setting=copy.deepcopy(ast.setting),
         )

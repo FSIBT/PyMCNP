@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Rad_1(SdefOption):
+class Rad_1(_option.SdefOption):
     """
     Represents INP rad variation #1 elements.
 
@@ -49,7 +49,7 @@ class Rad_1(SdefOption):
 
 
 @dataclasses.dataclass
-class RadBuilder_1:
+class RadBuilder_1(_option.SdefOptionBuilder):
     """
     Builds ``Rad_1``.
 
@@ -86,6 +86,6 @@ class RadBuilder_1:
             ``RadBuilder_1`` for ``Rad_1``.
         """
 
-        return Rad_1(
+        return RadBuilder_1(
             radial_distance=copy.deepcopy(ast.radial_distance),
         )

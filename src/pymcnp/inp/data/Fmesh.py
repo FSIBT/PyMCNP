@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import fmesh
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fmesh(DataOption):
+class Fmesh(_option.DataOption):
     """
     Represents INP fmesh elements.
 
@@ -28,16 +28,9 @@ class Fmesh(DataOption):
         'options': types.Tuple[fmesh.FmeshOption],
     }
 
-    _REGEX = re.compile(
-        rf'\Afmesh(\d+):(\S+)((?: (?:{fmesh.FmeshOption._REGEX.pattern[2:-2]}))+?)?\Z'
-    )
+    _REGEX = re.compile(rf'\Afmesh(\d+):(\S+)((?: (?:{fmesh.FmeshOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        designator: types.Designator,
-        options: types.Tuple[fmesh.FmeshOption] = None,
-    ):
+    def __init__(self, suffix: types.Integer, designator: types.Designator, options: types.Tuple[fmesh.FmeshOption] = None):
         """
         Initializes ``Fmesh``.
 
@@ -67,7 +60,7 @@ class Fmesh(DataOption):
 
 
 @dataclasses.dataclass
-class FmeshBuilder:
+class FmeshBuilder(_option.DataOptionBuilder):
     """
     Builds ``Fmesh``.
 
@@ -110,7 +103,7 @@ class FmeshBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(fmesh.FmeshOption.from_mcnp(item))
-                else:
+                elif isinstance(item, fmesh.FmeshOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -131,7 +124,7 @@ class FmeshBuilder:
             ``FmeshBuilder`` for ``Fmesh``.
         """
 
-        return Fmesh(
+        return FmeshBuilder(
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             options=copy.deepcopy(ast.options),

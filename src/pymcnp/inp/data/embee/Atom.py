@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbeeOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Atom(EmbeeOption):
+class Atom(_option.EmbeeOption):
     """
     Represents INP atom elements.
 
@@ -49,7 +49,7 @@ class Atom(EmbeeOption):
 
 
 @dataclasses.dataclass
-class AtomBuilder:
+class AtomBuilder(_option.EmbeeOptionBuilder):
     """
     Builds ``Atom``.
 
@@ -86,6 +86,6 @@ class AtomBuilder:
             ``AtomBuilder`` for ``Atom``.
         """
 
-        return Atom(
+        return AtomBuilder(
             setting=copy.deepcopy(ast.setting),
         )

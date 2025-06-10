@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import ContourOption
+from . import _option
 from .....utils import types
 
 
-class Nocolor(ContourOption):
+class Nocolor(_option.ContourOption):
     """
     Represents INP nocolor elements.
 
@@ -38,7 +38,7 @@ class Nocolor(ContourOption):
 
 
 @dataclasses.dataclass
-class NocolorBuilder:
+class NocolorBuilder(_option.ContourOptionBuilder):
     """
     Builds ``Nocolor``.
 
@@ -65,4 +65,4 @@ class NocolorBuilder:
             ``NocolorBuilder`` for ``Nocolor``.
         """
 
-        return Nocolor()
+        return NocolorBuilder()

@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Iptal(MplotOption):
+class Iptal(_option.MplotOption):
     """
     Represents INP iptal elements.
 
@@ -38,7 +38,7 @@ class Iptal(MplotOption):
 
 
 @dataclasses.dataclass
-class IptalBuilder:
+class IptalBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Iptal``.
 
@@ -65,4 +65,4 @@ class IptalBuilder:
             ``IptalBuilder`` for ``Iptal``.
         """
 
-        return Iptal()
+        return IptalBuilder()

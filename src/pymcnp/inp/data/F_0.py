@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class F_0(DataOption):
+class F_0(_option.DataOption):
     """
     Represents INP f variation #0 elements.
 
@@ -31,18 +31,9 @@ class F_0(DataOption):
         't': types.String,
     }
 
-    _REGEX = re.compile(
-        rf'\A([*+])?f(\d*[123467])(?::(\S+))?((?: {types.Integer._REGEX.pattern[2:-2]})+?)( t)?\Z'
-    )
+    _REGEX = re.compile(rf'\A([*+])?f(\d*[123467])(?::(\S+))?((?: {types.Integer._REGEX.pattern[2:-2]})+?)( t)?\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        problems: types.Tuple[types.Integer],
-        prefix: types.String = None,
-        designator: types.Designator = None,
-        t: types.String = None,
-    ):
+    def __init__(self, suffix: types.Integer, problems: types.Tuple[types.Integer], prefix: types.String = None, designator: types.Designator = None, t: types.String = None):
         """
         Initializes ``F_0``.
 
@@ -57,9 +48,9 @@ class F_0(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (
-            suffix.value <= 99_999_999 and suffix.value % 10 in {1, 2, 4, 6, 7}
-        ):
+        if prefix is not None and prefix.value not in {'*', '+'}:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
+        if suffix is None or not (suffix.value <= 99_999_999 and suffix.value % 10 in {1, 2, 4, 6, 7}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if problems is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, problems)
@@ -68,7 +59,6 @@ class F_0(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                prefix,
                 problems,
                 t,
             ]
@@ -82,7 +72,7 @@ class F_0(DataOption):
 
 
 @dataclasses.dataclass
-class FBuilder_0:
+class FBuilder_0(_option.DataOptionBuilder):
     """
     Builds ``F_0``.
 
@@ -164,7 +154,7 @@ class FBuilder_0:
             ``FBuilder_0`` for ``F_0``.
         """
 
-        return F_0(
+        return FBuilder_0(
             prefix=copy.deepcopy(ast.prefix),
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),

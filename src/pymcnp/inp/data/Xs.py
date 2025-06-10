@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Xs(DataOption):
+class Xs(_option.DataOption):
     """
     Represents INP xs elements.
 
@@ -55,7 +55,7 @@ class Xs(DataOption):
 
 
 @dataclasses.dataclass
-class XsBuilder:
+class XsBuilder(_option.DataOptionBuilder):
     """
     Builds ``Xs``.
 
@@ -90,8 +90,6 @@ class XsBuilder:
                     weight_ratios.append(item)
                 elif isinstance(item, str):
                     weight_ratios.append(types.Substance.from_mcnp(item))
-                else:
-                    weight_ratios.append(item.build())
             weight_ratios = types.Tuple(weight_ratios)
         else:
             weight_ratios = None
@@ -110,7 +108,7 @@ class XsBuilder:
             ``XsBuilder`` for ``Xs``.
         """
 
-        return Xs(
+        return XsBuilder(
             suffix=copy.deepcopy(ast.suffix),
             weight_ratios=copy.deepcopy(ast.weight_ratios),
         )

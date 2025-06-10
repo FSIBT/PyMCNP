@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import TOption_1
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Cbeg(TOption_1):
+class Cbeg(_option.TOption_1):
     """
     Represents INP cbeg elements.
 
@@ -49,7 +49,7 @@ class Cbeg(TOption_1):
 
 
 @dataclasses.dataclass
-class CbegBuilder:
+class CbegBuilder(_option.TOptionBuilder_1):
     """
     Builds ``Cbeg``.
 
@@ -88,6 +88,6 @@ class CbegBuilder:
             ``CbegBuilder`` for ``Cbeg``.
         """
 
-        return Cbeg(
+        return CbegBuilder(
             time=copy.deepcopy(ast.time),
         )

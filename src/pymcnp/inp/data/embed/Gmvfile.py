@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbedOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Gmvfile(EmbedOption):
+class Gmvfile(_option.EmbedOption):
     """
     Represents INP gmvfile elements.
 
@@ -49,7 +49,7 @@ class Gmvfile(EmbedOption):
 
 
 @dataclasses.dataclass
-class GmvfileBuilder:
+class GmvfileBuilder(_option.EmbedOptionBuilder):
     """
     Builds ``Gmvfile``.
 
@@ -86,6 +86,6 @@ class GmvfileBuilder:
             ``GmvfileBuilder`` for ``Gmvfile``.
         """
 
-        return Gmvfile(
+        return GmvfileBuilder(
             filename=copy.deepcopy(ast.filename),
         )

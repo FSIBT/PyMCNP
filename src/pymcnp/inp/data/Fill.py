@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fill(DataOption):
+class Fill(_option.DataOption):
     """
     Represents INP fill elements.
 
@@ -36,9 +36,7 @@ class Fill(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if numbers is None or not (
-            filter(lambda entry: not (0 <= entry.value <= 99_999_999), numbers)
-        ):
+        if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -51,7 +49,7 @@ class Fill(DataOption):
 
 
 @dataclasses.dataclass
-class FillBuilder:
+class FillBuilder(_option.DataOptionBuilder):
     """
     Builds ``Fill``.
 
@@ -95,6 +93,6 @@ class FillBuilder:
             ``FillBuilder`` for ``Fill``.
         """
 
-        return Fill(
+        return FillBuilder(
             numbers=copy.deepcopy(ast.numbers),
         )

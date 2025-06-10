@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbeeOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Mat(EmbeeOption):
+class Mat(_option.EmbeeOption):
     """
     Represents INP mat elements.
 
@@ -49,7 +49,7 @@ class Mat(EmbeeOption):
 
 
 @dataclasses.dataclass
-class MatBuilder:
+class MatBuilder(_option.EmbeeOptionBuilder):
     """
     Builds ``Mat``.
 
@@ -88,6 +88,6 @@ class MatBuilder:
             ``MatBuilder`` for ``Mat``.
         """
 
-        return Mat(
+        return MatBuilder(
             number=copy.deepcopy(ast.number),
         )

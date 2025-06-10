@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Refs(MOption_0):
+class Refs(_option.MOption_0):
     """
     Represents INP refs elements.
 
@@ -49,7 +49,7 @@ class Refs(MOption_0):
 
 
 @dataclasses.dataclass
-class RefsBuilder:
+class RefsBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Refs``.
 
@@ -93,6 +93,6 @@ class RefsBuilder:
             ``RefsBuilder`` for ``Refs``.
         """
 
-        return Refs(
+        return RefsBuilder(
             coefficents=copy.deepcopy(ast.coefficents),
         )

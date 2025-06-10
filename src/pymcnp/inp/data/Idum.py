@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Idum(DataOption):
+class Idum(_option.DataOption):
     """
     Represents INP idum elements.
 
@@ -49,7 +49,7 @@ class Idum(DataOption):
 
 
 @dataclasses.dataclass
-class IdumBuilder:
+class IdumBuilder(_option.DataOptionBuilder):
     """
     Builds ``Idum``.
 
@@ -93,6 +93,6 @@ class IdumBuilder:
             ``IdumBuilder`` for ``Idum``.
         """
 
-        return Idum(
+        return IdumBuilder(
             intergers=copy.deepcopy(ast.intergers),
         )

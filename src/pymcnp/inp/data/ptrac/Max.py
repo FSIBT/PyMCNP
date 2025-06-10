@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Max(PtracOption):
+class Max(_option.PtracOption):
     """
     Represents INP max elements.
 
@@ -49,7 +49,7 @@ class Max(PtracOption):
 
 
 @dataclasses.dataclass
-class MaxBuilder:
+class MaxBuilder(_option.PtracOptionBuilder):
     """
     Builds ``Max``.
 
@@ -88,6 +88,6 @@ class MaxBuilder:
             ``MaxBuilder`` for ``Max``.
         """
 
-        return Max(
+        return MaxBuilder(
             events=copy.deepcopy(ast.events),
         )

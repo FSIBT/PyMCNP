@@ -5,11 +5,11 @@ import dataclasses
 
 
 from . import kopts
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Kopts(DataOption):
+class Kopts(_option.DataOption):
     """
     Represents INP kopts elements.
 
@@ -46,7 +46,7 @@ class Kopts(DataOption):
 
 
 @dataclasses.dataclass
-class KoptsBuilder:
+class KoptsBuilder(_option.DataOptionBuilder):
     """
     Builds ``Kopts``.
 
@@ -71,7 +71,7 @@ class KoptsBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(kopts.KoptsOption.from_mcnp(item))
-                else:
+                elif isinstance(item, kopts.KoptsOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -90,6 +90,6 @@ class KoptsBuilder:
             ``KoptsBuilder`` for ``Kopts``.
         """
 
-        return Kopts(
+        return KoptsBuilder(
             options=copy.deepcopy(ast.options),
         )

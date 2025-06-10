@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SsrOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Pty(SsrOption):
+class Pty(_option.SsrOption):
     """
     Represents INP pty elements.
 
@@ -49,7 +49,7 @@ class Pty(SsrOption):
 
 
 @dataclasses.dataclass
-class PtyBuilder:
+class PtyBuilder(_option.SsrOptionBuilder):
     """
     Builds ``Pty``.
 
@@ -74,8 +74,6 @@ class PtyBuilder:
                     particles.append(item)
                 elif isinstance(item, str):
                     particles.append(types.Designator.from_mcnp(item))
-                else:
-                    particles.append(item.build())
             particles = types.Tuple(particles)
         else:
             particles = None
@@ -93,6 +91,6 @@ class PtyBuilder:
             ``PtyBuilder`` for ``Pty``.
         """
 
-        return Pty(
+        return PtyBuilder(
             particles=copy.deepcopy(ast.particles),
         )

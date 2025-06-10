@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Ith(BlockOption):
+class Ith(_option.BlockOption):
     """
     Represents INP ith elements.
 
@@ -49,7 +49,7 @@ class Ith(BlockOption):
 
 
 @dataclasses.dataclass
-class IthBuilder:
+class IthBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Ith``.
 
@@ -88,6 +88,6 @@ class IthBuilder:
             ``IthBuilder`` for ``Ith``.
         """
 
-        return Ith(
+        return IthBuilder(
             setting=copy.deepcopy(ast.setting),
         )

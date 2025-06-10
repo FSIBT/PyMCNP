@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Pted(BlockOption):
+class Pted(_option.BlockOption):
     """
     Represents INP pted elements.
 
@@ -49,7 +49,7 @@ class Pted(BlockOption):
 
 
 @dataclasses.dataclass
-class PtedBuilder:
+class PtedBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Pted``.
 
@@ -88,6 +88,6 @@ class PtedBuilder:
             ``PtedBuilder`` for ``Pted``.
         """
 
-        return Pted(
+        return PtedBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Sy(SurfaceOption):
+class Sy(_option.SurfaceOption):
     """
     Represents INP sy elements.
 
@@ -26,9 +26,7 @@ class Sy(SurfaceOption):
         'r': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Asy( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Asy( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, y: types.Real, r: types.Real):
         """
@@ -73,7 +71,7 @@ class Sy(SurfaceOption):
 
 
 @dataclasses.dataclass
-class SyBuilder:
+class SyBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Sy``.
 
@@ -123,7 +121,7 @@ class SyBuilder:
             ``SyBuilder`` for ``Sy``.
         """
 
-        return Sy(
+        return SyBuilder(
             y=copy.deepcopy(ast.y),
             r=copy.deepcopy(ast.r),
         )

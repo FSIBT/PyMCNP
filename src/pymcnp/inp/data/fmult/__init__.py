@@ -1,4 +1,5 @@
 from ._option import FmultOption
+from ._option import FmultOptionBuilder
 
 from .Sfnu import Sfnu
 from .Width import Width
@@ -17,6 +18,7 @@ from .Shift import ShiftBuilder
 
 __all__ = [
     'FmultOption',
+    'FmultOptionBuilder',
     'Sfnu',
     'Width',
     'Sfyield',

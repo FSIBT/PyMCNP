@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Tally(MplotOption):
+class Tally(_option.MplotOption):
     """
     Represents INP tally elements.
 
@@ -45,7 +45,7 @@ class Tally(MplotOption):
 
 
 @dataclasses.dataclass
-class TallyBuilder:
+class TallyBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Tally``.
 
@@ -84,6 +84,6 @@ class TallyBuilder:
             ``TallyBuilder`` for ``Tally``.
         """
 
-        return Tally(
+        return TallyBuilder(
             n=copy.deepcopy(ast.n),
         )

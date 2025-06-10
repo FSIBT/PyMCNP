@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Z(SurfaceOption):
+class Z(_option.SurfaceOption):
     """
     Represents INP z elements.
 
@@ -37,15 +37,7 @@ class Z(SurfaceOption):
         rf'\Az( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
-    def __init__(
-        self,
-        z1: types.Real,
-        r1: types.Real,
-        z2: types.Real = None,
-        r2: types.Real = None,
-        z3: types.Real = None,
-        r3: types.Real = None,
-    ):
+    def __init__(self, z1: types.Real, r1: types.Real, z2: types.Real = None, r2: types.Real = None, z3: types.Real = None, r3: types.Real = None):
         """
         Initializes ``Z``.
 
@@ -86,7 +78,7 @@ class Z(SurfaceOption):
 
 
 @dataclasses.dataclass
-class ZBuilder:
+class ZBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Z``.
 
@@ -180,7 +172,7 @@ class ZBuilder:
             ``ZBuilder`` for ``Z``.
         """
 
-        return Z(
+        return ZBuilder(
             z1=copy.deepcopy(ast.z1),
             r1=copy.deepcopy(ast.r1),
             z2=copy.deepcopy(ast.z2),

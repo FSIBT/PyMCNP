@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Cy(SurfaceOption):
+class Cy(_option.SurfaceOption):
     """
     Represents INP cy elements.
 
@@ -63,7 +63,7 @@ class Cy(SurfaceOption):
 
 
 @dataclasses.dataclass
-class CyBuilder:
+class CyBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Cy``.
 
@@ -102,6 +102,6 @@ class CyBuilder:
             ``CyBuilder`` for ``Cy``.
         """
 
-        return Cy(
+        return CyBuilder(
             r=copy.deepcopy(ast.r),
         )

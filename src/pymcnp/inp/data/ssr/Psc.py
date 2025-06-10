@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SsrOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Psc(SsrOption):
+class Psc(_option.SsrOption):
     """
     Represents INP psc elements.
 
@@ -49,7 +49,7 @@ class Psc(SsrOption):
 
 
 @dataclasses.dataclass
-class PscBuilder:
+class PscBuilder(_option.SsrOptionBuilder):
     """
     Builds ``Psc``.
 
@@ -88,6 +88,6 @@ class PscBuilder:
             ``PscBuilder`` for ``Psc``.
         """
 
-        return Psc(
+        return PscBuilder(
             constant=copy.deepcopy(ast.constant),
         )

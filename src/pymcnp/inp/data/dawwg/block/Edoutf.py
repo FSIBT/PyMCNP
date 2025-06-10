@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Edoutf(BlockOption):
+class Edoutf(_option.BlockOption):
     """
     Represents INP edoutf elements.
 
@@ -49,7 +49,7 @@ class Edoutf(BlockOption):
 
 
 @dataclasses.dataclass
-class EdoutfBuilder:
+class EdoutfBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Edoutf``.
 
@@ -88,6 +88,6 @@ class EdoutfBuilder:
             ``EdoutfBuilder`` for ``Edoutf``.
         """
 
-        return Edoutf(
+        return EdoutfBuilder(
             setting=copy.deepcopy(ast.setting),
         )

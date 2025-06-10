@@ -1,4 +1,5 @@
 from ._option import EmbeeOption
+from ._option import EmbeeOptionBuilder
 
 from .Embed import Embed
 from .Energy import Energy
@@ -19,6 +20,7 @@ from .Mtype import MtypeBuilder
 
 __all__ = [
     'EmbeeOption',
+    'EmbeeOptionBuilder',
     'Embed',
     'Energy',
     'Time',

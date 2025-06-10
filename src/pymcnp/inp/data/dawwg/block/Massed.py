@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Massed(BlockOption):
+class Massed(_option.BlockOption):
     """
     Represents INP massed elements.
 
@@ -49,7 +49,7 @@ class Massed(BlockOption):
 
 
 @dataclasses.dataclass
-class MassedBuilder:
+class MassedBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Massed``.
 
@@ -88,6 +88,6 @@ class MassedBuilder:
             ``MassedBuilder`` for ``Massed``.
         """
 
-        return Massed(
+        return MassedBuilder(
             setting=copy.deepcopy(ast.setting),
         )

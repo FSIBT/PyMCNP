@@ -128,17 +128,10 @@
    :members:
 ```
 
-### ``Tmp_0`` Class
+### ``Tmp`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.cell.Tmp_0
-   :members:
-```
-
-### ``Tmp_1`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.cell.Tmp_1
+.. autoclass:: pymcnp.inp.cell.Tmp
    :members:
 ```
 
@@ -340,17 +333,10 @@
    :members:
 ```
 
-### ``TmpBuilder_0`` Class
+### ``TmpBuilder`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.cell.TmpBuilder_0
-   :members:
-```
-
-### ``TmpBuilder_1`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.cell.TmpBuilder_1
+.. autoclass:: pymcnp.inp.cell.TmpBuilder
    :members:
 ```
 

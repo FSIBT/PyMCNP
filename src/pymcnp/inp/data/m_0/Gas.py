@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Gas(MOption_0):
+class Gas(_option.MOption_0):
     """
     Represents INP gas elements.
 
@@ -49,7 +49,7 @@ class Gas(MOption_0):
 
 
 @dataclasses.dataclass
-class GasBuilder:
+class GasBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Gas``.
 
@@ -86,6 +86,6 @@ class GasBuilder:
             ``GasBuilder`` for ``Gas``.
         """
 
-        return Gas(
+        return GasBuilder(
             setting=copy.deepcopy(ast.setting),
         )

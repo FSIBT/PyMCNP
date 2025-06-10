@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KpertOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Linear(KpertOption):
+class Linear(_option.KpertOption):
     """
     Represents INP linear elements.
 
@@ -49,7 +49,7 @@ class Linear(KpertOption):
 
 
 @dataclasses.dataclass
-class LinearBuilder:
+class LinearBuilder(_option.KpertOptionBuilder):
     """
     Builds ``Linear``.
 
@@ -86,6 +86,6 @@ class LinearBuilder:
             ``LinearBuilder`` for ``Linear``.
         """
 
-        return Linear(
+        return LinearBuilder(
             setting=copy.deepcopy(ast.setting),
         )

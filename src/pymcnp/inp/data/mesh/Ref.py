@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Ref(MeshOption):
+class Ref(_option.MeshOption):
     """
     Represents INP ref elements.
 
@@ -49,7 +49,7 @@ class Ref(MeshOption):
 
 
 @dataclasses.dataclass
-class RefBuilder:
+class RefBuilder(_option.MeshOptionBuilder):
     """
     Builds ``Ref``.
 
@@ -93,6 +93,6 @@ class RefBuilder:
             ``RefBuilder`` for ``Ref``.
         """
 
-        return Ref(
+        return RefBuilder(
             point=copy.deepcopy(ast.point),
         )

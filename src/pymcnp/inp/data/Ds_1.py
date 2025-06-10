@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Ds_1(DataOption):
+class Ds_1(_option.DataOption):
     """
     Represents INP ds variation #1 elements.
 
@@ -55,7 +55,7 @@ class Ds_1(DataOption):
 
 
 @dataclasses.dataclass
-class DsBuilder_1:
+class DsBuilder_1(_option.DataOptionBuilder):
     """
     Builds ``Ds_1``.
 
@@ -90,8 +90,6 @@ class DsBuilder_1:
                     ijs.append(item)
                 elif isinstance(item, str):
                     ijs.append(types.IndependentDependent.from_mcnp(item))
-                else:
-                    ijs.append(item.build())
             ijs = types.Tuple(ijs)
         else:
             ijs = None
@@ -110,7 +108,7 @@ class DsBuilder_1:
             ``DsBuilder_1`` for ``Ds_1``.
         """
 
-        return Ds_1(
+        return DsBuilder_1(
             suffix=copy.deepcopy(ast.suffix),
             ijs=copy.deepcopy(ast.ijs),
         )

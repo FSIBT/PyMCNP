@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fill_0(CellOption):
+class Fill_0(_option.CellOption):
     """
     Represents INP fill variation #0 elements.
 
@@ -33,19 +33,9 @@ class Fill_0(CellOption):
         'm': types.Integer,
     }
 
-    _REGEX = re.compile(
-        rf'\A([*])?fill (\S+:\S+) (\S+:\S+) (\S+:\S+)((?:(?: {types.Integer._REGEX.pattern[2:-2]})+?)( {types.Integer._REGEX.pattern[2:-2]}| [(]{types.Integer._REGEX.pattern[2:-2]}[)])?)\Z'
-    )
+    _REGEX = re.compile(rf'\A([*])?fill (\S+:\S+) (\S+:\S+) (\S+:\S+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)(?: [(]({types.Integer._REGEX.pattern[2:-2]})[)])?\Z')
 
-    def __init__(
-        self,
-        i: types.Index,
-        j: types.Index,
-        k: types.Index,
-        universes: types.Tuple[types.Integer],
-        prefix: types.String = None,
-        m: types.Integer = None,
-    ):
+    def __init__(self, i: types.Index, j: types.Index, k: types.Index, universes: types.Tuple[types.Integer], prefix: types.String = None, m: types.Integer = None):
         """
         Initializes ``Fill_0``.
 
@@ -61,6 +51,8 @@ class Fill_0(CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        if prefix is not None and prefix.value not in {'*'}:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
         if i is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i)
         if j is None:
@@ -72,7 +64,6 @@ class Fill_0(CellOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                prefix,
                 i,
                 j,
                 k,
@@ -90,7 +81,7 @@ class Fill_0(CellOption):
 
 
 @dataclasses.dataclass
-class FillBuilder_0:
+class FillBuilder_0(_option.CellOptionBuilder):
     """
     Builds ``Fill_0``.
 
@@ -181,7 +172,7 @@ class FillBuilder_0:
             ``FillBuilder_0`` for ``Fill_0``.
         """
 
-        return Fill_0(
+        return FillBuilder_0(
             prefix=copy.deepcopy(ast.prefix),
             i=copy.deepcopy(ast.i),
             j=copy.deepcopy(ast.j),

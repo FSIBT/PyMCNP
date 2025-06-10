@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Jints(FmeshOption):
+class Jints(_option.FmeshOption):
     """
     Represents INP jints elements.
 
@@ -49,7 +49,7 @@ class Jints(FmeshOption):
 
 
 @dataclasses.dataclass
-class JintsBuilder:
+class JintsBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Jints``.
 
@@ -93,6 +93,6 @@ class JintsBuilder:
             ``JintsBuilder`` for ``Jints``.
         """
 
-        return Jints(
+        return JintsBuilder(
             count=copy.deepcopy(ast.count),
         )

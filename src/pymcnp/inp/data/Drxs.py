@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Drxs(DataOption):
+class Drxs(_option.DataOption):
     """
     Represents INP drxs elements.
 
@@ -45,7 +45,7 @@ class Drxs(DataOption):
 
 
 @dataclasses.dataclass
-class DrxsBuilder:
+class DrxsBuilder(_option.DataOptionBuilder):
     """
     Builds ``Drxs``.
 
@@ -70,8 +70,6 @@ class DrxsBuilder:
                     zaids.append(item)
                 elif isinstance(item, str):
                     zaids.append(types.Zaid.from_mcnp(item))
-                else:
-                    zaids.append(item.build())
             zaids = types.Tuple(zaids)
         else:
             zaids = None
@@ -89,6 +87,6 @@ class DrxsBuilder:
             ``DrxsBuilder`` for ``Drxs``.
         """
 
-        return Drxs(
+        return DrxsBuilder(
             zaids=copy.deepcopy(ast.zaids),
         )

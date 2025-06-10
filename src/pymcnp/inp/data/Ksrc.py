@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Ksrc(DataOption):
+class Ksrc(_option.DataOption):
     """
     Represents INP ksrc elements.
 
@@ -49,7 +49,7 @@ class Ksrc(DataOption):
 
 
 @dataclasses.dataclass
-class KsrcBuilder:
+class KsrcBuilder(_option.DataOptionBuilder):
     """
     Builds ``Ksrc``.
 
@@ -74,8 +74,6 @@ class KsrcBuilder:
                     locations.append(item)
                 elif isinstance(item, str):
                     locations.append(types.Location.from_mcnp(item))
-                else:
-                    locations.append(item.build())
             locations = types.Tuple(locations)
         else:
             locations = None
@@ -93,6 +91,6 @@ class KsrcBuilder:
             ``KsrcBuilder`` for ``Ksrc``.
         """
 
-        return Ksrc(
+        return KsrcBuilder(
             locations=copy.deepcopy(ast.locations),
         )

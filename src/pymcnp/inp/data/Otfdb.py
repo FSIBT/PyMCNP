@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Otfdb(DataOption):
+class Otfdb(_option.DataOption):
     """
     Represents INP otfdb elements.
 
@@ -49,7 +49,7 @@ class Otfdb(DataOption):
 
 
 @dataclasses.dataclass
-class OtfdbBuilder:
+class OtfdbBuilder(_option.DataOptionBuilder):
     """
     Builds ``Otfdb``.
 
@@ -74,8 +74,6 @@ class OtfdbBuilder:
                     zaids.append(item)
                 elif isinstance(item, str):
                     zaids.append(types.Zaid.from_mcnp(item))
-                else:
-                    zaids.append(item.build())
             zaids = types.Tuple(zaids)
         else:
             zaids = None
@@ -93,6 +91,6 @@ class OtfdbBuilder:
             ``OtfdbBuilder`` for ``Otfdb``.
         """
 
-        return Otfdb(
+        return OtfdbBuilder(
             zaids=copy.deepcopy(ast.zaids),
         )

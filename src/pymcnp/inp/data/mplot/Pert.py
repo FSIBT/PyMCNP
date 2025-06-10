@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Pert(MplotOption):
+class Pert(_option.MplotOption):
     """
     Represents INP pert elements.
 
@@ -45,7 +45,7 @@ class Pert(MplotOption):
 
 
 @dataclasses.dataclass
-class PertBuilder:
+class PertBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Pert``.
 
@@ -84,6 +84,6 @@ class PertBuilder:
             ``PertBuilder`` for ``Pert``.
         """
 
-        return Pert(
+        return PertBuilder(
             n=copy.deepcopy(ast.n),
         )

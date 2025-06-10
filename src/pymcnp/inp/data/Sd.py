@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Sd(DataOption):
+class Sd(_option.DataOption):
     """
     Represents INP sd elements.
 
@@ -55,7 +55,7 @@ class Sd(DataOption):
 
 
 @dataclasses.dataclass
-class SdBuilder:
+class SdBuilder(_option.DataOptionBuilder):
     """
     Builds ``Sd``.
 
@@ -110,7 +110,7 @@ class SdBuilder:
             ``SdBuilder`` for ``Sd``.
         """
 
-        return Sd(
+        return SdBuilder(
             suffix=copy.deepcopy(ast.suffix),
             information=copy.deepcopy(ast.information),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Fmrelerr(MplotOption):
+class Fmrelerr(_option.MplotOption):
     """
     Represents INP fmrelerr elements.
 
@@ -49,7 +49,7 @@ class Fmrelerr(MplotOption):
 
 
 @dataclasses.dataclass
-class FmrelerrBuilder:
+class FmrelerrBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Fmrelerr``.
 
@@ -88,6 +88,6 @@ class FmrelerrBuilder:
             ``FmrelerrBuilder`` for ``Fmrelerr``.
         """
 
-        return Fmrelerr(
+        return FmrelerrBuilder(
             n=copy.deepcopy(ast.n),
         )

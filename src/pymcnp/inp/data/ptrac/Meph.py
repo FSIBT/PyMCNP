@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Meph(PtracOption):
+class Meph(_option.PtracOption):
     """
     Represents INP meph elements.
 
@@ -49,7 +49,7 @@ class Meph(PtracOption):
 
 
 @dataclasses.dataclass
-class MephBuilder:
+class MephBuilder(_option.PtracOptionBuilder):
     """
     Builds ``Meph``.
 
@@ -88,6 +88,6 @@ class MephBuilder:
             ``MephBuilder`` for ``Meph``.
         """
 
-        return Meph(
+        return MephBuilder(
             events=copy.deepcopy(ast.events),
         )

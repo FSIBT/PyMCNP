@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Linlog(MplotOption):
+class Linlog(_option.MplotOption):
     """
     Represents INP linlog elements.
 
@@ -38,7 +38,7 @@ class Linlog(MplotOption):
 
 
 @dataclasses.dataclass
-class LinlogBuilder:
+class LinlogBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Linlog``.
 
@@ -65,4 +65,4 @@ class LinlogBuilder:
             ``LinlogBuilder`` for ``Linlog``.
         """
 
-        return Linlog()
+        return LinlogBuilder()

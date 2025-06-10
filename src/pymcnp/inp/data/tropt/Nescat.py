@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import TroptOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Nescat(TroptOption):
+class Nescat(_option.TroptOption):
     """
     Represents INP nescat elements.
 
@@ -49,7 +49,7 @@ class Nescat(TroptOption):
 
 
 @dataclasses.dataclass
-class NescatBuilder:
+class NescatBuilder(_option.TroptOptionBuilder):
     """
     Builds ``Nescat``.
 
@@ -86,6 +86,6 @@ class NescatBuilder:
             ``NescatBuilder`` for ``Nescat``.
         """
 
-        return Nescat(
+        return NescatBuilder(
             setting=copy.deepcopy(ast.setting),
         )

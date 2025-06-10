@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Origin(FmeshOption):
+class Origin(_option.FmeshOption):
     """
     Represents INP origin elements.
 
@@ -27,9 +27,7 @@ class Origin(FmeshOption):
         'z': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Aorigin( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Aorigin( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, x: types.Real, y: types.Real, z: types.Real):
         """
@@ -65,7 +63,7 @@ class Origin(FmeshOption):
 
 
 @dataclasses.dataclass
-class OriginBuilder:
+class OriginBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Origin``.
 
@@ -126,7 +124,7 @@ class OriginBuilder:
             ``OriginBuilder`` for ``Origin``.
         """
 
-        return Origin(
+        return OriginBuilder(
             x=copy.deepcopy(ast.x),
             y=copy.deepcopy(ast.y),
             z=copy.deepcopy(ast.z),

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SsrOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Poa(SsrOption):
+class Poa(_option.SsrOption):
     """
     Represents INP poa elements.
 
@@ -49,7 +49,7 @@ class Poa(SsrOption):
 
 
 @dataclasses.dataclass
-class PoaBuilder:
+class PoaBuilder(_option.SsrOptionBuilder):
     """
     Builds ``Poa``.
 
@@ -88,6 +88,6 @@ class PoaBuilder:
             ``PoaBuilder`` for ``Poa``.
         """
 
-        return Poa(
+        return PoaBuilder(
             angle=copy.deepcopy(ast.angle),
         )

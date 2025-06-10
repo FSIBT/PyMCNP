@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Prdmp(DataOption):
+class Prdmp(_option.DataOption):
     """
     Represents INP prdmp elements.
 
@@ -34,14 +34,7 @@ class Prdmp(DataOption):
         rf'\Aprdmp( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?\Z'
     )
 
-    def __init__(
-        self,
-        ndp: types.Integer = None,
-        ndm: types.Integer = None,
-        mct: types.Integer = None,
-        ndmp: types.Integer = None,
-        dmmp: types.Integer = None,
-    ):
+    def __init__(self, ndp: types.Integer = None, ndm: types.Integer = None, mct: types.Integer = None, ndmp: types.Integer = None, dmmp: types.Integer = None):
         """
         Initializes ``Prdmp``.
 
@@ -74,7 +67,7 @@ class Prdmp(DataOption):
 
 
 @dataclasses.dataclass
-class PrdmpBuilder:
+class PrdmpBuilder(_option.DataOptionBuilder):
     """
     Builds ``Prdmp``.
 
@@ -157,7 +150,7 @@ class PrdmpBuilder:
             ``PrdmpBuilder`` for ``Prdmp``.
         """
 
-        return Prdmp(
+        return PrdmpBuilder(
             ndp=copy.deepcopy(ast.ndp),
             ndm=copy.deepcopy(ast.ndm),
             mct=copy.deepcopy(ast.mct),

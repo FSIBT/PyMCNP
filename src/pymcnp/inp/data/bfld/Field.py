@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BfldOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Field(BfldOption):
+class Field(_option.BfldOption):
     """
     Represents INP field elements.
 
@@ -49,7 +49,7 @@ class Field(BfldOption):
 
 
 @dataclasses.dataclass
-class FieldBuilder:
+class FieldBuilder(_option.BfldOptionBuilder):
     """
     Builds ``Field``.
 
@@ -88,6 +88,6 @@ class FieldBuilder:
             ``FieldBuilder`` for ``Field``.
         """
 
-        return Field(
+        return FieldBuilder(
             strength_gradient=copy.deepcopy(ast.strength_gradient),
         )

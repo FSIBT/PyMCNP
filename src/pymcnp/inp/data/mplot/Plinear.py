@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Plinear(MplotOption):
+class Plinear(_option.MplotOption):
     """
     Represents INP plinear elements.
 
@@ -38,7 +38,7 @@ class Plinear(MplotOption):
 
 
 @dataclasses.dataclass
-class PlinearBuilder:
+class PlinearBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Plinear``.
 
@@ -65,4 +65,4 @@ class PlinearBuilder:
             ``PlinearBuilder`` for ``Plinear``.
         """
 
-        return Plinear()
+        return PlinearBuilder()

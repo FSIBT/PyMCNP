@@ -5,11 +5,11 @@ import dataclasses
 
 
 from . import dawwg
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Dawwg(DataOption):
+class Dawwg(_option.DataOption):
     """
     Represents INP dawwg elements.
 
@@ -46,7 +46,7 @@ class Dawwg(DataOption):
 
 
 @dataclasses.dataclass
-class DawwgBuilder:
+class DawwgBuilder(_option.DataOptionBuilder):
     """
     Builds ``Dawwg``.
 
@@ -71,7 +71,7 @@ class DawwgBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(dawwg.DawwgOption.from_mcnp(item))
-                else:
+                elif isinstance(item, dawwg.DawwgOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -90,6 +90,6 @@ class DawwgBuilder:
             ``DawwgBuilder`` for ``Dawwg``.
         """
 
-        return Dawwg(
+        return DawwgBuilder(
             options=copy.deepcopy(ast.options),
         )

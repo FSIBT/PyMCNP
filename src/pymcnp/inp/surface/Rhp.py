@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Rhp(SurfaceOption):
+class Rhp(_option.SurfaceOption):
     """
     Represents INP rhp elements.
 
@@ -170,9 +170,7 @@ class Rhp(SurfaceOption):
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.Visualization.get_cylinder_hexagon(
-            h.norm(), r.apothem(), s.apothem(), t.apothem()
-        )
+        vis = _visualization.Visualization.get_cylinder_hexagon(h.norm(), r.apothem(), s.apothem(), t.apothem())
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 
@@ -180,7 +178,7 @@ class Rhp(SurfaceOption):
 
 
 @dataclasses.dataclass
-class RhpBuilder:
+class RhpBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Rhp``.
 
@@ -373,7 +371,7 @@ class RhpBuilder:
             ``RhpBuilder`` for ``Rhp``.
         """
 
-        return Rhp(
+        return RhpBuilder(
             vx=copy.deepcopy(ast.vx),
             vy=copy.deepcopy(ast.vy),
             vz=copy.deepcopy(ast.vz),

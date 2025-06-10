@@ -1,0 +1,34 @@
+import pymcnp
+from ... import _utils
+
+
+class Test_Tr_4:
+    class Test_FromMcnp(_utils._Test_FromMcnp):
+        element = pymcnp.inp.data.Tr_4
+        EXAMPLES_VALID = []
+        EXAMPLES_INVALID = []
+
+    class Test_Build(_utils._Test_Build):
+        element = pymcnp.inp.data.TrBuilder_4
+        EXAMPLES_VALID = [
+            {'prefix': '*', 'suffix': _utils.string.type.INTEGER, 'x': _utils.string.type.REAL, 'y': _utils.string.type.REAL, 'z': _utils.string.type.REAL, 'system': _utils.string.type.INTEGER},
+            {'prefix': '*', 'suffix': 1, 'x': 3.1, 'y': 3.1, 'z': 3.1, 'system': 1},
+            {
+                'prefix': pymcnp.utils.types.String('*'),
+                'suffix': _utils.ast.type.INTEGER,
+                'x': _utils.ast.type.REAL,
+                'y': _utils.ast.type.REAL,
+                'z': _utils.ast.type.REAL,
+                'system': _utils.ast.type.INTEGER,
+            },
+            {'prefix': None, 'suffix': _utils.string.type.INTEGER, 'x': _utils.string.type.REAL, 'y': _utils.string.type.REAL, 'z': _utils.string.type.REAL, 'system': _utils.string.type.INTEGER},
+            {'prefix': '*', 'suffix': _utils.string.type.INTEGER, 'x': _utils.string.type.REAL, 'y': _utils.string.type.REAL, 'z': _utils.string.type.REAL, 'system': None},
+        ]
+        EXAMPLES_INVALID = [
+            {'prefix': '*', 'suffix': None, 'x': _utils.string.type.REAL, 'y': _utils.string.type.REAL, 'z': _utils.string.type.REAL, 'system': _utils.string.type.INTEGER},
+            {'prefix': '*', 'suffix': _utils.string.type.INTEGER, 'x': None, 'y': _utils.string.type.REAL, 'z': _utils.string.type.REAL, 'system': _utils.string.type.INTEGER},
+            {'prefix': '*', 'suffix': _utils.string.type.INTEGER, 'x': _utils.string.type.REAL, 'y': None, 'z': _utils.string.type.REAL, 'system': _utils.string.type.INTEGER},
+            {'prefix': '*', 'suffix': _utils.string.type.INTEGER, 'x': _utils.string.type.REAL, 'y': _utils.string.type.REAL, 'z': None, 'system': _utils.string.type.INTEGER},
+            {'prefix': 'hello', 'suffix': _utils.string.type.INTEGER, 'x': _utils.string.type.REAL, 'y': _utils.string.type.REAL, 'z': _utils.string.type.REAL, 'system': _utils.string.type.INTEGER},
+            {'prefix': '*', 'suffix': _utils.string.type.INTEGER, 'x': _utils.string.type.REAL, 'y': _utils.string.type.REAL, 'z': _utils.string.type.REAL, 'system': -9999},
+        ]
