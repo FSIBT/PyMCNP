@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Si_0(DataOption):
+class Si_0(_option.DataOption):
     """
     Represents INP si variation #0 elements.
 
@@ -27,16 +27,9 @@ class Si_0(DataOption):
         'information': types.Tuple[types.DistributionNumber],
     }
 
-    _REGEX = re.compile(
-        rf'\Asi(\d+)( {types.String._REGEX.pattern[2:-2]})?((?: {types.DistributionNumber._REGEX.pattern[2:-2]})+?)\Z'
-    )
+    _REGEX = re.compile(rf'\Asi(\d+)( {types.String._REGEX.pattern[2:-2]})?((?: {types.DistributionNumber._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        information: types.Tuple[types.DistributionNumber],
-        option: types.String = None,
-    ):
+    def __init__(self, suffix: types.Integer, information: types.Tuple[types.DistributionNumber], option: types.String = None):
         """
         Initializes ``Si_0``.
 
@@ -67,7 +60,7 @@ class Si_0(DataOption):
 
 
 @dataclasses.dataclass
-class SiBuilder_0:
+class SiBuilder_0(_option.DataOptionBuilder):
     """
     Builds ``Si_0``.
 
@@ -110,8 +103,6 @@ class SiBuilder_0:
                     information.append(item)
                 elif isinstance(item, str):
                     information.append(types.DistributionNumber.from_mcnp(item))
-                else:
-                    information.append(item.build())
             information = types.Tuple(information)
         else:
             information = None
@@ -131,7 +122,7 @@ class SiBuilder_0:
             ``SiBuilder_0`` for ``Si_0``.
         """
 
-        return Si_0(
+        return SiBuilder_0(
             suffix=copy.deepcopy(ast.suffix),
             option=copy.deepcopy(ast.option),
             information=copy.deepcopy(ast.information),

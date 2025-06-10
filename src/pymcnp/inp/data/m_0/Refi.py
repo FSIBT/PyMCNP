@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Refi(MOption_0):
+class Refi(_option.MOption_0):
     """
     Represents INP refi elements.
 
@@ -49,7 +49,7 @@ class Refi(MOption_0):
 
 
 @dataclasses.dataclass
-class RefiBuilder:
+class RefiBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Refi``.
 
@@ -88,6 +88,6 @@ class RefiBuilder:
             ``RefiBuilder`` for ``Refi``.
         """
 
-        return Refi(
+        return RefiBuilder(
             refractive_index=copy.deepcopy(ast.refractive_index),
         )

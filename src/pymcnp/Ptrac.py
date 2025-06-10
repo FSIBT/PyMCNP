@@ -15,14 +15,9 @@ class Ptrac(_object.McnpFile):
         histories: PTRAC histories.
     """
 
-    _REGEX = re.compile(
-        rf'\A({ptrac.Header._REGEX.pattern[2:-2]})'
-        rf'((?:{ptrac.History._REGEX.pattern[2:-2]})+)\Z'
-    )
+    _REGEX = re.compile(rf'\A({ptrac.Header._REGEX.pattern[2:-2]})' rf'((?:{ptrac.History._REGEX.pattern[2:-2]})+)\Z')
 
-    def __init__(
-        self, header: ptrac.Header, histories: typing.Generator[ptrac.History, None, None]
-    ):
+    def __init__(self, header: ptrac.Header, histories: typing.Generator[ptrac.History, None, None]):
         """
         Initializes ``Ptrac``.
 
@@ -67,10 +62,7 @@ class Ptrac(_object.McnpFile):
             raise errors.PtracError(errors.PtracCode.SYNTAX_PTRAC, source)
 
         header = ptrac.Header.from_mcnp(tokens[1])
-        histories = (
-            ptrac.History.from_mcnp(match[0], header)
-            for match in ptrac.History._REGEX.finditer(tokens[10])
-        )
+        histories = (ptrac.History.from_mcnp(match[0], header) for match in ptrac.History._REGEX.finditer(tokens[10]))
 
         return Ptrac(header, histories)
 
@@ -82,8 +74,4 @@ class Ptrac(_object.McnpFile):
             PTRAC for ``Ptrac``.
         """
 
-        return (
-            self.header.to_mcnp()
-            + '\n'.join(history.to_mcnp() for history in self.histories)
-            + '\n'
-        )
+        return self.header.to_mcnp() + '\n'.join(history.to_mcnp() for history in self.histories) + '\n'

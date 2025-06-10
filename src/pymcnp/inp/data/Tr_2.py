@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Tr_2(DataOption):
+class Tr_2(_option.DataOption):
     """
     Represents INP tr variation #2 elements.
 
@@ -81,6 +81,8 @@ class Tr_2(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        if prefix is not None and prefix.value not in {'*'}:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
         if suffix is None or not (1 <= suffix.value <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if x is None:
@@ -104,7 +106,6 @@ class Tr_2(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                prefix,
                 x,
                 y,
                 z,
@@ -131,7 +132,7 @@ class Tr_2(DataOption):
 
 
 @dataclasses.dataclass
-class TrBuilder_2:
+class TrBuilder_2(_option.DataOptionBuilder):
     """
     Builds ``Tr_2``.
 
@@ -278,7 +279,7 @@ class TrBuilder_2:
             ``TrBuilder_2`` for ``Tr_2``.
         """
 
-        return Tr_2(
+        return TrBuilder_2(
             prefix=copy.deepcopy(ast.prefix),
             suffix=copy.deepcopy(ast.suffix),
             x=copy.deepcopy(ast.x),

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Cond(MOption_0):
+class Cond(_option.MOption_0):
     """
     Represents INP cond elements.
 
@@ -49,7 +49,7 @@ class Cond(MOption_0):
 
 
 @dataclasses.dataclass
-class CondBuilder:
+class CondBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Cond``.
 
@@ -88,6 +88,6 @@ class CondBuilder:
             ``CondBuilder`` for ``Cond``.
         """
 
-        return Cond(
+        return CondBuilder(
             setting=copy.deepcopy(ast.setting),
         )

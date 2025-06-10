@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Lost(DataOption):
+class Lost(_option.DataOption):
     """
     Represents INP lost elements.
 
@@ -25,9 +25,7 @@ class Lost(DataOption):
         'lost2': types.Integer,
     }
 
-    _REGEX = re.compile(
-        rf'\Alost( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Alost( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, lost1: types.Integer, lost2: types.Integer):
         """
@@ -58,7 +56,7 @@ class Lost(DataOption):
 
 
 @dataclasses.dataclass
-class LostBuilder:
+class LostBuilder(_option.DataOptionBuilder):
     """
     Builds ``Lost``.
 
@@ -108,7 +106,7 @@ class LostBuilder:
             ``LostBuilder`` for ``Lost``.
         """
 
-        return Lost(
+        return LostBuilder(
             lost1=copy.deepcopy(ast.lost1),
             lost2=copy.deepcopy(ast.lost2),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Dxc(DataOption):
+class Dxc(_option.DataOption):
     """
     Represents INP dxc elements.
 
@@ -29,12 +29,7 @@ class Dxc(DataOption):
 
     _REGEX = re.compile(rf'\Adxc(\d+):(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        designator: types.Designator,
-        probabilities: types.Tuple[types.Real],
-    ):
+    def __init__(self, suffix: types.Integer, designator: types.Designator, probabilities: types.Tuple[types.Real]):
         """
         Initializes ``Dxc``.
 
@@ -51,9 +46,7 @@ class Dxc(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
-        if probabilities is None or not (
-            filter(lambda entry: not (0 <= entry.value <= 1), probabilities)
-        ):
+        if probabilities is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, probabilities)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -68,7 +61,7 @@ class Dxc(DataOption):
 
 
 @dataclasses.dataclass
-class DxcBuilder:
+class DxcBuilder(_option.DataOptionBuilder):
     """
     Builds ``Dxc``.
 
@@ -132,7 +125,7 @@ class DxcBuilder:
             ``DxcBuilder`` for ``Dxc``.
         """
 
-        return Dxc(
+        return DxcBuilder(
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             probabilities=copy.deepcopy(ast.probabilities),

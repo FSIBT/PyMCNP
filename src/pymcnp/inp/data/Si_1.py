@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Si_1(DataOption):
+class Si_1(_option.DataOption):
     """
     Represents INP si variation #1 elements.
 
@@ -27,16 +27,9 @@ class Si_1(DataOption):
         'information': types.Tuple[types.Real],
     }
 
-    _REGEX = re.compile(
-        rf'\Asi(\d+)( {types.String._REGEX.pattern[2:-2]})?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z'
-    )
+    _REGEX = re.compile(rf'\Asi(\d+)( {types.String._REGEX.pattern[2:-2]})?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        information: types.Tuple[types.Real],
-        option: types.String = None,
-    ):
+    def __init__(self, suffix: types.Integer, information: types.Tuple[types.Real], option: types.String = None):
         """
         Initializes ``Si_1``.
 
@@ -67,7 +60,7 @@ class Si_1(DataOption):
 
 
 @dataclasses.dataclass
-class SiBuilder_1:
+class SiBuilder_1(_option.DataOptionBuilder):
     """
     Builds ``Si_1``.
 
@@ -131,7 +124,7 @@ class SiBuilder_1:
             ``SiBuilder_1`` for ``Si_1``.
         """
 
-        return Si_1(
+        return SiBuilder_1(
             suffix=copy.deepcopy(ast.suffix),
             option=copy.deepcopy(ast.option),
             information=copy.deepcopy(ast.information),

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DawwgOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Xsec(DawwgOption):
+class Xsec(_option.DawwgOption):
     """
     Represents INP xsec elements.
 
@@ -49,7 +49,7 @@ class Xsec(DawwgOption):
 
 
 @dataclasses.dataclass
-class XsecBuilder:
+class XsecBuilder(_option.DawwgOptionBuilder):
     """
     Builds ``Xsec``.
 
@@ -88,6 +88,6 @@ class XsecBuilder:
             ``XsecBuilder`` for ``Xsec``.
         """
 
-        return Xsec(
+        return XsecBuilder(
             count=copy.deepcopy(ast.count),
         )

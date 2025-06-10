@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SsrOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Col(SsrOption):
+class Col(_option.SsrOption):
     """
     Represents INP col elements.
 
@@ -49,7 +49,7 @@ class Col(SsrOption):
 
 
 @dataclasses.dataclass
-class ColBuilder:
+class ColBuilder(_option.SsrOptionBuilder):
     """
     Builds ``Col``.
 
@@ -88,6 +88,6 @@ class ColBuilder:
             ``ColBuilder`` for ``Col``.
         """
 
-        return Col(
+        return ColBuilder(
             setting=copy.deepcopy(ast.setting),
         )

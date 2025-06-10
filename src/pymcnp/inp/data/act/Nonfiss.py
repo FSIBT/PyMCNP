@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import ActOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Nonfiss(ActOption):
+class Nonfiss(_option.ActOption):
     """
     Represents INP nonfiss elements.
 
@@ -49,7 +49,7 @@ class Nonfiss(ActOption):
 
 
 @dataclasses.dataclass
-class NonfissBuilder:
+class NonfissBuilder(_option.ActOptionBuilder):
     """
     Builds ``Nonfiss``.
 
@@ -86,6 +86,6 @@ class NonfissBuilder:
             ``NonfissBuilder`` for ``Nonfiss``.
         """
 
-        return Nonfiss(
+        return NonfissBuilder(
             kind=copy.deepcopy(ast.kind),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Noslnp(BlockOption):
+class Noslnp(_option.BlockOption):
     """
     Represents INP noslnp elements.
 
@@ -49,7 +49,7 @@ class Noslnp(BlockOption):
 
 
 @dataclasses.dataclass
-class NoslnpBuilder:
+class NoslnpBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Noslnp``.
 
@@ -88,6 +88,6 @@ class NoslnpBuilder:
             ``NoslnpBuilder`` for ``Noslnp``.
         """
 
-        return Noslnp(
+        return NoslnpBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Pd(DataOption):
+class Pd(_option.DataOption):
     """
     Represents INP pd elements.
 
@@ -29,12 +29,7 @@ class Pd(DataOption):
 
     _REGEX = re.compile(rf'\Apd(\d+):(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        designator: types.Designator,
-        probabilities: types.Tuple[types.Real],
-    ):
+    def __init__(self, suffix: types.Integer, designator: types.Designator, probabilities: types.Tuple[types.Real]):
         """
         Initializes ``Pd``.
 
@@ -51,9 +46,7 @@ class Pd(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
-        if probabilities is None or not (
-            filter(lambda entry: not (0 <= entry.value <= 1), probabilities)
-        ):
+        if probabilities is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, probabilities)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -68,7 +61,7 @@ class Pd(DataOption):
 
 
 @dataclasses.dataclass
-class PdBuilder:
+class PdBuilder(_option.DataOptionBuilder):
     """
     Builds ``Pd``.
 
@@ -132,7 +125,7 @@ class PdBuilder:
             ``PdBuilder`` for ``Pd``.
         """
 
-        return Pd(
+        return PdBuilder(
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             probabilities=copy.deepcopy(ast.probabilities),

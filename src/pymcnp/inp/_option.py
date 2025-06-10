@@ -33,27 +33,19 @@ class Option(_object.McnpNonterminal):
         subclasses = cls.__subclasses__() or [cls]
 
         for subclass in subclasses:
-            try:
-                if (tokens := subclass._REGEX.match(source)) and tokens[0] == source:
-                    break
-                else:
-                    continue
-            except errors.InpError:
+            if (tokens := subclass._REGEX.match(source)) and tokens[0] == source:
+                break
+            else:
                 continue
         else:
             raise errors.InpError(errors.InpCode.SYNTAX_OPTION, source)
 
-        o = 1
         attrs = {}
         for i, (name, attr) in enumerate(subclass._ATTRS.items()):
             if isinstance(attr, types.GenericAlias):
-                attrs[name] = (
-                    attr.from_mcnp(tokens[i + o].strip(), attr.__args__[0])
-                    if tokens[i + o]
-                    else None
-                )
+                attrs[name] = attr.from_mcnp(tokens[i + 1].strip(), attr.__args__[0]) if tokens[i + 1] else None
             else:
-                attrs[name] = attr.from_mcnp(tokens[i + o].strip()) if tokens[i + o] else None
+                attrs[name] = attr.from_mcnp(tokens[i + 1].strip()) if tokens[i + 1] else None
 
         return subclass(**attrs)
 
@@ -65,4 +57,16 @@ class Option(_object.McnpNonterminal):
             INP for ``Option``.
         """
 
-        return f"{self._KEYWORD}{self.suffix if hasattr(self, 'suffix') else ''}{f':{self.designator}' if hasattr(self, 'designator') else ''} {self.value}"
+        source = f"{self.prefix or '' if hasattr(self, 'prefix') else ''}{self._KEYWORD}{self.suffix or '' if hasattr(self, 'suffix') else ''}{(f':{self.designator}' if self.designator else '') if hasattr(self, 'designator') else ''} {self.value}"
+        source, comments = _parser.preprocess_inp(source)
+        source = _parser.postprocess_inp(source)
+
+        return source
+
+
+class OptionBuilder(_object.McnpNonterminalBuilder):
+    """
+    Represents generic INP option builders.
+    """
+
+    pass

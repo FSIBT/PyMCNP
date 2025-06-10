@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Jmesh(MeshOption):
+class Jmesh(_option.MeshOption):
     """
     Represents INP jmesh elements.
 
@@ -49,7 +49,7 @@ class Jmesh(MeshOption):
 
 
 @dataclasses.dataclass
-class JmeshBuilder:
+class JmeshBuilder(_option.MeshOptionBuilder):
     """
     Builds ``Jmesh``.
 
@@ -93,6 +93,6 @@ class JmeshBuilder:
             ``JmeshBuilder`` for ``Jmesh``.
         """
 
-        return Jmesh(
+        return JmeshBuilder(
             vector=copy.deepcopy(ast.vector),
         )

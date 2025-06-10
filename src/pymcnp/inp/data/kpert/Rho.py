@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KpertOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Rho(KpertOption):
+class Rho(_option.KpertOption):
     """
     Represents INP rho elements.
 
@@ -49,7 +49,7 @@ class Rho(KpertOption):
 
 
 @dataclasses.dataclass
-class RhoBuilder:
+class RhoBuilder(_option.KpertOptionBuilder):
     """
     Builds ``Rho``.
 
@@ -93,6 +93,6 @@ class RhoBuilder:
             ``RhoBuilder`` for ``Rho``.
         """
 
-        return Rho(
+        return RhoBuilder(
             densities=copy.deepcopy(ast.densities),
         )

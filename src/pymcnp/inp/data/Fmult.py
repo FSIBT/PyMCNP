@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import fmult
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fmult(DataOption):
+class Fmult(_option.DataOption):
     """
     Represents INP fmult elements.
 
@@ -26,9 +26,7 @@ class Fmult(DataOption):
         'options': types.Tuple[fmult.FmultOption],
     }
 
-    _REGEX = re.compile(
-        rf'\Afmult( {types.Zaid._REGEX.pattern[2:-2]})((?: (?:{fmult.FmultOption._REGEX.pattern[2:-2]}))+?)?\Z'
-    )
+    _REGEX = re.compile(rf'\Afmult( {types.Zaid._REGEX.pattern[2:-2]})((?: (?:{fmult.FmultOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
     def __init__(self, zaid: types.Zaid, options: types.Tuple[fmult.FmultOption] = None):
         """
@@ -57,7 +55,7 @@ class Fmult(DataOption):
 
 
 @dataclasses.dataclass
-class FmultBuilder:
+class FmultBuilder(_option.DataOptionBuilder):
     """
     Builds ``Fmult``.
 
@@ -90,7 +88,7 @@ class FmultBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(fmult.FmultOption.from_mcnp(item))
-                else:
+                elif isinstance(item, fmult.FmultOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -110,7 +108,7 @@ class FmultBuilder:
             ``FmultBuilder`` for ``Fmult``.
         """
 
-        return Fmult(
+        return FmultBuilder(
             zaid=copy.deepcopy(ast.zaid),
             options=copy.deepcopy(ast.options),
         )

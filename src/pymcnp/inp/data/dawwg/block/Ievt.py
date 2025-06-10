@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Ievt(BlockOption):
+class Ievt(_option.BlockOption):
     """
     Represents INP ievt elements.
 
@@ -49,7 +49,7 @@ class Ievt(BlockOption):
 
 
 @dataclasses.dataclass
-class IevtBuilder:
+class IevtBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Ievt``.
 
@@ -88,6 +88,6 @@ class IevtBuilder:
             ``IevtBuilder`` for ``Ievt``.
         """
 
-        return Ievt(
+        return IevtBuilder(
             setting=copy.deepcopy(ast.setting),
         )

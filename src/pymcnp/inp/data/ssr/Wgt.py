@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SsrOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Wgt(SsrOption):
+class Wgt(_option.SsrOption):
     """
     Represents INP wgt elements.
 
@@ -49,7 +49,7 @@ class Wgt(SsrOption):
 
 
 @dataclasses.dataclass
-class WgtBuilder:
+class WgtBuilder(_option.SsrOptionBuilder):
     """
     Builds ``Wgt``.
 
@@ -88,6 +88,6 @@ class WgtBuilder:
             ``WgtBuilder`` for ``Wgt``.
         """
 
-        return Wgt(
+        return WgtBuilder(
             constant=copy.deepcopy(ast.constant),
         )

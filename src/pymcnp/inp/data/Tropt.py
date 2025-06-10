@@ -5,11 +5,11 @@ import dataclasses
 
 
 from . import tropt
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Tropt(DataOption):
+class Tropt(_option.DataOption):
     """
     Represents INP tropt elements.
 
@@ -46,7 +46,7 @@ class Tropt(DataOption):
 
 
 @dataclasses.dataclass
-class TroptBuilder:
+class TroptBuilder(_option.DataOptionBuilder):
     """
     Builds ``Tropt``.
 
@@ -71,7 +71,7 @@ class TroptBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(tropt.TroptOption.from_mcnp(item))
-                else:
+                elif isinstance(item, tropt.TroptOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -90,6 +90,6 @@ class TroptBuilder:
             ``TroptBuilder`` for ``Tropt``.
         """
 
-        return Tropt(
+        return TroptBuilder(
             options=copy.deepcopy(ast.options),
         )

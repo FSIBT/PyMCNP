@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Mgopt(DataOption):
+class Mgopt(_option.DataOption):
     """
     Represents INP mgopt elements.
 
@@ -39,16 +39,7 @@ class Mgopt(DataOption):
         rf'\Amgopt( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
-    def __init__(
-        self,
-        mcal: types.String,
-        igm: types.Integer,
-        iplt: types.Integer = None,
-        iab: types.Integer = None,
-        icw: types.Integer = None,
-        fnw: types.Real = None,
-        rim: types.Real = None,
-    ):
+    def __init__(self, mcal: types.String, igm: types.Integer, iplt: types.Integer = None, iab: types.Integer = None, icw: types.Integer = None, fnw: types.Real = None, rim: types.Real = None):
         """
         Initializes ``Mgopt``.
 
@@ -69,9 +60,9 @@ class Mgopt(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mcal)
         if igm is None or not (igm.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, igm)
-        if iplt is not None and not (iplt.value == 0 or iplt.value == 1 or iplt.value == 2):
+        if iplt is not None and iplt.value not in {0, 1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iplt)
-        if iab is not None and not (iab.value == 0 or iab.value == 1 or iab.value == 2):
+        if iab is not None and iab.value not in {0, 1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iab)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -96,7 +87,7 @@ class Mgopt(DataOption):
 
 
 @dataclasses.dataclass
-class MgoptBuilder:
+class MgoptBuilder(_option.DataOptionBuilder):
     """
     Builds ``Mgopt``.
 
@@ -199,7 +190,7 @@ class MgoptBuilder:
             ``MgoptBuilder`` for ``Mgopt``.
         """
 
-        return Mgopt(
+        return MgoptBuilder(
             mcal=copy.deepcopy(ast.mcal),
             igm=copy.deepcopy(ast.igm),
             iplt=copy.deepcopy(ast.iplt),

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Bbrem(DataOption):
+class Bbrem(_option.DataOption):
     """
     Represents INP bbrem elements.
 
@@ -335,9 +335,7 @@ class Bbrem(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_48)
         if bias_49 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bias_49)
-        if materials is None or not (
-            filter(lambda entry: not (0 <= entry.value <= 99_999_999), materials)
-        ):
+        if materials is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, materials)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -448,7 +446,7 @@ class Bbrem(DataOption):
 
 
 @dataclasses.dataclass
-class BbremBuilder:
+class BbremBuilder(_option.DataOptionBuilder):
     """
     Builds ``Bbrem``.
 
@@ -1031,7 +1029,7 @@ class BbremBuilder:
             ``BbremBuilder`` for ``Bbrem``.
         """
 
-        return Bbrem(
+        return BbremBuilder(
             bias_1=copy.deepcopy(ast.bias_1),
             bias_2=copy.deepcopy(ast.bias_2),
             bias_3=copy.deepcopy(ast.bias_3),

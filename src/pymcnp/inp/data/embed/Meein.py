@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbedOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Meein(EmbedOption):
+class Meein(_option.EmbedOption):
     """
     Represents INP meein elements.
 
@@ -49,7 +49,7 @@ class Meein(EmbedOption):
 
 
 @dataclasses.dataclass
-class MeeinBuilder:
+class MeeinBuilder(_option.EmbedOptionBuilder):
     """
     Builds ``Meein``.
 
@@ -86,6 +86,6 @@ class MeeinBuilder:
             ``MeeinBuilder`` for ``Meein``.
         """
 
-        return Meein(
+        return MeeinBuilder(
             filename=copy.deepcopy(ast.filename),
         )

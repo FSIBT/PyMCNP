@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Tsabeta(BlockOption):
+class Tsabeta(_option.BlockOption):
     """
     Represents INP tsabeta elements.
 
@@ -49,7 +49,7 @@ class Tsabeta(BlockOption):
 
 
 @dataclasses.dataclass
-class TsabetaBuilder:
+class TsabetaBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Tsabeta``.
 
@@ -88,6 +88,6 @@ class TsabetaBuilder:
             ``TsabetaBuilder`` for ``Tsabeta``.
         """
 
-        return Tsabeta(
+        return TsabetaBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -1,4 +1,5 @@
 from ._option import RandOption
+from ._option import RandOptionBuilder
 
 from .Gen import Gen
 from .Seed import Seed
@@ -11,6 +12,7 @@ from .Hist import HistBuilder
 
 __all__ = [
     'RandOption',
+    'RandOptionBuilder',
     'Gen',
     'Seed',
     'Stride',

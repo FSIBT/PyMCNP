@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Factor(MplotOption):
+class Factor(_option.MplotOption):
     """
     Represents INP factor elements.
 
@@ -27,9 +27,7 @@ class Factor(MplotOption):
         's': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Afactor( {types.String._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z'
-    )
+    _REGEX = re.compile(rf'\Afactor( {types.String._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
     def __init__(self, a: types.String, f: types.Real, s: types.Real = None):
         """
@@ -63,7 +61,7 @@ class Factor(MplotOption):
 
 
 @dataclasses.dataclass
-class FactorBuilder:
+class FactorBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Factor``.
 
@@ -122,7 +120,7 @@ class FactorBuilder:
             ``FactorBuilder`` for ``Factor``.
         """
 
-        return Factor(
+        return FactorBuilder(
             a=copy.deepcopy(ast.a),
             f=copy.deepcopy(ast.f),
             s=copy.deepcopy(ast.s),

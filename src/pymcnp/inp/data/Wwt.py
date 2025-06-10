@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Wwt(DataOption):
+class Wwt(_option.DataOption):
     """
     Represents INP wwt elements.
 
@@ -55,7 +55,7 @@ class Wwt(DataOption):
 
 
 @dataclasses.dataclass
-class WwtBuilder:
+class WwtBuilder(_option.DataOptionBuilder):
     """
     Builds ``Wwt``.
 
@@ -108,7 +108,7 @@ class WwtBuilder:
             ``WwtBuilder`` for ``Wwt``.
         """
 
-        return Wwt(
+        return WwtBuilder(
             designator=copy.deepcopy(ast.designator),
             bounds=copy.deepcopy(ast.bounds),
         )

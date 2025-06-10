@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Thick(MplotOption):
+class Thick(_option.MplotOption):
     """
     Represents INP thick elements.
 
@@ -49,7 +49,7 @@ class Thick(MplotOption):
 
 
 @dataclasses.dataclass
-class ThickBuilder:
+class ThickBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Thick``.
 
@@ -88,6 +88,6 @@ class ThickBuilder:
             ``ThickBuilder`` for ``Thick``.
         """
 
-        return Thick(
+        return ThickBuilder(
             x=copy.deepcopy(ast.x),
         )

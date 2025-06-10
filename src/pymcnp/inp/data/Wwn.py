@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Wwn(DataOption):
+class Wwn(_option.DataOption):
     """
     Represents INP wwn elements.
 
@@ -29,9 +29,7 @@ class Wwn(DataOption):
 
     _REGEX = re.compile(rf'\Awwn(\d+):(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(
-        self, suffix: types.Integer, designator: types.Designator, bounds: types.Tuple[types.Real]
-    ):
+    def __init__(self, suffix: types.Integer, designator: types.Designator, bounds: types.Tuple[types.Real]):
         """
         Initializes ``Wwn``.
 
@@ -63,7 +61,7 @@ class Wwn(DataOption):
 
 
 @dataclasses.dataclass
-class WwnBuilder:
+class WwnBuilder(_option.DataOptionBuilder):
     """
     Builds ``Wwn``.
 
@@ -127,7 +125,7 @@ class WwnBuilder:
             ``WwnBuilder`` for ``Wwn``.
         """
 
-        return Wwn(
+        return WwnBuilder(
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             bounds=copy.deepcopy(ast.bounds),

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Avatar(BlockOption):
+class Avatar(_option.BlockOption):
     """
     Represents INP avatar elements.
 
@@ -49,7 +49,7 @@ class Avatar(BlockOption):
 
 
 @dataclasses.dataclass
-class AvatarBuilder:
+class AvatarBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Avatar``.
 
@@ -88,6 +88,6 @@ class AvatarBuilder:
             ``AvatarBuilder`` for ``Avatar``.
         """
 
-        return Avatar(
+        return AvatarBuilder(
             setting=copy.deepcopy(ast.setting),
         )

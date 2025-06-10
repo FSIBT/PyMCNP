@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Dump(MplotOption):
+class Dump(_option.MplotOption):
     """
     Represents INP dump elements.
 
@@ -45,7 +45,7 @@ class Dump(MplotOption):
 
 
 @dataclasses.dataclass
-class DumpBuilder:
+class DumpBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Dump``.
 
@@ -84,6 +84,6 @@ class DumpBuilder:
             ``DumpBuilder`` for ``Dump``.
         """
 
-        return Dump(
+        return DumpBuilder(
             n=copy.deepcopy(ast.n),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import TOption_1
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Coni(TOption_1):
+class Coni(_option.TOption_1):
     """
     Represents INP coni elements.
 
@@ -49,7 +49,7 @@ class Coni(TOption_1):
 
 
 @dataclasses.dataclass
-class ConiBuilder:
+class ConiBuilder(_option.TOptionBuilder_1):
     """
     Builds ``Coni``.
 
@@ -88,6 +88,6 @@ class ConiBuilder:
             ``ConiBuilder`` for ``Coni``.
         """
 
-        return Coni(
+        return ConiBuilder(
             time=copy.deepcopy(ast.time),
         )

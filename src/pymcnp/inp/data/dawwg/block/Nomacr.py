@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Nomacr(BlockOption):
+class Nomacr(_option.BlockOption):
     """
     Represents INP nomacr elements.
 
@@ -49,7 +49,7 @@ class Nomacr(BlockOption):
 
 
 @dataclasses.dataclass
-class NomacrBuilder:
+class NomacrBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Nomacr``.
 
@@ -88,6 +88,6 @@ class NomacrBuilder:
             ``NomacrBuilder`` for ``Nomacr``.
         """
 
-        return Nomacr(
+        return NomacrBuilder(
             setting=copy.deepcopy(ast.setting),
         )

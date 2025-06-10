@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Files(DataOption):
+class Files(_option.DataOption):
     """
     Represents INP files elements.
 
@@ -49,7 +49,7 @@ class Files(DataOption):
 
 
 @dataclasses.dataclass
-class FilesBuilder:
+class FilesBuilder(_option.DataOptionBuilder):
     """
     Builds ``Files``.
 
@@ -74,8 +74,6 @@ class FilesBuilder:
                     creations.append(item)
                 elif isinstance(item, str):
                     creations.append(types.File.from_mcnp(item))
-                else:
-                    creations.append(item.build())
             creations = types.Tuple(creations)
         else:
             creations = None
@@ -93,6 +91,6 @@ class FilesBuilder:
             ``FilesBuilder`` for ``Files``.
         """
 
-        return Files(
+        return FilesBuilder(
             creations=copy.deepcopy(ast.creations),
         )

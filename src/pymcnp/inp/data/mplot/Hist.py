@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Hist(MplotOption):
+class Hist(_option.MplotOption):
     """
     Represents INP hist elements.
 
@@ -38,7 +38,7 @@ class Hist(MplotOption):
 
 
 @dataclasses.dataclass
-class HistBuilder:
+class HistBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Hist``.
 
@@ -65,4 +65,4 @@ class HistBuilder:
             ``HistBuilder`` for ``Hist``.
         """
 
-        return Hist()
+        return HistBuilder()

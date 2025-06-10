@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Df_0(DataOption):
+class Df_0(_option.DataOption):
     """
     Represents INP df variation #0 elements.
 
@@ -29,9 +29,7 @@ class Df_0(DataOption):
 
     _REGEX = re.compile(rf'\Adf(\d+)( (?:log|lin))?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(
-        self, suffix: types.Integer, values: types.Tuple[types.Real], method: types.String = None
-    ):
+    def __init__(self, suffix: types.Integer, values: types.Tuple[types.Real], method: types.String = None):
         """
         Initializes ``Df_0``.
 
@@ -64,7 +62,7 @@ class Df_0(DataOption):
 
 
 @dataclasses.dataclass
-class DfBuilder_0:
+class DfBuilder_0(_option.DataOptionBuilder):
     """
     Builds ``Df_0``.
 
@@ -128,7 +126,7 @@ class DfBuilder_0:
             ``DfBuilder_0`` for ``Df_0``.
         """
 
-        return Df_0(
+        return DfBuilder_0(
             suffix=copy.deepcopy(ast.suffix),
             method=copy.deepcopy(ast.method),
             values=copy.deepcopy(ast.values),

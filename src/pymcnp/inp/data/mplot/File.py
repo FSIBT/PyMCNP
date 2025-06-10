@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class File(MplotOption):
+class File(_option.MplotOption):
     """
     Represents INP file elements.
 
@@ -23,7 +23,7 @@ class File(MplotOption):
         'aa': types.String,
     }
 
-    _REGEX = re.compile(r'\Afile (?: (all|none))?\Z')
+    _REGEX = re.compile(r'\Afile(?: (all|none))?\Z')
 
     def __init__(self, aa: types.String = None):
         """
@@ -49,7 +49,7 @@ class File(MplotOption):
 
 
 @dataclasses.dataclass
-class FileBuilder:
+class FileBuilder(_option.MplotOptionBuilder):
     """
     Builds ``File``.
 
@@ -86,6 +86,6 @@ class FileBuilder:
             ``FileBuilder`` for ``File``.
         """
 
-        return File(
+        return FileBuilder(
             aa=copy.deepcopy(ast.aa),
         )

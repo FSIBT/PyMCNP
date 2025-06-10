@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Buffer(PtracOption):
+class Buffer(_option.PtracOption):
     """
     Represents INP buffer elements.
 
@@ -49,7 +49,7 @@ class Buffer(PtracOption):
 
 
 @dataclasses.dataclass
-class BufferBuilder:
+class BufferBuilder(_option.PtracOptionBuilder):
     """
     Builds ``Buffer``.
 
@@ -88,6 +88,6 @@ class BufferBuilder:
             ``BufferBuilder`` for ``Buffer``.
         """
 
-        return Buffer(
+        return BufferBuilder(
             storage=copy.deepcopy(ast.storage),
         )

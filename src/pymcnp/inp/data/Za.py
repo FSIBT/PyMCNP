@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Za(DataOption):
+class Za(_option.DataOption):
     """
     Represents INP za elements.
 
@@ -45,7 +45,7 @@ class Za(DataOption):
 
 
 @dataclasses.dataclass
-class ZaBuilder:
+class ZaBuilder(_option.DataOptionBuilder):
     """
     Builds ``Za``.
 
@@ -82,6 +82,6 @@ class ZaBuilder:
             ``ZaBuilder`` for ``Za``.
         """
 
-        return Za(
+        return ZaBuilder(
             anything=copy.deepcopy(ast.anything),
         )

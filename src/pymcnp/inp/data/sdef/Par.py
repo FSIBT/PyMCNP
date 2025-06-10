@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Par(SdefOption):
+class Par(_option.SdefOption):
     """
     Represents INP par elements.
 
@@ -49,7 +49,7 @@ class Par(SdefOption):
 
 
 @dataclasses.dataclass
-class ParBuilder:
+class ParBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Par``.
 
@@ -86,6 +86,6 @@ class ParBuilder:
             ``ParBuilder`` for ``Par``.
         """
 
-        return Par(
+        return ParBuilder(
             kind=copy.deepcopy(ast.kind),
         )

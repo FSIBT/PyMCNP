@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Leb(DataOption):
+class Leb(_option.DataOption):
     """
     Represents INP leb elements.
 
@@ -29,17 +29,9 @@ class Leb(DataOption):
         'bzero': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Aleb( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
-    )
+    _REGEX = re.compile(rf'\Aleb( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(
-        self,
-        yzere: types.Real = None,
-        bzere: types.Real = None,
-        yzero: types.Real = None,
-        bzero: types.Real = None,
-    ):
+    def __init__(self, yzere: types.Real = None, bzere: types.Real = None, yzero: types.Real = None, bzero: types.Real = None):
         """
         Initializes ``Leb``.
 
@@ -78,7 +70,7 @@ class Leb(DataOption):
 
 
 @dataclasses.dataclass
-class LebBuilder:
+class LebBuilder(_option.DataOptionBuilder):
     """
     Builds ``Leb``.
 
@@ -150,7 +142,7 @@ class LebBuilder:
             ``LebBuilder`` for ``Leb``.
         """
 
-        return Leb(
+        return LebBuilder(
             yzere=copy.deepcopy(ast.yzere),
             bzere=copy.deepcopy(ast.bzere),
             yzero=copy.deepcopy(ast.yzero),

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import RandOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Hist(RandOption):
+class Hist(_option.RandOption):
     """
     Represents INP hist elements.
 
@@ -49,7 +49,7 @@ class Hist(RandOption):
 
 
 @dataclasses.dataclass
-class HistBuilder:
+class HistBuilder(_option.RandOptionBuilder):
     """
     Builds ``Hist``.
 
@@ -88,6 +88,6 @@ class HistBuilder:
             ``HistBuilder`` for ``Hist``.
         """
 
-        return Hist(
+        return HistBuilder(
             hist=copy.deepcopy(ast.hist),
         )

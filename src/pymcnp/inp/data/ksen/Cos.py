@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KsenOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Cos(KsenOption):
+class Cos(_option.KsenOption):
     """
     Represents INP cos elements.
 
@@ -49,7 +49,7 @@ class Cos(KsenOption):
 
 
 @dataclasses.dataclass
-class CosBuilder:
+class CosBuilder(_option.KsenOptionBuilder):
     """
     Builds ``Cos``.
 
@@ -93,6 +93,6 @@ class CosBuilder:
             ``CosBuilder`` for ``Cos``.
         """
 
-        return Cos(
+        return CosBuilder(
             cosines=copy.deepcopy(ast.cosines),
         )

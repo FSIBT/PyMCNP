@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Ty(SurfaceOption):
+class Ty(_option.SurfaceOption):
     """
     Represents INP ty elements.
 
@@ -38,15 +38,7 @@ class Ty(SurfaceOption):
         rf'\Aty( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
-    def __init__(
-        self,
-        x: types.Real,
-        y: types.Real,
-        z: types.Real,
-        a: types.Real,
-        b: types.Real,
-        c: types.Real,
-    ):
+    def __init__(self, x: types.Real, y: types.Real, z: types.Real, a: types.Real, b: types.Real, c: types.Real):
         """
         Initializes ``Ty``.
 
@@ -109,7 +101,7 @@ class Ty(SurfaceOption):
 
 
 @dataclasses.dataclass
-class TyBuilder:
+class TyBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Ty``.
 
@@ -203,7 +195,7 @@ class TyBuilder:
             ``TyBuilder`` for ``Ty``.
         """
 
-        return Ty(
+        return TyBuilder(
             x=copy.deepcopy(ast.x),
             y=copy.deepcopy(ast.y),
             z=copy.deepcopy(ast.z),

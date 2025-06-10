@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Hsrc(DataOption):
+class Hsrc(_option.DataOption):
     """
     Represents INP hsrc elements.
 
@@ -118,7 +118,7 @@ class Hsrc(DataOption):
 
 
 @dataclasses.dataclass
-class HsrcBuilder:
+class HsrcBuilder(_option.DataOptionBuilder):
     """
     Builds ``Hsrc``.
 
@@ -245,7 +245,7 @@ class HsrcBuilder:
             ``HsrcBuilder`` for ``Hsrc``.
         """
 
-        return Hsrc(
+        return HsrcBuilder(
             x_number=copy.deepcopy(ast.x_number),
             x_minimum=copy.deepcopy(ast.x_minimum),
             x_maximum=copy.deepcopy(ast.x_maximum),

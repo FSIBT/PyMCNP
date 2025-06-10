@@ -392,12 +392,13 @@ cards = ElementScheme(
                 ElementScheme(
                     name='fill_0',
                     mnemonic='fill',
-                    regex='([*])?fill (\\S+:\\S+) (\\S+:\\S+) (\\S+:\\S+)((?:(?: {types.Integer._REGEX.pattern[2:-2]})+?)( {types.Integer._REGEX.pattern[2:-2]}| [(]{types.Integer._REGEX.pattern[2:-2]}[)])?)',
+                    regex='([*])?fill (\\S+:\\S+) (\\S+:\\S+) (\\S+:\\S+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)(?: [(]({types.Integer._REGEX.pattern[2:-2]})[)])?',
                     attributes=[
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
                             description='Star prefix',
+                            restriction='prefix.value in {"*"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -438,6 +439,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -464,6 +466,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -490,6 +493,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -516,6 +520,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -542,6 +547,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -568,6 +574,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -604,26 +611,15 @@ cards = ElementScheme(
                     ),
                 ),
                 ElementScheme(
-                    name='tmp_0',
+                    name='tmp',
                     mnemonic='tmp',
                     attributes=(
                         AttributeScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Thermal time index',
+                            optional=True,
                         ),
-                        AttributeScheme(
-                            name='temperature',
-                            type='types.Tuple[types.Real]',
-                            description='Temperature at time index',
-                            restriction='min(map(lambda temp: temp.value, temperature)) > 0',
-                        ),
-                    ),
-                ),
-                ElementScheme(
-                    name='tmp_1',
-                    mnemonic='tmp',
-                    attributes=(
                         AttributeScheme(
                             name='temperature',
                             type='types.Tuple[types.Real]',
@@ -681,7 +677,7 @@ cards = ElementScheme(
             mnemonic='',
             attributes=[
                 AttributeScheme(
-                    name='options',
+                    name='option',
                     type='surface.SurfaceOption',
                     description='Dictionary of options',
                 ),
@@ -2743,6 +2739,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -2829,6 +2826,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -2900,6 +2898,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -2966,6 +2965,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -3022,6 +3022,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -3063,7 +3064,6 @@ cards = ElementScheme(
                             name='numbers',
                             type='types.Tuple[types.Integer]',
                             description='Tuple of cell numbers',
-                            restriction='filter(lambda entry: not (1 <= entry.value <= 99_999_999), numbers)',
                         ),
                     ],
                 ),
@@ -3075,7 +3075,6 @@ cards = ElementScheme(
                             name='type',
                             type='types.Tuple[types.Integer]',
                             description='Tuple of lattice types',
-                            restriction='filter(lambda entry: not (entry.value == 1 or entry.value == 2), type)',
                         ),
                     ],
                 ),
@@ -3087,12 +3086,12 @@ cards = ElementScheme(
                             name='numbers',
                             type='types.Tuple[types.Integer]',
                             description='Tuple of universe numbers',
-                            restriction='filter(lambda entry: not (0 <= entry.value <= 99_999_999), numbers)',
                         ),
                     ],
                 ),
                 ElementScheme(
                     name='uran',
+                    regex='uran((?: \\S+ \\S+ \\S+ \\S+)+?)',
                     mnemonic='uran',
                     attributes=[
                         AttributeScheme(
@@ -4642,7 +4641,6 @@ cards = ElementScheme(
                             name='settings',
                             type='types.Tuple[types.Integer]',
                             description='Tuple of fission settings',
-                            restriction='filter(lambda entry: not (entry.value == 0 or entry.value == 1 or entry.value == 2), settings)',
                             optional=True,
                         ),
                     ],
@@ -4682,7 +4680,6 @@ cards = ElementScheme(
                             name='numbers',
                             type='types.Tuple[types.Integer]',
                             description='Tuple of cell numbers',
-                            restriction='filter(lambda entry: not (1 <= entry.value <= 99_999_999), numbers)',
                             optional=True,
                         ),
                     ],
@@ -4707,14 +4704,14 @@ cards = ElementScheme(
                             name='iplt',
                             type='types.Integer',
                             description='Weight windows usage indicator',
-                            restriction='iplt.value == 0 or iplt.value == 1 or iplt.value == 2',
+                            restriction='iplt.value in {0, 1, 2}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='iab',
                             type='types.Integer',
                             description='Adjoint biasing for adjoint problems contorls',
-                            restriction='iab.value == 0 or iab.value == 1 or iab.value == 2',
+                            restriction='iab.value in {0, 1, 2}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -4870,7 +4867,7 @@ cards = ElementScheme(
                 # REGEX
                 ElementScheme(
                     name='phys_2',
-                    regex='phys:e (\\S+) (\\S+) (\\S+) (\\S+) (\\S+) (\\S+) (\\S+) (\\S+) (\\S+) (\\S+) (\\S+) (\\S+) (\\S+) (\\S+) (\\S+)',
+                    regex='phys:e(?: (\\S+))?(?: (\\S+))?(?: (\\S+))?(?: (\\S+))?(?: (\\S+))?(?: (\\S+))?(?: (\\S+))?(?: (\\S+))?(?: (\\S+))?(?: (\\S+))?(?: (\\S+))?(?: (\\S+))?(?: (\\S+))?(?: (\\S+))?(?: (\\S+))?',
                     mnemonic='phys:e',
                     attributes=[
                         AttributeScheme(
@@ -5364,7 +5361,6 @@ cards = ElementScheme(
                             name='times',
                             type='types.Tuple[types.Real]',
                             description='Tuple of times when thermal temperatures are specified',
-                            restriction='filter(lambda entry: not (entry.value <= 99), times)',
                         ),
                     ],
                 ),
@@ -5859,16 +5855,16 @@ cards = ElementScheme(
                             name='settings',
                             type='types.Tuple[types.Integer]',
                             description='Tuple of uncollided secondary settings',
-                            restriction='filter(lambda entry: not (entry.value in {0, 1}), settings)',
                         ),
                     ],
                 ),
                 ElementScheme(
                     name='cosyp',
+                    regex='cosyp( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})((?: {types.Real._REGEX.pattern[2:-2]})+?)',
                     mnemonic='cosyp',
                     attributes=[
                         AttributeScheme(
-                            name='prefix',
+                            name='pre',
                             type='types.Integer',
                             description='Prefix number of the COSY map files',
                         ),
@@ -6047,7 +6043,7 @@ cards = ElementScheme(
                                     name='number',
                                     type='types.Integer',
                                     description='Surface number',
-                                    restriction='0 <= number.value <= 99_999_999',
+                                    restriction='isinstance(number.value, types.Jump) or 0 <= number.value <= 99_999_999',
                                 ),
                             ],
                         ),
@@ -6508,7 +6504,6 @@ cards = ElementScheme(
                             name='probabilities',
                             type='types.Tuple[types.Real]',
                             description='Particle source probabilities',
-                            restriction='filter(lambda entry: not (0 <= entry.value <= 1), probabilities)',
                         ),
                     ],
                 ),
@@ -6718,7 +6713,6 @@ cards = ElementScheme(
                                     name='cfs',
                                     type='types.Tuple[types.Integer]',
                                     description='Cells from which KCODE neutrons are written',
-                                    restriction='filter(lambda entry: not (1 <= entry.value <= 99_999_999),         cfs)',
                                 ),
                             ],
                         ),
@@ -6744,7 +6738,6 @@ cards = ElementScheme(
                                     name='numbers',
                                     type='types.Tuple[types.Integer]',
                                     description='Tuple of surface numbers from subset of surfaces on SSW card',
-                                    restriction='filter(lambda entry: not (1 <= entry.value <= 99_999_999),         numbers)',
                                 ),
                             ],
                         ),
@@ -6756,7 +6749,6 @@ cards = ElementScheme(
                                     name='numbers',
                                     type='types.Tuple[types.Integer]',
                                     description='Tuple of cell from subset of cells on SSW card',
-                                    restriction='filter(lambda entry: not (1 <= entry.value <= 99_999_999),         numbers)',
                                 ),
                             ],
                         ),
@@ -6768,7 +6760,6 @@ cards = ElementScheme(
                                     name='numbers',
                                     type='types.Tuple[types.Integer]',
                                     description='Tuple of surface numbers to start run',
-                                    restriction='filter(lambda entry: not (1 <= entry.value <= 99_999_999),         numbers)',
                                 ),
                             ],
                         ),
@@ -7195,6 +7186,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7227,11 +7219,12 @@ cards = ElementScheme(
                 ElementScheme(
                     name='f_1',
                     mnemonic='f',
-                    regex='([*+])?f(\\d*[5])(?::(\\S+))?((?: \\S \\S \\S \\S)+?)( nd)?',
+                    regex='([*+])?f(\\d*[5])(?::(\\S+))?((?: \\S+ \\S+ \\S+ \\S+)+?)( nd)?',
                     attributes=[
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7264,11 +7257,12 @@ cards = ElementScheme(
                 ElementScheme(
                     name='f_2',
                     mnemonic='f',
-                    regex='([*+])?f(\\d*[5])([xyz])(?::(\\S+))?((?: {types.Ring._REGEX.pattern[2:-2]})+?)( nd)?',
+                    regex='([*+])?f(\\d*[5])([xyz])(?::(\\S+))?((?: \\S+ \\S+ \\S+)+?)( nd)?',
                     attributes=[
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7443,7 +7437,7 @@ cards = ElementScheme(
                             name='f3',
                             type='types.Real',
                             description='Contribution offset setting',
-                            restriction='f2.value in {0, -1, 1}',
+                            restriction='f3.value in {0, -1, 1}',
                         ),
                     ],
                 ),
@@ -7526,6 +7520,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7720,6 +7715,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7825,6 +7821,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
+                            restriction='prefix.value in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7838,7 +7835,6 @@ cards = ElementScheme(
                             name='bins',
                             type='types.String',
                             description='Tally multiplier bins',
-                            restriction='',
                         ),
                     ],
                 ),
@@ -8022,7 +8018,6 @@ cards = ElementScheme(
                             name='numbers',
                             type='types.Tuple[types.Integer]',
                             description='Tallies for problem cell numbers to flag',
-                            restriction='filter(lambda entry: not (0 <= entry.value <= 99_999_999), numbers)',
                         ),
                     ],
                 ),
@@ -8040,7 +8035,6 @@ cards = ElementScheme(
                             name='numbers',
                             type='types.Tuple[types.Integer]',
                             description='Tallies for problem surface numbers to flag',
-                            restriction='filter(lambda entry: not (0 <= entry.value <= 99_999_999), numbers)',
                         ),
                     ],
                 ),
@@ -8059,7 +8053,6 @@ cards = ElementScheme(
                             name='numbers',
                             type='types.Tuple[types.Integer]',
                             description='Signed problem number of a segmenting surface.',
-                            restriction='filter(lambda entry: not (-99_999_999 <= numbers.value <= 99_999_999), numbers)',
                         ),
                         AttributeScheme(
                             name='t',
@@ -8109,7 +8102,6 @@ cards = ElementScheme(
                             name='bounds',
                             type='types.Tuple[types.Real]',
                             description='Input parameters for user bins',
-                            restriction='filter(lambda entry: not (entry > -1), bounds)',
                         ),
                         AttributeScheme(
                             name='nt',
@@ -8142,7 +8134,6 @@ cards = ElementScheme(
                             name='treatments',
                             type='types.String',
                             description='Tally special treatments',
-                            restriction='',
                         ),
                     ],
                 ),
@@ -8350,7 +8341,6 @@ cards = ElementScheme(
                                     name='numbers',
                                     type='types.Tuple[types.Integer]',
                                     description='List of cells',
-                                    restriction='filter(lambda entry: not (1 <= entry.value <= 99_999_999), numbers)',
                                 ),
                             ],
                         ),
@@ -8385,7 +8375,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.Integer',
                                     description='Printing and specifies setting',
-                                    restriction='setting.value in {+1, -1, +2, -2, +3, -3}',
+                                    restriction='setting.value in {1, -1, 2, -2, 3, -3}',
                                 ),
                             ],
                         ),
@@ -8444,7 +8434,6 @@ cards = ElementScheme(
                                     name='numbers',
                                     type='types.Tuple[types.Integer]',
                                     description='List of cells',
-                                    restriction='filter(lambda entry: not (1 <= entry.value <= 99_999_999), numbers)',
                                 ),
                             ],
                         ),
@@ -8456,7 +8445,6 @@ cards = ElementScheme(
                                     name='numbers',
                                     type='types.Tuple[types.Integer]',
                                     description='List of materials',
-                                    restriction='filter(lambda entry: not (0 <= entry.value <= 99_999_999), numbers)',
                                 ),
                             ],
                         ),
@@ -9895,6 +9883,7 @@ cards = ElementScheme(
                 ),
                 ElementScheme(
                     name='dxt',
+                    regex='dxt:(\\S+)( \\S+ \\S+ \\S+ \\S+ \\S+)( \\S+ \\S+ \\S+ \\S+ \\S+)( \\S+ \\S+ \\S+ \\S+ \\S+)( \\S+ \\S+ \\S+ \\S+ \\S+)( \\S+ \\S+ \\S+ \\S+ \\S+)( \\S+ \\S+ \\S+ \\S+ \\S+)( \\S+ \\S+ \\S+ \\S+ \\S+)( \\S+ \\S+ \\S+ \\S+ \\S+)( \\S+ \\S+ \\S+ \\S+ \\S+)( \\S+ \\S+ \\S+ \\S+ \\S+)( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})',
                     mnemonic='dxt',
                     attributes=[
                         AttributeScheme(
@@ -10006,7 +9995,6 @@ cards = ElementScheme(
                             name='probabilities',
                             type='types.Tuple[types.Real]',
                             description='Probability of contribution to DXTRAN',
-                            restriction='filter(lambda entry: not (0 <= entry.value <= 1), probabilities)',
                         ),
                     ],
                 ),
@@ -10029,7 +10017,6 @@ cards = ElementScheme(
                             name='probabilities',
                             type='types.Tuple[types.Real]',
                             description='Probability of contribution to DXTRAN',
-                            restriction='filter(lambda entry: not (0 <= entry.value <= 1), probabilities)',
                         ),
                     ],
                 ),
@@ -10286,7 +10273,6 @@ cards = ElementScheme(
                             name='materials',
                             type='types.Tuple[types.Integer]',
                             description='Material to bias',
-                            restriction='filter(lambda entry: not (0 <= entry.value <= 99_999_999), materials)',
                         ),
                     ],
                 ),
@@ -10410,7 +10396,6 @@ cards = ElementScheme(
                             name='tables',
                             type='types.Tuple[types.Integer]',
                             description='Tables to print',
-                            restriction='filter(lambda entry: not (entry.value in {10, 20, 30, 32, 35, 38, 40, 41, 44, 50, 55, 60, 62, 70, 72, 80, 85, 86, 87, 90, 95, 98, 100, 102, 110, 115, 117, 118, 120, 126, 128, 130, 140, 150, 160, 161, 162, 163, 170, 175, 178, 180, 190, 198, 200, 210, 220, -10, -20, -30, -32, -35, -38, -40, -41, -44, -50, -55, -60, -62, -70, -72, -80, -85, -86, -87, -90, -95, -98, -100, -102, -110, -115, -117, -118, -120, -126, -128, -130, -140, -150, -160, -161, -162, -163, -170, -175, -178, -180, -190, -198, -200, -210, -220}), tables)',
                             optional=True,
                         ),
                     ],
@@ -10423,7 +10408,6 @@ cards = ElementScheme(
                             name='tallies',
                             type='types.Tuple[types.Integer]',
                             description='Tallies to exclude from output',
-                            restriction='filter(lambda entry: not (1 <= entry.value <= 99_999_999), tallies)',
                             optional=True,
                         ),
                     ],
@@ -10541,7 +10525,7 @@ cards = ElementScheme(
                         ElementScheme(
                             name='conic',
                             mnemonic='conic',
-                            regex='setting(?: (col|lin))',
+                            regex='conic(?: (col|lin))',
                             attributes=[
                                 AttributeScheme(
                                     name='setting',
@@ -10603,7 +10587,6 @@ cards = ElementScheme(
                                     name='numbers',
                                     type='types.Tuple[types.Integer]',
                                     description='List of cell numbers for filtering',
-                                    restriction='filter(lambda entry: not (1 <= entry.value <= 99_999_999), numbers)',
                                 ),
                             ],
                         ),
@@ -10615,7 +10598,6 @@ cards = ElementScheme(
                                     name='numbers',
                                     type='types.Tuple[types.Integer]',
                                     description='List of surface numbers for filtering',
-                                    restriction='filter(lambda entry: not (1 <= entry.value <= 99_999_999), numbers)',
                                 ),
                             ],
                         ),
@@ -10627,7 +10609,6 @@ cards = ElementScheme(
                                     name='numbers',
                                     type='types.Tuple[types.Integer]',
                                     description='List of tally numbers for filtering',
-                                    restriction='filter(lambda entry: not (entry != 0), numbers)',
                                 ),
                             ],
                         ),
@@ -10671,7 +10652,7 @@ cards = ElementScheme(
                         ElementScheme(
                             name='file',
                             mnemonic='file',
-                            regex='file (?: (all|none))?',
+                            regex='file(?: (all|none))?',
                             attributes=[
                                 AttributeScheme(
                                     name='aa',
@@ -11179,15 +11160,15 @@ cards = ElementScheme(
                             mnemonic='xlims',
                             attributes=[
                                 AttributeScheme(
-                                    name='min',
+                                    name='lower',
                                     type='types.Real',
                                     description='x-axis lower limit',
                                 ),
                                 AttributeScheme(
-                                    name='max',
+                                    name='upper',
                                     type='types.Real',
                                     description='x-axis upper limit',
-                                    restriction='min.value < max.value',
+                                    restriction='lower.value < upper.value',
                                 ),
                                 AttributeScheme(
                                     name='nsteps',
@@ -11203,15 +11184,15 @@ cards = ElementScheme(
                             mnemonic='ylims',
                             attributes=[
                                 AttributeScheme(
-                                    name='min',
+                                    name='lower',
                                     type='types.Real',
                                     description='y-axis lower limit',
                                 ),
                                 AttributeScheme(
-                                    name='max',
+                                    name='upper',
                                     type='types.Real',
                                     description='y-axis upper limit',
-                                    restriction='min.value < max.value',
+                                    restriction='lower.value < upper.value',
                                 ),
                                 AttributeScheme(
                                     name='nsteps',

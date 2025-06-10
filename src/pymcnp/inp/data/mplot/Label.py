@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Label(MplotOption):
+class Label(_option.MplotOption):
     """
     Represents INP label elements.
 
@@ -49,7 +49,7 @@ class Label(MplotOption):
 
 
 @dataclasses.dataclass
-class LabelBuilder:
+class LabelBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Label``.
 
@@ -86,6 +86,6 @@ class LabelBuilder:
             ``LabelBuilder`` for ``Label``.
         """
 
-        return Label(
+        return LabelBuilder(
             aa=copy.deepcopy(ast.aa),
         )

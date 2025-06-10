@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Wwe(DataOption):
+class Wwe(_option.DataOption):
     """
     Represents INP wwe elements.
 
@@ -55,7 +55,7 @@ class Wwe(DataOption):
 
 
 @dataclasses.dataclass
-class WweBuilder:
+class WweBuilder(_option.DataOptionBuilder):
     """
     Builds ``Wwe``.
 
@@ -108,7 +108,7 @@ class WweBuilder:
             ``WweBuilder`` for ``Wwe``.
         """
 
-        return Wwe(
+        return WweBuilder(
             designator=copy.deepcopy(ast.designator),
             bounds=copy.deepcopy(ast.bounds),
         )

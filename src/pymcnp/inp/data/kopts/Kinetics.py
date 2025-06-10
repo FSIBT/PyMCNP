@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KoptsOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Kinetics(KoptsOption):
+class Kinetics(_option.KoptsOption):
     """
     Represents INP kinetics elements.
 
@@ -49,7 +49,7 @@ class Kinetics(KoptsOption):
 
 
 @dataclasses.dataclass
-class KineticsBuilder:
+class KineticsBuilder(_option.KoptsOptionBuilder):
     """
     Builds ``Kinetics``.
 
@@ -86,6 +86,6 @@ class KineticsBuilder:
             ``KineticsBuilder`` for ``Kinetics``.
         """
 
-        return Kinetics(
+        return KineticsBuilder(
             setting=copy.deepcopy(ast.setting),
         )

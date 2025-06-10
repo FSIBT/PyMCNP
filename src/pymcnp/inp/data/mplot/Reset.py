@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Reset(MplotOption):
+class Reset(_option.MplotOption):
     """
     Represents INP reset elements.
 
@@ -49,7 +49,7 @@ class Reset(MplotOption):
 
 
 @dataclasses.dataclass
-class ResetBuilder:
+class ResetBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Reset``.
 
@@ -86,6 +86,6 @@ class ResetBuilder:
             ``ResetBuilder`` for ``Reset``.
         """
 
-        return Reset(
+        return ResetBuilder(
             aa=copy.deepcopy(ast.aa),
         )

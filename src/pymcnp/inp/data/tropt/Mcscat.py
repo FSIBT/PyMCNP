@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import TroptOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Mcscat(TroptOption):
+class Mcscat(_option.TroptOption):
     """
     Represents INP mcscat elements.
 
@@ -49,7 +49,7 @@ class Mcscat(TroptOption):
 
 
 @dataclasses.dataclass
-class McscatBuilder:
+class McscatBuilder(_option.TroptOptionBuilder):
     """
     Builds ``Mcscat``.
 
@@ -86,6 +86,6 @@ class McscatBuilder:
             ``McscatBuilder`` for ``Mcscat``.
         """
 
-        return Mcscat(
+        return McscatBuilder(
             setting=copy.deepcopy(ast.setting),
         )

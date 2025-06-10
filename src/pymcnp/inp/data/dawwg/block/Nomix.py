@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Nomix(BlockOption):
+class Nomix(_option.BlockOption):
     """
     Represents INP nomix elements.
 
@@ -49,7 +49,7 @@ class Nomix(BlockOption):
 
 
 @dataclasses.dataclass
-class NomixBuilder:
+class NomixBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Nomix``.
 
@@ -88,6 +88,6 @@ class NomixBuilder:
             ``NomixBuilder`` for ``Nomix``.
         """
 
-        return Nomix(
+        return NomixBuilder(
             setting=copy.deepcopy(ast.setting),
         )

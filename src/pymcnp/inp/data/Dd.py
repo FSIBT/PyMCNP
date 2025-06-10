@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Dd(DataOption):
+class Dd(_option.DataOption):
     """
     Represents INP dd elements.
 
@@ -53,7 +53,7 @@ class Dd(DataOption):
 
 
 @dataclasses.dataclass
-class DdBuilder:
+class DdBuilder(_option.DataOptionBuilder):
     """
     Builds ``Dd``.
 
@@ -88,8 +88,6 @@ class DdBuilder:
                     diagnostics.append(item)
                 elif isinstance(item, str):
                     diagnostics.append(types.Diagnostic.from_mcnp(item))
-                else:
-                    diagnostics.append(item.build())
             diagnostics = types.Tuple(diagnostics)
         else:
             diagnostics = None
@@ -108,7 +106,7 @@ class DdBuilder:
             ``DdBuilder`` for ``Dd``.
         """
 
-        return Dd(
+        return DdBuilder(
             suffix=copy.deepcopy(ast.suffix),
             diagnostics=copy.deepcopy(ast.diagnostics),
         )

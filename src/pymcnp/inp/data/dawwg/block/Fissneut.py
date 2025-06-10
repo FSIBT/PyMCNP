@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Fissneut(BlockOption):
+class Fissneut(_option.BlockOption):
     """
     Represents INP fissneut elements.
 
@@ -49,7 +49,7 @@ class Fissneut(BlockOption):
 
 
 @dataclasses.dataclass
-class FissneutBuilder:
+class FissneutBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Fissneut``.
 
@@ -88,6 +88,6 @@ class FissneutBuilder:
             ``FissneutBuilder`` for ``Fissneut``.
         """
 
-        return Fissneut(
+        return FissneutBuilder(
             setting=copy.deepcopy(ast.setting),
         )

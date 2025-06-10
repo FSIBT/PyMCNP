@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmultOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Width(FmultOption):
+class Width(_option.FmultOption):
     """
     Represents INP width elements.
 
@@ -49,7 +49,7 @@ class Width(FmultOption):
 
 
 @dataclasses.dataclass
-class WidthBuilder:
+class WidthBuilder(_option.FmultOptionBuilder):
     """
     Builds ``Width``.
 
@@ -88,6 +88,6 @@ class WidthBuilder:
             ``WidthBuilder`` for ``Width``.
         """
 
-        return Width(
+        return WidthBuilder(
             width=copy.deepcopy(ast.width),
         )

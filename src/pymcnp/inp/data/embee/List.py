@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbeeOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class List(EmbeeOption):
+class List(_option.EmbeeOption):
     """
     Represents INP list elements.
 
@@ -49,7 +49,7 @@ class List(EmbeeOption):
 
 
 @dataclasses.dataclass
-class ListBuilder:
+class ListBuilder(_option.EmbeeOptionBuilder):
     """
     Builds ``List``.
 
@@ -88,6 +88,6 @@ class ListBuilder:
             ``ListBuilder`` for ``List``.
         """
 
-        return List(
+        return ListBuilder(
             reactions=copy.deepcopy(ast.reactions),
         )

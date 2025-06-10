@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Noedit(BlockOption):
+class Noedit(_option.BlockOption):
     """
     Represents INP noedit elements.
 
@@ -49,7 +49,7 @@ class Noedit(BlockOption):
 
 
 @dataclasses.dataclass
-class NoeditBuilder:
+class NoeditBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Noedit``.
 
@@ -88,6 +88,6 @@ class NoeditBuilder:
             ``NoeditBuilder`` for ``Noedit``.
         """
 
-        return Noedit(
+        return NoeditBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -5,11 +5,11 @@ import dataclasses
 
 
 from . import sdef
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Sdef(DataOption):
+class Sdef(_option.DataOption):
     """
     Represents INP sdef elements.
 
@@ -46,7 +46,7 @@ class Sdef(DataOption):
 
 
 @dataclasses.dataclass
-class SdefBuilder:
+class SdefBuilder(_option.DataOptionBuilder):
     """
     Builds ``Sdef``.
 
@@ -71,7 +71,7 @@ class SdefBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(sdef.SdefOption.from_mcnp(item))
-                else:
+                elif isinstance(item, sdef.SdefOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -90,6 +90,6 @@ class SdefBuilder:
             ``SdefBuilder`` for ``Sdef``.
         """
 
-        return Sdef(
+        return SdefBuilder(
             options=copy.deepcopy(ast.options),
         )

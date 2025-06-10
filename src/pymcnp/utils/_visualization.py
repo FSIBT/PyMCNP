@@ -220,9 +220,7 @@ class Visualization:
         )
 
     @staticmethod
-    def get_parallelipiped(
-        xmin: float, xmax: float, ymin: float, ymax: float, zmin: float, zmax: float
-    ):
+    def get_parallelipiped(xmin: float, xmax: float, ymin: float, ymax: float, zmin: float, zmax: float):
         """
         Creates PyVISTA parallelipipeds.
 
@@ -410,9 +408,7 @@ class Visualization:
             points,
         )
 
-        return Visualization(
-            line.extract_surface().extrude_rotate(resolution=_RESOLUTION, capping=False)
-        )
+        return Visualization(line.extract_surface().extrude_rotate(resolution=_RESOLUTION, capping=False))
 
     @staticmethod
     def get_cone_truncated(h: float, r1: float, r2: float):
@@ -432,9 +428,7 @@ class Visualization:
         cells = [len(points), *list(range(len(points)))]
         trapazoid = pyvista.UnstructuredGrid(cells, [pyvista.CellType.QUAD], points)
 
-        return Visualization(
-            trapazoid.extract_surface().extrude_rotate(capping=True, resolution=_RESOLUTION)
-        )
+        return Visualization(trapazoid.extract_surface().extrude_rotate(capping=True, resolution=_RESOLUTION))
 
     @staticmethod
     def get_ellipsoid(a: float, b: float):
@@ -503,9 +497,7 @@ class Visualization:
         """
 
         vertices = numpy.array([[vertex.x, vertex.y, vertex.z] for vertex in vertices])
-        faces = numpy.hstack(
-            [[len(face), *[int((side - 1) % len(faces)) for side in face]] for face in faces]
-        )
+        faces = numpy.hstack([[len(face), *[int((side - 1) % len(faces)) for side in face]] for face in faces])
 
     @staticmethod
     def get_torus(a: float, b: float, r: float):
@@ -519,9 +511,7 @@ class Visualization:
         """
 
         alpha = 2 * math.pi / _RESOLUTION
-        points = [
-            [a * math.cos(alpha * i) + r, 0, b * math.sin(alpha * i)] for i in range(_RESOLUTION)
-        ]
+        points = [[a * math.cos(alpha * i) + r, 0, b * math.sin(alpha * i)] for i in range(_RESOLUTION)]
         cells = [len(points), *list(range(len(points)))]
         ellipse = pyvista.UnstructuredGrid(cells, [pyvista.CellType.POLYGON], points)
 
@@ -600,7 +590,9 @@ class Visualization:
             Merged ``Visualization``.
         """
 
-        return Visualization(pyvista.merge([a.data, b.data], merge_points=False))
+        print(a.data)
+        print(b.data)
+        return Visualization(a.data.merge([b.data], merge_points=False))
 
     def __and__(a, b):
         """
@@ -614,7 +606,7 @@ class Visualization:
             ``Visualization`` union.
         """
 
-        return Visualization(pyvista.merge([a.data, b.data], merge_points=True))
+        return Visualization(a.data.merge([b.data], merge_points=True))
 
     def __or__(a, b):
         """

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Ibb(BlockOption):
+class Ibb(_option.BlockOption):
     """
     Represents INP ibb elements.
 
@@ -49,7 +49,7 @@ class Ibb(BlockOption):
 
 
 @dataclasses.dataclass
-class IbbBuilder:
+class IbbBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Ibb``.
 
@@ -88,6 +88,6 @@ class IbbBuilder:
             ``IbbBuilder`` for ``Ibb``.
         """
 
-        return Ibb(
+        return IbbBuilder(
             setting=copy.deepcopy(ast.setting),
         )

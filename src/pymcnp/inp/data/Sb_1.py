@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Sb_1(DataOption):
+class Sb_1(_option.DataOption):
     """
     Represents INP sb variation #1 elements.
 
@@ -27,9 +27,7 @@ class Sb_1(DataOption):
         'b': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Asb( {types.Integer._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z'
-    )
+    _REGEX = re.compile(rf'\Asb( {types.Integer._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
     def __init__(self, function: types.Integer, a: types.Real, b: types.Real = None):
         """
@@ -63,7 +61,7 @@ class Sb_1(DataOption):
 
 
 @dataclasses.dataclass
-class SbBuilder_1:
+class SbBuilder_1(_option.DataOptionBuilder):
     """
     Builds ``Sb_1``.
 
@@ -124,7 +122,7 @@ class SbBuilder_1:
             ``SbBuilder_1`` for ``Sb_1``.
         """
 
-        return Sb_1(
+        return SbBuilder_1(
             function=copy.deepcopy(ast.function),
             a=copy.deepcopy(ast.a),
             b=copy.deepcopy(ast.b),

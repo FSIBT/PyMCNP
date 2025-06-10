@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import FreeOption
+from . import _option
 from .....utils import types
 
 
-class Noall(FreeOption):
+class Noall(_option.FreeOption):
     """
     Represents INP noall elements.
 
@@ -38,7 +38,7 @@ class Noall(FreeOption):
 
 
 @dataclasses.dataclass
-class NoallBuilder:
+class NoallBuilder(_option.FreeOptionBuilder):
     """
     Builds ``Noall``.
 
@@ -65,4 +65,4 @@ class NoallBuilder:
             ``NoallBuilder`` for ``Noall``.
         """
 
-        return Noall()
+        return NoallBuilder()

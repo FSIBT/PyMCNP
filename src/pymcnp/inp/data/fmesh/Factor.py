@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Factor(FmeshOption):
+class Factor(_option.FmeshOption):
     """
     Represents INP factor elements.
 
@@ -49,7 +49,7 @@ class Factor(FmeshOption):
 
 
 @dataclasses.dataclass
-class FactorBuilder:
+class FactorBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Factor``.
 
@@ -88,6 +88,6 @@ class FactorBuilder:
             ``FactorBuilder`` for ``Factor``.
         """
 
-        return Factor(
+        return FactorBuilder(
             multiple=copy.deepcopy(ast.multiple),
         )

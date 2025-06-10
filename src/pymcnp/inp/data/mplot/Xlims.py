@@ -4,79 +4,77 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Xlims(MplotOption):
+class Xlims(_option.MplotOption):
     """
     Represents INP xlims elements.
 
     Attributes:
-        min: x-axis lower limit.
-        max: x-axis upper limit.
+        lower: x-axis lower limit.
+        upper: x-axis upper limit.
         nsteps: x-axis interval.
     """
 
     _KEYWORD = 'xlims'
 
     _ATTRS = {
-        'min': types.Real,
-        'max': types.Real,
+        'lower': types.Real,
+        'upper': types.Real,
         'nsteps': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Axlims( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z'
-    )
+    _REGEX = re.compile(rf'\Axlims( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, min: types.Real, max: types.Real, nsteps: types.Real = None):
+    def __init__(self, lower: types.Real, upper: types.Real, nsteps: types.Real = None):
         """
         Initializes ``Xlims``.
 
         Parameters:
-            min: x-axis lower limit.
-            max: x-axis upper limit.
+            lower: x-axis lower limit.
+            upper: x-axis upper limit.
             nsteps: x-axis interval.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
-        if min is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, min)
-        if max is None or not (min.value < max.value):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, max)
+        if lower is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lower)
+        if upper is None or not (lower.value < upper.value):
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, upper)
         if nsteps is not None and not (nsteps.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nsteps)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                min,
-                max,
+                lower,
+                upper,
                 nsteps,
             ]
         )
 
-        self.min: typing.Final[types.Real] = min
-        self.max: typing.Final[types.Real] = max
+        self.lower: typing.Final[types.Real] = lower
+        self.upper: typing.Final[types.Real] = upper
         self.nsteps: typing.Final[types.Real] = nsteps
 
 
 @dataclasses.dataclass
-class XlimsBuilder:
+class XlimsBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Xlims``.
 
     Attributes:
-        min: x-axis lower limit.
-        max: x-axis upper limit.
+        lower: x-axis lower limit.
+        upper: x-axis upper limit.
         nsteps: x-axis interval.
     """
 
-    min: str | float | types.Real
-    max: str | float | types.Real
+    lower: str | float | types.Real
+    upper: str | float | types.Real
     nsteps: str | float | types.Real = None
 
     def build(self):
@@ -87,21 +85,21 @@ class XlimsBuilder:
             ``Xlims`` for ``XlimsBuilder``.
         """
 
-        min = self.min
-        if isinstance(self.min, types.Real):
-            min = self.min
-        elif isinstance(self.min, float) or isinstance(self.min, int):
-            min = types.Real(self.min)
-        elif isinstance(self.min, str):
-            min = types.Real.from_mcnp(self.min)
+        lower = self.lower
+        if isinstance(self.lower, types.Real):
+            lower = self.lower
+        elif isinstance(self.lower, float) or isinstance(self.lower, int):
+            lower = types.Real(self.lower)
+        elif isinstance(self.lower, str):
+            lower = types.Real.from_mcnp(self.lower)
 
-        max = self.max
-        if isinstance(self.max, types.Real):
-            max = self.max
-        elif isinstance(self.max, float) or isinstance(self.max, int):
-            max = types.Real(self.max)
-        elif isinstance(self.max, str):
-            max = types.Real.from_mcnp(self.max)
+        upper = self.upper
+        if isinstance(self.upper, types.Real):
+            upper = self.upper
+        elif isinstance(self.upper, float) or isinstance(self.upper, int):
+            upper = types.Real(self.upper)
+        elif isinstance(self.upper, str):
+            upper = types.Real.from_mcnp(self.upper)
 
         nsteps = self.nsteps
         if isinstance(self.nsteps, types.Real):
@@ -112,8 +110,8 @@ class XlimsBuilder:
             nsteps = types.Real.from_mcnp(self.nsteps)
 
         return Xlims(
-            min=min,
-            max=max,
+            lower=lower,
+            upper=upper,
             nsteps=nsteps,
         )
 
@@ -126,8 +124,8 @@ class XlimsBuilder:
             ``XlimsBuilder`` for ``Xlims``.
         """
 
-        return Xlims(
-            min=copy.deepcopy(ast.min),
-            max=copy.deepcopy(ast.max),
+        return XlimsBuilder(
+            lower=copy.deepcopy(ast.lower),
+            upper=copy.deepcopy(ast.upper),
             nsteps=copy.deepcopy(ast.nsteps),
         )

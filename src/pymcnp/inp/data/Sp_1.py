@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Sp_1(DataOption):
+class Sp_1(_option.DataOption):
     """
     Represents INP sp variation #1 elements.
 
@@ -27,9 +27,7 @@ class Sp_1(DataOption):
         'b': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Asp( {types.Integer._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z'
-    )
+    _REGEX = re.compile(rf'\Asp( {types.Integer._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
     def __init__(self, function: types.Integer, a: types.Real, b: types.Real = None):
         """
@@ -63,7 +61,7 @@ class Sp_1(DataOption):
 
 
 @dataclasses.dataclass
-class SpBuilder_1:
+class SpBuilder_1(_option.DataOptionBuilder):
     """
     Builds ``Sp_1``.
 
@@ -124,7 +122,7 @@ class SpBuilder_1:
             ``SpBuilder_1`` for ``Sp_1``.
         """
 
-        return Sp_1(
+        return SpBuilder_1(
             function=copy.deepcopy(ast.function),
             a=copy.deepcopy(ast.a),
             b=copy.deepcopy(ast.b),

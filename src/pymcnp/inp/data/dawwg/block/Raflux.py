@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Raflux(BlockOption):
+class Raflux(_option.BlockOption):
     """
     Represents INP raflux elements.
 
@@ -49,7 +49,7 @@ class Raflux(BlockOption):
 
 
 @dataclasses.dataclass
-class RafluxBuilder:
+class RafluxBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Raflux``.
 
@@ -88,6 +88,6 @@ class RafluxBuilder:
             ``RafluxBuilder`` for ``Raflux``.
         """
 
-        return Raflux(
+        return RafluxBuilder(
             setting=copy.deepcopy(ast.setting),
         )

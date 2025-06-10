@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbeeOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Energy(EmbeeOption):
+class Energy(_option.EmbeeOption):
     """
     Represents INP energy elements.
 
@@ -49,7 +49,7 @@ class Energy(EmbeeOption):
 
 
 @dataclasses.dataclass
-class EnergyBuilder:
+class EnergyBuilder(_option.EmbeeOptionBuilder):
     """
     Builds ``Energy``.
 
@@ -88,6 +88,6 @@ class EnergyBuilder:
             ``EnergyBuilder`` for ``Energy``.
         """
 
-        return Energy(
+        return EnergyBuilder(
             factor=copy.deepcopy(ast.factor),
         )

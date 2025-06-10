@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Rmctal(MplotOption):
+class Rmctal(_option.MplotOption):
     """
     Represents INP rmctal elements.
 
@@ -49,7 +49,7 @@ class Rmctal(MplotOption):
 
 
 @dataclasses.dataclass
-class RmctalBuilder:
+class RmctalBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Rmctal``.
 
@@ -86,6 +86,6 @@ class RmctalBuilder:
             ``RmctalBuilder`` for ``Rmctal``.
         """
 
-        return Rmctal(
+        return RmctalBuilder(
             filename=copy.deepcopy(ast.filename),
         )

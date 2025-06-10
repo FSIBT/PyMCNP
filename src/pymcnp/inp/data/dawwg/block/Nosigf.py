@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Nosigf(BlockOption):
+class Nosigf(_option.BlockOption):
     """
     Represents INP nosigf elements.
 
@@ -49,7 +49,7 @@ class Nosigf(BlockOption):
 
 
 @dataclasses.dataclass
-class NosigfBuilder:
+class NosigfBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Nosigf``.
 
@@ -88,6 +88,6 @@ class NosigfBuilder:
             ``NosigfBuilder`` for ``Nosigf``.
         """
 
-        return Nosigf(
+        return NosigfBuilder(
             setting=copy.deepcopy(ast.setting),
         )

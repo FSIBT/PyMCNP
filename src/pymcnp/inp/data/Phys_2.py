@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Phys_2(DataOption):
+class Phys_2(_option.DataOption):
     """
     Represents INP phys variation #2 elements.
 
@@ -50,7 +50,7 @@ class Phys_2(DataOption):
     }
 
     _REGEX = re.compile(
-        r'\Aphys:e (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)\Z'
+        r'\Aphys:e(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?(?: (\S+))?\Z'
     )
 
     def __init__(
@@ -109,17 +109,11 @@ class Phys_2(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, enum)
         if numb is not None and not (isinstance(numb.value, types.Jump) or numb.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numb)
-        if i_mcs_model is not None and not (
-            isinstance(i_mcs_model.value, types.Jump) or i_mcs_model.value in {-1, 0}
-        ):
+        if i_mcs_model is not None and not (isinstance(i_mcs_model.value, types.Jump) or i_mcs_model.value in {-1, 0}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
-        if efac is not None and not (
-            isinstance(efac.value, types.Jump) or 0.8 <= efac.value <= 0.99
-        ):
+        if efac is not None and not (isinstance(efac.value, types.Jump) or 0.8 <= efac.value <= 0.99):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, efac)
-        if ckvnum is not None and not (
-            isinstance(ckvnum.value, types.Jump) or 0 <= ckvnum.value < 1
-        ):
+        if ckvnum is not None and not (isinstance(ckvnum.value, types.Jump) or 0 <= ckvnum.value < 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ckvnum)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -158,7 +152,7 @@ class Phys_2(DataOption):
 
 
 @dataclasses.dataclass
-class PhysBuilder_2:
+class PhysBuilder_2(_option.DataOptionBuilder):
     """
     Builds ``Phys_2``.
 
@@ -301,9 +295,7 @@ class PhysBuilder_2:
         electron_method_boundary = self.electron_method_boundary
         if isinstance(self.electron_method_boundary, types.Real):
             electron_method_boundary = self.electron_method_boundary
-        elif isinstance(self.electron_method_boundary, float) or isinstance(
-            self.electron_method_boundary, int
-        ):
+        elif isinstance(self.electron_method_boundary, float) or isinstance(self.electron_method_boundary, int):
             electron_method_boundary = types.Real(self.electron_method_boundary)
         elif isinstance(self.electron_method_boundary, str):
             electron_method_boundary = types.Real.from_mcnp(self.electron_method_boundary)
@@ -342,7 +334,7 @@ class PhysBuilder_2:
             ``PhysBuilder_2`` for ``Phys_2``.
         """
 
-        return Phys_2(
+        return PhysBuilder_2(
             emax=copy.deepcopy(ast.emax),
             ides=copy.deepcopy(ast.ides),
             iphot=copy.deepcopy(ast.iphot),

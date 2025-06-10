@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Oitm(BlockOption):
+class Oitm(_option.BlockOption):
     """
     Represents INP oitm elements.
 
@@ -49,7 +49,7 @@ class Oitm(BlockOption):
 
 
 @dataclasses.dataclass
-class OitmBuilder:
+class OitmBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Oitm``.
 
@@ -88,6 +88,6 @@ class OitmBuilder:
             ``OitmBuilder`` for ``Oitm``.
         """
 
-        return Oitm(
+        return OitmBuilder(
             setting=copy.deepcopy(ast.setting),
         )

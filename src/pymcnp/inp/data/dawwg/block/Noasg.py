@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Noasg(BlockOption):
+class Noasg(_option.BlockOption):
     """
     Represents INP noasg elements.
 
@@ -49,7 +49,7 @@ class Noasg(BlockOption):
 
 
 @dataclasses.dataclass
-class NoasgBuilder:
+class NoasgBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Noasg``.
 
@@ -88,6 +88,6 @@ class NoasgBuilder:
             ``NoasgBuilder`` for ``Noasg``.
         """
 
-        return Noasg(
+        return NoasgBuilder(
             setting=copy.deepcopy(ast.setting),
         )

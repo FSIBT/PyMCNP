@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Fluxone(BlockOption):
+class Fluxone(_option.BlockOption):
     """
     Represents INP fluxone elements.
 
@@ -49,7 +49,7 @@ class Fluxone(BlockOption):
 
 
 @dataclasses.dataclass
-class FluxoneBuilder:
+class FluxoneBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Fluxone``.
 
@@ -88,6 +88,6 @@ class FluxoneBuilder:
             ``FluxoneBuilder`` for ``Fluxone``.
         """
 
-        return Fluxone(
+        return FluxoneBuilder(
             setting=copy.deepcopy(ast.setting),
         )

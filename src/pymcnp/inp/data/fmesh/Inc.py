@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Inc(FmeshOption):
+class Inc(_option.FmeshOption):
     """
     Represents INP inc elements.
 
@@ -25,9 +25,7 @@ class Inc(FmeshOption):
         'upper': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Ainc( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z'
-    )
+    _REGEX = re.compile(rf'\Ainc( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
     def __init__(self, lower: types.Real, upper: types.Real = None):
         """
@@ -56,7 +54,7 @@ class Inc(FmeshOption):
 
 
 @dataclasses.dataclass
-class IncBuilder:
+class IncBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Inc``.
 
@@ -106,7 +104,7 @@ class IncBuilder:
             ``IncBuilder`` for ``Inc``.
         """
 
-        return Inc(
+        return IncBuilder(
             lower=copy.deepcopy(ast.lower),
             upper=copy.deepcopy(ast.upper),
         )

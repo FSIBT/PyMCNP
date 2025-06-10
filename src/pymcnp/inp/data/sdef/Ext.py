@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Ext(SdefOption):
+class Ext(_option.SdefOption):
     """
     Represents INP ext elements.
 
@@ -49,7 +49,7 @@ class Ext(SdefOption):
 
 
 @dataclasses.dataclass
-class ExtBuilder:
+class ExtBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Ext``.
 
@@ -88,6 +88,6 @@ class ExtBuilder:
             ``ExtBuilder`` for ``Ext``.
         """
 
-        return Ext(
+        return ExtBuilder(
             distance_cosine=copy.deepcopy(ast.distance_cosine),
         )

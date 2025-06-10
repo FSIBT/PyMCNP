@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Tally(PtracOption):
+class Tally(_option.PtracOption):
     """
     Represents INP tally elements.
 
@@ -36,7 +36,7 @@ class Tally(PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if numbers is None or not (filter(lambda entry: not (entry != 0), numbers)):
+        if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -49,7 +49,7 @@ class Tally(PtracOption):
 
 
 @dataclasses.dataclass
-class TallyBuilder:
+class TallyBuilder(_option.PtracOptionBuilder):
     """
     Builds ``Tally``.
 
@@ -93,6 +93,6 @@ class TallyBuilder:
             ``TallyBuilder`` for ``Tally``.
         """
 
-        return Tally(
+        return TallyBuilder(
             numbers=copy.deepcopy(ast.numbers),
         )

@@ -32,10 +32,10 @@
    :members:
 ```
 
-### ``FkBuilder`` Class
+### ``FBuilder`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.stop.FkBuilder
+.. autoclass:: pymcnp.inp.data.stop.FBuilder
    :members:
 ```
 

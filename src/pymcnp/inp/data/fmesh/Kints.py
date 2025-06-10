@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Kints(FmeshOption):
+class Kints(_option.FmeshOption):
     """
     Represents INP kints elements.
 
@@ -49,7 +49,7 @@ class Kints(FmeshOption):
 
 
 @dataclasses.dataclass
-class KintsBuilder:
+class KintsBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Kints``.
 
@@ -93,6 +93,6 @@ class KintsBuilder:
             ``KintsBuilder`` for ``Kints``.
         """
 
-        return Kints(
+        return KintsBuilder(
             count=copy.deepcopy(ast.count),
         )

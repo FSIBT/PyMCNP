@@ -111,9 +111,7 @@ class Run:
                 file.write(inp.to_mcnp())
 
             self.prehook_file(subdirectory)
-            process = subprocess.Popen(
-                [f'{self.command}', f'inp={path_input} outp={path_output} ptrac={path_ptrac}']
-            )
+            process = subprocess.Popen([f'{self.command}', f'inp={path_input} outp={path_output} ptrac={path_ptrac}'])
             processes.append((process, subdirectory))
 
         for process, subdirectory in processes:

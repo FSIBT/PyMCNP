@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import embee
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Embee(DataOption):
+class Embee(_option.DataOption):
     """
     Represents INP embee elements.
 
@@ -28,16 +28,9 @@ class Embee(DataOption):
         'options': types.Tuple[embee.EmbeeOption],
     }
 
-    _REGEX = re.compile(
-        rf'\Aembee(\d+):(\S+)((?: (?:{embee.EmbeeOption._REGEX.pattern[2:-2]}))+?)?\Z'
-    )
+    _REGEX = re.compile(rf'\Aembee(\d+):(\S+)((?: (?:{embee.EmbeeOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        designator: types.Designator,
-        options: types.Tuple[embee.EmbeeOption] = None,
-    ):
+    def __init__(self, suffix: types.Integer, designator: types.Designator, options: types.Tuple[embee.EmbeeOption] = None):
         """
         Initializes ``Embee``.
 
@@ -67,7 +60,7 @@ class Embee(DataOption):
 
 
 @dataclasses.dataclass
-class EmbeeBuilder:
+class EmbeeBuilder(_option.DataOptionBuilder):
     """
     Builds ``Embee``.
 
@@ -110,7 +103,7 @@ class EmbeeBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(embee.EmbeeOption.from_mcnp(item))
-                else:
+                elif isinstance(item, embee.EmbeeOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -131,7 +124,7 @@ class EmbeeBuilder:
             ``EmbeeBuilder`` for ``Embee``.
         """
 
-        return Embee(
+        return EmbeeBuilder(
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             options=copy.deepcopy(ast.options),

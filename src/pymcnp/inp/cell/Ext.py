@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Ext(CellOption):
+class Ext(_option.CellOption):
     """
     Represents INP ext elements.
 
@@ -55,7 +55,7 @@ class Ext(CellOption):
 
 
 @dataclasses.dataclass
-class ExtBuilder:
+class ExtBuilder(_option.CellOptionBuilder):
     """
     Builds ``Ext``.
 
@@ -101,7 +101,7 @@ class ExtBuilder:
             ``ExtBuilder`` for ``Ext``.
         """
 
-        return Ext(
+        return ExtBuilder(
             designator=copy.deepcopy(ast.designator),
             stretch=copy.deepcopy(ast.stretch),
         )

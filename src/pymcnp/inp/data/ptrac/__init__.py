@@ -1,4 +1,5 @@
 from ._option import PtracOption
+from ._option import PtracOptionBuilder
 
 from .Buffer import Buffer
 from .File import File
@@ -31,6 +32,7 @@ from .Value import ValueBuilder
 
 __all__ = [
     'PtracOption',
+    'PtracOptionBuilder',
     'Buffer',
     'File',
     'Max',

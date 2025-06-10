@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Ft(DataOption):
+class Ft(_option.DataOption):
     """
     Represents INP ft elements.
 
@@ -55,7 +55,7 @@ class Ft(DataOption):
 
 
 @dataclasses.dataclass
-class FtBuilder:
+class FtBuilder(_option.DataOptionBuilder):
     """
     Builds ``Ft``.
 
@@ -103,7 +103,7 @@ class FtBuilder:
             ``FtBuilder`` for ``Ft``.
         """
 
-        return Ft(
+        return FtBuilder(
             suffix=copy.deepcopy(ast.suffix),
             treatments=copy.deepcopy(ast.treatments),
         )

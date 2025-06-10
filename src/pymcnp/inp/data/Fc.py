@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fc(DataOption):
+class Fc(_option.DataOption):
     """
     Represents INP fc elements.
 
@@ -55,7 +55,7 @@ class Fc(DataOption):
 
 
 @dataclasses.dataclass
-class FcBuilder:
+class FcBuilder(_option.DataOptionBuilder):
     """
     Builds ``Fc``.
 
@@ -103,7 +103,7 @@ class FcBuilder:
             ``FcBuilder`` for ``Fc``.
         """
 
-        return Fc(
+        return FcBuilder(
             suffix=copy.deepcopy(ast.suffix),
             info=copy.deepcopy(ast.info),
         )

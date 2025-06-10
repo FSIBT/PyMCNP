@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DawwgOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Points(DawwgOption):
+class Points(_option.DawwgOption):
     """
     Represents INP points elements.
 
@@ -49,7 +49,7 @@ class Points(DawwgOption):
 
 
 @dataclasses.dataclass
-class PointsBuilder:
+class PointsBuilder(_option.DawwgOptionBuilder):
     """
     Builds ``Points``.
 
@@ -86,6 +86,6 @@ class PointsBuilder:
             ``PointsBuilder`` for ``Points``.
         """
 
-        return Points(
+        return PointsBuilder(
             name=copy.deepcopy(ast.name),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class M_1(DataOption):
+class M_1(_option.DataOption):
     """
     Represents INP m variation #1 elements.
 
@@ -55,7 +55,7 @@ class M_1(DataOption):
 
 
 @dataclasses.dataclass
-class MBuilder_1:
+class MBuilder_1(_option.DataOptionBuilder):
     """
     Builds ``M_1``.
 
@@ -103,7 +103,7 @@ class MBuilder_1:
             ``MBuilder_1`` for ``M_1``.
         """
 
-        return M_1(
+        return MBuilder_1(
             suffix=copy.deepcopy(ast.suffix),
             abx=copy.deepcopy(ast.abx),
         )

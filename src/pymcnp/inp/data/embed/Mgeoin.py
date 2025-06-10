@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbedOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Mgeoin(EmbedOption):
+class Mgeoin(_option.EmbedOption):
     """
     Represents INP mgeoin elements.
 
@@ -49,7 +49,7 @@ class Mgeoin(EmbedOption):
 
 
 @dataclasses.dataclass
-class MgeoinBuilder:
+class MgeoinBuilder(_option.EmbedOptionBuilder):
     """
     Builds ``Mgeoin``.
 
@@ -86,6 +86,6 @@ class MgeoinBuilder:
             ``MgeoinBuilder`` for ``Mgeoin``.
         """
 
-        return Mgeoin(
+        return MgeoinBuilder(
             filename=copy.deepcopy(ast.filename),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Hstep(MOption_0):
+class Hstep(_option.MOption_0):
     """
     Represents INP hstep elements.
 
@@ -49,7 +49,7 @@ class Hstep(MOption_0):
 
 
 @dataclasses.dataclass
-class HstepBuilder:
+class HstepBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Hstep``.
 
@@ -88,6 +88,6 @@ class HstepBuilder:
             ``HstepBuilder`` for ``Hstep``.
         """
 
-        return Hstep(
+        return HstepBuilder(
             step=copy.deepcopy(ast.step),
         )

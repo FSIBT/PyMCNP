@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KsenOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Erg(KsenOption):
+class Erg(_option.KsenOption):
     """
     Represents INP erg elements.
 
@@ -49,7 +49,7 @@ class Erg(KsenOption):
 
 
 @dataclasses.dataclass
-class ErgBuilder:
+class ErgBuilder(_option.KsenOptionBuilder):
     """
     Builds ``Erg``.
 
@@ -93,6 +93,6 @@ class ErgBuilder:
             ``ErgBuilder`` for ``Erg``.
         """
 
-        return Erg(
+        return ErgBuilder(
             energies=copy.deepcopy(ast.energies),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Diffsol(BlockOption):
+class Diffsol(_option.BlockOption):
     """
     Represents INP diffsol elements.
 
@@ -49,7 +49,7 @@ class Diffsol(BlockOption):
 
 
 @dataclasses.dataclass
-class DiffsolBuilder:
+class DiffsolBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Diffsol``.
 
@@ -86,6 +86,6 @@ class DiffsolBuilder:
             ``DiffsolBuilder`` for ``Diffsol``.
         """
 
-        return Diffsol(
+        return DiffsolBuilder(
             setting=copy.deepcopy(ast.setting),
         )

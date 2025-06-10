@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbedOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Filetype(EmbedOption):
+class Filetype(_option.EmbedOption):
     """
     Represents INP filetype elements.
 
@@ -49,7 +49,7 @@ class Filetype(EmbedOption):
 
 
 @dataclasses.dataclass
-class FiletypeBuilder:
+class FiletypeBuilder(_option.EmbedOptionBuilder):
     """
     Builds ``Filetype``.
 
@@ -86,6 +86,6 @@ class FiletypeBuilder:
             ``FiletypeBuilder`` for ``Filetype``.
         """
 
-        return Filetype(
+        return FiletypeBuilder(
             kind=copy.deepcopy(ast.kind),
         )

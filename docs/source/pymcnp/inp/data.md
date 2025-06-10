@@ -80,19 +80,13 @@
 
 [bfld subpackage](data/bfld)
 
-### ``C_0`` Class
+### ``C`` Class
 
 ```{eval-rst}
-.. autoclass:: pymcnp.inp.data.C_0
+.. autoclass:: pymcnp.inp.data.C
    :members:
 ```
 
-### ``C_1`` Class
-
-```{eval-rst}
-.. autoclass:: pymcnp.inp.data.C_1
-   :members:
-```
 
 ### ``Cf`` Class
 
@@ -908,6 +902,20 @@
 
 ```{eval-rst}
 .. autoclass:: pymcnp.inp.data.Thtme
+   :members:
+```
+
+### ``Tf_0`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.Tf_0
+   :members:
+```
+
+### ``Tf_1`` Class
+
+```{eval-rst}
+.. autoclass:: pymcnp.inp.data.Tf_1
    :members:
 ```
 

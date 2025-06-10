@@ -4,12 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
-from ...utils import errors
 
 
-class Print(DataOption):
+class Print(_option.DataOption):
     """
     Represents INP print elements.
 
@@ -36,110 +35,6 @@ class Print(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if tables is not None and not (
-            filter(
-                lambda entry: entry.value
-                not in {
-                    10,
-                    20,
-                    30,
-                    32,
-                    35,
-                    38,
-                    40,
-                    41,
-                    44,
-                    50,
-                    55,
-                    60,
-                    62,
-                    70,
-                    72,
-                    80,
-                    85,
-                    86,
-                    87,
-                    90,
-                    95,
-                    98,
-                    100,
-                    102,
-                    110,
-                    115,
-                    117,
-                    118,
-                    120,
-                    126,
-                    128,
-                    130,
-                    140,
-                    150,
-                    160,
-                    161,
-                    162,
-                    163,
-                    170,
-                    175,
-                    178,
-                    180,
-                    190,
-                    198,
-                    200,
-                    210,
-                    220,
-                    -10,
-                    -20,
-                    -30,
-                    -32,
-                    -35,
-                    -38,
-                    -40,
-                    -41,
-                    -44,
-                    -50,
-                    -55,
-                    -60,
-                    -62,
-                    -70,
-                    -72,
-                    -80,
-                    -85,
-                    -86,
-                    -87,
-                    -90,
-                    -95,
-                    -98,
-                    -100,
-                    -102,
-                    -110,
-                    -115,
-                    -117,
-                    -118,
-                    -120,
-                    -126,
-                    -128,
-                    -130,
-                    -140,
-                    -150,
-                    -160,
-                    -161,
-                    -162,
-                    -163,
-                    -170,
-                    -175,
-                    -178,
-                    -180,
-                    -190,
-                    -198,
-                    -200,
-                    -210,
-                    -220,
-                },
-                tables,
-            )
-        ):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tables)
-
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
                 tables,
@@ -150,7 +45,7 @@ class Print(DataOption):
 
 
 @dataclasses.dataclass
-class PrintBuilder:
+class PrintBuilder(_option.DataOptionBuilder):
     """
     Builds ``Print``.
 
@@ -194,6 +89,6 @@ class PrintBuilder:
             ``PrintBuilder`` for ``Print``.
         """
 
-        return Print(
+        return PrintBuilder(
             tables=copy.deepcopy(ast.tables),
         )

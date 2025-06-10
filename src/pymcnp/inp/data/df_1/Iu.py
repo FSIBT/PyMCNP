@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DfOption_1
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Iu(DfOption_1):
+class Iu(_option.DfOption_1):
     """
     Represents INP iu elements.
 
@@ -49,7 +49,7 @@ class Iu(DfOption_1):
 
 
 @dataclasses.dataclass
-class IuBuilder:
+class IuBuilder(_option.DfOptionBuilder_1):
     """
     Builds ``Iu``.
 
@@ -88,6 +88,6 @@ class IuBuilder:
             ``IuBuilder`` for ``Iu``.
         """
 
-        return Iu(
+        return IuBuilder(
             units=copy.deepcopy(ast.units),
         )

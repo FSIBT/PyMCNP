@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Event(PtracOption):
+class Event(_option.PtracOption):
     """
     Represents INP event elements.
 
@@ -49,7 +49,7 @@ class Event(PtracOption):
 
 
 @dataclasses.dataclass
-class EventBuilder:
+class EventBuilder(_option.PtracOptionBuilder):
     """
     Builds ``Event``.
 
@@ -74,8 +74,6 @@ class EventBuilder:
                     settings.append(item)
                 elif isinstance(item, str):
                     settings.append(types.String.from_mcnp(item))
-                else:
-                    settings.append(item.build())
             settings = types.Tuple(settings)
         else:
             settings = None
@@ -93,6 +91,6 @@ class EventBuilder:
             ``EventBuilder`` for ``Event``.
         """
 
-        return Event(
+        return EventBuilder(
             settings=copy.deepcopy(ast.settings),
         )

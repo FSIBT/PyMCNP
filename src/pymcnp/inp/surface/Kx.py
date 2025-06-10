@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Kx(SurfaceOption):
+class Kx(_option.SurfaceOption):
     """
     Represents INP kx elements.
 
@@ -28,9 +28,7 @@ class Kx(SurfaceOption):
         'plusminus_1': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Akx( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Akx( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, x: types.Real, t_squared: types.Real, plusminus_1: types.Real):
         """
@@ -72,9 +70,7 @@ class Kx(SurfaceOption):
             ``pyvista.PolyData`` for ``Kx``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(
-            self.t_squared.value ** (1 / 2), self.plusminus_1.value
-        )
+        vis = _visualization.Visualization.get_cone_unbounded(self.t_squared.value ** (1 / 2), self.plusminus_1.value)
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
         vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
 
@@ -82,7 +78,7 @@ class Kx(SurfaceOption):
 
 
 @dataclasses.dataclass
-class KxBuilder:
+class KxBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Kx``.
 
@@ -143,7 +139,7 @@ class KxBuilder:
             ``KxBuilder`` for ``Kx``.
         """
 
-        return Kx(
+        return KxBuilder(
             x=copy.deepcopy(ast.x),
             t_squared=copy.deepcopy(ast.t_squared),
             plusminus_1=copy.deepcopy(ast.plusminus_1),

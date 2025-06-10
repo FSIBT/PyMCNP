@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import bfld
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Bfld(DataOption):
+class Bfld(_option.DataOption):
     """
     Represents INP bfld elements.
 
@@ -28,16 +28,9 @@ class Bfld(DataOption):
         'options': types.Tuple[bfld.BfldOption],
     }
 
-    _REGEX = re.compile(
-        rf'\Abfld(\d+)( {types.String._REGEX.pattern[2:-2]})((?: (?:{bfld.BfldOption._REGEX.pattern[2:-2]}))+?)?\Z'
-    )
+    _REGEX = re.compile(rf'\Abfld(\d+)( {types.String._REGEX.pattern[2:-2]})((?: (?:{bfld.BfldOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        kind: types.String,
-        options: types.Tuple[bfld.BfldOption] = None,
-    ):
+    def __init__(self, suffix: types.Integer, kind: types.String, options: types.Tuple[bfld.BfldOption] = None):
         """
         Initializes ``Bfld``.
 
@@ -68,7 +61,7 @@ class Bfld(DataOption):
 
 
 @dataclasses.dataclass
-class BfldBuilder:
+class BfldBuilder(_option.DataOptionBuilder):
     """
     Builds ``Bfld``.
 
@@ -111,7 +104,7 @@ class BfldBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(bfld.BfldOption.from_mcnp(item))
-                else:
+                elif isinstance(item, bfld.BfldOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -132,7 +125,7 @@ class BfldBuilder:
             ``BfldBuilder`` for ``Bfld``.
         """
 
-        return Bfld(
+        return BfldBuilder(
             suffix=copy.deepcopy(ast.suffix),
             kind=copy.deepcopy(ast.kind),
             options=copy.deepcopy(ast.options),

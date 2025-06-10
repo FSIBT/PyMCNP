@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fm(DataOption):
+class Fm(_option.DataOption):
     """
     Represents INP fm elements.
 
@@ -42,6 +42,8 @@ class Fm(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        if prefix is not None and prefix.value not in {'*', '+'}:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
         if suffix is None or not (suffix.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if bins is None:
@@ -49,7 +51,6 @@ class Fm(DataOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                prefix,
                 bins,
             ]
         )
@@ -60,7 +61,7 @@ class Fm(DataOption):
 
 
 @dataclasses.dataclass
-class FmBuilder:
+class FmBuilder(_option.DataOptionBuilder):
     """
     Builds ``Fm``.
 
@@ -117,7 +118,7 @@ class FmBuilder:
             ``FmBuilder`` for ``Fm``.
         """
 
-        return Fm(
+        return FmBuilder(
             prefix=copy.deepcopy(ast.prefix),
             suffix=copy.deepcopy(ast.suffix),
             bins=copy.deepcopy(ast.bins),

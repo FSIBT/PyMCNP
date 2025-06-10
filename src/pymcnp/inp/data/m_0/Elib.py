@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Elib(MOption_0):
+class Elib(_option.MOption_0):
     """
     Represents INP elib elements.
 
@@ -49,7 +49,7 @@ class Elib(MOption_0):
 
 
 @dataclasses.dataclass
-class ElibBuilder:
+class ElibBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Elib``.
 
@@ -86,6 +86,6 @@ class ElibBuilder:
             ``ElibBuilder`` for ``Elib``.
         """
 
-        return Elib(
+        return ElibBuilder(
             abx=copy.deepcopy(ast.abx),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmultOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Sfnu(FmultOption):
+class Sfnu(_option.FmultOption):
     """
     Represents INP sfnu elements.
 
@@ -49,7 +49,7 @@ class Sfnu(FmultOption):
 
 
 @dataclasses.dataclass
-class SfnuBuilder:
+class SfnuBuilder(_option.FmultOptionBuilder):
     """
     Builds ``Sfnu``.
 
@@ -93,6 +93,6 @@ class SfnuBuilder:
             ``SfnuBuilder`` for ``Sfnu``.
         """
 
-        return Sfnu(
+        return SfnuBuilder(
             distribution=copy.deepcopy(ast.distribution),
         )

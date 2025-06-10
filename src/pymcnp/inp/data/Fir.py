@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fir(DataOption):
+class Fir(_option.DataOption):
     """
     Represents INP fir elements.
 
@@ -105,7 +105,7 @@ class Fir(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f1)
         if f2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f2)
-        if f3 is None or f2.value not in {0, -1, 1}:
+        if f3 is None or f3.value not in {0, -1, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f3)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -138,7 +138,7 @@ class Fir(DataOption):
 
 
 @dataclasses.dataclass
-class FirBuilder:
+class FirBuilder(_option.DataOptionBuilder):
     """
     Builds ``Fir``.
 
@@ -296,7 +296,7 @@ class FirBuilder:
             ``FirBuilder`` for ``Fir``.
         """
 
-        return Fir(
+        return FirBuilder(
             suffix=copy.deepcopy(ast.suffix),
             designator=copy.deepcopy(ast.designator),
             x1=copy.deepcopy(ast.x1),

@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Options(MplotOption):
+class Options(_option.MplotOption):
     """
     Represents INP options elements.
 
@@ -38,7 +38,7 @@ class Options(MplotOption):
 
 
 @dataclasses.dataclass
-class OptionsBuilder:
+class OptionsBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Options``.
 
@@ -65,4 +65,4 @@ class OptionsBuilder:
             ``OptionsBuilder`` for ``Options``.
         """
 
-        return Options()
+        return OptionsBuilder()

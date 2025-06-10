@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import FreeOption
+from . import _option
 from .....utils import types
 
 
-class All(FreeOption):
+class All(_option.FreeOption):
     """
     Represents INP all elements.
 
@@ -38,7 +38,7 @@ class All(FreeOption):
 
 
 @dataclasses.dataclass
-class AllBuilder:
+class AllBuilder(_option.FreeOptionBuilder):
     """
     Builds ``All``.
 
@@ -65,4 +65,4 @@ class AllBuilder:
             ``AllBuilder`` for ``All``.
         """
 
-        return All()
+        return AllBuilder()

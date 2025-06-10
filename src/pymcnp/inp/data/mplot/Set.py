@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Set(MplotOption):
+class Set(_option.MplotOption):
     """
     Represents INP set elements.
 
@@ -41,17 +41,7 @@ class Set(MplotOption):
         rf'\Aset( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z'
     )
 
-    def __init__(
-        self,
-        f: types.Integer,
-        d: types.Integer,
-        u: types.Integer,
-        s: types.Integer,
-        m: types.Integer,
-        c: types.Integer,
-        e: types.Integer,
-        t: types.Integer,
-    ):
+    def __init__(self, f: types.Integer, d: types.Integer, u: types.Integer, s: types.Integer, m: types.Integer, c: types.Integer, e: types.Integer, t: types.Integer):
         """
         Initializes ``Set``.
 
@@ -110,7 +100,7 @@ class Set(MplotOption):
 
 
 @dataclasses.dataclass
-class SetBuilder:
+class SetBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Set``.
 
@@ -226,7 +216,7 @@ class SetBuilder:
             ``SetBuilder`` for ``Set``.
         """
 
-        return Set(
+        return SetBuilder(
             f=copy.deepcopy(ast.f),
             d=copy.deepcopy(ast.d),
             u=copy.deepcopy(ast.u),

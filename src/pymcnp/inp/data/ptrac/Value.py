@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Value(PtracOption):
+class Value(_option.PtracOption):
     """
     Represents INP value elements.
 
@@ -49,7 +49,7 @@ class Value(PtracOption):
 
 
 @dataclasses.dataclass
-class ValueBuilder:
+class ValueBuilder(_option.PtracOptionBuilder):
     """
     Builds ``Value``.
 
@@ -88,6 +88,6 @@ class ValueBuilder:
             ``ValueBuilder`` for ``Value``.
         """
 
-        return Value(
+        return ValueBuilder(
             cutoff=copy.deepcopy(ast.cutoff),
         )

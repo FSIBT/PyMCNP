@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DfOption_1
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Ic(DfOption_1):
+class Ic(_option.DfOption_1):
     """
     Represents INP ic elements.
 
@@ -36,10 +36,7 @@ class Ic(DfOption_1):
             InpError: SEMANTICS_OPTION.
         """
 
-        if function is None or not (
-            isinstance(function.value, types.Jump)
-            or function.value in {10, 20, 31, 32, 33, 34, 35, 40, 99}
-        ):
+        if function is None or not (isinstance(function.value, types.Jump) or function.value in {10, 20, 31, 32, 33, 34, 35, 40, 99}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, function)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -52,7 +49,7 @@ class Ic(DfOption_1):
 
 
 @dataclasses.dataclass
-class IcBuilder:
+class IcBuilder(_option.DfOptionBuilder_1):
     """
     Builds ``Ic``.
 
@@ -91,6 +88,6 @@ class IcBuilder:
             ``IcBuilder`` for ``Ic``.
         """
 
-        return Ic(
+        return IcBuilder(
             function=copy.deepcopy(ast.function),
         )

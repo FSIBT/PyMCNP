@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class E(DataOption):
+class E(_option.DataOption):
     """
     Represents INP e elements.
 
@@ -29,17 +29,9 @@ class E(DataOption):
         'c': types.String,
     }
 
-    _REGEX = re.compile(
-        rf'\Ae(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z'
-    )
+    _REGEX = re.compile(rf'\Ae(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)( {types.String._REGEX.pattern[2:-2]})?( {types.String._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        bounds: types.Tuple[types.Real],
-        nt: types.String = None,
-        c: types.String = None,
-    ):
+    def __init__(self, suffix: types.Integer, bounds: types.Tuple[types.Real], nt: types.String = None, c: types.String = None):
         """
         Initializes ``E``.
 
@@ -73,7 +65,7 @@ class E(DataOption):
 
 
 @dataclasses.dataclass
-class EBuilder:
+class EBuilder(_option.DataOptionBuilder):
     """
     Builds ``E``.
 
@@ -146,7 +138,7 @@ class EBuilder:
             ``EBuilder`` for ``E``.
         """
 
-        return E(
+        return EBuilder(
             suffix=copy.deepcopy(ast.suffix),
             bounds=copy.deepcopy(ast.bounds),
             nt=copy.deepcopy(ast.nt),

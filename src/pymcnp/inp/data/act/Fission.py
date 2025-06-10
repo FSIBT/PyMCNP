@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import ActOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Fission(ActOption):
+class Fission(_option.ActOption):
     """
     Represents INP fission elements.
 
@@ -49,7 +49,7 @@ class Fission(ActOption):
 
 
 @dataclasses.dataclass
-class FissionBuilder:
+class FissionBuilder(_option.ActOptionBuilder):
     """
     Builds ``Fission``.
 
@@ -86,6 +86,6 @@ class FissionBuilder:
             ``FissionBuilder`` for ``Fission``.
         """
 
-        return Fission(
+        return FissionBuilder(
             kind=copy.deepcopy(ast.kind),
         )

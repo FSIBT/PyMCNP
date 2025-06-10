@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Trcor(BlockOption):
+class Trcor(_option.BlockOption):
     """
     Represents INP trcor elements.
 
@@ -49,7 +49,7 @@ class Trcor(BlockOption):
 
 
 @dataclasses.dataclass
-class TrcorBuilder:
+class TrcorBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Trcor``.
 
@@ -86,6 +86,6 @@ class TrcorBuilder:
             ``TrcorBuilder`` for ``Trcor``.
         """
 
-        return Trcor(
+        return TrcorBuilder(
             setting=copy.deepcopy(ast.setting),
         )

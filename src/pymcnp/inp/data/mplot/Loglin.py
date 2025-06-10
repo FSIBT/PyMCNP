@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Loglin(MplotOption):
+class Loglin(_option.MplotOption):
     """
     Represents INP loglin elements.
 
@@ -38,7 +38,7 @@ class Loglin(MplotOption):
 
 
 @dataclasses.dataclass
-class LoglinBuilder:
+class LoglinBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Loglin``.
 
@@ -65,4 +65,4 @@ class LoglinBuilder:
             ``LoglinBuilder`` for ``Loglin``.
         """
 
-        return Loglin()
+        return LoglinBuilder()

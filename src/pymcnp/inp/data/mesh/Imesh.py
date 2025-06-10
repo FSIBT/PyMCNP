@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Imesh(MeshOption):
+class Imesh(_option.MeshOption):
     """
     Represents INP imesh elements.
 
@@ -49,7 +49,7 @@ class Imesh(MeshOption):
 
 
 @dataclasses.dataclass
-class ImeshBuilder:
+class ImeshBuilder(_option.MeshOptionBuilder):
     """
     Builds ``Imesh``.
 
@@ -93,6 +93,6 @@ class ImeshBuilder:
             ``ImeshBuilder`` for ``Imesh``.
         """
 
-        return Imesh(
+        return ImeshBuilder(
             vector=copy.deepcopy(ast.vector),
         )

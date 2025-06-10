@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Slib(MOption_0):
+class Slib(_option.MOption_0):
     """
     Represents INP slib elements.
 
@@ -49,7 +49,7 @@ class Slib(MOption_0):
 
 
 @dataclasses.dataclass
-class SlibBuilder:
+class SlibBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Slib``.
 
@@ -86,6 +86,6 @@ class SlibBuilder:
             ``SlibBuilder`` for ``Slib``.
         """
 
-        return Slib(
+        return SlibBuilder(
             abx=copy.deepcopy(ast.abx),
         )

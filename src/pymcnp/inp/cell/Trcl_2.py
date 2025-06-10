@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Trcl_2(CellOption):
+class Trcl_2(_option.CellOption):
     """
     Represents INP trcl variation #2 elements.
 
@@ -49,7 +49,7 @@ class Trcl_2(CellOption):
 
 
 @dataclasses.dataclass
-class TrclBuilder_2:
+class TrclBuilder_2(_option.CellOptionBuilder):
     """
     Builds ``Trcl_2``.
 
@@ -86,6 +86,6 @@ class TrclBuilder_2:
             ``TrclBuilder_2`` for ``Trcl_2``.
         """
 
-        return Trcl_2(
+        return TrclBuilder_2(
             transformation=copy.deepcopy(ast.transformation),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmultOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Watt(FmultOption):
+class Watt(_option.FmultOption):
     """
     Represents INP watt elements.
 
@@ -25,9 +25,7 @@ class Watt(FmultOption):
         'b': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Awatt( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Awatt( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, a: types.Real, b: types.Real):
         """
@@ -58,7 +56,7 @@ class Watt(FmultOption):
 
 
 @dataclasses.dataclass
-class WattBuilder:
+class WattBuilder(_option.FmultOptionBuilder):
     """
     Builds ``Watt``.
 
@@ -108,7 +106,7 @@ class WattBuilder:
             ``WattBuilder`` for ``Watt``.
         """
 
-        return Watt(
+        return WattBuilder(
             a=copy.deepcopy(ast.a),
             b=copy.deepcopy(ast.b),
         )

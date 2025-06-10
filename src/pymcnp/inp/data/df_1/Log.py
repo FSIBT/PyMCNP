@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import DfOption_1
+from . import _option
 from ....utils import types
 
 
-class Log(DfOption_1):
+class Log(_option.DfOption_1):
     """
     Represents INP log elements.
 
@@ -38,7 +38,7 @@ class Log(DfOption_1):
 
 
 @dataclasses.dataclass
-class LogBuilder:
+class LogBuilder(_option.DfOptionBuilder_1):
     """
     Builds ``Log``.
 
@@ -65,4 +65,4 @@ class LogBuilder:
             ``LogBuilder`` for ``Log``.
         """
 
-        return Log()
+        return LogBuilder()

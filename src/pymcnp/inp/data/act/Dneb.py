@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import ActOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Dneb(ActOption):
+class Dneb(_option.ActOption):
     """
     Represents INP dneb elements.
 
@@ -49,7 +49,7 @@ class Dneb(ActOption):
 
 
 @dataclasses.dataclass
-class DnebBuilder:
+class DnebBuilder(_option.ActOptionBuilder):
     """
     Builds ``Dneb``.
 
@@ -74,8 +74,6 @@ class DnebBuilder:
                     biases.append(item)
                 elif isinstance(item, str):
                     biases.append(types.Bias.from_mcnp(item))
-                else:
-                    biases.append(item.build())
             biases = types.Tuple(biases)
         else:
             biases = None
@@ -93,6 +91,6 @@ class DnebBuilder:
             ``DnebBuilder`` for ``Dneb``.
         """
 
-        return Dneb(
+        return DnebBuilder(
             biases=copy.deepcopy(ast.biases),
         )

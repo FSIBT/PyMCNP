@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SsrOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Bcw(SsrOption):
+class Bcw(_option.SsrOption):
     """
     Represents INP bcw elements.
 
@@ -27,9 +27,7 @@ class Bcw(SsrOption):
         'ze': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Abcw( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Abcw( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, radius: types.Real, zb: types.Real, ze: types.Real):
         """
@@ -65,7 +63,7 @@ class Bcw(SsrOption):
 
 
 @dataclasses.dataclass
-class BcwBuilder:
+class BcwBuilder(_option.SsrOptionBuilder):
     """
     Builds ``Bcw``.
 
@@ -126,7 +124,7 @@ class BcwBuilder:
             ``BcwBuilder`` for ``Bcw``.
         """
 
-        return Bcw(
+        return BcwBuilder(
             radius=copy.deepcopy(ast.radius),
             zb=copy.deepcopy(ast.zb),
             ze=copy.deepcopy(ast.ze),

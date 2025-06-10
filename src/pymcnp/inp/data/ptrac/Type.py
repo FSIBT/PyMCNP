@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import PtracOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Type(PtracOption):
+class Type(_option.PtracOption):
     """
     Represents INP type elements.
 
@@ -49,7 +49,7 @@ class Type(PtracOption):
 
 
 @dataclasses.dataclass
-class TypeBuilder:
+class TypeBuilder(_option.PtracOptionBuilder):
     """
     Builds ``Type``.
 
@@ -74,8 +74,6 @@ class TypeBuilder:
                     particles.append(item)
                 elif isinstance(item, str):
                     particles.append(types.Designator.from_mcnp(item))
-                else:
-                    particles.append(item.build())
             particles = types.Tuple(particles)
         else:
             particles = None
@@ -93,6 +91,6 @@ class TypeBuilder:
             ``TypeBuilder`` for ``Type``.
         """
 
-        return Type(
+        return TypeBuilder(
             particles=copy.deepcopy(ast.particles),
         )

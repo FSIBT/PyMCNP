@@ -23,14 +23,7 @@ class Header(_object.McnpNonterminal):
         ids: PTRAC event variable identifiers by type.
     """
 
-    _REGEX = re.compile(
-        r'\A   -1\n'
-        r'(.{8})(.{25})(.{9})(.{18})\n'
-        r'(.{80})\n'
-        r'((?:\s.{120}\n)+)'
-        r'\s(.{100})\n'
-        r'((?:\s(?:.{4})+\n)+)\Z'
-    )
+    _REGEX = re.compile(r'\A   -1\n' r'(.{8})(.{25})(.{9})(.{18})\n' r'(.{80})\n' r'((?:\s.{120}\n)+)' r'\s(.{100})\n' r'((?:\s(?:.{4})+\n)+)\Z')
 
     def __init__(
         self,
@@ -118,15 +111,9 @@ class Header(_object.McnpNonterminal):
         code_date = types.String.from_mcnp(tokens[3])
         run_datetime = types.String.from_mcnp(tokens[4])
         title = types.String.from_mcnp(tokens[5])
-        v_line = types.Tuple(
-            [types.Real.from_mcnp(v) for v in re.split(r'\s+|\n', tokens[6].strip())]
-        )
-        n_line = types.Tuple(
-            [types.Integer.from_mcnp(n) for n in re.split(r'\s+|\n', tokens[7].strip())]
-        )
-        l_line = types.Tuple(
-            [types.Integer.from_mcnp(l) for l in re.split(r'\s+|\n', tokens[8].strip())]
-        )
+        v_line = types.Tuple([types.Real.from_mcnp(v) for v in re.split(r'\s+|\n', tokens[6].strip())])
+        n_line = types.Tuple([types.Integer.from_mcnp(n) for n in re.split(r'\s+|\n', tokens[7].strip())])
+        l_line = types.Tuple([types.Integer.from_mcnp(l) for l in re.split(r'\s+|\n', tokens[8].strip())])
 
         return Header(code, version, code_date, run_datetime, title, v_line, n_line, l_line)
 

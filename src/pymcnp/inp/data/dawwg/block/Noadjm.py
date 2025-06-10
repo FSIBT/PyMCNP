@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Noadjm(BlockOption):
+class Noadjm(_option.BlockOption):
     """
     Represents INP noadjm elements.
 
@@ -49,7 +49,7 @@ class Noadjm(BlockOption):
 
 
 @dataclasses.dataclass
-class NoadjmBuilder:
+class NoadjmBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Noadjm``.
 
@@ -88,6 +88,6 @@ class NoadjmBuilder:
             ``NoadjmBuilder`` for ``Noadjm``.
         """
 
-        return Noadjm(
+        return NoadjmBuilder(
             setting=copy.deepcopy(ast.setting),
         )

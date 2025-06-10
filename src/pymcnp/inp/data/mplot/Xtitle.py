@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Xtitle(MplotOption):
+class Xtitle(_option.MplotOption):
     """
     Represents INP xtitle elements.
 
@@ -49,7 +49,7 @@ class Xtitle(MplotOption):
 
 
 @dataclasses.dataclass
-class XtitleBuilder:
+class XtitleBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Xtitle``.
 
@@ -86,6 +86,6 @@ class XtitleBuilder:
             ``XtitleBuilder`` for ``Xtitle``.
         """
 
-        return Xtitle(
+        return XtitleBuilder(
             aa=copy.deepcopy(ast.aa),
         )

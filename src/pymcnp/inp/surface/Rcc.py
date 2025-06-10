@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Rcc(SurfaceOption):
+class Rcc(_option.SurfaceOption):
     """
     Represents INP rcc elements.
 
@@ -40,16 +40,7 @@ class Rcc(SurfaceOption):
         rf'\Arcc( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
-    def __init__(
-        self,
-        vx: types.Real,
-        vy: types.Real,
-        vz: types.Real,
-        hx: types.Real,
-        hy: types.Real,
-        hz: types.Real,
-        r: types.Real,
-    ):
+    def __init__(self, vx: types.Real, vy: types.Real, vz: types.Real, hx: types.Real, hy: types.Real, hz: types.Real, r: types.Real):
         """
         Initializes ``Rcc``.
 
@@ -123,7 +114,7 @@ class Rcc(SurfaceOption):
 
 
 @dataclasses.dataclass
-class RccBuilder:
+class RccBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Rcc``.
 
@@ -228,7 +219,7 @@ class RccBuilder:
             ``RccBuilder`` for ``Rcc``.
         """
 
-        return Rcc(
+        return RccBuilder(
             vx=copy.deepcopy(ast.vx),
             vy=copy.deepcopy(ast.vy),
             vz=copy.deepcopy(ast.vz),

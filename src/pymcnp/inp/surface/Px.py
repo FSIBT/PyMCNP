@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Px(SurfaceOption):
+class Px(_option.SurfaceOption):
     """
     Represents INP px elements.
 
@@ -63,7 +63,7 @@ class Px(SurfaceOption):
 
 
 @dataclasses.dataclass
-class PxBuilder:
+class PxBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Px``.
 
@@ -102,6 +102,6 @@ class PxBuilder:
             ``PxBuilder`` for ``Px``.
         """
 
-        return Px(
+        return PxBuilder(
             d=copy.deepcopy(ast.d),
         )

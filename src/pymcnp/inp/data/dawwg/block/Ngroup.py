@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Ngroup(BlockOption):
+class Ngroup(_option.BlockOption):
     """
     Represents INP ngroup elements.
 
@@ -49,7 +49,7 @@ class Ngroup(BlockOption):
 
 
 @dataclasses.dataclass
-class NgroupBuilder:
+class NgroupBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Ngroup``.
 
@@ -88,6 +88,6 @@ class NgroupBuilder:
             ``NgroupBuilder`` for ``Ngroup``.
         """
 
-        return Ngroup(
+        return NgroupBuilder(
             value=copy.deepcopy(ast.value),
         )

@@ -70,8 +70,4 @@ def disclaimer():
     Prints disclaimer message.
     """
 
-    warning(
-        'PyMCNP is in active development! '
-        'Please, double check eveything works. '
-        'Reports error on [underline][link=https://github.com/FSIBT/PyMCNP/issues]GitHub[/][/].'
-    )
+    warning('PyMCNP is in active development! ' 'Please, double check eveything works. ' 'Reports error on [underline][link=https://github.com/FSIBT/PyMCNP/issues]GitHub[/][/].')

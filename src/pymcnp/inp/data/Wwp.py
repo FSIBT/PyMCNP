@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Wwp(DataOption):
+class Wwp(_option.DataOption):
     """
     Represents INP wwp elements.
 
@@ -89,13 +89,9 @@ class Wwp(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wsurvn)
         if mxspln is not None and not (isinstance(mxspln.value, types.Jump) or 1 < mxspln.value):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mxspln)
-        if mwhere is not None and not (
-            isinstance(mwhere.value, types.Jump) or mwhere.value in {-1, 0, 1}
-        ):
+        if mwhere is not None and not (isinstance(mwhere.value, types.Jump) or mwhere.value in {-1, 0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mwhere)
-        if etsplt is not None and not (
-            isinstance(etsplt.value, types.Jump) or etsplt.value in {0, 1}
-        ):
+        if etsplt is not None and not (isinstance(etsplt.value, types.Jump) or etsplt.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, etsplt)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -127,7 +123,7 @@ class Wwp(DataOption):
 
 
 @dataclasses.dataclass
-class WwpBuilder:
+class WwpBuilder(_option.DataOptionBuilder):
     """
     Builds ``Wwp``.
 
@@ -274,7 +270,7 @@ class WwpBuilder:
             ``WwpBuilder`` for ``Wwp``.
         """
 
-        return Wwp(
+        return WwpBuilder(
             designator=copy.deepcopy(ast.designator),
             wupn=copy.deepcopy(ast.wupn),
             wsurvn=copy.deepcopy(ast.wsurvn),

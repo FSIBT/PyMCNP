@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Ntichi(BlockOption):
+class Ntichi(_option.BlockOption):
     """
     Represents INP ntichi elements.
 
@@ -49,7 +49,7 @@ class Ntichi(BlockOption):
 
 
 @dataclasses.dataclass
-class NtichiBuilder:
+class NtichiBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Ntichi``.
 
@@ -88,6 +88,6 @@ class NtichiBuilder:
             ``NtichiBuilder`` for ``Ntichi``.
         """
 
-        return Ntichi(
+        return NtichiBuilder(
             setting=copy.deepcopy(ast.setting),
         )

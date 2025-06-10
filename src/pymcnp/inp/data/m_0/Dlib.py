@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MOption_0
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Dlib(MOption_0):
+class Dlib(_option.MOption_0):
     """
     Represents INP dlib elements.
 
@@ -49,7 +49,7 @@ class Dlib(MOption_0):
 
 
 @dataclasses.dataclass
-class DlibBuilder:
+class DlibBuilder(_option.MOptionBuilder_0):
     """
     Builds ``Dlib``.
 
@@ -86,6 +86,6 @@ class DlibBuilder:
             ``DlibBuilder`` for ``Dlib``.
         """
 
-        return Dlib(
+        return DlibBuilder(
             abx=copy.deepcopy(ast.abx),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Phys_3(DataOption):
+class Phys_3(_option.DataOption):
     """
     Represents INP phys variation #3 elements.
 
@@ -81,37 +81,23 @@ class Phys_3(DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if tabl is not None and not (
-            isinstance(tabl.value, types.Jump) or tabl.value == -1 or tabl.value >= 0
-        ):
+        if tabl is not None and not (isinstance(tabl.value, types.Jump) or tabl.value == -1 or tabl.value >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tabl)
         if istrg is not None and not (isinstance(istrg.value, types.Jump) or istrg.value in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, istrg)
         if recl is not None and not (isinstance(recl.value, types.Jump) or 0 <= recl.value <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, recl)
-        if i_mcs_model is not None and not (
-            isinstance(i_mcs_model.value, types.Jump) or i_mcs_model.value in {-1, 0, 1, 2}
-        ):
+        if i_mcs_model is not None and not (isinstance(i_mcs_model.value, types.Jump) or i_mcs_model.value in {-1, 0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
-        if i_int_model is not None and not (
-            isinstance(i_int_model.value, types.Jump) or i_int_model.value in {-1, 0, 1, 2}
-        ):
+        if i_int_model is not None and not (isinstance(i_int_model.value, types.Jump) or i_int_model.value in {-1, 0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_int_model)
-        if i_els_model is not None and not (
-            isinstance(i_els_model.value, types.Jump) or i_els_model.value in {-1, 0}
-        ):
+        if i_els_model is not None and not (isinstance(i_els_model.value, types.Jump) or i_els_model.value in {-1, 0}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_els_model)
-        if efac is not None and not (
-            isinstance(efac.value, types.Jump) or 0.8 <= efac.value <= 0.99
-        ):
+        if efac is not None and not (isinstance(efac.value, types.Jump) or 0.8 <= efac.value <= 0.99):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, efac)
-        if ckvnum is not None and not (
-            isinstance(ckvnum.value, types.Jump) or 0 <= ckvnum.value < 1
-        ):
+        if ckvnum is not None and not (isinstance(ckvnum.value, types.Jump) or 0 <= ckvnum.value < 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ckvnum)
-        if drp is not None and not (
-            isinstance(drp.value, types.Jump) or drp.value >= 0 or drp.value == -1
-        ):
+        if drp is not None and not (isinstance(drp.value, types.Jump) or drp.value >= 0 or drp.value == -1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, drp)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -144,7 +130,7 @@ class Phys_3(DataOption):
 
 
 @dataclasses.dataclass
-class PhysBuilder_3:
+class PhysBuilder_3(_option.DataOptionBuilder):
     """
     Builds ``Phys_3``.
 
@@ -293,7 +279,7 @@ class PhysBuilder_3:
             ``PhysBuilder_3`` for ``Phys_3``.
         """
 
-        return Phys_3(
+        return PhysBuilder_3(
             emax=copy.deepcopy(ast.emax),
             ean=copy.deepcopy(ast.ean),
             tabl=copy.deepcopy(ast.tabl),

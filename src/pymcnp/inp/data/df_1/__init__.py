@@ -1,4 +1,5 @@
 from ._option import DfOption_1
+from ._option import DfOptionBuilder_1
 
 from .Iu import Iu
 from .Fac import Fac
@@ -13,6 +14,7 @@ from .Lin import LinBuilder
 
 __all__ = [
     'DfOption_1',
+    'DfOptionBuilder_1',
     'Iu',
     'Fac',
     'Ic',

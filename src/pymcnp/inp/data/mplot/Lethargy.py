@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Lethargy(MplotOption):
+class Lethargy(_option.MplotOption):
     """
     Represents INP lethargy elements.
 
@@ -38,7 +38,7 @@ class Lethargy(MplotOption):
 
 
 @dataclasses.dataclass
-class LethargyBuilder:
+class LethargyBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Lethargy``.
 
@@ -65,4 +65,4 @@ class LethargyBuilder:
             ``LethargyBuilder`` for ``Lethargy``.
         """
 
-        return Lethargy()
+        return LethargyBuilder()

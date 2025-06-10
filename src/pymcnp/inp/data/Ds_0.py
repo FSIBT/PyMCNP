@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Ds_0(DataOption):
+class Ds_0(_option.DataOption):
     """
     Represents INP ds variation #0 elements.
 
@@ -29,9 +29,7 @@ class Ds_0(DataOption):
 
     _REGEX = re.compile(rf'\Ads(\d+)( [hls])?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(
-        self, suffix: types.Integer, js: types.Tuple[types.Real], option: types.String = None
-    ):
+    def __init__(self, suffix: types.Integer, js: types.Tuple[types.Real], option: types.String = None):
         """
         Initializes ``Ds_0``.
 
@@ -64,7 +62,7 @@ class Ds_0(DataOption):
 
 
 @dataclasses.dataclass
-class DsBuilder_0:
+class DsBuilder_0(_option.DataOptionBuilder):
     """
     Builds ``Ds_0``.
 
@@ -128,7 +126,7 @@ class DsBuilder_0:
             ``DsBuilder_0`` for ``Ds_0``.
         """
 
-        return Ds_0(
+        return DsBuilder_0(
             suffix=copy.deepcopy(ast.suffix),
             option=copy.deepcopy(ast.option),
             js=copy.deepcopy(ast.js),

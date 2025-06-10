@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbedOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Background(EmbedOption):
+class Background(_option.EmbedOption):
     """
     Represents INP background elements.
 
@@ -49,7 +49,7 @@ class Background(EmbedOption):
 
 
 @dataclasses.dataclass
-class BackgroundBuilder:
+class BackgroundBuilder(_option.EmbedOptionBuilder):
     """
     Builds ``Background``.
 
@@ -88,6 +88,6 @@ class BackgroundBuilder:
             ``BackgroundBuilder`` for ``Background``.
         """
 
-        return Background(
+        return BackgroundBuilder(
             number=copy.deepcopy(ast.number),
         )

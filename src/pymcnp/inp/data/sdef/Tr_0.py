@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Tr_0(SdefOption):
+class Tr_0(_option.SdefOption):
     """
     Represents INP tr variation #0 elements.
 
@@ -49,7 +49,7 @@ class Tr_0(SdefOption):
 
 
 @dataclasses.dataclass
-class TrBuilder_0:
+class TrBuilder_0(_option.SdefOptionBuilder):
     """
     Builds ``Tr_0``.
 
@@ -88,6 +88,6 @@ class TrBuilder_0:
             ``TrBuilder_0`` for ``Tr_0``.
         """
 
-        return Tr_0(
+        return TrBuilder_0(
             number=copy.deepcopy(ast.number),
         )

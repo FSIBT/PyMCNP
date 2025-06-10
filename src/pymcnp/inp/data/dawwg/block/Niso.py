@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Niso(BlockOption):
+class Niso(_option.BlockOption):
     """
     Represents INP niso elements.
 
@@ -49,7 +49,7 @@ class Niso(BlockOption):
 
 
 @dataclasses.dataclass
-class NisoBuilder:
+class NisoBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Niso``.
 
@@ -88,6 +88,6 @@ class NisoBuilder:
             ``NisoBuilder`` for ``Niso``.
         """
 
-        return Niso(
+        return NisoBuilder(
             setting=copy.deepcopy(ast.setting),
         )

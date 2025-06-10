@@ -5,11 +5,11 @@ import dataclasses
 
 
 from . import var
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Var(DataOption):
+class Var(_option.DataOption):
     """
     Represents INP var elements.
 
@@ -46,7 +46,7 @@ class Var(DataOption):
 
 
 @dataclasses.dataclass
-class VarBuilder:
+class VarBuilder(_option.DataOptionBuilder):
     """
     Builds ``Var``.
 
@@ -71,7 +71,7 @@ class VarBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(var.VarOption.from_mcnp(item))
-                else:
+                elif isinstance(item, var.VarOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -90,6 +90,6 @@ class VarBuilder:
             ``VarBuilder`` for ``Var``.
         """
 
-        return Var(
+        return VarBuilder(
             options=copy.deepcopy(ast.options),
         )

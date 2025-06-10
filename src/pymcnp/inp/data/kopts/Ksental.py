@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import KoptsOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Ksental(KoptsOption):
+class Ksental(_option.KoptsOption):
     """
     Represents INP ksental elements.
 
@@ -49,7 +49,7 @@ class Ksental(KoptsOption):
 
 
 @dataclasses.dataclass
-class KsentalBuilder:
+class KsentalBuilder(_option.KoptsOptionBuilder):
     """
     Builds ``Ksental``.
 
@@ -86,6 +86,6 @@ class KsentalBuilder:
             ``KsentalBuilder`` for ``Ksental``.
         """
 
-        return Ksental(
+        return KsentalBuilder(
             fileopt=copy.deepcopy(ast.fileopt),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Astop(BlockOption):
+class Astop(_option.BlockOption):
     """
     Represents INP astop elements.
 
@@ -49,7 +49,7 @@ class Astop(BlockOption):
 
 
 @dataclasses.dataclass
-class AstopBuilder:
+class AstopBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Astop``.
 
@@ -88,6 +88,6 @@ class AstopBuilder:
             ``AstopBuilder`` for ``Astop``.
         """
 
-        return Astop(
+        return AstopBuilder(
             setting=copy.deepcopy(ast.setting),
         )

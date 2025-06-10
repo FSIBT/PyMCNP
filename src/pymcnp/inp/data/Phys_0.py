@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Phys_0(DataOption):
+class Phys_0(_option.DataOption):
     """
     Represents INP phys variation #0 elements.
 
@@ -73,13 +73,9 @@ class Phys_0(DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iunr)
         if ngam is not None and not (isinstance(ngam.value, types.Jump) or ngam.value in {0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ngam)
-        if i_int_model is not None and not (
-            isinstance(i_int_model.value, types.Jump) or i_int_model.value in {-1, 0, 1, 2, 3}
-        ):
+        if i_int_model is not None and not (isinstance(i_int_model.value, types.Jump) or i_int_model.value in {-1, 0, 1, 2, 3}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_int_model)
-        if i_els_model is not None and not (
-            isinstance(i_els_model.value, types.Jump) or i_els_model.value in {-1, 0, 1}
-        ):
+        if i_els_model is not None and not (isinstance(i_els_model.value, types.Jump) or i_els_model.value in {-1, 0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_els_model)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -106,7 +102,7 @@ class Phys_0(DataOption):
 
 
 @dataclasses.dataclass
-class PhysBuilder_0:
+class PhysBuilder_0(_option.DataOptionBuilder):
     """
     Builds ``Phys_0``.
 
@@ -222,7 +218,7 @@ class PhysBuilder_0:
             ``PhysBuilder_0`` for ``Phys_0``.
         """
 
-        return Phys_0(
+        return PhysBuilder_0(
             emax=copy.deepcopy(ast.emax),
             emcnf=copy.deepcopy(ast.emcnf),
             iunr=copy.deepcopy(ast.iunr),

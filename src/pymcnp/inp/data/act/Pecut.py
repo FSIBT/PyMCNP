@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import ActOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Pecut(ActOption):
+class Pecut(_option.ActOption):
     """
     Represents INP pecut elements.
 
@@ -49,7 +49,7 @@ class Pecut(ActOption):
 
 
 @dataclasses.dataclass
-class PecutBuilder:
+class PecutBuilder(_option.ActOptionBuilder):
     """
     Builds ``Pecut``.
 
@@ -88,6 +88,6 @@ class PecutBuilder:
             ``PecutBuilder`` for ``Pecut``.
         """
 
-        return Pecut(
+        return PecutBuilder(
             cutoff=copy.deepcopy(ast.cutoff),
         )

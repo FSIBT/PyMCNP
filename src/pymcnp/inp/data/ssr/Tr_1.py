@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SsrOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Tr_1(SsrOption):
+class Tr_1(_option.SsrOption):
     """
     Represents INP tr variation #1 elements.
 
@@ -49,7 +49,7 @@ class Tr_1(SsrOption):
 
 
 @dataclasses.dataclass
-class TrBuilder_1:
+class TrBuilder_1(_option.SsrOptionBuilder):
     """
     Builds ``Tr_1``.
 
@@ -88,6 +88,6 @@ class TrBuilder_1:
             ``TrBuilder_1`` for ``Tr_1``.
         """
 
-        return Tr_1(
+        return TrBuilder_1(
             number=copy.deepcopy(ast.number),
         )

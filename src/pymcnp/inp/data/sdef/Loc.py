@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Loc(SdefOption):
+class Loc(_option.SdefOption):
     """
     Represents INP loc elements.
 
@@ -27,9 +27,7 @@ class Loc(SdefOption):
         'altitude': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Aloc( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Aloc( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, latitude: types.Real, longitude: types.Real, altitude: types.Real):
         """
@@ -65,7 +63,7 @@ class Loc(SdefOption):
 
 
 @dataclasses.dataclass
-class LocBuilder:
+class LocBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Loc``.
 
@@ -126,7 +124,7 @@ class LocBuilder:
             ``LocBuilder`` for ``Loc``.
         """
 
-        return Loc(
+        return LocBuilder(
             latitude=copy.deepcopy(ast.latitude),
             longitude=copy.deepcopy(ast.longitude),
             altitude=copy.deepcopy(ast.altitude),

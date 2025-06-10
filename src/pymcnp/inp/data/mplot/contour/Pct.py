@@ -3,11 +3,11 @@ import typing
 import dataclasses
 
 
-from ._option import ContourOption
+from . import _option
 from .....utils import types
 
 
-class Pct(ContourOption):
+class Pct(_option.ContourOption):
     """
     Represents INP pct elements.
 
@@ -38,7 +38,7 @@ class Pct(ContourOption):
 
 
 @dataclasses.dataclass
-class PctBuilder:
+class PctBuilder(_option.ContourOptionBuilder):
     """
     Builds ``Pct``.
 
@@ -65,4 +65,4 @@ class PctBuilder:
             ``PctBuilder`` for ``Pct``.
         """
 
-        return Pct()
+        return PctBuilder()

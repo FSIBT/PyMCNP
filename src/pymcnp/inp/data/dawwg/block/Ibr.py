@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Ibr(BlockOption):
+class Ibr(_option.BlockOption):
     """
     Represents INP ibr elements.
 
@@ -49,7 +49,7 @@ class Ibr(BlockOption):
 
 
 @dataclasses.dataclass
-class IbrBuilder:
+class IbrBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Ibr``.
 
@@ -88,6 +88,6 @@ class IbrBuilder:
             ``IbrBuilder`` for ``Ibr``.
         """
 
-        return Ibr(
+        return IbrBuilder(
             setting=copy.deepcopy(ast.setting),
         )

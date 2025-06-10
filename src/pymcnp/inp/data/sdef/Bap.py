@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Bap(SdefOption):
+class Bap(_option.SdefOption):
     """
     Represents INP bap elements.
 
@@ -27,9 +27,7 @@ class Bap(SdefOption):
         'u': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Abap( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Abap( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, ba1: types.Real, ba2: types.Real, u: types.Real):
         """
@@ -65,7 +63,7 @@ class Bap(SdefOption):
 
 
 @dataclasses.dataclass
-class BapBuilder:
+class BapBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Bap``.
 
@@ -126,7 +124,7 @@ class BapBuilder:
             ``BapBuilder`` for ``Bap``.
         """
 
-        return Bap(
+        return BapBuilder(
             ba1=copy.deepcopy(ast.ba1),
             ba2=copy.deepcopy(ast.ba2),
             u=copy.deepcopy(ast.u),

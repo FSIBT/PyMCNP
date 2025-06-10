@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Tsaepsi(BlockOption):
+class Tsaepsi(_option.BlockOption):
     """
     Represents INP tsaepsi elements.
 
@@ -49,7 +49,7 @@ class Tsaepsi(BlockOption):
 
 
 @dataclasses.dataclass
-class TsaepsiBuilder:
+class TsaepsiBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Tsaepsi``.
 
@@ -88,6 +88,6 @@ class TsaepsiBuilder:
             ``TsaepsiBuilder`` for ``Tsaepsi``.
         """
 
-        return Tsaepsi(
+        return TsaepsiBuilder(
             setting=copy.deepcopy(ast.setting),
         )

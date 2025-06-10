@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 
 
-class Spline(MplotOption):
+class Spline(_option.MplotOption):
     """
     Represents INP spline elements.
 
@@ -45,7 +45,7 @@ class Spline(MplotOption):
 
 
 @dataclasses.dataclass
-class SplineBuilder:
+class SplineBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Spline``.
 
@@ -84,6 +84,6 @@ class SplineBuilder:
             ``SplineBuilder`` for ``Spline``.
         """
 
-        return Spline(
+        return SplineBuilder(
             x=copy.deepcopy(ast.x),
         )

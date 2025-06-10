@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Asrite(BlockOption):
+class Asrite(_option.BlockOption):
     """
     Represents INP asrite elements.
 
@@ -49,7 +49,7 @@ class Asrite(BlockOption):
 
 
 @dataclasses.dataclass
-class AsriteBuilder:
+class AsriteBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Asrite``.
 
@@ -88,6 +88,6 @@ class AsriteBuilder:
             ``AsriteBuilder`` for ``Asrite``.
         """
 
-        return Asrite(
+        return AsriteBuilder(
             setting=copy.deepcopy(ast.setting),
         )

@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import free
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Free(MplotOption):
+class Free(_option.MplotOption):
     """
     Represents INP free elements.
 
@@ -28,9 +28,7 @@ class Free(MplotOption):
         'option': free.FreeOption,
     }
 
-    _REGEX = re.compile(
-        rf'\Afree( {types.String._REGEX.pattern[2:-2]})( {types.String._REGEX.pattern[2:-2]})( (?:{free.FreeOption._REGEX.pattern[2:-2]}))?\Z'
-    )
+    _REGEX = re.compile(rf'\Afree( {types.String._REGEX.pattern[2:-2]})( {types.String._REGEX.pattern[2:-2]})( (?:{free.FreeOption._REGEX.pattern[2:-2]}))?\Z')
 
     def __init__(self, x: types.String, y: types.String, option: free.FreeOption = None):
         """
@@ -64,7 +62,7 @@ class Free(MplotOption):
 
 
 @dataclasses.dataclass
-class FreeBuilder:
+class FreeBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Free``.
 
@@ -103,6 +101,8 @@ class FreeBuilder:
             option = self.option
         elif isinstance(self.option, str):
             option = free.FreeOption.from_mcnp(self.option)
+        elif isinstance(self.option, free.FreeOptionBuilder):
+            option = self.option.build()
 
         return Free(
             x=x,
@@ -119,8 +119,8 @@ class FreeBuilder:
             ``FreeBuilder`` for ``Free``.
         """
 
-        return Free(
+        return FreeBuilder(
             x=copy.deepcopy(ast.x),
             y=copy.deepcopy(ast.y),
-            option=Free.FreeOptionBuilder.unbuild(ast.option),
+            option=copy.deepcopy(ast.option),
         )

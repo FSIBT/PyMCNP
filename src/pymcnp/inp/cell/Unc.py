@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Unc(CellOption):
+class Unc(_option.CellOption):
     """
     Represents INP unc elements.
 
@@ -55,7 +55,7 @@ class Unc(CellOption):
 
 
 @dataclasses.dataclass
-class UncBuilder:
+class UncBuilder(_option.CellOptionBuilder):
     """
     Builds ``Unc``.
 
@@ -103,7 +103,7 @@ class UncBuilder:
             ``UncBuilder`` for ``Unc``.
         """
 
-        return Unc(
+        return UncBuilder(
             designator=copy.deepcopy(ast.designator),
             setting=copy.deepcopy(ast.setting),
         )

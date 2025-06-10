@@ -16,9 +16,7 @@ class SubtallyNps4(_subblock.Subblock):
         total: Total line.
     """
 
-    _REGEX = re.compile(
-        r'\A cell  (.+)\n' r'      energy   \n' r'((?:.+\n)+)' r'      total      (.+)\n\n\Z'
-    )
+    _REGEX = re.compile(r'\A cell  (.+)\n' r'      energy   \n' r'((?:.+\n)+)' r'      total      (.+)\n\n\Z')
 
     def __init__(
         self,

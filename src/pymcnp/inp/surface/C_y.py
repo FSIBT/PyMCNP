@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class C_y(SurfaceOption):
+class C_y(_option.SurfaceOption):
     """
     Represents INP c/y elements.
 
@@ -28,9 +28,7 @@ class C_y(SurfaceOption):
         'r': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Ac/y( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Ac/y( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, x: types.Real, z: types.Real, r: types.Real):
         """
@@ -80,7 +78,7 @@ class C_y(SurfaceOption):
 
 
 @dataclasses.dataclass
-class C_yBuilder:
+class C_yBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``C_y``.
 
@@ -141,7 +139,7 @@ class C_yBuilder:
             ``C_yBuilder`` for ``C_y``.
         """
 
-        return C_y(
+        return C_yBuilder(
             x=copy.deepcopy(ast.x),
             z=copy.deepcopy(ast.z),
             r=copy.deepcopy(ast.r),

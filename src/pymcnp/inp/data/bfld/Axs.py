@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BfldOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Axs(BfldOption):
+class Axs(_option.BfldOption):
     """
     Represents INP axs elements.
 
@@ -49,7 +49,7 @@ class Axs(BfldOption):
 
 
 @dataclasses.dataclass
-class AxsBuilder:
+class AxsBuilder(_option.BfldOptionBuilder):
     """
     Builds ``Axs``.
 
@@ -93,6 +93,6 @@ class AxsBuilder:
             ``AxsBuilder`` for ``Axs``.
         """
 
-        return Axs(
+        return AxsBuilder(
             vector=copy.deepcopy(ast.vector),
         )

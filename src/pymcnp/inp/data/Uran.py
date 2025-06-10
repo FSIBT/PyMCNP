@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Uran(DataOption):
+class Uran(_option.DataOption):
     """
     Represents INP uran elements.
 
@@ -23,7 +23,7 @@ class Uran(DataOption):
         'transformations': types.Tuple[types.Stochastic],
     }
 
-    _REGEX = re.compile(rf'\Auran((?: {types.Stochastic._REGEX.pattern[2:-2]})+?)\Z')
+    _REGEX = re.compile(r'\Auran((?: \S+ \S+ \S+ \S+)+?)\Z')
 
     def __init__(self, transformations: types.Tuple[types.Stochastic]):
         """
@@ -49,7 +49,7 @@ class Uran(DataOption):
 
 
 @dataclasses.dataclass
-class UranBuilder:
+class UranBuilder(_option.DataOptionBuilder):
     """
     Builds ``Uran``.
 
@@ -74,8 +74,6 @@ class UranBuilder:
                     transformations.append(item)
                 elif isinstance(item, str):
                     transformations.append(types.Stochastic.from_mcnp(item))
-                else:
-                    transformations.append(item.build())
             transformations = types.Tuple(transformations)
         else:
             transformations = None
@@ -93,6 +91,6 @@ class UranBuilder:
             ``UranBuilder`` for ``Uran``.
         """
 
-        return Uran(
+        return UranBuilder(
             transformations=copy.deepcopy(ast.transformations),
         )

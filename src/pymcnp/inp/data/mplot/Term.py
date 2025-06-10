@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Term(MplotOption):
+class Term(_option.MplotOption):
     """
     Represents INP term elements.
 
@@ -49,7 +49,7 @@ class Term(MplotOption):
 
 
 @dataclasses.dataclass
-class TermBuilder:
+class TermBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Term``.
 
@@ -88,6 +88,6 @@ class TermBuilder:
             ``TermBuilder`` for ``Term``.
         """
 
-        return Term(
+        return TermBuilder(
             n=copy.deepcopy(ast.n),
         )

@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import kpert
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Kpert(DataOption):
+class Kpert(_option.DataOption):
     """
     Represents INP kpert elements.
 
@@ -54,7 +54,7 @@ class Kpert(DataOption):
 
 
 @dataclasses.dataclass
-class KpertBuilder:
+class KpertBuilder(_option.DataOptionBuilder):
     """
     Builds ``Kpert``.
 
@@ -89,7 +89,7 @@ class KpertBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(kpert.KpertOption.from_mcnp(item))
-                else:
+                elif isinstance(item, kpert.KpertOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -109,7 +109,7 @@ class KpertBuilder:
             ``KpertBuilder`` for ``Kpert``.
         """
 
-        return Kpert(
+        return KpertBuilder(
             suffix=copy.deepcopy(ast.suffix),
             options=copy.deepcopy(ast.options),
         )

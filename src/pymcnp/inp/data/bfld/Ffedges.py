@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BfldOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Ffedges(BfldOption):
+class Ffedges(_option.BfldOption):
     """
     Represents INP ffedges elements.
 
@@ -49,7 +49,7 @@ class Ffedges(BfldOption):
 
 
 @dataclasses.dataclass
-class FfedgesBuilder:
+class FfedgesBuilder(_option.BfldOptionBuilder):
     """
     Builds ``Ffedges``.
 
@@ -93,6 +93,6 @@ class FfedgesBuilder:
             ``FfedgesBuilder`` for ``Ffedges``.
         """
 
-        return Ffedges(
+        return FfedgesBuilder(
             numbers=copy.deepcopy(ast.numbers),
         )

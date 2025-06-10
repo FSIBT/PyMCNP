@@ -1,4 +1,5 @@
 from ._option import BlockOption
+from ._option import BlockOptionBuilder
 
 from .Ngroup import Ngroup
 from .Isn import Isn
@@ -133,6 +134,7 @@ from .Fluxone import FluxoneBuilder
 
 __all__ = [
     'BlockOption',
+    'BlockOptionBuilder',
     'Ngroup',
     'Isn',
     'Niso',

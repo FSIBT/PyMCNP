@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Unc(DataOption):
+class Unc(_option.DataOption):
     """
     Represents INP unc elements.
 
@@ -41,7 +41,7 @@ class Unc(DataOption):
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
-        if settings is None or not (filter(lambda entry: entry.value not in {0, 1}, settings)):
+        if settings is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, settings)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -55,7 +55,7 @@ class Unc(DataOption):
 
 
 @dataclasses.dataclass
-class UncBuilder:
+class UncBuilder(_option.DataOptionBuilder):
     """
     Builds ``Unc``.
 
@@ -108,7 +108,7 @@ class UncBuilder:
             ``UncBuilder`` for ``Unc``.
         """
 
-        return Unc(
+        return UncBuilder(
             designator=copy.deepcopy(ast.designator),
             settings=copy.deepcopy(ast.settings),
         )

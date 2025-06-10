@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Wash(MplotOption):
+class Wash(_option.MplotOption):
     """
     Represents INP wash elements.
 
@@ -49,7 +49,7 @@ class Wash(MplotOption):
 
 
 @dataclasses.dataclass
-class WashBuilder:
+class WashBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Wash``.
 
@@ -86,6 +86,6 @@ class WashBuilder:
             ``WashBuilder`` for ``Wash``.
         """
 
-        return Wash(
+        return WashBuilder(
             aa=copy.deepcopy(ast.aa),
         )

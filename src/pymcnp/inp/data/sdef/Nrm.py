@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import SdefOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Nrm(SdefOption):
+class Nrm(_option.SdefOption):
     """
     Represents INP nrm elements.
 
@@ -49,7 +49,7 @@ class Nrm(SdefOption):
 
 
 @dataclasses.dataclass
-class NrmBuilder:
+class NrmBuilder(_option.SdefOptionBuilder):
     """
     Builds ``Nrm``.
 
@@ -88,6 +88,6 @@ class NrmBuilder:
             ``NrmBuilder`` for ``Nrm``.
         """
 
-        return Nrm(
+        return NrmBuilder(
             sign=copy.deepcopy(ast.sign),
         )

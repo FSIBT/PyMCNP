@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import df_1
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Df_1(DataOption):
+class Df_1(_option.DataOption):
     """
     Represents INP df variation #1 elements.
 
@@ -56,7 +56,7 @@ class Df_1(DataOption):
 
 
 @dataclasses.dataclass
-class DfBuilder_1:
+class DfBuilder_1(_option.DataOptionBuilder):
     """
     Builds ``Df_1``.
 
@@ -91,7 +91,7 @@ class DfBuilder_1:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(df_1.DfOption_1.from_mcnp(item))
-                else:
+                elif isinstance(item, df_1.DfOptionBuilder_1):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -111,7 +111,7 @@ class DfBuilder_1:
             ``DfBuilder_1`` for ``Df_1``.
         """
 
-        return Df_1(
+        return DfBuilder_1(
             suffix=copy.deepcopy(ast.suffix),
             options=copy.deepcopy(ast.options),
         )

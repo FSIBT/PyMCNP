@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class P_0(SurfaceOption):
+class P_0(_option.SurfaceOption):
     """
     Represents INP p variation #0 elements.
 
@@ -30,9 +30,7 @@ class P_0(SurfaceOption):
         'd': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Ap( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Ap( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, a: types.Real, b: types.Real, c: types.Real, d: types.Real):
         """
@@ -79,15 +77,13 @@ class P_0(SurfaceOption):
             ``pyvista.PolyData`` for ``Px``
         """
 
-        vis = _visualization.Visualization.get_plane(
-            self.a.value, self.b.value, self.c.value, self.d.value
-        )
+        vis = _visualization.Visualization.get_plane(self.a.value, self.b.value, self.c.value, self.d.value)
 
         return vis
 
 
 @dataclasses.dataclass
-class PBuilder_0:
+class PBuilder_0(_option.SurfaceOptionBuilder):
     """
     Builds ``P_0``.
 
@@ -159,7 +155,7 @@ class PBuilder_0:
             ``PBuilder_0`` for ``P_0``.
         """
 
-        return P_0(
+        return PBuilder_0(
             a=copy.deepcopy(ast.a),
             b=copy.deepcopy(ast.b),
             c=copy.deepcopy(ast.c),

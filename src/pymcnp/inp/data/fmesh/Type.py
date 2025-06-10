@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Type(FmeshOption):
+class Type(_option.FmeshOption):
     """
     Represents INP type elements.
 
@@ -49,7 +49,7 @@ class Type(FmeshOption):
 
 
 @dataclasses.dataclass
-class TypeBuilder:
+class TypeBuilder(_option.FmeshOptionBuilder):
     """
     Builds ``Type``.
 
@@ -86,6 +86,6 @@ class TypeBuilder:
             ``TypeBuilder`` for ``Type``.
         """
 
-        return Type(
+        return TypeBuilder(
             setting=copy.deepcopy(ast.setting),
         )

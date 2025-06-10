@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbeeOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Mtype(EmbeeOption):
+class Mtype(_option.EmbeeOption):
     """
     Represents INP mtype elements.
 
@@ -36,14 +36,7 @@ class Mtype(EmbeeOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if kind is None or kind not in {
-            'flux',
-            'isotropic',
-            'population',
-            'reaction',
-            'source',
-            'track',
-        }:
+        if kind is None or kind not in {'flux', 'isotropic', 'population', 'reaction', 'source', 'track'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
@@ -56,7 +49,7 @@ class Mtype(EmbeeOption):
 
 
 @dataclasses.dataclass
-class MtypeBuilder:
+class MtypeBuilder(_option.EmbeeOptionBuilder):
     """
     Builds ``Mtype``.
 
@@ -93,6 +86,6 @@ class MtypeBuilder:
             ``MtypeBuilder`` for ``Mtype``.
         """
 
-        return Mtype(
+        return MtypeBuilder(
             kind=copy.deepcopy(ast.kind),
         )

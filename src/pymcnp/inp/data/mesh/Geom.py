@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MeshOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Geom(MeshOption):
+class Geom(_option.MeshOption):
     """
     Represents INP geom elements.
 
@@ -49,7 +49,7 @@ class Geom(MeshOption):
 
 
 @dataclasses.dataclass
-class GeomBuilder:
+class GeomBuilder(_option.MeshOptionBuilder):
     """
     Builds ``Geom``.
 
@@ -86,6 +86,6 @@ class GeomBuilder:
             ``GeomBuilder`` for ``Geom``.
         """
 
-        return Geom(
+        return GeomBuilder(
             geometry=copy.deepcopy(ast.geometry),
         )

@@ -6,13 +6,13 @@ import dataclasses
 import molmass
 
 from . import m_0
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _elements
 
 
-class M_0(DataOption):
+class M_0(_option.DataOption):
     """
     Represents INP m variation #0 elements.
 
@@ -30,16 +30,9 @@ class M_0(DataOption):
         'options': types.Tuple[m_0.MOption_0],
     }
 
-    _REGEX = re.compile(
-        rf'\Am(\d+)((?: {types.Substance._REGEX.pattern[2:-2]})+?)((?: (?:{m_0.MOption_0._REGEX.pattern[2:-2]}))+?)?\Z'
-    )
+    _REGEX = re.compile(rf'\Am(\d+)((?: {types.Substance._REGEX.pattern[2:-2]})+?)((?: (?:{m_0.MOption_0._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(
-        self,
-        suffix: types.Integer,
-        substances: types.Tuple[types.Substance],
-        options: types.Tuple[m_0.MOption_0] = None,
-    ):
+    def __init__(self, suffix: types.Integer, substances: types.Tuple[types.Substance], options: types.Tuple[m_0.MOption_0] = None):
         """
         Initializes ``M_0``.
 
@@ -89,11 +82,7 @@ class M_0(DataOption):
 
             composition = formula.composition()
             for element in composition:
-                compound_fraction = (
-                    composition[element].fraction
-                    if is_weight
-                    else composition[element].mass / formula.mass
-                )
+                compound_fraction = composition[element].fraction if is_weight else composition[element].mass / formula.mass
 
                 zaids = [
                     (
@@ -106,12 +95,7 @@ class M_0(DataOption):
                 entries = [
                     types.Substance(
                         zaid,
-                        types.Real(
-                            (-1 if is_weight else 1)
-                            * mixture_fraction
-                            * compound_fraction
-                            * isotropic_fraction
-                        ),
+                        types.Real((-1 if is_weight else 1) * mixture_fraction * compound_fraction * isotropic_fraction),
                     )
                     for zaid, isotropic_fraction in zaids
                 ]
@@ -126,7 +110,7 @@ class M_0(DataOption):
 
 
 @dataclasses.dataclass
-class MBuilder_0:
+class MBuilder_0(_option.DataOptionBuilder):
     """
     Builds ``M_0``.
 
@@ -163,8 +147,6 @@ class MBuilder_0:
                     substances.append(item)
                 elif isinstance(item, str):
                     substances.append(types.Substance.from_mcnp(item))
-                else:
-                    substances.append(item.build())
             substances = types.Tuple(substances)
         else:
             substances = None
@@ -176,7 +158,7 @@ class MBuilder_0:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(m_0.MOption_0.from_mcnp(item))
-                else:
+                elif isinstance(item, m_0.MOptionBuilder_0):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -197,7 +179,7 @@ class MBuilder_0:
             ``MBuilder_0`` for ``M_0``.
         """
 
-        return M_0(
+        return MBuilder_0(
             suffix=copy.deepcopy(ast.suffix),
             substances=copy.deepcopy(ast.substances),
             options=copy.deepcopy(ast.options),

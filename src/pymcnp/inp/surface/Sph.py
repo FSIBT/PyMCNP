@@ -4,13 +4,13 @@ import typing
 import dataclasses
 
 
-from ._option import SurfaceOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 from ...utils import _visualization
 
 
-class Sph(SurfaceOption):
+class Sph(_option.SurfaceOption):
     """
     Represents INP sph elements.
 
@@ -30,9 +30,7 @@ class Sph(SurfaceOption):
         'r': types.Real,
     }
 
-    _REGEX = re.compile(
-        rf'\Asph( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
-    )
+    _REGEX = re.compile(rf'\Asph( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
     def __init__(self, vx: types.Real, vy: types.Real, vz: types.Real, r: types.Real):
         """
@@ -80,15 +78,13 @@ class Sph(SurfaceOption):
         """
 
         vis = _visualization.Visualization.get_sphere(self.r.value)
-        vis = vis.add_translation(
-            _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-        )
+        vis = vis.add_translation(_visualization.Vector(self.vx.value, self.vy.value, self.vz.value))
 
         return vis
 
 
 @dataclasses.dataclass
-class SphBuilder:
+class SphBuilder(_option.SurfaceOptionBuilder):
     """
     Builds ``Sph``.
 
@@ -160,7 +156,7 @@ class SphBuilder:
             ``SphBuilder`` for ``Sph``.
         """
 
-        return Sph(
+        return SphBuilder(
             vx=copy.deepcopy(ast.vx),
             vy=copy.deepcopy(ast.vy),
             vz=copy.deepcopy(ast.vz),

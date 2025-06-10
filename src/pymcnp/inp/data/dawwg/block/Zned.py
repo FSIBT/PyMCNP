@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Zned(BlockOption):
+class Zned(_option.BlockOption):
     """
     Represents INP zned elements.
 
@@ -49,7 +49,7 @@ class Zned(BlockOption):
 
 
 @dataclasses.dataclass
-class ZnedBuilder:
+class ZnedBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Zned``.
 
@@ -88,6 +88,6 @@ class ZnedBuilder:
             ``ZnedBuilder`` for ``Zned``.
         """
 
-        return Zned(
+        return ZnedBuilder(
             setting=copy.deepcopy(ast.setting),
         )

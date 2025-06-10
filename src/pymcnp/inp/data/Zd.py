@@ -4,11 +4,11 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Zd(DataOption):
+class Zd(_option.DataOption):
     """
     Represents INP zd elements.
 
@@ -45,7 +45,7 @@ class Zd(DataOption):
 
 
 @dataclasses.dataclass
-class ZdBuilder:
+class ZdBuilder(_option.DataOptionBuilder):
     """
     Builds ``Zd``.
 
@@ -82,6 +82,6 @@ class ZdBuilder:
             ``ZdBuilder`` for ``Zd``.
         """
 
-        return Zd(
+        return ZdBuilder(
             anything=copy.deepcopy(ast.anything),
         )

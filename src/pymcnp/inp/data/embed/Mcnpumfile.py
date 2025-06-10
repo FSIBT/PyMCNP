@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbedOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Mcnpumfile(EmbedOption):
+class Mcnpumfile(_option.EmbedOption):
     """
     Represents INP mcnpumfile elements.
 
@@ -49,7 +49,7 @@ class Mcnpumfile(EmbedOption):
 
 
 @dataclasses.dataclass
-class McnpumfileBuilder:
+class McnpumfileBuilder(_option.EmbedOptionBuilder):
     """
     Builds ``Mcnpumfile``.
 
@@ -86,6 +86,6 @@ class McnpumfileBuilder:
             ``McnpumfileBuilder`` for ``Mcnpumfile``.
         """
 
-        return Mcnpumfile(
+        return McnpumfileBuilder(
             filename=copy.deepcopy(ast.filename),
         )

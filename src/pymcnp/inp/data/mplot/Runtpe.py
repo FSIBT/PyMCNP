@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import MplotOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Runtpe(MplotOption):
+class Runtpe(_option.MplotOption):
     """
     Represents INP runtpe elements.
 
@@ -25,9 +25,7 @@ class Runtpe(MplotOption):
         'n': types.Integer,
     }
 
-    _REGEX = re.compile(
-        rf'\Aruntpe( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z'
-    )
+    _REGEX = re.compile(rf'\Aruntpe( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z')
 
     def __init__(self, filename: types.String, n: types.Integer = None):
         """
@@ -56,7 +54,7 @@ class Runtpe(MplotOption):
 
 
 @dataclasses.dataclass
-class RuntpeBuilder:
+class RuntpeBuilder(_option.MplotOptionBuilder):
     """
     Builds ``Runtpe``.
 
@@ -104,7 +102,7 @@ class RuntpeBuilder:
             ``RuntpeBuilder`` for ``Runtpe``.
         """
 
-        return Runtpe(
+        return RuntpeBuilder(
             filename=copy.deepcopy(ast.filename),
             n=copy.deepcopy(ast.n),
         )

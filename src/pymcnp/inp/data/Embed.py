@@ -5,12 +5,12 @@ import dataclasses
 
 
 from . import embed
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Embed(DataOption):
+class Embed(_option.DataOption):
     """
     Represents INP embed elements.
 
@@ -54,7 +54,7 @@ class Embed(DataOption):
 
 
 @dataclasses.dataclass
-class EmbedBuilder:
+class EmbedBuilder(_option.DataOptionBuilder):
     """
     Builds ``Embed``.
 
@@ -89,7 +89,7 @@ class EmbedBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(embed.EmbedOption.from_mcnp(item))
-                else:
+                elif isinstance(item, embed.EmbedOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -109,7 +109,7 @@ class EmbedBuilder:
             ``EmbedBuilder`` for ``Embed``.
         """
 
-        return Embed(
+        return EmbedBuilder(
             suffix=copy.deepcopy(ast.suffix),
             options=copy.deepcopy(ast.options),
         )

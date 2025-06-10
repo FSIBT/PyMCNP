@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import CellOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fill_6(CellOption):
+class Fill_6(_option.CellOption):
     """
     Represents INP fill variation #6 elements.
 
@@ -27,16 +27,9 @@ class Fill_6(CellOption):
         'transformation': types.Integer,
     }
 
-    _REGEX = re.compile(
-        rf'\A([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]}| [(]{types.Integer._REGEX.pattern[2:-2]}[)])?\Z'
-    )
+    _REGEX = re.compile(rf'\A([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]}| [(]{types.Integer._REGEX.pattern[2:-2]}[)])?\Z')
 
-    def __init__(
-        self,
-        universe: types.Integer,
-        prefix: types.String = None,
-        transformation: types.Integer = None,
-    ):
+    def __init__(self, universe: types.Integer, prefix: types.String = None, transformation: types.Integer = None):
         """
         Initializes ``Fill_6``.
 
@@ -49,6 +42,8 @@ class Fill_6(CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        if prefix is not None and prefix.value not in {'*'}:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
         if universe is None or not (0 <= universe.value <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universe)
         if transformation is not None and not (0 <= transformation.value <= 999):
@@ -56,7 +51,6 @@ class Fill_6(CellOption):
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
             [
-                prefix,
                 universe,
                 transformation,
             ]
@@ -68,7 +62,7 @@ class Fill_6(CellOption):
 
 
 @dataclasses.dataclass
-class FillBuilder_6:
+class FillBuilder_6(_option.CellOptionBuilder):
     """
     Builds ``Fill_6``.
 
@@ -127,7 +121,7 @@ class FillBuilder_6:
             ``FillBuilder_6`` for ``Fill_6``.
         """
 
-        return Fill_6(
+        return FillBuilder_6(
             prefix=copy.deepcopy(ast.prefix),
             universe=copy.deepcopy(ast.universe),
             transformation=copy.deepcopy(ast.transformation),

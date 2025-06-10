@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Norm(BlockOption):
+class Norm(_option.BlockOption):
     """
     Represents INP norm elements.
 
@@ -49,7 +49,7 @@ class Norm(BlockOption):
 
 
 @dataclasses.dataclass
-class NormBuilder:
+class NormBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Norm``.
 
@@ -88,6 +88,6 @@ class NormBuilder:
             ``NormBuilder`` for ``Norm``.
         """
 
-        return Norm(
+        return NormBuilder(
             setting=copy.deepcopy(ast.setting),
         )

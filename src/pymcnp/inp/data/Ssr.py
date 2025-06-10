@@ -5,11 +5,11 @@ import dataclasses
 
 
 from . import ssr
-from ._option import DataOption
+from . import _option
 from ...utils import types
 
 
-class Ssr(DataOption):
+class Ssr(_option.DataOption):
     """
     Represents INP ssr elements.
 
@@ -46,7 +46,7 @@ class Ssr(DataOption):
 
 
 @dataclasses.dataclass
-class SsrBuilder:
+class SsrBuilder(_option.DataOptionBuilder):
     """
     Builds ``Ssr``.
 
@@ -71,7 +71,7 @@ class SsrBuilder:
                     options.append(item)
                 elif isinstance(item, str):
                     options.append(ssr.SsrOption.from_mcnp(item))
-                else:
+                elif isinstance(item, ssr.SsrOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:
@@ -90,6 +90,6 @@ class SsrBuilder:
             ``SsrBuilder`` for ``Ssr``.
         """
 
-        return Ssr(
+        return SsrBuilder(
             options=copy.deepcopy(ast.options),
         )

@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import BlockOption
+from . import _option
 from .....utils import types
 from .....utils import errors
 
 
-class Angp(BlockOption):
+class Angp(_option.BlockOption):
     """
     Represents INP angp elements.
 
@@ -49,7 +49,7 @@ class Angp(BlockOption):
 
 
 @dataclasses.dataclass
-class AngpBuilder:
+class AngpBuilder(_option.BlockOptionBuilder):
     """
     Builds ``Angp``.
 
@@ -88,6 +88,6 @@ class AngpBuilder:
             ``AngpBuilder`` for ``Angp``.
         """
 
-        return Angp(
+        return AngpBuilder(
             setting=copy.deepcopy(ast.setting),
         )

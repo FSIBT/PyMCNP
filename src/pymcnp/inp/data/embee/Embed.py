@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import EmbeeOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Embed(EmbeeOption):
+class Embed(_option.EmbeeOption):
     """
     Represents INP embed elements.
 
@@ -49,7 +49,7 @@ class Embed(EmbeeOption):
 
 
 @dataclasses.dataclass
-class EmbedBuilder:
+class EmbedBuilder(_option.EmbeeOptionBuilder):
     """
     Builds ``Embed``.
 
@@ -88,6 +88,6 @@ class EmbedBuilder:
             ``EmbedBuilder`` for ``Embed``.
         """
 
-        return Embed(
+        return EmbedBuilder(
             number=copy.deepcopy(ast.number),
         )

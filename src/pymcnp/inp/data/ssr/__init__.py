@@ -1,4 +1,5 @@
 from ._option import SsrOption
+from ._option import SsrOptionBuilder
 
 from .Old import Old
 from .Cel import Cel
@@ -29,6 +30,7 @@ from .Bcw import BcwBuilder
 
 __all__ = [
     'SsrOption',
+    'SsrOptionBuilder',
     'Old',
     'Cel',
     'New',

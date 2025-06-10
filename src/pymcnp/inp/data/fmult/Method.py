@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import FmultOption
+from . import _option
 from ....utils import types
 from ....utils import errors
 
 
-class Method(FmultOption):
+class Method(_option.FmultOption):
     """
     Represents INP method elements.
 
@@ -49,7 +49,7 @@ class Method(FmultOption):
 
 
 @dataclasses.dataclass
-class MethodBuilder:
+class MethodBuilder(_option.FmultOptionBuilder):
     """
     Builds ``Method``.
 
@@ -88,6 +88,6 @@ class MethodBuilder:
             ``MethodBuilder`` for ``Method``.
         """
 
-        return Method(
+        return MethodBuilder(
             setting=copy.deepcopy(ast.setting),
         )

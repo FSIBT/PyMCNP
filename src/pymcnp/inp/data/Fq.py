@@ -4,12 +4,12 @@ import typing
 import dataclasses
 
 
-from ._option import DataOption
+from . import _option
 from ...utils import types
 from ...utils import errors
 
 
-class Fq(DataOption):
+class Fq(_option.DataOption):
     """
     Represents INP fq elements.
 
@@ -117,7 +117,7 @@ class Fq(DataOption):
 
 
 @dataclasses.dataclass
-class FqBuilder:
+class FqBuilder(_option.DataOptionBuilder):
     """
     Builds ``Fq``.
 
@@ -228,7 +228,7 @@ class FqBuilder:
             ``FqBuilder`` for ``Fq``.
         """
 
-        return Fq(
+        return FqBuilder(
             suffix=copy.deepcopy(ast.suffix),
             a1=copy.deepcopy(ast.a1),
             a2=copy.deepcopy(ast.a2),
