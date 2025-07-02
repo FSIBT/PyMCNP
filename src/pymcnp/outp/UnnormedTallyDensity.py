@@ -12,13 +12,15 @@ class UnnormedTallyDensity(_block.Block):
 
     Attributes:
         tally: Tally number.
-
+        mean: Nonzero tally mean.
+        nps: Tally nps.
+        chart: Tally chart.
     """
 
     _REGEX = re.compile(
-        r'\A1unnormed tally density for tally (.{8})          nonzero tally mean[(]m[)] = (.{9})   nps = (.{11})  print table 161\n\n'
-        r' abscissa              ordinate   log plot of tally probability density function in tally fluctuation chart bin[(]d=decade,slope= 0[.]0[)]\n'
-        r'((?:.+\n)+) a total of           1 tallies were below the score grid bin boundaries[.]\Z'
+        r'\A1unnormed tally density for tally (.{10}) nonzero tally mean[(]m[)] = (.{9})   nps = (.{21}) print table 161\n\n'
+        r' abscissa              ordinate   log plot of tally probability density function in tally fluctuation chart bin[(]d=decade,slope= .{3}[)]\n'
+        r'((?:.+\n)+  (?:total.+))\Z'
     )
 
     def __init__(
@@ -93,9 +95,8 @@ class UnnormedTallyDensity(_block.Block):
         """
 
         return f"""
-1unnormed tally density for tally {self.tally:8}          nonzero tally mean(m) = {self.mean:9}   nps = {self.nps:11}  print table 161
+1unnormed tally density for tally {self.tally:8} nonzero tally mean(m) = {self.mean:9}   nps = {self.nps:11} print table 161
 
  abscissa              ordinate   log plot of tally probability density function in tally fluctuation chart bin(d=decade,slope= 0.0)
 {self.chart}
- a total of           1 tallies were below the score grid bin boundaries.
 """[1:-1]

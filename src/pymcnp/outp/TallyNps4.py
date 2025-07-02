@@ -146,7 +146,7 @@ class TallyNps4(_block.Block):
         particles = types.String.from_mcnp(tokens[4])
         cell = types.String.from_mcnp(tokens[5])
         cell_value = types.String.from_mcnp(tokens[6])
-        subtallies = types.Tuple([tallynps.SubtallyNps2.from_mcnp(token[0]) for token in tallynps.SubtallyNps2._REGEX.finditer(tokens[7])])
+        subtallies = types.Tuple([tallynps.SubtallyNps4.from_mcnp(token[0]) for token in tallynps.SubtallyNps4._REGEX.finditer(tokens[7])])
         offset = tallynps.SubtallyNps2._REGEX.groups
         stats_desired = types.String.from_mcnp(tokens[8 + offset])
         stats_observed = types.String.from_mcnp(tokens[9 + offset])
@@ -183,10 +183,10 @@ class TallyNps4(_block.Block):
            particle(s): {self.particles}
 
            volumes 
-                cell: {self.cell}
+                   cell: {self.cell}
                          {self.cell_value}
-
-{self.subtallies}
+ 
+{''.join(map(str, self.subtallies))}
  ===================================================================================================================================
 
            results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc) bin of tally {self.tally}
@@ -203,9 +203,9 @@ class TallyNps4(_block.Block):
 
  this tally meets the statistical criteria used to form confidence intervals: check the tally fluctuation chart to verify.
  the results in other bins associated with this tally may not meet these statistical criteria.
- 
+
  ----- estimated confidence intervals:  -----
 
- estimated asymmetric confidence interval[(]1,2,3 sigma[)]: {self.asymmetric_interval}
- estimated  symmetric confidence interval[(]1,2,3 sigma[)]: {self.symmetric_interval}
-"""[1:-1]
+ estimated asymmetric confidence interval(1,2,3 sigma): {self.asymmetric_interval}
+ estimated  symmetric confidence interval(1,2,3 sigma): {self.symmetric_interval}
+"""[1:]

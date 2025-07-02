@@ -1,0 +1,355 @@
+          Code Name & Version = MCNP_6.20, 6.2.0
+  
+     _/      _/        _/_/_/       _/      _/       _/_/_/         _/_/_/ 
+    _/_/  _/_/      _/             _/_/    _/       _/    _/     _/        
+   _/  _/  _/      _/             _/  _/  _/       _/_/_/       _/_/_/     
+  _/      _/      _/             _/    _/_/       _/           _/    _/    
+ _/      _/        _/_/_/       _/      _/       _/             _/_/       
+  
+  +-----------------------------------------------------------------------+
+  | Copyright (2018).  Los Alamos National Security, LLC.  All rights     !
+  | reserved.                                                             !
+  |  This material was produced under U.S. Government contract            !
+  | DE-AC52-06NA25396 for Los Alamos National Laboratory, which is        !
+  | operated by Los Alamos National Security, LLC for the U.S.            !
+  | Department of Energy. The Government is granted for itself and        !
+  | others acting on its behalf a paid-up, nonexclusive, irrevocable      !
+  | worldwide license in this material to reproduce, prepare derivative   !
+  | works, and perform publicly and display publicly. Beginning five (5)  !
+  | years after February 14, 2018, subject to additional five-year        !
+  | worldwide renewals, the Government is granted for itself and others   !
+  | acting on its behalf a paid-up, nonexclusive, irrevocable worldwide   !
+  | license in this material to reproduce, prepare derivative works,      !
+  | distribute copies to the public, perform publicly and display         !
+  | publicly, and to permit others to do so. NEITHER THE UNITED STATES    !
+  | NOR THE UNITED STATES DEPARTMENT OF ENERGY, NOR LOS ALAMOS NATIONAL   !
+  | SECURITY, LLC, NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY,        !
+  | EXPRESS OR IMPLIED, OR ASSUMES ANY LEGAL LIABILITY OR RESPONSIBILITY  !
+  | FOR THE ACCURACY, COMPLETENESS, OR USEFULNESS OF ANY INFORMATION,     !
+  | APPARATUS, PRODUCT, OR PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE  !
+  | WOULD NOT INFRINGE PRIVATELY OWNED RIGHTS.                            !
+  +-----------------------------------------------------------------------+
+  
+1mcnp     version 6     ld=02/20/18                     06/17/25 16:57:58 
+ *************************************************************************                 probid =  06/17/25 16:57:58 
+ i=valid_4_2c.i
+
+ 
+  comment.  Physics models disabled.
+         1-       Tally Multiplier (FM)
+         2-       10 999 -1.0 -1 imp:n=1 $ Water
+         3-       11 1001 -1. 1 -2 imp:n=1 $ Li
+         4-       12 0 2 imp:n=0
+         5-       
+         6-       1 so 5
+         7-       2 so 6
+         8-       
+         9-       sdef
+        10-       nps 2000
+        11-       M999 1001.80c 2 8016.80c 1
+        12-       M1001 3006.80 0.0742 3007.80 0.9258
+        13-       F4:N 11
+        14-       FM4 (0.04635 1001 (105:91))
+
+ ***************************************************
+ * Random Number Generator  =                    1 *
+ * Random Number Seed       =       19073486328125 *
+ * Random Number Multiplier =       19073486328125 *
+ * Random Number Adder      =                    0 *
+ * Random Number Bits Used  =                   48 *
+ * Random Number Stride     =               152917 *
+ ***************************************************
+
+ 
+  comment.  total nubar used if fissionable isotopes are present.
+ 
+  warning.    1 materials had unnormalized fractions. print table 40.
+1cells                                                                                                  print table 60
+
+                               atom        gram                                            neutron                                     
+              cell      mat   density     density     volume       mass            pieces importance                                   
+
+        1       10      999  1.00309E-01 1.00000E+00 5.23599E+02 5.23599E+02           1  1.0000E+00                                   
+        2       11     1001  8.67512E-02 1.00000E+00 3.81180E+02 3.81180E+02           1  1.0000E+00                                   
+        3       12        0  0.00000E+00 0.00000E+00 0.00000E+00 0.00000E+00           0  0.0000E+00                                   
+
+ total                                               9.04779E+02 9.04779E+02
+
+    minimum source weight = 1.0000E+00    maximum source weight = 1.0000E+00
+
+          1 warning message so far.
+1cross-section tables                                                                                   print table 100
+     XSDIR used: C:\MCNP62\MCNP_DATA/xsdir_mcnp6.2
+
+     table    length
+
+                        tables from file xdata/endf71x/H/1001.710nc                                      
+
+   1001.80c    3652  H1 ENDF71x (jlconlin)  Ref. see jlconlin (ref 09/10/2012  10:00:53)          mat 125      12/17/12
+                     Energy range:   1.00000E-11  to  2.00000E+01 MeV.
+                     particle-production data for deuterons being expunged from   1001.80c          
+
+                        tables from file xdata/endf71x/Li/3006.710nc                                     
+
+ 
+  warning.  fm/pert card rxn  91 is missing from   3006.80c
+   3006.80c   22410  Li6 ENDF71x (jlconlin)  Ref. see jlconlin (ref 09/10/2012  10:00:53)         mat 325      12/13/12
+                     Energy range:   1.00000E-11  to  2.00000E+01 MeV.
+                     particle-production data for tritons   being expunged from   3006.80c          
+                     particle-production data for alphas    being expunged from   3006.80c          
+
+                        tables from file xdata/endf71x/Li/3007.710nc                                     
+
+ 
+  warning.  fm/pert card rxn 105 is missing from   3007.80c
+ 
+  warning.  fm/pert card rxn  91 is missing from   3007.80c
+   3007.80c   16324  Li7 ENDF71x (jlconlin)  Ref. see jlconlin (ref 09/10/2012  10:00:53)         mat 328      12/13/12
+                     Energy range:   1.00000E-11  to  2.00000E+01 MeV.
+
+                        tables from file xdata/endf71x/O/8016.710nc                                      
+
+   8016.80c  171194  O16 ENDF71x (jlconlin)  Ref. see jlconlin (ref 09/10/2012  10:00:53)         mat 825      12/13/12
+                     Energy range:   1.00000E-11  to  1.50000E+02 MeV.
+                     particle-production data for protons   being expunged from   8016.80c          
+                     particle-production data for deuterons being expunged from   8016.80c          
+                     particle-production data for tritons   being expunged from   8016.80c          
+                     particle-production data for alphas    being expunged from   8016.80c          
+
+  total      213580
+
+1particles and energy limits                                                                            print table 101
+
+                         particle      maximum       smallest      largest       always        always
+                         cutoff        particle      table         table         use table     use model
+   particle type         energy        energy        maximum       maximum       below         above
+
+    1  n    neutron     0.0000E+00    1.0000E+36    2.0000E+01    1.5000E+02    1.0000E+36    1.0000E+36
+ 
+  comment.  setting up hash-based fast table search for xsec tables
+
+ ------------------------------------------------------------------------------------------
+ =====> Set up arrays for hash-based fast table search for xsec data
+
+    number of hash bins   =     8192
+    min hash table energy =  1.00000E-11
+    max hash table energy =  1.50000E+02
+
+           nuclide      ne      emin        emax     ave_bins  min_bins  max_bins
+            1001.80c     590 1.00000E-11 2.00000E+01       0.1       0.0       1.0
+            3006.80c     841 1.00000E-11 2.00000E+01       0.1       0.0       3.0
+            3007.80c     693 1.00000E-11 2.00000E+01       0.1       0.0       3.0
+            8016.80c    2917 1.00000E-11 1.50000E+02       0.4       0.0      33.0
+
+ ------------------------------------------------------------------------------------------
+
+
+ ***********************************************************************************************************************
+
+ dump no.    1 on file runtpo     nps =           0     coll =              0     ctm =        0.00   nrn =             
+    0
+
+         4 warning messages so far.
+1problem summary                                                                                                           
+
+      run terminated when        2000  particle histories were done.
++                                                                                                    06/17/25 16:57:58 
+
+ =====>     899.56 M histories/hr    (based on wall-clock time in mcrun)
+
+
+      Tally Multiplier (FM)     probid =  06/17/25 16:57:58 
+
+ neutron creation    tracks      weight        energy            neutron loss        tracks      weight        energy
+                                 (per source particle)                                           (per source particle)
+
+ source                2000    1.0000E+00    1.4000E+01          escape                1979    9.5735E-01    1.1025E+01
+ nucl. interaction        0    0.            0.                  energy cutoff            0    0.            0.        
+ particle decay           0    0.            0.                  time cutoff              0    0.            0.        
+ weight window            0    0.            0.                  weight window            0    0.            0.        
+ cell importance          0    0.            0.                  cell importance          0    0.            0.        
+ weight cutoff            0    0.            0.                  weight cutoff           25    9.7629E-05    3.3698E-08
+ e or t importance        0    0.            0.                  e or t importance        0    0.            0.        
+ dxtran                   0    0.            0.                  dxtran                   0    0.            0.        
+ forced collisions        0    0.            0.                  forced collisions        0    0.            0.        
+ exp. transform           0    0.            0.                  exp. transform           0    0.            0.        
+ upscattering             0    0.            1.3863E-09          downscattering           0    0.            2.5186E+00
+ photonuclear             0    0.            0.                  capture                  0    4.4414E-02    4.3754E-01
+ (n,xn)                   8    3.7125E-03    5.0423E-03          loss to (n,xn)           4    1.8563E-03    2.3947E-02
+ prompt fission           0    0.            0.                  loss to fission          0    0.            0.        
+ delayed fission          0    0.            0.                  nucl. interaction        0    0.            0.        
+ prompt photofis          0    0.            0.                  particle decay           0    0.            0.        
+ tabular boundary         0    0.            0.                  tabular boundary         0    0.            0.        
+ tabular sampling         0    0.            0.                  elastic scatter          0    0.            0.        
+     total             2008    1.0037E+00    1.4005E+01              total             2008    1.0037E+00    1.4005E+01
+
+   number of neutrons banked                       4        average time of (shakes)              cutoffs
+   neutron tracks per source particle     1.0040E+00          escape            5.5069E-01          tco   1.0000E+33
+   neutron collisions per source particle 1.1790E+00          capture           5.5399E+02          eco   0.0000E+00
+   total neutron collisions                     2358          capture or escape 2.5088E+01          wc1  -5.0000E-01
+   net multiplication              1.0019E+00 0.0009          any termination   2.5063E+01          wc2  -2.5000E-01
+
+ computer time so far in this run     0.00 minutes            maximum number ever in bank         1
+ computer time in mcrun               0.00 minutes            bank overflows to backup file       0
+ source particles per minute            1.2000E+05
+ random numbers generated                    38893            most random numbers used was        1391 in history         232
+
+ range of sampled source weights = 1.0000E+00 to 1.0000E+00
+1neutron  activity in each cell                                                                         print table 126
+
+                       tracks     population   collisions   collisions     number        flux        average      average
+              cell    entering                               * weight     weighted     weighted   track weight   track mfp
+                                                          (per history)    energy       energy     (relative)      (cm)
+
+        1       10        2035         2000         2006    9.5077E-01   5.4282E-02   1.1934E+01   9.7606E-01   9.0043E+00
+        2       11        2035         2004          352    1.6867E-01   2.9157E-01   1.0719E+01   9.6461E-01   7.5411E+00
+
+           total          4070         4004         2358    1.1194E+00
+
+1tally        4        nps =        2000
+           tally type 4    track length estimate of particle flux.                             
+           particle(s): neutrons 
+
+           volumes 
+                   cell:      11                                                                                   
+                         3.81180E+02
+ 
+ cell  11                                                                                                                              
+ multiplier bin:   4.63500E-02      1001         105    :           91                                                                 
+                 1.62963E-05 0.2269
+
+
+ ***** the nps-dependent tfc bin check results are suspect because there are only  2 nps tally values to analyze *****
+
+
+ ===================================================================================================================================
+
+           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc) bin of tally        4
+
+ tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-
+ behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope
+
+ desired      random       <0.10      yes      1/sqrt(nps)       <0.10      yes        1/nps           constant    random      >3.00
+ observed     random        0.23      yes          yes            0.13      yes         yes            constant    random       1.42
+ passed?        yes           no      yes          yes              no      yes         yes               yes        yes          no
+
+ ===================================================================================================================================
+
+
+ warning.  the tally in the tally fluctuation chart bin did not pass  3 of the 10 statistical checks.
+
+1analysis of the results in the tally fluctuation chart bin (tfc) for tally 4 with nps = 2000                print table 160
+
+
+ normed average tally per history  = 1.62963E-05          unnormed average tally per history  = 6.21182E-03
+ estimated tally relative error    = 0.2269               estimated variance of the variance  = 0.1308
+ relative error from zero tallies  = 0.0000               relative error from nonzero scores  = 0.2269
+
+ number of nonzero history tallies =        2000          efficiency for the nonzero tallies  = 1.0000
+ history number of largest  tally  =        1468          largest  unnormalized history tally = 1.37683E+00
+ (largest  tally)/(average tally)  = 2.21647E+02          (largest  tally)/(avg nonzero tally)= 2.21647E+02
+
+ (confidence interval shift)/mean  = 0.0384               shifted confidence interval center  = 1.69218E-05
+
+
+ if the largest  history score sampled so far were to occur on the next history, the tfc bin quantities would change as follows:
+
+      estimated quantities           value at nps           value at nps+1           value(nps+1)/value(nps)-1.
+
+      mean                            1.62963E-05             1.80932E-05                     0.110268
+      relative error                  2.26909E-01             2.27124E-01                     0.000950
+      variance of the variance        1.30767E-01             1.21661E-01                    -0.069631
+      shifted center                  1.69218E-05             1.69725E-05                     0.002999
+      figure of merit                 0.00000E+00             0.00000E+00                    -0.001897
+
+ the estimated inverse power slope of the 100 largest  tallies starting at 2.65540E-03 is 1.4173
+ the history score probability density function appears to have an unsampled region at the largest  history scores:
+ please examine. see print table 161.
+
+ computer time for transport is 0!  setting histories/minute to 0.
+
+ fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = (0.000E+00)*( 9.854E-02)**2 = (0.000E+00)*(9.711E-03) = 0.000E+00
+
+1unnormed tally density for tally 4          nonzero tally mean(m) = 6.212E-03   nps = 2000                  print table 161
+
+ abscissa              ordinate   log plot of tally probability density function in tally fluctuation chart bin(d=decade,slope= 1.4)
+  tally  number num den log den:d------------d------------d-------------d------------d-------------d------------d-------------d-----
+ 7.94-05     72 2.20+03   3.343 *************|************|*************|************|*************|************|***          |     
+ 1.00-04   1321 3.21+04   4.507 *************|************|*************|************|*************|************|*************|*****
+ 1.26-04     92 1.78+03   3.250 *************|************|*************|************|*************|************|**           |     
+ 1.58-04     49 7.52+02   2.876 *************|************|*************|************|*************|**********  |             |     
+ 2.00-04     30 3.66+02   2.563 *************|************|*************|************|*************|******      |             |     
+ 2.51-04     23 2.23+02   2.348 *************|************|*************|************|*************|***         |             |     
+ 3.16-04     44 3.38+02   2.529 *************|************|*************|************|*************|*****       |             |     
+ 3.98-04     52 3.18+02   2.502 *************|************|*************|************|*************|*****       |             |     
+ 5.01-04     47 2.28+02   2.358 *************|************|*************|************|*************|***         |             |     
+ 6.31-04     23 8.86+01   1.948 *************|************|*************|************|***********  |            |             |     
+ 7.94-04     38 1.16+02   2.066 *************|************|*************|************|*************|            |             |     
+ 1.00-03     42 1.02+02   2.009 *************|************|*************|************|************ |            |             |     
+ 1.26-03     24 4.63+01   1.666 *************|************|*************|************|********     |            |             |     
+ 1.58-03     18 2.76+01   1.441 *************|************|*************|************|*****        |            |             |     
+ 2.00-03     12 1.46+01   1.165 *************|************|*************|************|*            |            |             |     
+ 2.51-03      8 7.74+00   0.889 *************|************|*************|**********  |             |            |             |     
+ 3.16-03     16 1.23+01   1.090 *************|************|*************|************|         s   |            |             |     
+ 3.98-03     13 7.94+00   0.900 *************|************|*************|**********  |        s    |            |             |     
+ 5.01-03     10 4.85+00   0.686 *************|************|*************|*******     |      s      |            |             |     
+ 6.31-03      6 2.31+00   0.364 mmmmmmmmmmmmm|mmmmmmmmmmmm|mmmmmmmmmmmmm|mmm         |     s       |            |             |     
+ 7.94-03      2 6.12-01  -0.213 *************|************|*********    |            |   s         |            |             |     
+ 1.00-02      6 1.46+00   0.164 *************|************|*************|            |  s          |            |             |     
+ 1.26-02      6 1.16+00   0.064 *************|************|*************|            |s            |            |             |     
+ 1.58-02      5 7.67-01  -0.115 *************|************|**********   |           s|             |            |             |     
+ 2.00-02      1 1.22-01  -0.914 *************|************|             |          s |             |            |             |     
+ 2.51-02      2 1.94-01  -0.713 *************|************|**           |        s   |             |            |             |     
+ 3.16-02      3 2.31-01  -0.637 *************|************|***          |      s     |             |            |             |     
+ 3.98-02      0 0.00+00   0.000              |            |             |    s       |             |            |             |     
+ 5.01-02      2 9.70-02  -1.013 *************|*********** |             |   s        |             |            |             |     
+ 6.31-02      5 1.93-01  -0.715 *************|************|**           | s          |             |            |             |     
+ 7.94-02      3 9.18-02  -1.037 *************|*********** |             s            |             |            |             |     
+ 1.00-01      2 4.86-02  -1.313 *************|*******     |           s |            |             |            |             |     
+ 1.26-01      0 0.00+00   0.000              |            |         s   |            |             |            |             |     
+ 1.58-01      3 4.60-02  -1.337 *************|*******     |       s     |            |             |            |             |     
+ 2.00-01      2 2.44-02  -1.613 *************|***         |     s       |            |             |            |             |     
+ 2.51-01      4 3.87-02  -1.412 *************|******      |   s         |            |             |            |             |     
+ 3.16-01      3 2.31-02  -1.637 *************|***         | s           |            |             |            |             |     
+ 3.98-01      2 1.22-02  -1.913 *************|            |s            |            |             |            |             |     
+ 5.01-01      3 1.46-02  -1.837 *************|           s|             |            |             |            |             |     
+ 6.31-01      0 0.00+00   0.000              |         s  |             |            |             |            |             |     
+ 7.94-01      1 3.06-03  -2.514 *****        |       s    |             |            |             |            |             |     
+ 1.00+00      1 2.43-03  -2.614 ****         |     s      |             |            |             |            |             |     
+ 1.26+00      3 5.79-03  -2.237 *********    |   s        |             |            |             |            |             |     
+ 1.58+00      1 1.53-03  -2.814 *            | s          |             |            |             |            |             |     
+  total    2000 1.00+00         d------------d------------d-------------d------------d-------------d------------d-------------d-----
+
+1status of the statistical checks used to form confidence intervals for the mean for each tally bin
+
+
+ tally   result of statistical checks for the tfc bin (the first check not passed is listed) and error magnitude check for all bins
+
+        4   missed  3 of 10 tfc bin checks: the relative error exceeds the recommended value of 0.1 for nonpoint detector tallies     
+         missed all bin error check:     1 tally bins had     0 bins with zeros and     1 bins with relative errors exceeding 0.10
+
+
+ the 10 statistical checks are only for the tally fluctuation chart bin and do not apply to other tally bins.
+
+ warning.       1 of the     1 tally fluctuation chart bins did not pass all 10 statistical checks.
+ warning.       1 of the     1 tallies had bins with relative errors greater than recommended.
+1tally fluctuation charts                              
+
+                            tally        4
+          nps      mean     error   vov  slope    fom
+         1000   8.8160E-06 0.3120 0.2167  1.5 0.0E+00
+         2000   1.6296E-05 0.2269 0.1308  1.4 0.0E+00
+
+ ***********************************************************************************************************************
+
+ dump no.    2 on file runtpo     nps =        2000     coll =           2358     ctm =        0.00   nrn =            
+ 38893
+
+         7 warning messages so far.
+
+
+ run terminated when        2000  particle histories were done.
+
+ computer time =    0.00 minutes
+
+ mcnp     version 6     02/20/18                     06/17/25 16:57:58                     probid =  06/17/25 16:57:58 

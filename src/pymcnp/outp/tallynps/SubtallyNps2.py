@@ -83,8 +83,8 @@ class SubtallyNps2(_subblock.Subblock):
         """
 
         return f"""
- surface  {self.surface}
-      time
-{self.tallies}
-      total      {self.total}\n
-"""[1:-1]
+      surface:  {self.surface}
+        time   
+{self.tallies}      total      {self.total}
+
+"""[1:]

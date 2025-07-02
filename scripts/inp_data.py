@@ -4604,7 +4604,7 @@ cards = ElementScheme(
                         ),
                         AttributeScheme(
                             name='zaids',
-                            type='types.Tuple[types.Zaid]',
+                            type='types.Tuple[types.String]',
                             description='Zaid substitutions for particles',
                         ),
                     ],

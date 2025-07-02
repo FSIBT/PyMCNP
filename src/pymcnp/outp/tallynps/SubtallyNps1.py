@@ -94,6 +94,6 @@ class SubtallyNps1(_subblock.Subblock):
  surface  {self.surface}
  angle  bin: {self.angles}
       energy   
-{self.tallies}
-      total      {self.total}\n
-"""[1:-1]
+{self.tallies}      total      {self.total}
+
+"""[1:]

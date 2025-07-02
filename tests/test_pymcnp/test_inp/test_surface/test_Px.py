@@ -1,0 +1,26 @@
+import pymcnp
+from .... import consts
+from .... import classes
+
+
+class Test_Px:
+    class Test_Init(classes.Test_Init):
+        element = pymcnp.inp.surface.Px
+        EXAMPLES_VALID = [{'d': consts.ast.type.REAL}]
+        EXAMPLES_INVALID = [{'d': None}]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.surface.Px
+        EXAMPLES_VALID = [consts.string.inp.surface.PX]
+        EXAMPLES_INVALID = ['hello']
+
+    class Test_Draw(classes.Test_Draw):
+        element = pymcnp.inp.surface.Px
+        EXAMPLES = [consts.string.inp.surface.PX]
+
+
+class Test_PxBuilder:
+    class TestBuild(classes.Test_Build):
+        element = pymcnp.inp.surface.PxBuilder
+        EXAMPLES_VALID = [{'d': consts.string.type.REAL}, {'d': 3.1}, {'d': consts.ast.type.REAL}]
+        EXAMPLES_INVALID = [{'d': None}]

@@ -77,6 +77,16 @@ class F_2(_option.DataOption):
         self.rings: typing.Final[types.Tuple[types.Ring]] = rings
         self.nd: typing.Final[types.String] = nd
 
+    def to_mcnp(self):
+        """
+        Generates INP from ``F_2``.
+
+        Returns:
+            INP for ``F_2``.
+        """
+
+        return f'{self.prefix or ""}f{self.suffix}{self.a}{f":{self.designator}" if self.designator else ""} {self.rings} {self.nd or ""}'
+
 
 @dataclasses.dataclass
 class FBuilder_2(_option.DataOptionBuilder):

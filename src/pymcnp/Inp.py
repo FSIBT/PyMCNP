@@ -177,7 +177,7 @@ class Inp(_object.McnpFile):
         source = self.message + '\n' if self.message else ''
 
         # Appending Title
-        source += self.title + '\n'
+        source += self.title
 
         # Appending Blocks
         DELIMITER = 'c ' + '=' * 76 + '\n'

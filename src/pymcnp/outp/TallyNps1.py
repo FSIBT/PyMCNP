@@ -29,7 +29,7 @@ class TallyNps1(_block.Block):
         r'           tally type (.+)\n'
         r'           particle[(]s[)]: (.+)\n'
         r' \n'
-        rf'((?:{tallynps.SubtallyNps1._REGEX.pattern[-2:2]})+)\n'
+        rf'((?:{tallynps.SubtallyNps1._REGEX.pattern[2:-2]})+)\n'
         r' ===================================================================================================================================\n\n'
         r'           results of 10 statistical checks for the estimated answer for the tally fluctuation chart [(]tfc[)] bin of tally .{8}\n\n'
         r' tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-\n'
@@ -163,8 +163,8 @@ class TallyNps1(_block.Block):
 1tally {self.tally}        nps = {self.nps}
            tally type {self.tally_type}
            particle(s): {self.particles}
-
-{self.subtallies}
+ 
+{''.join(map(str, self.subtallies))}
  ===================================================================================================================================
 
            results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc) bin of tally {self.tally}
@@ -184,6 +184,7 @@ class TallyNps1(_block.Block):
 
  ----- estimated confidence intervals:  -----
 
- estimated asymmetric confidence interval[(]1,2,3 sigma[)]: {self.asymmetric_interval}
- estimated  symmetric confidence interval[(]1,2,3 sigma[)]: {self.symmetric_interval}
+ estimated asymmetric confidence interval(1,2,3 sigma): {self.asymmetric_interval}
+ estimated  symmetric confidence interval(1,2,3 sigma): {self.symmetric_interval}
+
 """[1:-1]

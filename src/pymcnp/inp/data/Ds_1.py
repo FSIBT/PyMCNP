@@ -53,6 +53,16 @@ class Ds_1(_option.DataOption):
         self.suffix: typing.Final[types.Integer] = suffix
         self.ijs: typing.Final[types.Tuple[types.IndependentDependent]] = ijs
 
+    def to_mcnp(self):
+        """
+        Generates INP from ``Ds_1``.
+
+        Returns:
+            INP for ``Ds_1``.
+        """
+
+        return f'ds{self.suffix} t {self.ijs}'
+
 
 @dataclasses.dataclass
 class DsBuilder_1(_option.DataOptionBuilder):
