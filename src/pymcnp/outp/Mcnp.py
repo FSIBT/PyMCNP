@@ -17,6 +17,12 @@ class Mcnp(_block.Block):
         run_time: Simulation run time.
         probid: Simulation problem ID.
         command: Simulation command.
+        random_generator: Simulation random number generator.
+        random_seed: Simulation random number seed.
+        random_multiplier: Simulation random number multiplier.
+        random_adder: Simulation random number adder.
+        random_bits: Simulation random number bits.
+        random_stride: Simulation random number stride.
         lines: Input lines.
         messages: Input messages.
     """
@@ -24,8 +30,18 @@ class Mcnp(_block.Block):
     _REGEX = re.compile(
         r'\A1mcnp     (.{14})(.{32})(.{9})(.{9})\n'
         r' \*{73}                 (.{28})\n'
-        r'(.+)\n \n'
-        r'((?:  [0-9 ]{8}-       .{80}\n)|(?:  warning[.]  .+\n)|(?:  comment[.]  .+\n))+((?:(?: \n)(?:(?:  warning[.]  .+\n)|(?:  comment[.]  .+\n)|(?:  fatal error[.]  .+\n))+)+)?\Z'
+        r' (.+)\n\n'
+        r' \n'
+        r'((?:.*\n)*)\n'
+        r' \*{51}\n'
+        r' \* Random Number Generator  = (.{20}) \*\n'
+        r' \* Random Number Seed       = (.{20}) \*\n'
+        r' \* Random Number Multiplier = (.{20}) \*\n'
+        r' \* Random Number Adder      = (.{20}) \*\n'
+        r' \* Random Number Bits Used  = (.{20}) \*\n'
+        r' \* Random Number Stride     = (.{20}) \*\n'
+        r' \*{51}\n'
+        r'((?:.*\n)*)\Z'
     )
 
     def __init__(
@@ -36,8 +52,14 @@ class Mcnp(_block.Block):
         run_time: types.String,
         probid: types.String,
         command: types.String,
-        lines: types.Tuple[types.String],
-        messages: types.Tuple[types.String],
+        lines: types.String,
+        random_generator: types.String,
+        random_seed: types.String,
+        random_multiplier: types.String,
+        random_adder: types.String,
+        random_bits: types.String,
+        random_stride: types.String,
+        messages: types.String,
     ):
         """
         Initializes ``Mcnp``.
@@ -50,6 +72,12 @@ class Mcnp(_block.Block):
             probid: Simulation problem ID.
             command: Simulation command.
             lines: Input lines.
+            random_generator: Simulation random number generator.
+            random_seed: Simulation random number seed.
+            random_multiplier: Simulation random number multiplier.
+            random_adder: Simulation random number adder.
+            random_bits: Simulation random number bits.
+            random_stride: Simulation random number stride.
             messages: Input messages.
 
         Raises:
@@ -74,10 +102,28 @@ class Mcnp(_block.Block):
         if command is None:
             raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, command)
 
-        if lines is None or None in lines:
+        if random_generator is None:
+            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, random_generator)
+
+        if random_seed is None:
+            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, random_seed)
+
+        if random_multiplier is None:
+            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, random_multiplier)
+
+        if random_adder is None:
+            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, random_adder)
+
+        if random_bits is None:
+            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, random_bits)
+
+        if random_stride is None:
+            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, random_stride)
+
+        if lines is None:
             raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, lines)
 
-        if messages is None or None in messages:
+        if messages is None:
             raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, messages)
 
         self.version: typing.Final[types.String] = version
@@ -85,9 +131,15 @@ class Mcnp(_block.Block):
         self.run_date: typing.Final[types.String] = run_date
         self.run_time: typing.Final[types.String] = run_time
         self.probid: typing.Final[types.String] = probid
-        self.command: typing.Final[types.Tuple[types.String]] = command
-        self.lines: typing.Final[types.Tuple[types.String]] = lines
-        self.messages: typing.Final[types.Tuple[types.String]] = messages
+        self.command: typing.Final[types.String] = command
+        self.lines: typing.Final[types.String] = lines
+        self.random_generator: typing.Final[types.String] = random_generator
+        self.random_seed: typing.Final[types.String] = random_seed
+        self.random_multiplier: typing.Final[types.String] = random_multiplier
+        self.random_adder: typing.Final[types.String] = random_adder
+        self.random_bits: typing.Final[types.String] = random_bits
+        self.random_stride: typing.Final[types.String] = random_stride
+        self.messages: typing.Final[types.String] = messages
 
     @staticmethod
     def from_mcnp(source: str):
@@ -114,9 +166,15 @@ class Mcnp(_block.Block):
         run_date = types.String.from_mcnp(tokens[3])
         run_time = types.String.from_mcnp(tokens[4])
         probid = types.String.from_mcnp(tokens[5])
-        command = types.String(tokens[6])
-        lines = types.Tuple(types.String(line) for line in tokens[7].split('\n'))
-        messages = types.Tuple(types.String(line) for line in tokens[8].split('\n'))
+        command = types.String.from_mcnp(tokens[6])
+        lines = types.String.from_mcnp(tokens[7])
+        random_generator = types.String.from_mcnp(tokens[8])
+        random_seed = types.String.from_mcnp(tokens[9])
+        random_multiplier = types.String.from_mcnp(tokens[10])
+        random_adder = types.String.from_mcnp(tokens[11])
+        random_bits = types.String.from_mcnp(tokens[12])
+        random_stride = types.String.from_mcnp(tokens[13])
+        messages = types.String.from_mcnp(tokens[14])
 
         return Mcnp(
             version,
@@ -126,6 +184,12 @@ class Mcnp(_block.Block):
             probid,
             command,
             lines,
+            random_generator,
+            random_seed,
+            random_multiplier,
+            random_adder,
+            random_bits,
+            random_stride,
             messages,
         )
 
@@ -137,13 +201,20 @@ class Mcnp(_block.Block):
             OUTP for ``Mcnp``.
         """
 
-        lines = '\n'.join(self.lines)
-        messages = '\n'.join(self.messages)
-
         return f"""
 1mcnp     {self.version}{self.code_date}{self.run_date}{self.run_time}
  *************************************************************************                 {self.probid}
  {self.command}
-{lines}
-{messages}
+
+ 
+{self.lines}
+ ***************************************************
+ * Random Number Generator  = {self.random_generator} *
+ * Random Number Seed       = {self.random_seed} *
+ * Random Number Multiplier = {self.random_multiplier} *
+ * Random Number Adder      = {self.random_adder} *
+ * Random Number Bits Used  = {self.random_bits} *
+ * Random Number Stride     = {self.random_stride} *
+ ***************************************************
+{self.messages}
 """[1:-1]

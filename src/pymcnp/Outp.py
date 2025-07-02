@@ -19,13 +19,12 @@ class Outp(_object.McnpFile):
         footer: OUTP footer.
     """
 
-    _REGEX = re.compile(rf'\A({outp.Header._REGEX.pattern[2:-2]})' r'([\s\S]*)' rf'({outp.Footer._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\A({outp.Header._REGEX.pattern[2:-2]})([\s\S]*)\Z')
 
     def __init__(
         self,
         header: outp.Header,
         blocks: types.Tuple[outp.Block],
-        footer: outp.Footer,
     ):
         """
         Initializes ``Outp``.
@@ -45,12 +44,8 @@ class Outp(_object.McnpFile):
         if blocks is None or None in blocks:
             raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, blocks)
 
-        if footer is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, footer)
-
         self.header: typing.Final[outp.Header] = header
         self.blocks: typing.Final[types.Tuple[outp.Block]] = blocks
-        self.footer: typing.Final[outp.Footer] = footer
 
     @staticmethod
     def from_mcnp(source: str):
@@ -64,37 +59,31 @@ class Outp(_object.McnpFile):
             ``Outp``.
         """
 
-        tokens = Outp._REGEX.match(source)
+        tokens = re.split(r'(\n\d)', source)
 
-        if not tokens:
-            raise errors.OutpError(errors.OutpCode.SYNTAX_TABLE, source)
-
-        offset = 0
-        header = outp.Header.from_mcnp(tokens[1 + offset])
-        offset += outp.Header._REGEX.groups
+        if len(tokens) > 2:
+            header = outp.Header.from_mcnp(tokens[0] + '\n')
+            tokens[1] = '1' + ''.join(filter(bool, tokens[1:]))
+        else:
+            header = outp.Header.from_mcnp(tokens[0])
+            tokens.append('')
 
         blocks = []
-        for subsource in outp.Block._REGEX.finditer(tokens[2 + offset]):
+        for subsource in outp.Block._REGEX.finditer(tokens[1]):
             for subclass in outp.Block.__subclasses__():
                 try:
                     if block := subclass.from_mcnp(subsource[0]):
                         break
-                    else:
-                        continue
                 except Exception:
                     continue
-            else:
-                raise errors.OutpError(errors.OutpCode.SYNTAX_TABLE, source)
 
             blocks.append(block)
 
         blocks = types.Tuple(blocks)
-        footer = outp.Footer.from_mcnp(tokens[3 + offset])
 
         return Outp(
             header,
             blocks,
-            footer,
         )
 
     def to_mcnp(self):
@@ -105,7 +94,7 @@ class Outp(_object.McnpFile):
             OUTP for ``Outp``.
         """
 
-        return self.header + '\n' + '\n'.join(map(str, self.blocks)) + self.footer
+        return self.header.to_mcnp() + '\n'.join(map(str, self.blocks))
 
     def to_dataframe(self):
         """
@@ -121,16 +110,16 @@ class Outp(_object.McnpFile):
 
         for block in self.blocks:
             if isinstance(block, outp.TallyNps1):
-                tallynps1[block.tally] = block
+                tallynps1[block.tally] = {subtally.surface: map(float, subtally.tallies.split('\n')) for subtally in block.subtallies}
             elif isinstance(block, outp.TallyNps2):
-                tallynps2[block.tally] = block
+                tallynps2[block.tally] = {subtally.surface: map(float, subtally.tallies.split('\n')) for subtally in block.subtallies}
             elif isinstance(block, outp.TallyNps4):
-                tallynps4[block.tally] = block
+                tallynps4[block.tally] = {subtally.cell: map(float, subtally.energies.split('\n')) for subtally in block.subtallies}
             else:
                 continue
 
         return (
-            pandas.DataFrame(tallynps1),
-            pandas.DataFrame(tallynps2),
-            pandas.DataFrame(tallynps4),
+            pandas.DataFrame(tallynps1) if tallynps1 else None,
+            pandas.DataFrame(tallynps2) if tallynps2 else None,
+            pandas.DataFrame(tallynps4) if tallynps4 else None,
         )

@@ -19,7 +19,7 @@ class PhotonActivity(_block.Block):
     """
 
     _REGEX = re.compile(
-        r'\A1photon  activity in each cell                                                                         print table 126\n\n'
+        r'\A1photon   activity in each cell                                                                         print table 126\n\n'
         r'                       tracks     population   collisions   collisions     number        flux        average      average\n'
         r'              cell    entering                               [*] weight     weighted     weighted   track weight   track mfp\n'
         r'                                                          [(]per history[)]    energy       energy     [(]relative[)]      [(]cm[)]\n\n'
@@ -106,13 +106,12 @@ class PhotonActivity(_block.Block):
         """
 
         return f"""
-1photon  activity in each cell                                                                         print table 126
+1photon   activity in each cell                                                                         print table 126
 
                        tracks     population   collisions   collisions     number        flux        average      average
               cell    entering                               * weight     weighted     weighted   track weight   track mfp
                                                           (per history)    energy       energy     (relative)      (cm)
 
 {self.cells}
-
-           total    {self.total_tracks:10}    {self.total_population:10}   {self.total_collisions:10}    {self.total_weighted_collisions:10}
+           total    {self.total_tracks:10}    {self.total_population:10}  {self.total_collisions:10}    {self.total_weighted_collisions:10}
 """[1:-1]

@@ -113,6 +113,5 @@ class NeutronActivity(_block.Block):
                                                           (per history)    energy       energy     (relative)      (cm)
 
 {self.cells}
-
-           total    {self.total_tracks:10}    {self.total_population:10}   {self.total_collisions:10}    {self.total_weighted_collisions:10}
+           total    {self.total_tracks:10}    {self.total_population:10}  {self.total_collisions:10}    {self.total_weighted_collisions:10}
 """[1:-1]

@@ -185,8 +185,8 @@ class TallyNps2(_block.Block):
            areas   
                 surface: {self.surface}
                          {self.surface_value}
-
-{self.subtallies}
+ 
+{''.join(map(str, self.subtallies))}
  ===================================================================================================================================
 
            results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc) bin of tally {self.tally}
@@ -203,9 +203,9 @@ class TallyNps2(_block.Block):
 
  this tally meets the statistical criteria used to form confidence intervals: check the tally fluctuation chart to verify.
  the results in other bins associated with this tally may not meet these statistical criteria.
- 
+
  ----- estimated confidence intervals:  -----
 
- estimated asymmetric confidence interval[(]1,2,3 sigma[)]: {self.asymmetric_interval}
- estimated  symmetric confidence interval[(]1,2,3 sigma[)]: {self.symmetric_interval}
-"""[1:-1]
+ estimated asymmetric confidence interval(1,2,3 sigma): {self.asymmetric_interval}
+ estimated  symmetric confidence interval(1,2,3 sigma): {self.symmetric_interval}
+"""[1:]

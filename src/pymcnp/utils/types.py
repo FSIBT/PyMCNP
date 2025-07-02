@@ -443,27 +443,27 @@ class Integer(_object.McnpNonterminal):
 
         try:
             return Integer(Repeat.from_mcnp(source))
-        except errors.McnpError:
+        except Exception:
             pass
 
         try:
             return Integer(Insert.from_mcnp(source))
-        except errors.McnpError:
+        except Exception:
             pass
 
         try:
             return Integer(Multiply.from_mcnp(source))
-        except errors.McnpError:
+        except Exception:
             pass
 
         try:
             return Integer(Jump.from_mcnp(source))
-        except errors.McnpError:
+        except Exception:
             pass
 
         try:
             return Integer(Log.from_mcnp(source))
-        except errors.McnpError:
+        except Exception:
             pass
 
         source = re.sub(r'd', 'e', source)
@@ -473,7 +473,7 @@ class Integer(_object.McnpNonterminal):
         try:
             source = re.sub(r'd', 'e', source)
             return Integer(int(float(source)))
-        except errors.McnpError:
+        except Exception:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
     def to_mcnp(self):
@@ -535,27 +535,27 @@ class Real(_object.McnpNonterminal):
 
         try:
             return Real(Repeat.from_mcnp(source))
-        except errors.McnpError:
+        except Exception:
             pass
 
         try:
             return Real(Insert.from_mcnp(source))
-        except errors.McnpError:
+        except Exception:
             pass
 
         try:
             return Real(Multiply.from_mcnp(source))
-        except errors.McnpError:
+        except Exception:
             pass
 
         try:
             return Real(Jump.from_mcnp(source))
-        except errors.McnpError:
+        except Exception:
             pass
 
         try:
             return Real(Log.from_mcnp(source))
-        except errors.McnpError:
+        except Exception:
             pass
 
         source = re.sub(r'd', 'e', source)
@@ -564,7 +564,7 @@ class Real(_object.McnpNonterminal):
 
         try:
             return Real(float(source))
-        except errors.McnpError:
+        except Exception:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
     def to_mcnp(self):
@@ -743,7 +743,7 @@ class EmbeddedDistributionNumber(_object.McnpNonterminal):
 
         try:
             return EmbeddedDistributionNumber(Tuple([DistributionNumber.from_mcnp(token) for token in source.split('>')]))
-        except errors.McnpError:
+        except Exception:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
     def to_mcnp(self):
@@ -958,7 +958,7 @@ class Designator(_object.McnpNonterminal):
 
         try:
             return Designator(tuple(Particle.from_mcnp(token) for token in source.split(',')))
-        except ValueError:
+        except Exception:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
 
     def to_mcnp(self) -> str:
@@ -1011,7 +1011,7 @@ class Geometry(_object.McnpNonterminal):
 
         try:
             eval(temp)
-        except SyntaxError:
+        except Exception:
             raise errors.McnpError(errors.McnpCode.SEMANTICS_TYPE, infix)
 
         self.infix: typing.typing.Final[String] = infix
@@ -1436,7 +1436,7 @@ class Transformation_0(_object.McnpNonterminal):
             INP for ``Transformation_0``.
         """
 
-        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.zx} {self.zy} {self.zz} {self.m}'
+        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.zx} {self.zy} {self.zz} {self.m or ""}'
 
 
 class Transformation_1(_object.McnpNonterminal):
@@ -1567,7 +1567,7 @@ class Transformation_1(_object.McnpNonterminal):
             INP for ``Transformation_1``.
         """
 
-        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.m}'
+        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.yz} {self.m or ""}'
 
 
 class Transformation_2(_object.McnpNonterminal):
@@ -1691,7 +1691,7 @@ class Transformation_2(_object.McnpNonterminal):
             INP for ``Transformation_2``.
         """
 
-        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.m}'
+        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.yx} {self.yy} {self.m or ""}'
 
 
 class Transformation_3(_object.McnpNonterminal):
@@ -1801,7 +1801,7 @@ class Transformation_3(_object.McnpNonterminal):
             INP for ``Transformation_3``.
         """
 
-        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.m}'
+        return f'{self.o1} {self.o2} {self.o3} {self.xx} {self.xy} {self.xz} {self.m or ""}'
 
 
 class Transformation_4(_object.McnpNonterminal):
@@ -1890,7 +1890,7 @@ class Transformation_4(_object.McnpNonterminal):
             INP for ``Transformation_4``.
         """
 
-        return f'{self.o1} {self.o2} {self.o3} {self.m}'
+        return f'{self.o1} {self.o2} {self.o3} {self.m or ""}'
 
 
 class Stochastic(_object.McnpNonterminal):
@@ -2643,7 +2643,7 @@ class PtracFilter(_object.McnpNonterminal):
         variable: Variable name for PBL derived structure.
     """
 
-    _REGEX = re.compile(r'\A([^\s,]+),([^\s,]+)(?:,([^\s+]+))?\Z')
+    _REGEX = re.compile(r'\A([^\s,]+),([^\s,]+)(?:,([^\s,]+))?\Z')
 
     def __init__(self, lower: Real, variable: String, upper: Real = None):
         """
@@ -2705,7 +2705,7 @@ class PtracFilter(_object.McnpNonterminal):
             INP for ``PtracFilter``.
         """
 
-        return f'{self.lower},{self.upper},{self.variable}'
+        return f'{self.lower},{self.variable}{f",{self.upper}" or ""}'
 
 
 class PhotonBias(_object.McnpNonterminal):

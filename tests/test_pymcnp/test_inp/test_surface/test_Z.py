@@ -1,0 +1,42 @@
+import pymcnp
+from .... import consts
+from .... import classes
+
+
+class Test_Z:
+    class Test_Init(classes.Test_Init):
+        element = pymcnp.inp.surface.Z
+        EXAMPLES_VALID = [
+            {'z1': consts.ast.type.REAL, 'r1': consts.ast.type.REAL, 'z2': consts.ast.type.REAL, 'r2': consts.ast.type.REAL, 'z3': consts.ast.type.REAL, 'r3': consts.ast.type.REAL},
+            {'z1': consts.ast.type.REAL, 'r1': consts.ast.type.REAL, 'z2': None, 'r2': consts.ast.type.REAL, 'z3': consts.ast.type.REAL, 'r3': consts.ast.type.REAL},
+            {'z1': consts.ast.type.REAL, 'r1': consts.ast.type.REAL, 'z2': consts.ast.type.REAL, 'r2': None, 'z3': consts.ast.type.REAL, 'r3': consts.ast.type.REAL},
+            {'z1': consts.ast.type.REAL, 'r1': consts.ast.type.REAL, 'z2': consts.ast.type.REAL, 'r2': consts.ast.type.REAL, 'z3': None, 'r3': consts.ast.type.REAL},
+            {'z1': consts.ast.type.REAL, 'r1': consts.ast.type.REAL, 'z2': consts.ast.type.REAL, 'r2': consts.ast.type.REAL, 'z3': consts.ast.type.REAL, 'r3': None},
+        ]
+        EXAMPLES_INVALID = [
+            {'z1': None, 'r1': consts.ast.type.REAL, 'z2': consts.ast.type.REAL, 'r2': consts.ast.type.REAL, 'z3': consts.ast.type.REAL, 'r3': consts.ast.type.REAL},
+            {'z1': consts.ast.type.REAL, 'r1': None, 'z2': consts.ast.type.REAL, 'r2': consts.ast.type.REAL, 'z3': consts.ast.type.REAL, 'r3': consts.ast.type.REAL},
+        ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.surface.Z
+        EXAMPLES_VALID = [consts.string.inp.surface.Z]
+        EXAMPLES_INVALID = ['hello']
+
+
+class Test_ZBuilder:
+    class TestBuild(classes.Test_Build):
+        element = pymcnp.inp.surface.ZBuilder
+        EXAMPLES_VALID = [
+            {'z1': consts.string.type.REAL, 'r1': consts.string.type.REAL, 'z2': consts.string.type.REAL, 'r2': consts.string.type.REAL, 'z3': consts.string.type.REAL, 'r3': consts.string.type.REAL},
+            {'z1': 3.1, 'r1': 3.1, 'z2': 3.1, 'r2': 3.1, 'z3': 3.1, 'r3': 3.1},
+            {'z1': consts.ast.type.REAL, 'r1': consts.ast.type.REAL, 'z2': consts.ast.type.REAL, 'r2': consts.ast.type.REAL, 'z3': consts.ast.type.REAL, 'r3': consts.ast.type.REAL},
+            {'z1': consts.string.type.REAL, 'r1': consts.string.type.REAL, 'z2': None, 'r2': consts.string.type.REAL, 'z3': consts.string.type.REAL, 'r3': consts.string.type.REAL},
+            {'z1': consts.string.type.REAL, 'r1': consts.string.type.REAL, 'z2': consts.string.type.REAL, 'r2': None, 'z3': consts.string.type.REAL, 'r3': consts.string.type.REAL},
+            {'z1': consts.string.type.REAL, 'r1': consts.string.type.REAL, 'z2': consts.string.type.REAL, 'r2': consts.string.type.REAL, 'z3': None, 'r3': consts.string.type.REAL},
+            {'z1': consts.string.type.REAL, 'r1': consts.string.type.REAL, 'z2': consts.string.type.REAL, 'r2': consts.string.type.REAL, 'z3': consts.string.type.REAL, 'r3': None},
+        ]
+        EXAMPLES_INVALID = [
+            {'z1': None, 'r1': consts.string.type.REAL, 'z2': consts.string.type.REAL, 'r2': consts.string.type.REAL, 'z3': consts.string.type.REAL, 'r3': consts.string.type.REAL},
+            {'z1': consts.string.type.REAL, 'r1': None, 'z2': consts.string.type.REAL, 'r2': consts.string.type.REAL, 'z3': consts.string.type.REAL, 'r3': consts.string.type.REAL},
+        ]

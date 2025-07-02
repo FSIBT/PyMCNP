@@ -11,8 +11,8 @@ class SubtallyNps4(_subblock.Subblock):
     Represents OUTP ``1tally 4 nps`` subtally.
 
     Attributes:
-        surface: Surface number.
-        tallies: Tallies.
+        cell: Cell number.
+        energies: Energies.
         total: Total line.
     """
 
@@ -20,31 +20,31 @@ class SubtallyNps4(_subblock.Subblock):
 
     def __init__(
         self,
-        surface: types.String,
-        tallies: types.String,
+        cell: types.String,
+        energies: types.String,
         total: types.String,
     ):
         """
         Initializes ``SubtallyNps4``.
 
         Parameters:
-            surface: Surface number.
-            tallies: Tallies.
+            cell: Cell number.
+            energies: Energies.
             total: Total line.
 
         Raises:
             OutpError: SEMANTICS_TABLE.
         """
 
-        if surface is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, surface)
-        if tallies is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, tallies)
+        if cell is None:
+            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, cell)
+        if energies is None:
+            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, energies)
         if total is None:
             raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, total)
 
-        self.surface: typing.Final[types.String] = surface
-        self.tallies: typing.Final[types.String] = tallies
+        self.cell: typing.Final[types.String] = cell
+        self.energies: typing.Final[types.String] = energies
         self.total: typing.Final[types.String] = total
 
     @staticmethod
@@ -64,13 +64,13 @@ class SubtallyNps4(_subblock.Subblock):
         if not tokens:
             raise errors.OutpError(errors.OutpCode.SYNTAX_TABLE, source)
 
-        surface = types.String.from_mcnp(tokens[1])
-        tallies = types.String.from_mcnp(tokens[2])
+        cell = types.String.from_mcnp(tokens[1])
+        energies = types.String.from_mcnp(tokens[2])
         total = types.String.from_mcnp(tokens[3])
 
         return SubtallyNps4(
-            surface,
-            tallies,
+            cell,
+            energies,
             total,
         )
 
@@ -83,8 +83,8 @@ class SubtallyNps4(_subblock.Subblock):
         """
 
         return f"""
- surface  {self.surface}
-      time
-{self.tallies}
-      total      {self.total}\n
-"""[1:-1]
+ cell  {self.cell}
+      energy   
+{self.energies}      total      {self.total}
+
+"""[1:]
