@@ -1,10 +1,10 @@
 from ._block import Block
 from .Header import Header
-from .Footer import Footer
 from .Mcnp import Mcnp
 from .NeutronActivity import NeutronActivity
 from .PhotonActivity import PhotonActivity
 from .AnalysisTallyFluctuation import AnalysisTallyFluctuation
+from .ProblemSummary import ProblemSummary
 from .StartingMcrun import StartingMcrun
 from . import tallynps
 from .TallyNps1 import TallyNps1
@@ -15,11 +15,11 @@ from .UnnormedTallyDensity import UnnormedTallyDensity
 __all__ = [
     'Block',
     'Header',
-    'Footer',
     'Mcnp',
     'NeutronActivity',
     'PhotonActivity',
     'AnalysisTallyFluctuation',
+    'ProblemSummary',
     'StartingMcrun',
     'tallynps',
     'TallyNps1',

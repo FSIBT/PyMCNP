@@ -50,7 +50,7 @@ class AnalysisTallyFluctuation(_block.Block):
     """
 
     _REGEX = re.compile(
-        r'\A1analysis of the results in the tally fluctuation chart bin [(]tfc[)] for tally (.{8}) with nps = (.{11})  print table 160\n\n\n'
+        r'\A1analysis of the results in the tally fluctuation chart bin [(]tfc[)] for tally (.{1}) with nps = (.{19}) print table 160\n\n\n'
         r' normed average tally per history  = (.{11})          unnormed average tally per history  = (.{11})\n'
         r' estimated tally relative error    = (.{11})          estimated variance of the variance  = (.{6})\n'
         r' relative error from zero tallies  = (.{11})          relative error from nonzero scores  = (.{6})\n\n'
@@ -365,7 +365,7 @@ class AnalysisTallyFluctuation(_block.Block):
         """
 
         return f"""
-1analysis of the results in the tally fluctuation chart bin (tfc) for tally {self.tally.value:8} with nps = {self.nps.value:11}  print table 160
+1analysis of the results in the tally fluctuation chart bin (tfc) for tally {self.tally.value:1} with nps = {self.nps.value:19} print table 160
 
 
  normed average tally per history  = {self.normed_average_per_history.value:11}          unnormed average tally per history  = {self.unnormed_average_per_history.value:11}
@@ -391,4 +391,4 @@ class AnalysisTallyFluctuation(_block.Block):
 
 {self.message}
  fom = (histories/minute)*(f(x) signal-to-noise ratio)**2 = ({self.histories_per_minute.value:9})*({self.singal_noise.value:10})**2 = ({self.histories_per_minute.value:9})*({self.singal_noise_squared.value:9}) = {self.fom.value:9}
-"""[1:-1]
+"""[1:]

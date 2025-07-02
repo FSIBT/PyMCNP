@@ -1,0 +1,22 @@
+import pymcnp
+from .... import consts
+from .... import classes
+
+
+class Test_Ptrac:
+    class Test_Init(classes.Test_Init):
+        element = pymcnp.inp.data.Ptrac
+        EXAMPLES_VALID = [{'options': [consts.ast.inp.data.ptrac.BUFFER]}, {'options': None}]
+        EXAMPLES_INVALID = []
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.Ptrac
+        EXAMPLES_VALID = [consts.string.inp.data.PTRAC]
+        EXAMPLES_INVALID = ['hello']
+
+
+class Test_PtracBuilder:
+    class TestBuild(classes.Test_Build):
+        element = pymcnp.inp.data.PtracBuilder
+        EXAMPLES_VALID = [{'options': [consts.string.inp.data.ptrac.BUFFER]}, {'options': [consts.builder.inp.data.ptrac.BUFFER]}, {'options': [consts.ast.inp.data.ptrac.BUFFER]}, {'options': None}]
+        EXAMPLES_INVALID = []

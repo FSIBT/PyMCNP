@@ -24,12 +24,12 @@ class Mx(_option.DataOption):
     _ATTRS = {
         'suffix': types.Integer,
         'designator': types.Designator,
-        'zaids': types.Tuple[types.Zaid],
+        'zaids': types.Tuple[types.String],
     }
 
     _REGEX = re.compile(rf'\Amx(\d+):(\S+)((?: (?:{types.Zaid._REGEX.pattern[2:-2]}|j|model|0))+?)\Z')
 
-    def __init__(self, suffix: types.Integer, designator: types.Designator, zaids: types.Tuple[types.Zaid]):
+    def __init__(self, suffix: types.Integer, designator: types.Designator, zaids: types.Tuple[types.String]):
         """
         Initializes ``Mx``.
 
@@ -57,7 +57,7 @@ class Mx(_option.DataOption):
 
         self.suffix: typing.Final[types.Integer] = suffix
         self.designator: typing.Final[types.Designator] = designator
-        self.zaids: typing.Final[types.Tuple[types.Zaid]] = zaids
+        self.zaids: typing.Final[types.Tuple[types.String]] = zaids
 
 
 @dataclasses.dataclass
@@ -73,7 +73,7 @@ class MxBuilder(_option.DataOptionBuilder):
 
     suffix: str | int | types.Integer
     designator: str | types.Designator
-    zaids: list[str] | list[types.Zaid]
+    zaids: list[str] | list[types.String]
 
     def build(self):
         """
@@ -100,10 +100,10 @@ class MxBuilder(_option.DataOptionBuilder):
         if self.zaids:
             zaids = []
             for item in self.zaids:
-                if isinstance(item, types.Zaid):
+                if isinstance(item, types.String):
                     zaids.append(item)
                 elif isinstance(item, str):
-                    zaids.append(types.Zaid.from_mcnp(item))
+                    zaids.append(types.String.from_mcnp(item))
             zaids = types.Tuple(zaids)
         else:
             zaids = None
