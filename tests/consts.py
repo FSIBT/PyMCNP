@@ -973,7 +973,7 @@ class string:
  warning.  tally not scored beyond last energy bin.                    
  nps =       40899     nrn =                  67 tal =    4     erg = 1.3903E+01      
 """[1:]
-        TALLY_NPS_1 = """
+        TALLY_1A = """
 1tally        1        nps =    10000000
            tally type 1    number of particles crossing a surface.                             
            particle(s): photons  
@@ -1050,7 +1050,78 @@ class string:
  estimated  symmetric confidence interval(1,2,3 sigma): 1.0965E-04 to 1.1687E-04; 1.0604E-04 to 1.2049E-04; 1.0243E-04 to 1.2410E-04
 
 """[1:-1]
-        TALLY_NPS_2 = """
+        TALLY_1B = """
+1tally        1        nps =     1000000
+           tally type 1    number of particles crossing a surface.                             
+           particle(s): photons  
+ 
+ surface  2.1                                                                                                                          
+ angle  bin:  180.0        to  0.90000E+02 degrees                                                                                     
+      energy   
+    1.0000E-01   1.03581E-05 0.3177
+    1.1934E-01   3.00000E-06 0.5773
+    1.3867E-01   5.02454E-06 0.4472
+      total      1.61175E-04 0.0791
+ 
+ surface  2.1                                                                                                                          
+ angle  bin:   0.90000E+02 to  0.00000E+00 degrees                                                                                     
+      energy   
+    1.0000E-01   3.11418E-06 0.5781
+    1.1934E-01   0.00000E+00 0.0000
+    1.3867E-01   1.99999E-06 0.7071
+      total      1.13338E-04 0.0981
+ 
+ surface  2.2                                                                                                                          
+ angle  bin:  180.0        to  0.90000E+02 degrees                                                                                     
+      energy   
+    1.0000E-01   0.00000E+00 0.0000
+    1.1934E-01   0.00000E+00 0.0000
+    1.3867E-01   0.00000E+00 0.0000
+      total      0.00000E+00 0.0000
+ 
+ surface  2.2                                                                                                                          
+ angle  bin:   0.90000E+02 to  0.00000E+00 degrees                                                                                     
+      energy   
+    1.0000E-01   0.00000E+00 0.0000
+    1.1934E-01   0.00000E+00 0.0000
+    1.3867E-01   0.00000E+00 0.0000
+      total      7.22900E-05 0.1179
+ 
+ surface  2.3                                                                                                                          
+ angle  bin:  180.0        to  0.90000E+02 degrees                                                                                     
+      energy   
+    1.0000E-01   1.50736E-05 0.2582
+    1.1934E-01   8.04909E-06 0.3536
+    1.3867E-01   9.04909E-06 0.3333
+      total      2.18636E-04 0.0682
+ 
+ surface  2.3                                                                                                                          
+ angle  bin:   0.90000E+02 to  0.00000E+00 degrees                                                                                     
+      energy   
+    1.0000E-01   5.00000E-06 0.4472
+    1.1934E-01   0.00000E+00 0.0000
+    1.3867E-01   0.00000E+00 0.0000
+      total      2.13311E-05 0.2185
+
+
+ ===================================================================================================================================
+
+           results of 10 statistical checks for the estimated answer for the tally fluctuation chart (tfc) bin of tally        1
+
+ tfc bin     --mean--      ---------relative error---------      ----variance of the variance----      --figure of merit--     -pdf-
+ behavior    behavior      value   decrease   decrease rate      value   decrease   decrease rate       value     behavior     slope
+
+ desired      random       <0.10      yes      1/sqrt(nps)       <0.10      yes        1/nps           constant    random      >3.00
+ observed     random        0.10      yes          yes            0.01      yes         yes            constant    random       0.00
+ passed?        yes          yes      yes          yes             yes      yes         yes               yes        yes          no
+
+ ===================================================================================================================================
+
+
+ warning.  the tally in the tally fluctuation chart bin did not pass  1 of the 10 statistical checks.
+
+"""[1:-1]
+        TALLY_2 = """
 1tally        2        nps =      100000
            tally type 2    particle flux averaged over a surface.       units   1/cm**2        
            particle(s): neutrons 
@@ -1090,7 +1161,7 @@ class string:
  estimated  symmetric confidence interval(1,2,3 sigma): 7.9577E-02 to 7.9577E-02; 7.9577E-02 to 7.9577E-02; 7.9577E-02 to 7.9577E-02
 
 """[1:-1]
-        TALLY_NPS_4 = """
+        TALLY_4 = """
 1tally       14        nps =  1000000000
            tally type 4    track length estimate of particle flux.      units   1/cm**2        
            particle(s): photons  
@@ -1141,8 +1212,8 @@ class string:
   total    2313 2.31-03         d------------------d-------------------d--------------------d-------------------d-------------------
 """[1:-1]
 
-        class tallynps:
-            SUBTALLY_NPS_1 = """
+        class tally:
+            SUBTALLY_1 = """
  surface  2.1                                                                                                                          
  angle  bin:  180.0        to  0.90000E+02 degrees                                                                                     
       energy   
@@ -1152,7 +1223,7 @@ class string:
       total      1.49149E-04 0.0259
 
 """[1:]
-            SUBTALLY_NPS_2 = """
+            SUBTALLY_2 = """
       surface:           8                                                                                         
         time   
     0.0000E+00   0.00000E+00 0.0000
@@ -1161,7 +1232,7 @@ class string:
       total      7.95775E-02 0.0000
 
 """[1:]
-            SUBTALLY_NPS_4 = """
+            SUBTALLY_4 = """
  cell  12                                                                                                                              
       energy   
     1.0000E-01   3.62214E-07 0.0025
@@ -1170,6 +1241,9 @@ class string:
       total      6.83312E-06 0.0008
 
 """[1:]
+
+            class subtally:
+                LINE = '    1.0000E-01   3.62214E-07 0.0025\n'
 
 
 class ast:
@@ -1856,15 +1930,18 @@ class ast:
         PHOTON_ACTIVITY = pymcnp.outp.PhotonActivity.from_mcnp(string.outp.PHOTON_ACTIVITY)
         PROBLEM_SUMMARY = pymcnp.outp.ProblemSummary.from_mcnp(string.outp.PROBLEM_SUMMARY)
         STARTING_MCRUN = pymcnp.outp.StartingMcrun.from_mcnp(string.outp.STARTING_MCRUN)
-        TALLY_NPS_1 = pymcnp.outp.TallyNps1.from_mcnp(string.outp.TALLY_NPS_1)
-        TALLY_NPS_2 = pymcnp.outp.TallyNps2.from_mcnp(string.outp.TALLY_NPS_2)
-        TALLY_NPS_4 = pymcnp.outp.TallyNps4.from_mcnp(string.outp.TALLY_NPS_4)
+        TALLY_1A = pymcnp.outp.Tally_1A.from_mcnp(string.outp.TALLY_1A)
+        TALLY_2 = pymcnp.outp.Tally_2.from_mcnp(string.outp.TALLY_2)
+        TALLY_4 = pymcnp.outp.Tally_4.from_mcnp(string.outp.TALLY_4)
         UNNORMED_TALLY_DENSITY = pymcnp.outp.UnnormedTallyDensity.from_mcnp(string.outp.UNNORMED_TALLY_DENSITY)
 
-        class tallynps:
-            SUBTALLY_NPS_1 = pymcnp.outp.tallynps.SubtallyNps1.from_mcnp(string.outp.tallynps.SUBTALLY_NPS_1)
-            SUBTALLY_NPS_2 = pymcnp.outp.tallynps.SubtallyNps2.from_mcnp(string.outp.tallynps.SUBTALLY_NPS_2)
-            SUBTALLY_NPS_4 = pymcnp.outp.tallynps.SubtallyNps4.from_mcnp(string.outp.tallynps.SUBTALLY_NPS_4)
+        class tally:
+            SUBTALLY_1 = pymcnp.outp.tally.Subtally_1.from_mcnp(string.outp.tally.SUBTALLY_1)
+            SUBTALLY_2 = pymcnp.outp.tally.Subtally_2.from_mcnp(string.outp.tally.SUBTALLY_2)
+            SUBTALLY_4 = pymcnp.outp.tally.Subtally_4.from_mcnp(string.outp.tally.SUBTALLY_4)
+
+            class subtally:
+                LINE = pymcnp.outp.tally.subtally.Line.from_mcnp(string.outp.tally.subtally.LINE)
 
 
 class builder:

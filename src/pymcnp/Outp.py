@@ -1,7 +1,6 @@
 import re
 import typing
 
-import pandas
 
 from . import outp
 from .utils import types
@@ -104,22 +103,10 @@ class Outp(_object.McnpFile):
             Tuple of ``pandas.DataFrame``.
         """
 
-        tallynps1 = {}
-        tallynps2 = {}
-        tallynps4 = {}
+        tallies = {}
 
         for block in self.blocks:
-            if isinstance(block, outp.TallyNps1):
-                tallynps1[block.tally] = {subtally.surface: map(float, subtally.tallies.split('\n')) for subtally in block.subtallies}
-            elif isinstance(block, outp.TallyNps2):
-                tallynps2[block.tally] = {subtally.surface: map(float, subtally.tallies.split('\n')) for subtally in block.subtallies}
-            elif isinstance(block, outp.TallyNps4):
-                tallynps4[block.tally] = {subtally.cell: map(float, subtally.energies.split('\n')) for subtally in block.subtallies}
-            else:
-                continue
+            if hasattr(block, 'to_dataframe'):
+                tallies[block.number.strip()] = block.to_dataframe()
 
-        return (
-            pandas.DataFrame(tallynps1) if tallynps1 else None,
-            pandas.DataFrame(tallynps2) if tallynps2 else None,
-            pandas.DataFrame(tallynps4) if tallynps4 else None,
-        )
+        return tallies
