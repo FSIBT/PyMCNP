@@ -34,11 +34,11 @@ class Inp(_object.McnpFile):
         self,
         title: types.String,
         cells: types.Tuple[inp.Cell],
-        cells_comments: types.Tuple[inp.Comment],
         surfaces: types.Tuple[inp.Surface],
-        surfaces_comments: types.Tuple[inp.Comment],
         data: types.Tuple[inp.Data],
-        data_comments: types.Tuple[inp.Comment],
+        cells_comments: types.Tuple[inp.Comment] = None,
+        surfaces_comments: types.Tuple[inp.Comment] = None,
+        data_comments: types.Tuple[inp.Comment] = None,
         message: types.String = None,
         other: types.String = None,
     ):
@@ -69,19 +69,19 @@ class Inp(_object.McnpFile):
         if cells is None or None in cells:
             raise errors.InpError(errors.InpCode.SEMANTICS_INP, cells)
 
-        if cells_comments is None or None in cells_comments:
+        if cells_comments is not None and None in cells_comments:
             raise errors.InpError(errors.InpCode.SEMANTICS_INP, cells_comments)
 
         if surfaces is None or None in surfaces:
             raise errors.InpError(errors.InpCode.SEMANTICS_INP, surfaces)
 
-        if surfaces_comments is None or None in surfaces_comments:
+        if surfaces_comments is not None and None in surfaces_comments:
             raise errors.InpError(errors.InpCode.SEMANTICS_INP, surfaces_comments)
 
         if data is None or None in data:
             raise errors.InpError(errors.InpCode.SEMANTICS_INP, data)
 
-        if data_comments is None or None in data_comments:
+        if data_comments is not None and None in data_comments:
             raise errors.InpError(errors.InpCode.SEMANTICS_INP, data_comments)
 
         self.message: typing.Final[types.String] = message
@@ -156,11 +156,11 @@ class Inp(_object.McnpFile):
         return Inp(
             title,
             cells,
-            cells_comments,
             surfaces,
-            surfaces_comments,
             data,
-            data_comments,
+            cells_comments=cells_comments,
+            surfaces_comments=surfaces_comments,
+            data_comments=data_comments,
             message=message,
             other=other,
         )
@@ -234,12 +234,12 @@ class InpBuilder:
     """
 
     title: str | types.String
-    cells: dict[str, str | inp.Cell | inp.CellBuilder]
-    cells_comments: list[str | inp.Comment | inp.CommentBuilder]
-    surfaces: dict[str, str | inp.Surface | inp.SurfaceBuilder]
-    surfaces_comments: list[str | inp.Comment | inp.CommentBuilder]
-    data: dict[str, str | inp.Data | inp.DataBuilder]
-    data_comments: list[str | inp.Comment | inp.CommentBuilder]
+    cells: list[str | inp.Cell | inp.CellBuilder]
+    surfaces: list[str | inp.Surface | inp.SurfaceBuilder]
+    data: list[str | inp.Data | inp.DataBuilder]
+    cells_comments: list[str | inp.Comment | inp.CommentBuilder] = None
+    surfaces_comments: list[str | inp.Comment | inp.CommentBuilder] = None
+    data_comments: list[str | inp.Comment | inp.CommentBuilder] = None
     message: str | types.String = None
     other: str | types.String = None
 
@@ -259,7 +259,7 @@ class InpBuilder:
 
         if self.cells:
             cells = []
-            for item in self.cells.values():
+            for item in self.cells:
                 if isinstance(item, inp.Cell):
                     cells.append(item)
                 elif isinstance(item, str):
@@ -285,7 +285,7 @@ class InpBuilder:
 
         if self.surfaces:
             surfaces = []
-            for item in self.surfaces.values():
+            for item in self.surfaces:
                 if isinstance(item, inp.Surface):
                     surfaces.append(item)
                 elif isinstance(item, str):
@@ -311,7 +311,7 @@ class InpBuilder:
 
         if self.data:
             data = []
-            for item in self.data.values():
+            for item in self.data:
                 if isinstance(item, inp.Data):
                     data.append(item)
                 elif isinstance(item, str):
@@ -370,12 +370,12 @@ class InpBuilder:
 
         return InpBuilder(
             title=copy.deepcopy(ast.title),
-            cells={cell.number.value: inp.CellBuilder.unbuild(cell) for cell in ast.cells},
-            cells_comments=[inp.CommentBuilder.unbuild(comment) for comment in ast.cells_comments],
-            surfaces={surface.number.value: inp.SurfaceBuilder.unbuild(surface) for surface in ast.surfaces},
-            surfaces_comments=[inp.CommentBuilder.unbuild(comment) for comment in ast.surfaces_comments],
-            data={data.option._KEYWORD: inp.DataBuilder.unbuild(data) for data in ast.data},
-            data_comments=[inp.CommentBuilder.unbuild(comment) for comment in ast.data_comments],
+            cells=copy.deepcopy(ast.cells),
+            cells_comments=copy.deepcopy(ast.cells_comments),
+            surfaces=copy.deepcopy(ast.surfaces),
+            surfaces_comments=copy.deepcopy(ast.surfaces_comments),
+            data=copy.deepcopy(ast.data),
+            data_comments=copy.deepcopy(ast.data_comments),
             message=copy.deepcopy(ast.message),
             other=copy.deepcopy(ast.other),
         )
