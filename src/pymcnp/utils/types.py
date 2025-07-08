@@ -1198,7 +1198,7 @@ class Substance(_object.McnpNonterminal):
         tokens = Substance._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, tokens)
 
         zaid = Zaid.from_mcnp(tokens[1])
         weight_ratio = Real.from_mcnp(tokens[2])
@@ -1269,7 +1269,7 @@ class Bias(_object.McnpNonterminal):
         tokens = Bias._REGEX.match(source)
 
         if not tokens:
-            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE)
+            raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, tokens)
 
         weight = Real.from_mcnp(tokens[1])
         energy = Real.from_mcnp(tokens[2])

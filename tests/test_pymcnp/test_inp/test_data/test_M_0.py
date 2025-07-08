@@ -48,3 +48,17 @@ class Test_MBuilder_0:
             {'suffix': None, 'substances': [consts.string.type.SUBSTANCE], 'options': [consts.string.inp.data.m_0.ALIB]},
             {'suffix': consts.string.type.INTEGER, 'substances': None, 'options': [consts.string.inp.data.m_0.ALIB]},
         ]
+
+    class Test_Formula:
+        EXAMPLES = [
+            (1, {'H2O': 1}, True),
+            (1, {'H2O': 1}, False),
+        ]
+
+        def test(self):
+            """
+            Tests ``EXAMPLES`` on ``from_formula``.
+            """
+
+            for number, formulas, is_weight in self.EXAMPLES:
+                pymcnp.inp.data.MBuilder_0.from_formula(number, formulas, is_weight)
