@@ -118,7 +118,7 @@ class CellBuilder:
     number: str | int | types.Integer
     material: str | int | types.Integer
     geometry: str | types.Geometry | types.GeometryBuilder
-    options: list[str] | list[cell.CellOption] | list[cell.CellOptionBuilder]
+    options: list[str] | list[cell.CellOption] | list[cell.CellOptionBuilder] = None
     density: str | float | types.Real = None
 
     def build(self):

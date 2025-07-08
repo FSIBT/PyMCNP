@@ -64,7 +64,7 @@ class M_0(_option.DataOption):
     @staticmethod
     def from_formula(number: int, formulas: dict[str, float], is_weight: bool = True):
         """
-        Generates ``M_0`` from INP.
+        Generates ``M_0`` from formulas.
 
         Parameters:
             number: Arbitrary material number.
@@ -184,3 +184,19 @@ class MBuilder_0(_option.DataOptionBuilder):
             substances=copy.deepcopy(ast.substances),
             options=copy.deepcopy(ast.options),
         )
+
+    @staticmethod
+    def from_formula(number: int, formulas: dict[str, float], is_weight: bool = True):
+        """
+        Generates ``MBuilder_0`` from formulas.
+
+        Parameters:
+            number: Arbitrary material number.
+            formulas: Dictionary of formulas and atomic/weight fractions.
+            is_weight: Weight (atomic) fraction true (false) flag.
+
+        Returns:
+            ``MBuilder_0`` object.
+        """
+
+        return MBuilder_0.unbuild(M_0.from_formula(number, formulas, is_weight))
