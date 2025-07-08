@@ -45,6 +45,4 @@ class Test_Outp:
 
     class Test_Dataframe(classes.Test_Dataframe):
         element = pymcnp.Outp
-        EXAMPLES = [
-            *(pathlib.Path(__file__).parent.parent / 'files' / 'outp').glob('valid*.o'),
-        ]
+        EXAMPLES = [path.read_text() for path in (pathlib.Path(__file__).parent.parent / 'files' / 'outp').glob('valid*.o')]
