@@ -17,7 +17,7 @@ class Test_Init:
         """
 
         for example in self.EXAMPLES_VALID:
-            print(example)
+            print(repr(example))
 
             element = self.element(**example)
 
@@ -31,7 +31,7 @@ class Test_Init:
 
         for example in self.EXAMPLES_INVALID:
             with pytest.raises((pymcnp.utils.errors.Error)):
-                print(example)
+                print(repr(example))
 
                 self.element(**example)
 
@@ -62,7 +62,7 @@ class Test_Mcnp:
 
         for example in self.EXAMPLES_INVALID:
             with pytest.raises((pymcnp.utils.errors.Error)):
-                print(example)
+                print(repr(example))
 
                 self.element.from_mcnp(example)
 
@@ -78,8 +78,9 @@ class Test_File:
         """
 
         for example in self.EXAMPLES_VALID:
-            print(example)
+            print(repr(example))
 
+            print(repr(example.read_text()))
             a = self.element.from_file(example)
             print(repr(a.to_mcnp()))
             b = self.element.from_mcnp(a.to_mcnp())
@@ -94,7 +95,7 @@ class Test_File:
 
         for example in self.EXAMPLES_INVALID:
             with pytest.raises((pymcnp.utils.errors.Error)):
-                print(example)
+                print(repr(example))
                 self.element.from_file(example)
 
 
@@ -109,7 +110,7 @@ class Test_Build:
         """
 
         for example in self.EXAMPLES_VALID:
-            print(example)
+            print(repr(example))
 
             a = self.element(**example)
             b = a.build()
@@ -125,7 +126,7 @@ class Test_Build:
 
         for example in self.EXAMPLES_INVALID:
             with pytest.raises((pymcnp.utils.errors.Error)):
-                print(example)
+                print(repr(example))
 
                 self.element(**example).build()
 
@@ -140,13 +141,13 @@ class Test_Draw:
         """
 
         for example in self.EXAMPLES:
-            print(example)
+            print(repr(example))
             self.element.from_mcnp(example).draw()
 
 
 class Test_Dataframe:
     element: pymcnp.utils._object.McnpNonterminal
-    EXAMLPES: list[pathlib.Path] = []
+    EXAMLPES: list[str] = []
 
     def test(self):
         """
@@ -154,5 +155,5 @@ class Test_Dataframe:
         """
 
         for example in self.EXAMPLES:
-            print(example)
-            self.element.from_file(example).to_dataframe()
+            print(repr(example))
+            self.element.from_mcnp(example).to_dataframe()

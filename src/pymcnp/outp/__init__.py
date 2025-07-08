@@ -6,10 +6,11 @@ from .PhotonActivity import PhotonActivity
 from .AnalysisTallyFluctuation import AnalysisTallyFluctuation
 from .ProblemSummary import ProblemSummary
 from .StartingMcrun import StartingMcrun
-from . import tallynps
-from .TallyNps1 import TallyNps1
-from .TallyNps2 import TallyNps2
-from .TallyNps4 import TallyNps4
+from . import tally
+from .Tally_1A import Tally_1A
+from .Tally_1B import Tally_1B
+from .Tally_2 import Tally_2
+from .Tally_4 import Tally_4
 from .UnnormedTallyDensity import UnnormedTallyDensity
 
 __all__ = [
@@ -21,9 +22,10 @@ __all__ = [
     'AnalysisTallyFluctuation',
     'ProblemSummary',
     'StartingMcrun',
-    'tallynps',
-    'TallyNps1',
-    'TallyNps2',
-    'TallyNps4',
+    'tally',
+    'Tally_1A',
+    'Tally_1B',
+    'Tally_2',
+    'Tally_4',
     'UnnormedTallyDensity',
 ]

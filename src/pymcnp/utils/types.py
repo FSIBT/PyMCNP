@@ -51,7 +51,6 @@ class Tuple(tuple, _object.McnpNonterminal):
             McnpError: SYNTAX_TYPE.
         """
 
-        source, comments = _parser.preprocess_inp(source)
         tokens = re.finditer(T._REGEX.pattern[2:-2], source)
 
         if not tokens:

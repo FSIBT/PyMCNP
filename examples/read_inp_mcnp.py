@@ -1,5 +1,5 @@
 """
-Examples for creating INP files using ``from_mcnp``.
+Examples for reading INP files using ``from_mcnp``.
 """
 
 import pymcnp
@@ -8,6 +8,7 @@ RADIUS_AIR: float = 60
 RADIUS_SHIELD: float = 5
 RADIUS_LEAD: float = 1
 
+# Reading INP.
 inp = pymcnp.Inp.from_mcnp(f"""Create ``Inp`` Using ``build``
 c ============================================================================
 c                                    cells                                    
