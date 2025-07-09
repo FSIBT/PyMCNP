@@ -4,10 +4,12 @@ from . import cell
 from . import surface
 from . import data
 from .Cell import Cell
+from .Like import Like
 from .Surface import Surface
 from .Data import Data
 from .Comment import Comment
 from .Cell import CellBuilder
+from .Like import LikeBuilder
 from .Surface import SurfaceBuilder
 from .Data import DataBuilder
 from .Comment import CommentBuilder
@@ -19,10 +21,12 @@ __all__ = [
     'surface',
     'data',
     'Cell',
+    'Like',
     'Surface',
     'Data',
     'Comment',
     'CellBuilder',
+    'LikeBuilder',
     'SurfaceBuilder',
     'DataBuilder',
     'CommentBuilder',

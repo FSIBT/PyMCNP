@@ -1,7 +1,7 @@
 lattice example 18
 1 1 -0.5 -7 #2 #3 #4 #5 #6 imp:n=1
 2 0 1 -2 -3 4 5 -6 imp:n=2 trcl=2 fill=1
-c 3 like 2 but trcl=3
+3 like 2 but trcl=3
 c 4 like 2 but trcl=4
 c 5 like 2 but trcl=5 imp:n=1
 c 6 like 2 but trcl=6

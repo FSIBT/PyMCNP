@@ -21,6 +21,7 @@ class Test_Comment:
             # 4.1
             'c cell cards',
             'c surface cards',
+            consts.string.inp.COMMENT,
         ]
         EXAMPLES_INVALID = [
             'hello',

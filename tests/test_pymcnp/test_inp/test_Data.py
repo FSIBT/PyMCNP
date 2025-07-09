@@ -402,6 +402,7 @@ class Test_Data:
             'F4:N 16',
             'FU4 1',
             'SD4 0 1 2 3 4',
+            consts.string.inp.DATA,
         ]
         EXAMPLES_INVALID = [
             'hello',
