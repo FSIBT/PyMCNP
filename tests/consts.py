@@ -39,6 +39,7 @@ class string:
 
     class inp:
         CELL = '1 1 3.1 1 (2:(+3 -4) #5) imp:@=1'
+        LIKE = '2 like 1 but imp:@=2'
         SURFACE = '1 SO 1'
         DATA = 'vol no 3.1 3.1 3.1'
         COMMENT = 'c hello'
@@ -1338,6 +1339,7 @@ class ast:
 
     class inp:
         CELL = pymcnp.inp.Cell.from_mcnp(string.inp.CELL)
+        LIKE = pymcnp.inp.Like.from_mcnp(string.inp.LIKE)
         SURFACE = pymcnp.inp.Surface.from_mcnp(string.inp.SURFACE)
         DATA = pymcnp.inp.Data.from_mcnp(string.inp.DATA)
         COMMENT = pymcnp.inp.Comment.from_mcnp(string.inp.COMMENT)
@@ -2032,6 +2034,7 @@ class builder:
 
     class inp:
         CELL = pymcnp.inp.CellBuilder.unbuild(ast.inp.CELL)
+        LIKE = pymcnp.inp.LikeBuilder.unbuild(ast.inp.LIKE)
         SURFACE = pymcnp.inp.SurfaceBuilder.unbuild(ast.inp.SURFACE)
         DATA = pymcnp.inp.DataBuilder.unbuild(ast.inp.DATA)
         COMMENT = pymcnp.inp.CommentBuilder.unbuild(ast.inp.COMMENT)

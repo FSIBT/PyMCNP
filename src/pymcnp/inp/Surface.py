@@ -53,9 +53,9 @@ class Surface(Card):
             InpError: SEMANTICS_CARD.
         """
 
-        if number is None or not (1 <= number.value <= 99_999_999 if not transform else 999):
+        if number is None or not (1 <= number <= 99_999_999 if not transform else 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
-        if transform is not None and not (0 <= transform.value <= 999):
+        if transform is not None and not (0 <= transform <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, transform)
         if option is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, option)

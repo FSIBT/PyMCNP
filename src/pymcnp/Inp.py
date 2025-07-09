@@ -33,7 +33,7 @@ class Inp(_object.McnpFile):
     def __init__(
         self,
         title: types.String,
-        cells: types.Tuple[inp.Cell],
+        cells: types.Tuple[inp.Cell | inp.Like],
         surfaces: types.Tuple[inp.Surface],
         data: types.Tuple[inp.Data],
         cells_comments: types.Tuple[inp.Comment] = None,
@@ -125,6 +125,13 @@ class Inp(_object.McnpFile):
                 cells_comments.append(inp.Comment.from_mcnp(line))
                 continue
             except errors.InpError:
+                pass
+
+            try:
+                cells.append(inp.Like.from_mcnp(line))
+                continue
+            except errors.InpError as err:
+                print(err)
                 pass
 
             cells.append(inp.Cell.from_mcnp(line))
