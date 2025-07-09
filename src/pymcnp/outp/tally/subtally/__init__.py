@@ -1,7 +1,7 @@
-from ._subblock import Subblock
+from ._subblock import LineSubblock
 from .Line import Line
 
 __all__ = [
-    'Subblock',
+    'LineSubblock',
     'Line',
 ]
