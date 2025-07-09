@@ -14,7 +14,7 @@ class Data(Card):
     Represents INP data elements.
 
     Attributes:
-        InpError: SEMANTICS_CARD.
+        option: data option.
     """
 
     _ATTRS = {'option': data.DataOption}

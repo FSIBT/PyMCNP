@@ -80,6 +80,7 @@ class Test_Surface:
             '8 PX -0.5',
             '9 PZ 0.5',
             '10 PZ -0.5',
+            consts.string.inp.SURFACE,
         ]
         EXAMPLES_INVALID = ['hello']
 
