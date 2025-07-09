@@ -8,7 +8,7 @@ from ....utils import types
 from ....utils import errors
 
 
-class Line(_subblock.Subblock):
+class Line(_subblock.LineSubblock):
     """
     Represents OUTP ``1tally 1 nps`` subtally.
 
