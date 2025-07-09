@@ -149,10 +149,10 @@ class Box(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Box``.
         """
 
-        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-        a1 = _visualization.Vector(self.a1x.value, self.a1y.value, self.a1z.value)
-        a2 = _visualization.Vector(self.a2x.value, self.a2y.value, self.a2z.value)
-        a3 = _visualization.Vector(self.a3x.value, self.a3y.value, self.a3z.value)
+        v = _visualization.Vector(self.vx, self.vy, self.vz)
+        a1 = _visualization.Vector(self.a1x, self.a1y, self.a1z)
+        a2 = _visualization.Vector(self.a2x, self.a2y, self.a2z)
+        a3 = _visualization.Vector(self.a3x, self.a3y, self.a3z)
         cross = _visualization.Vector(1, 0, 0) * a1
         angle = _visualization.Vector(1, 0, 0) & a1
 

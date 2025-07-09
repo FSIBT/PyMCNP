@@ -36,7 +36,7 @@ class Method(_option.PertOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting.value not in {1, -1, 2, -2, 3, -3}:
+        if setting is None or setting not in {1, -1, 2, -2, 3, -3}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

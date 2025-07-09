@@ -5,7 +5,7 @@ Examples for reading OUTP files using ``from_mcnp``.
 import pymcnp
 
 # Reading OUTP.
-outp = pymcnp.Outp.from_mcnp(f"""          Code Name & Version = MCNP_6.20, 6.2.0
+outp = pymcnp.Outp.from_mcnp("""          Code Name & Version = MCNP_6.20, 6.2.0
   
      _/      _/        _/_/_/       _/      _/       _/_/_/         _/_/_/ 
     _/_/  _/_/      _/             _/_/    _/       _/    _/     _/        

@@ -36,7 +36,7 @@ class Lat(_option.CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if shape is None or shape.value not in {1, 2}:
+        if shape is None or shape not in {1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, shape)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

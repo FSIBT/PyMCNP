@@ -31,9 +31,9 @@ class Vector:
         Initializes ``Vector``.
         """
 
-        self.x: typing.Final[float] = x
-        self.y: typing.Final[float] = y
-        self.z: typing.Final[float] = z
+        self.x: typing.Final[float] = float(x)
+        self.y: typing.Final[float] = float(y)
+        self.z: typing.Final[float] = float(z)
 
     def norm(self) -> float:
         """

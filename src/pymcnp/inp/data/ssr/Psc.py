@@ -36,7 +36,7 @@ class Psc(_option.SsrOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if constant is None or not (constant.value >= 0):
+        if constant is None or not (constant >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, constant)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

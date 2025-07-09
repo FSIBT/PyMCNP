@@ -36,7 +36,7 @@ class Reset(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if aa is not None and aa.value not in {'all', 'coplot'}:
+        if aa is not None and aa not in {'all', 'coplot'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

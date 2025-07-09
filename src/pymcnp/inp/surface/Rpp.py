@@ -90,12 +90,12 @@ class Rpp(_option.SurfaceOption):
         """
 
         vis = _visualization.Visualization.get_parallelipiped(
-            self.xmin.value,
-            self.xmax.value,
-            self.ymin.value,
-            self.ymax.value,
-            self.zmin.value,
-            self.zmax.value,
+            float(self.xmin),
+            float(self.xmax),
+            float(self.ymin),
+            float(self.ymax),
+            float(self.zmin),
+            float(self.zmax),
         )
 
         return vis

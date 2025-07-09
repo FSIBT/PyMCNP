@@ -47,9 +47,9 @@ class Cosyp(_option.DataOption):
 
         if pre is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, pre)
-        if axsh is None or axsh.value not in {1, 2, 3}:
+        if axsh is None or axsh not in {1, 2, 3}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, axsh)
-        if axsv is None or axsv.value not in {1, 2, 3}:
+        if axsv is None or axsv not in {1, 2, 3}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, axsv)
         if emaps is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, emaps)

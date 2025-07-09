@@ -40,7 +40,7 @@ class Kpert(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (0 < suffix.value <= 10_000):
+        if suffix is None or not (suffix > 0 and suffix <= 10_000):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

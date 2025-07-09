@@ -42,7 +42,7 @@ class Df_0(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix.value <= 99_999_999):
+        if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if method is not None and method not in {'log', 'lin'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, method)

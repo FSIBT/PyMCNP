@@ -36,7 +36,7 @@ class Term(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if n is None or n.value not in {0, 1}:
+        if n is None or n not in {0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

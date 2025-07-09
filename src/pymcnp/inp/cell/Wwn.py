@@ -46,7 +46,7 @@ class Wwn(_option.CellOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
-        if bound is None or not (bound.value == -1 or bound.value >= 0):
+        if bound is None or not (bound == -1 or bound >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bound)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

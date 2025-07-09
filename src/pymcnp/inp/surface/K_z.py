@@ -86,8 +86,8 @@ class K_z(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``K_z``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(self.t_squared.value ** (1 / 2), self.plusminus_1.value)
-        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+        vis = _visualization.Visualization.get_cone_unbounded(float(self.t_squared) ** (1 / 2), float(self.plusminus_1))
+        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
 
         return vis
 

@@ -36,7 +36,7 @@ class Type(_option.FmeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting.value not in {'flux', 'source'}:
+        if setting is None or setting not in {'flux', 'source'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

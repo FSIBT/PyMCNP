@@ -56,7 +56,7 @@ class Pz(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Pz``
         """
 
-        vis = _visualization.Visualization.get_plane(0, 0, 1, self.d.value)
+        vis = _visualization.Visualization.get_plane(0, 0, 1, float(self.d))
 
         return vis
 

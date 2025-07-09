@@ -437,9 +437,9 @@ class Dbcn(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if x1 is not None and not (x1.value >= 0):
+        if x1 is not None and not (x1 >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x1)
-        if x6 is not None and not (50 <= x6.value <= 200):
+        if x6 is not None and not (x6 >= 50 and x6 <= 200):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x6)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

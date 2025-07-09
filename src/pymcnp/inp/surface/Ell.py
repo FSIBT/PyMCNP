@@ -100,19 +100,19 @@ class Ell(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Ell``.
         """
 
-        v1 = _visualization.Vector(self.v1x.value, self.v1y.value, self.v1z.value)
-        v2 = _visualization.Vector(self.v2x.value, self.v2y.value, self.v2z.value)
+        v1 = _visualization.Vector(self.v1x, self.v1y, self.v1z)
+        v2 = _visualization.Vector(self.v2x, self.v2y, self.v2z)
 
-        if self.rm.value > 0:
+        if self.rm > 0:
             center = _visualization.Vector((v2 - v1).x / 2 + v1.x, (v2 - v1).y / 2 + v1.y, (v2 - v1).z / 2 + v1.z)
-            major_length = self.rm.value
+            major_length = float(self.rm)
             minor_length = 2 * (((major_length / 2) ** 2 - ((v2 - v1).norm() / 2) ** 2) ** 0.5)
             cross = (v2 - v1) * _visualization.Vector(1, 0, 0)
             angle = (v2 - v1) & _visualization.Vector(1, 0, 0)
-        elif self.rm.value < 0:
+        elif self.rm < 0:
             center = v1
             major_length = v2.norm()
-            minor_length = -self.rm.value
+            minor_length = -float(self.rm)
             cross = v2 * _visualization.Vector(1, 0, 0)
             angle = v2 & _visualization.Vector(1, 0, 0)
 

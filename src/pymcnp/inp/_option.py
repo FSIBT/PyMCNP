@@ -57,7 +57,7 @@ class Option(_object.McnpNonterminal):
             INP for ``Option``.
         """
 
-        source = f"{self.prefix or '' if hasattr(self, 'prefix') else ''}{self._KEYWORD}{self.suffix or '' if hasattr(self, 'suffix') else ''}{(f':{self.designator}' if self.designator else '') if hasattr(self, 'designator') else ''} {self.value}"
+        source = f"{self.prefix if hasattr(self, 'prefix') and self.prefix is not None else ''}{self._KEYWORD}{self.suffix if hasattr(self, 'suffix') and self.suffix is not None else ''}{(f':{self.designator}' if self.designator else '') if hasattr(self, 'designator') else ''} {self.value}"
         source, comments = _parser.preprocess_inp(source)
         source = _parser.postprocess_inp(source)
 

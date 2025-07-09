@@ -40,7 +40,7 @@ class Block(_option.DawwgOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting.value not in {1, 3, 5, 6}:
+        if setting is None or setting not in {1, 3, 5, 6}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

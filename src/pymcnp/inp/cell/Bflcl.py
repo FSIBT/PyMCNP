@@ -36,7 +36,7 @@ class Bflcl(_option.CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if number is None or not (number.value >= 0):
+        if number is None or not (number >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

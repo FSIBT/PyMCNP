@@ -42,11 +42,11 @@ class Fill_6(_option.CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if prefix is not None and prefix.value not in {'*'}:
+        if prefix is not None and prefix not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
-        if universe is None or not (0 <= universe.value <= 99_999_999):
+        if universe is None or not (universe >= 0 and universe <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universe)
-        if transformation is not None and not (0 <= transformation.value <= 999):
+        if transformation is not None and not (transformation >= 0 and transformation <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, transformation)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
