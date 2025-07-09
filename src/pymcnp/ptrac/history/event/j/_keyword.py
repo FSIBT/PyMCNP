@@ -1,7 +1,7 @@
-from .. import _keyword
+from .... import _keyword
 
 
-class HistoryKeyword(_keyword.Keyword):
+class JKeyword(_keyword.Keyword):
     """
     Represents generic PTRAC history block keywords.
     """

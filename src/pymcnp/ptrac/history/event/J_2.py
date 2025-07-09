@@ -1,46 +1,46 @@
 import re
 import typing
 
+from . import j
 from . import _line
-from .EventType import EventType
-from ...utils import types
-from ...utils import errors
+from ....utils import types
+from ....utils import errors
 
 
-class J_4(_line.HistoryLine):
+class J_2(_line.EventLine):
     """
-    Represents PTRAC history block j lines form #3a.
+    Represents PTRAC history block j lines form #2a.
 
     Attributes:
         next_type: Next event type.
         node: Number of node in track from source.
         nsr: Source type.
+        ipt: Particle type.
         ncl: Problem numbers of the cells.
         mat: Material numbers of the cells.
-        ncp: Count of collisions per track.
     """
 
-    _REGEX = re.compile(r'\A(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})\Z')
+    _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})\Z')
 
     def __init__(
         self,
-        next_type: EventType,
+        next_type: j.EventType,
         node: types.Integer,
         nsr: types.Integer,
+        ipt: types.Integer,
         ncl: types.Integer,
         mat: types.Integer,
-        ncp: types.Integer,
     ):
         """
-        Initializes ``J_4``.
+        Initializes ``J_2``.
 
         Parameters:
             next_type: Next event type.
             node: Number of node in track from source.
             nsr: Source type.
+            ipt: Particle type.
             ncl: Problem numbers of the cells.
             mat: Material numbers of the cells.
-            ncp: Count of collisions per track.
 
         Raises:
             PtracError: SEMANTICS_LINE.
@@ -55,63 +55,63 @@ class J_4(_line.HistoryLine):
         if nsr is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, nsr)
 
+        if ipt is None:
+            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, ipt)
+
         if ncl is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, ncl)
 
         if mat is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, mat)
 
-        if ncp is None:
-            raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, ncp)
-
-        self.next_type: typing.Final[EventType] = next_type
+        self.next_type: typing.Final[j.EventType] = next_type
         self.node: typing.Final[types.Integer] = node
         self.nsr: typing.Final[types.Integer] = nsr
+        self.ipt: typing.Final[types.Integer] = ipt
         self.ncl: typing.Final[types.Integer] = ncl
         self.mat: typing.Final[types.Integer] = mat
-        self.ncp: typing.Final[types.Integer] = ncp
 
     def from_mcnp(source: str):
         """
-        Generates ``J_4`` from PTRAC.
+        Generates ``J_2`` from PTRAC.
 
         Parameters:
-            source: PTRAC for ``J_4``.
+            source: PTRAC for ``J_2``.
 
         Returns:
-            ``J_4``.
+            ``J_2``.
 
         Raises:
-            PtracError: SYNTAX_HISTORY_LINE.
+            PtracError: SYNTAX_LINE.
         """
 
-        tokens = J_4._REGEX.match(source)
+        tokens = J_2._REGEX.match(source)
 
         if not tokens:
-            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
+            raise errors.PtracError(errors.PtracCode.SYNTAX_LINE, source)
 
-        next_type = EventType.from_mcnp(tokens[1].strip())
+        next_type = j.EventType.from_mcnp(tokens[1].strip())
         node = types.Integer.from_mcnp(tokens[2])
         nsr = types.Integer.from_mcnp(tokens[3])
-        ncl = types.Integer.from_mcnp(tokens[4])
-        mat = types.Integer.from_mcnp(tokens[5])
-        ncp = types.Integer.from_mcnp(tokens[6])
+        ipt = types.Integer.from_mcnp(tokens[4])
+        ncl = types.Integer.from_mcnp(tokens[5])
+        mat = types.Integer.from_mcnp(tokens[6])
 
-        return J_4(
+        return J_2(
             next_type,
             node,
             nsr,
+            ipt,
             ncl,
             mat,
-            ncp,
         )
 
     def to_mcnp(self):
         """
-        Generates PTRAC from ``J_4``.
+        Generates PTRAC from ``J_2``.
 
         Returns:
-            PTRAC for ``J_4``.
+            PTRAC for ``J_2``.
         """
 
-        return f'{self.next_type:>10}{self.node:>10}{self.nsr:>10}{self.ncl:>10}{self.mat:>10}{self.ncp:>10}'
+        return f' {str(self.next_type):>10}{str(self.node):>10}{str(self.nsr):>10}{str(self.ipt):>10}{str(self.ncl):>10}{str(self.mat):>10}'

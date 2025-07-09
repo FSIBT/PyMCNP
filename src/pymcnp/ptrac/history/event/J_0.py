@@ -1,13 +1,13 @@
 import re
 import typing
 
+from . import j
 from . import _line
-from .EventType import EventType
-from ...utils import types
-from ...utils import errors
+from ....utils import types
+from ....utils import errors
 
 
-class J_0(_line.HistoryLine):
+class J_0(_line.EventLine):
     """
     Represents PTRAC history block j lines form #1a.
 
@@ -19,11 +19,11 @@ class J_0(_line.HistoryLine):
         mat: Material numbers of the cells.
     """
 
-    _REGEX = re.compile(r'\A(.{10})(.{10})(.{10})(.{10})(.{10})\Z')
+    _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})(.{10})(.{10})\Z')
 
     def __init__(
         self,
-        next_type: EventType,
+        next_type: j.EventType,
         pbl: types.Integer,
         nsr: types.Integer,
         ncl: types.Integer,
@@ -58,7 +58,7 @@ class J_0(_line.HistoryLine):
         if mat is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, mat)
 
-        self.next_type: typing.Final[EventType] = next_type
+        self.next_type: typing.Final[j.EventType] = next_type
         self.pbl: typing.Final[types.Integer] = pbl
         self.nsr: typing.Final[types.Integer] = nsr
         self.ncl: typing.Final[types.Integer] = ncl
@@ -75,15 +75,15 @@ class J_0(_line.HistoryLine):
             ``J_0``.
 
         Raises:
-            PtracError: SYNTAX_HISTORY_LINE.
+            PtracError: SYNTAX_LINE.
         """
 
         tokens = J_0._REGEX.match(source)
 
         if not tokens:
-            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
+            raise errors.PtracError(errors.PtracCode.SYNTAX_LINE, source)
 
-        next_type = EventType.from_mcnp(tokens[1].strip())
+        next_type = j.EventType.from_mcnp(tokens[1].strip())
         pbl = types.Integer.from_mcnp(tokens[2])
         nsr = types.Integer.from_mcnp(tokens[3])
         ncl = types.Integer.from_mcnp(tokens[4])
@@ -105,4 +105,4 @@ class J_0(_line.HistoryLine):
             PTRAC for ``J_0``.
         """
 
-        return f'{self.next_type:>10}{self.pbl:>10}{self.nsr:>10}{self.ncl:>10}{self.mat:>10}'
+        return f' {str(self.next_type):>10}{str(self.pbl):>10}{str(self.nsr):>10}{str(self.ncl):>10}{str(self.mat):>10}'

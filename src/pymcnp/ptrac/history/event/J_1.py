@@ -1,13 +1,13 @@
 import re
 import typing
 
+from . import j
 from . import _line
-from .EventType import EventType
-from ...utils import types
-from ...utils import errors
+from ....utils import types
+from ....utils import errors
 
 
-class J_1(_line.HistoryLine):
+class J_1(_line.EventLine):
     """
     Represents PTRAC history block j lines form #1b.
 
@@ -20,11 +20,11 @@ class J_1(_line.HistoryLine):
         mat: Material numbers of the cells.
     """
 
-    _REGEX = re.compile(r'\A(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})\Z')
+    _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})(.{10})(.{10})(.{10})\Z')
 
     def __init__(
         self,
-        next_type: EventType,
+        next_type: j.EventType,
         node: types.Integer,
         nsx_nsf_nter: types.Integer,
         ntyn_mtp_angle_branch: types.Integer,
@@ -64,7 +64,7 @@ class J_1(_line.HistoryLine):
         if mat is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, mat)
 
-        self.next_type: typing.Final[EventType] = next_type
+        self.next_type: typing.Final[j.EventType] = next_type
         self.node: typing.Final[types.Integer] = node
         self.nsx_nsf_nter: typing.Final[types.Integer] = nsx_nsf_nter
         self.ntyn_mtp_angle_branch: typing.Final[types.Integer] = ntyn_mtp_angle_branch
@@ -82,15 +82,15 @@ class J_1(_line.HistoryLine):
             ``J_1``.
 
         Raises:
-            PtracError: SYNTAX_HISTORY_LINE.
+            PtracError: SYNTAX_LINE.
         """
 
         tokens = J_1._REGEX.match(source)
 
         if not tokens:
-            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
+            raise errors.PtracError(errors.PtracCode.SYNTAX_LINE, source)
 
-        next_type = EventType.from_mcnp(tokens[1].strip())
+        next_type = j.EventType.from_mcnp(tokens[1].strip())
         node = types.Integer.from_mcnp(tokens[2])
         nsx_nsf_nter = types.Integer.from_mcnp(tokens[3])
         ntyn_mtp_angle_branch = types.Integer.from_mcnp(tokens[4])
@@ -114,4 +114,4 @@ class J_1(_line.HistoryLine):
             PTRAC for ``J_1``.
         """
 
-        return f'{self.next_type:>10}{self.node:>10}{self.nsx_nsf_nter:>10}{self.ntyn_mtp_angle_branch:>10}{self.ncl:>10}'
+        return f' {str(self.next_type):>10}{str(self.node):>10}{str(self.nsx_nsf_nter):>10}{str(self.ntyn_mtp_angle_branch):>10}{str(self.ncl):>10}{str(self.mat):>10}'
