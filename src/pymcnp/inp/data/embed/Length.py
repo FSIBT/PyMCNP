@@ -36,7 +36,7 @@ class Length(_option.EmbedOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if factor is None or not (factor.value > 0):
+        if factor is None or not (factor > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, factor)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

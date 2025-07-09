@@ -70,9 +70,9 @@ class Ky(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Ky``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(self.t_squared.value ** (1 / 2), self.plusminus_1.value)
+        vis = _visualization.Visualization.get_cone_unbounded(float(self.t_squared) ** (1 / 2), float(self.plusminus_1))
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(0, self.y.value, 0))
+        vis = vis.add_translation(_visualization.Vector(0, self.y, 0))
 
         return vis
 

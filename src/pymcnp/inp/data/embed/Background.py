@@ -36,7 +36,7 @@ class Background(_option.EmbedOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if number is None or not (1 <= number.value <= 99_999_999):
+        if number is None or not (number >= 1 and number <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

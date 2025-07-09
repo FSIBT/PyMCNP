@@ -36,7 +36,7 @@ class Tr(_option.FmeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if number is None or not (1 <= number.value <= 999):
+        if number is None or not (number >= 1 and number <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

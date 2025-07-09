@@ -93,9 +93,9 @@ class Tx(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Tx``
         """
 
-        vis = _visualization.Visualization.get_torus(self.b.value, self.c.value, self.a.value)
+        vis = _visualization.Visualization.get_torus(float(self.b), float(self.c), float(self.a))
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
 
         return vis
 

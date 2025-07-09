@@ -56,7 +56,7 @@ class Cz(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Cz``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
 
         return vis
 

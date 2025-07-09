@@ -36,7 +36,7 @@ class Sym(_option.SswOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting.value not in {0, 1, 2}:
+        if setting is None or setting not in {0, 1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

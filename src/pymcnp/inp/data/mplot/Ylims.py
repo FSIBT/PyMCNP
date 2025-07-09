@@ -44,9 +44,9 @@ class Ylims(_option.MplotOption):
 
         if lower is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lower)
-        if upper is None or not (lower.value < upper.value):
+        if upper is None or not (lower < upper):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, upper)
-        if nsteps is not None and not (nsteps.value >= 0):
+        if nsteps is not None and not (nsteps >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nsteps)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

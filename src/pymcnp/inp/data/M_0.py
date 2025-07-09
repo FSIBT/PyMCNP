@@ -64,7 +64,7 @@ class M_0(_option.DataOption):
     @staticmethod
     def from_formula(number: int, formulas: dict[str, float], is_weight: bool = True):
         """
-        Generates ``M_0`` from formulas.
+        Generates ``M_0`` from INP.
 
         Parameters:
             number: Arbitrary material number.

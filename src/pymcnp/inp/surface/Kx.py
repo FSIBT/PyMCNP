@@ -70,9 +70,9 @@ class Kx(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Kx``.
         """
 
-        vis = _visualization.Visualization.get_cone_unbounded(self.t_squared.value ** (1 / 2), self.plusminus_1.value)
+        vis = _visualization.Visualization.get_cone_unbounded(float(self.t_squared) ** (1 / 2), float(self.plusminus_1))
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(self.x, 0, 0))
 
         return vis
 

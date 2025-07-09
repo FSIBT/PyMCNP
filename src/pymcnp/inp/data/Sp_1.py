@@ -42,7 +42,7 @@ class Sp_1(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if function is None or function.value not in {-2, -3, -4, -5, -6, -7, -21, -31, -41}:
+        if function is None or function not in {-2, -3, -4, -5, -6, -7, -21, -31, -41}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, function)
         if a is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)

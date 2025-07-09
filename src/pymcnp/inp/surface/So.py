@@ -56,7 +56,7 @@ class So(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``So``
         """
 
-        vis = _visualization.Visualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(float(self.r))
 
         return vis
 

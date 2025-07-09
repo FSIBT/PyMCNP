@@ -36,7 +36,7 @@ class Kcode(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if i is None or not (1 <= i.value <= 6 or 11 <= i.value <= 19):
+        if i is None or not ((i >= 1 and i <= 6) or (i >= 1 and i <= 19)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

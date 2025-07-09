@@ -42,11 +42,11 @@ class Loc(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if latitude is None or not (-90 <= latitude.value <= 90):
+        if latitude is None or not (latitude >= -0 and latitude <= 90):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, latitude)
-        if longitude is None or not (-180 <= longitude.value <= 180):
+        if longitude is None or not (longitude >= -0 and longitude <= 180):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, longitude)
-        if altitude is None or not (0 <= altitude.value):
+        if altitude is None or not (0 <= altitude):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, altitude)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

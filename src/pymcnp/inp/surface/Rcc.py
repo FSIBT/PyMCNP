@@ -100,13 +100,13 @@ class Rcc(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Rcc``
         """
 
-        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
+        v = _visualization.Vector(self.vx, self.vy, self.vz)
+        h = _visualization.Vector(self.hx, self.hy, self.hz)
 
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.Visualization.get_cylinder_circle(h.norm(), self.r.value)
+        vis = _visualization.Visualization.get_cylinder_circle(h.norm(), self.r)
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 

@@ -42,7 +42,7 @@ class Ds_0(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (1 <= suffix.value <= 999):
+        if suffix is None or not (suffix >= 1 and suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if option is not None and option not in {'h', 'l', 's'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, option)

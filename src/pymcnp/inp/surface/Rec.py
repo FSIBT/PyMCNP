@@ -145,10 +145,10 @@ class Rec(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Rec``
         """
 
-        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
-        v1 = _visualization.Vector(self.v1x.value, self.v1y.value, self.v1z.value)
-        v2 = _visualization.Vector(self.v2x.value, self.v2y.value, self.v2z.value)
+        v = _visualization.Vector(self.vx, self.vy, self.vz)
+        h = _visualization.Vector(self.hx, self.hy, self.hz)
+        v1 = _visualization.Vector(self.v1x, self.v1y, self.v1z)
+        v2 = _visualization.Vector(self.v2x, self.v2y, self.v2z)
 
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)

@@ -91,7 +91,7 @@ class Subtally_2(_subblock.Subblock):
 {''.join(map(str, self.lines))}      total      {self.total}
 
 """[1:]
-    
+
     def to_dataframe(self):
         """
         Generates ``pandas.DataFrame`` from ``Subtally_2``.

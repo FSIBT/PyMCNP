@@ -36,7 +36,7 @@ class Totnu(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if no is not None and not (no.value == 'no'):
+        if no is not None and not (no == 'no'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, no)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

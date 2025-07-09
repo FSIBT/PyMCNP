@@ -36,7 +36,7 @@ class Estep(_option.MOption_0):
             InpError: SEMANTICS_OPTION.
         """
 
-        if step is None or not (step.value >= 0):
+        if step is None or not (step >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, step)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

@@ -63,9 +63,9 @@ class Sy(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Sy``
         """
 
-        vis = _visualization.Visualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(float(self.r))
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(0, self.y.value, 0))
+        vis = vis.add_translation(_visualization.Vector(0, self.y, 0))
 
         return vis
 

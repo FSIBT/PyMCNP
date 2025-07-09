@@ -36,7 +36,7 @@ class Nap(_option.ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if count is None or not (count.value >= 0):
+        if count is None or not (count >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

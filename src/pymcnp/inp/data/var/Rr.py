@@ -36,7 +36,7 @@ class Rr(_option.VarOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting.value not in {'no', 'off'}:
+        if setting is None or setting not in {'no', 'off'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

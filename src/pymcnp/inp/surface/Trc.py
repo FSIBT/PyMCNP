@@ -107,14 +107,14 @@ class Trc(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Trc``
         """
 
-        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
+        h = _visualization.Vector(self.hx, self.hy, self.hz)
 
         cross = h * _visualization.Vector(0, 0, 1)
         angle = h & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.Visualization.get_cone_truncated(h.norm(), self.r1.value, self.r2.value)
+        vis = _visualization.Visualization.get_cone_truncated(h.norm(), float(self.r1), float(self.r2))
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.vx.value, self.vy.value, self.vz.value))
+        vis = vis.add_translation(_visualization.Vector(self.vx, self.vy, self.vz))
 
         return vis
 

@@ -149,10 +149,10 @@ class Wed(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Wed``
         """
 
-        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-        v1 = _visualization.Vector(self.v1x.value, self.v1y.value, self.v1z.value)
-        v2 = _visualization.Vector(self.v2x.value, self.v2y.value, self.v2z.value)
-        v3 = _visualization.Vector(self.v3x.value, self.v3y.value, self.v3z.value)
+        v = _visualization.Vector(self.vx, self.vy, self.vz)
+        v1 = _visualization.Vector(self.v1x, self.v1y, self.v1z)
+        v2 = _visualization.Vector(self.v2x, self.v2y, self.v2z)
+        v3 = _visualization.Vector(self.v3x, self.v3y, self.v3z)
 
         cross = _visualization.Vector(1, 0, 0) * v1
         angle = _visualization.Vector(1, 0, 0) & v1

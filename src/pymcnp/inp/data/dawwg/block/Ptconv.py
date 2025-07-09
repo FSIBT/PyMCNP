@@ -36,7 +36,7 @@ class Ptconv(_option.BlockOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting.value not in {0, 1}:
+        if setting is None or setting not in {0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

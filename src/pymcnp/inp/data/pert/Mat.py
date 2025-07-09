@@ -36,7 +36,7 @@ class Mat(_option.PertOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if material is None or not (0 <= material.value <= 99_999_999):
+        if material is None or not (material >= 0 and material <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, material)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
