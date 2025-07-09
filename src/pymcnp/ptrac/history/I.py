@@ -1,10 +1,11 @@
 import re
 import typing
 
+from . import event
 from . import _line
-from .EventType import EventType
 from ...utils import types
 from ...utils import errors
+from ...utils import _parser
 
 
 class I(_line.HistoryLine):
@@ -18,12 +19,12 @@ class I(_line.HistoryLine):
         tfc: TFC bin tally.
     """
 
-    _REGEX = re.compile(r'\A(.{10})(.{10})(.{10})(.{13})\Z')
+    _REGEX = re.compile(r'\A\s(.{10})(.{10})(.{10})(.{13})\Z')
 
     def __init__(
         self,
         nps: types.Integer,
-        event_type: EventType,
+        event_type: event.j.EventType,
         number: types.Integer,
         tfc: types.Real,
     ):
@@ -53,7 +54,7 @@ class I(_line.HistoryLine):
             raise errors.PtracError(errors.PtracCode.SEMANTICS_LINE, tfc)
 
         self.nps: typing.Final[types.Integer] = nps
-        self.event_type: typing.Final[EventType] = event_type
+        self.event_type: typing.Final[event.j.EventType] = event_type
         self.number: typing.Final[types.Integer] = number
         self.tfc: typing.Final[types.Real] = tfc
 
@@ -68,16 +69,16 @@ class I(_line.HistoryLine):
             ``I``.
 
         Raises:
-            PtracError: SYNTAX_HISTORY_LINE.
+            PtracError: SYNTAX_LINE.
         """
 
         tokens = I._REGEX.match(source)
 
         if not tokens:
-            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
+            raise errors.PtracError(errors.PtracCode.SYNTAX_LINE, source)
 
         nps = types.Integer.from_mcnp(tokens[1])
-        event_type = EventType.from_mcnp(tokens[2].strip())
+        event_type = event.j.EventType.from_mcnp(tokens[2].strip())
         number = types.Integer.from_mcnp(tokens[3])
         tfc = types.Real.from_mcnp(tokens[4])
 
@@ -96,4 +97,6 @@ class I(_line.HistoryLine):
             PTRAC for ``I``.
         """
 
-        return f'{self.nps:>10}{self.event_type:>10}{self.number:>10}{self.tfc:>13.5E}'
+        tfc = _parser.postprocess_exponenet(self.tfc.value, 5, offset=0)
+
+        return f' {str(self.nps):>10}{str(self.event_type):>10}{str(self.number):>10} {tfc}'

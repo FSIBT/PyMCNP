@@ -2,12 +2,12 @@ import re
 import typing
 
 from . import _line
-from ...utils import types
-from ...utils import errors
-from ...utils import _parser
+from ....utils import types
+from ....utils import errors
+from ....utils import _parser
 
 
-class P_0(_line.HistoryLine):
+class P_0(_line.EventLine):
     """
     Represents PTRAC history block p lines form #1.
 
@@ -17,7 +17,7 @@ class P_0(_line.HistoryLine):
         z: Z coordinate of the particle position.
     """
 
-    _REGEX = re.compile(r'\A(.{13})(.{13})(.{13})\Z')
+    _REGEX = re.compile(r'\A\s(.{13})(.{13})(.{13})\Z')
 
     def __init__(
         self,
@@ -61,13 +61,13 @@ class P_0(_line.HistoryLine):
             ``P_0``.
 
         Raises:
-            PtracError: SYNTAX_HISTORY_LINE.
+            PtracError: SYNTAX_LINE.
         """
 
         tokens = P_0._REGEX.match(source)
 
         if not tokens:
-            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
+            raise errors.PtracError(errors.PtracCode.SYNTAX_LINE, source)
 
         x = types.Real.from_mcnp(tokens[1])
         y = types.Real.from_mcnp(tokens[2])
@@ -91,4 +91,4 @@ class P_0(_line.HistoryLine):
         y = _parser.postprocess_exponenet(self.y.value, 5)
         z = _parser.postprocess_exponenet(self.z.value, 5)
 
-        return f'{x} {y} {z}'
+        return f'  {x} {y} {z}'

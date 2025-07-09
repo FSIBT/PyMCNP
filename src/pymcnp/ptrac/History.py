@@ -17,15 +17,12 @@ class History(_object.McnpNonterminal):
         events: PTRAC history events.
     """
 
-    _REGEX = re.compile(
-        r'\s(.+)\n'
-        rf'\A((?:\s(?:(?:{history.J_0._REGEX.pattern[2:-2]})|(?:{history.J_1._REGEX.pattern[2:-2]})|(?:{history.J_2._REGEX.pattern[2:-2]})|(?:{history.J_3._REGEX.pattern[2:-2]})|(?:{history.J_4._REGEX.pattern[2:-2]})|(?:{history.J_5._REGEX.pattern[2:-2]})|(?:{history.J_6._REGEX.pattern[2:-2]})|(?:{history.J_7._REGEX.pattern[2:-2]}))\n\s(?:(?:{history.P_0._REGEX.pattern[2:-2]})|(?:{history.P_1._REGEX.pattern[2:-2]}))\n)+)\Z'
-    )
+    _REGEX = re.compile(r'\A(.+)\n' rf'((?:{history.Event._REGEX.pattern[2:-2]})+)\Z')
 
     def __init__(
         self,
         i_line: history.I,
-        events: typing.Generator,
+        events: types.Tuple[history.Event],
     ):
         """
         Initializes ``History``.
@@ -41,11 +38,11 @@ class History(_object.McnpNonterminal):
         if i_line is None:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, i_line)
 
-        if events is None:
+        if events is None or None in events:
             raise errors.PtracError(errors.PtracCode.SEMANTICS_BLOCK, events)
 
-        self.i_line: typing.Final[types.Tuple[types.Integer, history.EventType, types.Real]] = i_line
-        self.events: typing.Final[typing.Generator] = events
+        self.i_line: typing.Final[history.I] = i_line
+        self.events: typing.Final[types.Tuple[history.Event]] = events
 
     @staticmethod
     def from_mcnp(source: str, header: Header):
@@ -70,56 +67,14 @@ class History(_object.McnpNonterminal):
 
         i_line = history.I.from_mcnp(tokens[1])
 
-        def events(next_type, lines):
-            while next_type != history.EventType.FLAG:
-                if next_type == history.EventType.SOURCE:
-                    if (header.n_line, header.n_line) == (5, 3):
-                        j_line = history.J_0.from_mcnp(lines.pop(0))
-                        p_line = history.P_0.from_mcnp(lines.pop(0))
-                    elif (header.n_line, header.n_line) == (6, 3):
-                        j_line = history.J_2.from_mcnp(lines.pop(0))
-                        p_line = history.P_0.from_mcnp(lines.pop(0))
-                    elif (header.n_line, header.n_line) == (6, 9):
-                        j_line = history.J_4.from_mcnp(lines.pop(0))
-                        p_line = history.P_1.from_mcnp(lines.pop(0))
-                    elif (header.n_line, header.n_line) == (7, 9):
-                        j_line = history.J_6.from_mcnp(lines.pop(0))
-                        p_line = history.P_1.from_mcnp(lines.pop(0))
-                    else:
-                        assert False
-                else:
-                    if next_type == history.EventType.SURFACE:
-                        na = header.n_line[5]
-                        nb = header.n_line[6]
-                    elif next_type == history.EventType.COLLISION:
-                        na = header.n_line[7]
-                        nb = header.n_line[8]
-                    elif next_type == history.EventType.TERMINAL:
-                        na = header.n_line[9]
-                        nb = header.n_line[10]
-                    else:
-                        na = header.n_line[3]
-                        nb = header.n_line[4]
+        events = []
+        next_type = i_line.event_type
+        for match in re.finditer(history.Event._REGEX.pattern[2:-2], tokens[2]):
+            event = history.Event.from_mcnp(match[0], next_type, header)
+            next_type = event.j_line.next_type
+            events.append(event)
 
-                    if (na, nb) == (5, 3):
-                        j_line = history.J_0.from_mcnp(lines.pop(0))
-                        p_line = history.P_0.from_mcnp(lines.pop(0))
-                    elif (na, nb) == (6, 3):
-                        j_line = history.J_2.from_mcnp(lines.pop(0))
-                        p_line = history.P_0.from_mcnp(lines.pop(0))
-                    elif (na, nb) == (6, 9):
-                        j_line = history.J_4.from_mcnp(lines.pop(0))
-                        p_line = history.P_1.from_mcnp(lines.pop(0))
-                    elif (na, nb) == (7, 9):
-                        j_line = history.J_6.from_mcnp(lines.pop(0))
-                        p_line = history.P_1.from_mcnp(lines.pop(0))
-                    else:
-                        assert False
-
-                yield (j_line, p_line)
-                next_type = j_line.next_type
-
-        events = events(i_line.event_type, tokens[2][1:].split('\n '))
+        events = types.Tuple(events)
 
         return History(i_line, events)
 
@@ -131,11 +86,4 @@ class History(_object.McnpNonterminal):
             PTRAC for ``History``.
         """
 
-        events = ''
-        for j_line, p_line in self.events:
-            events += ' '
-            events += j_line.to_mcnp()
-            events += '\n  '
-            events += p_line.to_mcnp()
-
-        return f' {self.i_line.to_mcnp()}\n{events}'
+        return f'{self.i_line}\n{''.join(map(str, self.events))}'

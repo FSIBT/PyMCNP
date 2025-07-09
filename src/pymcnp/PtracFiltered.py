@@ -21,7 +21,7 @@ class PtracFiltered:
         self.ptrac: Ptrac = ptrac
 
     @staticmethod
-    def check_source(event: ptrac.history.EventType) -> bool:
+    def check_source(event: ptrac.history.event.j.EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC source events.
 
@@ -32,7 +32,7 @@ class PtracFiltered:
         raise NotImplementedError
 
     @staticmethod
-    def check_bank(event: ptrac.history.EventType) -> bool:
+    def check_bank(event: ptrac.history.event.j.EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC bank events.
 
@@ -43,7 +43,7 @@ class PtracFiltered:
         raise NotImplementedError
 
     @staticmethod
-    def check_surface(event: ptrac.history.EventType) -> bool:
+    def check_surface(event: ptrac.history.event.j.EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC surface events.
 
@@ -54,7 +54,7 @@ class PtracFiltered:
         raise NotImplementedError
 
     @staticmethod
-    def check_collision(event: ptrac.history.EventType) -> bool:
+    def check_collision(event: ptrac.history.event.j.EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC collision events.
 
@@ -65,7 +65,7 @@ class PtracFiltered:
         raise NotImplementedError
 
     @staticmethod
-    def check_terminal(event: ptrac.history.EventType) -> bool:
+    def check_terminal(event: ptrac.history.event.j.EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC terminal events.
 
@@ -76,7 +76,7 @@ class PtracFiltered:
         raise NotImplementedError
 
     @staticmethod
-    def check_flag(event: ptrac.history.EventType) -> bool:
+    def check_flag(event: ptrac.history.event.j.EventType) -> bool:
         """
         Runs when ``run`` filters PTRAC flag events.
 
@@ -92,18 +92,18 @@ class PtracFiltered:
         """
 
         def histories():
-            for history in self.ptrac.history:
+            for history in self.ptrac.histories:
                 for event in self.ptracFile.history.events:
                     match event.event_type:
-                        case ptrac.history.EventType.SOURCE:
+                        case ptrac.history.event.j.EventType.SOURCE:
                             check = self.check_source
-                        case ptrac.history.EventType.SURFACE:
+                        case ptrac.history.event.j.EventType.SURFACE:
                             check = self.check_surface
-                        case ptrac.history.EventType.COLLISION:
+                        case ptrac.history.event.j.EventType.COLLISION:
                             check = self.check_collision
-                        case ptrac.history.EventType.TERMINAL:
+                        case ptrac.history.event.j.EventType.TERMINAL:
                             check = self.check_terminal
-                        case ptrac.history.EventType.FLAG:
+                        case ptrac.history.event.j.EventType.FLAG:
                             check = self.check_flag
                         case _:
                             check = self.check_bank
