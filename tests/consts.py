@@ -1245,6 +1245,60 @@ class string:
             class subtally:
                 LINE = '    1.0000E-01   3.62214E-07 0.0025\n'
 
+    class ptrac:
+        HEADER = """
+   -1
+mcnp    6                        05/08/13 01/08/25 08:25:00 
+Pulsed neutron source over lunar regolith with a neutron detector               
+   1.4000E+01  1.0000E+00  1.0000E+02  0.0000E+00  1.0000E+00  2.0000E+00  1.0000E+00  1.0000E+00  0.0000E+00  1.0000E+00
+   1.0000E+09  0.0000E+00  0.0000E+00  0.0000E+00  2.0000E+00 -1.0000E+00 -2.0000E+00  1.0000E+00  1.0000E+00  0.0000E+00
+   1.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00
+     4    6    9    7    9    7    9    7    9    7    9    1    4    0    0    0    0    0    0    0
+    1   2   5   6   7   8   9  17  18  19  20  21  22  23  24  25  26  27  28   7   8  10  11  17  18  19  20  21  22  23
+   24  25  26  27  28   7   8  12  13  17  18  19  20  21  22  23  24  25  26  27  28   7   8  10  11  17  18  19  20  21
+   22  23  24  25  26  27  28   7   8  14  15  17  18  19  20  21  22  23  24  25  26  27  28
+"""[1:]
+        HISTORY = """
+       7496      2007        24  4.05973E-02
+       9000         3     14030         2       100         1         3
+  -0.19401E+02 -0.35503E+01 -0.10317E+03 -0.53898E+00 -0.84167E+00 -0.33130E-01  0.95589E+00  0.63221E+00  0.21010E+01
+"""[1:]
+
+        class header:
+            V = """
+   1.4000E+01  1.0000E+00  1.0000E+02  0.0000E+00  1.0000E+00  2.0000E+00  1.0000E+00  1.0000E+00  0.0000E+00  1.0000E+00
+   1.0000E+09  0.0000E+00  0.0000E+00  0.0000E+00  2.0000E+00 -1.0000E+00 -2.0000E+00  1.0000E+00  1.0000E+00  0.0000E+00
+   1.0000E+00  2.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00  0.0000E+00
+"""[1:]
+            N = '     4    6    9    7    9    7    9    7    9    7    9    1    4    0    0    0    0    0    0    0\n'
+            L = """
+    1   2   5   6   7   8   9  17  18  19  20  21  22  23  24  25  26  27  28   7   8  10  11  17  18  19  20  21  22  23
+   24  25  26  27  28   7   8  12  13  17  18  19  20  21  22  23  24  25  26  27  28   7   8  10  11  17  18  19  20  21
+   22  23  24  25  26  27  28   7   8  14  15  17  18  19  20  21  22  23  24  25  26  27  28
+"""[1:]
+
+        class history:
+            I = '       7496      2007        24  4.05973E-02'
+            EVENT = """
+       9000         3     14030         2       100         1         3
+  -0.19401E+02 -0.35503E+01 -0.10317E+03 -0.53898E+00 -0.84167E+00 -0.33130E-01  0.95589E+00  0.63221E+00  0.21010E+01
+"""[1:]
+
+            class event:
+                J_0 = '       9000         3     14030         2       100'
+                J_1 = '       9000         3     14030         2       100         1'
+                J_2 = '       9000         3     14030         2       100         1'
+                J_3 = '       9000         3     14030         2       100         1         3'
+                J_4 = '       9000         3     14030         2       100         1'
+                J_5 = '       9000         3     14030         2       100         1         3'
+                J_6 = '       9000         3     14030         2       100         1         3'
+                J_7 = '       9000         3     14030         2       100         1         3         4'
+                P_0 = '  -0.19401E+02 -0.35503E+01 -0.10317E+03'
+                P_1 = '  -0.19401E+02 -0.35503E+01 -0.10317E+03 -0.53898E+00 -0.84167E+00 -0.33130E-01  0.95589E+00  0.63221E+00  0.21010E+01'
+
+                class j:
+                    EVENT_TYPE = '9000'
+
 
 class ast:
     class type:
@@ -1942,6 +1996,34 @@ class ast:
 
             class subtally:
                 LINE = pymcnp.outp.tally.subtally.Line.from_mcnp(string.outp.tally.subtally.LINE)
+
+    class ptrac:
+        HEADER = pymcnp.ptrac.Header.from_mcnp(string.ptrac.HEADER)
+        HISTORY = pymcnp.ptrac.History.from_mcnp(string.ptrac.HISTORY, HEADER)
+
+        class header:
+            V = pymcnp.ptrac.header.V.from_mcnp(string.ptrac.header.V)
+            N = pymcnp.ptrac.header.N.from_mcnp(string.ptrac.header.N)
+            L = pymcnp.ptrac.header.L.from_mcnp(string.ptrac.header.L)
+
+        class history:
+            I = pymcnp.ptrac.history.I.from_mcnp(string.ptrac.history.I)
+            EVENT = pymcnp.ptrac.history.Event.from_mcnp(string.ptrac.history.EVENT, I.event_type, pymcnp.ptrac.Header.from_mcnp(string.ptrac.HEADER))
+
+            class event:
+                J_0 = pymcnp.ptrac.history.event.J_0.from_mcnp(string.ptrac.history.event.J_0)
+                J_1 = pymcnp.ptrac.history.event.J_1.from_mcnp(string.ptrac.history.event.J_1)
+                J_2 = pymcnp.ptrac.history.event.J_2.from_mcnp(string.ptrac.history.event.J_2)
+                J_3 = pymcnp.ptrac.history.event.J_3.from_mcnp(string.ptrac.history.event.J_3)
+                J_4 = pymcnp.ptrac.history.event.J_4.from_mcnp(string.ptrac.history.event.J_4)
+                J_5 = pymcnp.ptrac.history.event.J_5.from_mcnp(string.ptrac.history.event.J_5)
+                J_6 = pymcnp.ptrac.history.event.J_6.from_mcnp(string.ptrac.history.event.J_6)
+                J_7 = pymcnp.ptrac.history.event.J_7.from_mcnp(string.ptrac.history.event.J_7)
+                P_0 = pymcnp.ptrac.history.event.P_0.from_mcnp(string.ptrac.history.event.P_0)
+                P_1 = pymcnp.ptrac.history.event.P_1.from_mcnp(string.ptrac.history.event.P_1)
+
+                class j:
+                    EVENT_TYPE = pymcnp.ptrac.history.event.j.EventType.from_mcnp(string.ptrac.history.event.j.EVENT_TYPE)
 
 
 class builder:

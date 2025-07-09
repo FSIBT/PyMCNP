@@ -107,16 +107,24 @@ def _postprocess_continuation_line(string: str):
     return ' '.join(lines)
 
 
-def postprocess_exponenet(number: decimal.Decimal, percision: int):
+def postprocess_exponenet(number: decimal.Decimal, percision: int, offset: int = 1):
     """ """
 
-    e = number.adjusted() + 1
+    e = number.adjusted() + offset
 
     s, d, _ = number.as_tuple()
     s = '-' if s else ' '
-    d = ''.join(map(str, d[:percision]))
+    d = ''.join(map(str, d[: percision - offset + 1]))
 
-    return f'{s}0.{d}E{e:+03}'
+    if d == '0':
+        return f'{s}0.{'0' * (percision - 1)}E+00'
+    else:
+        d = offset * '0' + d
+
+        a = d[:1]
+        b = d[1:]
+
+        return f'{s}{a}.{b}E{e:+03}'
 
 
 def postprocess_inp(string: str):

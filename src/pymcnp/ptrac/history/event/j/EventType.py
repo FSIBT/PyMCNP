@@ -1,8 +1,8 @@
 from . import _keyword
-from ...utils import errors
+from .....utils import errors
 
 
-class EventType(_keyword.HistoryKeyword):
+class EventType(_keyword.JKeyword):
     """
     Represents PTRAC event event-types.
     """

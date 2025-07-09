@@ -1,13 +1,14 @@
 import re
 import typing
+import decimal
 
 from . import _line
-from ...utils import types
-from ...utils import errors
-from ...utils import _parser
+from ....utils import types
+from ....utils import errors
+from ....utils import _parser
 
 
-class P_1(_line.HistoryLine):
+class P_1(_line.EventLine):
     """
     Represents PTRAC history block p lines form #2.
 
@@ -23,7 +24,7 @@ class P_1(_line.HistoryLine):
         tme: Time at the particles position.
     """
 
-    _REGEX = re.compile(r'\A(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})\Z')
+    _REGEX = re.compile(r'\A\s(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})(.{13})\Z')
 
     def __init__(
         self,
@@ -103,13 +104,13 @@ class P_1(_line.HistoryLine):
             ``P_1``.
 
         Raises:
-            PtracError: SYNTAX_HISTORY_LINE.
+            PtracError: SYNTAX_LINE.
         """
 
         tokens = P_1._REGEX.match(source)
 
         if not tokens:
-            raise errors.PtracError(errors.PtracCode.SYNTAX_HISTORY_LINE, source)
+            raise errors.PtracError(errors.PtracCode.SYNTAX_LINE, source)
 
         x = types.Real.from_mcnp(tokens[1])
         y = types.Real.from_mcnp(tokens[2])
@@ -141,14 +142,14 @@ class P_1(_line.HistoryLine):
             PTRAC for ``P_1``.
         """
 
-        x = _parser.postprocess_exponenet(self.x.value, 5)
-        y = _parser.postprocess_exponenet(self.y.value, 5)
-        z = _parser.postprocess_exponenet(self.z.value, 5)
-        u = _parser.postprocess_exponenet(self.u.value, 5)
-        v = _parser.postprocess_exponenet(self.v.value, 5)
-        w = _parser.postprocess_exponenet(self.w.value, 5)
-        erg = _parser.postprocess_exponenet(self.erg.value, 5)
-        wgt = _parser.postprocess_exponenet(self.wgt.value, 5)
-        tme = _parser.postprocess_exponenet(self.tme.value, 5)
+        x = _parser.postprocess_exponenet(decimal.Decimal(self.x.value), 5)
+        y = _parser.postprocess_exponenet(decimal.Decimal(self.y.value), 5)
+        z = _parser.postprocess_exponenet(decimal.Decimal(self.z.value), 5)
+        u = _parser.postprocess_exponenet(decimal.Decimal(self.u.value), 5)
+        v = _parser.postprocess_exponenet(decimal.Decimal(self.v.value), 5)
+        w = _parser.postprocess_exponenet(decimal.Decimal(self.w.value), 5)
+        erg = _parser.postprocess_exponenet(decimal.Decimal(self.erg.value), 5)
+        wgt = _parser.postprocess_exponenet(decimal.Decimal(self.wgt.value), 5)
+        tme = _parser.postprocess_exponenet(decimal.Decimal(self.tme.value), 5)
 
-        return f'{x} {y} {z} {u} {v} {w} {erg} {wgt} {tme}'
+        return f'  {x} {y} {z} {u} {v} {w} {erg} {wgt} {tme}'

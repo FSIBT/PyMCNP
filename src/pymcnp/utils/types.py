@@ -492,7 +492,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__lt__(b)
         else:
-            assert False
+            return a.value.__lt__(b)
 
     def __le__(a, b):
         if isinstance(b, Integer):
@@ -500,7 +500,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__le__(b)
         else:
-            assert False
+            return a.value.__le__(b)
 
     def __eq__(a, b):
         if isinstance(b, Integer):
@@ -508,7 +508,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__eq__(b)
         else:
-            assert False
+            return a.value.__eq__(b)
 
     def __ne__(a, b):
         if isinstance(b, Integer):
@@ -516,7 +516,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__ne__(b)
         else:
-            assert False
+            return a.value.__ne__(b)
 
     def __gt__(a, b):
         if isinstance(b, Integer):
@@ -524,7 +524,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__gt__(b)
         else:
-            assert False
+            return a.value.__gt__(b)
 
     def __ge__(a, b):
         if isinstance(b, Integer):
@@ -532,7 +532,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__ge__(b)
         else:
-            assert False
+            return a.value.__ge__(b)
 
     def __hash__(self):
         return hash(self.value)
@@ -543,7 +543,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__add__(b)
         else:
-            assert False
+            return a.value.__add__(b)
 
     def __radd__(a, b):
         if isinstance(b, Integer):
@@ -551,7 +551,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__radd__(b)
         else:
-            assert False
+            return a.value.__radd__(b)
 
     def __sub__(a, b):
         if isinstance(b, Integer):
@@ -559,7 +559,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__sub__(b)
         else:
-            assert False
+            return a.value.__sub__(b)
 
     def __rsub__(a, b):
         if isinstance(b, Integer):
@@ -567,7 +567,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__rsub__(b)
         else:
-            assert False
+            return a.value.__rsub__(b)
 
     def __mul__(a, b):
         if isinstance(b, Integer):
@@ -575,7 +575,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__mul__(b)
         else:
-            assert False
+            return a.value.__mul__(b)
 
     def __rmul__(a, b):
         if isinstance(b, Integer):
@@ -583,7 +583,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__rmul__(b)
         else:
-            assert False
+            return a.value.__rmul__(b)
 
     def __mod__(a, b):
         if isinstance(b, Integer):
@@ -591,7 +591,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__mod__(b)
         else:
-            assert False
+            return a.value.__mod__(b)
 
     def __rmod__(a, b):
         if isinstance(b, Integer):
@@ -599,7 +599,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__rmod__(b)
         else:
-            assert False
+            return a.value.__rmod__(b)
 
     def __divmod__(a, b):
         if isinstance(b, Integer):
@@ -607,7 +607,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__divmod__(b)
         else:
-            assert False
+            return a.value.__divmod__(b)
 
     def __rdivmod__(a, b):
         if isinstance(b, Integer):
@@ -615,7 +615,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__rdivmod__(b)
         else:
-            assert False
+            return a.value.__rdivmod__(b)
 
     def __pow__(a, b):
         if isinstance(b, Integer):
@@ -623,7 +623,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__pow__(b)
         else:
-            assert False
+            return a.value.__pow__(b)
 
     def __rpow__(a, b):
         if isinstance(b, Integer):
@@ -631,7 +631,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__rpow__(b)
         else:
-            assert False
+            return a.value.__rpow__(b)
 
     def __neg__(self):
         return self.value.__neg__()
@@ -657,7 +657,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__floordiv__(b)
         else:
-            assert False
+            return a.value.__floordiv__(b)
 
     def __rfloordiv__(a, b):
         if isinstance(b, Integer):
@@ -665,7 +665,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__rfloordiv__(b)
         else:
-            assert False
+            return a.value.__rfloordiv__(b)
 
     def __truediv__(a, b):
         if isinstance(b, Integer):
@@ -673,7 +673,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__truediv__(b)
         else:
-            assert False
+            return a.value.__truediv__(b)
 
     def __rtruediv__(a, b):
         if isinstance(b, Integer):
@@ -681,7 +681,7 @@ class Integer(_object.McnpNonterminal):
         elif isinstance(b, int):
             return a.value.__rtruediv__(b)
         else:
-            assert False
+            return a.value.__rtruediv__(b)
 
     def __trunc__(self):
         return self.value.__trunc__()
@@ -794,7 +794,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value < decimal.Decimal(str(b))
         else:
-            assert False
+            return a.value.__lt__(b)
 
     def __le__(a, b):
         if isinstance(b, Real):
@@ -804,7 +804,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value <= decimal.Decimal(str(b))
         else:
-            assert False
+            return a.value.__le__(b)
 
     def __eq__(a, b):
         if isinstance(b, Real):
@@ -814,7 +814,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value == decimal.Decimal(str(b))
         else:
-            assert False
+            return a.value.__eq__(b)
 
     def __ne__(a, b):
         if isinstance(b, Real):
@@ -824,7 +824,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value != decimal.Decimal(str(b))
         else:
-            assert False
+            return a.value.__ne__(b)
 
     def __gt__(a, b):
         if isinstance(b, Real):
@@ -834,7 +834,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value > decimal.Decimal(str(b))
         else:
-            assert False
+            return a.value.__gt__(b)
 
     def __ge__(a, b):
         if isinstance(b, Real):
@@ -844,7 +844,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value >= decimal.Decimal(str(b))
         else:
-            assert False
+            return a.value.__ge__(b)
 
     def __hash__(self):
         return hash(self.value)
@@ -857,7 +857,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__add_(b)
 
     def __radd__(a, b):
         if isinstance(b, Real):
@@ -867,7 +867,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__radd(b)
 
     def __sub__(a, b):
         if isinstance(b, Real):
@@ -877,7 +877,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__sub_(b)
 
     def __rsub__(a, b):
         if isinstance(b, Real):
@@ -887,7 +887,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__rsub(b)
 
     def __mul__(a, b):
         if isinstance(b, Real):
@@ -897,7 +897,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__mul_(b)
 
     def __rmul__(a, b):
         if isinstance(b, Real):
@@ -907,7 +907,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__rmul(b)
 
     def __mod__(a, b):
         if isinstance(b, Real):
@@ -917,7 +917,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__mod_(b)
 
     def __rmod__(a, b):
         if isinstance(b, Real):
@@ -927,7 +927,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__rmod(b)
 
     def __divmod__(a, b):
         if isinstance(b, Real):
@@ -937,7 +937,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__divm(b)
 
     def __rdivmod__(a, b):
         if isinstance(b, Real):
@@ -947,7 +947,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__rdiv(b)
 
     def __pow__(a, b):
         if isinstance(b, Real):
@@ -957,7 +957,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__pow_(b)
 
     def __rpow__(a, b):
         if isinstance(b, Real):
@@ -967,7 +967,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__rpow(b)
 
     def __neg__(self):
         return self.value.__neg__()
@@ -995,7 +995,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__floo(b)
 
     def __rfloordiv__(a, b):
         if isinstance(b, Real):
@@ -1005,7 +1005,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__rflo(b)
 
     def __truediv__(a, b):
         if isinstance(b, Real):
@@ -1015,7 +1015,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__true(b)
 
     def __rtruediv__(a, b):
         if isinstance(b, Real):
@@ -1025,7 +1025,7 @@ class Real(_object.McnpNonterminal):
         elif isinstance(b, float) or isinstance(b, int):
             return a.value.__add__(decimal.Decimal(str(b)))
         else:
-            assert False
+            return a.__rtru(b)
 
     def __trunc__(self):
         return self.value.__trunc__()
