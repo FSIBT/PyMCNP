@@ -9,7 +9,7 @@ from ...utils import types
 from ...utils import errors
 
 
-class Subtally_2(_subblock.Subblock):
+class Subtally_2(_subblock.TallySubblock):
     """
     Represents OUTP ``1tally 2 nps`` subtally.
 
