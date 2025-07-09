@@ -97,9 +97,9 @@ class Tr_0(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if prefix is not None and prefix.value not in {'*'}:
+        if prefix is not None and prefix not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
-        if suffix is None or not (1 <= suffix.value <= 999):
+        if suffix is None or not (suffix >= 1 and suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
@@ -125,7 +125,7 @@ class Tr_0(_option.DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zy)
         if zz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zz)
-        if system is not None and not (system.value == -1 or system.value == 1):
+        if system is not None and not (system == -1 or system == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, system)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

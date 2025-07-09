@@ -63,8 +63,8 @@ class Sx(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Sx``
         """
 
-        vis = _visualization.Visualization.get_sphere(self.r.value)
-        vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
+        vis = _visualization.Visualization.get_sphere(float(self.r))
+        vis = vis.add_translation(_visualization.Vector(self.x, 0, 0))
 
         return vis
 

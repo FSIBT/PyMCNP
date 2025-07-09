@@ -81,23 +81,23 @@ class Lca(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if ielas is not None and not (isinstance(ielas.value, types.Jump) or ielas.value == 0 or ielas.value == 1 or ielas.value == 2):
+        if ielas is not None and not (isinstance(ielas.value, types.Jump) or ielas == 0 or ielas == 1 or ielas == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ielas)
-        if ipreg is not None and not (isinstance(ipreg.value, types.Jump) or ipreg.value == 0 or ipreg.value == 1 or ipreg.value == 2 or ipreg.value == 3):
+        if ipreg is not None and not (isinstance(ipreg.value, types.Jump) or ipreg == 0 or ipreg == 1 or ipreg == 2 or ipreg == 3):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ipreg)
-        if iexisa is not None and not (isinstance(iexisa.value, types.Jump) or iexisa.value == 0 or iexisa.value == 1 or iexisa.value == 2):
+        if iexisa is not None and not (isinstance(iexisa.value, types.Jump) or iexisa == 0 or iexisa == 1 or iexisa == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iexisa)
-        if jcoul is not None and not (isinstance(jcoul.value, types.Jump) or jcoul.value == 0 or jcoul.value == 1):
+        if jcoul is not None and not (isinstance(jcoul.value, types.Jump) or jcoul == 0 or jcoul == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, jcoul)
-        if nexite is not None and not (isinstance(nexite.value, types.Jump) or nexite.value == 0 or nexite.value == 1):
+        if nexite is not None and not (isinstance(nexite.value, types.Jump) or nexite == 0 or nexite == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nexite)
-        if npidk is not None and not (isinstance(npidk.value, types.Jump) or npidk.value == 0 or npidk.value == 1):
+        if npidk is not None and not (isinstance(npidk.value, types.Jump) or npidk == 0 or npidk == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npidk)
-        if noact is not None and not (isinstance(noact.value, types.Jump) or noact.value == -2 or noact.value == -1 or noact.value == 0 or noact.value == 1 or noact.value == 2):
+        if noact is not None and not (isinstance(noact.value, types.Jump) or noact == -2 or noact == -1 or noact == 0 or noact == 1 or noact == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, noact)
-        if icem is not None and not (isinstance(icem.value, types.Jump) or icem.value == 0 or icem.value == 1 or icem.value == 2):
+        if icem is not None and not (isinstance(icem.value, types.Jump) or icem == 0 or icem == 1 or icem == 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, icem)
-        if ilaq is not None and not (isinstance(ilaq.value, types.Jump) or ilaq.value == 0 or ilaq.value == 1):
+        if ilaq is not None and not (isinstance(ilaq.value, types.Jump) or ilaq == 0 or ilaq == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ilaq)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

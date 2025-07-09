@@ -56,7 +56,7 @@ class Py(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Py``
         """
 
-        vis = _visualization.Visualization.get_plane(0, 1, 0, self.d.value)
+        vis = _visualization.Visualization.get_plane(0, 1, 0, float(self.d))
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
 
         return vis

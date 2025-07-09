@@ -36,7 +36,7 @@ class Meph(_option.PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if events is None or not (events.value > 0):
+        if events is None or not (events > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, events)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

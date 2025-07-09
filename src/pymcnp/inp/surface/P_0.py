@@ -77,7 +77,7 @@ class P_0(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Px``
         """
 
-        vis = _visualization.Visualization.get_plane(self.a.value, self.b.value, self.c.value, self.d.value)
+        vis = _visualization.Visualization.get_plane(float(self.a), float(self.b), float(self.c), float(self.d))
 
         return vis
 

@@ -124,13 +124,13 @@ cards = ElementScheme(
                     name='number',
                     type='types.Integer',
                     description='cell number',
-                    restriction='1 <= number.value <= 99_999_999',
+                    restriction='number >= 1 and number <= 99_999_999',
                 ),
                 AttributeScheme(
                     name='material',
                     type='types.Integer',
                     description='cell material',
-                    restriction='0 <= material.value <= 99_999_999',
+                    restriction='material >= 0 and material <= 99_999_999',
                 ),
                 AttributeScheme(
                     name='density',
@@ -177,7 +177,7 @@ cards = ElementScheme(
                             name='volume',
                             type='types.Real',
                             description='Cell volume',
-                            restriction='volume.value >= 0',
+                            restriction='volume >= 0',
                         ),
                     ),
                 ),
@@ -221,7 +221,7 @@ cards = ElementScheme(
                             name='control',
                             type='types.Real',
                             description='Cell forced-collision control',
-                            restriction='-1 <= control.value <= 1',
+                            restriction='control >= -1 and control <= 1',
                         ),
                     ),
                 ),
@@ -243,7 +243,7 @@ cards = ElementScheme(
                             name='bound',
                             type='types.Real',
                             description='Cell weight-window space, time, or energy lower bound',
-                            restriction='bound.value == -1 or bound.value >= 0',
+                            restriction='bound == -1 or bound >= 0',
                         ),
                     ),
                 ),
@@ -265,7 +265,7 @@ cards = ElementScheme(
                             name='probability',
                             type='types.Real',
                             description='Cell probability of DXTRAN contribution',
-                            restriction='0 <= probability.value <= 1',
+                            restriction='probability >= 0 and probability <= 1',
                         ),
                     ),
                 ),
@@ -277,7 +277,7 @@ cards = ElementScheme(
                             name='setting',
                             type='types.Integer',
                             description='Cell fission setting',
-                            restriction='setting.value in {0, 1, 2}',
+                            restriction='setting in {0, 1, 2}',
                         ),
                     ),
                 ),
@@ -294,7 +294,7 @@ cards = ElementScheme(
                             name='probability',
                             type='types.Real',
                             description='Cell probability of DXTRAN contribution',
-                            restriction='0 <= probability.value <= 1',
+                            restriction='probability >= 0 and probability <= 1',
                         ),
                     ),
                 ),
@@ -306,7 +306,7 @@ cards = ElementScheme(
                             name='number',
                             type='types.Integer',
                             description='Cell universe number',
-                            restriction='-99_999_999 <= number.value <= 99_999_999',
+                            restriction='number >= -9 and number <= 99_999_999',
                         ),
                     ),
                 ),
@@ -318,7 +318,7 @@ cards = ElementScheme(
                             name='transformation',
                             type='types.Integer',
                             description='Cell transformation number',
-                            restriction='0 <= transformation.value <= 999',
+                            restriction='transformation >= 0 and transformation <= 999',
                         ),
                     ),
                 ),
@@ -385,7 +385,7 @@ cards = ElementScheme(
                             name='shape',
                             type='types.Integer',
                             description='Cell lattice shape',
-                            restriction='shape.value in {1, 2}',
+                            restriction='shape in {1, 2}',
                         ),
                     ),
                 ),
@@ -398,7 +398,7 @@ cards = ElementScheme(
                             name='prefix',
                             type='types.String',
                             description='Star prefix',
-                            restriction='prefix.value in {"*"}',
+                            restriction='prefix in {"*"}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -420,7 +420,7 @@ cards = ElementScheme(
                             name='universes',
                             type='types.Tuple[types.Integer]',
                             description='Fill universe numbers',
-                            # restriction='len(universes) == (i.upper.value - i.lower.value) * (j.upper.value - j.lower.value) * (k.upper.value - k.lower.value)',
+                            # restriction='len(universes) == (i.upper - i.lower) * (j.upper - j.lower) * (k.upper - k.lower)',
                         ),
                         AttributeScheme(
                             name='m',
@@ -439,7 +439,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*"}',
+                            restriction='prefix in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -447,7 +447,7 @@ cards = ElementScheme(
                             name='universe',
                             type='types.Integer',
                             description='Cell fill universe number',
-                            restriction='0 <= universe.value <= 99_999_999',
+                            restriction='universe >= 0 and universe <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='transformation',
@@ -466,7 +466,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*"}',
+                            restriction='prefix in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -474,7 +474,7 @@ cards = ElementScheme(
                             name='universe',
                             type='types.Integer',
                             description='Cell fill universe number',
-                            restriction='0 <= universe.value <= 99_999_999',
+                            restriction='universe >= 0 and universe <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='transformation',
@@ -493,7 +493,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*"}',
+                            restriction='prefix in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -501,7 +501,7 @@ cards = ElementScheme(
                             name='universe',
                             type='types.Integer',
                             description='Cell fill universe number',
-                            restriction='0 <= universe.value <= 99_999_999',
+                            restriction='universe >= 0 and universe <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='transformation',
@@ -520,7 +520,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*"}',
+                            restriction='prefix in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -528,7 +528,7 @@ cards = ElementScheme(
                             name='universe',
                             type='types.Integer',
                             description='Cell fill universe number',
-                            restriction='0 <= universe.value <= 99_999_999',
+                            restriction='universe >= 0 and universe <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='transformation',
@@ -547,7 +547,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*"}',
+                            restriction='prefix in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -555,7 +555,7 @@ cards = ElementScheme(
                             name='universe',
                             type='types.Integer',
                             description='Cell fill universe number',
-                            restriction='0 <= universe.value <= 99_999_999',
+                            restriction='universe >= 0 and universe <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='transformation',
@@ -574,7 +574,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*"}',
+                            restriction='prefix in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -582,13 +582,13 @@ cards = ElementScheme(
                             name='universe',
                             type='types.Integer',
                             description='Cell fill universe number',
-                            restriction='0 <= universe.value <= 99_999_999',
+                            restriction='universe >= 0 and universe <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='transformation',
                             type='types.Integer',
                             description='Cell fill transformation number',
-                            restriction='0 <= transformation.value <= 999',
+                            restriction='transformation >= 0 and transformation <= 999',
                             optional=True,
                             can_paren=True,
                         ),
@@ -624,7 +624,7 @@ cards = ElementScheme(
                             name='temperature',
                             type='types.Tuple[types.Real]',
                             description='Temperature at time index',
-                            restriction='min(map(lambda temp: temp.value, temperature)) > 0',
+                            restriction='min(map(lambda temp: temp, temperature)) > 0',
                         ),
                     ),
                 ),
@@ -636,7 +636,7 @@ cards = ElementScheme(
                             name='number',
                             type='types.Integer',
                             description='Cell cosy map number',
-                            restriction='number.value in {1, 2, 3, 4, 5, 6}',
+                            restriction='number in {1, 2, 3, 4, 5, 6}',
                         ),
                     ),
                 ),
@@ -648,7 +648,7 @@ cards = ElementScheme(
                             name='number',
                             type='types.Integer',
                             description='Cell magnetic field number',
-                            restriction='number.value >= 0',
+                            restriction='number >= 0',
                         ),
                     ),
                 ),
@@ -665,7 +665,7 @@ cards = ElementScheme(
                             name='setting',
                             type='types.Integer',
                             description='Cell uncollided secondaries setting',
-                            restriction='setting.value in {0, 1}',
+                            restriction='setting in {0, 1}',
                         ),
                     ),
                 ),
@@ -718,7 +718,7 @@ cards = ElementScheme(
         """
 
         vis = _visualization.Visualization.get_plane(
-            self.a.value, self.b.value, self.c.value, self.d.value
+            float(self.a), float(self.b), float(self.c), float(self.d)
         )
 
         return vis
@@ -783,12 +783,12 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``P_1``
         """
 
-        a = _visualization.Vector(self.x2.value - self.x1.value, self.y2.value - self.y1.value, self.z2.value - self.z1.value)
-        b = _visualization.Vector(self.x3.value - self.x1.value, self.y3.value - self.y1.value, self.z3.value - self.z1.value)
+        a = _visualization.Vector(self.x2 - self.x1, self.y2 - self.y1, self.z2 - self.z1)
+        b = _visualization.Vector(self.x3 - self.x1, self.y3 - self.y1, self.z3 - self.z1)
         n = a * b
 
         vis = _visualization.Visualization.get_plane(
-            n.x, n.y, n.z, n.x * self.x1.value + n.y * self.y1.value + n.z * self.z1.value
+            float(n.x), float(n.y), float(n.z), float(n.x * self.x1) + float(n.y * self.y1) + float(n.z * self.z1)
         )
 
         return vis
@@ -813,7 +813,7 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Px``
         """
 
-        vis = _visualization.Visualization.get_plane(1, 0, 0, self.d.value)
+        vis = _visualization.Visualization.get_plane(1, 0, 0, float(self.d))
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
 
         return vis
@@ -838,7 +838,7 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Py``
         """
 
-        vis = _visualization.Visualization.get_plane(0, 1, 0, self.d.value)
+        vis = _visualization.Visualization.get_plane(0, 1, 0, float(self.d))
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
 
         return vis
@@ -863,7 +863,7 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Pz``
         """
 
-        vis = _visualization.Visualization.get_plane(0, 0, 1, self.d.value)
+        vis = _visualization.Visualization.get_plane(0, 0, 1, float(self.d))
 
         return vis
     ''',
@@ -887,7 +887,7 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``So``
         """
 
-        vis = _visualization.Visualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(float(self.r))
 
         return vis
     ''',
@@ -926,8 +926,8 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``S``
         """
 
-        vis = _visualization.Visualization.get_sphere(self.r.value)
-        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+        vis = _visualization.Visualization.get_sphere(float(self.r))
+        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -956,8 +956,8 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Sx``
         """
 
-        vis = _visualization.Visualization.get_sphere(self.r.value)
-        vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
+        vis = _visualization.Visualization.get_sphere(float(self.r))
+        vis = vis.add_translation(_visualization.Vector(self.x, 0, 0))
 
         return vis
     ''',
@@ -986,9 +986,9 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Sy``
         """
 
-        vis = _visualization.Visualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(float(self.r))
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(0, self.y.value, 0))
+        vis = vis.add_translation(_visualization.Vector(0, self.y, 0))
 
         return vis
     ''',
@@ -1017,8 +1017,8 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Sz``
         """
 
-        vis = _visualization.Visualization.get_sphere(self.r.value)
-        vis = vis.add_translation(_visualization.Vector(0, 0, self.z.value))
+        vis = _visualization.Visualization.get_sphere(float(self.r))
+        vis = vis.add_translation(_visualization.Vector(0, 0, self.z))
 
         return vis
     ''',
@@ -1052,9 +1052,9 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``C_x``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(0, self.y.value, self.z.value))
+        vis = vis.add_translation(_visualization.Vector(0, self.y, self.z))
 
         return vis
     ''',
@@ -1088,9 +1088,9 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``C_y``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x.value, 0, self.z.value))
+        vis = vis.add_translation(_visualization.Vector(self.x, 0, self.z))
 
         return vis
     ''',
@@ -1123,9 +1123,9 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``C_z``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, 0))
+        vis = vis.add_translation(_visualization.Vector(self.x, self.y, 0))
 
         return vis
     ''',
@@ -1149,7 +1149,7 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Cx``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
 
         return vis
@@ -1174,7 +1174,7 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Cy``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
 
         return vis
@@ -1199,7 +1199,7 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Cz``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
 
         return vis
     ''',
@@ -1244,10 +1244,10 @@ cards = ElementScheme(
         """
 
         vis = _visualization.Visualization.get_cone_unbounded(
-            self.t_squared.value ** (1 / 2), self.plusminus_1.value
+            float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -1292,10 +1292,10 @@ cards = ElementScheme(
         """
 
         vis = _visualization.Visualization.get_cone_unbounded(
-            self.t_squared.value ** (1 / 2), self.plusminus_1.value
+            float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -1340,9 +1340,9 @@ cards = ElementScheme(
         """
 
         vis = _visualization.Visualization.get_cone_unbounded(
-            self.t_squared.value ** (1 / 2), self.plusminus_1.value
+            float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -1377,10 +1377,10 @@ cards = ElementScheme(
         """
 
         vis = _visualization.Visualization.get_cone_unbounded(
-            self.t_squared.value ** (1 / 2), self.plusminus_1.value
+            float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x.value, 0, 0))
+        vis = vis.add_translation(_visualization.Vector(self.x, 0, 0))
 
         return vis
     ''',
@@ -1415,10 +1415,10 @@ cards = ElementScheme(
         """
 
         vis = _visualization.Visualization.get_cone_unbounded(
-            self.t_squared.value ** (1 / 2), self.plusminus_1.value
+            float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(0, self.y.value, 0))
+        vis = vis.add_translation(_visualization.Vector(0, self.y, 0))
 
         return vis
     ''',
@@ -1453,9 +1453,9 @@ cards = ElementScheme(
         """
 
         vis = _visualization.Visualization.get_cone_unbounded(
-            self.t_squared.value ** (1 / 2), self.plusminus_1.value
+            float(self.t_squared) ** (1 / 2), float(self.plusminus_1)
         )
-        vis = vis.add_translation(_visualization.Vector(0, 0, self.z.value))
+        vis = vis.add_translation(_visualization.Vector(0, 0, self.z))
 
         return vis
     ''',
@@ -1616,9 +1616,9 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Tx``
         """
 
-        vis = _visualization.Visualization.get_torus(self.b.value, self.c.value, self.a.value)
+        vis = _visualization.Visualization.get_torus(float(self.b), float(self.c), float(self.a))
         vis = vis.add_rotation(_visualization.Vector(0, 1, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -1667,9 +1667,9 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Ty``
         """
 
-        vis = _visualization.Visualization.get_torus(self.b.value, self.c.value, self.a.value)
+        vis = _visualization.Visualization.get_torus(float(self.b), float(self.c), float(self.a))
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -1718,8 +1718,8 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Tz``
         """
 
-        vis = _visualization.Visualization.get_torus(self.b.value, self.c.value, self.a.value)
-        vis = vis.add_translation(_visualization.Vector(self.x.value, self.y.value, self.z.value))
+        vis = _visualization.Visualization.get_torus(float(self.b), float(self.c), float(self.a))
+        vis = vis.add_translation(_visualization.Vector(self.x, self.y, self.z))
 
         return vis
     ''',
@@ -1918,10 +1918,10 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Box``.
         """
 
-        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-        a1 = _visualization.Vector(self.a1x.value, self.a1y.value, self.a1z.value)
-        a2 = _visualization.Vector(self.a2x.value, self.a2y.value, self.a2z.value)
-        a3 = _visualization.Vector(self.a3x.value, self.a3y.value, self.a3z.value)
+        v = _visualization.Vector(self.vx, self.vy, self.vz)
+        a1 = _visualization.Vector(self.a1x, self.a1y, self.a1z)
+        a2 = _visualization.Vector(self.a2x, self.a2y, self.a2z)
+        a3 = _visualization.Vector(self.a3x, self.a3y, self.a3z)
         cross = _visualization.Vector(1, 0, 0) * a1
         angle = _visualization.Vector(1, 0, 0) & a1
 
@@ -1979,12 +1979,12 @@ cards = ElementScheme(
         """
 
         vis = _visualization.Visualization.get_parallelipiped(
-            self.xmin.value,
-            self.xmax.value,
-            self.ymin.value,
-            self.ymax.value,
-            self.zmin.value,
-            self.zmax.value,
+            float(self.xmin),
+            float(self.xmax),
+            float(self.ymin),
+            float(self.ymax),
+            float(self.zmin),
+            float(self.zmax),
         )
 
         return vis
@@ -2024,9 +2024,9 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Sph``
         """
 
-        vis = _visualization.Visualization.get_sphere(self.r.value)
+        vis = _visualization.Visualization.get_sphere(float(self.r))
         vis = vis.add_translation(
-            _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+            _visualization.Vector(self.vx, self.vy, self.vz)
         )
 
         return vis
@@ -2081,13 +2081,13 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Rcc``
         """
 
-        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
+        v = _visualization.Vector(self.vx, self.vy, self.vz)
+        h = _visualization.Vector(self.hx, self.hy, self.hz)
 
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
 
-        vis = _visualization.Visualization.get_cylinder_circle(h.norm(), self.r.value)
+        vis = _visualization.Visualization.get_cylinder_circle(h.norm(), self.r)
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(v)
 
@@ -2189,11 +2189,11 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Rhp``
         """
 
-        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
-        r = _visualization.Vector(self.r1.value, self.r2.value, self.r3.value)
-        s = _visualization.Vector(self.s1.value, self.s2.value, self.s3.value)
-        t = _visualization.Vector(self.t1.value, self.t2.value, self.t3.value)
+        v = _visualization.Vector(self.vx, self.vy, self.vz)
+        h = _visualization.Vector(self.hx, self.hy, self.hz)
+        r = _visualization.Vector(self.r1, self.r2, self.r3)
+        s = _visualization.Vector(self.s1, self.s2, self.s3)
+        t = _visualization.Vector(self.t1, self.t2, self.t3)
 
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
@@ -2283,10 +2283,10 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Rec``
         """
 
-        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
-        v1 = _visualization.Vector(self.v1x.value, self.v1y.value, self.v1z.value)
-        v2 = _visualization.Vector(self.v2x.value, self.v2y.value, self.v2z.value)
+        v = _visualization.Vector(self.vx, self.vy, self.vz)
+        h = _visualization.Vector(self.hx, self.hy, self.hz)
+        v1 = _visualization.Vector(self.v1x, self.v1y, self.v1z)
+        v2 = _visualization.Vector(self.v2x, self.v2y, self.v2z)
 
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)
@@ -2352,17 +2352,17 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Trc``
         """
 
-        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
+        h = _visualization.Vector(self.hx, self.hy, self.hz)
 
         cross = h * _visualization.Vector(0, 0, 1)
         angle = h & _visualization.Vector(0, 0, 1)
 
         vis = _visualization.Visualization.get_cone_truncated(
-            h.norm(), self.r1.value, self.r2.value
+            h.norm(), float(self.r1), float(self.r2)
         )
         vis = vis.add_rotation(cross, angle, (0, 0, 0))
         vis = vis.add_translation(
-            _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
+            _visualization.Vector(self.vx, self.vy, self.vz)
         )
 
         return vis
@@ -2417,21 +2417,21 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Ell``.
         """
 
-        v1 = _visualization.Vector(self.v1x.value, self.v1y.value, self.v1z.value)
-        v2 = _visualization.Vector(self.v2x.value, self.v2y.value, self.v2z.value)
+        v1 = _visualization.Vector(self.v1x, self.v1y, self.v1z)
+        v2 = _visualization.Vector(self.v2x, self.v2y, self.v2z)
 
-        if self.rm.value > 0:
+        if self.rm > 0:
             center = _visualization.Vector(
                 (v2 - v1).x / 2 + v1.x, (v2 - v1).y / 2 + v1.y, (v2 - v1).z / 2 + v1.z
             )
-            major_length = self.rm.value
+            major_length = float(self.rm)
             minor_length = 2 * (((major_length / 2) ** 2 - ((v2 - v1).norm() / 2) ** 2) ** 0.5)
             cross = (v2 - v1) * _visualization.Vector(1, 0, 0)
             angle = (v2 - v1) & _visualization.Vector(1, 0, 0)
-        elif self.rm.value < 0:
+        elif self.rm < 0:
             center = v1
             major_length = v2.norm()
-            minor_length = -self.rm.value
+            minor_length = -float(self.rm)
             cross = v2 * _visualization.Vector(1, 0, 0)
             angle = v2 & _visualization.Vector(1, 0, 0)
 
@@ -2516,10 +2516,10 @@ cards = ElementScheme(
             ``pyvista.PolyData`` for ``Wed``
         """
 
-        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-        v1 = _visualization.Vector(self.v1x.value, self.v1y.value, self.v1z.value)
-        v2 = _visualization.Vector(self.v2x.value, self.v2y.value, self.v2z.value)
-        v3 = _visualization.Vector(self.v3x.value, self.v3y.value, self.v3z.value)
+        v = _visualization.Vector(self.vx, self.vy, self.vz)
+        v1 = _visualization.Vector(self.v1x, self.v1y, self.v1z)
+        v2 = _visualization.Vector(self.v2x, self.v2y, self.v2z)
+        v3 = _visualization.Vector(self.v3x, self.v3y, self.v3z)
 
         cross = _visualization.Vector(1, 0, 0) * v1
         angle = _visualization.Vector(1, 0, 0) & v1
@@ -2739,7 +2739,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*"}',
+                            restriction='prefix in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -2747,7 +2747,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='1 <= suffix.value <= 999',
+                            restriction='suffix >= 1 and suffix <= 999',
                         ),
                         AttributeScheme(
                             name='x',
@@ -2813,7 +2813,7 @@ cards = ElementScheme(
                             name='system',
                             type='types.Integer',
                             description='Coordinate system setting',
-                            restriction='system.value == -1 or system.value == 1',
+                            restriction='system == -1 or system == 1',
                             optional=True,
                         ),
                     ],
@@ -2826,7 +2826,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*"}',
+                            restriction='prefix in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -2834,7 +2834,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='1 <= suffix.value <= 999',
+                            restriction='suffix >= 1 and suffix <= 999',
                         ),
                         AttributeScheme(
                             name='x',
@@ -2885,7 +2885,7 @@ cards = ElementScheme(
                             name='system',
                             type='types.Integer',
                             description='Coordinate system setting',
-                            restriction='system.value == -1 or system.value == 1',
+                            restriction='system == -1 or system == 1',
                             optional=True,
                         ),
                     ],
@@ -2898,7 +2898,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*"}',
+                            restriction='prefix in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -2906,7 +2906,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='1 <= suffix.value <= 999',
+                            restriction='suffix >= 1 and suffix <= 999',
                         ),
                         AttributeScheme(
                             name='x',
@@ -2952,7 +2952,7 @@ cards = ElementScheme(
                             name='system',
                             type='types.Integer',
                             description='Coordinate system setting',
-                            restriction='system.value == -1 or system.value == 1',
+                            restriction='system == -1 or system == 1',
                             optional=True,
                         ),
                     ],
@@ -2965,7 +2965,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*"}',
+                            restriction='prefix in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -2973,7 +2973,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='1 <= suffix.value <= 999',
+                            restriction='suffix >= 1 and suffix <= 999',
                         ),
                         AttributeScheme(
                             name='x',
@@ -3009,7 +3009,7 @@ cards = ElementScheme(
                             name='system',
                             type='types.Integer',
                             description='Coordinate system setting',
-                            restriction='system.value == -1 or system.value == 1',
+                            restriction='system == -1 or system == 1',
                             optional=True,
                         ),
                     ],
@@ -3022,7 +3022,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*"}',
+                            restriction='prefix in {"*"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -3030,7 +3030,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='1 <= suffix.value <= 999',
+                            restriction='suffix >= 1 and suffix <= 999',
                         ),
                         AttributeScheme(
                             name='x',
@@ -3051,7 +3051,7 @@ cards = ElementScheme(
                             name='system',
                             type='types.Integer',
                             description='Coordinate system setting',
-                            restriction='system.value == -1 or system.value == 1',
+                            restriction='system == -1 or system == 1',
                             optional=True,
                         ),
                     ],
@@ -3159,7 +3159,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.Integer',
                                     description='Destination of key-value pairs',
-                                    restriction='setting.value in {1, 3, 5, 6}',
+                                    restriction='setting in {1, 3, 5, 6}',
                                 ),
                                 AttributeScheme(
                                     name='options',
@@ -3221,7 +3221,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Quadrature',
-                                            restriction='setting.value in {1, 2, 3, 4, 5, 6, 7, 8, 9}',
+                                            restriction='setting in {1, 2, 3, 4, 5, 6, 7, 8, 9}',
                                         ),
                                     ],
                                 ),
@@ -3233,7 +3233,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Read composition from LNK3DNT on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3245,7 +3245,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Suppress solver module on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3257,7 +3257,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Suppress edit module on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3269,7 +3269,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Suppress writing GEODST on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3281,7 +3281,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Suppress writing mixing on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3293,7 +3293,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Suppress writing ASGMAT on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3305,7 +3305,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Suppress writing MACRXS on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3317,7 +3317,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Suppress writing SOLINP on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3329,7 +3329,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Suppress writing EDITIT on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3341,7 +3341,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Suppress writing ADJMAC on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3397,7 +3397,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Cross-section balance control',
-                                            restriction='setting.value in {-1, 0, 1}',
+                                            restriction='setting in {-1, 0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3420,7 +3420,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Calculation type',
-                                            restriction='setting.value in {0, 1, 2, 3, 4}',
+                                            restriction='setting in {0, 1, 2, 3, 4}',
                                         ),
                                     ],
                                 ),
@@ -3443,7 +3443,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Direction/adjoint calculation control',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3455,7 +3455,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.String',
                                             description='Trcor',
-                                            restriction='setting.value in {"diag"}',
+                                            restriction='setting in {"diag"}',
                                         ),
                                     ],
                                 ),
@@ -3555,7 +3555,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Inhibit fission multiplication on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3567,7 +3567,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.String',
                                             description='Transport accelerations',
-                                            restriction='setting.value in {"dsa", "tsa", "no"}',
+                                            restriction='setting in {"dsa", "tsa", "no"}',
                                         ),
                                     ],
                                 ),
@@ -3634,7 +3634,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Special criticality convergence scheme on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3657,7 +3657,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Cross-section print flag',
-                                            restriction='setting.value in {0, 1, 2}',
+                                            restriction='setting in {0, 1, 2}',
                                         ),
                                     ],
                                 ),
@@ -3669,7 +3669,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Print fission source rate on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3681,7 +3681,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Source print flag',
-                                            restriction='setting.value in {0, 1, 2, 3}',
+                                            restriction='setting in {0, 1, 2, 3}',
                                         ),
                                     ],
                                 ),
@@ -3693,7 +3693,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Print angular flux on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3705,7 +3705,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Print coarse-mesh balance tables on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3717,7 +3717,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Prepare angular flux file on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3729,7 +3729,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Prepare flux moments file on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3741,7 +3741,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Prepare special XMFLUXA file on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3819,7 +3819,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Mass edits on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3831,7 +3831,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Edits by fine mesh on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3843,7 +3843,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Edits by zone on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3855,7 +3855,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Write a-flux file on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3867,7 +3867,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Write b-flux file on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3879,7 +3879,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='ASCII output files control',
-                                            restriction='setting.value in {-3, -2, -1, 0, 1, 2, 3}',
+                                            restriction='setting in {-3, -2, -1, 0, 1, 2, 3}',
                                         ),
                                     ],
                                 ),
@@ -3891,7 +3891,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Printed point reactions rates on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3903,7 +3903,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Regular/adjoint edits control',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3915,7 +3915,7 @@ cards = ElementScheme(
                                             name='setting',
                                             type='types.Integer',
                                             description='Flux override on/off',
-                                            restriction='setting.value in {0, 1}',
+                                            restriction='setting in {0, 1}',
                                         ),
                                     ],
                                 ),
@@ -3949,7 +3949,7 @@ cards = ElementScheme(
                                     name='number',
                                     type='types.Integer',
                                     description='Background pseudo-cell number',
-                                    restriction='1 <= number.value <= 99_999_999',
+                                    restriction='number >= 1 and number <= 99_999_999',
                                 ),
                             ],
                         ),
@@ -4017,7 +4017,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Yes/no calculate the inferred geometry cell information',
-                                    restriction='setting.value in {"yes", "no"}',
+                                    restriction='setting in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -4064,7 +4064,7 @@ cards = ElementScheme(
                                     name='factor',
                                     type='types.Real',
                                     description='Conversion factor to centimeters for all mesh dimentions',
-                                    restriction='factor.value > 0',
+                                    restriction='factor > 0',
                                 ),
                             ],
                         ),
@@ -4111,7 +4111,7 @@ cards = ElementScheme(
                                     name='number',
                                     type='types.Integer',
                                     description='Embedded mesh universe number',
-                                    restriction='0 <= number.value <= 99_999_999',
+                                    restriction='number >= 0 and number <= 99_999_999',
                                 ),
                             ],
                         ),
@@ -4123,7 +4123,7 @@ cards = ElementScheme(
                                     name='factor',
                                     type='types.Real',
                                     description='Multiplicative conversion factor for energy-related output',
-                                    restriction='factor.value > 0',
+                                    restriction='factor > 0',
                                 ),
                             ],
                         ),
@@ -4135,7 +4135,7 @@ cards = ElementScheme(
                                     name='factor',
                                     type='types.Real',
                                     description='Multiplicative conversion factor for time-related output',
-                                    restriction='factor.value > 0',
+                                    restriction='factor > 0',
                                 ),
                             ],
                         ),
@@ -4147,7 +4147,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Flag to multiply by atom density',
-                                    restriction='setting.value in {"yes", "no"}',
+                                    restriction='setting in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -4181,7 +4181,7 @@ cards = ElementScheme(
                                     name='number',
                                     type='types.Integer',
                                     description='Material number',
-                                    restriction='0 <= number.value <= 99_999_999',
+                                    restriction='number >= 0 and number <= 99_999_999',
                                 ),
                             ],
                         ),
@@ -4325,7 +4325,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Flag for density-effect correction to electron stopping power',
-                                    restriction='setting.value in {"yes", "no"}',
+                                    restriction='setting in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -4337,7 +4337,7 @@ cards = ElementScheme(
                                     name='step',
                                     type='types.Integer',
                                     description='Number of electron sub-step per energy step',
-                                    restriction='step.value >= 0',
+                                    restriction='step >= 0',
                                 ),
                             ],
                         ),
@@ -4349,7 +4349,7 @@ cards = ElementScheme(
                                     name='step',
                                     type='types.Integer',
                                     description='Number of proton sub-step per energy step',
-                                    restriction='step.value >= 0',
+                                    restriction='step >= 0',
                                 ),
                             ],
                         ),
@@ -4628,7 +4628,7 @@ cards = ElementScheme(
                             name='no',
                             type='types.String',
                             description='Delay fission sampling on/off',
-                            restriction='no.value == "no"',
+                            restriction='no == "no"',
                             optional=True,
                         ),
                     ],
@@ -4698,20 +4698,20 @@ cards = ElementScheme(
                             name='igm',
                             type='types.Integer',
                             description='Total number of energy groups for all kinds of particle',
-                            restriction='igm.value >= 0',
+                            restriction='igm >= 0',
                         ),
                         AttributeScheme(
                             name='iplt',
                             type='types.Integer',
                             description='Weight windows usage indicator',
-                            restriction='iplt.value in {0, 1, 2}',
+                            restriction='iplt in {0, 1, 2}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='iab',
                             type='types.Integer',
                             description='Adjoint biasing for adjoint problems contorls',
-                            restriction='iab.value in {0, 1, 2}',
+                            restriction='iab in {0, 1, 2}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -4778,7 +4778,7 @@ cards = ElementScheme(
                             name='iunr',
                             type='types.Integer',
                             description='Unresolved resonanace controls',
-                            restriction='isinstance(iunr.value, types.Jump) or iunr.value in {0, 1}',
+                            restriction='isinstance(iunr.value, types.Jump) or iunr in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -4797,21 +4797,21 @@ cards = ElementScheme(
                             name='ngam',
                             type='types.Integer',
                             description='Secondary photon production controls',
-                            restriction='isinstance(ngam.value, types.Jump) or ngam.value in {0, 1, 2}',
+                            restriction='isinstance(ngam.value, types.Jump) or ngam in {0, 1, 2}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='i_int_model',
                             type='types.Integer',
                             description='Treataement of nuclear interactions controls',
-                            restriction='isinstance(i_int_model.value, types.Jump) or i_int_model.value in {-1, 0, 1, 2, 3}',
+                            restriction='isinstance(i_int_model.value, types.Jump) or i_int_model in {-1, 0, 1, 2, 3}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='i_els_model',
                             type='types.Integer',
                             description='Treatment of nuclear elastic scattering controls',
-                            restriction='isinstance(i_els_model.value, types.Jump) or i_els_model.value in {-1, 0, 1}',
+                            restriction='isinstance(i_els_model.value, types.Jump) or i_els_model in {-1, 0, 1}',
                             optional=True,
                         ),
                     ],
@@ -4831,35 +4831,35 @@ cards = ElementScheme(
                             name='ides',
                             type='types.Integer',
                             description='Generation of elections by photon controls',
-                            restriction='isinstance(ides.value, types.Jump) or ides.value in {0, 1}',
+                            restriction='isinstance(ides.value, types.Jump) or ides in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='nocoh',
                             type='types.Integer',
                             description='Coherent Thomson scattering controls',
-                            restriction='isinstance(nocoh.value, types.Jump) or nocoh.value in {0, 1}',
+                            restriction='isinstance(nocoh.value, types.Jump) or nocoh in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='ispn',
                             type='types.Integer',
                             description='Photonuclear particle production controls',
-                            restriction='isinstance(ispn.value, types.Jump) or ispn.value in {-1, 0, 1}',
+                            restriction='isinstance(ispn.value, types.Jump) or ispn in {-1, 0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='nodop',
                             type='types.Integer',
                             description='Photon Doppler energy broadening controls',
-                            restriction='isinstance(nodop.value, types.Jump) or nodop.value in {0, 1}',
+                            restriction='isinstance(nodop.value, types.Jump) or nodop in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='fism',
                             type='types.Integer',
                             description='Selection of photofission method controls',
-                            # restriction='isinstance(fism.value, types.Jump) or fism.value in {0, 1}',
+                            # restriction='isinstance(fism.value, types.Jump) or fism in {0, 1}',
                             optional=True,
                         ),
                     ],
@@ -4880,28 +4880,28 @@ cards = ElementScheme(
                             name='ides',
                             type='types.Integer',
                             description='Photon electron production controls',
-                            restriction='isinstance(ides.value, types.Jump) or ides.value in {0, 1}',
+                            restriction='isinstance(ides.value, types.Jump) or ides in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='iphot',
                             type='types.Integer',
                             description='Electron photon production controls',
-                            restriction='isinstance(iphot.value, types.Jump) or iphot.value in {0, 1}',
+                            restriction='isinstance(iphot.value, types.Jump) or iphot in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='ibad',
                             type='types.Integer',
                             description='Bremsstrahlung angular distribution method controls',
-                            restriction='isinstance(ibad.value, types.Jump) or ibad.value in {0, 1}',
+                            restriction='isinstance(ibad.value, types.Jump) or ibad in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='istrg',
                             type='types.Integer',
                             description='Electron continuous-energy straggling controls',
-                            restriction='isinstance(istrg.value, types.Jump) or istrg.value in {0, 1}',
+                            restriction='isinstance(istrg.value, types.Jump) or istrg in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -4914,42 +4914,42 @@ cards = ElementScheme(
                             name='xnum',
                             type='types.Real',
                             description='Sampling of electron-induced x-rays controls',
-                            restriction='isinstance(xnum.value, types.Jump) or xnum.value >= 0',
+                            restriction='isinstance(xnum.value, types.Jump) or xnum >= 0',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='rnok',
                             type='types.Integer',
                             description='Knock-on electron creation controls',
-                            restriction='isinstance(rnok.value, types.Jump) or rnok.value >= 0',
+                            restriction='isinstance(rnok.value, types.Jump) or rnok >= 0',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='enum',
                             type='types.Integer',
                             description='Photon-induced secondary electron creation controls',
-                            restriction='isinstance(enum.value, types.Jump) or enum.value >= 0',
+                            restriction='isinstance(enum.value, types.Jump) or enum >= 0',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='numb',
                             type='types.Integer',
                             description='Bremsstrahlung electron creation controls',
-                            restriction='isinstance(numb.value, types.Jump) or numb.value >= 0',
+                            restriction='isinstance(numb.value, types.Jump) or numb >= 0',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='i_mcs_model',
                             type='types.Integer',
                             description='Choice of Coulomb scattering model controls',
-                            restriction='isinstance(i_mcs_model.value, types.Jump) or i_mcs_model.value in {-1, 0}',
+                            restriction='isinstance(i_mcs_model.value, types.Jump) or i_mcs_model in {-1, 0}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='efac',
                             type='types.Real',
                             description='Stopping power energy spacing controls',
-                            restriction='isinstance(efac.value, types.Jump) or 0.8 <= efac.value <= 0.99',
+                            restriction='isinstance(efac.value, types.Jump) or (efac >= 0.8 and efac <= 0.99)',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -4962,7 +4962,7 @@ cards = ElementScheme(
                             name='ckvnum',
                             type='types.Real',
                             description='Crenkov photon emission scalar',
-                            restriction='isinstance(ckvnum.value, types.Jump) or 0 <= ckvnum.value < 1',
+                            restriction='isinstance(ckvnum.value, types.Jump) or ckvnum >= 0 and ckvnum < 1',
                             optional=True,
                         ),
                     ],
@@ -4988,63 +4988,63 @@ cards = ElementScheme(
                             name='tabl',
                             type='types.Real',
                             description='Table-based physics cutoff',
-                            restriction='isinstance(tabl.value, types.Jump) or tabl.value == -1 or tabl.value >= 0',
+                            restriction='isinstance(tabl.value, types.Jump) or tabl == -1 or tabl >= 0',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='istrg',
                             type='types.Integer',
                             description='Charged-particle straggling controls',
-                            restriction='isinstance(istrg.value, types.Jump) or istrg.value in {0, 1}',
+                            restriction='isinstance(istrg.value, types.Jump) or istrg in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='recl',
                             type='types.Real',
                             description='Light ion recoil control',
-                            restriction='isinstance(recl.value, types.Jump) or 0 <= recl.value <= 1',
+                            restriction='isinstance(recl.value, types.Jump) or (recl >= 0 and recl <= 1)',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='i_mcs_model',
                             type='types.Integer',
                             description='Choice of Coulomb scattering model controls',
-                            restriction='isinstance(i_mcs_model.value, types.Jump) or i_mcs_model.value in {-1, 0, 1, 2}',
+                            restriction='isinstance(i_mcs_model.value, types.Jump) or i_mcs_model in {-1, 0, 1, 2}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='i_int_model',
                             type='types.Integer',
                             description='Treatment of nuclear interactions controls',
-                            restriction='isinstance(i_int_model.value, types.Jump) or i_int_model.value in {-1, 0, 1, 2}',
+                            restriction='isinstance(i_int_model.value, types.Jump) or i_int_model in {-1, 0, 1, 2}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='i_els_model',
                             type='types.Integer',
                             description='Treatment of nuclear elastic scattering controls',
-                            restriction='isinstance(i_els_model.value, types.Jump) or i_els_model.value in {-1, 0}',
+                            restriction='isinstance(i_els_model.value, types.Jump) or i_els_model in {-1, 0}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='efac',
                             type='types.Real',
                             description='Stopping power energy spacing',
-                            restriction='isinstance(efac.value, types.Jump) or 0.8 <= efac.value <= 0.99',
+                            restriction='isinstance(efac.value, types.Jump) or (efac >= 0.8 and efac <= 0.99)',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='ckvnum',
                             type='types.Real',
                             description='Crenkov photon emission scalar',
-                            restriction='isinstance(ckvnum.value, types.Jump) or 0 <= ckvnum.value < 1',
+                            restriction='isinstance(ckvnum.value, types.Jump) or ckvnum >= 0 and ckvnum < 1',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='drp',
                             type='types.Real',
                             description='Lower energy delta-ray cutoff',
-                            restriction='isinstance(drp.value, types.Jump) or drp.value >= 0 or drp.value == -1',
+                            restriction='isinstance(drp.value, types.Jump) or drp >= 0 or drp == -1',
                             optional=True,
                         ),
                     ],
@@ -5069,14 +5069,14 @@ cards = ElementScheme(
                             name='istrg',
                             type='types.Integer',
                             description='Charged-particle straggling controls',
-                            restriction='isinstance(istrg.value, types.Jump) or istrg.value in {0, 1}',
+                            restriction='isinstance(istrg.value, types.Jump) or istrg in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='xmunum',
                             type='types.Integer',
                             description='Selection of muonic x-ray controls',
-                            restriction='isinstance(xmunum.value, types.Jump) or xmunum.value in {-1, 1}',
+                            restriction='isinstance(xmunum.value, types.Jump) or xmunum in {-1, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -5089,42 +5089,42 @@ cards = ElementScheme(
                             name='i_mcs_model',
                             type='types.Integer',
                             description='Choice of Coulomb scattering model controls',
-                            restriction='isinstance(i_mcs_model.value, types.Jump) or i_mcs_model.value in {-1, 0, 1, 2}',
+                            restriction='isinstance(i_mcs_model.value, types.Jump) or i_mcs_model in {-1, 0, 1, 2}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='i_int_model',
                             type='types.Integer',
                             description='Treatment of nuclear interactions controls',
-                            restriction='isinstance(i_int_model.value, types.Jump) or i_int_model.value in {-1, 0, 1, 2}',
+                            restriction='isinstance(i_int_model.value, types.Jump) or i_int_model in {-1, 0, 1, 2}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='i_els_model',
                             type='types.Integer',
                             description='Treatment of nuclear elastic scattering controls',
-                            restriction='isinstance(i_els_model.value, types.Jump) or i_els_model.value in {-1, 0}',
+                            restriction='isinstance(i_els_model.value, types.Jump) or i_els_model in {-1, 0}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='efac',
                             type='types.Real',
                             description='Stopping power energy spacing',
-                            restriction='isinstance(efac.value, types.Jump) or 0.8 <= efac.value <= 0.99',
+                            restriction='isinstance(efac.value, types.Jump) or (efac >= 0.8 and efac <= 0.99)',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='ckvnum',
                             type='types.Real',
                             description='Crenkov photon emission scalar',
-                            restriction='isinstance(ckvnum.value, types.Jump) or 0 <= ckvnum.value < 1',
+                            restriction='isinstance(ckvnum.value, types.Jump) or ckvnum >= 0 and ckvnum < 1',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='drp',
                             type='types.Real',
                             description='Lower energy delta-ray cutoff',
-                            restriction='isinstance(drp.value, types.Jump) or drp.value >= 0 or drp.value == -1',
+                            restriction='isinstance(drp.value, types.Jump) or drp >= 0 or drp == -1',
                             optional=True,
                         ),
                     ],
@@ -5197,7 +5197,7 @@ cards = ElementScheme(
                                     name='fraction',
                                     type='types.Real',
                                     description='Fraction of highest-amplitude discrete delayed-gamma lines retained',
-                                    restriction='0 <= fraction.value <= 1',
+                                    restriction='fraction >= 0 and fraction <= 1',
                                 ),
                             ],
                         ),
@@ -5209,7 +5209,7 @@ cards = ElementScheme(
                                     name='count',
                                     type='types.Integer',
                                     description='Maximum number of neutrons generated per reaction',
-                                    restriction='0 <= count.value <= 10',
+                                    restriction='count >= 0 and count <= 10',
                                 ),
                             ],
                         ),
@@ -5221,7 +5221,7 @@ cards = ElementScheme(
                                     name='count',
                                     type='types.Integer',
                                     description='Number of activation products',
-                                    restriction='count.value >= 0',
+                                    restriction='count >= 0',
                                 ),
                             ],
                         ),
@@ -5277,7 +5277,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Flag for correlated or uncorrelated',
-                                    restriction='setting.value in {"correlate", "nonfiss_cor"}',
+                                    restriction='setting in {"correlate", "nonfiss_cor"}',
                                 ),
                             ],
                         ),
@@ -5372,7 +5372,7 @@ cards = ElementScheme(
                             name='setting',
                             type='types.String',
                             description='Physics models on/off',
-                            restriction='setting.value in {"on", "off"}',
+                            restriction='setting in {"on", "off"}',
                             optional=True,
                         ),
                     ],
@@ -5386,20 +5386,20 @@ cards = ElementScheme(
                             type='types.Integer',
                             description='Elastic scattering controls',
                             optional=True,
-                            restriction='isinstance(ielas.value, types.Jump) or ielas.value == 0 or ielas.value == 1 or ielas.value == 2',
+                            restriction='isinstance(ielas.value, types.Jump) or ielas == 0 or ielas == 1 or ielas == 2',
                         ),
                         AttributeScheme(
                             name='ipreg',
                             type='types.Integer',
                             description='pre-equilibrium model',
                             optional=True,
-                            restriction='isinstance(ipreg.value, types.Jump) or ipreg.value == 0 or ipreg.value == 1 or ipreg.value == 2 or ipreg.value == 3',
+                            restriction='isinstance(ipreg.value, types.Jump) or ipreg == 0 or ipreg == 1 or ipreg == 2 or ipreg == 3',
                         ),
                         AttributeScheme(
                             name='iexisa',
                             type='types.Integer',
                             description='Model choice controls',
-                            restriction='isinstance(iexisa.value, types.Jump) or iexisa.value == 0 or iexisa.value == 1 or iexisa.value == 2',
+                            restriction='isinstance(iexisa.value, types.Jump) or iexisa == 0 or iexisa == 1 or iexisa == 2',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -5412,28 +5412,28 @@ cards = ElementScheme(
                             name='jcoul',
                             type='types.Integer',
                             description='Coulomb barrier for incident charged particle controls',
-                            restriction='isinstance(jcoul.value, types.Jump) or jcoul.value == 0 or jcoul.value == 1',
+                            restriction='isinstance(jcoul.value, types.Jump) or jcoul == 0 or jcoul == 1',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='nexite',
                             type='types.Integer',
                             description='Subtract nuclear recoil energy to get excitation energy',
-                            restriction='isinstance(nexite.value, types.Jump) or nexite.value == 0 or nexite.value == 1',
+                            restriction='isinstance(nexite.value, types.Jump) or nexite == 0 or nexite == 1',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='npidk',
                             type='types.Integer',
                             description='Cutoff interact/terminate control',
-                            restriction='isinstance(npidk.value, types.Jump) or npidk.value == 0 or npidk.value == 1',
+                            restriction='isinstance(npidk.value, types.Jump) or npidk == 0 or npidk == 1',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='noact',
                             type='types.Integer',
                             description='Particle transport settings',
-                            restriction='isinstance(noact.value, types.Jump) or noact.value == -2 or noact.value == -1 or noact.value == 0 or noact.value == 1 or noact.value == 2',
+                            restriction='isinstance(noact.value, types.Jump) or noact == -2 or noact == -1 or noact == 0 or noact == 1 or noact == 2',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -5441,13 +5441,13 @@ cards = ElementScheme(
                             type='types.Integer',
                             description='Choose alternative physics model',
                             optional=True,
-                            restriction='isinstance(icem.value, types.Jump) or icem.value == 0 or icem.value == 1 or icem.value == 2',
+                            restriction='isinstance(icem.value, types.Jump) or icem == 0 or icem == 1 or icem == 2',
                         ),
                         AttributeScheme(
                             name='ilaq',
                             type='types.Integer',
                             description='Choose light ion and nucleon physics modules',
-                            restriction='isinstance(ilaq.value, types.Jump) or ilaq.value == 0 or ilaq.value == 1',
+                            restriction='isinstance(ilaq.value, types.Jump) or ilaq == 0 or ilaq == 1',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -5539,14 +5539,14 @@ cards = ElementScheme(
                             type='types.Integer',
                             description='Pauli blocking parameter setting',
                             optional=True,
-                            restriction='npaulincl.value == 0 or npaulincl.value == -1 or npaulincl.value == 1',
+                            restriction='npaulincl == 0 or npaulincl == -1 or npaulincl == 1',
                         ),
                         AttributeScheme(
                             name='nosurfincl',
                             type='types.Integer',
                             description='Difuse nuclear surface based on Wood-Saxon density setting',
                             optional=True,
-                            restriction='nosurfincl.value in {-2, -1, 0, 1}',
+                            restriction='nosurfincl in {-2, -1, 0, 1}',
                         ),
                         AttributeScheme(
                             name='ecutincl',
@@ -5576,56 +5576,56 @@ cards = ElementScheme(
                             name='ipht',
                             type='types.Integer',
                             description='Generation of de-excitation photons setting',
-                            restriction='isinstance(ipht.value, types.Jump) or ipht.value in {0, 1}',
+                            restriction='isinstance(ipht.value, types.Jump) or ipht in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='icc',
                             type='types.Integer',
                             description='Level of physics for PHT physics setting',
-                            restriction='isinstance(icc.value, types.Jump) or icc.value in {0, 1, 2, 3, 4}',
+                            restriction='isinstance(icc.value, types.Jump) or icc in {0, 1, 2, 3, 4}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='nobalc',
                             type='types.Integer',
                             description='Mass-energy balancing in cascade setting',
-                            restriction='isinstance(nobalc.value, types.Jump) or nobalc.value in {0, 1}',
+                            restriction='isinstance(nobalc.value, types.Jump) or nobalc in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='nobale',
                             type='types.Integer',
                             description='Mass-energy balancing in evaporation setting',
-                            restriction='isinstance(nobale.value, types.Jump) or nobale.value in {0, 1}',
+                            restriction='isinstance(nobale.value, types.Jump) or nobale in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='ifbrk',
                             type='types.Integer',
                             description='Mass-energy balancing in Fermi-breakup setting',
-                            restriction='isinstance(ifbrk.value, types.Jump) or ifbrk.value in {0, 1}',
+                            restriction='isinstance(ifbrk.value, types.Jump) or ifbrk in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='ilvden',
                             type='types.Integer',
                             description='Level-density model setting',
-                            restriction='isinstance(ilvden.value, types.Jump) or ilvden.value in {0, 1, -1}',
+                            restriction='isinstance(ilvden.value, types.Jump) or ilvden in {0, 1, -1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='ievap',
                             type='types.Integer',
                             description='Evaporation and fission model setting',
-                            restriction='isinstance(ievap.value, types.Jump) or ievap.value in {0, 1, -1, 2}',
+                            restriction='isinstance(ievap.value, types.Jump) or ievap in {0, 1, -1, 2}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='nofis',
                             type='types.Integer',
                             description='Fission setting',
-                            restriction='isinstance(nofis.value, types.Jump) or nofis.value in {0, 1}',
+                            restriction='isinstance(nofis.value, types.Jump) or nofis in {0, 1}',
                             optional=True,
                         ),
                     ],
@@ -5638,28 +5638,28 @@ cards = ElementScheme(
                             name='yzere',
                             type='types.Real',
                             description='Y0 parameter in level-density formula for Z≤70',
-                            restriction='isinstance(yzere.value, types.Jump) or yzere.value > 0',
+                            restriction='isinstance(yzere.value, types.Jump) or yzere > 0',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='bzere',
                             type='types.Real',
                             description='B0 parameter in level-density formula for Z≤70',
-                            restriction='isinstance(bzere.value, types.Jump) or bzere.value > 0',
+                            restriction='isinstance(bzere.value, types.Jump) or bzere > 0',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='yzero',
                             type='types.Real',
                             description='Y0 parameter in level-density formula for Z≥71',
-                            restriction='isinstance(yzero.value, types.Jump) or yzero.value > 0',
+                            restriction='isinstance(yzero.value, types.Jump) or yzero > 0',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='bzero',
                             type='types.Real',
                             description='B0 parameter in level-density formula for Z≥70',
-                            restriction='isinstance(bzero.value, types.Jump) or bzero.value > 0',
+                            restriction='isinstance(bzero.value, types.Jump) or bzero > 0',
                             optional=True,
                         ),
                     ],
@@ -5738,7 +5738,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.Integer',
                                     description='Gaussian sampling algorithm setting',
-                                    restriction='setting.value in {0, 1, 3, 5, 6, 7}',
+                                    restriction='setting in {0, 1, 3, 5, 6, 7}',
                                 ),
                             ],
                         ),
@@ -5750,7 +5750,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.Integer',
                                     description='Sampling method setting',
-                                    restriction='setting.value in {0, 1, 2, 3}',
+                                    restriction='setting in {0, 1, 2, 3}',
                                 ),
                             ],
                         ),
@@ -5762,7 +5762,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.Integer',
                                     description='Shift method setting',
-                                    restriction='setting.value in {0, 1, 2, 3, 4}',
+                                    restriction='setting in {0, 1, 2, 3, 4}',
                                 ),
                             ],
                         ),
@@ -5788,7 +5788,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Multiple coulomb scattering setting',
-                                    restriction='setting.value in {"off", "fnal1", "gaussian", "fnal2"}',
+                                    restriction='setting in {"off", "fnal1", "gaussian", "fnal2"}',
                                 ),
                             ],
                         ),
@@ -5800,7 +5800,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Slowing down energy losses setting',
-                                    restriction='setting.value in {"off", "strag1", "csda"}',
+                                    restriction='setting in {"off", "strag1", "csda"}',
                                 ),
                             ],
                         ),
@@ -5812,7 +5812,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Nuclear reactions setting',
-                                    restriction='setting.value in {"off", "on", "atten", "remove"}',
+                                    restriction='setting in {"off", "on", "atten", "remove"}',
                                 ),
                             ],
                         ),
@@ -5824,7 +5824,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Nuclear elastic scattering setting',
-                                    restriction='setting.value in {"off", "on"}',
+                                    restriction='setting in {"off", "on"}',
                                 ),
                             ],
                         ),
@@ -5872,13 +5872,13 @@ cards = ElementScheme(
                             name='axsh',
                             type='types.Integer',
                             description='Horiztonal axis orientation',
-                            restriction='axsh.value in {1, 2, 3}',
+                            restriction='axsh in {1, 2, 3}',
                         ),
                         AttributeScheme(
                             name='axsv',
                             type='types.Integer',
                             description='Vertical axis orientation',
-                            restriction='axsv.value in {1, 2, 3}',
+                            restriction='axsv in {1, 2, 3}',
                         ),
                         AttributeScheme(
                             name='emaps',
@@ -6031,7 +6031,7 @@ cards = ElementScheme(
                                     name='number',
                                     type='types.Integer',
                                     description='Cell number',
-                                    restriction='isinstance(number.value, types.Jump) or 0 <= number.value <= 99_999_999',
+                                    restriction='isinstance(number.value, types.Jump) or (number >= 0 and number <= 99_999_999)',
                                 ),
                             ],
                         ),
@@ -6043,7 +6043,7 @@ cards = ElementScheme(
                                     name='number',
                                     type='types.Integer',
                                     description='Surface number',
-                                    restriction='isinstance(number.value, types.Jump) or 0 <= number.value <= 99_999_999',
+                                    restriction='isinstance(number.value, types.Jump) or (number >= 0 and number <= 99_999_999)',
                                 ),
                             ],
                         ),
@@ -6253,7 +6253,7 @@ cards = ElementScheme(
                                     name='number',
                                     type='types.Integer',
                                     description='Cookie-cutter cell number',
-                                    restriction='0 <= number.value <= 99_999_999',
+                                    restriction='number >= 0 and number <= 99_999_999',
                                 ),
                             ],
                         ),
@@ -6331,19 +6331,19 @@ cards = ElementScheme(
                                     name='month',
                                     type='types.Integer',
                                     description='Month for cosmic-ray & background sources',
-                                    restriction='1 <= month.value <= 12',
+                                    restriction='month >= 1 and month <= 12',
                                 ),
                                 AttributeScheme(
                                     name='day',
                                     type='types.Integer',
                                     description='Day for cosmic-ray & background sources',
-                                    restriction='1 <= day.value <= 31',
+                                    restriction='day >= 1 and day <= 31',
                                 ),
                                 AttributeScheme(
                                     name='year',
                                     type='types.Integer',
                                     description='Year for cosmic-ray & background sources',
-                                    restriction='1 <= year.value <= 9999',
+                                    restriction='year >= 1 and year <= 9999',
                                 ),
                             ],
                         ),
@@ -6355,19 +6355,19 @@ cards = ElementScheme(
                                     name='latitude',
                                     type='types.Real',
                                     description='Latitude for cosmic source',
-                                    restriction='-90 <= latitude.value <= 90',
+                                    restriction='latitude >= -0 and latitude <= 90',
                                 ),
                                 AttributeScheme(
                                     name='longitude',
                                     type='types.Real',
                                     description='Longitude for cosmic source',
-                                    restriction='-180 <= longitude.value <= 180',
+                                    restriction='longitude >= -0 and longitude <= 180',
                                 ),
                                 AttributeScheme(
                                     name='altitude',
                                     type='types.Real',
                                     description='Altitude for cosmic source',
-                                    restriction='0 <= altitude.value',
+                                    restriction='0 <= altitude',
                                 ),
                             ],
                         ),
@@ -6389,7 +6389,7 @@ cards = ElementScheme(
                                     name='bml',
                                     type='types.Real',
                                     description='Distance from the aperture to the spot',
-                                    restriction='bml.value >= 0',
+                                    restriction='bml >= 0',
                                 ),
                             ],
                         ),
@@ -6491,7 +6491,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='1 <= suffix.value <= 999',
+                            restriction='suffix >= 1 and suffix <= 999',
                         ),
                         AttributeScheme(
                             name='option',
@@ -6515,7 +6515,7 @@ cards = ElementScheme(
                             name='function',
                             type='types.Integer',
                             description='Built-in function designator',
-                            restriction='function.value in {-2, -3, -4, -5, -6, -7, -21, -31, -41}',
+                            restriction='function in {-2, -3, -4, -5, -6, -7, -21, -31, -41}',
                         ),
                         AttributeScheme(
                             name='a',
@@ -6539,7 +6539,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='1 <= suffix.value <= 999',
+                            restriction='suffix >= 1 and suffix <= 999',
                         ),
                         AttributeScheme(
                             name='option',
@@ -6563,7 +6563,7 @@ cards = ElementScheme(
                             name='function',
                             type='types.Integer',
                             description='Built-in function designator',
-                            restriction='function.value in {-2, -3, -4, -5, -6, -7, -21, -31, -41}',
+                            restriction='function in {-2, -3, -4, -5, -6, -7, -21, -31, -41}',
                         ),
                         AttributeScheme(
                             name='a',
@@ -6587,7 +6587,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='1 <= suffix.value <= 999',
+                            restriction='suffix >= 1 and suffix <= 999',
                         ),
                         AttributeScheme(
                             name='option',
@@ -6612,7 +6612,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='1 <= suffix.value <= 999',
+                            restriction='suffix >= 1 and suffix <= 999',
                         ),
                         # t
                         AttributeScheme(
@@ -6631,7 +6631,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='1 <= suffix.value <= 999',
+                            restriction='suffix >= 1 and suffix <= 999',
                         ),
                         # q
                         AttributeScheme(
@@ -6649,7 +6649,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='1 <= suffix.value <= 999',
+                            restriction='suffix >= 1 and suffix <= 999',
                         ),
                         AttributeScheme(
                             name='comment',
@@ -6690,7 +6690,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.Integer',
                                     description='Symmetric option flag',
-                                    restriction='setting.value in {0, 1, 2}',
+                                    restriction='setting in {0, 1, 2}',
                                 ),
                             ],
                         ),
@@ -6782,7 +6782,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.Integer',
                                     description='Collision option setting',
-                                    restriction='setting.value in {-1, 0, 1}',
+                                    restriction='setting in {-1, 0, 1}',
                                 ),
                             ],
                         ),
@@ -6827,7 +6827,7 @@ cards = ElementScheme(
                                     name='constant',
                                     type='types.Real',
                                     description='Constant for approximation in PSC evaluation',
-                                    restriction='constant.value >= 0',
+                                    restriction='constant >= 0',
                                 ),
                             ],
                         ),
@@ -6877,13 +6877,13 @@ cards = ElementScheme(
                                     name='zb',
                                     type='types.Real',
                                     description='Bottom of cylindrical window',
-                                    restriction='0 < zb.value',
+                                    restriction='zb > 0',
                                 ),
                                 AttributeScheme(
                                     name='ze',
                                     type='types.Real',
                                     description='Top of cylindrical window',
-                                    restriction='0 < zb.value < ze.value',
+                                    restriction='zb > 0 and zb < ze',
                                 ),
                             ],
                         ),
@@ -6897,7 +6897,7 @@ cards = ElementScheme(
                             name='nsrck',
                             type='types.Integer',
                             description='Number of source histories per cycle',
-                            restriction='isinstance(nsrck.value, types.Jump) or nsrck.value >= 0',
+                            restriction='isinstance(nsrck.value, types.Jump) or nsrck >= 0',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -6916,35 +6916,35 @@ cards = ElementScheme(
                             name='kct',
                             type='types.Integer',
                             description='Total number of cycles to be done',
-                            restriction='isinstance(kct.value, types.Jump) or kct.value > 0',
+                            restriction='isinstance(kct.value, types.Jump) or kct > 0',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='msrk',
                             type='types.Integer',
                             description='Number of source points to allocate for',
-                            restriction='isinstance(msrk.value, types.Jump) or msrk.value < 40 * (1000 if not nsrck or isinstance(nsrck.value, types.Jump) else nsrck.value)',
+                            restriction='isinstance(msrk.value, types.Jump) or msrk < 40 * (1000 if not nsrck or isinstance(nsrck.value, types.Jump) else nsrck)',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='knrm',
                             type='types.Integer',
                             description='Normalization of tallies setting',
-                            restriction='isinstance(knrm.value, types.Jump) or knrm.value in {0, 1}',
+                            restriction='isinstance(knrm.value, types.Jump) or knrm in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='mrkp',
                             type='types.Integer',
                             description='Maximum number of cycle values on MCTAL or RUNTPE files',
-                            restriction='isinstance(mrkp.value, types.Jump) or mrkp.value > 0',
+                            restriction='isinstance(mrkp.value, types.Jump) or mrkp > 0',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='kc8',
                             type='types.Integer',
                             description='Number of cylces for average setting',
-                            restriction='isinstance(kc8.value, types.Jump) or kc8.value in {0, 1}',
+                            restriction='isinstance(kc8.value, types.Jump) or kc8 in {0, 1}',
                             optional=True,
                         ),
                     ],
@@ -6980,7 +6980,7 @@ cards = ElementScheme(
                                     name='ncy',
                                     type='types.Integer',
                                     description='Number of cycles in every outer iteration',
-                                    restriction='ncy.value >= 2',
+                                    restriction='ncy >= 2',
                                 ),
                             ],
                         ),
@@ -6992,7 +6992,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Yes/No calculate point-kinetics parameters',
-                                    restriction='setting.value in {"yes", "no"}',
+                                    restriction='setting in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -7004,7 +7004,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Yes/No detailed precursor information',
-                                    restriction='setting.value in {"yes", "no"}',
+                                    restriction='setting in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -7028,7 +7028,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Yes/No FMAT',
-                                    restriction='setting.value in {"yes", "no"}',
+                                    restriction='setting in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -7073,7 +7073,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='fmataccel',
-                                    restriction='setting.value in {"yes", "no"}',
+                                    restriction='setting in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -7085,7 +7085,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='fmatreduce',
-                                    restriction='setting.value in {"yes", "no"}',
+                                    restriction='setting in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -7132,7 +7132,7 @@ cards = ElementScheme(
                             name='x_number',
                             type='types.Integer',
                             description='Number of mesh intervals in x direction',
-                            restriction='x_number.value > 0',
+                            restriction='x_number > 0',
                         ),
                         AttributeScheme(
                             name='x_minimum',
@@ -7148,7 +7148,7 @@ cards = ElementScheme(
                             name='y_number',
                             type='types.Integer',
                             description='Number of mesh intervals in y direction',
-                            restriction='y_number.value > 0',
+                            restriction='y_number > 0',
                         ),
                         AttributeScheme(
                             name='y_minimum',
@@ -7164,7 +7164,7 @@ cards = ElementScheme(
                             name='z_number',
                             type='types.Integer',
                             description='Number of mesh intervals in z direction',
-                            restriction='z_number.value > 0',
+                            restriction='z_number > 0',
                         ),
                         AttributeScheme(
                             name='z_minimum',
@@ -7186,7 +7186,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*", "+"}',
+                            restriction='prefix in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7194,7 +7194,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999 and suffix.value % 10 in {1, 2, 4, 6, 7}',
+                            restriction='suffix <= 99_999_999 and suffix % 10 in {1, 2, 4, 6, 7}',
                         ),
                         AttributeScheme(
                             name='designator',
@@ -7224,7 +7224,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*", "+"}',
+                            restriction='prefix in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7232,7 +7232,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999 and suffix.value % 10 == 5',
+                            restriction='suffix <= 99_999_999 and suffix % 10 == 5',
                         ),
                         AttributeScheme(
                             name='designator',
@@ -7262,7 +7262,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*", "+"}',
+                            restriction='prefix in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7270,7 +7270,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999 and suffix.value % 10 == 5',
+                            restriction='suffix <= 99_999_999 and suffix % 10 == 5',
                         ),
                         AttributeScheme(
                             name='a',
@@ -7306,7 +7306,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999 and suffix.value % 10 == 5',
+                            restriction='suffix <= 99_999_999 and suffix % 10 == 5',
                         ),
                         AttributeScheme(
                             name='designator',
@@ -7332,7 +7332,7 @@ cards = ElementScheme(
                             name='ro',
                             type='types.Real',
                             description='Pinhole exclusion radius',
-                            restriction='ro.value == 0',
+                            restriction='ro == 0',
                         ),
                         AttributeScheme(
                             name='x2',
@@ -7353,19 +7353,19 @@ cards = ElementScheme(
                             name='f1',
                             type='types.Real',
                             description='Cylindrical collimator radius',
-                            restriction='f1.value >= 0',
+                            restriction='f1 >= 0',
                         ),
                         AttributeScheme(
                             name='f2',
                             type='types.Real',
                             description='Pinhole radius in the direction perpendiuclar to the reference direction',
-                            restriction='f2.value >= 0',
+                            restriction='f2 >= 0',
                         ),
                         AttributeScheme(
                             name='f3',
                             type='types.Real',
                             description='Distance between pinhole and and detector grid',
-                            restriction='f3.value >= 0',
+                            restriction='f3 >= 0',
                         ),
                     ],
                 ),
@@ -7378,7 +7378,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999 and suffix.value % 10 == 5',
+                            restriction='suffix <= 99_999_999 and suffix % 10 == 5',
                         ),
                         AttributeScheme(
                             name='designator',
@@ -7405,7 +7405,7 @@ cards = ElementScheme(
                             name='ro',
                             type='types.Real',
                             description='Rectangular grid exclusion radius',
-                            restriction='ro.value == 0',
+                            restriction='ro == 0',
                         ),
                         AttributeScheme(
                             name='x2',
@@ -7426,7 +7426,7 @@ cards = ElementScheme(
                             name='f1',
                             type='types.Real',
                             description='Source contributions on/off',
-                            restriction='f1.value in {0, -1, 1}',
+                            restriction='f1 in {0, -1, 1}',
                         ),
                         AttributeScheme(
                             name='f2',
@@ -7437,7 +7437,7 @@ cards = ElementScheme(
                             name='f3',
                             type='types.Real',
                             description='Contribution offset setting',
-                            restriction='f3.value in {0, -1, 1}',
+                            restriction='f3 in {0, -1, 1}',
                         ),
                     ],
                 ),
@@ -7449,7 +7449,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999 and suffix.value % 10 == 5',
+                            restriction='suffix <= 99_999_999 and suffix % 10 == 5',
                         ),
                         AttributeScheme(
                             name='designator',
@@ -7475,7 +7475,7 @@ cards = ElementScheme(
                             name='ro',
                             type='types.Real',
                             description='Cylindrical grid exclusion radius',
-                            restriction='ro.value == 0',
+                            restriction='ro == 0',
                         ),
                         AttributeScheme(
                             name='x2',
@@ -7496,19 +7496,19 @@ cards = ElementScheme(
                             name='f1',
                             type='types.Real',
                             description='Source contributions on/off',
-                            restriction='f1.value in {0, -1}',
+                            restriction='f1 in {0, -1}',
                         ),
                         AttributeScheme(
                             name='f2',
                             type='types.Real',
                             description='Radial view of field',
-                            restriction='f2.value != 0',
+                            restriction='f2 != 0',
                         ),
                         AttributeScheme(
                             name='f3',
                             type='types.Real',
                             description='Contribution offset setting',
-                            restriction='f3.value in {0, -1}',
+                            restriction='f3 in {0, -1}',
                         ),
                     ],
                 ),
@@ -7520,7 +7520,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*", "+"}',
+                            restriction='prefix in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7528,7 +7528,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999 and suffix.value % 10 == 8',
+                            restriction='suffix <= 99_999_999 and suffix % 10 == 8',
                         ),
                         AttributeScheme(
                             name='designator',
@@ -7558,7 +7558,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='info',
@@ -7715,7 +7715,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*", "+"}',
+                            restriction='prefix in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7752,7 +7752,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -7821,7 +7821,7 @@ cards = ElementScheme(
                         AttributeScheme(
                             name='prefix',
                             type='types.String',
-                            restriction='prefix.value in {"*", "+"}',
+                            restriction='prefix in {"*", "+"}',
                             description='Star prefix',
                             optional=True,
                         ),
@@ -7829,7 +7829,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='bins',
@@ -7847,7 +7847,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='method',
@@ -7872,7 +7872,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='method',
@@ -7896,7 +7896,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='options',
@@ -7913,7 +7913,7 @@ cards = ElementScheme(
                                     name='units',
                                     type='types.Integer',
                                     description='Control units',
-                                    restriction='isinstance(units.value, types.Jump) or units.value in {1, 2}',
+                                    restriction='isinstance(units.value, types.Jump) or units in {1, 2}',
                                 )
                             ],
                         ),
@@ -7925,7 +7925,7 @@ cards = ElementScheme(
                                     name='normalization',
                                     type='types.Integer',
                                     description='Normalization factor for dose',
-                                    restriction='isinstance(normalization.value, types.Jump) or normalization.value >= -3',
+                                    restriction='isinstance(normalization.value, types.Jump) or normalization >= -3',
                                 )
                             ],
                         ),
@@ -7937,7 +7937,7 @@ cards = ElementScheme(
                                     name='function',
                                     type='types.Integer',
                                     description='Standard dose function',
-                                    restriction='isinstance(function.value, types.Jump) or function.value in {10, 20, 31, 32, 33, 34, 35, 40, 99}',
+                                    restriction='isinstance(function.value, types.Jump) or function in {10, 20, 31, 32, 33, 34, 35, 40, 99}',
                                 )
                             ],
                         ),
@@ -7961,7 +7961,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='multipliers',
@@ -7978,7 +7978,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='multipliers',
@@ -7995,7 +7995,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='multipliers',
@@ -8012,7 +8012,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='numbers',
@@ -8029,7 +8029,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='numbers',
@@ -8047,7 +8047,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='numbers',
@@ -8078,7 +8078,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='information',
@@ -8096,7 +8096,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='bounds',
@@ -8128,7 +8128,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='treatments',
@@ -8145,7 +8145,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='if1',
@@ -8205,7 +8205,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='if1',
@@ -8318,7 +8318,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='designator',
@@ -8352,7 +8352,7 @@ cards = ElementScheme(
                                     name='material',
                                     type='types.Integer',
                                     description='Material number to fill cells',
-                                    restriction='0 <= material.value <= 99_999_999',
+                                    restriction='material >= 0 and material <= 99_999_999',
                                 ),
                             ],
                         ),
@@ -8375,7 +8375,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.Integer',
                                     description='Printing and specifies setting',
-                                    restriction='setting.value in {1, -1, 2, -2, 3, -3}',
+                                    restriction='setting in {1, -1, 2, -2, 3, -3}',
                                 ),
                             ],
                         ),
@@ -8416,7 +8416,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='0 < suffix.value <= 10_000',
+                            restriction='suffix > 0 and suffix <= 10_000',
                         ),
                         AttributeScheme(
                             name='options',
@@ -8500,7 +8500,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Pertubated fission source on/off',
-                                    restriction='setting.value in {"yes", "no"}',
+                                    restriction='setting in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -8514,7 +8514,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='0 < suffix.value <= 999',
+                            restriction='suffix > 0 and suffix <= 999',
                         ),
                         AttributeScheme(
                             name='sen',
@@ -8614,7 +8614,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Renormalize sensitivity distribution on/off',
-                                    restriction='setting.value in {"yes", "no"}',
+                                    restriction='setting in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -8628,7 +8628,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='0 < suffix.value <= 999',
+                            restriction='suffix > 0 and suffix <= 999',
                         ),
                         AttributeScheme(
                             name='designator',
@@ -8815,7 +8815,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Tally results divided by energy yes/no',
-                                    restriction='setting.value in {"yes", "no"}',
+                                    restriction='setting in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -8849,7 +8849,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Tally results divided by time yes/no',
-                                    restriction='setting.value in {"yes", "no"}',
+                                    restriction='setting in {"yes", "no"}',
                                 ),
                             ],
                         ),
@@ -8872,7 +8872,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Output format',
-                                    restriction='setting.value in {"col", "cf", "ij", "ik", "jk", "none"}',
+                                    restriction='setting in {"col", "cf", "ij", "ik", "jk", "none"}',
                                 ),
                             ],
                         ),
@@ -8884,7 +8884,7 @@ cards = ElementScheme(
                                     name='number',
                                     type='types.Integer',
                                     description='Transformation applied to the mesh',
-                                    restriction='1 <= number.value <= 999',
+                                    restriction='number >= 1 and number <= 999',
                                 ),
                             ],
                         ),
@@ -8913,7 +8913,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Tally quantity',
-                                    restriction='setting.value in {"flux", "source"}',
+                                    restriction='setting in {"flux", "source"}',
                                 ),
                             ],
                         ),
@@ -9003,7 +9003,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Roulette game for weight windows and cell/energy/time importance off/no',
-                                    restriction='setting.value in {"no", "off"}',
+                                    restriction='setting in {"no", "off"}',
                                 ),
                             ],
                         ),
@@ -9049,7 +9049,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='designator',
@@ -9076,28 +9076,28 @@ cards = ElementScheme(
                             name='wupn',
                             type='types.Real',
                             description='Multiplier to define the weight window upper limit',
-                            restriction='isinstance(wupn.value, types.Jump) or wupn.value >= 2',
+                            restriction='isinstance(wupn.value, types.Jump) or wupn >= 2',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='wsurvn',
                             type='types.Real',
                             description='Multiplier to define the maximum Russian roulette survival weight within the window',
-                            restriction='isinstance(wsurvn.value, types.Jump) or 1 < wsurvn.value',
+                            restriction='isinstance(wsurvn.value, types.Jump) or 1 < wsurvn',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='mxspln',
                             type='types.Real',
                             description='Maximum number of integer splits',
-                            restriction='isinstance(mxspln.value, types.Jump) or 1 < mxspln.value',
+                            restriction='isinstance(mxspln.value, types.Jump) or 1 < mxspln',
                             optional=True,
                         ),
                         AttributeScheme(
                             name='mwhere',
                             type='types.Integer',
                             description='Controls where to check a particle’s weight',
-                            restriction='isinstance(mwhere.value, types.Jump) or mwhere.value in {-1, 0, 1}',
+                            restriction='isinstance(mwhere.value, types.Jump) or mwhere in {-1, 0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -9122,7 +9122,7 @@ cards = ElementScheme(
                             name='etsplt',
                             type='types.Integer',
                             description='ESLPT & TSPLT split/roulette on/off',
-                            restriction='isinstance(etsplt.value, types.Jump) or etsplt.value in {0, 1}',
+                            restriction='isinstance(etsplt.value, types.Jump) or etsplt in {0, 1}',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -9147,13 +9147,13 @@ cards = ElementScheme(
                             name='tally',
                             type='types.Integer',
                             description='Problem tally number',
-                            restriction='tally.value <= 99_999_999',
+                            restriction='tally <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='cell',
                             type='types.Integer',
                             description='Cell-based or mesh-based weight window generator',
-                            restriction='cell.value <= 99_999_999',
+                            restriction='cell <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='lower',
@@ -9984,7 +9984,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='designator',
@@ -10006,7 +10006,7 @@ cards = ElementScheme(
                             name='suffix',
                             type='types.Integer',
                             description='Data card option suffix',
-                            restriction='suffix.value <= 99_999_999',
+                            restriction='suffix <= 99_999_999',
                         ),
                         AttributeScheme(
                             name='designator',
@@ -10306,13 +10306,13 @@ cards = ElementScheme(
                             name='npp',
                             type='types.Integer',
                             description='Total number of histories to run',
-                            restriction='npp.value > 0',
+                            restriction='npp > 0',
                         ),
                         AttributeScheme(
                             name='npsmg',
                             type='types.Integer',
                             description='Number of history with direct source contributions',
-                            restriction='npsmg.value > 0',
+                            restriction='npsmg > 0',
                             optional=True,
                         ),
                     ],
@@ -10325,7 +10325,7 @@ cards = ElementScheme(
                             name='tme',
                             type='types.Integer',
                             description='maximum amount of minutes for Monte Carlo calculation',
-                            restriction='tme.value >= 0',
+                            restriction='tme >= 0',
                         ),
                     ],
                 ),
@@ -10377,7 +10377,7 @@ cards = ElementScheme(
                                     name='suffix',
                                     type='types.Integer',
                                     description='Data card option option suffix',
-                                    restriction='suffix.value <= 99_999_999',
+                                    restriction='suffix <= 99_999_999',
                                 ),
                                 AttributeScheme(
                                     name='e',
@@ -10468,7 +10468,7 @@ cards = ElementScheme(
                                     name='storage',
                                     type='types.Integer',
                                     description='Amount of storage available for filtered events',
-                                    restriction='storage.value > 0',
+                                    restriction='storage > 0',
                                 ),
                             ],
                         ),
@@ -10481,7 +10481,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='PTRAC file type',
-                                    restriction='setting.value in {"asc", "bin", "aov", "bov"}',
+                                    restriction='setting in {"asc", "bin", "aov", "bov"}',
                                 ),
                             ],
                         ),
@@ -10493,7 +10493,7 @@ cards = ElementScheme(
                                     name='events',
                                     type='types.Integer',
                                     description='Maximum number of events to write',
-                                    restriction='events.value != 0',
+                                    restriction='events != 0',
                                 ),
                             ],
                         ),
@@ -10505,7 +10505,7 @@ cards = ElementScheme(
                                     name='events',
                                     type='types.Integer',
                                     description='Maximum number of events per history to write',
-                                    restriction='events.value > 0',
+                                    restriction='events > 0',
                                 ),
                             ],
                         ),
@@ -10518,7 +10518,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Controls what particle parameters are written',
-                                    restriction='setting.value in {"pos", "all"}',
+                                    restriction='setting in {"pos", "all"}',
                                 ),
                             ],
                         ),
@@ -10531,7 +10531,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.String',
                                     description='Activates a PTRAC file format specifically for coincidence tally scoring',
-                                    restriction='setting.value in {"col", "lin"}',
+                                    restriction='setting in {"col", "lin"}',
                                 ),
                             ],
                         ),
@@ -10645,7 +10645,7 @@ cards = ElementScheme(
                                     name='n',
                                     type='types.Integer',
                                     description='Output decive specifier',
-                                    restriction='n.value in {0, 1}',
+                                    restriction='n in {0, 1}',
                                 ),
                             ],
                         ),
@@ -10853,7 +10853,7 @@ cards = ElementScheme(
                                     name='aa',
                                     type='types.String',
                                     description='Command parameter reset',
-                                    restriction='aa.value in {"all", "coplot"}',
+                                    restriction='aa in {"all", "coplot"}',
                                     optional=True,
                                 ),
                             ],
@@ -10866,7 +10866,7 @@ cards = ElementScheme(
                                     name='n',
                                     type='types.Integer',
                                     description='Line number',
-                                    restriction='n.value > 0',
+                                    restriction='n > 0',
                                 ),
                                 AttributeScheme(
                                     name='aa',
@@ -11075,7 +11075,7 @@ cards = ElementScheme(
                                     name='i',
                                     type='types.Integer',
                                     description='Lifetime to remove',
-                                    restriction='1 <= i.value <= 6 or 11 <= i.value <= 19',
+                                    restriction='(i >= 1 and i <= 6) or (i >= 1 and i <= 19)',
                                 ),
                             ],
                         ),
@@ -11109,7 +11109,7 @@ cards = ElementScheme(
                                     name='m',
                                     type='types.String',
                                     description='Material question mark',
-                                    restriction='m.value == "?"',
+                                    restriction='m == "?"',
                                 ),
                             ],
                         ),
@@ -11168,13 +11168,13 @@ cards = ElementScheme(
                                     name='upper',
                                     type='types.Real',
                                     description='x-axis upper limit',
-                                    restriction='lower.value < upper.value',
+                                    restriction='lower < upper',
                                 ),
                                 AttributeScheme(
                                     name='nsteps',
                                     type='types.Real',
                                     description='x-axis interval',
-                                    restriction='nsteps.value >= 0',
+                                    restriction='nsteps >= 0',
                                     optional=True,
                                 ),
                             ],
@@ -11192,13 +11192,13 @@ cards = ElementScheme(
                                     name='upper',
                                     type='types.Real',
                                     description='y-axis upper limit',
-                                    restriction='lower.value < upper.value',
+                                    restriction='lower < upper',
                                 ),
                                 AttributeScheme(
                                     name='nsteps',
                                     type='types.Real',
                                     description='y-axis interval',
-                                    restriction='nsteps.value >= 0',
+                                    restriction='nsteps >= 0',
                                     optional=True,
                                 ),
                             ],
@@ -11211,7 +11211,7 @@ cards = ElementScheme(
                                     name='n',
                                     type='types.Integer',
                                     description='Plot scale setting',
-                                    restriction='n.value in {1, 2, 3}',
+                                    restriction='n in {1, 2, 3}',
                                 ),
                             ],
                         ),
@@ -11478,7 +11478,7 @@ cards = ElementScheme(
                                     name='setting',
                                     type='types.Integer',
                                     description='Type of pseudorandom number generator',
-                                    restriction='setting.value in {1, 2, 3, 4}',
+                                    restriction='setting in {1, 2, 3, 4}',
                                 ),
                             ],
                         ),
@@ -11490,7 +11490,7 @@ cards = ElementScheme(
                                     name='seed',
                                     type='types.Integer',
                                     description='Random number generator seed',
-                                    restriction='seed.value % 2 == 1',
+                                    restriction='seed % 2 == 1',
                                 ),
                             ],
                         ),
@@ -11526,7 +11526,7 @@ cards = ElementScheme(
                             name='x1',
                             type='types.Integer',
                             description='Obsolete; pseudorandom number for the first particle history',
-                            restriction='x1.value >= 0',
+                            restriction='x1 >= 0',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -11557,7 +11557,7 @@ cards = ElementScheme(
                             name='x6',
                             type='types.Integer',
                             description='Detector/DXTRAN underflow limit',
-                            restriction='50 <= x6.value <= 200',
+                            restriction='x6 >= 50 and x6 <= 200',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -12134,13 +12134,13 @@ cards = ElementScheme(
                             name='lost1',
                             type='types.Integer',
                             description='Number of particles which can be lost before job termination',
-                            restriction='lost1.value >= 0',
+                            restriction='lost1 >= 0',
                         ),
                         AttributeScheme(
                             name='lost2',
                             type='types.Integer',
                             description='Maximum number of debug prints for lost particles.',
-                            restriction='lost2.value >= 0',
+                            restriction='lost2 >= 0',
                         ),
                     ],
                 ),

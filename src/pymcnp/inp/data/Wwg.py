@@ -45,9 +45,9 @@ class Wwg(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if tally is None or not (tally.value <= 99_999_999):
+        if tally is None or not (tally <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tally)
-        if cell is None or not (cell.value <= 99_999_999):
+        if cell is None or not (cell <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cell)
         if lower is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lower)

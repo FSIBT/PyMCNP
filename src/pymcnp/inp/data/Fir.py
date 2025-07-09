@@ -85,7 +85,7 @@ class Fir(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix.value <= 99_999_999 and suffix.value % 10 == 5):
+        if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 5):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if x1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x1)
@@ -93,7 +93,7 @@ class Fir(_option.DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y1)
         if z1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z1)
-        if ro is None or not (ro.value == 0):
+        if ro is None or not (ro == 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ro)
         if x2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x2)
@@ -101,11 +101,11 @@ class Fir(_option.DataOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y2)
         if z2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z2)
-        if f1 is None or f1.value not in {0, -1, 1}:
+        if f1 is None or f1 not in {0, -1, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f1)
         if f2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f2)
-        if f3 is None or f3.value not in {0, -1, 1}:
+        if f3 is None or f3 not in {0, -1, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, f3)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

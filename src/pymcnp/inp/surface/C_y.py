@@ -70,9 +70,9 @@ class C_y(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``C_y``.
         """
 
-        vis = _visualization.Visualization.get_cylinder_unbounded(self.r.value)
+        vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
-        vis = vis.add_translation(_visualization.Vector(self.x.value, 0, self.z.value))
+        vis = vis.add_translation(_visualization.Vector(self.x, 0, self.z))
 
         return vis
 

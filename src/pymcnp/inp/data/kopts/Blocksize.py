@@ -36,7 +36,7 @@ class Blocksize(_option.KoptsOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if ncy is None or not (ncy.value >= 2):
+        if ncy is None or not (ncy >= 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ncy)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

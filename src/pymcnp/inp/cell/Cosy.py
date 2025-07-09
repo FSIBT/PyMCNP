@@ -36,7 +36,7 @@ class Cosy(_option.CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if number is None or number.value not in {1, 2, 3, 4, 5, 6}:
+        if number is None or number not in {1, 2, 3, 4, 5, 6}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

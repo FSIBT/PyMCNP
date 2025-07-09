@@ -39,7 +39,7 @@ class Title(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if n is None or not (n.value > 0):
+        if n is None or not (n > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)
         if aa is None or not (len(aa) <= 40):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)

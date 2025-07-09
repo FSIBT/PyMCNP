@@ -161,11 +161,11 @@ class Rhp(_option.SurfaceOption):
             ``pyvista.PolyData`` for ``Rhp``
         """
 
-        v = _visualization.Vector(self.vx.value, self.vy.value, self.vz.value)
-        h = _visualization.Vector(self.hx.value, self.hy.value, self.hz.value)
-        r = _visualization.Vector(self.r1.value, self.r2.value, self.r3.value)
-        s = _visualization.Vector(self.s1.value, self.s2.value, self.s3.value)
-        t = _visualization.Vector(self.t1.value, self.t2.value, self.t3.value)
+        v = _visualization.Vector(self.vx, self.vy, self.vz)
+        h = _visualization.Vector(self.hx, self.hy, self.hz)
+        r = _visualization.Vector(self.r1, self.r2, self.r3)
+        s = _visualization.Vector(self.s1, self.s2, self.s3)
+        t = _visualization.Vector(self.t1, self.t2, self.t3)
 
         cross = v * _visualization.Vector(0, 0, 1)
         angle = v & _visualization.Vector(0, 0, 1)

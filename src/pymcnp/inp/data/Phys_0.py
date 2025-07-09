@@ -69,13 +69,13 @@ class Phys_0(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if iunr is not None and not (isinstance(iunr.value, types.Jump) or iunr.value in {0, 1}):
+        if iunr is not None and not (isinstance(iunr.value, types.Jump) or iunr in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iunr)
-        if ngam is not None and not (isinstance(ngam.value, types.Jump) or ngam.value in {0, 1, 2}):
+        if ngam is not None and not (isinstance(ngam.value, types.Jump) or ngam in {0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ngam)
-        if i_int_model is not None and not (isinstance(i_int_model.value, types.Jump) or i_int_model.value in {-1, 0, 1, 2, 3}):
+        if i_int_model is not None and not (isinstance(i_int_model.value, types.Jump) or i_int_model in {-1, 0, 1, 2, 3}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_int_model)
-        if i_els_model is not None and not (isinstance(i_els_model.value, types.Jump) or i_els_model.value in {-1, 0, 1}):
+        if i_els_model is not None and not (isinstance(i_els_model.value, types.Jump) or i_els_model in {-1, 0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_els_model)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

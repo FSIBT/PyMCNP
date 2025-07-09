@@ -46,7 +46,7 @@ class Bem(_option.SdefOption):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, exn)
         if eyn is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, eyn)
-        if bml is None or not (bml.value >= 0):
+        if bml is None or not (bml >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bml)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

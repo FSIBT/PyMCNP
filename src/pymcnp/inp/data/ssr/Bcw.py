@@ -44,9 +44,9 @@ class Bcw(_option.SsrOption):
 
         if radius is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, radius)
-        if zb is None or not (0 < zb.value):
+        if zb is None or not (zb > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zb)
-        if ze is None or not (0 < zb.value < ze.value):
+        if ze is None or not (zb > 0 and zb < ze):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ze)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

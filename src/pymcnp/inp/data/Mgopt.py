@@ -58,11 +58,11 @@ class Mgopt(_option.DataOption):
 
         if mcal is None or mcal not in {'f', 'a'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mcal)
-        if igm is None or not (igm.value >= 0):
+        if igm is None or not (igm >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, igm)
-        if iplt is not None and iplt.value not in {0, 1, 2}:
+        if iplt is not None and iplt not in {0, 1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iplt)
-        if iab is not None and iab.value not in {0, 1, 2}:
+        if iab is not None and iab not in {0, 1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iab)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

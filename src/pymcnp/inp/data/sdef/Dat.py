@@ -42,11 +42,11 @@ class Dat(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if month is None or not (1 <= month.value <= 12):
+        if month is None or not (month >= 1 and month <= 12):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, month)
-        if day is None or not (1 <= day.value <= 31):
+        if day is None or not (day >= 1 and day <= 31):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, day)
-        if year is None or not (1 <= year.value <= 9999):
+        if year is None or not (year >= 1 and year <= 9999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, year)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

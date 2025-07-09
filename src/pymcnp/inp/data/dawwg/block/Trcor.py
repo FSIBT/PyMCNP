@@ -36,7 +36,7 @@ class Trcor(_option.BlockOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting.value not in {'diag'}:
+        if setting is None or setting not in {'diag'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

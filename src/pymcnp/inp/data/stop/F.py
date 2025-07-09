@@ -39,7 +39,7 @@ class F(_option.StopOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix.value <= 99_999_999):
+        if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
         if e is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, e)

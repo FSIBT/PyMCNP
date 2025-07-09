@@ -69,9 +69,9 @@ class Lcc(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if npaulincl is not None and not (npaulincl.value == 0 or npaulincl.value == -1 or npaulincl.value == 1):
+        if npaulincl is not None and not (npaulincl == 0 or npaulincl == -1 or npaulincl == 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, npaulincl)
-        if nosurfincl is not None and nosurfincl.value not in {-2, -1, 0, 1}:
+        if nosurfincl is not None and nosurfincl not in {-2, -1, 0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nosurfincl)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

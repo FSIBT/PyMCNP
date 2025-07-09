@@ -73,19 +73,19 @@ class Hsrc(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if x_number is None or not (x_number.value > 0):
+        if x_number is None or not (x_number > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x_number)
         if x_minimum is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x_minimum)
         if x_maximum is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x_maximum)
-        if y_number is None or not (y_number.value > 0):
+        if y_number is None or not (y_number > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y_number)
         if y_minimum is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y_minimum)
         if y_maximum is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y_maximum)
-        if z_number is None or not (z_number.value > 0):
+        if z_number is None or not (z_number > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z_number)
         if z_minimum is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, z_minimum)

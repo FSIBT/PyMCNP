@@ -53,13 +53,13 @@ class Phys_1(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if ides is not None and not (isinstance(ides.value, types.Jump) or ides.value in {0, 1}):
+        if ides is not None and not (isinstance(ides.value, types.Jump) or ides in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ides)
-        if nocoh is not None and not (isinstance(nocoh.value, types.Jump) or nocoh.value in {0, 1}):
+        if nocoh is not None and not (isinstance(nocoh.value, types.Jump) or nocoh in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nocoh)
-        if ispn is not None and not (isinstance(ispn.value, types.Jump) or ispn.value in {-1, 0, 1}):
+        if ispn is not None and not (isinstance(ispn.value, types.Jump) or ispn in {-1, 0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ispn)
-        if nodop is not None and not (isinstance(nodop.value, types.Jump) or nodop.value in {0, 1}):
+        if nodop is not None and not (isinstance(nodop.value, types.Jump) or nodop in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nodop)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

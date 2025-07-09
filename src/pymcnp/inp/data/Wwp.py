@@ -83,15 +83,15 @@ class Wwp(_option.DataOption):
 
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
-        if wupn is not None and not (isinstance(wupn.value, types.Jump) or wupn.value >= 2):
+        if wupn is not None and not (isinstance(wupn.value, types.Jump) or wupn >= 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wupn)
-        if wsurvn is not None and not (isinstance(wsurvn.value, types.Jump) or 1 < wsurvn.value):
+        if wsurvn is not None and not (isinstance(wsurvn.value, types.Jump) or 1 < wsurvn):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wsurvn)
-        if mxspln is not None and not (isinstance(mxspln.value, types.Jump) or 1 < mxspln.value):
+        if mxspln is not None and not (isinstance(mxspln.value, types.Jump) or 1 < mxspln):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mxspln)
-        if mwhere is not None and not (isinstance(mwhere.value, types.Jump) or mwhere.value in {-1, 0, 1}):
+        if mwhere is not None and not (isinstance(mwhere.value, types.Jump) or mwhere in {-1, 0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mwhere)
-        if etsplt is not None and not (isinstance(etsplt.value, types.Jump) or etsplt.value in {0, 1}):
+        if etsplt is not None and not (isinstance(etsplt.value, types.Jump) or etsplt in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, etsplt)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

@@ -36,7 +36,7 @@ class Ctme(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if tme is None or not (tme.value >= 0):
+        if tme is None or not (tme >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tme)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

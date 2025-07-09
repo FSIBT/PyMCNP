@@ -48,7 +48,7 @@ class C(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if prefix is not None and prefix.value not in {'*', '+'}:
+        if prefix is not None and prefix not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)

@@ -36,7 +36,7 @@ class Dnbais(_option.ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if count is None or not (0 <= count.value <= 10):
+        if count is None or not (count >= 0 and count <= 10):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

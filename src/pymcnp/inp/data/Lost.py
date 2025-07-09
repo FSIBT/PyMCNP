@@ -39,9 +39,9 @@ class Lost(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if lost1 is None or not (lost1.value >= 0):
+        if lost1 is None or not (lost1 >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lost1)
-        if lost2 is None or not (lost2.value >= 0):
+        if lost2 is None or not (lost2 >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lost2)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

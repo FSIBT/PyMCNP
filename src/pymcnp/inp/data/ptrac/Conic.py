@@ -36,7 +36,7 @@ class Conic(_option.PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting.value not in {'col', 'lin'}:
+        if setting is None or setting not in {'col', 'lin'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

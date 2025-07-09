@@ -36,7 +36,7 @@ class Thresh(_option.ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if fraction is None or not (0 <= fraction.value <= 1):
+        if fraction is None or not (fraction >= 0 and fraction <= 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fraction)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

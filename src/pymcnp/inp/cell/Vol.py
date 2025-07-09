@@ -36,7 +36,7 @@ class Vol(_option.CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if volume is None or not (volume.value >= 0):
+        if volume is None or not (volume >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, volume)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

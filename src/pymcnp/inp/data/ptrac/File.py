@@ -36,7 +36,7 @@ class File(_option.PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if setting is None or setting.value not in {'asc', 'bin', 'aov', 'bov'}:
+        if setting is None or setting not in {'asc', 'bin', 'aov', 'bov'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(

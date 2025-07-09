@@ -69,21 +69,21 @@ class Lea(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if ipht is not None and not (isinstance(ipht.value, types.Jump) or ipht.value in {0, 1}):
+        if ipht is not None and not (isinstance(ipht.value, types.Jump) or ipht in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ipht)
-        if icc is not None and not (isinstance(icc.value, types.Jump) or icc.value in {0, 1, 2, 3, 4}):
+        if icc is not None and not (isinstance(icc.value, types.Jump) or icc in {0, 1, 2, 3, 4}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, icc)
-        if nobalc is not None and not (isinstance(nobalc.value, types.Jump) or nobalc.value in {0, 1}):
+        if nobalc is not None and not (isinstance(nobalc.value, types.Jump) or nobalc in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nobalc)
-        if nobale is not None and not (isinstance(nobale.value, types.Jump) or nobale.value in {0, 1}):
+        if nobale is not None and not (isinstance(nobale.value, types.Jump) or nobale in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nobale)
-        if ifbrk is not None and not (isinstance(ifbrk.value, types.Jump) or ifbrk.value in {0, 1}):
+        if ifbrk is not None and not (isinstance(ifbrk.value, types.Jump) or ifbrk in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ifbrk)
-        if ilvden is not None and not (isinstance(ilvden.value, types.Jump) or ilvden.value in {0, 1, -1}):
+        if ilvden is not None and not (isinstance(ilvden.value, types.Jump) or ilvden in {0, 1, -1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ilvden)
-        if ievap is not None and not (isinstance(ievap.value, types.Jump) or ievap.value in {0, 1, -1, 2}):
+        if ievap is not None and not (isinstance(ievap.value, types.Jump) or ievap in {0, 1, -1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ievap)
-        if nofis is not None and not (isinstance(nofis.value, types.Jump) or nofis.value in {0, 1}):
+        if nofis is not None and not (isinstance(nofis.value, types.Jump) or nofis in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nofis)
 
         self.value: typing.Final[types.Tuple] = types.Tuple(
