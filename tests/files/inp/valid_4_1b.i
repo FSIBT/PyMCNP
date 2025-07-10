@@ -3,7 +3,7 @@ simple repeated structures
 2 0 1 -2 -3 4 -5 6 fill=1 imp:n=1
 3 0 -10 -11 12 u=1 imp:n=1
 4 0 #3 u=1 imp:n=1
-c 5 like 2 but trcl=3
+5 like 2 but trcl=3
 7 0 27 imp:n=0
 
 1 px -3

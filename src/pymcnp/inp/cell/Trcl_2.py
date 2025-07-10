@@ -14,28 +14,33 @@ class Trcl_2(_option.CellOption):
     Represents INP trcl variation #2 elements.
 
     Attributes:
+        prefix: Star prefix.
         transformation: Cell transformation..
     """
 
     _KEYWORD = 'trcl'
 
     _ATTRS = {
+        'prefix': types.String,
         'transformation': types.Transformation_1,
     }
 
-    _REGEX = re.compile(rf'\Atrcl( {types.Transformation_1._REGEX.pattern[2:-2]})\Z')
+    _REGEX = re.compile(rf'\A([*])?trcl( {types.Transformation_1._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, transformation: types.Transformation_1):
+    def __init__(self, transformation: types.Transformation_1, prefix: types.String = None):
         """
         Initializes ``Trcl_2``.
 
         Parameters:
+            prefix: Star prefix.
             transformation: Cell transformation..
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
+        if prefix is not None and prefix not in {'*'}:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
         if transformation is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, transformation)
 
@@ -45,6 +50,7 @@ class Trcl_2(_option.CellOption):
             ]
         )
 
+        self.prefix: typing.Final[types.String] = prefix
         self.transformation: typing.Final[types.Transformation_1] = transformation
 
 
@@ -54,10 +60,12 @@ class TrclBuilder_2(_option.CellOptionBuilder):
     Builds ``Trcl_2``.
 
     Attributes:
+        prefix: Star prefix.
         transformation: Cell transformation..
     """
 
     transformation: str | types.Transformation_1
+    prefix: str | types.String = None
 
     def build(self):
         """
@@ -67,6 +75,12 @@ class TrclBuilder_2(_option.CellOptionBuilder):
             ``Trcl_2`` for ``TrclBuilder_2``.
         """
 
+        prefix = self.prefix
+        if isinstance(self.prefix, types.String):
+            prefix = self.prefix
+        elif isinstance(self.prefix, str):
+            prefix = types.String.from_mcnp(self.prefix)
+
         transformation = self.transformation
         if isinstance(self.transformation, types.Transformation_1):
             transformation = self.transformation
@@ -74,6 +88,7 @@ class TrclBuilder_2(_option.CellOptionBuilder):
             transformation = types.Transformation_1.from_mcnp(self.transformation)
 
         return Trcl_2(
+            prefix=prefix,
             transformation=transformation,
         )
 
@@ -87,5 +102,6 @@ class TrclBuilder_2(_option.CellOptionBuilder):
         """
 
         return TrclBuilder_2(
+            prefix=copy.deepcopy(ast.prefix),
             transformation=copy.deepcopy(ast.transformation),
         )

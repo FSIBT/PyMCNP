@@ -306,14 +306,22 @@ cards = ElementScheme(
                             name='number',
                             type='types.Integer',
                             description='Cell universe number',
-                            restriction='number >= -9 and number <= 99_999_999',
+                            restriction='number == 10000000000 or (number >= -9 and number <= 99_999_999)',
                         ),
                     ),
                 ),
                 ElementScheme(
                     name='trcl_0',
                     mnemonic='trcl',
+                    regex='([*])?trcl( {types.Integer._REGEX.pattern[2:-2]})',
                     attributes=(
+                        AttributeScheme(
+                            name='prefix',
+                            type='types.String',
+                            description='Star prefix',
+                            restriction='prefix in {"*"}',
+                            optional=True,
+                        ),
                         AttributeScheme(
                             name='transformation',
                             type='types.Integer',
@@ -325,7 +333,15 @@ cards = ElementScheme(
                 ElementScheme(
                     name='trcl_1',
                     mnemonic='trcl',
+                    regex='([*])?trcl( {types.Transformation_0._REGEX.pattern[2:-2]})',
                     attributes=[
+                        AttributeScheme(
+                            name='prefix',
+                            type='types.String',
+                            description='Star prefix',
+                            restriction='prefix in {"*"}',
+                            optional=True,
+                        ),
                         AttributeScheme(
                             name='transformation',
                             type='types.Transformation_0',
@@ -336,7 +352,15 @@ cards = ElementScheme(
                 ElementScheme(
                     name='trcl_2',
                     mnemonic='trcl',
+                    regex='([*])?trcl( {types.Transformation_1._REGEX.pattern[2:-2]})',
                     attributes=[
+                        AttributeScheme(
+                            name='prefix',
+                            type='types.String',
+                            description='Star prefix',
+                            restriction='prefix in {"*"}',
+                            optional=True,
+                        ),
                         AttributeScheme(
                             name='transformation',
                             type='types.Transformation_1',
@@ -347,7 +371,15 @@ cards = ElementScheme(
                 ElementScheme(
                     name='trcl_3',
                     mnemonic='trcl',
+                    regex='([*])?trcl( {types.Transformation_2._REGEX.pattern[2:-2]})',
                     attributes=[
+                        AttributeScheme(
+                            name='prefix',
+                            type='types.String',
+                            description='Star prefix',
+                            restriction='prefix in {"*"}',
+                            optional=True,
+                        ),
                         AttributeScheme(
                             name='transformation',
                             type='types.Transformation_2',
@@ -358,7 +390,15 @@ cards = ElementScheme(
                 ElementScheme(
                     name='trcl_4',
                     mnemonic='trcl',
+                    regex='([*])?trcl( {types.Transformation_3._REGEX.pattern[2:-2]})',
                     attributes=[
+                        AttributeScheme(
+                            name='prefix',
+                            type='types.String',
+                            description='Star prefix',
+                            restriction='prefix in {"*"}',
+                            optional=True,
+                        ),
                         AttributeScheme(
                             name='transformation',
                             type='types.Transformation_3',
@@ -369,7 +409,15 @@ cards = ElementScheme(
                 ElementScheme(
                     name='trcl_5',
                     mnemonic='trcl',
+                    regex='([*])?trcl( {types.Transformation_4._REGEX.pattern[2:-2]})',
                     attributes=[
+                        AttributeScheme(
+                            name='prefix',
+                            type='types.String',
+                            description='Star prefix',
+                            restriction='prefix in {"*"}',
+                            optional=True,
+                        ),
                         AttributeScheme(
                             name='transformation',
                             type='types.Transformation_4',
@@ -447,7 +495,7 @@ cards = ElementScheme(
                             name='universe',
                             type='types.Integer',
                             description='Cell fill universe number',
-                            restriction='universe >= 0 and universe <= 99_999_999',
+                            restriction='universe == 10000000000 or (universe >= 0 and universe <= 99_999_999)',
                         ),
                         AttributeScheme(
                             name='transformation',
@@ -474,7 +522,7 @@ cards = ElementScheme(
                             name='universe',
                             type='types.Integer',
                             description='Cell fill universe number',
-                            restriction='universe >= 0 and universe <= 99_999_999',
+                            restriction='universe == 10000000000 or (universe >= 0 and universe <= 99_999_999)',
                         ),
                         AttributeScheme(
                             name='transformation',
@@ -501,7 +549,7 @@ cards = ElementScheme(
                             name='universe',
                             type='types.Integer',
                             description='Cell fill universe number',
-                            restriction='universe >= 0 and universe <= 99_999_999',
+                            restriction='universe == 10000000000 or (universe >= 0 and universe <= 99_999_999)',
                         ),
                         AttributeScheme(
                             name='transformation',
@@ -528,7 +576,7 @@ cards = ElementScheme(
                             name='universe',
                             type='types.Integer',
                             description='Cell fill universe number',
-                            restriction='universe >= 0 and universe <= 99_999_999',
+                            restriction='universe == 10000000000 or (universe >= 0 and universe <= 99_999_999)',
                         ),
                         AttributeScheme(
                             name='transformation',
@@ -555,7 +603,7 @@ cards = ElementScheme(
                             name='universe',
                             type='types.Integer',
                             description='Cell fill universe number',
-                            restriction='universe >= 0 and universe <= 99_999_999',
+                            restriction='universe == 10000000000 or (universe >= 0 and universe <= 99_999_999)',
                         ),
                         AttributeScheme(
                             name='transformation',
@@ -582,7 +630,7 @@ cards = ElementScheme(
                             name='universe',
                             type='types.Integer',
                             description='Cell fill universe number',
-                            restriction='universe >= 0 and universe <= 99_999_999',
+                            restriction='universe == 10000000000 or (universe >= 0 and universe <= 99_999_999)',
                         ),
                         AttributeScheme(
                             name='transformation',

@@ -75,6 +75,39 @@ class string:
             BFLCL = 'bflcl=1'
             UNC = 'unc:@=1'
 
+        class like:
+            IMP = 'imp:@=1'
+            VOL = 'vol=1'
+            PWT = 'pwt=3.1'
+            EXT = 'ext:@=hello'
+            FCL = 'fcl:@=0.8'
+            WWN = 'wwn1:@=3.1'
+            DXC = 'dxc1:@=0.8'
+            NONU = 'nonu=1'
+            PD = 'pd1=0.8'
+            U = 'u=3.1'
+            TRCL_0 = 'trcl=1'
+            TRCL_1 = 'trcl=1 1 1 2 2 2 3 3 3 4 4 4'
+            TRCL_2 = 'trcl=1 1 1 2 2 2 3 3 3'
+            TRCL_3 = 'trcl=1 1 1 2 2 2 3 3'
+            TRCL_4 = 'trcl=1 1 1 2 2 2'
+            TRCL_5 = 'trcl=1 1 1'
+            LAT = 'lat=1'
+            FILL_0 = '*fill=1:2 1:2 1:2 1 1 1 1 1 1 1'
+            FILL_1 = '*fill=1 1 1 1 2 2 2 3 3 3 4 4 4'
+            FILL_2 = '*fill=1 1 1 1 2 2 2 3 3 3'
+            FILL_3 = '*fill=1 1 1 1 2 2 2 3 3'
+            FILL_4 = '*fill=1 1 1 1 2 2 2'
+            FILL_5 = '*fill=1 1 1 1'
+            FILL_6 = '*fill=1 1'
+            ELPT = 'elpt:@=3.1'
+            TMP = 'tmp1=3.1 3.1 3.1'
+            COSY = 'cosy=1'
+            BFLCL = 'bflcl=1'
+            UNC = 'unc:@=1'
+            MAT = 'mat 1'
+            RHO = 'rho -9'
+
         class surface:
             P_0 = 'p 1 1 1 1'
             P_1 = 'p 1 1 1 1 1 1 1 1 1'
@@ -1375,6 +1408,39 @@ class ast:
             BFLCL = pymcnp.inp.cell.Bflcl.from_mcnp(string.inp.cell.BFLCL)
             UNC = pymcnp.inp.cell.Unc.from_mcnp(string.inp.cell.UNC)
 
+        class like:
+            IMP = pymcnp.inp.like.Imp.from_mcnp(string.inp.like.IMP)
+            VOL = pymcnp.inp.like.Vol.from_mcnp(string.inp.like.VOL)
+            PWT = pymcnp.inp.like.Pwt.from_mcnp(string.inp.like.PWT)
+            EXT = pymcnp.inp.like.Ext.from_mcnp(string.inp.like.EXT)
+            FCL = pymcnp.inp.like.Fcl.from_mcnp(string.inp.like.FCL)
+            WWN = pymcnp.inp.like.Wwn.from_mcnp(string.inp.like.WWN)
+            DXC = pymcnp.inp.like.Dxc.from_mcnp(string.inp.like.DXC)
+            NONU = pymcnp.inp.like.Nonu.from_mcnp(string.inp.like.NONU)
+            PD = pymcnp.inp.like.Pd.from_mcnp(string.inp.like.PD)
+            U = pymcnp.inp.like.U.from_mcnp(string.inp.like.U)
+            TRCL_0 = pymcnp.inp.like.Trcl_0.from_mcnp(string.inp.like.TRCL_0)
+            TRCL_1 = pymcnp.inp.like.Trcl_1.from_mcnp(string.inp.like.TRCL_1)
+            TRCL_2 = pymcnp.inp.like.Trcl_2.from_mcnp(string.inp.like.TRCL_2)
+            TRCL_3 = pymcnp.inp.like.Trcl_3.from_mcnp(string.inp.like.TRCL_3)
+            TRCL_4 = pymcnp.inp.like.Trcl_4.from_mcnp(string.inp.like.TRCL_4)
+            TRCL_5 = pymcnp.inp.like.Trcl_5.from_mcnp(string.inp.like.TRCL_5)
+            LAT = pymcnp.inp.like.Lat.from_mcnp(string.inp.like.LAT)
+            FILL_0 = pymcnp.inp.like.Fill_0.from_mcnp(string.inp.like.FILL_0)
+            FILL_1 = pymcnp.inp.like.Fill_1.from_mcnp(string.inp.like.FILL_1)
+            FILL_2 = pymcnp.inp.like.Fill_2.from_mcnp(string.inp.like.FILL_2)
+            FILL_3 = pymcnp.inp.like.Fill_3.from_mcnp(string.inp.like.FILL_3)
+            FILL_4 = pymcnp.inp.like.Fill_4.from_mcnp(string.inp.like.FILL_4)
+            FILL_5 = pymcnp.inp.like.Fill_5.from_mcnp(string.inp.like.FILL_5)
+            FILL_6 = pymcnp.inp.like.Fill_6.from_mcnp(string.inp.like.FILL_6)
+            ELPT = pymcnp.inp.like.Elpt.from_mcnp(string.inp.like.ELPT)
+            TMP = pymcnp.inp.like.Tmp.from_mcnp(string.inp.like.TMP)
+            COSY = pymcnp.inp.like.Cosy.from_mcnp(string.inp.like.COSY)
+            BFLCL = pymcnp.inp.like.Bflcl.from_mcnp(string.inp.like.BFLCL)
+            UNC = pymcnp.inp.like.Unc.from_mcnp(string.inp.like.UNC)
+            MAT = pymcnp.inp.like.Mat.from_mcnp(string.inp.like.MAT)
+            RHO = pymcnp.inp.like.Rho.from_mcnp(string.inp.like.RHO)
+
         class surface:
             P_0 = pymcnp.inp.surface.P_0.from_mcnp(string.inp.surface.P_0)
             P_1 = pymcnp.inp.surface.P_1.from_mcnp(string.inp.surface.P_1)
@@ -2069,6 +2135,39 @@ class builder:
             COSY = pymcnp.inp.cell.CosyBuilder.unbuild(ast.inp.cell.COSY)
             BFLCL = pymcnp.inp.cell.BflclBuilder.unbuild(ast.inp.cell.BFLCL)
             UNC = pymcnp.inp.cell.UncBuilder.unbuild(ast.inp.cell.UNC)
+
+        class like:
+            IMP = pymcnp.inp.like.ImpBuilder.unbuild(ast.inp.like.IMP)
+            VOL = pymcnp.inp.like.VolBuilder.unbuild(ast.inp.like.VOL)
+            PWT = pymcnp.inp.like.PwtBuilder.unbuild(ast.inp.like.PWT)
+            EXT = pymcnp.inp.like.ExtBuilder.unbuild(ast.inp.like.EXT)
+            FCL = pymcnp.inp.like.FclBuilder.unbuild(ast.inp.like.FCL)
+            WWN = pymcnp.inp.like.WwnBuilder.unbuild(ast.inp.like.WWN)
+            DXC = pymcnp.inp.like.DxcBuilder.unbuild(ast.inp.like.DXC)
+            NONU = pymcnp.inp.like.NonuBuilder.unbuild(ast.inp.like.NONU)
+            PD = pymcnp.inp.like.PdBuilder.unbuild(ast.inp.like.PD)
+            U = pymcnp.inp.like.UBuilder.unbuild(ast.inp.like.U)
+            TRCL_0 = pymcnp.inp.like.TrclBuilder_0.unbuild(ast.inp.like.TRCL_0)
+            TRCL_1 = pymcnp.inp.like.TrclBuilder_1.unbuild(ast.inp.like.TRCL_1)
+            TRCL_2 = pymcnp.inp.like.TrclBuilder_2.unbuild(ast.inp.like.TRCL_2)
+            TRCL_3 = pymcnp.inp.like.TrclBuilder_3.unbuild(ast.inp.like.TRCL_3)
+            TRCL_4 = pymcnp.inp.like.TrclBuilder_4.unbuild(ast.inp.like.TRCL_4)
+            TRCL_5 = pymcnp.inp.like.TrclBuilder_5.unbuild(ast.inp.like.TRCL_5)
+            LAT = pymcnp.inp.like.LatBuilder.unbuild(ast.inp.like.LAT)
+            FILL_0 = pymcnp.inp.like.FillBuilder_0.unbuild(ast.inp.like.FILL_0)
+            FILL_1 = pymcnp.inp.like.FillBuilder_1.unbuild(ast.inp.like.FILL_1)
+            FILL_2 = pymcnp.inp.like.FillBuilder_2.unbuild(ast.inp.like.FILL_2)
+            FILL_3 = pymcnp.inp.like.FillBuilder_3.unbuild(ast.inp.like.FILL_3)
+            FILL_4 = pymcnp.inp.like.FillBuilder_4.unbuild(ast.inp.like.FILL_4)
+            FILL_5 = pymcnp.inp.like.FillBuilder_5.unbuild(ast.inp.like.FILL_5)
+            FILL_6 = pymcnp.inp.like.FillBuilder_6.unbuild(ast.inp.like.FILL_6)
+            ELPT = pymcnp.inp.like.ElptBuilder.unbuild(ast.inp.like.ELPT)
+            TMP = pymcnp.inp.like.TmpBuilder.unbuild(ast.inp.like.TMP)
+            COSY = pymcnp.inp.like.CosyBuilder.unbuild(ast.inp.like.COSY)
+            BFLCL = pymcnp.inp.like.BflclBuilder.unbuild(ast.inp.like.BFLCL)
+            UNC = pymcnp.inp.like.UncBuilder.unbuild(ast.inp.like.UNC)
+            MAT = pymcnp.inp.like.MatBuilder.unbuild(ast.inp.like.MAT)
+            RHO = pymcnp.inp.like.RhoBuilder.unbuild(ast.inp.like.RHO)
 
         class surface:
             P_0 = pymcnp.inp.surface.PBuilder_0.unbuild(ast.inp.surface.P_0)

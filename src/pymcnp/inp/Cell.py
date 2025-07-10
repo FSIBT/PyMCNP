@@ -30,7 +30,7 @@ class Cell(Card):
         'options': types.Tuple[cell.CellOption],
     }
 
-    _REGEX = re.compile(rf'\A(\S+)( \S+)((?<! 0) \S+|(?<= 0))( [^a-z]+)( ({cell.CellOption._REGEX.pattern[2:-2]}))*\Z')
+    _REGEX = re.compile(rf'\A(\S+)( \S+)((?<! 0) \S+|(?<= 0))( [^a-z]+)((?: (?:{cell.CellOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
     def __init__(
         self,

@@ -32,6 +32,8 @@ def _preprocess_whitespace(string: str):
     """ """
 
     string = re.sub(r' +', ' ', string)
+    string = re.sub(r'[(] ', '(', string)
+    string = re.sub(r' [)]', ')', string)
     string = re.sub(r'\n \n', '\n\n', string)
     string = re.sub(r' = | =|= |=', ' ', string)
     string = re.sub(r'\t', '    ', string)
@@ -77,14 +79,6 @@ def preprocess_inp(string: str):
     string = _preprocess_horizontal(string)
 
     return string, comments
-
-
-def preprocess_ptrac(string: str):
-    """ """
-
-    string = _preprocess_case(string)
-
-    return string
 
 
 """ Postprocessing Functions """
