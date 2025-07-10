@@ -130,8 +130,7 @@ class Inp(_object.McnpFile):
             try:
                 cells.append(inp.Like.from_mcnp(line))
                 continue
-            except errors.InpError as err:
-                print(err)
+            except errors.InpError:
                 pass
 
             cells.append(inp.Cell.from_mcnp(line))

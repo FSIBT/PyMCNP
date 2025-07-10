@@ -3,7 +3,7 @@ import copy
 import dataclasses
 
 
-from . import cell
+from . import like
 from ._card import Card
 from ..utils import types
 from ..utils import errors
@@ -23,16 +23,16 @@ class Like(Card):
     _ATTRS = {
         'number': types.Integer,
         'original': types.Integer,
-        'options': types.Tuple[cell.CellOption],
+        'options': types.Tuple[like.LikeOption],
     }
 
-    _REGEX = re.compile(rf'\A(\S+) like (\S+) but( ({cell.CellOption._REGEX.pattern[2:-2]}))*\Z')
+    _REGEX = re.compile(rf'\A(\S+) like (\S+) but((?: (?:{like.LikeOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
     def __init__(
         self,
         number: types.Integer,
         original: types.Integer,
-        options: types.Tuple[cell.CellOption] = None,
+        options: types.Tuple[like.LikeOption] = None,
     ):
         """
         Initializes ``Like``.
@@ -50,12 +50,10 @@ class Like(Card):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
         if original is None or not (1 <= original <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_CARD, original)
-        if options is not None and None in options:
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, options)
 
         self.number: types.Integer = number
         self.original: types.Integer = original
-        self.options: types.Tuple[cell.CellOption] = options
+        self.options: types.Tuple[like.LikeOption] = options
 
     def to_mcnp(self):
         """
@@ -85,7 +83,7 @@ class LikeBuilder:
 
     number: str | int | types.Integer
     original: str | int | types.Integer
-    options: list[str] | list[cell.CellOption] | list[cell.CellOptionBuilder] = None
+    options: list[str] | list[like.LikeOption] | list[like.LikeOptionBuilder] = None
 
     def build(self):
         """
@@ -114,11 +112,11 @@ class LikeBuilder:
         if self.options:
             options = []
             for item in self.options:
-                if isinstance(item, cell.CellOption):
+                if isinstance(item, like.LikeOption):
                     options.append(item)
                 elif isinstance(item, str):
-                    options.append(cell.CellOption.from_mcnp(item))
-                elif isinstance(item, cell.CellOptionBuilder):
+                    options.append(like.LikeOption.from_mcnp(item))
+                elif isinstance(item, like.LikeOptionBuilder):
                     options.append(item.build())
             options = types.Tuple(options)
         else:

@@ -2,18 +2,18 @@ lattice example 18
 1 1 -0.5 -7 #2 #3 #4 #5 #6 imp:n=1
 2 0 1 -2 -3 4 5 -6 imp:n=2 trcl=2 fill=1
 3 like 2 but trcl=3
-c 4 like 2 but trcl=4
-c 5 like 2 but trcl=5 imp:n=1
-c 6 like 2 but trcl=6
+4 like 2 but trcl=4
+5 like 2 but trcl=5 imp:n=1
+6 like 2 but trcl=6
 7 0 7 imp:n=0
-c 8 0 8 -9 -10 11 imp:n=1 trcl=(-.9 .9 0) fill=2 u=1
-c 9 like 8 but trcl=(.9 .9 0)
-c 10 like 8 but trcl=(.1 -.9 0)
+8 0 8 -9 -10 11 imp:n=1 trcl=(-.9 .9 0) fill=2 u=1
+9 like 8 but trcl=(.9 .9 0)
+10 like 8 but trcl=(.1 -.9 0)
 11 2 -18 #8 #9 #10 imp:n=1 u=1
 12 2 -18 -12 imp:n=1 trcl=(-.3 .3 0) u=2
-c 13 like 12 but trcl=( .3 .3 0)
-c 14 like 12 but trcl=( .3 -.3 0)
-c 15 like 12 but trcl=(-.3 -.3 0)
+13 like 12 but trcl=( .3 .3 0)
+14 like 12 but trcl=( .3 -.3 0)
+15 like 12 but trcl=(-.3 -.3 0)
 16 1 -0.5 #12 #13 #14 #15 u=2 imp:n=1
 
 1 px -2

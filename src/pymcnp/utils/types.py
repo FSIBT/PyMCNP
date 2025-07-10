@@ -471,7 +471,6 @@ class Integer(_object.McnpNonterminal):
             source = '1' + source
 
         try:
-            source = re.sub(r'd', 'e', source)
             return Integer(int(float(source)))
         except Exception:
             raise errors.McnpError(errors.McnpCode.SYNTAX_TYPE, source)
@@ -1769,7 +1768,9 @@ class Transformation_0(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)(?: (\S+))?\Z')
+    _REGEX = re.compile(
+        r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z'
+    )
 
     def __init__(
         self,
@@ -1918,7 +1919,7 @@ class Transformation_1(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)(?: (\S+))?\Z')
+    _REGEX = re.compile(r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z')
 
     def __init__(
         self,
@@ -2048,7 +2049,7 @@ class Transformation_2(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+) (\S+)(?: (\S+))?\Z')
+    _REGEX = re.compile(r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z')
 
     def __init__(
         self,
@@ -2170,7 +2171,7 @@ class Transformation_3(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+) (\S+) (\S+) (\S+)(?: (\S+))?\Z')
+    _REGEX = re.compile(r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z')
 
     def __init__(
         self,
@@ -2277,7 +2278,7 @@ class Transformation_4(_object.McnpNonterminal):
         m: Transformation coordinate system setting.
     """
 
-    _REGEX = re.compile(r'\A(\S+) (\S+) (\S+)(?: (\S+))?\Z')
+    _REGEX = re.compile(r'\A(?:[(])?([\d.ed+-]+) ([\d.ed+-]+) ([\d.ed+-]*)(?: ([\d.ed+-]*))?(?:[)])?\Z')
 
     def __init__(
         self,
