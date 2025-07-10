@@ -1,0 +1,22 @@
+import pymcnp
+from .... import consts
+from .... import classes
+
+
+class Test_Ext:
+    class Test_Init(classes.Test_Init):
+        element = pymcnp.inp.like.Ext
+        EXAMPLES_VALID = [{'designator': consts.ast.type.DESIGNATOR, 'stretch': consts.ast.type.STRING}]
+        EXAMPLES_INVALID = [{'designator': None, 'stretch': consts.ast.type.STRING}, {'designator': consts.ast.type.DESIGNATOR, 'stretch': None}]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.like.Ext
+        EXAMPLES_VALID = [consts.string.inp.like.EXT]
+        EXAMPLES_INVALID = ['hello']
+
+
+class Test_ExtBuilder:
+    class TestBuild(classes.Test_Build):
+        element = pymcnp.inp.like.ExtBuilder
+        EXAMPLES_VALID = [{'designator': consts.string.type.DESIGNATOR, 'stretch': consts.string.type.STRING}, {'designator': consts.ast.type.DESIGNATOR, 'stretch': consts.ast.type.STRING}]
+        EXAMPLES_INVALID = [{'designator': None, 'stretch': consts.string.type.STRING}, {'designator': consts.string.type.DESIGNATOR, 'stretch': None}]

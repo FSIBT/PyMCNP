@@ -6,11 +6,11 @@ Title!
 4 0 -8 9 -10 11 u=2 fill=3 lat=1
 5 1 -0.1 -12 u=3
 6 0 12 u=3
-c 7 0 -14 -2 3 u=4 fill=3 trcl=(-60 40 0)
-c 8 like 7 but trcl=(-30 40 0)
-c 9 like 7 but trcl=(0 40 0)
-c 10 like 7 but trcl=(30 40 0)
-c 11 like 7 but trcl=(60 40 0)
+7 0 -14 -2 3 u=4 fill=3 trcl=(-60 40 0)
+8 like 7 but trcl=(-30 40 0)
+9 like 7 but trcl=(0 40 0)
+10 like 7 but trcl=(30 40 0)
+11 like 7 but trcl=(60 40 0)
 12 0 #7 #8 #9 #10 #11 u=4
 13 0 1:2:-3
 

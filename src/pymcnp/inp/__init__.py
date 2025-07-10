@@ -1,6 +1,7 @@
 from ._card import Card
 from ._option import Option
 from . import cell
+from . import like
 from . import surface
 from . import data
 from .Cell import Cell
@@ -18,6 +19,7 @@ __all__ = [
     'Card',
     'Option',
     'cell',
+    'like',
     'surface',
     'data',
     'Cell',

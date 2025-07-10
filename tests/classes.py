@@ -52,6 +52,7 @@ class Test_Mcnp:
             a = self.element.from_mcnp(example)
             print(repr(a.to_mcnp()))
             b = self.element.from_mcnp(a.to_mcnp())
+            print(repr(b.to_mcnp()))
 
             assert a.to_mcnp() == b.to_mcnp()
 
