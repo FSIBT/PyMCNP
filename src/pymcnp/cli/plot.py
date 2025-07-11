@@ -84,12 +84,10 @@ class Plot:
             path: Path to new pdf file.
         """
 
-        path = _io.get_outfile(path, 'pdf')
-        with matplotlib.backends.backend_pdf.PdfPages(path) as pdf:
-            for fig in self.to_show(number):
-                pdf.savefig(fig)
-
-        return path
+        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+            with matplotlib.backends.backend_pdf.PdfPages(path) as pdf:
+                for fig in self.to_show(number):
+                    pdf.savefig(fig)
 
 
 def main() -> None:
@@ -117,11 +115,11 @@ def main() -> None:
 
     # Plotting!
     if args['--pdf']:
-        plot.to_pdf(number, pathlib.Path(file))
+        plot.to_pdf(number, pathlib.Path(_io.get_outfile(file, 'pdf')))
     else:
         plot.to_show(number)
 
-        if 'PYTEST_CURRENT_TEST' not in os.environ:
-            matplotlib.pyplot.show()  # pragma: no cover
+        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+            matplotlib.pyplot.show()
 
     _io.done()

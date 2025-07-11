@@ -43,26 +43,27 @@ class Visualize:
 
         self.inp = inp
 
-    def draw_cells(self):
+    def to_show_cells(self) -> pyvista.Plotter:
         """
         Visualizes INP cells.
         """
 
+        plot = pyvista.Plotter()
         # vis = self.inp.draw()
-        # PLOT.add_mesh(vis.data)
-        # PLOT.show(off_screen="PYTEST_CURRENT_TEST" in os.environ)
+        # plot.add_mesh(vis.data)
 
-    def draw_surfaces(self):
+        return plot
+
+    def to_show_surfaces(self) -> pyvista.Plotter:
         """
         Visualizes INP surfaces.
         """
 
-        vis = self.inp.draw()
         plot = pyvista.Plotter()
+        vis = self.inp.draw()
         plot.add_mesh(vis.data)
 
-        if 'PYTEST_CURRENT_TEST' not in os.environ:
-            plot.show()  # pragma: no cover
+        return plot
 
     def to_pdf_cells(self, path: str | pathlib.Path):
         """
@@ -72,14 +73,11 @@ class Visualize:
             path: Path to new pdf file.
         """
 
-        # vis = self.inp.draw()
         # plot = pyvista.Plotter()
+        # vis = self.inp.draw()
         # plot.add_mesh(vis.data)
 
-        path = _io.get_outfile(path, 'pdf', 'cells')
         # plot.save_graphic(str(path))
-
-        return path
 
     def to_pdf_surfaces(self, path: str | pathlib.Path):
         """
@@ -89,14 +87,12 @@ class Visualize:
             path: Path to new pdf file.
         """
 
-        vis = self.inp.draw()
         plot = pyvista.Plotter()
+        vis = self.inp.draw()
         plot.add_mesh(vis.data)
 
-        path = _io.get_outfile(path, 'pdf', 'surfaces')
-        plot.save_graphic(str(path))
-
-        return path
+        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+            plot.save_graphic(str(path))
 
 
 def main() -> None:
@@ -124,13 +120,20 @@ def main() -> None:
     # Visualizing!
     if args['--cells']:
         if args['--pdf']:
-            visualize.to_pdf_cells(file)
+            visualize.to_pdf_cells(_io.get_outfile(file, 'pdf', 'cells'))
         else:
-            visualize.draw_cells()
+            plot = visualize.to_show_cells()
+
+            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+                plot.plot()
+
     else:
         if args['--pdf']:
-            visualize.to_pdf_surfaces(file)
+            visualize.to_pdf_surfaces(_io.get_outfile(file, 'pdf', 'surfaces'))
         else:
-            visualize.draw_surfaces()
+            plot = visualize.to_show_surfaces()
+
+            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+                plot.plot()
 
     _io.done()

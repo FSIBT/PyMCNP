@@ -1,9 +1,4 @@
-import pathlib
 import subprocess
-
-import pymcnp
-from .. import consts
-from .. import classes
 
 
 class Test_Main:
@@ -16,4 +11,3 @@ class Test_Main:
             subprocess.run(['pymcnp', 'help', 'visualize'])
             subprocess.run(['pymcnp', 'help'])
             subprocess.run(['pymcnp', 'help', 'hello'])
-            

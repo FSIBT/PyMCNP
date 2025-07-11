@@ -21,23 +21,25 @@ class Test_Convert:
         ]
 
         def test_check(self):
+            path = pathlib.Path('hello.csv')
+
             for example in self.EXAMPLES:
                 element = self.element(example['outp'])
-                element.to_csv(example['number'], pathlib.Path('hello.csv')).unlink()
+                element.to_csv(example['number'], path)
 
         def test_fix(self):
+            path = pathlib.Path('hello.parquet')
+
             for example in self.EXAMPLES:
                 element = self.element(example['outp'])
-                element.to_parquet(example['number'], pathlib.Path('hello.parquet')).unlink()
+                element.to_parquet(example['number'], path)
 
 
 class Test_Main:
     class Test_Main:
         def test_valid(self):
             subprocess.run(['pymcnp', 'convert', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'valid_A.o'), '1', '--csv'])
-            subprocess.run(['rm', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'valid_A-1.csv')])
             subprocess.run(['pymcnp', 'convert', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'valid_A.o'), '1', '--parquet'])
-            subprocess.run(['rm', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'valid_A-1.parquet')])
 
         def test_invalid(self):
             subprocess.run(['pymcnp', 'convert', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'invalid_A.i'), '1', '--csv'])
