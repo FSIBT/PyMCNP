@@ -3,17 +3,15 @@ from ... import consts
 from ... import classes
 
 
-class Test_Tally_4:
+class Test_Tally_8:
     class Test_Init(classes.Test_Init):
-        element = pymcnp.outp.Tally_4
+        element = pymcnp.outp.Tally_8
         EXAMPLES_VALID = [
             {
                 'number': consts.string.type.STRING,
                 'nps': consts.string.type.STRING,
                 'tally_type': consts.string.type.STRING,
                 'particles': consts.string.type.STRING,
-                'cell': consts.string.type.STRING,
-                'cell_value': consts.string.type.STRING,
                 'subtallies': consts.string.type.STRING,
                 'stats_desired': consts.string.type.STRING,
                 'stats_observed': consts.string.type.STRING,
@@ -28,8 +26,6 @@ class Test_Tally_4:
                 'nps': consts.string.type.STRING,
                 'tally_type': consts.string.type.STRING,
                 'particles': consts.string.type.STRING,
-                'cell': consts.string.type.STRING,
-                'cell_value': consts.string.type.STRING,
                 'subtallies': consts.string.type.STRING,
                 'stats_desired': consts.string.type.STRING,
                 'stats_observed': consts.string.type.STRING,
@@ -42,8 +38,6 @@ class Test_Tally_4:
                 'nps': None,
                 'tally_type': consts.string.type.STRING,
                 'particles': consts.string.type.STRING,
-                'cell': consts.string.type.STRING,
-                'cell_value': consts.string.type.STRING,
                 'subtallies': consts.string.type.STRING,
                 'stats_desired': consts.string.type.STRING,
                 'stats_observed': consts.string.type.STRING,
@@ -56,8 +50,6 @@ class Test_Tally_4:
                 'nps': consts.string.type.STRING,
                 'tally_type': None,
                 'particles': consts.string.type.STRING,
-                'cell': consts.string.type.STRING,
-                'cell_value': consts.string.type.STRING,
                 'subtallies': consts.string.type.STRING,
                 'stats_desired': consts.string.type.STRING,
                 'stats_observed': consts.string.type.STRING,
@@ -70,8 +62,6 @@ class Test_Tally_4:
                 'nps': consts.string.type.STRING,
                 'tally_type': consts.string.type.STRING,
                 'particles': None,
-                'cell': consts.string.type.STRING,
-                'cell_value': consts.string.type.STRING,
                 'subtallies': consts.string.type.STRING,
                 'stats_desired': consts.string.type.STRING,
                 'stats_observed': consts.string.type.STRING,
@@ -84,36 +74,6 @@ class Test_Tally_4:
                 'nps': consts.string.type.STRING,
                 'tally_type': consts.string.type.STRING,
                 'particles': consts.string.type.STRING,
-                'cell': None,
-                'cell_value': consts.string.type.STRING,
-                'subtallies': consts.string.type.STRING,
-                'stats_desired': consts.string.type.STRING,
-                'stats_observed': consts.string.type.STRING,
-                'stats_passed': consts.string.type.STRING,
-                'asymmetric_interval': consts.string.type.STRING,
-                'symmetric_interval': consts.string.type.STRING,
-            },
-            {
-                'number': consts.string.type.STRING,
-                'nps': consts.string.type.STRING,
-                'tally_type': consts.string.type.STRING,
-                'particles': consts.string.type.STRING,
-                'cell': consts.string.type.STRING,
-                'cell_value': None,
-                'subtallies': consts.string.type.STRING,
-                'stats_desired': consts.string.type.STRING,
-                'stats_observed': consts.string.type.STRING,
-                'stats_passed': consts.string.type.STRING,
-                'asymmetric_interval': consts.string.type.STRING,
-                'symmetric_interval': consts.string.type.STRING,
-            },
-            {
-                'number': consts.string.type.STRING,
-                'nps': consts.string.type.STRING,
-                'tally_type': consts.string.type.STRING,
-                'particles': consts.string.type.STRING,
-                'cell': consts.string.type.STRING,
-                'cell_value': consts.string.type.STRING,
                 'subtallies': None,
                 'stats_desired': consts.string.type.STRING,
                 'stats_observed': consts.string.type.STRING,
@@ -126,8 +86,6 @@ class Test_Tally_4:
                 'nps': consts.string.type.STRING,
                 'tally_type': consts.string.type.STRING,
                 'particles': consts.string.type.STRING,
-                'cell': consts.string.type.STRING,
-                'cell_value': consts.string.type.STRING,
                 'subtallies': consts.string.type.STRING,
                 'stats_desired': None,
                 'stats_observed': consts.string.type.STRING,
@@ -140,8 +98,6 @@ class Test_Tally_4:
                 'nps': consts.string.type.STRING,
                 'tally_type': consts.string.type.STRING,
                 'particles': consts.string.type.STRING,
-                'cell': consts.string.type.STRING,
-                'cell_value': consts.string.type.STRING,
                 'subtallies': consts.string.type.STRING,
                 'stats_desired': consts.string.type.STRING,
                 'stats_observed': None,
@@ -154,8 +110,6 @@ class Test_Tally_4:
                 'nps': consts.string.type.STRING,
                 'tally_type': consts.string.type.STRING,
                 'particles': consts.string.type.STRING,
-                'cell': consts.string.type.STRING,
-                'cell_value': consts.string.type.STRING,
                 'subtallies': consts.string.type.STRING,
                 'stats_desired': consts.string.type.STRING,
                 'stats_observed': consts.string.type.STRING,
@@ -168,8 +122,6 @@ class Test_Tally_4:
                 'nps': consts.string.type.STRING,
                 'tally_type': consts.string.type.STRING,
                 'particles': consts.string.type.STRING,
-                'cell': consts.string.type.STRING,
-                'cell_value': consts.string.type.STRING,
                 'subtallies': consts.string.type.STRING,
                 'stats_desired': consts.string.type.STRING,
                 'stats_observed': consts.string.type.STRING,
@@ -182,8 +134,6 @@ class Test_Tally_4:
                 'nps': consts.string.type.STRING,
                 'tally_type': consts.string.type.STRING,
                 'particles': consts.string.type.STRING,
-                'cell': consts.string.type.STRING,
-                'cell_value': consts.string.type.STRING,
                 'subtallies': consts.string.type.STRING,
                 'stats_desired': consts.string.type.STRING,
                 'stats_observed': consts.string.type.STRING,
@@ -194,14 +144,14 @@ class Test_Tally_4:
         ]
 
     class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.outp.Tally_4
-        EXAMPLES_VALID = [consts.string.outp.TALLY_4]
+        element = pymcnp.outp.Tally_8
+        EXAMPLES_VALID = [consts.string.outp.TALLY_8]
         EXAMPLES_INVALID = [
             'hello',
         ]
 
     class Test_Dataframe(classes.Test_Dataframe):
-        element = pymcnp.outp.Tally_4
+        element = pymcnp.outp.Tally_8
         EXAMPLES = [
-            consts.string.outp.TALLY_4,
+            consts.string.outp.TALLY_8,
         ]
