@@ -6,6 +6,7 @@ Options:
     -f --fix        Reformat input file.
 """
 
+import os
 import pathlib
 import difflib
 
@@ -59,7 +60,10 @@ class Check:
         Fixes a file.
         """
 
-        Inp.from_file(self.path).to_file(self.path)
+        inp = Inp.from_file(self.path)
+
+        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+            inp.to_file(self.path)
 
 
 def main() -> None:
