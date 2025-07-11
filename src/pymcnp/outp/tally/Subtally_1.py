@@ -15,17 +15,19 @@ class Subtally_1(_subblock.TallySubblock):
 
     Attributes:
         surface: Surface number.
-        angles: Angle bins.
+        angle_from: Angle bin start.
+        angle_to: Angle bin end.
         lines: Tally lines.
         total: Total line.
     """
 
-    _REGEX = re.compile(r'\A surface {2}([^\n]+)\n angle {2}bin: ([^\n]+)\n {6}energy {3}\n((?:[^\n]+\n)+?) {6}total {6}([^\n]+)\n ?\n\Z')
+    _REGEX = re.compile(r'\A surface {2}([^\n]+)\n angle {2}bin: {2}([^\n]{12}) to {2}([^\n]{11}) degrees {85}\n {6}energy {3}\n((?:[^\n]+\n)+?) {6}total {6}([^\n]+)\n ?\n\Z')
 
     def __init__(
         self,
         surface: types.String,
-        angles: types.String,
+        angle_from: types.String,
+        angle_to: types.String,
         lines: types.Tuple[types.String],
         total: types.String,
     ):
@@ -34,7 +36,8 @@ class Subtally_1(_subblock.TallySubblock):
 
         Parameters:
             surface: Surface number.
-            angles: Angle bins.
+            angle_from: Angle bin start.
+            angle_to: Angle bin end.
             lines: Tally lines.
             total: Total line.
 
@@ -44,15 +47,18 @@ class Subtally_1(_subblock.TallySubblock):
 
         if surface is None:
             raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, surface)
-        if angles is None:
-            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, angles)
+        if angle_from is None:
+            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, angle_from)
+        if angle_to is None:
+            raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, angle_to)
         if lines is None or None in lines:
             raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, lines)
         if total is None:
             raise errors.OutpError(errors.OutpCode.SEMANTICS_TABLE, total)
 
         self.surface: typing.Final[types.String] = surface
-        self.angles: typing.Final[types.String] = angles
+        self.angle_from: typing.Final[types.String] = angle_from
+        self.angle_to: typing.Final[types.String] = angle_to
         self.lines: typing.Final[types.String] = lines
         self.total: typing.Final[types.String] = total
 
@@ -74,13 +80,15 @@ class Subtally_1(_subblock.TallySubblock):
             raise errors.OutpError(errors.OutpCode.SYNTAX_TABLE, source)
 
         surface = types.String.from_mcnp(tokens[1])
-        angles = types.String.from_mcnp(tokens[2])
-        lines = types.Tuple.from_mcnp(tokens[3], subtally.Line)
-        total = types.String.from_mcnp(tokens[4])
+        angle_from = types.String.from_mcnp(tokens[2])
+        angle_to = types.String.from_mcnp(tokens[3])
+        lines = types.Tuple.from_mcnp(tokens[4], subtally.Line)
+        total = types.String.from_mcnp(tokens[5])
 
         return Subtally_1(
             surface,
-            angles,
+            angle_from,
+            angle_to,
             lines,
             total,
         )
@@ -95,7 +103,7 @@ class Subtally_1(_subblock.TallySubblock):
 
         return f"""
  surface  {self.surface}
- angle  bin: {self.angles}
+ angle  bin:  {self.angle_from} to  {self.angle_to} degrees                                                                                     
       energy   
 {''.join(map(str, self.lines))}      total      {self.total}
 
@@ -111,5 +119,6 @@ class Subtally_1(_subblock.TallySubblock):
 
         df = pandas.concat((line.to_dataframe() for line in self.lines), ignore_index=True)
         df['surface'] = self.surface.strip()
-        df['angle'] = self.angles.strip()
+        df['angle_from'] = self.angle_from.strip()
+        df['angle_to'] = self.angle_to.strip()
         return df

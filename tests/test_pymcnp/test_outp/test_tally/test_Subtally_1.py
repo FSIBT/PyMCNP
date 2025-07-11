@@ -9,7 +9,8 @@ class Test_Subtally_1:
         EXAMPLES_VALID = [
             {
                 'surface': consts.string.type.STRING,
-                'angles': consts.string.type.STRING,
+                'angle_from': consts.string.type.STRING,
+                'angle_to': consts.string.type.STRING,
                 'lines': [consts.string.type.STRING],
                 'total': consts.string.type.STRING,
             },
@@ -17,25 +18,36 @@ class Test_Subtally_1:
         EXAMPLES_INVALID = [
             {
                 'surface': None,
-                'angles': consts.string.type.STRING,
+                'angle_from': consts.string.type.STRING,
+                'angle_to': consts.string.type.STRING,
                 'lines': [consts.string.type.STRING],
                 'total': consts.string.type.STRING,
             },
             {
                 'surface': consts.string.type.STRING,
-                'angles': None,
+                'angle_from': None,
+                'angle_to': consts.string.type.STRING,
                 'lines': [consts.string.type.STRING],
                 'total': consts.string.type.STRING,
             },
             {
                 'surface': consts.string.type.STRING,
-                'angles': consts.string.type.STRING,
+                'angle_from': consts.string.type.STRING,
+                'angle_to': None,
+                'lines': [consts.string.type.STRING],
+                'total': consts.string.type.STRING,
+            },
+            {
+                'surface': consts.string.type.STRING,
+                'angle_from': consts.string.type.STRING,
+                'angle_to': consts.string.type.STRING,
                 'lines': None,
                 'total': consts.string.type.STRING,
             },
             {
                 'surface': consts.string.type.STRING,
-                'angles': consts.string.type.STRING,
+                'angle_from': consts.string.type.STRING,
+                'angle_to': consts.string.type.STRING,
                 'lines': [consts.string.type.STRING],
                 'total': None,
             },
