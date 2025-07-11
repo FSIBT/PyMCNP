@@ -11,6 +11,7 @@ from .Tally_1A import Tally_1A
 from .Tally_1B import Tally_1B
 from .Tally_2 import Tally_2
 from .Tally_4 import Tally_4
+from .Tally_8 import Tally_8
 from .UnnormedTallyDensity import UnnormedTallyDensity
 
 __all__ = [
@@ -27,5 +28,6 @@ __all__ = [
     'Tally_1B',
     'Tally_2',
     'Tally_4',
+    'Tally_8',
     'UnnormedTallyDensity',
 ]

@@ -51,6 +51,9 @@ class Plot:
         """
 
         tallies = self.outp.to_dataframe()
+        if number not in tallies:
+            raise errors.CliError(errors.CliCode.SEMANTICS_TALLY, number)
+
         names = tallies[number].columns[3:-4]
 
         figures = []
@@ -106,20 +109,20 @@ def main() -> None:
     try:
         outp = Outp.from_file(file)
         plot = Plot(outp)
+
+        # Plotting!
+        if args['--pdf']:
+            plot.to_pdf(number, pathlib.Path(_io.get_outfile(file, 'pdf')))
+        else:
+            plot.to_show(number)
+
+            if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+                matplotlib.pyplot.show()
     except errors.OutpError as err:
         _io.error(err)
         exit(1)
     except errors.CliError as err:
         _io.error(err)
         exit(2)
-
-    # Plotting!
-    if args['--pdf']:
-        plot.to_pdf(number, pathlib.Path(_io.get_outfile(file, 'pdf')))
-    else:
-        plot.to_show(number)
-
-        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
-            matplotlib.pyplot.show()
 
     _io.done()
