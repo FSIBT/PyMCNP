@@ -3,26 +3,30 @@ Usage:
     pymcnp plot <outp> <number> [ options ]
 
 Options:
-    -p --pdf        Write to PDF.
+    --pdf       Write PDF.
 """
 
+import os
 import pathlib
 
+import matplotlib.pyplot
+import matplotlib.backends.backend_pdf
 from docopt import docopt
 
 from . import _io
+from ..Outp import Outp
 from ..utils import errors
 
 
 class Plot:
     """
-    Plots MCNP files.
+    Plots OUTP files.
 
     Attribute:
         path: File to plot.
     """
 
-    def __init__(self, path: str | pathlib.Path):
+    def __init__(self, outp: Outp):
         """
         Initializes ``Plot``.
 
@@ -33,12 +37,12 @@ class Plot:
             CliError: SEMANTICS_PATH.
         """
 
-        if path is None:
-            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, path)
+        if outp is None:
+            raise errors.CliError(errors.CliCode.SEMANTICS_OUTP, outp)
 
-        self.path = pathlib.Path(path)
+        self.outp = outp
 
-    def to_show(self, number: int):
+    def to_show(self, number: str):
         """
         Plots file in window.
 
@@ -46,38 +50,46 @@ class Plot:
             number: Tally number.
         """
 
-        # outp = Outp.from_file(self.path)
-        # df = outp.to_dataframe()
-        # fig, ax = plt.subplots()
-        # ax.errorbar(
-        #    df['energy'],
-        #    df['cts'],
-        #    yerr=df['error'] * df['cts'],
-        #    fmt='o',
-        #    label='Error',
-        #    color='orange',
-        #    zorder=1,
-        # )
-        # ax.step(df['energy'], df['cts'], color='blue', where='mid', label='Counts', zorder=2)
-        # ax.title('Energy histogram')
-        # ax.xlabel('Energy [MeV]')
-        # ax.ylabel('Counts/bin/neutron')
-        # ax.yscale('log')
-        # ax.legend()
+        tallies = self.outp.to_dataframe()
+        names = tallies[number].columns[3:-4]
 
-        # return fig, ax
+        figures = []
+        subtallies = tallies[number].groupby(list(names))
+        for idents, subtally in subtallies:
+            fig, ax = matplotlib.pyplot.subplots()
 
-    def to_pdf(self, number: int):
+            ax.errorbar(
+                subtally['bins'],
+                subtally['counts'],
+                yerr=subtally['errors'] * subtally['counts'],
+                label='Error',
+                color='orange',
+                zorder=1,
+            )
+            ax.set_title(f'Counts vs Bins: {" ".join(f"{name}: {ident}" for name, ident in zip(names, idents))}', fontsize=12)
+            ax.set_xlabel('Bins', fontsize=12)
+            ax.set_ylabel('Counts', fontsize=12)
+            ax.step(subtally['bins'], subtally['counts'], color='blue', where='mid', zorder=2)
+
+            figures.append(fig)
+
+        return figures
+
+    def to_pdf(self, number: str, path: str | pathlib.Path):
         """
         Plots file in PDF.
 
         Parameters:
             number: Tally number.
+            path: Path to new pdf file.
         """
 
-        fig, ax = self.to_show(number)
-        path = _io.get_outfile(self.path, 'outp', 'pdf')
-        fig.savefig(path)
+        path = _io.get_outfile(path, 'pdf')
+        with matplotlib.backends.backend_pdf.PdfPages(path) as pdf:
+            for fig in self.to_show(number):
+                pdf.savefig(fig)
+
+        return path
 
 
 def main() -> None:
@@ -89,30 +101,27 @@ def main() -> None:
 
     # Processing CLI arguments.
     args = docopt(__doc__)
-    number = args['<number>'] or 0
-    path = pathlib.Path(args['<outp>'])
+    number = args['<number>']
+    file = pathlib.Path(args['<outp>'])
 
-    # Processing number.
+    # Reading OUTP.
     try:
-        number = int(number)
-    except Exception:
-        _io.error(f'``{number}`` invalid number.')
+        outp = Outp.from_file(file)
+        plot = Plot(outp)
+    except errors.OutpError as err:
+        _io.error(err)
         exit(1)
+    except errors.CliError as err:
+        _io.error(err)
+        exit(2)
 
     # Plotting!
-    try:
-        plot = Plot(path)
-    except errors.OutpError as err:
-        _io.error(str(err))
-        exit(2)
-    except errors.CliError as err:
-        _io.error(str(err))
-        exit(3)
-
     if args['--pdf']:
-        plot.to_pdf(number)
+        plot.to_pdf(number, pathlib.Path(file))
     else:
-        fig, ax = plot.plot(number)
-        fig.show()
+        plot.to_show(number)
+
+        if 'PYTEST_CURRENT_TEST' not in os.environ:
+            matplotlib.pyplot.show()  # pragma: no cover
 
     _io.done()

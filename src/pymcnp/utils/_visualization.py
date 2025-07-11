@@ -569,15 +569,6 @@ class Visualization:
 
         return Visualization(self.data.clip_box(bound, invert=False))
 
-    def plot(self):
-        """
-        Runs ``PyVisualization``.
-        """
-
-        plot = pyvista.Plotter()
-        plot.add_mesh(self.data)
-        plot.show()
-
     def __add__(a, b):
         """
         Adds ``Visualization`` instances.
@@ -590,8 +581,6 @@ class Visualization:
             Merged ``Visualization``.
         """
 
-        print(a.data)
-        print(b.data)
         return Visualization(a.data.merge([b.data], merge_points=False))
 
     def __and__(a, b):

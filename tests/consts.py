@@ -1,7 +1,12 @@
+import pathlib
+
 import pymcnp
 
 
 class string:
+    INP = (pathlib.Path(__file__).parent / 'files' / 'inp' / 'valid_A.i').read_text()
+    OUTP = (pathlib.Path(__file__).parent / 'files' / 'outp' / 'valid_A.o').read_text()
+
     class type:
         REPEAT = '10r'
         INSERT = '10i'
@@ -1335,6 +1340,9 @@ Pulsed neutron source over lunar regolith with a neutron detector
 
 
 class ast:
+    INP = pymcnp.Inp.from_mcnp(string.INP)
+    OUTP = pymcnp.Outp.from_mcnp(string.OUTP)
+
     class type:
         REPEAT = pymcnp.utils.types.Repeat.from_mcnp(string.type.REPEAT)
         INSERT = pymcnp.utils.types.Insert.from_mcnp(string.type.INSERT)

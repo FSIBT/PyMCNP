@@ -16,70 +16,72 @@ import pathlib
 from docopt import docopt
 
 from . import _io
+from ..Outp import Outp
 from ..utils import errors
 
 
 class Convert:
     """
-    Converts MCNP files.
+    Converts OUTP files.
 
     Attribute:
-        path: File to convert.
-        number: Tally number.
+        outp: OUTP to convert.
     """
 
-    def __init__(self, path: str | pathlib.Path):
+    def __init__(self, outp: Outp):
         """
         Initializes ``Convert``.
 
         Parameters:
-            path: File to convert.
+            outp: OUTP to convert.
 
         Raises:
             CliError: SEMANTICS_PATH.
         """
 
-        if path is None:
-            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, path)
+        if outp is None:
+            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, outp)
 
-        self.path = pathlib.Path(path)
+        self.outp = outp
 
-    def to_csv(self, number: int):
+    def to_csv(self, number: str, path: str | pathlib.Path):
         """
         Converts file to CSV.
 
         Parameter:
             number: Tally to read.
+            path: Path to new csv file.
         """
 
-        # outp = Outp.from_file(self.path)
-        # df = outp.to_dataframe()
+        tallies = self.outp.to_dataframe()
 
-        # path = _io.get_outfile(self.path, 'outp', 'csv')
-        # with path.open('r') as file:
-        # file.write(df.to_csv())
+        path = _io.get_outfile(path, 'csv', number)
+        with path.open('w') as file:
+            file.write(tallies[number].to_csv())
 
-    def to_parquet(self, number: int):
+        return path
+
+    def to_parquet(self, number: str, path: str | pathlib.Path):
         """
         Converts file to PARQUET.
 
         Parameters:
             number: Tally to read.
+            path: Path to new parquet file.
         """
 
-        # outp = Outp.from_file(self.path)
-        # df = outp.to_dataframe()
+        tallies = self.outp.to_dataframe()
 
-        # path = _io.get_outfile(self.path, 'outp', 'parquet')
-        # with path.open('r') as file:
-        # file.write(df.to_parquet())
+        path = _io.get_outfile(path, 'parquet', number)
+        with path.open('wb') as file:
+            file.write(tallies[number].to_parquet())
+
+        return path
 
 
 def main() -> None:
     """
     Executes the ``pymcnp convert`` command.
-
-    ``pymcnp convert`` converts MCNP output files to pandas dataframes.
     """
 
     _io.disclaimer()
@@ -89,24 +91,21 @@ def main() -> None:
     number = args['<number>']
     file = pathlib.Path(args['<outp>'])
 
-    # Processing number.
+    # Reading OUTP.
     try:
-        number = int(number)
-    except Exception:
-        _io.error(f'``{number}`` invalid number.')
+        outp = Outp.from_file(file)
+        convert = Convert(outp)
+    except errors.OutpError as err:
+        _io.error(str(err))
         exit(1)
-
-    # Reading OUTP file.
-    try:
-        convert = Convert(file)
     except errors.CliError as err:
         _io.error(str(err))
         exit(2)
 
     # Converting!
     if args['--csv']:
-        convert.to_csv(number)
+        convert.to_csv(number, file)
     elif args['--parquet']:
-        convert.to_parquet(number)
+        convert.to_parquet(number, file)
 
     _io.done()
