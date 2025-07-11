@@ -89,7 +89,7 @@ class Cell(Card):
 #        Generates ``Visualization`` from ``Cell``.
 #
 #        Returns:
-#            ``pyvista.PolyData`` for ``Cell``
+#            ``Visualization`` for ``Cell``
 #        """
 #
 #        temp = re.sub(r' 0+', '', self.geometry.infix)

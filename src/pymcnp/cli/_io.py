@@ -5,13 +5,14 @@ import rich
 import rich.panel
 
 
-def get_outfile(path: str | pathlib.Path, new: str, old: str) -> str:
+def get_outfile(path: str | pathlib.Path, ext: str, i: int = None) -> str:
     path = str(path)
+    path, _ = path.rsplit('.', maxsplit=1)
 
-    if path.rsplit('.', maxsplit=1)[0] == old:
-        path = path.rsplit('.', maxsplit=1)[1]
-
-    return pathlib.Path(path + '.' + new)
+    if i is not None:
+        return pathlib.Path(path + f'-{i}.' + ext)
+    else:
+        return pathlib.Path(path + '.' + ext)
 
 
 def get_timestamp() -> str:
@@ -23,14 +24,6 @@ def get_timestamp() -> str:
     """
 
     return datetime.datetime.today().strftime('%Y-%m-%d--%H-%M-%S')
-
-
-def print(msg: str):
-    """
-    Wraps ``rich.print``.
-    """
-
-    rich.print(msg)
 
 
 def info(msg: str):

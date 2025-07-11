@@ -3,13 +3,13 @@ import copy
 import typing
 import dataclasses
 
-import pyvista
 
 from . import inp
 from .utils import types
 from .utils import errors
 from .utils import _parser
 from .utils import _object
+from .utils import _visualization
 
 
 class Inp(_object.McnpFile):
@@ -211,18 +211,20 @@ class Inp(_object.McnpFile):
 
         return source
 
-    def draw(self) -> pyvista.PolyData:
+    def draw(self) -> _visualization.Visualization:
         """
         Generates ``Visualization`` from ``Inp``.
 
         Returns:
-            ``pyvista.PolyData`` for ``Inp``.
+            ``Visualization`` for ``Inp``.
         """
 
         vis = self.surfaces[0].draw()
+
         for surface in self.surfaces[0:]:
             vis += surface.draw()
-        return vis.data
+
+        return vis
 
 
 @dataclasses.dataclass
