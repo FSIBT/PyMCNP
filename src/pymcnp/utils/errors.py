@@ -114,7 +114,8 @@ class CliCode(enum.Enum):
     SEMANTICS_INP = 0
     SEMANTICS_OUTP = 1
     SEMANTICS_PATH = 2
-    SEMANTICS_COMMAND = 3
+    SEMANTICS_TALLY = 3
+    SEMANTICS_COMMAND = 4
 
 
 class OutpCode(enum.Enum):
