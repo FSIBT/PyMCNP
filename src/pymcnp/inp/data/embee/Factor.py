@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Factor(_option.EmbeeOption):
 
     _REGEX = re.compile(rf'\Afactor( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, constant: types.Real):
+    def __init__(self, constant: str | int | float | types.Real):
         """
         Initializes ``Factor``.
 
@@ -36,58 +32,45 @@ class Factor(_option.EmbeeOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.constant: types.Real = constant
+
+    @property
+    def constant(self) -> types.Real:
+        """
+        Gets ``constant``.
+
+        Returns:
+            ``constant``.
+        """
+
+        return self._constant
+
+    @constant.setter
+    def constant(self, constant: str | int | float | types.Real) -> None:
+        """
+        Sets ``constant``.
+
+        Parameters:
+            constant: Multiplicative constant.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if constant is not None:
+            if isinstance(constant, types.Real):
+                constant = constant
+            elif isinstance(constant, int):
+                constant = types.Real(constant)
+            elif isinstance(constant, float):
+                constant = types.Real(constant)
+            elif isinstance(constant, str):
+                constant = types.Real.from_mcnp(constant)
+            else:
+                raise TypeError
+
         if constant is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, constant)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                constant,
-            ]
-        )
-
-        self.constant: typing.Final[types.Real] = constant
-
-
-@dataclasses.dataclass
-class FactorBuilder(_option.EmbeeOptionBuilder):
-    """
-    Builds ``Factor``.
-
-    Attributes:
-        constant: Multiplicative constant.
-    """
-
-    constant: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``FactorBuilder`` into ``Factor``.
-
-        Returns:
-            ``Factor`` for ``FactorBuilder``.
-        """
-
-        constant = self.constant
-        if isinstance(self.constant, types.Real):
-            constant = self.constant
-        elif isinstance(self.constant, float) or isinstance(self.constant, int):
-            constant = types.Real(self.constant)
-        elif isinstance(self.constant, str):
-            constant = types.Real.from_mcnp(self.constant)
-
-        return Factor(
-            constant=constant,
-        )
-
-    @staticmethod
-    def unbuild(ast: Factor):
-        """
-        Unbuilds ``Factor`` into ``FactorBuilder``
-
-        Returns:
-            ``FactorBuilder`` for ``Factor``.
-        """
-
-        return FactorBuilder(
-            constant=copy.deepcopy(ast.constant),
-        )
+        self._constant: types.Real = constant

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -27,7 +23,7 @@ class Sc(_option.DataOption):
 
     _REGEX = re.compile(rf'\Asc(\d+)((?: {types.String._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, comment: types.Tuple[types.String]):
+    def __init__(self, suffix: str | int | types.Integer, comment: list[str] | list[types.String]):
         """
         Initializes ``Sc``.
 
@@ -39,76 +35,84 @@ class Sc(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.comment: types.Tuple[types.String] = comment
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix >= 1 and suffix <= 999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def comment(self) -> types.Tuple[types.String]:
+        """
+        Gets ``comment``.
+
+        Returns:
+            ``comment``.
+        """
+
+        return self._comment
+
+    @comment.setter
+    def comment(self, comment: list[str] | list[types.String]) -> None:
+        """
+        Sets ``comment``.
+
+        Parameters:
+            comment: source comment.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if comment is not None:
+            array = []
+            for item in comment:
+                if isinstance(item, types.String):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.String.from_mcnp(item))
+                else:
+                    raise TypeError
+            comment = types.Tuple(array)
+
         if comment is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, comment)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                comment,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.comment: typing.Final[types.Tuple[types.String]] = comment
-
-
-@dataclasses.dataclass
-class ScBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Sc``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        comment: source comment.
-    """
-
-    suffix: str | int | types.Integer
-    comment: list[str] | list[types.String]
-
-    def build(self):
-        """
-        Builds ``ScBuilder`` into ``Sc``.
-
-        Returns:
-            ``Sc`` for ``ScBuilder``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        if self.comment:
-            comment = []
-            for item in self.comment:
-                if isinstance(item, types.String):
-                    comment.append(item)
-                elif isinstance(item, str):
-                    comment.append(types.String.from_mcnp(item))
-            comment = types.Tuple(comment)
-        else:
-            comment = None
-
-        return Sc(
-            suffix=suffix,
-            comment=comment,
-        )
-
-    @staticmethod
-    def unbuild(ast: Sc):
-        """
-        Unbuilds ``Sc`` into ``ScBuilder``
-
-        Returns:
-            ``ScBuilder`` for ``Sc``.
-        """
-
-        return ScBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            comment=copy.deepcopy(ast.comment),
-        )
+        self._comment: types.Tuple[types.String] = comment

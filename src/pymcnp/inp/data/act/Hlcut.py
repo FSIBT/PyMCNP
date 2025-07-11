@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Hlcut(_option.ActOption):
 
     _REGEX = re.compile(rf'\Ahlcut( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, cutoff: types.Real):
+    def __init__(self, cutoff: str | int | float | types.Real):
         """
         Initializes ``Hlcut``.
 
@@ -36,58 +32,45 @@ class Hlcut(_option.ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.cutoff: types.Real = cutoff
+
+    @property
+    def cutoff(self) -> types.Real:
+        """
+        Gets ``cutoff``.
+
+        Returns:
+            ``cutoff``.
+        """
+
+        return self._cutoff
+
+    @cutoff.setter
+    def cutoff(self, cutoff: str | int | float | types.Real) -> None:
+        """
+        Sets ``cutoff``.
+
+        Parameters:
+            cutoff: Spontaneous-decay half-life threshold.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if cutoff is not None:
+            if isinstance(cutoff, types.Real):
+                cutoff = cutoff
+            elif isinstance(cutoff, int):
+                cutoff = types.Real(cutoff)
+            elif isinstance(cutoff, float):
+                cutoff = types.Real(cutoff)
+            elif isinstance(cutoff, str):
+                cutoff = types.Real.from_mcnp(cutoff)
+            else:
+                raise TypeError
+
         if cutoff is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoff)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                cutoff,
-            ]
-        )
-
-        self.cutoff: typing.Final[types.Real] = cutoff
-
-
-@dataclasses.dataclass
-class HlcutBuilder(_option.ActOptionBuilder):
-    """
-    Builds ``Hlcut``.
-
-    Attributes:
-        cutoff: Spontaneous-decay half-life threshold.
-    """
-
-    cutoff: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``HlcutBuilder`` into ``Hlcut``.
-
-        Returns:
-            ``Hlcut`` for ``HlcutBuilder``.
-        """
-
-        cutoff = self.cutoff
-        if isinstance(self.cutoff, types.Real):
-            cutoff = self.cutoff
-        elif isinstance(self.cutoff, float) or isinstance(self.cutoff, int):
-            cutoff = types.Real(self.cutoff)
-        elif isinstance(self.cutoff, str):
-            cutoff = types.Real.from_mcnp(self.cutoff)
-
-        return Hlcut(
-            cutoff=cutoff,
-        )
-
-    @staticmethod
-    def unbuild(ast: Hlcut):
-        """
-        Unbuilds ``Hlcut`` into ``HlcutBuilder``
-
-        Returns:
-            ``HlcutBuilder`` for ``Hlcut``.
-        """
-
-        return HlcutBuilder(
-            cutoff=copy.deepcopy(ast.cutoff),
-        )
+        self._cutoff: types.Real = cutoff

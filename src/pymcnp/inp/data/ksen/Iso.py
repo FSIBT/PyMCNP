@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Iso(_option.KsenOption):
 
     _REGEX = re.compile(rf'\Aiso((?: {types.Zaid._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, zaids: types.Tuple[types.Zaid]):
+    def __init__(self, zaids: list[str] | list[types.Zaid]):
         """
         Initializes ``Iso``.
 
@@ -36,61 +32,44 @@ class Iso(_option.KsenOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.zaids: types.Tuple[types.Zaid] = zaids
+
+    @property
+    def zaids(self) -> types.Tuple[types.Zaid]:
+        """
+        Gets ``zaids``.
+
+        Returns:
+            ``zaids``.
+        """
+
+        return self._zaids
+
+    @zaids.setter
+    def zaids(self, zaids: list[str] | list[types.Zaid]) -> None:
+        """
+        Sets ``zaids``.
+
+        Parameters:
+            zaids: List of ZAIDs for pertubation.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if zaids is not None:
+            array = []
+            for item in zaids:
+                if isinstance(item, types.Zaid):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.Zaid.from_mcnp(item))
+                else:
+                    raise TypeError
+            zaids = types.Tuple(array)
+
         if zaids is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zaids)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                zaids,
-            ]
-        )
-
-        self.zaids: typing.Final[types.Tuple[types.Zaid]] = zaids
-
-
-@dataclasses.dataclass
-class IsoBuilder(_option.KsenOptionBuilder):
-    """
-    Builds ``Iso``.
-
-    Attributes:
-        zaids: List of ZAIDs for pertubation.
-    """
-
-    zaids: list[str] | list[types.Zaid]
-
-    def build(self):
-        """
-        Builds ``IsoBuilder`` into ``Iso``.
-
-        Returns:
-            ``Iso`` for ``IsoBuilder``.
-        """
-
-        if self.zaids:
-            zaids = []
-            for item in self.zaids:
-                if isinstance(item, types.Zaid):
-                    zaids.append(item)
-                elif isinstance(item, str):
-                    zaids.append(types.Zaid.from_mcnp(item))
-            zaids = types.Tuple(zaids)
-        else:
-            zaids = None
-
-        return Iso(
-            zaids=zaids,
-        )
-
-    @staticmethod
-    def unbuild(ast: Iso):
-        """
-        Unbuilds ``Iso`` into ``IsoBuilder``
-
-        Returns:
-            ``IsoBuilder`` for ``Iso``.
-        """
-
-        return IsoBuilder(
-            zaids=copy.deepcopy(ast.zaids),
-        )
+        self._zaids: types.Tuple[types.Zaid] = zaids

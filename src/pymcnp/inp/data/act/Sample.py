@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Sample(_option.ActOption):
 
     _REGEX = re.compile(rf'\Asample( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, setting: types.String):
+    def __init__(self, setting: str | types.String):
         """
         Initializes ``Sample``.
 
@@ -36,56 +32,41 @@ class Sample(_option.ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.setting: types.String = setting
+
+    @property
+    def setting(self) -> types.String:
+        """
+        Gets ``setting``.
+
+        Returns:
+            ``setting``.
+        """
+
+        return self._setting
+
+    @setting.setter
+    def setting(self, setting: str | types.String) -> None:
+        """
+        Sets ``setting``.
+
+        Parameters:
+            setting: Flag for correlated or uncorrelated.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if setting is not None:
+            if isinstance(setting, types.String):
+                setting = setting
+            elif isinstance(setting, str):
+                setting = types.String.from_mcnp(setting)
+            else:
+                raise TypeError
+
         if setting is None or setting not in {'correlate', 'nonfiss_cor'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                setting,
-            ]
-        )
-
-        self.setting: typing.Final[types.String] = setting
-
-
-@dataclasses.dataclass
-class SampleBuilder(_option.ActOptionBuilder):
-    """
-    Builds ``Sample``.
-
-    Attributes:
-        setting: Flag for correlated or uncorrelated.
-    """
-
-    setting: str | types.String
-
-    def build(self):
-        """
-        Builds ``SampleBuilder`` into ``Sample``.
-
-        Returns:
-            ``Sample`` for ``SampleBuilder``.
-        """
-
-        setting = self.setting
-        if isinstance(self.setting, types.String):
-            setting = self.setting
-        elif isinstance(self.setting, str):
-            setting = types.String.from_mcnp(self.setting)
-
-        return Sample(
-            setting=setting,
-        )
-
-    @staticmethod
-    def unbuild(ast: Sample):
-        """
-        Unbuilds ``Sample`` into ``SampleBuilder``
-
-        Returns:
-            ``SampleBuilder`` for ``Sample``.
-        """
-
-        return SampleBuilder(
-            setting=copy.deepcopy(ast.setting),
-        )
+        self._setting: types.String = setting

@@ -1,7 +1,5 @@
 import re
-import copy
 import typing
-import dataclasses
 
 
 from ._card import Card
@@ -49,6 +47,7 @@ class Comment(Card):
         return source
 
 
+'''
 @dataclasses.dataclass
 class CommentBuilder:
     """
@@ -88,3 +87,4 @@ class CommentBuilder:
         return CommentBuilder(
             text=copy.deepcopy(ast.text),
         )
+'''

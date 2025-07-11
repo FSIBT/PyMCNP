@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -24,7 +20,7 @@ class Zb(_option.DataOption):
 
     _REGEX = re.compile(rf'\Azb( {types.String._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, anything: types.String = None):
+    def __init__(self, anything: str | types.String = None):
         """
         Initializes ``Zb``.
 
@@ -35,53 +31,38 @@ class Zb(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                anything,
-            ]
-        )
+        self.anything: types.String = anything
 
-        self.anything: typing.Final[types.String] = anything
-
-
-@dataclasses.dataclass
-class ZbBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Zb``.
-
-    Attributes:
-        anything: Any parameters.
-    """
-
-    anything: str | types.String = None
-
-    def build(self):
+    @property
+    def anything(self) -> types.String:
         """
-        Builds ``ZbBuilder`` into ``Zb``.
+        Gets ``anything``.
 
         Returns:
-            ``Zb`` for ``ZbBuilder``.
+            ``anything``.
         """
 
-        anything = self.anything
-        if isinstance(self.anything, types.String):
-            anything = self.anything
-        elif isinstance(self.anything, str):
-            anything = types.String.from_mcnp(self.anything)
+        return self._anything
 
-        return Zb(
-            anything=anything,
-        )
-
-    @staticmethod
-    def unbuild(ast: Zb):
+    @anything.setter
+    def anything(self, anything: str | types.String) -> None:
         """
-        Unbuilds ``Zb`` into ``ZbBuilder``
+        Sets ``anything``.
 
-        Returns:
-            ``ZbBuilder`` for ``Zb``.
+        Parameters:
+            anything: Any parameters.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return ZbBuilder(
-            anything=copy.deepcopy(ast.anything),
-        )
+        if anything is not None:
+            if isinstance(anything, types.String):
+                anything = anything
+            elif isinstance(anything, str):
+                anything = types.String.from_mcnp(anything)
+            else:
+                raise TypeError
+
+        self._anything: types.String = anything

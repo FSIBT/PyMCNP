@@ -6,22 +6,6 @@ from ..... import classes
 class Test_Origin:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.fmesh.Origin
-        EXAMPLES_VALID = [{'x': consts.ast.type.REAL, 'y': consts.ast.type.REAL, 'z': consts.ast.type.REAL}]
-        EXAMPLES_INVALID = [
-            {'x': None, 'y': consts.ast.type.REAL, 'z': consts.ast.type.REAL},
-            {'x': consts.ast.type.REAL, 'y': None, 'z': consts.ast.type.REAL},
-            {'x': consts.ast.type.REAL, 'y': consts.ast.type.REAL, 'z': None},
-        ]
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.data.fmesh.Origin
-        EXAMPLES_VALID = [consts.string.inp.data.fmesh.ORIGIN]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_OriginBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.fmesh.OriginBuilder
         EXAMPLES_VALID = [
             {'x': consts.string.type.REAL, 'y': consts.string.type.REAL, 'z': consts.string.type.REAL},
             {'x': 3.1, 'y': 3.1, 'z': 3.1},
@@ -32,3 +16,8 @@ class Test_OriginBuilder:
             {'x': consts.string.type.REAL, 'y': None, 'z': consts.string.type.REAL},
             {'x': consts.string.type.REAL, 'y': consts.string.type.REAL, 'z': None},
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.fmesh.Origin
+        EXAMPLES_VALID = [consts.string.inp.data.fmesh.ORIGIN]
+        EXAMPLES_INVALID = ['hello']

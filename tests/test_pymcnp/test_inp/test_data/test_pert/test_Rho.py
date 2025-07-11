@@ -6,17 +6,10 @@ from ..... import classes
 class Test_Rho:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.pert.Rho
-        EXAMPLES_VALID = [{'density': consts.ast.type.REAL}]
+        EXAMPLES_VALID = [{'density': consts.string.type.REAL}, {'density': 3.1}, {'density': consts.ast.type.REAL}]
         EXAMPLES_INVALID = [{'density': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.pert.Rho
         EXAMPLES_VALID = [consts.string.inp.data.pert.RHO]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_RhoBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.pert.RhoBuilder
-        EXAMPLES_VALID = [{'density': consts.string.type.REAL}, {'density': 3.1}, {'density': consts.ast.type.REAL}]
-        EXAMPLES_INVALID = [{'density': None}]

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Cfrq(_option.TOption_1):
 
     _REGEX = re.compile(rf'\Acfrq( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, frequency: types.Real):
+    def __init__(self, frequency: str | int | float | types.Real):
         """
         Initializes ``Cfrq``.
 
@@ -36,58 +32,45 @@ class Cfrq(_option.TOption_1):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.frequency: types.Real = frequency
+
+    @property
+    def frequency(self) -> types.Real:
+        """
+        Gets ``frequency``.
+
+        Returns:
+            ``frequency``.
+        """
+
+        return self._frequency
+
+    @frequency.setter
+    def frequency(self, frequency: str | int | float | types.Real) -> None:
+        """
+        Sets ``frequency``.
+
+        Parameters:
+            frequency: Frequency of cycling.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if frequency is not None:
+            if isinstance(frequency, types.Real):
+                frequency = frequency
+            elif isinstance(frequency, int):
+                frequency = types.Real(frequency)
+            elif isinstance(frequency, float):
+                frequency = types.Real(frequency)
+            elif isinstance(frequency, str):
+                frequency = types.Real.from_mcnp(frequency)
+            else:
+                raise TypeError
+
         if frequency is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, frequency)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                frequency,
-            ]
-        )
-
-        self.frequency: typing.Final[types.Real] = frequency
-
-
-@dataclasses.dataclass
-class CfrqBuilder(_option.TOptionBuilder_1):
-    """
-    Builds ``Cfrq``.
-
-    Attributes:
-        frequency: Frequency of cycling.
-    """
-
-    frequency: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``CfrqBuilder`` into ``Cfrq``.
-
-        Returns:
-            ``Cfrq`` for ``CfrqBuilder``.
-        """
-
-        frequency = self.frequency
-        if isinstance(self.frequency, types.Real):
-            frequency = self.frequency
-        elif isinstance(self.frequency, float) or isinstance(self.frequency, int):
-            frequency = types.Real(self.frequency)
-        elif isinstance(self.frequency, str):
-            frequency = types.Real.from_mcnp(self.frequency)
-
-        return Cfrq(
-            frequency=frequency,
-        )
-
-    @staticmethod
-    def unbuild(ast: Cfrq):
-        """
-        Unbuilds ``Cfrq`` into ``CfrqBuilder``
-
-        Returns:
-            ``CfrqBuilder`` for ``Cfrq``.
-        """
-
-        return CfrqBuilder(
-            frequency=copy.deepcopy(ast.frequency),
-        )
+        self._frequency: types.Real = frequency

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -29,7 +25,7 @@ class Bcw(_option.SsrOption):
 
     _REGEX = re.compile(rf'\Abcw( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, radius: types.Real, zb: types.Real, ze: types.Real):
+    def __init__(self, radius: str | int | float | types.Real, zb: str | int | float | types.Real, ze: str | int | float | types.Real):
         """
         Initializes ``Bcw``.
 
@@ -42,90 +38,129 @@ class Bcw(_option.SsrOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.radius: types.Real = radius
+        self.zb: types.Real = zb
+        self.ze: types.Real = ze
+
+    @property
+    def radius(self) -> types.Real:
+        """
+        Gets ``radius``.
+
+        Returns:
+            ``radius``.
+        """
+
+        return self._radius
+
+    @radius.setter
+    def radius(self, radius: str | int | float | types.Real) -> None:
+        """
+        Sets ``radius``.
+
+        Parameters:
+            radius: Radius of cylindrical window.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if radius is not None:
+            if isinstance(radius, types.Real):
+                radius = radius
+            elif isinstance(radius, int):
+                radius = types.Real(radius)
+            elif isinstance(radius, float):
+                radius = types.Real(radius)
+            elif isinstance(radius, str):
+                radius = types.Real.from_mcnp(radius)
+            else:
+                raise TypeError
+
         if radius is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, radius)
+
+        self._radius: types.Real = radius
+
+    @property
+    def zb(self) -> types.Real:
+        """
+        Gets ``zb``.
+
+        Returns:
+            ``zb``.
+        """
+
+        return self._zb
+
+    @zb.setter
+    def zb(self, zb: str | int | float | types.Real) -> None:
+        """
+        Sets ``zb``.
+
+        Parameters:
+            zb: Bottom of cylindrical window.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if zb is not None:
+            if isinstance(zb, types.Real):
+                zb = zb
+            elif isinstance(zb, int):
+                zb = types.Real(zb)
+            elif isinstance(zb, float):
+                zb = types.Real(zb)
+            elif isinstance(zb, str):
+                zb = types.Real.from_mcnp(zb)
+            else:
+                raise TypeError
+
         if zb is None or not (zb > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zb)
-        if ze is None or not (zb > 0 and zb < ze):
+
+        self._zb: types.Real = zb
+
+    @property
+    def ze(self) -> types.Real:
+        """
+        Gets ``ze``.
+
+        Returns:
+            ``ze``.
+        """
+
+        return self._ze
+
+    @ze.setter
+    def ze(self, ze: str | int | float | types.Real) -> None:
+        """
+        Sets ``ze``.
+
+        Parameters:
+            ze: Top of cylindrical window.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ze is not None:
+            if isinstance(ze, types.Real):
+                ze = ze
+            elif isinstance(ze, int):
+                ze = types.Real(ze)
+            elif isinstance(ze, float):
+                ze = types.Real(ze)
+            elif isinstance(ze, str):
+                ze = types.Real.from_mcnp(ze)
+            else:
+                raise TypeError
+
+        if ze is None or not (self.zb > 0 and self.zb < ze):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ze)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                radius,
-                zb,
-                ze,
-            ]
-        )
-
-        self.radius: typing.Final[types.Real] = radius
-        self.zb: typing.Final[types.Real] = zb
-        self.ze: typing.Final[types.Real] = ze
-
-
-@dataclasses.dataclass
-class BcwBuilder(_option.SsrOptionBuilder):
-    """
-    Builds ``Bcw``.
-
-    Attributes:
-        radius: Radius of cylindrical window.
-        zb: Bottom of cylindrical window.
-        ze: Top of cylindrical window.
-    """
-
-    radius: str | float | types.Real
-    zb: str | float | types.Real
-    ze: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``BcwBuilder`` into ``Bcw``.
-
-        Returns:
-            ``Bcw`` for ``BcwBuilder``.
-        """
-
-        radius = self.radius
-        if isinstance(self.radius, types.Real):
-            radius = self.radius
-        elif isinstance(self.radius, float) or isinstance(self.radius, int):
-            radius = types.Real(self.radius)
-        elif isinstance(self.radius, str):
-            radius = types.Real.from_mcnp(self.radius)
-
-        zb = self.zb
-        if isinstance(self.zb, types.Real):
-            zb = self.zb
-        elif isinstance(self.zb, float) or isinstance(self.zb, int):
-            zb = types.Real(self.zb)
-        elif isinstance(self.zb, str):
-            zb = types.Real.from_mcnp(self.zb)
-
-        ze = self.ze
-        if isinstance(self.ze, types.Real):
-            ze = self.ze
-        elif isinstance(self.ze, float) or isinstance(self.ze, int):
-            ze = types.Real(self.ze)
-        elif isinstance(self.ze, str):
-            ze = types.Real.from_mcnp(self.ze)
-
-        return Bcw(
-            radius=radius,
-            zb=zb,
-            ze=ze,
-        )
-
-    @staticmethod
-    def unbuild(ast: Bcw):
-        """
-        Unbuilds ``Bcw`` into ``BcwBuilder``
-
-        Returns:
-            ``BcwBuilder`` for ``Bcw``.
-        """
-
-        return BcwBuilder(
-            radius=copy.deepcopy(ast.radius),
-            zb=copy.deepcopy(ast.zb),
-            ze=copy.deepcopy(ast.ze),
-        )
+        self._ze: types.Real = ze

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Dneb(_option.ActOption):
 
     _REGEX = re.compile(rf'\Adneb((?: {types.Bias._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, biases: types.Tuple[types.Bias]):
+    def __init__(self, biases: list[str] | list[types.Bias]):
         """
         Initializes ``Dneb``.
 
@@ -36,61 +32,44 @@ class Dneb(_option.ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.biases: types.Tuple[types.Bias] = biases
+
+    @property
+    def biases(self) -> types.Tuple[types.Bias]:
+        """
+        Gets ``biases``.
+
+        Returns:
+            ``biases``.
+        """
+
+        return self._biases
+
+    @biases.setter
+    def biases(self, biases: list[str] | list[types.Bias]) -> None:
+        """
+        Sets ``biases``.
+
+        Parameters:
+            biases: Delayed neutron energy biases.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if biases is not None:
+            array = []
+            for item in biases:
+                if isinstance(item, types.Bias):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.Bias.from_mcnp(item))
+                else:
+                    raise TypeError
+            biases = types.Tuple(array)
+
         if biases is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, biases)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                biases,
-            ]
-        )
-
-        self.biases: typing.Final[types.Tuple[types.Bias]] = biases
-
-
-@dataclasses.dataclass
-class DnebBuilder(_option.ActOptionBuilder):
-    """
-    Builds ``Dneb``.
-
-    Attributes:
-        biases: Delayed neutron energy biases.
-    """
-
-    biases: list[str] | list[types.Bias]
-
-    def build(self):
-        """
-        Builds ``DnebBuilder`` into ``Dneb``.
-
-        Returns:
-            ``Dneb`` for ``DnebBuilder``.
-        """
-
-        if self.biases:
-            biases = []
-            for item in self.biases:
-                if isinstance(item, types.Bias):
-                    biases.append(item)
-                elif isinstance(item, str):
-                    biases.append(types.Bias.from_mcnp(item))
-            biases = types.Tuple(biases)
-        else:
-            biases = None
-
-        return Dneb(
-            biases=biases,
-        )
-
-    @staticmethod
-    def unbuild(ast: Dneb):
-        """
-        Unbuilds ``Dneb`` into ``DnebBuilder``
-
-        Returns:
-            ``DnebBuilder`` for ``Dneb``.
-        """
-
-        return DnebBuilder(
-            biases=copy.deepcopy(ast.biases),
-        )
+        self._biases: types.Tuple[types.Bias] = biases

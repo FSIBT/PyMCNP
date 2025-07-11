@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -49,17 +45,17 @@ class Phys_3(_option.DataOption):
 
     def __init__(
         self,
-        emax: types.Real = None,
-        ean: types.Real = None,
-        tabl: types.Real = None,
-        istrg: types.Integer = None,
-        recl: types.Real = None,
-        i_mcs_model: types.Integer = None,
-        i_int_model: types.Integer = None,
-        i_els_model: types.Integer = None,
-        efac: types.Real = None,
-        ckvnum: types.Real = None,
-        drp: types.Real = None,
+        emax: str | int | float | types.Real = None,
+        ean: str | int | float | types.Real = None,
+        tabl: str | int | float | types.Real = None,
+        istrg: str | int | types.Integer = None,
+        recl: str | int | float | types.Real = None,
+        i_mcs_model: str | int | types.Integer = None,
+        i_int_model: str | int | types.Integer = None,
+        i_els_model: str | int | types.Integer = None,
+        efac: str | int | float | types.Real = None,
+        ckvnum: str | int | float | types.Real = None,
+        drp: str | int | float | types.Real = None,
     ):
         """
         Initializes ``Phys_3``.
@@ -81,214 +77,451 @@ class Phys_3(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.emax: types.Real = emax
+        self.ean: types.Real = ean
+        self.tabl: types.Real = tabl
+        self.istrg: types.Integer = istrg
+        self.recl: types.Real = recl
+        self.i_mcs_model: types.Integer = i_mcs_model
+        self.i_int_model: types.Integer = i_int_model
+        self.i_els_model: types.Integer = i_els_model
+        self.efac: types.Real = efac
+        self.ckvnum: types.Real = ckvnum
+        self.drp: types.Real = drp
+
+    @property
+    def emax(self) -> types.Real:
+        """
+        Gets ``emax``.
+
+        Returns:
+            ``emax``.
+        """
+
+        return self._emax
+
+    @emax.setter
+    def emax(self, emax: str | int | float | types.Real) -> None:
+        """
+        Sets ``emax``.
+
+        Parameters:
+            emax: Upper proton energy limit.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if emax is not None:
+            if isinstance(emax, types.Real):
+                emax = emax
+            elif isinstance(emax, int):
+                emax = types.Real(emax)
+            elif isinstance(emax, float):
+                emax = types.Real(emax)
+            elif isinstance(emax, str):
+                emax = types.Real.from_mcnp(emax)
+            else:
+                raise TypeError
+
+        self._emax: types.Real = emax
+
+    @property
+    def ean(self) -> types.Real:
+        """
+        Gets ``ean``.
+
+        Returns:
+            ``ean``.
+        """
+
+        return self._ean
+
+    @ean.setter
+    def ean(self, ean: str | int | float | types.Real) -> None:
+        """
+        Sets ``ean``.
+
+        Parameters:
+            ean: Analog energy limit.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ean is not None:
+            if isinstance(ean, types.Real):
+                ean = ean
+            elif isinstance(ean, int):
+                ean = types.Real(ean)
+            elif isinstance(ean, float):
+                ean = types.Real(ean)
+            elif isinstance(ean, str):
+                ean = types.Real.from_mcnp(ean)
+            else:
+                raise TypeError
+
+        self._ean: types.Real = ean
+
+    @property
+    def tabl(self) -> types.Real:
+        """
+        Gets ``tabl``.
+
+        Returns:
+            ``tabl``.
+        """
+
+        return self._tabl
+
+    @tabl.setter
+    def tabl(self, tabl: str | int | float | types.Real) -> None:
+        """
+        Sets ``tabl``.
+
+        Parameters:
+            tabl: Table-based physics cutoff.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if tabl is not None:
+            if isinstance(tabl, types.Real):
+                tabl = tabl
+            elif isinstance(tabl, int):
+                tabl = types.Real(tabl)
+            elif isinstance(tabl, float):
+                tabl = types.Real(tabl)
+            elif isinstance(tabl, str):
+                tabl = types.Real.from_mcnp(tabl)
+            else:
+                raise TypeError
+
         if tabl is not None and not (isinstance(tabl.value, types.Jump) or tabl == -1 or tabl >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tabl)
+
+        self._tabl: types.Real = tabl
+
+    @property
+    def istrg(self) -> types.Integer:
+        """
+        Gets ``istrg``.
+
+        Returns:
+            ``istrg``.
+        """
+
+        return self._istrg
+
+    @istrg.setter
+    def istrg(self, istrg: str | int | types.Integer) -> None:
+        """
+        Sets ``istrg``.
+
+        Parameters:
+            istrg: Charged-particle straggling controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if istrg is not None:
+            if isinstance(istrg, types.Integer):
+                istrg = istrg
+            elif isinstance(istrg, int):
+                istrg = types.Integer(istrg)
+            elif isinstance(istrg, str):
+                istrg = types.Integer.from_mcnp(istrg)
+            else:
+                raise TypeError
+
         if istrg is not None and not (isinstance(istrg.value, types.Jump) or istrg in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, istrg)
+
+        self._istrg: types.Integer = istrg
+
+    @property
+    def recl(self) -> types.Real:
+        """
+        Gets ``recl``.
+
+        Returns:
+            ``recl``.
+        """
+
+        return self._recl
+
+    @recl.setter
+    def recl(self, recl: str | int | float | types.Real) -> None:
+        """
+        Sets ``recl``.
+
+        Parameters:
+            recl: Light ion recoil control.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if recl is not None:
+            if isinstance(recl, types.Real):
+                recl = recl
+            elif isinstance(recl, int):
+                recl = types.Real(recl)
+            elif isinstance(recl, float):
+                recl = types.Real(recl)
+            elif isinstance(recl, str):
+                recl = types.Real.from_mcnp(recl)
+            else:
+                raise TypeError
+
         if recl is not None and not (isinstance(recl.value, types.Jump) or (recl >= 0 and recl <= 1)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, recl)
+
+        self._recl: types.Real = recl
+
+    @property
+    def i_mcs_model(self) -> types.Integer:
+        """
+        Gets ``i_mcs_model``.
+
+        Returns:
+            ``i_mcs_model``.
+        """
+
+        return self._i_mcs_model
+
+    @i_mcs_model.setter
+    def i_mcs_model(self, i_mcs_model: str | int | types.Integer) -> None:
+        """
+        Sets ``i_mcs_model``.
+
+        Parameters:
+            i_mcs_model: Choice of Coulomb scattering model controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if i_mcs_model is not None:
+            if isinstance(i_mcs_model, types.Integer):
+                i_mcs_model = i_mcs_model
+            elif isinstance(i_mcs_model, int):
+                i_mcs_model = types.Integer(i_mcs_model)
+            elif isinstance(i_mcs_model, str):
+                i_mcs_model = types.Integer.from_mcnp(i_mcs_model)
+            else:
+                raise TypeError
+
         if i_mcs_model is not None and not (isinstance(i_mcs_model.value, types.Jump) or i_mcs_model in {-1, 0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
+
+        self._i_mcs_model: types.Integer = i_mcs_model
+
+    @property
+    def i_int_model(self) -> types.Integer:
+        """
+        Gets ``i_int_model``.
+
+        Returns:
+            ``i_int_model``.
+        """
+
+        return self._i_int_model
+
+    @i_int_model.setter
+    def i_int_model(self, i_int_model: str | int | types.Integer) -> None:
+        """
+        Sets ``i_int_model``.
+
+        Parameters:
+            i_int_model: Treatment of nuclear interactions controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if i_int_model is not None:
+            if isinstance(i_int_model, types.Integer):
+                i_int_model = i_int_model
+            elif isinstance(i_int_model, int):
+                i_int_model = types.Integer(i_int_model)
+            elif isinstance(i_int_model, str):
+                i_int_model = types.Integer.from_mcnp(i_int_model)
+            else:
+                raise TypeError
+
         if i_int_model is not None and not (isinstance(i_int_model.value, types.Jump) or i_int_model in {-1, 0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_int_model)
+
+        self._i_int_model: types.Integer = i_int_model
+
+    @property
+    def i_els_model(self) -> types.Integer:
+        """
+        Gets ``i_els_model``.
+
+        Returns:
+            ``i_els_model``.
+        """
+
+        return self._i_els_model
+
+    @i_els_model.setter
+    def i_els_model(self, i_els_model: str | int | types.Integer) -> None:
+        """
+        Sets ``i_els_model``.
+
+        Parameters:
+            i_els_model: Treatment of nuclear elastic scattering controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if i_els_model is not None:
+            if isinstance(i_els_model, types.Integer):
+                i_els_model = i_els_model
+            elif isinstance(i_els_model, int):
+                i_els_model = types.Integer(i_els_model)
+            elif isinstance(i_els_model, str):
+                i_els_model = types.Integer.from_mcnp(i_els_model)
+            else:
+                raise TypeError
+
         if i_els_model is not None and not (isinstance(i_els_model.value, types.Jump) or i_els_model in {-1, 0}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_els_model)
+
+        self._i_els_model: types.Integer = i_els_model
+
+    @property
+    def efac(self) -> types.Real:
+        """
+        Gets ``efac``.
+
+        Returns:
+            ``efac``.
+        """
+
+        return self._efac
+
+    @efac.setter
+    def efac(self, efac: str | int | float | types.Real) -> None:
+        """
+        Sets ``efac``.
+
+        Parameters:
+            efac: Stopping power energy spacing.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if efac is not None:
+            if isinstance(efac, types.Real):
+                efac = efac
+            elif isinstance(efac, int):
+                efac = types.Real(efac)
+            elif isinstance(efac, float):
+                efac = types.Real(efac)
+            elif isinstance(efac, str):
+                efac = types.Real.from_mcnp(efac)
+            else:
+                raise TypeError
+
         if efac is not None and not (isinstance(efac.value, types.Jump) or (efac >= 0.8 and efac <= 0.99)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, efac)
+
+        self._efac: types.Real = efac
+
+    @property
+    def ckvnum(self) -> types.Real:
+        """
+        Gets ``ckvnum``.
+
+        Returns:
+            ``ckvnum``.
+        """
+
+        return self._ckvnum
+
+    @ckvnum.setter
+    def ckvnum(self, ckvnum: str | int | float | types.Real) -> None:
+        """
+        Sets ``ckvnum``.
+
+        Parameters:
+            ckvnum: Crenkov photon emission scalar.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ckvnum is not None:
+            if isinstance(ckvnum, types.Real):
+                ckvnum = ckvnum
+            elif isinstance(ckvnum, int):
+                ckvnum = types.Real(ckvnum)
+            elif isinstance(ckvnum, float):
+                ckvnum = types.Real(ckvnum)
+            elif isinstance(ckvnum, str):
+                ckvnum = types.Real.from_mcnp(ckvnum)
+            else:
+                raise TypeError
+
         if ckvnum is not None and not (isinstance(ckvnum.value, types.Jump) or ckvnum >= 0 and ckvnum < 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ckvnum)
+
+        self._ckvnum: types.Real = ckvnum
+
+    @property
+    def drp(self) -> types.Real:
+        """
+        Gets ``drp``.
+
+        Returns:
+            ``drp``.
+        """
+
+        return self._drp
+
+    @drp.setter
+    def drp(self, drp: str | int | float | types.Real) -> None:
+        """
+        Sets ``drp``.
+
+        Parameters:
+            drp: Lower energy delta-ray cutoff.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if drp is not None:
+            if isinstance(drp, types.Real):
+                drp = drp
+            elif isinstance(drp, int):
+                drp = types.Real(drp)
+            elif isinstance(drp, float):
+                drp = types.Real(drp)
+            elif isinstance(drp, str):
+                drp = types.Real.from_mcnp(drp)
+            else:
+                raise TypeError
+
         if drp is not None and not (isinstance(drp.value, types.Jump) or drp >= 0 or drp == -1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, drp)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                emax,
-                ean,
-                tabl,
-                istrg,
-                recl,
-                i_mcs_model,
-                i_int_model,
-                i_els_model,
-                efac,
-                ckvnum,
-                drp,
-            ]
-        )
-
-        self.emax: typing.Final[types.Real] = emax
-        self.ean: typing.Final[types.Real] = ean
-        self.tabl: typing.Final[types.Real] = tabl
-        self.istrg: typing.Final[types.Integer] = istrg
-        self.recl: typing.Final[types.Real] = recl
-        self.i_mcs_model: typing.Final[types.Integer] = i_mcs_model
-        self.i_int_model: typing.Final[types.Integer] = i_int_model
-        self.i_els_model: typing.Final[types.Integer] = i_els_model
-        self.efac: typing.Final[types.Real] = efac
-        self.ckvnum: typing.Final[types.Real] = ckvnum
-        self.drp: typing.Final[types.Real] = drp
-
-
-@dataclasses.dataclass
-class PhysBuilder_3(_option.DataOptionBuilder):
-    """
-    Builds ``Phys_3``.
-
-    Attributes:
-        emax: Upper proton energy limit.
-        ean: Analog energy limit.
-        tabl: Table-based physics cutoff.
-        istrg: Charged-particle straggling controls.
-        recl: Light ion recoil control.
-        i_mcs_model: Choice of Coulomb scattering model controls.
-        i_int_model: Treatment of nuclear interactions controls.
-        i_els_model: Treatment of nuclear elastic scattering controls.
-        efac: Stopping power energy spacing.
-        ckvnum: Crenkov photon emission scalar.
-        drp: Lower energy delta-ray cutoff.
-    """
-
-    emax: str | float | types.Real = None
-    ean: str | float | types.Real = None
-    tabl: str | float | types.Real = None
-    istrg: str | int | types.Integer = None
-    recl: str | float | types.Real = None
-    i_mcs_model: str | int | types.Integer = None
-    i_int_model: str | int | types.Integer = None
-    i_els_model: str | int | types.Integer = None
-    efac: str | float | types.Real = None
-    ckvnum: str | float | types.Real = None
-    drp: str | float | types.Real = None
-
-    def build(self):
-        """
-        Builds ``PhysBuilder_3`` into ``Phys_3``.
-
-        Returns:
-            ``Phys_3`` for ``PhysBuilder_3``.
-        """
-
-        emax = self.emax
-        if isinstance(self.emax, types.Real):
-            emax = self.emax
-        elif isinstance(self.emax, float) or isinstance(self.emax, int):
-            emax = types.Real(self.emax)
-        elif isinstance(self.emax, str):
-            emax = types.Real.from_mcnp(self.emax)
-
-        ean = self.ean
-        if isinstance(self.ean, types.Real):
-            ean = self.ean
-        elif isinstance(self.ean, float) or isinstance(self.ean, int):
-            ean = types.Real(self.ean)
-        elif isinstance(self.ean, str):
-            ean = types.Real.from_mcnp(self.ean)
-
-        tabl = self.tabl
-        if isinstance(self.tabl, types.Real):
-            tabl = self.tabl
-        elif isinstance(self.tabl, float) or isinstance(self.tabl, int):
-            tabl = types.Real(self.tabl)
-        elif isinstance(self.tabl, str):
-            tabl = types.Real.from_mcnp(self.tabl)
-
-        istrg = self.istrg
-        if isinstance(self.istrg, types.Integer):
-            istrg = self.istrg
-        elif isinstance(self.istrg, int):
-            istrg = types.Integer(self.istrg)
-        elif isinstance(self.istrg, str):
-            istrg = types.Integer.from_mcnp(self.istrg)
-
-        recl = self.recl
-        if isinstance(self.recl, types.Real):
-            recl = self.recl
-        elif isinstance(self.recl, float) or isinstance(self.recl, int):
-            recl = types.Real(self.recl)
-        elif isinstance(self.recl, str):
-            recl = types.Real.from_mcnp(self.recl)
-
-        i_mcs_model = self.i_mcs_model
-        if isinstance(self.i_mcs_model, types.Integer):
-            i_mcs_model = self.i_mcs_model
-        elif isinstance(self.i_mcs_model, int):
-            i_mcs_model = types.Integer(self.i_mcs_model)
-        elif isinstance(self.i_mcs_model, str):
-            i_mcs_model = types.Integer.from_mcnp(self.i_mcs_model)
-
-        i_int_model = self.i_int_model
-        if isinstance(self.i_int_model, types.Integer):
-            i_int_model = self.i_int_model
-        elif isinstance(self.i_int_model, int):
-            i_int_model = types.Integer(self.i_int_model)
-        elif isinstance(self.i_int_model, str):
-            i_int_model = types.Integer.from_mcnp(self.i_int_model)
-
-        i_els_model = self.i_els_model
-        if isinstance(self.i_els_model, types.Integer):
-            i_els_model = self.i_els_model
-        elif isinstance(self.i_els_model, int):
-            i_els_model = types.Integer(self.i_els_model)
-        elif isinstance(self.i_els_model, str):
-            i_els_model = types.Integer.from_mcnp(self.i_els_model)
-
-        efac = self.efac
-        if isinstance(self.efac, types.Real):
-            efac = self.efac
-        elif isinstance(self.efac, float) or isinstance(self.efac, int):
-            efac = types.Real(self.efac)
-        elif isinstance(self.efac, str):
-            efac = types.Real.from_mcnp(self.efac)
-
-        ckvnum = self.ckvnum
-        if isinstance(self.ckvnum, types.Real):
-            ckvnum = self.ckvnum
-        elif isinstance(self.ckvnum, float) or isinstance(self.ckvnum, int):
-            ckvnum = types.Real(self.ckvnum)
-        elif isinstance(self.ckvnum, str):
-            ckvnum = types.Real.from_mcnp(self.ckvnum)
-
-        drp = self.drp
-        if isinstance(self.drp, types.Real):
-            drp = self.drp
-        elif isinstance(self.drp, float) or isinstance(self.drp, int):
-            drp = types.Real(self.drp)
-        elif isinstance(self.drp, str):
-            drp = types.Real.from_mcnp(self.drp)
-
-        return Phys_3(
-            emax=emax,
-            ean=ean,
-            tabl=tabl,
-            istrg=istrg,
-            recl=recl,
-            i_mcs_model=i_mcs_model,
-            i_int_model=i_int_model,
-            i_els_model=i_els_model,
-            efac=efac,
-            ckvnum=ckvnum,
-            drp=drp,
-        )
-
-    @staticmethod
-    def unbuild(ast: Phys_3):
-        """
-        Unbuilds ``Phys_3`` into ``PhysBuilder_3``
-
-        Returns:
-            ``PhysBuilder_3`` for ``Phys_3``.
-        """
-
-        return PhysBuilder_3(
-            emax=copy.deepcopy(ast.emax),
-            ean=copy.deepcopy(ast.ean),
-            tabl=copy.deepcopy(ast.tabl),
-            istrg=copy.deepcopy(ast.istrg),
-            recl=copy.deepcopy(ast.recl),
-            i_mcs_model=copy.deepcopy(ast.i_mcs_model),
-            i_int_model=copy.deepcopy(ast.i_int_model),
-            i_els_model=copy.deepcopy(ast.i_els_model),
-            efac=copy.deepcopy(ast.efac),
-            ckvnum=copy.deepcopy(ast.ckvnum),
-            drp=copy.deepcopy(ast.drp),
-        )
+        self._drp: types.Real = drp

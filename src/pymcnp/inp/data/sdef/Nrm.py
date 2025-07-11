@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Nrm(_option.SdefOption):
 
     _REGEX = re.compile(rf'\Anrm( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, sign: types.Integer):
+    def __init__(self, sign: str | int | types.Integer):
         """
         Initializes ``Nrm``.
 
@@ -36,58 +32,43 @@ class Nrm(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.sign: types.Integer = sign
+
+    @property
+    def sign(self) -> types.Integer:
+        """
+        Gets ``sign``.
+
+        Returns:
+            ``sign``.
+        """
+
+        return self._sign
+
+    @sign.setter
+    def sign(self, sign: str | int | types.Integer) -> None:
+        """
+        Sets ``sign``.
+
+        Parameters:
+            sign: Sign of the surface normal.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if sign is not None:
+            if isinstance(sign, types.Integer):
+                sign = sign
+            elif isinstance(sign, int):
+                sign = types.Integer(sign)
+            elif isinstance(sign, str):
+                sign = types.Integer.from_mcnp(sign)
+            else:
+                raise TypeError
+
         if sign is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, sign)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                sign,
-            ]
-        )
-
-        self.sign: typing.Final[types.Integer] = sign
-
-
-@dataclasses.dataclass
-class NrmBuilder(_option.SdefOptionBuilder):
-    """
-    Builds ``Nrm``.
-
-    Attributes:
-        sign: Sign of the surface normal.
-    """
-
-    sign: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``NrmBuilder`` into ``Nrm``.
-
-        Returns:
-            ``Nrm`` for ``NrmBuilder``.
-        """
-
-        sign = self.sign
-        if isinstance(self.sign, types.Integer):
-            sign = self.sign
-        elif isinstance(self.sign, int):
-            sign = types.Integer(self.sign)
-        elif isinstance(self.sign, str):
-            sign = types.Integer.from_mcnp(self.sign)
-
-        return Nrm(
-            sign=sign,
-        )
-
-    @staticmethod
-    def unbuild(ast: Nrm):
-        """
-        Unbuilds ``Nrm`` into ``NrmBuilder``
-
-        Returns:
-            ``NrmBuilder`` for ``Nrm``.
-        """
-
-        return NrmBuilder(
-            sign=copy.deepcopy(ast.sign),
-        )
+        self._sign: types.Integer = sign

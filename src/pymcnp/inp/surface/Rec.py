@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -52,18 +48,18 @@ class Rec(_option.SurfaceOption):
 
     def __init__(
         self,
-        vx: types.Real,
-        vy: types.Real,
-        vz: types.Real,
-        hx: types.Real,
-        hy: types.Real,
-        hz: types.Real,
-        v1x: types.Real,
-        v1y: types.Real,
-        v1z: types.Real,
-        v2x: types.Real,
-        v2y: types.Real = None,
-        v2z: types.Real = None,
+        vx: str | int | float | types.Real,
+        vy: str | int | float | types.Real,
+        vz: str | int | float | types.Real,
+        hx: str | int | float | types.Real,
+        hy: str | int | float | types.Real,
+        hz: str | int | float | types.Real,
+        v1x: str | int | float | types.Real,
+        v1y: str | int | float | types.Real,
+        v1z: str | int | float | types.Real,
+        v2x: str | int | float | types.Real,
+        v2y: str | int | float | types.Real = None,
+        v2z: str | int | float | types.Real = None,
     ):
         """
         Initializes ``Rec``.
@@ -86,56 +82,504 @@ class Rec(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.vx: types.Real = vx
+        self.vy: types.Real = vy
+        self.vz: types.Real = vz
+        self.hx: types.Real = hx
+        self.hy: types.Real = hy
+        self.hz: types.Real = hz
+        self.v1x: types.Real = v1x
+        self.v1y: types.Real = v1y
+        self.v1z: types.Real = v1z
+        self.v2x: types.Real = v2x
+        self.v2y: types.Real = v2y
+        self.v2z: types.Real = v2z
+
+    @property
+    def vx(self) -> types.Real:
+        """
+        Gets ``vx``.
+
+        Returns:
+            ``vx``.
+        """
+
+        return self._vx
+
+    @vx.setter
+    def vx(self, vx: str | int | float | types.Real) -> None:
+        """
+        Sets ``vx``.
+
+        Parameters:
+            vx: Elliptical cylinder position vector x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vx is not None:
+            if isinstance(vx, types.Real):
+                vx = vx
+            elif isinstance(vx, int):
+                vx = types.Real(vx)
+            elif isinstance(vx, float):
+                vx = types.Real(vx)
+            elif isinstance(vx, str):
+                vx = types.Real.from_mcnp(vx)
+            else:
+                raise TypeError
+
         if vx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
+
+        self._vx: types.Real = vx
+
+    @property
+    def vy(self) -> types.Real:
+        """
+        Gets ``vy``.
+
+        Returns:
+            ``vy``.
+        """
+
+        return self._vy
+
+    @vy.setter
+    def vy(self, vy: str | int | float | types.Real) -> None:
+        """
+        Sets ``vy``.
+
+        Parameters:
+            vy: Elliptical cylinder position vector y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vy is not None:
+            if isinstance(vy, types.Real):
+                vy = vy
+            elif isinstance(vy, int):
+                vy = types.Real(vy)
+            elif isinstance(vy, float):
+                vy = types.Real(vy)
+            elif isinstance(vy, str):
+                vy = types.Real.from_mcnp(vy)
+            else:
+                raise TypeError
+
         if vy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
+
+        self._vy: types.Real = vy
+
+    @property
+    def vz(self) -> types.Real:
+        """
+        Gets ``vz``.
+
+        Returns:
+            ``vz``.
+        """
+
+        return self._vz
+
+    @vz.setter
+    def vz(self, vz: str | int | float | types.Real) -> None:
+        """
+        Sets ``vz``.
+
+        Parameters:
+            vz: Elliptical cylinder position vector z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vz is not None:
+            if isinstance(vz, types.Real):
+                vz = vz
+            elif isinstance(vz, int):
+                vz = types.Real(vz)
+            elif isinstance(vz, float):
+                vz = types.Real(vz)
+            elif isinstance(vz, str):
+                vz = types.Real.from_mcnp(vz)
+            else:
+                raise TypeError
+
         if vz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
+
+        self._vz: types.Real = vz
+
+    @property
+    def hx(self) -> types.Real:
+        """
+        Gets ``hx``.
+
+        Returns:
+            ``hx``.
+        """
+
+        return self._hx
+
+    @hx.setter
+    def hx(self, hx: str | int | float | types.Real) -> None:
+        """
+        Sets ``hx``.
+
+        Parameters:
+            hx: Elliptical cylinder height vector x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if hx is not None:
+            if isinstance(hx, types.Real):
+                hx = hx
+            elif isinstance(hx, int):
+                hx = types.Real(hx)
+            elif isinstance(hx, float):
+                hx = types.Real(hx)
+            elif isinstance(hx, str):
+                hx = types.Real.from_mcnp(hx)
+            else:
+                raise TypeError
+
         if hx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hx)
+
+        self._hx: types.Real = hx
+
+    @property
+    def hy(self) -> types.Real:
+        """
+        Gets ``hy``.
+
+        Returns:
+            ``hy``.
+        """
+
+        return self._hy
+
+    @hy.setter
+    def hy(self, hy: str | int | float | types.Real) -> None:
+        """
+        Sets ``hy``.
+
+        Parameters:
+            hy: Elliptical cylinder height vector y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if hy is not None:
+            if isinstance(hy, types.Real):
+                hy = hy
+            elif isinstance(hy, int):
+                hy = types.Real(hy)
+            elif isinstance(hy, float):
+                hy = types.Real(hy)
+            elif isinstance(hy, str):
+                hy = types.Real.from_mcnp(hy)
+            else:
+                raise TypeError
+
         if hy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hy)
+
+        self._hy: types.Real = hy
+
+    @property
+    def hz(self) -> types.Real:
+        """
+        Gets ``hz``.
+
+        Returns:
+            ``hz``.
+        """
+
+        return self._hz
+
+    @hz.setter
+    def hz(self, hz: str | int | float | types.Real) -> None:
+        """
+        Sets ``hz``.
+
+        Parameters:
+            hz: Elliptical cylinder height vector z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if hz is not None:
+            if isinstance(hz, types.Real):
+                hz = hz
+            elif isinstance(hz, int):
+                hz = types.Real(hz)
+            elif isinstance(hz, float):
+                hz = types.Real(hz)
+            elif isinstance(hz, str):
+                hz = types.Real.from_mcnp(hz)
+            else:
+                raise TypeError
+
         if hz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hz)
+
+        self._hz: types.Real = hz
+
+    @property
+    def v1x(self) -> types.Real:
+        """
+        Gets ``v1x``.
+
+        Returns:
+            ``v1x``.
+        """
+
+        return self._v1x
+
+    @v1x.setter
+    def v1x(self, v1x: str | int | float | types.Real) -> None:
+        """
+        Sets ``v1x``.
+
+        Parameters:
+            v1x: Elliptical cylinder major axis vector x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if v1x is not None:
+            if isinstance(v1x, types.Real):
+                v1x = v1x
+            elif isinstance(v1x, int):
+                v1x = types.Real(v1x)
+            elif isinstance(v1x, float):
+                v1x = types.Real(v1x)
+            elif isinstance(v1x, str):
+                v1x = types.Real.from_mcnp(v1x)
+            else:
+                raise TypeError
+
         if v1x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1x)
+
+        self._v1x: types.Real = v1x
+
+    @property
+    def v1y(self) -> types.Real:
+        """
+        Gets ``v1y``.
+
+        Returns:
+            ``v1y``.
+        """
+
+        return self._v1y
+
+    @v1y.setter
+    def v1y(self, v1y: str | int | float | types.Real) -> None:
+        """
+        Sets ``v1y``.
+
+        Parameters:
+            v1y: Elliptical cylinder major axis vector y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if v1y is not None:
+            if isinstance(v1y, types.Real):
+                v1y = v1y
+            elif isinstance(v1y, int):
+                v1y = types.Real(v1y)
+            elif isinstance(v1y, float):
+                v1y = types.Real(v1y)
+            elif isinstance(v1y, str):
+                v1y = types.Real.from_mcnp(v1y)
+            else:
+                raise TypeError
+
         if v1y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1y)
+
+        self._v1y: types.Real = v1y
+
+    @property
+    def v1z(self) -> types.Real:
+        """
+        Gets ``v1z``.
+
+        Returns:
+            ``v1z``.
+        """
+
+        return self._v1z
+
+    @v1z.setter
+    def v1z(self, v1z: str | int | float | types.Real) -> None:
+        """
+        Sets ``v1z``.
+
+        Parameters:
+            v1z: Elliptical cylinder major axis vector z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if v1z is not None:
+            if isinstance(v1z, types.Real):
+                v1z = v1z
+            elif isinstance(v1z, int):
+                v1z = types.Real(v1z)
+            elif isinstance(v1z, float):
+                v1z = types.Real(v1z)
+            elif isinstance(v1z, str):
+                v1z = types.Real.from_mcnp(v1z)
+            else:
+                raise TypeError
+
         if v1z is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v1z)
+
+        self._v1z: types.Real = v1z
+
+    @property
+    def v2x(self) -> types.Real:
+        """
+        Gets ``v2x``.
+
+        Returns:
+            ``v2x``.
+        """
+
+        return self._v2x
+
+    @v2x.setter
+    def v2x(self, v2x: str | int | float | types.Real) -> None:
+        """
+        Sets ``v2x``.
+
+        Parameters:
+            v2x: Elliptical cylinder minor axis vector x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if v2x is not None:
+            if isinstance(v2x, types.Real):
+                v2x = v2x
+            elif isinstance(v2x, int):
+                v2x = types.Real(v2x)
+            elif isinstance(v2x, float):
+                v2x = types.Real(v2x)
+            elif isinstance(v2x, str):
+                v2x = types.Real.from_mcnp(v2x)
+            else:
+                raise TypeError
+
         if v2x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, v2x)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                vx,
-                vy,
-                vz,
-                hx,
-                hy,
-                hz,
-                v1x,
-                v1y,
-                v1z,
-                v2x,
-                v2y,
-                v2z,
-            ]
-        )
+        self._v2x: types.Real = v2x
 
-        self.vx: typing.Final[types.Real] = vx
-        self.vy: typing.Final[types.Real] = vy
-        self.vz: typing.Final[types.Real] = vz
-        self.hx: typing.Final[types.Real] = hx
-        self.hy: typing.Final[types.Real] = hy
-        self.hz: typing.Final[types.Real] = hz
-        self.v1x: typing.Final[types.Real] = v1x
-        self.v1y: typing.Final[types.Real] = v1y
-        self.v1z: typing.Final[types.Real] = v1z
-        self.v2x: typing.Final[types.Real] = v2x
-        self.v2y: typing.Final[types.Real] = v2y
-        self.v2z: typing.Final[types.Real] = v2z
+    @property
+    def v2y(self) -> types.Real:
+        """
+        Gets ``v2y``.
+
+        Returns:
+            ``v2y``.
+        """
+
+        return self._v2y
+
+    @v2y.setter
+    def v2y(self, v2y: str | int | float | types.Real) -> None:
+        """
+        Sets ``v2y``.
+
+        Parameters:
+            v2y: Elliptical cylinder minor axis vector y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if v2y is not None:
+            if isinstance(v2y, types.Real):
+                v2y = v2y
+            elif isinstance(v2y, int):
+                v2y = types.Real(v2y)
+            elif isinstance(v2y, float):
+                v2y = types.Real(v2y)
+            elif isinstance(v2y, str):
+                v2y = types.Real.from_mcnp(v2y)
+            else:
+                raise TypeError
+
+        self._v2y: types.Real = v2y
+
+    @property
+    def v2z(self) -> types.Real:
+        """
+        Gets ``v2z``.
+
+        Returns:
+            ``v2z``.
+        """
+
+        return self._v2z
+
+    @v2z.setter
+    def v2z(self, v2z: str | int | float | types.Real) -> None:
+        """
+        Sets ``v2z``.
+
+        Parameters:
+            v2z: Elliptical cylinder minor axis vector z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if v2z is not None:
+            if isinstance(v2z, types.Real):
+                v2z = v2z
+            elif isinstance(v2z, int):
+                v2z = types.Real(v2z)
+            elif isinstance(v2z, float):
+                v2z = types.Real(v2z)
+            elif isinstance(v2z, str):
+                v2z = types.Real.from_mcnp(v2z)
+            else:
+                raise TypeError
+
+        self._v2z: types.Real = v2z
 
     def draw(self):
         """
@@ -158,180 +602,3 @@ class Rec(_option.SurfaceOption):
         vis = vis.add_translation(v)
 
         return vis
-
-
-@dataclasses.dataclass
-class RecBuilder(_option.SurfaceOptionBuilder):
-    """
-    Builds ``Rec``.
-
-    Attributes:
-        vx: Elliptical cylinder position vector x component.
-        vy: Elliptical cylinder position vector y component.
-        vz: Elliptical cylinder position vector z component.
-        hx: Elliptical cylinder height vector x component.
-        hy: Elliptical cylinder height vector y component.
-        hz: Elliptical cylinder height vector z component.
-        v1x: Elliptical cylinder major axis vector x component.
-        v1y: Elliptical cylinder major axis vector y component.
-        v1z: Elliptical cylinder major axis vector z component.
-        v2x: Elliptical cylinder minor axis vector x component.
-        v2y: Elliptical cylinder minor axis vector y component.
-        v2z: Elliptical cylinder minor axis vector z component.
-    """
-
-    vx: str | float | types.Real
-    vy: str | float | types.Real
-    vz: str | float | types.Real
-    hx: str | float | types.Real
-    hy: str | float | types.Real
-    hz: str | float | types.Real
-    v1x: str | float | types.Real
-    v1y: str | float | types.Real
-    v1z: str | float | types.Real
-    v2x: str | float | types.Real
-    v2y: str | float | types.Real = None
-    v2z: str | float | types.Real = None
-
-    def build(self):
-        """
-        Builds ``RecBuilder`` into ``Rec``.
-
-        Returns:
-            ``Rec`` for ``RecBuilder``.
-        """
-
-        vx = self.vx
-        if isinstance(self.vx, types.Real):
-            vx = self.vx
-        elif isinstance(self.vx, float) or isinstance(self.vx, int):
-            vx = types.Real(self.vx)
-        elif isinstance(self.vx, str):
-            vx = types.Real.from_mcnp(self.vx)
-
-        vy = self.vy
-        if isinstance(self.vy, types.Real):
-            vy = self.vy
-        elif isinstance(self.vy, float) or isinstance(self.vy, int):
-            vy = types.Real(self.vy)
-        elif isinstance(self.vy, str):
-            vy = types.Real.from_mcnp(self.vy)
-
-        vz = self.vz
-        if isinstance(self.vz, types.Real):
-            vz = self.vz
-        elif isinstance(self.vz, float) or isinstance(self.vz, int):
-            vz = types.Real(self.vz)
-        elif isinstance(self.vz, str):
-            vz = types.Real.from_mcnp(self.vz)
-
-        hx = self.hx
-        if isinstance(self.hx, types.Real):
-            hx = self.hx
-        elif isinstance(self.hx, float) or isinstance(self.hx, int):
-            hx = types.Real(self.hx)
-        elif isinstance(self.hx, str):
-            hx = types.Real.from_mcnp(self.hx)
-
-        hy = self.hy
-        if isinstance(self.hy, types.Real):
-            hy = self.hy
-        elif isinstance(self.hy, float) or isinstance(self.hy, int):
-            hy = types.Real(self.hy)
-        elif isinstance(self.hy, str):
-            hy = types.Real.from_mcnp(self.hy)
-
-        hz = self.hz
-        if isinstance(self.hz, types.Real):
-            hz = self.hz
-        elif isinstance(self.hz, float) or isinstance(self.hz, int):
-            hz = types.Real(self.hz)
-        elif isinstance(self.hz, str):
-            hz = types.Real.from_mcnp(self.hz)
-
-        v1x = self.v1x
-        if isinstance(self.v1x, types.Real):
-            v1x = self.v1x
-        elif isinstance(self.v1x, float) or isinstance(self.v1x, int):
-            v1x = types.Real(self.v1x)
-        elif isinstance(self.v1x, str):
-            v1x = types.Real.from_mcnp(self.v1x)
-
-        v1y = self.v1y
-        if isinstance(self.v1y, types.Real):
-            v1y = self.v1y
-        elif isinstance(self.v1y, float) or isinstance(self.v1y, int):
-            v1y = types.Real(self.v1y)
-        elif isinstance(self.v1y, str):
-            v1y = types.Real.from_mcnp(self.v1y)
-
-        v1z = self.v1z
-        if isinstance(self.v1z, types.Real):
-            v1z = self.v1z
-        elif isinstance(self.v1z, float) or isinstance(self.v1z, int):
-            v1z = types.Real(self.v1z)
-        elif isinstance(self.v1z, str):
-            v1z = types.Real.from_mcnp(self.v1z)
-
-        v2x = self.v2x
-        if isinstance(self.v2x, types.Real):
-            v2x = self.v2x
-        elif isinstance(self.v2x, float) or isinstance(self.v2x, int):
-            v2x = types.Real(self.v2x)
-        elif isinstance(self.v2x, str):
-            v2x = types.Real.from_mcnp(self.v2x)
-
-        v2y = self.v2y
-        if isinstance(self.v2y, types.Real):
-            v2y = self.v2y
-        elif isinstance(self.v2y, float) or isinstance(self.v2y, int):
-            v2y = types.Real(self.v2y)
-        elif isinstance(self.v2y, str):
-            v2y = types.Real.from_mcnp(self.v2y)
-
-        v2z = self.v2z
-        if isinstance(self.v2z, types.Real):
-            v2z = self.v2z
-        elif isinstance(self.v2z, float) or isinstance(self.v2z, int):
-            v2z = types.Real(self.v2z)
-        elif isinstance(self.v2z, str):
-            v2z = types.Real.from_mcnp(self.v2z)
-
-        return Rec(
-            vx=vx,
-            vy=vy,
-            vz=vz,
-            hx=hx,
-            hy=hy,
-            hz=hz,
-            v1x=v1x,
-            v1y=v1y,
-            v1z=v1z,
-            v2x=v2x,
-            v2y=v2y,
-            v2z=v2z,
-        )
-
-    @staticmethod
-    def unbuild(ast: Rec):
-        """
-        Unbuilds ``Rec`` into ``RecBuilder``
-
-        Returns:
-            ``RecBuilder`` for ``Rec``.
-        """
-
-        return RecBuilder(
-            vx=copy.deepcopy(ast.vx),
-            vy=copy.deepcopy(ast.vy),
-            vz=copy.deepcopy(ast.vz),
-            hx=copy.deepcopy(ast.hx),
-            hy=copy.deepcopy(ast.hy),
-            hz=copy.deepcopy(ast.hz),
-            v1x=copy.deepcopy(ast.v1x),
-            v1y=copy.deepcopy(ast.v1y),
-            v1z=copy.deepcopy(ast.v1z),
-            v2x=copy.deepcopy(ast.v2x),
-            v2y=copy.deepcopy(ast.v2y),
-            v2z=copy.deepcopy(ast.v2z),
-        )

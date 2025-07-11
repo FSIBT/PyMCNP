@@ -1,10 +1,6 @@
 import re
-import typing
-import dataclasses
-
 
 from . import _option
-from ....utils import types
 
 
 class End(_option.MplotOption):
@@ -33,36 +29,3 @@ class End(_option.MplotOption):
         Raises:
             InpError: SEMANTICS_OPTION.
         """
-
-        self.value: typing.Final[types.Tuple] = types.Tuple([])
-
-
-@dataclasses.dataclass
-class EndBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``End``.
-
-    Attributes:
-
-    """
-
-    def build(self):
-        """
-        Builds ``EndBuilder`` into ``End``.
-
-        Returns:
-            ``End`` for ``EndBuilder``.
-        """
-
-        return End()
-
-    @staticmethod
-    def unbuild(ast: End):
-        """
-        Unbuilds ``End`` into ``EndBuilder``
-
-        Returns:
-            ``EndBuilder`` for ``End``.
-        """
-
-        return EndBuilder()

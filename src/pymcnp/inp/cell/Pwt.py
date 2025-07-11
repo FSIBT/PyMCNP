@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -25,7 +21,7 @@ class Pwt(_option.CellOption):
 
     _REGEX = re.compile(rf'\Apwt( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, weight: types.Real):
+    def __init__(self, weight: str | int | float | types.Real):
         """
         Initializes ``Pwt``.
 
@@ -36,58 +32,45 @@ class Pwt(_option.CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.weight: types.Real = weight
+
+    @property
+    def weight(self) -> types.Real:
+        """
+        Gets ``weight``.
+
+        Returns:
+            ``weight``.
+        """
+
+        return self._weight
+
+    @weight.setter
+    def weight(self, weight: str | int | float | types.Real) -> None:
+        """
+        Sets ``weight``.
+
+        Parameters:
+            weight: Cell weight of photons produced at neutron collisions.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if weight is not None:
+            if isinstance(weight, types.Real):
+                weight = weight
+            elif isinstance(weight, int):
+                weight = types.Real(weight)
+            elif isinstance(weight, float):
+                weight = types.Real(weight)
+            elif isinstance(weight, str):
+                weight = types.Real.from_mcnp(weight)
+            else:
+                raise TypeError
+
         if weight is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                weight,
-            ]
-        )
-
-        self.weight: typing.Final[types.Real] = weight
-
-
-@dataclasses.dataclass
-class PwtBuilder(_option.CellOptionBuilder):
-    """
-    Builds ``Pwt``.
-
-    Attributes:
-        weight: Cell weight of photons produced at neutron collisions.
-    """
-
-    weight: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``PwtBuilder`` into ``Pwt``.
-
-        Returns:
-            ``Pwt`` for ``PwtBuilder``.
-        """
-
-        weight = self.weight
-        if isinstance(self.weight, types.Real):
-            weight = self.weight
-        elif isinstance(self.weight, float) or isinstance(self.weight, int):
-            weight = types.Real(self.weight)
-        elif isinstance(self.weight, str):
-            weight = types.Real.from_mcnp(self.weight)
-
-        return Pwt(
-            weight=weight,
-        )
-
-    @staticmethod
-    def unbuild(ast: Pwt):
-        """
-        Unbuilds ``Pwt`` into ``PwtBuilder``
-
-        Returns:
-            ``PwtBuilder`` for ``Pwt``.
-        """
-
-        return PwtBuilder(
-            weight=copy.deepcopy(ast.weight),
-        )
+        self._weight: types.Real = weight

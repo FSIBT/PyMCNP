@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -31,7 +27,7 @@ class Wwg(_option.DataOption):
 
     _REGEX = re.compile(rf'\Awwg( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, tally: types.Integer, cell: types.Integer, lower: types.Real, setting: types.Integer = None):
+    def __init__(self, tally: str | int | types.Integer, cell: str | int | types.Integer, lower: str | int | float | types.Real, setting: str | int | types.Integer = None):
         """
         Initializes ``Wwg``.
 
@@ -45,104 +41,162 @@ class Wwg(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.tally: types.Integer = tally
+        self.cell: types.Integer = cell
+        self.lower: types.Real = lower
+        self.setting: types.Integer = setting
+
+    @property
+    def tally(self) -> types.Integer:
+        """
+        Gets ``tally``.
+
+        Returns:
+            ``tally``.
+        """
+
+        return self._tally
+
+    @tally.setter
+    def tally(self, tally: str | int | types.Integer) -> None:
+        """
+        Sets ``tally``.
+
+        Parameters:
+            tally: Problem tally number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if tally is not None:
+            if isinstance(tally, types.Integer):
+                tally = tally
+            elif isinstance(tally, int):
+                tally = types.Integer(tally)
+            elif isinstance(tally, str):
+                tally = types.Integer.from_mcnp(tally)
+            else:
+                raise TypeError
+
         if tally is None or not (tally <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, tally)
+
+        self._tally: types.Integer = tally
+
+    @property
+    def cell(self) -> types.Integer:
+        """
+        Gets ``cell``.
+
+        Returns:
+            ``cell``.
+        """
+
+        return self._cell
+
+    @cell.setter
+    def cell(self, cell: str | int | types.Integer) -> None:
+        """
+        Sets ``cell``.
+
+        Parameters:
+            cell: Cell-based or mesh-based weight window generator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if cell is not None:
+            if isinstance(cell, types.Integer):
+                cell = cell
+            elif isinstance(cell, int):
+                cell = types.Integer(cell)
+            elif isinstance(cell, str):
+                cell = types.Integer.from_mcnp(cell)
+            else:
+                raise TypeError
+
         if cell is None or not (cell <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cell)
+
+        self._cell: types.Integer = cell
+
+    @property
+    def lower(self) -> types.Real:
+        """
+        Gets ``lower``.
+
+        Returns:
+            ``lower``.
+        """
+
+        return self._lower
+
+    @lower.setter
+    def lower(self, lower: str | int | float | types.Real) -> None:
+        """
+        Sets ``lower``.
+
+        Parameters:
+            lower: Value of the generated lower weight-window bound for cell.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if lower is not None:
+            if isinstance(lower, types.Real):
+                lower = lower
+            elif isinstance(lower, int):
+                lower = types.Real(lower)
+            elif isinstance(lower, float):
+                lower = types.Real(lower)
+            elif isinstance(lower, str):
+                lower = types.Real.from_mcnp(lower)
+            else:
+                raise TypeError
+
         if lower is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lower)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                tally,
-                cell,
-                lower,
-                setting,
-            ]
-        )
+        self._lower: types.Real = lower
 
-        self.tally: typing.Final[types.Integer] = tally
-        self.cell: typing.Final[types.Integer] = cell
-        self.lower: typing.Final[types.Real] = lower
-        self.setting: typing.Final[types.Integer] = setting
-
-
-@dataclasses.dataclass
-class WwgBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Wwg``.
-
-    Attributes:
-        tally: Problem tally number.
-        cell: Cell-based or mesh-based weight window generator.
-        lower: Value of the generated lower weight-window bound for cell.
-        setting: Energy- or time-dependent weight window toggle.
-    """
-
-    tally: str | int | types.Integer
-    cell: str | int | types.Integer
-    lower: str | float | types.Real
-    setting: str | int | types.Integer = None
-
-    def build(self):
+    @property
+    def setting(self) -> types.Integer:
         """
-        Builds ``WwgBuilder`` into ``Wwg``.
+        Gets ``setting``.
 
         Returns:
-            ``Wwg`` for ``WwgBuilder``.
+            ``setting``.
         """
 
-        tally = self.tally
-        if isinstance(self.tally, types.Integer):
-            tally = self.tally
-        elif isinstance(self.tally, int):
-            tally = types.Integer(self.tally)
-        elif isinstance(self.tally, str):
-            tally = types.Integer.from_mcnp(self.tally)
+        return self._setting
 
-        cell = self.cell
-        if isinstance(self.cell, types.Integer):
-            cell = self.cell
-        elif isinstance(self.cell, int):
-            cell = types.Integer(self.cell)
-        elif isinstance(self.cell, str):
-            cell = types.Integer.from_mcnp(self.cell)
-
-        lower = self.lower
-        if isinstance(self.lower, types.Real):
-            lower = self.lower
-        elif isinstance(self.lower, float) or isinstance(self.lower, int):
-            lower = types.Real(self.lower)
-        elif isinstance(self.lower, str):
-            lower = types.Real.from_mcnp(self.lower)
-
-        setting = self.setting
-        if isinstance(self.setting, types.Integer):
-            setting = self.setting
-        elif isinstance(self.setting, int):
-            setting = types.Integer(self.setting)
-        elif isinstance(self.setting, str):
-            setting = types.Integer.from_mcnp(self.setting)
-
-        return Wwg(
-            tally=tally,
-            cell=cell,
-            lower=lower,
-            setting=setting,
-        )
-
-    @staticmethod
-    def unbuild(ast: Wwg):
+    @setting.setter
+    def setting(self, setting: str | int | types.Integer) -> None:
         """
-        Unbuilds ``Wwg`` into ``WwgBuilder``
+        Sets ``setting``.
 
-        Returns:
-            ``WwgBuilder`` for ``Wwg``.
+        Parameters:
+            setting: Energy- or time-dependent weight window toggle.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return WwgBuilder(
-            tally=copy.deepcopy(ast.tally),
-            cell=copy.deepcopy(ast.cell),
-            lower=copy.deepcopy(ast.lower),
-            setting=copy.deepcopy(ast.setting),
-        )
+        if setting is not None:
+            if isinstance(setting, types.Integer):
+                setting = setting
+            elif isinstance(setting, int):
+                setting = types.Integer(setting)
+            elif isinstance(setting, str):
+                setting = types.Integer.from_mcnp(setting)
+            else:
+                raise TypeError
+
+        self._setting: types.Integer = setting

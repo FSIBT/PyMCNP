@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -25,7 +21,7 @@ class Elpt(_option.DataOption):
 
     _REGEX = re.compile(rf'\Aelpt((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, cutoffs: types.Tuple[types.Real]):
+    def __init__(self, cutoffs: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Elpt``.
 
@@ -36,63 +32,48 @@ class Elpt(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.cutoffs: types.Tuple[types.Real] = cutoffs
+
+    @property
+    def cutoffs(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``cutoffs``.
+
+        Returns:
+            ``cutoffs``.
+        """
+
+        return self._cutoffs
+
+    @cutoffs.setter
+    def cutoffs(self, cutoffs: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``cutoffs``.
+
+        Parameters:
+            cutoffs: Tuple of cell lower energy cutoffs.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if cutoffs is not None:
+            array = []
+            for item in cutoffs:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            cutoffs = types.Tuple(array)
+
         if cutoffs is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoffs)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                cutoffs,
-            ]
-        )
-
-        self.cutoffs: typing.Final[types.Tuple[types.Real]] = cutoffs
-
-
-@dataclasses.dataclass
-class ElptBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Elpt``.
-
-    Attributes:
-        cutoffs: Tuple of cell lower energy cutoffs.
-    """
-
-    cutoffs: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``ElptBuilder`` into ``Elpt``.
-
-        Returns:
-            ``Elpt`` for ``ElptBuilder``.
-        """
-
-        if self.cutoffs:
-            cutoffs = []
-            for item in self.cutoffs:
-                if isinstance(item, types.Real):
-                    cutoffs.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    cutoffs.append(types.Real(item))
-                elif isinstance(item, str):
-                    cutoffs.append(types.Real.from_mcnp(item))
-            cutoffs = types.Tuple(cutoffs)
-        else:
-            cutoffs = None
-
-        return Elpt(
-            cutoffs=cutoffs,
-        )
-
-    @staticmethod
-    def unbuild(ast: Elpt):
-        """
-        Unbuilds ``Elpt`` into ``ElptBuilder``
-
-        Returns:
-            ``ElptBuilder`` for ``Elpt``.
-        """
-
-        return ElptBuilder(
-            cutoffs=copy.deepcopy(ast.cutoffs),
-        )
+        self._cutoffs: types.Tuple[types.Real] = cutoffs

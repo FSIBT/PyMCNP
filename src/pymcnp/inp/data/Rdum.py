@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -25,7 +21,7 @@ class Rdum(_option.DataOption):
 
     _REGEX = re.compile(rf'\Ardum((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, floats: types.Tuple[types.Real]):
+    def __init__(self, floats: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Rdum``.
 
@@ -36,63 +32,48 @@ class Rdum(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.floats: types.Tuple[types.Real] = floats
+
+    @property
+    def floats(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``floats``.
+
+        Returns:
+            ``floats``.
+        """
+
+        return self._floats
+
+    @floats.setter
+    def floats(self, floats: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``floats``.
+
+        Parameters:
+            floats: Floating point array.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if floats is not None:
+            array = []
+            for item in floats:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            floats = types.Tuple(array)
+
         if floats is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, floats)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                floats,
-            ]
-        )
-
-        self.floats: typing.Final[types.Tuple[types.Real]] = floats
-
-
-@dataclasses.dataclass
-class RdumBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Rdum``.
-
-    Attributes:
-        floats: Floating point array.
-    """
-
-    floats: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``RdumBuilder`` into ``Rdum``.
-
-        Returns:
-            ``Rdum`` for ``RdumBuilder``.
-        """
-
-        if self.floats:
-            floats = []
-            for item in self.floats:
-                if isinstance(item, types.Real):
-                    floats.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    floats.append(types.Real(item))
-                elif isinstance(item, str):
-                    floats.append(types.Real.from_mcnp(item))
-            floats = types.Tuple(floats)
-        else:
-            floats = None
-
-        return Rdum(
-            floats=floats,
-        )
-
-    @staticmethod
-    def unbuild(ast: Rdum):
-        """
-        Unbuilds ``Rdum`` into ``RdumBuilder``
-
-        Returns:
-            ``RdumBuilder`` for ``Rdum``.
-        """
-
-        return RdumBuilder(
-            floats=copy.deepcopy(ast.floats),
-        )
+        self._floats: types.Tuple[types.Real] = floats

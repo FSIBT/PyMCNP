@@ -5,18 +5,11 @@ from .... import classes
 
 class Test_Pwt:
     class Test_Init(classes.Test_Init):
-        element = pymcnp.inp.like.Pwt
-        EXAMPLES_VALID = [{'weight': consts.ast.type.REAL}]
+        element = pymcnp.inp.cell.Pwt
+        EXAMPLES_VALID = [{'weight': consts.string.type.REAL}, {'weight': 3.1}, {'weight': consts.ast.type.REAL}]
         EXAMPLES_INVALID = [{'weight': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.like.Pwt
-        EXAMPLES_VALID = [consts.string.inp.like.PWT]
+        element = pymcnp.inp.cell.Pwt
+        EXAMPLES_VALID = [consts.string.inp.cell.PWT]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_PwtBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.like.PwtBuilder
-        EXAMPLES_VALID = [{'weight': consts.string.type.REAL}, {'weight': 3.1}, {'weight': consts.ast.type.REAL}]
-        EXAMPLES_INVALID = [{'weight': None}]

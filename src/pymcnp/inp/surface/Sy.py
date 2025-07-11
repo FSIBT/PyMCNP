@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -28,7 +24,7 @@ class Sy(_option.SurfaceOption):
 
     _REGEX = re.compile(rf'\Asy( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, y: types.Real, r: types.Real):
+    def __init__(self, y: str | int | float | types.Real, r: str | int | float | types.Real):
         """
         Initializes ``Sy``.
 
@@ -40,20 +36,90 @@ class Sy(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.y: types.Real = y
+        self.r: types.Real = r
+
+    @property
+    def y(self) -> types.Real:
+        """
+        Gets ``y``.
+
+        Returns:
+            ``y``.
+        """
+
+        return self._y
+
+    @y.setter
+    def y(self, y: str | int | float | types.Real) -> None:
+        """
+        Sets ``y``.
+
+        Parameters:
+            y: On-y-axis sphere center y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if y is not None:
+            if isinstance(y, types.Real):
+                y = y
+            elif isinstance(y, int):
+                y = types.Real(y)
+            elif isinstance(y, float):
+                y = types.Real(y)
+            elif isinstance(y, str):
+                y = types.Real.from_mcnp(y)
+            else:
+                raise TypeError
+
         if y is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y)
+
+        self._y: types.Real = y
+
+    @property
+    def r(self) -> types.Real:
+        """
+        Gets ``r``.
+
+        Returns:
+            ``r``.
+        """
+
+        return self._r
+
+    @r.setter
+    def r(self, r: str | int | float | types.Real) -> None:
+        """
+        Sets ``r``.
+
+        Parameters:
+            r: On-y-axis sphere radius.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if r is not None:
+            if isinstance(r, types.Real):
+                r = r
+            elif isinstance(r, int):
+                r = types.Real(r)
+            elif isinstance(r, float):
+                r = types.Real(r)
+            elif isinstance(r, str):
+                r = types.Real.from_mcnp(r)
+            else:
+                raise TypeError
+
         if r is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                y,
-                r,
-            ]
-        )
-
-        self.y: typing.Final[types.Real] = y
-        self.r: typing.Final[types.Real] = r
+        self._r: types.Real = r
 
     def draw(self):
         """
@@ -68,60 +134,3 @@ class Sy(_option.SurfaceOption):
         vis = vis.add_translation(_visualization.Vector(0, self.y, 0))
 
         return vis
-
-
-@dataclasses.dataclass
-class SyBuilder(_option.SurfaceOptionBuilder):
-    """
-    Builds ``Sy``.
-
-    Attributes:
-        y: On-y-axis sphere center y component.
-        r: On-y-axis sphere radius.
-    """
-
-    y: str | float | types.Real
-    r: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``SyBuilder`` into ``Sy``.
-
-        Returns:
-            ``Sy`` for ``SyBuilder``.
-        """
-
-        y = self.y
-        if isinstance(self.y, types.Real):
-            y = self.y
-        elif isinstance(self.y, float) or isinstance(self.y, int):
-            y = types.Real(self.y)
-        elif isinstance(self.y, str):
-            y = types.Real.from_mcnp(self.y)
-
-        r = self.r
-        if isinstance(self.r, types.Real):
-            r = self.r
-        elif isinstance(self.r, float) or isinstance(self.r, int):
-            r = types.Real(self.r)
-        elif isinstance(self.r, str):
-            r = types.Real.from_mcnp(self.r)
-
-        return Sy(
-            y=y,
-            r=r,
-        )
-
-    @staticmethod
-    def unbuild(ast: Sy):
-        """
-        Unbuilds ``Sy`` into ``SyBuilder``
-
-        Returns:
-            ``SyBuilder`` for ``Sy``.
-        """
-
-        return SyBuilder(
-            y=copy.deepcopy(ast.y),
-            r=copy.deepcopy(ast.r),
-        )

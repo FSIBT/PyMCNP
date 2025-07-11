@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Fmatny(_option.KoptsOption):
 
     _REGEX = re.compile(rf'\Afmatny( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, fmat_ny: types.Real):
+    def __init__(self, fmat_ny: str | int | float | types.Real):
         """
         Initializes ``Fmatny``.
 
@@ -36,58 +32,45 @@ class Fmatny(_option.KoptsOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.fmat_ny: types.Real = fmat_ny
+
+    @property
+    def fmat_ny(self) -> types.Real:
+        """
+        Gets ``fmat_ny``.
+
+        Returns:
+            ``fmat_ny``.
+        """
+
+        return self._fmat_ny
+
+    @fmat_ny.setter
+    def fmat_ny(self, fmat_ny: str | int | float | types.Real) -> None:
+        """
+        Sets ``fmat_ny``.
+
+        Parameters:
+            fmat_ny: fmat_ny.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if fmat_ny is not None:
+            if isinstance(fmat_ny, types.Real):
+                fmat_ny = fmat_ny
+            elif isinstance(fmat_ny, int):
+                fmat_ny = types.Real(fmat_ny)
+            elif isinstance(fmat_ny, float):
+                fmat_ny = types.Real(fmat_ny)
+            elif isinstance(fmat_ny, str):
+                fmat_ny = types.Real.from_mcnp(fmat_ny)
+            else:
+                raise TypeError
+
         if fmat_ny is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_ny)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                fmat_ny,
-            ]
-        )
-
-        self.fmat_ny: typing.Final[types.Real] = fmat_ny
-
-
-@dataclasses.dataclass
-class FmatnyBuilder(_option.KoptsOptionBuilder):
-    """
-    Builds ``Fmatny``.
-
-    Attributes:
-        fmat_ny: fmat_ny.
-    """
-
-    fmat_ny: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``FmatnyBuilder`` into ``Fmatny``.
-
-        Returns:
-            ``Fmatny`` for ``FmatnyBuilder``.
-        """
-
-        fmat_ny = self.fmat_ny
-        if isinstance(self.fmat_ny, types.Real):
-            fmat_ny = self.fmat_ny
-        elif isinstance(self.fmat_ny, float) or isinstance(self.fmat_ny, int):
-            fmat_ny = types.Real(self.fmat_ny)
-        elif isinstance(self.fmat_ny, str):
-            fmat_ny = types.Real.from_mcnp(self.fmat_ny)
-
-        return Fmatny(
-            fmat_ny=fmat_ny,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fmatny):
-        """
-        Unbuilds ``Fmatny`` into ``FmatnyBuilder``
-
-        Returns:
-            ``FmatnyBuilder`` for ``Fmatny``.
-        """
-
-        return FmatnyBuilder(
-            fmat_ny=copy.deepcopy(ast.fmat_ny),
-        )
+        self._fmat_ny: types.Real = fmat_ny

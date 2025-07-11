@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Vec(_option.MeshOption):
 
     _REGEX = re.compile(rf'\Avec((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, vector: types.Tuple[types.Real]):
+    def __init__(self, vector: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Vec``.
 
@@ -36,63 +32,48 @@ class Vec(_option.MeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.vector: types.Tuple[types.Real] = vector
+
+    @property
+    def vector(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``vector``.
+
+        Returns:
+            ``vector``.
+        """
+
+        return self._vector
+
+    @vector.setter
+    def vector(self, vector: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``vector``.
+
+        Parameters:
+            vector: Vector giving the direction of the polar axis.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vector is not None:
+            array = []
+            for item in vector:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            vector = types.Tuple(array)
+
         if vector is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vector)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                vector,
-            ]
-        )
-
-        self.vector: typing.Final[types.Tuple[types.Real]] = vector
-
-
-@dataclasses.dataclass
-class VecBuilder(_option.MeshOptionBuilder):
-    """
-    Builds ``Vec``.
-
-    Attributes:
-        vector: Vector giving the direction of the polar axis.
-    """
-
-    vector: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``VecBuilder`` into ``Vec``.
-
-        Returns:
-            ``Vec`` for ``VecBuilder``.
-        """
-
-        if self.vector:
-            vector = []
-            for item in self.vector:
-                if isinstance(item, types.Real):
-                    vector.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    vector.append(types.Real(item))
-                elif isinstance(item, str):
-                    vector.append(types.Real.from_mcnp(item))
-            vector = types.Tuple(vector)
-        else:
-            vector = None
-
-        return Vec(
-            vector=vector,
-        )
-
-    @staticmethod
-    def unbuild(ast: Vec):
-        """
-        Unbuilds ``Vec`` into ``VecBuilder``
-
-        Returns:
-            ``VecBuilder`` for ``Vec``.
-        """
-
-        return VecBuilder(
-            vector=copy.deepcopy(ast.vector),
-        )
+        self._vector: types.Tuple[types.Real] = vector

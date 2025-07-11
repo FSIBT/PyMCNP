@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -36,58 +32,43 @@ class Mat(_option.LikeOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.material: types.Integer = material
+
+    @property
+    def material(self) -> types.Integer:
+        """
+        Gets ``material``.
+
+        Returns:
+            ``material``.
+        """
+
+        return self._material
+
+    @material.setter
+    def material(self, material: str | int | types.Integer) -> None:
+        """
+        Sets ``material``.
+
+        Parameters:
+            material: Cell material.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if material is not None:
+            if isinstance(material, types.Integer):
+                material = material
+            elif isinstance(material, int):
+                material = types.Integer(material)
+            elif isinstance(material, str):
+                material = types.Integer.from_mcnp(material)
+            else:
+                raise TypeError
+
         if material is None or not (0 <= material <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, material)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                material,
-            ]
-        )
-
-        self.material: typing.Final[types.Integer] = material
-
-
-@dataclasses.dataclass
-class MatBuilder(_option.LikeOptionBuilder):
-    """
-    Builds ``Mat``.
-
-    Attributes:
-        material: Cell material.
-    """
-
-    material: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``MatBuilder`` into ``Mat``.
-
-        Returns:
-            ``Mat`` for ``MatBuilder``.
-        """
-
-        material = self.material
-        if isinstance(self.material, types.Integer):
-            material = self.material
-        elif isinstance(self.material, int):
-            material = types.Integer(self.material)
-        elif isinstance(self.material, str):
-            material = types.Integer.from_mcnp(self.material)
-
-        return Mat(
-            material=material,
-        )
-
-    @staticmethod
-    def unbuild(ast: Mat):
-        """
-        Unbuilds ``Mat`` into ``MatBuilder``
-
-        Returns:
-            ``MatBuilder`` for ``Mat``.
-        """
-
-        return MatBuilder(
-            material=copy.deepcopy(ast.material),
-        )
+        self._material: types.Integer = material

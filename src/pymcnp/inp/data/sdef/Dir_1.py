@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -24,7 +20,7 @@ class Dir_1(_option.SdefOption):
 
     _REGEX = re.compile(rf'\Adir( {types.DistributionNumber._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, cosine: types.DistributionNumber = None):
+    def __init__(self, cosine: str | types.DistributionNumber = None):
         """
         Initializes ``Dir_1``.
 
@@ -35,53 +31,38 @@ class Dir_1(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                cosine,
-            ]
-        )
+        self.cosine: types.DistributionNumber = cosine
 
-        self.cosine: typing.Final[types.DistributionNumber] = cosine
-
-
-@dataclasses.dataclass
-class DirBuilder_1(_option.SdefOptionBuilder):
-    """
-    Builds ``Dir_1``.
-
-    Attributes:
-        cosine: Cosine of the angle between VEC and particle.
-    """
-
-    cosine: str | types.DistributionNumber = None
-
-    def build(self):
+    @property
+    def cosine(self) -> types.DistributionNumber:
         """
-        Builds ``DirBuilder_1`` into ``Dir_1``.
+        Gets ``cosine``.
 
         Returns:
-            ``Dir_1`` for ``DirBuilder_1``.
+            ``cosine``.
         """
 
-        cosine = self.cosine
-        if isinstance(self.cosine, types.DistributionNumber):
-            cosine = self.cosine
-        elif isinstance(self.cosine, str):
-            cosine = types.DistributionNumber.from_mcnp(self.cosine)
+        return self._cosine
 
-        return Dir_1(
-            cosine=cosine,
-        )
-
-    @staticmethod
-    def unbuild(ast: Dir_1):
+    @cosine.setter
+    def cosine(self, cosine: str | types.DistributionNumber) -> None:
         """
-        Unbuilds ``Dir_1`` into ``DirBuilder_1``
+        Sets ``cosine``.
 
-        Returns:
-            ``DirBuilder_1`` for ``Dir_1``.
+        Parameters:
+            cosine: Cosine of the angle between VEC and particle.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return DirBuilder_1(
-            cosine=copy.deepcopy(ast.cosine),
-        )
+        if cosine is not None:
+            if isinstance(cosine, types.DistributionNumber):
+                cosine = cosine
+            elif isinstance(cosine, str):
+                cosine = types.DistributionNumber.from_mcnp(cosine)
+            else:
+                raise TypeError
+
+        self._cosine: types.DistributionNumber = cosine

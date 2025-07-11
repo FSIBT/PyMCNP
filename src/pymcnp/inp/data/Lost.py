@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -27,7 +23,7 @@ class Lost(_option.DataOption):
 
     _REGEX = re.compile(rf'\Alost( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, lost1: types.Integer, lost2: types.Integer):
+    def __init__(self, lost1: str | int | types.Integer, lost2: str | int | types.Integer):
         """
         Initializes ``Lost``.
 
@@ -39,74 +35,83 @@ class Lost(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.lost1: types.Integer = lost1
+        self.lost2: types.Integer = lost2
+
+    @property
+    def lost1(self) -> types.Integer:
+        """
+        Gets ``lost1``.
+
+        Returns:
+            ``lost1``.
+        """
+
+        return self._lost1
+
+    @lost1.setter
+    def lost1(self, lost1: str | int | types.Integer) -> None:
+        """
+        Sets ``lost1``.
+
+        Parameters:
+            lost1: Number of particles which can be lost before job termination.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if lost1 is not None:
+            if isinstance(lost1, types.Integer):
+                lost1 = lost1
+            elif isinstance(lost1, int):
+                lost1 = types.Integer(lost1)
+            elif isinstance(lost1, str):
+                lost1 = types.Integer.from_mcnp(lost1)
+            else:
+                raise TypeError
+
         if lost1 is None or not (lost1 >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lost1)
+
+        self._lost1: types.Integer = lost1
+
+    @property
+    def lost2(self) -> types.Integer:
+        """
+        Gets ``lost2``.
+
+        Returns:
+            ``lost2``.
+        """
+
+        return self._lost2
+
+    @lost2.setter
+    def lost2(self, lost2: str | int | types.Integer) -> None:
+        """
+        Sets ``lost2``.
+
+        Parameters:
+            lost2: Maximum number of debug prints for lost particles..
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if lost2 is not None:
+            if isinstance(lost2, types.Integer):
+                lost2 = lost2
+            elif isinstance(lost2, int):
+                lost2 = types.Integer(lost2)
+            elif isinstance(lost2, str):
+                lost2 = types.Integer.from_mcnp(lost2)
+            else:
+                raise TypeError
+
         if lost2 is None or not (lost2 >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lost2)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                lost1,
-                lost2,
-            ]
-        )
-
-        self.lost1: typing.Final[types.Integer] = lost1
-        self.lost2: typing.Final[types.Integer] = lost2
-
-
-@dataclasses.dataclass
-class LostBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Lost``.
-
-    Attributes:
-        lost1: Number of particles which can be lost before job termination.
-        lost2: Maximum number of debug prints for lost particles..
-    """
-
-    lost1: str | int | types.Integer
-    lost2: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``LostBuilder`` into ``Lost``.
-
-        Returns:
-            ``Lost`` for ``LostBuilder``.
-        """
-
-        lost1 = self.lost1
-        if isinstance(self.lost1, types.Integer):
-            lost1 = self.lost1
-        elif isinstance(self.lost1, int):
-            lost1 = types.Integer(self.lost1)
-        elif isinstance(self.lost1, str):
-            lost1 = types.Integer.from_mcnp(self.lost1)
-
-        lost2 = self.lost2
-        if isinstance(self.lost2, types.Integer):
-            lost2 = self.lost2
-        elif isinstance(self.lost2, int):
-            lost2 = types.Integer(self.lost2)
-        elif isinstance(self.lost2, str):
-            lost2 = types.Integer.from_mcnp(self.lost2)
-
-        return Lost(
-            lost1=lost1,
-            lost2=lost2,
-        )
-
-    @staticmethod
-    def unbuild(ast: Lost):
-        """
-        Unbuilds ``Lost`` into ``LostBuilder``
-
-        Returns:
-            ``LostBuilder`` for ``Lost``.
-        """
-
-        return LostBuilder(
-            lost1=copy.deepcopy(ast.lost1),
-            lost2=copy.deepcopy(ast.lost2),
-        )
+        self._lost2: types.Integer = lost2

@@ -5,18 +5,11 @@ from .... import classes
 
 class Test_Lat:
     class Test_Init(classes.Test_Init):
-        element = pymcnp.inp.like.Lat
-        EXAMPLES_VALID = [{'shape': consts.ast.type.INTEGER}]
+        element = pymcnp.inp.cell.Lat
+        EXAMPLES_VALID = [{'shape': consts.string.type.INTEGER}, {'shape': 1}, {'shape': consts.ast.type.INTEGER}]
         EXAMPLES_INVALID = [{'shape': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.like.Lat
-        EXAMPLES_VALID = [consts.string.inp.like.LAT]
+        element = pymcnp.inp.cell.Lat
+        EXAMPLES_VALID = [consts.string.inp.cell.LAT]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_LatBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.like.LatBuilder
-        EXAMPLES_VALID = [{'shape': consts.string.type.INTEGER}, {'shape': 1}, {'shape': consts.ast.type.INTEGER}]
-        EXAMPLES_INVALID = [{'shape': None}]

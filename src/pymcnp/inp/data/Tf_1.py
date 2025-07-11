@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -61,23 +57,23 @@ class Tf_1(_option.DataOption):
 
     def __init__(
         self,
-        suffix: types.Integer,
-        if1: types.Integer = None,
-        id1: types.Integer = None,
-        iu1: types.Integer = None,
-        is1: types.Integer = None,
-        im1: types.Integer = None,
-        ic1: types.Integer = None,
-        ie1: types.Integer = None,
-        it1: types.Integer = None,
-        if2: types.Integer = None,
-        id2: types.Integer = None,
-        iu2: types.Integer = None,
-        is2: types.Integer = None,
-        im2: types.Integer = None,
-        ic2: types.Integer = None,
-        ie2: types.Integer = None,
-        it2: types.Integer = None,
+        suffix: str | int | types.Integer,
+        if1: str | int | types.Integer = None,
+        id1: str | int | types.Integer = None,
+        iu1: str | int | types.Integer = None,
+        is1: str | int | types.Integer = None,
+        im1: str | int | types.Integer = None,
+        ic1: str | int | types.Integer = None,
+        ie1: str | int | types.Integer = None,
+        it1: str | int | types.Integer = None,
+        if2: str | int | types.Integer = None,
+        id2: str | int | types.Integer = None,
+        iu2: str | int | types.Integer = None,
+        is2: str | int | types.Integer = None,
+        im2: str | int | types.Integer = None,
+        ic2: str | int | types.Integer = None,
+        ie2: str | int | types.Integer = None,
+        it2: str | int | types.Integer = None,
     ):
         """
         Initializes ``Tf_1``.
@@ -105,281 +101,635 @@ class Tf_1(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.if1: types.Integer = if1
+        self.id1: types.Integer = id1
+        self.iu1: types.Integer = iu1
+        self.is1: types.Integer = is1
+        self.im1: types.Integer = im1
+        self.ic1: types.Integer = ic1
+        self.ie1: types.Integer = ie1
+        self.it1: types.Integer = it1
+        self.if2: types.Integer = if2
+        self.id2: types.Integer = id2
+        self.iu2: types.Integer = iu2
+        self.is2: types.Integer = is2
+        self.im2: types.Integer = im2
+        self.ic2: types.Integer = ic2
+        self.ie2: types.Integer = ie2
+        self.it2: types.Integer = it2
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                if1,
-                id1,
-                iu1,
-                is1,
-                im1,
-                ic1,
-                ie1,
-                it1,
-                if2,
-                id2,
-                iu2,
-                is2,
-                im2,
-                ic2,
-                ie2,
-                it2,
-            ]
-        )
+        self._suffix: types.Integer = suffix
 
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.if1: typing.Final[types.Integer] = if1
-        self.id1: typing.Final[types.Integer] = id1
-        self.iu1: typing.Final[types.Integer] = iu1
-        self.is1: typing.Final[types.Integer] = is1
-        self.im1: typing.Final[types.Integer] = im1
-        self.ic1: typing.Final[types.Integer] = ic1
-        self.ie1: typing.Final[types.Integer] = ie1
-        self.it1: typing.Final[types.Integer] = it1
-        self.if2: typing.Final[types.Integer] = if2
-        self.id2: typing.Final[types.Integer] = id2
-        self.iu2: typing.Final[types.Integer] = iu2
-        self.is2: typing.Final[types.Integer] = is2
-        self.im2: typing.Final[types.Integer] = im2
-        self.ic2: typing.Final[types.Integer] = ic2
-        self.ie2: typing.Final[types.Integer] = ie2
-        self.it2: typing.Final[types.Integer] = it2
-
-
-@dataclasses.dataclass
-class TfBuilder_1(_option.DataOptionBuilder):
-    """
-    Builds ``Tf_1``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        if1: Cell, surface, or detector bin number.
-        id1: Total, flagged, or un-collided bin number.
-        iu1: User bin number.
-        is1: Segment bin number.
-        im1: Multiplier bin number.
-        ic1: Cosine bin number.
-        ie1: Energy bin number.
-        it1: Time bin number.
-        if2: Cell, surface, or detector bin number.
-        id2: Total, flagged, or un-collided bin number.
-        iu2: User bin number.
-        is2: Segment bin number.
-        im2: Multiplier bin number.
-        ic2: Cosine bin number.
-        ie2: Energy bin number.
-        it2: Time bin number.
-    """
-
-    suffix: str | int | types.Integer
-    if1: str | int | types.Integer = None
-    id1: str | int | types.Integer = None
-    iu1: str | int | types.Integer = None
-    is1: str | int | types.Integer = None
-    im1: str | int | types.Integer = None
-    ic1: str | int | types.Integer = None
-    ie1: str | int | types.Integer = None
-    it1: str | int | types.Integer = None
-    if2: str | int | types.Integer = None
-    id2: str | int | types.Integer = None
-    iu2: str | int | types.Integer = None
-    is2: str | int | types.Integer = None
-    im2: str | int | types.Integer = None
-    ic2: str | int | types.Integer = None
-    ie2: str | int | types.Integer = None
-    it2: str | int | types.Integer = None
-
-    def build(self):
+    @property
+    def if1(self) -> types.Integer:
         """
-        Builds ``TfBuilder_1`` into ``Tf_1``.
+        Gets ``if1``.
 
         Returns:
-            ``Tf_1`` for ``TfBuilder_1``.
+            ``if1``.
         """
 
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
+        return self._if1
 
-        if1 = self.if1
-        if isinstance(self.if1, types.Integer):
-            if1 = self.if1
-        elif isinstance(self.if1, int):
-            if1 = types.Integer(self.if1)
-        elif isinstance(self.if1, str):
-            if1 = types.Integer.from_mcnp(self.if1)
-
-        id1 = self.id1
-        if isinstance(self.id1, types.Integer):
-            id1 = self.id1
-        elif isinstance(self.id1, int):
-            id1 = types.Integer(self.id1)
-        elif isinstance(self.id1, str):
-            id1 = types.Integer.from_mcnp(self.id1)
-
-        iu1 = self.iu1
-        if isinstance(self.iu1, types.Integer):
-            iu1 = self.iu1
-        elif isinstance(self.iu1, int):
-            iu1 = types.Integer(self.iu1)
-        elif isinstance(self.iu1, str):
-            iu1 = types.Integer.from_mcnp(self.iu1)
-
-        is1 = self.is1
-        if isinstance(self.is1, types.Integer):
-            is1 = self.is1
-        elif isinstance(self.is1, int):
-            is1 = types.Integer(self.is1)
-        elif isinstance(self.is1, str):
-            is1 = types.Integer.from_mcnp(self.is1)
-
-        im1 = self.im1
-        if isinstance(self.im1, types.Integer):
-            im1 = self.im1
-        elif isinstance(self.im1, int):
-            im1 = types.Integer(self.im1)
-        elif isinstance(self.im1, str):
-            im1 = types.Integer.from_mcnp(self.im1)
-
-        ic1 = self.ic1
-        if isinstance(self.ic1, types.Integer):
-            ic1 = self.ic1
-        elif isinstance(self.ic1, int):
-            ic1 = types.Integer(self.ic1)
-        elif isinstance(self.ic1, str):
-            ic1 = types.Integer.from_mcnp(self.ic1)
-
-        ie1 = self.ie1
-        if isinstance(self.ie1, types.Integer):
-            ie1 = self.ie1
-        elif isinstance(self.ie1, int):
-            ie1 = types.Integer(self.ie1)
-        elif isinstance(self.ie1, str):
-            ie1 = types.Integer.from_mcnp(self.ie1)
-
-        it1 = self.it1
-        if isinstance(self.it1, types.Integer):
-            it1 = self.it1
-        elif isinstance(self.it1, int):
-            it1 = types.Integer(self.it1)
-        elif isinstance(self.it1, str):
-            it1 = types.Integer.from_mcnp(self.it1)
-
-        if2 = self.if2
-        if isinstance(self.if2, types.Integer):
-            if2 = self.if2
-        elif isinstance(self.if2, int):
-            if2 = types.Integer(self.if2)
-        elif isinstance(self.if2, str):
-            if2 = types.Integer.from_mcnp(self.if2)
-
-        id2 = self.id2
-        if isinstance(self.id2, types.Integer):
-            id2 = self.id2
-        elif isinstance(self.id2, int):
-            id2 = types.Integer(self.id2)
-        elif isinstance(self.id2, str):
-            id2 = types.Integer.from_mcnp(self.id2)
-
-        iu2 = self.iu2
-        if isinstance(self.iu2, types.Integer):
-            iu2 = self.iu2
-        elif isinstance(self.iu2, int):
-            iu2 = types.Integer(self.iu2)
-        elif isinstance(self.iu2, str):
-            iu2 = types.Integer.from_mcnp(self.iu2)
-
-        is2 = self.is2
-        if isinstance(self.is2, types.Integer):
-            is2 = self.is2
-        elif isinstance(self.is2, int):
-            is2 = types.Integer(self.is2)
-        elif isinstance(self.is2, str):
-            is2 = types.Integer.from_mcnp(self.is2)
-
-        im2 = self.im2
-        if isinstance(self.im2, types.Integer):
-            im2 = self.im2
-        elif isinstance(self.im2, int):
-            im2 = types.Integer(self.im2)
-        elif isinstance(self.im2, str):
-            im2 = types.Integer.from_mcnp(self.im2)
-
-        ic2 = self.ic2
-        if isinstance(self.ic2, types.Integer):
-            ic2 = self.ic2
-        elif isinstance(self.ic2, int):
-            ic2 = types.Integer(self.ic2)
-        elif isinstance(self.ic2, str):
-            ic2 = types.Integer.from_mcnp(self.ic2)
-
-        ie2 = self.ie2
-        if isinstance(self.ie2, types.Integer):
-            ie2 = self.ie2
-        elif isinstance(self.ie2, int):
-            ie2 = types.Integer(self.ie2)
-        elif isinstance(self.ie2, str):
-            ie2 = types.Integer.from_mcnp(self.ie2)
-
-        it2 = self.it2
-        if isinstance(self.it2, types.Integer):
-            it2 = self.it2
-        elif isinstance(self.it2, int):
-            it2 = types.Integer(self.it2)
-        elif isinstance(self.it2, str):
-            it2 = types.Integer.from_mcnp(self.it2)
-
-        return Tf_1(
-            suffix=suffix,
-            if1=if1,
-            id1=id1,
-            iu1=iu1,
-            is1=is1,
-            im1=im1,
-            ic1=ic1,
-            ie1=ie1,
-            it1=it1,
-            if2=if2,
-            id2=id2,
-            iu2=iu2,
-            is2=is2,
-            im2=im2,
-            ic2=ic2,
-            ie2=ie2,
-            it2=it2,
-        )
-
-    @staticmethod
-    def unbuild(ast: Tf_1):
+    @if1.setter
+    def if1(self, if1: str | int | types.Integer) -> None:
         """
-        Unbuilds ``Tf_1`` into ``TfBuilder_1``
+        Sets ``if1``.
+
+        Parameters:
+            if1: Cell, surface, or detector bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if if1 is not None:
+            if isinstance(if1, types.Integer):
+                if1 = if1
+            elif isinstance(if1, int):
+                if1 = types.Integer(if1)
+            elif isinstance(if1, str):
+                if1 = types.Integer.from_mcnp(if1)
+            else:
+                raise TypeError
+
+        self._if1: types.Integer = if1
+
+    @property
+    def id1(self) -> types.Integer:
+        """
+        Gets ``id1``.
 
         Returns:
-            ``TfBuilder_1`` for ``Tf_1``.
+            ``id1``.
         """
 
-        return TfBuilder_1(
-            suffix=copy.deepcopy(ast.suffix),
-            if1=copy.deepcopy(ast.if1),
-            id1=copy.deepcopy(ast.id1),
-            iu1=copy.deepcopy(ast.iu1),
-            is1=copy.deepcopy(ast.is1),
-            im1=copy.deepcopy(ast.im1),
-            ic1=copy.deepcopy(ast.ic1),
-            ie1=copy.deepcopy(ast.ie1),
-            it1=copy.deepcopy(ast.it1),
-            if2=copy.deepcopy(ast.if2),
-            id2=copy.deepcopy(ast.id2),
-            iu2=copy.deepcopy(ast.iu2),
-            is2=copy.deepcopy(ast.is2),
-            im2=copy.deepcopy(ast.im2),
-            ic2=copy.deepcopy(ast.ic2),
-            ie2=copy.deepcopy(ast.ie2),
-            it2=copy.deepcopy(ast.it2),
-        )
+        return self._id1
+
+    @id1.setter
+    def id1(self, id1: str | int | types.Integer) -> None:
+        """
+        Sets ``id1``.
+
+        Parameters:
+            id1: Total, flagged, or un-collided bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if id1 is not None:
+            if isinstance(id1, types.Integer):
+                id1 = id1
+            elif isinstance(id1, int):
+                id1 = types.Integer(id1)
+            elif isinstance(id1, str):
+                id1 = types.Integer.from_mcnp(id1)
+            else:
+                raise TypeError
+
+        self._id1: types.Integer = id1
+
+    @property
+    def iu1(self) -> types.Integer:
+        """
+        Gets ``iu1``.
+
+        Returns:
+            ``iu1``.
+        """
+
+        return self._iu1
+
+    @iu1.setter
+    def iu1(self, iu1: str | int | types.Integer) -> None:
+        """
+        Sets ``iu1``.
+
+        Parameters:
+            iu1: User bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if iu1 is not None:
+            if isinstance(iu1, types.Integer):
+                iu1 = iu1
+            elif isinstance(iu1, int):
+                iu1 = types.Integer(iu1)
+            elif isinstance(iu1, str):
+                iu1 = types.Integer.from_mcnp(iu1)
+            else:
+                raise TypeError
+
+        self._iu1: types.Integer = iu1
+
+    @property
+    def is1(self) -> types.Integer:
+        """
+        Gets ``is1``.
+
+        Returns:
+            ``is1``.
+        """
+
+        return self._is1
+
+    @is1.setter
+    def is1(self, is1: str | int | types.Integer) -> None:
+        """
+        Sets ``is1``.
+
+        Parameters:
+            is1: Segment bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if is1 is not None:
+            if isinstance(is1, types.Integer):
+                is1 = is1
+            elif isinstance(is1, int):
+                is1 = types.Integer(is1)
+            elif isinstance(is1, str):
+                is1 = types.Integer.from_mcnp(is1)
+            else:
+                raise TypeError
+
+        self._is1: types.Integer = is1
+
+    @property
+    def im1(self) -> types.Integer:
+        """
+        Gets ``im1``.
+
+        Returns:
+            ``im1``.
+        """
+
+        return self._im1
+
+    @im1.setter
+    def im1(self, im1: str | int | types.Integer) -> None:
+        """
+        Sets ``im1``.
+
+        Parameters:
+            im1: Multiplier bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if im1 is not None:
+            if isinstance(im1, types.Integer):
+                im1 = im1
+            elif isinstance(im1, int):
+                im1 = types.Integer(im1)
+            elif isinstance(im1, str):
+                im1 = types.Integer.from_mcnp(im1)
+            else:
+                raise TypeError
+
+        self._im1: types.Integer = im1
+
+    @property
+    def ic1(self) -> types.Integer:
+        """
+        Gets ``ic1``.
+
+        Returns:
+            ``ic1``.
+        """
+
+        return self._ic1
+
+    @ic1.setter
+    def ic1(self, ic1: str | int | types.Integer) -> None:
+        """
+        Sets ``ic1``.
+
+        Parameters:
+            ic1: Cosine bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ic1 is not None:
+            if isinstance(ic1, types.Integer):
+                ic1 = ic1
+            elif isinstance(ic1, int):
+                ic1 = types.Integer(ic1)
+            elif isinstance(ic1, str):
+                ic1 = types.Integer.from_mcnp(ic1)
+            else:
+                raise TypeError
+
+        self._ic1: types.Integer = ic1
+
+    @property
+    def ie1(self) -> types.Integer:
+        """
+        Gets ``ie1``.
+
+        Returns:
+            ``ie1``.
+        """
+
+        return self._ie1
+
+    @ie1.setter
+    def ie1(self, ie1: str | int | types.Integer) -> None:
+        """
+        Sets ``ie1``.
+
+        Parameters:
+            ie1: Energy bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ie1 is not None:
+            if isinstance(ie1, types.Integer):
+                ie1 = ie1
+            elif isinstance(ie1, int):
+                ie1 = types.Integer(ie1)
+            elif isinstance(ie1, str):
+                ie1 = types.Integer.from_mcnp(ie1)
+            else:
+                raise TypeError
+
+        self._ie1: types.Integer = ie1
+
+    @property
+    def it1(self) -> types.Integer:
+        """
+        Gets ``it1``.
+
+        Returns:
+            ``it1``.
+        """
+
+        return self._it1
+
+    @it1.setter
+    def it1(self, it1: str | int | types.Integer) -> None:
+        """
+        Sets ``it1``.
+
+        Parameters:
+            it1: Time bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if it1 is not None:
+            if isinstance(it1, types.Integer):
+                it1 = it1
+            elif isinstance(it1, int):
+                it1 = types.Integer(it1)
+            elif isinstance(it1, str):
+                it1 = types.Integer.from_mcnp(it1)
+            else:
+                raise TypeError
+
+        self._it1: types.Integer = it1
+
+    @property
+    def if2(self) -> types.Integer:
+        """
+        Gets ``if2``.
+
+        Returns:
+            ``if2``.
+        """
+
+        return self._if2
+
+    @if2.setter
+    def if2(self, if2: str | int | types.Integer) -> None:
+        """
+        Sets ``if2``.
+
+        Parameters:
+            if2: Cell, surface, or detector bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if if2 is not None:
+            if isinstance(if2, types.Integer):
+                if2 = if2
+            elif isinstance(if2, int):
+                if2 = types.Integer(if2)
+            elif isinstance(if2, str):
+                if2 = types.Integer.from_mcnp(if2)
+            else:
+                raise TypeError
+
+        self._if2: types.Integer = if2
+
+    @property
+    def id2(self) -> types.Integer:
+        """
+        Gets ``id2``.
+
+        Returns:
+            ``id2``.
+        """
+
+        return self._id2
+
+    @id2.setter
+    def id2(self, id2: str | int | types.Integer) -> None:
+        """
+        Sets ``id2``.
+
+        Parameters:
+            id2: Total, flagged, or un-collided bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if id2 is not None:
+            if isinstance(id2, types.Integer):
+                id2 = id2
+            elif isinstance(id2, int):
+                id2 = types.Integer(id2)
+            elif isinstance(id2, str):
+                id2 = types.Integer.from_mcnp(id2)
+            else:
+                raise TypeError
+
+        self._id2: types.Integer = id2
+
+    @property
+    def iu2(self) -> types.Integer:
+        """
+        Gets ``iu2``.
+
+        Returns:
+            ``iu2``.
+        """
+
+        return self._iu2
+
+    @iu2.setter
+    def iu2(self, iu2: str | int | types.Integer) -> None:
+        """
+        Sets ``iu2``.
+
+        Parameters:
+            iu2: User bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if iu2 is not None:
+            if isinstance(iu2, types.Integer):
+                iu2 = iu2
+            elif isinstance(iu2, int):
+                iu2 = types.Integer(iu2)
+            elif isinstance(iu2, str):
+                iu2 = types.Integer.from_mcnp(iu2)
+            else:
+                raise TypeError
+
+        self._iu2: types.Integer = iu2
+
+    @property
+    def is2(self) -> types.Integer:
+        """
+        Gets ``is2``.
+
+        Returns:
+            ``is2``.
+        """
+
+        return self._is2
+
+    @is2.setter
+    def is2(self, is2: str | int | types.Integer) -> None:
+        """
+        Sets ``is2``.
+
+        Parameters:
+            is2: Segment bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if is2 is not None:
+            if isinstance(is2, types.Integer):
+                is2 = is2
+            elif isinstance(is2, int):
+                is2 = types.Integer(is2)
+            elif isinstance(is2, str):
+                is2 = types.Integer.from_mcnp(is2)
+            else:
+                raise TypeError
+
+        self._is2: types.Integer = is2
+
+    @property
+    def im2(self) -> types.Integer:
+        """
+        Gets ``im2``.
+
+        Returns:
+            ``im2``.
+        """
+
+        return self._im2
+
+    @im2.setter
+    def im2(self, im2: str | int | types.Integer) -> None:
+        """
+        Sets ``im2``.
+
+        Parameters:
+            im2: Multiplier bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if im2 is not None:
+            if isinstance(im2, types.Integer):
+                im2 = im2
+            elif isinstance(im2, int):
+                im2 = types.Integer(im2)
+            elif isinstance(im2, str):
+                im2 = types.Integer.from_mcnp(im2)
+            else:
+                raise TypeError
+
+        self._im2: types.Integer = im2
+
+    @property
+    def ic2(self) -> types.Integer:
+        """
+        Gets ``ic2``.
+
+        Returns:
+            ``ic2``.
+        """
+
+        return self._ic2
+
+    @ic2.setter
+    def ic2(self, ic2: str | int | types.Integer) -> None:
+        """
+        Sets ``ic2``.
+
+        Parameters:
+            ic2: Cosine bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ic2 is not None:
+            if isinstance(ic2, types.Integer):
+                ic2 = ic2
+            elif isinstance(ic2, int):
+                ic2 = types.Integer(ic2)
+            elif isinstance(ic2, str):
+                ic2 = types.Integer.from_mcnp(ic2)
+            else:
+                raise TypeError
+
+        self._ic2: types.Integer = ic2
+
+    @property
+    def ie2(self) -> types.Integer:
+        """
+        Gets ``ie2``.
+
+        Returns:
+            ``ie2``.
+        """
+
+        return self._ie2
+
+    @ie2.setter
+    def ie2(self, ie2: str | int | types.Integer) -> None:
+        """
+        Sets ``ie2``.
+
+        Parameters:
+            ie2: Energy bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ie2 is not None:
+            if isinstance(ie2, types.Integer):
+                ie2 = ie2
+            elif isinstance(ie2, int):
+                ie2 = types.Integer(ie2)
+            elif isinstance(ie2, str):
+                ie2 = types.Integer.from_mcnp(ie2)
+            else:
+                raise TypeError
+
+        self._ie2: types.Integer = ie2
+
+    @property
+    def it2(self) -> types.Integer:
+        """
+        Gets ``it2``.
+
+        Returns:
+            ``it2``.
+        """
+
+        return self._it2
+
+    @it2.setter
+    def it2(self, it2: str | int | types.Integer) -> None:
+        """
+        Sets ``it2``.
+
+        Parameters:
+            it2: Time bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if it2 is not None:
+            if isinstance(it2, types.Integer):
+                it2 = it2
+            elif isinstance(it2, int):
+                it2 = types.Integer(it2)
+            elif isinstance(it2, str):
+                it2 = types.Integer.from_mcnp(it2)
+            else:
+                raise TypeError
+
+        self._it2: types.Integer = it2

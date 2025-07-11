@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -27,7 +23,7 @@ class Dd(_option.DataOption):
 
     _REGEX = re.compile(rf'\Add(\d+)?((?: {types.Diagnostic._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, diagnostics: types.Tuple[types.Diagnostic], suffix: types.Integer = None):
+    def __init__(self, diagnostics: list[str] | list[types.Diagnostic], suffix: str | int | types.Integer = None):
         """
         Initializes ``Dd``.
 
@@ -39,74 +35,81 @@ class Dd(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.diagnostics: types.Tuple[types.Diagnostic] = diagnostics
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def diagnostics(self) -> types.Tuple[types.Diagnostic]:
+        """
+        Gets ``diagnostics``.
+
+        Returns:
+            ``diagnostics``.
+        """
+
+        return self._diagnostics
+
+    @diagnostics.setter
+    def diagnostics(self, diagnostics: list[str] | list[types.Diagnostic]) -> None:
+        """
+        Sets ``diagnostics``.
+
+        Parameters:
+            diagnostics: Detector diagnostic entries.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if diagnostics is not None:
+            array = []
+            for item in diagnostics:
+                if isinstance(item, types.Diagnostic):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.Diagnostic.from_mcnp(item))
+                else:
+                    raise TypeError
+            diagnostics = types.Tuple(array)
+
         if diagnostics is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, diagnostics)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                diagnostics,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.diagnostics: typing.Final[types.Tuple[types.Diagnostic]] = diagnostics
-
-
-@dataclasses.dataclass
-class DdBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Dd``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        diagnostics: Detector diagnostic entries.
-    """
-
-    diagnostics: list[str] | list[types.Diagnostic]
-    suffix: str | int | types.Integer = None
-
-    def build(self):
-        """
-        Builds ``DdBuilder`` into ``Dd``.
-
-        Returns:
-            ``Dd`` for ``DdBuilder``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        if self.diagnostics:
-            diagnostics = []
-            for item in self.diagnostics:
-                if isinstance(item, types.Diagnostic):
-                    diagnostics.append(item)
-                elif isinstance(item, str):
-                    diagnostics.append(types.Diagnostic.from_mcnp(item))
-            diagnostics = types.Tuple(diagnostics)
-        else:
-            diagnostics = None
-
-        return Dd(
-            suffix=suffix,
-            diagnostics=diagnostics,
-        )
-
-    @staticmethod
-    def unbuild(ast: Dd):
-        """
-        Unbuilds ``Dd`` into ``DdBuilder``
-
-        Returns:
-            ``DdBuilder`` for ``Dd``.
-        """
-
-        return DdBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            diagnostics=copy.deepcopy(ast.diagnostics),
-        )
+        self._diagnostics: types.Tuple[types.Diagnostic] = diagnostics

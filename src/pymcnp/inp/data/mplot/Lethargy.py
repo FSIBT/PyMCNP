@@ -1,10 +1,6 @@
 import re
-import typing
-import dataclasses
-
 
 from . import _option
-from ....utils import types
 
 
 class Lethargy(_option.MplotOption):
@@ -33,36 +29,3 @@ class Lethargy(_option.MplotOption):
         Raises:
             InpError: SEMANTICS_OPTION.
         """
-
-        self.value: typing.Final[types.Tuple] = types.Tuple([])
-
-
-@dataclasses.dataclass
-class LethargyBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Lethargy``.
-
-    Attributes:
-
-    """
-
-    def build(self):
-        """
-        Builds ``LethargyBuilder`` into ``Lethargy``.
-
-        Returns:
-            ``Lethargy`` for ``LethargyBuilder``.
-        """
-
-        return Lethargy()
-
-    @staticmethod
-    def unbuild(ast: Lethargy):
-        """
-        Unbuilds ``Lethargy`` into ``LethargyBuilder``
-
-        Returns:
-            ``LethargyBuilder`` for ``Lethargy``.
-        """
-
-        return LethargyBuilder()

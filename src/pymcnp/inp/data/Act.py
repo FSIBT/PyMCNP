@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import act
 from . import _option
@@ -25,7 +21,7 @@ class Act(_option.DataOption):
 
     _REGEX = re.compile(rf'\Aact((?: (?:{act.ActOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[act.ActOption] = None):
+    def __init__(self, options: list[str] | list[act.ActOption] = None):
         """
         Initializes ``Act``.
 
@@ -36,60 +32,41 @@ class Act(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                options,
-            ]
-        )
+        self.options: types.Tuple[act.ActOption] = options
 
-        self.options: typing.Final[types.Tuple[act.ActOption]] = options
-
-
-@dataclasses.dataclass
-class ActBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Act``.
-
-    Attributes:
-        options: Dictionary of options.
-    """
-
-    options: list[str] | list[act.ActOption] = None
-
-    def build(self):
+    @property
+    def options(self) -> types.Tuple[act.ActOption]:
         """
-        Builds ``ActBuilder`` into ``Act``.
+        Gets ``options``.
 
         Returns:
-            ``Act`` for ``ActBuilder``.
+            ``options``.
         """
 
-        if self.options:
-            options = []
-            for item in self.options:
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[act.ActOption]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, act.ActOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(act.ActOption.from_mcnp(item))
-                elif isinstance(item, act.ActOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(act.ActOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Act(
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Act):
-        """
-        Unbuilds ``Act`` into ``ActBuilder``
-
-        Returns:
-            ``ActBuilder`` for ``Act``.
-        """
-
-        return ActBuilder(
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[act.ActOption] = options

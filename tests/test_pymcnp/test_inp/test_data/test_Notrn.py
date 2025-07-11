@@ -6,17 +6,10 @@ from .... import classes
 class Test_Notrn:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Notrn
-        EXAMPLES_VALID = [{}]
+        EXAMPLES_VALID = [{}, {}]
         EXAMPLES_INVALID = []
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.Notrn
         EXAMPLES_VALID = [consts.string.inp.data.NOTRN]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_NotrnBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.NotrnBuilder
-        EXAMPLES_VALID = [{}, {}]
-        EXAMPLES_INVALID = []

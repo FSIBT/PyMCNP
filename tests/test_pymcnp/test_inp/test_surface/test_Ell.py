@@ -8,44 +8,6 @@ class Test_Ell:
         element = pymcnp.inp.surface.Ell
         EXAMPLES_VALID = [
             {
-                'v1x': consts.ast.type.REAL,
-                'v1y': consts.ast.type.REAL,
-                'v1z': consts.ast.type.REAL,
-                'v2x': consts.ast.type.REAL,
-                'v2y': consts.ast.type.REAL,
-                'v2z': consts.ast.type.REAL,
-                'rm': consts.ast.type.REAL,
-            }
-        ]
-        EXAMPLES_INVALID = [
-            {'v1x': None, 'v1y': consts.ast.type.REAL, 'v1z': consts.ast.type.REAL, 'v2x': consts.ast.type.REAL, 'v2y': consts.ast.type.REAL, 'v2z': consts.ast.type.REAL, 'rm': consts.ast.type.REAL},
-            {'v1x': consts.ast.type.REAL, 'v1y': None, 'v1z': consts.ast.type.REAL, 'v2x': consts.ast.type.REAL, 'v2y': consts.ast.type.REAL, 'v2z': consts.ast.type.REAL, 'rm': consts.ast.type.REAL},
-            {'v1x': consts.ast.type.REAL, 'v1y': consts.ast.type.REAL, 'v1z': None, 'v2x': consts.ast.type.REAL, 'v2y': consts.ast.type.REAL, 'v2z': consts.ast.type.REAL, 'rm': consts.ast.type.REAL},
-            {'v1x': consts.ast.type.REAL, 'v1y': consts.ast.type.REAL, 'v1z': consts.ast.type.REAL, 'v2x': None, 'v2y': consts.ast.type.REAL, 'v2z': consts.ast.type.REAL, 'rm': consts.ast.type.REAL},
-            {'v1x': consts.ast.type.REAL, 'v1y': consts.ast.type.REAL, 'v1z': consts.ast.type.REAL, 'v2x': consts.ast.type.REAL, 'v2y': None, 'v2z': consts.ast.type.REAL, 'rm': consts.ast.type.REAL},
-            {'v1x': consts.ast.type.REAL, 'v1y': consts.ast.type.REAL, 'v1z': consts.ast.type.REAL, 'v2x': consts.ast.type.REAL, 'v2y': consts.ast.type.REAL, 'v2z': None, 'rm': consts.ast.type.REAL},
-            {'v1x': consts.ast.type.REAL, 'v1y': consts.ast.type.REAL, 'v1z': consts.ast.type.REAL, 'v2x': consts.ast.type.REAL, 'v2y': consts.ast.type.REAL, 'v2z': consts.ast.type.REAL, 'rm': None},
-        ]
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.surface.Ell
-        EXAMPLES_VALID = [consts.string.inp.surface.ELL]
-        EXAMPLES_INVALID = ['hello']
-
-    class Test_Draw(classes.Test_Draw):
-        element = pymcnp.inp.surface.Ell
-        EXAMPLES = [
-            consts.string.inp.surface.ELL,
-            'ell 1 2 3 4 5 6 7',
-            'ell 1 2 3 4 5 6 -7',
-        ]
-
-
-class Test_EllBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.surface.EllBuilder
-        EXAMPLES_VALID = [
-            {
                 'v1x': consts.string.type.REAL,
                 'v1y': consts.string.type.REAL,
                 'v1z': consts.string.type.REAL,
@@ -130,3 +92,12 @@ class Test_EllBuilder:
                 'rm': None,
             },
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.surface.Ell
+        EXAMPLES_VALID = [consts.string.inp.surface.ELL]
+        EXAMPLES_INVALID = ['hello']
+
+    class Test_Draw(classes.Test_Draw):
+        element = pymcnp.inp.surface.Ell
+        EXAMPLES = [consts.string.inp.surface.ELL]

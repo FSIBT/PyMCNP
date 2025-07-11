@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Buffer(_option.PtracOption):
 
     _REGEX = re.compile(rf'\Abuffer( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, storage: types.Integer):
+    def __init__(self, storage: str | int | types.Integer):
         """
         Initializes ``Buffer``.
 
@@ -36,58 +32,43 @@ class Buffer(_option.PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.storage: types.Integer = storage
+
+    @property
+    def storage(self) -> types.Integer:
+        """
+        Gets ``storage``.
+
+        Returns:
+            ``storage``.
+        """
+
+        return self._storage
+
+    @storage.setter
+    def storage(self, storage: str | int | types.Integer) -> None:
+        """
+        Sets ``storage``.
+
+        Parameters:
+            storage: Amount of storage available for filtered events.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if storage is not None:
+            if isinstance(storage, types.Integer):
+                storage = storage
+            elif isinstance(storage, int):
+                storage = types.Integer(storage)
+            elif isinstance(storage, str):
+                storage = types.Integer.from_mcnp(storage)
+            else:
+                raise TypeError
+
         if storage is None or not (storage > 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, storage)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                storage,
-            ]
-        )
-
-        self.storage: typing.Final[types.Integer] = storage
-
-
-@dataclasses.dataclass
-class BufferBuilder(_option.PtracOptionBuilder):
-    """
-    Builds ``Buffer``.
-
-    Attributes:
-        storage: Amount of storage available for filtered events.
-    """
-
-    storage: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``BufferBuilder`` into ``Buffer``.
-
-        Returns:
-            ``Buffer`` for ``BufferBuilder``.
-        """
-
-        storage = self.storage
-        if isinstance(self.storage, types.Integer):
-            storage = self.storage
-        elif isinstance(self.storage, int):
-            storage = types.Integer(self.storage)
-        elif isinstance(self.storage, str):
-            storage = types.Integer.from_mcnp(self.storage)
-
-        return Buffer(
-            storage=storage,
-        )
-
-    @staticmethod
-    def unbuild(ast: Buffer):
-        """
-        Unbuilds ``Buffer`` into ``BufferBuilder``
-
-        Returns:
-            ``BufferBuilder`` for ``Buffer``.
-        """
-
-        return BufferBuilder(
-            storage=copy.deepcopy(ast.storage),
-        )
+        self._storage: types.Integer = storage

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Zlev(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Azlev((?: {types.String._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, n: types.Tuple[types.String]):
+    def __init__(self, n: list[str] | list[types.String]):
         """
         Initializes ``Zlev``.
 
@@ -36,61 +32,44 @@ class Zlev(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.n: types.Tuple[types.String] = n
+
+    @property
+    def n(self) -> types.Tuple[types.String]:
+        """
+        Gets ``n``.
+
+        Returns:
+            ``n``.
+        """
+
+        return self._n
+
+    @n.setter
+    def n(self, n: list[str] | list[types.String]) -> None:
+        """
+        Sets ``n``.
+
+        Parameters:
+            n: Scales of tally plots.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if n is not None:
+            array = []
+            for item in n:
+                if isinstance(item, types.String):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.String.from_mcnp(item))
+                else:
+                    raise TypeError
+            n = types.Tuple(array)
+
         if n is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                n,
-            ]
-        )
-
-        self.n: typing.Final[types.Tuple[types.String]] = n
-
-
-@dataclasses.dataclass
-class ZlevBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Zlev``.
-
-    Attributes:
-        n: Scales of tally plots.
-    """
-
-    n: list[str] | list[types.String]
-
-    def build(self):
-        """
-        Builds ``ZlevBuilder`` into ``Zlev``.
-
-        Returns:
-            ``Zlev`` for ``ZlevBuilder``.
-        """
-
-        if self.n:
-            n = []
-            for item in self.n:
-                if isinstance(item, types.String):
-                    n.append(item)
-                elif isinstance(item, str):
-                    n.append(types.String.from_mcnp(item))
-            n = types.Tuple(n)
-        else:
-            n = None
-
-        return Zlev(
-            n=n,
-        )
-
-    @staticmethod
-    def unbuild(ast: Zlev):
-        """
-        Unbuilds ``Zlev`` into ``ZlevBuilder``
-
-        Returns:
-            ``ZlevBuilder`` for ``Zlev``.
-        """
-
-        return ZlevBuilder(
-            n=copy.deepcopy(ast.n),
-        )
+        self._n: types.Tuple[types.String] = n

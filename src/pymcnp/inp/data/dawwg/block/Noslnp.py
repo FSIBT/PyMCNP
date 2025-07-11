@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from .....utils import types
@@ -25,7 +21,7 @@ class Noslnp(_option.BlockOption):
 
     _REGEX = re.compile(rf'\Anoslnp( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, setting: types.Integer):
+    def __init__(self, setting: str | int | types.Integer):
         """
         Initializes ``Noslnp``.
 
@@ -36,58 +32,43 @@ class Noslnp(_option.BlockOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.setting: types.Integer = setting
+
+    @property
+    def setting(self) -> types.Integer:
+        """
+        Gets ``setting``.
+
+        Returns:
+            ``setting``.
+        """
+
+        return self._setting
+
+    @setting.setter
+    def setting(self, setting: str | int | types.Integer) -> None:
+        """
+        Sets ``setting``.
+
+        Parameters:
+            setting: Suppress writing SOLINP on/off.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if setting is not None:
+            if isinstance(setting, types.Integer):
+                setting = setting
+            elif isinstance(setting, int):
+                setting = types.Integer(setting)
+            elif isinstance(setting, str):
+                setting = types.Integer.from_mcnp(setting)
+            else:
+                raise TypeError
+
         if setting is None or setting not in {0, 1}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                setting,
-            ]
-        )
-
-        self.setting: typing.Final[types.Integer] = setting
-
-
-@dataclasses.dataclass
-class NoslnpBuilder(_option.BlockOptionBuilder):
-    """
-    Builds ``Noslnp``.
-
-    Attributes:
-        setting: Suppress writing SOLINP on/off.
-    """
-
-    setting: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``NoslnpBuilder`` into ``Noslnp``.
-
-        Returns:
-            ``Noslnp`` for ``NoslnpBuilder``.
-        """
-
-        setting = self.setting
-        if isinstance(self.setting, types.Integer):
-            setting = self.setting
-        elif isinstance(self.setting, int):
-            setting = types.Integer(self.setting)
-        elif isinstance(self.setting, str):
-            setting = types.Integer.from_mcnp(self.setting)
-
-        return Noslnp(
-            setting=setting,
-        )
-
-    @staticmethod
-    def unbuild(ast: Noslnp):
-        """
-        Unbuilds ``Noslnp`` into ``NoslnpBuilder``
-
-        Returns:
-            ``NoslnpBuilder`` for ``Noslnp``.
-        """
-
-        return NoslnpBuilder(
-            setting=copy.deepcopy(ast.setting),
-        )
+        self._setting: types.Integer = setting

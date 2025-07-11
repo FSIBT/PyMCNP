@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -26,7 +22,7 @@ class Cz(_option.SurfaceOption):
 
     _REGEX = re.compile(rf'\Acz( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, r: types.Real):
+    def __init__(self, r: str | int | float | types.Real):
         """
         Initializes ``Cz``.
 
@@ -37,16 +33,48 @@ class Cz(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.r: types.Real = r
+
+    @property
+    def r(self) -> types.Real:
+        """
+        Gets ``r``.
+
+        Returns:
+            ``r``.
+        """
+
+        return self._r
+
+    @r.setter
+    def r(self, r: str | int | float | types.Real) -> None:
+        """
+        Sets ``r``.
+
+        Parameters:
+            r: On-z-axis cylinder radius.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if r is not None:
+            if isinstance(r, types.Real):
+                r = r
+            elif isinstance(r, int):
+                r = types.Real(r)
+            elif isinstance(r, float):
+                r = types.Real(r)
+            elif isinstance(r, str):
+                r = types.Real.from_mcnp(r)
+            else:
+                raise TypeError
+
         if r is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                r,
-            ]
-        )
-
-        self.r: typing.Final[types.Real] = r
+        self._r: types.Real = r
 
     def draw(self):
         """
@@ -59,48 +87,3 @@ class Cz(_option.SurfaceOption):
         vis = _visualization.Visualization.get_cylinder_unbounded(float(self.r))
 
         return vis
-
-
-@dataclasses.dataclass
-class CzBuilder(_option.SurfaceOptionBuilder):
-    """
-    Builds ``Cz``.
-
-    Attributes:
-        r: On-z-axis cylinder radius.
-    """
-
-    r: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``CzBuilder`` into ``Cz``.
-
-        Returns:
-            ``Cz`` for ``CzBuilder``.
-        """
-
-        r = self.r
-        if isinstance(self.r, types.Real):
-            r = self.r
-        elif isinstance(self.r, float) or isinstance(self.r, int):
-            r = types.Real(self.r)
-        elif isinstance(self.r, str):
-            r = types.Real.from_mcnp(self.r)
-
-        return Cz(
-            r=r,
-        )
-
-    @staticmethod
-    def unbuild(ast: Cz):
-        """
-        Unbuilds ``Cz`` into ``CzBuilder``
-
-        Returns:
-            ``CzBuilder`` for ``Cz``.
-        """
-
-        return CzBuilder(
-            r=copy.deepcopy(ast.r),
-        )

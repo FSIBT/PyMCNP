@@ -1,7 +1,4 @@
 import re
-import copy
-import dataclasses
-
 
 from . import cell
 from ._card import Card
@@ -54,15 +51,6 @@ class Cell(Card):
             InpError: SEMANTICS_CARD.
         """
 
-        if number is None or not (1 <= number <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
-        if material is None or not (0 <= material <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, material)
-        if (density is not None and material == 0) or (density is None and material != 0):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, density)
-        if geometry is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, geometry)
-
         self.number: types.Integer = number
         self.material: types.Integer = material
         self.density: types.Integer = density
@@ -82,6 +70,199 @@ class Cell(Card):
         source = _parser.postprocess_inp(source)
 
         return source
+
+    @property
+    def number(self) -> types.Integer:
+        """
+        Gets ``number``.
+
+        Returns:
+            ``number``.
+        """
+
+        return self._number
+
+    @number.setter
+    def number(self, number: str | int | types.Integer) -> None:
+        """
+        Sets ``number``.
+
+        Parameters:
+            number: cell number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if number is not None:
+            if isinstance(number, types.Integer):
+                number = number
+            elif isinstance(number, int):
+                number = types.Integer(number)
+            elif isinstance(number, str):
+                number = types.Integer.from_mcnp(number)
+            else:
+                raise TypeError
+
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
+
+        self._number: types.Integer = number
+
+    @property
+    def material(self) -> types.Integer:
+        """
+        Gets ``material``.
+
+        Returns:
+            ``material``.
+        """
+
+        return self._material
+
+    @material.setter
+    def material(self, material: str | int | types.Integer) -> None:
+        """
+        Sets ``material``.
+
+        Parameters:
+            material: cell material.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if material is not None:
+            if isinstance(material, types.Integer):
+                material = material
+            elif isinstance(material, int):
+                material = types.Integer(material)
+            elif isinstance(material, str):
+                material = types.Integer.from_mcnp(material)
+            else:
+                raise TypeError
+
+        if material is None or not (0 <= material <= 99_999_999):
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, material)
+
+        self._material: types.Integer = material
+
+    @property
+    def density(self) -> types.Real:
+        """
+        Gets ``density``.
+
+        Returns:
+            ``density``.
+        """
+
+        return self._density
+
+    @density.setter
+    def density(self, density: str | int | float | types.Real) -> None:
+        """
+        Sets ``density``.
+
+        Parameters:
+            density: cell density.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if density is not None:
+            if isinstance(density, types.Real):
+                density = density
+            elif isinstance(density, float):
+                density = types.Real(density)
+            elif isinstance(density, int):
+                density = types.Real(density)
+            elif isinstance(density, str):
+                density = types.Real.from_mcnp(density)
+            else:
+                raise TypeError
+
+        if (density is not None and self.material == 0) or (density is None and self.material != 0):
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, density)
+
+        self._density: types.Real = density
+
+    @property
+    def geometry(self) -> types.Geometry:
+        """
+        Gets ``geometry``.
+
+        Returns:
+            ``geometry``.
+        """
+
+        return self._geometry
+
+    @geometry.setter
+    def geometry(self, geometry: str | types.Geometry) -> None:
+        """
+        Sets ``geometry``.
+
+        Parameters:
+            geometry: Cell geometry..
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if geometry is not None:
+            if isinstance(geometry, types.Geometry):
+                geometry = geometry
+            elif isinstance(geometry, str):
+                geometry = types.Geometry.from_mcnp(geometry)
+            else:
+                raise TypeError
+
+        if geometry is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, geometry)
+
+        self._geometry: types.Geometry = geometry
+
+    @property
+    def options(self) -> types.Tuple[cell.CellOption]:
+        """
+        Gets ``options``.
+
+        Returns:
+            ``options``.
+        """
+
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[cell.CellOption] = None) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
+                if isinstance(item, cell.CellOption):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(cell.CellOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
+
+        self._options: types.Tuple[cell.CellOption] = options
 
 
 #    def draw(self, surfaces: dict[int, _visualization.Visualization]):
@@ -103,102 +284,3 @@ class Cell(Card):
 #            assert False, "I'm working on it!"
 #
 #        return eval(temp)
-
-
-@dataclasses.dataclass
-class CellBuilder:
-    """
-    Builds ``Cell``.
-
-    Attributes:
-        number: cell number.
-        material: cell material.
-        density: cell density.
-        geometry: cell geometry.
-        options: cell options.
-        atoms_or_grams: density sign.
-    """
-
-    number: str | int | types.Integer
-    material: str | int | types.Integer
-    geometry: str | types.Geometry | types.GeometryBuilder
-    options: list[str] | list[cell.CellOption] | list[cell.CellOptionBuilder] = None
-    density: str | float | types.Real = None
-
-    def build(self):
-        """
-        Builds ``CellBuilder`` into ``Cell``.
-
-        Returns:
-            ``Cell`` for ``CellBuilder``.
-        """
-
-        number = self.number
-        if isinstance(self.number, types.Integer):
-            number = self.number
-        elif isinstance(self.number, int):
-            number = types.Integer(self.number)
-        elif isinstance(self.number, str):
-            number = types.Integer.from_mcnp(self.number)
-
-        material = self.material
-        if isinstance(self.material, types.Integer):
-            material = self.material
-        elif isinstance(self.material, int):
-            material = types.Integer(self.material)
-        elif isinstance(self.material, str):
-            material = types.Integer.from_mcnp(self.material)
-
-        density = self.density
-        if isinstance(self.density, types.Real):
-            density = self.density
-        elif isinstance(self.density, int) or isinstance(self.density, float):
-            density = types.Real(self.density)
-        elif isinstance(self.density, str):
-            density = types.Real.from_mcnp(self.density)
-
-        geometry = self.geometry
-        if isinstance(self.geometry, types.Geometry):
-            geometry = self.geometry
-        elif isinstance(self.geometry, str):
-            geometry = types.Geometry.from_mcnp(self.geometry)
-        elif isinstance(self.geometry, types.GeometryBuilder):
-            geometry = self.geometry.build()
-
-        if self.options:
-            options = []
-            for item in self.options:
-                if isinstance(item, cell.CellOption):
-                    options.append(item)
-                elif isinstance(item, str):
-                    options.append(cell.CellOption.from_mcnp(item))
-                elif isinstance(item, cell.CellOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
-
-        return Cell(
-            number=number,
-            material=material,
-            density=density,
-            geometry=geometry,
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Cell):
-        """
-        Unbuilds ``Cell`` into ``CellBuilder``
-
-        Returns:
-            ``CellBuilder`` for ``Cell``.
-        """
-
-        return CellBuilder(
-            number=copy.deepcopy(ast.number),
-            material=copy.deepcopy(ast.material),
-            density=copy.deepcopy(ast.density),
-            geometry=copy.deepcopy(ast.geometry),
-            options=copy.deepcopy(ast.options),
-        )

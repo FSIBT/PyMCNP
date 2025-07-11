@@ -1,7 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
 
 import molmass
 
@@ -32,7 +29,7 @@ class M_0(_option.DataOption):
 
     _REGEX = re.compile(rf'\Am(\d+)((?: {types.Substance._REGEX.pattern[2:-2]})+?)((?: (?:{m_0.MOption_0._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, suffix: types.Integer, substances: types.Tuple[types.Substance], options: types.Tuple[m_0.MOption_0] = None):
+    def __init__(self, suffix: str | int | types.Integer, substances: list[str] | list[types.Substance], options: list[str] | list[m_0.MOption_0] = None):
         """
         Initializes ``M_0``.
 
@@ -45,21 +42,125 @@ class M_0(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.substances: types.Tuple[types.Substance] = substances
+        self.options: types.Tuple[m_0.MOption_0] = options
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def substances(self) -> types.Tuple[types.Substance]:
+        """
+        Gets ``substances``.
+
+        Returns:
+            ``substances``.
+        """
+
+        return self._substances
+
+    @substances.setter
+    def substances(self, substances: list[str] | list[types.Substance]) -> None:
+        """
+        Sets ``substances``.
+
+        Parameters:
+            substances: Tuple of material constituents.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if substances is not None:
+            array = []
+            for item in substances:
+                if isinstance(item, types.Substance):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.Substance.from_mcnp(item))
+                else:
+                    raise TypeError
+            substances = types.Tuple(array)
+
         if substances is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, substances)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                substances,
-                options,
-            ]
-        )
+        self._substances: types.Tuple[types.Substance] = substances
 
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.substances: typing.Final[types.Tuple[types.Substance]] = substances
-        self.options: typing.Final[types.Tuple[m_0.MOption_0]] = options
+    @property
+    def options(self) -> types.Tuple[m_0.MOption_0]:
+        """
+        Gets ``options``.
+
+        Returns:
+            ``options``.
+        """
+
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[m_0.MOption_0]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
+                if isinstance(item, m_0.MOption_0):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(m_0.MOption_0.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
+
+        self._options: types.Tuple[m_0.MOption_0] = options
 
     @staticmethod
     def from_formula(number: int, formulas: dict[str, float], is_weight: bool = True):
@@ -107,96 +208,3 @@ class M_0(_option.DataOption):
         material.comment = tuple(comments)
 
         return material
-
-
-@dataclasses.dataclass
-class MBuilder_0(_option.DataOptionBuilder):
-    """
-    Builds ``M_0``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        substances: Tuple of material constituents.
-        options: Dictionary of options.
-    """
-
-    suffix: str | int | types.Integer
-    substances: list[str] | list[types.Substance]
-    options: list[str] | list[m_0.MOption_0] = None
-
-    def build(self):
-        """
-        Builds ``MBuilder_0`` into ``M_0``.
-
-        Returns:
-            ``M_0`` for ``MBuilder_0``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        if self.substances:
-            substances = []
-            for item in self.substances:
-                if isinstance(item, types.Substance):
-                    substances.append(item)
-                elif isinstance(item, str):
-                    substances.append(types.Substance.from_mcnp(item))
-            substances = types.Tuple(substances)
-        else:
-            substances = None
-
-        if self.options:
-            options = []
-            for item in self.options:
-                if isinstance(item, m_0.MOption_0):
-                    options.append(item)
-                elif isinstance(item, str):
-                    options.append(m_0.MOption_0.from_mcnp(item))
-                elif isinstance(item, m_0.MOptionBuilder_0):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
-
-        return M_0(
-            suffix=suffix,
-            substances=substances,
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: M_0):
-        """
-        Unbuilds ``M_0`` into ``MBuilder_0``
-
-        Returns:
-            ``MBuilder_0`` for ``M_0``.
-        """
-
-        return MBuilder_0(
-            suffix=copy.deepcopy(ast.suffix),
-            substances=copy.deepcopy(ast.substances),
-            options=copy.deepcopy(ast.options),
-        )
-
-    @staticmethod
-    def from_formula(number: int, formulas: dict[str, float], is_weight: bool = True):
-        """
-        Generates ``MBuilder_0`` from formulas.
-
-        Parameters:
-            number: Arbitrary material number.
-            formulas: Dictionary of formulas and atomic/weight fractions.
-            is_weight: Weight (atomic) fraction true (false) flag.
-
-        Returns:
-            ``MBuilder_0`` object.
-        """
-
-        return MBuilder_0.unbuild(M_0.from_formula(number, formulas, is_weight))

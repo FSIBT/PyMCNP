@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Stride(_option.RandOption):
 
     _REGEX = re.compile(rf'\Astride( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, stride: types.Integer):
+    def __init__(self, stride: str | int | types.Integer):
         """
         Initializes ``Stride``.
 
@@ -36,58 +32,43 @@ class Stride(_option.RandOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.stride: types.Integer = stride
+
+    @property
+    def stride(self) -> types.Integer:
+        """
+        Gets ``stride``.
+
+        Returns:
+            ``stride``.
+        """
+
+        return self._stride
+
+    @stride.setter
+    def stride(self, stride: str | int | types.Integer) -> None:
+        """
+        Sets ``stride``.
+
+        Parameters:
+            stride: Number of random numbers between source particle.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if stride is not None:
+            if isinstance(stride, types.Integer):
+                stride = stride
+            elif isinstance(stride, int):
+                stride = types.Integer(stride)
+            elif isinstance(stride, str):
+                stride = types.Integer.from_mcnp(stride)
+            else:
+                raise TypeError
+
         if stride is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, stride)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                stride,
-            ]
-        )
-
-        self.stride: typing.Final[types.Integer] = stride
-
-
-@dataclasses.dataclass
-class StrideBuilder(_option.RandOptionBuilder):
-    """
-    Builds ``Stride``.
-
-    Attributes:
-        stride: Number of random numbers between source particle.
-    """
-
-    stride: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``StrideBuilder`` into ``Stride``.
-
-        Returns:
-            ``Stride`` for ``StrideBuilder``.
-        """
-
-        stride = self.stride
-        if isinstance(self.stride, types.Integer):
-            stride = self.stride
-        elif isinstance(self.stride, int):
-            stride = types.Integer(self.stride)
-        elif isinstance(self.stride, str):
-            stride = types.Integer.from_mcnp(self.stride)
-
-        return Stride(
-            stride=stride,
-        )
-
-    @staticmethod
-    def unbuild(ast: Stride):
-        """
-        Unbuilds ``Stride`` into ``StrideBuilder``
-
-        Returns:
-            ``StrideBuilder`` for ``Stride``.
-        """
-
-        return StrideBuilder(
-            stride=copy.deepcopy(ast.stride),
-        )
+        self._stride: types.Integer = stride

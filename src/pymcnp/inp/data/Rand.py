@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import rand
 from . import _option
@@ -25,7 +21,7 @@ class Rand(_option.DataOption):
 
     _REGEX = re.compile(rf'\Arand((?: (?:{rand.RandOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[rand.RandOption] = None):
+    def __init__(self, options: list[str] | list[rand.RandOption] = None):
         """
         Initializes ``Rand``.
 
@@ -36,60 +32,41 @@ class Rand(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                options,
-            ]
-        )
+        self.options: types.Tuple[rand.RandOption] = options
 
-        self.options: typing.Final[types.Tuple[rand.RandOption]] = options
-
-
-@dataclasses.dataclass
-class RandBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Rand``.
-
-    Attributes:
-        options: Dictionary of options.
-    """
-
-    options: list[str] | list[rand.RandOption] = None
-
-    def build(self):
+    @property
+    def options(self) -> types.Tuple[rand.RandOption]:
         """
-        Builds ``RandBuilder`` into ``Rand``.
+        Gets ``options``.
 
         Returns:
-            ``Rand`` for ``RandBuilder``.
+            ``options``.
         """
 
-        if self.options:
-            options = []
-            for item in self.options:
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[rand.RandOption]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, rand.RandOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(rand.RandOption.from_mcnp(item))
-                elif isinstance(item, rand.RandOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(rand.RandOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Rand(
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Rand):
-        """
-        Unbuilds ``Rand`` into ``RandBuilder``
-
-        Returns:
-            ``RandBuilder`` for ``Rand``.
-        """
-
-        return RandBuilder(
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[rand.RandOption] = options

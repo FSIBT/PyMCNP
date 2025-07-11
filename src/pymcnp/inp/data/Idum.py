@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -25,7 +21,7 @@ class Idum(_option.DataOption):
 
     _REGEX = re.compile(rf'\Aidum((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, intergers: types.Tuple[types.Integer]):
+    def __init__(self, intergers: list[str] | list[int] | list[types.Integer]):
         """
         Initializes ``Idum``.
 
@@ -36,63 +32,46 @@ class Idum(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.intergers: types.Tuple[types.Integer] = intergers
+
+    @property
+    def intergers(self) -> types.Tuple[types.Integer]:
+        """
+        Gets ``intergers``.
+
+        Returns:
+            ``intergers``.
+        """
+
+        return self._intergers
+
+    @intergers.setter
+    def intergers(self, intergers: list[str] | list[int] | list[types.Integer]) -> None:
+        """
+        Sets ``intergers``.
+
+        Parameters:
+            intergers: Integer array.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if intergers is not None:
+            array = []
+            for item in intergers:
+                if isinstance(item, types.Integer):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Integer(item))
+                elif isinstance(item, str):
+                    array.append(types.Integer.from_mcnp(item))
+                else:
+                    raise TypeError
+            intergers = types.Tuple(array)
+
         if intergers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, intergers)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                intergers,
-            ]
-        )
-
-        self.intergers: typing.Final[types.Tuple[types.Integer]] = intergers
-
-
-@dataclasses.dataclass
-class IdumBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Idum``.
-
-    Attributes:
-        intergers: Integer array.
-    """
-
-    intergers: list[str] | list[int] | list[types.Integer]
-
-    def build(self):
-        """
-        Builds ``IdumBuilder`` into ``Idum``.
-
-        Returns:
-            ``Idum`` for ``IdumBuilder``.
-        """
-
-        if self.intergers:
-            intergers = []
-            for item in self.intergers:
-                if isinstance(item, types.Integer):
-                    intergers.append(item)
-                elif isinstance(item, int):
-                    intergers.append(types.Integer(item))
-                elif isinstance(item, str):
-                    intergers.append(types.Integer.from_mcnp(item))
-            intergers = types.Tuple(intergers)
-        else:
-            intergers = None
-
-        return Idum(
-            intergers=intergers,
-        )
-
-    @staticmethod
-    def unbuild(ast: Idum):
-        """
-        Unbuilds ``Idum`` into ``IdumBuilder``
-
-        Returns:
-            ``IdumBuilder`` for ``Idum``.
-        """
-
-        return IdumBuilder(
-            intergers=copy.deepcopy(ast.intergers),
-        )
+        self._intergers: types.Tuple[types.Integer] = intergers

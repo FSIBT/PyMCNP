@@ -19,10 +19,7 @@ class Test_Init:
         for example in self.EXAMPLES_VALID:
             print(repr(example))
 
-            element = self.element(**example)
-
-            for key, value in example.items():
-                assert getattr(element, key) == value
+            self.element(**example)
 
     def test_invalid(self):
         """

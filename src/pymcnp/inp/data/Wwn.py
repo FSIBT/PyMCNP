@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -29,7 +25,7 @@ class Wwn(_option.DataOption):
 
     _REGEX = re.compile(rf'\Awwn(\d+):(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, designator: types.Designator, bounds: types.Tuple[types.Real]):
+    def __init__(self, suffix: str | int | types.Integer, designator: str | types.Designator, bounds: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Wwn``.
 
@@ -42,91 +38,126 @@ class Wwn(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.designator: types.Designator = designator
+        self.bounds: types.Tuple[types.Real] = bounds
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def designator(self) -> types.Designator:
+        """
+        Gets ``designator``.
+
+        Returns:
+            ``designator``.
+        """
+
+        return self._designator
+
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
+
+        Parameters:
+            designator: Data card particle designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
+
+        self._designator: types.Designator = designator
+
+    @property
+    def bounds(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``bounds``.
+
+        Returns:
+            ``bounds``.
+        """
+
+        return self._bounds
+
+    @bounds.setter
+    def bounds(self, bounds: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``bounds``.
+
+        Parameters:
+            bounds: Lower weight bound.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if bounds is not None:
+            array = []
+            for item in bounds:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            bounds = types.Tuple(array)
+
         if bounds is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bounds)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                bounds,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.designator: typing.Final[types.Designator] = designator
-        self.bounds: typing.Final[types.Tuple[types.Real]] = bounds
-
-
-@dataclasses.dataclass
-class WwnBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Wwn``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        designator: Data card particle designator.
-        bounds: Lower weight bound.
-    """
-
-    suffix: str | int | types.Integer
-    designator: str | types.Designator
-    bounds: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``WwnBuilder`` into ``Wwn``.
-
-        Returns:
-            ``Wwn`` for ``WwnBuilder``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
-
-        if self.bounds:
-            bounds = []
-            for item in self.bounds:
-                if isinstance(item, types.Real):
-                    bounds.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    bounds.append(types.Real(item))
-                elif isinstance(item, str):
-                    bounds.append(types.Real.from_mcnp(item))
-            bounds = types.Tuple(bounds)
-        else:
-            bounds = None
-
-        return Wwn(
-            suffix=suffix,
-            designator=designator,
-            bounds=bounds,
-        )
-
-    @staticmethod
-    def unbuild(ast: Wwn):
-        """
-        Unbuilds ``Wwn`` into ``WwnBuilder``
-
-        Returns:
-            ``WwnBuilder`` for ``Wwn``.
-        """
-
-        return WwnBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            designator=copy.deepcopy(ast.designator),
-            bounds=copy.deepcopy(ast.bounds),
-        )
+        self._bounds: types.Tuple[types.Real] = bounds

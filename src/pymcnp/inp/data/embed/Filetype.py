@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Filetype(_option.EmbedOption):
 
     _REGEX = re.compile(rf'\Afiletype( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, kind: types.String):
+    def __init__(self, kind: str | types.String):
         """
         Initializes ``Filetype``.
 
@@ -36,56 +32,41 @@ class Filetype(_option.EmbedOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.kind: types.String = kind
+
+    @property
+    def kind(self) -> types.String:
+        """
+        Gets ``kind``.
+
+        Returns:
+            ``kind``.
+        """
+
+        return self._kind
+
+    @kind.setter
+    def kind(self, kind: str | types.String) -> None:
+        """
+        Sets ``kind``.
+
+        Parameters:
+            kind: File type for the elemental edit output file.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if kind is not None:
+            if isinstance(kind, types.String):
+                kind = kind
+            elif isinstance(kind, str):
+                kind = types.String.from_mcnp(kind)
+            else:
+                raise TypeError
+
         if kind is None or kind not in {'ascii', 'binary'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, kind)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                kind,
-            ]
-        )
-
-        self.kind: typing.Final[types.String] = kind
-
-
-@dataclasses.dataclass
-class FiletypeBuilder(_option.EmbedOptionBuilder):
-    """
-    Builds ``Filetype``.
-
-    Attributes:
-        kind: File type for the elemental edit output file.
-    """
-
-    kind: str | types.String
-
-    def build(self):
-        """
-        Builds ``FiletypeBuilder`` into ``Filetype``.
-
-        Returns:
-            ``Filetype`` for ``FiletypeBuilder``.
-        """
-
-        kind = self.kind
-        if isinstance(self.kind, types.String):
-            kind = self.kind
-        elif isinstance(self.kind, str):
-            kind = types.String.from_mcnp(self.kind)
-
-        return Filetype(
-            kind=kind,
-        )
-
-    @staticmethod
-    def unbuild(ast: Filetype):
-        """
-        Unbuilds ``Filetype`` into ``FiletypeBuilder``
-
-        Returns:
-            ``FiletypeBuilder`` for ``Filetype``.
-        """
-
-        return FiletypeBuilder(
-            kind=copy.deepcopy(ast.kind),
-        )
+        self._kind: types.String = kind

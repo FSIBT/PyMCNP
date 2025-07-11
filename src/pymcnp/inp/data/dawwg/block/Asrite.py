@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from .....utils import types
@@ -25,7 +21,7 @@ class Asrite(_option.BlockOption):
 
     _REGEX = re.compile(rf'\Aasrite( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, setting: types.Integer):
+    def __init__(self, setting: str | int | types.Integer):
         """
         Initializes ``Asrite``.
 
@@ -36,58 +32,43 @@ class Asrite(_option.BlockOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.setting: types.Integer = setting
+
+    @property
+    def setting(self) -> types.Integer:
+        """
+        Gets ``setting``.
+
+        Returns:
+            ``setting``.
+        """
+
+        return self._setting
+
+    @setting.setter
+    def setting(self, setting: str | int | types.Integer) -> None:
+        """
+        Sets ``setting``.
+
+        Parameters:
+            setting: Left-going flux at plane i.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if setting is not None:
+            if isinstance(setting, types.Integer):
+                setting = setting
+            elif isinstance(setting, int):
+                setting = types.Integer(setting)
+            elif isinstance(setting, str):
+                setting = types.Integer.from_mcnp(setting)
+            else:
+                raise TypeError
+
         if setting is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                setting,
-            ]
-        )
-
-        self.setting: typing.Final[types.Integer] = setting
-
-
-@dataclasses.dataclass
-class AsriteBuilder(_option.BlockOptionBuilder):
-    """
-    Builds ``Asrite``.
-
-    Attributes:
-        setting: Left-going flux at plane i.
-    """
-
-    setting: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``AsriteBuilder`` into ``Asrite``.
-
-        Returns:
-            ``Asrite`` for ``AsriteBuilder``.
-        """
-
-        setting = self.setting
-        if isinstance(self.setting, types.Integer):
-            setting = self.setting
-        elif isinstance(self.setting, int):
-            setting = types.Integer(self.setting)
-        elif isinstance(self.setting, str):
-            setting = types.Integer.from_mcnp(self.setting)
-
-        return Asrite(
-            setting=setting,
-        )
-
-    @staticmethod
-    def unbuild(ast: Asrite):
-        """
-        Unbuilds ``Asrite`` into ``AsriteBuilder``
-
-        Returns:
-            ``AsriteBuilder`` for ``Asrite``.
-        """
-
-        return AsriteBuilder(
-            setting=copy.deepcopy(ast.setting),
-        )
+        self._setting: types.Integer = setting

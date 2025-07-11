@@ -1,8 +1,6 @@
 import re
-import copy
 import typing
 import decimal
-import dataclasses
 
 from . import errors
 from . import _parser
@@ -397,7 +395,7 @@ class Log(_object.McnpNonterminal):
 
 class Integer(_object.McnpNonterminal):
     """
-    Represents MCNP integers or jump.
+    Represents MCNP values or jump.
 
     Attributes:
         value: Integer value or jump.
@@ -430,7 +428,7 @@ class Integer(_object.McnpNonterminal):
         Generates ``Integer`` from MCNP.
 
         Parameters:
-            source: MCNP integer or jump.
+            source: MCNP value or jump.
 
         Returns:
             ``Integer``.
@@ -480,7 +478,7 @@ class Integer(_object.McnpNonterminal):
         Generates MCNP from ``Integer``.
 
         Returns:
-            MCNP integer.
+            MCNP value.
         """
 
         return str(self.value)
@@ -697,7 +695,7 @@ class Integer(_object.McnpNonterminal):
 
 class Real(_object.McnpNonterminal):
     """
-    Represents MCNP integers or jump.
+    Represents MCNP values or jump.
 
     Attributes:
         value: Real value or jump.
@@ -1512,98 +1510,63 @@ class Geometry(_object.McnpNonterminal):
 
         return self.infix
 
-
-@dataclasses.dataclass
-class GeometryBuilder:
-    """
-    Builds ``Geometry``.
-
-    Attributes:
-        infix: Geometry infix formula.
-    """
-
-    infix: str
-
     def __and__(a, b):
         """
-        Unites ``GeometryBuilder``.
+        Unites ``Geometry``.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            ``GeometryBuilder`` union.
+            ``Geometry`` union.
         """
 
-        return GeometryBuilder(infix=f'({a.infix}):({b.infix})')
+        return Geometry(infix=f'({a.infix}):({b.infix})')
 
     def __or__(a, b):
         """
-        Intersects ``GeometryBuilder``.
+        Intersects ``Geometry``.
 
         Parameters:
             a: Operand #1.
             b: Operand #2.
 
         Returns:
-            ``GeometryBuilder`` intersection.
+            ``Geometry`` intersection.
         """
 
-        return GeometryBuilder(infix=f'({a.infix}) ({b.infix})')
+        return Geometry(infix=f'({a.infix}) ({b.infix})')
 
     def __neg__(self):
         """
-        Negatives ``GeometryBuilder``.
+        Negatives ``Geometry``.
 
         Returns:
-            ``GeometryBuilder`` negative.
+            ``Geometry`` negative.
         """
 
-        return GeometryBuilder(infix=f'-({self.infix})')
+        return Geometry(infix=f'-({self.infix})')
 
     def __pos__(self):
         """
-        Positives ``GeometryBuilder``.
+        Positives ``Geometry``.
 
         Returns:
-            ``GeometryBuilder`` positive.
+            ``Geometry`` positive.
         """
 
-        return GeometryBuilder(infix=f'+({self.infix})')
+        return Geometry(infix=f'+({self.infix})')
 
     def __invert__(self):
         """
-        Inverts ``GeometryBuilder``.
+        Inverts ``Geometry``.
 
         Returns:
-            ``GeometryBuilder`` complement.
+            ``Geometry`` complement.
         """
 
-        return GeometryBuilder(infix=f'#({self.infix})')
-
-    def build(self):
-        """
-        Builds ``GeometryBuilder`` into ``Geometry``.
-
-        Returns:
-            ``Geometry`` for ``GeometryBuilder``.
-        """
-
-        return Geometry(infix=String(self.infix))
-
-    @staticmethod
-    def unbuild(ast: Geometry):
-        """
-        Unbuilds ``Geometry`` into ``GeometryBuilder``
-
-        Returns:
-            ``GeometryBuilder`` for ``Geometry``.
-        """
-
-        return GeometryBuilder(
-            infix=copy.deepcopy(ast.infix),
-        )
+        return Geometry(infix=f'#({self.infix})')
 
 
 class Substance(_object.McnpNonterminal):

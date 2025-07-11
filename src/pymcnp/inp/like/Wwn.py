@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -14,9 +10,9 @@ class Wwn(_option.LikeOption):
     Represents INP wwn elements.
 
     Attributes:
-        suffix: Like option suffix.
-        designator: Like particle designator.
-        bound: Like weight-window space, time, or energy lower bound.
+        suffix: Cell option suffix.
+        designator: Cell particle designator.
+        bound: Cell weight-window space, time, or energy lower bound.
     """
 
     _KEYWORD = 'wwn'
@@ -29,99 +25,136 @@ class Wwn(_option.LikeOption):
 
     _REGEX = re.compile(rf'\Awwn(\d+):(\S+)( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, suffix: types.Integer, designator: types.Designator, bound: types.Real):
+    def __init__(self, suffix: str | int | types.Integer, designator: str | types.Designator, bound: str | int | float | types.Real):
         """
         Initializes ``Wwn``.
 
         Parameters:
-            suffix: Like option suffix.
-            designator: Like particle designator.
-            bound: Like weight-window space, time, or energy lower bound.
+            suffix: Cell option suffix.
+            designator: Cell particle designator.
+            bound: Cell weight-window space, time, or energy lower bound.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.designator: types.Designator = designator
+        self.bound: types.Real = bound
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Cell option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def designator(self) -> types.Designator:
+        """
+        Gets ``designator``.
+
+        Returns:
+            ``designator``.
+        """
+
+        return self._designator
+
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
+
+        Parameters:
+            designator: Cell particle designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
+
+        self._designator: types.Designator = designator
+
+    @property
+    def bound(self) -> types.Real:
+        """
+        Gets ``bound``.
+
+        Returns:
+            ``bound``.
+        """
+
+        return self._bound
+
+    @bound.setter
+    def bound(self, bound: str | int | float | types.Real) -> None:
+        """
+        Sets ``bound``.
+
+        Parameters:
+            bound: Cell weight-window space, time, or energy lower bound.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if bound is not None:
+            if isinstance(bound, types.Real):
+                bound = bound
+            elif isinstance(bound, int):
+                bound = types.Real(bound)
+            elif isinstance(bound, float):
+                bound = types.Real(bound)
+            elif isinstance(bound, str):
+                bound = types.Real.from_mcnp(bound)
+            else:
+                raise TypeError
+
         if bound is None or not (bound == -1 or bound >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bound)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                bound,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.designator: typing.Final[types.Designator] = designator
-        self.bound: typing.Final[types.Real] = bound
-
-
-@dataclasses.dataclass
-class WwnBuilder(_option.LikeOptionBuilder):
-    """
-    Builds ``Wwn``.
-
-    Attributes:
-        suffix: Like option suffix.
-        designator: Like particle designator.
-        bound: Like weight-window space, time, or energy lower bound.
-    """
-
-    suffix: str | int | types.Integer
-    designator: str | types.Designator
-    bound: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``WwnBuilder`` into ``Wwn``.
-
-        Returns:
-            ``Wwn`` for ``WwnBuilder``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
-
-        bound = self.bound
-        if isinstance(self.bound, types.Real):
-            bound = self.bound
-        elif isinstance(self.bound, float) or isinstance(self.bound, int):
-            bound = types.Real(self.bound)
-        elif isinstance(self.bound, str):
-            bound = types.Real.from_mcnp(self.bound)
-
-        return Wwn(
-            suffix=suffix,
-            designator=designator,
-            bound=bound,
-        )
-
-    @staticmethod
-    def unbuild(ast: Wwn):
-        """
-        Unbuilds ``Wwn`` into ``WwnBuilder``
-
-        Returns:
-            ``WwnBuilder`` for ``Wwn``.
-        """
-
-        return WwnBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            designator=copy.deepcopy(ast.designator),
-            bound=copy.deepcopy(ast.bound),
-        )
+        self._bound: types.Real = bound

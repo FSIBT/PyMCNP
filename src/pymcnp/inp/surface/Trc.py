@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -42,7 +38,17 @@ class Trc(_option.SurfaceOption):
         rf'\Atrc( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z'
     )
 
-    def __init__(self, vx: types.Real, vy: types.Real, vz: types.Real, hx: types.Real, hy: types.Real, hz: types.Real, r1: types.Real, r2: types.Real):
+    def __init__(
+        self,
+        vx: str | int | float | types.Real,
+        vy: str | int | float | types.Real,
+        vz: str | int | float | types.Real,
+        hx: str | int | float | types.Real,
+        hy: str | int | float | types.Real,
+        hz: str | int | float | types.Real,
+        r1: str | int | float | types.Real,
+        r2: str | int | float | types.Real,
+    ):
         """
         Initializes ``Trc``.
 
@@ -60,44 +66,342 @@ class Trc(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.vx: types.Real = vx
+        self.vy: types.Real = vy
+        self.vz: types.Real = vz
+        self.hx: types.Real = hx
+        self.hy: types.Real = hy
+        self.hz: types.Real = hz
+        self.r1: types.Real = r1
+        self.r2: types.Real = r2
+
+    @property
+    def vx(self) -> types.Real:
+        """
+        Gets ``vx``.
+
+        Returns:
+            ``vx``.
+        """
+
+        return self._vx
+
+    @vx.setter
+    def vx(self, vx: str | int | float | types.Real) -> None:
+        """
+        Sets ``vx``.
+
+        Parameters:
+            vx: Truncated cone position vector x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vx is not None:
+            if isinstance(vx, types.Real):
+                vx = vx
+            elif isinstance(vx, int):
+                vx = types.Real(vx)
+            elif isinstance(vx, float):
+                vx = types.Real(vx)
+            elif isinstance(vx, str):
+                vx = types.Real.from_mcnp(vx)
+            else:
+                raise TypeError
+
         if vx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vx)
+
+        self._vx: types.Real = vx
+
+    @property
+    def vy(self) -> types.Real:
+        """
+        Gets ``vy``.
+
+        Returns:
+            ``vy``.
+        """
+
+        return self._vy
+
+    @vy.setter
+    def vy(self, vy: str | int | float | types.Real) -> None:
+        """
+        Sets ``vy``.
+
+        Parameters:
+            vy: Truncated cone position vector y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vy is not None:
+            if isinstance(vy, types.Real):
+                vy = vy
+            elif isinstance(vy, int):
+                vy = types.Real(vy)
+            elif isinstance(vy, float):
+                vy = types.Real(vy)
+            elif isinstance(vy, str):
+                vy = types.Real.from_mcnp(vy)
+            else:
+                raise TypeError
+
         if vy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vy)
+
+        self._vy: types.Real = vy
+
+    @property
+    def vz(self) -> types.Real:
+        """
+        Gets ``vz``.
+
+        Returns:
+            ``vz``.
+        """
+
+        return self._vz
+
+    @vz.setter
+    def vz(self, vz: str | int | float | types.Real) -> None:
+        """
+        Sets ``vz``.
+
+        Parameters:
+            vz: Truncated cone position vector z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vz is not None:
+            if isinstance(vz, types.Real):
+                vz = vz
+            elif isinstance(vz, int):
+                vz = types.Real(vz)
+            elif isinstance(vz, float):
+                vz = types.Real(vz)
+            elif isinstance(vz, str):
+                vz = types.Real.from_mcnp(vz)
+            else:
+                raise TypeError
+
         if vz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vz)
+
+        self._vz: types.Real = vz
+
+    @property
+    def hx(self) -> types.Real:
+        """
+        Gets ``hx``.
+
+        Returns:
+            ``hx``.
+        """
+
+        return self._hx
+
+    @hx.setter
+    def hx(self, hx: str | int | float | types.Real) -> None:
+        """
+        Sets ``hx``.
+
+        Parameters:
+            hx: Truncated cone height vector x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if hx is not None:
+            if isinstance(hx, types.Real):
+                hx = hx
+            elif isinstance(hx, int):
+                hx = types.Real(hx)
+            elif isinstance(hx, float):
+                hx = types.Real(hx)
+            elif isinstance(hx, str):
+                hx = types.Real.from_mcnp(hx)
+            else:
+                raise TypeError
+
         if hx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hx)
+
+        self._hx: types.Real = hx
+
+    @property
+    def hy(self) -> types.Real:
+        """
+        Gets ``hy``.
+
+        Returns:
+            ``hy``.
+        """
+
+        return self._hy
+
+    @hy.setter
+    def hy(self, hy: str | int | float | types.Real) -> None:
+        """
+        Sets ``hy``.
+
+        Parameters:
+            hy: Truncated cone height vector y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if hy is not None:
+            if isinstance(hy, types.Real):
+                hy = hy
+            elif isinstance(hy, int):
+                hy = types.Real(hy)
+            elif isinstance(hy, float):
+                hy = types.Real(hy)
+            elif isinstance(hy, str):
+                hy = types.Real.from_mcnp(hy)
+            else:
+                raise TypeError
+
         if hy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hy)
+
+        self._hy: types.Real = hy
+
+    @property
+    def hz(self) -> types.Real:
+        """
+        Gets ``hz``.
+
+        Returns:
+            ``hz``.
+        """
+
+        return self._hz
+
+    @hz.setter
+    def hz(self, hz: str | int | float | types.Real) -> None:
+        """
+        Sets ``hz``.
+
+        Parameters:
+            hz: Truncated cone height vector z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if hz is not None:
+            if isinstance(hz, types.Real):
+                hz = hz
+            elif isinstance(hz, int):
+                hz = types.Real(hz)
+            elif isinstance(hz, float):
+                hz = types.Real(hz)
+            elif isinstance(hz, str):
+                hz = types.Real.from_mcnp(hz)
+            else:
+                raise TypeError
+
         if hz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hz)
+
+        self._hz: types.Real = hz
+
+    @property
+    def r1(self) -> types.Real:
+        """
+        Gets ``r1``.
+
+        Returns:
+            ``r1``.
+        """
+
+        return self._r1
+
+    @r1.setter
+    def r1(self, r1: str | int | float | types.Real) -> None:
+        """
+        Sets ``r1``.
+
+        Parameters:
+            r1: Truncated cone lower cone radius.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if r1 is not None:
+            if isinstance(r1, types.Real):
+                r1 = r1
+            elif isinstance(r1, int):
+                r1 = types.Real(r1)
+            elif isinstance(r1, float):
+                r1 = types.Real(r1)
+            elif isinstance(r1, str):
+                r1 = types.Real.from_mcnp(r1)
+            else:
+                raise TypeError
+
         if r1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r1)
+
+        self._r1: types.Real = r1
+
+    @property
+    def r2(self) -> types.Real:
+        """
+        Gets ``r2``.
+
+        Returns:
+            ``r2``.
+        """
+
+        return self._r2
+
+    @r2.setter
+    def r2(self, r2: str | int | float | types.Real) -> None:
+        """
+        Sets ``r2``.
+
+        Parameters:
+            r2: Truncated cone upper cone radius.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if r2 is not None:
+            if isinstance(r2, types.Real):
+                r2 = r2
+            elif isinstance(r2, int):
+                r2 = types.Real(r2)
+            elif isinstance(r2, float):
+                r2 = types.Real(r2)
+            elif isinstance(r2, str):
+                r2 = types.Real.from_mcnp(r2)
+            else:
+                raise TypeError
+
         if r2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r2)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                vx,
-                vy,
-                vz,
-                hx,
-                hy,
-                hz,
-                r1,
-                r2,
-            ]
-        )
-
-        self.vx: typing.Final[types.Real] = vx
-        self.vy: typing.Final[types.Real] = vy
-        self.vz: typing.Final[types.Real] = vz
-        self.hx: typing.Final[types.Real] = hx
-        self.hy: typing.Final[types.Real] = hy
-        self.hz: typing.Final[types.Real] = hz
-        self.r1: typing.Final[types.Real] = r1
-        self.r2: typing.Final[types.Real] = r2
+        self._r2: types.Real = r2
 
     def draw(self):
         """
@@ -117,132 +421,3 @@ class Trc(_option.SurfaceOption):
         vis = vis.add_translation(_visualization.Vector(self.vx, self.vy, self.vz))
 
         return vis
-
-
-@dataclasses.dataclass
-class TrcBuilder(_option.SurfaceOptionBuilder):
-    """
-    Builds ``Trc``.
-
-    Attributes:
-        vx: Truncated cone position vector x component.
-        vy: Truncated cone position vector y component.
-        vz: Truncated cone position vector z component.
-        hx: Truncated cone height vector x component.
-        hy: Truncated cone height vector y component.
-        hz: Truncated cone height vector z component.
-        r1: Truncated cone lower cone radius.
-        r2: Truncated cone upper cone radius.
-    """
-
-    vx: str | float | types.Real
-    vy: str | float | types.Real
-    vz: str | float | types.Real
-    hx: str | float | types.Real
-    hy: str | float | types.Real
-    hz: str | float | types.Real
-    r1: str | float | types.Real
-    r2: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``TrcBuilder`` into ``Trc``.
-
-        Returns:
-            ``Trc`` for ``TrcBuilder``.
-        """
-
-        vx = self.vx
-        if isinstance(self.vx, types.Real):
-            vx = self.vx
-        elif isinstance(self.vx, float) or isinstance(self.vx, int):
-            vx = types.Real(self.vx)
-        elif isinstance(self.vx, str):
-            vx = types.Real.from_mcnp(self.vx)
-
-        vy = self.vy
-        if isinstance(self.vy, types.Real):
-            vy = self.vy
-        elif isinstance(self.vy, float) or isinstance(self.vy, int):
-            vy = types.Real(self.vy)
-        elif isinstance(self.vy, str):
-            vy = types.Real.from_mcnp(self.vy)
-
-        vz = self.vz
-        if isinstance(self.vz, types.Real):
-            vz = self.vz
-        elif isinstance(self.vz, float) or isinstance(self.vz, int):
-            vz = types.Real(self.vz)
-        elif isinstance(self.vz, str):
-            vz = types.Real.from_mcnp(self.vz)
-
-        hx = self.hx
-        if isinstance(self.hx, types.Real):
-            hx = self.hx
-        elif isinstance(self.hx, float) or isinstance(self.hx, int):
-            hx = types.Real(self.hx)
-        elif isinstance(self.hx, str):
-            hx = types.Real.from_mcnp(self.hx)
-
-        hy = self.hy
-        if isinstance(self.hy, types.Real):
-            hy = self.hy
-        elif isinstance(self.hy, float) or isinstance(self.hy, int):
-            hy = types.Real(self.hy)
-        elif isinstance(self.hy, str):
-            hy = types.Real.from_mcnp(self.hy)
-
-        hz = self.hz
-        if isinstance(self.hz, types.Real):
-            hz = self.hz
-        elif isinstance(self.hz, float) or isinstance(self.hz, int):
-            hz = types.Real(self.hz)
-        elif isinstance(self.hz, str):
-            hz = types.Real.from_mcnp(self.hz)
-
-        r1 = self.r1
-        if isinstance(self.r1, types.Real):
-            r1 = self.r1
-        elif isinstance(self.r1, float) or isinstance(self.r1, int):
-            r1 = types.Real(self.r1)
-        elif isinstance(self.r1, str):
-            r1 = types.Real.from_mcnp(self.r1)
-
-        r2 = self.r2
-        if isinstance(self.r2, types.Real):
-            r2 = self.r2
-        elif isinstance(self.r2, float) or isinstance(self.r2, int):
-            r2 = types.Real(self.r2)
-        elif isinstance(self.r2, str):
-            r2 = types.Real.from_mcnp(self.r2)
-
-        return Trc(
-            vx=vx,
-            vy=vy,
-            vz=vz,
-            hx=hx,
-            hy=hy,
-            hz=hz,
-            r1=r1,
-            r2=r2,
-        )
-
-    @staticmethod
-    def unbuild(ast: Trc):
-        """
-        Unbuilds ``Trc`` into ``TrcBuilder``
-
-        Returns:
-            ``TrcBuilder`` for ``Trc``.
-        """
-
-        return TrcBuilder(
-            vx=copy.deepcopy(ast.vx),
-            vy=copy.deepcopy(ast.vy),
-            vz=copy.deepcopy(ast.vz),
-            hx=copy.deepcopy(ast.hx),
-            hy=copy.deepcopy(ast.hy),
-            hz=copy.deepcopy(ast.hz),
-            r1=copy.deepcopy(ast.r1),
-            r2=copy.deepcopy(ast.r2),
-        )

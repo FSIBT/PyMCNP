@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Refs(_option.MOption_0):
 
     _REGEX = re.compile(rf'\Arefs((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, coefficents: types.Tuple[types.Real]):
+    def __init__(self, coefficents: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Refs``.
 
@@ -36,63 +32,48 @@ class Refs(_option.MOption_0):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.coefficents: types.Tuple[types.Real] = coefficents
+
+    @property
+    def coefficents(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``coefficents``.
+
+        Returns:
+            ``coefficents``.
+        """
+
+        return self._coefficents
+
+    @coefficents.setter
+    def coefficents(self, coefficents: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``coefficents``.
+
+        Parameters:
+            coefficents: Sellmeier coefficents.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if coefficents is not None:
+            array = []
+            for item in coefficents:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            coefficents = types.Tuple(array)
+
         if coefficents is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, coefficents)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                coefficents,
-            ]
-        )
-
-        self.coefficents: typing.Final[types.Tuple[types.Real]] = coefficents
-
-
-@dataclasses.dataclass
-class RefsBuilder(_option.MOptionBuilder_0):
-    """
-    Builds ``Refs``.
-
-    Attributes:
-        coefficents: Sellmeier coefficents.
-    """
-
-    coefficents: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``RefsBuilder`` into ``Refs``.
-
-        Returns:
-            ``Refs`` for ``RefsBuilder``.
-        """
-
-        if self.coefficents:
-            coefficents = []
-            for item in self.coefficents:
-                if isinstance(item, types.Real):
-                    coefficents.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    coefficents.append(types.Real(item))
-                elif isinstance(item, str):
-                    coefficents.append(types.Real.from_mcnp(item))
-            coefficents = types.Tuple(coefficents)
-        else:
-            coefficents = None
-
-        return Refs(
-            coefficents=coefficents,
-        )
-
-    @staticmethod
-    def unbuild(ast: Refs):
-        """
-        Unbuilds ``Refs`` into ``RefsBuilder``
-
-        Returns:
-            ``RefsBuilder`` for ``Refs``.
-        """
-
-        return RefsBuilder(
-            coefficents=copy.deepcopy(ast.coefficents),
-        )
+        self._coefficents: types.Tuple[types.Real] = coefficents

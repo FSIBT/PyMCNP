@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -14,7 +10,7 @@ class Vol(_option.LikeOption):
     Represents INP vol elements.
 
     Attributes:
-        volume: Like volume.
+        volume: Cell volume.
     """
 
     _KEYWORD = 'vol'
@@ -25,69 +21,56 @@ class Vol(_option.LikeOption):
 
     _REGEX = re.compile(rf'\Avol( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, volume: types.Real):
+    def __init__(self, volume: str | int | float | types.Real):
         """
         Initializes ``Vol``.
 
         Parameters:
-            volume: Like volume.
+            volume: Cell volume.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
+        self.volume: types.Real = volume
+
+    @property
+    def volume(self) -> types.Real:
+        """
+        Gets ``volume``.
+
+        Returns:
+            ``volume``.
+        """
+
+        return self._volume
+
+    @volume.setter
+    def volume(self, volume: str | int | float | types.Real) -> None:
+        """
+        Sets ``volume``.
+
+        Parameters:
+            volume: Cell volume.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if volume is not None:
+            if isinstance(volume, types.Real):
+                volume = volume
+            elif isinstance(volume, int):
+                volume = types.Real(volume)
+            elif isinstance(volume, float):
+                volume = types.Real(volume)
+            elif isinstance(volume, str):
+                volume = types.Real.from_mcnp(volume)
+            else:
+                raise TypeError
+
         if volume is None or not (volume >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, volume)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                volume,
-            ]
-        )
-
-        self.volume: typing.Final[types.Real] = volume
-
-
-@dataclasses.dataclass
-class VolBuilder(_option.LikeOptionBuilder):
-    """
-    Builds ``Vol``.
-
-    Attributes:
-        volume: Like volume.
-    """
-
-    volume: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``VolBuilder`` into ``Vol``.
-
-        Returns:
-            ``Vol`` for ``VolBuilder``.
-        """
-
-        volume = self.volume
-        if isinstance(self.volume, types.Real):
-            volume = self.volume
-        elif isinstance(self.volume, float) or isinstance(self.volume, int):
-            volume = types.Real(self.volume)
-        elif isinstance(self.volume, str):
-            volume = types.Real.from_mcnp(self.volume)
-
-        return Vol(
-            volume=volume,
-        )
-
-    @staticmethod
-    def unbuild(ast: Vol):
-        """
-        Unbuilds ``Vol`` into ``VolBuilder``
-
-        Returns:
-            ``VolBuilder`` for ``Vol``.
-        """
-
-        return VolBuilder(
-            volume=copy.deepcopy(ast.volume),
-        )
+        self._volume: types.Real = volume

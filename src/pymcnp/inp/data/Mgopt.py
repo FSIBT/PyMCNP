@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -39,7 +35,16 @@ class Mgopt(_option.DataOption):
         rf'\Amgopt( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Integer._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
-    def __init__(self, mcal: types.String, igm: types.Integer, iplt: types.Integer = None, iab: types.Integer = None, icw: types.Integer = None, fnw: types.Real = None, rim: types.Real = None):
+    def __init__(
+        self,
+        mcal: str | types.String,
+        igm: str | int | types.Integer,
+        iplt: str | int | types.Integer = None,
+        iab: str | int | types.Integer = None,
+        icw: str | int | types.Integer = None,
+        fnw: str | int | float | types.Real = None,
+        rim: str | int | float | types.Real = None,
+    ):
         """
         Initializes ``Mgopt``.
 
@@ -56,146 +61,276 @@ class Mgopt(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.mcal: types.String = mcal
+        self.igm: types.Integer = igm
+        self.iplt: types.Integer = iplt
+        self.iab: types.Integer = iab
+        self.icw: types.Integer = icw
+        self.fnw: types.Real = fnw
+        self.rim: types.Real = rim
+
+    @property
+    def mcal(self) -> types.String:
+        """
+        Gets ``mcal``.
+
+        Returns:
+            ``mcal``.
+        """
+
+        return self._mcal
+
+    @mcal.setter
+    def mcal(self, mcal: str | types.String) -> None:
+        """
+        Sets ``mcal``.
+
+        Parameters:
+            mcal: Problem type setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if mcal is not None:
+            if isinstance(mcal, types.String):
+                mcal = mcal
+            elif isinstance(mcal, str):
+                mcal = types.String.from_mcnp(mcal)
+            else:
+                raise TypeError
+
         if mcal is None or mcal not in {'f', 'a'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mcal)
+
+        self._mcal: types.String = mcal
+
+    @property
+    def igm(self) -> types.Integer:
+        """
+        Gets ``igm``.
+
+        Returns:
+            ``igm``.
+        """
+
+        return self._igm
+
+    @igm.setter
+    def igm(self, igm: str | int | types.Integer) -> None:
+        """
+        Sets ``igm``.
+
+        Parameters:
+            igm: Total number of energy groups for all kinds of particle.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if igm is not None:
+            if isinstance(igm, types.Integer):
+                igm = igm
+            elif isinstance(igm, int):
+                igm = types.Integer(igm)
+            elif isinstance(igm, str):
+                igm = types.Integer.from_mcnp(igm)
+            else:
+                raise TypeError
+
         if igm is None or not (igm >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, igm)
+
+        self._igm: types.Integer = igm
+
+    @property
+    def iplt(self) -> types.Integer:
+        """
+        Gets ``iplt``.
+
+        Returns:
+            ``iplt``.
+        """
+
+        return self._iplt
+
+    @iplt.setter
+    def iplt(self, iplt: str | int | types.Integer) -> None:
+        """
+        Sets ``iplt``.
+
+        Parameters:
+            iplt: Weight windows usage indicator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if iplt is not None:
+            if isinstance(iplt, types.Integer):
+                iplt = iplt
+            elif isinstance(iplt, int):
+                iplt = types.Integer(iplt)
+            elif isinstance(iplt, str):
+                iplt = types.Integer.from_mcnp(iplt)
+            else:
+                raise TypeError
+
         if iplt is not None and iplt not in {0, 1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iplt)
+
+        self._iplt: types.Integer = iplt
+
+    @property
+    def iab(self) -> types.Integer:
+        """
+        Gets ``iab``.
+
+        Returns:
+            ``iab``.
+        """
+
+        return self._iab
+
+    @iab.setter
+    def iab(self, iab: str | int | types.Integer) -> None:
+        """
+        Sets ``iab``.
+
+        Parameters:
+            iab: Adjoint biasing for adjoint problems contorls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if iab is not None:
+            if isinstance(iab, types.Integer):
+                iab = iab
+            elif isinstance(iab, int):
+                iab = types.Integer(iab)
+            elif isinstance(iab, str):
+                iab = types.Integer.from_mcnp(iab)
+            else:
+                raise TypeError
+
         if iab is not None and iab not in {0, 1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, iab)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                mcal,
-                igm,
-                iplt,
-                iab,
-                icw,
-                fnw,
-                rim,
-            ]
-        )
+        self._iab: types.Integer = iab
 
-        self.mcal: typing.Final[types.String] = mcal
-        self.igm: typing.Final[types.Integer] = igm
-        self.iplt: typing.Final[types.Integer] = iplt
-        self.iab: typing.Final[types.Integer] = iab
-        self.icw: typing.Final[types.Integer] = icw
-        self.fnw: typing.Final[types.Real] = fnw
-        self.rim: typing.Final[types.Real] = rim
-
-
-@dataclasses.dataclass
-class MgoptBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Mgopt``.
-
-    Attributes:
-        mcal: Problem type setting.
-        igm: Total number of energy groups for all kinds of particle.
-        iplt: Weight windows usage indicator.
-        iab: Adjoint biasing for adjoint problems contorls.
-        icw: Name of the reference cell for generated weight windows.
-        fnw: Normalization value for generated weight windows.
-        rim: Generated weight windows compression limit.
-    """
-
-    mcal: str | types.String
-    igm: str | int | types.Integer
-    iplt: str | int | types.Integer = None
-    iab: str | int | types.Integer = None
-    icw: str | int | types.Integer = None
-    fnw: str | float | types.Real = None
-    rim: str | float | types.Real = None
-
-    def build(self):
+    @property
+    def icw(self) -> types.Integer:
         """
-        Builds ``MgoptBuilder`` into ``Mgopt``.
+        Gets ``icw``.
 
         Returns:
-            ``Mgopt`` for ``MgoptBuilder``.
+            ``icw``.
         """
 
-        mcal = self.mcal
-        if isinstance(self.mcal, types.String):
-            mcal = self.mcal
-        elif isinstance(self.mcal, str):
-            mcal = types.String.from_mcnp(self.mcal)
+        return self._icw
 
-        igm = self.igm
-        if isinstance(self.igm, types.Integer):
-            igm = self.igm
-        elif isinstance(self.igm, int):
-            igm = types.Integer(self.igm)
-        elif isinstance(self.igm, str):
-            igm = types.Integer.from_mcnp(self.igm)
-
-        iplt = self.iplt
-        if isinstance(self.iplt, types.Integer):
-            iplt = self.iplt
-        elif isinstance(self.iplt, int):
-            iplt = types.Integer(self.iplt)
-        elif isinstance(self.iplt, str):
-            iplt = types.Integer.from_mcnp(self.iplt)
-
-        iab = self.iab
-        if isinstance(self.iab, types.Integer):
-            iab = self.iab
-        elif isinstance(self.iab, int):
-            iab = types.Integer(self.iab)
-        elif isinstance(self.iab, str):
-            iab = types.Integer.from_mcnp(self.iab)
-
-        icw = self.icw
-        if isinstance(self.icw, types.Integer):
-            icw = self.icw
-        elif isinstance(self.icw, int):
-            icw = types.Integer(self.icw)
-        elif isinstance(self.icw, str):
-            icw = types.Integer.from_mcnp(self.icw)
-
-        fnw = self.fnw
-        if isinstance(self.fnw, types.Real):
-            fnw = self.fnw
-        elif isinstance(self.fnw, float) or isinstance(self.fnw, int):
-            fnw = types.Real(self.fnw)
-        elif isinstance(self.fnw, str):
-            fnw = types.Real.from_mcnp(self.fnw)
-
-        rim = self.rim
-        if isinstance(self.rim, types.Real):
-            rim = self.rim
-        elif isinstance(self.rim, float) or isinstance(self.rim, int):
-            rim = types.Real(self.rim)
-        elif isinstance(self.rim, str):
-            rim = types.Real.from_mcnp(self.rim)
-
-        return Mgopt(
-            mcal=mcal,
-            igm=igm,
-            iplt=iplt,
-            iab=iab,
-            icw=icw,
-            fnw=fnw,
-            rim=rim,
-        )
-
-    @staticmethod
-    def unbuild(ast: Mgopt):
+    @icw.setter
+    def icw(self, icw: str | int | types.Integer) -> None:
         """
-        Unbuilds ``Mgopt`` into ``MgoptBuilder``
+        Sets ``icw``.
+
+        Parameters:
+            icw: Name of the reference cell for generated weight windows.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if icw is not None:
+            if isinstance(icw, types.Integer):
+                icw = icw
+            elif isinstance(icw, int):
+                icw = types.Integer(icw)
+            elif isinstance(icw, str):
+                icw = types.Integer.from_mcnp(icw)
+            else:
+                raise TypeError
+
+        self._icw: types.Integer = icw
+
+    @property
+    def fnw(self) -> types.Real:
+        """
+        Gets ``fnw``.
 
         Returns:
-            ``MgoptBuilder`` for ``Mgopt``.
+            ``fnw``.
         """
 
-        return MgoptBuilder(
-            mcal=copy.deepcopy(ast.mcal),
-            igm=copy.deepcopy(ast.igm),
-            iplt=copy.deepcopy(ast.iplt),
-            iab=copy.deepcopy(ast.iab),
-            icw=copy.deepcopy(ast.icw),
-            fnw=copy.deepcopy(ast.fnw),
-            rim=copy.deepcopy(ast.rim),
-        )
+        return self._fnw
+
+    @fnw.setter
+    def fnw(self, fnw: str | int | float | types.Real) -> None:
+        """
+        Sets ``fnw``.
+
+        Parameters:
+            fnw: Normalization value for generated weight windows.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if fnw is not None:
+            if isinstance(fnw, types.Real):
+                fnw = fnw
+            elif isinstance(fnw, int):
+                fnw = types.Real(fnw)
+            elif isinstance(fnw, float):
+                fnw = types.Real(fnw)
+            elif isinstance(fnw, str):
+                fnw = types.Real.from_mcnp(fnw)
+            else:
+                raise TypeError
+
+        self._fnw: types.Real = fnw
+
+    @property
+    def rim(self) -> types.Real:
+        """
+        Gets ``rim``.
+
+        Returns:
+            ``rim``.
+        """
+
+        return self._rim
+
+    @rim.setter
+    def rim(self, rim: str | int | float | types.Real) -> None:
+        """
+        Sets ``rim``.
+
+        Parameters:
+            rim: Generated weight windows compression limit.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if rim is not None:
+            if isinstance(rim, types.Real):
+                rim = rim
+            elif isinstance(rim, int):
+                rim = types.Real(rim)
+            elif isinstance(rim, float):
+                rim = types.Real(rim)
+            elif isinstance(rim, str):
+                rim = types.Real.from_mcnp(rim)
+            else:
+                raise TypeError
+
+        self._rim: types.Real = rim

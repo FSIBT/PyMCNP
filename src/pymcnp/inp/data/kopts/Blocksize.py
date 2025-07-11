@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Blocksize(_option.KoptsOption):
 
     _REGEX = re.compile(rf'\Ablocksize( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, ncy: types.Integer):
+    def __init__(self, ncy: str | int | types.Integer):
         """
         Initializes ``Blocksize``.
 
@@ -36,58 +32,43 @@ class Blocksize(_option.KoptsOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.ncy: types.Integer = ncy
+
+    @property
+    def ncy(self) -> types.Integer:
+        """
+        Gets ``ncy``.
+
+        Returns:
+            ``ncy``.
+        """
+
+        return self._ncy
+
+    @ncy.setter
+    def ncy(self, ncy: str | int | types.Integer) -> None:
+        """
+        Sets ``ncy``.
+
+        Parameters:
+            ncy: Number of cycles in every outer iteration.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ncy is not None:
+            if isinstance(ncy, types.Integer):
+                ncy = ncy
+            elif isinstance(ncy, int):
+                ncy = types.Integer(ncy)
+            elif isinstance(ncy, str):
+                ncy = types.Integer.from_mcnp(ncy)
+            else:
+                raise TypeError
+
         if ncy is None or not (ncy >= 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ncy)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                ncy,
-            ]
-        )
-
-        self.ncy: typing.Final[types.Integer] = ncy
-
-
-@dataclasses.dataclass
-class BlocksizeBuilder(_option.KoptsOptionBuilder):
-    """
-    Builds ``Blocksize``.
-
-    Attributes:
-        ncy: Number of cycles in every outer iteration.
-    """
-
-    ncy: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``BlocksizeBuilder`` into ``Blocksize``.
-
-        Returns:
-            ``Blocksize`` for ``BlocksizeBuilder``.
-        """
-
-        ncy = self.ncy
-        if isinstance(self.ncy, types.Integer):
-            ncy = self.ncy
-        elif isinstance(self.ncy, int):
-            ncy = types.Integer(self.ncy)
-        elif isinstance(self.ncy, str):
-            ncy = types.Integer.from_mcnp(self.ncy)
-
-        return Blocksize(
-            ncy=ncy,
-        )
-
-    @staticmethod
-    def unbuild(ast: Blocksize):
-        """
-        Unbuilds ``Blocksize`` into ``BlocksizeBuilder``
-
-        Returns:
-            ``BlocksizeBuilder`` for ``Blocksize``.
-        """
-
-        return BlocksizeBuilder(
-            ncy=copy.deepcopy(ast.ncy),
-        )
+        self._ncy: types.Integer = ncy

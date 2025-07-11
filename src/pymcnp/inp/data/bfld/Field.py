@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Field(_option.BfldOption):
 
     _REGEX = re.compile(rf'\Afield( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, strength_gradient: types.Real):
+    def __init__(self, strength_gradient: str | int | float | types.Real):
         """
         Initializes ``Field``.
 
@@ -36,58 +32,45 @@ class Field(_option.BfldOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.strength_gradient: types.Real = strength_gradient
+
+    @property
+    def strength_gradient(self) -> types.Real:
+        """
+        Gets ``strength_gradient``.
+
+        Returns:
+            ``strength_gradient``.
+        """
+
+        return self._strength_gradient
+
+    @strength_gradient.setter
+    def strength_gradient(self, strength_gradient: str | int | float | types.Real) -> None:
+        """
+        Sets ``strength_gradient``.
+
+        Parameters:
+            strength_gradient: Magnetic field strength/gradient.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if strength_gradient is not None:
+            if isinstance(strength_gradient, types.Real):
+                strength_gradient = strength_gradient
+            elif isinstance(strength_gradient, int):
+                strength_gradient = types.Real(strength_gradient)
+            elif isinstance(strength_gradient, float):
+                strength_gradient = types.Real(strength_gradient)
+            elif isinstance(strength_gradient, str):
+                strength_gradient = types.Real.from_mcnp(strength_gradient)
+            else:
+                raise TypeError
+
         if strength_gradient is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, strength_gradient)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                strength_gradient,
-            ]
-        )
-
-        self.strength_gradient: typing.Final[types.Real] = strength_gradient
-
-
-@dataclasses.dataclass
-class FieldBuilder(_option.BfldOptionBuilder):
-    """
-    Builds ``Field``.
-
-    Attributes:
-        strength_gradient: Magnetic field strength/gradient.
-    """
-
-    strength_gradient: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``FieldBuilder`` into ``Field``.
-
-        Returns:
-            ``Field`` for ``FieldBuilder``.
-        """
-
-        strength_gradient = self.strength_gradient
-        if isinstance(self.strength_gradient, types.Real):
-            strength_gradient = self.strength_gradient
-        elif isinstance(self.strength_gradient, float) or isinstance(self.strength_gradient, int):
-            strength_gradient = types.Real(self.strength_gradient)
-        elif isinstance(self.strength_gradient, str):
-            strength_gradient = types.Real.from_mcnp(self.strength_gradient)
-
-        return Field(
-            strength_gradient=strength_gradient,
-        )
-
-    @staticmethod
-    def unbuild(ast: Field):
-        """
-        Unbuilds ``Field`` into ``FieldBuilder``
-
-        Returns:
-            ``FieldBuilder`` for ``Field``.
-        """
-
-        return FieldBuilder(
-            strength_gradient=copy.deepcopy(ast.strength_gradient),
-        )
+        self._strength_gradient: types.Real = strength_gradient

@@ -1,7 +1,4 @@
 import re
-import copy
-import dataclasses
-
 
 from . import like
 from ._card import Card
@@ -16,13 +13,13 @@ class Like(Card):
 
     Attributes:
         number: cell number.
-        original: cell similar.
+        cell: cell similar.
         options: cell options.
     """
 
     _ATTRS = {
         'number': types.Integer,
-        'original': types.Integer,
+        'cell': types.Integer,
         'options': types.Tuple[like.LikeOption],
     }
 
@@ -31,7 +28,7 @@ class Like(Card):
     def __init__(
         self,
         number: types.Integer,
-        original: types.Integer,
+        cell: types.Integer,
         options: types.Tuple[like.LikeOption] = None,
     ):
         """
@@ -39,20 +36,15 @@ class Like(Card):
 
         Parameters:
             number: cell number.
-            original: cell similar.
+            cell: cell similar.
             options: cell options.
 
         Raises:
             InpError: SEMANTICS_CARD.
         """
 
-        if number is None or not (1 <= number <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
-        if original is None or not (1 <= original <= 99_999_999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, original)
-
         self.number: types.Integer = number
-        self.original: types.Integer = original
+        self.cell: types.Integer = cell
         self.options: types.Tuple[like.LikeOption] = options
 
     def to_mcnp(self):
@@ -63,82 +55,123 @@ class Like(Card):
             INP cell card.
         """
 
-        source = f'{self.number} like {self.original} but {self.options or ""}'
+        source = f'{self.number} like {self.cell} but {self.options or ""}'
         source, comments = _parser.preprocess_inp(source)
         source = _parser.postprocess_inp(source)
 
         return source
 
-
-@dataclasses.dataclass
-class LikeBuilder:
-    """
-    Builds ``Like``.
-
-    Attributes:
-        number: cell number.
-        original: cell similar.
-        options: cell options.
-    """
-
-    number: str | int | types.Integer
-    original: str | int | types.Integer
-    options: list[str] | list[like.LikeOption] | list[like.LikeOptionBuilder] = None
-
-    def build(self):
+    @property
+    def number(self) -> types.Integer:
         """
-        Builds ``LikeBuilder`` into ``Like``.
+        Gets ``number``.
 
         Returns:
-            ``Like`` for ``LikeBuilder``.
+            ``number``.
         """
 
-        number = self.number
-        if isinstance(self.number, types.Integer):
-            number = self.number
-        elif isinstance(self.number, int):
-            number = types.Integer(self.number)
-        elif isinstance(self.number, str):
-            number = types.Integer.from_mcnp(self.number)
+        return self._number
 
-        original = self.original
-        if isinstance(self.original, types.Integer):
-            original = self.original
-        elif isinstance(self.original, int):
-            original = types.Integer(self.original)
-        elif isinstance(self.original, str):
-            original = types.Integer.from_mcnp(self.original)
+    @number.setter
+    def number(self, number: str | int | types.Integer) -> None:
+        """
+        Sets ``number``.
 
-        if self.options:
-            options = []
-            for item in self.options:
+        Parameters:
+            number: cell number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if number is not None:
+            if isinstance(number, types.Integer):
+                number = number
+            elif isinstance(number, int):
+                number = types.Integer(number)
+            elif isinstance(number, str):
+                number = types.Integer.from_mcnp(number)
+            else:
+                raise TypeError
+
+        if number is None or not (1 <= number <= 99_999_999):
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, number)
+
+        self._number: types.Integer = number
+
+    @property
+    def cell(self) -> types.Integer:
+        """
+        Gets ``cell``.
+
+        Returns:
+            ``cell``.
+        """
+
+        return self._cell
+
+    @cell.setter
+    def cell(self, cell: str | int | types.Integer) -> None:
+        """
+        Sets ``cell``.
+
+        Parameters:
+            cell: base cell number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if cell is not None:
+            if isinstance(cell, types.Integer):
+                cell = cell
+            elif isinstance(cell, int):
+                cell = types.Integer(cell)
+            elif isinstance(cell, str):
+                cell = types.Integer.from_mcnp(cell)
+            else:
+                raise TypeError
+
+        if cell is None or not (1 <= cell <= 99_999_999):
+            raise errors.InpError(errors.InpCode.SEMANTICS_CARD, cell)
+
+        self._cell: types.Integer = cell
+
+    @property
+    def options(self) -> types.Tuple[like.LikeOption]:
+        """
+        Gets ``options``.
+
+        Returns:
+            ``options``.
+        """
+
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[like.LikeOption] = None) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, like.LikeOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(like.LikeOption.from_mcnp(item))
-                elif isinstance(item, like.LikeOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(like.LikeOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Like(
-            number=number,
-            original=original,
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Like):
-        """
-        Unbuilds ``Like`` into ``LikeBuilder``
-
-        Returns:
-            ``LikeBuilder`` for ``Like``.
-        """
-
-        return LikeBuilder(
-            number=copy.deepcopy(ast.number),
-            original=copy.deepcopy(ast.original),
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[like.LikeOption] = options

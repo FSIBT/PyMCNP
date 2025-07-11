@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Legendre(_option.KsenOption):
 
     _REGEX = re.compile(rf'\Alegendre( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, number: types.Integer):
+    def __init__(self, number: str | int | types.Integer):
         """
         Initializes ``Legendre``.
 
@@ -36,58 +32,43 @@ class Legendre(_option.KsenOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.number: types.Integer = number
+
+    @property
+    def number(self) -> types.Integer:
+        """
+        Gets ``number``.
+
+        Returns:
+            ``number``.
+        """
+
+        return self._number
+
+    @number.setter
+    def number(self, number: str | int | types.Integer) -> None:
+        """
+        Sets ``number``.
+
+        Parameters:
+            number: Order of Legendre moments to calculate sensitivities.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if number is not None:
+            if isinstance(number, types.Integer):
+                number = number
+            elif isinstance(number, int):
+                number = types.Integer(number)
+            elif isinstance(number, str):
+                number = types.Integer.from_mcnp(number)
+            else:
+                raise TypeError
+
         if number is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, number)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                number,
-            ]
-        )
-
-        self.number: typing.Final[types.Integer] = number
-
-
-@dataclasses.dataclass
-class LegendreBuilder(_option.KsenOptionBuilder):
-    """
-    Builds ``Legendre``.
-
-    Attributes:
-        number: Order of Legendre moments to calculate sensitivities.
-    """
-
-    number: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``LegendreBuilder`` into ``Legendre``.
-
-        Returns:
-            ``Legendre`` for ``LegendreBuilder``.
-        """
-
-        number = self.number
-        if isinstance(self.number, types.Integer):
-            number = self.number
-        elif isinstance(self.number, int):
-            number = types.Integer(self.number)
-        elif isinstance(self.number, str):
-            number = types.Integer.from_mcnp(self.number)
-
-        return Legendre(
-            number=number,
-        )
-
-    @staticmethod
-    def unbuild(ast: Legendre):
-        """
-        Unbuilds ``Legendre`` into ``LegendreBuilder``
-
-        Returns:
-            ``LegendreBuilder`` for ``Legendre``.
-        """
-
-        return LegendreBuilder(
-            number=copy.deepcopy(ast.number),
-        )
+        self._number: types.Integer = number

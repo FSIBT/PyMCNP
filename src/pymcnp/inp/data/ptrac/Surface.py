@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Surface(_option.PtracOption):
 
     _REGEX = re.compile(rf'\Asurface((?: {types.Integer._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, numbers: types.Tuple[types.Integer]):
+    def __init__(self, numbers: list[str] | list[int] | list[types.Integer]):
         """
         Initializes ``Surface``.
 
@@ -36,63 +32,46 @@ class Surface(_option.PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.numbers: types.Tuple[types.Integer] = numbers
+
+    @property
+    def numbers(self) -> types.Tuple[types.Integer]:
+        """
+        Gets ``numbers``.
+
+        Returns:
+            ``numbers``.
+        """
+
+        return self._numbers
+
+    @numbers.setter
+    def numbers(self, numbers: list[str] | list[int] | list[types.Integer]) -> None:
+        """
+        Sets ``numbers``.
+
+        Parameters:
+            numbers: List of surface numbers for filtering.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if numbers is not None:
+            array = []
+            for item in numbers:
+                if isinstance(item, types.Integer):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Integer(item))
+                elif isinstance(item, str):
+                    array.append(types.Integer.from_mcnp(item))
+                else:
+                    raise TypeError
+            numbers = types.Tuple(array)
+
         if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                numbers,
-            ]
-        )
-
-        self.numbers: typing.Final[types.Tuple[types.Integer]] = numbers
-
-
-@dataclasses.dataclass
-class SurfaceBuilder(_option.PtracOptionBuilder):
-    """
-    Builds ``Surface``.
-
-    Attributes:
-        numbers: List of surface numbers for filtering.
-    """
-
-    numbers: list[str] | list[int] | list[types.Integer]
-
-    def build(self):
-        """
-        Builds ``SurfaceBuilder`` into ``Surface``.
-
-        Returns:
-            ``Surface`` for ``SurfaceBuilder``.
-        """
-
-        if self.numbers:
-            numbers = []
-            for item in self.numbers:
-                if isinstance(item, types.Integer):
-                    numbers.append(item)
-                elif isinstance(item, int):
-                    numbers.append(types.Integer(item))
-                elif isinstance(item, str):
-                    numbers.append(types.Integer.from_mcnp(item))
-            numbers = types.Tuple(numbers)
-        else:
-            numbers = None
-
-        return Surface(
-            numbers=numbers,
-        )
-
-    @staticmethod
-    def unbuild(ast: Surface):
-        """
-        Unbuilds ``Surface`` into ``SurfaceBuilder``
-
-        Returns:
-            ``SurfaceBuilder`` for ``Surface``.
-        """
-
-        return SurfaceBuilder(
-            numbers=copy.deepcopy(ast.numbers),
-        )
+        self._numbers: types.Tuple[types.Integer] = numbers

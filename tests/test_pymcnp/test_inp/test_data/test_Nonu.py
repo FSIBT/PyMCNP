@@ -6,17 +6,10 @@ from .... import classes
 class Test_Nonu:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Nonu
-        EXAMPLES_VALID = [{'settings': [consts.ast.type.INTEGER]}, {'settings': None}]
+        EXAMPLES_VALID = [{'settings': [consts.string.type.INTEGER]}, {'settings': [1]}, {'settings': [consts.ast.type.INTEGER]}, {'settings': None}]
         EXAMPLES_INVALID = []
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.Nonu
         EXAMPLES_VALID = [consts.string.inp.data.NONU]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_NonuBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.NonuBuilder
-        EXAMPLES_VALID = [{'settings': [consts.string.type.INTEGER]}, {'settings': [1]}, {'settings': [consts.ast.type.INTEGER]}, {'settings': None}]
-        EXAMPLES_INVALID = []

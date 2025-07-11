@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -27,7 +23,7 @@ class Fcl(_option.DataOption):
 
     _REGEX = re.compile(rf'\Afcl:(\S+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, designator: types.Designator, control: types.Tuple[types.Real]):
+    def __init__(self, designator: str | types.Designator, control: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Fcl``.
 
@@ -39,76 +35,86 @@ class Fcl(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.designator: types.Designator = designator
+        self.control: types.Tuple[types.Real] = control
+
+    @property
+    def designator(self) -> types.Designator:
+        """
+        Gets ``designator``.
+
+        Returns:
+            ``designator``.
+        """
+
+        return self._designator
+
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
+
+        Parameters:
+            designator: Data card particle designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
+
+        self._designator: types.Designator = designator
+
+    @property
+    def control(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``control``.
+
+        Returns:
+            ``control``.
+        """
+
+        return self._control
+
+    @control.setter
+    def control(self, control: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``control``.
+
+        Parameters:
+            control: Forced-collision control for cell.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if control is not None:
+            array = []
+            for item in control:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            control = types.Tuple(array)
+
         if control is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, control)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                control,
-            ]
-        )
-
-        self.designator: typing.Final[types.Designator] = designator
-        self.control: typing.Final[types.Tuple[types.Real]] = control
-
-
-@dataclasses.dataclass
-class FclBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Fcl``.
-
-    Attributes:
-        designator: Data card particle designator.
-        control: Forced-collision control for cell.
-    """
-
-    designator: str | types.Designator
-    control: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``FclBuilder`` into ``Fcl``.
-
-        Returns:
-            ``Fcl`` for ``FclBuilder``.
-        """
-
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
-
-        if self.control:
-            control = []
-            for item in self.control:
-                if isinstance(item, types.Real):
-                    control.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    control.append(types.Real(item))
-                elif isinstance(item, str):
-                    control.append(types.Real.from_mcnp(item))
-            control = types.Tuple(control)
-        else:
-            control = None
-
-        return Fcl(
-            designator=designator,
-            control=control,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fcl):
-        """
-        Unbuilds ``Fcl`` into ``FclBuilder``
-
-        Returns:
-            ``FclBuilder`` for ``Fcl``.
-        """
-
-        return FclBuilder(
-            designator=copy.deepcopy(ast.designator),
-            control=copy.deepcopy(ast.control),
-        )
+        self._control: types.Tuple[types.Real] = control

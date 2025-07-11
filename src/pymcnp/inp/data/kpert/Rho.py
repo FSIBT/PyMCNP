@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Rho(_option.KpertOption):
 
     _REGEX = re.compile(rf'\Arho((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, densities: types.Tuple[types.Real]):
+    def __init__(self, densities: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Rho``.
 
@@ -36,63 +32,48 @@ class Rho(_option.KpertOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.densities: types.Tuple[types.Real] = densities
+
+    @property
+    def densities(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``densities``.
+
+        Returns:
+            ``densities``.
+        """
+
+        return self._densities
+
+    @densities.setter
+    def densities(self, densities: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``densities``.
+
+        Parameters:
+            densities: List of densities.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if densities is not None:
+            array = []
+            for item in densities:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            densities = types.Tuple(array)
+
         if densities is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, densities)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                densities,
-            ]
-        )
-
-        self.densities: typing.Final[types.Tuple[types.Real]] = densities
-
-
-@dataclasses.dataclass
-class RhoBuilder(_option.KpertOptionBuilder):
-    """
-    Builds ``Rho``.
-
-    Attributes:
-        densities: List of densities.
-    """
-
-    densities: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``RhoBuilder`` into ``Rho``.
-
-        Returns:
-            ``Rho`` for ``RhoBuilder``.
-        """
-
-        if self.densities:
-            densities = []
-            for item in self.densities:
-                if isinstance(item, types.Real):
-                    densities.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    densities.append(types.Real(item))
-                elif isinstance(item, str):
-                    densities.append(types.Real.from_mcnp(item))
-            densities = types.Tuple(densities)
-        else:
-            densities = None
-
-        return Rho(
-            densities=densities,
-        )
-
-    @staticmethod
-    def unbuild(ast: Rho):
-        """
-        Unbuilds ``Rho`` into ``RhoBuilder``
-
-        Returns:
-            ``RhoBuilder`` for ``Rho``.
-        """
-
-        return RhoBuilder(
-            densities=copy.deepcopy(ast.densities),
-        )
+        self._densities: types.Tuple[types.Real] = densities

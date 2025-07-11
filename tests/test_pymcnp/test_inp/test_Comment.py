@@ -26,10 +26,3 @@ class Test_Comment:
         EXAMPLES_INVALID = [
             'hello',
         ]
-
-
-class Test_CommentBuilder:
-    class Test_Build(classes.Test_Build):
-        element = pymcnp.inp.CommentBuilder
-        EXAMPLES_VALID = [{'text': None}, {'text': consts.string.type.STRING}, {'text': consts.ast.type.STRING}]
-        EXAMPLES_INVALID = []

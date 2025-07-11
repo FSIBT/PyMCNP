@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Xs_0(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Axs( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, m: types.Integer):
+    def __init__(self, m: str | int | types.Integer):
         """
         Initializes ``Xs_0``.
 
@@ -36,58 +32,43 @@ class Xs_0(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.m: types.Integer = m
+
+    @property
+    def m(self) -> types.Integer:
+        """
+        Gets ``m``.
+
+        Returns:
+            ``m``.
+        """
+
+        return self._m
+
+    @m.setter
+    def m(self, m: str | int | types.Integer) -> None:
+        """
+        Sets ``m``.
+
+        Parameters:
+            m: Material number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if m is not None:
+            if isinstance(m, types.Integer):
+                m = m
+            elif isinstance(m, int):
+                m = types.Integer(m)
+            elif isinstance(m, str):
+                m = types.Integer.from_mcnp(m)
+            else:
+                raise TypeError
+
         if m is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, m)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                m,
-            ]
-        )
-
-        self.m: typing.Final[types.Integer] = m
-
-
-@dataclasses.dataclass
-class XsBuilder_0(_option.MplotOptionBuilder):
-    """
-    Builds ``Xs_0``.
-
-    Attributes:
-        m: Material number.
-    """
-
-    m: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``XsBuilder_0`` into ``Xs_0``.
-
-        Returns:
-            ``Xs_0`` for ``XsBuilder_0``.
-        """
-
-        m = self.m
-        if isinstance(self.m, types.Integer):
-            m = self.m
-        elif isinstance(self.m, int):
-            m = types.Integer(self.m)
-        elif isinstance(self.m, str):
-            m = types.Integer.from_mcnp(self.m)
-
-        return Xs_0(
-            m=m,
-        )
-
-    @staticmethod
-    def unbuild(ast: Xs_0):
-        """
-        Unbuilds ``Xs_0`` into ``XsBuilder_0``
-
-        Returns:
-            ``XsBuilder_0`` for ``Xs_0``.
-        """
-
-        return XsBuilder_0(
-            m=copy.deepcopy(ast.m),
-        )
+        self._m: types.Integer = m

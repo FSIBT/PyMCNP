@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Dg(_option.ActOption):
 
     _REGEX = re.compile(rf'\Adg( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, source: types.String):
+    def __init__(self, source: str | types.String):
         """
         Initializes ``Dg``.
 
@@ -36,56 +32,41 @@ class Dg(_option.ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.source: types.String = source
+
+    @property
+    def source(self) -> types.String:
+        """
+        Gets ``source``.
+
+        Returns:
+            ``source``.
+        """
+
+        return self._source
+
+    @source.setter
+    def source(self, source: str | types.String) -> None:
+        """
+        Sets ``source``.
+
+        Parameters:
+            source: Delayed gamma data source.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if source is not None:
+            if isinstance(source, types.String):
+                source = source
+            elif isinstance(source, str):
+                source = types.String.from_mcnp(source)
+            else:
+                raise TypeError
+
         if source is None or source not in {'line', 'mg', 'none'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, source)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                source,
-            ]
-        )
-
-        self.source: typing.Final[types.String] = source
-
-
-@dataclasses.dataclass
-class DgBuilder(_option.ActOptionBuilder):
-    """
-    Builds ``Dg``.
-
-    Attributes:
-        source: Delayed gamma data source.
-    """
-
-    source: str | types.String
-
-    def build(self):
-        """
-        Builds ``DgBuilder`` into ``Dg``.
-
-        Returns:
-            ``Dg`` for ``DgBuilder``.
-        """
-
-        source = self.source
-        if isinstance(self.source, types.String):
-            source = self.source
-        elif isinstance(self.source, str):
-            source = types.String.from_mcnp(self.source)
-
-        return Dg(
-            source=source,
-        )
-
-    @staticmethod
-    def unbuild(ast: Dg):
-        """
-        Unbuilds ``Dg`` into ``DgBuilder``
-
-        Returns:
-            ``DgBuilder`` for ``Dg``.
-        """
-
-        return DgBuilder(
-            source=copy.deepcopy(ast.source),
-        )
+        self._source: types.String = source

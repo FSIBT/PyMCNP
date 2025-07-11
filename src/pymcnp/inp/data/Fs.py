@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -31,7 +27,7 @@ class Fs(_option.DataOption):
 
     _REGEX = re.compile(rf'\Afs(\d+)((?: {types.Integer._REGEX.pattern[2:-2]})+?)( t)?( c)?\Z')
 
-    def __init__(self, suffix: types.Integer, numbers: types.Tuple[types.Integer], t: types.String = None, c: types.String = None):
+    def __init__(self, suffix: str | int | types.Integer, numbers: list[str] | list[int] | list[types.Integer], t: str | types.String = None, c: str | types.String = None):
         """
         Initializes ``Fs``.
 
@@ -45,106 +41,162 @@ class Fs(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.numbers: types.Tuple[types.Integer] = numbers
+        self.t: types.String = t
+        self.c: types.String = c
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def numbers(self) -> types.Tuple[types.Integer]:
+        """
+        Gets ``numbers``.
+
+        Returns:
+            ``numbers``.
+        """
+
+        return self._numbers
+
+    @numbers.setter
+    def numbers(self, numbers: list[str] | list[int] | list[types.Integer]) -> None:
+        """
+        Sets ``numbers``.
+
+        Parameters:
+            numbers: Signed problem number of a segmenting surface..
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if numbers is not None:
+            array = []
+            for item in numbers:
+                if isinstance(item, types.Integer):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Integer(item))
+                elif isinstance(item, str):
+                    array.append(types.Integer.from_mcnp(item))
+                else:
+                    raise TypeError
+            numbers = types.Tuple(array)
+
         if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
+
+        self._numbers: types.Tuple[types.Integer] = numbers
+
+    @property
+    def t(self) -> types.String:
+        """
+        Gets ``t``.
+
+        Returns:
+            ``t``.
+        """
+
+        return self._t
+
+    @t.setter
+    def t(self, t: str | types.String) -> None:
+        """
+        Sets ``t``.
+
+        Parameters:
+            t: Notation to provide totals.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if t is not None:
+            if isinstance(t, types.String):
+                t = t
+            elif isinstance(t, str):
+                t = types.String.from_mcnp(t)
+            else:
+                raise TypeError
+
         if t is not None and t not in {'t'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t)
+
+        self._t: types.String = t
+
+    @property
+    def c(self) -> types.String:
+        """
+        Gets ``c``.
+
+        Returns:
+            ``c``.
+        """
+
+        return self._c
+
+    @c.setter
+    def c(self, c: str | types.String) -> None:
+        """
+        Sets ``c``.
+
+        Parameters:
+            c: Notation to make bin values cumulative.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if c is not None:
+            if isinstance(c, types.String):
+                c = c
+            elif isinstance(c, str):
+                c = types.String.from_mcnp(c)
+            else:
+                raise TypeError
+
         if c is not None and c not in {'c'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, c)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                numbers,
-                t,
-                c,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.numbers: typing.Final[types.Tuple[types.Integer]] = numbers
-        self.t: typing.Final[types.String] = t
-        self.c: typing.Final[types.String] = c
-
-
-@dataclasses.dataclass
-class FsBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Fs``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        numbers: Signed problem number of a segmenting surface..
-        t: Notation to provide totals.
-        c: Notation to make bin values cumulative.
-    """
-
-    suffix: str | int | types.Integer
-    numbers: list[str] | list[int] | list[types.Integer]
-    t: str | types.String = None
-    c: str | types.String = None
-
-    def build(self):
-        """
-        Builds ``FsBuilder`` into ``Fs``.
-
-        Returns:
-            ``Fs`` for ``FsBuilder``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        if self.numbers:
-            numbers = []
-            for item in self.numbers:
-                if isinstance(item, types.Integer):
-                    numbers.append(item)
-                elif isinstance(item, int):
-                    numbers.append(types.Integer(item))
-                elif isinstance(item, str):
-                    numbers.append(types.Integer.from_mcnp(item))
-            numbers = types.Tuple(numbers)
-        else:
-            numbers = None
-
-        t = self.t
-        if isinstance(self.t, types.String):
-            t = self.t
-        elif isinstance(self.t, str):
-            t = types.String.from_mcnp(self.t)
-
-        c = self.c
-        if isinstance(self.c, types.String):
-            c = self.c
-        elif isinstance(self.c, str):
-            c = types.String.from_mcnp(self.c)
-
-        return Fs(
-            suffix=suffix,
-            numbers=numbers,
-            t=t,
-            c=c,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fs):
-        """
-        Unbuilds ``Fs`` into ``FsBuilder``
-
-        Returns:
-            ``FsBuilder`` for ``Fs``.
-        """
-
-        return FsBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            numbers=copy.deepcopy(ast.numbers),
-            t=copy.deepcopy(ast.t),
-            c=copy.deepcopy(ast.c),
-        )
+        self._c: types.String = c

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -27,7 +23,7 @@ class Fixed(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Afixed( {types.String._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, q: types.String, n: types.Integer):
+    def __init__(self, q: str | types.String, n: str | int | types.Integer):
         """
         Initializes ``Fixed``.
 
@@ -39,72 +35,81 @@ class Fixed(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.q: types.String = q
+        self.n: types.Integer = n
+
+    @property
+    def q(self) -> types.String:
+        """
+        Gets ``q``.
+
+        Returns:
+            ``q``.
+        """
+
+        return self._q
+
+    @q.setter
+    def q(self, q: str | types.String) -> None:
+        """
+        Sets ``q``.
+
+        Parameters:
+            q: Fixed variable.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if q is not None:
+            if isinstance(q, types.String):
+                q = q
+            elif isinstance(q, str):
+                q = types.String.from_mcnp(q)
+            else:
+                raise TypeError
+
         if q is None or q not in {'f', 'd', 'u', 's', 'm', 'c', 'e', 't', 'i', 'j', 'k'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, q)
+
+        self._q: types.String = q
+
+    @property
+    def n(self) -> types.Integer:
+        """
+        Gets ``n``.
+
+        Returns:
+            ``n``.
+        """
+
+        return self._n
+
+    @n.setter
+    def n(self, n: str | int | types.Integer) -> None:
+        """
+        Sets ``n``.
+
+        Parameters:
+            n: Bin number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if n is not None:
+            if isinstance(n, types.Integer):
+                n = n
+            elif isinstance(n, int):
+                n = types.Integer(n)
+            elif isinstance(n, str):
+                n = types.Integer.from_mcnp(n)
+            else:
+                raise TypeError
+
         if n is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                q,
-                n,
-            ]
-        )
-
-        self.q: typing.Final[types.String] = q
-        self.n: typing.Final[types.Integer] = n
-
-
-@dataclasses.dataclass
-class FixedBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Fixed``.
-
-    Attributes:
-        q: Fixed variable.
-        n: Bin number.
-    """
-
-    q: str | types.String
-    n: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``FixedBuilder`` into ``Fixed``.
-
-        Returns:
-            ``Fixed`` for ``FixedBuilder``.
-        """
-
-        q = self.q
-        if isinstance(self.q, types.String):
-            q = self.q
-        elif isinstance(self.q, str):
-            q = types.String.from_mcnp(self.q)
-
-        n = self.n
-        if isinstance(self.n, types.Integer):
-            n = self.n
-        elif isinstance(self.n, int):
-            n = types.Integer(self.n)
-        elif isinstance(self.n, str):
-            n = types.Integer.from_mcnp(self.n)
-
-        return Fixed(
-            q=q,
-            n=n,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fixed):
-        """
-        Unbuilds ``Fixed`` into ``FixedBuilder``
-
-        Returns:
-            ``FixedBuilder`` for ``Fixed``.
-        """
-
-        return FixedBuilder(
-            q=copy.deepcopy(ast.q),
-            n=copy.deepcopy(ast.n),
-        )
+        self._n: types.Integer = n

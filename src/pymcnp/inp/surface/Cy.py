@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -26,7 +22,7 @@ class Cy(_option.SurfaceOption):
 
     _REGEX = re.compile(rf'\Acy( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, r: types.Real):
+    def __init__(self, r: str | int | float | types.Real):
         """
         Initializes ``Cy``.
 
@@ -37,16 +33,48 @@ class Cy(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.r: types.Real = r
+
+    @property
+    def r(self) -> types.Real:
+        """
+        Gets ``r``.
+
+        Returns:
+            ``r``.
+        """
+
+        return self._r
+
+    @r.setter
+    def r(self, r: str | int | float | types.Real) -> None:
+        """
+        Sets ``r``.
+
+        Parameters:
+            r: On-y-axis cylinder radius.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if r is not None:
+            if isinstance(r, types.Real):
+                r = r
+            elif isinstance(r, int):
+                r = types.Real(r)
+            elif isinstance(r, float):
+                r = types.Real(r)
+            elif isinstance(r, str):
+                r = types.Real.from_mcnp(r)
+            else:
+                raise TypeError
+
         if r is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                r,
-            ]
-        )
-
-        self.r: typing.Final[types.Real] = r
+        self._r: types.Real = r
 
     def draw(self):
         """
@@ -60,48 +88,3 @@ class Cy(_option.SurfaceOption):
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
 
         return vis
-
-
-@dataclasses.dataclass
-class CyBuilder(_option.SurfaceOptionBuilder):
-    """
-    Builds ``Cy``.
-
-    Attributes:
-        r: On-y-axis cylinder radius.
-    """
-
-    r: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``CyBuilder`` into ``Cy``.
-
-        Returns:
-            ``Cy`` for ``CyBuilder``.
-        """
-
-        r = self.r
-        if isinstance(self.r, types.Real):
-            r = self.r
-        elif isinstance(self.r, float) or isinstance(self.r, int):
-            r = types.Real(self.r)
-        elif isinstance(self.r, str):
-            r = types.Real.from_mcnp(self.r)
-
-        return Cy(
-            r=r,
-        )
-
-    @staticmethod
-    def unbuild(ast: Cy):
-        """
-        Unbuilds ``Cy`` into ``CyBuilder``
-
-        Returns:
-            ``CyBuilder`` for ``Cy``.
-        """
-
-        return CyBuilder(
-            r=copy.deepcopy(ast.r),
-        )

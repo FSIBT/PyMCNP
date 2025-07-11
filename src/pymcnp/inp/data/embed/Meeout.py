@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Meeout(_option.EmbedOption):
 
     _REGEX = re.compile(rf'\Ameeout( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, filename: types.String):
+    def __init__(self, filename: str | types.String):
         """
         Initializes ``Meeout``.
 
@@ -36,56 +32,41 @@ class Meeout(_option.EmbedOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.filename: types.String = filename
+
+    @property
+    def filename(self) -> types.String:
+        """
+        Gets ``filename``.
+
+        Returns:
+            ``filename``.
+        """
+
+        return self._filename
+
+    @filename.setter
+    def filename(self, filename: str | types.String) -> None:
+        """
+        Sets ``filename``.
+
+        Parameters:
+            filename: Name assigned to EEOUT, the elemental edit output file.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if filename is not None:
+            if isinstance(filename, types.String):
+                filename = filename
+            elif isinstance(filename, str):
+                filename = types.String.from_mcnp(filename)
+            else:
+                raise TypeError
+
         if filename is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, filename)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                filename,
-            ]
-        )
-
-        self.filename: typing.Final[types.String] = filename
-
-
-@dataclasses.dataclass
-class MeeoutBuilder(_option.EmbedOptionBuilder):
-    """
-    Builds ``Meeout``.
-
-    Attributes:
-        filename: Name assigned to EEOUT, the elemental edit output file.
-    """
-
-    filename: str | types.String
-
-    def build(self):
-        """
-        Builds ``MeeoutBuilder`` into ``Meeout``.
-
-        Returns:
-            ``Meeout`` for ``MeeoutBuilder``.
-        """
-
-        filename = self.filename
-        if isinstance(self.filename, types.String):
-            filename = self.filename
-        elif isinstance(self.filename, str):
-            filename = types.String.from_mcnp(self.filename)
-
-        return Meeout(
-            filename=filename,
-        )
-
-    @staticmethod
-    def unbuild(ast: Meeout):
-        """
-        Unbuilds ``Meeout`` into ``MeeoutBuilder``
-
-        Returns:
-            ``MeeoutBuilder`` for ``Meeout``.
-        """
-
-        return MeeoutBuilder(
-            filename=copy.deepcopy(ast.filename),
-        )
+        self._filename: types.String = filename

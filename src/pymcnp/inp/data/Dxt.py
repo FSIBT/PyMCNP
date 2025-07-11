@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -55,20 +51,20 @@ class Dxt(_option.DataOption):
 
     def __init__(
         self,
-        designator: types.Designator,
-        spheres_1: types.Shell,
-        spheres_2: types.Shell,
-        spheres_3: types.Shell,
-        spheres_4: types.Shell,
-        spheres_5: types.Shell,
-        spheres_6: types.Shell,
-        spheres_7: types.Shell,
-        spheres_8: types.Shell,
-        spheres_9: types.Shell,
-        spheres_10: types.Shell,
-        cutoff_1: types.Real,
-        cutoff_2: types.Real,
-        weight: types.Real,
+        designator: str | types.Designator,
+        spheres_1: str | types.Shell,
+        spheres_2: str | types.Shell,
+        spheres_3: str | types.Shell,
+        spheres_4: str | types.Shell,
+        spheres_5: str | types.Shell,
+        spheres_6: str | types.Shell,
+        spheres_7: str | types.Shell,
+        spheres_8: str | types.Shell,
+        spheres_9: str | types.Shell,
+        spheres_10: str | types.Shell,
+        cutoff_1: str | int | float | types.Real,
+        cutoff_2: str | int | float | types.Real,
+        weight: str | int | float | types.Real,
     ):
         """
         Initializes ``Dxt``.
@@ -93,243 +89,547 @@ class Dxt(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.designator: types.Designator = designator
+        self.spheres_1: types.Shell = spheres_1
+        self.spheres_2: types.Shell = spheres_2
+        self.spheres_3: types.Shell = spheres_3
+        self.spheres_4: types.Shell = spheres_4
+        self.spheres_5: types.Shell = spheres_5
+        self.spheres_6: types.Shell = spheres_6
+        self.spheres_7: types.Shell = spheres_7
+        self.spheres_8: types.Shell = spheres_8
+        self.spheres_9: types.Shell = spheres_9
+        self.spheres_10: types.Shell = spheres_10
+        self.cutoff_1: types.Real = cutoff_1
+        self.cutoff_2: types.Real = cutoff_2
+        self.weight: types.Real = weight
+
+    @property
+    def designator(self) -> types.Designator:
+        """
+        Gets ``designator``.
+
+        Returns:
+            ``designator``.
+        """
+
+        return self._designator
+
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
+
+        Parameters:
+            designator: Data card particle designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
+
+        self._designator: types.Designator = designator
+
+    @property
+    def spheres_1(self) -> types.Shell:
+        """
+        Gets ``spheres_1``.
+
+        Returns:
+            ``spheres_1``.
+        """
+
+        return self._spheres_1
+
+    @spheres_1.setter
+    def spheres_1(self, spheres_1: str | types.Shell) -> None:
+        """
+        Sets ``spheres_1``.
+
+        Parameters:
+            spheres_1: DXTRAN spheres #1.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if spheres_1 is not None:
+            if isinstance(spheres_1, types.Shell):
+                spheres_1 = spheres_1
+            elif isinstance(spheres_1, str):
+                spheres_1 = types.Shell.from_mcnp(spheres_1)
+            else:
+                raise TypeError
+
         if spheres_1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_1)
+
+        self._spheres_1: types.Shell = spheres_1
+
+    @property
+    def spheres_2(self) -> types.Shell:
+        """
+        Gets ``spheres_2``.
+
+        Returns:
+            ``spheres_2``.
+        """
+
+        return self._spheres_2
+
+    @spheres_2.setter
+    def spheres_2(self, spheres_2: str | types.Shell) -> None:
+        """
+        Sets ``spheres_2``.
+
+        Parameters:
+            spheres_2: DXTRAN spheres #2.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if spheres_2 is not None:
+            if isinstance(spheres_2, types.Shell):
+                spheres_2 = spheres_2
+            elif isinstance(spheres_2, str):
+                spheres_2 = types.Shell.from_mcnp(spheres_2)
+            else:
+                raise TypeError
+
         if spheres_2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_2)
+
+        self._spheres_2: types.Shell = spheres_2
+
+    @property
+    def spheres_3(self) -> types.Shell:
+        """
+        Gets ``spheres_3``.
+
+        Returns:
+            ``spheres_3``.
+        """
+
+        return self._spheres_3
+
+    @spheres_3.setter
+    def spheres_3(self, spheres_3: str | types.Shell) -> None:
+        """
+        Sets ``spheres_3``.
+
+        Parameters:
+            spheres_3: DXTRAN spheres #3.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if spheres_3 is not None:
+            if isinstance(spheres_3, types.Shell):
+                spheres_3 = spheres_3
+            elif isinstance(spheres_3, str):
+                spheres_3 = types.Shell.from_mcnp(spheres_3)
+            else:
+                raise TypeError
+
         if spheres_3 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_3)
+
+        self._spheres_3: types.Shell = spheres_3
+
+    @property
+    def spheres_4(self) -> types.Shell:
+        """
+        Gets ``spheres_4``.
+
+        Returns:
+            ``spheres_4``.
+        """
+
+        return self._spheres_4
+
+    @spheres_4.setter
+    def spheres_4(self, spheres_4: str | types.Shell) -> None:
+        """
+        Sets ``spheres_4``.
+
+        Parameters:
+            spheres_4: DXTRAN spheres #4.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if spheres_4 is not None:
+            if isinstance(spheres_4, types.Shell):
+                spheres_4 = spheres_4
+            elif isinstance(spheres_4, str):
+                spheres_4 = types.Shell.from_mcnp(spheres_4)
+            else:
+                raise TypeError
+
         if spheres_4 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_4)
+
+        self._spheres_4: types.Shell = spheres_4
+
+    @property
+    def spheres_5(self) -> types.Shell:
+        """
+        Gets ``spheres_5``.
+
+        Returns:
+            ``spheres_5``.
+        """
+
+        return self._spheres_5
+
+    @spheres_5.setter
+    def spheres_5(self, spheres_5: str | types.Shell) -> None:
+        """
+        Sets ``spheres_5``.
+
+        Parameters:
+            spheres_5: DXTRAN spheres #5.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if spheres_5 is not None:
+            if isinstance(spheres_5, types.Shell):
+                spheres_5 = spheres_5
+            elif isinstance(spheres_5, str):
+                spheres_5 = types.Shell.from_mcnp(spheres_5)
+            else:
+                raise TypeError
+
         if spheres_5 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_5)
+
+        self._spheres_5: types.Shell = spheres_5
+
+    @property
+    def spheres_6(self) -> types.Shell:
+        """
+        Gets ``spheres_6``.
+
+        Returns:
+            ``spheres_6``.
+        """
+
+        return self._spheres_6
+
+    @spheres_6.setter
+    def spheres_6(self, spheres_6: str | types.Shell) -> None:
+        """
+        Sets ``spheres_6``.
+
+        Parameters:
+            spheres_6: DXTRAN spheres #6.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if spheres_6 is not None:
+            if isinstance(spheres_6, types.Shell):
+                spheres_6 = spheres_6
+            elif isinstance(spheres_6, str):
+                spheres_6 = types.Shell.from_mcnp(spheres_6)
+            else:
+                raise TypeError
+
         if spheres_6 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_6)
+
+        self._spheres_6: types.Shell = spheres_6
+
+    @property
+    def spheres_7(self) -> types.Shell:
+        """
+        Gets ``spheres_7``.
+
+        Returns:
+            ``spheres_7``.
+        """
+
+        return self._spheres_7
+
+    @spheres_7.setter
+    def spheres_7(self, spheres_7: str | types.Shell) -> None:
+        """
+        Sets ``spheres_7``.
+
+        Parameters:
+            spheres_7: DXTRAN spheres #7.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if spheres_7 is not None:
+            if isinstance(spheres_7, types.Shell):
+                spheres_7 = spheres_7
+            elif isinstance(spheres_7, str):
+                spheres_7 = types.Shell.from_mcnp(spheres_7)
+            else:
+                raise TypeError
+
         if spheres_7 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_7)
+
+        self._spheres_7: types.Shell = spheres_7
+
+    @property
+    def spheres_8(self) -> types.Shell:
+        """
+        Gets ``spheres_8``.
+
+        Returns:
+            ``spheres_8``.
+        """
+
+        return self._spheres_8
+
+    @spheres_8.setter
+    def spheres_8(self, spheres_8: str | types.Shell) -> None:
+        """
+        Sets ``spheres_8``.
+
+        Parameters:
+            spheres_8: DXTRAN spheres #8.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if spheres_8 is not None:
+            if isinstance(spheres_8, types.Shell):
+                spheres_8 = spheres_8
+            elif isinstance(spheres_8, str):
+                spheres_8 = types.Shell.from_mcnp(spheres_8)
+            else:
+                raise TypeError
+
         if spheres_8 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_8)
+
+        self._spheres_8: types.Shell = spheres_8
+
+    @property
+    def spheres_9(self) -> types.Shell:
+        """
+        Gets ``spheres_9``.
+
+        Returns:
+            ``spheres_9``.
+        """
+
+        return self._spheres_9
+
+    @spheres_9.setter
+    def spheres_9(self, spheres_9: str | types.Shell) -> None:
+        """
+        Sets ``spheres_9``.
+
+        Parameters:
+            spheres_9: DXTRAN spheres #9.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if spheres_9 is not None:
+            if isinstance(spheres_9, types.Shell):
+                spheres_9 = spheres_9
+            elif isinstance(spheres_9, str):
+                spheres_9 = types.Shell.from_mcnp(spheres_9)
+            else:
+                raise TypeError
+
         if spheres_9 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_9)
+
+        self._spheres_9: types.Shell = spheres_9
+
+    @property
+    def spheres_10(self) -> types.Shell:
+        """
+        Gets ``spheres_10``.
+
+        Returns:
+            ``spheres_10``.
+        """
+
+        return self._spheres_10
+
+    @spheres_10.setter
+    def spheres_10(self, spheres_10: str | types.Shell) -> None:
+        """
+        Sets ``spheres_10``.
+
+        Parameters:
+            spheres_10: DXTRAN spheres #10.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if spheres_10 is not None:
+            if isinstance(spheres_10, types.Shell):
+                spheres_10 = spheres_10
+            elif isinstance(spheres_10, str):
+                spheres_10 = types.Shell.from_mcnp(spheres_10)
+            else:
+                raise TypeError
+
         if spheres_10 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, spheres_10)
+
+        self._spheres_10: types.Shell = spheres_10
+
+    @property
+    def cutoff_1(self) -> types.Real:
+        """
+        Gets ``cutoff_1``.
+
+        Returns:
+            ``cutoff_1``.
+        """
+
+        return self._cutoff_1
+
+    @cutoff_1.setter
+    def cutoff_1(self, cutoff_1: str | int | float | types.Real) -> None:
+        """
+        Sets ``cutoff_1``.
+
+        Parameters:
+            cutoff_1: Upper weight cutoff in the spheres.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if cutoff_1 is not None:
+            if isinstance(cutoff_1, types.Real):
+                cutoff_1 = cutoff_1
+            elif isinstance(cutoff_1, int):
+                cutoff_1 = types.Real(cutoff_1)
+            elif isinstance(cutoff_1, float):
+                cutoff_1 = types.Real(cutoff_1)
+            elif isinstance(cutoff_1, str):
+                cutoff_1 = types.Real.from_mcnp(cutoff_1)
+            else:
+                raise TypeError
+
         if cutoff_1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoff_1)
+
+        self._cutoff_1: types.Real = cutoff_1
+
+    @property
+    def cutoff_2(self) -> types.Real:
+        """
+        Gets ``cutoff_2``.
+
+        Returns:
+            ``cutoff_2``.
+        """
+
+        return self._cutoff_2
+
+    @cutoff_2.setter
+    def cutoff_2(self, cutoff_2: str | int | float | types.Real) -> None:
+        """
+        Sets ``cutoff_2``.
+
+        Parameters:
+            cutoff_2: Lower weight cutoff in the spheres.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if cutoff_2 is not None:
+            if isinstance(cutoff_2, types.Real):
+                cutoff_2 = cutoff_2
+            elif isinstance(cutoff_2, int):
+                cutoff_2 = types.Real(cutoff_2)
+            elif isinstance(cutoff_2, float):
+                cutoff_2 = types.Real(cutoff_2)
+            elif isinstance(cutoff_2, str):
+                cutoff_2 = types.Real.from_mcnp(cutoff_2)
+            else:
+                raise TypeError
+
         if cutoff_2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cutoff_2)
+
+        self._cutoff_2: types.Real = cutoff_2
+
+    @property
+    def weight(self) -> types.Real:
+        """
+        Gets ``weight``.
+
+        Returns:
+            ``weight``.
+        """
+
+        return self._weight
+
+    @weight.setter
+    def weight(self, weight: str | int | float | types.Real) -> None:
+        """
+        Sets ``weight``.
+
+        Parameters:
+            weight: Minimum photon weight.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if weight is not None:
+            if isinstance(weight, types.Real):
+                weight = weight
+            elif isinstance(weight, int):
+                weight = types.Real(weight)
+            elif isinstance(weight, float):
+                weight = types.Real(weight)
+            elif isinstance(weight, str):
+                weight = types.Real.from_mcnp(weight)
+            else:
+                raise TypeError
+
         if weight is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                spheres_1,
-                spheres_2,
-                spheres_3,
-                spheres_4,
-                spheres_5,
-                spheres_6,
-                spheres_7,
-                spheres_8,
-                spheres_9,
-                spheres_10,
-                cutoff_1,
-                cutoff_2,
-                weight,
-            ]
-        )
-
-        self.designator: typing.Final[types.Designator] = designator
-        self.spheres_1: typing.Final[types.Shell] = spheres_1
-        self.spheres_2: typing.Final[types.Shell] = spheres_2
-        self.spheres_3: typing.Final[types.Shell] = spheres_3
-        self.spheres_4: typing.Final[types.Shell] = spheres_4
-        self.spheres_5: typing.Final[types.Shell] = spheres_5
-        self.spheres_6: typing.Final[types.Shell] = spheres_6
-        self.spheres_7: typing.Final[types.Shell] = spheres_7
-        self.spheres_8: typing.Final[types.Shell] = spheres_8
-        self.spheres_9: typing.Final[types.Shell] = spheres_9
-        self.spheres_10: typing.Final[types.Shell] = spheres_10
-        self.cutoff_1: typing.Final[types.Real] = cutoff_1
-        self.cutoff_2: typing.Final[types.Real] = cutoff_2
-        self.weight: typing.Final[types.Real] = weight
-
-
-@dataclasses.dataclass
-class DxtBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Dxt``.
-
-    Attributes:
-        designator: Data card particle designator.
-        spheres_1: DXTRAN spheres #1.
-        spheres_2: DXTRAN spheres #2.
-        spheres_3: DXTRAN spheres #3.
-        spheres_4: DXTRAN spheres #4.
-        spheres_5: DXTRAN spheres #5.
-        spheres_6: DXTRAN spheres #6.
-        spheres_7: DXTRAN spheres #7.
-        spheres_8: DXTRAN spheres #8.
-        spheres_9: DXTRAN spheres #9.
-        spheres_10: DXTRAN spheres #10.
-        cutoff_1: Upper weight cutoff in the spheres.
-        cutoff_2: Lower weight cutoff in the spheres.
-        weight: Minimum photon weight.
-    """
-
-    designator: str | types.Designator
-    spheres_1: str | types.Shell
-    spheres_2: str | types.Shell
-    spheres_3: str | types.Shell
-    spheres_4: str | types.Shell
-    spheres_5: str | types.Shell
-    spheres_6: str | types.Shell
-    spheres_7: str | types.Shell
-    spheres_8: str | types.Shell
-    spheres_9: str | types.Shell
-    spheres_10: str | types.Shell
-    cutoff_1: str | float | types.Real
-    cutoff_2: str | float | types.Real
-    weight: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``DxtBuilder`` into ``Dxt``.
-
-        Returns:
-            ``Dxt`` for ``DxtBuilder``.
-        """
-
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
-
-        spheres_1 = self.spheres_1
-        if isinstance(self.spheres_1, types.Shell):
-            spheres_1 = self.spheres_1
-        elif isinstance(self.spheres_1, str):
-            spheres_1 = types.Shell.from_mcnp(self.spheres_1)
-
-        spheres_2 = self.spheres_2
-        if isinstance(self.spheres_2, types.Shell):
-            spheres_2 = self.spheres_2
-        elif isinstance(self.spheres_2, str):
-            spheres_2 = types.Shell.from_mcnp(self.spheres_2)
-
-        spheres_3 = self.spheres_3
-        if isinstance(self.spheres_3, types.Shell):
-            spheres_3 = self.spheres_3
-        elif isinstance(self.spheres_3, str):
-            spheres_3 = types.Shell.from_mcnp(self.spheres_3)
-
-        spheres_4 = self.spheres_4
-        if isinstance(self.spheres_4, types.Shell):
-            spheres_4 = self.spheres_4
-        elif isinstance(self.spheres_4, str):
-            spheres_4 = types.Shell.from_mcnp(self.spheres_4)
-
-        spheres_5 = self.spheres_5
-        if isinstance(self.spheres_5, types.Shell):
-            spheres_5 = self.spheres_5
-        elif isinstance(self.spheres_5, str):
-            spheres_5 = types.Shell.from_mcnp(self.spheres_5)
-
-        spheres_6 = self.spheres_6
-        if isinstance(self.spheres_6, types.Shell):
-            spheres_6 = self.spheres_6
-        elif isinstance(self.spheres_6, str):
-            spheres_6 = types.Shell.from_mcnp(self.spheres_6)
-
-        spheres_7 = self.spheres_7
-        if isinstance(self.spheres_7, types.Shell):
-            spheres_7 = self.spheres_7
-        elif isinstance(self.spheres_7, str):
-            spheres_7 = types.Shell.from_mcnp(self.spheres_7)
-
-        spheres_8 = self.spheres_8
-        if isinstance(self.spheres_8, types.Shell):
-            spheres_8 = self.spheres_8
-        elif isinstance(self.spheres_8, str):
-            spheres_8 = types.Shell.from_mcnp(self.spheres_8)
-
-        spheres_9 = self.spheres_9
-        if isinstance(self.spheres_9, types.Shell):
-            spheres_9 = self.spheres_9
-        elif isinstance(self.spheres_9, str):
-            spheres_9 = types.Shell.from_mcnp(self.spheres_9)
-
-        spheres_10 = self.spheres_10
-        if isinstance(self.spheres_10, types.Shell):
-            spheres_10 = self.spheres_10
-        elif isinstance(self.spheres_10, str):
-            spheres_10 = types.Shell.from_mcnp(self.spheres_10)
-
-        cutoff_1 = self.cutoff_1
-        if isinstance(self.cutoff_1, types.Real):
-            cutoff_1 = self.cutoff_1
-        elif isinstance(self.cutoff_1, float) or isinstance(self.cutoff_1, int):
-            cutoff_1 = types.Real(self.cutoff_1)
-        elif isinstance(self.cutoff_1, str):
-            cutoff_1 = types.Real.from_mcnp(self.cutoff_1)
-
-        cutoff_2 = self.cutoff_2
-        if isinstance(self.cutoff_2, types.Real):
-            cutoff_2 = self.cutoff_2
-        elif isinstance(self.cutoff_2, float) or isinstance(self.cutoff_2, int):
-            cutoff_2 = types.Real(self.cutoff_2)
-        elif isinstance(self.cutoff_2, str):
-            cutoff_2 = types.Real.from_mcnp(self.cutoff_2)
-
-        weight = self.weight
-        if isinstance(self.weight, types.Real):
-            weight = self.weight
-        elif isinstance(self.weight, float) or isinstance(self.weight, int):
-            weight = types.Real(self.weight)
-        elif isinstance(self.weight, str):
-            weight = types.Real.from_mcnp(self.weight)
-
-        return Dxt(
-            designator=designator,
-            spheres_1=spheres_1,
-            spheres_2=spheres_2,
-            spheres_3=spheres_3,
-            spheres_4=spheres_4,
-            spheres_5=spheres_5,
-            spheres_6=spheres_6,
-            spheres_7=spheres_7,
-            spheres_8=spheres_8,
-            spheres_9=spheres_9,
-            spheres_10=spheres_10,
-            cutoff_1=cutoff_1,
-            cutoff_2=cutoff_2,
-            weight=weight,
-        )
-
-    @staticmethod
-    def unbuild(ast: Dxt):
-        """
-        Unbuilds ``Dxt`` into ``DxtBuilder``
-
-        Returns:
-            ``DxtBuilder`` for ``Dxt``.
-        """
-
-        return DxtBuilder(
-            designator=copy.deepcopy(ast.designator),
-            spheres_1=copy.deepcopy(ast.spheres_1),
-            spheres_2=copy.deepcopy(ast.spheres_2),
-            spheres_3=copy.deepcopy(ast.spheres_3),
-            spheres_4=copy.deepcopy(ast.spheres_4),
-            spheres_5=copy.deepcopy(ast.spheres_5),
-            spheres_6=copy.deepcopy(ast.spheres_6),
-            spheres_7=copy.deepcopy(ast.spheres_7),
-            spheres_8=copy.deepcopy(ast.spheres_8),
-            spheres_9=copy.deepcopy(ast.spheres_9),
-            spheres_10=copy.deepcopy(ast.spheres_10),
-            cutoff_1=copy.deepcopy(ast.cutoff_1),
-            cutoff_2=copy.deepcopy(ast.cutoff_2),
-            weight=copy.deepcopy(ast.weight),
-        )
+        self._weight: types.Real = weight
