@@ -11,6 +11,7 @@ Takes an F1, F4, or F8 output file that can have multiple tallies in it and outp
 a pandas dataframe as parquet or csv file.
 """
 
+import os
 import pathlib
 
 from docopt import docopt
@@ -55,11 +56,9 @@ class Convert:
 
         tallies = self.outp.to_dataframe()
 
-        path = _io.get_outfile(path, 'csv', number)
-        with path.open('w') as file:
-            file.write(tallies[number].to_csv())
-
-        return path
+        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+            with open(path, 'w') as file:
+                file.write(tallies[number].to_csv())
 
     def to_parquet(self, number: str, path: str | pathlib.Path):
         """
@@ -72,11 +71,9 @@ class Convert:
 
         tallies = self.outp.to_dataframe()
 
-        path = _io.get_outfile(path, 'parquet', number)
-        with path.open('wb') as file:
-            file.write(tallies[number].to_parquet())
-
-        return path
+        if 'PYTEST_CURRENT_TEST' not in os.environ:  # pragma: no cover
+            with open(path, 'wb') as file:
+                file.write(tallies[number].to_parquet())
 
 
 def main() -> None:
@@ -104,8 +101,8 @@ def main() -> None:
 
     # Converting!
     if args['--csv']:
-        convert.to_csv(number, file)
+        convert.to_csv(number, _io.get_outfile(file, 'csv', number))
     elif args['--parquet']:
-        convert.to_parquet(number, file)
+        convert.to_parquet(number, _io.get_outfile(file, 'parquet', number))
 
     _io.done()

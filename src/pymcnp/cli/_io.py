@@ -9,10 +9,7 @@ def get_outfile(path: str | pathlib.Path, ext: str, i: int = None) -> str:
     path = str(path)
     path, _ = path.rsplit('.', maxsplit=1)
 
-    if i is not None:
-        return pathlib.Path(path + f'-{i}.' + ext)
-    else:
-        return pathlib.Path(path + '.' + ext)
+    return pathlib.Path(path + f'{f"-{i}" if i else ""}.' + ext)
 
 
 def get_timestamp() -> str:

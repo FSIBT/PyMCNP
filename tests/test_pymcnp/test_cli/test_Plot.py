@@ -16,7 +16,6 @@ class Test_Plot:
 
     class Test_Methods:
         element = pymcnp.cli.Plot
-        PATH = pathlib.Path('hello.pdf')
         EXAMPLES = [{'outp': consts.ast.OUTP, 'number': '1'}]
 
         def test_to_show(self):
@@ -25,9 +24,11 @@ class Test_Plot:
                 element.to_show(example['number'])
 
         def test_to_pdf(self):
+            path = pathlib.Path('hello.pdf')
+
             for example in self.EXAMPLES:
                 element = self.element(example['outp'])
-                element.to_pdf(example['number'], self.PATH).unlink()
+                element.to_pdf(example['number'], path)
 
 
 class Test_Main:
@@ -35,7 +36,6 @@ class Test_Main:
         def test_valid(self):
             subprocess.run(['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'valid_A.o'), '1'])
             subprocess.run(['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'valid_A.o'), '1', '--pdf'])
-            subprocess.run(['rm', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'valid_A.pdf')])
 
         def test_invalid(self):
             subprocess.run(['pymcnp', 'plot', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'outp' / 'invalid_A.o'), '1'])

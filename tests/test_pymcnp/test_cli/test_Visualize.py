@@ -18,15 +18,29 @@ class Test_Visualize:
         element = pymcnp.cli.Visualize
         EXAMPLES = [{'inp': consts.ast.INP}]
 
-        def test_draw_surfaces(self):
+        def test_to_show_surfaces(self):
             for example in self.EXAMPLES:
                 element = self.element(**example)
-                element.draw_surfaces()
+                element.to_show_surfaces()
 
-        def test_draw_cells(self):
+        def test_to_show_cells(self):
             for example in self.EXAMPLES:
                 element = self.element(**example)
-                element.draw_cells()
+                element.to_show_cells()
+
+        def test_to_pdf_surfaces(self):
+            path = pathlib.Path('hello.pdf')
+
+            for example in self.EXAMPLES:
+                element = self.element(**example)
+                element.to_pdf_surfaces(path)
+
+        def test_to_pdf_cells(self):
+            path = pathlib.Path('hello.pdf')
+
+            for example in self.EXAMPLES:
+                element = self.element(**example)
+                element.to_pdf_cells(path)
 
 
 class Test_Main:
@@ -36,8 +50,6 @@ class Test_Main:
             subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A.i'), '--surfaces'])
             subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A.i'), '--cells', '--pdf'])
             subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A.i'), '--surfaces', '--pdf'])
-            subprocess.run(['rm', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A-cells.pdf')])
-            subprocess.run(['rm', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'valid_A-surfaces.pdf')])
 
         def test_invalid(self):
             subprocess.run(['pymcnp', 'visualize', str(pathlib.Path(__file__).parent.parent.parent / 'files' / 'inp' / 'invalid_A.i')])
