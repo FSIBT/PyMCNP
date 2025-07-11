@@ -3,8 +3,9 @@ Usage:
     pymcnp visualize <inp> [ options ]
 
 Options:
-    -c --cells           Visualize cells.
-    -s --surfaces        Visualize surfaces.
+    -c --cells          Visualize cells.
+    -s --surfaces       Visualize surfaces.
+    --pdf               Write PDF.
 """
 
 import os
@@ -63,6 +64,40 @@ class Visualize:
         if 'PYTEST_CURRENT_TEST' not in os.environ:
             plot.show()  # pragma: no cover
 
+    def to_pdf_cells(self, path: str | pathlib.Path):
+        """
+        Saves render of cells as PDF.
+
+        Parameters:
+            path: Path to new pdf file.
+        """
+
+        # vis = self.inp.draw()
+        # plot = pyvista.Plotter()
+        # plot.add_mesh(vis.data)
+
+        path = _io.get_outfile(path, 'pdf', 'cells')
+        # plot.save_graphic(str(path))
+
+        return path
+
+    def to_pdf_surfaces(self, path: str | pathlib.Path):
+        """
+        Saves render of surfaces as PDF.
+
+        Parameters:
+            path: Path to new pdf file.
+        """
+
+        vis = self.inp.draw()
+        plot = pyvista.Plotter()
+        plot.add_mesh(vis.data)
+
+        path = _io.get_outfile(path, 'pdf', 'surfaces')
+        plot.save_graphic(str(path))
+
+        return path
+
 
 def main() -> None:
     """
@@ -88,8 +123,14 @@ def main() -> None:
 
     # Visualizing!
     if args['--cells']:
-        visualize.draw_cells()
+        if args['--pdf']:
+            visualize.to_pdf_cells(file)
+        else:
+            visualize.draw_cells()
     else:
-        visualize.draw_surfaces()
+        if args['--pdf']:
+            visualize.to_pdf_surfaces(file)
+        else:
+            visualize.draw_surfaces()
 
     _io.done()
