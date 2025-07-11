@@ -1,7 +1,7 @@
-from . import run
-from . import check
-from . import convert
-from . import plot
-from . import visualize
+from .run import Run
+from .check import Check
+from .convert import Convert
+from .plot import Plot
+from .visualize import Visualize
 
-__all__ = ['run', 'check', 'convert', 'plot', 'visualize']
+__all__ = ['Run', 'Check', 'Convert', 'Plot', 'Visualize']

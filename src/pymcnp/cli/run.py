@@ -21,14 +21,14 @@ from ..utils import errors
 
 class Run:
     """
-    Runs MCNP files.
+    Runs INP files.
 
     Attributes:
         inps: Files to run.
         command: Command to run.
     """
 
-    def __init__(self, *inps: Inp, command='mcnp6'):
+    def __init__(self, inps: Inp, command='mcnp6'):
         """
         Initializes ``Run``.
 
@@ -120,6 +120,8 @@ class Run:
 
         self.posthook_batch(directory)
 
+        return directory
+
 
 def main() -> None:
     """
@@ -133,9 +135,9 @@ def main() -> None:
     path = args['--path'] if args['--path'] else os.getcwd()
     command = args['--command'] if args['--command'] else 'mcnp6'
 
-    # Reading INP file(s).
+    # Reading INP.
     try:
-        inps = map(Inp.from_file, map(pathlib.Path, args['<inp>']))
+        inps = list(map(Inp.from_file, map(pathlib.Path, args['<inp>'])))
     except errors.InpError as err:
         _io.error(str(err))
         exit(1)
@@ -145,7 +147,7 @@ def main() -> None:
 
     # Running!
     try:
-        Run(*inps, command=command).run(pathlib.Path(path))
+        Run(inps, command=command).run(pathlib.Path(path))
     except errors.CliError as err:
         _io.error(err.__str__())
 

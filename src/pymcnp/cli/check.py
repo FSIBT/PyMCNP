@@ -18,7 +18,7 @@ from ..utils import errors
 
 class Check:
     """
-    Checks MCNP files.
+    Checks OUTP files.
 
     Attribute:
         path: File to check.
@@ -45,11 +45,14 @@ class Check:
         Checks a file.
         """
 
-        with self.path.open('r') as file:
-            current = file.read()
-            correct = Inp.from_mcnp(current).to_mcnp()
+        try:
+            with self.path.open('r') as file:
+                current = file.read()
+                correct = Inp.from_mcnp(current).to_mcnp()
 
-            return difflib.unified_diff(current.split('\n'), correct.split('\n'))
+                return difflib.unified_diff(current.split('\n'), correct.split('\n'))
+        except FileNotFoundError:
+            raise errors.CliError(errors.CliCode.SEMANTICS_PATH, self.path)
 
     def fix(self):
         """
@@ -70,7 +73,7 @@ def main() -> None:
     args = docopt(__doc__)
     file = pathlib.Path(args['<inp>'])
 
-    # Reading INP file.
+    # Reading INP.
     try:
         check = Check(file)
         check.check()
