@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import dawwg
 from . import _option
@@ -25,7 +21,7 @@ class Dawwg(_option.DataOption):
 
     _REGEX = re.compile(rf'\Adawwg((?: (?:{dawwg.DawwgOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[dawwg.DawwgOption] = None):
+    def __init__(self, options: list[str] | list[dawwg.DawwgOption] = None):
         """
         Initializes ``Dawwg``.
 
@@ -36,60 +32,41 @@ class Dawwg(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                options,
-            ]
-        )
+        self.options: types.Tuple[dawwg.DawwgOption] = options
 
-        self.options: typing.Final[types.Tuple[dawwg.DawwgOption]] = options
-
-
-@dataclasses.dataclass
-class DawwgBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Dawwg``.
-
-    Attributes:
-        options: Dictionary of options.
-    """
-
-    options: list[str] | list[dawwg.DawwgOption] = None
-
-    def build(self):
+    @property
+    def options(self) -> types.Tuple[dawwg.DawwgOption]:
         """
-        Builds ``DawwgBuilder`` into ``Dawwg``.
+        Gets ``options``.
 
         Returns:
-            ``Dawwg`` for ``DawwgBuilder``.
+            ``options``.
         """
 
-        if self.options:
-            options = []
-            for item in self.options:
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[dawwg.DawwgOption]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, dawwg.DawwgOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(dawwg.DawwgOption.from_mcnp(item))
-                elif isinstance(item, dawwg.DawwgOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(dawwg.DawwgOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Dawwg(
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Dawwg):
-        """
-        Unbuilds ``Dawwg`` into ``DawwgBuilder``
-
-        Returns:
-            ``DawwgBuilder`` for ``Dawwg``.
-        """
-
-        return DawwgBuilder(
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[dawwg.DawwgOption] = options

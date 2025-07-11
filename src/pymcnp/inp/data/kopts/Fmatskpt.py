@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Fmatskpt(_option.KoptsOption):
 
     _REGEX = re.compile(rf'\Afmatskpt( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, fmat_skip: types.Real):
+    def __init__(self, fmat_skip: str | int | float | types.Real):
         """
         Initializes ``Fmatskpt``.
 
@@ -36,58 +32,45 @@ class Fmatskpt(_option.KoptsOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.fmat_skip: types.Real = fmat_skip
+
+    @property
+    def fmat_skip(self) -> types.Real:
+        """
+        Gets ``fmat_skip``.
+
+        Returns:
+            ``fmat_skip``.
+        """
+
+        return self._fmat_skip
+
+    @fmat_skip.setter
+    def fmat_skip(self, fmat_skip: str | int | float | types.Real) -> None:
+        """
+        Sets ``fmat_skip``.
+
+        Parameters:
+            fmat_skip: fmat_skip.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if fmat_skip is not None:
+            if isinstance(fmat_skip, types.Real):
+                fmat_skip = fmat_skip
+            elif isinstance(fmat_skip, int):
+                fmat_skip = types.Real(fmat_skip)
+            elif isinstance(fmat_skip, float):
+                fmat_skip = types.Real(fmat_skip)
+            elif isinstance(fmat_skip, str):
+                fmat_skip = types.Real.from_mcnp(fmat_skip)
+            else:
+                raise TypeError
+
         if fmat_skip is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_skip)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                fmat_skip,
-            ]
-        )
-
-        self.fmat_skip: typing.Final[types.Real] = fmat_skip
-
-
-@dataclasses.dataclass
-class FmatskptBuilder(_option.KoptsOptionBuilder):
-    """
-    Builds ``Fmatskpt``.
-
-    Attributes:
-        fmat_skip: fmat_skip.
-    """
-
-    fmat_skip: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``FmatskptBuilder`` into ``Fmatskpt``.
-
-        Returns:
-            ``Fmatskpt`` for ``FmatskptBuilder``.
-        """
-
-        fmat_skip = self.fmat_skip
-        if isinstance(self.fmat_skip, types.Real):
-            fmat_skip = self.fmat_skip
-        elif isinstance(self.fmat_skip, float) or isinstance(self.fmat_skip, int):
-            fmat_skip = types.Real(self.fmat_skip)
-        elif isinstance(self.fmat_skip, str):
-            fmat_skip = types.Real.from_mcnp(self.fmat_skip)
-
-        return Fmatskpt(
-            fmat_skip=fmat_skip,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fmatskpt):
-        """
-        Unbuilds ``Fmatskpt`` into ``FmatskptBuilder``
-
-        Returns:
-            ``FmatskptBuilder`` for ``Fmatskpt``.
-        """
-
-        return FmatskptBuilder(
-            fmat_skip=copy.deepcopy(ast.fmat_skip),
-        )
+        self._fmat_skip: types.Real = fmat_skip

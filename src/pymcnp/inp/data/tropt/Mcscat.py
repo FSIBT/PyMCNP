@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Mcscat(_option.TroptOption):
 
     _REGEX = re.compile(rf'\Amcscat( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, setting: types.String):
+    def __init__(self, setting: str | types.String):
         """
         Initializes ``Mcscat``.
 
@@ -36,56 +32,41 @@ class Mcscat(_option.TroptOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.setting: types.String = setting
+
+    @property
+    def setting(self) -> types.String:
+        """
+        Gets ``setting``.
+
+        Returns:
+            ``setting``.
+        """
+
+        return self._setting
+
+    @setting.setter
+    def setting(self, setting: str | types.String) -> None:
+        """
+        Sets ``setting``.
+
+        Parameters:
+            setting: Multiple coulomb scattering setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if setting is not None:
+            if isinstance(setting, types.String):
+                setting = setting
+            elif isinstance(setting, str):
+                setting = types.String.from_mcnp(setting)
+            else:
+                raise TypeError
+
         if setting is None or setting not in {'off', 'fnal1', 'gaussian', 'fnal2'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                setting,
-            ]
-        )
-
-        self.setting: typing.Final[types.String] = setting
-
-
-@dataclasses.dataclass
-class McscatBuilder(_option.TroptOptionBuilder):
-    """
-    Builds ``Mcscat``.
-
-    Attributes:
-        setting: Multiple coulomb scattering setting.
-    """
-
-    setting: str | types.String
-
-    def build(self):
-        """
-        Builds ``McscatBuilder`` into ``Mcscat``.
-
-        Returns:
-            ``Mcscat`` for ``McscatBuilder``.
-        """
-
-        setting = self.setting
-        if isinstance(self.setting, types.String):
-            setting = self.setting
-        elif isinstance(self.setting, str):
-            setting = types.String.from_mcnp(self.setting)
-
-        return Mcscat(
-            setting=setting,
-        )
-
-    @staticmethod
-    def unbuild(ast: Mcscat):
-        """
-        Unbuilds ``Mcscat`` into ``McscatBuilder``
-
-        Returns:
-            ``McscatBuilder`` for ``Mcscat``.
-        """
-
-        return McscatBuilder(
-            setting=copy.deepcopy(ast.setting),
-        )
+        self._setting: types.String = setting

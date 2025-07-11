@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Factor(_option.FmeshOption):
 
     _REGEX = re.compile(rf'\Afactor( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, multiple: types.Real):
+    def __init__(self, multiple: str | int | float | types.Real):
         """
         Initializes ``Factor``.
 
@@ -36,58 +32,45 @@ class Factor(_option.FmeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.multiple: types.Real = multiple
+
+    @property
+    def multiple(self) -> types.Real:
+        """
+        Gets ``multiple``.
+
+        Returns:
+            ``multiple``.
+        """
+
+        return self._multiple
+
+    @multiple.setter
+    def multiple(self, multiple: str | int | float | types.Real) -> None:
+        """
+        Sets ``multiple``.
+
+        Parameters:
+            multiple: Multiplicative factor for each mesh.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if multiple is not None:
+            if isinstance(multiple, types.Real):
+                multiple = multiple
+            elif isinstance(multiple, int):
+                multiple = types.Real(multiple)
+            elif isinstance(multiple, float):
+                multiple = types.Real(multiple)
+            elif isinstance(multiple, str):
+                multiple = types.Real.from_mcnp(multiple)
+            else:
+                raise TypeError
+
         if multiple is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, multiple)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                multiple,
-            ]
-        )
-
-        self.multiple: typing.Final[types.Real] = multiple
-
-
-@dataclasses.dataclass
-class FactorBuilder(_option.FmeshOptionBuilder):
-    """
-    Builds ``Factor``.
-
-    Attributes:
-        multiple: Multiplicative factor for each mesh.
-    """
-
-    multiple: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``FactorBuilder`` into ``Factor``.
-
-        Returns:
-            ``Factor`` for ``FactorBuilder``.
-        """
-
-        multiple = self.multiple
-        if isinstance(self.multiple, types.Real):
-            multiple = self.multiple
-        elif isinstance(self.multiple, float) or isinstance(self.multiple, int):
-            multiple = types.Real(self.multiple)
-        elif isinstance(self.multiple, str):
-            multiple = types.Real.from_mcnp(self.multiple)
-
-        return Factor(
-            multiple=multiple,
-        )
-
-    @staticmethod
-    def unbuild(ast: Factor):
-        """
-        Unbuilds ``Factor`` into ``FactorBuilder``
-
-        Returns:
-            ``FactorBuilder`` for ``Factor``.
-        """
-
-        return FactorBuilder(
-            multiple=copy.deepcopy(ast.multiple),
-        )
+        self._multiple: types.Real = multiple

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Thick(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Athick( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, x: types.Real):
+    def __init__(self, x: str | int | float | types.Real):
         """
         Initializes ``Thick``.
 
@@ -36,58 +32,45 @@ class Thick(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.x: types.Real = x
+
+    @property
+    def x(self) -> types.Real:
+        """
+        Gets ``x``.
+
+        Returns:
+            ``x``.
+        """
+
+        return self._x
+
+    @x.setter
+    def x(self, x: str | int | float | types.Real) -> None:
+        """
+        Sets ``x``.
+
+        Parameters:
+            x: Thickness of plot curves.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if x is not None:
+            if isinstance(x, types.Real):
+                x = x
+            elif isinstance(x, int):
+                x = types.Real(x)
+            elif isinstance(x, float):
+                x = types.Real(x)
+            elif isinstance(x, str):
+                x = types.Real.from_mcnp(x)
+            else:
+                raise TypeError
+
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                x,
-            ]
-        )
-
-        self.x: typing.Final[types.Real] = x
-
-
-@dataclasses.dataclass
-class ThickBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Thick``.
-
-    Attributes:
-        x: Thickness of plot curves.
-    """
-
-    x: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``ThickBuilder`` into ``Thick``.
-
-        Returns:
-            ``Thick`` for ``ThickBuilder``.
-        """
-
-        x = self.x
-        if isinstance(self.x, types.Real):
-            x = self.x
-        elif isinstance(self.x, float) or isinstance(self.x, int):
-            x = types.Real(self.x)
-        elif isinstance(self.x, str):
-            x = types.Real.from_mcnp(self.x)
-
-        return Thick(
-            x=x,
-        )
-
-    @staticmethod
-    def unbuild(ast: Thick):
-        """
-        Unbuilds ``Thick`` into ``ThickBuilder``
-
-        Returns:
-            ``ThickBuilder`` for ``Thick``.
-        """
-
-        return ThickBuilder(
-            x=copy.deepcopy(ast.x),
-        )
+        self._x: types.Real = x

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -39,12 +35,12 @@ class Cut(_option.DataOption):
 
     def __init__(
         self,
-        designator: types.Designator,
-        time_cutoff: types.Real = None,
-        energy_cutoff: types.Real = None,
-        weight_cutoff1: types.Real = None,
-        weight_cutoff2: types.Real = None,
-        source_weight: types.Real = None,
+        designator: str | types.Designator,
+        time_cutoff: str | int | float | types.Real = None,
+        energy_cutoff: str | int | float | types.Real = None,
+        weight_cutoff1: str | int | float | types.Real = None,
+        weight_cutoff2: str | int | float | types.Real = None,
+        source_weight: str | int | float | types.Real = None,
     ):
         """
         Initializes ``Cut``.
@@ -61,125 +57,236 @@ class Cut(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.designator: types.Designator = designator
+        self.time_cutoff: types.Real = time_cutoff
+        self.energy_cutoff: types.Real = energy_cutoff
+        self.weight_cutoff1: types.Real = weight_cutoff1
+        self.weight_cutoff2: types.Real = weight_cutoff2
+        self.source_weight: types.Real = source_weight
+
+    @property
+    def designator(self) -> types.Designator:
+        """
+        Gets ``designator``.
+
+        Returns:
+            ``designator``.
+        """
+
+        return self._designator
+
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
+
+        Parameters:
+            designator: Data option particle designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                time_cutoff,
-                energy_cutoff,
-                weight_cutoff1,
-                weight_cutoff2,
-                source_weight,
-            ]
-        )
+        self._designator: types.Designator = designator
 
-        self.designator: typing.Final[types.Designator] = designator
-        self.time_cutoff: typing.Final[types.Real] = time_cutoff
-        self.energy_cutoff: typing.Final[types.Real] = energy_cutoff
-        self.weight_cutoff1: typing.Final[types.Real] = weight_cutoff1
-        self.weight_cutoff2: typing.Final[types.Real] = weight_cutoff2
-        self.source_weight: typing.Final[types.Real] = source_weight
-
-
-@dataclasses.dataclass
-class CutBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Cut``.
-
-    Attributes:
-        designator: Data option particle designator.
-        time_cutoff: Time cutoff in shakes.
-        energy_cutoff: Lower energy cutoff.
-        weight_cutoff1: Weight cutoff #1.
-        weight_cutoff2: Weight cutoff #2.
-        source_weight: Minimum source weight.
-    """
-
-    designator: str | types.Designator
-    time_cutoff: str | float | types.Real = None
-    energy_cutoff: str | float | types.Real = None
-    weight_cutoff1: str | float | types.Real = None
-    weight_cutoff2: str | float | types.Real = None
-    source_weight: str | float | types.Real = None
-
-    def build(self):
+    @property
+    def time_cutoff(self) -> types.Real:
         """
-        Builds ``CutBuilder`` into ``Cut``.
+        Gets ``time_cutoff``.
 
         Returns:
-            ``Cut`` for ``CutBuilder``.
+            ``time_cutoff``.
         """
 
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
+        return self._time_cutoff
 
-        time_cutoff = self.time_cutoff
-        if isinstance(self.time_cutoff, types.Real):
-            time_cutoff = self.time_cutoff
-        elif isinstance(self.time_cutoff, float) or isinstance(self.time_cutoff, int):
-            time_cutoff = types.Real(self.time_cutoff)
-        elif isinstance(self.time_cutoff, str):
-            time_cutoff = types.Real.from_mcnp(self.time_cutoff)
-
-        energy_cutoff = self.energy_cutoff
-        if isinstance(self.energy_cutoff, types.Real):
-            energy_cutoff = self.energy_cutoff
-        elif isinstance(self.energy_cutoff, float) or isinstance(self.energy_cutoff, int):
-            energy_cutoff = types.Real(self.energy_cutoff)
-        elif isinstance(self.energy_cutoff, str):
-            energy_cutoff = types.Real.from_mcnp(self.energy_cutoff)
-
-        weight_cutoff1 = self.weight_cutoff1
-        if isinstance(self.weight_cutoff1, types.Real):
-            weight_cutoff1 = self.weight_cutoff1
-        elif isinstance(self.weight_cutoff1, float) or isinstance(self.weight_cutoff1, int):
-            weight_cutoff1 = types.Real(self.weight_cutoff1)
-        elif isinstance(self.weight_cutoff1, str):
-            weight_cutoff1 = types.Real.from_mcnp(self.weight_cutoff1)
-
-        weight_cutoff2 = self.weight_cutoff2
-        if isinstance(self.weight_cutoff2, types.Real):
-            weight_cutoff2 = self.weight_cutoff2
-        elif isinstance(self.weight_cutoff2, float) or isinstance(self.weight_cutoff2, int):
-            weight_cutoff2 = types.Real(self.weight_cutoff2)
-        elif isinstance(self.weight_cutoff2, str):
-            weight_cutoff2 = types.Real.from_mcnp(self.weight_cutoff2)
-
-        source_weight = self.source_weight
-        if isinstance(self.source_weight, types.Real):
-            source_weight = self.source_weight
-        elif isinstance(self.source_weight, float) or isinstance(self.source_weight, int):
-            source_weight = types.Real(self.source_weight)
-        elif isinstance(self.source_weight, str):
-            source_weight = types.Real.from_mcnp(self.source_weight)
-
-        return Cut(
-            designator=designator,
-            time_cutoff=time_cutoff,
-            energy_cutoff=energy_cutoff,
-            weight_cutoff1=weight_cutoff1,
-            weight_cutoff2=weight_cutoff2,
-            source_weight=source_weight,
-        )
-
-    @staticmethod
-    def unbuild(ast: Cut):
+    @time_cutoff.setter
+    def time_cutoff(self, time_cutoff: str | int | float | types.Real) -> None:
         """
-        Unbuilds ``Cut`` into ``CutBuilder``
+        Sets ``time_cutoff``.
+
+        Parameters:
+            time_cutoff: Time cutoff in shakes.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if time_cutoff is not None:
+            if isinstance(time_cutoff, types.Real):
+                time_cutoff = time_cutoff
+            elif isinstance(time_cutoff, int):
+                time_cutoff = types.Real(time_cutoff)
+            elif isinstance(time_cutoff, float):
+                time_cutoff = types.Real(time_cutoff)
+            elif isinstance(time_cutoff, str):
+                time_cutoff = types.Real.from_mcnp(time_cutoff)
+            else:
+                raise TypeError
+
+        self._time_cutoff: types.Real = time_cutoff
+
+    @property
+    def energy_cutoff(self) -> types.Real:
+        """
+        Gets ``energy_cutoff``.
 
         Returns:
-            ``CutBuilder`` for ``Cut``.
+            ``energy_cutoff``.
         """
 
-        return CutBuilder(
-            designator=copy.deepcopy(ast.designator),
-            time_cutoff=copy.deepcopy(ast.time_cutoff),
-            energy_cutoff=copy.deepcopy(ast.energy_cutoff),
-            weight_cutoff1=copy.deepcopy(ast.weight_cutoff1),
-            weight_cutoff2=copy.deepcopy(ast.weight_cutoff2),
-            source_weight=copy.deepcopy(ast.source_weight),
-        )
+        return self._energy_cutoff
+
+    @energy_cutoff.setter
+    def energy_cutoff(self, energy_cutoff: str | int | float | types.Real) -> None:
+        """
+        Sets ``energy_cutoff``.
+
+        Parameters:
+            energy_cutoff: Lower energy cutoff.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if energy_cutoff is not None:
+            if isinstance(energy_cutoff, types.Real):
+                energy_cutoff = energy_cutoff
+            elif isinstance(energy_cutoff, int):
+                energy_cutoff = types.Real(energy_cutoff)
+            elif isinstance(energy_cutoff, float):
+                energy_cutoff = types.Real(energy_cutoff)
+            elif isinstance(energy_cutoff, str):
+                energy_cutoff = types.Real.from_mcnp(energy_cutoff)
+            else:
+                raise TypeError
+
+        self._energy_cutoff: types.Real = energy_cutoff
+
+    @property
+    def weight_cutoff1(self) -> types.Real:
+        """
+        Gets ``weight_cutoff1``.
+
+        Returns:
+            ``weight_cutoff1``.
+        """
+
+        return self._weight_cutoff1
+
+    @weight_cutoff1.setter
+    def weight_cutoff1(self, weight_cutoff1: str | int | float | types.Real) -> None:
+        """
+        Sets ``weight_cutoff1``.
+
+        Parameters:
+            weight_cutoff1: Weight cutoff #1.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if weight_cutoff1 is not None:
+            if isinstance(weight_cutoff1, types.Real):
+                weight_cutoff1 = weight_cutoff1
+            elif isinstance(weight_cutoff1, int):
+                weight_cutoff1 = types.Real(weight_cutoff1)
+            elif isinstance(weight_cutoff1, float):
+                weight_cutoff1 = types.Real(weight_cutoff1)
+            elif isinstance(weight_cutoff1, str):
+                weight_cutoff1 = types.Real.from_mcnp(weight_cutoff1)
+            else:
+                raise TypeError
+
+        self._weight_cutoff1: types.Real = weight_cutoff1
+
+    @property
+    def weight_cutoff2(self) -> types.Real:
+        """
+        Gets ``weight_cutoff2``.
+
+        Returns:
+            ``weight_cutoff2``.
+        """
+
+        return self._weight_cutoff2
+
+    @weight_cutoff2.setter
+    def weight_cutoff2(self, weight_cutoff2: str | int | float | types.Real) -> None:
+        """
+        Sets ``weight_cutoff2``.
+
+        Parameters:
+            weight_cutoff2: Weight cutoff #2.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if weight_cutoff2 is not None:
+            if isinstance(weight_cutoff2, types.Real):
+                weight_cutoff2 = weight_cutoff2
+            elif isinstance(weight_cutoff2, int):
+                weight_cutoff2 = types.Real(weight_cutoff2)
+            elif isinstance(weight_cutoff2, float):
+                weight_cutoff2 = types.Real(weight_cutoff2)
+            elif isinstance(weight_cutoff2, str):
+                weight_cutoff2 = types.Real.from_mcnp(weight_cutoff2)
+            else:
+                raise TypeError
+
+        self._weight_cutoff2: types.Real = weight_cutoff2
+
+    @property
+    def source_weight(self) -> types.Real:
+        """
+        Gets ``source_weight``.
+
+        Returns:
+            ``source_weight``.
+        """
+
+        return self._source_weight
+
+    @source_weight.setter
+    def source_weight(self, source_weight: str | int | float | types.Real) -> None:
+        """
+        Sets ``source_weight``.
+
+        Parameters:
+            source_weight: Minimum source weight.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if source_weight is not None:
+            if isinstance(source_weight, types.Real):
+                source_weight = source_weight
+            elif isinstance(source_weight, int):
+                source_weight = types.Real(source_weight)
+            elif isinstance(source_weight, float):
+                source_weight = types.Real(source_weight)
+            elif isinstance(source_weight, str):
+                source_weight = types.Real.from_mcnp(source_weight)
+            else:
+                raise TypeError
+
+        self._source_weight: types.Real = source_weight

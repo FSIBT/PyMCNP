@@ -1,10 +1,6 @@
 import re
-import typing
-import dataclasses
-
 
 from . import _option
-from ....utils import types
 
 
 class Thin(_option.MplotOption):
@@ -33,36 +29,3 @@ class Thin(_option.MplotOption):
         Raises:
             InpError: SEMANTICS_OPTION.
         """
-
-        self.value: typing.Final[types.Tuple] = types.Tuple([])
-
-
-@dataclasses.dataclass
-class ThinBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Thin``.
-
-    Attributes:
-
-    """
-
-    def build(self):
-        """
-        Builds ``ThinBuilder`` into ``Thin``.
-
-        Returns:
-            ``Thin`` for ``ThinBuilder``.
-        """
-
-        return Thin()
-
-    @staticmethod
-    def unbuild(ast: Thin):
-        """
-        Unbuilds ``Thin`` into ``ThinBuilder``
-
-        Returns:
-            ``ThinBuilder`` for ``Thin``.
-        """
-
-        return ThinBuilder()

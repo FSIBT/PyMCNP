@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -25,7 +21,7 @@ class Lat(_option.CellOption):
 
     _REGEX = re.compile(rf'\Alat( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, shape: types.Integer):
+    def __init__(self, shape: str | int | types.Integer):
         """
         Initializes ``Lat``.
 
@@ -36,58 +32,43 @@ class Lat(_option.CellOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.shape: types.Integer = shape
+
+    @property
+    def shape(self) -> types.Integer:
+        """
+        Gets ``shape``.
+
+        Returns:
+            ``shape``.
+        """
+
+        return self._shape
+
+    @shape.setter
+    def shape(self, shape: str | int | types.Integer) -> None:
+        """
+        Sets ``shape``.
+
+        Parameters:
+            shape: Cell lattice shape.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if shape is not None:
+            if isinstance(shape, types.Integer):
+                shape = shape
+            elif isinstance(shape, int):
+                shape = types.Integer(shape)
+            elif isinstance(shape, str):
+                shape = types.Integer.from_mcnp(shape)
+            else:
+                raise TypeError
+
         if shape is None or shape not in {1, 2}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, shape)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                shape,
-            ]
-        )
-
-        self.shape: typing.Final[types.Integer] = shape
-
-
-@dataclasses.dataclass
-class LatBuilder(_option.CellOptionBuilder):
-    """
-    Builds ``Lat``.
-
-    Attributes:
-        shape: Cell lattice shape.
-    """
-
-    shape: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``LatBuilder`` into ``Lat``.
-
-        Returns:
-            ``Lat`` for ``LatBuilder``.
-        """
-
-        shape = self.shape
-        if isinstance(self.shape, types.Integer):
-            shape = self.shape
-        elif isinstance(self.shape, int):
-            shape = types.Integer(self.shape)
-        elif isinstance(self.shape, str):
-            shape = types.Integer.from_mcnp(self.shape)
-
-        return Lat(
-            shape=shape,
-        )
-
-    @staticmethod
-    def unbuild(ast: Lat):
-        """
-        Unbuilds ``Lat`` into ``LatBuilder``
-
-        Returns:
-            ``LatBuilder`` for ``Lat``.
-        """
-
-        return LatBuilder(
-            shape=copy.deepcopy(ast.shape),
-        )
+        self._shape: types.Integer = shape

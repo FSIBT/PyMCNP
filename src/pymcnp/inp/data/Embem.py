@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -27,7 +23,7 @@ class Embem(_option.DataOption):
 
     _REGEX = re.compile(rf'\Aembem(\d+)((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, multipliers: types.Tuple[types.Real]):
+    def __init__(self, suffix: str | int | types.Integer, multipliers: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Embem``.
 
@@ -39,78 +35,88 @@ class Embem(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.multipliers: types.Tuple[types.Real] = multipliers
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def multipliers(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``multipliers``.
+
+        Returns:
+            ``multipliers``.
+        """
+
+        return self._multipliers
+
+    @multipliers.setter
+    def multipliers(self, multipliers: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``multipliers``.
+
+        Parameters:
+            multipliers: Tuple of energy multipliers.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if multipliers is not None:
+            array = []
+            for item in multipliers:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            multipliers = types.Tuple(array)
+
         if multipliers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, multipliers)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                multipliers,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.multipliers: typing.Final[types.Tuple[types.Real]] = multipliers
-
-
-@dataclasses.dataclass
-class EmbemBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Embem``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        multipliers: Tuple of energy multipliers.
-    """
-
-    suffix: str | int | types.Integer
-    multipliers: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``EmbemBuilder`` into ``Embem``.
-
-        Returns:
-            ``Embem`` for ``EmbemBuilder``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        if self.multipliers:
-            multipliers = []
-            for item in self.multipliers:
-                if isinstance(item, types.Real):
-                    multipliers.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    multipliers.append(types.Real(item))
-                elif isinstance(item, str):
-                    multipliers.append(types.Real.from_mcnp(item))
-            multipliers = types.Tuple(multipliers)
-        else:
-            multipliers = None
-
-        return Embem(
-            suffix=suffix,
-            multipliers=multipliers,
-        )
-
-    @staticmethod
-    def unbuild(ast: Embem):
-        """
-        Unbuilds ``Embem`` into ``EmbemBuilder``
-
-        Returns:
-            ``EmbemBuilder`` for ``Embem``.
-        """
-
-        return EmbemBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            multipliers=copy.deepcopy(ast.multipliers),
-        )
+        self._multipliers: types.Tuple[types.Real] = multipliers

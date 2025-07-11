@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -25,7 +21,7 @@ class Spdtl(_option.DataOption):
 
     _REGEX = re.compile(rf'\Aspdtl( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, keyword: types.String):
+    def __init__(self, keyword: str | types.String):
         """
         Initializes ``Spdtl``.
 
@@ -36,56 +32,41 @@ class Spdtl(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.keyword: types.String = keyword
+
+    @property
+    def keyword(self) -> types.String:
+        """
+        Gets ``keyword``.
+
+        Returns:
+            ``keyword``.
+        """
+
+        return self._keyword
+
+    @keyword.setter
+    def keyword(self, keyword: str | types.String) -> None:
+        """
+        Sets ``keyword``.
+
+        Parameters:
+            keyword: keyword in {"force", "off"}.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if keyword is not None:
+            if isinstance(keyword, types.String):
+                keyword = keyword
+            elif isinstance(keyword, str):
+                keyword = types.String.from_mcnp(keyword)
+            else:
+                raise TypeError
+
         if keyword is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, keyword)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                keyword,
-            ]
-        )
-
-        self.keyword: typing.Final[types.String] = keyword
-
-
-@dataclasses.dataclass
-class SpdtlBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Spdtl``.
-
-    Attributes:
-        keyword: keyword in {"force", "off"}.
-    """
-
-    keyword: str | types.String
-
-    def build(self):
-        """
-        Builds ``SpdtlBuilder`` into ``Spdtl``.
-
-        Returns:
-            ``Spdtl`` for ``SpdtlBuilder``.
-        """
-
-        keyword = self.keyword
-        if isinstance(self.keyword, types.String):
-            keyword = self.keyword
-        elif isinstance(self.keyword, str):
-            keyword = types.String.from_mcnp(self.keyword)
-
-        return Spdtl(
-            keyword=keyword,
-        )
-
-    @staticmethod
-    def unbuild(ast: Spdtl):
-        """
-        Unbuilds ``Spdtl`` into ``SpdtlBuilder``
-
-        Returns:
-            ``SpdtlBuilder`` for ``Spdtl``.
-        """
-
-        return SpdtlBuilder(
-            keyword=copy.deepcopy(ast.keyword),
-        )
+        self._keyword: types.String = keyword

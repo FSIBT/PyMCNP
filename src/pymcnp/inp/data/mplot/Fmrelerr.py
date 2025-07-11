@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Fmrelerr(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Afmrelerr( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, n: types.Integer):
+    def __init__(self, n: str | int | types.Integer):
         """
         Initializes ``Fmrelerr``.
 
@@ -36,58 +32,43 @@ class Fmrelerr(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.n: types.Integer = n
+
+    @property
+    def n(self) -> types.Integer:
+        """
+        Gets ``n``.
+
+        Returns:
+            ``n``.
+        """
+
+        return self._n
+
+    @n.setter
+    def n(self, n: str | int | types.Integer) -> None:
+        """
+        Sets ``n``.
+
+        Parameters:
+            n: Tally error to plot.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if n is not None:
+            if isinstance(n, types.Integer):
+                n = n
+            elif isinstance(n, int):
+                n = types.Integer(n)
+            elif isinstance(n, str):
+                n = types.Integer.from_mcnp(n)
+            else:
+                raise TypeError
+
         if n is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                n,
-            ]
-        )
-
-        self.n: typing.Final[types.Integer] = n
-
-
-@dataclasses.dataclass
-class FmrelerrBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Fmrelerr``.
-
-    Attributes:
-        n: Tally error to plot.
-    """
-
-    n: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``FmrelerrBuilder`` into ``Fmrelerr``.
-
-        Returns:
-            ``Fmrelerr`` for ``FmrelerrBuilder``.
-        """
-
-        n = self.n
-        if isinstance(self.n, types.Integer):
-            n = self.n
-        elif isinstance(self.n, int):
-            n = types.Integer(self.n)
-        elif isinstance(self.n, str):
-            n = types.Integer.from_mcnp(self.n)
-
-        return Fmrelerr(
-            n=n,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fmrelerr):
-        """
-        Unbuilds ``Fmrelerr`` into ``FmrelerrBuilder``
-
-        Returns:
-            ``FmrelerrBuilder`` for ``Fmrelerr``.
-        """
-
-        return FmrelerrBuilder(
-            n=copy.deepcopy(ast.n),
-        )
+        self._n: types.Integer = n

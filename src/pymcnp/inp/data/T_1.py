@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import t_1
 from . import _option
@@ -28,7 +24,7 @@ class T_1(_option.DataOption):
 
     _REGEX = re.compile(rf'\At(\d+)((?: (?:{t_1.TOption_1._REGEX.pattern[2:-2]}))+?)\Z')
 
-    def __init__(self, suffix: types.Integer, options: types.Tuple[t_1.TOption_1]):
+    def __init__(self, suffix: str | int | types.Integer, options: list[str] | list[t_1.TOption_1]):
         """
         Initializes ``T_1``.
 
@@ -40,78 +36,84 @@ class T_1(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.options: types.Tuple[t_1.TOption_1] = options
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def options(self) -> types.Tuple[t_1.TOption_1]:
+        """
+        Gets ``options``.
+
+        Returns:
+            ``options``.
+        """
+
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[t_1.TOption_1]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
+                if isinstance(item, t_1.TOption_1):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(t_1.TOption_1.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
+
         if options is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, options)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                options,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.options: typing.Final[types.Tuple[t_1.TOption_1]] = options
-
-
-@dataclasses.dataclass
-class TBuilder_1(_option.DataOptionBuilder):
-    """
-    Builds ``T_1``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        options: Dictionary of options.
-    """
-
-    suffix: str | int | types.Integer
-    options: list[str] | list[t_1.TOption_1]
-
-    def build(self):
-        """
-        Builds ``TBuilder_1`` into ``T_1``.
-
-        Returns:
-            ``T_1`` for ``TBuilder_1``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        if self.options:
-            options = []
-            for item in self.options:
-                if isinstance(item, t_1.TOption_1):
-                    options.append(item)
-                elif isinstance(item, str):
-                    options.append(t_1.TOption_1.from_mcnp(item))
-                elif isinstance(item, t_1.TOptionBuilder_1):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
-
-        return T_1(
-            suffix=suffix,
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: T_1):
-        """
-        Unbuilds ``T_1`` into ``TBuilder_1``
-
-        Returns:
-            ``TBuilder_1`` for ``T_1``.
-        """
-
-        return TBuilder_1(
-            suffix=copy.deepcopy(ast.suffix),
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[t_1.TOption_1] = options

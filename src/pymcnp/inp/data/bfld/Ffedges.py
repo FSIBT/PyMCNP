@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Ffedges(_option.BfldOption):
 
     _REGEX = re.compile(rf'\Affedges((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, numbers: types.Tuple[types.Real]):
+    def __init__(self, numbers: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Ffedges``.
 
@@ -36,63 +32,48 @@ class Ffedges(_option.BfldOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.numbers: types.Tuple[types.Real] = numbers
+
+    @property
+    def numbers(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``numbers``.
+
+        Returns:
+            ``numbers``.
+        """
+
+        return self._numbers
+
+    @numbers.setter
+    def numbers(self, numbers: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``numbers``.
+
+        Parameters:
+            numbers: Surface numbers to apply field fringe edges.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if numbers is not None:
+            array = []
+            for item in numbers:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            numbers = types.Tuple(array)
+
         if numbers is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, numbers)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                numbers,
-            ]
-        )
-
-        self.numbers: typing.Final[types.Tuple[types.Real]] = numbers
-
-
-@dataclasses.dataclass
-class FfedgesBuilder(_option.BfldOptionBuilder):
-    """
-    Builds ``Ffedges``.
-
-    Attributes:
-        numbers: Surface numbers to apply field fringe edges.
-    """
-
-    numbers: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``FfedgesBuilder`` into ``Ffedges``.
-
-        Returns:
-            ``Ffedges`` for ``FfedgesBuilder``.
-        """
-
-        if self.numbers:
-            numbers = []
-            for item in self.numbers:
-                if isinstance(item, types.Real):
-                    numbers.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    numbers.append(types.Real(item))
-                elif isinstance(item, str):
-                    numbers.append(types.Real.from_mcnp(item))
-            numbers = types.Tuple(numbers)
-        else:
-            numbers = None
-
-        return Ffedges(
-            numbers=numbers,
-        )
-
-    @staticmethod
-    def unbuild(ast: Ffedges):
-        """
-        Unbuilds ``Ffedges`` into ``FfedgesBuilder``
-
-        Returns:
-            ``FfedgesBuilder`` for ``Ffedges``.
-        """
-
-        return FfedgesBuilder(
-            numbers=copy.deepcopy(ast.numbers),
-        )
+        self._numbers: types.Tuple[types.Real] = numbers

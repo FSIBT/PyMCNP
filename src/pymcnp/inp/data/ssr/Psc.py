@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Psc(_option.SsrOption):
 
     _REGEX = re.compile(rf'\Apsc( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, constant: types.Real):
+    def __init__(self, constant: str | int | float | types.Real):
         """
         Initializes ``Psc``.
 
@@ -36,58 +32,45 @@ class Psc(_option.SsrOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.constant: types.Real = constant
+
+    @property
+    def constant(self) -> types.Real:
+        """
+        Gets ``constant``.
+
+        Returns:
+            ``constant``.
+        """
+
+        return self._constant
+
+    @constant.setter
+    def constant(self, constant: str | int | float | types.Real) -> None:
+        """
+        Sets ``constant``.
+
+        Parameters:
+            constant: Constant for approximation in PSC evaluation.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if constant is not None:
+            if isinstance(constant, types.Real):
+                constant = constant
+            elif isinstance(constant, int):
+                constant = types.Real(constant)
+            elif isinstance(constant, float):
+                constant = types.Real(constant)
+            elif isinstance(constant, str):
+                constant = types.Real.from_mcnp(constant)
+            else:
+                raise TypeError
+
         if constant is None or not (constant >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, constant)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                constant,
-            ]
-        )
-
-        self.constant: typing.Final[types.Real] = constant
-
-
-@dataclasses.dataclass
-class PscBuilder(_option.SsrOptionBuilder):
-    """
-    Builds ``Psc``.
-
-    Attributes:
-        constant: Constant for approximation in PSC evaluation.
-    """
-
-    constant: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``PscBuilder`` into ``Psc``.
-
-        Returns:
-            ``Psc`` for ``PscBuilder``.
-        """
-
-        constant = self.constant
-        if isinstance(self.constant, types.Real):
-            constant = self.constant
-        elif isinstance(self.constant, float) or isinstance(self.constant, int):
-            constant = types.Real(self.constant)
-        elif isinstance(self.constant, str):
-            constant = types.Real.from_mcnp(self.constant)
-
-        return Psc(
-            constant=constant,
-        )
-
-    @staticmethod
-    def unbuild(ast: Psc):
-        """
-        Unbuilds ``Psc`` into ``PscBuilder``
-
-        Returns:
-            ``PscBuilder`` for ``Psc``.
-        """
-
-        return PscBuilder(
-            constant=copy.deepcopy(ast.constant),
-        )
+        self._constant: types.Real = constant

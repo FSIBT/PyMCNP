@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -29,7 +25,7 @@ class De(_option.DataOption):
 
     _REGEX = re.compile(rf'\Ade(\d+)( (?:log|lin))?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, values: types.Tuple[types.Real], method: types.String = None):
+    def __init__(self, suffix: str | int | types.Integer, values: list[str] | list[float] | list[types.Real], method: str | types.String = None):
         """
         Initializes ``De``.
 
@@ -42,92 +38,126 @@ class De(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.method: types.String = method
+        self.values: types.Tuple[types.Real] = values
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def method(self) -> types.String:
+        """
+        Gets ``method``.
+
+        Returns:
+            ``method``.
+        """
+
+        return self._method
+
+    @method.setter
+    def method(self, method: str | types.String) -> None:
+        """
+        Sets ``method``.
+
+        Parameters:
+            method: Interpolation method for energy table.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if method is not None:
+            if isinstance(method, types.String):
+                method = method
+            elif isinstance(method, str):
+                method = types.String.from_mcnp(method)
+            else:
+                raise TypeError
+
         if method is not None and method not in {'log', 'lin'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, method)
+
+        self._method: types.String = method
+
+    @property
+    def values(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``values``.
+
+        Returns:
+            ``values``.
+        """
+
+        return self._values
+
+    @values.setter
+    def values(self, values: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``values``.
+
+        Parameters:
+            values: Energy values.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if values is not None:
+            array = []
+            for item in values:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            values = types.Tuple(array)
+
         if values is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, values)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                method,
-                values,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.method: typing.Final[types.String] = method
-        self.values: typing.Final[types.Tuple[types.Real]] = values
-
-
-@dataclasses.dataclass
-class DeBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``De``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        method: Interpolation method for energy table.
-        values: Energy values.
-    """
-
-    suffix: str | int | types.Integer
-    values: list[str] | list[float] | list[types.Real]
-    method: str | types.String = None
-
-    def build(self):
-        """
-        Builds ``DeBuilder`` into ``De``.
-
-        Returns:
-            ``De`` for ``DeBuilder``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        method = self.method
-        if isinstance(self.method, types.String):
-            method = self.method
-        elif isinstance(self.method, str):
-            method = types.String.from_mcnp(self.method)
-
-        if self.values:
-            values = []
-            for item in self.values:
-                if isinstance(item, types.Real):
-                    values.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    values.append(types.Real(item))
-                elif isinstance(item, str):
-                    values.append(types.Real.from_mcnp(item))
-            values = types.Tuple(values)
-        else:
-            values = None
-
-        return De(
-            suffix=suffix,
-            method=method,
-            values=values,
-        )
-
-    @staticmethod
-    def unbuild(ast: De):
-        """
-        Unbuilds ``De`` into ``DeBuilder``
-
-        Returns:
-            ``DeBuilder`` for ``De``.
-        """
-
-        return DeBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            method=copy.deepcopy(ast.method),
-            values=copy.deepcopy(ast.values),
-        )
+        self._values: types.Tuple[types.Real] = values

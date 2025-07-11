@@ -7,26 +7,6 @@ class Test_F_0:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.F_0
         EXAMPLES_VALID = [
-            {'prefix': pymcnp.types.String('*'), 'suffix': consts.ast.type.INTEGER, 'designator': consts.ast.type.DESIGNATOR, 'problems': [consts.ast.type.INTEGER], 't': pymcnp.types.String('t')},
-            {'prefix': None, 'suffix': consts.ast.type.INTEGER, 'designator': consts.ast.type.DESIGNATOR, 'problems': [consts.ast.type.INTEGER], 't': pymcnp.types.String('t')},
-            {'prefix': pymcnp.types.String('*'), 'suffix': consts.ast.type.INTEGER, 'designator': None, 'problems': [consts.ast.type.INTEGER], 't': pymcnp.types.String('t')},
-            {'prefix': pymcnp.types.String('*'), 'suffix': consts.ast.type.INTEGER, 'designator': consts.ast.type.DESIGNATOR, 'problems': [consts.ast.type.INTEGER], 't': None},
-        ]
-        EXAMPLES_INVALID = [
-            {'prefix': pymcnp.types.String('*'), 'suffix': None, 'designator': consts.ast.type.DESIGNATOR, 'problems': [consts.ast.type.INTEGER], 't': pymcnp.types.String('t')},
-            {'prefix': pymcnp.types.String('*'), 'suffix': consts.ast.type.INTEGER, 'designator': consts.ast.type.DESIGNATOR, 'problems': None, 't': pymcnp.types.String('t')},
-        ]
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.data.F_0
-        EXAMPLES_VALID = [consts.string.inp.data.F_0]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_FBuilder_0:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.FBuilder_0
-        EXAMPLES_VALID = [
             {'prefix': '*', 'suffix': consts.string.type.INTEGER, 'designator': consts.string.type.DESIGNATOR, 'problems': [consts.string.type.INTEGER], 't': 't'},
             {'prefix': '*', 'suffix': 1, 'designator': consts.string.type.DESIGNATOR, 'problems': [1], 't': 't'},
             {'prefix': pymcnp.types.String('*'), 'suffix': consts.ast.type.INTEGER, 'designator': consts.ast.type.DESIGNATOR, 'problems': [consts.ast.type.INTEGER], 't': pymcnp.types.String('t')},
@@ -40,3 +20,8 @@ class Test_FBuilder_0:
             {'prefix': 'hello', 'suffix': consts.string.type.INTEGER, 'designator': consts.string.type.DESIGNATOR, 'problems': [consts.string.type.INTEGER], 't': 't'},
             {'prefix': '*', 'suffix': consts.string.type.INTEGER, 'designator': consts.string.type.DESIGNATOR, 'problems': [consts.string.type.INTEGER], 't': 'hello'},
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.F_0
+        EXAMPLES_VALID = [consts.string.inp.data.F_0]
+        EXAMPLES_INVALID = ['hello']

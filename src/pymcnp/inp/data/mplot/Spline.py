@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -24,7 +20,7 @@ class Spline(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Aspline( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, x: types.Real = None):
+    def __init__(self, x: str | int | float | types.Real = None):
         """
         Initializes ``Spline``.
 
@@ -35,55 +31,42 @@ class Spline(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                x,
-            ]
-        )
+        self.x: types.Real = x
 
-        self.x: typing.Final[types.Real] = x
-
-
-@dataclasses.dataclass
-class SplineBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Spline``.
-
-    Attributes:
-        x: Tension of rational splines.
-    """
-
-    x: str | float | types.Real = None
-
-    def build(self):
+    @property
+    def x(self) -> types.Real:
         """
-        Builds ``SplineBuilder`` into ``Spline``.
+        Gets ``x``.
 
         Returns:
-            ``Spline`` for ``SplineBuilder``.
+            ``x``.
         """
 
-        x = self.x
-        if isinstance(self.x, types.Real):
-            x = self.x
-        elif isinstance(self.x, float) or isinstance(self.x, int):
-            x = types.Real(self.x)
-        elif isinstance(self.x, str):
-            x = types.Real.from_mcnp(self.x)
+        return self._x
 
-        return Spline(
-            x=x,
-        )
-
-    @staticmethod
-    def unbuild(ast: Spline):
+    @x.setter
+    def x(self, x: str | int | float | types.Real) -> None:
         """
-        Unbuilds ``Spline`` into ``SplineBuilder``
+        Sets ``x``.
 
-        Returns:
-            ``SplineBuilder`` for ``Spline``.
+        Parameters:
+            x: Tension of rational splines.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return SplineBuilder(
-            x=copy.deepcopy(ast.x),
-        )
+        if x is not None:
+            if isinstance(x, types.Real):
+                x = x
+            elif isinstance(x, int):
+                x = types.Real(x)
+            elif isinstance(x, float):
+                x = types.Real(x)
+            elif isinstance(x, str):
+                x = types.Real.from_mcnp(x)
+            else:
+                raise TypeError
+
+        self._x: types.Real = x

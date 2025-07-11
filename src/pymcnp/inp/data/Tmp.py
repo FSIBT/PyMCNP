@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -27,7 +23,7 @@ class Tmp(_option.DataOption):
 
     _REGEX = re.compile(rf'\Atmp(\d+)?((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, temperatures: types.Tuple[types.Real], suffix: types.Integer = None):
+    def __init__(self, temperatures: list[str] | list[float] | list[types.Real], suffix: str | int | types.Integer = None):
         """
         Initializes ``Tmp``.
 
@@ -39,76 +35,85 @@ class Tmp(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.temperatures: types.Tuple[types.Real] = temperatures
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def temperatures(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``temperatures``.
+
+        Returns:
+            ``temperatures``.
+        """
+
+        return self._temperatures
+
+    @temperatures.setter
+    def temperatures(self, temperatures: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``temperatures``.
+
+        Parameters:
+            temperatures: Cell temperatrues.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if temperatures is not None:
+            array = []
+            for item in temperatures:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            temperatures = types.Tuple(array)
+
         if temperatures is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, temperatures)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                temperatures,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.temperatures: typing.Final[types.Tuple[types.Real]] = temperatures
-
-
-@dataclasses.dataclass
-class TmpBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Tmp``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        temperatures: Cell temperatrues.
-    """
-
-    temperatures: list[str] | list[float] | list[types.Real]
-    suffix: str | int | types.Integer = None
-
-    def build(self):
-        """
-        Builds ``TmpBuilder`` into ``Tmp``.
-
-        Returns:
-            ``Tmp`` for ``TmpBuilder``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        if self.temperatures:
-            temperatures = []
-            for item in self.temperatures:
-                if isinstance(item, types.Real):
-                    temperatures.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    temperatures.append(types.Real(item))
-                elif isinstance(item, str):
-                    temperatures.append(types.Real.from_mcnp(item))
-            temperatures = types.Tuple(temperatures)
-        else:
-            temperatures = None
-
-        return Tmp(
-            suffix=suffix,
-            temperatures=temperatures,
-        )
-
-    @staticmethod
-    def unbuild(ast: Tmp):
-        """
-        Unbuilds ``Tmp`` into ``TmpBuilder``
-
-        Returns:
-            ``TmpBuilder`` for ``Tmp``.
-        """
-
-        return TmpBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            temperatures=copy.deepcopy(ast.temperatures),
-        )
+        self._temperatures: types.Tuple[types.Real] = temperatures

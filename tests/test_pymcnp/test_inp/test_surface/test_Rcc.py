@@ -8,40 +8,6 @@ class Test_Rcc:
         element = pymcnp.inp.surface.Rcc
         EXAMPLES_VALID = [
             {
-                'vx': consts.ast.type.REAL,
-                'vy': consts.ast.type.REAL,
-                'vz': consts.ast.type.REAL,
-                'hx': consts.ast.type.REAL,
-                'hy': consts.ast.type.REAL,
-                'hz': consts.ast.type.REAL,
-                'r': consts.ast.type.REAL,
-            }
-        ]
-        EXAMPLES_INVALID = [
-            {'vx': None, 'vy': consts.ast.type.REAL, 'vz': consts.ast.type.REAL, 'hx': consts.ast.type.REAL, 'hy': consts.ast.type.REAL, 'hz': consts.ast.type.REAL, 'r': consts.ast.type.REAL},
-            {'vx': consts.ast.type.REAL, 'vy': None, 'vz': consts.ast.type.REAL, 'hx': consts.ast.type.REAL, 'hy': consts.ast.type.REAL, 'hz': consts.ast.type.REAL, 'r': consts.ast.type.REAL},
-            {'vx': consts.ast.type.REAL, 'vy': consts.ast.type.REAL, 'vz': None, 'hx': consts.ast.type.REAL, 'hy': consts.ast.type.REAL, 'hz': consts.ast.type.REAL, 'r': consts.ast.type.REAL},
-            {'vx': consts.ast.type.REAL, 'vy': consts.ast.type.REAL, 'vz': consts.ast.type.REAL, 'hx': None, 'hy': consts.ast.type.REAL, 'hz': consts.ast.type.REAL, 'r': consts.ast.type.REAL},
-            {'vx': consts.ast.type.REAL, 'vy': consts.ast.type.REAL, 'vz': consts.ast.type.REAL, 'hx': consts.ast.type.REAL, 'hy': None, 'hz': consts.ast.type.REAL, 'r': consts.ast.type.REAL},
-            {'vx': consts.ast.type.REAL, 'vy': consts.ast.type.REAL, 'vz': consts.ast.type.REAL, 'hx': consts.ast.type.REAL, 'hy': consts.ast.type.REAL, 'hz': None, 'r': consts.ast.type.REAL},
-            {'vx': consts.ast.type.REAL, 'vy': consts.ast.type.REAL, 'vz': consts.ast.type.REAL, 'hx': consts.ast.type.REAL, 'hy': consts.ast.type.REAL, 'hz': consts.ast.type.REAL, 'r': None},
-        ]
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.surface.Rcc
-        EXAMPLES_VALID = [consts.string.inp.surface.RCC]
-        EXAMPLES_INVALID = ['hello']
-
-    class Test_Draw(classes.Test_Draw):
-        element = pymcnp.inp.surface.Rcc
-        EXAMPLES = [consts.string.inp.surface.RCC]
-
-
-class Test_RccBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.surface.RccBuilder
-        EXAMPLES_VALID = [
-            {
                 'vx': consts.string.type.REAL,
                 'vy': consts.string.type.REAL,
                 'vz': consts.string.type.REAL,
@@ -126,3 +92,12 @@ class Test_RccBuilder:
                 'r': None,
             },
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.surface.Rcc
+        EXAMPLES_VALID = [consts.string.inp.surface.RCC]
+        EXAMPLES_INVALID = ['hello']
+
+    class Test_Draw(classes.Test_Draw):
+        element = pymcnp.inp.surface.Rcc
+        EXAMPLES = [consts.string.inp.surface.RCC]

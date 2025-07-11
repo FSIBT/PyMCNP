@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -29,7 +25,7 @@ class Dat(_option.SdefOption):
 
     _REGEX = re.compile(rf'\Adat( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, month: types.Integer, day: types.Integer, year: types.Integer):
+    def __init__(self, month: str | int | types.Integer, day: str | int | types.Integer, year: str | int | types.Integer):
         """
         Initializes ``Dat``.
 
@@ -42,90 +38,123 @@ class Dat(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.month: types.Integer = month
+        self.day: types.Integer = day
+        self.year: types.Integer = year
+
+    @property
+    def month(self) -> types.Integer:
+        """
+        Gets ``month``.
+
+        Returns:
+            ``month``.
+        """
+
+        return self._month
+
+    @month.setter
+    def month(self, month: str | int | types.Integer) -> None:
+        """
+        Sets ``month``.
+
+        Parameters:
+            month: Month for cosmic-ray & background sources.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if month is not None:
+            if isinstance(month, types.Integer):
+                month = month
+            elif isinstance(month, int):
+                month = types.Integer(month)
+            elif isinstance(month, str):
+                month = types.Integer.from_mcnp(month)
+            else:
+                raise TypeError
+
         if month is None or not (month >= 1 and month <= 12):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, month)
+
+        self._month: types.Integer = month
+
+    @property
+    def day(self) -> types.Integer:
+        """
+        Gets ``day``.
+
+        Returns:
+            ``day``.
+        """
+
+        return self._day
+
+    @day.setter
+    def day(self, day: str | int | types.Integer) -> None:
+        """
+        Sets ``day``.
+
+        Parameters:
+            day: Day for cosmic-ray & background sources.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if day is not None:
+            if isinstance(day, types.Integer):
+                day = day
+            elif isinstance(day, int):
+                day = types.Integer(day)
+            elif isinstance(day, str):
+                day = types.Integer.from_mcnp(day)
+            else:
+                raise TypeError
+
         if day is None or not (day >= 1 and day <= 31):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, day)
+
+        self._day: types.Integer = day
+
+    @property
+    def year(self) -> types.Integer:
+        """
+        Gets ``year``.
+
+        Returns:
+            ``year``.
+        """
+
+        return self._year
+
+    @year.setter
+    def year(self, year: str | int | types.Integer) -> None:
+        """
+        Sets ``year``.
+
+        Parameters:
+            year: Year for cosmic-ray & background sources.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if year is not None:
+            if isinstance(year, types.Integer):
+                year = year
+            elif isinstance(year, int):
+                year = types.Integer(year)
+            elif isinstance(year, str):
+                year = types.Integer.from_mcnp(year)
+            else:
+                raise TypeError
+
         if year is None or not (year >= 1 and year <= 9999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, year)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                month,
-                day,
-                year,
-            ]
-        )
-
-        self.month: typing.Final[types.Integer] = month
-        self.day: typing.Final[types.Integer] = day
-        self.year: typing.Final[types.Integer] = year
-
-
-@dataclasses.dataclass
-class DatBuilder(_option.SdefOptionBuilder):
-    """
-    Builds ``Dat``.
-
-    Attributes:
-        month: Month for cosmic-ray & background sources.
-        day: Day for cosmic-ray & background sources.
-        year: Year for cosmic-ray & background sources.
-    """
-
-    month: str | int | types.Integer
-    day: str | int | types.Integer
-    year: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``DatBuilder`` into ``Dat``.
-
-        Returns:
-            ``Dat`` for ``DatBuilder``.
-        """
-
-        month = self.month
-        if isinstance(self.month, types.Integer):
-            month = self.month
-        elif isinstance(self.month, int):
-            month = types.Integer(self.month)
-        elif isinstance(self.month, str):
-            month = types.Integer.from_mcnp(self.month)
-
-        day = self.day
-        if isinstance(self.day, types.Integer):
-            day = self.day
-        elif isinstance(self.day, int):
-            day = types.Integer(self.day)
-        elif isinstance(self.day, str):
-            day = types.Integer.from_mcnp(self.day)
-
-        year = self.year
-        if isinstance(self.year, types.Integer):
-            year = self.year
-        elif isinstance(self.year, int):
-            year = types.Integer(self.year)
-        elif isinstance(self.year, str):
-            year = types.Integer.from_mcnp(self.year)
-
-        return Dat(
-            month=month,
-            day=day,
-            year=year,
-        )
-
-    @staticmethod
-    def unbuild(ast: Dat):
-        """
-        Unbuilds ``Dat`` into ``DatBuilder``
-
-        Returns:
-            ``DatBuilder`` for ``Dat``.
-        """
-
-        return DatBuilder(
-            month=copy.deepcopy(ast.month),
-            day=copy.deepcopy(ast.day),
-            year=copy.deepcopy(ast.year),
-        )
+        self._year: types.Integer = year

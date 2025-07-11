@@ -8,130 +8,6 @@ class Test_Tf_0:
         element = pymcnp.inp.data.Tf_0
         EXAMPLES_VALID = [
             {
-                'suffix': consts.ast.type.INTEGER,
-                'if1': consts.ast.type.INTEGER,
-                'id1': consts.ast.type.INTEGER,
-                'iu1': consts.ast.type.INTEGER,
-                'is1': consts.ast.type.INTEGER,
-                'im1': consts.ast.type.INTEGER,
-                'ic1': consts.ast.type.INTEGER,
-                'ie1': consts.ast.type.INTEGER,
-                'it1': consts.ast.type.INTEGER,
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'if1': None,
-                'id1': consts.ast.type.INTEGER,
-                'iu1': consts.ast.type.INTEGER,
-                'is1': consts.ast.type.INTEGER,
-                'im1': consts.ast.type.INTEGER,
-                'ic1': consts.ast.type.INTEGER,
-                'ie1': consts.ast.type.INTEGER,
-                'it1': consts.ast.type.INTEGER,
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'if1': consts.ast.type.INTEGER,
-                'id1': None,
-                'iu1': consts.ast.type.INTEGER,
-                'is1': consts.ast.type.INTEGER,
-                'im1': consts.ast.type.INTEGER,
-                'ic1': consts.ast.type.INTEGER,
-                'ie1': consts.ast.type.INTEGER,
-                'it1': consts.ast.type.INTEGER,
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'if1': consts.ast.type.INTEGER,
-                'id1': consts.ast.type.INTEGER,
-                'iu1': None,
-                'is1': consts.ast.type.INTEGER,
-                'im1': consts.ast.type.INTEGER,
-                'ic1': consts.ast.type.INTEGER,
-                'ie1': consts.ast.type.INTEGER,
-                'it1': consts.ast.type.INTEGER,
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'if1': consts.ast.type.INTEGER,
-                'id1': consts.ast.type.INTEGER,
-                'iu1': consts.ast.type.INTEGER,
-                'is1': None,
-                'im1': consts.ast.type.INTEGER,
-                'ic1': consts.ast.type.INTEGER,
-                'ie1': consts.ast.type.INTEGER,
-                'it1': consts.ast.type.INTEGER,
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'if1': consts.ast.type.INTEGER,
-                'id1': consts.ast.type.INTEGER,
-                'iu1': consts.ast.type.INTEGER,
-                'is1': consts.ast.type.INTEGER,
-                'im1': None,
-                'ic1': consts.ast.type.INTEGER,
-                'ie1': consts.ast.type.INTEGER,
-                'it1': consts.ast.type.INTEGER,
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'if1': consts.ast.type.INTEGER,
-                'id1': consts.ast.type.INTEGER,
-                'iu1': consts.ast.type.INTEGER,
-                'is1': consts.ast.type.INTEGER,
-                'im1': consts.ast.type.INTEGER,
-                'ic1': None,
-                'ie1': consts.ast.type.INTEGER,
-                'it1': consts.ast.type.INTEGER,
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'if1': consts.ast.type.INTEGER,
-                'id1': consts.ast.type.INTEGER,
-                'iu1': consts.ast.type.INTEGER,
-                'is1': consts.ast.type.INTEGER,
-                'im1': consts.ast.type.INTEGER,
-                'ic1': consts.ast.type.INTEGER,
-                'ie1': None,
-                'it1': consts.ast.type.INTEGER,
-            },
-            {
-                'suffix': consts.ast.type.INTEGER,
-                'if1': consts.ast.type.INTEGER,
-                'id1': consts.ast.type.INTEGER,
-                'iu1': consts.ast.type.INTEGER,
-                'is1': consts.ast.type.INTEGER,
-                'im1': consts.ast.type.INTEGER,
-                'ic1': consts.ast.type.INTEGER,
-                'ie1': consts.ast.type.INTEGER,
-                'it1': None,
-            },
-        ]
-        EXAMPLES_INVALID = [
-            {
-                'suffix': None,
-                'if1': consts.ast.type.INTEGER,
-                'id1': consts.ast.type.INTEGER,
-                'iu1': consts.ast.type.INTEGER,
-                'is1': consts.ast.type.INTEGER,
-                'im1': consts.ast.type.INTEGER,
-                'ic1': consts.ast.type.INTEGER,
-                'ie1': consts.ast.type.INTEGER,
-                'it1': consts.ast.type.INTEGER,
-            }
-        ]
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.data.Tf_0
-        EXAMPLES_VALID = [consts.string.inp.data.TF_0]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_TfBuilder_0:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.TfBuilder_0
-        EXAMPLES_VALID = [
-            {
                 'suffix': consts.string.type.INTEGER,
                 'if1': consts.string.type.INTEGER,
                 'id1': consts.string.type.INTEGER,
@@ -256,3 +132,8 @@ class Test_TfBuilder_0:
                 'it1': consts.string.type.INTEGER,
             }
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.Tf_0
+        EXAMPLES_VALID = [consts.string.inp.data.TF_0]
+        EXAMPLES_INVALID = ['hello']

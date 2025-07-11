@@ -6,17 +6,10 @@ from .... import classes
 class Test_Vol:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.cell.Vol
-        EXAMPLES_VALID = [{'volume': consts.ast.type.REAL}]
+        EXAMPLES_VALID = [{'volume': consts.string.type.REAL}, {'volume': 3.1}, {'volume': consts.ast.type.REAL}]
         EXAMPLES_INVALID = [{'volume': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.cell.Vol
         EXAMPLES_VALID = [consts.string.inp.cell.VOL]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_VolBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.cell.VolBuilder
-        EXAMPLES_VALID = [{'volume': consts.string.type.REAL}, {'volume': 3.1}, {'volume': consts.ast.type.REAL}]
-        EXAMPLES_INVALID = [{'volume': None}]

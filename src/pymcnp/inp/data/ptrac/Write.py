@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Write(_option.PtracOption):
 
     _REGEX = re.compile(r'\Awrite(?: (pos|all))\Z')
 
-    def __init__(self, setting: types.String):
+    def __init__(self, setting: str | types.String):
         """
         Initializes ``Write``.
 
@@ -36,56 +32,41 @@ class Write(_option.PtracOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.setting: types.String = setting
+
+    @property
+    def setting(self) -> types.String:
+        """
+        Gets ``setting``.
+
+        Returns:
+            ``setting``.
+        """
+
+        return self._setting
+
+    @setting.setter
+    def setting(self, setting: str | types.String) -> None:
+        """
+        Sets ``setting``.
+
+        Parameters:
+            setting: Controls what particle parameters are written.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if setting is not None:
+            if isinstance(setting, types.String):
+                setting = setting
+            elif isinstance(setting, str):
+                setting = types.String.from_mcnp(setting)
+            else:
+                raise TypeError
+
         if setting is None or setting not in {'pos', 'all'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                setting,
-            ]
-        )
-
-        self.setting: typing.Final[types.String] = setting
-
-
-@dataclasses.dataclass
-class WriteBuilder(_option.PtracOptionBuilder):
-    """
-    Builds ``Write``.
-
-    Attributes:
-        setting: Controls what particle parameters are written.
-    """
-
-    setting: str | types.String
-
-    def build(self):
-        """
-        Builds ``WriteBuilder`` into ``Write``.
-
-        Returns:
-            ``Write`` for ``WriteBuilder``.
-        """
-
-        setting = self.setting
-        if isinstance(self.setting, types.String):
-            setting = self.setting
-        elif isinstance(self.setting, str):
-            setting = types.String.from_mcnp(self.setting)
-
-        return Write(
-            setting=setting,
-        )
-
-    @staticmethod
-    def unbuild(ast: Write):
-        """
-        Unbuilds ``Write`` into ``WriteBuilder``
-
-        Returns:
-            ``WriteBuilder`` for ``Write``.
-        """
-
-        return WriteBuilder(
-            setting=copy.deepcopy(ast.setting),
-        )
+        self._setting: types.String = setting

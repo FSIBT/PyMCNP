@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -87,36 +83,36 @@ class Arb(_option.SurfaceOption):
 
     def __init__(
         self,
-        ax: types.Real,
-        ay: types.Real,
-        az: types.Real,
-        bx: types.Real,
-        by: types.Real,
-        bz: types.Real,
-        cx: types.Real,
-        cy: types.Real,
-        cz: types.Real,
-        dx: types.Real,
-        dy: types.Real,
-        dz: types.Real,
-        ex: types.Real,
-        ey: types.Real,
-        ez: types.Real,
-        fx: types.Real,
-        fy: types.Real,
-        fz: types.Real,
-        gx: types.Real,
-        gy: types.Real,
-        gz: types.Real,
-        hx: types.Real,
-        hy: types.Real,
-        hz: types.Real,
-        n1: types.Real,
-        n2: types.Real,
-        n3: types.Real,
-        n4: types.Real,
-        n5: types.Real,
-        n6: types.Real,
+        ax: str | int | float | types.Real,
+        ay: str | int | float | types.Real,
+        az: str | int | float | types.Real,
+        bx: str | int | float | types.Real,
+        by: str | int | float | types.Real,
+        bz: str | int | float | types.Real,
+        cx: str | int | float | types.Real,
+        cy: str | int | float | types.Real,
+        cz: str | int | float | types.Real,
+        dx: str | int | float | types.Real,
+        dy: str | int | float | types.Real,
+        dz: str | int | float | types.Real,
+        ex: str | int | float | types.Real,
+        ey: str | int | float | types.Real,
+        ez: str | int | float | types.Real,
+        fx: str | int | float | types.Real,
+        fy: str | int | float | types.Real,
+        fz: str | int | float | types.Real,
+        gx: str | int | float | types.Real,
+        gy: str | int | float | types.Real,
+        gz: str | int | float | types.Real,
+        hx: str | int | float | types.Real,
+        hy: str | int | float | types.Real,
+        hz: str | int | float | types.Real,
+        n1: str | int | float | types.Real,
+        n2: str | int | float | types.Real,
+        n3: str | int | float | types.Real,
+        n4: str | int | float | types.Real,
+        n5: str | int | float | types.Real,
+        n6: str | int | float | types.Real,
     ):
         """
         Initializes ``Arb``.
@@ -157,522 +153,1263 @@ class Arb(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.ax: types.Real = ax
+        self.ay: types.Real = ay
+        self.az: types.Real = az
+        self.bx: types.Real = bx
+        self.by: types.Real = by
+        self.bz: types.Real = bz
+        self.cx: types.Real = cx
+        self.cy: types.Real = cy
+        self.cz: types.Real = cz
+        self.dx: types.Real = dx
+        self.dy: types.Real = dy
+        self.dz: types.Real = dz
+        self.ex: types.Real = ex
+        self.ey: types.Real = ey
+        self.ez: types.Real = ez
+        self.fx: types.Real = fx
+        self.fy: types.Real = fy
+        self.fz: types.Real = fz
+        self.gx: types.Real = gx
+        self.gy: types.Real = gy
+        self.gz: types.Real = gz
+        self.hx: types.Real = hx
+        self.hy: types.Real = hy
+        self.hz: types.Real = hz
+        self.n1: types.Real = n1
+        self.n2: types.Real = n2
+        self.n3: types.Real = n3
+        self.n4: types.Real = n4
+        self.n5: types.Real = n5
+        self.n6: types.Real = n6
+
+    @property
+    def ax(self) -> types.Real:
+        """
+        Gets ``ax``.
+
+        Returns:
+            ``ax``.
+        """
+
+        return self._ax
+
+    @ax.setter
+    def ax(self, ax: str | int | float | types.Real) -> None:
+        """
+        Sets ``ax``.
+
+        Parameters:
+            ax: Polyhedron corner #1 x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ax is not None:
+            if isinstance(ax, types.Real):
+                ax = ax
+            elif isinstance(ax, int):
+                ax = types.Real(ax)
+            elif isinstance(ax, float):
+                ax = types.Real(ax)
+            elif isinstance(ax, str):
+                ax = types.Real.from_mcnp(ax)
+            else:
+                raise TypeError
+
         if ax is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ax)
+
+        self._ax: types.Real = ax
+
+    @property
+    def ay(self) -> types.Real:
+        """
+        Gets ``ay``.
+
+        Returns:
+            ``ay``.
+        """
+
+        return self._ay
+
+    @ay.setter
+    def ay(self, ay: str | int | float | types.Real) -> None:
+        """
+        Sets ``ay``.
+
+        Parameters:
+            ay: Polyhedron corner #1 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ay is not None:
+            if isinstance(ay, types.Real):
+                ay = ay
+            elif isinstance(ay, int):
+                ay = types.Real(ay)
+            elif isinstance(ay, float):
+                ay = types.Real(ay)
+            elif isinstance(ay, str):
+                ay = types.Real.from_mcnp(ay)
+            else:
+                raise TypeError
+
         if ay is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ay)
+
+        self._ay: types.Real = ay
+
+    @property
+    def az(self) -> types.Real:
+        """
+        Gets ``az``.
+
+        Returns:
+            ``az``.
+        """
+
+        return self._az
+
+    @az.setter
+    def az(self, az: str | int | float | types.Real) -> None:
+        """
+        Sets ``az``.
+
+        Parameters:
+            az: Polyhedron corner #1 z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if az is not None:
+            if isinstance(az, types.Real):
+                az = az
+            elif isinstance(az, int):
+                az = types.Real(az)
+            elif isinstance(az, float):
+                az = types.Real(az)
+            elif isinstance(az, str):
+                az = types.Real.from_mcnp(az)
+            else:
+                raise TypeError
+
         if az is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, az)
+
+        self._az: types.Real = az
+
+    @property
+    def bx(self) -> types.Real:
+        """
+        Gets ``bx``.
+
+        Returns:
+            ``bx``.
+        """
+
+        return self._bx
+
+    @bx.setter
+    def bx(self, bx: str | int | float | types.Real) -> None:
+        """
+        Sets ``bx``.
+
+        Parameters:
+            bx: Polyhedron corner #2 x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if bx is not None:
+            if isinstance(bx, types.Real):
+                bx = bx
+            elif isinstance(bx, int):
+                bx = types.Real(bx)
+            elif isinstance(bx, float):
+                bx = types.Real(bx)
+            elif isinstance(bx, str):
+                bx = types.Real.from_mcnp(bx)
+            else:
+                raise TypeError
+
         if bx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bx)
+
+        self._bx: types.Real = bx
+
+    @property
+    def by(self) -> types.Real:
+        """
+        Gets ``by``.
+
+        Returns:
+            ``by``.
+        """
+
+        return self._by
+
+    @by.setter
+    def by(self, by: str | int | float | types.Real) -> None:
+        """
+        Sets ``by``.
+
+        Parameters:
+            by: Polyhedron corner #2 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if by is not None:
+            if isinstance(by, types.Real):
+                by = by
+            elif isinstance(by, int):
+                by = types.Real(by)
+            elif isinstance(by, float):
+                by = types.Real(by)
+            elif isinstance(by, str):
+                by = types.Real.from_mcnp(by)
+            else:
+                raise TypeError
+
         if by is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, by)
+
+        self._by: types.Real = by
+
+    @property
+    def bz(self) -> types.Real:
+        """
+        Gets ``bz``.
+
+        Returns:
+            ``bz``.
+        """
+
+        return self._bz
+
+    @bz.setter
+    def bz(self, bz: str | int | float | types.Real) -> None:
+        """
+        Sets ``bz``.
+
+        Parameters:
+            bz: Polyhedron corner #2 z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if bz is not None:
+            if isinstance(bz, types.Real):
+                bz = bz
+            elif isinstance(bz, int):
+                bz = types.Real(bz)
+            elif isinstance(bz, float):
+                bz = types.Real(bz)
+            elif isinstance(bz, str):
+                bz = types.Real.from_mcnp(bz)
+            else:
+                raise TypeError
+
         if bz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bz)
+
+        self._bz: types.Real = bz
+
+    @property
+    def cx(self) -> types.Real:
+        """
+        Gets ``cx``.
+
+        Returns:
+            ``cx``.
+        """
+
+        return self._cx
+
+    @cx.setter
+    def cx(self, cx: str | int | float | types.Real) -> None:
+        """
+        Sets ``cx``.
+
+        Parameters:
+            cx: Polyhedron corner #3 x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if cx is not None:
+            if isinstance(cx, types.Real):
+                cx = cx
+            elif isinstance(cx, int):
+                cx = types.Real(cx)
+            elif isinstance(cx, float):
+                cx = types.Real(cx)
+            elif isinstance(cx, str):
+                cx = types.Real.from_mcnp(cx)
+            else:
+                raise TypeError
+
         if cx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cx)
+
+        self._cx: types.Real = cx
+
+    @property
+    def cy(self) -> types.Real:
+        """
+        Gets ``cy``.
+
+        Returns:
+            ``cy``.
+        """
+
+        return self._cy
+
+    @cy.setter
+    def cy(self, cy: str | int | float | types.Real) -> None:
+        """
+        Sets ``cy``.
+
+        Parameters:
+            cy: Polyhedron corner #3 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if cy is not None:
+            if isinstance(cy, types.Real):
+                cy = cy
+            elif isinstance(cy, int):
+                cy = types.Real(cy)
+            elif isinstance(cy, float):
+                cy = types.Real(cy)
+            elif isinstance(cy, str):
+                cy = types.Real.from_mcnp(cy)
+            else:
+                raise TypeError
+
         if cy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cy)
+
+        self._cy: types.Real = cy
+
+    @property
+    def cz(self) -> types.Real:
+        """
+        Gets ``cz``.
+
+        Returns:
+            ``cz``.
+        """
+
+        return self._cz
+
+    @cz.setter
+    def cz(self, cz: str | int | float | types.Real) -> None:
+        """
+        Sets ``cz``.
+
+        Parameters:
+            cz: Polyhedron corner #3 z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if cz is not None:
+            if isinstance(cz, types.Real):
+                cz = cz
+            elif isinstance(cz, int):
+                cz = types.Real(cz)
+            elif isinstance(cz, float):
+                cz = types.Real(cz)
+            elif isinstance(cz, str):
+                cz = types.Real.from_mcnp(cz)
+            else:
+                raise TypeError
+
         if cz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, cz)
+
+        self._cz: types.Real = cz
+
+    @property
+    def dx(self) -> types.Real:
+        """
+        Gets ``dx``.
+
+        Returns:
+            ``dx``.
+        """
+
+        return self._dx
+
+    @dx.setter
+    def dx(self, dx: str | int | float | types.Real) -> None:
+        """
+        Sets ``dx``.
+
+        Parameters:
+            dx: Polyhedron corner #4 x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if dx is not None:
+            if isinstance(dx, types.Real):
+                dx = dx
+            elif isinstance(dx, int):
+                dx = types.Real(dx)
+            elif isinstance(dx, float):
+                dx = types.Real(dx)
+            elif isinstance(dx, str):
+                dx = types.Real.from_mcnp(dx)
+            else:
+                raise TypeError
+
         if dx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, dx)
+
+        self._dx: types.Real = dx
+
+    @property
+    def dy(self) -> types.Real:
+        """
+        Gets ``dy``.
+
+        Returns:
+            ``dy``.
+        """
+
+        return self._dy
+
+    @dy.setter
+    def dy(self, dy: str | int | float | types.Real) -> None:
+        """
+        Sets ``dy``.
+
+        Parameters:
+            dy: Polyhedron corner #4 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if dy is not None:
+            if isinstance(dy, types.Real):
+                dy = dy
+            elif isinstance(dy, int):
+                dy = types.Real(dy)
+            elif isinstance(dy, float):
+                dy = types.Real(dy)
+            elif isinstance(dy, str):
+                dy = types.Real.from_mcnp(dy)
+            else:
+                raise TypeError
+
         if dy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, dy)
+
+        self._dy: types.Real = dy
+
+    @property
+    def dz(self) -> types.Real:
+        """
+        Gets ``dz``.
+
+        Returns:
+            ``dz``.
+        """
+
+        return self._dz
+
+    @dz.setter
+    def dz(self, dz: str | int | float | types.Real) -> None:
+        """
+        Sets ``dz``.
+
+        Parameters:
+            dz: Polyhedron corner #4 z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if dz is not None:
+            if isinstance(dz, types.Real):
+                dz = dz
+            elif isinstance(dz, int):
+                dz = types.Real(dz)
+            elif isinstance(dz, float):
+                dz = types.Real(dz)
+            elif isinstance(dz, str):
+                dz = types.Real.from_mcnp(dz)
+            else:
+                raise TypeError
+
         if dz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, dz)
+
+        self._dz: types.Real = dz
+
+    @property
+    def ex(self) -> types.Real:
+        """
+        Gets ``ex``.
+
+        Returns:
+            ``ex``.
+        """
+
+        return self._ex
+
+    @ex.setter
+    def ex(self, ex: str | int | float | types.Real) -> None:
+        """
+        Sets ``ex``.
+
+        Parameters:
+            ex: Polyhedron corner #5 x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ex is not None:
+            if isinstance(ex, types.Real):
+                ex = ex
+            elif isinstance(ex, int):
+                ex = types.Real(ex)
+            elif isinstance(ex, float):
+                ex = types.Real(ex)
+            elif isinstance(ex, str):
+                ex = types.Real.from_mcnp(ex)
+            else:
+                raise TypeError
+
         if ex is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ex)
+
+        self._ex: types.Real = ex
+
+    @property
+    def ey(self) -> types.Real:
+        """
+        Gets ``ey``.
+
+        Returns:
+            ``ey``.
+        """
+
+        return self._ey
+
+    @ey.setter
+    def ey(self, ey: str | int | float | types.Real) -> None:
+        """
+        Sets ``ey``.
+
+        Parameters:
+            ey: Polyhedron corner #5 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ey is not None:
+            if isinstance(ey, types.Real):
+                ey = ey
+            elif isinstance(ey, int):
+                ey = types.Real(ey)
+            elif isinstance(ey, float):
+                ey = types.Real(ey)
+            elif isinstance(ey, str):
+                ey = types.Real.from_mcnp(ey)
+            else:
+                raise TypeError
+
         if ey is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ey)
+
+        self._ey: types.Real = ey
+
+    @property
+    def ez(self) -> types.Real:
+        """
+        Gets ``ez``.
+
+        Returns:
+            ``ez``.
+        """
+
+        return self._ez
+
+    @ez.setter
+    def ez(self, ez: str | int | float | types.Real) -> None:
+        """
+        Sets ``ez``.
+
+        Parameters:
+            ez: Polyhedron corner #5 z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ez is not None:
+            if isinstance(ez, types.Real):
+                ez = ez
+            elif isinstance(ez, int):
+                ez = types.Real(ez)
+            elif isinstance(ez, float):
+                ez = types.Real(ez)
+            elif isinstance(ez, str):
+                ez = types.Real.from_mcnp(ez)
+            else:
+                raise TypeError
+
         if ez is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ez)
+
+        self._ez: types.Real = ez
+
+    @property
+    def fx(self) -> types.Real:
+        """
+        Gets ``fx``.
+
+        Returns:
+            ``fx``.
+        """
+
+        return self._fx
+
+    @fx.setter
+    def fx(self, fx: str | int | float | types.Real) -> None:
+        """
+        Sets ``fx``.
+
+        Parameters:
+            fx: Polyhedron corner #6 x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if fx is not None:
+            if isinstance(fx, types.Real):
+                fx = fx
+            elif isinstance(fx, int):
+                fx = types.Real(fx)
+            elif isinstance(fx, float):
+                fx = types.Real(fx)
+            elif isinstance(fx, str):
+                fx = types.Real.from_mcnp(fx)
+            else:
+                raise TypeError
+
         if fx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fx)
+
+        self._fx: types.Real = fx
+
+    @property
+    def fy(self) -> types.Real:
+        """
+        Gets ``fy``.
+
+        Returns:
+            ``fy``.
+        """
+
+        return self._fy
+
+    @fy.setter
+    def fy(self, fy: str | int | float | types.Real) -> None:
+        """
+        Sets ``fy``.
+
+        Parameters:
+            fy: Polyhedron corner #6 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if fy is not None:
+            if isinstance(fy, types.Real):
+                fy = fy
+            elif isinstance(fy, int):
+                fy = types.Real(fy)
+            elif isinstance(fy, float):
+                fy = types.Real(fy)
+            elif isinstance(fy, str):
+                fy = types.Real.from_mcnp(fy)
+            else:
+                raise TypeError
+
         if fy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fy)
+
+        self._fy: types.Real = fy
+
+    @property
+    def fz(self) -> types.Real:
+        """
+        Gets ``fz``.
+
+        Returns:
+            ``fz``.
+        """
+
+        return self._fz
+
+    @fz.setter
+    def fz(self, fz: str | int | float | types.Real) -> None:
+        """
+        Sets ``fz``.
+
+        Parameters:
+            fz: Polyhedron corner #6 z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if fz is not None:
+            if isinstance(fz, types.Real):
+                fz = fz
+            elif isinstance(fz, int):
+                fz = types.Real(fz)
+            elif isinstance(fz, float):
+                fz = types.Real(fz)
+            elif isinstance(fz, str):
+                fz = types.Real.from_mcnp(fz)
+            else:
+                raise TypeError
+
         if fz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fz)
+
+        self._fz: types.Real = fz
+
+    @property
+    def gx(self) -> types.Real:
+        """
+        Gets ``gx``.
+
+        Returns:
+            ``gx``.
+        """
+
+        return self._gx
+
+    @gx.setter
+    def gx(self, gx: str | int | float | types.Real) -> None:
+        """
+        Sets ``gx``.
+
+        Parameters:
+            gx: Polyhedron corner #7 x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if gx is not None:
+            if isinstance(gx, types.Real):
+                gx = gx
+            elif isinstance(gx, int):
+                gx = types.Real(gx)
+            elif isinstance(gx, float):
+                gx = types.Real(gx)
+            elif isinstance(gx, str):
+                gx = types.Real.from_mcnp(gx)
+            else:
+                raise TypeError
+
         if gx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, gx)
+
+        self._gx: types.Real = gx
+
+    @property
+    def gy(self) -> types.Real:
+        """
+        Gets ``gy``.
+
+        Returns:
+            ``gy``.
+        """
+
+        return self._gy
+
+    @gy.setter
+    def gy(self, gy: str | int | float | types.Real) -> None:
+        """
+        Sets ``gy``.
+
+        Parameters:
+            gy: Polyhedron corner #7 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if gy is not None:
+            if isinstance(gy, types.Real):
+                gy = gy
+            elif isinstance(gy, int):
+                gy = types.Real(gy)
+            elif isinstance(gy, float):
+                gy = types.Real(gy)
+            elif isinstance(gy, str):
+                gy = types.Real.from_mcnp(gy)
+            else:
+                raise TypeError
+
         if gy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, gy)
+
+        self._gy: types.Real = gy
+
+    @property
+    def gz(self) -> types.Real:
+        """
+        Gets ``gz``.
+
+        Returns:
+            ``gz``.
+        """
+
+        return self._gz
+
+    @gz.setter
+    def gz(self, gz: str | int | float | types.Real) -> None:
+        """
+        Sets ``gz``.
+
+        Parameters:
+            gz: Polyhedron corner #7 z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if gz is not None:
+            if isinstance(gz, types.Real):
+                gz = gz
+            elif isinstance(gz, int):
+                gz = types.Real(gz)
+            elif isinstance(gz, float):
+                gz = types.Real(gz)
+            elif isinstance(gz, str):
+                gz = types.Real.from_mcnp(gz)
+            else:
+                raise TypeError
+
         if gz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, gz)
+
+        self._gz: types.Real = gz
+
+    @property
+    def hx(self) -> types.Real:
+        """
+        Gets ``hx``.
+
+        Returns:
+            ``hx``.
+        """
+
+        return self._hx
+
+    @hx.setter
+    def hx(self, hx: str | int | float | types.Real) -> None:
+        """
+        Sets ``hx``.
+
+        Parameters:
+            hx: Polyhedron corner #8 x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if hx is not None:
+            if isinstance(hx, types.Real):
+                hx = hx
+            elif isinstance(hx, int):
+                hx = types.Real(hx)
+            elif isinstance(hx, float):
+                hx = types.Real(hx)
+            elif isinstance(hx, str):
+                hx = types.Real.from_mcnp(hx)
+            else:
+                raise TypeError
+
         if hx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hx)
+
+        self._hx: types.Real = hx
+
+    @property
+    def hy(self) -> types.Real:
+        """
+        Gets ``hy``.
+
+        Returns:
+            ``hy``.
+        """
+
+        return self._hy
+
+    @hy.setter
+    def hy(self, hy: str | int | float | types.Real) -> None:
+        """
+        Sets ``hy``.
+
+        Parameters:
+            hy: Polyhedron corner #8 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if hy is not None:
+            if isinstance(hy, types.Real):
+                hy = hy
+            elif isinstance(hy, int):
+                hy = types.Real(hy)
+            elif isinstance(hy, float):
+                hy = types.Real(hy)
+            elif isinstance(hy, str):
+                hy = types.Real.from_mcnp(hy)
+            else:
+                raise TypeError
+
         if hy is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hy)
+
+        self._hy: types.Real = hy
+
+    @property
+    def hz(self) -> types.Real:
+        """
+        Gets ``hz``.
+
+        Returns:
+            ``hz``.
+        """
+
+        return self._hz
+
+    @hz.setter
+    def hz(self, hz: str | int | float | types.Real) -> None:
+        """
+        Sets ``hz``.
+
+        Parameters:
+            hz: Polyhedron corner #8 z component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if hz is not None:
+            if isinstance(hz, types.Real):
+                hz = hz
+            elif isinstance(hz, int):
+                hz = types.Real(hz)
+            elif isinstance(hz, float):
+                hz = types.Real(hz)
+            elif isinstance(hz, str):
+                hz = types.Real.from_mcnp(hz)
+            else:
+                raise TypeError
+
         if hz is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hz)
+
+        self._hz: types.Real = hz
+
+    @property
+    def n1(self) -> types.Real:
+        """
+        Gets ``n1``.
+
+        Returns:
+            ``n1``.
+        """
+
+        return self._n1
+
+    @n1.setter
+    def n1(self, n1: str | int | float | types.Real) -> None:
+        """
+        Sets ``n1``.
+
+        Parameters:
+            n1: Polyhedron four-digit side specificer #1.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if n1 is not None:
+            if isinstance(n1, types.Real):
+                n1 = n1
+            elif isinstance(n1, int):
+                n1 = types.Real(n1)
+            elif isinstance(n1, float):
+                n1 = types.Real(n1)
+            elif isinstance(n1, str):
+                n1 = types.Real.from_mcnp(n1)
+            else:
+                raise TypeError
+
         if n1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n1)
+
+        self._n1: types.Real = n1
+
+    @property
+    def n2(self) -> types.Real:
+        """
+        Gets ``n2``.
+
+        Returns:
+            ``n2``.
+        """
+
+        return self._n2
+
+    @n2.setter
+    def n2(self, n2: str | int | float | types.Real) -> None:
+        """
+        Sets ``n2``.
+
+        Parameters:
+            n2: Polyhedron four-digit side specificer #2.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if n2 is not None:
+            if isinstance(n2, types.Real):
+                n2 = n2
+            elif isinstance(n2, int):
+                n2 = types.Real(n2)
+            elif isinstance(n2, float):
+                n2 = types.Real(n2)
+            elif isinstance(n2, str):
+                n2 = types.Real.from_mcnp(n2)
+            else:
+                raise TypeError
+
         if n2 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n2)
+
+        self._n2: types.Real = n2
+
+    @property
+    def n3(self) -> types.Real:
+        """
+        Gets ``n3``.
+
+        Returns:
+            ``n3``.
+        """
+
+        return self._n3
+
+    @n3.setter
+    def n3(self, n3: str | int | float | types.Real) -> None:
+        """
+        Sets ``n3``.
+
+        Parameters:
+            n3: Polyhedron four-digit side specificer #3.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if n3 is not None:
+            if isinstance(n3, types.Real):
+                n3 = n3
+            elif isinstance(n3, int):
+                n3 = types.Real(n3)
+            elif isinstance(n3, float):
+                n3 = types.Real(n3)
+            elif isinstance(n3, str):
+                n3 = types.Real.from_mcnp(n3)
+            else:
+                raise TypeError
+
         if n3 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n3)
+
+        self._n3: types.Real = n3
+
+    @property
+    def n4(self) -> types.Real:
+        """
+        Gets ``n4``.
+
+        Returns:
+            ``n4``.
+        """
+
+        return self._n4
+
+    @n4.setter
+    def n4(self, n4: str | int | float | types.Real) -> None:
+        """
+        Sets ``n4``.
+
+        Parameters:
+            n4: Polyhedron four-digit side specificer #4.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if n4 is not None:
+            if isinstance(n4, types.Real):
+                n4 = n4
+            elif isinstance(n4, int):
+                n4 = types.Real(n4)
+            elif isinstance(n4, float):
+                n4 = types.Real(n4)
+            elif isinstance(n4, str):
+                n4 = types.Real.from_mcnp(n4)
+            else:
+                raise TypeError
+
         if n4 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n4)
+
+        self._n4: types.Real = n4
+
+    @property
+    def n5(self) -> types.Real:
+        """
+        Gets ``n5``.
+
+        Returns:
+            ``n5``.
+        """
+
+        return self._n5
+
+    @n5.setter
+    def n5(self, n5: str | int | float | types.Real) -> None:
+        """
+        Sets ``n5``.
+
+        Parameters:
+            n5: Polyhedron four-digit side specificer #5.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if n5 is not None:
+            if isinstance(n5, types.Real):
+                n5 = n5
+            elif isinstance(n5, int):
+                n5 = types.Real(n5)
+            elif isinstance(n5, float):
+                n5 = types.Real(n5)
+            elif isinstance(n5, str):
+                n5 = types.Real.from_mcnp(n5)
+            else:
+                raise TypeError
+
         if n5 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n5)
+
+        self._n5: types.Real = n5
+
+    @property
+    def n6(self) -> types.Real:
+        """
+        Gets ``n6``.
+
+        Returns:
+            ``n6``.
+        """
+
+        return self._n6
+
+    @n6.setter
+    def n6(self, n6: str | int | float | types.Real) -> None:
+        """
+        Sets ``n6``.
+
+        Parameters:
+            n6: Polyhedron four-digit side specificer #6.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if n6 is not None:
+            if isinstance(n6, types.Real):
+                n6 = n6
+            elif isinstance(n6, int):
+                n6 = types.Real(n6)
+            elif isinstance(n6, float):
+                n6 = types.Real(n6)
+            elif isinstance(n6, str):
+                n6 = types.Real.from_mcnp(n6)
+            else:
+                raise TypeError
+
         if n6 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, n6)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                ax,
-                ay,
-                az,
-                bx,
-                by,
-                bz,
-                cx,
-                cy,
-                cz,
-                dx,
-                dy,
-                dz,
-                ex,
-                ey,
-                ez,
-                fx,
-                fy,
-                fz,
-                gx,
-                gy,
-                gz,
-                hx,
-                hy,
-                hz,
-                n1,
-                n2,
-                n3,
-                n4,
-                n5,
-                n6,
-            ]
-        )
-
-        self.ax: typing.Final[types.Real] = ax
-        self.ay: typing.Final[types.Real] = ay
-        self.az: typing.Final[types.Real] = az
-        self.bx: typing.Final[types.Real] = bx
-        self.by: typing.Final[types.Real] = by
-        self.bz: typing.Final[types.Real] = bz
-        self.cx: typing.Final[types.Real] = cx
-        self.cy: typing.Final[types.Real] = cy
-        self.cz: typing.Final[types.Real] = cz
-        self.dx: typing.Final[types.Real] = dx
-        self.dy: typing.Final[types.Real] = dy
-        self.dz: typing.Final[types.Real] = dz
-        self.ex: typing.Final[types.Real] = ex
-        self.ey: typing.Final[types.Real] = ey
-        self.ez: typing.Final[types.Real] = ez
-        self.fx: typing.Final[types.Real] = fx
-        self.fy: typing.Final[types.Real] = fy
-        self.fz: typing.Final[types.Real] = fz
-        self.gx: typing.Final[types.Real] = gx
-        self.gy: typing.Final[types.Real] = gy
-        self.gz: typing.Final[types.Real] = gz
-        self.hx: typing.Final[types.Real] = hx
-        self.hy: typing.Final[types.Real] = hy
-        self.hz: typing.Final[types.Real] = hz
-        self.n1: typing.Final[types.Real] = n1
-        self.n2: typing.Final[types.Real] = n2
-        self.n3: typing.Final[types.Real] = n3
-        self.n4: typing.Final[types.Real] = n4
-        self.n5: typing.Final[types.Real] = n5
-        self.n6: typing.Final[types.Real] = n6
-
-
-@dataclasses.dataclass
-class ArbBuilder(_option.SurfaceOptionBuilder):
-    """
-    Builds ``Arb``.
-
-    Attributes:
-        ax: Polyhedron corner #1 x component.
-        ay: Polyhedron corner #1 y component.
-        az: Polyhedron corner #1 z component.
-        bx: Polyhedron corner #2 x component.
-        by: Polyhedron corner #2 y component.
-        bz: Polyhedron corner #2 z component.
-        cx: Polyhedron corner #3 x component.
-        cy: Polyhedron corner #3 y component.
-        cz: Polyhedron corner #3 z component.
-        dx: Polyhedron corner #4 x component.
-        dy: Polyhedron corner #4 y component.
-        dz: Polyhedron corner #4 z component.
-        ex: Polyhedron corner #5 x component.
-        ey: Polyhedron corner #5 y component.
-        ez: Polyhedron corner #5 z component.
-        fx: Polyhedron corner #6 x component.
-        fy: Polyhedron corner #6 y component.
-        fz: Polyhedron corner #6 z component.
-        gx: Polyhedron corner #7 x component.
-        gy: Polyhedron corner #7 y component.
-        gz: Polyhedron corner #7 z component.
-        hx: Polyhedron corner #8 x component.
-        hy: Polyhedron corner #8 y component.
-        hz: Polyhedron corner #8 z component.
-        n1: Polyhedron four-digit side specificer #1.
-        n2: Polyhedron four-digit side specificer #2.
-        n3: Polyhedron four-digit side specificer #3.
-        n4: Polyhedron four-digit side specificer #4.
-        n5: Polyhedron four-digit side specificer #5.
-        n6: Polyhedron four-digit side specificer #6.
-    """
-
-    ax: str | float | types.Real
-    ay: str | float | types.Real
-    az: str | float | types.Real
-    bx: str | float | types.Real
-    by: str | float | types.Real
-    bz: str | float | types.Real
-    cx: str | float | types.Real
-    cy: str | float | types.Real
-    cz: str | float | types.Real
-    dx: str | float | types.Real
-    dy: str | float | types.Real
-    dz: str | float | types.Real
-    ex: str | float | types.Real
-    ey: str | float | types.Real
-    ez: str | float | types.Real
-    fx: str | float | types.Real
-    fy: str | float | types.Real
-    fz: str | float | types.Real
-    gx: str | float | types.Real
-    gy: str | float | types.Real
-    gz: str | float | types.Real
-    hx: str | float | types.Real
-    hy: str | float | types.Real
-    hz: str | float | types.Real
-    n1: str | float | types.Real
-    n2: str | float | types.Real
-    n3: str | float | types.Real
-    n4: str | float | types.Real
-    n5: str | float | types.Real
-    n6: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``ArbBuilder`` into ``Arb``.
-
-        Returns:
-            ``Arb`` for ``ArbBuilder``.
-        """
-
-        ax = self.ax
-        if isinstance(self.ax, types.Real):
-            ax = self.ax
-        elif isinstance(self.ax, float) or isinstance(self.ax, int):
-            ax = types.Real(self.ax)
-        elif isinstance(self.ax, str):
-            ax = types.Real.from_mcnp(self.ax)
-
-        ay = self.ay
-        if isinstance(self.ay, types.Real):
-            ay = self.ay
-        elif isinstance(self.ay, float) or isinstance(self.ay, int):
-            ay = types.Real(self.ay)
-        elif isinstance(self.ay, str):
-            ay = types.Real.from_mcnp(self.ay)
-
-        az = self.az
-        if isinstance(self.az, types.Real):
-            az = self.az
-        elif isinstance(self.az, float) or isinstance(self.az, int):
-            az = types.Real(self.az)
-        elif isinstance(self.az, str):
-            az = types.Real.from_mcnp(self.az)
-
-        bx = self.bx
-        if isinstance(self.bx, types.Real):
-            bx = self.bx
-        elif isinstance(self.bx, float) or isinstance(self.bx, int):
-            bx = types.Real(self.bx)
-        elif isinstance(self.bx, str):
-            bx = types.Real.from_mcnp(self.bx)
-
-        by = self.by
-        if isinstance(self.by, types.Real):
-            by = self.by
-        elif isinstance(self.by, float) or isinstance(self.by, int):
-            by = types.Real(self.by)
-        elif isinstance(self.by, str):
-            by = types.Real.from_mcnp(self.by)
-
-        bz = self.bz
-        if isinstance(self.bz, types.Real):
-            bz = self.bz
-        elif isinstance(self.bz, float) or isinstance(self.bz, int):
-            bz = types.Real(self.bz)
-        elif isinstance(self.bz, str):
-            bz = types.Real.from_mcnp(self.bz)
-
-        cx = self.cx
-        if isinstance(self.cx, types.Real):
-            cx = self.cx
-        elif isinstance(self.cx, float) or isinstance(self.cx, int):
-            cx = types.Real(self.cx)
-        elif isinstance(self.cx, str):
-            cx = types.Real.from_mcnp(self.cx)
-
-        cy = self.cy
-        if isinstance(self.cy, types.Real):
-            cy = self.cy
-        elif isinstance(self.cy, float) or isinstance(self.cy, int):
-            cy = types.Real(self.cy)
-        elif isinstance(self.cy, str):
-            cy = types.Real.from_mcnp(self.cy)
-
-        cz = self.cz
-        if isinstance(self.cz, types.Real):
-            cz = self.cz
-        elif isinstance(self.cz, float) or isinstance(self.cz, int):
-            cz = types.Real(self.cz)
-        elif isinstance(self.cz, str):
-            cz = types.Real.from_mcnp(self.cz)
-
-        dx = self.dx
-        if isinstance(self.dx, types.Real):
-            dx = self.dx
-        elif isinstance(self.dx, float) or isinstance(self.dx, int):
-            dx = types.Real(self.dx)
-        elif isinstance(self.dx, str):
-            dx = types.Real.from_mcnp(self.dx)
-
-        dy = self.dy
-        if isinstance(self.dy, types.Real):
-            dy = self.dy
-        elif isinstance(self.dy, float) or isinstance(self.dy, int):
-            dy = types.Real(self.dy)
-        elif isinstance(self.dy, str):
-            dy = types.Real.from_mcnp(self.dy)
-
-        dz = self.dz
-        if isinstance(self.dz, types.Real):
-            dz = self.dz
-        elif isinstance(self.dz, float) or isinstance(self.dz, int):
-            dz = types.Real(self.dz)
-        elif isinstance(self.dz, str):
-            dz = types.Real.from_mcnp(self.dz)
-
-        ex = self.ex
-        if isinstance(self.ex, types.Real):
-            ex = self.ex
-        elif isinstance(self.ex, float) or isinstance(self.ex, int):
-            ex = types.Real(self.ex)
-        elif isinstance(self.ex, str):
-            ex = types.Real.from_mcnp(self.ex)
-
-        ey = self.ey
-        if isinstance(self.ey, types.Real):
-            ey = self.ey
-        elif isinstance(self.ey, float) or isinstance(self.ey, int):
-            ey = types.Real(self.ey)
-        elif isinstance(self.ey, str):
-            ey = types.Real.from_mcnp(self.ey)
-
-        ez = self.ez
-        if isinstance(self.ez, types.Real):
-            ez = self.ez
-        elif isinstance(self.ez, float) or isinstance(self.ez, int):
-            ez = types.Real(self.ez)
-        elif isinstance(self.ez, str):
-            ez = types.Real.from_mcnp(self.ez)
-
-        fx = self.fx
-        if isinstance(self.fx, types.Real):
-            fx = self.fx
-        elif isinstance(self.fx, float) or isinstance(self.fx, int):
-            fx = types.Real(self.fx)
-        elif isinstance(self.fx, str):
-            fx = types.Real.from_mcnp(self.fx)
-
-        fy = self.fy
-        if isinstance(self.fy, types.Real):
-            fy = self.fy
-        elif isinstance(self.fy, float) or isinstance(self.fy, int):
-            fy = types.Real(self.fy)
-        elif isinstance(self.fy, str):
-            fy = types.Real.from_mcnp(self.fy)
-
-        fz = self.fz
-        if isinstance(self.fz, types.Real):
-            fz = self.fz
-        elif isinstance(self.fz, float) or isinstance(self.fz, int):
-            fz = types.Real(self.fz)
-        elif isinstance(self.fz, str):
-            fz = types.Real.from_mcnp(self.fz)
-
-        gx = self.gx
-        if isinstance(self.gx, types.Real):
-            gx = self.gx
-        elif isinstance(self.gx, float) or isinstance(self.gx, int):
-            gx = types.Real(self.gx)
-        elif isinstance(self.gx, str):
-            gx = types.Real.from_mcnp(self.gx)
-
-        gy = self.gy
-        if isinstance(self.gy, types.Real):
-            gy = self.gy
-        elif isinstance(self.gy, float) or isinstance(self.gy, int):
-            gy = types.Real(self.gy)
-        elif isinstance(self.gy, str):
-            gy = types.Real.from_mcnp(self.gy)
-
-        gz = self.gz
-        if isinstance(self.gz, types.Real):
-            gz = self.gz
-        elif isinstance(self.gz, float) or isinstance(self.gz, int):
-            gz = types.Real(self.gz)
-        elif isinstance(self.gz, str):
-            gz = types.Real.from_mcnp(self.gz)
-
-        hx = self.hx
-        if isinstance(self.hx, types.Real):
-            hx = self.hx
-        elif isinstance(self.hx, float) or isinstance(self.hx, int):
-            hx = types.Real(self.hx)
-        elif isinstance(self.hx, str):
-            hx = types.Real.from_mcnp(self.hx)
-
-        hy = self.hy
-        if isinstance(self.hy, types.Real):
-            hy = self.hy
-        elif isinstance(self.hy, float) or isinstance(self.hy, int):
-            hy = types.Real(self.hy)
-        elif isinstance(self.hy, str):
-            hy = types.Real.from_mcnp(self.hy)
-
-        hz = self.hz
-        if isinstance(self.hz, types.Real):
-            hz = self.hz
-        elif isinstance(self.hz, float) or isinstance(self.hz, int):
-            hz = types.Real(self.hz)
-        elif isinstance(self.hz, str):
-            hz = types.Real.from_mcnp(self.hz)
-
-        n1 = self.n1
-        if isinstance(self.n1, types.Real):
-            n1 = self.n1
-        elif isinstance(self.n1, float) or isinstance(self.n1, int):
-            n1 = types.Real(self.n1)
-        elif isinstance(self.n1, str):
-            n1 = types.Real.from_mcnp(self.n1)
-
-        n2 = self.n2
-        if isinstance(self.n2, types.Real):
-            n2 = self.n2
-        elif isinstance(self.n2, float) or isinstance(self.n2, int):
-            n2 = types.Real(self.n2)
-        elif isinstance(self.n2, str):
-            n2 = types.Real.from_mcnp(self.n2)
-
-        n3 = self.n3
-        if isinstance(self.n3, types.Real):
-            n3 = self.n3
-        elif isinstance(self.n3, float) or isinstance(self.n3, int):
-            n3 = types.Real(self.n3)
-        elif isinstance(self.n3, str):
-            n3 = types.Real.from_mcnp(self.n3)
-
-        n4 = self.n4
-        if isinstance(self.n4, types.Real):
-            n4 = self.n4
-        elif isinstance(self.n4, float) or isinstance(self.n4, int):
-            n4 = types.Real(self.n4)
-        elif isinstance(self.n4, str):
-            n4 = types.Real.from_mcnp(self.n4)
-
-        n5 = self.n5
-        if isinstance(self.n5, types.Real):
-            n5 = self.n5
-        elif isinstance(self.n5, float) or isinstance(self.n5, int):
-            n5 = types.Real(self.n5)
-        elif isinstance(self.n5, str):
-            n5 = types.Real.from_mcnp(self.n5)
-
-        n6 = self.n6
-        if isinstance(self.n6, types.Real):
-            n6 = self.n6
-        elif isinstance(self.n6, float) or isinstance(self.n6, int):
-            n6 = types.Real(self.n6)
-        elif isinstance(self.n6, str):
-            n6 = types.Real.from_mcnp(self.n6)
-
-        return Arb(
-            ax=ax,
-            ay=ay,
-            az=az,
-            bx=bx,
-            by=by,
-            bz=bz,
-            cx=cx,
-            cy=cy,
-            cz=cz,
-            dx=dx,
-            dy=dy,
-            dz=dz,
-            ex=ex,
-            ey=ey,
-            ez=ez,
-            fx=fx,
-            fy=fy,
-            fz=fz,
-            gx=gx,
-            gy=gy,
-            gz=gz,
-            hx=hx,
-            hy=hy,
-            hz=hz,
-            n1=n1,
-            n2=n2,
-            n3=n3,
-            n4=n4,
-            n5=n5,
-            n6=n6,
-        )
-
-    @staticmethod
-    def unbuild(ast: Arb):
-        """
-        Unbuilds ``Arb`` into ``ArbBuilder``
-
-        Returns:
-            ``ArbBuilder`` for ``Arb``.
-        """
-
-        return ArbBuilder(
-            ax=copy.deepcopy(ast.ax),
-            ay=copy.deepcopy(ast.ay),
-            az=copy.deepcopy(ast.az),
-            bx=copy.deepcopy(ast.bx),
-            by=copy.deepcopy(ast.by),
-            bz=copy.deepcopy(ast.bz),
-            cx=copy.deepcopy(ast.cx),
-            cy=copy.deepcopy(ast.cy),
-            cz=copy.deepcopy(ast.cz),
-            dx=copy.deepcopy(ast.dx),
-            dy=copy.deepcopy(ast.dy),
-            dz=copy.deepcopy(ast.dz),
-            ex=copy.deepcopy(ast.ex),
-            ey=copy.deepcopy(ast.ey),
-            ez=copy.deepcopy(ast.ez),
-            fx=copy.deepcopy(ast.fx),
-            fy=copy.deepcopy(ast.fy),
-            fz=copy.deepcopy(ast.fz),
-            gx=copy.deepcopy(ast.gx),
-            gy=copy.deepcopy(ast.gy),
-            gz=copy.deepcopy(ast.gz),
-            hx=copy.deepcopy(ast.hx),
-            hy=copy.deepcopy(ast.hy),
-            hz=copy.deepcopy(ast.hz),
-            n1=copy.deepcopy(ast.n1),
-            n2=copy.deepcopy(ast.n2),
-            n3=copy.deepcopy(ast.n3),
-            n4=copy.deepcopy(ast.n4),
-            n5=copy.deepcopy(ast.n5),
-            n6=copy.deepcopy(ast.n6),
-        )
+        self._n6: types.Real = n6

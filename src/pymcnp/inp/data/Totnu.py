@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -25,7 +21,7 @@ class Totnu(_option.DataOption):
 
     _REGEX = re.compile(rf'\Atotnu( {types.String._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, no: types.String = None):
+    def __init__(self, no: str | types.String = None):
         """
         Initializes ``Totnu``.
 
@@ -36,56 +32,41 @@ class Totnu(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.no: types.String = no
+
+    @property
+    def no(self) -> types.String:
+        """
+        Gets ``no``.
+
+        Returns:
+            ``no``.
+        """
+
+        return self._no
+
+    @no.setter
+    def no(self, no: str | types.String) -> None:
+        """
+        Sets ``no``.
+
+        Parameters:
+            no: Delay fission sampling on/off.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if no is not None:
+            if isinstance(no, types.String):
+                no = no
+            elif isinstance(no, str):
+                no = types.String.from_mcnp(no)
+            else:
+                raise TypeError
+
         if no is not None and not (no == 'no'):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, no)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                no,
-            ]
-        )
-
-        self.no: typing.Final[types.String] = no
-
-
-@dataclasses.dataclass
-class TotnuBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Totnu``.
-
-    Attributes:
-        no: Delay fission sampling on/off.
-    """
-
-    no: str | types.String = None
-
-    def build(self):
-        """
-        Builds ``TotnuBuilder`` into ``Totnu``.
-
-        Returns:
-            ``Totnu`` for ``TotnuBuilder``.
-        """
-
-        no = self.no
-        if isinstance(self.no, types.String):
-            no = self.no
-        elif isinstance(self.no, str):
-            no = types.String.from_mcnp(self.no)
-
-        return Totnu(
-            no=no,
-        )
-
-    @staticmethod
-    def unbuild(ast: Totnu):
-        """
-        Unbuilds ``Totnu`` into ``TotnuBuilder``
-
-        Returns:
-            ``TotnuBuilder`` for ``Totnu``.
-        """
-
-        return TotnuBuilder(
-            no=copy.deepcopy(ast.no),
-        )
+        self._no: types.String = no

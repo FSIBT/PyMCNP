@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Fmatspace(_option.KoptsOption):
 
     _REGEX = re.compile(rf'\Afmatspace( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, fmat_space: types.Real):
+    def __init__(self, fmat_space: str | int | float | types.Real):
         """
         Initializes ``Fmatspace``.
 
@@ -36,58 +32,45 @@ class Fmatspace(_option.KoptsOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.fmat_space: types.Real = fmat_space
+
+    @property
+    def fmat_space(self) -> types.Real:
+        """
+        Gets ``fmat_space``.
+
+        Returns:
+            ``fmat_space``.
+        """
+
+        return self._fmat_space
+
+    @fmat_space.setter
+    def fmat_space(self, fmat_space: str | int | float | types.Real) -> None:
+        """
+        Sets ``fmat_space``.
+
+        Parameters:
+            fmat_space: fmat_space.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if fmat_space is not None:
+            if isinstance(fmat_space, types.Real):
+                fmat_space = fmat_space
+            elif isinstance(fmat_space, int):
+                fmat_space = types.Real(fmat_space)
+            elif isinstance(fmat_space, float):
+                fmat_space = types.Real(fmat_space)
+            elif isinstance(fmat_space, str):
+                fmat_space = types.Real.from_mcnp(fmat_space)
+            else:
+                raise TypeError
+
         if fmat_space is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, fmat_space)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                fmat_space,
-            ]
-        )
-
-        self.fmat_space: typing.Final[types.Real] = fmat_space
-
-
-@dataclasses.dataclass
-class FmatspaceBuilder(_option.KoptsOptionBuilder):
-    """
-    Builds ``Fmatspace``.
-
-    Attributes:
-        fmat_space: fmat_space.
-    """
-
-    fmat_space: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``FmatspaceBuilder`` into ``Fmatspace``.
-
-        Returns:
-            ``Fmatspace`` for ``FmatspaceBuilder``.
-        """
-
-        fmat_space = self.fmat_space
-        if isinstance(self.fmat_space, types.Real):
-            fmat_space = self.fmat_space
-        elif isinstance(self.fmat_space, float) or isinstance(self.fmat_space, int):
-            fmat_space = types.Real(self.fmat_space)
-        elif isinstance(self.fmat_space, str):
-            fmat_space = types.Real.from_mcnp(self.fmat_space)
-
-        return Fmatspace(
-            fmat_space=fmat_space,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fmatspace):
-        """
-        Unbuilds ``Fmatspace`` into ``FmatspaceBuilder``
-
-        Returns:
-            ``FmatspaceBuilder`` for ``Fmatspace``.
-        """
-
-        return FmatspaceBuilder(
-            fmat_space=copy.deepcopy(ast.fmat_space),
-        )
+        self._fmat_space: types.Real = fmat_space

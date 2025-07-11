@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -24,7 +20,7 @@ class Tally(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Atally( {types.Integer._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, n: types.Integer = None):
+    def __init__(self, n: str | int | types.Integer = None):
         """
         Initializes ``Tally``.
 
@@ -35,55 +31,40 @@ class Tally(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                n,
-            ]
-        )
+        self.n: types.Integer = n
 
-        self.n: typing.Final[types.Integer] = n
-
-
-@dataclasses.dataclass
-class TallyBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Tally``.
-
-    Attributes:
-        n: Number of current tally.
-    """
-
-    n: str | int | types.Integer = None
-
-    def build(self):
+    @property
+    def n(self) -> types.Integer:
         """
-        Builds ``TallyBuilder`` into ``Tally``.
+        Gets ``n``.
 
         Returns:
-            ``Tally`` for ``TallyBuilder``.
+            ``n``.
         """
 
-        n = self.n
-        if isinstance(self.n, types.Integer):
-            n = self.n
-        elif isinstance(self.n, int):
-            n = types.Integer(self.n)
-        elif isinstance(self.n, str):
-            n = types.Integer.from_mcnp(self.n)
+        return self._n
 
-        return Tally(
-            n=n,
-        )
-
-    @staticmethod
-    def unbuild(ast: Tally):
+    @n.setter
+    def n(self, n: str | int | types.Integer) -> None:
         """
-        Unbuilds ``Tally`` into ``TallyBuilder``
+        Sets ``n``.
 
-        Returns:
-            ``TallyBuilder`` for ``Tally``.
+        Parameters:
+            n: Number of current tally.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return TallyBuilder(
-            n=copy.deepcopy(ast.n),
-        )
+        if n is not None:
+            if isinstance(n, types.Integer):
+                n = n
+            elif isinstance(n, int):
+                n = types.Integer(n)
+            elif isinstance(n, str):
+                n = types.Integer.from_mcnp(n)
+            else:
+                raise TypeError
+
+        self._n: types.Integer = n

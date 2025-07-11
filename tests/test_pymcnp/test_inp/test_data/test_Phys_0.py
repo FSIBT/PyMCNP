@@ -8,109 +8,6 @@ class Test_Phys_0:
         element = pymcnp.inp.data.Phys_0
         EXAMPLES_VALID = [
             {
-                'emax': consts.ast.type.REAL,
-                'emcnf': consts.ast.type.REAL,
-                'iunr': consts.ast.type.INTEGER,
-                'coilf': consts.ast.type.REAL,
-                'cutn': consts.ast.type.INTEGER,
-                'ngam': consts.ast.type.INTEGER,
-                'i_int_model': consts.ast.type.INTEGER,
-                'i_els_model': consts.ast.type.INTEGER,
-            },
-            {
-                'emax': None,
-                'emcnf': consts.ast.type.REAL,
-                'iunr': consts.ast.type.INTEGER,
-                'coilf': consts.ast.type.REAL,
-                'cutn': consts.ast.type.INTEGER,
-                'ngam': consts.ast.type.INTEGER,
-                'i_int_model': consts.ast.type.INTEGER,
-                'i_els_model': consts.ast.type.INTEGER,
-            },
-            {
-                'emax': consts.ast.type.REAL,
-                'emcnf': None,
-                'iunr': consts.ast.type.INTEGER,
-                'coilf': consts.ast.type.REAL,
-                'cutn': consts.ast.type.INTEGER,
-                'ngam': consts.ast.type.INTEGER,
-                'i_int_model': consts.ast.type.INTEGER,
-                'i_els_model': consts.ast.type.INTEGER,
-            },
-            {
-                'emax': consts.ast.type.REAL,
-                'emcnf': consts.ast.type.REAL,
-                'iunr': None,
-                'coilf': consts.ast.type.REAL,
-                'cutn': consts.ast.type.INTEGER,
-                'ngam': consts.ast.type.INTEGER,
-                'i_int_model': consts.ast.type.INTEGER,
-                'i_els_model': consts.ast.type.INTEGER,
-            },
-            {
-                'emax': consts.ast.type.REAL,
-                'emcnf': consts.ast.type.REAL,
-                'iunr': consts.ast.type.INTEGER,
-                'coilf': None,
-                'cutn': consts.ast.type.INTEGER,
-                'ngam': consts.ast.type.INTEGER,
-                'i_int_model': consts.ast.type.INTEGER,
-                'i_els_model': consts.ast.type.INTEGER,
-            },
-            {
-                'emax': consts.ast.type.REAL,
-                'emcnf': consts.ast.type.REAL,
-                'iunr': consts.ast.type.INTEGER,
-                'coilf': consts.ast.type.REAL,
-                'cutn': None,
-                'ngam': consts.ast.type.INTEGER,
-                'i_int_model': consts.ast.type.INTEGER,
-                'i_els_model': consts.ast.type.INTEGER,
-            },
-            {
-                'emax': consts.ast.type.REAL,
-                'emcnf': consts.ast.type.REAL,
-                'iunr': consts.ast.type.INTEGER,
-                'coilf': consts.ast.type.REAL,
-                'cutn': consts.ast.type.INTEGER,
-                'ngam': None,
-                'i_int_model': consts.ast.type.INTEGER,
-                'i_els_model': consts.ast.type.INTEGER,
-            },
-            {
-                'emax': consts.ast.type.REAL,
-                'emcnf': consts.ast.type.REAL,
-                'iunr': consts.ast.type.INTEGER,
-                'coilf': consts.ast.type.REAL,
-                'cutn': consts.ast.type.INTEGER,
-                'ngam': consts.ast.type.INTEGER,
-                'i_int_model': None,
-                'i_els_model': consts.ast.type.INTEGER,
-            },
-            {
-                'emax': consts.ast.type.REAL,
-                'emcnf': consts.ast.type.REAL,
-                'iunr': consts.ast.type.INTEGER,
-                'coilf': consts.ast.type.REAL,
-                'cutn': consts.ast.type.INTEGER,
-                'ngam': consts.ast.type.INTEGER,
-                'i_int_model': consts.ast.type.INTEGER,
-                'i_els_model': None,
-            },
-        ]
-        EXAMPLES_INVALID = []
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.data.Phys_0
-        EXAMPLES_VALID = [consts.string.inp.data.PHYS_0]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_PhysBuilder_0:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.PhysBuilder_0
-        EXAMPLES_VALID = [
-            {
                 'emax': consts.string.type.REAL,
                 'emcnf': consts.string.type.REAL,
                 'iunr': consts.string.type.INTEGER,
@@ -254,3 +151,8 @@ class Test_PhysBuilder_0:
                 'i_els_model': -9999,
             },
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.data.Phys_0
+        EXAMPLES_VALID = [consts.string.inp.data.PHYS_0]
+        EXAMPLES_INVALID = ['hello']

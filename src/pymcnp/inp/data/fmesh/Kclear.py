@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Kclear(_option.FmeshOption):
 
     _REGEX = re.compile(rf'\Akclear( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, count: types.Integer):
+    def __init__(self, count: str | int | types.Integer):
         """
         Initializes ``Kclear``.
 
@@ -36,58 +32,43 @@ class Kclear(_option.FmeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.count: types.Integer = count
+
+    @property
+    def count(self) -> types.Integer:
+        """
+        Gets ``count``.
+
+        Returns:
+            ``count``.
+        """
+
+        return self._count
+
+    @count.setter
+    def count(self, count: str | int | types.Integer) -> None:
+        """
+        Sets ``count``.
+
+        Parameters:
+            count: KCODE cycles between zeros.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if count is not None:
+            if isinstance(count, types.Integer):
+                count = count
+            elif isinstance(count, int):
+                count = types.Integer(count)
+            elif isinstance(count, str):
+                count = types.Integer.from_mcnp(count)
+            else:
+                raise TypeError
+
         if count is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                count,
-            ]
-        )
-
-        self.count: typing.Final[types.Integer] = count
-
-
-@dataclasses.dataclass
-class KclearBuilder(_option.FmeshOptionBuilder):
-    """
-    Builds ``Kclear``.
-
-    Attributes:
-        count: KCODE cycles between zeros.
-    """
-
-    count: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``KclearBuilder`` into ``Kclear``.
-
-        Returns:
-            ``Kclear`` for ``KclearBuilder``.
-        """
-
-        count = self.count
-        if isinstance(self.count, types.Integer):
-            count = self.count
-        elif isinstance(self.count, int):
-            count = types.Integer(self.count)
-        elif isinstance(self.count, str):
-            count = types.Integer.from_mcnp(self.count)
-
-        return Kclear(
-            count=count,
-        )
-
-    @staticmethod
-    def unbuild(ast: Kclear):
-        """
-        Unbuilds ``Kclear`` into ``KclearBuilder``
-
-        Returns:
-            ``KclearBuilder`` for ``Kclear``.
-        """
-
-        return KclearBuilder(
-            count=copy.deepcopy(ast.count),
-        )
+        self._count: types.Integer = count

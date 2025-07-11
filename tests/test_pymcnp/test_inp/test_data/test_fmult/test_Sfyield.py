@@ -6,17 +6,10 @@ from ..... import classes
 class Test_Sfyield:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.fmult.Sfyield
-        EXAMPLES_VALID = [{'fission_yield': consts.ast.type.REAL}]
+        EXAMPLES_VALID = [{'fission_yield': consts.string.type.REAL}, {'fission_yield': 3.1}, {'fission_yield': consts.ast.type.REAL}]
         EXAMPLES_INVALID = [{'fission_yield': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.fmult.Sfyield
         EXAMPLES_VALID = [consts.string.inp.data.fmult.SFYIELD]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_SfyieldBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.fmult.SfyieldBuilder
-        EXAMPLES_VALID = [{'fission_yield': consts.string.type.REAL}, {'fission_yield': 3.1}, {'fission_yield': consts.ast.type.REAL}]
-        EXAMPLES_INVALID = [{'fission_yield': None}]

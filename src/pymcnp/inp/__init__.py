@@ -9,11 +9,6 @@ from .Like import Like
 from .Surface import Surface
 from .Data import Data
 from .Comment import Comment
-from .Cell import CellBuilder
-from .Like import LikeBuilder
-from .Surface import SurfaceBuilder
-from .Data import DataBuilder
-from .Comment import CommentBuilder
 
 __all__ = [
     'Card',
@@ -27,9 +22,4 @@ __all__ = [
     'Surface',
     'Data',
     'Comment',
-    'CellBuilder',
-    'LikeBuilder',
-    'SurfaceBuilder',
-    'DataBuilder',
-    'CommentBuilder',
 ]

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Width(_option.FmultOption):
 
     _REGEX = re.compile(rf'\Awidth( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, width: types.Real):
+    def __init__(self, width: str | int | float | types.Real):
         """
         Initializes ``Width``.
 
@@ -36,58 +32,45 @@ class Width(_option.FmultOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.width: types.Real = width
+
+    @property
+    def width(self) -> types.Real:
+        """
+        Gets ``width``.
+
+        Returns:
+            ``width``.
+        """
+
+        return self._width
+
+    @width.setter
+    def width(self, width: str | int | float | types.Real) -> None:
+        """
+        Sets ``width``.
+
+        Parameters:
+            width: Width for sampling spontaneous fission.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if width is not None:
+            if isinstance(width, types.Real):
+                width = width
+            elif isinstance(width, int):
+                width = types.Real(width)
+            elif isinstance(width, float):
+                width = types.Real(width)
+            elif isinstance(width, str):
+                width = types.Real.from_mcnp(width)
+            else:
+                raise TypeError
+
         if width is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, width)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                width,
-            ]
-        )
-
-        self.width: typing.Final[types.Real] = width
-
-
-@dataclasses.dataclass
-class WidthBuilder(_option.FmultOptionBuilder):
-    """
-    Builds ``Width``.
-
-    Attributes:
-        width: Width for sampling spontaneous fission.
-    """
-
-    width: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``WidthBuilder`` into ``Width``.
-
-        Returns:
-            ``Width`` for ``WidthBuilder``.
-        """
-
-        width = self.width
-        if isinstance(self.width, types.Real):
-            width = self.width
-        elif isinstance(self.width, float) or isinstance(self.width, int):
-            width = types.Real(self.width)
-        elif isinstance(self.width, str):
-            width = types.Real.from_mcnp(self.width)
-
-        return Width(
-            width=width,
-        )
-
-    @staticmethod
-    def unbuild(ast: Width):
-        """
-        Unbuilds ``Width`` into ``WidthBuilder``
-
-        Returns:
-            ``WidthBuilder`` for ``Width``.
-        """
-
-        return WidthBuilder(
-            width=copy.deepcopy(ast.width),
-        )
+        self._width: types.Real = width

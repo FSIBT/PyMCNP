@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import block
 from . import _option
@@ -28,7 +24,7 @@ class Block(_option.DawwgOption):
 
     _REGEX = re.compile(rf'\Ablock( {types.Integer._REGEX.pattern[2:-2]})((?: (?:{block.BlockOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, setting: types.Integer, options: types.Tuple[block.BlockOption] = None):
+    def __init__(self, setting: str | int | types.Integer, options: list[str] | list[block.BlockOption] = None):
         """
         Initializes ``Block``.
 
@@ -40,77 +36,81 @@ class Block(_option.DawwgOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.setting: types.Integer = setting
+        self.options: types.Tuple[block.BlockOption] = options
+
+    @property
+    def setting(self) -> types.Integer:
+        """
+        Gets ``setting``.
+
+        Returns:
+            ``setting``.
+        """
+
+        return self._setting
+
+    @setting.setter
+    def setting(self, setting: str | int | types.Integer) -> None:
+        """
+        Sets ``setting``.
+
+        Parameters:
+            setting: Destination of key-value pairs.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if setting is not None:
+            if isinstance(setting, types.Integer):
+                setting = setting
+            elif isinstance(setting, int):
+                setting = types.Integer(setting)
+            elif isinstance(setting, str):
+                setting = types.Integer.from_mcnp(setting)
+            else:
+                raise TypeError
+
         if setting is None or setting not in {1, 3, 5, 6}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                setting,
-                options,
-            ]
-        )
+        self._setting: types.Integer = setting
 
-        self.setting: typing.Final[types.Integer] = setting
-        self.options: typing.Final[types.Tuple[block.BlockOption]] = options
-
-
-@dataclasses.dataclass
-class BlockBuilder(_option.DawwgOptionBuilder):
-    """
-    Builds ``Block``.
-
-    Attributes:
-        setting: Destination of key-value pairs.
-        options: Dictionary of options.
-    """
-
-    setting: str | int | types.Integer
-    options: list[str] | list[block.BlockOption] = None
-
-    def build(self):
+    @property
+    def options(self) -> types.Tuple[block.BlockOption]:
         """
-        Builds ``BlockBuilder`` into ``Block``.
+        Gets ``options``.
 
         Returns:
-            ``Block`` for ``BlockBuilder``.
+            ``options``.
         """
 
-        setting = self.setting
-        if isinstance(self.setting, types.Integer):
-            setting = self.setting
-        elif isinstance(self.setting, int):
-            setting = types.Integer(self.setting)
-        elif isinstance(self.setting, str):
-            setting = types.Integer.from_mcnp(self.setting)
+        return self._options
 
-        if self.options:
-            options = []
-            for item in self.options:
+    @options.setter
+    def options(self, options: list[str] | list[block.BlockOption]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, block.BlockOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(block.BlockOption.from_mcnp(item))
-                elif isinstance(item, block.BlockOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(block.BlockOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Block(
-            setting=setting,
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Block):
-        """
-        Unbuilds ``Block`` into ``BlockBuilder``
-
-        Returns:
-            ``BlockBuilder`` for ``Block``.
-        """
-
-        return BlockBuilder(
-            setting=copy.deepcopy(ast.setting),
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[block.BlockOption] = options

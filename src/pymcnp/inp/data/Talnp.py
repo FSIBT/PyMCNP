@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -24,7 +20,7 @@ class Talnp(_option.DataOption):
 
     _REGEX = re.compile(rf'\Atalnp((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z')
 
-    def __init__(self, tallies: types.Tuple[types.Integer] = None):
+    def __init__(self, tallies: list[str] | list[int] | list[types.Integer] = None):
         """
         Initializes ``Talnp``.
 
@@ -35,60 +31,43 @@ class Talnp(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                tallies,
-            ]
-        )
+        self.tallies: types.Tuple[types.Integer] = tallies
 
-        self.tallies: typing.Final[types.Tuple[types.Integer]] = tallies
-
-
-@dataclasses.dataclass
-class TalnpBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Talnp``.
-
-    Attributes:
-        tallies: Tallies to exclude from output.
-    """
-
-    tallies: list[str] | list[int] | list[types.Integer] = None
-
-    def build(self):
+    @property
+    def tallies(self) -> types.Tuple[types.Integer]:
         """
-        Builds ``TalnpBuilder`` into ``Talnp``.
+        Gets ``tallies``.
 
         Returns:
-            ``Talnp`` for ``TalnpBuilder``.
+            ``tallies``.
         """
 
-        if self.tallies:
-            tallies = []
-            for item in self.tallies:
+        return self._tallies
+
+    @tallies.setter
+    def tallies(self, tallies: list[str] | list[int] | list[types.Integer]) -> None:
+        """
+        Sets ``tallies``.
+
+        Parameters:
+            tallies: Tallies to exclude from output.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if tallies is not None:
+            array = []
+            for item in tallies:
                 if isinstance(item, types.Integer):
-                    tallies.append(item)
+                    array.append(item)
                 elif isinstance(item, int):
-                    tallies.append(types.Integer(item))
+                    array.append(types.Integer(item))
                 elif isinstance(item, str):
-                    tallies.append(types.Integer.from_mcnp(item))
-            tallies = types.Tuple(tallies)
-        else:
-            tallies = None
+                    array.append(types.Integer.from_mcnp(item))
+                else:
+                    raise TypeError
+            tallies = types.Tuple(array)
 
-        return Talnp(
-            tallies=tallies,
-        )
-
-    @staticmethod
-    def unbuild(ast: Talnp):
-        """
-        Unbuilds ``Talnp`` into ``TalnpBuilder``
-
-        Returns:
-            ``TalnpBuilder`` for ``Talnp``.
-        """
-
-        return TalnpBuilder(
-            tallies=copy.deepcopy(ast.tallies),
-        )
+        self._tallies: types.Tuple[types.Integer] = tallies

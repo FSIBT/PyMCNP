@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Dnbais(_option.ActOption):
 
     _REGEX = re.compile(rf'\Adnbais( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, count: types.Integer):
+    def __init__(self, count: str | int | types.Integer):
         """
         Initializes ``Dnbais``.
 
@@ -36,58 +32,43 @@ class Dnbais(_option.ActOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.count: types.Integer = count
+
+    @property
+    def count(self) -> types.Integer:
+        """
+        Gets ``count``.
+
+        Returns:
+            ``count``.
+        """
+
+        return self._count
+
+    @count.setter
+    def count(self, count: str | int | types.Integer) -> None:
+        """
+        Sets ``count``.
+
+        Parameters:
+            count: Maximum number of neutrons generated per reaction.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if count is not None:
+            if isinstance(count, types.Integer):
+                count = count
+            elif isinstance(count, int):
+                count = types.Integer(count)
+            elif isinstance(count, str):
+                count = types.Integer.from_mcnp(count)
+            else:
+                raise TypeError
+
         if count is None or not (count >= 0 and count <= 10):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, count)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                count,
-            ]
-        )
-
-        self.count: typing.Final[types.Integer] = count
-
-
-@dataclasses.dataclass
-class DnbaisBuilder(_option.ActOptionBuilder):
-    """
-    Builds ``Dnbais``.
-
-    Attributes:
-        count: Maximum number of neutrons generated per reaction.
-    """
-
-    count: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``DnbaisBuilder`` into ``Dnbais``.
-
-        Returns:
-            ``Dnbais`` for ``DnbaisBuilder``.
-        """
-
-        count = self.count
-        if isinstance(self.count, types.Integer):
-            count = self.count
-        elif isinstance(self.count, int):
-            count = types.Integer(self.count)
-        elif isinstance(self.count, str):
-            count = types.Integer.from_mcnp(self.count)
-
-        return Dnbais(
-            count=count,
-        )
-
-    @staticmethod
-    def unbuild(ast: Dnbais):
-        """
-        Unbuilds ``Dnbais`` into ``DnbaisBuilder``
-
-        Returns:
-            ``DnbaisBuilder`` for ``Dnbais``.
-        """
-
-        return DnbaisBuilder(
-            count=copy.deepcopy(ast.count),
-        )
+        self._count: types.Integer = count

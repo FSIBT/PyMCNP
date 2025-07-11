@@ -742,137 +742,137 @@ def TEST(element, mod):
 
         elif attribute.type == 'types.Tuple[dawwg.DawwgOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.dawwg.BLOCK]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.dawwg.BLOCK]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.dawwg.BLOCK]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.dawwg.BLOCK]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.dawwg.BLOCK]'
         elif attribute.type == 'types.Tuple[block.BlockOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.dawwg.block.AJED]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.dawwg.block.AJED]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.dawwg.block.AJED]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.dawwg.block.AJED]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.dawwg.block.AJED]'
         elif attribute.type == 'types.Tuple[embed.EmbedOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.embed.BACKGROUND]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.embed.BACKGROUND]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.embed.BACKGROUND]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.embed.BACKGROUND]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.embed.BACKGROUND]'
         elif attribute.type == 'types.Tuple[embee.EmbeeOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.embee.ATOM]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.embee.ATOM]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.embee.ATOM]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.embee.ATOM]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.embee.ATOM]'
         elif attribute.type == 'types.Tuple[m_0.MOption_0]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.m_0.ALIB]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.m_0.ALIB]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.m_0.ALIB]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.m_0.ALIB]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.m_0.ALIB]'
         elif attribute.type == 'types.Tuple[act.ActOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.act.DG]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.act.DG]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.act.DG]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.act.DG]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.act.DG]'
         elif attribute.type == 'types.Tuple[fmult.FmultOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.fmult.DATA]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.fmult.DATA]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.fmult.DATA]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.fmult.DATA]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.fmult.DATA]'
         elif attribute.type == 'types.Tuple[tropt.TroptOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.tropt.ELOSS]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.tropt.ELOSS]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.tropt.ELOSS]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.tropt.ELOSS]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.tropt.ELOSS]'
         elif attribute.type == 'types.Tuple[bfld.BfldOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.bfld.AXS]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.bfld.AXS]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.bfld.AXS]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.bfld.AXS]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.bfld.AXS]'
         elif attribute.type == 'types.Tuple[sdef.SdefOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.sdef.ARA]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.sdef.ARA]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.sdef.ARA]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.sdef.ARA]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.sdef.ARA]'
         elif attribute.type == 'types.Tuple[ssw.SswOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.ssw.CEL]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.ssw.CEL]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.ssw.CEL]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.ssw.CEL]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.ssw.CEL]'
         elif attribute.type == 'types.Tuple[ssr.SsrOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.ssr.AXS]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.ssr.AXS]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.ssr.AXS]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.ssr.AXS]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.ssr.AXS]'
         elif attribute.type == 'types.Tuple[kopts.KoptsOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.kopts.BLOCKSIZE]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.kopts.BLOCKSIZE]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.kopts.BLOCKSIZE]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.kopts.BLOCKSIZE]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.kopts.BLOCKSIZE]'
         elif attribute.type == 'types.Tuple[t_1.TOption_1]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.t_1.CBEG]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.t_1.CBEG]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.t_1.CBEG]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.t_1.CBEG]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.t_1.CBEG]'
         elif attribute.type == 'types.Tuple[df_1.DfOption_1]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.df_1.FAC]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.df_1.FAC]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.df_1.FAC]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.df_1.FAC]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.df_1.FAC]'
         elif attribute.type == 'types.Tuple[pert.PertOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.pert.CELL]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.pert.CELL]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.pert.CELL]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.pert.CELL]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.pert.CELL]'
         elif attribute.type == 'types.Tuple[kpert.KpertOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.kpert.CELL]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.kpert.CELL]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.kpert.CELL]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.kpert.CELL]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.kpert.CELL]'
         elif attribute.type == 'types.Tuple[ksen.KsenOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.ksen.CONSTRAIN]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.ksen.CONSTRAIN]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.ksen.CONSTRAIN]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.ksen.CONSTRAIN]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.ksen.CONSTRAIN]'
         elif attribute.type == 'types.Tuple[fmesh.FmeshOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.fmesh.AXS]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.fmesh.AXS]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.fmesh.AXS]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.fmesh.AXS]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.fmesh.AXS]'
         elif attribute.type == 'types.Tuple[var.VarOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.var.RR]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.var.RR]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.var.RR]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.var.RR]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.var.RR]'
         elif attribute.type == 'types.Tuple[mesh.MeshOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.mesh.AXS]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.mesh.AXS]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.mesh.AXS]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.mesh.AXS]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.mesh.AXS]'
         elif attribute.type == 'types.Tuple[stop.StopOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.stop.CTME]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.stop.CTME]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.stop.CTME]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.stop.CTME]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.stop.CTME]'
         elif attribute.type == 'types.Tuple[ptrac.PtracOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.ptrac.BUFFER]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.ptrac.BUFFER]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.ptrac.BUFFER]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.ptrac.BUFFER]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.ptrac.BUFFER]'
         elif attribute.type == 'types.Tuple[mplot.MplotOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.mplot.BAR]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.mplot.BAR]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.mplot.BAR]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.mplot.BAR]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.mplot.BAR]'
         elif attribute.type == 'free.FreeOption':
             valid_build[0][attribute.name] = 'consts.string.inp.data.mplot.free.ALL'
-            valid_build[1][attribute.name] = 'consts.builder.inp.data.mplot.free.ALL'
+            valid_build[1][attribute.name] = 'consts.ast.inp.data.mplot.free.ALL'
             valid_build[2][attribute.name] = 'consts.ast.inp.data.mplot.free.ALL'
             valid_init[0][attribute.name] = 'consts.ast.inp.data.mplot.free.ALL'
         elif attribute.type == 'types.Tuple[contour.ContourOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.mplot.contour.ALL]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.mplot.contour.ALL]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.mplot.contour.ALL]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.mplot.contour.ALL]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.mplot.contour.ALL]'
         elif attribute.type == 'types.Tuple[rand.RandOption]':
             valid_build[0][attribute.name] = '[consts.string.inp.data.rand.GEN]'
-            valid_build[1][attribute.name] = '[consts.builder.inp.data.rand.GEN]'
+            valid_build[1][attribute.name] = '[consts.ast.inp.data.rand.GEN]'
             valid_build[2][attribute.name] = '[consts.ast.inp.data.rand.GEN]'
             valid_init[0][attribute.name] = '[consts.ast.inp.data.rand.GEN]'
 
@@ -921,8 +921,8 @@ class Test_{CAMEL(element.name)}:
 
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.{f"{mod}." if mod else ""}{CAMEL(element.name)}
-        EXAMPLES_VALID = [{', '.join(f'{{{", ".join(f"'{key}':{val}" for key, val in example.items())}}}' for example in valid_init)}]
-        EXAMPLES_INVALID = [{', '.join(f'{{{", ".join(f"'{key}':{val}" for key, val in example.items())}}}' for example in invalid_init)}]
+        EXAMPLES_VALID = [{', '.join(f'{{{", ".join(f"'{key}':{val}" for key, val in example.items())}}}' for example in valid_build)}]
+        EXAMPLES_INVALID = [{', '.join(f'{{{", ".join(f"'{key}':{val}" for key, val in example.items())}}}' for example in invalid_build)}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.{f"{mod}." if mod else ""}{CAMEL(element.name)}
@@ -934,14 +934,6 @@ class Test_{CAMEL(element.name)}:
         element = pymcnp.inp.{f"{mod}." if mod else ""}{CAMEL(element.name)}
         EXAMPLES = [consts.string.inp.{f"{mod}." if mod else ""}{UPPER(element.name)}]
 ''' if "def draw" in element.extra else ""}
-
-
-class Test_{CAMEL(element.name, "Builder")}:
-
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.{f"{mod}." if mod else ""}{CAMEL(element.name, 'Builder')}
-        EXAMPLES_VALID = [{', '.join(f'{{{", ".join(f"'{key}':{val}" for key, val in example.items())}}}' for example in valid_build)}]
-        EXAMPLES_INVALID = [{', '.join(f'{{{", ".join(f"'{key}':{val}" for key, val in example.items())}}}' for example in invalid_build)}]
 """[1:]
 
 

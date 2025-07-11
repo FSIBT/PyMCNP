@@ -6931,7 +6931,7 @@ cards = ElementScheme(
                                     name='ze',
                                     type='types.Real',
                                     description='Top of cylindrical window',
-                                    restriction='zb > 0 and zb < ze',
+                                    restriction='self.zb > 0 and self.zb < ze',
                                 ),
                             ],
                         ),
@@ -6971,7 +6971,7 @@ cards = ElementScheme(
                             name='msrk',
                             type='types.Integer',
                             description='Number of source points to allocate for',
-                            restriction='isinstance(msrk.value, types.Jump) or msrk < 40 * (1000 if not nsrck or isinstance(nsrck.value, types.Jump) else nsrck)',
+                            restriction='isinstance(msrk.value, types.Jump) or msrk < 40 * (1000 if not self.nsrck or isinstance(self.nsrck.value, types.Jump) else self.nsrck)',
                             optional=True,
                         ),
                         AttributeScheme(
@@ -11216,7 +11216,7 @@ cards = ElementScheme(
                                     name='upper',
                                     type='types.Real',
                                     description='x-axis upper limit',
-                                    restriction='lower < upper',
+                                    restriction='self.lower < upper',
                                 ),
                                 AttributeScheme(
                                     name='nsteps',
@@ -11240,7 +11240,7 @@ cards = ElementScheme(
                                     name='upper',
                                     type='types.Real',
                                     description='y-axis upper limit',
-                                    restriction='lower < upper',
+                                    restriction='self.lower < upper',
                                 ),
                                 AttributeScheme(
                                     name='nsteps',

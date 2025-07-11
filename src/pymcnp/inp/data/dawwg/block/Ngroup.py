@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from .....utils import types
@@ -25,7 +21,7 @@ class Ngroup(_option.BlockOption):
 
     _REGEX = re.compile(rf'\Angroup( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, value: types.Integer):
+    def __init__(self, value: str | int | types.Integer):
         """
         Initializes ``Ngroup``.
 
@@ -36,58 +32,43 @@ class Ngroup(_option.BlockOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.value: types.Integer = value
+
+    @property
+    def value(self) -> types.Integer:
+        """
+        Gets ``value``.
+
+        Returns:
+            ``value``.
+        """
+
+        return self._value
+
+    @value.setter
+    def value(self, value: str | int | types.Integer) -> None:
+        """
+        Sets ``value``.
+
+        Parameters:
+            value: Number of energy groups.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if value is not None:
+            if isinstance(value, types.Integer):
+                value = value
+            elif isinstance(value, int):
+                value = types.Integer(value)
+            elif isinstance(value, str):
+                value = types.Integer.from_mcnp(value)
+            else:
+                raise TypeError
+
         if value is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, value)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                value,
-            ]
-        )
-
-        self.value: typing.Final[types.Integer] = value
-
-
-@dataclasses.dataclass
-class NgroupBuilder(_option.BlockOptionBuilder):
-    """
-    Builds ``Ngroup``.
-
-    Attributes:
-        value: Number of energy groups.
-    """
-
-    value: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``NgroupBuilder`` into ``Ngroup``.
-
-        Returns:
-            ``Ngroup`` for ``NgroupBuilder``.
-        """
-
-        value = self.value
-        if isinstance(self.value, types.Integer):
-            value = self.value
-        elif isinstance(self.value, int):
-            value = types.Integer(self.value)
-        elif isinstance(self.value, str):
-            value = types.Integer.from_mcnp(self.value)
-
-        return Ngroup(
-            value=value,
-        )
-
-    @staticmethod
-    def unbuild(ast: Ngroup):
-        """
-        Unbuilds ``Ngroup`` into ``NgroupBuilder``
-
-        Returns:
-            ``NgroupBuilder`` for ``Ngroup``.
-        """
-
-        return NgroupBuilder(
-            value=copy.deepcopy(ast.value),
-        )
+        self._value: types.Integer = value

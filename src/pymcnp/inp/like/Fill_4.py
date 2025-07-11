@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -15,8 +11,8 @@ class Fill_4(_option.LikeOption):
 
     Attributes:
         prefix: Star prefix.
-        universe: Like fill universe number.
-        transformation: Like fill transformation.
+        universe: Cell fill universe number.
+        transformation: Cell fill transformation.
     """
 
     _KEYWORD = 'fill'
@@ -29,96 +25,129 @@ class Fill_4(_option.LikeOption):
 
     _REGEX = re.compile(rf'\A([*])?fill( {types.Integer._REGEX.pattern[2:-2]})( {types.Transformation_3._REGEX.pattern[2:-2]}| [(]{types.Transformation_3._REGEX.pattern[2:-2]}[)])?\Z')
 
-    def __init__(self, universe: types.Integer, prefix: types.String = None, transformation: types.Transformation_3 = None):
+    def __init__(self, universe: str | int | types.Integer, prefix: str | types.String = None, transformation: str | types.Transformation_3 = None):
         """
         Initializes ``Fill_4``.
 
         Parameters:
             prefix: Star prefix.
-            universe: Like fill universe number.
-            transformation: Like fill transformation.
+            universe: Cell fill universe number.
+            transformation: Cell fill transformation.
 
         Raises:
             InpError: SEMANTICS_OPTION.
         """
 
+        self.prefix: types.String = prefix
+        self.universe: types.Integer = universe
+        self.transformation: types.Transformation_3 = transformation
+
+    @property
+    def prefix(self) -> types.String:
+        """
+        Gets ``prefix``.
+
+        Returns:
+            ``prefix``.
+        """
+
+        return self._prefix
+
+    @prefix.setter
+    def prefix(self, prefix: str | types.String) -> None:
+        """
+        Sets ``prefix``.
+
+        Parameters:
+            prefix: Star prefix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if prefix is not None:
+            if isinstance(prefix, types.String):
+                prefix = prefix
+            elif isinstance(prefix, str):
+                prefix = types.String.from_mcnp(prefix)
+            else:
+                raise TypeError
+
         if prefix is not None and prefix not in {'*'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
+
+        self._prefix: types.String = prefix
+
+    @property
+    def universe(self) -> types.Integer:
+        """
+        Gets ``universe``.
+
+        Returns:
+            ``universe``.
+        """
+
+        return self._universe
+
+    @universe.setter
+    def universe(self, universe: str | int | types.Integer) -> None:
+        """
+        Sets ``universe``.
+
+        Parameters:
+            universe: Cell fill universe number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if universe is not None:
+            if isinstance(universe, types.Integer):
+                universe = universe
+            elif isinstance(universe, int):
+                universe = types.Integer(universe)
+            elif isinstance(universe, str):
+                universe = types.Integer.from_mcnp(universe)
+            else:
+                raise TypeError
+
         if universe is None or not (universe == 10000000000 or (universe >= 0 and universe <= 99_999_999)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, universe)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                universe,
-                transformation,
-            ]
-        )
+        self._universe: types.Integer = universe
 
-        self.prefix: typing.Final[types.String] = prefix
-        self.universe: typing.Final[types.Integer] = universe
-        self.transformation: typing.Final[types.Transformation_3] = transformation
-
-
-@dataclasses.dataclass
-class FillBuilder_4(_option.LikeOptionBuilder):
-    """
-    Builds ``Fill_4``.
-
-    Attributes:
-        prefix: Star prefix.
-        universe: Like fill universe number.
-        transformation: Like fill transformation.
-    """
-
-    universe: str | int | types.Integer
-    prefix: str | types.String = None
-    transformation: str | types.Transformation_3 = None
-
-    def build(self):
+    @property
+    def transformation(self) -> types.Transformation_3:
         """
-        Builds ``FillBuilder_4`` into ``Fill_4``.
+        Gets ``transformation``.
 
         Returns:
-            ``Fill_4`` for ``FillBuilder_4``.
+            ``transformation``.
         """
 
-        prefix = self.prefix
-        if isinstance(self.prefix, types.String):
-            prefix = self.prefix
-        elif isinstance(self.prefix, str):
-            prefix = types.String.from_mcnp(self.prefix)
+        return self._transformation
 
-        universe = self.universe
-        if isinstance(self.universe, types.Integer):
-            universe = self.universe
-        elif isinstance(self.universe, int):
-            universe = types.Integer(self.universe)
-        elif isinstance(self.universe, str):
-            universe = types.Integer.from_mcnp(self.universe)
-
-        transformation = self.transformation
-        if isinstance(self.transformation, types.Transformation_3):
-            transformation = self.transformation
-        elif isinstance(self.transformation, str):
-            transformation = types.Transformation_3.from_mcnp(self.transformation)
-
-        return Fill_4(
-            prefix=prefix,
-            universe=universe,
-            transformation=transformation,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fill_4):
+    @transformation.setter
+    def transformation(self, transformation: str | types.Transformation_3) -> None:
         """
-        Unbuilds ``Fill_4`` into ``FillBuilder_4``
+        Sets ``transformation``.
 
-        Returns:
-            ``FillBuilder_4`` for ``Fill_4``.
+        Parameters:
+            transformation: Cell fill transformation.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return FillBuilder_4(
-            prefix=copy.deepcopy(ast.prefix),
-            universe=copy.deepcopy(ast.universe),
-            transformation=copy.deepcopy(ast.transformation),
-        )
+        if transformation is not None:
+            if isinstance(transformation, types.Transformation_3):
+                transformation = transformation
+            elif isinstance(transformation, str):
+                transformation = types.Transformation_3.from_mcnp(transformation)
+            else:
+                raise TypeError
+
+        self._transformation: types.Transformation_3 = transformation

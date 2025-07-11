@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -35,7 +31,15 @@ class F_2(_option.DataOption):
 
     _REGEX = re.compile(r'\A([*+])?f(\d*[5])([xyz])(?::(\S+))?((?: \S+ \S+ \S+)+?)( nd)?\Z')
 
-    def __init__(self, suffix: types.Integer, a: types.String, rings: types.Tuple[types.Ring], prefix: types.String = None, designator: types.Designator = None, nd: types.String = None):
+    def __init__(
+        self,
+        suffix: str | int | types.Integer,
+        a: str | types.String,
+        rings: list[str] | list[types.Ring],
+        prefix: str | types.String = None,
+        designator: str | types.Designator = None,
+        nd: str | types.String = None,
+    ):
         """
         Initializes ``F_2``.
 
@@ -51,31 +55,125 @@ class F_2(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.prefix: types.String = prefix
+        self.suffix: types.Integer = suffix
+        self.a: types.String = a
+        self.designator: types.Designator = designator
+        self.rings: types.Tuple[types.Ring] = rings
+        self.nd: types.String = nd
+
+    @property
+    def prefix(self) -> types.String:
+        """
+        Gets ``prefix``.
+
+        Returns:
+            ``prefix``.
+        """
+
+        return self._prefix
+
+    @prefix.setter
+    def prefix(self, prefix: str | types.String) -> None:
+        """
+        Sets ``prefix``.
+
+        Parameters:
+            prefix: Star prefix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if prefix is not None:
+            if isinstance(prefix, types.String):
+                prefix = prefix
+            elif isinstance(prefix, str):
+                prefix = types.String.from_mcnp(prefix)
+            else:
+                raise TypeError
+
         if prefix is not None and prefix not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
+
+        self._prefix: types.String = prefix
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 5):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def a(self) -> types.String:
+        """
+        Gets ``a``.
+
+        Returns:
+            ``a``.
+        """
+
+        return self._a
+
+    @a.setter
+    def a(self, a: str | types.String) -> None:
+        """
+        Sets ``a``.
+
+        Parameters:
+            a: Letter.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if a is not None:
+            if isinstance(a, types.String):
+                a = a
+            elif isinstance(a, str):
+                a = types.String.from_mcnp(a)
+            else:
+                raise TypeError
+
         if a is None or a not in {'x', 'y', 'z'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, a)
-        if rings is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rings)
-        if nd is not None and not (nd == 'nd'):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nd)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                a,
-                rings,
-                nd,
-            ]
-        )
-
-        self.prefix: typing.Final[types.String] = prefix
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.a: typing.Final[types.String] = a
-        self.designator: typing.Final[types.Designator] = designator
-        self.rings: typing.Final[types.Tuple[types.Ring]] = rings
-        self.nd: typing.Final[types.String] = nd
+        self._a: types.String = a
 
     def to_mcnp(self):
         """
@@ -87,102 +185,113 @@ class F_2(_option.DataOption):
 
         return f'{self.prefix or ""}f{self.suffix}{self.a}{f":{self.designator}" if self.designator else ""} {self.rings} {self.nd or ""}'
 
-
-@dataclasses.dataclass
-class FBuilder_2(_option.DataOptionBuilder):
-    """
-    Builds ``F_2``.
-
-    Attributes:
-        prefix: Star prefix.
-        suffix: Data card option suffix.
-        a: Letter.
-        designator: Data card particle designator.
-        rings: Detector points.
-        nd: Total/average specified surfaces/cells option.
-    """
-
-    suffix: str | int | types.Integer
-    a: str | types.String
-    rings: list[str] | list[types.Ring]
-    prefix: str | types.String = None
-    designator: str | types.Designator = None
-    nd: str | types.String = None
-
-    def build(self):
+    @property
+    def designator(self) -> types.Designator:
         """
-        Builds ``FBuilder_2`` into ``F_2``.
+        Gets ``designator``.
 
         Returns:
-            ``F_2`` for ``FBuilder_2``.
+            ``designator``.
         """
 
-        prefix = self.prefix
-        if isinstance(self.prefix, types.String):
-            prefix = self.prefix
-        elif isinstance(self.prefix, str):
-            prefix = types.String.from_mcnp(self.prefix)
+        return self._designator
 
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
 
-        a = self.a
-        if isinstance(self.a, types.String):
-            a = self.a
-        elif isinstance(self.a, str):
-            a = types.String.from_mcnp(self.a)
+        Parameters:
+            designator: Data card particle designator.
 
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
 
-        if self.rings:
-            rings = []
-            for item in self.rings:
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
+        self._designator: types.Designator = designator
+
+    @property
+    def rings(self) -> types.Tuple[types.Ring]:
+        """
+        Gets ``rings``.
+
+        Returns:
+            ``rings``.
+        """
+
+        return self._rings
+
+    @rings.setter
+    def rings(self, rings: list[str] | list[types.Ring]) -> None:
+        """
+        Sets ``rings``.
+
+        Parameters:
+            rings: Detector points.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if rings is not None:
+            array = []
+            for item in rings:
                 if isinstance(item, types.Ring):
-                    rings.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    rings.append(types.Ring.from_mcnp(item))
-            rings = types.Tuple(rings)
-        else:
-            rings = None
+                    array.append(types.Ring.from_mcnp(item))
+                else:
+                    raise TypeError
+            rings = types.Tuple(array)
 
-        nd = self.nd
-        if isinstance(self.nd, types.String):
-            nd = self.nd
-        elif isinstance(self.nd, str):
-            nd = types.String.from_mcnp(self.nd)
+        if rings is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, rings)
 
-        return F_2(
-            prefix=prefix,
-            suffix=suffix,
-            a=a,
-            designator=designator,
-            rings=rings,
-            nd=nd,
-        )
+        self._rings: types.Tuple[types.Ring] = rings
 
-    @staticmethod
-    def unbuild(ast: F_2):
+    @property
+    def nd(self) -> types.String:
         """
-        Unbuilds ``F_2`` into ``FBuilder_2``
+        Gets ``nd``.
 
         Returns:
-            ``FBuilder_2`` for ``F_2``.
+            ``nd``.
         """
 
-        return FBuilder_2(
-            prefix=copy.deepcopy(ast.prefix),
-            suffix=copy.deepcopy(ast.suffix),
-            a=copy.deepcopy(ast.a),
-            designator=copy.deepcopy(ast.designator),
-            rings=copy.deepcopy(ast.rings),
-            nd=copy.deepcopy(ast.nd),
-        )
+        return self._nd
+
+    @nd.setter
+    def nd(self, nd: str | types.String) -> None:
+        """
+        Sets ``nd``.
+
+        Parameters:
+            nd: Total/average specified surfaces/cells option.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if nd is not None:
+            if isinstance(nd, types.String):
+                nd = nd
+            elif isinstance(nd, str):
+                nd = types.String.from_mcnp(nd)
+            else:
+                raise TypeError
+
+        if nd is not None and not (nd == 'nd'):
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nd)
+
+        self._nd: types.String = nd

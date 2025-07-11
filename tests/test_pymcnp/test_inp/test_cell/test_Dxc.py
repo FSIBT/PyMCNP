@@ -6,22 +6,6 @@ from .... import classes
 class Test_Dxc:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.cell.Dxc
-        EXAMPLES_VALID = [{'suffix': consts.ast.type.INTEGER, 'designator': consts.ast.type.DESIGNATOR, 'probability': pymcnp.types.Real(0.8)}]
-        EXAMPLES_INVALID = [
-            {'suffix': None, 'designator': consts.ast.type.DESIGNATOR, 'probability': pymcnp.types.Real(0.8)},
-            {'suffix': consts.ast.type.INTEGER, 'designator': None, 'probability': pymcnp.types.Real(0.8)},
-            {'suffix': consts.ast.type.INTEGER, 'designator': consts.ast.type.DESIGNATOR, 'probability': None},
-        ]
-
-    class Test_Mcnp(classes.Test_Mcnp):
-        element = pymcnp.inp.cell.Dxc
-        EXAMPLES_VALID = [consts.string.inp.cell.DXC]
-        EXAMPLES_INVALID = ['hello']
-
-
-class Test_DxcBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.cell.DxcBuilder
         EXAMPLES_VALID = [
             {'suffix': consts.string.type.INTEGER, 'designator': consts.string.type.DESIGNATOR, 'probability': '0.8'},
             {'suffix': 1, 'designator': consts.string.type.DESIGNATOR, 'probability': 0.8},
@@ -33,3 +17,8 @@ class Test_DxcBuilder:
             {'suffix': consts.string.type.INTEGER, 'designator': consts.string.type.DESIGNATOR, 'probability': None},
             {'suffix': consts.string.type.INTEGER, 'designator': consts.string.type.DESIGNATOR, 'probability': '3.1'},
         ]
+
+    class Test_Mcnp(classes.Test_Mcnp):
+        element = pymcnp.inp.cell.Dxc
+        EXAMPLES_VALID = [consts.string.inp.cell.DXC]
+        EXAMPLES_INVALID = ['hello']

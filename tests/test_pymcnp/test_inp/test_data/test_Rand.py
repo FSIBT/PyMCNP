@@ -6,17 +6,10 @@ from .... import classes
 class Test_Rand:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.Rand
-        EXAMPLES_VALID = [{'options': [consts.ast.inp.data.rand.GEN]}, {'options': None}]
+        EXAMPLES_VALID = [{'options': [consts.string.inp.data.rand.GEN]}, {'options': [consts.ast.inp.data.rand.GEN]}, {'options': [consts.ast.inp.data.rand.GEN]}, {'options': None}]
         EXAMPLES_INVALID = []
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.Rand
         EXAMPLES_VALID = [consts.string.inp.data.RAND]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_RandBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.RandBuilder
-        EXAMPLES_VALID = [{'options': [consts.string.inp.data.rand.GEN]}, {'options': [consts.builder.inp.data.rand.GEN]}, {'options': [consts.ast.inp.data.rand.GEN]}, {'options': None}]
-        EXAMPLES_INVALID = []

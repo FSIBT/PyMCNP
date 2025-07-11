@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -26,7 +22,7 @@ class Py(_option.SurfaceOption):
 
     _REGEX = re.compile(rf'\Apy( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, d: types.Real):
+    def __init__(self, d: str | int | float | types.Real):
         """
         Initializes ``Py``.
 
@@ -37,16 +33,48 @@ class Py(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.d: types.Real = d
+
+    @property
+    def d(self) -> types.Real:
+        """
+        Gets ``d``.
+
+        Returns:
+            ``d``.
+        """
+
+        return self._d
+
+    @d.setter
+    def d(self, d: str | int | float | types.Real) -> None:
+        """
+        Sets ``d``.
+
+        Parameters:
+            d: Normal-to-the-y-axis plane D coefficent.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if d is not None:
+            if isinstance(d, types.Real):
+                d = d
+            elif isinstance(d, int):
+                d = types.Real(d)
+            elif isinstance(d, float):
+                d = types.Real(d)
+            elif isinstance(d, str):
+                d = types.Real.from_mcnp(d)
+            else:
+                raise TypeError
+
         if d is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, d)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                d,
-            ]
-        )
-
-        self.d: typing.Final[types.Real] = d
+        self._d: types.Real = d
 
     def draw(self):
         """
@@ -60,48 +88,3 @@ class Py(_option.SurfaceOption):
         vis = vis.add_rotation(_visualization.Vector(1, 0, 0), 90, (0, 0, 0))
 
         return vis
-
-
-@dataclasses.dataclass
-class PyBuilder(_option.SurfaceOptionBuilder):
-    """
-    Builds ``Py``.
-
-    Attributes:
-        d: Normal-to-the-y-axis plane D coefficent.
-    """
-
-    d: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``PyBuilder`` into ``Py``.
-
-        Returns:
-            ``Py`` for ``PyBuilder``.
-        """
-
-        d = self.d
-        if isinstance(self.d, types.Real):
-            d = self.d
-        elif isinstance(self.d, float) or isinstance(self.d, int):
-            d = types.Real(self.d)
-        elif isinstance(self.d, str):
-            d = types.Real.from_mcnp(self.d)
-
-        return Py(
-            d=d,
-        )
-
-    @staticmethod
-    def unbuild(ast: Py):
-        """
-        Unbuilds ``Py`` into ``PyBuilder``
-
-        Returns:
-            ``PyBuilder`` for ``Py``.
-        """
-
-        return PyBuilder(
-            d=copy.deepcopy(ast.d),
-        )

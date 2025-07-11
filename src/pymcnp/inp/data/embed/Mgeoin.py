@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Mgeoin(_option.EmbedOption):
 
     _REGEX = re.compile(rf'\Amgeoin( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, filename: types.String):
+    def __init__(self, filename: str | types.String):
         """
         Initializes ``Mgeoin``.
 
@@ -36,56 +32,41 @@ class Mgeoin(_option.EmbedOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.filename: types.String = filename
+
+    @property
+    def filename(self) -> types.String:
+        """
+        Gets ``filename``.
+
+        Returns:
+            ``filename``.
+        """
+
+        return self._filename
+
+    @filename.setter
+    def filename(self, filename: str | types.String) -> None:
+        """
+        Sets ``filename``.
+
+        Parameters:
+            filename: Name of the input file containing the mesh description.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if filename is not None:
+            if isinstance(filename, types.String):
+                filename = filename
+            elif isinstance(filename, str):
+                filename = types.String.from_mcnp(filename)
+            else:
+                raise TypeError
+
         if filename is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, filename)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                filename,
-            ]
-        )
-
-        self.filename: typing.Final[types.String] = filename
-
-
-@dataclasses.dataclass
-class MgeoinBuilder(_option.EmbedOptionBuilder):
-    """
-    Builds ``Mgeoin``.
-
-    Attributes:
-        filename: Name of the input file containing the mesh description.
-    """
-
-    filename: str | types.String
-
-    def build(self):
-        """
-        Builds ``MgeoinBuilder`` into ``Mgeoin``.
-
-        Returns:
-            ``Mgeoin`` for ``MgeoinBuilder``.
-        """
-
-        filename = self.filename
-        if isinstance(self.filename, types.String):
-            filename = self.filename
-        elif isinstance(self.filename, str):
-            filename = types.String.from_mcnp(self.filename)
-
-        return Mgeoin(
-            filename=filename,
-        )
-
-    @staticmethod
-    def unbuild(ast: Mgeoin):
-        """
-        Unbuilds ``Mgeoin`` into ``MgeoinBuilder``
-
-        Returns:
-            ``MgeoinBuilder`` for ``Mgeoin``.
-        """
-
-        return MgeoinBuilder(
-            filename=copy.deepcopy(ast.filename),
-        )
+        self._filename: types.String = filename

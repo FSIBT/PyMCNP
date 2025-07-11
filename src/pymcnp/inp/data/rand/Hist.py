@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Hist(_option.RandOption):
 
     _REGEX = re.compile(rf'\Ahist( {types.Integer._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, hist: types.Integer):
+    def __init__(self, hist: str | int | types.Integer):
         """
         Initializes ``Hist``.
 
@@ -36,58 +32,43 @@ class Hist(_option.RandOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.hist: types.Integer = hist
+
+    @property
+    def hist(self) -> types.Integer:
+        """
+        Gets ``hist``.
+
+        Returns:
+            ``hist``.
+        """
+
+        return self._hist
+
+    @hist.setter
+    def hist(self, hist: str | int | types.Integer) -> None:
+        """
+        Sets ``hist``.
+
+        Parameters:
+            hist: Starting pseudorandom number.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if hist is not None:
+            if isinstance(hist, types.Integer):
+                hist = hist
+            elif isinstance(hist, int):
+                hist = types.Integer(hist)
+            elif isinstance(hist, str):
+                hist = types.Integer.from_mcnp(hist)
+            else:
+                raise TypeError
+
         if hist is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, hist)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                hist,
-            ]
-        )
-
-        self.hist: typing.Final[types.Integer] = hist
-
-
-@dataclasses.dataclass
-class HistBuilder(_option.RandOptionBuilder):
-    """
-    Builds ``Hist``.
-
-    Attributes:
-        hist: Starting pseudorandom number.
-    """
-
-    hist: str | int | types.Integer
-
-    def build(self):
-        """
-        Builds ``HistBuilder`` into ``Hist``.
-
-        Returns:
-            ``Hist`` for ``HistBuilder``.
-        """
-
-        hist = self.hist
-        if isinstance(self.hist, types.Integer):
-            hist = self.hist
-        elif isinstance(self.hist, int):
-            hist = types.Integer(self.hist)
-        elif isinstance(self.hist, str):
-            hist = types.Integer.from_mcnp(self.hist)
-
-        return Hist(
-            hist=hist,
-        )
-
-    @staticmethod
-    def unbuild(ast: Hist):
-        """
-        Unbuilds ``Hist`` into ``HistBuilder``
-
-        Returns:
-            ``HistBuilder`` for ``Hist``.
-        """
-
-        return HistBuilder(
-            hist=copy.deepcopy(ast.hist),
-        )
+        self._hist: types.Integer = hist

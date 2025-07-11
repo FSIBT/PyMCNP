@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -24,7 +20,7 @@ class Print(_option.DataOption):
 
     _REGEX = re.compile(rf'\Aprint((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z')
 
-    def __init__(self, tables: types.Tuple[types.Integer] = None):
+    def __init__(self, tables: list[str] | list[int] | list[types.Integer] = None):
         """
         Initializes ``Print``.
 
@@ -35,60 +31,43 @@ class Print(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                tables,
-            ]
-        )
+        self.tables: types.Tuple[types.Integer] = tables
 
-        self.tables: typing.Final[types.Tuple[types.Integer]] = tables
-
-
-@dataclasses.dataclass
-class PrintBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Print``.
-
-    Attributes:
-        tables: Tables to print.
-    """
-
-    tables: list[str] | list[int] | list[types.Integer] = None
-
-    def build(self):
+    @property
+    def tables(self) -> types.Tuple[types.Integer]:
         """
-        Builds ``PrintBuilder`` into ``Print``.
+        Gets ``tables``.
 
         Returns:
-            ``Print`` for ``PrintBuilder``.
+            ``tables``.
         """
 
-        if self.tables:
-            tables = []
-            for item in self.tables:
+        return self._tables
+
+    @tables.setter
+    def tables(self, tables: list[str] | list[int] | list[types.Integer]) -> None:
+        """
+        Sets ``tables``.
+
+        Parameters:
+            tables: Tables to print.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if tables is not None:
+            array = []
+            for item in tables:
                 if isinstance(item, types.Integer):
-                    tables.append(item)
+                    array.append(item)
                 elif isinstance(item, int):
-                    tables.append(types.Integer(item))
+                    array.append(types.Integer(item))
                 elif isinstance(item, str):
-                    tables.append(types.Integer.from_mcnp(item))
-            tables = types.Tuple(tables)
-        else:
-            tables = None
+                    array.append(types.Integer.from_mcnp(item))
+                else:
+                    raise TypeError
+            tables = types.Tuple(array)
 
-        return Print(
-            tables=tables,
-        )
-
-    @staticmethod
-    def unbuild(ast: Print):
-        """
-        Unbuilds ``Print`` into ``PrintBuilder``
-
-        Returns:
-            ``PrintBuilder`` for ``Print``.
-        """
-
-        return PrintBuilder(
-            tables=copy.deepcopy(ast.tables),
-        )
+        self._tables: types.Tuple[types.Integer] = tables

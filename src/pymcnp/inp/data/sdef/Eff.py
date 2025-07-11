@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Eff(_option.SdefOption):
 
     _REGEX = re.compile(rf'\Aeff( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, criterion: types.Real):
+    def __init__(self, criterion: str | int | float | types.Real):
         """
         Initializes ``Eff``.
 
@@ -36,58 +32,45 @@ class Eff(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.criterion: types.Real = criterion
+
+    @property
+    def criterion(self) -> types.Real:
+        """
+        Gets ``criterion``.
+
+        Returns:
+            ``criterion``.
+        """
+
+        return self._criterion
+
+    @criterion.setter
+    def criterion(self, criterion: str | int | float | types.Real) -> None:
+        """
+        Sets ``criterion``.
+
+        Parameters:
+            criterion: Rejection efficiency criterion for position sampling.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if criterion is not None:
+            if isinstance(criterion, types.Real):
+                criterion = criterion
+            elif isinstance(criterion, int):
+                criterion = types.Real(criterion)
+            elif isinstance(criterion, float):
+                criterion = types.Real(criterion)
+            elif isinstance(criterion, str):
+                criterion = types.Real.from_mcnp(criterion)
+            else:
+                raise TypeError
+
         if criterion is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, criterion)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                criterion,
-            ]
-        )
-
-        self.criterion: typing.Final[types.Real] = criterion
-
-
-@dataclasses.dataclass
-class EffBuilder(_option.SdefOptionBuilder):
-    """
-    Builds ``Eff``.
-
-    Attributes:
-        criterion: Rejection efficiency criterion for position sampling.
-    """
-
-    criterion: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``EffBuilder`` into ``Eff``.
-
-        Returns:
-            ``Eff`` for ``EffBuilder``.
-        """
-
-        criterion = self.criterion
-        if isinstance(self.criterion, types.Real):
-            criterion = self.criterion
-        elif isinstance(self.criterion, float) or isinstance(self.criterion, int):
-            criterion = types.Real(self.criterion)
-        elif isinstance(self.criterion, str):
-            criterion = types.Real.from_mcnp(self.criterion)
-
-        return Eff(
-            criterion=criterion,
-        )
-
-    @staticmethod
-    def unbuild(ast: Eff):
-        """
-        Unbuilds ``Eff`` into ``EffBuilder``
-
-        Returns:
-            ``EffBuilder`` for ``Eff``.
-        """
-
-        return EffBuilder(
-            criterion=copy.deepcopy(ast.criterion),
-        )
+        self._criterion: types.Real = criterion

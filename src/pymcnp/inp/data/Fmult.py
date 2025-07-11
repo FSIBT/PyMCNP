@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import fmult
 from . import _option
@@ -28,7 +24,7 @@ class Fmult(_option.DataOption):
 
     _REGEX = re.compile(rf'\Afmult( {types.Zaid._REGEX.pattern[2:-2]})((?: (?:{fmult.FmultOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, zaid: types.Zaid, options: types.Tuple[fmult.FmultOption] = None):
+    def __init__(self, zaid: str | types.Zaid, options: list[str] | list[fmult.FmultOption] = None):
         """
         Initializes ``Fmult``.
 
@@ -40,75 +36,79 @@ class Fmult(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.zaid: types.Zaid = zaid
+        self.options: types.Tuple[fmult.FmultOption] = options
+
+    @property
+    def zaid(self) -> types.Zaid:
+        """
+        Gets ``zaid``.
+
+        Returns:
+            ``zaid``.
+        """
+
+        return self._zaid
+
+    @zaid.setter
+    def zaid(self, zaid: str | types.Zaid) -> None:
+        """
+        Sets ``zaid``.
+
+        Parameters:
+            zaid: Nuclide for which data are entered.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if zaid is not None:
+            if isinstance(zaid, types.Zaid):
+                zaid = zaid
+            elif isinstance(zaid, str):
+                zaid = types.Zaid.from_mcnp(zaid)
+            else:
+                raise TypeError
+
         if zaid is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, zaid)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                zaid,
-                options,
-            ]
-        )
+        self._zaid: types.Zaid = zaid
 
-        self.zaid: typing.Final[types.Zaid] = zaid
-        self.options: typing.Final[types.Tuple[fmult.FmultOption]] = options
-
-
-@dataclasses.dataclass
-class FmultBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Fmult``.
-
-    Attributes:
-        zaid: Nuclide for which data are entered.
-        options: Dictionary of options.
-    """
-
-    zaid: str | types.Zaid
-    options: list[str] | list[fmult.FmultOption] = None
-
-    def build(self):
+    @property
+    def options(self) -> types.Tuple[fmult.FmultOption]:
         """
-        Builds ``FmultBuilder`` into ``Fmult``.
+        Gets ``options``.
 
         Returns:
-            ``Fmult`` for ``FmultBuilder``.
+            ``options``.
         """
 
-        zaid = self.zaid
-        if isinstance(self.zaid, types.Zaid):
-            zaid = self.zaid
-        elif isinstance(self.zaid, str):
-            zaid = types.Zaid.from_mcnp(self.zaid)
+        return self._options
 
-        if self.options:
-            options = []
-            for item in self.options:
+    @options.setter
+    def options(self, options: list[str] | list[fmult.FmultOption]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, fmult.FmultOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(fmult.FmultOption.from_mcnp(item))
-                elif isinstance(item, fmult.FmultOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(fmult.FmultOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Fmult(
-            zaid=zaid,
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fmult):
-        """
-        Unbuilds ``Fmult`` into ``FmultBuilder``
-
-        Returns:
-            ``FmultBuilder`` for ``Fmult``.
-        """
-
-        return FmultBuilder(
-            zaid=copy.deepcopy(ast.zaid),
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[fmult.FmultOption] = options

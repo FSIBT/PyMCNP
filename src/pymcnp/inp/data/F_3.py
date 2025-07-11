@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -33,7 +29,14 @@ class F_3(_option.DataOption):
 
     _REGEX = re.compile(rf'\A([*+])?f(\d*[8])(?::(\S+))?((?: {types.Integer._REGEX.pattern[2:-2]})+?)( t)?\Z')
 
-    def __init__(self, suffix: types.Integer, problems: types.Tuple[types.Integer], prefix: types.String = None, designator: types.Designator = None, t: types.String = None):
+    def __init__(
+        self,
+        suffix: str | int | types.Integer,
+        problems: list[str] | list[int] | list[types.Integer],
+        prefix: str | types.String = None,
+        designator: str | types.Designator = None,
+        t: str | types.String = None,
+    ):
         """
         Initializes ``F_3``.
 
@@ -48,114 +51,194 @@ class F_3(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.prefix: types.String = prefix
+        self.suffix: types.Integer = suffix
+        self.designator: types.Designator = designator
+        self.problems: types.Tuple[types.Integer] = problems
+        self.t: types.String = t
+
+    @property
+    def prefix(self) -> types.String:
+        """
+        Gets ``prefix``.
+
+        Returns:
+            ``prefix``.
+        """
+
+        return self._prefix
+
+    @prefix.setter
+    def prefix(self, prefix: str | types.String) -> None:
+        """
+        Sets ``prefix``.
+
+        Parameters:
+            prefix: Star prefix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if prefix is not None:
+            if isinstance(prefix, types.String):
+                prefix = prefix
+            elif isinstance(prefix, str):
+                prefix = types.String.from_mcnp(prefix)
+            else:
+                raise TypeError
+
         if prefix is not None and prefix not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
+
+        self._prefix: types.String = prefix
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix <= 99_999_999 and suffix % 10 == 8):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def designator(self) -> types.Designator:
+        """
+        Gets ``designator``.
+
+        Returns:
+            ``designator``.
+        """
+
+        return self._designator
+
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
+
+        Parameters:
+            designator: Data card particle designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
+        self._designator: types.Designator = designator
+
+    @property
+    def problems(self) -> types.Tuple[types.Integer]:
+        """
+        Gets ``problems``.
+
+        Returns:
+            ``problems``.
+        """
+
+        return self._problems
+
+    @problems.setter
+    def problems(self, problems: list[str] | list[int] | list[types.Integer]) -> None:
+        """
+        Sets ``problems``.
+
+        Parameters:
+            problems: Problem numbers of cell.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if problems is not None:
+            array = []
+            for item in problems:
+                if isinstance(item, types.Integer):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Integer(item))
+                elif isinstance(item, str):
+                    array.append(types.Integer.from_mcnp(item))
+                else:
+                    raise TypeError
+            problems = types.Tuple(array)
+
         if problems is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, problems)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                problems,
-                t,
-            ]
-        )
+        self._problems: types.Tuple[types.Integer] = problems
 
-        self.prefix: typing.Final[types.String] = prefix
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.designator: typing.Final[types.Designator] = designator
-        self.problems: typing.Final[types.Tuple[types.Integer]] = problems
-        self.t: typing.Final[types.String] = t
-
-
-@dataclasses.dataclass
-class FBuilder_3(_option.DataOptionBuilder):
-    """
-    Builds ``F_3``.
-
-    Attributes:
-        prefix: Star prefix.
-        suffix: Data card option suffix.
-        designator: Data card particle designator.
-        problems: Problem numbers of cell.
-        t: Average tallies option.
-    """
-
-    suffix: str | int | types.Integer
-    problems: list[str] | list[int] | list[types.Integer]
-    prefix: str | types.String = None
-    designator: str | types.Designator = None
-    t: str | types.String = None
-
-    def build(self):
+    @property
+    def t(self) -> types.String:
         """
-        Builds ``FBuilder_3`` into ``F_3``.
+        Gets ``t``.
 
         Returns:
-            ``F_3`` for ``FBuilder_3``.
+            ``t``.
         """
 
-        prefix = self.prefix
-        if isinstance(self.prefix, types.String):
-            prefix = self.prefix
-        elif isinstance(self.prefix, str):
-            prefix = types.String.from_mcnp(self.prefix)
+        return self._t
 
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
-
-        if self.problems:
-            problems = []
-            for item in self.problems:
-                if isinstance(item, types.Integer):
-                    problems.append(item)
-                elif isinstance(item, int):
-                    problems.append(types.Integer(item))
-                elif isinstance(item, str):
-                    problems.append(types.Integer.from_mcnp(item))
-            problems = types.Tuple(problems)
-        else:
-            problems = None
-
-        t = self.t
-        if isinstance(self.t, types.String):
-            t = self.t
-        elif isinstance(self.t, str):
-            t = types.String.from_mcnp(self.t)
-
-        return F_3(
-            prefix=prefix,
-            suffix=suffix,
-            designator=designator,
-            problems=problems,
-            t=t,
-        )
-
-    @staticmethod
-    def unbuild(ast: F_3):
+    @t.setter
+    def t(self, t: str | types.String) -> None:
         """
-        Unbuilds ``F_3`` into ``FBuilder_3``
+        Sets ``t``.
 
-        Returns:
-            ``FBuilder_3`` for ``F_3``.
+        Parameters:
+            t: Average tallies option.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return FBuilder_3(
-            prefix=copy.deepcopy(ast.prefix),
-            suffix=copy.deepcopy(ast.suffix),
-            designator=copy.deepcopy(ast.designator),
-            problems=copy.deepcopy(ast.problems),
-            t=copy.deepcopy(ast.t),
-        )
+        if t is not None:
+            if isinstance(t, types.String):
+                t = t
+            elif isinstance(t, str):
+                t = types.String.from_mcnp(t)
+            else:
+                raise TypeError
+
+        self._t: types.String = t

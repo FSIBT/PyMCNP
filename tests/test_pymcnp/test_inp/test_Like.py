@@ -4,6 +4,35 @@ from ... import classes
 
 
 class Test_Like:
+    class Test_Init(classes.Test_Init):
+        element = pymcnp.inp.Like
+        EXAMPLES_VALID = [
+            {
+                'number': consts.string.type.INTEGER,
+                'cell': consts.string.type.INTEGER,
+                'options': [consts.string.inp.like.IMP],
+            },
+            {
+                'number': 1,
+                'cell': 2,
+                'options': [consts.ast.inp.like.IMP],
+            },
+            {
+                'number': consts.ast.type.INTEGER,
+                'cell': consts.ast.type.INTEGER,
+                'options': [consts.ast.inp.like.IMP],
+            },
+            {'number': consts.string.type.INTEGER, 'cell': consts.string.type.INTEGER, 'options': None},
+        ]
+        EXAMPLES_INVALID = [
+            {'number': None, 'cell': consts.string.type.INTEGER, 'options': [consts.string.inp.like.IMP]},
+            {
+                'number': consts.string.type.INTEGER,
+                'cell': None,
+                'options': [consts.string.inp.like.IMP],
+            },
+        ]
+
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.Like
         EXAMPLES_VALID = [
@@ -16,35 +45,4 @@ class Test_Like:
         ]
         EXAMPLES_INVALID = [
             'hello',
-        ]
-
-
-class Test_LikeBuilder:
-    class Test_Build(classes.Test_Build):
-        element = pymcnp.inp.LikeBuilder
-        EXAMPLES_VALID = [
-            {
-                'number': consts.string.type.INTEGER,
-                'original': consts.string.type.INTEGER,
-                'options': [consts.string.inp.like.IMP],
-            },
-            {
-                'number': 1,
-                'original': 2,
-                'options': [consts.builder.inp.like.IMP],
-            },
-            {
-                'number': consts.ast.type.INTEGER,
-                'original': consts.ast.type.INTEGER,
-                'options': [consts.ast.inp.like.IMP],
-            },
-            {'number': consts.string.type.INTEGER, 'original': consts.string.type.INTEGER, 'options': None},
-        ]
-        EXAMPLES_INVALID = [
-            {'number': None, 'original': consts.string.type.INTEGER, 'options': [consts.string.inp.like.IMP]},
-            {
-                'number': consts.string.type.INTEGER,
-                'original': None,
-                'options': [consts.string.inp.like.IMP],
-            },
         ]

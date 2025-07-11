@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Type(_option.FmeshOption):
 
     _REGEX = re.compile(rf'\Atype( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, setting: types.String):
+    def __init__(self, setting: str | types.String):
         """
         Initializes ``Type``.
 
@@ -36,56 +32,41 @@ class Type(_option.FmeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.setting: types.String = setting
+
+    @property
+    def setting(self) -> types.String:
+        """
+        Gets ``setting``.
+
+        Returns:
+            ``setting``.
+        """
+
+        return self._setting
+
+    @setting.setter
+    def setting(self, setting: str | types.String) -> None:
+        """
+        Sets ``setting``.
+
+        Parameters:
+            setting: Tally quantity.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if setting is not None:
+            if isinstance(setting, types.String):
+                setting = setting
+            elif isinstance(setting, str):
+                setting = types.String.from_mcnp(setting)
+            else:
+                raise TypeError
+
         if setting is None or setting not in {'flux', 'source'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, setting)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                setting,
-            ]
-        )
-
-        self.setting: typing.Final[types.String] = setting
-
-
-@dataclasses.dataclass
-class TypeBuilder(_option.FmeshOptionBuilder):
-    """
-    Builds ``Type``.
-
-    Attributes:
-        setting: Tally quantity.
-    """
-
-    setting: str | types.String
-
-    def build(self):
-        """
-        Builds ``TypeBuilder`` into ``Type``.
-
-        Returns:
-            ``Type`` for ``TypeBuilder``.
-        """
-
-        setting = self.setting
-        if isinstance(self.setting, types.String):
-            setting = self.setting
-        elif isinstance(self.setting, str):
-            setting = types.String.from_mcnp(self.setting)
-
-        return Type(
-            setting=setting,
-        )
-
-    @staticmethod
-    def unbuild(ast: Type):
-        """
-        Unbuilds ``Type`` into ``TypeBuilder``
-
-        Returns:
-            ``TypeBuilder`` for ``Type``.
-        """
-
-        return TypeBuilder(
-            setting=copy.deepcopy(ast.setting),
-        )
+        self._setting: types.String = setting

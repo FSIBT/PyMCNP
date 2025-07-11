@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -49,17 +45,17 @@ class Phys_4(_option.DataOption):
 
     def __init__(
         self,
-        designator: types.Designator,
-        emax: types.Real = None,
-        istrg: types.Integer = None,
-        xmunum: types.Integer = None,
-        xmugam: types.Real = None,
-        i_mcs_model: types.Integer = None,
-        i_int_model: types.Integer = None,
-        i_els_model: types.Integer = None,
-        efac: types.Real = None,
-        ckvnum: types.Real = None,
-        drp: types.Real = None,
+        designator: str | types.Designator,
+        emax: str | int | float | types.Real = None,
+        istrg: str | int | types.Integer = None,
+        xmunum: str | int | types.Integer = None,
+        xmugam: str | int | float | types.Real = None,
+        i_mcs_model: str | int | types.Integer = None,
+        i_int_model: str | int | types.Integer = None,
+        i_els_model: str | int | types.Integer = None,
+        efac: str | int | float | types.Real = None,
+        ckvnum: str | int | float | types.Real = None,
+        drp: str | int | float | types.Real = None,
     ):
         """
         Initializes ``Phys_4``.
@@ -81,211 +77,445 @@ class Phys_4(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.designator: types.Designator = designator
+        self.emax: types.Real = emax
+        self.istrg: types.Integer = istrg
+        self.xmunum: types.Integer = xmunum
+        self.xmugam: types.Real = xmugam
+        self.i_mcs_model: types.Integer = i_mcs_model
+        self.i_int_model: types.Integer = i_int_model
+        self.i_els_model: types.Integer = i_els_model
+        self.efac: types.Real = efac
+        self.ckvnum: types.Real = ckvnum
+        self.drp: types.Real = drp
+
+    @property
+    def designator(self) -> types.Designator:
+        """
+        Gets ``designator``.
+
+        Returns:
+            ``designator``.
+        """
+
+        return self._designator
+
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
+
+        Parameters:
+            designator: Data card particle designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
+
+        self._designator: types.Designator = designator
+
+    @property
+    def emax(self) -> types.Real:
+        """
+        Gets ``emax``.
+
+        Returns:
+            ``emax``.
+        """
+
+        return self._emax
+
+    @emax.setter
+    def emax(self, emax: str | int | float | types.Real) -> None:
+        """
+        Sets ``emax``.
+
+        Parameters:
+            emax: Upper energy limit.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if emax is not None:
+            if isinstance(emax, types.Real):
+                emax = emax
+            elif isinstance(emax, int):
+                emax = types.Real(emax)
+            elif isinstance(emax, float):
+                emax = types.Real(emax)
+            elif isinstance(emax, str):
+                emax = types.Real.from_mcnp(emax)
+            else:
+                raise TypeError
+
+        self._emax: types.Real = emax
+
+    @property
+    def istrg(self) -> types.Integer:
+        """
+        Gets ``istrg``.
+
+        Returns:
+            ``istrg``.
+        """
+
+        return self._istrg
+
+    @istrg.setter
+    def istrg(self, istrg: str | int | types.Integer) -> None:
+        """
+        Sets ``istrg``.
+
+        Parameters:
+            istrg: Charged-particle straggling controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if istrg is not None:
+            if isinstance(istrg, types.Integer):
+                istrg = istrg
+            elif isinstance(istrg, int):
+                istrg = types.Integer(istrg)
+            elif isinstance(istrg, str):
+                istrg = types.Integer.from_mcnp(istrg)
+            else:
+                raise TypeError
+
         if istrg is not None and not (isinstance(istrg.value, types.Jump) or istrg in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, istrg)
+
+        self._istrg: types.Integer = istrg
+
+    @property
+    def xmunum(self) -> types.Integer:
+        """
+        Gets ``xmunum``.
+
+        Returns:
+            ``xmunum``.
+        """
+
+        return self._xmunum
+
+    @xmunum.setter
+    def xmunum(self, xmunum: str | int | types.Integer) -> None:
+        """
+        Sets ``xmunum``.
+
+        Parameters:
+            xmunum: Selection of muonic x-ray controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if xmunum is not None:
+            if isinstance(xmunum, types.Integer):
+                xmunum = xmunum
+            elif isinstance(xmunum, int):
+                xmunum = types.Integer(xmunum)
+            elif isinstance(xmunum, str):
+                xmunum = types.Integer.from_mcnp(xmunum)
+            else:
+                raise TypeError
+
         if xmunum is not None and not (isinstance(xmunum.value, types.Jump) or xmunum in {-1, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, xmunum)
+
+        self._xmunum: types.Integer = xmunum
+
+    @property
+    def xmugam(self) -> types.Real:
+        """
+        Gets ``xmugam``.
+
+        Returns:
+            ``xmugam``.
+        """
+
+        return self._xmugam
+
+    @xmugam.setter
+    def xmugam(self, xmugam: str | int | float | types.Real) -> None:
+        """
+        Sets ``xmugam``.
+
+        Parameters:
+            xmugam: Probability for emitting k-shell photon.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if xmugam is not None:
+            if isinstance(xmugam, types.Real):
+                xmugam = xmugam
+            elif isinstance(xmugam, int):
+                xmugam = types.Real(xmugam)
+            elif isinstance(xmugam, float):
+                xmugam = types.Real(xmugam)
+            elif isinstance(xmugam, str):
+                xmugam = types.Real.from_mcnp(xmugam)
+            else:
+                raise TypeError
+
+        self._xmugam: types.Real = xmugam
+
+    @property
+    def i_mcs_model(self) -> types.Integer:
+        """
+        Gets ``i_mcs_model``.
+
+        Returns:
+            ``i_mcs_model``.
+        """
+
+        return self._i_mcs_model
+
+    @i_mcs_model.setter
+    def i_mcs_model(self, i_mcs_model: str | int | types.Integer) -> None:
+        """
+        Sets ``i_mcs_model``.
+
+        Parameters:
+            i_mcs_model: Choice of Coulomb scattering model controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if i_mcs_model is not None:
+            if isinstance(i_mcs_model, types.Integer):
+                i_mcs_model = i_mcs_model
+            elif isinstance(i_mcs_model, int):
+                i_mcs_model = types.Integer(i_mcs_model)
+            elif isinstance(i_mcs_model, str):
+                i_mcs_model = types.Integer.from_mcnp(i_mcs_model)
+            else:
+                raise TypeError
+
         if i_mcs_model is not None and not (isinstance(i_mcs_model.value, types.Jump) or i_mcs_model in {-1, 0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_mcs_model)
+
+        self._i_mcs_model: types.Integer = i_mcs_model
+
+    @property
+    def i_int_model(self) -> types.Integer:
+        """
+        Gets ``i_int_model``.
+
+        Returns:
+            ``i_int_model``.
+        """
+
+        return self._i_int_model
+
+    @i_int_model.setter
+    def i_int_model(self, i_int_model: str | int | types.Integer) -> None:
+        """
+        Sets ``i_int_model``.
+
+        Parameters:
+            i_int_model: Treatment of nuclear interactions controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if i_int_model is not None:
+            if isinstance(i_int_model, types.Integer):
+                i_int_model = i_int_model
+            elif isinstance(i_int_model, int):
+                i_int_model = types.Integer(i_int_model)
+            elif isinstance(i_int_model, str):
+                i_int_model = types.Integer.from_mcnp(i_int_model)
+            else:
+                raise TypeError
+
         if i_int_model is not None and not (isinstance(i_int_model.value, types.Jump) or i_int_model in {-1, 0, 1, 2}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_int_model)
+
+        self._i_int_model: types.Integer = i_int_model
+
+    @property
+    def i_els_model(self) -> types.Integer:
+        """
+        Gets ``i_els_model``.
+
+        Returns:
+            ``i_els_model``.
+        """
+
+        return self._i_els_model
+
+    @i_els_model.setter
+    def i_els_model(self, i_els_model: str | int | types.Integer) -> None:
+        """
+        Sets ``i_els_model``.
+
+        Parameters:
+            i_els_model: Treatment of nuclear elastic scattering controls.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if i_els_model is not None:
+            if isinstance(i_els_model, types.Integer):
+                i_els_model = i_els_model
+            elif isinstance(i_els_model, int):
+                i_els_model = types.Integer(i_els_model)
+            elif isinstance(i_els_model, str):
+                i_els_model = types.Integer.from_mcnp(i_els_model)
+            else:
+                raise TypeError
+
         if i_els_model is not None and not (isinstance(i_els_model.value, types.Jump) or i_els_model in {-1, 0}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, i_els_model)
+
+        self._i_els_model: types.Integer = i_els_model
+
+    @property
+    def efac(self) -> types.Real:
+        """
+        Gets ``efac``.
+
+        Returns:
+            ``efac``.
+        """
+
+        return self._efac
+
+    @efac.setter
+    def efac(self, efac: str | int | float | types.Real) -> None:
+        """
+        Sets ``efac``.
+
+        Parameters:
+            efac: Stopping power energy spacing.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if efac is not None:
+            if isinstance(efac, types.Real):
+                efac = efac
+            elif isinstance(efac, int):
+                efac = types.Real(efac)
+            elif isinstance(efac, float):
+                efac = types.Real(efac)
+            elif isinstance(efac, str):
+                efac = types.Real.from_mcnp(efac)
+            else:
+                raise TypeError
+
         if efac is not None and not (isinstance(efac.value, types.Jump) or (efac >= 0.8 and efac <= 0.99)):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, efac)
+
+        self._efac: types.Real = efac
+
+    @property
+    def ckvnum(self) -> types.Real:
+        """
+        Gets ``ckvnum``.
+
+        Returns:
+            ``ckvnum``.
+        """
+
+        return self._ckvnum
+
+    @ckvnum.setter
+    def ckvnum(self, ckvnum: str | int | float | types.Real) -> None:
+        """
+        Sets ``ckvnum``.
+
+        Parameters:
+            ckvnum: Crenkov photon emission scalar.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if ckvnum is not None:
+            if isinstance(ckvnum, types.Real):
+                ckvnum = ckvnum
+            elif isinstance(ckvnum, int):
+                ckvnum = types.Real(ckvnum)
+            elif isinstance(ckvnum, float):
+                ckvnum = types.Real(ckvnum)
+            elif isinstance(ckvnum, str):
+                ckvnum = types.Real.from_mcnp(ckvnum)
+            else:
+                raise TypeError
+
         if ckvnum is not None and not (isinstance(ckvnum.value, types.Jump) or ckvnum >= 0 and ckvnum < 1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, ckvnum)
+
+        self._ckvnum: types.Real = ckvnum
+
+    @property
+    def drp(self) -> types.Real:
+        """
+        Gets ``drp``.
+
+        Returns:
+            ``drp``.
+        """
+
+        return self._drp
+
+    @drp.setter
+    def drp(self, drp: str | int | float | types.Real) -> None:
+        """
+        Sets ``drp``.
+
+        Parameters:
+            drp: Lower energy delta-ray cutoff.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if drp is not None:
+            if isinstance(drp, types.Real):
+                drp = drp
+            elif isinstance(drp, int):
+                drp = types.Real(drp)
+            elif isinstance(drp, float):
+                drp = types.Real(drp)
+            elif isinstance(drp, str):
+                drp = types.Real.from_mcnp(drp)
+            else:
+                raise TypeError
+
         if drp is not None and not (isinstance(drp.value, types.Jump) or drp >= 0 or drp == -1):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, drp)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                emax,
-                istrg,
-                xmunum,
-                xmugam,
-                i_mcs_model,
-                i_int_model,
-                i_els_model,
-                efac,
-                ckvnum,
-                drp,
-            ]
-        )
-
-        self.designator: typing.Final[types.Designator] = designator
-        self.emax: typing.Final[types.Real] = emax
-        self.istrg: typing.Final[types.Integer] = istrg
-        self.xmunum: typing.Final[types.Integer] = xmunum
-        self.xmugam: typing.Final[types.Real] = xmugam
-        self.i_mcs_model: typing.Final[types.Integer] = i_mcs_model
-        self.i_int_model: typing.Final[types.Integer] = i_int_model
-        self.i_els_model: typing.Final[types.Integer] = i_els_model
-        self.efac: typing.Final[types.Real] = efac
-        self.ckvnum: typing.Final[types.Real] = ckvnum
-        self.drp: typing.Final[types.Real] = drp
-
-
-@dataclasses.dataclass
-class PhysBuilder_4(_option.DataOptionBuilder):
-    """
-    Builds ``Phys_4``.
-
-    Attributes:
-        designator: Data card particle designator.
-        emax: Upper energy limit.
-        istrg: Charged-particle straggling controls.
-        xmunum: Selection of muonic x-ray controls.
-        xmugam: Probability for emitting k-shell photon.
-        i_mcs_model: Choice of Coulomb scattering model controls.
-        i_int_model: Treatment of nuclear interactions controls.
-        i_els_model: Treatment of nuclear elastic scattering controls.
-        efac: Stopping power energy spacing.
-        ckvnum: Crenkov photon emission scalar.
-        drp: Lower energy delta-ray cutoff.
-    """
-
-    designator: str | types.Designator
-    emax: str | float | types.Real = None
-    istrg: str | int | types.Integer = None
-    xmunum: str | int | types.Integer = None
-    xmugam: str | float | types.Real = None
-    i_mcs_model: str | int | types.Integer = None
-    i_int_model: str | int | types.Integer = None
-    i_els_model: str | int | types.Integer = None
-    efac: str | float | types.Real = None
-    ckvnum: str | float | types.Real = None
-    drp: str | float | types.Real = None
-
-    def build(self):
-        """
-        Builds ``PhysBuilder_4`` into ``Phys_4``.
-
-        Returns:
-            ``Phys_4`` for ``PhysBuilder_4``.
-        """
-
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
-
-        emax = self.emax
-        if isinstance(self.emax, types.Real):
-            emax = self.emax
-        elif isinstance(self.emax, float) or isinstance(self.emax, int):
-            emax = types.Real(self.emax)
-        elif isinstance(self.emax, str):
-            emax = types.Real.from_mcnp(self.emax)
-
-        istrg = self.istrg
-        if isinstance(self.istrg, types.Integer):
-            istrg = self.istrg
-        elif isinstance(self.istrg, int):
-            istrg = types.Integer(self.istrg)
-        elif isinstance(self.istrg, str):
-            istrg = types.Integer.from_mcnp(self.istrg)
-
-        xmunum = self.xmunum
-        if isinstance(self.xmunum, types.Integer):
-            xmunum = self.xmunum
-        elif isinstance(self.xmunum, int):
-            xmunum = types.Integer(self.xmunum)
-        elif isinstance(self.xmunum, str):
-            xmunum = types.Integer.from_mcnp(self.xmunum)
-
-        xmugam = self.xmugam
-        if isinstance(self.xmugam, types.Real):
-            xmugam = self.xmugam
-        elif isinstance(self.xmugam, float) or isinstance(self.xmugam, int):
-            xmugam = types.Real(self.xmugam)
-        elif isinstance(self.xmugam, str):
-            xmugam = types.Real.from_mcnp(self.xmugam)
-
-        i_mcs_model = self.i_mcs_model
-        if isinstance(self.i_mcs_model, types.Integer):
-            i_mcs_model = self.i_mcs_model
-        elif isinstance(self.i_mcs_model, int):
-            i_mcs_model = types.Integer(self.i_mcs_model)
-        elif isinstance(self.i_mcs_model, str):
-            i_mcs_model = types.Integer.from_mcnp(self.i_mcs_model)
-
-        i_int_model = self.i_int_model
-        if isinstance(self.i_int_model, types.Integer):
-            i_int_model = self.i_int_model
-        elif isinstance(self.i_int_model, int):
-            i_int_model = types.Integer(self.i_int_model)
-        elif isinstance(self.i_int_model, str):
-            i_int_model = types.Integer.from_mcnp(self.i_int_model)
-
-        i_els_model = self.i_els_model
-        if isinstance(self.i_els_model, types.Integer):
-            i_els_model = self.i_els_model
-        elif isinstance(self.i_els_model, int):
-            i_els_model = types.Integer(self.i_els_model)
-        elif isinstance(self.i_els_model, str):
-            i_els_model = types.Integer.from_mcnp(self.i_els_model)
-
-        efac = self.efac
-        if isinstance(self.efac, types.Real):
-            efac = self.efac
-        elif isinstance(self.efac, float) or isinstance(self.efac, int):
-            efac = types.Real(self.efac)
-        elif isinstance(self.efac, str):
-            efac = types.Real.from_mcnp(self.efac)
-
-        ckvnum = self.ckvnum
-        if isinstance(self.ckvnum, types.Real):
-            ckvnum = self.ckvnum
-        elif isinstance(self.ckvnum, float) or isinstance(self.ckvnum, int):
-            ckvnum = types.Real(self.ckvnum)
-        elif isinstance(self.ckvnum, str):
-            ckvnum = types.Real.from_mcnp(self.ckvnum)
-
-        drp = self.drp
-        if isinstance(self.drp, types.Real):
-            drp = self.drp
-        elif isinstance(self.drp, float) or isinstance(self.drp, int):
-            drp = types.Real(self.drp)
-        elif isinstance(self.drp, str):
-            drp = types.Real.from_mcnp(self.drp)
-
-        return Phys_4(
-            designator=designator,
-            emax=emax,
-            istrg=istrg,
-            xmunum=xmunum,
-            xmugam=xmugam,
-            i_mcs_model=i_mcs_model,
-            i_int_model=i_int_model,
-            i_els_model=i_els_model,
-            efac=efac,
-            ckvnum=ckvnum,
-            drp=drp,
-        )
-
-    @staticmethod
-    def unbuild(ast: Phys_4):
-        """
-        Unbuilds ``Phys_4`` into ``PhysBuilder_4``
-
-        Returns:
-            ``PhysBuilder_4`` for ``Phys_4``.
-        """
-
-        return PhysBuilder_4(
-            designator=copy.deepcopy(ast.designator),
-            emax=copy.deepcopy(ast.emax),
-            istrg=copy.deepcopy(ast.istrg),
-            xmunum=copy.deepcopy(ast.xmunum),
-            xmugam=copy.deepcopy(ast.xmugam),
-            i_mcs_model=copy.deepcopy(ast.i_mcs_model),
-            i_int_model=copy.deepcopy(ast.i_int_model),
-            i_els_model=copy.deepcopy(ast.i_els_model),
-            efac=copy.deepcopy(ast.efac),
-            ckvnum=copy.deepcopy(ast.ckvnum),
-            drp=copy.deepcopy(ast.drp),
-        )
+        self._drp: types.Real = drp

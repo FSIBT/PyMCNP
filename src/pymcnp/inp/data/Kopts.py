@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import kopts
 from . import _option
@@ -25,7 +21,7 @@ class Kopts(_option.DataOption):
 
     _REGEX = re.compile(rf'\Akopts((?: (?:{kopts.KoptsOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[kopts.KoptsOption] = None):
+    def __init__(self, options: list[str] | list[kopts.KoptsOption] = None):
         """
         Initializes ``Kopts``.
 
@@ -36,60 +32,41 @@ class Kopts(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                options,
-            ]
-        )
+        self.options: types.Tuple[kopts.KoptsOption] = options
 
-        self.options: typing.Final[types.Tuple[kopts.KoptsOption]] = options
-
-
-@dataclasses.dataclass
-class KoptsBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Kopts``.
-
-    Attributes:
-        options: Dictionary of options.
-    """
-
-    options: list[str] | list[kopts.KoptsOption] = None
-
-    def build(self):
+    @property
+    def options(self) -> types.Tuple[kopts.KoptsOption]:
         """
-        Builds ``KoptsBuilder`` into ``Kopts``.
+        Gets ``options``.
 
         Returns:
-            ``Kopts`` for ``KoptsBuilder``.
+            ``options``.
         """
 
-        if self.options:
-            options = []
-            for item in self.options:
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[kopts.KoptsOption]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, kopts.KoptsOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(kopts.KoptsOption.from_mcnp(item))
-                elif isinstance(item, kopts.KoptsOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(kopts.KoptsOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Kopts(
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Kopts):
-        """
-        Unbuilds ``Kopts`` into ``KoptsBuilder``
-
-        Returns:
-            ``KoptsBuilder`` for ``Kopts``.
-        """
-
-        return KoptsBuilder(
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[kopts.KoptsOption] = options

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Reset(_option.MplotOption):
 
     _REGEX = re.compile(r'\Areset(?: (all|coplot))?\Z')
 
-    def __init__(self, aa: types.String = None):
+    def __init__(self, aa: str | types.String = None):
         """
         Initializes ``Reset``.
 
@@ -36,56 +32,41 @@ class Reset(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.aa: types.String = aa
+
+    @property
+    def aa(self) -> types.String:
+        """
+        Gets ``aa``.
+
+        Returns:
+            ``aa``.
+        """
+
+        return self._aa
+
+    @aa.setter
+    def aa(self, aa: str | types.String) -> None:
+        """
+        Sets ``aa``.
+
+        Parameters:
+            aa: Command parameter reset.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if aa is not None:
+            if isinstance(aa, types.String):
+                aa = aa
+            elif isinstance(aa, str):
+                aa = types.String.from_mcnp(aa)
+            else:
+                raise TypeError
+
         if aa is not None and aa not in {'all', 'coplot'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, aa)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                aa,
-            ]
-        )
-
-        self.aa: typing.Final[types.String] = aa
-
-
-@dataclasses.dataclass
-class ResetBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Reset``.
-
-    Attributes:
-        aa: Command parameter reset.
-    """
-
-    aa: str | types.String = None
-
-    def build(self):
-        """
-        Builds ``ResetBuilder`` into ``Reset``.
-
-        Returns:
-            ``Reset`` for ``ResetBuilder``.
-        """
-
-        aa = self.aa
-        if isinstance(self.aa, types.String):
-            aa = self.aa
-        elif isinstance(self.aa, str):
-            aa = types.String.from_mcnp(self.aa)
-
-        return Reset(
-            aa=aa,
-        )
-
-    @staticmethod
-    def unbuild(ast: Reset):
-        """
-        Unbuilds ``Reset`` into ``ResetBuilder``
-
-        Returns:
-            ``ResetBuilder`` for ``Reset``.
-        """
-
-        return ResetBuilder(
-            aa=copy.deepcopy(ast.aa),
-        )
+        self._aa: types.String = aa

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -24,7 +20,7 @@ class Pert(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Apert( {types.Integer._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, n: types.Integer = None):
+    def __init__(self, n: str | int | types.Integer = None):
         """
         Initializes ``Pert``.
 
@@ -35,55 +31,40 @@ class Pert(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                n,
-            ]
-        )
+        self.n: types.Integer = n
 
-        self.n: typing.Final[types.Integer] = n
-
-
-@dataclasses.dataclass
-class PertBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Pert``.
-
-    Attributes:
-        n: Number on a PERT card.
-    """
-
-    n: str | int | types.Integer = None
-
-    def build(self):
+    @property
+    def n(self) -> types.Integer:
         """
-        Builds ``PertBuilder`` into ``Pert``.
+        Gets ``n``.
 
         Returns:
-            ``Pert`` for ``PertBuilder``.
+            ``n``.
         """
 
-        n = self.n
-        if isinstance(self.n, types.Integer):
-            n = self.n
-        elif isinstance(self.n, int):
-            n = types.Integer(self.n)
-        elif isinstance(self.n, str):
-            n = types.Integer.from_mcnp(self.n)
+        return self._n
 
-        return Pert(
-            n=n,
-        )
-
-    @staticmethod
-    def unbuild(ast: Pert):
+    @n.setter
+    def n(self, n: str | int | types.Integer) -> None:
         """
-        Unbuilds ``Pert`` into ``PertBuilder``
+        Sets ``n``.
 
-        Returns:
-            ``PertBuilder`` for ``Pert``.
+        Parameters:
+            n: Number on a PERT card.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
         """
 
-        return PertBuilder(
-            n=copy.deepcopy(ast.n),
-        )
+        if n is not None:
+            if isinstance(n, types.Integer):
+                n = n
+            elif isinstance(n, int):
+                n = types.Integer(n)
+            elif isinstance(n, str):
+                n = types.Integer.from_mcnp(n)
+            else:
+                raise TypeError
+
+        self._n: types.Integer = n

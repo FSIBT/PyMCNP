@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Maxdeflc(_option.BfldOption):
 
     _REGEX = re.compile(rf'\Amaxdeflc( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, angle: types.Real):
+    def __init__(self, angle: str | int | float | types.Real):
         """
         Initializes ``Maxdeflc``.
 
@@ -36,58 +32,45 @@ class Maxdeflc(_option.BfldOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.angle: types.Real = angle
+
+    @property
+    def angle(self) -> types.Real:
+        """
+        Gets ``angle``.
+
+        Returns:
+            ``angle``.
+        """
+
+        return self._angle
+
+    @angle.setter
+    def angle(self, angle: str | int | float | types.Real) -> None:
+        """
+        Sets ``angle``.
+
+        Parameters:
+            angle: Maximum deflection angles.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if angle is not None:
+            if isinstance(angle, types.Real):
+                angle = angle
+            elif isinstance(angle, int):
+                angle = types.Real(angle)
+            elif isinstance(angle, float):
+                angle = types.Real(angle)
+            elif isinstance(angle, str):
+                angle = types.Real.from_mcnp(angle)
+            else:
+                raise TypeError
+
         if angle is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, angle)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                angle,
-            ]
-        )
-
-        self.angle: typing.Final[types.Real] = angle
-
-
-@dataclasses.dataclass
-class MaxdeflcBuilder(_option.BfldOptionBuilder):
-    """
-    Builds ``Maxdeflc``.
-
-    Attributes:
-        angle: Maximum deflection angles.
-    """
-
-    angle: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``MaxdeflcBuilder`` into ``Maxdeflc``.
-
-        Returns:
-            ``Maxdeflc`` for ``MaxdeflcBuilder``.
-        """
-
-        angle = self.angle
-        if isinstance(self.angle, types.Real):
-            angle = self.angle
-        elif isinstance(self.angle, float) or isinstance(self.angle, int):
-            angle = types.Real(self.angle)
-        elif isinstance(self.angle, str):
-            angle = types.Real.from_mcnp(self.angle)
-
-        return Maxdeflc(
-            angle=angle,
-        )
-
-    @staticmethod
-    def unbuild(ast: Maxdeflc):
-        """
-        Unbuilds ``Maxdeflc`` into ``MaxdeflcBuilder``
-
-        Returns:
-            ``MaxdeflcBuilder`` for ``Maxdeflc``.
-        """
-
-        return MaxdeflcBuilder(
-            angle=copy.deepcopy(ast.angle),
-        )
+        self._angle: types.Real = angle

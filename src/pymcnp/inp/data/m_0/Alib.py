@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Alib(_option.MOption_0):
 
     _REGEX = re.compile(rf'\Aalib( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, abx: types.String):
+    def __init__(self, abx: str | types.String):
         """
         Initializes ``Alib``.
 
@@ -36,56 +32,41 @@ class Alib(_option.MOption_0):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.abx: types.String = abx
+
+    @property
+    def abx(self) -> types.String:
+        """
+        Gets ``abx``.
+
+        Returns:
+            ``abx``.
+        """
+
+        return self._abx
+
+    @abx.setter
+    def abx(self, abx: str | types.String) -> None:
+        """
+        Sets ``abx``.
+
+        Parameters:
+            abx: Default alpha table identifier.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if abx is not None:
+            if isinstance(abx, types.String):
+                abx = abx
+            elif isinstance(abx, str):
+                abx = types.String.from_mcnp(abx)
+            else:
+                raise TypeError
+
         if abx is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, abx)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                abx,
-            ]
-        )
-
-        self.abx: typing.Final[types.String] = abx
-
-
-@dataclasses.dataclass
-class AlibBuilder(_option.MOptionBuilder_0):
-    """
-    Builds ``Alib``.
-
-    Attributes:
-        abx: Default alpha table identifier.
-    """
-
-    abx: str | types.String
-
-    def build(self):
-        """
-        Builds ``AlibBuilder`` into ``Alib``.
-
-        Returns:
-            ``Alib`` for ``AlibBuilder``.
-        """
-
-        abx = self.abx
-        if isinstance(self.abx, types.String):
-            abx = self.abx
-        elif isinstance(self.abx, str):
-            abx = types.String.from_mcnp(self.abx)
-
-        return Alib(
-            abx=abx,
-        )
-
-    @staticmethod
-    def unbuild(ast: Alib):
-        """
-        Unbuilds ``Alib`` into ``AlibBuilder``
-
-        Returns:
-            ``AlibBuilder`` for ``Alib``.
-        """
-
-        return AlibBuilder(
-            abx=copy.deepcopy(ast.abx),
-        )
+        self._abx: types.String = abx

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -25,7 +21,7 @@ class Mode(_option.DataOption):
 
     _REGEX = re.compile(rf'\Amode((?: {types.Designator._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, particles: types.Tuple[types.Designator]):
+    def __init__(self, particles: list[str] | list[types.Designator]):
         """
         Initializes ``Mode``.
 
@@ -36,61 +32,44 @@ class Mode(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.particles: types.Tuple[types.Designator] = particles
+
+    @property
+    def particles(self) -> types.Tuple[types.Designator]:
+        """
+        Gets ``particles``.
+
+        Returns:
+            ``particles``.
+        """
+
+        return self._particles
+
+    @particles.setter
+    def particles(self, particles: list[str] | list[types.Designator]) -> None:
+        """
+        Sets ``particles``.
+
+        Parameters:
+            particles: Tuple of particle designators.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if particles is not None:
+            array = []
+            for item in particles:
+                if isinstance(item, types.Designator):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.Designator.from_mcnp(item))
+                else:
+                    raise TypeError
+            particles = types.Tuple(array)
+
         if particles is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, particles)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                particles,
-            ]
-        )
-
-        self.particles: typing.Final[types.Tuple[types.Designator]] = particles
-
-
-@dataclasses.dataclass
-class ModeBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Mode``.
-
-    Attributes:
-        particles: Tuple of particle designators.
-    """
-
-    particles: list[str] | list[types.Designator]
-
-    def build(self):
-        """
-        Builds ``ModeBuilder`` into ``Mode``.
-
-        Returns:
-            ``Mode`` for ``ModeBuilder``.
-        """
-
-        if self.particles:
-            particles = []
-            for item in self.particles:
-                if isinstance(item, types.Designator):
-                    particles.append(item)
-                elif isinstance(item, str):
-                    particles.append(types.Designator.from_mcnp(item))
-            particles = types.Tuple(particles)
-        else:
-            particles = None
-
-        return Mode(
-            particles=particles,
-        )
-
-    @staticmethod
-    def unbuild(ast: Mode):
-        """
-        Unbuilds ``Mode`` into ``ModeBuilder``
-
-        Returns:
-            ``ModeBuilder`` for ``Mode``.
-        """
-
-        return ModeBuilder(
-            particles=copy.deepcopy(ast.particles),
-        )
+        self._particles: types.Tuple[types.Designator] = particles

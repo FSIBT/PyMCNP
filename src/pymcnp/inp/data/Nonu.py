@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -24,7 +20,7 @@ class Nonu(_option.DataOption):
 
     _REGEX = re.compile(rf'\Anonu((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z')
 
-    def __init__(self, settings: types.Tuple[types.Integer] = None):
+    def __init__(self, settings: list[str] | list[int] | list[types.Integer] = None):
         """
         Initializes ``Nonu``.
 
@@ -35,60 +31,43 @@ class Nonu(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                settings,
-            ]
-        )
+        self.settings: types.Tuple[types.Integer] = settings
 
-        self.settings: typing.Final[types.Tuple[types.Integer]] = settings
-
-
-@dataclasses.dataclass
-class NonuBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Nonu``.
-
-    Attributes:
-        settings: Tuple of fission settings.
-    """
-
-    settings: list[str] | list[int] | list[types.Integer] = None
-
-    def build(self):
+    @property
+    def settings(self) -> types.Tuple[types.Integer]:
         """
-        Builds ``NonuBuilder`` into ``Nonu``.
+        Gets ``settings``.
 
         Returns:
-            ``Nonu`` for ``NonuBuilder``.
+            ``settings``.
         """
 
-        if self.settings:
-            settings = []
-            for item in self.settings:
+        return self._settings
+
+    @settings.setter
+    def settings(self, settings: list[str] | list[int] | list[types.Integer]) -> None:
+        """
+        Sets ``settings``.
+
+        Parameters:
+            settings: Tuple of fission settings.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if settings is not None:
+            array = []
+            for item in settings:
                 if isinstance(item, types.Integer):
-                    settings.append(item)
+                    array.append(item)
                 elif isinstance(item, int):
-                    settings.append(types.Integer(item))
+                    array.append(types.Integer(item))
                 elif isinstance(item, str):
-                    settings.append(types.Integer.from_mcnp(item))
-            settings = types.Tuple(settings)
-        else:
-            settings = None
+                    array.append(types.Integer.from_mcnp(item))
+                else:
+                    raise TypeError
+            settings = types.Tuple(array)
 
-        return Nonu(
-            settings=settings,
-        )
-
-    @staticmethod
-    def unbuild(ast: Nonu):
-        """
-        Unbuilds ``Nonu`` into ``NonuBuilder``
-
-        Returns:
-            ``NonuBuilder`` for ``Nonu``.
-        """
-
-        return NonuBuilder(
-            settings=copy.deepcopy(ast.settings),
-        )
+        self._settings: types.Tuple[types.Integer] = settings

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -27,7 +23,7 @@ class Xs(_option.DataOption):
 
     _REGEX = re.compile(rf'\Axs(\d+)((?: {types.Substance._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, weight_ratios: types.Tuple[types.Substance]):
+    def __init__(self, suffix: str | int | types.Integer, weight_ratios: list[str] | list[types.Substance]):
         """
         Initializes ``Xs``.
 
@@ -39,76 +35,84 @@ class Xs(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.weight_ratios: types.Tuple[types.Substance] = weight_ratios
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def weight_ratios(self) -> types.Tuple[types.Substance]:
+        """
+        Gets ``weight_ratios``.
+
+        Returns:
+            ``weight_ratios``.
+        """
+
+        return self._weight_ratios
+
+    @weight_ratios.setter
+    def weight_ratios(self, weight_ratios: list[str] | list[types.Substance]) -> None:
+        """
+        Sets ``weight_ratios``.
+
+        Parameters:
+            weight_ratios: Tuple of atomic weight ratios.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if weight_ratios is not None:
+            array = []
+            for item in weight_ratios:
+                if isinstance(item, types.Substance):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.Substance.from_mcnp(item))
+                else:
+                    raise TypeError
+            weight_ratios = types.Tuple(array)
+
         if weight_ratios is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight_ratios)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                weight_ratios,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.weight_ratios: typing.Final[types.Tuple[types.Substance]] = weight_ratios
-
-
-@dataclasses.dataclass
-class XsBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Xs``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        weight_ratios: Tuple of atomic weight ratios.
-    """
-
-    suffix: str | int | types.Integer
-    weight_ratios: list[str] | list[types.Substance]
-
-    def build(self):
-        """
-        Builds ``XsBuilder`` into ``Xs``.
-
-        Returns:
-            ``Xs`` for ``XsBuilder``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        if self.weight_ratios:
-            weight_ratios = []
-            for item in self.weight_ratios:
-                if isinstance(item, types.Substance):
-                    weight_ratios.append(item)
-                elif isinstance(item, str):
-                    weight_ratios.append(types.Substance.from_mcnp(item))
-            weight_ratios = types.Tuple(weight_ratios)
-        else:
-            weight_ratios = None
-
-        return Xs(
-            suffix=suffix,
-            weight_ratios=weight_ratios,
-        )
-
-    @staticmethod
-    def unbuild(ast: Xs):
-        """
-        Unbuilds ``Xs`` into ``XsBuilder``
-
-        Returns:
-            ``XsBuilder`` for ``Xs``.
-        """
-
-        return XsBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            weight_ratios=copy.deepcopy(ast.weight_ratios),
-        )
+        self._weight_ratios: types.Tuple[types.Substance] = weight_ratios

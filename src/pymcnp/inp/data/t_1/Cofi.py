@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Cofi(_option.TOption_1):
 
     _REGEX = re.compile(rf'\Acofi( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, time: types.Real):
+    def __init__(self, time: str | int | float | types.Real):
         """
         Initializes ``Cofi``.
 
@@ -36,58 +32,45 @@ class Cofi(_option.TOption_1):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.time: types.Real = time
+
+    @property
+    def time(self) -> types.Real:
+        """
+        Gets ``time``.
+
+        Returns:
+            ``time``.
+        """
+
+        return self._time
+
+    @time.setter
+    def time(self, time: str | int | float | types.Real) -> None:
+        """
+        Sets ``time``.
+
+        Parameters:
+            time: Dead time interval.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if time is not None:
+            if isinstance(time, types.Real):
+                time = time
+            elif isinstance(time, int):
+                time = types.Real(time)
+            elif isinstance(time, float):
+                time = types.Real(time)
+            elif isinstance(time, str):
+                time = types.Real.from_mcnp(time)
+            else:
+                raise TypeError
+
         if time is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, time)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                time,
-            ]
-        )
-
-        self.time: typing.Final[types.Real] = time
-
-
-@dataclasses.dataclass
-class CofiBuilder(_option.TOptionBuilder_1):
-    """
-    Builds ``Cofi``.
-
-    Attributes:
-        time: Dead time interval.
-    """
-
-    time: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``CofiBuilder`` into ``Cofi``.
-
-        Returns:
-            ``Cofi`` for ``CofiBuilder``.
-        """
-
-        time = self.time
-        if isinstance(self.time, types.Real):
-            time = self.time
-        elif isinstance(self.time, float) or isinstance(self.time, int):
-            time = types.Real(self.time)
-        elif isinstance(self.time, str):
-            time = types.Real.from_mcnp(self.time)
-
-        return Cofi(
-            time=time,
-        )
-
-    @staticmethod
-    def unbuild(ast: Cofi):
-        """
-        Unbuilds ``Cofi`` into ``CofiBuilder``
-
-        Returns:
-            ``CofiBuilder`` for ``Cofi``.
-        """
-
-        return CofiBuilder(
-            time=copy.deepcopy(ast.time),
-        )
+        self._time: types.Real = time

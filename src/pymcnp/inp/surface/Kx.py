@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -30,7 +26,7 @@ class Kx(_option.SurfaceOption):
 
     _REGEX = re.compile(rf'\Akx( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, x: types.Real, t_squared: types.Real, plusminus_1: types.Real):
+    def __init__(self, x: str | int | float | types.Real, t_squared: str | int | float | types.Real, plusminus_1: str | int | float | types.Real):
         """
         Initializes ``Kx``.
 
@@ -43,24 +39,132 @@ class Kx(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.x: types.Real = x
+        self.t_squared: types.Real = t_squared
+        self.plusminus_1: types.Real = plusminus_1
+
+    @property
+    def x(self) -> types.Real:
+        """
+        Gets ``x``.
+
+        Returns:
+            ``x``.
+        """
+
+        return self._x
+
+    @x.setter
+    def x(self, x: str | int | float | types.Real) -> None:
+        """
+        Sets ``x``.
+
+        Parameters:
+            x: On-x-axis cone center x component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if x is not None:
+            if isinstance(x, types.Real):
+                x = x
+            elif isinstance(x, int):
+                x = types.Real(x)
+            elif isinstance(x, float):
+                x = types.Real(x)
+            elif isinstance(x, str):
+                x = types.Real.from_mcnp(x)
+            else:
+                raise TypeError
+
         if x is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, x)
+
+        self._x: types.Real = x
+
+    @property
+    def t_squared(self) -> types.Real:
+        """
+        Gets ``t_squared``.
+
+        Returns:
+            ``t_squared``.
+        """
+
+        return self._t_squared
+
+    @t_squared.setter
+    def t_squared(self, t_squared: str | int | float | types.Real) -> None:
+        """
+        Sets ``t_squared``.
+
+        Parameters:
+            t_squared: On-x-axis cone t^2 coefficent.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if t_squared is not None:
+            if isinstance(t_squared, types.Real):
+                t_squared = t_squared
+            elif isinstance(t_squared, int):
+                t_squared = types.Real(t_squared)
+            elif isinstance(t_squared, float):
+                t_squared = types.Real(t_squared)
+            elif isinstance(t_squared, str):
+                t_squared = types.Real.from_mcnp(t_squared)
+            else:
+                raise TypeError
+
         if t_squared is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, t_squared)
+
+        self._t_squared: types.Real = t_squared
+
+    @property
+    def plusminus_1(self) -> types.Real:
+        """
+        Gets ``plusminus_1``.
+
+        Returns:
+            ``plusminus_1``.
+        """
+
+        return self._plusminus_1
+
+    @plusminus_1.setter
+    def plusminus_1(self, plusminus_1: str | int | float | types.Real) -> None:
+        """
+        Sets ``plusminus_1``.
+
+        Parameters:
+            plusminus_1: On-x-axis cone sheet selector.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if plusminus_1 is not None:
+            if isinstance(plusminus_1, types.Real):
+                plusminus_1 = plusminus_1
+            elif isinstance(plusminus_1, int):
+                plusminus_1 = types.Real(plusminus_1)
+            elif isinstance(plusminus_1, float):
+                plusminus_1 = types.Real(plusminus_1)
+            elif isinstance(plusminus_1, str):
+                plusminus_1 = types.Real.from_mcnp(plusminus_1)
+            else:
+                raise TypeError
+
         if plusminus_1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, plusminus_1)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                x,
-                t_squared,
-                plusminus_1,
-            ]
-        )
-
-        self.x: typing.Final[types.Real] = x
-        self.t_squared: typing.Final[types.Real] = t_squared
-        self.plusminus_1: typing.Final[types.Real] = plusminus_1
+        self._plusminus_1: types.Real = plusminus_1
 
     def draw(self):
         """
@@ -75,72 +179,3 @@ class Kx(_option.SurfaceOption):
         vis = vis.add_translation(_visualization.Vector(self.x, 0, 0))
 
         return vis
-
-
-@dataclasses.dataclass
-class KxBuilder(_option.SurfaceOptionBuilder):
-    """
-    Builds ``Kx``.
-
-    Attributes:
-        x: On-x-axis cone center x component.
-        t_squared: On-x-axis cone t^2 coefficent.
-        plusminus_1: On-x-axis cone sheet selector.
-    """
-
-    x: str | float | types.Real
-    t_squared: str | float | types.Real
-    plusminus_1: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``KxBuilder`` into ``Kx``.
-
-        Returns:
-            ``Kx`` for ``KxBuilder``.
-        """
-
-        x = self.x
-        if isinstance(self.x, types.Real):
-            x = self.x
-        elif isinstance(self.x, float) or isinstance(self.x, int):
-            x = types.Real(self.x)
-        elif isinstance(self.x, str):
-            x = types.Real.from_mcnp(self.x)
-
-        t_squared = self.t_squared
-        if isinstance(self.t_squared, types.Real):
-            t_squared = self.t_squared
-        elif isinstance(self.t_squared, float) or isinstance(self.t_squared, int):
-            t_squared = types.Real(self.t_squared)
-        elif isinstance(self.t_squared, str):
-            t_squared = types.Real.from_mcnp(self.t_squared)
-
-        plusminus_1 = self.plusminus_1
-        if isinstance(self.plusminus_1, types.Real):
-            plusminus_1 = self.plusminus_1
-        elif isinstance(self.plusminus_1, float) or isinstance(self.plusminus_1, int):
-            plusminus_1 = types.Real(self.plusminus_1)
-        elif isinstance(self.plusminus_1, str):
-            plusminus_1 = types.Real.from_mcnp(self.plusminus_1)
-
-        return Kx(
-            x=x,
-            t_squared=t_squared,
-            plusminus_1=plusminus_1,
-        )
-
-    @staticmethod
-    def unbuild(ast: Kx):
-        """
-        Unbuilds ``Kx`` into ``KxBuilder``
-
-        Returns:
-            ``KxBuilder`` for ``Kx``.
-        """
-
-        return KxBuilder(
-            x=copy.deepcopy(ast.x),
-            t_squared=copy.deepcopy(ast.t_squared),
-            plusminus_1=copy.deepcopy(ast.plusminus_1),
-        )

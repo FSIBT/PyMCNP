@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -25,7 +21,7 @@ class Awtab(_option.DataOption):
 
     _REGEX = re.compile(rf'\Aawtab((?: {types.Substance._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, weight_ratios: types.Tuple[types.Substance]):
+    def __init__(self, weight_ratios: list[str] | list[types.Substance]):
         """
         Initializes ``Awtab``.
 
@@ -36,61 +32,44 @@ class Awtab(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.weight_ratios: types.Tuple[types.Substance] = weight_ratios
+
+    @property
+    def weight_ratios(self) -> types.Tuple[types.Substance]:
+        """
+        Gets ``weight_ratios``.
+
+        Returns:
+            ``weight_ratios``.
+        """
+
+        return self._weight_ratios
+
+    @weight_ratios.setter
+    def weight_ratios(self, weight_ratios: list[str] | list[types.Substance]) -> None:
+        """
+        Sets ``weight_ratios``.
+
+        Parameters:
+            weight_ratios: Tuple of atomic weight ratios.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if weight_ratios is not None:
+            array = []
+            for item in weight_ratios:
+                if isinstance(item, types.Substance):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.Substance.from_mcnp(item))
+                else:
+                    raise TypeError
+            weight_ratios = types.Tuple(array)
+
         if weight_ratios is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight_ratios)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                weight_ratios,
-            ]
-        )
-
-        self.weight_ratios: typing.Final[types.Tuple[types.Substance]] = weight_ratios
-
-
-@dataclasses.dataclass
-class AwtabBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Awtab``.
-
-    Attributes:
-        weight_ratios: Tuple of atomic weight ratios.
-    """
-
-    weight_ratios: list[str] | list[types.Substance]
-
-    def build(self):
-        """
-        Builds ``AwtabBuilder`` into ``Awtab``.
-
-        Returns:
-            ``Awtab`` for ``AwtabBuilder``.
-        """
-
-        if self.weight_ratios:
-            weight_ratios = []
-            for item in self.weight_ratios:
-                if isinstance(item, types.Substance):
-                    weight_ratios.append(item)
-                elif isinstance(item, str):
-                    weight_ratios.append(types.Substance.from_mcnp(item))
-            weight_ratios = types.Tuple(weight_ratios)
-        else:
-            weight_ratios = None
-
-        return Awtab(
-            weight_ratios=weight_ratios,
-        )
-
-    @staticmethod
-    def unbuild(ast: Awtab):
-        """
-        Unbuilds ``Awtab`` into ``AwtabBuilder``
-
-        Returns:
-            ``AwtabBuilder`` for ``Awtab``.
-        """
-
-        return AwtabBuilder(
-            weight_ratios=copy.deepcopy(ast.weight_ratios),
-        )
+        self._weight_ratios: types.Tuple[types.Substance] = weight_ratios

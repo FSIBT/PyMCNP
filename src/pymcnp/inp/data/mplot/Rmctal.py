@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Rmctal(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Armctal( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, filename: types.String):
+    def __init__(self, filename: str | types.String):
         """
         Initializes ``Rmctal``.
 
@@ -36,56 +32,41 @@ class Rmctal(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.filename: types.String = filename
+
+    @property
+    def filename(self) -> types.String:
+        """
+        Gets ``filename``.
+
+        Returns:
+            ``filename``.
+        """
+
+        return self._filename
+
+    @filename.setter
+    def filename(self, filename: str | types.String) -> None:
+        """
+        Sets ``filename``.
+
+        Parameters:
+            filename: MCTAL file to read.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if filename is not None:
+            if isinstance(filename, types.String):
+                filename = filename
+            elif isinstance(filename, str):
+                filename = types.String.from_mcnp(filename)
+            else:
+                raise TypeError
+
         if filename is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, filename)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                filename,
-            ]
-        )
-
-        self.filename: typing.Final[types.String] = filename
-
-
-@dataclasses.dataclass
-class RmctalBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Rmctal``.
-
-    Attributes:
-        filename: MCTAL file to read.
-    """
-
-    filename: str | types.String
-
-    def build(self):
-        """
-        Builds ``RmctalBuilder`` into ``Rmctal``.
-
-        Returns:
-            ``Rmctal`` for ``RmctalBuilder``.
-        """
-
-        filename = self.filename
-        if isinstance(self.filename, types.String):
-            filename = self.filename
-        elif isinstance(self.filename, str):
-            filename = types.String.from_mcnp(self.filename)
-
-        return Rmctal(
-            filename=filename,
-        )
-
-    @staticmethod
-    def unbuild(ast: Rmctal):
-        """
-        Unbuilds ``Rmctal`` into ``RmctalBuilder``
-
-        Returns:
-            ``RmctalBuilder`` for ``Rmctal``.
-        """
-
-        return RmctalBuilder(
-            filename=copy.deepcopy(ast.filename),
-        )
+        self._filename: types.String = filename

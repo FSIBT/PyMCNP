@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Geom(_option.MeshOption):
 
     _REGEX = re.compile(rf'\Ageom( {types.String._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, geometry: types.String):
+    def __init__(self, geometry: str | types.String):
         """
         Initializes ``Geom``.
 
@@ -36,56 +32,41 @@ class Geom(_option.MeshOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.geometry: types.String = geometry
+
+    @property
+    def geometry(self) -> types.String:
+        """
+        Gets ``geometry``.
+
+        Returns:
+            ``geometry``.
+        """
+
+        return self._geometry
+
+    @geometry.setter
+    def geometry(self, geometry: str | types.String) -> None:
+        """
+        Sets ``geometry``.
+
+        Parameters:
+            geometry: Controls mesh geometry type.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if geometry is not None:
+            if isinstance(geometry, types.String):
+                geometry = geometry
+            elif isinstance(geometry, str):
+                geometry = types.String.from_mcnp(geometry)
+            else:
+                raise TypeError
+
         if geometry is None or geometry not in {'xyz', 'rzt', 'rpt', 'cyl', 'rec', 'sph'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, geometry)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                geometry,
-            ]
-        )
-
-        self.geometry: typing.Final[types.String] = geometry
-
-
-@dataclasses.dataclass
-class GeomBuilder(_option.MeshOptionBuilder):
-    """
-    Builds ``Geom``.
-
-    Attributes:
-        geometry: Controls mesh geometry type.
-    """
-
-    geometry: str | types.String
-
-    def build(self):
-        """
-        Builds ``GeomBuilder`` into ``Geom``.
-
-        Returns:
-            ``Geom`` for ``GeomBuilder``.
-        """
-
-        geometry = self.geometry
-        if isinstance(self.geometry, types.String):
-            geometry = self.geometry
-        elif isinstance(self.geometry, str):
-            geometry = types.String.from_mcnp(self.geometry)
-
-        return Geom(
-            geometry=geometry,
-        )
-
-    @staticmethod
-    def unbuild(ast: Geom):
-        """
-        Unbuilds ``Geom`` into ``GeomBuilder``
-
-        Returns:
-            ``GeomBuilder`` for ``Geom``.
-        """
-
-        return GeomBuilder(
-            geometry=copy.deepcopy(ast.geometry),
-        )
+        self._geometry: types.String = geometry

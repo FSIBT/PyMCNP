@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -26,7 +22,7 @@ class So(_option.SurfaceOption):
 
     _REGEX = re.compile(rf'\Aso( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, r: types.Real):
+    def __init__(self, r: str | int | float | types.Real):
         """
         Initializes ``So``.
 
@@ -37,16 +33,48 @@ class So(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.r: types.Real = r
+
+    @property
+    def r(self) -> types.Real:
+        """
+        Gets ``r``.
+
+        Returns:
+            ``r``.
+        """
+
+        return self._r
+
+    @r.setter
+    def r(self, r: str | int | float | types.Real) -> None:
+        """
+        Sets ``r``.
+
+        Parameters:
+            r: Origin-centered sphere radius.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if r is not None:
+            if isinstance(r, types.Real):
+                r = r
+            elif isinstance(r, int):
+                r = types.Real(r)
+            elif isinstance(r, float):
+                r = types.Real(r)
+            elif isinstance(r, str):
+                r = types.Real.from_mcnp(r)
+            else:
+                raise TypeError
+
         if r is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                r,
-            ]
-        )
-
-        self.r: typing.Final[types.Real] = r
+        self._r: types.Real = r
 
     def draw(self):
         """
@@ -59,48 +87,3 @@ class So(_option.SurfaceOption):
         vis = _visualization.Visualization.get_sphere(float(self.r))
 
         return vis
-
-
-@dataclasses.dataclass
-class SoBuilder(_option.SurfaceOptionBuilder):
-    """
-    Builds ``So``.
-
-    Attributes:
-        r: Origin-centered sphere radius.
-    """
-
-    r: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``SoBuilder`` into ``So``.
-
-        Returns:
-            ``So`` for ``SoBuilder``.
-        """
-
-        r = self.r
-        if isinstance(self.r, types.Real):
-            r = self.r
-        elif isinstance(self.r, float) or isinstance(self.r, int):
-            r = types.Real(self.r)
-        elif isinstance(self.r, str):
-            r = types.Real.from_mcnp(self.r)
-
-        return So(
-            r=r,
-        )
-
-    @staticmethod
-    def unbuild(ast: So):
-        """
-        Unbuilds ``So`` into ``SoBuilder``
-
-        Returns:
-            ``SoBuilder`` for ``So``.
-        """
-
-        return SoBuilder(
-            r=copy.deepcopy(ast.r),
-        )

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -27,7 +23,7 @@ class Ds_2(_option.DataOption):
 
     _REGEX = re.compile(rf'\Ads(\d+) q((?: {types.IndependentDependent._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, suffix: types.Integer, vss: types.Tuple[types.IndependentDependent]):
+    def __init__(self, suffix: str | int | types.Integer, vss: list[str] | list[types.IndependentDependent]):
         """
         Initializes ``Ds_2``.
 
@@ -39,19 +35,8 @@ class Ds_2(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        if suffix is None or not (suffix >= 1 and suffix <= 999):
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
-        if vss is None:
-            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vss)
-
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                vss,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.vss: typing.Final[types.Tuple[types.IndependentDependent]] = vss
+        self.suffix: types.Integer = suffix
+        self.vss: types.Tuple[types.IndependentDependent] = vss
 
     def to_mcnp(self):
         """
@@ -60,65 +45,83 @@ class Ds_2(_option.DataOption):
         Returns:
             INP for ``Ds_2``.
         """
-
         return f'ds{self.suffix} q {self.vss}'
 
-
-@dataclasses.dataclass
-class DsBuilder_2(_option.DataOptionBuilder):
-    """
-    Builds ``Ds_2``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        vss: Dependent source independent & dependent variables.
-    """
-
-    suffix: str | int | types.Integer
-    vss: list[str] | list[types.IndependentDependent]
-
-    def build(self):
+    @property
+    def suffix(self) -> types.Integer:
         """
-        Builds ``DsBuilder_2`` into ``Ds_2``.
+        Gets ``suffix``.
 
         Returns:
-            ``Ds_2`` for ``DsBuilder_2``.
+            ``suffix``.
         """
 
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
+        return self._suffix
 
-        if self.vss:
-            vss = []
-            for item in self.vss:
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
+        if suffix is None or not (suffix >= 1 and suffix <= 999):
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def vss(self) -> types.Tuple[types.IndependentDependent]:
+        """
+        Gets ``vss``.
+
+        Returns:
+            ``vss``.
+        """
+
+        return self._vss
+
+    @vss.setter
+    def vss(self, vss: list[str] | list[types.IndependentDependent]) -> None:
+        """
+        Sets ``vss``.
+
+        Parameters:
+            vss: Dependent source independent & dependent variables.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if vss is not None:
+            array = []
+            for item in vss:
                 if isinstance(item, types.IndependentDependent):
-                    vss.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    vss.append(types.IndependentDependent.from_mcnp(item))
-            vss = types.Tuple(vss)
-        else:
-            vss = None
+                    array.append(types.IndependentDependent.from_mcnp(item))
+                else:
+                    raise TypeError
+            vss = types.Tuple(array)
 
-        return Ds_2(
-            suffix=suffix,
-            vss=vss,
-        )
+        if vss is None:
+            raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, vss)
 
-    @staticmethod
-    def unbuild(ast: Ds_2):
-        """
-        Unbuilds ``Ds_2`` into ``DsBuilder_2``
-
-        Returns:
-            ``DsBuilder_2`` for ``Ds_2``.
-        """
-
-        return DsBuilder_2(
-            suffix=copy.deepcopy(ast.suffix),
-            vss=copy.deepcopy(ast.vss),
-        )
+        self._vss: types.Tuple[types.IndependentDependent] = vss

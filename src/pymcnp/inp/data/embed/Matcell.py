@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Matcell(_option.EmbedOption):
 
     _REGEX = re.compile(rf'\Amatcell((?: {types.Matcell._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, pairs: types.Tuple[types.Matcell]):
+    def __init__(self, pairs: list[str] | list[types.Matcell]):
         """
         Initializes ``Matcell``.
 
@@ -36,61 +32,44 @@ class Matcell(_option.EmbedOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.pairs: types.Tuple[types.Matcell] = pairs
+
+    @property
+    def pairs(self) -> types.Tuple[types.Matcell]:
+        """
+        Gets ``pairs``.
+
+        Returns:
+            ``pairs``.
+        """
+
+        return self._pairs
+
+    @pairs.setter
+    def pairs(self, pairs: list[str] | list[types.Matcell]) -> None:
+        """
+        Sets ``pairs``.
+
+        Parameters:
+            pairs: Tuple of material-cell paris.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if pairs is not None:
+            array = []
+            for item in pairs:
+                if isinstance(item, types.Matcell):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.Matcell.from_mcnp(item))
+                else:
+                    raise TypeError
+            pairs = types.Tuple(array)
+
         if pairs is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, pairs)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                pairs,
-            ]
-        )
-
-        self.pairs: typing.Final[types.Tuple[types.Matcell]] = pairs
-
-
-@dataclasses.dataclass
-class MatcellBuilder(_option.EmbedOptionBuilder):
-    """
-    Builds ``Matcell``.
-
-    Attributes:
-        pairs: Tuple of material-cell paris.
-    """
-
-    pairs: list[str] | list[types.Matcell]
-
-    def build(self):
-        """
-        Builds ``MatcellBuilder`` into ``Matcell``.
-
-        Returns:
-            ``Matcell`` for ``MatcellBuilder``.
-        """
-
-        if self.pairs:
-            pairs = []
-            for item in self.pairs:
-                if isinstance(item, types.Matcell):
-                    pairs.append(item)
-                elif isinstance(item, str):
-                    pairs.append(types.Matcell.from_mcnp(item))
-            pairs = types.Tuple(pairs)
-        else:
-            pairs = None
-
-        return Matcell(
-            pairs=pairs,
-        )
-
-    @staticmethod
-    def unbuild(ast: Matcell):
-        """
-        Unbuilds ``Matcell`` into ``MatcellBuilder``
-
-        Returns:
-            ``MatcellBuilder`` for ``Matcell``.
-        """
-
-        return MatcellBuilder(
-            pairs=copy.deepcopy(ast.pairs),
-        )
+        self._pairs: types.Tuple[types.Matcell] = pairs

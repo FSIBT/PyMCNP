@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -27,7 +23,7 @@ class Ft(_option.DataOption):
 
     _REGEX = re.compile(r'\Aft(\d+)( [\S\s]+)\Z')
 
-    def __init__(self, suffix: types.Integer, treatments: types.String):
+    def __init__(self, suffix: str | int | types.Integer, treatments: str | types.String):
         """
         Initializes ``Ft``.
 
@@ -39,71 +35,81 @@ class Ft(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.suffix: types.Integer = suffix
+        self.treatments: types.String = treatments
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def treatments(self) -> types.String:
+        """
+        Gets ``treatments``.
+
+        Returns:
+            ``treatments``.
+        """
+
+        return self._treatments
+
+    @treatments.setter
+    def treatments(self, treatments: str | types.String) -> None:
+        """
+        Sets ``treatments``.
+
+        Parameters:
+            treatments: Tally special treatments.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if treatments is not None:
+            if isinstance(treatments, types.String):
+                treatments = treatments
+            elif isinstance(treatments, str):
+                treatments = types.String.from_mcnp(treatments)
+            else:
+                raise TypeError
+
         if treatments is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, treatments)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                treatments,
-            ]
-        )
-
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.treatments: typing.Final[types.String] = treatments
-
-
-@dataclasses.dataclass
-class FtBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Ft``.
-
-    Attributes:
-        suffix: Data card option suffix.
-        treatments: Tally special treatments.
-    """
-
-    suffix: str | int | types.Integer
-    treatments: str | types.String
-
-    def build(self):
-        """
-        Builds ``FtBuilder`` into ``Ft``.
-
-        Returns:
-            ``Ft`` for ``FtBuilder``.
-        """
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        treatments = self.treatments
-        if isinstance(self.treatments, types.String):
-            treatments = self.treatments
-        elif isinstance(self.treatments, str):
-            treatments = types.String.from_mcnp(self.treatments)
-
-        return Ft(
-            suffix=suffix,
-            treatments=treatments,
-        )
-
-    @staticmethod
-    def unbuild(ast: Ft):
-        """
-        Unbuilds ``Ft`` into ``FtBuilder``
-
-        Returns:
-            ``FtBuilder`` for ``Ft``.
-        """
-
-        return FtBuilder(
-            suffix=copy.deepcopy(ast.suffix),
-            treatments=copy.deepcopy(ast.treatments),
-        )
+        self._treatments: types.String = treatments

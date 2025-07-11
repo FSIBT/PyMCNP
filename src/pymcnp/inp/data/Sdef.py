@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import sdef
 from . import _option
@@ -25,7 +21,7 @@ class Sdef(_option.DataOption):
 
     _REGEX = re.compile(rf'\Asdef((?: (?:{sdef.SdefOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[sdef.SdefOption] = None):
+    def __init__(self, options: list[str] | list[sdef.SdefOption] = None):
         """
         Initializes ``Sdef``.
 
@@ -36,60 +32,41 @@ class Sdef(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                options,
-            ]
-        )
+        self.options: types.Tuple[sdef.SdefOption] = options
 
-        self.options: typing.Final[types.Tuple[sdef.SdefOption]] = options
-
-
-@dataclasses.dataclass
-class SdefBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Sdef``.
-
-    Attributes:
-        options: Dictionary of options.
-    """
-
-    options: list[str] | list[sdef.SdefOption] = None
-
-    def build(self):
+    @property
+    def options(self) -> types.Tuple[sdef.SdefOption]:
         """
-        Builds ``SdefBuilder`` into ``Sdef``.
+        Gets ``options``.
 
         Returns:
-            ``Sdef`` for ``SdefBuilder``.
+            ``options``.
         """
 
-        if self.options:
-            options = []
-            for item in self.options:
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[sdef.SdefOption]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, sdef.SdefOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(sdef.SdefOption.from_mcnp(item))
-                elif isinstance(item, sdef.SdefOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(sdef.SdefOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Sdef(
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Sdef):
-        """
-        Unbuilds ``Sdef`` into ``SdefBuilder``
-
-        Returns:
-            ``SdefBuilder`` for ``Sdef``.
-        """
-
-        return SdefBuilder(
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[sdef.SdefOption] = options

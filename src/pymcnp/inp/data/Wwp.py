@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -49,17 +45,17 @@ class Wwp(_option.DataOption):
 
     def __init__(
         self,
-        designator: types.Designator,
-        wupn: types.Real = None,
-        wsurvn: types.Real = None,
-        mxspln: types.Real = None,
-        mwhere: types.Integer = None,
-        switchn: types.Real = None,
-        mtime: types.Integer = None,
-        wnrom: types.Real = None,
-        etsplt: types.Integer = None,
-        wu: types.Real = None,
-        nmfp: types.Real = None,
+        designator: str | types.Designator,
+        wupn: str | int | float | types.Real = None,
+        wsurvn: str | int | float | types.Real = None,
+        mxspln: str | int | float | types.Real = None,
+        mwhere: str | int | types.Integer = None,
+        switchn: str | int | float | types.Real = None,
+        mtime: str | int | types.Integer = None,
+        wnrom: str | int | float | types.Real = None,
+        etsplt: str | int | types.Integer = None,
+        wu: str | int | float | types.Real = None,
+        nmfp: str | int | float | types.Real = None,
     ):
         """
         Initializes ``Wwp``.
@@ -81,205 +77,440 @@ class Wwp(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.designator: types.Designator = designator
+        self.wupn: types.Real = wupn
+        self.wsurvn: types.Real = wsurvn
+        self.mxspln: types.Real = mxspln
+        self.mwhere: types.Integer = mwhere
+        self.switchn: types.Real = switchn
+        self.mtime: types.Integer = mtime
+        self.wnrom: types.Real = wnrom
+        self.etsplt: types.Integer = etsplt
+        self.wu: types.Real = wu
+        self.nmfp: types.Real = nmfp
+
+    @property
+    def designator(self) -> types.Designator:
+        """
+        Gets ``designator``.
+
+        Returns:
+            ``designator``.
+        """
+
+        return self._designator
+
+    @designator.setter
+    def designator(self, designator: str | types.Designator) -> None:
+        """
+        Sets ``designator``.
+
+        Parameters:
+            designator: Data card particle designator.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if designator is not None:
+            if isinstance(designator, types.Designator):
+                designator = designator
+            elif isinstance(designator, str):
+                designator = types.Designator.from_mcnp(designator)
+            else:
+                raise TypeError
+
         if designator is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, designator)
+
+        self._designator: types.Designator = designator
+
+    @property
+    def wupn(self) -> types.Real:
+        """
+        Gets ``wupn``.
+
+        Returns:
+            ``wupn``.
+        """
+
+        return self._wupn
+
+    @wupn.setter
+    def wupn(self, wupn: str | int | float | types.Real) -> None:
+        """
+        Sets ``wupn``.
+
+        Parameters:
+            wupn: Multiplier to define the weight window upper limit.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if wupn is not None:
+            if isinstance(wupn, types.Real):
+                wupn = wupn
+            elif isinstance(wupn, int):
+                wupn = types.Real(wupn)
+            elif isinstance(wupn, float):
+                wupn = types.Real(wupn)
+            elif isinstance(wupn, str):
+                wupn = types.Real.from_mcnp(wupn)
+            else:
+                raise TypeError
+
         if wupn is not None and not (isinstance(wupn.value, types.Jump) or wupn >= 2):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wupn)
+
+        self._wupn: types.Real = wupn
+
+    @property
+    def wsurvn(self) -> types.Real:
+        """
+        Gets ``wsurvn``.
+
+        Returns:
+            ``wsurvn``.
+        """
+
+        return self._wsurvn
+
+    @wsurvn.setter
+    def wsurvn(self, wsurvn: str | int | float | types.Real) -> None:
+        """
+        Sets ``wsurvn``.
+
+        Parameters:
+            wsurvn: Multiplier to define the maximum Russian roulette survival weight within the window.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if wsurvn is not None:
+            if isinstance(wsurvn, types.Real):
+                wsurvn = wsurvn
+            elif isinstance(wsurvn, int):
+                wsurvn = types.Real(wsurvn)
+            elif isinstance(wsurvn, float):
+                wsurvn = types.Real(wsurvn)
+            elif isinstance(wsurvn, str):
+                wsurvn = types.Real.from_mcnp(wsurvn)
+            else:
+                raise TypeError
+
         if wsurvn is not None and not (isinstance(wsurvn.value, types.Jump) or 1 < wsurvn):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, wsurvn)
+
+        self._wsurvn: types.Real = wsurvn
+
+    @property
+    def mxspln(self) -> types.Real:
+        """
+        Gets ``mxspln``.
+
+        Returns:
+            ``mxspln``.
+        """
+
+        return self._mxspln
+
+    @mxspln.setter
+    def mxspln(self, mxspln: str | int | float | types.Real) -> None:
+        """
+        Sets ``mxspln``.
+
+        Parameters:
+            mxspln: Maximum number of integer splits.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if mxspln is not None:
+            if isinstance(mxspln, types.Real):
+                mxspln = mxspln
+            elif isinstance(mxspln, int):
+                mxspln = types.Real(mxspln)
+            elif isinstance(mxspln, float):
+                mxspln = types.Real(mxspln)
+            elif isinstance(mxspln, str):
+                mxspln = types.Real.from_mcnp(mxspln)
+            else:
+                raise TypeError
+
         if mxspln is not None and not (isinstance(mxspln.value, types.Jump) or 1 < mxspln):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mxspln)
+
+        self._mxspln: types.Real = mxspln
+
+    @property
+    def mwhere(self) -> types.Integer:
+        """
+        Gets ``mwhere``.
+
+        Returns:
+            ``mwhere``.
+        """
+
+        return self._mwhere
+
+    @mwhere.setter
+    def mwhere(self, mwhere: str | int | types.Integer) -> None:
+        """
+        Sets ``mwhere``.
+
+        Parameters:
+            mwhere: Controls where to check a particle’s weight.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if mwhere is not None:
+            if isinstance(mwhere, types.Integer):
+                mwhere = mwhere
+            elif isinstance(mwhere, int):
+                mwhere = types.Integer(mwhere)
+            elif isinstance(mwhere, str):
+                mwhere = types.Integer.from_mcnp(mwhere)
+            else:
+                raise TypeError
+
         if mwhere is not None and not (isinstance(mwhere.value, types.Jump) or mwhere in {-1, 0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, mwhere)
+
+        self._mwhere: types.Integer = mwhere
+
+    @property
+    def switchn(self) -> types.Real:
+        """
+        Gets ``switchn``.
+
+        Returns:
+            ``switchn``.
+        """
+
+        return self._switchn
+
+    @switchn.setter
+    def switchn(self, switchn: str | int | float | types.Real) -> None:
+        """
+        Sets ``switchn``.
+
+        Parameters:
+            switchn: Controls where to get the lower weight-window bounds.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if switchn is not None:
+            if isinstance(switchn, types.Real):
+                switchn = switchn
+            elif isinstance(switchn, int):
+                switchn = types.Real(switchn)
+            elif isinstance(switchn, float):
+                switchn = types.Real(switchn)
+            elif isinstance(switchn, str):
+                switchn = types.Real.from_mcnp(switchn)
+            else:
+                raise TypeError
+
+        self._switchn: types.Real = switchn
+
+    @property
+    def mtime(self) -> types.Integer:
+        """
+        Gets ``mtime``.
+
+        Returns:
+            ``mtime``.
+        """
+
+        return self._mtime
+
+    @mtime.setter
+    def mtime(self, mtime: str | int | types.Integer) -> None:
+        """
+        Sets ``mtime``.
+
+        Parameters:
+            mtime: Energy/time-dependent window setting.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if mtime is not None:
+            if isinstance(mtime, types.Integer):
+                mtime = mtime
+            elif isinstance(mtime, int):
+                mtime = types.Integer(mtime)
+            elif isinstance(mtime, str):
+                mtime = types.Integer.from_mcnp(mtime)
+            else:
+                raise TypeError
+
+        self._mtime: types.Integer = mtime
+
+    @property
+    def wnrom(self) -> types.Real:
+        """
+        Gets ``wnrom``.
+
+        Returns:
+            ``wnrom``.
+        """
+
+        return self._wnrom
+
+    @wnrom.setter
+    def wnrom(self, wnrom: str | int | float | types.Real) -> None:
+        """
+        Sets ``wnrom``.
+
+        Parameters:
+            wnrom: Weight-window normalization factor.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if wnrom is not None:
+            if isinstance(wnrom, types.Real):
+                wnrom = wnrom
+            elif isinstance(wnrom, int):
+                wnrom = types.Real(wnrom)
+            elif isinstance(wnrom, float):
+                wnrom = types.Real(wnrom)
+            elif isinstance(wnrom, str):
+                wnrom = types.Real.from_mcnp(wnrom)
+            else:
+                raise TypeError
+
+        self._wnrom: types.Real = wnrom
+
+    @property
+    def etsplt(self) -> types.Integer:
+        """
+        Gets ``etsplt``.
+
+        Returns:
+            ``etsplt``.
+        """
+
+        return self._etsplt
+
+    @etsplt.setter
+    def etsplt(self, etsplt: str | int | types.Integer) -> None:
+        """
+        Sets ``etsplt``.
+
+        Parameters:
+            etsplt: ESLPT & TSPLT split/roulette on/off.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if etsplt is not None:
+            if isinstance(etsplt, types.Integer):
+                etsplt = etsplt
+            elif isinstance(etsplt, int):
+                etsplt = types.Integer(etsplt)
+            elif isinstance(etsplt, str):
+                etsplt = types.Integer.from_mcnp(etsplt)
+            else:
+                raise TypeError
+
         if etsplt is not None and not (isinstance(etsplt.value, types.Jump) or etsplt in {0, 1}):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, etsplt)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                wupn,
-                wsurvn,
-                mxspln,
-                mwhere,
-                switchn,
-                mtime,
-                wnrom,
-                etsplt,
-                wu,
-                nmfp,
-            ]
-        )
+        self._etsplt: types.Integer = etsplt
 
-        self.designator: typing.Final[types.Designator] = designator
-        self.wupn: typing.Final[types.Real] = wupn
-        self.wsurvn: typing.Final[types.Real] = wsurvn
-        self.mxspln: typing.Final[types.Real] = mxspln
-        self.mwhere: typing.Final[types.Integer] = mwhere
-        self.switchn: typing.Final[types.Real] = switchn
-        self.mtime: typing.Final[types.Integer] = mtime
-        self.wnrom: typing.Final[types.Real] = wnrom
-        self.etsplt: typing.Final[types.Integer] = etsplt
-        self.wu: typing.Final[types.Real] = wu
-        self.nmfp: typing.Final[types.Real] = nmfp
-
-
-@dataclasses.dataclass
-class WwpBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Wwp``.
-
-    Attributes:
-        designator: Data card particle designator.
-        wupn: Multiplier to define the weight window upper limit.
-        wsurvn: Multiplier to define the maximum Russian roulette survival weight within the window.
-        mxspln: Maximum number of integer splits.
-        mwhere: Controls where to check a particle’s weight.
-        switchn: Controls where to get the lower weight-window bounds.
-        mtime: Energy/time-dependent window setting.
-        wnrom: Weight-window normalization factor.
-        etsplt: ESLPT & TSPLT split/roulette on/off.
-        wu: Limits the maximum lower weight-window bound for any particle, energy, or time.
-        nmfp: Limits the maximum lower weight-window bound for any particle, energy, or time.
-    """
-
-    designator: str | types.Designator
-    wupn: str | float | types.Real = None
-    wsurvn: str | float | types.Real = None
-    mxspln: str | float | types.Real = None
-    mwhere: str | int | types.Integer = None
-    switchn: str | float | types.Real = None
-    mtime: str | int | types.Integer = None
-    wnrom: str | float | types.Real = None
-    etsplt: str | int | types.Integer = None
-    wu: str | float | types.Real = None
-    nmfp: str | float | types.Real = None
-
-    def build(self):
+    @property
+    def wu(self) -> types.Real:
         """
-        Builds ``WwpBuilder`` into ``Wwp``.
+        Gets ``wu``.
 
         Returns:
-            ``Wwp`` for ``WwpBuilder``.
+            ``wu``.
         """
 
-        designator = self.designator
-        if isinstance(self.designator, types.Designator):
-            designator = self.designator
-        elif isinstance(self.designator, str):
-            designator = types.Designator.from_mcnp(self.designator)
+        return self._wu
 
-        wupn = self.wupn
-        if isinstance(self.wupn, types.Real):
-            wupn = self.wupn
-        elif isinstance(self.wupn, float) or isinstance(self.wupn, int):
-            wupn = types.Real(self.wupn)
-        elif isinstance(self.wupn, str):
-            wupn = types.Real.from_mcnp(self.wupn)
-
-        wsurvn = self.wsurvn
-        if isinstance(self.wsurvn, types.Real):
-            wsurvn = self.wsurvn
-        elif isinstance(self.wsurvn, float) or isinstance(self.wsurvn, int):
-            wsurvn = types.Real(self.wsurvn)
-        elif isinstance(self.wsurvn, str):
-            wsurvn = types.Real.from_mcnp(self.wsurvn)
-
-        mxspln = self.mxspln
-        if isinstance(self.mxspln, types.Real):
-            mxspln = self.mxspln
-        elif isinstance(self.mxspln, float) or isinstance(self.mxspln, int):
-            mxspln = types.Real(self.mxspln)
-        elif isinstance(self.mxspln, str):
-            mxspln = types.Real.from_mcnp(self.mxspln)
-
-        mwhere = self.mwhere
-        if isinstance(self.mwhere, types.Integer):
-            mwhere = self.mwhere
-        elif isinstance(self.mwhere, int):
-            mwhere = types.Integer(self.mwhere)
-        elif isinstance(self.mwhere, str):
-            mwhere = types.Integer.from_mcnp(self.mwhere)
-
-        switchn = self.switchn
-        if isinstance(self.switchn, types.Real):
-            switchn = self.switchn
-        elif isinstance(self.switchn, float) or isinstance(self.switchn, int):
-            switchn = types.Real(self.switchn)
-        elif isinstance(self.switchn, str):
-            switchn = types.Real.from_mcnp(self.switchn)
-
-        mtime = self.mtime
-        if isinstance(self.mtime, types.Integer):
-            mtime = self.mtime
-        elif isinstance(self.mtime, int):
-            mtime = types.Integer(self.mtime)
-        elif isinstance(self.mtime, str):
-            mtime = types.Integer.from_mcnp(self.mtime)
-
-        wnrom = self.wnrom
-        if isinstance(self.wnrom, types.Real):
-            wnrom = self.wnrom
-        elif isinstance(self.wnrom, float) or isinstance(self.wnrom, int):
-            wnrom = types.Real(self.wnrom)
-        elif isinstance(self.wnrom, str):
-            wnrom = types.Real.from_mcnp(self.wnrom)
-
-        etsplt = self.etsplt
-        if isinstance(self.etsplt, types.Integer):
-            etsplt = self.etsplt
-        elif isinstance(self.etsplt, int):
-            etsplt = types.Integer(self.etsplt)
-        elif isinstance(self.etsplt, str):
-            etsplt = types.Integer.from_mcnp(self.etsplt)
-
-        wu = self.wu
-        if isinstance(self.wu, types.Real):
-            wu = self.wu
-        elif isinstance(self.wu, float) or isinstance(self.wu, int):
-            wu = types.Real(self.wu)
-        elif isinstance(self.wu, str):
-            wu = types.Real.from_mcnp(self.wu)
-
-        nmfp = self.nmfp
-        if isinstance(self.nmfp, types.Real):
-            nmfp = self.nmfp
-        elif isinstance(self.nmfp, float) or isinstance(self.nmfp, int):
-            nmfp = types.Real(self.nmfp)
-        elif isinstance(self.nmfp, str):
-            nmfp = types.Real.from_mcnp(self.nmfp)
-
-        return Wwp(
-            designator=designator,
-            wupn=wupn,
-            wsurvn=wsurvn,
-            mxspln=mxspln,
-            mwhere=mwhere,
-            switchn=switchn,
-            mtime=mtime,
-            wnrom=wnrom,
-            etsplt=etsplt,
-            wu=wu,
-            nmfp=nmfp,
-        )
-
-    @staticmethod
-    def unbuild(ast: Wwp):
+    @wu.setter
+    def wu(self, wu: str | int | float | types.Real) -> None:
         """
-        Unbuilds ``Wwp`` into ``WwpBuilder``
+        Sets ``wu``.
+
+        Parameters:
+            wu: Limits the maximum lower weight-window bound for any particle, energy, or time.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if wu is not None:
+            if isinstance(wu, types.Real):
+                wu = wu
+            elif isinstance(wu, int):
+                wu = types.Real(wu)
+            elif isinstance(wu, float):
+                wu = types.Real(wu)
+            elif isinstance(wu, str):
+                wu = types.Real.from_mcnp(wu)
+            else:
+                raise TypeError
+
+        self._wu: types.Real = wu
+
+    @property
+    def nmfp(self) -> types.Real:
+        """
+        Gets ``nmfp``.
 
         Returns:
-            ``WwpBuilder`` for ``Wwp``.
+            ``nmfp``.
         """
 
-        return WwpBuilder(
-            designator=copy.deepcopy(ast.designator),
-            wupn=copy.deepcopy(ast.wupn),
-            wsurvn=copy.deepcopy(ast.wsurvn),
-            mxspln=copy.deepcopy(ast.mxspln),
-            mwhere=copy.deepcopy(ast.mwhere),
-            switchn=copy.deepcopy(ast.switchn),
-            mtime=copy.deepcopy(ast.mtime),
-            wnrom=copy.deepcopy(ast.wnrom),
-            etsplt=copy.deepcopy(ast.etsplt),
-            wu=copy.deepcopy(ast.wu),
-            nmfp=copy.deepcopy(ast.nmfp),
-        )
+        return self._nmfp
+
+    @nmfp.setter
+    def nmfp(self, nmfp: str | int | float | types.Real) -> None:
+        """
+        Sets ``nmfp``.
+
+        Parameters:
+            nmfp: Limits the maximum lower weight-window bound for any particle, energy, or time.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if nmfp is not None:
+            if isinstance(nmfp, types.Real):
+                nmfp = nmfp
+            elif isinstance(nmfp, int):
+                nmfp = types.Real(nmfp)
+            elif isinstance(nmfp, float):
+                nmfp = types.Real(nmfp)
+            elif isinstance(nmfp, str):
+                nmfp = types.Real.from_mcnp(nmfp)
+            else:
+                raise TypeError
+
+        self._nmfp: types.Real = nmfp

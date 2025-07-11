@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import var
 from . import _option
@@ -25,7 +21,7 @@ class Var(_option.DataOption):
 
     _REGEX = re.compile(rf'\Avar((?: (?:{var.VarOption._REGEX.pattern[2:-2]}))+?)?\Z')
 
-    def __init__(self, options: types.Tuple[var.VarOption] = None):
+    def __init__(self, options: list[str] | list[var.VarOption] = None):
         """
         Initializes ``Var``.
 
@@ -36,60 +32,41 @@ class Var(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                options,
-            ]
-        )
+        self.options: types.Tuple[var.VarOption] = options
 
-        self.options: typing.Final[types.Tuple[var.VarOption]] = options
-
-
-@dataclasses.dataclass
-class VarBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Var``.
-
-    Attributes:
-        options: Dictionary of options.
-    """
-
-    options: list[str] | list[var.VarOption] = None
-
-    def build(self):
+    @property
+    def options(self) -> types.Tuple[var.VarOption]:
         """
-        Builds ``VarBuilder`` into ``Var``.
+        Gets ``options``.
 
         Returns:
-            ``Var`` for ``VarBuilder``.
+            ``options``.
         """
 
-        if self.options:
-            options = []
-            for item in self.options:
+        return self._options
+
+    @options.setter
+    def options(self, options: list[str] | list[var.VarOption]) -> None:
+        """
+        Sets ``options``.
+
+        Parameters:
+            options: Dictionary of options.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if options is not None:
+            array = []
+            for item in options:
                 if isinstance(item, var.VarOption):
-                    options.append(item)
+                    array.append(item)
                 elif isinstance(item, str):
-                    options.append(var.VarOption.from_mcnp(item))
-                elif isinstance(item, var.VarOptionBuilder):
-                    options.append(item.build())
-            options = types.Tuple(options)
-        else:
-            options = None
+                    array.append(var.VarOption.from_mcnp(item))
+                else:
+                    raise TypeError
+            options = types.Tuple(array)
 
-        return Var(
-            options=options,
-        )
-
-    @staticmethod
-    def unbuild(ast: Var):
-        """
-        Unbuilds ``Var`` into ``VarBuilder``
-
-        Returns:
-            ``VarBuilder`` for ``Var``.
-        """
-
-        return VarBuilder(
-            options=copy.deepcopy(ast.options),
-        )
+        self._options: types.Tuple[var.VarOption] = options

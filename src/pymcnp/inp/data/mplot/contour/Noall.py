@@ -1,10 +1,6 @@
 import re
-import typing
-import dataclasses
-
 
 from . import _option
-from .....utils import types
 
 
 class Noall(_option.ContourOption):
@@ -33,36 +29,3 @@ class Noall(_option.ContourOption):
         Raises:
             InpError: SEMANTICS_OPTION.
         """
-
-        self.value: typing.Final[types.Tuple] = types.Tuple([])
-
-
-@dataclasses.dataclass
-class NoallBuilder(_option.ContourOptionBuilder):
-    """
-    Builds ``Noall``.
-
-    Attributes:
-
-    """
-
-    def build(self):
-        """
-        Builds ``NoallBuilder`` into ``Noall``.
-
-        Returns:
-            ``Noall`` for ``NoallBuilder``.
-        """
-
-        return Noall()
-
-    @staticmethod
-    def unbuild(ast: Noall):
-        """
-        Unbuilds ``Noall`` into ``NoallBuilder``
-
-        Returns:
-            ``NoallBuilder`` for ``Noall``.
-        """
-
-        return NoallBuilder()

@@ -1,10 +1,6 @@
 import re
-import typing
-import dataclasses
-
 
 from . import _option
-from ....utils import types
 
 
 class Printpts(_option.MplotOption):
@@ -33,36 +29,3 @@ class Printpts(_option.MplotOption):
         Raises:
             InpError: SEMANTICS_OPTION.
         """
-
-        self.value: typing.Final[types.Tuple] = types.Tuple([])
-
-
-@dataclasses.dataclass
-class PrintptsBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Printpts``.
-
-    Attributes:
-
-    """
-
-    def build(self):
-        """
-        Builds ``PrintptsBuilder`` into ``Printpts``.
-
-        Returns:
-            ``Printpts`` for ``PrintptsBuilder``.
-        """
-
-        return Printpts()
-
-    @staticmethod
-    def unbuild(ast: Printpts):
-        """
-        Unbuilds ``Printpts`` into ``PrintptsBuilder``
-
-        Returns:
-            ``PrintptsBuilder`` for ``Printpts``.
-        """
-
-        return PrintptsBuilder()

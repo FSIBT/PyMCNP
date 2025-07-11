@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -26,7 +22,7 @@ class Histp(_option.DataOption):
 
     _REGEX = re.compile(rf'\Ahistp( {types.Integer._REGEX.pattern[2:-2]})?((?: {types.Integer._REGEX.pattern[2:-2]})+?)?\Z')
 
-    def __init__(self, lhist: types.Integer = None, cells: types.Tuple[types.Integer] = None):
+    def __init__(self, lhist: str | int | types.Integer = None, cells: list[str] | list[int] | list[types.Integer] = None):
         """
         Initializes ``Histp``.
 
@@ -38,74 +34,80 @@ class Histp(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                lhist,
-                cells,
-            ]
-        )
+        self.lhist: types.Integer = lhist
+        self.cells: types.Tuple[types.Integer] = cells
 
-        self.lhist: typing.Final[types.Integer] = lhist
-        self.cells: typing.Final[types.Tuple[types.Integer]] = cells
-
-
-@dataclasses.dataclass
-class HistpBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Histp``.
-
-    Attributes:
-        lhist: Number of words written to a HISTP file.
-        cells: Cell numbers.
-    """
-
-    lhist: str | int | types.Integer = None
-    cells: list[str] | list[int] | list[types.Integer] = None
-
-    def build(self):
+    @property
+    def lhist(self) -> types.Integer:
         """
-        Builds ``HistpBuilder`` into ``Histp``.
+        Gets ``lhist``.
 
         Returns:
-            ``Histp`` for ``HistpBuilder``.
+            ``lhist``.
         """
 
-        lhist = self.lhist
-        if isinstance(self.lhist, types.Integer):
-            lhist = self.lhist
-        elif isinstance(self.lhist, int):
-            lhist = types.Integer(self.lhist)
-        elif isinstance(self.lhist, str):
-            lhist = types.Integer.from_mcnp(self.lhist)
+        return self._lhist
 
-        if self.cells:
-            cells = []
-            for item in self.cells:
+    @lhist.setter
+    def lhist(self, lhist: str | int | types.Integer) -> None:
+        """
+        Sets ``lhist``.
+
+        Parameters:
+            lhist: Number of words written to a HISTP file.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if lhist is not None:
+            if isinstance(lhist, types.Integer):
+                lhist = lhist
+            elif isinstance(lhist, int):
+                lhist = types.Integer(lhist)
+            elif isinstance(lhist, str):
+                lhist = types.Integer.from_mcnp(lhist)
+            else:
+                raise TypeError
+
+        self._lhist: types.Integer = lhist
+
+    @property
+    def cells(self) -> types.Tuple[types.Integer]:
+        """
+        Gets ``cells``.
+
+        Returns:
+            ``cells``.
+        """
+
+        return self._cells
+
+    @cells.setter
+    def cells(self, cells: list[str] | list[int] | list[types.Integer]) -> None:
+        """
+        Sets ``cells``.
+
+        Parameters:
+            cells: Cell numbers.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if cells is not None:
+            array = []
+            for item in cells:
                 if isinstance(item, types.Integer):
-                    cells.append(item)
+                    array.append(item)
                 elif isinstance(item, int):
-                    cells.append(types.Integer(item))
+                    array.append(types.Integer(item))
                 elif isinstance(item, str):
-                    cells.append(types.Integer.from_mcnp(item))
-            cells = types.Tuple(cells)
-        else:
-            cells = None
+                    array.append(types.Integer.from_mcnp(item))
+                else:
+                    raise TypeError
+            cells = types.Tuple(array)
 
-        return Histp(
-            lhist=lhist,
-            cells=cells,
-        )
-
-    @staticmethod
-    def unbuild(ast: Histp):
-        """
-        Unbuilds ``Histp`` into ``HistpBuilder``
-
-        Returns:
-            ``HistpBuilder`` for ``Histp``.
-        """
-
-        return HistpBuilder(
-            lhist=copy.deepcopy(ast.lhist),
-            cells=copy.deepcopy(ast.cells),
-        )
+        self._cells: types.Tuple[types.Integer] = cells

@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Wgt(_option.SdefOption):
 
     _REGEX = re.compile(rf'\Awgt( {types.Real._REGEX.pattern[2:-2]})\Z')
 
-    def __init__(self, weight: types.Real):
+    def __init__(self, weight: str | int | float | types.Real):
         """
         Initializes ``Wgt``.
 
@@ -36,58 +32,45 @@ class Wgt(_option.SdefOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.weight: types.Real = weight
+
+    @property
+    def weight(self) -> types.Real:
+        """
+        Gets ``weight``.
+
+        Returns:
+            ``weight``.
+        """
+
+        return self._weight
+
+    @weight.setter
+    def weight(self, weight: str | int | float | types.Real) -> None:
+        """
+        Sets ``weight``.
+
+        Parameters:
+            weight: Particle weight.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if weight is not None:
+            if isinstance(weight, types.Real):
+                weight = weight
+            elif isinstance(weight, int):
+                weight = types.Real(weight)
+            elif isinstance(weight, float):
+                weight = types.Real(weight)
+            elif isinstance(weight, str):
+                weight = types.Real.from_mcnp(weight)
+            else:
+                raise TypeError
+
         if weight is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, weight)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                weight,
-            ]
-        )
-
-        self.weight: typing.Final[types.Real] = weight
-
-
-@dataclasses.dataclass
-class WgtBuilder(_option.SdefOptionBuilder):
-    """
-    Builds ``Wgt``.
-
-    Attributes:
-        weight: Particle weight.
-    """
-
-    weight: str | float | types.Real
-
-    def build(self):
-        """
-        Builds ``WgtBuilder`` into ``Wgt``.
-
-        Returns:
-            ``Wgt`` for ``WgtBuilder``.
-        """
-
-        weight = self.weight
-        if isinstance(self.weight, types.Real):
-            weight = self.weight
-        elif isinstance(self.weight, float) or isinstance(self.weight, int):
-            weight = types.Real(self.weight)
-        elif isinstance(self.weight, str):
-            weight = types.Real.from_mcnp(self.weight)
-
-        return Wgt(
-            weight=weight,
-        )
-
-    @staticmethod
-    def unbuild(ast: Wgt):
-        """
-        Unbuilds ``Wgt`` into ``WgtBuilder``
-
-        Returns:
-            ``WgtBuilder`` for ``Wgt``.
-        """
-
-        return WgtBuilder(
-            weight=copy.deepcopy(ast.weight),
-        )
+        self._weight: types.Real = weight

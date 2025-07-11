@@ -6,17 +6,10 @@ from ..... import classes
 class Test_Cfrq:
     class Test_Init(classes.Test_Init):
         element = pymcnp.inp.data.t_1.Cfrq
-        EXAMPLES_VALID = [{'frequency': consts.ast.type.REAL}]
+        EXAMPLES_VALID = [{'frequency': consts.string.type.REAL}, {'frequency': 3.1}, {'frequency': consts.ast.type.REAL}]
         EXAMPLES_INVALID = [{'frequency': None}]
 
     class Test_Mcnp(classes.Test_Mcnp):
         element = pymcnp.inp.data.t_1.Cfrq
         EXAMPLES_VALID = [consts.string.inp.data.t_1.CFRQ]
         EXAMPLES_INVALID = ['hello']
-
-
-class Test_CfrqBuilder:
-    class TestBuild(classes.Test_Build):
-        element = pymcnp.inp.data.t_1.CfrqBuilder
-        EXAMPLES_VALID = [{'frequency': consts.string.type.REAL}, {'frequency': 3.1}, {'frequency': consts.ast.type.REAL}]
-        EXAMPLES_INVALID = [{'frequency': None}]

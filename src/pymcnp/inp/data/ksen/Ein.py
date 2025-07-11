@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -25,7 +21,7 @@ class Ein(_option.KsenOption):
 
     _REGEX = re.compile(rf'\Aein((?: {types.Real._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, energies: types.Tuple[types.Real]):
+    def __init__(self, energies: list[str] | list[float] | list[types.Real]):
         """
         Initializes ``Ein``.
 
@@ -36,63 +32,48 @@ class Ein(_option.KsenOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.energies: types.Tuple[types.Real] = energies
+
+    @property
+    def energies(self) -> types.Tuple[types.Real]:
+        """
+        Gets ``energies``.
+
+        Returns:
+            ``energies``.
+        """
+
+        return self._energies
+
+    @energies.setter
+    def energies(self, energies: list[str] | list[float] | list[types.Real]) -> None:
+        """
+        Sets ``energies``.
+
+        Parameters:
+            energies: List of ranges for incident energies.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if energies is not None:
+            array = []
+            for item in energies:
+                if isinstance(item, types.Real):
+                    array.append(item)
+                elif isinstance(item, int):
+                    array.append(types.Real(item))
+                elif isinstance(item, float):
+                    array.append(types.Real(item))
+                elif isinstance(item, str):
+                    array.append(types.Real.from_mcnp(item))
+                else:
+                    raise TypeError
+            energies = types.Tuple(array)
+
         if energies is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, energies)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                energies,
-            ]
-        )
-
-        self.energies: typing.Final[types.Tuple[types.Real]] = energies
-
-
-@dataclasses.dataclass
-class EinBuilder(_option.KsenOptionBuilder):
-    """
-    Builds ``Ein``.
-
-    Attributes:
-        energies: List of ranges for incident energies.
-    """
-
-    energies: list[str] | list[float] | list[types.Real]
-
-    def build(self):
-        """
-        Builds ``EinBuilder`` into ``Ein``.
-
-        Returns:
-            ``Ein`` for ``EinBuilder``.
-        """
-
-        if self.energies:
-            energies = []
-            for item in self.energies:
-                if isinstance(item, types.Real):
-                    energies.append(item)
-                elif isinstance(item, float) or isinstance(item, int):
-                    energies.append(types.Real(item))
-                elif isinstance(item, str):
-                    energies.append(types.Real.from_mcnp(item))
-            energies = types.Tuple(energies)
-        else:
-            energies = None
-
-        return Ein(
-            energies=energies,
-        )
-
-    @staticmethod
-    def unbuild(ast: Ein):
-        """
-        Unbuilds ``Ein`` into ``EinBuilder``
-
-        Returns:
-            ``EinBuilder`` for ``Ein``.
-        """
-
-        return EinBuilder(
-            energies=copy.deepcopy(ast.energies),
-        )
+        self._energies: types.Tuple[types.Real] = energies

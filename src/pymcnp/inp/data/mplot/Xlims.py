@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ....utils import types
@@ -29,7 +25,7 @@ class Xlims(_option.MplotOption):
 
     _REGEX = re.compile(rf'\Axlims( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?\Z')
 
-    def __init__(self, lower: types.Real, upper: types.Real, nsteps: types.Real = None):
+    def __init__(self, lower: str | int | float | types.Real, upper: str | int | float | types.Real, nsteps: str | int | float | types.Real = None):
         """
         Initializes ``Xlims``.
 
@@ -42,90 +38,129 @@ class Xlims(_option.MplotOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.lower: types.Real = lower
+        self.upper: types.Real = upper
+        self.nsteps: types.Real = nsteps
+
+    @property
+    def lower(self) -> types.Real:
+        """
+        Gets ``lower``.
+
+        Returns:
+            ``lower``.
+        """
+
+        return self._lower
+
+    @lower.setter
+    def lower(self, lower: str | int | float | types.Real) -> None:
+        """
+        Sets ``lower``.
+
+        Parameters:
+            lower: x-axis lower limit.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if lower is not None:
+            if isinstance(lower, types.Real):
+                lower = lower
+            elif isinstance(lower, int):
+                lower = types.Real(lower)
+            elif isinstance(lower, float):
+                lower = types.Real(lower)
+            elif isinstance(lower, str):
+                lower = types.Real.from_mcnp(lower)
+            else:
+                raise TypeError
+
         if lower is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, lower)
-        if upper is None or not (lower < upper):
+
+        self._lower: types.Real = lower
+
+    @property
+    def upper(self) -> types.Real:
+        """
+        Gets ``upper``.
+
+        Returns:
+            ``upper``.
+        """
+
+        return self._upper
+
+    @upper.setter
+    def upper(self, upper: str | int | float | types.Real) -> None:
+        """
+        Sets ``upper``.
+
+        Parameters:
+            upper: x-axis upper limit.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if upper is not None:
+            if isinstance(upper, types.Real):
+                upper = upper
+            elif isinstance(upper, int):
+                upper = types.Real(upper)
+            elif isinstance(upper, float):
+                upper = types.Real(upper)
+            elif isinstance(upper, str):
+                upper = types.Real.from_mcnp(upper)
+            else:
+                raise TypeError
+
+        if upper is None or not (self.lower < upper):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, upper)
+
+        self._upper: types.Real = upper
+
+    @property
+    def nsteps(self) -> types.Real:
+        """
+        Gets ``nsteps``.
+
+        Returns:
+            ``nsteps``.
+        """
+
+        return self._nsteps
+
+    @nsteps.setter
+    def nsteps(self, nsteps: str | int | float | types.Real) -> None:
+        """
+        Sets ``nsteps``.
+
+        Parameters:
+            nsteps: x-axis interval.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if nsteps is not None:
+            if isinstance(nsteps, types.Real):
+                nsteps = nsteps
+            elif isinstance(nsteps, int):
+                nsteps = types.Real(nsteps)
+            elif isinstance(nsteps, float):
+                nsteps = types.Real(nsteps)
+            elif isinstance(nsteps, str):
+                nsteps = types.Real.from_mcnp(nsteps)
+            else:
+                raise TypeError
+
         if nsteps is not None and not (nsteps >= 0):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, nsteps)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                lower,
-                upper,
-                nsteps,
-            ]
-        )
-
-        self.lower: typing.Final[types.Real] = lower
-        self.upper: typing.Final[types.Real] = upper
-        self.nsteps: typing.Final[types.Real] = nsteps
-
-
-@dataclasses.dataclass
-class XlimsBuilder(_option.MplotOptionBuilder):
-    """
-    Builds ``Xlims``.
-
-    Attributes:
-        lower: x-axis lower limit.
-        upper: x-axis upper limit.
-        nsteps: x-axis interval.
-    """
-
-    lower: str | float | types.Real
-    upper: str | float | types.Real
-    nsteps: str | float | types.Real = None
-
-    def build(self):
-        """
-        Builds ``XlimsBuilder`` into ``Xlims``.
-
-        Returns:
-            ``Xlims`` for ``XlimsBuilder``.
-        """
-
-        lower = self.lower
-        if isinstance(self.lower, types.Real):
-            lower = self.lower
-        elif isinstance(self.lower, float) or isinstance(self.lower, int):
-            lower = types.Real(self.lower)
-        elif isinstance(self.lower, str):
-            lower = types.Real.from_mcnp(self.lower)
-
-        upper = self.upper
-        if isinstance(self.upper, types.Real):
-            upper = self.upper
-        elif isinstance(self.upper, float) or isinstance(self.upper, int):
-            upper = types.Real(self.upper)
-        elif isinstance(self.upper, str):
-            upper = types.Real.from_mcnp(self.upper)
-
-        nsteps = self.nsteps
-        if isinstance(self.nsteps, types.Real):
-            nsteps = self.nsteps
-        elif isinstance(self.nsteps, float) or isinstance(self.nsteps, int):
-            nsteps = types.Real(self.nsteps)
-        elif isinstance(self.nsteps, str):
-            nsteps = types.Real.from_mcnp(self.nsteps)
-
-        return Xlims(
-            lower=lower,
-            upper=upper,
-            nsteps=nsteps,
-        )
-
-    @staticmethod
-    def unbuild(ast: Xlims):
-        """
-        Unbuilds ``Xlims`` into ``XlimsBuilder``
-
-        Returns:
-            ``XlimsBuilder`` for ``Xlims``.
-        """
-
-        return XlimsBuilder(
-            lower=copy.deepcopy(ast.lower),
-            upper=copy.deepcopy(ast.upper),
-            nsteps=copy.deepcopy(ast.nsteps),
-        )
+        self._nsteps: types.Real = nsteps

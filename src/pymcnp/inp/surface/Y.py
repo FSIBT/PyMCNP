@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -37,7 +33,15 @@ class Y(_option.SurfaceOption):
         rf'\Ay( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?( {types.Real._REGEX.pattern[2:-2]})?\Z'
     )
 
-    def __init__(self, y1: types.Real, r1: types.Real, y2: types.Real = None, r2: types.Real = None, y3: types.Real = None, r3: types.Real = None):
+    def __init__(
+        self,
+        y1: str | int | float | types.Real,
+        r1: str | int | float | types.Real,
+        y2: str | int | float | types.Real = None,
+        r2: str | int | float | types.Real = None,
+        y3: str | int | float | types.Real = None,
+        r3: str | int | float | types.Real = None,
+    ):
         """
         Initializes ``Y``.
 
@@ -53,130 +57,243 @@ class Y(_option.SurfaceOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.y1: types.Real = y1
+        self.r1: types.Real = r1
+        self.y2: types.Real = y2
+        self.r2: types.Real = r2
+        self.y3: types.Real = y3
+        self.r3: types.Real = r3
+
+    @property
+    def y1(self) -> types.Real:
+        """
+        Gets ``y1``.
+
+        Returns:
+            ``y1``.
+        """
+
+        return self._y1
+
+    @y1.setter
+    def y1(self, y1: str | int | float | types.Real) -> None:
+        """
+        Sets ``y1``.
+
+        Parameters:
+            y1: Y-axisymmetric point-defined surface point #1 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if y1 is not None:
+            if isinstance(y1, types.Real):
+                y1 = y1
+            elif isinstance(y1, int):
+                y1 = types.Real(y1)
+            elif isinstance(y1, float):
+                y1 = types.Real(y1)
+            elif isinstance(y1, str):
+                y1 = types.Real.from_mcnp(y1)
+            else:
+                raise TypeError
+
         if y1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, y1)
+
+        self._y1: types.Real = y1
+
+    @property
+    def r1(self) -> types.Real:
+        """
+        Gets ``r1``.
+
+        Returns:
+            ``r1``.
+        """
+
+        return self._r1
+
+    @r1.setter
+    def r1(self, r1: str | int | float | types.Real) -> None:
+        """
+        Sets ``r1``.
+
+        Parameters:
+            r1: Y-axisymmetric point-defined surface point #1 radius.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if r1 is not None:
+            if isinstance(r1, types.Real):
+                r1 = r1
+            elif isinstance(r1, int):
+                r1 = types.Real(r1)
+            elif isinstance(r1, float):
+                r1 = types.Real(r1)
+            elif isinstance(r1, str):
+                r1 = types.Real.from_mcnp(r1)
+            else:
+                raise TypeError
+
         if r1 is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, r1)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                y1,
-                r1,
-                y2,
-                r2,
-                y3,
-                r3,
-            ]
-        )
+        self._r1: types.Real = r1
 
-        self.y1: typing.Final[types.Real] = y1
-        self.r1: typing.Final[types.Real] = r1
-        self.y2: typing.Final[types.Real] = y2
-        self.r2: typing.Final[types.Real] = r2
-        self.y3: typing.Final[types.Real] = y3
-        self.r3: typing.Final[types.Real] = r3
-
-
-@dataclasses.dataclass
-class YBuilder(_option.SurfaceOptionBuilder):
-    """
-    Builds ``Y``.
-
-    Attributes:
-        y1: Y-axisymmetric point-defined surface point #1 y component.
-        r1: Y-axisymmetric point-defined surface point #1 radius.
-        y2: Y-axisymmetric point-defined surface point #2 y component.
-        r2: Y-axisymmetric point-defined surface point #2 radius.
-        y3: Y-axisymmetric point-defined surface point #3 y component.
-        r3: Y-axisymmetric point-defined surface point #3 radius.
-    """
-
-    y1: str | float | types.Real
-    r1: str | float | types.Real
-    y2: str | float | types.Real = None
-    r2: str | float | types.Real = None
-    y3: str | float | types.Real = None
-    r3: str | float | types.Real = None
-
-    def build(self):
+    @property
+    def y2(self) -> types.Real:
         """
-        Builds ``YBuilder`` into ``Y``.
+        Gets ``y2``.
 
         Returns:
-            ``Y`` for ``YBuilder``.
+            ``y2``.
         """
 
-        y1 = self.y1
-        if isinstance(self.y1, types.Real):
-            y1 = self.y1
-        elif isinstance(self.y1, float) or isinstance(self.y1, int):
-            y1 = types.Real(self.y1)
-        elif isinstance(self.y1, str):
-            y1 = types.Real.from_mcnp(self.y1)
+        return self._y2
 
-        r1 = self.r1
-        if isinstance(self.r1, types.Real):
-            r1 = self.r1
-        elif isinstance(self.r1, float) or isinstance(self.r1, int):
-            r1 = types.Real(self.r1)
-        elif isinstance(self.r1, str):
-            r1 = types.Real.from_mcnp(self.r1)
-
-        y2 = self.y2
-        if isinstance(self.y2, types.Real):
-            y2 = self.y2
-        elif isinstance(self.y2, float) or isinstance(self.y2, int):
-            y2 = types.Real(self.y2)
-        elif isinstance(self.y2, str):
-            y2 = types.Real.from_mcnp(self.y2)
-
-        r2 = self.r2
-        if isinstance(self.r2, types.Real):
-            r2 = self.r2
-        elif isinstance(self.r2, float) or isinstance(self.r2, int):
-            r2 = types.Real(self.r2)
-        elif isinstance(self.r2, str):
-            r2 = types.Real.from_mcnp(self.r2)
-
-        y3 = self.y3
-        if isinstance(self.y3, types.Real):
-            y3 = self.y3
-        elif isinstance(self.y3, float) or isinstance(self.y3, int):
-            y3 = types.Real(self.y3)
-        elif isinstance(self.y3, str):
-            y3 = types.Real.from_mcnp(self.y3)
-
-        r3 = self.r3
-        if isinstance(self.r3, types.Real):
-            r3 = self.r3
-        elif isinstance(self.r3, float) or isinstance(self.r3, int):
-            r3 = types.Real(self.r3)
-        elif isinstance(self.r3, str):
-            r3 = types.Real.from_mcnp(self.r3)
-
-        return Y(
-            y1=y1,
-            r1=r1,
-            y2=y2,
-            r2=r2,
-            y3=y3,
-            r3=r3,
-        )
-
-    @staticmethod
-    def unbuild(ast: Y):
+    @y2.setter
+    def y2(self, y2: str | int | float | types.Real) -> None:
         """
-        Unbuilds ``Y`` into ``YBuilder``
+        Sets ``y2``.
+
+        Parameters:
+            y2: Y-axisymmetric point-defined surface point #2 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if y2 is not None:
+            if isinstance(y2, types.Real):
+                y2 = y2
+            elif isinstance(y2, int):
+                y2 = types.Real(y2)
+            elif isinstance(y2, float):
+                y2 = types.Real(y2)
+            elif isinstance(y2, str):
+                y2 = types.Real.from_mcnp(y2)
+            else:
+                raise TypeError
+
+        self._y2: types.Real = y2
+
+    @property
+    def r2(self) -> types.Real:
+        """
+        Gets ``r2``.
 
         Returns:
-            ``YBuilder`` for ``Y``.
+            ``r2``.
         """
 
-        return YBuilder(
-            y1=copy.deepcopy(ast.y1),
-            r1=copy.deepcopy(ast.r1),
-            y2=copy.deepcopy(ast.y2),
-            r2=copy.deepcopy(ast.r2),
-            y3=copy.deepcopy(ast.y3),
-            r3=copy.deepcopy(ast.r3),
-        )
+        return self._r2
+
+    @r2.setter
+    def r2(self, r2: str | int | float | types.Real) -> None:
+        """
+        Sets ``r2``.
+
+        Parameters:
+            r2: Y-axisymmetric point-defined surface point #2 radius.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if r2 is not None:
+            if isinstance(r2, types.Real):
+                r2 = r2
+            elif isinstance(r2, int):
+                r2 = types.Real(r2)
+            elif isinstance(r2, float):
+                r2 = types.Real(r2)
+            elif isinstance(r2, str):
+                r2 = types.Real.from_mcnp(r2)
+            else:
+                raise TypeError
+
+        self._r2: types.Real = r2
+
+    @property
+    def y3(self) -> types.Real:
+        """
+        Gets ``y3``.
+
+        Returns:
+            ``y3``.
+        """
+
+        return self._y3
+
+    @y3.setter
+    def y3(self, y3: str | int | float | types.Real) -> None:
+        """
+        Sets ``y3``.
+
+        Parameters:
+            y3: Y-axisymmetric point-defined surface point #3 y component.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if y3 is not None:
+            if isinstance(y3, types.Real):
+                y3 = y3
+            elif isinstance(y3, int):
+                y3 = types.Real(y3)
+            elif isinstance(y3, float):
+                y3 = types.Real(y3)
+            elif isinstance(y3, str):
+                y3 = types.Real.from_mcnp(y3)
+            else:
+                raise TypeError
+
+        self._y3: types.Real = y3
+
+    @property
+    def r3(self) -> types.Real:
+        """
+        Gets ``r3``.
+
+        Returns:
+            ``r3``.
+        """
+
+        return self._r3
+
+    @r3.setter
+    def r3(self, r3: str | int | float | types.Real) -> None:
+        """
+        Sets ``r3``.
+
+        Parameters:
+            r3: Y-axisymmetric point-defined surface point #3 radius.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if r3 is not None:
+            if isinstance(r3, types.Real):
+                r3 = r3
+            elif isinstance(r3, int):
+                r3 = types.Real(r3)
+            elif isinstance(r3, float):
+                r3 = types.Real(r3)
+            elif isinstance(r3, str):
+                r3 = types.Real.from_mcnp(r3)
+            else:
+                raise TypeError
+
+        self._r3: types.Real = r3

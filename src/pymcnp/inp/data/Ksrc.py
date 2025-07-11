@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -25,7 +21,7 @@ class Ksrc(_option.DataOption):
 
     _REGEX = re.compile(rf'\Aksrc((?: {types.Location._REGEX.pattern[2:-2]})+?)\Z')
 
-    def __init__(self, locations: types.Tuple[types.Location]):
+    def __init__(self, locations: list[str] | list[types.Location]):
         """
         Initializes ``Ksrc``.
 
@@ -36,61 +32,44 @@ class Ksrc(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.locations: types.Tuple[types.Location] = locations
+
+    @property
+    def locations(self) -> types.Tuple[types.Location]:
+        """
+        Gets ``locations``.
+
+        Returns:
+            ``locations``.
+        """
+
+        return self._locations
+
+    @locations.setter
+    def locations(self, locations: list[str] | list[types.Location]) -> None:
+        """
+        Sets ``locations``.
+
+        Parameters:
+            locations: Tuple of inital source points.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if locations is not None:
+            array = []
+            for item in locations:
+                if isinstance(item, types.Location):
+                    array.append(item)
+                elif isinstance(item, str):
+                    array.append(types.Location.from_mcnp(item))
+                else:
+                    raise TypeError
+            locations = types.Tuple(array)
+
         if locations is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, locations)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                locations,
-            ]
-        )
-
-        self.locations: typing.Final[types.Tuple[types.Location]] = locations
-
-
-@dataclasses.dataclass
-class KsrcBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Ksrc``.
-
-    Attributes:
-        locations: Tuple of inital source points.
-    """
-
-    locations: list[str] | list[types.Location]
-
-    def build(self):
-        """
-        Builds ``KsrcBuilder`` into ``Ksrc``.
-
-        Returns:
-            ``Ksrc`` for ``KsrcBuilder``.
-        """
-
-        if self.locations:
-            locations = []
-            for item in self.locations:
-                if isinstance(item, types.Location):
-                    locations.append(item)
-                elif isinstance(item, str):
-                    locations.append(types.Location.from_mcnp(item))
-            locations = types.Tuple(locations)
-        else:
-            locations = None
-
-        return Ksrc(
-            locations=locations,
-        )
-
-    @staticmethod
-    def unbuild(ast: Ksrc):
-        """
-        Unbuilds ``Ksrc`` into ``KsrcBuilder``
-
-        Returns:
-            ``KsrcBuilder`` for ``Ksrc``.
-        """
-
-        return KsrcBuilder(
-            locations=copy.deepcopy(ast.locations),
-        )
+        self._locations: types.Tuple[types.Location] = locations

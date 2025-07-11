@@ -1,8 +1,4 @@
 import re
-import copy
-import typing
-import dataclasses
-
 
 from . import _option
 from ...utils import types
@@ -29,7 +25,7 @@ class Fm(_option.DataOption):
 
     _REGEX = re.compile(r'\A([+*])?fm(\d+)( [\S\s]+)\Z')
 
-    def __init__(self, suffix: types.Integer, bins: types.String, prefix: types.String = None):
+    def __init__(self, suffix: str | int | types.Integer, bins: str | types.String, prefix: str | types.String = None):
         """
         Initializes ``Fm``.
 
@@ -42,84 +38,119 @@ class Fm(_option.DataOption):
             InpError: SEMANTICS_OPTION.
         """
 
+        self.prefix: types.String = prefix
+        self.suffix: types.Integer = suffix
+        self.bins: types.String = bins
+
+    @property
+    def prefix(self) -> types.String:
+        """
+        Gets ``prefix``.
+
+        Returns:
+            ``prefix``.
+        """
+
+        return self._prefix
+
+    @prefix.setter
+    def prefix(self, prefix: str | types.String) -> None:
+        """
+        Sets ``prefix``.
+
+        Parameters:
+            prefix: Star prefix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if prefix is not None:
+            if isinstance(prefix, types.String):
+                prefix = prefix
+            elif isinstance(prefix, str):
+                prefix = types.String.from_mcnp(prefix)
+            else:
+                raise TypeError
+
         if prefix is not None and prefix not in {'*', '+'}:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, prefix)
+
+        self._prefix: types.String = prefix
+
+    @property
+    def suffix(self) -> types.Integer:
+        """
+        Gets ``suffix``.
+
+        Returns:
+            ``suffix``.
+        """
+
+        return self._suffix
+
+    @suffix.setter
+    def suffix(self, suffix: str | int | types.Integer) -> None:
+        """
+        Sets ``suffix``.
+
+        Parameters:
+            suffix: Data card option suffix.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if suffix is not None:
+            if isinstance(suffix, types.Integer):
+                suffix = suffix
+            elif isinstance(suffix, int):
+                suffix = types.Integer(suffix)
+            elif isinstance(suffix, str):
+                suffix = types.Integer.from_mcnp(suffix)
+            else:
+                raise TypeError
+
         if suffix is None or not (suffix <= 99_999_999):
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, suffix)
+
+        self._suffix: types.Integer = suffix
+
+    @property
+    def bins(self) -> types.String:
+        """
+        Gets ``bins``.
+
+        Returns:
+            ``bins``.
+        """
+
+        return self._bins
+
+    @bins.setter
+    def bins(self, bins: str | types.String) -> None:
+        """
+        Sets ``bins``.
+
+        Parameters:
+            bins: Tally multiplier bins.
+
+        Raises:
+            InpError: SEMANTICS_OPTION.
+            TypeError:
+        """
+
+        if bins is not None:
+            if isinstance(bins, types.String):
+                bins = bins
+            elif isinstance(bins, str):
+                bins = types.String.from_mcnp(bins)
+            else:
+                raise TypeError
+
         if bins is None:
             raise errors.InpError(errors.InpCode.SEMANTICS_OPTION, bins)
 
-        self.value: typing.Final[types.Tuple] = types.Tuple(
-            [
-                bins,
-            ]
-        )
-
-        self.prefix: typing.Final[types.String] = prefix
-        self.suffix: typing.Final[types.Integer] = suffix
-        self.bins: typing.Final[types.String] = bins
-
-
-@dataclasses.dataclass
-class FmBuilder(_option.DataOptionBuilder):
-    """
-    Builds ``Fm``.
-
-    Attributes:
-        prefix: Star prefix.
-        suffix: Data card option suffix.
-        bins: Tally multiplier bins.
-    """
-
-    suffix: str | int | types.Integer
-    bins: str | types.String
-    prefix: str | types.String = None
-
-    def build(self):
-        """
-        Builds ``FmBuilder`` into ``Fm``.
-
-        Returns:
-            ``Fm`` for ``FmBuilder``.
-        """
-
-        prefix = self.prefix
-        if isinstance(self.prefix, types.String):
-            prefix = self.prefix
-        elif isinstance(self.prefix, str):
-            prefix = types.String.from_mcnp(self.prefix)
-
-        suffix = self.suffix
-        if isinstance(self.suffix, types.Integer):
-            suffix = self.suffix
-        elif isinstance(self.suffix, int):
-            suffix = types.Integer(self.suffix)
-        elif isinstance(self.suffix, str):
-            suffix = types.Integer.from_mcnp(self.suffix)
-
-        bins = self.bins
-        if isinstance(self.bins, types.String):
-            bins = self.bins
-        elif isinstance(self.bins, str):
-            bins = types.String.from_mcnp(self.bins)
-
-        return Fm(
-            prefix=prefix,
-            suffix=suffix,
-            bins=bins,
-        )
-
-    @staticmethod
-    def unbuild(ast: Fm):
-        """
-        Unbuilds ``Fm`` into ``FmBuilder``
-
-        Returns:
-            ``FmBuilder`` for ``Fm``.
-        """
-
-        return FmBuilder(
-            prefix=copy.deepcopy(ast.prefix),
-            suffix=copy.deepcopy(ast.suffix),
-            bins=copy.deepcopy(ast.bins),
-        )
+        self._bins: types.String = bins
